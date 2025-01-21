@@ -11,6 +11,7 @@
     "prettier": "prettier --write --cache .",
     "lint": "eslint --cache",
     "build": "pnpm -r run build",
+    "build:packages": "pnpm -r --filter='./packages/**' build",
     "build:restricted": "VITE_PUBLIC_RESTRICTED_BUILD=true pnpm -r run build",
     "dev": "pnpm messages:compile && pnpm -r --parallel --filter='./packages/**' --filter='./apps/webapp' dev",
     "dev:integration-ui": "pnpm messages:compile && pnpm -r --parallel --filter='./packages/**' --filter='./apps/integration-ui' dev",
