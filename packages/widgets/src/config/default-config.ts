@@ -17,10 +17,10 @@ import {
   TOKENS,
   sUsdsAddress,
   ETH_ADDRESS,
-  usdcBaseAddress,
-  usdsBaseAddress,
-  // skyBaseAddress,
-  sUsdsBaseAddress
+  usdcL2Address,
+  usdsL2Address,
+  // skyL2Address,
+  sUsdsL2Address
 } from '@jetstreamgg/hooks';
 import { TENDERLY_BASE_CHAIN_ID, TENDERLY_CHAIN_ID } from '@/shared/constants';
 import { SUPPORTED_TOKEN_SYMBOLS } from '..';
@@ -52,15 +52,15 @@ export const defaultConfig: WidgetsConfig = {
     ],
     [base.id]: [
       eth,
-      { ...usdc, address: usdcBaseAddress[base.id] },
-      { ...usds, address: usdsBaseAddress[base.id] },
-      { ...susds, address: sUsdsBaseAddress[base.id] }
+      { ...usdc, address: usdcL2Address[base.id] },
+      { ...usds, address: usdsL2Address[base.id] },
+      { ...susds, address: sUsdsL2Address[base.id] }
     ],
     [TENDERLY_BASE_CHAIN_ID]: [
       eth,
-      { ...usdc, address: usdcBaseAddress[base.id] },
-      { ...usds, address: usdsBaseAddress[base.id] },
-      { ...susds, address: sUsdsBaseAddress[base.id] }
+      { ...usdc, address: usdcL2Address[base.id] },
+      { ...usds, address: usdsL2Address[base.id] },
+      { ...susds, address: sUsdsL2Address[base.id] }
     ]
   },
   tradeTokenList: {
@@ -87,14 +87,14 @@ export const defaultConfig: WidgetsConfig = {
       { ...sky, address: usdsAddress[TENDERLY_CHAIN_ID] }
     ],
     [base.id]: [
-      { ...usdc, address: usdcBaseAddress[base.id] },
-      { ...usds, address: usdsBaseAddress[base.id] },
-      { ...susds, address: sUsdsBaseAddress[base.id] }
+      { ...usdc, address: usdcL2Address[base.id] },
+      { ...usds, address: usdsL2Address[base.id] },
+      { ...susds, address: sUsdsL2Address[base.id] }
     ],
     [TENDERLY_BASE_CHAIN_ID]: [
-      { ...usdc, address: usdcBaseAddress[base.id] },
-      { ...usds, address: usdsBaseAddress[base.id] },
-      { ...susds, address: sUsdsBaseAddress[base.id] }
+      { ...usdc, address: usdcL2Address[base.id] },
+      { ...usds, address: usdsL2Address[base.id] },
+      { ...susds, address: sUsdsL2Address[base.id] }
     ],
     [sepolia.id]: [
       // The USDC token that COW uses has 18 decimals, instead of 6

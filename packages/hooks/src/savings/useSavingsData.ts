@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useAccount, useChainId } from 'wagmi';
 import { useTokenBalance } from '../tokens/useTokenBalance';
-import { mcdPotAddress, usdsAddress, usdsBaseAddress } from '../generated';
+import { mcdPotAddress, usdsAddress, usdsL2Address } from '../generated';
 import { useReadMcdPot } from '../generated';
 import { TRUST_LEVELS, TrustLevelEnum } from '../constants';
 import { DataSource, ReadHook } from '../hooks';
@@ -117,7 +117,7 @@ export function useSavingsData(address?: `0x${string}`): DsrHook {
     address: acct,
     chainId: connectedChainId,
     token: isBaseChainId(connectedChainId)
-      ? usdsBaseAddress[connectedChainId as keyof typeof usdsBaseAddress]
+      ? usdsL2Address[connectedChainId as keyof typeof usdsL2Address]
       : usdsAddress[connectedChainId as keyof typeof usdsAddress]
   });
   // TODO add data source

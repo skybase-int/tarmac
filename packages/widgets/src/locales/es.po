@@ -78,7 +78,7 @@ msgstr ""
 
 #. placeholder {0}: targetToken?.symbol || ''
 #: src/widgets/TradeWidget/index.tsx
-#: src/widgets/BaseTradeWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
 msgid "Add {0} to wallet"
 msgstr ""
 
@@ -127,7 +127,7 @@ msgstr ""
 
 #: src/widgets/SavingsWidget/index.tsx
 #: src/widgets/RewardsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 msgid "An error occurred while preparing the transaction"
 msgstr ""
 
@@ -168,8 +168,8 @@ msgstr ""
 #: src/widgets/SealModuleWidget/index.tsx
 #: src/widgets/SavingsWidget/index.tsx
 #: src/widgets/RewardsWidget/index.tsx
-#: src/widgets/BaseTradeWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 msgid "Approval failed"
 msgstr "Aprobación fallida"
 
@@ -198,14 +198,14 @@ msgstr ""
 #: src/widgets/SealModuleWidget/index.tsx
 #: src/widgets/SavingsWidget/index.tsx
 #: src/widgets/RewardsWidget/index.tsx
-#: src/widgets/BaseTradeWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 msgid "Approve successful"
 msgstr "Aprobado correcto"
 
 #: src/widgets/SavingsWidget/index.tsx
 #: src/widgets/RewardsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 msgid "Approve supply amount"
 msgstr ""
 
@@ -218,11 +218,11 @@ msgstr ""
 msgid "Approve tokens access"
 msgstr ""
 
-#: src/widgets/BaseTradeWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
 msgid "Approve trade amount"
 msgstr ""
 
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 msgid "Approve withdraw amount"
 msgstr ""
 
@@ -234,8 +234,8 @@ msgstr ""
 #. placeholder {1}: originToken.symbol
 #: src/widgets/TradeWidget/index.tsx
 #: src/widgets/RewardsWidget/index.tsx
-#: src/widgets/BaseTradeWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 msgid "Approving {0} {1}"
 msgstr "Aprobando {0} {1}"
 
@@ -266,7 +266,7 @@ msgid "Back to Rewards"
 msgstr ""
 
 #: src/widgets/SavingsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 msgid "Back to Savings"
 msgstr ""
 
@@ -274,9 +274,9 @@ msgstr ""
 #: src/widgets/TradeWidget/index.tsx
 #: src/widgets/TradeWidget/index.tsx
 #: src/widgets/TradeWidget/index.tsx
-#: src/widgets/BaseTradeWidget/index.tsx
-#: src/widgets/BaseTradeWidget/index.tsx
-#: src/widgets/BaseTradeWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
 msgid "Back to Trade"
 msgstr ""
 
@@ -286,10 +286,6 @@ msgstr ""
 
 #: src/widgets/BalancesWidget/index.tsx
 msgid "Balances"
-msgstr ""
-
-#: src/widgets/BaseTradeWidget/index.tsx
-msgid "Base Trade"
 msgstr ""
 
 #: src/widgets/TradeWidget/lib/constants.ts
@@ -350,7 +346,7 @@ msgid "Cancelled"
 msgstr ""
 
 #: src/widgets/TradeWidget/components/TradeInputs.tsx
-#: src/widgets/BaseTradeWidget/components/BaseTradeInputs.tsx
+#: src/widgets/L2TradeWidget/components/L2TradeInputs.tsx
 msgid "Choose a token to receive"
 msgstr ""
 
@@ -359,7 +355,7 @@ msgid "Choose a token to revert, and enter an amount"
 msgstr ""
 
 #: src/widgets/TradeWidget/components/TradeInputs.tsx
-#: src/widgets/BaseTradeWidget/components/BaseTradeInputs.tsx
+#: src/widgets/L2TradeWidget/components/L2TradeInputs.tsx
 msgid "Choose a token to trade, and enter an amount"
 msgstr ""
 
@@ -514,8 +510,8 @@ msgstr ""
 #: src/widgets/SealModuleWidget/index.tsx
 #: src/widgets/SavingsWidget/index.tsx
 #: src/widgets/RewardsWidget/index.tsx
-#: src/widgets/BaseTradeWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 #: src/widgets/BalancesWidget/index.tsx
 msgid "Connect Wallet"
 msgstr "Conectar Cartera"
@@ -526,8 +522,8 @@ msgstr "Conectar Cartera"
 #: src/widgets/SealModuleWidget/index.tsx
 #: src/widgets/SavingsWidget/index.tsx
 #: src/widgets/RewardsWidget/index.tsx
-#: src/widgets/BaseTradeWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 msgid "Continue"
 msgstr ""
 
@@ -586,9 +582,9 @@ msgstr ""
 #: src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
 #: src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
 #: src/widgets/RewardsWidget/index.tsx
-#: src/widgets/BaseTradeWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/components/BaseSavingsSupplyWithdraw.tsx
+#: src/widgets/L2TradeWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
 msgid "Enter amount"
 msgstr ""
 
@@ -631,11 +627,11 @@ msgstr ""
 #: src/widgets/RewardsWidget/index.tsx
 #: src/widgets/RewardsWidget/index.tsx
 #: src/widgets/RewardsWidget/index.tsx
-#: src/widgets/BaseTradeWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 msgid "Error preparing transaction"
 msgstr ""
 
@@ -678,7 +674,7 @@ msgstr ""
 #: src/widgets/UpgradeWidget/components/UpgradeRevert.tsx
 #: src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
 #: src/widgets/RewardsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/components/BaseSavingsSupplyWithdraw.tsx
+#: src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
 msgid "Fetching transaction details"
 msgstr ""
 
@@ -707,14 +703,14 @@ msgstr ""
 #. placeholder {0}: rewardContract?.supplyToken.name
 #. placeholder {0}: originToken?.symbol
 #: src/widgets/RewardsWidget/components/ManagePosition.tsx
-#: src/widgets/BaseSavingsWidget/components/BaseSavingsSupplyWithdraw.tsx
+#: src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
 msgid "How much {0} would you like to supply?"
 msgstr ""
 
 #. placeholder {0}: rewardContract?.supplyToken.name
 #. placeholder {0}: originToken?.symbol
 #: src/widgets/RewardsWidget/components/ManagePosition.tsx
-#: src/widgets/BaseSavingsWidget/components/BaseSavingsSupplyWithdraw.tsx
+#: src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
 msgid "How much {0} would you like to withdraw?"
 msgstr ""
 
@@ -781,9 +777,9 @@ msgstr ""
 #: src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
 #: src/widgets/RewardsWidget/components/ManagePosition.tsx
 #: src/widgets/RewardsWidget/components/ManagePosition.tsx
-#: src/widgets/BaseTradeWidget/components/BaseTradeInputs.tsx
-#: src/widgets/BaseSavingsWidget/components/BaseSavingsSupplyWithdraw.tsx
-#: src/widgets/BaseSavingsWidget/components/BaseSavingsSupplyWithdraw.tsx
+#: src/widgets/L2TradeWidget/components/L2TradeInputs.tsx
+#: src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
+#: src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
 msgid "Insufficient funds"
 msgstr ""
 
@@ -1026,7 +1022,7 @@ msgid "Processing transaction"
 msgstr ""
 
 #: src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
-#: src/widgets/BaseSavingsWidget/components/BaseSavingsSupplyWithdraw.tsx
+#: src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
 msgid "Rate"
 msgstr ""
 
@@ -1048,8 +1044,8 @@ msgstr ""
 #: src/widgets/SealModuleWidget/index.tsx
 #: src/widgets/SavingsWidget/index.tsx
 #: src/widgets/RewardsWidget/index.tsx
-#: src/widgets/BaseTradeWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 msgid "Retry"
 msgstr "Reintentar"
 
@@ -1094,7 +1090,7 @@ msgid "Risk level"
 msgstr ""
 
 #: src/widgets/SavingsWidget/components/SavingsStatsCard.tsx
-#: src/widgets/BaseSavingsWidget/components/BaseSavingsStatsCard.tsx
+#: src/widgets/L2SavingsWidget/components/L2SavingsStatsCard.tsx
 #: src/widgets/BalancesWidget/components/SavingsBalanceCard.tsx
 msgid "Savings balance"
 msgstr ""
@@ -1150,7 +1146,7 @@ msgid "Select a delegate"
 msgstr ""
 
 #: src/widgets/TradeWidget/index.tsx
-#: src/widgets/BaseTradeWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
 msgid "Select a token"
 msgstr "Selecciona un token"
 
@@ -1205,7 +1201,7 @@ msgid "Sky Protocol features"
 msgstr ""
 
 #: src/widgets/SavingsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 msgid "Sky Savings Rate"
 msgstr ""
 
@@ -1234,16 +1230,16 @@ msgstr ""
 #: src/widgets/UpgradeWidget/index.tsx
 #: src/widgets/SavingsWidget/index.tsx
 #: src/widgets/RewardsWidget/index.tsx
-#: src/widgets/BaseTradeWidget/index.tsx
-#: src/widgets/BaseTradeWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 msgid "Something went wrong with your transaction. Please try again."
 msgstr "Ocurrió un error con tu transacción. Por favor, inténtalo de nuevo."
 
 #: src/widgets/SavingsWidget/index.tsx
 #: src/widgets/RewardsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 msgid "Something went wrong with your withdraw. Please try again."
 msgstr "Ocurrió un error con tu retiro. Por favor, inténtalo de nuevo."
 
@@ -1299,21 +1295,21 @@ msgstr ""
 #: src/widgets/RewardsWidget/index.tsx
 #: src/widgets/RewardsWidget/components/RewardsTransactionStatus.tsx
 #: src/widgets/RewardsWidget/components/ManagePosition.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 #: src/widgets/BalancesWidget/lib/getTitle.ts
 msgid "Supply"
 msgstr ""
 
 #: src/widgets/SavingsWidget/index.tsx
 #: src/widgets/RewardsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 msgid "Supply failed"
 msgstr ""
 
 #: src/widgets/SavingsWidget/index.tsx
 #: src/widgets/RewardsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 msgid "Supply successful"
 msgstr ""
 
@@ -1322,7 +1318,7 @@ msgstr ""
 #. placeholder {1}: selectedRewardContract?.supplyToken.name
 #. placeholder {1}: originToken.symbol
 #: src/widgets/RewardsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 msgid "Supplying {0} {1}"
 msgstr ""
 
@@ -1386,7 +1382,7 @@ msgstr ""
 
 #: src/widgets/TradeWidget/components/TradeTransactionStatus.tsx
 #: src/widgets/TradeWidget/components/TradeHeader.tsx
-#: src/widgets/BaseTradeWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
 #: src/widgets/BalancesWidget/lib/getTitle.ts
 msgid "Trade"
 msgstr ""
@@ -1400,15 +1396,15 @@ msgstr ""
 msgid "Trade details"
 msgstr ""
 
-#: src/widgets/BaseTradeWidget/index.tsx
-#: src/widgets/BaseTradeWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
 msgid "Trade failed"
 msgstr ""
 
 #: src/widgets/TradeWidget/index.tsx
 #: src/widgets/TradeWidget/index.tsx
-#: src/widgets/BaseTradeWidget/index.tsx
-#: src/widgets/BaseTradeWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
 msgid "Trade successful"
 msgstr ""
 
@@ -1419,8 +1415,8 @@ msgstr ""
 
 #. placeholder {0}: formatBigInt(debouncedOriginAmount, { locale, unit: originToken && getTokenDecimals(originToken, chainId) })
 #. placeholder {1}: originToken?.symbol
-#: src/widgets/BaseTradeWidget/index.tsx
-#: src/widgets/BaseTradeWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
 msgid "Trading {0} {1}"
 msgstr ""
 
@@ -1439,7 +1435,7 @@ msgstr ""
 #: src/widgets/UpgradeWidget/components/UpgradeRevert.tsx
 #: src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
 #: src/widgets/RewardsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/components/BaseSavingsSupplyWithdraw.tsx
+#: src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
 msgid "Transaction overview"
 msgstr ""
 
@@ -1456,7 +1452,7 @@ msgstr ""
 #: src/widgets/SavingsWidget/components/SavingsStatsCard.tsx
 #: src/widgets/RewardsWidget/components/SelectedRewardsCard.tsx
 #: src/widgets/RewardsWidget/components/RewardsStatsCard.tsx
-#: src/widgets/BaseSavingsWidget/components/BaseSavingsStatsCard.tsx
+#: src/widgets/L2SavingsWidget/components/L2SavingsStatsCard.tsx
 msgid "TVL"
 msgstr "TVL"
 
@@ -1559,8 +1555,8 @@ msgstr ""
 #: src/widgets/SealModuleWidget/index.tsx
 #: src/widgets/SavingsWidget/index.tsx
 #: src/widgets/RewardsWidget/index.tsx
-#: src/widgets/BaseTradeWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 msgid "We could not approve your token allowance."
 msgstr "No pudimos aprobar tu asignación de tokens."
 
@@ -1578,23 +1574,23 @@ msgstr ""
 #: src/widgets/RewardsWidget/index.tsx
 #: src/widgets/RewardsWidget/components/RewardsTransactionStatus.tsx
 #: src/widgets/RewardsWidget/components/ManagePosition.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 #: src/widgets/BalancesWidget/lib/getTitle.ts
 msgid "Withdraw"
 msgstr "Retirar"
 
 #: src/widgets/SavingsWidget/index.tsx
 #: src/widgets/RewardsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 msgid "Withdraw failed"
 msgstr "Retiro fallido"
 
 #: src/widgets/SavingsWidget/index.tsx
 #: src/widgets/RewardsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 msgid "Withdraw successful"
 msgstr "Retiro correcto"
 
@@ -1603,8 +1599,8 @@ msgstr "Retiro correcto"
 #. placeholder {1}: selectedRewardContract?.supplyToken.name
 #. placeholder {1}: originToken.symbol
 #: src/widgets/RewardsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 msgid "Withdrawing {0} {1}"
 msgstr "Retirando {0} {1}"
 
@@ -1626,7 +1622,7 @@ msgstr ""
 
 #. placeholder {0}: originToken?.symbol
 #: src/widgets/TradeWidget/index.tsx
-#: src/widgets/BaseTradeWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
 msgid "You approved {0}"
 msgstr "Aprobaste {0}"
 
@@ -1637,7 +1633,7 @@ msgstr "Aprobaste {0}"
 #. placeholder {1}: selectedRewardContract?.supplyToken.name
 #: src/widgets/UpgradeWidget/index.tsx
 #: src/widgets/RewardsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 msgid "You approved {0} {1}"
 msgstr "Aprobaste {0} {1}"
 
@@ -1737,7 +1733,7 @@ msgstr ""
 #. placeholder {1}: selectedRewardContract?.supplyToken.name
 #. placeholder {1}: originToken.symbol
 #: src/widgets/RewardsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 msgid "You supplied {0} {1}"
 msgstr ""
 
@@ -1754,8 +1750,8 @@ msgstr ""
 #. placeholder {3}: targetToken?.symbol
 #: src/widgets/TradeWidget/index.tsx
 #: src/widgets/TradeWidget/index.tsx
-#: src/widgets/BaseTradeWidget/index.tsx
-#: src/widgets/BaseTradeWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
+#: src/widgets/L2TradeWidget/index.tsx
 msgid "You traded {0} {1} for {2} {3}"
 msgstr ""
 
@@ -1767,12 +1763,12 @@ msgid "You upgraded {0} {1} into {2}"
 msgstr "Mejoraste {0} {1} en {2}"
 
 #: src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
-#: src/widgets/BaseSavingsWidget/components/BaseSavingsSupplyWithdraw.tsx
+#: src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
 msgid "You will supply"
 msgstr ""
 
 #: src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
-#: src/widgets/BaseSavingsWidget/components/BaseSavingsSupplyWithdraw.tsx
+#: src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
 msgid "You will withdraw"
 msgstr ""
 
@@ -1781,8 +1777,8 @@ msgstr ""
 #. placeholder {1}: selectedRewardContract?.supplyToken.name
 #. placeholder {1}: originToken.symbol
 #: src/widgets/RewardsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
-#: src/widgets/BaseSavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
+#: src/widgets/L2SavingsWidget/index.tsx
 msgid "You withdrew {0} {1}"
 msgstr "Has retirado {0} {1}"
 
@@ -1878,7 +1874,7 @@ msgstr ""
 #. placeholder {0}: inputToken?.symbol
 #. placeholder {0}: originToken?.symbol
 #: src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
-#: src/widgets/BaseSavingsWidget/components/BaseSavingsSupplyWithdraw.tsx
+#: src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
 msgid "Your Savings {0} balance will be"
 msgstr ""
 
@@ -1913,7 +1909,7 @@ msgstr ""
 #. placeholder {0}: inputToken?.symbol
 #. placeholder {0}: originToken?.symbol
 #: src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
-#: src/widgets/BaseSavingsWidget/components/BaseSavingsSupplyWithdraw.tsx
+#: src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
 msgid "Your wallet {0} balance will be"
 msgstr ""
 

@@ -217,20 +217,20 @@ export {
   usdtSepoliaAddress,
   mcdDaiSepoliaAddress,
   sealModuleAddress,
-  usdcBaseAddress,
-  usdsBaseAddress,
-  sUsdsBaseAddress,
-  skyBaseAddress,
-  psm3BaseAddress,
-  useReadPsm3BaseConvertToShares,
-  useReadPsm3BaseConvertToAssetValue,
+  usdcL2Address,
+  usdsL2Address,
+  sUsdsL2Address,
+  skyL2Address,
+  psm3L2Address,
+  useReadPsm3L2ConvertToShares,
+  useReadPsm3L2ConvertToAssetValue,
   ssrAuthOracleAbi,
   useReadSsrAuthOracleGetChi,
   useReadSsrAuthOracleGetRho,
   useReadSsrAuthOracleGetSsr,
-  useReadPsm3BasePocket,
-  useReadPsm3BasePreviewSwapExactIn,
-  useReadPsm3BasePreviewSwapExactOut
+  useReadPsm3L2Pocket,
+  useReadPsm3L2PreviewSwapExactIn,
+  useReadPsm3L2PreviewSwapExactOut
 } from './generated';
-export { contracts, tenderlyContracts, sepoliaContracts, baseContracts } from './contracts';
+export { contracts, tenderlyContracts, sepoliaContracts, l2Contracts } from './contracts';
 export * from './seal/calldata';

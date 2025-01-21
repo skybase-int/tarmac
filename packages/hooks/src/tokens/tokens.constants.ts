@@ -13,10 +13,10 @@ import {
   usdcSepoliaAddress,
   usdtSepoliaAddress,
   sUsdsConfig,
-  skyBaseAddress,
-  sUsdsBaseAddress,
-  usdcBaseAddress,
-  usdsBaseAddress
+  skyL2Address,
+  sUsdsL2Address,
+  usdcL2Address,
+  usdsL2Address
 } from '../generated';
 import { TokenMapping, Token, TokenForChain } from './types';
 import { TENDERLY_BASE_CHAIN_ID, TENDERLY_CHAIN_ID } from '../constants';
@@ -73,8 +73,8 @@ export const TOKENS: TokenMapping = {
   sky: {
     address: {
       ...skyConfig.address,
-      [base.id]: skyBaseAddress[base.id],
-      [TENDERLY_BASE_CHAIN_ID]: skyBaseAddress[base.id]
+      [base.id]: skyL2Address[base.id],
+      [TENDERLY_BASE_CHAIN_ID]: skyL2Address[base.id]
     },
     name: 'SKY',
     symbol: 'SKY',
@@ -84,8 +84,8 @@ export const TOKENS: TokenMapping = {
   usds: {
     address: {
       ...usdsConfig.address,
-      [base.id]: usdsBaseAddress[base.id],
-      [TENDERLY_BASE_CHAIN_ID]: usdsBaseAddress[base.id]
+      [base.id]: usdsL2Address[base.id],
+      [TENDERLY_BASE_CHAIN_ID]: usdsL2Address[base.id]
     },
     name: 'USDS',
     symbol: 'USDS',
@@ -104,8 +104,8 @@ export const TOKENS: TokenMapping = {
   usdc: {
     address: {
       ...usdcConfig.address,
-      [base.id]: usdcBaseAddress[base.id],
-      [TENDERLY_BASE_CHAIN_ID]: usdcBaseAddress[base.id]
+      [base.id]: usdcL2Address[base.id],
+      [TENDERLY_BASE_CHAIN_ID]: usdcL2Address[base.id]
     },
     name: 'USDC',
     symbol: 'USDC',
@@ -143,8 +143,8 @@ export const TOKENS: TokenMapping = {
   susds: {
     address: {
       ...sUsdsConfig.address,
-      [base.id]: sUsdsBaseAddress[base.id],
-      [TENDERLY_BASE_CHAIN_ID]: sUsdsBaseAddress[base.id]
+      [base.id]: sUsdsL2Address[base.id],
+      [TENDERLY_BASE_CHAIN_ID]: sUsdsL2Address[base.id]
     },
     name: 'sUSDS',
     symbol: 'sUSDS',
@@ -184,14 +184,14 @@ export const TRADE_TOKENS = {
     susds: { ...TOKENS.susds, address: sUsdsConfig.address[TENDERLY_CHAIN_ID] }
   },
   [base.id]: {
-    usdc: { ...TOKENS.usdc, address: usdcBaseAddress[base.id] },
-    usds: { ...TOKENS.usds, address: usdsBaseAddress[base.id] },
-    susds: { ...TOKENS.susds, address: sUsdsBaseAddress[base.id] }
+    usdc: { ...TOKENS.usdc, address: usdcL2Address[base.id] },
+    usds: { ...TOKENS.usds, address: usdsL2Address[base.id] },
+    susds: { ...TOKENS.susds, address: sUsdsL2Address[base.id] }
   }
   // TODO add tenderly base tokens once forked with PSM3
   // [TENDERLY_BASE_CHAIN_ID]: {
-  //   usdc: { ...TOKENS.usdc, address: usdcBaseAddress[TENDERLY_BASE_CHAIN_ID] },
-  //   usds: { ...TOKENS.usds, address: usdsBaseAddress[TENDERLY_BASE_CHAIN_ID] },
-  //   susds: { ...TOKENS.susds, address: sUsdsBaseAddress[TENDERLY_BASE_CHAIN_ID] },
+  //   usdc: { ...TOKENS.usdc, address: usdcL2Address[TENDERLY_BASE_CHAIN_ID] },
+  //   usds: { ...TOKENS.usds, address: usdsL2Address[TENDERLY_BASE_CHAIN_ID] },
+  //   susds: { ...TOKENS.susds, address: sUsdsL2Address[TENDERLY_BASE_CHAIN_ID] },
   // }
 };

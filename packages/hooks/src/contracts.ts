@@ -245,37 +245,37 @@ export const sepoliaContracts: { name: string; address: Record<typeof sepolia.id
   }
 ];
 
-export const baseContracts: { name: string; address: Record<BaseChainId, `0x${string}`> }[] = [
+export const l2Contracts: { name: string; address: Record<BaseChainId, `0x${string}`> }[] = [
   {
-    name: 'usdcBase',
+    name: 'usdcL2',
     address: {
       [base.id]: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
       [TENDERLY_BASE_CHAIN_ID]: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
     }
   },
   {
-    name: 'usdsBase',
+    name: 'usdsL2',
     address: {
       [base.id]: '0x820C137fa70C8691f0e44Dc420a5e53c168921Dc',
       [TENDERLY_BASE_CHAIN_ID]: '0x820C137fa70C8691f0e44Dc420a5e53c168921Dc'
     }
   },
   {
-    name: 'sUsdsBase',
+    name: 'sUsdsL2',
     address: {
       [base.id]: '0x5875eEE11Cf8398102FdAd704C9E96607675467a',
       [TENDERLY_BASE_CHAIN_ID]: '0x5875eEE11Cf8398102FdAd704C9E96607675467a'
     }
   },
   {
-    name: 'skyBase',
+    name: 'skyL2',
     address: {
       [base.id]: '0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a',
       [TENDERLY_BASE_CHAIN_ID]: '0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a'
     }
   },
   {
-    name: 'psm3Base',
+    name: 'psm3L2',
     address: {
       [base.id]: '0x1601843c5E9bC251A3272907010AFa41Fa18347E',
       [TENDERLY_BASE_CHAIN_ID]: '0x1601843c5E9bC251A3272907010AFa41Fa18347E'

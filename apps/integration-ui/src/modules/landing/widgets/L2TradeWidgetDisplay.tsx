@@ -1,26 +1,23 @@
-import { BaseSavingsWidget, ExternalWidgetState } from '@jetstreamgg/widgets';
+import { L2TradeWidget, ExternalWidgetState } from '@jetstreamgg/widgets';
 import { useAddRecentTransaction } from '@rainbow-me/rainbowkit';
 import { useCustomConnectModal } from '../../hooks/useCustomConnectModal';
-import { Token } from '@jetstreamgg/hooks';
 
-interface SavingsWidgetProps {
+interface TradeWidgetProps {
   externalWidgetState: ExternalWidgetState;
-  disallowedTokens?: { supply: Token[]; withdraw: Token[] };
 }
 
-export function BaseSavingsWidgetDisplay({ externalWidgetState, disallowedTokens }: SavingsWidgetProps) {
+export function BaseTradeWidgetDisplay({ externalWidgetState }: TradeWidgetProps) {
   const addRecentTransaction = useAddRecentTransaction();
   const onConnectModal = useCustomConnectModal();
 
   return (
-    <BaseSavingsWidget
+    <L2TradeWidget
       onConnect={onConnectModal}
       addRecentTransaction={addRecentTransaction}
       locale="en"
       referralCode={1}
       rightHeaderComponent={undefined}
       externalWidgetState={externalWidgetState}
-      disallowedTokens={disallowedTokens}
       onExternalLinkClicked={e => {
         const href = e.currentTarget.getAttribute('href');
         const linkText = e.currentTarget.textContent;
@@ -33,6 +30,7 @@ export function BaseSavingsWidgetDisplay({ externalWidgetState, disallowedTokens
           console.log('Show modal');
         }
       }}
+      widgetTitle="Base Trade"
     />
   );
 }
