@@ -23,6 +23,7 @@
     "test:hooks": "pnpm vnet:fork && pnpm --filter='./packages/hooks' run test && pnpm vnet:delete",
     "test:widgets": "pnpm vnet:fork && pnpm --filter='./packages/widgets' run test && pnpm vnet:delete",
     "test:utils": "pnpm --filter='./packages/utils' run test",
+    "e2e:no-vnet": "pnpm -F webapp e2e:no-vnet",
     "vnet:fork": "node --env-file=.env ./scripts/forkVnet.ts",
     "vnet:fork:ci": "node ./scripts/forkVnet.ts",
     "vnet:delete": "node --env-file=.env ./scripts/deleteVnet.ts",
