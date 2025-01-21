@@ -13,7 +13,7 @@ export async function backOffRetry<T>(fn: () => Promise<T>, retries: number, del
 }
 
 const setEthBalanceRequest = async (amount: string, network = NetworkName.mainnet) => {
-  const file = await readFile('./tenderlyTestnetData.json', 'utf-8');
+  const file = await readFile('../../tenderlyTestnetData.json', 'utf-8');
   const [{ TENDERLY_RPC_URL: TENDERLY_MAINNET_RPC_URL }, { TENDERLY_RPC_URL: TENDERLY_BASE_RPC_URL }] =
     JSON.parse(file);
   const rpcUrl = network === NetworkName.mainnet ? TENDERLY_MAINNET_RPC_URL : TENDERLY_BASE_RPC_URL;
@@ -47,7 +47,7 @@ const setErc20BalanceRequest = async (
   decimals: number = 18,
   network = NetworkName.mainnet
 ) => {
-  const file = await readFile('./tenderlyTestnetData.json', 'utf-8');
+  const file = await readFile('../../tenderlyTestnetData.json', 'utf-8');
   const [{ TENDERLY_RPC_URL: TENDERLY_MAINNET_RPC_URL }, { TENDERLY_RPC_URL: TENDERLY_BASE_RPC_URL }] =
     JSON.parse(file);
   const rpcUrl = network === NetworkName.mainnet ? TENDERLY_MAINNET_RPC_URL : TENDERLY_BASE_RPC_URL;
