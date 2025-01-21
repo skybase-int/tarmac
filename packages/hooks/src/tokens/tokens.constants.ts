@@ -19,7 +19,7 @@ import {
   usdsL2Address
 } from '../generated';
 import { TokenMapping, Token, TokenForChain } from './types';
-import { TENDERLY_BASE_CHAIN_ID, TENDERLY_CHAIN_ID } from '../constants';
+import { TENDERLY_BASE_CHAIN_ID, TENDERLY_CHAIN_ID, TENDERLY_ARBITRUM_CHAIN_ID } from '../constants';
 
 export function getTokenDecimals(token: Token | TokenForChain, chainId: number): number {
   if (typeof token.decimals === 'number') {
@@ -48,7 +48,8 @@ export const TOKENS: TokenMapping = {
       [mainnet.id]: ETH_ADDRESS,
       [TENDERLY_CHAIN_ID]: ETH_ADDRESS,
       [base.id]: ETH_ADDRESS,
-      [TENDERLY_BASE_CHAIN_ID]: ETH_ADDRESS
+      [TENDERLY_BASE_CHAIN_ID]: ETH_ADDRESS,
+      [TENDERLY_ARBITRUM_CHAIN_ID]: ETH_ADDRESS
     },
     name: 'Ether',
     symbol: 'ETH',
@@ -74,7 +75,8 @@ export const TOKENS: TokenMapping = {
     address: {
       ...skyConfig.address,
       [base.id]: skyL2Address[base.id],
-      [TENDERLY_BASE_CHAIN_ID]: skyL2Address[base.id]
+      [TENDERLY_BASE_CHAIN_ID]: skyL2Address[base.id],
+      [TENDERLY_ARBITRUM_CHAIN_ID]: skyL2Address[base.id]
     },
     name: 'SKY',
     symbol: 'SKY',
@@ -85,7 +87,8 @@ export const TOKENS: TokenMapping = {
     address: {
       ...usdsConfig.address,
       [base.id]: usdsL2Address[base.id],
-      [TENDERLY_BASE_CHAIN_ID]: usdsL2Address[base.id]
+      [TENDERLY_BASE_CHAIN_ID]: usdsL2Address[base.id],
+      [TENDERLY_ARBITRUM_CHAIN_ID]: usdsL2Address[base.id]
     },
     name: 'USDS',
     symbol: 'USDS',
@@ -105,7 +108,8 @@ export const TOKENS: TokenMapping = {
     address: {
       ...usdcConfig.address,
       [base.id]: usdcL2Address[base.id],
-      [TENDERLY_BASE_CHAIN_ID]: usdcL2Address[base.id]
+      [TENDERLY_BASE_CHAIN_ID]: usdcL2Address[base.id],
+      [TENDERLY_ARBITRUM_CHAIN_ID]: usdcL2Address[base.id]
     },
     name: 'USDC',
     symbol: 'USDC',
@@ -115,7 +119,8 @@ export const TOKENS: TokenMapping = {
       [base.id]: 6,
       [sepolia.id]: 18,
       [TENDERLY_CHAIN_ID]: 6,
-      [TENDERLY_BASE_CHAIN_ID]: 6
+      [TENDERLY_BASE_CHAIN_ID]: 6,
+      [TENDERLY_ARBITRUM_CHAIN_ID]: 6
     }
   },
   usdt: {
@@ -144,7 +149,8 @@ export const TOKENS: TokenMapping = {
     address: {
       ...sUsdsConfig.address,
       [base.id]: sUsdsL2Address[base.id],
-      [TENDERLY_BASE_CHAIN_ID]: sUsdsL2Address[base.id]
+      [TENDERLY_BASE_CHAIN_ID]: sUsdsL2Address[base.id],
+      [TENDERLY_ARBITRUM_CHAIN_ID]: sUsdsL2Address[base.id]
     },
     name: 'sUSDS',
     symbol: 'sUSDS',
@@ -187,11 +193,15 @@ export const TRADE_TOKENS = {
     usdc: { ...TOKENS.usdc, address: usdcL2Address[base.id] },
     usds: { ...TOKENS.usds, address: usdsL2Address[base.id] },
     susds: { ...TOKENS.susds, address: sUsdsL2Address[base.id] }
+  },
+  [TENDERLY_BASE_CHAIN_ID]: {
+    usdc: { ...TOKENS.usdc, address: usdcL2Address[TENDERLY_BASE_CHAIN_ID] },
+    usds: { ...TOKENS.usds, address: usdsL2Address[TENDERLY_BASE_CHAIN_ID] },
+    susds: { ...TOKENS.susds, address: sUsdsL2Address[TENDERLY_BASE_CHAIN_ID] }
+  },
+  [TENDERLY_ARBITRUM_CHAIN_ID]: {
+    usdc: { ...TOKENS.usdc, address: usdcL2Address[TENDERLY_ARBITRUM_CHAIN_ID] },
+    usds: { ...TOKENS.usds, address: usdsL2Address[TENDERLY_ARBITRUM_CHAIN_ID] },
+    susds: { ...TOKENS.susds, address: sUsdsL2Address[TENDERLY_ARBITRUM_CHAIN_ID] }
   }
-  // TODO add tenderly base tokens once forked with PSM3
-  // [TENDERLY_BASE_CHAIN_ID]: {
-  //   usdc: { ...TOKENS.usdc, address: usdcL2Address[TENDERLY_BASE_CHAIN_ID] },
-  //   usds: { ...TOKENS.usds, address: usdsL2Address[TENDERLY_BASE_CHAIN_ID] },
-  //   susds: { ...TOKENS.susds, address: sUsdsL2Address[TENDERLY_BASE_CHAIN_ID] },
-  // }
 };

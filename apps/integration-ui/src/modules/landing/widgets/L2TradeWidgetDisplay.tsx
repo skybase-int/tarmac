@@ -1,15 +1,17 @@
 import { L2TradeWidget, ExternalWidgetState } from '@jetstreamgg/widgets';
 import { useAddRecentTransaction } from '@rainbow-me/rainbowkit';
 import { useCustomConnectModal } from '../../hooks/useCustomConnectModal';
+import { isBaseChainId, isArbitrumChainId } from '@jetstreamgg/utils';
+import { useChainId } from 'wagmi';
 
 interface TradeWidgetProps {
   externalWidgetState: ExternalWidgetState;
 }
 
-export function BaseTradeWidgetDisplay({ externalWidgetState }: TradeWidgetProps) {
+export function L2TradeWidgetDisplay({ externalWidgetState }: TradeWidgetProps) {
   const addRecentTransaction = useAddRecentTransaction();
   const onConnectModal = useCustomConnectModal();
-
+  const chainId = useChainId();
   return (
     <L2TradeWidget
       onConnect={onConnectModal}
@@ -30,7 +32,9 @@ export function BaseTradeWidgetDisplay({ externalWidgetState }: TradeWidgetProps
           console.log('Show modal');
         }
       }}
-      widgetTitle="Base Trade"
+      widgetTitle={
+        isBaseChainId(chainId) ? 'Base Trade' : isArbitrumChainId(chainId) ? 'Arbitrum Trade' : 'Trade'
+      }
     />
   );
 }

@@ -28,6 +28,8 @@ The following environment variables are used in this project:
 
 - `VITE_PUBLIC_RPC_PROVIDER_TENDERLY_BASE`: The RPC provider URL for Tenderly's virtual Base network. This is used for testing and development purposes.
 
+- `VITE_PUBLIC_RPC_PROVIDER_TENDERLY_ARBITRUM`: The RPC provider URL for Tenderly's virtual Arbitrum network. This is used for testing and development purposes.
+
 - `VITE_PUBLIC_RESTRICTED_BUILD`: Optional. When set, this variable enables restricted build features. It can be left empty if not needed.
 
 - `VITE_WALLETCONNECT_PROJECT_ID`: Optional. The project ID for WalletConnect integration. If not provided, a default value will be used.
