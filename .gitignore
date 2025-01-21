@@ -79,4 +79,4 @@ packages/*/stats.html
 apps/*/stats.html
 
 # used for testing
-tenderlyTestnetData.json
+# tenderlyTestnetData.json
