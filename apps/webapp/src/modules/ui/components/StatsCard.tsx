@@ -1,7 +1,7 @@
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Text } from '@/modules/layout/components/Typography';
 import { LoadingErrorWrapper } from './LoadingErrorWrapper';
-import { Trans } from '@lingui/react/macro';
+import { Trans } from '@lingui/macro';
 
 interface StatsCardProps {
   title: React.ReactElement | string;

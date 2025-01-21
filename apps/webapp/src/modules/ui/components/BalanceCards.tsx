@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
-import { Trans } from '@lingui/react/macro';
-import { t } from '@lingui/core/macro';
+import { Trans, t } from '@lingui/macro';
 import { Card, CardTitle } from '@/components/ui/card';
 import { TokenIconWithBalance } from '@/modules/ui/components/TokenIconWithBalance';
 import { Supplied, SuppliedEmpty, WithdrawnEmpty, Withdrawn, Rewards, RewardsEmpty } from '@/modules/icons';

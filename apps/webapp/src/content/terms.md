@@ -1,11 +1,8 @@
 # Heading 1
-
 ## Heading 2
-
 ### Heading 3
-
 This is some text.
-This is another paragraph with _italic text_.
+This is another paragraph with *italic text*.
 
 ^There's a new line there.
 This is a longer paragraph text that goes on multiple pages because there's a lot of text in here which is making it long so that it goes in multiple lines which makes it long because it goes on multiple lines.
