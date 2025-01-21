@@ -6,4 +6,5 @@ node_modules
 pnpm-lock.yaml
 coverage
 apps/integration-ui/src/locales/*
+apps/webapp/src/locales/*
 packages/widgets/src/locales/*

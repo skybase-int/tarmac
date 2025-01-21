@@ -18,7 +18,8 @@
       "extends": ["plugin:testing-library/react"],
       "rules": {
         //allow floating promises in tests (e.g. cy.wait())
-        "testing-library/await-async-utils": "off"
+        "testing-library/await-async-utils": "off",
+        "testing-library/prefer-screen-queries": "off"
       }
     }
   ],
