@@ -1,0 +1,57 @@
+import { useAccount, useChainId } from 'wagmi';
+import { SaWriteHookParams } from './sealModule';
+import { sealModuleAbi, sealModuleAddress } from '../generated';
+import { ZERO_ADDRESS } from '../constants';
+import { getSaGetRewardCalldata } from './calldata';
+import { useWriteContractFlow } from '../shared/useWriteContractFlow';
+
+export function useClaimRewards({
+  index,
+  rewardContract,
+  to,
+  gas,
+  enabled: activeTabEnabled = true,
+  onStart = () => null,
+  onError = () => null,
+  onSuccess = () => null
+}: SaWriteHookParams & {
+  index: bigint | undefined;
+  rewardContract: `0x${string}` | undefined;
+  to: `0x${string}` | undefined;
+}) {
+  const chainId = useChainId();
+  const { isConnected, address } = useAccount();
+
+  const enabled =
+    isConnected &&
+    activeTabEnabled &&
+    !!address &&
+    !!rewardContract &&
+    !!to &&
+    to !== ZERO_ADDRESS &&
+    index !== undefined;
+
+  const writeContractFlowData = useWriteContractFlow({
+    address: sealModuleAddress[chainId as keyof typeof sealModuleAddress] as `0x${string}`,
+    abi: sealModuleAbi,
+    functionName: 'getReward',
+    args: [address!, index!, rewardContract!, to!],
+    chainId,
+    gas,
+    enabled,
+    onStart,
+    onError,
+    onSuccess
+  });
+
+  const calldata = enabled
+    ? getSaGetRewardCalldata({
+        ownerAddress: address,
+        urnIndex: index,
+        rewardContractAddress: rewardContract,
+        toAddress: to
+      })
+    : undefined;
+
+  return { ...writeContractFlowData, calldata };
+}

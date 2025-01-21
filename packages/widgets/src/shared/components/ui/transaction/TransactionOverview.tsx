@@ -1,0 +1,102 @@
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Text } from '../Typography';
+import { FetchingSpinner } from '../spinner/FetchingSpinner';
+import { AnimatePresence, motion } from 'framer-motion';
+import { positionAnimations, positionAnimationsWithExit } from '@/shared/animation/presets';
+import { AnimationLabels } from '@/shared/animation/constants';
+import { PopoverRateInfo } from '../PopoverRateInfo';
+import { HStack } from '../layout/HStack';
+import { ArrowDown } from '../../icons/ArrowDown';
+import { InfoTooltip } from '../tooltip/InfoTooltip';
+
+type TransactionOverviewParams = {
+  title: string;
+  isFetching: boolean;
+  fetchingMessage: string;
+  transactionData:
+    | {
+        label: string;
+        value: string | string[];
+        error?: boolean;
+        className?: string;
+        classNamePrev?: string;
+        tooltipText?: string;
+      }[]
+    | undefined;
+};
+
+export function TransactionOverview({
+  title,
+  isFetching,
+  fetchingMessage,
+  transactionData
+}: TransactionOverviewParams) {
+  return (
+    <AnimatePresence mode="popLayout">
+      {isFetching ? (
+        <motion.div
+          key="fetching"
+          variants={positionAnimationsWithExit}
+          initial={AnimationLabels.initial}
+          animate={AnimationLabels.animate}
+          exit={AnimationLabels.exit}
+        >
+          <FetchingSpinner message={fetchingMessage} />
+        </motion.div>
+      ) : !transactionData ? null : (
+        <motion.div key="fetched" variants={positionAnimations}>
+          <Accordion type="single" collapsible className="p-4" defaultValue="item-1">
+            <AccordionItem value="item-1">
+              <AccordionTrigger className="py-1">
+                <Text variant="medium" className="font-medium">
+                  {title}
+                </Text>
+              </AccordionTrigger>
+              <AccordionContent className="space-y-4 pt-4">
+                {transactionData.map(
+                  ({ label, value, tooltipText, error = false, className = '', classNamePrev }) => (
+                    <motion.div key={label} className="flex justify-between" variants={positionAnimations}>
+                      <HStack className="items-center" gap={1}>
+                        <Text
+                          className={`text-${error ? 'error' : 'textSecondary'} flex items-center text-sm`}
+                        >
+                          {label}
+                          {label === 'Rate' && (
+                            <span className="ml-2 mt-1">
+                              <PopoverRateInfo type="ssr" />
+                            </span>
+                          )}
+                        </Text>
+                        {tooltipText && (
+                          <InfoTooltip content={tooltipText} iconClassName="text-textSecondary" />
+                        )}
+                      </HStack>
+
+                      {Array.isArray(value) && value.length >= 2 ? (
+                        <HStack className="flex-shrink-0 items-center">
+                          <Text
+                            className={`${error ? 'text-error' : classNamePrev || className} text-right text-sm`}
+                          >
+                            {value[0]}
+                          </Text>
+                          <ArrowDown className="-rotate-90" boxSize={12} />
+                          <Text className={`${error ? 'text-error' : className} text-right text-sm`}>
+                            {value[1]}
+                          </Text>
+                        </HStack>
+                      ) : (
+                        <Text className={`${error ? 'text-error' : className} text-right text-sm`}>
+                          {value}
+                        </Text>
+                      )}
+                    </motion.div>
+                  )
+                )}
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}

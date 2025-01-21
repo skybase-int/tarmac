@@ -1,0 +1,38 @@
+import { formatBigInt } from '@jetstreamgg/utils';
+import { Token } from '../tokens/types';
+import { getTokenDecimals } from '../tokens/tokens.constants';
+import { useChainId } from 'wagmi';
+import { useReadPsm3BasePreviewSwapExactIn } from '../generated';
+import { ZERO_ADDRESS } from '../index';
+
+export const usePreviewSwapExactIn = (
+  amount: bigint | undefined,
+  inToken: Token | undefined,
+  outToken: Token | undefined
+) => {
+  const chainId = useChainId();
+  const { data: amountOut } = useReadPsm3BasePreviewSwapExactIn({
+    args: [
+      inToken?.address[chainId] || ZERO_ADDRESS,
+      outToken?.address[chainId] || ZERO_ADDRESS,
+      amount || 0n
+    ]
+  });
+
+  if (!amount || !amountOut || !inToken || !outToken) {
+    return {
+      formatted: '0',
+      value: 0n
+    };
+  }
+  // use the correct decimals for the out token
+  const tokenDecimals = outToken ? getTokenDecimals(outToken, chainId) : 18;
+
+  // Format the result
+  const formattedAmount = formatBigInt(amountOut, { unit: tokenDecimals });
+
+  return {
+    value: amountOut,
+    formatted: formattedAmount
+  };
+};

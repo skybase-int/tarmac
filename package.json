@@ -1,0 +1,87 @@
+{
+  "name": "@jetstreamgg/tarmac",
+  "version": "0.0.1",
+  "description": "Tarmac is a web3 application framework for building decentralized applications",
+  "engines": {
+    "pnpm": ">=8",
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "prettier": "prettier --write --cache .",
+    "lint": "eslint --cache",
+    "build": "pnpm -r run build",
+    "build:restricted": "VITE_PUBLIC_RESTRICTED_BUILD=true pnpm -r run build",
+    "dev": "pnpm messages:compile && pnpm -r --parallel --filter='./packages/**' --filter='./apps/integration-ui' dev",
+    "dev:packages": "pnpm messages:compile && pnpm --parallel -F './packages/**' dev",
+    "preview": "pnpm --filter='./apps/integration-ui' preview",
+    "preview:restricted": "pnpm --filter='./apps/integration-ui' preview:restricted",
+    "test": "pnpm -r --filter='!./packages/hooks' --parallel run test && pnpm test:hooks",
+    "test:coverage": "pnpm vnet:fork && pnpm -r --workspace-concurrency=1 run test:coverage && pnpm vnet:delete",
+    "test:coverage:ci": "pnpm -r --workspace-concurrency=1 run test:coverage",
+    "test:hooks": "pnpm vnet:fork && pnpm --filter='./packages/hooks' run test && pnpm vnet:delete",
+    "test:widgets": "pnpm vnet:fork && pnpm --filter='./packages/widgets' run test && pnpm vnet:delete",
+    "test:utils": "pnpm --filter='./packages/utils' run test",
+    "vnet:fork": "node --env-file=.env ./scripts/forkVnet.ts",
+    "vnet:fork:ci": "node ./scripts/forkVnet.ts",
+    "vnet:delete": "node --env-file=.env ./scripts/deleteVnet.ts",
+    "vnet:delete:ci": "node ./scripts/deleteVnet.ts",
+    "prepare": "husky install",
+    "typecheck": "pnpm --filter './packages/**' --filter './apps/integration-ui' typecheck",
+    "messages:extract": "pnpm --filter './packages/widgets' --filter './apps/integration-ui' --filter './apps/integration-ui' messages:extract",
+    "messages:compile": "pnpm --filter './packages/widgets' --filter './apps/integration-ui' --filter './apps/integration-ui' messages:compile",
+    "messages": "pnpm --filter './packages/widgets' --filter './apps/integration-ui' --filter './apps/integration-ui' messages",
+    "changeset:release": "pnpm build && changeset publish"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "pnpm prettier",
+      "pnpm lint"
+    ]
+  },
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jetstreamgg/tarmac.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jetstreamgg/tarmac/issues"
+  },
+  "homepage": "https://github.com/jetstreamgg/tarmac#readme",
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@changesets/cli": "^2.26.2",
+    "@lingui/detect-locale": "^5.1.2",
+    "@lingui/macro": "^5.1.2",
+    "@lingui/react": "^5.1.2",
+    "@typescript-eslint/eslint-plugin": "^6.6.0",
+    "@typescript-eslint/parser": "^6.6.0",
+    "@vitest/coverage-v8": "^3.0.2",
+    "eslint": "^8.31.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.11",
+    "eslint-plugin-testing-library": "^5.9.1",
+    "happy-dom": "^15.10.2",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.0.0",
+    "rollup-plugin-visualizer": "^5.9.2",
+    "typescript": "5.2.2",
+    "vite": "^6.0.4",
+    "vitest": "^3.0.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "nwsapi": "2.2.2"
+    }
+  }
+}

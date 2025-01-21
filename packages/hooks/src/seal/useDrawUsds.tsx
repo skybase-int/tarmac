@@ -1,0 +1,52 @@
+import { useAccount, useChainId } from 'wagmi';
+import { SaWriteHookParams } from './sealModule';
+import { sealModuleAbi, sealModuleAddress } from '../generated';
+import { ZERO_ADDRESS } from '../constants';
+import { getSaDrawCalldata } from './calldata';
+import { useWriteContractFlow } from '../shared/useWriteContractFlow';
+
+export function useDrawUsds({
+  index,
+  to,
+  gas,
+  amount,
+  enabled: activeTabEnabled = true,
+  onStart = () => null,
+  onError = () => null,
+  onSuccess = () => null
+}: SaWriteHookParams & {
+  index: bigint;
+  to: `0x${string}`;
+  amount: bigint | undefined;
+}) {
+  const chainId = useChainId();
+  const { isConnected, address } = useAccount();
+
+  const enabled =
+    !!address && isConnected && activeTabEnabled && !!to && to !== ZERO_ADDRESS && !!amount && amount > 0n;
+
+  const writeContractFlowData = useWriteContractFlow({
+    address: sealModuleAddress[chainId as keyof typeof sealModuleAddress] as `0x${string}`,
+    abi: sealModuleAbi,
+    functionName: 'draw',
+    args: [address!, index, to, amount!],
+    chainId: chainId,
+    gas,
+    enabled,
+    onStart,
+    onError,
+    onSuccess
+  });
+
+  const calldata =
+    !!address && !!to && !!amount
+      ? getSaDrawCalldata({
+          ownerAddress: address,
+          urnIndex: index,
+          toAddress: to,
+          amount: amount
+        })
+      : undefined;
+
+  return { ...writeContractFlowData, calldata };
+}

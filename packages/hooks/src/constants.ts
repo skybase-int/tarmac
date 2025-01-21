@@ -1,0 +1,90 @@
+import { TrustLevel } from './hooks';
+
+export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
+export const ZERO_BYTES32 = '0x0000000000000000000000000000000000000000000000000000000000000000';
+
+// WAD = 1 with 18 zeroes
+export const WAD = BigInt('1000000000000000000');
+// RAY = 1 with 27 zeroes
+export const RAY = BigInt('1000000000000000000000000000');
+// RAD = 1 with 45 zeroes
+export const RAD = BigInt('1000000000000000000000000000000000000000000000');
+
+export const SECONDS_PER_YEAR = 365 * 24 * 60 * 60;
+
+export const TRUST_LEVELS: Record<TrustLevelEnum, TrustLevel> = {
+  0: {
+    level: 0,
+    title: 'Trust Level 0',
+    description:
+      'Data from this trust level can include data directly from calls to the Ethereum nodes via various RPC endpoints.'
+  },
+  1: {
+    level: 1,
+    title: 'Trust Level 1',
+    description:
+      'Data from this trust level can include data from an indexed data solution such as The Graph or Dune Analytics. The on-chain data is indexed by third-parties with varying levels of trust'
+  },
+  2: {
+    level: 2,
+    title: 'Trust Level 2',
+    description:
+      'Data from this trust level can include data from trust third-parties such as GitHub or other centralized APIs. The data is not on-chain.'
+  }
+};
+
+export enum TrustLevelEnum {
+  ZERO,
+  ONE,
+  TWO
+}
+
+export const URL_MAKER_SUBGRAPH_MAINNET =
+  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/subgraph-mainnet';
+export const URL_MAKER_SUBGRAPH_TENDERLY =
+  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/subgraph-testnet';
+
+export const URL_BASE_SUBGRAPH_MAINNET =
+  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/subgraph-base';
+export const URL_BASE_SUBGRAPH_TENDERLY =
+  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/subgraph-baseTenderly';
+
+export const URL_BLOCKS_SUBGRAPH_MAINNET =
+  'https://gateway-arbitrum.network.thegraph.com/api/937ce273344a610ea828ebe9702f6b65/subgraphs/id/9A6bkprqEG2XsZUYJ5B2XXp6ymz9fNcn4tVPxMWDztYC';
+export const URL_BA_LABS_API_MAINNET = 'https://info-sky.blockanalitica.com/api/v1';
+export const URL_BA_LABS_API_TENDERLY = 'https://sky-tenderly.blockanalitica.com/api/v1';
+
+export const BASE_CHAIN_ID = 8453;
+
+export const TENDERLY_CHAIN_ID = 314310;
+export const TENDERLY_BASE_CHAIN_ID = 8555;
+
+export enum ModuleEnum {
+  SAVINGS = 'SAVINGS',
+  UPGRADE = 'UPGRADE',
+  TRADE = 'TRADE',
+  REWARDS = 'REWARDS',
+  SEAL = 'SEAL'
+}
+
+export enum TransactionTypeEnum {
+  DAI_TO_USDS = 'DAI_TO_USDS',
+  MKR_TO_SKY = 'MKR_TO_SKY',
+  SKY_TO_MKR = 'SKY_TO_MKR',
+  USDS_TO_DAI = 'USDS_TO_DAI',
+  TRADE = 'TRADE',
+  SUPPLY = 'SUPPLY',
+  WITHDRAW = 'WITHDRAW',
+  REWARD = 'REWARD',
+  OPEN = 'OPEN',
+  SELECT_DELEGATE = 'SELECT_DELEGATE',
+  SELECT_REWARD = 'SELECT_REWARD',
+  SEAL = 'SEAL',
+  SEAL_SKY = 'SEAL_SKY',
+  UNSEAL = 'UNSEAL',
+  UNSEAL_SKY = 'UNSEAL_SKY',
+  BORROW = 'BORROW',
+  REPAY = 'REPAY',
+  SEAL_REWARD = 'SEAL_REWARD',
+  UNSEAL_KICK = 'UNSEAL_KICK'
+}
