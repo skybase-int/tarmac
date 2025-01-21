@@ -57,7 +57,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm -F webapp exec playwright install --with-deps chromium
 
       - name: Setup VNet (if required)
         if: ${{ matrix.vnet }}
