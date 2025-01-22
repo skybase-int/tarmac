@@ -28,11 +28,11 @@
   "sideEffects": false,
   "peerDependencies": {
     "@tanstack/react-query": "^5.17.15",
-    "@wagmi/core": "^2.13.8",
+    "@wagmi/core": "^2.15.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "viem": "^2.21.19",
-    "wagmi": "^2.12.17"
+    "wagmi": "^2.13.2"
   },
   "dependencies": {
     "@jetstreamgg/utils": "workspace:^",
@@ -56,7 +56,7 @@
     "vite": "^6.0.4",
     "vite-plugin-dts": "^4.5.0",
     "vitest": "^3.0.2",
-    "wagmi": "^2.12.17"
+    "wagmi": "^2.13.2"
   },
   "keywords": [
     "react",
