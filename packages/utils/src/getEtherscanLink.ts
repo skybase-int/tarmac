@@ -13,6 +13,8 @@ function getEtherscanPrefix(id: number) {
       return 'sepolia.etherscan.io';
     case chainId.base:
       return 'basescan.org';
+    case chainId.arbitrum:
+      return 'arbiscan.io';
     case chainId.tenderly:
       return 'dashboard.tenderly.co/explorer/vnet/b333d3ac-c24f-41fa-ad41-9176fa719ac3';
     case chainId.tenderlyBase:

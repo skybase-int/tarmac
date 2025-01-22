@@ -1,7 +1,7 @@
 import { chainId as chainIdMap } from './chainId';
 
 export const isArbitrumChainId = (chainId: number) => {
-  return chainId === chainIdMap.tenderlyArbitrum; //TODO: add arbitrum
+  return chainId === chainIdMap.arbitrum || chainId === chainIdMap.tenderlyArbitrum;
 };
 
 export const isBaseChainId = (chainId: number) => {

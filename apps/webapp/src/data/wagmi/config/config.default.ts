@@ -1,6 +1,6 @@
 import { connectorsForWallets } from '@rainbow-me/rainbowkit';
 import { createConfig, http } from 'wagmi';
-import { mainnet, base, sepolia } from 'wagmi/chains';
+import { mainnet, base, sepolia, arbitrum } from 'wagmi/chains';
 import {
   safeWallet,
   rainbowWallet,
@@ -99,12 +99,13 @@ const connectors = connectorsForWallets(
 );
 
 export const wagmiConfigDev = createConfig({
-  chains: [mainnet, tenderly, base, tenderlyBase, sepolia, tenderlyArbitrum],
+  chains: [mainnet, tenderly, base, arbitrum, tenderlyBase, sepolia, tenderlyArbitrum],
   connectors,
   transports: {
     [mainnet.id]: http(import.meta.env.VITE_RPC_PROVIDER_MAINNET || ''),
     [tenderly.id]: http(import.meta.env.VITE_RPC_PROVIDER_TENDERLY || ''),
     [base.id]: http(import.meta.env.VITE_RPC_PROVIDER_BASE || ''),
+    [arbitrum.id]: http(import.meta.env.VITE_RPC_PROVIDER_ARBITRUM || ''),
     [tenderlyBase.id]: http(import.meta.env.VITE_RPC_PROVIDER_TENDERLY_BASE || ''),
     [sepolia.id]: http(import.meta.env.VITE_RPC_PROVIDER_SEPOLIA || ''),
     [tenderlyArbitrum.id]: http(import.meta.env.VITE_RPC_PROVIDER_TENDERLY_ARBITRUM || '')
@@ -113,11 +114,12 @@ export const wagmiConfigDev = createConfig({
 });
 
 export const wagmiConfigMainnet = createConfig({
-  chains: [mainnet, base],
+  chains: [mainnet, base, arbitrum],
   connectors,
   transports: {
     [mainnet.id]: http(import.meta.env.VITE_RPC_PROVIDER_MAINNET || ''),
-    [base.id]: http(import.meta.env.VITE_RPC_PROVIDER_BASE || '')
+    [base.id]: http(import.meta.env.VITE_RPC_PROVIDER_BASE || ''),
+    [arbitrum.id]: http(import.meta.env.VITE_RPC_PROVIDER_ARBITRUM || '')
   },
   multiInjectedProviderDiscovery: false
 });

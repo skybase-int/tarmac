@@ -22,7 +22,7 @@ export function BalancesModuleShowcase() {
             title={t`Access rewards without giving up control`}
             className="bg-sky-blue"
             notAvailable={isBase || isArbitrum}
-            soon={isBase}
+            soon={isBase || isArbitrum}
           />
           <ModuleCard
             intent={Intent.SAVINGS_INTENT}

@@ -12,6 +12,7 @@ export const getExplorerName = (chainId: number) => {
     case chainIdMap.base:
     case chainIdMap.tenderlyBase:
       return ExplorerName.BASESCAN;
+    case chainIdMap.arbitrum:
     case chainIdMap.tenderlyArbitrum:
       return ExplorerName.ARBITRUM_EXPLORER;
     case chainIdMap.mainnet:

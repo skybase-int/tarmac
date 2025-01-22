@@ -10,7 +10,7 @@ import { Card, CardTitle, CardContent } from '@/components/ui/card';
 import { Heading, Text } from '@/modules/layout/components/Typography';
 import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
 import { ChainModal } from '@/modules/ui/components/ChainModal';
-import { isBaseChainId } from '@jetstreamgg/utils';
+import { isBaseChainId, isArbitrumChainId } from '@jetstreamgg/utils';
 import { useChainId } from 'wagmi';
 
 type ModuleCardProps = {
@@ -25,6 +25,7 @@ type ModuleCardProps = {
 export const ModuleCard = ({ className, title, intent, module, notAvailable, soon }: ModuleCardProps) => {
   const chainId = useChainId();
   const isBase = isBaseChainId(chainId);
+  const isArbitrum = isArbitrumChainId(chainId);
   const url = useRetainedQueryParams(`/?widget=${mapIntentToQueryParam(intent)}`);
   const content = (
     <>
@@ -43,7 +44,9 @@ export const ModuleCard = ({ className, title, intent, module, notAvailable, soo
         <CardContent className="relative p-0 pb-2">
           <HStack className="items-center justify-between">
             <Heading variant="extraSmall" className="text-left">
-              {notAvailable ? t`View on Mainnet` : t`Go to ${isBase ? 'Base' : ''} ${module}`}
+              {notAvailable
+                ? t`View on Mainnet`
+                : t`Go to ${isBase ? 'Base' : isArbitrum ? 'Arbitrum' : ''} ${module}`}
             </Heading>
             <ArrowRight />
           </HStack>
