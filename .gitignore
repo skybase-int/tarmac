@@ -80,3 +80,5 @@ apps/*/stats.html
 
 # used for testing
 tenderlyTestnetData.json
+apps/webapp/playwright-report
+apps/webapp/test-results
