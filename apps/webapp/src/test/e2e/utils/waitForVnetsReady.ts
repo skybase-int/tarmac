@@ -2,7 +2,7 @@ import { readFile } from 'fs/promises';
 import { backOffRetry } from './setBalance';
 
 const waitForVnetsReadyRequest = async () => {
-  const file = await readFile('./tenderlyTestnetData.json', 'utf-8');
+  const file = await readFile('../../tenderlyTestnetData.json', 'utf-8');
   const testnetsData = JSON.parse(file);
 
   // We send an `eth_blockNumber` request to the RPC endpoints to "ping" them
