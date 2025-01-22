@@ -1,6 +1,6 @@
 import { useSavingsData } from '@jetstreamgg/hooks';
 import { SuppliedBalanceCard, UnsuppliedBalanceCard } from '@/modules/ui/components/BalanceCards';
-import { useTokenBalance, usdcBaseAddress, sUsdsBaseAddress } from '@jetstreamgg/hooks';
+import { useTokenBalance, usdcL2Address, sUsdsL2Address } from '@jetstreamgg/hooks';
 import { useChainId, useAccount } from 'wagmi';
 import { isBaseChainId, formatBigInt } from '@jetstreamgg/utils';
 
@@ -13,14 +13,14 @@ export function SavingsBalanceDetails() {
   const { data: usdcBalance } = useTokenBalance({
     chainId,
     address,
-    token: usdcBaseAddress[chainId as keyof typeof usdcBaseAddress],
+    token: usdcL2Address[chainId as keyof typeof usdcL2Address],
     enabled: isBase
   });
 
   const { data: sUsdsBalance } = useTokenBalance({
     chainId,
     address,
-    token: sUsdsBaseAddress[chainId as keyof typeof sUsdsBaseAddress],
+    token: sUsdsL2Address[chainId as keyof typeof sUsdsL2Address],
     enabled: isBase
   });
 
