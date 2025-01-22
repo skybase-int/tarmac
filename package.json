@@ -31,9 +31,9 @@
     "vnet:delete:ci": "node ./scripts/deleteVnet.ts",
     "prepare": "husky install",
     "typecheck": "pnpm --filter './packages/**' --filter './apps/integration-ui' typecheck",
-    "messages:extract": "pnpm --filter './packages/widgets' --filter './apps/integration-ui' --filter './apps/integration-ui' messages:extract",
-    "messages:compile": "pnpm --filter './packages/widgets' --filter './apps/integration-ui' --filter './apps/integration-ui' messages:compile",
-    "messages": "pnpm --filter './packages/widgets' --filter './apps/integration-ui' --filter './apps/integration-ui' messages",
+    "messages:extract": "pnpm -F widgets -F integration-ui -F webapp messages:extract",
+    "messages:compile": "pnpm -F widgets -F integration-ui -F webapp messages:compile",
+    "messages": "pnpm -F widgets -F integration-ui -F webapp messages",
     "changeset:release": "pnpm build && changeset publish"
   },
   "lint-staged": {
