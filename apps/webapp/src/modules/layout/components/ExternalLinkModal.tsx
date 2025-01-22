@@ -1,4 +1,11 @@
-import { Dialog, DialogClose, DialogContent, DialogHeader } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle
+} from '@/components/ui/dialog';
 import { useCallback } from 'react';
 import { Text } from './Typography';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
@@ -41,10 +48,12 @@ export const ExternalLinkModal: React.FC = () => {
         <Warning boxSize={50} />
 
         <DialogHeader>
-          <Text className="text-text text-center text-[28px] md:text-[32px]">Leaving Our Website</Text>
+          <DialogTitle className="text-text text-center text-[28px] md:text-[32px]">
+            Leaving Our Website
+          </DialogTitle>
         </DialogHeader>
         <div className="flex w-full flex-col items-center justify-between gap-6">
-          <Text className="font-custom-450 text-text text-center">
+          <DialogDescription className="font-custom-450 text-text text-center">
             You are about to leave our website and enter a site controlled by an independent third party
             within the Sky Ecosystem. We disclaim any liability for your interaction with this, and any other,
             external sites hosted under sky.money subdomains. For more information, please visit our{' '}
@@ -61,7 +70,7 @@ export const ExternalLinkModal: React.FC = () => {
               'Terms of Use'
             )}
             .
-          </Text>
+          </DialogDescription>
           <Text className="font-custom-450 text-text text-center">
             If you wish to proceed, click &quot;Continue.&quot; If not, click &quot;Cancel&quot; to remain on
             our site.
