@@ -16,6 +16,7 @@ type GetTradeQuoteParams = {
   slippage: number;
   ttl: number;
   isEthFlow: boolean;
+  isSmartContractWallet: boolean;
 };
 
 const getTradeQuote = async ({
@@ -27,7 +28,8 @@ const getTradeQuote = async ({
   amount,
   slippage,
   ttl,
-  isEthFlow
+  isEthFlow,
+  isSmartContractWallet
 }: GetTradeQuoteParams) => {
   const side: OrderQuoteSide =
     kind === OrderQuoteSideKind.BUY
@@ -51,7 +53,7 @@ const getTradeQuote = async ({
       priceQuality: 'verified',
       sellTokenBalance: 'erc20',
       buyTokenBalance: 'erc20',
-      signingScheme: 'eip712',
+      signingScheme: isSmartContractWallet ? 'presign' : 'eip712',
       ...(isEthFlow ? ETH_FLOW_QUOTE_PARAMS : {})
     }
   });
@@ -103,6 +105,7 @@ export const useQuoteTrade = ({
   amount,
   kind,
   isEthFlow = false,
+  isSmartContractWallet,
   slippage: paramSlippage,
   enabled: paramEnabled = true
 }: {
@@ -111,6 +114,7 @@ export const useQuoteTrade = ({
   amount: bigint | undefined;
   kind: OrderQuoteSideKind;
   isEthFlow?: boolean;
+  isSmartContractWallet: boolean;
   slippage: string;
   enabled?: boolean;
 }): ReadHook & { data: OrderQuoteResponse | undefined | null } => {
@@ -151,7 +155,8 @@ export const useQuoteTrade = ({
         address: address!,
         ttl,
         slippage,
-        isEthFlow
+        isEthFlow,
+        isSmartContractWallet
       }),
     refetchOnWindowFocus: false,
     // Invalidate quote after 2 minutes, which matches the expiration time of the quote
