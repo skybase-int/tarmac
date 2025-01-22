@@ -13,7 +13,9 @@ import {
   TENDERLY_CHAIN_ID,
   TENDERLY_BASE_CHAIN_ID,
   TENDERLY_RPC_URL,
-  TENDERLY_BASE_RPC_URL
+  TENDERLY_BASE_RPC_URL,
+  TENDERLY_ARBITRUM_RPC_URL,
+  TENDERLY_ARBITRUM_CHAIN_ID
 } from './testTenderlyChain';
 
 export const tenderly = {
@@ -50,6 +52,26 @@ export const tenderlyBase = {
   rpcUrls: {
     public: { http: [TENDERLY_BASE_RPC_URL] },
     default: { http: [TENDERLY_BASE_RPC_URL] }
+  },
+  blockExplorers: {
+    default: { name: '', url: '' }
+  }
+};
+
+export const tenderlyArbitrum = {
+  id: TENDERLY_ARBITRUM_CHAIN_ID,
+  name: 'arbitrum_testnet_base_fork_jan',
+  network: 'tenderly arbitrum',
+  // This is used by RainbowKit to display a chain icon for small screens. TODO: update to Arbitrum icon once available
+  iconUrl: 'tokens/weth.svg',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'Ethereum',
+    symbol: 'ETH'
+  },
+  rpcUrls: {
+    public: { http: [TENDERLY_ARBITRUM_RPC_URL] },
+    default: { http: [TENDERLY_ARBITRUM_RPC_URL] }
   },
   blockExplorers: {
     default: { name: '', url: '' }

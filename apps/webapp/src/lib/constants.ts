@@ -3,7 +3,7 @@ import { Intent } from './enums';
 import { msg } from '@lingui/core/macro';
 import { MessageDescriptor } from '@lingui/core';
 import { base, mainnet, sepolia } from 'viem/chains';
-import { tenderly, tenderlyBase } from '@/data/wagmi/config/config.default';
+import { tenderly, tenderlyBase, tenderlyArbitrum } from '@/data/wagmi/config/config.default';
 
 export enum QueryParams {
   Locale = 'lang',
@@ -58,12 +58,19 @@ export const CHAIN_WIDGET_MAP: Record<number, Intent[]> = {
     Intent.SAVINGS_INTENT,
     Intent.TRADE_INTENT
   ],
+  [tenderlyArbitrum.id]: [
+    Intent.BALANCES_INTENT,
+    Intent.REWARDS_INTENT,
+    Intent.SAVINGS_INTENT,
+    Intent.TRADE_INTENT
+  ],
   [sepolia.id]: [Intent.BALANCES_INTENT, Intent.TRADE_INTENT]
 };
 
 export const COMING_SOON_MAP: Record<number, Intent[]> = {
   [base.id]: [Intent.REWARDS_INTENT],
-  [tenderlyBase.id]: [Intent.REWARDS_INTENT]
+  [tenderlyBase.id]: [Intent.REWARDS_INTENT],
+  [tenderlyArbitrum.id]: [Intent.REWARDS_INTENT]
 };
 
 export const intentTxt: Record<string, MessageDescriptor> = {
