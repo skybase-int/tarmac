@@ -18,7 +18,7 @@ export const TENDERLY_ARBITRUM_RPC_URL =
   'https://virtual.base.rpc.tenderly.co/17eaddcc-2f8a-433d-a5dc-7382eb7755d1';
 
 export const getTestTenderlyChains = () => {
-  const [mainnetData, baseData, arbitrumData] = tenderlyTestnetData;
+  const [mainnetData, baseData] = tenderlyTestnetData;
 
   return [
     defineChain({
@@ -36,14 +36,6 @@ export const getTestTenderlyChains = () => {
       rpcUrls: {
         default: { http: [baseData.TENDERLY_RPC_URL || TENDERLY_BASE_RPC_URL] }
       }
-    }),
-    defineChain({
-      id: TENDERLY_ARBITRUM_CHAIN_ID,
-      name: 'Tenderly Arbitrum',
-      nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
-      rpcUrls: {
-        default: { http: [arbitrumData.TENDERLY_RPC_URL || TENDERLY_ARBITRUM_RPC_URL] }
-      }
     })
-  ] as readonly [Chain, Chain, Chain];
+  ] as readonly [Chain, Chain];
 };
