@@ -31,7 +31,8 @@ export const useWaitForSafeTxHash = ({
     enabled: Boolean(url && safeTxHash && isSafeConnector),
     queryKey: ['safe-transaction-hash', safeTxHash, chainId, isSafeConnector],
     queryFn: () => getTransactionHash(url!),
-    refetchInterval: query => (query.state.data ? false : 2000),
+    // Stop refetching if the transaction hash is found or the API has been queried for 5 minutes (150 * 2s = 5 minutes)
+    refetchInterval: query => (query.state.data || query.state.dataUpdateCount >= 150 ? false : 2000),
     refetchIntervalInBackground: true
   });
 
