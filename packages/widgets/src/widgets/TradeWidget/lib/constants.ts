@@ -1,4 +1,4 @@
-import { TxCardCopyText } from '@/shared/types/txCardCopyText';
+import { TxCardCopyTextWithCancel } from '@/shared/types/txCardCopyText';
 import { TxStatus } from '@/shared/constants';
 import { msg } from '@lingui/core/macro';
 import { MessageDescriptor } from '@lingui/core';
@@ -36,7 +36,7 @@ export enum EthFlowTxStatus {
   ERROR = 'error'
 }
 
-export const tradeApproveTitle: TxCardCopyText = {
+export const tradeApproveTitle: TxCardCopyTextWithCancel = {
   [TxStatus.INITIALIZED]: msg`Approve token access`,
   [TxStatus.LOADING]: msg`In progress`,
   [TxStatus.SUCCESS]: msg`Success`,
@@ -69,7 +69,7 @@ export function tradeApproveDescription({
   return msg`Trading ${originToken.symbol} for ${targetToken.symbol}`;
 }
 
-export const tradeTitle: TxCardCopyText = {
+export const tradeTitle: TxCardCopyTextWithCancel = {
   [TxStatus.INITIALIZED]: msg`Confirm your trade`,
   [TxStatus.LOADING]: msg`In progress`,
   [TxStatus.SUCCESS]: msg`Trade completed`,
