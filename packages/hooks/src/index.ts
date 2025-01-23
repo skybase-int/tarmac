@@ -51,7 +51,7 @@ export { useClaimBoostedRewards } from './rewards/useClaimBoostedRewards';
 
 // Shared
 export { useCombinedHistory } from './shared/useCombinedHistory';
-export { useBaseCombinedHistory } from './shared/useBaseCombinedHistory';
+export { useL2CombinedHistory } from './shared/useL2CombinedHistory';
 export { useEthereumCombinedHistory } from './shared/useEthereumCombinedHistory';
 export { useUsdsDaiData } from './shared/useUsdsDaiData';
 export { useOverallSkyData } from './shared/useOverallSkyData';
@@ -138,8 +138,8 @@ export { useDelegateOwner } from './delegates/useDelegateOwner';
 // PSM
 export { usePsmSwapExactIn } from './psm/usePsmSwapExactIn';
 export { usePsmSwapExactOut } from './psm/usePsmSwapExactOut';
-export { useBaseSavingsHistory } from './psm/useBaseSavingsHistory';
-export { useBaseTradeHistory } from './psm/useBaseTradeHistory';
+export { useL2SavingsHistory } from './psm/useL2SavingsHistory';
+export { useL2TradeHistory } from './psm/useL2TradeHistory';
 export { usePsmLiquidity } from './psm/usePsmLiquidity';
 export { usePreviewSwapExactIn } from './psm/usePreviewSwapExactIn';
 export { usePreviewSwapExactOut } from './psm/usePreviewSwapExactOut';

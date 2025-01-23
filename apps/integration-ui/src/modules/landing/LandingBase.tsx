@@ -6,8 +6,8 @@ import { L2SavingsWidgetDisplay } from './widgets/L2SavingsWidgetDisplay';
 import { L2TradeWidgetDisplay } from './widgets/L2TradeWidgetDisplay';
 import { ExternalWidgetState } from '@jetstreamgg/widgets';
 import { ActionButtons } from './components/ActionButtons';
-import { BaseTradeHistory } from '@/components/historyTable/BaseTradeHistory';
-import { BaseSavingsHistory } from '@/components/historyTable/BaseSavingsHistory';
+import { L2TradeHistory } from '@/components/historyTable/L2TradeHistory';
+import { L2SavingsHistory } from '@/components/historyTable/L2SavingsHistory';
 import { TOKENS } from '@jetstreamgg/hooks';
 
 export type CustomNavigation = { href: string; label: string };
@@ -49,9 +49,9 @@ export function LandingBase(): React.ReactElement {
   const renderActiveDetails = () => {
     switch (activeWidget) {
       case 'trade':
-        return <BaseTradeHistory />;
+        return <L2TradeHistory />;
       case 'savings':
-        return <BaseSavingsHistory />;
+        return <L2SavingsHistory />;
       default:
         return null;
     }

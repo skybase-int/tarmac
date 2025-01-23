@@ -1,7 +1,7 @@
 import { request, gql } from 'graphql-request';
 import { ReadHook } from '../hooks';
 import { TRUST_LEVELS, TrustLevelEnum, ModuleEnum, TransactionTypeEnum } from '../constants';
-import { getBaseSubgraphUrl } from '../helpers/getSubgraphUrl';
+import { getL2SubgraphUrl } from '../helpers/getSubgraphUrl';
 import { useQuery } from '@tanstack/react-query';
 import { useAccount, useChainId } from 'wagmi';
 import { HistoryItem } from '../shared/shared';
@@ -9,7 +9,7 @@ import { TOKENS } from '../tokens/tokens.constants';
 import { useTokenAddressMap } from '../tokens/useTokenAddressMap';
 import { Token } from '../tokens/types';
 
-type BaseTradeHistoryItem = HistoryItem & {
+type L2TradeHistoryItem = HistoryItem & {
   fromAmount: bigint;
   toAmount: bigint;
   referralCode: string;
@@ -18,15 +18,15 @@ type BaseTradeHistoryItem = HistoryItem & {
   address: string;
 };
 
-type BaseTradeHistory = BaseTradeHistoryItem[];
+type L2TradeHistory = L2TradeHistoryItem[];
 
-async function fetchBaseTradeHistory(
+async function fetchL2TradeHistory(
   urlSubgraph: string,
   chainId: number,
   tokenAddressMap: { [address: string]: (typeof TOKENS)[keyof typeof TOKENS] },
   address?: string,
   excludeSUsds: boolean = false
-): Promise<BaseTradeHistory | undefined> {
+): Promise<L2TradeHistory | undefined> {
   if (!address) return [];
   const sUsdsAddressForChain = TOKENS.susds.address[chainId];
   const whereClause = excludeSUsds
@@ -60,7 +60,7 @@ async function fetchBaseTradeHistory(
 
   const response = (await request(urlSubgraph, query)) as any;
 
-  const swaps: BaseTradeHistory = response.swaps.map((e: any) => ({
+  const swaps: L2TradeHistory = response.swaps.map((e: any) => ({
     blockTimestamp: new Date(parseInt(e.blockTimestamp) * 1000),
     transactionHash: e.transactionHash,
     module: ModuleEnum.TRADE,
@@ -74,12 +74,11 @@ async function fetchBaseTradeHistory(
   }));
 
   return swaps.sort(
-    (a: BaseTradeHistoryItem, b: BaseTradeHistoryItem) =>
-      b.blockTimestamp.getTime() - a.blockTimestamp.getTime()
+    (a: L2TradeHistoryItem, b: L2TradeHistoryItem) => b.blockTimestamp.getTime() - a.blockTimestamp.getTime()
   );
 }
 
-export function useBaseTradeHistory({
+export function useL2TradeHistory({
   subgraphUrl,
   enabled: enabledProp = true,
   excludeSUsds = false
@@ -87,10 +86,10 @@ export function useBaseTradeHistory({
   subgraphUrl?: string;
   enabled?: boolean;
   excludeSUsds?: boolean;
-} = {}): ReadHook & { data?: BaseTradeHistory } {
+} = {}): ReadHook & { data?: L2TradeHistory } {
   const { address } = useAccount();
   const chainId = useChainId();
-  const urlSubgraph = subgraphUrl ? subgraphUrl : getBaseSubgraphUrl(chainId) || '';
+  const urlSubgraph = subgraphUrl ? subgraphUrl : getL2SubgraphUrl(chainId) || '';
   const tokenAddressMap = useTokenAddressMap();
 
   const {
@@ -100,8 +99,8 @@ export function useBaseTradeHistory({
     isLoading
   } = useQuery({
     enabled: Boolean(urlSubgraph) && enabledProp,
-    queryKey: ['base-trade-history', urlSubgraph, address, excludeSUsds],
-    queryFn: () => fetchBaseTradeHistory(urlSubgraph, chainId, tokenAddressMap, address, excludeSUsds)
+    queryKey: ['L2-trade-history', urlSubgraph, chainId, address, excludeSUsds],
+    queryFn: () => fetchL2TradeHistory(urlSubgraph, chainId, tokenAddressMap, address, excludeSUsds)
   });
 
   return {
