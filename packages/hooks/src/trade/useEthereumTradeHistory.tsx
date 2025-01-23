@@ -90,7 +90,7 @@ export function useEthereumTradeHistory({
     isLoading
   } = useQuery({
     enabled: Boolean(address) && enabled,
-    queryKey: ['trade-history', address, limit],
+    queryKey: ['trade-history', address, limit, chainId],
     queryFn: () => fetchEthereumTradeHistory(chainId, address, limit, tokens)
   });
 
