@@ -28,6 +28,11 @@ async function fetchBaseTradeHistory(
   excludeSUsds: boolean = false
 ): Promise<BaseTradeHistory | undefined> {
   if (!address) return [];
+
+  if (!tokenAddressMap || Object.keys(tokenAddressMap).length === 0) {
+    return [];
+  }
+
   const sUsdsAddressForChain = TOKENS.susds.address[chainId];
   const whereClause = excludeSUsds
     ? `{
@@ -60,18 +65,37 @@ async function fetchBaseTradeHistory(
 
   const response = (await request(urlSubgraph, query)) as any;
 
-  const swaps: BaseTradeHistory = response.swaps.map((e: any) => ({
-    blockTimestamp: new Date(parseInt(e.blockTimestamp) * 1000),
-    transactionHash: e.transactionHash,
-    module: ModuleEnum.TRADE,
-    type: TransactionTypeEnum.TRADE,
-    fromToken: tokenAddressMap[e.assetIn.toLowerCase()],
-    toToken: tokenAddressMap[e.assetOut.toLowerCase()],
-    fromAmount: BigInt(e.amountIn),
-    toAmount: BigInt(e.amountOut),
-    referralCode: e.referralCode,
-    address: e.sender
-  }));
+  const swaps: BaseTradeHistory = response.swaps
+    .map((e: any) => {
+      const fromTokenAddress = e.assetIn.toLowerCase();
+      const toTokenAddress = e.assetOut.toLowerCase();
+
+      const fromToken = tokenAddressMap[fromTokenAddress];
+      const toToken = tokenAddressMap[toTokenAddress];
+
+      if (!fromToken || !toToken) {
+        console.warn(
+          `Skipping trade due to missing token mapping for chainId ${chainId}:`,
+          `fromToken (${fromTokenAddress}): ${!!fromToken}`,
+          `toToken (${toTokenAddress}): ${!!toToken}`
+        );
+        return null;
+      }
+
+      return {
+        blockTimestamp: new Date(parseInt(e.blockTimestamp) * 1000),
+        transactionHash: e.transactionHash,
+        module: ModuleEnum.TRADE,
+        type: TransactionTypeEnum.TRADE,
+        fromToken,
+        toToken,
+        fromAmount: BigInt(e.amountIn),
+        toAmount: BigInt(e.amountOut),
+        referralCode: e.referralCode,
+        address: e.sender
+      };
+    })
+    .filter((swap: BaseTradeHistoryItem | null) => swap !== null);
 
   return swaps.sort(
     (a: BaseTradeHistoryItem, b: BaseTradeHistoryItem) =>
@@ -99,8 +123,8 @@ export function useBaseTradeHistory({
     refetch: mutate,
     isLoading
   } = useQuery({
-    enabled: Boolean(urlSubgraph) && enabledProp,
-    queryKey: ['base-trade-history', urlSubgraph, address, excludeSUsds],
+    enabled: Boolean(urlSubgraph) && enabledProp && Boolean(tokenAddressMap),
+    queryKey: ['base-trade-history', urlSubgraph, address, excludeSUsds, chainId],
     queryFn: () => fetchBaseTradeHistory(urlSubgraph, chainId, tokenAddressMap, address, excludeSUsds)
   });
 

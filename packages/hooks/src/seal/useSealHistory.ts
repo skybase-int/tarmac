@@ -255,7 +255,7 @@ export function useSealHistory({
     isLoading
   } = useQuery({
     enabled: Boolean(urlSubgraph),
-    queryKey: ['seal-history', urlSubgraph, address, index],
+    queryKey: ['seal-history', urlSubgraph, address, index, chainId],
     queryFn: () => fetchSealHistory(urlSubgraph, address, index)
   });
 
