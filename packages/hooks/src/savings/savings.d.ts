@@ -1,6 +1,6 @@
 import { HistoryItem } from '@/shared/shared.d.ts';
 import { Token } from '@/tokens/types';
-export type SavingsHistory = Array<SavingsSupply | SavingsWithdrawal>;
+export type SavingsHistory = Array<SavingsHistoryItem>;
 
 export type SavingsSupplyResponse = {
   assets: string;
@@ -23,3 +23,5 @@ export type SavingsWithdrawal = HistoryItem & {
   assets: bigint;
   token: Token;
 };
+
+export type SavingsHistoryItem = SavingsSupply | SavingsWithdrawal;
