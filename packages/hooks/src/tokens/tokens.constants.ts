@@ -1,4 +1,4 @@
-import { base, mainnet, sepolia } from 'wagmi/chains';
+import { base, mainnet, sepolia, arbitrum } from 'wagmi/chains';
 import {
   mcdDaiConfig,
   skyConfig,
@@ -48,6 +48,7 @@ export const TOKENS: TokenMapping = {
       [mainnet.id]: ETH_ADDRESS,
       [TENDERLY_CHAIN_ID]: ETH_ADDRESS,
       [base.id]: ETH_ADDRESS,
+      [arbitrum.id]: ETH_ADDRESS,
       [TENDERLY_BASE_CHAIN_ID]: ETH_ADDRESS,
       [TENDERLY_ARBITRUM_CHAIN_ID]: ETH_ADDRESS
     },
@@ -75,6 +76,7 @@ export const TOKENS: TokenMapping = {
     address: {
       ...skyConfig.address,
       [base.id]: skyL2Address[base.id],
+      [arbitrum.id]: skyL2Address[arbitrum.id],
       [TENDERLY_BASE_CHAIN_ID]: skyL2Address[base.id],
       [TENDERLY_ARBITRUM_CHAIN_ID]: skyL2Address[base.id]
     },
@@ -87,6 +89,7 @@ export const TOKENS: TokenMapping = {
     address: {
       ...usdsConfig.address,
       [base.id]: usdsL2Address[base.id],
+      [arbitrum.id]: usdsL2Address[arbitrum.id],
       [TENDERLY_BASE_CHAIN_ID]: usdsL2Address[base.id],
       [TENDERLY_ARBITRUM_CHAIN_ID]: usdsL2Address[base.id]
     },
@@ -108,6 +111,7 @@ export const TOKENS: TokenMapping = {
     address: {
       ...usdcConfig.address,
       [base.id]: usdcL2Address[base.id],
+      [arbitrum.id]: usdcL2Address[arbitrum.id],
       [TENDERLY_BASE_CHAIN_ID]: usdcL2Address[base.id],
       [TENDERLY_ARBITRUM_CHAIN_ID]: usdcL2Address[base.id]
     },
@@ -117,6 +121,7 @@ export const TOKENS: TokenMapping = {
     decimals: {
       [mainnet.id]: 6,
       [base.id]: 6,
+      [arbitrum.id]: 6,
       [sepolia.id]: 18,
       [TENDERLY_CHAIN_ID]: 6,
       [TENDERLY_BASE_CHAIN_ID]: 6,
@@ -149,6 +154,7 @@ export const TOKENS: TokenMapping = {
     address: {
       ...sUsdsConfig.address,
       [base.id]: sUsdsL2Address[base.id],
+      [arbitrum.id]: sUsdsL2Address[arbitrum.id],
       [TENDERLY_BASE_CHAIN_ID]: sUsdsL2Address[base.id],
       [TENDERLY_ARBITRUM_CHAIN_ID]: sUsdsL2Address[base.id]
     },
@@ -193,6 +199,11 @@ export const TRADE_TOKENS = {
     usdc: { ...TOKENS.usdc, address: usdcL2Address[base.id] },
     usds: { ...TOKENS.usds, address: usdsL2Address[base.id] },
     susds: { ...TOKENS.susds, address: sUsdsL2Address[base.id] }
+  },
+  [arbitrum.id]: {
+    usdc: { ...TOKENS.usdc, address: usdcL2Address[arbitrum.id] },
+    usds: { ...TOKENS.usds, address: usdsL2Address[arbitrum.id] },
+    susds: { ...TOKENS.susds, address: sUsdsL2Address[arbitrum.id] }
   },
   [TENDERLY_BASE_CHAIN_ID]: {
     usdc: { ...TOKENS.usdc, address: usdcL2Address[TENDERLY_BASE_CHAIN_ID] },

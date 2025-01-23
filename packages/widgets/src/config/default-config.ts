@@ -1,6 +1,6 @@
 // Default configuration used site-wide
 
-import { base, mainnet, sepolia } from 'wagmi/chains';
+import { base, mainnet, sepolia, arbitrum } from 'wagmi/chains';
 import { WidgetsConfig } from './types/widgets-config';
 import {
   usdsAddress,
@@ -56,6 +56,12 @@ export const defaultConfig: WidgetsConfig = {
       { ...usds, address: usdsL2Address[base.id] },
       { ...susds, address: sUsdsL2Address[base.id] }
     ],
+    [arbitrum.id]: [
+      eth,
+      { ...usdc, address: usdcL2Address[arbitrum.id] },
+      { ...usds, address: usdsL2Address[arbitrum.id] },
+      { ...susds, address: sUsdsL2Address[arbitrum.id] }
+    ],
     [TENDERLY_BASE_CHAIN_ID]: [
       eth,
       { ...usdc, address: usdcL2Address[base.id] },
@@ -96,6 +102,11 @@ export const defaultConfig: WidgetsConfig = {
       { ...usdc, address: usdcL2Address[base.id] },
       { ...usds, address: usdsL2Address[base.id] },
       { ...susds, address: sUsdsL2Address[base.id] }
+    ],
+    [arbitrum.id]: [
+      { ...usdc, address: usdcL2Address[arbitrum.id] },
+      { ...usds, address: usdsL2Address[arbitrum.id] },
+      { ...susds, address: sUsdsL2Address[arbitrum.id] }
     ],
     [TENDERLY_BASE_CHAIN_ID]: [
       { ...usdc, address: usdcL2Address[base.id] },

@@ -74,7 +74,10 @@ export const getWagmiClientAndChains = (appName: string): Config => {
       [mainnet.id]: http(import.meta.env.VITE_PUBLIC_RPC_PROVIDER_MAINNET || ''),
       [sepolia.id]: http(import.meta.env.VITE_PUBLIC_RPC_PROVIDER_SEPOLIA || ''),
       [base.id]: http(import.meta.env.VITE_PUBLIC_RPC_PROVIDER_BASE || ''),
-      [arbitrum.id]: http(import.meta.env.VITE_PUBLIC_RPC_PROVIDER_ARBITRUM || ''),
+      [arbitrum.id]: http(
+        import.meta.env.VITE_PUBLIC_RPC_PROVIDER_ARBITRUM ||
+          'https://arbitrum.gateway.tenderly.co/6BRHNNW1ioY5id9p8ltKS7'
+      ),
       [tenderlyBase.id]: http(import.meta.env.VITE_PUBLIC_RPC_PROVIDER_TENDERLY_BASE || ''),
       [tenderlyArbitrum.id]: http(import.meta.env.VITE_PUBLIC_RPC_PROVIDER_TENDERLY_ARBITRUM || '')
     },
