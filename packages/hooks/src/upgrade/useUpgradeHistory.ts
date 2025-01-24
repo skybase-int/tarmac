@@ -100,7 +100,7 @@ export function useUpgradeHistory({
     isLoading
   } = useQuery({
     enabled: Boolean(urlSubgraph && address),
-    queryKey: ['upgrade-history', urlSubgraph, address],
+    queryKey: ['upgrade-history', urlSubgraph, address, chainId],
     queryFn: () => fetchUpgradeHistory(urlSubgraph, address)
   });
 
