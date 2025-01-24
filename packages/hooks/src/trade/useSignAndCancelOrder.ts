@@ -1,9 +1,11 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useAccount, useChainId, useSignTypedData } from 'wagmi';
-import { cowApiClient, gpv2SettlementAddress } from './constants';
+import { cowApiClient } from './constants';
 import { WriteHookParams } from '../hooks';
 import { fetchOrderStatus } from './fetchOrderStatus';
 import { useCallback, useEffect, useState } from 'react';
+import { gPv2SettlementAddress, gPv2SettlementSepoliaAddress } from '../generated';
+import { sepolia } from 'viem/chains';
 
 const cancelOrders = async (orderUids: `0x${string}`[], signature: `0x${string}`, chainId: number) => {
   try {
@@ -35,6 +37,7 @@ const cancelOrders = async (orderUids: `0x${string}`[], signature: `0x${string}`
 
 export const useSignAndCancelOrder = ({
   orderUids,
+  enabled: paramEnabled = true,
   onStart = () => null,
   onSuccess = () => null,
   onError = () => null
@@ -72,7 +75,7 @@ export const useSignAndCancelOrder = ({
   });
 
   const { data: cancelledOrder } = useQuery({
-    enabled: orderUids?.length > 0 && isOrderCancellationSent,
+    enabled: paramEnabled && orderUids?.length > 0 && isOrderCancellationSent,
     queryKey: ['cancel-order-status', orderUids[0]],
     queryFn: () => fetchOrderStatus(orderUids[0], chainId),
     // Refetches the order status every 2 seconds if the order is not filled
@@ -106,7 +109,10 @@ export const useSignAndCancelOrder = ({
             name: 'Gnosis Protocol',
             version: 'v2',
             chainId,
-            verifyingContract: gpv2SettlementAddress[chainId as keyof typeof gpv2SettlementAddress]
+            verifyingContract:
+              chainId === sepolia.id
+                ? gPv2SettlementSepoliaAddress[chainId as keyof typeof gPv2SettlementSepoliaAddress]
+                : gPv2SettlementAddress[chainId as keyof typeof gPv2SettlementAddress]
           },
           types: {
             OrderCancellations: [

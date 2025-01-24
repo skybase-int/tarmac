@@ -276,6 +276,7 @@ msgstr ""
 #: src/widgets/TradeWidget/index.tsx
 #: src/widgets/TradeWidget/index.tsx
 #: src/widgets/TradeWidget/index.tsx
+#: src/widgets/TradeWidget/index.tsx
 #: src/widgets/BaseTradeWidget/index.tsx
 #: src/widgets/BaseTradeWidget/index.tsx
 #: src/widgets/BaseTradeWidget/index.tsx
@@ -331,9 +332,11 @@ msgid "By setting your slippage tolerance level, you control the degree of token
 msgstr ""
 
 #: src/widgets/TradeWidget/index.tsx
+#: src/widgets/TradeWidget/index.tsx
 msgid "Cancel error"
 msgstr ""
 
+#: src/widgets/TradeWidget/index.tsx
 #: src/widgets/TradeWidget/index.tsx
 msgid "Cancel order"
 msgstr ""
@@ -343,8 +346,13 @@ msgid "Cancel Order"
 msgstr ""
 
 #: src/widgets/TradeWidget/index.tsx
+#: src/widgets/TradeWidget/index.tsx
 #: src/widgets/TradeWidget/components/CancelOrderButton.tsx
 msgid "Cancel successful"
+msgstr ""
+
+#: src/widgets/TradeWidget/index.tsx
+msgid "Canceling order"
 msgstr ""
 
 #: src/widgets/TradeWidget/lib/constants.ts
@@ -958,6 +966,7 @@ msgid "or a contract that you own"
 msgstr ""
 
 #: src/widgets/TradeWidget/index.tsx
+#: src/widgets/TradeWidget/index.tsx
 msgid "Order cancellation attempt failed"
 msgstr ""
 
@@ -968,6 +977,10 @@ msgstr ""
 
 #: src/widgets/TradeWidget/lib/constants.ts
 msgid "Order created"
+msgstr ""
+
+#: src/widgets/TradeWidget/index.tsx
+msgid "Order creation failed"
 msgstr ""
 
 #. placeholder {0}: token.symbol
@@ -1017,6 +1030,10 @@ msgstr ""
 
 #: src/widgets/RewardsWidget/lib/constants.ts
 msgid "Preparing to withdraw {amount} {symbol}"
+msgstr ""
+
+#: src/widgets/TradeWidget/index.tsx
+msgid "Presign transaction error"
 msgstr ""
 
 #: src/widgets/TradeWidget/components/TradeDetails.tsx
@@ -1229,6 +1246,14 @@ msgid "Something went wrong"
 msgstr ""
 
 #: src/widgets/TradeWidget/index.tsx
+msgid "Something went wrong when trying to post the order to the Order Book. Please try again."
+msgstr ""
+
+#: src/widgets/TradeWidget/index.tsx
+msgid "Something went wrong when trying to send the presign transaction. Please try again."
+msgstr ""
+
+#: src/widgets/TradeWidget/index.tsx
 #: src/widgets/TradeWidget/index.tsx
 msgid "Something went wrong when trying to sign the message. Please try again."
 msgstr ""
@@ -1407,6 +1432,7 @@ msgstr ""
 msgid "Trade failed"
 msgstr ""
 
+#: src/widgets/TradeWidget/index.tsx
 #: src/widgets/TradeWidget/index.tsx
 #: src/widgets/TradeWidget/index.tsx
 #: src/widgets/BaseTradeWidget/index.tsx
@@ -1720,6 +1746,7 @@ msgid "You sealed"
 msgstr ""
 
 #: src/widgets/TradeWidget/index.tsx
+#: src/widgets/TradeWidget/index.tsx
 #: src/widgets/TradeWidget/components/CancelOrderButton.tsx
 msgid "You successfully cancelled the order"
 msgstr ""
@@ -1754,6 +1781,7 @@ msgstr ""
 #. placeholder {2}: formatBigInt(executedBuyAmount, { locale, unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18 })
 #. placeholder {2}: formatBigInt(debouncedTargetAmount, { locale, unit: targetToken && getTokenDecimals(targetToken, chainId) })
 #. placeholder {3}: targetToken?.symbol
+#: src/widgets/TradeWidget/index.tsx
 #: src/widgets/TradeWidget/index.tsx
 #: src/widgets/TradeWidget/index.tsx
 #: src/widgets/BaseTradeWidget/index.tsx

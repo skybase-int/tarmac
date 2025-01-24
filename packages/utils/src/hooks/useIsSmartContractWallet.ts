@@ -1,0 +1,41 @@
+import { useAccount, useChainId } from 'wagmi';
+import { chainId } from '../chainId';
+import { useQuery } from '@tanstack/react-query';
+
+const SAFE_TRANSACTION_SERVICE_URL: Record<number, string> = {
+  [chainId.mainnet]: 'https://safe-transaction-mainnet.safe.global',
+  [chainId.base]: 'https://safe-transaction-base.safe.global',
+  [chainId.sepolia]: 'https://safe-transaction-sepolia.safe.global',
+  [chainId.tenderly]: 'https://safe-transaction-mainnet.safe.global',
+  [chainId.tenderlyBase]: 'https://safe-transaction-base.safe.global'
+};
+
+const SAFE_CONNECTOR_ID = 'safe';
+
+const isSafeWalletFound = async (url: URL) => {
+  const res = await fetch(url);
+  return res.status === 200;
+};
+
+export const useIsSmartContractWallet = () => {
+  const { address, connector } = useAccount();
+  const chainId = useChainId();
+
+  const baseUrl = SAFE_TRANSACTION_SERVICE_URL[chainId];
+  let url: URL | undefined;
+  if (baseUrl) {
+    const endpoint = `${baseUrl}/api/v1/safes/${address}`;
+    url = new URL(endpoint);
+  }
+
+  const { data: isAddressSafeWallet } = useQuery({
+    enabled: Boolean(url && address),
+    queryKey: ['is-safe-wallet-found', address, chainId],
+    queryFn: () => isSafeWalletFound(url!)
+  });
+
+  const isSafeWallet = connector?.id === SAFE_CONNECTOR_ID || !!isAddressSafeWallet;
+
+  // Eventually we can add more checks here for other types of wallets
+  return isSafeWallet;
+};
