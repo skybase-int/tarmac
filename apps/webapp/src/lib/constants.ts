@@ -137,3 +137,9 @@ export const STAGING_URL_SKY_SUBGRAPH_BASE =
   'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/subgraph-base';
 export const STAGING_URL_SKY_SUBGRAPH_BASE_TENDERLY =
   'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/subgraph-baseTenderly';
+export const PROD_URL_SKY_SUBGRAPH_ARBITRUM =
+  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/subgraph-arbitrum';
+export const STAGING_URL_SKY_SUBGRAPH_ARBITRUM =
+  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/subgraph-arbitrum';
+export const STAGING_URL_SKY_SUBGRAPH_ARBITRUM_TENDERLY =
+  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/subgraph-arbitrumTenderly';
