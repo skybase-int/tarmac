@@ -49,9 +49,10 @@ export const URL_BASE_SUBGRAPH_MAINNET =
 export const URL_BASE_SUBGRAPH_TENDERLY =
   'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/subgraph-baseTenderly';
 
-// TODO: Add these subgraph URLs once they're available
-export const URL_ARBITRUM_SUBGRAPH_MAINNET = '';
-export const URL_ARBITRUM_SUBGRAPH_TENDERLY = '';
+export const URL_ARBITRUM_SUBGRAPH_MAINNET =
+  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/subgraph-arbitrum';
+export const URL_ARBITRUM_SUBGRAPH_TENDERLY =
+  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/subgraph-arbitrumTenderly';
 
 export const URL_BLOCKS_SUBGRAPH_MAINNET =
   'https://gateway-arbitrum.network.thegraph.com/api/937ce273344a610ea828ebe9702f6b65/subgraphs/id/9A6bkprqEG2XsZUYJ5B2XXp6ymz9fNcn4tVPxMWDztYC';
