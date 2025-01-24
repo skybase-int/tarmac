@@ -1,0 +1,95 @@
+import { Dialog, DialogClose, DialogContent, DialogHeader } from '@/components/ui/dialog';
+import { useCallback } from 'react';
+import { Button } from '@/components/ui/button';
+import { Warning } from '@/modules/icons/Warning';
+import { Text } from '@/modules/layout/components/Typography';
+import { useChatContext } from '../context/ChatContext';
+import { useNavigate } from 'react-router-dom';
+import { ChatIntent } from '../types/Chat';
+import { generateUUID } from '../lib/generateUUID';
+import { MessageType, UserType } from '../constants';
+import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
+
+export const ChatConfirmationModal: React.FC = () => {
+  const {
+    confirmationModalOpened,
+    selectedIntent,
+    setConfirmationModalOpened,
+    setChatHistory,
+    setSelectedIntent
+  } = useChatContext();
+
+  const selectedIntentUrl = useRetainedQueryParams(selectedIntent?.url || '');
+
+  const navigate = useNavigate();
+
+  const onIntentSelected = useCallback(
+    (intent: ChatIntent) =>
+      setChatHistory(prev => [
+        ...prev,
+        {
+          id: generateUUID(),
+          user: UserType.bot,
+          message: `I've updated the widget for you based on your selection of **"${intent.intent_description}"**. Please confirm the details before proceeding.`,
+          type: MessageType.internal
+        }
+      ]),
+    []
+  );
+
+  const handleCancel = useCallback(
+    (change: boolean) => {
+      setConfirmationModalOpened(change);
+      setSelectedIntent(undefined);
+    },
+    [setConfirmationModalOpened, setSelectedIntent]
+  );
+
+  const handleConfirm = useCallback(() => {
+    setConfirmationModalOpened(false);
+    selectedIntentUrl && navigate(selectedIntentUrl);
+    selectedIntent && onIntentSelected(selectedIntent);
+  }, [selectedIntentUrl, setConfirmationModalOpened, navigate, selectedIntent, onIntentSelected]);
+
+  return (
+    <Dialog open={confirmationModalOpened} onOpenChange={handleCancel}>
+      <DialogContent className="bg-containerDark flex w-full flex-col items-center justify-center rounded-none p-5 md:w-[480px] md:rounded-2xl md:p-10">
+        <Warning boxSize={50} />
+
+        <DialogHeader>
+          <Text className="text-text text-center text-[28px] md:text-[32px]">Confirm Action</Text>
+        </DialogHeader>
+        <div className="flex w-full flex-col items-center justify-between gap-6">
+          {selectedIntent && (
+            <Text className="text-text text-center text-lg font-semibold">
+              {selectedIntent.intent_description}
+            </Text>
+          )}
+          <Text className="font-custom-450 text-text text-center">
+            You are about to execute an action suggested by our AI chatbot. Please be aware that while we
+            strive to provide accurate and helpful suggestions, you&apos;re solely responsible for reviewing
+            and implementing any recommended actions. We do not guarantee the accuracy or completeness of the
+            AI&apos;s suggestions and disclaim any liability for consequences arising from your use of this
+            feature.
+          </Text>
+          <Text className="font-custom-450 text-text text-center">
+            If you wish to proceed, click &quot;Continue.&quot; If not, click &quot;Cancel&quot; to return to
+            the chat.
+          </Text>
+          <div className="mt-4 flex w-full justify-between gap-6 sm:mt-0 sm:w-auto">
+            <DialogClose asChild>
+              <Button variant="secondary" className="flex-1 border" onClick={() => handleCancel(false)}>
+                <Text>Cancel</Text>
+              </Button>
+            </DialogClose>
+            <DialogClose asChild>
+              <Button variant="default" className="flex-1" onClick={handleConfirm}>
+                <Text>Continue</Text>
+              </Button>
+            </DialogClose>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
