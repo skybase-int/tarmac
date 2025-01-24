@@ -13,9 +13,6 @@ import { t } from '@lingui/macro';
 import { ChatSuggestionsRow } from './ChatSuggestionsRow';
 import { ChatIntent } from '../types/Chat';
 import { ChatIntentsRow } from './ChatIntentsRow';
-import { useChatContext } from '../context/ChatContext';
-import { generateUUID } from '../lib/generateUUID';
-import { useCallback } from 'react';
 import { StopGeneratingButton } from './StopGeneratingButton';
 import { ChatError } from '@/modules/icons';
 import { ChatMarkdownRenderer } from '@/modules/ui/components/markdown/ChatMarkdownRenderer';
@@ -72,7 +69,8 @@ export const ChatBubble = ({
   suggestions,
   intents,
   sendMessage,
-  showModifierRow = true
+  showModifierRow = true,
+  isLastMessage
 }: ChatBubbleProps) => {
   const { address } = useAccount();
   const [searchParams] = useSearchParams();
@@ -82,20 +80,6 @@ export const ChatBubble = ({
   const isLoading = type === MessageType.loading;
   const isInternal = type === MessageType.internal;
   const isCanceled = type === MessageType.canceled;
-  const { setChatHistory } = useChatContext();
-  const onIntentSelected = useCallback(
-    (intent: ChatIntent) =>
-      setChatHistory(prev => [
-        ...prev,
-        {
-          id: generateUUID(),
-          user: UserType.bot,
-          message: `I've updated the widget for you based on your selection of **"${intent.intent_description}"**. Please confirm the details before proceeding.`,
-          type: MessageType.internal
-        }
-      ]),
-    []
-  );
 
   return (
     <div
@@ -145,9 +129,7 @@ export const ChatBubble = ({
             </HStack>
             {user === UserType.bot && !isError && !isInternal && !isCanceled && (
               <div className="space-y-5">
-                {intents && intents?.length > 0 && (
-                  <ChatIntentsRow intents={intents} onIntentSelected={onIntentSelected} />
-                )}
+                {intents && intents?.length > 0 && isLastMessage && <ChatIntentsRow intents={intents} />}
                 {(!intents || intents.length === 0) && suggestions && (
                   <ChatSuggestionsRow suggestions={suggestions} sendMessage={sendMessage} />
                 )}

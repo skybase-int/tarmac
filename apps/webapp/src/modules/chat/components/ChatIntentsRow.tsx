@@ -1,21 +1,19 @@
 import { Button } from '@/components/ui/button';
 import { ChatIntent } from '../types/Chat';
-import { Link } from 'react-router-dom';
 import { Text } from '@/modules/layout/components/Typography';
-import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
+import { useChatContext } from '../context/ChatContext';
 
 type ChatIntentsRowProps = {
   intents: ChatIntent[];
-  onIntentSelected: (intent: ChatIntent) => void;
 };
 
-export const ChatIntentsRow = ({ intents, onIntentSelected }: ChatIntentsRowProps) => {
+export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
   return (
     <div>
       <Text className="text-xs italic text-gray-500">Try a suggested action</Text>
       <div className="mt-2 flex flex-wrap gap-2">
         {intents.map((intent, index) => (
-          <IntentRow key={index} intent={intent} onIntentSelected={onIntentSelected} />
+          <IntentRow key={index} intent={intent} />
         ))}
       </div>
     </div>
@@ -24,16 +22,20 @@ export const ChatIntentsRow = ({ intents, onIntentSelected }: ChatIntentsRowProp
 
 type IntentRowProps = {
   intent: ChatIntent;
-  onIntentSelected: (intent: ChatIntent) => void;
 };
 
-const IntentRow = ({ intent, onIntentSelected }: IntentRowProps) => {
-  const url = useRetainedQueryParams(intent.url);
+const IntentRow = ({ intent }: IntentRowProps) => {
+  const { setConfirmationModalOpened, setSelectedIntent } = useChatContext();
+
   return (
-    <Link to={url}>
-      <Button variant="suggest" onClick={() => onIntentSelected(intent)}>
-        {intent.intent_description}
-      </Button>
-    </Link>
+    <Button
+      variant="suggest"
+      onClick={() => {
+        setConfirmationModalOpened(true);
+        setSelectedIntent(intent);
+      }}
+    >
+      {intent.intent_description}
+    </Button>
   );
 };
