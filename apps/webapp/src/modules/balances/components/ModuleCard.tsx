@@ -34,7 +34,7 @@ export const ModuleCard = ({ className, title, intent, module, notAvailable, soo
           variant="small"
           className="bg-primary text-text absolute -top-3 right-2 z-10 rounded-full px-1.5 py-0 md:px-2 md:py-1"
         >
-          <Trans>Soon on Base</Trans>
+          <Trans>Soon on {isBase ? 'Base' : isArbitrum ? 'Arbitrum' : ''}</Trans>
         </Text>
       )}
       <Card className={cn('relative flex h-full flex-col justify-between bg-[length:100%_100%]', className)}>

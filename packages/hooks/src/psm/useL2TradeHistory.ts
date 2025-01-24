@@ -28,6 +28,11 @@ async function fetchL2TradeHistory(
   excludeSUsds: boolean = false
 ): Promise<L2TradeHistory | undefined> {
   if (!address) return [];
+
+  if (!tokenAddressMap || Object.keys(tokenAddressMap).length === 0) {
+    return [];
+  }
+
   const sUsdsAddressForChain = TOKENS.susds.address[chainId];
   const whereClause = excludeSUsds
     ? `{
@@ -60,18 +65,37 @@ async function fetchL2TradeHistory(
 
   const response = (await request(urlSubgraph, query)) as any;
 
-  const swaps: L2TradeHistory = response.swaps.map((e: any) => ({
-    blockTimestamp: new Date(parseInt(e.blockTimestamp) * 1000),
-    transactionHash: e.transactionHash,
-    module: ModuleEnum.TRADE,
-    type: TransactionTypeEnum.TRADE,
-    fromToken: tokenAddressMap[e.assetIn.toLowerCase()],
-    toToken: tokenAddressMap[e.assetOut.toLowerCase()],
-    fromAmount: BigInt(e.amountIn),
-    toAmount: BigInt(e.amountOut),
-    referralCode: e.referralCode,
-    address: e.sender
-  }));
+  const swaps: L2TradeHistory = response.swaps
+    .map((e: any) => {
+      const fromTokenAddress = e.assetIn.toLowerCase();
+      const toTokenAddress = e.assetOut.toLowerCase();
+
+      const fromToken = tokenAddressMap[fromTokenAddress];
+      const toToken = tokenAddressMap[toTokenAddress];
+
+      if (!fromToken || !toToken) {
+        console.warn(
+          `Skipping trade due to missing token mapping for chainId ${chainId}:`,
+          `fromToken (${fromTokenAddress}): ${!!fromToken}`,
+          `toToken (${toTokenAddress}): ${!!toToken}`
+        );
+        return null;
+      }
+
+      return {
+        blockTimestamp: new Date(parseInt(e.blockTimestamp) * 1000),
+        transactionHash: e.transactionHash,
+        module: ModuleEnum.TRADE,
+        type: TransactionTypeEnum.TRADE,
+        fromToken,
+        toToken,
+        fromAmount: BigInt(e.amountIn),
+        toAmount: BigInt(e.amountOut),
+        referralCode: e.referralCode,
+        address: e.sender
+      };
+    })
+    .filter((swap: L2TradeHistoryItem | null) => swap !== null);
 
   return swaps.sort(
     (a: L2TradeHistoryItem, b: L2TradeHistoryItem) => b.blockTimestamp.getTime() - a.blockTimestamp.getTime()
@@ -98,8 +122,8 @@ export function useL2TradeHistory({
     refetch: mutate,
     isLoading
   } = useQuery({
-    enabled: Boolean(urlSubgraph) && enabledProp,
-    queryKey: ['L2-trade-history', urlSubgraph, chainId, address, excludeSUsds],
+    enabled: Boolean(urlSubgraph) && enabledProp && Boolean(tokenAddressMap),
+    queryKey: ['L2-trade-history', urlSubgraph, address, excludeSUsds, chainId],
     queryFn: () => fetchL2TradeHistory(urlSubgraph, chainId, tokenAddressMap, address, excludeSUsds)
   });
 

@@ -74,7 +74,7 @@ export function useEthereumSavingsHistory({
     isLoading
   } = useQuery({
     enabled: Boolean(urlSubgraph) && enabled,
-    queryKey: ['savings-history', urlSubgraph, address],
+    queryKey: ['savings-history', urlSubgraph, address, chainId],
     queryFn: () => fetchEthereumSavingsHistory(urlSubgraph, address)
   });
 

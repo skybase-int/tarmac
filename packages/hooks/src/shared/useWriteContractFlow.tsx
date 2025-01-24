@@ -3,15 +3,15 @@ import {
   useAccount,
   useSimulateContract,
   useWaitForTransactionReceipt,
-  useWatchContractEvent,
   useWriteContract
 } from 'wagmi';
 import { isRevertedError } from '../helpers';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import type { WriteHook } from '../hooks';
 import { type Abi, type ContractFunctionArgs, type ContractFunctionName } from 'viem';
 import { Config, ResolvedRegister } from '@wagmi/core';
-import { SAFE_CONNECTOR_ID, safeAbi } from './constants';
+import { SAFE_CONNECTOR_ID } from './constants';
+import { useWaitForSafeTxHash } from './useWaitForSafeTxHash';
 
 type UseWriteContractFlowParameters<
   abi extends Abi | readonly unknown[] = Abi,
@@ -77,19 +77,13 @@ export function useWriteContractFlow<
   });
 
   // Workaround to get `txHash` from Safe connector
-  const { connector, address: connectedAddress } = useAccount();
+  const { connector } = useAccount();
   const isSafeConnector = connector?.id === SAFE_CONNECTOR_ID;
-  const [eventHash, setEventHash] = useState<`0x${string}` | undefined>();
-  useWatchContractEvent({
-    abi: safeAbi,
-    address: connectedAddress,
-    eventName: 'ExecutionSuccess',
-    chainId: useSimulateContractParamters.chainId,
-    args: { txHash: mutationHash },
-    onLogs: logs => {
-      setEventHash(logs?.[0].transactionHash);
-    },
-    enabled: isSafeConnector && !!mutationHash
+
+  const eventHash = useWaitForSafeTxHash({
+    chainId: parameters.chainId,
+    safeTxHash: mutationHash,
+    isSafeConnector
   });
 
   // If the user is currently connected through the Safe connector, the txHash will only
@@ -115,13 +109,10 @@ export function useWriteContractFlow<
     if (txHash) {
       if (isSuccess) {
         onSuccess(txHash);
-        setEventHash(undefined);
       } else if (miningError) {
         onError(miningError, txHash);
-        setEventHash(undefined);
       } else if (failureReason && txReverted) {
         onError(failureReason, txHash);
-        setEventHash(undefined);
       }
     }
   }, [isSuccess, miningError, failureReason, txHash, txReverted]);
