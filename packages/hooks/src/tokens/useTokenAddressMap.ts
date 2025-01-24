@@ -6,10 +6,15 @@ export function useTokenAddressMap() {
   const chainId = useChainId();
 
   return useMemo(() => {
+    if (!chainId) {
+      return {};
+    }
+
     const mapping: { [address: string]: (typeof TOKENS)[keyof typeof TOKENS] } = {};
     Object.values(TOKENS).forEach(token => {
-      if (token.address[chainId]) {
-        mapping[token.address[chainId].toLowerCase()] = token;
+      const address = token.address[chainId];
+      if (address) {
+        mapping[address.toLowerCase()] = token;
       }
     });
     return mapping;
