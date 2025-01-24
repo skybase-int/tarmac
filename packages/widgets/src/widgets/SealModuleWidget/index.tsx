@@ -380,7 +380,7 @@ export function SealModuleWidgetWrapped({
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
-    onSuccess: hash => {
+    onSuccess: (hash: string) => {
       //TODO: Update copy
       onNotification?.({
         title: t`Claim successful`,
@@ -395,7 +395,7 @@ export function SealModuleWidgetWrapped({
       setRewardContractToClaim(undefined);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
-    onError: (error, hash) => {
+    onError: (error: Error, hash: string) => {
       //TODO: Update copy
       onNotification?.({
         title: t`Claim failed`,
