@@ -83,6 +83,8 @@ export { useTradeAllowance } from './trade/useTradeAllowance';
 export { useTradeApprove } from './trade/useTradeApprove';
 export { useTradeCosts } from './trade/useTradeCosts';
 export { useSignAndCancelOrder } from './trade/useSignAndCancelOrder';
+export { useOnChainCancelOrder } from './trade/useOnChainCancelOrder';
+export { useCreatePreSignTradeOrder } from './trade/useCreatePreSignTradeOrder';
 
 // Oracles
 export { useOracle } from './oracles/useOracle';

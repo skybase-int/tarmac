@@ -246,6 +246,3 @@ export enum HandledQuoteErrorTypes {
   NoLiquidity = 'NoLiquidity',
   SellAmountDoesNotCoverFee = 'SellAmountDoesNotCoverFee'
 }
-
-export const WALLETCONNECT_CONNECTOR = 'walletConnect';
-export const SAFE_CONNECTOR_ID = 'safe';

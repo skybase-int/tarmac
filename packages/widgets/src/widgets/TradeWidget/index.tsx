@@ -9,8 +9,7 @@ import {
   ethFlowSlippageConfig,
   ercFlowSlippageConfig,
   ETH_SLIPPAGE_STORAGE_KEY,
-  ERC_SLIPPAGE_STORAGE_KEY,
-  SAFE_CONNECTOR_ID
+  ERC_SLIPPAGE_STORAGE_KEY
 } from './lib/constants';
 import {
   useTradeApprove,
@@ -23,10 +22,12 @@ import {
   useCreateEthTradeOrder,
   useSignAndCancelOrder,
   TokenForChain,
-  getTokenDecimals
+  getTokenDecimals,
+  useCreatePreSignTradeOrder,
+  useOnChainCancelOrder
 } from '@jetstreamgg/hooks';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { formatBigInt, getEtherscanLink, useDebounce } from '@jetstreamgg/utils';
+import { formatBigInt, getEtherscanLink, useDebounce, useIsSmartContractWallet } from '@jetstreamgg/utils';
 import { useAccount, useChainId } from 'wagmi';
 import { t } from '@lingui/core/macro';
 import { TxStatus, notificationTypeMaping } from '@/shared/constants';
@@ -125,7 +126,8 @@ function TradeWidgetWrapped({
   const [formattedExecutedBuyAmount, setFormattedExecutedBuyAmount] = useState<string | undefined>(undefined);
 
   const chainId = useChainId();
-  const { address, isConnecting, isConnected, connector } = useAccount();
+  const { address, isConnecting, isConnected } = useAccount();
+  const isSmartContractWallet = useIsSmartContractWallet();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
   const linguiCtx = useLingui();
 
@@ -270,6 +272,7 @@ function TradeWidgetWrapped({
     amount: lastUpdated === TradeSide.IN ? debouncedOriginAmount : debouncedTargetAmount,
     kind: lastUpdated === TradeSide.IN ? OrderQuoteSideKind.SELL : OrderQuoteSideKind.BUY,
     isEthFlow: originToken?.isNative,
+    isSmartContractWallet,
     slippage,
     enabled:
       (lastUpdated === TradeSide.IN
@@ -421,6 +424,76 @@ function TradeWidgetWrapped({
     }
   });
 
+  const { execute: preSignTradeExecute } = useCreatePreSignTradeOrder({
+    order: quoteData,
+    onStart: (orderId: string) => {
+      setOrderId(orderId as `0x${string}`);
+      setExternalLink(`https://explorer.cow.fi/${chainId === sepolia.id ? 'sepolia/' : ''}orders/${orderId}`);
+      setTxStatus(TxStatus.LOADING);
+      onWidgetStateChange?.({ hash: orderId, widgetState, txStatus: TxStatus.LOADING });
+      setCancelButtonText(t`Cancel order`);
+    },
+    onSuccess: (executedSellAmount: bigint, executedBuyAmount: bigint) => {
+      //hardcoding the locale used for the externalized widget state because the widget consumer expects a constistent formatting
+      const executedSellAmountEnUs = formatBigInt(executedSellAmount, {
+        locale: 'en-US',
+        unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+      });
+      const executedBuyAmountEnUs = formatBigInt(executedBuyAmount, {
+        locale: 'en-US',
+        unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18
+      });
+      setFormattedExecutedSellAmount(executedSellAmountEnUs);
+      setFormattedExecutedBuyAmount(executedBuyAmountEnUs);
+      setOriginAmount(executedSellAmount);
+      setTargetAmount(executedBuyAmount);
+      onNotification?.({
+        title: t`Trade successful`,
+        description: t`You traded ${formatBigInt(executedSellAmount, {
+          locale,
+          unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+        })} ${originToken?.symbol} for ${formatBigInt(executedBuyAmount, {
+          locale,
+          unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18
+        })} ${targetToken?.symbol}`,
+        status: TxStatus.SUCCESS,
+        type: notificationTypeMaping[targetToken?.symbol?.toUpperCase() || 'none']
+      });
+      setTxStatus(TxStatus.SUCCESS);
+      setBackButtonText(t`Back to Trade`);
+      mutateAllowance();
+      refetchOriginBalance();
+      refetchTargetBalance();
+      onWidgetStateChange?.({
+        widgetState,
+        txStatus: TxStatus.SUCCESS,
+        executedBuyAmount: executedBuyAmountEnUs,
+        executedSellAmount: executedSellAmountEnUs
+      });
+      setShowAddToken(true);
+    },
+    onError: (error: Error) => {
+      onNotification?.({
+        title: t`Order creation failed`,
+        description: t`Something went wrong when trying to post the order to the Order Book. Please try again.`,
+        status: TxStatus.ERROR
+      });
+      setTxStatus(TxStatus.ERROR);
+      onWidgetStateChange?.({ widgetState, txStatus: TxStatus.ERROR });
+      console.log(error);
+    },
+    onTransactionError: (error: Error) => {
+      onNotification?.({
+        title: t`Presign transaction error`,
+        description: t`Something went wrong when trying to send the presign transaction. Please try again.`,
+        status: TxStatus.ERROR
+      });
+      setTxStatus(TxStatus.ERROR);
+      onWidgetStateChange?.({ widgetState, txStatus: TxStatus.ERROR });
+      console.log(error);
+    }
+  });
+
   const {
     execute: ethTradeExecute,
     prepareError: ethTradePrepareError,
@@ -502,8 +575,9 @@ function TradeWidgetWrapped({
     }
   });
 
-  const { execute } = useSignAndCancelOrder({
+  const { execute: offChainCancelExecute } = useSignAndCancelOrder({
     orderUids: orderId ? [orderId] : [],
+    enabled: !isSmartContractWallet,
     onStart: () => {
       setCancelLoading(true);
     },
@@ -527,9 +601,41 @@ function TradeWidgetWrapped({
     }
   });
 
-  const onCancelOrderClick = () => {
-    execute();
-  };
+  const { execute: onChainCancelExecute, prepared: onChainCancelPrepared } = useOnChainCancelOrder({
+    orderUid: orderId,
+    enabled: isSmartContractWallet,
+    onStart: (hash: string) => {
+      setCancelLoading(true);
+      addRecentTransaction?.({
+        hash,
+        description: t`Canceling order`
+      });
+      setTxStatus(TxStatus.LOADING);
+      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
+    },
+    onSuccess: () => {
+      onNotification?.({
+        title: t`Cancel successful`,
+        description: t`You successfully cancelled the order`,
+        status: TxStatus.SUCCESS
+      });
+      setTxStatus(TxStatus.CANCELLED);
+      setCancelLoading(false);
+    },
+    onError: (error: Error) => {
+      console.error(error);
+      onNotification?.({
+        title: t`Cancel error`,
+        description: t`Order cancellation attempt failed`,
+        status: TxStatus.SUCCESS
+      });
+      setCancelLoading(false);
+    }
+  });
+
+  const onCancelOrderClick = useCallback(() => {
+    isSmartContractWallet ? onChainCancelExecute() : offChainCancelExecute();
+  }, [isSmartContractWallet, onChainCancelPrepared]);
 
   const prepareError = approvePrepareError || ethTradePrepareError;
 
@@ -567,6 +673,12 @@ function TradeWidgetWrapped({
     (originToken.isNative && isEthTradeLoading) ||
     allowanceLoading ||
     isAmountWaitingForDebounce;
+
+  useEffect(() => {
+    if (!originToken?.isNative && isSmartContractWallet) {
+      setCancelLoading(!onChainCancelPrepared);
+    }
+  }, [isSmartContractWallet, onChainCancelPrepared]);
 
   useEffect(() => {
     if (isConnectedAndEnabled) {
@@ -667,12 +779,6 @@ function TradeWidgetWrapped({
         )
     );
   }, [isQuoteLoading, isConnectedAndEnabled, approveDisabled, tradeDisabled, widgetState.action]);
-
-  useEffect(() => {
-    if (connector?.id === SAFE_CONNECTOR_ID) {
-      setIsDisabled(true);
-    }
-  }, [connector?.id]);
 
   // set isLoading to be consumed by WidgetButton
   useEffect(() => {
@@ -815,7 +921,7 @@ function TradeWidgetWrapped({
       setEthFlowTxStatus(EthFlowTxStatus.INITIALIZED);
       ethTradeExecute();
     } else {
-      tradeExecute();
+      isSmartContractWallet ? preSignTradeExecute() : tradeExecute();
     }
   };
 
