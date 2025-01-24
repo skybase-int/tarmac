@@ -8,7 +8,7 @@ interface SavingsWidgetProps {
   disallowedTokens?: { supply: Token[]; withdraw: Token[] };
 }
 
-export function BaseSavingsWidgetDisplay({ externalWidgetState, disallowedTokens }: SavingsWidgetProps) {
+export function L2SavingsWidgetDisplay({ externalWidgetState, disallowedTokens }: SavingsWidgetProps) {
   const addRecentTransaction = useAddRecentTransaction();
   const onConnectModal = useCustomConnectModal();
 

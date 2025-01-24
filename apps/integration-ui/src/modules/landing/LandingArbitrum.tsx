@@ -6,8 +6,8 @@ import { L2SavingsWidgetDisplay } from './widgets/L2SavingsWidgetDisplay';
 import { L2TradeWidgetDisplay } from './widgets/L2TradeWidgetDisplay';
 import { ExternalWidgetState } from '@jetstreamgg/widgets';
 import { ActionButtons } from './components/ActionButtons';
-import { BaseTradeHistory } from '@/components/historyTable/BaseTradeHistory';
-import { BaseSavingsHistory } from '@/components/historyTable/BaseSavingsHistory';
+// import { BaseTradeHistory } from '@/components/historyTable/BaseTradeHistory';
+// import { BaseSavingsHistory } from '@/components/historyTable/BaseSavingsHistory';
 import { TOKENS } from '@jetstreamgg/hooks';
 
 export type CustomNavigation = { href: string; label: string };
@@ -15,7 +15,7 @@ export type CustomNavigation = { href: string; label: string };
 const widgetContainerStyle =
   'bg-card m-2 min-w-[416px] max-w-[376px] rounded-[20px] lg:p-5 lg:pt-11 lg:pr-2.5';
 
-export function LandingBase(): React.ReactElement {
+export function LandingArbitrum(): React.ReactElement {
   const [activeWidget, setActiveWidget] = useState<string>('savings');
   const [restricted, setRestricted] = useState<boolean>(false);
 
@@ -46,16 +46,17 @@ export function LandingBase(): React.ReactElement {
     }
   };
 
-  const renderActiveDetails = () => {
-    switch (activeWidget) {
-      case 'trade':
-        return <BaseTradeHistory />;
-      case 'savings':
-        return <BaseSavingsHistory />;
-      default:
-        return null;
-    }
-  };
+  //TODO: add back
+  // const renderActiveDetails = () => {
+  //   switch (activeWidget) {
+  //     case 'trade':
+  //       return <BaseTradeHistory />;
+  //     case 'savings':
+  //       return <BaseSavingsHistory />;
+  //     default:
+  //       return null;
+  //   }
+  // };
 
   return (
     <div className="p-8">
@@ -90,7 +91,7 @@ export function LandingBase(): React.ReactElement {
         <div className="flex h-[750px] space-x-4 p-4">
           <ErrorBoundary>
             <div className={widgetContainerStyle}>{renderActiveWidget()}</div>
-            <div className="flex-1">{renderActiveDetails()}</div>
+            {/* <div className="flex-1">{renderActiveDetails()}</div> */}
           </ErrorBoundary>
         </div>
       </div>

@@ -4223,7 +4223,8 @@ export const proxyRegistryConfig = { address: proxyRegistryAddress, abi: proxyRe
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const psm3L2Abi = [
   {
@@ -4514,15 +4515,19 @@ export const psm3L2Abi = [
 ] as const;
 
 /**
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const psm3L2Address = {
   8453: '0x1601843c5E9bC251A3272907010AFa41Fa18347E',
-  8555: '0x1601843c5E9bC251A3272907010AFa41Fa18347E'
+  8555: '0x1601843c5E9bC251A3272907010AFa41Fa18347E',
+  42012: '0x1601843c5E9bC251A3272907010AFa41Fa18347E',
+  42161: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831'
 } as const;
 
 /**
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const psm3L2Config = { address: psm3L2Address, abi: psm3L2Abi } as const;
 
@@ -5130,7 +5135,8 @@ export const sUsdsImplementationConfig = {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x5875eEE11Cf8398102FdAd704C9E96607675467a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x5875eEE11Cf8398102FdAd704C9E96607675467a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const sUsdsL2Abi = [
   {
@@ -5163,15 +5169,19 @@ export const sUsdsL2Abi = [
 ] as const;
 
 /**
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x5875eEE11Cf8398102FdAd704C9E96607675467a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x5875eEE11Cf8398102FdAd704C9E96607675467a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const sUsdsL2Address = {
   8453: '0x5875eEE11Cf8398102FdAd704C9E96607675467a',
-  8555: '0x5875eEE11Cf8398102FdAd704C9E96607675467a'
+  8555: '0x5875eEE11Cf8398102FdAd704C9E96607675467a',
+  42012: '0x5875eEE11Cf8398102FdAd704C9E96607675467a',
+  42161: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831'
 } as const;
 
 /**
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x5875eEE11Cf8398102FdAd704C9E96607675467a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x5875eEE11Cf8398102FdAd704C9E96607675467a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const sUsdsL2Config = { address: sUsdsL2Address, abi: sUsdsL2Abi } as const;
 
@@ -6078,7 +6088,8 @@ export const skyConfig = { address: skyAddress, abi: skyAbi } as const;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const skyL2Abi = [
   { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
@@ -6297,15 +6308,19 @@ export const skyL2Abi = [
 ] as const;
 
 /**
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const skyL2Address = {
   8453: '0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a',
-  8555: '0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a'
+  8555: '0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a',
+  42012: '0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a',
+  42161: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831'
 } as const;
 
 /**
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const skyL2Config = { address: skyL2Address, abi: skyL2Abi } as const;
 
@@ -6314,7 +6329,8 @@ export const skyL2Config = { address: skyL2Address, abi: skyL2Abi } as const;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const ssrAuthOracleAbi = [
   { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
@@ -6572,15 +6588,19 @@ export const ssrAuthOracleAbi = [
 ] as const;
 
 /**
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const ssrAuthOracleAddress = {
   8453: '0x65d946e533748A998B1f0E430803e39A6388f7a1',
-  8555: '0x65d946e533748A998B1f0E430803e39A6388f7a1'
+  8555: '0x65d946e533748A998B1f0E430803e39A6388f7a1',
+  42012: '0x65d946e533748A998B1f0E430803e39A6388f7a1',
+  42161: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831'
 } as const;
 
 /**
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const ssrAuthOracleConfig = { address: ssrAuthOracleAddress, abi: ssrAuthOracleAbi } as const;
 
@@ -6682,7 +6702,8 @@ export const usdcConfig = { address: usdcAddress, abi: usdcAbi } as const;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const usdcL2Abi = [
   {
@@ -6747,15 +6768,19 @@ export const usdcL2Abi = [
 ] as const;
 
 /**
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const usdcL2Address = {
   8453: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
-  8555: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
+  8555: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
+  42012: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
+  42161: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831'
 } as const;
 
 /**
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const usdcL2Config = { address: usdcL2Address, abi: usdcL2Abi } as const;
 
@@ -7109,7 +7134,8 @@ export const usdsConfig = { address: usdsAddress, abi: usdsAbi } as const;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x820C137fa70C8691f0e44Dc420a5e53c168921Dc)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x820C137fa70C8691f0e44Dc420a5e53c168921Dc)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const usdsL2Abi = [
   {
@@ -7142,15 +7168,19 @@ export const usdsL2Abi = [
 ] as const;
 
 /**
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x820C137fa70C8691f0e44Dc420a5e53c168921Dc)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x820C137fa70C8691f0e44Dc420a5e53c168921Dc)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const usdsL2Address = {
   8453: '0x820C137fa70C8691f0e44Dc420a5e53c168921Dc',
-  8555: '0x820C137fa70C8691f0e44Dc420a5e53c168921Dc'
+  8555: '0x820C137fa70C8691f0e44Dc420a5e53c168921Dc',
+  42012: '0x820C137fa70C8691f0e44Dc420a5e53c168921Dc',
+  42161: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831'
 } as const;
 
 /**
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x820C137fa70C8691f0e44Dc420a5e53c168921Dc)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x820C137fa70C8691f0e44Dc420a5e53c168921Dc)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const usdsL2Config = { address: usdsL2Address, abi: usdsL2Abi } as const;
 
@@ -14956,14 +14986,16 @@ export const useSimulateProxyRegistryBuild = /*#__PURE__*/ createUseSimulateCont
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadPsm3L2 = /*#__PURE__*/ createUseReadContract({ abi: psm3L2Abi, address: psm3L2Address });
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"convertToAssetValue"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadPsm3L2ConvertToAssetValue = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
@@ -14974,7 +15006,8 @@ export const useReadPsm3L2ConvertToAssetValue = /*#__PURE__*/ createUseReadContr
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"convertToAssets"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadPsm3L2ConvertToAssets = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
@@ -14985,7 +15018,8 @@ export const useReadPsm3L2ConvertToAssets = /*#__PURE__*/ createUseReadContract(
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"convertToShares"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadPsm3L2ConvertToShares = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
@@ -14996,7 +15030,8 @@ export const useReadPsm3L2ConvertToShares = /*#__PURE__*/ createUseReadContract(
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"owner"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadPsm3L2Owner = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
@@ -15007,7 +15042,8 @@ export const useReadPsm3L2Owner = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"pocket"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadPsm3L2Pocket = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
@@ -15018,7 +15054,8 @@ export const useReadPsm3L2Pocket = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"previewDeposit"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadPsm3L2PreviewDeposit = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
@@ -15029,7 +15066,8 @@ export const useReadPsm3L2PreviewDeposit = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"previewSwapExactIn"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadPsm3L2PreviewSwapExactIn = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
@@ -15040,7 +15078,8 @@ export const useReadPsm3L2PreviewSwapExactIn = /*#__PURE__*/ createUseReadContra
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"previewSwapExactOut"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadPsm3L2PreviewSwapExactOut = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
@@ -15051,7 +15090,8 @@ export const useReadPsm3L2PreviewSwapExactOut = /*#__PURE__*/ createUseReadContr
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"previewWithdraw"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadPsm3L2PreviewWithdraw = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
@@ -15062,7 +15102,8 @@ export const useReadPsm3L2PreviewWithdraw = /*#__PURE__*/ createUseReadContract(
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"rateProvider"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadPsm3L2RateProvider = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
@@ -15073,7 +15114,8 @@ export const useReadPsm3L2RateProvider = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"shares"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadPsm3L2Shares = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
@@ -15084,7 +15126,8 @@ export const useReadPsm3L2Shares = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"susds"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadPsm3L2Susds = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
@@ -15095,7 +15138,8 @@ export const useReadPsm3L2Susds = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"totalAssets"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadPsm3L2TotalAssets = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
@@ -15106,7 +15150,8 @@ export const useReadPsm3L2TotalAssets = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"totalShares"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadPsm3L2TotalShares = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
@@ -15117,7 +15162,8 @@ export const useReadPsm3L2TotalShares = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"usdc"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadPsm3L2Usdc = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
@@ -15128,7 +15174,8 @@ export const useReadPsm3L2Usdc = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"usds"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadPsm3L2Usds = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
@@ -15139,7 +15186,8 @@ export const useReadPsm3L2Usds = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link psm3L2Abi}__
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWritePsm3L2 = /*#__PURE__*/ createUseWriteContract({
   abi: psm3L2Abi,
@@ -15149,7 +15197,8 @@ export const useWritePsm3L2 = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"deposit"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWritePsm3L2Deposit = /*#__PURE__*/ createUseWriteContract({
   abi: psm3L2Abi,
@@ -15160,7 +15209,8 @@ export const useWritePsm3L2Deposit = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"renounceOwnership"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWritePsm3L2RenounceOwnership = /*#__PURE__*/ createUseWriteContract({
   abi: psm3L2Abi,
@@ -15171,7 +15221,8 @@ export const useWritePsm3L2RenounceOwnership = /*#__PURE__*/ createUseWriteContr
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"setPocket"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWritePsm3L2SetPocket = /*#__PURE__*/ createUseWriteContract({
   abi: psm3L2Abi,
@@ -15182,7 +15233,8 @@ export const useWritePsm3L2SetPocket = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"swapExactIn"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWritePsm3L2SwapExactIn = /*#__PURE__*/ createUseWriteContract({
   abi: psm3L2Abi,
@@ -15193,7 +15245,8 @@ export const useWritePsm3L2SwapExactIn = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"swapExactOut"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWritePsm3L2SwapExactOut = /*#__PURE__*/ createUseWriteContract({
   abi: psm3L2Abi,
@@ -15204,7 +15257,8 @@ export const useWritePsm3L2SwapExactOut = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"transferOwnership"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWritePsm3L2TransferOwnership = /*#__PURE__*/ createUseWriteContract({
   abi: psm3L2Abi,
@@ -15215,7 +15269,8 @@ export const useWritePsm3L2TransferOwnership = /*#__PURE__*/ createUseWriteContr
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"withdraw"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWritePsm3L2Withdraw = /*#__PURE__*/ createUseWriteContract({
   abi: psm3L2Abi,
@@ -15226,7 +15281,8 @@ export const useWritePsm3L2Withdraw = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link psm3L2Abi}__
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulatePsm3L2 = /*#__PURE__*/ createUseSimulateContract({
   abi: psm3L2Abi,
@@ -15236,7 +15292,8 @@ export const useSimulatePsm3L2 = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"deposit"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulatePsm3L2Deposit = /*#__PURE__*/ createUseSimulateContract({
   abi: psm3L2Abi,
@@ -15247,7 +15304,8 @@ export const useSimulatePsm3L2Deposit = /*#__PURE__*/ createUseSimulateContract(
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"renounceOwnership"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulatePsm3L2RenounceOwnership = /*#__PURE__*/ createUseSimulateContract({
   abi: psm3L2Abi,
@@ -15258,7 +15316,8 @@ export const useSimulatePsm3L2RenounceOwnership = /*#__PURE__*/ createUseSimulat
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"setPocket"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulatePsm3L2SetPocket = /*#__PURE__*/ createUseSimulateContract({
   abi: psm3L2Abi,
@@ -15269,7 +15328,8 @@ export const useSimulatePsm3L2SetPocket = /*#__PURE__*/ createUseSimulateContrac
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"swapExactIn"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulatePsm3L2SwapExactIn = /*#__PURE__*/ createUseSimulateContract({
   abi: psm3L2Abi,
@@ -15280,7 +15340,8 @@ export const useSimulatePsm3L2SwapExactIn = /*#__PURE__*/ createUseSimulateContr
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"swapExactOut"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulatePsm3L2SwapExactOut = /*#__PURE__*/ createUseSimulateContract({
   abi: psm3L2Abi,
@@ -15291,7 +15352,8 @@ export const useSimulatePsm3L2SwapExactOut = /*#__PURE__*/ createUseSimulateCont
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"transferOwnership"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulatePsm3L2TransferOwnership = /*#__PURE__*/ createUseSimulateContract({
   abi: psm3L2Abi,
@@ -15302,7 +15364,8 @@ export const useSimulatePsm3L2TransferOwnership = /*#__PURE__*/ createUseSimulat
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"withdraw"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulatePsm3L2Withdraw = /*#__PURE__*/ createUseSimulateContract({
   abi: psm3L2Abi,
@@ -15313,7 +15376,8 @@ export const useSimulatePsm3L2Withdraw = /*#__PURE__*/ createUseSimulateContract
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link psm3L2Abi}__
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWatchPsm3L2 = /*#__PURE__*/ createUseWatchContractEvent({
   abi: psm3L2Abi,
@@ -15323,7 +15387,8 @@ export const useWatchPsm3L2 = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link psm3L2Abi}__ and `eventName` set to `"Deposit"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWatchPsm3L2Deposit = /*#__PURE__*/ createUseWatchContractEvent({
   abi: psm3L2Abi,
@@ -15334,7 +15399,8 @@ export const useWatchPsm3L2Deposit = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link psm3L2Abi}__ and `eventName` set to `"OwnershipTransferred"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWatchPsm3L2OwnershipTransferred = /*#__PURE__*/ createUseWatchContractEvent({
   abi: psm3L2Abi,
@@ -15345,7 +15411,8 @@ export const useWatchPsm3L2OwnershipTransferred = /*#__PURE__*/ createUseWatchCo
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link psm3L2Abi}__ and `eventName` set to `"PocketSet"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWatchPsm3L2PocketSet = /*#__PURE__*/ createUseWatchContractEvent({
   abi: psm3L2Abi,
@@ -15356,7 +15423,8 @@ export const useWatchPsm3L2PocketSet = /*#__PURE__*/ createUseWatchContractEvent
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link psm3L2Abi}__ and `eventName` set to `"Swap"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWatchPsm3L2Swap = /*#__PURE__*/ createUseWatchContractEvent({
   abi: psm3L2Abi,
@@ -15367,7 +15435,8 @@ export const useWatchPsm3L2Swap = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link psm3L2Abi}__ and `eventName` set to `"Withdraw"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWatchPsm3L2Withdraw = /*#__PURE__*/ createUseWatchContractEvent({
   abi: psm3L2Abi,
@@ -16231,7 +16300,8 @@ export const useWatchSUsdsImplementationWithdraw = /*#__PURE__*/ createUseWatchC
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sUsdsL2Abi}__
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x5875eEE11Cf8398102FdAd704C9E96607675467a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x5875eEE11Cf8398102FdAd704C9E96607675467a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWatchSUsdsL2 = /*#__PURE__*/ createUseWatchContractEvent({
   abi: sUsdsL2Abi,
@@ -16241,7 +16311,8 @@ export const useWatchSUsdsL2 = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sUsdsL2Abi}__ and `eventName` set to `"Upgraded"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x5875eEE11Cf8398102FdAd704C9E96607675467a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x5875eEE11Cf8398102FdAd704C9E96607675467a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWatchSUsdsL2Upgraded = /*#__PURE__*/ createUseWatchContractEvent({
   abi: sUsdsL2Abi,
@@ -17662,14 +17733,16 @@ export const useWatchSkyTransfer = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyL2Abi}__
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSkyL2 = /*#__PURE__*/ createUseReadContract({ abi: skyL2Abi, address: skyL2Address });
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"DOMAIN_SEPARATOR"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSkyL2DomainSeparator = /*#__PURE__*/ createUseReadContract({
   abi: skyL2Abi,
@@ -17680,7 +17753,8 @@ export const useReadSkyL2DomainSeparator = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"PERMIT_TYPEHASH"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSkyL2PermitTypehash = /*#__PURE__*/ createUseReadContract({
   abi: skyL2Abi,
@@ -17691,7 +17765,8 @@ export const useReadSkyL2PermitTypehash = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"allowance"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSkyL2Allowance = /*#__PURE__*/ createUseReadContract({
   abi: skyL2Abi,
@@ -17702,7 +17777,8 @@ export const useReadSkyL2Allowance = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"balanceOf"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSkyL2BalanceOf = /*#__PURE__*/ createUseReadContract({
   abi: skyL2Abi,
@@ -17713,7 +17789,8 @@ export const useReadSkyL2BalanceOf = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"decimals"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSkyL2Decimals = /*#__PURE__*/ createUseReadContract({
   abi: skyL2Abi,
@@ -17724,7 +17801,8 @@ export const useReadSkyL2Decimals = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"deploymentChainId"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSkyL2DeploymentChainId = /*#__PURE__*/ createUseReadContract({
   abi: skyL2Abi,
@@ -17735,7 +17813,8 @@ export const useReadSkyL2DeploymentChainId = /*#__PURE__*/ createUseReadContract
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"name"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSkyL2Name = /*#__PURE__*/ createUseReadContract({
   abi: skyL2Abi,
@@ -17746,7 +17825,8 @@ export const useReadSkyL2Name = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"nonces"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSkyL2Nonces = /*#__PURE__*/ createUseReadContract({
   abi: skyL2Abi,
@@ -17757,7 +17837,8 @@ export const useReadSkyL2Nonces = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"symbol"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSkyL2Symbol = /*#__PURE__*/ createUseReadContract({
   abi: skyL2Abi,
@@ -17768,7 +17849,8 @@ export const useReadSkyL2Symbol = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"totalSupply"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSkyL2TotalSupply = /*#__PURE__*/ createUseReadContract({
   abi: skyL2Abi,
@@ -17779,7 +17861,8 @@ export const useReadSkyL2TotalSupply = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"version"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSkyL2Version = /*#__PURE__*/ createUseReadContract({
   abi: skyL2Abi,
@@ -17790,7 +17873,8 @@ export const useReadSkyL2Version = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"wards"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSkyL2Wards = /*#__PURE__*/ createUseReadContract({
   abi: skyL2Abi,
@@ -17801,14 +17885,16 @@ export const useReadSkyL2Wards = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link skyL2Abi}__
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWriteSkyL2 = /*#__PURE__*/ createUseWriteContract({ abi: skyL2Abi, address: skyL2Address });
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"approve"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWriteSkyL2Approve = /*#__PURE__*/ createUseWriteContract({
   abi: skyL2Abi,
@@ -17819,7 +17905,8 @@ export const useWriteSkyL2Approve = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"burn"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWriteSkyL2Burn = /*#__PURE__*/ createUseWriteContract({
   abi: skyL2Abi,
@@ -17830,7 +17917,8 @@ export const useWriteSkyL2Burn = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"deny"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWriteSkyL2Deny = /*#__PURE__*/ createUseWriteContract({
   abi: skyL2Abi,
@@ -17841,7 +17929,8 @@ export const useWriteSkyL2Deny = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"mint"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWriteSkyL2Mint = /*#__PURE__*/ createUseWriteContract({
   abi: skyL2Abi,
@@ -17852,7 +17941,8 @@ export const useWriteSkyL2Mint = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"permit"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWriteSkyL2Permit = /*#__PURE__*/ createUseWriteContract({
   abi: skyL2Abi,
@@ -17863,7 +17953,8 @@ export const useWriteSkyL2Permit = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"rely"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWriteSkyL2Rely = /*#__PURE__*/ createUseWriteContract({
   abi: skyL2Abi,
@@ -17874,7 +17965,8 @@ export const useWriteSkyL2Rely = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"transfer"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWriteSkyL2Transfer = /*#__PURE__*/ createUseWriteContract({
   abi: skyL2Abi,
@@ -17885,7 +17977,8 @@ export const useWriteSkyL2Transfer = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"transferFrom"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWriteSkyL2TransferFrom = /*#__PURE__*/ createUseWriteContract({
   abi: skyL2Abi,
@@ -17896,7 +17989,8 @@ export const useWriteSkyL2TransferFrom = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link skyL2Abi}__
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulateSkyL2 = /*#__PURE__*/ createUseSimulateContract({
   abi: skyL2Abi,
@@ -17906,7 +18000,8 @@ export const useSimulateSkyL2 = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"approve"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulateSkyL2Approve = /*#__PURE__*/ createUseSimulateContract({
   abi: skyL2Abi,
@@ -17917,7 +18012,8 @@ export const useSimulateSkyL2Approve = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"burn"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulateSkyL2Burn = /*#__PURE__*/ createUseSimulateContract({
   abi: skyL2Abi,
@@ -17928,7 +18024,8 @@ export const useSimulateSkyL2Burn = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"deny"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulateSkyL2Deny = /*#__PURE__*/ createUseSimulateContract({
   abi: skyL2Abi,
@@ -17939,7 +18036,8 @@ export const useSimulateSkyL2Deny = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"mint"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulateSkyL2Mint = /*#__PURE__*/ createUseSimulateContract({
   abi: skyL2Abi,
@@ -17950,7 +18048,8 @@ export const useSimulateSkyL2Mint = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"permit"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulateSkyL2Permit = /*#__PURE__*/ createUseSimulateContract({
   abi: skyL2Abi,
@@ -17961,7 +18060,8 @@ export const useSimulateSkyL2Permit = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"rely"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulateSkyL2Rely = /*#__PURE__*/ createUseSimulateContract({
   abi: skyL2Abi,
@@ -17972,7 +18072,8 @@ export const useSimulateSkyL2Rely = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"transfer"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulateSkyL2Transfer = /*#__PURE__*/ createUseSimulateContract({
   abi: skyL2Abi,
@@ -17983,7 +18084,8 @@ export const useSimulateSkyL2Transfer = /*#__PURE__*/ createUseSimulateContract(
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link skyL2Abi}__ and `functionName` set to `"transferFrom"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulateSkyL2TransferFrom = /*#__PURE__*/ createUseSimulateContract({
   abi: skyL2Abi,
@@ -17994,7 +18096,8 @@ export const useSimulateSkyL2TransferFrom = /*#__PURE__*/ createUseSimulateContr
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link skyL2Abi}__
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWatchSkyL2 = /*#__PURE__*/ createUseWatchContractEvent({
   abi: skyL2Abi,
@@ -18004,7 +18107,8 @@ export const useWatchSkyL2 = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link skyL2Abi}__ and `eventName` set to `"Approval"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWatchSkyL2Approval = /*#__PURE__*/ createUseWatchContractEvent({
   abi: skyL2Abi,
@@ -18015,7 +18119,8 @@ export const useWatchSkyL2Approval = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link skyL2Abi}__ and `eventName` set to `"Deny"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWatchSkyL2Deny = /*#__PURE__*/ createUseWatchContractEvent({
   abi: skyL2Abi,
@@ -18026,7 +18131,8 @@ export const useWatchSkyL2Deny = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link skyL2Abi}__ and `eventName` set to `"Rely"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWatchSkyL2Rely = /*#__PURE__*/ createUseWatchContractEvent({
   abi: skyL2Abi,
@@ -18037,7 +18143,8 @@ export const useWatchSkyL2Rely = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link skyL2Abi}__ and `eventName` set to `"Transfer"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWatchSkyL2Transfer = /*#__PURE__*/ createUseWatchContractEvent({
   abi: skyL2Abi,
@@ -18048,7 +18155,8 @@ export const useWatchSkyL2Transfer = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSsrAuthOracle = /*#__PURE__*/ createUseReadContract({
   abi: ssrAuthOracleAbi,
@@ -18058,7 +18166,8 @@ export const useReadSsrAuthOracle = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"DATA_PROVIDER_ROLE"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSsrAuthOracleDataProviderRole = /*#__PURE__*/ createUseReadContract({
   abi: ssrAuthOracleAbi,
@@ -18069,7 +18178,8 @@ export const useReadSsrAuthOracleDataProviderRole = /*#__PURE__*/ createUseReadC
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"DEFAULT_ADMIN_ROLE"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSsrAuthOracleDefaultAdminRole = /*#__PURE__*/ createUseReadContract({
   abi: ssrAuthOracleAbi,
@@ -18080,7 +18190,8 @@ export const useReadSsrAuthOracleDefaultAdminRole = /*#__PURE__*/ createUseReadC
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"getAPR"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSsrAuthOracleGetApr = /*#__PURE__*/ createUseReadContract({
   abi: ssrAuthOracleAbi,
@@ -18091,7 +18202,8 @@ export const useReadSsrAuthOracleGetApr = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"getChi"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSsrAuthOracleGetChi = /*#__PURE__*/ createUseReadContract({
   abi: ssrAuthOracleAbi,
@@ -18102,7 +18214,8 @@ export const useReadSsrAuthOracleGetChi = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"getConversionRate"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSsrAuthOracleGetConversionRate = /*#__PURE__*/ createUseReadContract({
   abi: ssrAuthOracleAbi,
@@ -18113,7 +18226,8 @@ export const useReadSsrAuthOracleGetConversionRate = /*#__PURE__*/ createUseRead
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"getConversionRateBinomialApprox"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSsrAuthOracleGetConversionRateBinomialApprox = /*#__PURE__*/ createUseReadContract({
   abi: ssrAuthOracleAbi,
@@ -18124,7 +18238,8 @@ export const useReadSsrAuthOracleGetConversionRateBinomialApprox = /*#__PURE__*/
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"getConversionRateLinearApprox"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSsrAuthOracleGetConversionRateLinearApprox = /*#__PURE__*/ createUseReadContract({
   abi: ssrAuthOracleAbi,
@@ -18135,7 +18250,8 @@ export const useReadSsrAuthOracleGetConversionRateLinearApprox = /*#__PURE__*/ c
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"getRho"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSsrAuthOracleGetRho = /*#__PURE__*/ createUseReadContract({
   abi: ssrAuthOracleAbi,
@@ -18146,7 +18262,8 @@ export const useReadSsrAuthOracleGetRho = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"getRoleAdmin"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSsrAuthOracleGetRoleAdmin = /*#__PURE__*/ createUseReadContract({
   abi: ssrAuthOracleAbi,
@@ -18157,7 +18274,8 @@ export const useReadSsrAuthOracleGetRoleAdmin = /*#__PURE__*/ createUseReadContr
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"getSSR"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSsrAuthOracleGetSsr = /*#__PURE__*/ createUseReadContract({
   abi: ssrAuthOracleAbi,
@@ -18168,7 +18286,8 @@ export const useReadSsrAuthOracleGetSsr = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"getSUSDSData"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSsrAuthOracleGetSusdsData = /*#__PURE__*/ createUseReadContract({
   abi: ssrAuthOracleAbi,
@@ -18179,7 +18298,8 @@ export const useReadSsrAuthOracleGetSusdsData = /*#__PURE__*/ createUseReadContr
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"hasRole"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSsrAuthOracleHasRole = /*#__PURE__*/ createUseReadContract({
   abi: ssrAuthOracleAbi,
@@ -18190,7 +18310,8 @@ export const useReadSsrAuthOracleHasRole = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"maxSSR"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSsrAuthOracleMaxSsr = /*#__PURE__*/ createUseReadContract({
   abi: ssrAuthOracleAbi,
@@ -18201,7 +18322,8 @@ export const useReadSsrAuthOracleMaxSsr = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"supportsInterface"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadSsrAuthOracleSupportsInterface = /*#__PURE__*/ createUseReadContract({
   abi: ssrAuthOracleAbi,
@@ -18212,7 +18334,8 @@ export const useReadSsrAuthOracleSupportsInterface = /*#__PURE__*/ createUseRead
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWriteSsrAuthOracle = /*#__PURE__*/ createUseWriteContract({
   abi: ssrAuthOracleAbi,
@@ -18222,7 +18345,8 @@ export const useWriteSsrAuthOracle = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"grantRole"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWriteSsrAuthOracleGrantRole = /*#__PURE__*/ createUseWriteContract({
   abi: ssrAuthOracleAbi,
@@ -18233,7 +18357,8 @@ export const useWriteSsrAuthOracleGrantRole = /*#__PURE__*/ createUseWriteContra
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"renounceRole"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWriteSsrAuthOracleRenounceRole = /*#__PURE__*/ createUseWriteContract({
   abi: ssrAuthOracleAbi,
@@ -18244,7 +18369,8 @@ export const useWriteSsrAuthOracleRenounceRole = /*#__PURE__*/ createUseWriteCon
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"revokeRole"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWriteSsrAuthOracleRevokeRole = /*#__PURE__*/ createUseWriteContract({
   abi: ssrAuthOracleAbi,
@@ -18255,7 +18381,8 @@ export const useWriteSsrAuthOracleRevokeRole = /*#__PURE__*/ createUseWriteContr
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"setMaxSSR"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWriteSsrAuthOracleSetMaxSsr = /*#__PURE__*/ createUseWriteContract({
   abi: ssrAuthOracleAbi,
@@ -18266,7 +18393,8 @@ export const useWriteSsrAuthOracleSetMaxSsr = /*#__PURE__*/ createUseWriteContra
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"setSUSDSData"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWriteSsrAuthOracleSetSusdsData = /*#__PURE__*/ createUseWriteContract({
   abi: ssrAuthOracleAbi,
@@ -18277,7 +18405,8 @@ export const useWriteSsrAuthOracleSetSusdsData = /*#__PURE__*/ createUseWriteCon
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulateSsrAuthOracle = /*#__PURE__*/ createUseSimulateContract({
   abi: ssrAuthOracleAbi,
@@ -18287,7 +18416,8 @@ export const useSimulateSsrAuthOracle = /*#__PURE__*/ createUseSimulateContract(
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"grantRole"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulateSsrAuthOracleGrantRole = /*#__PURE__*/ createUseSimulateContract({
   abi: ssrAuthOracleAbi,
@@ -18298,7 +18428,8 @@ export const useSimulateSsrAuthOracleGrantRole = /*#__PURE__*/ createUseSimulate
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"renounceRole"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulateSsrAuthOracleRenounceRole = /*#__PURE__*/ createUseSimulateContract({
   abi: ssrAuthOracleAbi,
@@ -18309,7 +18440,8 @@ export const useSimulateSsrAuthOracleRenounceRole = /*#__PURE__*/ createUseSimul
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"revokeRole"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulateSsrAuthOracleRevokeRole = /*#__PURE__*/ createUseSimulateContract({
   abi: ssrAuthOracleAbi,
@@ -18320,7 +18452,8 @@ export const useSimulateSsrAuthOracleRevokeRole = /*#__PURE__*/ createUseSimulat
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"setMaxSSR"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulateSsrAuthOracleSetMaxSsr = /*#__PURE__*/ createUseSimulateContract({
   abi: ssrAuthOracleAbi,
@@ -18331,7 +18464,8 @@ export const useSimulateSsrAuthOracleSetMaxSsr = /*#__PURE__*/ createUseSimulate
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"setSUSDSData"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulateSsrAuthOracleSetSusdsData = /*#__PURE__*/ createUseSimulateContract({
   abi: ssrAuthOracleAbi,
@@ -18342,7 +18476,8 @@ export const useSimulateSsrAuthOracleSetSusdsData = /*#__PURE__*/ createUseSimul
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ssrAuthOracleAbi}__
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWatchSsrAuthOracle = /*#__PURE__*/ createUseWatchContractEvent({
   abi: ssrAuthOracleAbi,
@@ -18352,7 +18487,8 @@ export const useWatchSsrAuthOracle = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `eventName` set to `"RoleAdminChanged"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWatchSsrAuthOracleRoleAdminChanged = /*#__PURE__*/ createUseWatchContractEvent({
   abi: ssrAuthOracleAbi,
@@ -18363,7 +18499,8 @@ export const useWatchSsrAuthOracleRoleAdminChanged = /*#__PURE__*/ createUseWatc
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `eventName` set to `"RoleGranted"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWatchSsrAuthOracleRoleGranted = /*#__PURE__*/ createUseWatchContractEvent({
   abi: ssrAuthOracleAbi,
@@ -18374,7 +18511,8 @@ export const useWatchSsrAuthOracleRoleGranted = /*#__PURE__*/ createUseWatchCont
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `eventName` set to `"RoleRevoked"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWatchSsrAuthOracleRoleRevoked = /*#__PURE__*/ createUseWatchContractEvent({
   abi: ssrAuthOracleAbi,
@@ -18385,7 +18523,8 @@ export const useWatchSsrAuthOracleRoleRevoked = /*#__PURE__*/ createUseWatchCont
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `eventName` set to `"SetMaxSSR"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWatchSsrAuthOracleSetMaxSsr = /*#__PURE__*/ createUseWatchContractEvent({
   abi: ssrAuthOracleAbi,
@@ -18396,7 +18535,8 @@ export const useWatchSsrAuthOracleSetMaxSsr = /*#__PURE__*/ createUseWatchContra
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `eventName` set to `"SetSUSDSData"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWatchSsrAuthOracleSetSusdsData = /*#__PURE__*/ createUseWatchContractEvent({
   abi: ssrAuthOracleAbi,
@@ -18548,14 +18688,16 @@ export const useWatchUsdcUpgraded = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdcL2Abi}__
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadUsdcL2 = /*#__PURE__*/ createUseReadContract({ abi: usdcL2Abi, address: usdcL2Address });
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdcL2Abi}__ and `functionName` set to `"admin"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadUsdcL2Admin = /*#__PURE__*/ createUseReadContract({
   abi: usdcL2Abi,
@@ -18566,7 +18708,8 @@ export const useReadUsdcL2Admin = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdcL2Abi}__ and `functionName` set to `"implementation"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useReadUsdcL2Implementation = /*#__PURE__*/ createUseReadContract({
   abi: usdcL2Abi,
@@ -18577,7 +18720,8 @@ export const useReadUsdcL2Implementation = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdcL2Abi}__
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWriteUsdcL2 = /*#__PURE__*/ createUseWriteContract({
   abi: usdcL2Abi,
@@ -18587,7 +18731,8 @@ export const useWriteUsdcL2 = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdcL2Abi}__ and `functionName` set to `"changeAdmin"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWriteUsdcL2ChangeAdmin = /*#__PURE__*/ createUseWriteContract({
   abi: usdcL2Abi,
@@ -18598,7 +18743,8 @@ export const useWriteUsdcL2ChangeAdmin = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdcL2Abi}__ and `functionName` set to `"upgradeTo"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWriteUsdcL2UpgradeTo = /*#__PURE__*/ createUseWriteContract({
   abi: usdcL2Abi,
@@ -18609,7 +18755,8 @@ export const useWriteUsdcL2UpgradeTo = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdcL2Abi}__ and `functionName` set to `"upgradeToAndCall"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWriteUsdcL2UpgradeToAndCall = /*#__PURE__*/ createUseWriteContract({
   abi: usdcL2Abi,
@@ -18620,7 +18767,8 @@ export const useWriteUsdcL2UpgradeToAndCall = /*#__PURE__*/ createUseWriteContra
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdcL2Abi}__
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulateUsdcL2 = /*#__PURE__*/ createUseSimulateContract({
   abi: usdcL2Abi,
@@ -18630,7 +18778,8 @@ export const useSimulateUsdcL2 = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdcL2Abi}__ and `functionName` set to `"changeAdmin"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulateUsdcL2ChangeAdmin = /*#__PURE__*/ createUseSimulateContract({
   abi: usdcL2Abi,
@@ -18641,7 +18790,8 @@ export const useSimulateUsdcL2ChangeAdmin = /*#__PURE__*/ createUseSimulateContr
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdcL2Abi}__ and `functionName` set to `"upgradeTo"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulateUsdcL2UpgradeTo = /*#__PURE__*/ createUseSimulateContract({
   abi: usdcL2Abi,
@@ -18652,7 +18802,8 @@ export const useSimulateUsdcL2UpgradeTo = /*#__PURE__*/ createUseSimulateContrac
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdcL2Abi}__ and `functionName` set to `"upgradeToAndCall"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useSimulateUsdcL2UpgradeToAndCall = /*#__PURE__*/ createUseSimulateContract({
   abi: usdcL2Abi,
@@ -18663,7 +18814,8 @@ export const useSimulateUsdcL2UpgradeToAndCall = /*#__PURE__*/ createUseSimulate
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdcL2Abi}__
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWatchUsdcL2 = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdcL2Abi,
@@ -18673,7 +18825,8 @@ export const useWatchUsdcL2 = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdcL2Abi}__ and `eventName` set to `"AdminChanged"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWatchUsdcL2AdminChanged = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdcL2Abi,
@@ -18684,7 +18837,8 @@ export const useWatchUsdcL2AdminChanged = /*#__PURE__*/ createUseWatchContractEv
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdcL2Abi}__ and `eventName` set to `"Upgraded"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWatchUsdcL2Upgraded = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdcL2Abi,
@@ -19193,7 +19347,8 @@ export const useWatchUsdsUpgraded = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsL2Abi}__
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x820C137fa70C8691f0e44Dc420a5e53c168921Dc)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x820C137fa70C8691f0e44Dc420a5e53c168921Dc)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWatchUsdsL2 = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdsL2Abi,
@@ -19203,7 +19358,8 @@ export const useWatchUsdsL2 = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsL2Abi}__ and `eventName` set to `"Upgraded"`
  *
- * [__View Contract on Base Basescan__](https://basescan.org/address/0x820C137fa70C8691f0e44Dc420a5e53c168921Dc)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x820C137fa70C8691f0e44Dc420a5e53c168921Dc)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
 export const useWatchUsdsL2Upgraded = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdsL2Abi,

@@ -25,8 +25,8 @@ test('Go to Base Savings, deposit usds and usdc, withdraw usdc and usds', async 
   await expect(page.getByRole('button', { name: 'Transaction overview' })).not.toBeVisible();
 
   //supply usds
-  await page.getByTestId('base-savings-suuply-input').click();
-  await page.getByTestId('base-savings-suuply-input').fill('10');
+  await page.getByTestId('l2-savings-supply-input').click();
+  await page.getByTestId('l2-savings-supply-input').fill('10');
 
   await expect(page.getByRole('button', { name: 'Transaction overview' })).toBeVisible();
 
@@ -38,8 +38,8 @@ test('Go to Base Savings, deposit usds and usdc, withdraw usdc and usds', async 
   await page.getByTestId('undefined-menu-button').click();
   await page.getByRole('button', { name: 'USDC USDC USDC' }).click();
 
-  await page.getByTestId('base-savings-suuply-input').click();
-  await page.getByTestId('base-savings-suuply-input').fill('10');
+  await page.getByTestId('l2-savings-supply-input').click();
+  await page.getByTestId('l2-savings-supply-input').fill('10');
 
   await expect(page.getByRole('button', { name: 'Transaction overview' })).toBeVisible();
 
@@ -50,8 +50,8 @@ test('Go to Base Savings, deposit usds and usdc, withdraw usdc and usds', async 
   await page.getByRole('tab', { name: 'Withdraw' }).click();
 
   //withdraw usdc
-  await page.getByTestId('base-savings-withdraw-input').click();
-  await page.getByTestId('base-savings-withdraw-input').fill('10');
+  await page.getByTestId('l2-savings-withdraw-input').click();
+  await page.getByTestId('l2-savings-withdraw-input').fill('10');
   await expect(page.getByRole('button', { name: 'Transaction overview' })).toBeVisible();
 
   await approveOrPerformAction(page, 'Withdraw');
@@ -62,8 +62,8 @@ test('Go to Base Savings, deposit usds and usdc, withdraw usdc and usds', async 
   await page.getByTestId('undefined-menu-button').click();
   await page.getByRole('button', { name: 'USDS USDS USDS' }).click();
 
-  await page.getByTestId('base-savings-withdraw-input').click();
-  await page.getByTestId('base-savings-withdraw-input').fill('10');
+  await page.getByTestId('l2-savings-withdraw-input').click();
+  await page.getByTestId('l2-savings-withdraw-input').fill('10');
 
   await expect(page.getByRole('button', { name: 'Transaction overview' })).toBeVisible();
 
