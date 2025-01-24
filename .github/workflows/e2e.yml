@@ -1,4 +1,4 @@
-name: ci
+name: Webapp E2E tests
 
 on:
   pull_request:
