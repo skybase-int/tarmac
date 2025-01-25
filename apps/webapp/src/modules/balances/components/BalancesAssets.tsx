@@ -37,7 +37,7 @@ export function BalancesAssets({ chainIds }: BalancesAssetsProps) {
     address,
     chainTokenMap
   });
-  console.log('tokenBalances', tokenBalances);
+
   // map token balances to include price
   const tokenBalancesWithPrices =
     tokenBalances?.map(tokenBalance => {
@@ -79,7 +79,7 @@ export function BalancesAssets({ chainIds }: BalancesAssetsProps) {
 
           return (
             <AssetBalanceCard
-              key={tokenBalance.symbol}
+              key={`${tokenBalance.symbol}-${tokenBalance.chainId}`}
               tokenBalance={tokenBalance}
               priceData={priceData}
               isLoadingPrice={pricesIsLoading}

@@ -64,6 +64,7 @@ export const TokenBalances = ({
           <AssetBalance
             key={tokenBalance.symbol}
             symbol={tokenBalance.symbol}
+            chainId={tokenBalance.chainId}
             isLoading={isLoading}
             decimals={tokenBalance.decimals}
             formatted={tokenBalance.formatted}

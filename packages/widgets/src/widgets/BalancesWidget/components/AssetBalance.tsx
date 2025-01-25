@@ -18,6 +18,7 @@ export const AssetBalance = ({
   formatted,
   priceData,
   value,
+  chainId,
   actionForToken
 }: {
   symbol: string;
@@ -26,6 +27,7 @@ export const AssetBalance = ({
   formatted: string;
   value: bigint;
   priceData: PriceData | undefined;
+  chainId: number;
   actionForToken?: (
     symbol: string,
     balance: string
@@ -61,7 +63,7 @@ export const AssetBalance = ({
         </>
         <>
           <div className={`flex items-center space-x-2 ${shouldShowAction ? 'hidden' : ''}`}>
-            <TokenIcon className="h-8 w-8" token={{ symbol: symbol, name: symbol }} />
+            <TokenIcon className="h-8 w-8" token={{ symbol: symbol, name: symbol }} chainId={chainId} />
             <div className="flex flex-col justify-between">
               <Text>{symbol}</Text>
               <Text className="text-textSecondary text-[13px]">

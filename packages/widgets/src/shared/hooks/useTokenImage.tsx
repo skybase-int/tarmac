@@ -5,9 +5,10 @@ import { isBaseChainId } from '@jetstreamgg/utils';
 const NOT_FOUND = 'image_not_found';
 const EXTENSIONS = ['svg', 'png']; // Add more extensions if needed
 
-export const useTokenImage = (symbol: string) => {
+export const useTokenImage = (symbol: string, chainId?: number) => {
   const [imageSrc, setImageSrc] = useState<string | undefined>();
-  const chainId = useChainId();
+  const connectedChainId = useChainId();
+  const chainIdToUse = chainId || connectedChainId;
 
   useEffect(() => {
     if (!symbol) return;
@@ -22,7 +23,7 @@ export const useTokenImage = (symbol: string) => {
       }
 
       const extension = EXTENSIONS[currentIndex];
-      const path = `/tokens/${isBaseChainId(chainId) ? 'base/' : ''}${symbolLower}.${extension}`;
+      const path = `/tokens/${isBaseChainId(chainIdToUse) ? 'base/' : ''}${symbolLower}.${extension}`;
 
       const img = new Image();
       img.onload = () => {
@@ -36,7 +37,7 @@ export const useTokenImage = (symbol: string) => {
     };
 
     checkNextExtension();
-  }, [symbol, chainId]);
+  }, [symbol, chainIdToUse]);
 
   return imageSrc;
 };

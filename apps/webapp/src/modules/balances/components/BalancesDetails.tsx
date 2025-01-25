@@ -10,6 +10,7 @@ import { BalancesChart } from './BalancesChart';
 import { BoostedRewardsClaim } from '@/modules/rewards/components/BoostedRewardsClaim';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 import { BalancesFaq } from './BalancesFaq';
+import { mainnet, base } from 'wagmi/chains';
 
 export function BalancesDetails() {
   const { bpi } = useBreakpointIndex();
@@ -30,7 +31,7 @@ export function BalancesDetails() {
       {isConnectedAndAcceptedTerms && isDesktop && (
         <DetailSection title={t`Your funds`}>
           <DetailSectionRow>
-            <BalancesAssets />
+            <BalancesAssets chainIds={[mainnet.id, base.id]} />
           </DetailSectionRow>
         </DetailSection>
       )}
