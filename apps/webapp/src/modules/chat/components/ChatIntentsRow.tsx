@@ -2,6 +2,8 @@ import { Button } from '@/components/ui/button';
 import { ChatIntent } from '../types/Chat';
 import { Text } from '@/modules/layout/components/Typography';
 import { useChatContext } from '../context/ChatContext';
+import { useNavigate } from 'react-router-dom';
+import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
 
 type ChatIntentsRowProps = {
   intents: ChatIntent[];
@@ -25,14 +27,20 @@ type IntentRowProps = {
 };
 
 const IntentRow = ({ intent }: IntentRowProps) => {
-  const { setConfirmationModalOpened, setSelectedIntent } = useChatContext();
+  const { setConfirmationModalOpened, setSelectedIntent, modalShown } = useChatContext();
+  const navigate = useNavigate();
+  const intentUrl = useRetainedQueryParams(intent?.url || '');
 
   return (
     <Button
       variant="suggest"
       onClick={() => {
-        setConfirmationModalOpened(true);
-        setSelectedIntent(intent);
+        if (!modalShown) {
+          setConfirmationModalOpened(true);
+          setSelectedIntent(intent);
+        } else {
+          navigate(intentUrl);
+        }
       }}
     >
       {intent.intent_description}
