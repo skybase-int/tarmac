@@ -71,7 +71,11 @@ export function MainApp() {
   const inputAmount = searchParams.get(QueryParams.InputAmount) || undefined;
   const timestamp = searchParams.get(QueryParams.Timestamp) || undefined;
   const network = searchParams.get(QueryParams.Network) || undefined;
-  const chatParam = chatEnabled && searchParams.get(QueryParams.Chat) === 'true';
+  const chatParam =
+    chatEnabled &&
+    (bpi >= BP.xl
+      ? !(searchParams.get(QueryParams.Chat) === 'false')
+      : searchParams.get(QueryParams.Chat) === 'true');
 
   // step is initialized as 0 and will evaluate to false, setting the first step to 1
   const step = linkedAction ? linkedActionConfig.step || 1 : 0;

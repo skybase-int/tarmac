@@ -16,7 +16,11 @@ import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
 export function ChatSwitcher(): JSX.Element {
   const { bpi } = useBreakpointIndex();
   const [searchParams, setSearchParams] = useSearchParams();
-  const showingChat = searchParams.get(QueryParams.Chat) === 'true';
+  const showingChat =
+    bpi >= BP.xl
+      ? !(searchParams.get(QueryParams.Chat) === 'false')
+      : searchParams.get(QueryParams.Chat) === 'true';
+
   const handleSwitch = (pressed: boolean) => {
     const queryParam = pressed ? 'true' : 'false';
     searchParams.set(QueryParams.Chat, queryParam);
