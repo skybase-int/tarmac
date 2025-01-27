@@ -6,13 +6,17 @@ import { AssetBalance } from './AssetBalance';
 
 export const TokenBalances = ({
   actionForToken,
-  customTokenList
+  customTokenList,
+  //TODO: handle passed in chainIds
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  chainIds
 }: {
   actionForToken?: (
     symbol: string,
     balance: string
   ) => { label: string; actionUrl: string; image: string } | undefined;
   customTokenList?: TokenForChain[];
+  chainIds?: number[];
 }) => {
   const { address } = useAccount();
   const chainId = useChainId();

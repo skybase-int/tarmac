@@ -11,7 +11,6 @@ import { BalancesWidgetState } from '@/shared/types/widgetState';
 import { TokenForChain } from '@jetstreamgg/hooks';
 import { Heading } from '@/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
-import { mainnet, base } from 'wagmi/chains';
 
 export interface TokenBalanceResponse extends GetBalanceData {
   tokenAddress?: string;
@@ -22,6 +21,7 @@ interface BalancesContentProps {
   validatedExternalState?: BalancesWidgetState;
   customTokenList?: TokenForChain[];
   hideModuleBalances?: boolean;
+  chainIds?: number[];
   actionForToken?: (
     symbol: string,
     balance: string
@@ -37,6 +37,7 @@ export const BalancesContent = ({
   customTokenList,
   hideModuleBalances,
   actionForToken,
+  chainIds,
   onClickRewardsCard,
   onClickSavingsCard,
   onClickSealCard,
@@ -67,7 +68,7 @@ export const BalancesContent = ({
             <TokenBalances
               actionForToken={actionForToken}
               customTokenList={customTokenList}
-              chainIds={[mainnet.id, base.id]}
+              chainIds={chainIds}
             />
           </motion.div>
         </VStack>
