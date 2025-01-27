@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useMemo, useState } from 'react';
 import { ChatHistory, ChatIntent } from '../types/Chat';
 import { generateUUID } from '../lib/generateUUID';
 import { t } from '@lingui/macro';
@@ -7,12 +7,13 @@ import { CHATBOT_NAME, MessageType, UserType } from '../constants';
 interface ChatContextType {
   isLoading: boolean;
   chatHistory: ChatHistory[];
-  setChatHistory: React.Dispatch<React.SetStateAction<ChatHistory[]>>;
   confirmationModalOpened: boolean;
-  setConfirmationModalOpened: React.Dispatch<React.SetStateAction<boolean>>;
   selectedIntent: ChatIntent | undefined;
-  setSelectedIntent: React.Dispatch<React.SetStateAction<ChatIntent | undefined>>;
   modalShown: boolean;
+  sessionId: string;
+  setChatHistory: React.Dispatch<React.SetStateAction<ChatHistory[]>>;
+  setConfirmationModalOpened: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedIntent: React.Dispatch<React.SetStateAction<ChatIntent | undefined>>;
   setModalShown: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -25,7 +26,8 @@ const ChatContext = createContext<ChatContextType>({
   selectedIntent: undefined,
   setSelectedIntent: () => {},
   modalShown: false,
-  setModalShown: () => {}
+  setModalShown: () => {},
+  sessionId: ''
 });
 
 export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -38,6 +40,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   ];
 
+  const sessionId = useMemo(() => generateUUID(), []);
   const [chatHistory, setChatHistory] = useState<ChatHistory[]>(messages);
   const [selectedIntent, setSelectedIntent] = useState<ChatIntent | undefined>(undefined);
   const [confirmationModalOpened, setConfirmationModalOpened] = useState<boolean>(false);
@@ -55,7 +58,8 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
         selectedIntent,
         setSelectedIntent,
         modalShown,
-        setModalShown
+        setModalShown,
+        sessionId
       }}
     >
       {children}

@@ -62,7 +62,8 @@ const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
     body: JSON.stringify({
       classification_options: actionIntentClassificationOptions,
       input: messagePayload.message,
-      history: messagePayload.history
+      history: messagePayload.history,
+      session_id: messagePayload.session_id
     })
   }).then(response => {
     if (response.ok) {
@@ -74,6 +75,7 @@ const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
+      session_id: messagePayload.session_id,
       input: messagePayload.message,
       limit: 4
     })
@@ -93,7 +95,8 @@ const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
         ...(messagePayload.history || []),
         { id: generateUUID(), message: messagePayload.message, role: 'user' }
       ],
-      slots: slotDefinitions
+      slots: slotDefinitions,
+      session_id: messagePayload.session_id
     })
   }).then(response => {
     if (response.ok) {
@@ -162,7 +165,7 @@ const sendMessageMutation: MutationFunction<
 };
 
 export const useSendMessage = () => {
-  const { chatHistory: history, setChatHistory } = useChatContext();
+  const { chatHistory: history, setChatHistory, sessionId } = useChatContext();
   const { loading: LOADING, error: ERROR, canceled: CANCELED } = MessageType;
   const chainId = useChainId();
   const rewards = useAvailableTokenRewardContracts(chainId);
@@ -178,6 +181,7 @@ export const useSendMessage = () => {
     mutate(
       {
         messagePayload: {
+          session_id: sessionId,
           message,
           history: history
             .filter(record => record.type !== CANCELED)
