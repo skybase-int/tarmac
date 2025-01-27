@@ -30,7 +30,7 @@ export function TokenSelector({
       data-testid={`${dataTestId}-menu-button`}
     >
       {token ? (
-        <HStack className={`text-text  ${disabled ? '' : 'cursor-pointer'} items-center justify-end`} gap={1}>
+        <HStack className={`text-text ${disabled ? '' : 'cursor-pointer'} items-center justify-end`} gap={1}>
           <TokenIcon className="mr-1 h-6 w-6 text-black" fallbackClassName="text-[9px]" token={token} />
           <Text>{token.symbol}</Text>
           {showChevron && (
