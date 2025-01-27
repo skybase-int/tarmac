@@ -12,6 +12,8 @@ interface ChatContextType {
   setConfirmationModalOpened: React.Dispatch<React.SetStateAction<boolean>>;
   selectedIntent: ChatIntent | undefined;
   setSelectedIntent: React.Dispatch<React.SetStateAction<ChatIntent | undefined>>;
+  modalShown: boolean;
+  setModalShown: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ChatContext = createContext<ChatContextType>({
@@ -21,7 +23,9 @@ const ChatContext = createContext<ChatContextType>({
   confirmationModalOpened: false,
   setConfirmationModalOpened: () => {},
   selectedIntent: undefined,
-  setSelectedIntent: () => {}
+  setSelectedIntent: () => {},
+  modalShown: false,
+  setModalShown: () => {}
 });
 
 export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -37,6 +41,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [chatHistory, setChatHistory] = useState<ChatHistory[]>(messages);
   const [selectedIntent, setSelectedIntent] = useState<ChatIntent | undefined>(undefined);
   const [confirmationModalOpened, setConfirmationModalOpened] = useState<boolean>(false);
+  const [modalShown, setModalShown] = useState<boolean>(false);
   const isLoading = chatHistory[chatHistory.length - 1]?.type === MessageType.loading;
 
   return (
@@ -48,7 +53,9 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
         confirmationModalOpened,
         setConfirmationModalOpened,
         selectedIntent,
-        setSelectedIntent
+        setSelectedIntent,
+        modalShown,
+        setModalShown
       }}
     >
       {children}

@@ -13,10 +13,12 @@ import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParam
 export const ChatConfirmationModal: React.FC = () => {
   const {
     confirmationModalOpened,
+    modalShown,
     selectedIntent,
     setConfirmationModalOpened,
     setChatHistory,
-    setSelectedIntent
+    setSelectedIntent,
+    setModalShown
   } = useChatContext();
 
   const selectedIntentUrl = useRetainedQueryParams(selectedIntent?.url || '');
@@ -47,12 +49,13 @@ export const ChatConfirmationModal: React.FC = () => {
 
   const handleConfirm = useCallback(() => {
     setConfirmationModalOpened(false);
+    setModalShown(true);
     selectedIntentUrl && navigate(selectedIntentUrl);
     selectedIntent && onIntentSelected(selectedIntent);
   }, [selectedIntentUrl, setConfirmationModalOpened, navigate, selectedIntent, onIntentSelected]);
 
   return (
-    <Dialog open={confirmationModalOpened} onOpenChange={handleCancel}>
+    <Dialog open={!modalShown && confirmationModalOpened} onOpenChange={handleCancel}>
       <DialogContent className="bg-containerDark flex w-full flex-col items-center justify-center rounded-none p-5 md:w-[480px] md:rounded-2xl md:p-10">
         <Warning boxSize={50} />
 
