@@ -63,7 +63,7 @@
     "framer-motion": "^11.18.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^6.15",
+    "react-router-dom": "^6.28.2",
     "viem": "^2.22.12",
     "wagmi": "^2.14.9"
   },
