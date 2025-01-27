@@ -145,8 +145,8 @@ const CardFooter = React.forwardRef<
 ));
 CardFooter.displayName = 'CardFooter';
 
-const MotionCard = motion(Card);
-const MotionCardContent = motion(CardContent);
+const MotionCard = motion.create(Card);
+const MotionCardContent = motion.create(CardContent);
 
 export {
   Card,
