@@ -4,7 +4,6 @@ import { TradeConfigMenu } from './TradeConfigMenu';
 import { Heading, Text } from '@/shared/components/ui/Typography';
 import { ExternalLink } from '@/shared/components/ExternalLink';
 import { useAccount } from 'wagmi';
-import { SAFE_CONNECTOR_ID, WALLETCONNECT_CONNECTOR } from '../lib/constants';
 import { TokenForChain } from '@jetstreamgg/hooks';
 import { sepolia } from 'viem/chains';
 
@@ -29,7 +28,7 @@ export const TradeHeader = ({
 }: PropTypes): React.ReactElement => {
   const ref = useRef<HTMLDivElement>(null);
   const collisionBoundary = ref.current?.parentElement?.parentElement || null;
-  const { connector, chainId } = useAccount();
+  const { chainId } = useAccount();
   const shouldShowUSDTWarning = originToken?.symbol === 'USDT' && chainId === sepolia.id;
 
   return (
@@ -61,12 +60,6 @@ export const TradeHeader = ({
       {shouldShowUSDTWarning && (
         <Text className="mt-1 text-[11px] font-normal leading-none text-orange-400">
           Need to reset the allowance to 0 before approving a new amount
-        </Text>
-      )}
-      {(connector?.id === WALLETCONNECT_CONNECTOR || connector?.id === SAFE_CONNECTOR_ID) && (
-        <Text className="text-text mt-6 text-sm font-normal leading-none">
-          Currently trades for Safe Smart Accounts and other smart contract wallets are not supported in this
-          app. Please visit the CoW Swap app instead.
         </Text>
       )}
     </div>
