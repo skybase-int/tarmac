@@ -1,6 +1,7 @@
 export interface SendMessageRequest {
   api_key: string;
   chatbot_id: string;
+  session_id: string;
   history: ChatHistory[];
   message: string;
   traceable: boolean;
