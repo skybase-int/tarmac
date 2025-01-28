@@ -794,7 +794,7 @@ const RewardsWidgetWrapped = ({
                   onExternalLinkClicked={onExternalLinkClicked}
                 />
               </motion.div>
-              {amount && !currentError && (
+              {!!amount && !currentError && (
                 <motion.div variants={positionAnimations}>
                   <TransactionOverview
                     title={t`Transaction overview`}
