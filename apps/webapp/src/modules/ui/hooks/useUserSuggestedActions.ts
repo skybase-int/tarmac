@@ -274,7 +274,7 @@ export const useUserSuggestedActions = () => {
 
   const rewardContracts = useAvailableTokenRewardContracts(chainId);
 
-  const prevTokenBalances = useRef<any>();
+  const prevTokenBalances = useRef<any>(null);
 
   useEffect(() => {
     if (!tokenBalances || tokenBalancesIsLoading || tokenBalanceError) return;

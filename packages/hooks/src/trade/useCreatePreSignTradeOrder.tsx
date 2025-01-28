@@ -1,14 +1,20 @@
-import { useAccount, useChainId, useSignTypedData } from 'wagmi';
-import { ORDER_TYPE_FIELDS, cowApiClient } from './constants';
+import { useAccount, useChainId } from 'wagmi';
+import { cowApiClient } from './constants';
 import { OrderQuoteResponse } from './trade';
 import { WriteHookParams } from '../hooks';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
 import { fetchOrderStatus } from './fetchOrderStatus';
-import { gPv2SettlementAddress, gPv2SettlementSepoliaAddress } from '../generated';
+import { useWriteContractFlow } from '../shared/useWriteContractFlow';
+import {
+  gPv2SettlementAbi,
+  gPv2SettlementAddress,
+  gPv2SettlementSepoliaAbi,
+  gPv2SettlementSepoliaAddress
+} from '../generated';
 import { sepolia } from 'viem/chains';
 
-const createTradeOrder = async (order: OrderQuoteResponse, signature: `0x${string}`, chainId: number) => {
+const createTradeOrder = async (order: OrderQuoteResponse, chainId: number) => {
   try {
     const { data: orderId, response } = await cowApiClient[chainId as keyof typeof cowApiClient].POST(
       '/api/v1/orders',
@@ -26,7 +32,7 @@ const createTradeOrder = async (order: OrderQuoteResponse, signature: `0x${strin
           sellTokenBalance: order.quote.sellTokenBalance,
           buyTokenBalance: order.quote.buyTokenBalance,
           signingScheme: order.quote.signingScheme,
-          signature,
+          signature: '0x',
           quoteId: order.id,
           from: order.from,
           appData: order.quote.appData
@@ -45,40 +51,46 @@ const createTradeOrder = async (order: OrderQuoteResponse, signature: `0x${strin
   }
 };
 
-export const useSignAndCreateTradeOrder = ({
+export const useCreatePreSignTradeOrder = ({
   order,
   onStart = () => null,
   onSuccess = () => null,
-  onError = () => null
+  onError = () => null,
+  onTransactionError = () => null
 }: Omit<WriteHookParams, 'onSuccess'> & {
   order: OrderQuoteResponse | null | undefined;
   onSuccess: (executedSellAmount: bigint, executedBuyAmount: bigint) => void;
+  onTransactionError: (error: Error) => void;
 }) => {
   const chainId = useChainId();
   const { address } = useAccount();
 
   const [shouldRefetchOrderStatus, setShouldRefetchOrderStatus] = useState(true);
-
-  const { signTypedData, data: signature } = useSignTypedData({
-    mutation: {
-      onSuccess: signature => {
-        createOrder(signature);
-      },
-      onError: (err: Error) => {
-        onError && onError(err, signature || '');
-      }
-    }
-  });
+  const [shouldSendTransaction, setShouldSendTransaction] = useState(false);
 
   const { data: orderId, mutate: createOrder } = useMutation({
     mutationKey: ['create-cow-trade-order', order?.id],
-    mutationFn: (signature: `0x${string}`) => createTradeOrder(order!, signature, chainId),
+    mutationFn: () => createTradeOrder(order!, chainId),
     onSuccess: data => {
       onStart(data || '');
+      setShouldSendTransaction(true);
     },
     onError: err => {
       onError(err, '');
     }
+  });
+
+  const { execute, prepared } = useWriteContractFlow({
+    address:
+      chainId === sepolia.id
+        ? gPv2SettlementSepoliaAddress[chainId as keyof typeof gPv2SettlementSepoliaAddress]
+        : gPv2SettlementAddress[chainId as keyof typeof gPv2SettlementAddress],
+    abi: chainId === sepolia.id ? gPv2SettlementSepoliaAbi : gPv2SettlementAbi,
+    functionName: 'setPreSignature',
+    args: [orderId! as `0x${string}`, true],
+    chainId,
+    enabled: !!orderId,
+    onError: onTransactionError
   });
 
   const { data: createdOrder } = useQuery({
@@ -97,8 +109,16 @@ export const useSignAndCreateTradeOrder = ({
     }
   }, [createdOrder?.status]);
 
+  useEffect(() => {
+    if (shouldSendTransaction && prepared) {
+      execute();
+      setShouldSendTransaction(false);
+    }
+  }, [shouldSendTransaction, prepared]);
+
   const resetState = useCallback(() => {
     setShouldRefetchOrderStatus(true);
+    setShouldSendTransaction(false);
   }, []);
 
   useEffect(() => {
@@ -111,37 +131,8 @@ export const useSignAndCreateTradeOrder = ({
   return {
     execute: () => {
       if (order && address) {
-        signTypedData({
-          domain: {
-            name: 'Gnosis Protocol',
-            version: 'v2',
-            chainId,
-            verifyingContract:
-              chainId === sepolia.id
-                ? gPv2SettlementSepoliaAddress[chainId as keyof typeof gPv2SettlementSepoliaAddress]
-                : gPv2SettlementAddress[chainId as keyof typeof gPv2SettlementAddress]
-          },
-          types: {
-            Order: ORDER_TYPE_FIELDS
-          },
-          primaryType: 'Order',
-          message: {
-            sellToken: order.quote.sellToken,
-            buyToken: order.quote.buyToken,
-            receiver: address,
-            sellAmount: order.quote.sellAmountToSign,
-            buyAmount: order.quote.buyAmountToSign,
-            validTo: order.quote.validTo,
-            appData: order.quote.appDataHash,
-            feeAmount: 0n,
-            kind: order.quote.kind,
-            partiallyFillable: order.quote.partiallyFillable,
-            sellTokenBalance: order.quote.sellTokenBalance,
-            buyTokenBalance: order.quote.buyTokenBalance
-          }
-        });
+        createOrder();
       }
-    },
-    data: signature
+    }
   };
 };
