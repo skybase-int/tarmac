@@ -13,6 +13,7 @@ import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
 import { LinkedActionSteps } from '@/modules/config/context/ConfigContext';
 import { useSendMessage } from '@/modules/chat/hooks/useSendMessage';
 import { ChatPane } from './ChatPane';
+import { useChatNotification } from '../hooks/useChatNotification';
 
 export function MainApp() {
   const {
@@ -73,12 +74,14 @@ export function MainApp() {
   const network = searchParams.get(QueryParams.Network) || undefined;
   const chatParam =
     chatEnabled &&
-    (bpi >= BP.xl
+    (bpi >= BP['3xl']
       ? !(searchParams.get(QueryParams.Chat) === 'false')
       : searchParams.get(QueryParams.Chat) === 'true');
 
   // step is initialized as 0 and will evaluate to false, setting the first step to 1
   const step = linkedAction ? linkedActionConfig.step || 1 : 0;
+
+  useChatNotification({ isAuthorized: chatEnabled });
 
   // Run validation on search params whenever search params change
   useEffect(() => {

@@ -21,7 +21,8 @@ export function DetailsSwitcher(): JSX.Element {
   const handleSwitch = (pressed: boolean) => {
     const queryParam = pressed ? 'true' : 'false';
     searchParams.set(QueryParams.Details, queryParam);
-    if ([BP.md, BP.lg].includes(bpi) && queryParam) searchParams.set(QueryParams.Chat, 'false');
+    if ([BP.md, BP.lg, BP.xl, BP['2xl']].includes(bpi) && queryParam)
+      searchParams.set(QueryParams.Chat, 'false');
     setSearchParams(searchParams);
   };
 

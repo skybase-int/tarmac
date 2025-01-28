@@ -17,14 +17,14 @@ export function ChatSwitcher(): JSX.Element {
   const { bpi } = useBreakpointIndex();
   const [searchParams, setSearchParams] = useSearchParams();
   const showingChat =
-    bpi >= BP.xl
+    bpi >= BP['3xl']
       ? !(searchParams.get(QueryParams.Chat) === 'false')
       : searchParams.get(QueryParams.Chat) === 'true';
 
   const handleSwitch = (pressed: boolean) => {
     const queryParam = pressed ? 'true' : 'false';
     searchParams.set(QueryParams.Chat, queryParam);
-    if (bpi < BP.xl && queryParam) searchParams.set(QueryParams.Details, 'false');
+    if (bpi < BP['3xl'] && queryParam) searchParams.set(QueryParams.Details, 'false');
     setSearchParams(searchParams);
   };
 
