@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useAccount, useChainId } from 'wagmi';
 import { TOKENS } from '../tokens/tokens.constants';
 import { useTokenAddressMap } from '../tokens/useTokenAddressMap';
-import { SavingsHistory } from '../savings/savings';
+import { SavingsHistory, SavingsHistoryItem } from '../savings/savings';
 
 async function fetchBaseSavingsHistory(
   urlSubgraph: string,
@@ -15,6 +15,11 @@ async function fetchBaseSavingsHistory(
   tokenAddressMap?: Record<string, { symbol: string }>
 ): Promise<SavingsHistory | undefined> {
   if (!address) return [];
+
+  if (!tokenAddressMap || Object.keys(tokenAddressMap).length === 0) {
+    return [];
+  }
+
   const sUsdsAddressForChain = TOKENS.susds.address[chainId];
   const query = gql`
   {
@@ -55,29 +60,59 @@ async function fetchBaseSavingsHistory(
 
   const response = (await request(urlSubgraph, query)) as any;
 
-  const swapsInParsed: SavingsHistory = response.usdsIn.map((e: any) => ({
-    blockTimestamp: new Date(parseInt(e.blockTimestamp) * 1000),
-    transactionHash: e.transactionHash,
-    module: ModuleEnum.SAVINGS,
-    type: TransactionTypeEnum.WITHDRAW,
-    shares: BigInt(e.amountIn),
-    assets: BigInt(e.amountOut),
-    referralCode: e.referralCode,
-    token: tokenAddressMap?.[e.assetOut.toLowerCase()],
-    address: e.sender
-  }));
+  const swapsInParsed: SavingsHistory = response.usdsIn
+    .map((e: any) => {
+      const tokenAddress = e.assetOut.toLowerCase();
+      const token = tokenAddressMap[tokenAddress];
 
-  const swapsOutParsed: SavingsHistory = response.usdsOut.map((e: any) => ({
-    blockTimestamp: new Date(parseInt(e.blockTimestamp) * 1000),
-    transactionHash: e.transactionHash,
-    module: ModuleEnum.SAVINGS,
-    type: TransactionTypeEnum.SUPPLY,
-    assets: BigInt(e.amountIn),
-    shares: BigInt(e.amountOut),
-    referralCode: e.referralCode,
-    token: tokenAddressMap?.[e.assetIn.toLowerCase()],
-    address: e.sender
-  }));
+      if (!token) {
+        console.warn(
+          `Skipping savings withdrawal due to missing token mapping for chainId ${chainId}:`,
+          `token (${tokenAddress}): ${!!token}`
+        );
+        return null;
+      }
+
+      return {
+        blockTimestamp: new Date(parseInt(e.blockTimestamp) * 1000),
+        transactionHash: e.transactionHash,
+        module: ModuleEnum.SAVINGS,
+        type: TransactionTypeEnum.WITHDRAW,
+        shares: BigInt(e.amountIn),
+        assets: BigInt(e.amountOut),
+        referralCode: e.referralCode,
+        token,
+        address: e.sender
+      };
+    })
+    .filter((swap: SavingsHistoryItem | null) => swap !== null);
+
+  const swapsOutParsed: SavingsHistory = response.usdsOut
+    .map((e: any) => {
+      const tokenAddress = e.assetIn.toLowerCase();
+      const token = tokenAddressMap[tokenAddress];
+
+      if (!token) {
+        console.warn(
+          `Skipping savings supply due to missing token mapping for chainId ${chainId}:`,
+          `token (${tokenAddress}): ${!!token}`
+        );
+        return null;
+      }
+
+      return {
+        blockTimestamp: new Date(parseInt(e.blockTimestamp) * 1000),
+        transactionHash: e.transactionHash,
+        module: ModuleEnum.SAVINGS,
+        type: TransactionTypeEnum.SUPPLY,
+        assets: BigInt(e.amountIn),
+        shares: BigInt(e.amountOut),
+        referralCode: e.referralCode,
+        token,
+        address: e.sender
+      };
+    })
+    .filter((swap: SavingsHistoryItem | null) => swap !== null);
 
   return [...swapsInParsed, ...swapsOutParsed].sort(
     (a, b) => b.blockTimestamp.getTime() - a.blockTimestamp.getTime()
@@ -102,8 +137,8 @@ export function useBaseSavingsHistory({
     refetch: mutate,
     isLoading
   } = useQuery({
-    enabled: Boolean(urlSubgraph) && enabled,
-    queryKey: ['base-savings-history', urlSubgraph, address],
+    enabled: Boolean(urlSubgraph) && enabled && Boolean(tokenAddressMap),
+    queryKey: ['base-savings-history', urlSubgraph, address, chainId],
     queryFn: () => fetchBaseSavingsHistory(urlSubgraph, chainId, address, tokenAddressMap)
   });
 

@@ -1,6 +1,7 @@
 import { HStack } from '@/modules/layout/components/HStack';
 import { DetailsSwitcher } from './DetailsSwitcher';
 import { NetworkSwitcher } from './NetworkSwitcher';
+import { JSX } from 'react';
 
 export function DualSwitcher(): JSX.Element {
   return (

@@ -1,4 +1,4 @@
-name: ci
+name: Webapp E2E tests
 
 on:
   pull_request:
@@ -18,7 +18,7 @@ jobs:
             vnet: true
           - test: upgrade.spec
             vnet: true
-          - test: savings.spec
+          - test: mainnet-savings.spec
             vnet: true
           - test: seal.spec
             vnet: true
@@ -57,7 +57,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - run: pnpm exec playwright install --with-deps chromium
+      - name: Build
+        run: pnpm build:packages
+        env:
+          NODE_OPTIONS: "--max-old-space-size=4096"
+
+      - run: pnpm -F webapp exec playwright install --with-deps chromium
 
       - name: Setup VNet (if required)
         if: ${{ matrix.vnet }}
@@ -86,23 +91,3 @@ jobs:
           name: playwright-report-${{ matrix.test }}
           path: playwright-report/
           retention-days: 30
-
-  lint:
-    runs-on: ubuntu-latest
-    env:
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
-        with:
-          version: 9.9.0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Lint
-        run: pnpm lint

@@ -88,7 +88,7 @@ export function useRewardsUserHistory({
     isLoading
   } = useQuery({
     enabled: Boolean(urlSubgraph && rewardContractAddress && userAddress),
-    queryKey: ['rewards-user-history', urlSubgraph, rewardContractAddress, userAddress],
+    queryKey: ['rewards-user-history', urlSubgraph, rewardContractAddress, userAddress, chainId],
     queryFn: () => fetchRewardsUserHistory(urlSubgraph, rewardContractAddress, userAddress || '')
   });
 

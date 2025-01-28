@@ -36,6 +36,9 @@ export default ({ mode }: { mode: string }) => {
       https://virtual.base.rpc.tenderly.co
       https://rpc.sepolia.org
       https://mainnet.base.org
+      https://safe-transaction-mainnet.safe.global
+      https://safe-transaction-base.safe.global
+      https://safe-transaction-sepolia.safe.global
       https://vote.makerdao.com
       https://query-subgraph-testnet.sky.money
       https://query-subgraph-staging.sky.money
@@ -107,6 +110,9 @@ export default ({ mode }: { mode: string }) => {
         }
       }),
       nodePolyfills({
+        globals: {
+          process: false
+        },
         include: ['buffer']
       }),
       react({
