@@ -1,8 +1,11 @@
-import { TxStatus } from './constants';
+import { MessageDescriptor } from '@lingui/core';
+import { TxStatus } from '../constants';
 
 export type TxCardCopyText = {
-  [TxStatus.INITIALIZED]: string;
-  [TxStatus.LOADING]: string;
-  [TxStatus.SUCCESS]: string;
-  [TxStatus.ERROR]: string;
+  [TxStatus.INITIALIZED]: MessageDescriptor;
+  [TxStatus.LOADING]: MessageDescriptor;
+  [TxStatus.SUCCESS]: MessageDescriptor;
+  [TxStatus.ERROR]: MessageDescriptor;
 };
+
+export type TxCardCopyTextWithCancel = TxCardCopyText & { [TxStatus.CANCELLED]: MessageDescriptor };

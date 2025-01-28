@@ -64,7 +64,7 @@ export function BaseSavingsSupplyWithdraw({
       : (convertedBalance?.value || 0n) - originAmount;
 
   return (
-    <VStack className="w-full items-center justify-center ">
+    <VStack className="w-full items-center justify-center">
       <Tabs defaultValue={tabIndex === 0 ? 'left' : 'right'} className="w-full">
         <motion.div variants={positionAnimations}>
           <TabsList className="grid w-full grid-cols-2">

@@ -7,6 +7,7 @@ import { StatsOverviewCardCore } from '@/shared/components/ui/card/StatsOverview
 import { positionAnimations } from '@/shared/animation/presets';
 import { useOverallSkyData } from '@jetstreamgg/hooks';
 import { formatDecimalPercentage } from '@jetstreamgg/utils';
+import { JSX } from 'react';
 
 export const SavingsStatsCardCore = ({
   content,
