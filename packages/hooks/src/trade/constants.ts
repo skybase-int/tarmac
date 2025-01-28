@@ -61,8 +61,3 @@ export const cowApiClient = {
   [mainnet.id]: createClient<paths>({ baseUrl: COW_API_ENDPOINT[mainnet.id] }),
   [sepolia.id]: createClient<paths>({ baseUrl: COW_API_ENDPOINT[sepolia.id] })
 } as const;
-
-export const gpv2SettlementAddress = {
-  [mainnet.id]: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41',
-  [sepolia.id]: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41'
-} as const;

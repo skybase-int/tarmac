@@ -10,7 +10,7 @@ export function BalancesSkyStatsOverview(): React.ReactElement {
   const isRestricted = import.meta.env.VITE_RESTRICTED_BUILD === 'true';
 
   return (
-    <div className="scrollbar-thin flex w-full flex-col justify-between gap-3 lg:overflow-x-scroll  xl:flex-row">
+    <div className="scrollbar-thin flex w-full flex-col justify-between gap-3 lg:overflow-x-scroll xl:flex-row">
       <UsdsTotalSupplyCard />
       {!isRestricted && <SavingsRateCard />}
       {!isRestricted && <SkySavingsRatePoolCard />}

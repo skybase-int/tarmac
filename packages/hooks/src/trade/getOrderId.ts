@@ -1,7 +1,14 @@
 import { hashTypedData, keccak256, parseEventLogs, toBytes, TransactionReceipt } from 'viem';
 import { sepolia } from 'viem/chains';
-import { ethFlowAbi, ethFlowAddress, ethFlowSepoliaAbi, ethFlowSepoliaAddress } from '../generated';
-import { gpv2SettlementAddress, ORDER_TYPE_FIELDS, OrderBalance, OrderQuoteSideKind } from './constants';
+import {
+  ethFlowAbi,
+  ethFlowAddress,
+  ethFlowSepoliaAbi,
+  ethFlowSepoliaAddress,
+  gPv2SettlementAddress,
+  gPv2SettlementSepoliaAddress
+} from '../generated';
+import { ORDER_TYPE_FIELDS, OrderBalance, OrderQuoteSideKind } from './constants';
 
 const getBalance = (balance: string, isSell: boolean) => {
   switch (balance) {
@@ -63,7 +70,10 @@ export const getOrderId = (
           name: 'Gnosis Protocol',
           version: 'v2',
           chainId,
-          verifyingContract: gpv2SettlementAddress[chainId as keyof typeof gpv2SettlementAddress]
+          verifyingContract:
+            chainId === sepolia.id
+              ? gPv2SettlementSepoliaAddress[chainId as keyof typeof gPv2SettlementSepoliaAddress]
+              : gPv2SettlementAddress[chainId as keyof typeof gPv2SettlementAddress]
         },
         types: {
           Order: ORDER_TYPE_FIELDS
