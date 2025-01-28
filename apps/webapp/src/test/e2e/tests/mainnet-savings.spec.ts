@@ -351,17 +351,17 @@ test('Details pane shows right data', async ({ page }) => {
   await connectMockWalletAndAcceptTerms(page);
   await page.getByRole('tab', { name: 'Savings' }).click();
 
-  const balanceDetails = await page
-    .getByTestId('savings-stats-section')
-    .getByText('100 USDS', { exact: true })
-    .innerText();
+  // Wait for data point to be ready
+  await expect(page.getByTestId('savings-remaining-balance-details')).toHaveText('USDS');
+
+  const balanceDetails = await page.getByTestId('savings-remaining-balance-details').innerText();
   await expect(page.getByTestId('supply-input-savings-balance')).toHaveText(balanceDetails);
 
   await page.getByRole('tab', { name: 'Withdraw' }).click();
-  const detailsSuppliedBalance = await page
-    .getByTestId('savings-stats-section')
-    .getByText('102 USDS', { exact: true })
-    .innerText();
+  // Wait for data point to be ready
+  await expect(page.getByTestId('savings-supplied-balance-details')).toHaveText('USDS');
+
+  const detailsSuppliedBalance = await page.getByTestId('savings-supplied-balance-details').innerText();
   await expect(page.getByTestId('supplied-balance')).toHaveText(detailsSuppliedBalance);
 
   // close details pane
