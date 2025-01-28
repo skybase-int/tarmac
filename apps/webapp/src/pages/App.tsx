@@ -5,7 +5,6 @@ import { mockWagmiConfig } from '@/data/wagmi/config/config.e2e';
 import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router';
-import { HelmetProvider } from 'react-helmet-async';
 import { I18nProvider } from '@lingui/react';
 import { i18n } from '@lingui/core';
 import { Toaster } from '@/components/ui/toaster';
@@ -30,23 +29,21 @@ const config = useMock ? mockWagmiConfig : useTestnetConfig ? wagmiConfigDev : w
 const queryClient = new QueryClient();
 
 export const App = () => (
-  <HelmetProvider>
-    <I18nProvider i18n={i18n}>
-      <WagmiProvider config={config}>
-        <QueryClientProvider client={queryClient}>
-          <RainbowKitProvider theme={rainbowTheme} avatar={CustomAvatar} showRecentTransactions={true}>
-            <ConnectedProvider>
-              <TermsModalProvider>
-                <TooltipProvider delayDuration={300}>
-                  <ExternalLinkModal />
-                  <Toaster />
-                  <RouterProvider router={router} />
-                </TooltipProvider>
-              </TermsModalProvider>
-            </ConnectedProvider>
-          </RainbowKitProvider>
-        </QueryClientProvider>
-      </WagmiProvider>
-    </I18nProvider>
-  </HelmetProvider>
+  <I18nProvider i18n={i18n}>
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider theme={rainbowTheme} avatar={CustomAvatar} showRecentTransactions={true}>
+          <ConnectedProvider>
+            <TermsModalProvider>
+              <TooltipProvider delayDuration={300}>
+                <ExternalLinkModal />
+                <Toaster />
+                <RouterProvider router={router} />
+              </TooltipProvider>
+            </TermsModalProvider>
+          </ConnectedProvider>
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  </I18nProvider>
 );
