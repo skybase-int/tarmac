@@ -21,13 +21,10 @@ export function BalancesAssets({ chainIds }: BalancesAssetsProps) {
   const { data: pricesData, isLoading: pricesIsLoading, error: pricesError } = usePrices();
 
   // Create an object mapping chainIds to their tokens
-  const chainTokenMap = chainsToQuery.reduce<Record<number, TokenItem[]>>(
-    (acc, chainId) => ({
-      ...acc,
-      [chainId]: defaultConfig.balancesTokenList[chainId] ?? []
-    }),
-    {}
-  );
+  const chainTokenMap: Record<number, TokenItem[]> = {};
+  for (const chainId of chainsToQuery) {
+    chainTokenMap[chainId] = defaultConfig.balancesTokenList[chainId] ?? [];
+  }
 
   const {
     data: tokenBalances,
