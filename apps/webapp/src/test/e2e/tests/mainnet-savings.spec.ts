@@ -352,14 +352,14 @@ test('Details pane shows right data', async ({ page }) => {
   await page.getByRole('tab', { name: 'Savings' }).click();
 
   // Wait for data point to be ready
-  await expect(page.getByTestId('savings-remaining-balance-details')).toHaveText('USDS');
+  await expect(page.getByTestId('savings-remaining-balance-details')).toContainText('USDS');
 
   const balanceDetails = await page.getByTestId('savings-remaining-balance-details').innerText();
   await expect(page.getByTestId('supply-input-savings-balance')).toHaveText(balanceDetails);
 
   await page.getByRole('tab', { name: 'Withdraw' }).click();
   // Wait for data point to be ready
-  await expect(page.getByTestId('savings-supplied-balance-details')).toHaveText('USDS');
+  await expect(page.getByTestId('savings-supplied-balance-details')).toContainText('USDS');
 
   const detailsSuppliedBalance = await page.getByTestId('savings-supplied-balance-details').innerText();
   await expect(page.getByTestId('supplied-balance')).toHaveText(detailsSuppliedBalance);
