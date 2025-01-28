@@ -2,7 +2,7 @@ import { LinkedActionSteps, StepIndicatorStates, StepMap } from '@/modules/confi
 import { Success } from '@/modules/icons';
 import { HStack } from '@/modules/layout/components/HStack';
 import { Text } from '@/modules/layout/components/Typography';
-import React, { useEffect, useRef } from 'react';
+import React, { JSX, useEffect, useRef } from 'react';
 
 export const ArrowStepIndicator = ({
   step,

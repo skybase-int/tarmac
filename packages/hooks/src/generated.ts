@@ -1063,6 +1063,530 @@ export const ethFlowSepoliaAddress = {
 export const ethFlowSepoliaConfig = { address: ethFlowSepoliaAddress, abi: ethFlowSepoliaAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// gPv2Settlement
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const gPv2SettlementAbi = [
+  {
+    type: 'constructor',
+    inputs: [
+      { name: 'authenticator_', internalType: 'contract GPv2Authentication', type: 'address' },
+      { name: 'vault_', internalType: 'contract IVault', type: 'address' }
+    ],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'target', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'selector', internalType: 'bytes4', type: 'bytes4', indexed: false }
+    ],
+    name: 'Interaction'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'orderUid', internalType: 'bytes', type: 'bytes', indexed: false }
+    ],
+    name: 'OrderInvalidated'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'orderUid', internalType: 'bytes', type: 'bytes', indexed: false },
+      { name: 'signed', internalType: 'bool', type: 'bool', indexed: false }
+    ],
+    name: 'PreSignature'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'solver', internalType: 'address', type: 'address', indexed: true }],
+    name: 'Settlement'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'sellToken', internalType: 'contract IERC20', type: 'address', indexed: false },
+      { name: 'buyToken', internalType: 'contract IERC20', type: 'address', indexed: false },
+      { name: 'sellAmount', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'buyAmount', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'feeAmount', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'orderUid', internalType: 'bytes', type: 'bytes', indexed: false }
+    ],
+    name: 'Trade'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'authenticator',
+    outputs: [{ name: '', internalType: 'contract GPv2Authentication', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'domainSeparator',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'bytes', type: 'bytes' }],
+    name: 'filledAmount',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'orderUids', internalType: 'bytes[]', type: 'bytes[]' }],
+    name: 'freeFilledAmountStorage',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'orderUids', internalType: 'bytes[]', type: 'bytes[]' }],
+    name: 'freePreSignatureStorage',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'offset', internalType: 'uint256', type: 'uint256' },
+      { name: 'length', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'getStorageAt',
+    outputs: [{ name: '', internalType: 'bytes', type: 'bytes' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'orderUid', internalType: 'bytes', type: 'bytes' }],
+    name: 'invalidateOrder',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'bytes', type: 'bytes' }],
+    name: 'preSignature',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'orderUid', internalType: 'bytes', type: 'bytes' },
+      { name: 'signed', internalType: 'bool', type: 'bool' }
+    ],
+    name: 'setPreSignature',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'tokens', internalType: 'contract IERC20[]', type: 'address[]' },
+      { name: 'clearingPrices', internalType: 'uint256[]', type: 'uint256[]' },
+      {
+        name: 'trades',
+        internalType: 'struct GPv2Trade.Data[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'sellTokenIndex', internalType: 'uint256', type: 'uint256' },
+          { name: 'buyTokenIndex', internalType: 'uint256', type: 'uint256' },
+          { name: 'receiver', internalType: 'address', type: 'address' },
+          { name: 'sellAmount', internalType: 'uint256', type: 'uint256' },
+          { name: 'buyAmount', internalType: 'uint256', type: 'uint256' },
+          { name: 'validTo', internalType: 'uint32', type: 'uint32' },
+          { name: 'appData', internalType: 'bytes32', type: 'bytes32' },
+          { name: 'feeAmount', internalType: 'uint256', type: 'uint256' },
+          { name: 'flags', internalType: 'uint256', type: 'uint256' },
+          { name: 'executedAmount', internalType: 'uint256', type: 'uint256' },
+          { name: 'signature', internalType: 'bytes', type: 'bytes' }
+        ]
+      },
+      {
+        name: 'interactions',
+        internalType: 'struct GPv2Interaction.Data[][3]',
+        type: 'tuple[][3]',
+        components: [
+          { name: 'target', internalType: 'address', type: 'address' },
+          { name: 'value', internalType: 'uint256', type: 'uint256' },
+          { name: 'callData', internalType: 'bytes', type: 'bytes' }
+        ]
+      }
+    ],
+    name: 'settle',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'targetContract', internalType: 'address', type: 'address' },
+      { name: 'calldataPayload', internalType: 'bytes', type: 'bytes' }
+    ],
+    name: 'simulateDelegatecall',
+    outputs: [{ name: 'response', internalType: 'bytes', type: 'bytes' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'targetContract', internalType: 'address', type: 'address' },
+      { name: 'calldataPayload', internalType: 'bytes', type: 'bytes' }
+    ],
+    name: 'simulateDelegatecallInternal',
+    outputs: [{ name: 'response', internalType: 'bytes', type: 'bytes' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'swaps',
+        internalType: 'struct IVault.BatchSwapStep[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'poolId', internalType: 'bytes32', type: 'bytes32' },
+          { name: 'assetInIndex', internalType: 'uint256', type: 'uint256' },
+          { name: 'assetOutIndex', internalType: 'uint256', type: 'uint256' },
+          { name: 'amount', internalType: 'uint256', type: 'uint256' },
+          { name: 'userData', internalType: 'bytes', type: 'bytes' }
+        ]
+      },
+      { name: 'tokens', internalType: 'contract IERC20[]', type: 'address[]' },
+      {
+        name: 'trade',
+        internalType: 'struct GPv2Trade.Data',
+        type: 'tuple',
+        components: [
+          { name: 'sellTokenIndex', internalType: 'uint256', type: 'uint256' },
+          { name: 'buyTokenIndex', internalType: 'uint256', type: 'uint256' },
+          { name: 'receiver', internalType: 'address', type: 'address' },
+          { name: 'sellAmount', internalType: 'uint256', type: 'uint256' },
+          { name: 'buyAmount', internalType: 'uint256', type: 'uint256' },
+          { name: 'validTo', internalType: 'uint32', type: 'uint32' },
+          { name: 'appData', internalType: 'bytes32', type: 'bytes32' },
+          { name: 'feeAmount', internalType: 'uint256', type: 'uint256' },
+          { name: 'flags', internalType: 'uint256', type: 'uint256' },
+          { name: 'executedAmount', internalType: 'uint256', type: 'uint256' },
+          { name: 'signature', internalType: 'bytes', type: 'bytes' }
+        ]
+      }
+    ],
+    name: 'swap',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'vault',
+    outputs: [{ name: '', internalType: 'contract IVault', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'vaultRelayer',
+    outputs: [{ name: '', internalType: 'contract GPv2VaultRelayer', type: 'address' }],
+    stateMutability: 'view'
+  },
+  { type: 'receive', stateMutability: 'payable' }
+] as const;
+
+/**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const gPv2SettlementAddress = {
+  1: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41',
+  314310: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41'
+} as const;
+
+/**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const gPv2SettlementConfig = { address: gPv2SettlementAddress, abi: gPv2SettlementAbi } as const;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// gPv2SettlementSepolia
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const gPv2SettlementSepoliaAbi = [
+  {
+    type: 'constructor',
+    inputs: [
+      { name: 'authenticator_', internalType: 'contract GPv2Authentication', type: 'address' },
+      { name: 'vault_', internalType: 'contract IVault', type: 'address' }
+    ],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'target', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'selector', internalType: 'bytes4', type: 'bytes4', indexed: false }
+    ],
+    name: 'Interaction'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'orderUid', internalType: 'bytes', type: 'bytes', indexed: false }
+    ],
+    name: 'OrderInvalidated'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'orderUid', internalType: 'bytes', type: 'bytes', indexed: false },
+      { name: 'signed', internalType: 'bool', type: 'bool', indexed: false }
+    ],
+    name: 'PreSignature'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'solver', internalType: 'address', type: 'address', indexed: true }],
+    name: 'Settlement'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'sellToken', internalType: 'contract IERC20', type: 'address', indexed: false },
+      { name: 'buyToken', internalType: 'contract IERC20', type: 'address', indexed: false },
+      { name: 'sellAmount', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'buyAmount', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'feeAmount', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'orderUid', internalType: 'bytes', type: 'bytes', indexed: false }
+    ],
+    name: 'Trade'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'authenticator',
+    outputs: [{ name: '', internalType: 'contract GPv2Authentication', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'domainSeparator',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'bytes', type: 'bytes' }],
+    name: 'filledAmount',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'orderUids', internalType: 'bytes[]', type: 'bytes[]' }],
+    name: 'freeFilledAmountStorage',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'orderUids', internalType: 'bytes[]', type: 'bytes[]' }],
+    name: 'freePreSignatureStorage',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'offset', internalType: 'uint256', type: 'uint256' },
+      { name: 'length', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'getStorageAt',
+    outputs: [{ name: '', internalType: 'bytes', type: 'bytes' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'orderUid', internalType: 'bytes', type: 'bytes' }],
+    name: 'invalidateOrder',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'bytes', type: 'bytes' }],
+    name: 'preSignature',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'orderUid', internalType: 'bytes', type: 'bytes' },
+      { name: 'signed', internalType: 'bool', type: 'bool' }
+    ],
+    name: 'setPreSignature',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'tokens', internalType: 'contract IERC20[]', type: 'address[]' },
+      { name: 'clearingPrices', internalType: 'uint256[]', type: 'uint256[]' },
+      {
+        name: 'trades',
+        internalType: 'struct GPv2Trade.Data[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'sellTokenIndex', internalType: 'uint256', type: 'uint256' },
+          { name: 'buyTokenIndex', internalType: 'uint256', type: 'uint256' },
+          { name: 'receiver', internalType: 'address', type: 'address' },
+          { name: 'sellAmount', internalType: 'uint256', type: 'uint256' },
+          { name: 'buyAmount', internalType: 'uint256', type: 'uint256' },
+          { name: 'validTo', internalType: 'uint32', type: 'uint32' },
+          { name: 'appData', internalType: 'bytes32', type: 'bytes32' },
+          { name: 'feeAmount', internalType: 'uint256', type: 'uint256' },
+          { name: 'flags', internalType: 'uint256', type: 'uint256' },
+          { name: 'executedAmount', internalType: 'uint256', type: 'uint256' },
+          { name: 'signature', internalType: 'bytes', type: 'bytes' }
+        ]
+      },
+      {
+        name: 'interactions',
+        internalType: 'struct GPv2Interaction.Data[][3]',
+        type: 'tuple[][3]',
+        components: [
+          { name: 'target', internalType: 'address', type: 'address' },
+          { name: 'value', internalType: 'uint256', type: 'uint256' },
+          { name: 'callData', internalType: 'bytes', type: 'bytes' }
+        ]
+      }
+    ],
+    name: 'settle',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'targetContract', internalType: 'address', type: 'address' },
+      { name: 'calldataPayload', internalType: 'bytes', type: 'bytes' }
+    ],
+    name: 'simulateDelegatecall',
+    outputs: [{ name: 'response', internalType: 'bytes', type: 'bytes' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'targetContract', internalType: 'address', type: 'address' },
+      { name: 'calldataPayload', internalType: 'bytes', type: 'bytes' }
+    ],
+    name: 'simulateDelegatecallInternal',
+    outputs: [{ name: 'response', internalType: 'bytes', type: 'bytes' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'swaps',
+        internalType: 'struct IVault.BatchSwapStep[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'poolId', internalType: 'bytes32', type: 'bytes32' },
+          { name: 'assetInIndex', internalType: 'uint256', type: 'uint256' },
+          { name: 'assetOutIndex', internalType: 'uint256', type: 'uint256' },
+          { name: 'amount', internalType: 'uint256', type: 'uint256' },
+          { name: 'userData', internalType: 'bytes', type: 'bytes' }
+        ]
+      },
+      { name: 'tokens', internalType: 'contract IERC20[]', type: 'address[]' },
+      {
+        name: 'trade',
+        internalType: 'struct GPv2Trade.Data',
+        type: 'tuple',
+        components: [
+          { name: 'sellTokenIndex', internalType: 'uint256', type: 'uint256' },
+          { name: 'buyTokenIndex', internalType: 'uint256', type: 'uint256' },
+          { name: 'receiver', internalType: 'address', type: 'address' },
+          { name: 'sellAmount', internalType: 'uint256', type: 'uint256' },
+          { name: 'buyAmount', internalType: 'uint256', type: 'uint256' },
+          { name: 'validTo', internalType: 'uint32', type: 'uint32' },
+          { name: 'appData', internalType: 'bytes32', type: 'bytes32' },
+          { name: 'feeAmount', internalType: 'uint256', type: 'uint256' },
+          { name: 'flags', internalType: 'uint256', type: 'uint256' },
+          { name: 'executedAmount', internalType: 'uint256', type: 'uint256' },
+          { name: 'signature', internalType: 'bytes', type: 'bytes' }
+        ]
+      }
+    ],
+    name: 'swap',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'vault',
+    outputs: [{ name: '', internalType: 'contract IVault', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'vaultRelayer',
+    outputs: [{ name: '', internalType: 'contract GPv2VaultRelayer', type: 'address' }],
+    stateMutability: 'view'
+  },
+  { type: 'receive', stateMutability: 'payable' }
+] as const;
+
+/**
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const gPv2SettlementSepoliaAddress = {
+  11155111: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41'
+} as const;
+
+/**
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const gPv2SettlementSepoliaConfig = {
+  address: gPv2SettlementSepoliaAddress,
+  abi: gPv2SettlementSepoliaAbi
+} as const;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // lsMkr
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -10138,6 +10662,707 @@ export const useWatchEthFlowSepoliaOrderRefund = /*#__PURE__*/ createUseWatchCon
   abi: ethFlowSepoliaAbi,
   address: ethFlowSepoliaAddress,
   eventName: 'OrderRefund'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link gPv2SettlementAbi}__
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useReadGPv2Settlement = /*#__PURE__*/ createUseReadContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"authenticator"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useReadGPv2SettlementAuthenticator = /*#__PURE__*/ createUseReadContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  functionName: 'authenticator'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"domainSeparator"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useReadGPv2SettlementDomainSeparator = /*#__PURE__*/ createUseReadContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  functionName: 'domainSeparator'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"filledAmount"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useReadGPv2SettlementFilledAmount = /*#__PURE__*/ createUseReadContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  functionName: 'filledAmount'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"getStorageAt"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useReadGPv2SettlementGetStorageAt = /*#__PURE__*/ createUseReadContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  functionName: 'getStorageAt'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"preSignature"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useReadGPv2SettlementPreSignature = /*#__PURE__*/ createUseReadContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  functionName: 'preSignature'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"vault"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useReadGPv2SettlementVault = /*#__PURE__*/ createUseReadContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  functionName: 'vault'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"vaultRelayer"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useReadGPv2SettlementVaultRelayer = /*#__PURE__*/ createUseReadContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  functionName: 'vaultRelayer'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementAbi}__
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWriteGPv2Settlement = /*#__PURE__*/ createUseWriteContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"freeFilledAmountStorage"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWriteGPv2SettlementFreeFilledAmountStorage = /*#__PURE__*/ createUseWriteContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  functionName: 'freeFilledAmountStorage'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"freePreSignatureStorage"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWriteGPv2SettlementFreePreSignatureStorage = /*#__PURE__*/ createUseWriteContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  functionName: 'freePreSignatureStorage'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"invalidateOrder"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWriteGPv2SettlementInvalidateOrder = /*#__PURE__*/ createUseWriteContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  functionName: 'invalidateOrder'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"setPreSignature"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWriteGPv2SettlementSetPreSignature = /*#__PURE__*/ createUseWriteContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  functionName: 'setPreSignature'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"settle"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWriteGPv2SettlementSettle = /*#__PURE__*/ createUseWriteContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  functionName: 'settle'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"simulateDelegatecall"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWriteGPv2SettlementSimulateDelegatecall = /*#__PURE__*/ createUseWriteContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  functionName: 'simulateDelegatecall'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"simulateDelegatecallInternal"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWriteGPv2SettlementSimulateDelegatecallInternal = /*#__PURE__*/ createUseWriteContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  functionName: 'simulateDelegatecallInternal'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"swap"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWriteGPv2SettlementSwap = /*#__PURE__*/ createUseWriteContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  functionName: 'swap'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementAbi}__
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useSimulateGPv2Settlement = /*#__PURE__*/ createUseSimulateContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"freeFilledAmountStorage"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useSimulateGPv2SettlementFreeFilledAmountStorage = /*#__PURE__*/ createUseSimulateContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  functionName: 'freeFilledAmountStorage'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"freePreSignatureStorage"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useSimulateGPv2SettlementFreePreSignatureStorage = /*#__PURE__*/ createUseSimulateContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  functionName: 'freePreSignatureStorage'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"invalidateOrder"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useSimulateGPv2SettlementInvalidateOrder = /*#__PURE__*/ createUseSimulateContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  functionName: 'invalidateOrder'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"setPreSignature"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useSimulateGPv2SettlementSetPreSignature = /*#__PURE__*/ createUseSimulateContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  functionName: 'setPreSignature'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"settle"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useSimulateGPv2SettlementSettle = /*#__PURE__*/ createUseSimulateContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  functionName: 'settle'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"simulateDelegatecall"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useSimulateGPv2SettlementSimulateDelegatecall = /*#__PURE__*/ createUseSimulateContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  functionName: 'simulateDelegatecall'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"simulateDelegatecallInternal"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useSimulateGPv2SettlementSimulateDelegatecallInternal = /*#__PURE__*/ createUseSimulateContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  functionName: 'simulateDelegatecallInternal'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"swap"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useSimulateGPv2SettlementSwap = /*#__PURE__*/ createUseSimulateContract({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  functionName: 'swap'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link gPv2SettlementAbi}__
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWatchGPv2Settlement = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `eventName` set to `"Interaction"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWatchGPv2SettlementInteraction = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  eventName: 'Interaction'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `eventName` set to `"OrderInvalidated"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWatchGPv2SettlementOrderInvalidated = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  eventName: 'OrderInvalidated'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `eventName` set to `"PreSignature"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWatchGPv2SettlementPreSignature = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  eventName: 'PreSignature'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `eventName` set to `"Settlement"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWatchGPv2SettlementSettlement = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  eventName: 'Settlement'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `eventName` set to `"Trade"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWatchGPv2SettlementTrade = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: gPv2SettlementAbi,
+  address: gPv2SettlementAddress,
+  eventName: 'Trade'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useReadGPv2SettlementSepolia = /*#__PURE__*/ createUseReadContract({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `functionName` set to `"authenticator"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useReadGPv2SettlementSepoliaAuthenticator = /*#__PURE__*/ createUseReadContract({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress,
+  functionName: 'authenticator'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `functionName` set to `"domainSeparator"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useReadGPv2SettlementSepoliaDomainSeparator = /*#__PURE__*/ createUseReadContract({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress,
+  functionName: 'domainSeparator'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `functionName` set to `"filledAmount"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useReadGPv2SettlementSepoliaFilledAmount = /*#__PURE__*/ createUseReadContract({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress,
+  functionName: 'filledAmount'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `functionName` set to `"getStorageAt"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useReadGPv2SettlementSepoliaGetStorageAt = /*#__PURE__*/ createUseReadContract({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress,
+  functionName: 'getStorageAt'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `functionName` set to `"preSignature"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useReadGPv2SettlementSepoliaPreSignature = /*#__PURE__*/ createUseReadContract({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress,
+  functionName: 'preSignature'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `functionName` set to `"vault"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useReadGPv2SettlementSepoliaVault = /*#__PURE__*/ createUseReadContract({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress,
+  functionName: 'vault'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `functionName` set to `"vaultRelayer"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useReadGPv2SettlementSepoliaVaultRelayer = /*#__PURE__*/ createUseReadContract({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress,
+  functionName: 'vaultRelayer'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWriteGPv2SettlementSepolia = /*#__PURE__*/ createUseWriteContract({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `functionName` set to `"freeFilledAmountStorage"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWriteGPv2SettlementSepoliaFreeFilledAmountStorage = /*#__PURE__*/ createUseWriteContract({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress,
+  functionName: 'freeFilledAmountStorage'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `functionName` set to `"freePreSignatureStorage"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWriteGPv2SettlementSepoliaFreePreSignatureStorage = /*#__PURE__*/ createUseWriteContract({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress,
+  functionName: 'freePreSignatureStorage'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `functionName` set to `"invalidateOrder"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWriteGPv2SettlementSepoliaInvalidateOrder = /*#__PURE__*/ createUseWriteContract({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress,
+  functionName: 'invalidateOrder'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `functionName` set to `"setPreSignature"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWriteGPv2SettlementSepoliaSetPreSignature = /*#__PURE__*/ createUseWriteContract({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress,
+  functionName: 'setPreSignature'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `functionName` set to `"settle"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWriteGPv2SettlementSepoliaSettle = /*#__PURE__*/ createUseWriteContract({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress,
+  functionName: 'settle'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `functionName` set to `"simulateDelegatecall"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWriteGPv2SettlementSepoliaSimulateDelegatecall = /*#__PURE__*/ createUseWriteContract({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress,
+  functionName: 'simulateDelegatecall'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `functionName` set to `"simulateDelegatecallInternal"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWriteGPv2SettlementSepoliaSimulateDelegatecallInternal = /*#__PURE__*/ createUseWriteContract(
+  {
+    abi: gPv2SettlementSepoliaAbi,
+    address: gPv2SettlementSepoliaAddress,
+    functionName: 'simulateDelegatecallInternal'
+  }
+);
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `functionName` set to `"swap"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWriteGPv2SettlementSepoliaSwap = /*#__PURE__*/ createUseWriteContract({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress,
+  functionName: 'swap'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useSimulateGPv2SettlementSepolia = /*#__PURE__*/ createUseSimulateContract({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `functionName` set to `"freeFilledAmountStorage"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useSimulateGPv2SettlementSepoliaFreeFilledAmountStorage =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: gPv2SettlementSepoliaAbi,
+    address: gPv2SettlementSepoliaAddress,
+    functionName: 'freeFilledAmountStorage'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `functionName` set to `"freePreSignatureStorage"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useSimulateGPv2SettlementSepoliaFreePreSignatureStorage =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: gPv2SettlementSepoliaAbi,
+    address: gPv2SettlementSepoliaAddress,
+    functionName: 'freePreSignatureStorage'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `functionName` set to `"invalidateOrder"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useSimulateGPv2SettlementSepoliaInvalidateOrder = /*#__PURE__*/ createUseSimulateContract({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress,
+  functionName: 'invalidateOrder'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `functionName` set to `"setPreSignature"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useSimulateGPv2SettlementSepoliaSetPreSignature = /*#__PURE__*/ createUseSimulateContract({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress,
+  functionName: 'setPreSignature'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `functionName` set to `"settle"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useSimulateGPv2SettlementSepoliaSettle = /*#__PURE__*/ createUseSimulateContract({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress,
+  functionName: 'settle'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `functionName` set to `"simulateDelegatecall"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useSimulateGPv2SettlementSepoliaSimulateDelegatecall = /*#__PURE__*/ createUseSimulateContract({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress,
+  functionName: 'simulateDelegatecall'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `functionName` set to `"simulateDelegatecallInternal"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useSimulateGPv2SettlementSepoliaSimulateDelegatecallInternal =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: gPv2SettlementSepoliaAbi,
+    address: gPv2SettlementSepoliaAddress,
+    functionName: 'simulateDelegatecallInternal'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `functionName` set to `"swap"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useSimulateGPv2SettlementSepoliaSwap = /*#__PURE__*/ createUseSimulateContract({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress,
+  functionName: 'swap'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWatchGPv2SettlementSepolia = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `eventName` set to `"Interaction"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWatchGPv2SettlementSepoliaInteraction = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress,
+  eventName: 'Interaction'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `eventName` set to `"OrderInvalidated"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWatchGPv2SettlementSepoliaOrderInvalidated = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress,
+  eventName: 'OrderInvalidated'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `eventName` set to `"PreSignature"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWatchGPv2SettlementSepoliaPreSignature = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress,
+  eventName: 'PreSignature'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `eventName` set to `"Settlement"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWatchGPv2SettlementSepoliaSettlement = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress,
+  eventName: 'Settlement'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link gPv2SettlementSepoliaAbi}__ and `eventName` set to `"Trade"`
+ *
+ * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
+ */
+export const useWatchGPv2SettlementSepoliaTrade = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: gPv2SettlementSepoliaAbi,
+  address: gPv2SettlementSepoliaAddress,
+  eventName: 'Trade'
 });
 
 /**
