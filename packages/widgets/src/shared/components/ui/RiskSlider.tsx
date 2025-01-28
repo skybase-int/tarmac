@@ -82,11 +82,7 @@ const RiskSlider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root
         {disabled ? (
           <SliderPrimitive.Thumb className="block h-0 w-0 focus:outline-none" aria-label="Slider">
             <div
-              className={`absolute ${(value?.[0] || 0) > 95 ? '-left-[20px]' : ''} -top-[0.5px] 
-                        h-0 w-0
-                        border-b-[11px] border-l-[5.5px]
-                        border-r-[5.5px] border-b-white
-                        border-l-transparent border-r-transparent`}
+              className={`absolute ${(value?.[0] || 0) > 95 ? '-left-[20px]' : ''} -top-[0.5px] h-0 w-0 border-b-[11px] border-l-[5.5px] border-r-[5.5px] border-b-white border-l-transparent border-r-transparent`}
             />
           </SliderPrimitive.Thumb>
         ) : (

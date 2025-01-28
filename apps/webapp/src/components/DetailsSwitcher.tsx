@@ -11,6 +11,7 @@ import {
   TooltipPortal
 } from '@/components/ui/tooltip';
 import { t } from '@lingui/core/macro';
+import { JSX } from 'react';
 
 export function DetailsSwitcher(): JSX.Element {
   const [searchParams, setSearchParams] = useSearchParams();

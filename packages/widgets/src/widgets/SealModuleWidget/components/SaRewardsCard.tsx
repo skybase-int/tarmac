@@ -59,7 +59,7 @@ export const SaRewardsCard = ({
         selectedRewardContract && getAddress(selectedRewardContract) === getAddress(contractAddress)
           ? 'bg-primary'
           : ''
-      }  ${setSelectedRewardContract ? 'cursor-pointer' : 'cursor-default'}`}
+      } ${setSelectedRewardContract ? 'cursor-pointer' : 'cursor-default'}`}
       headerLeftContent={
         <MotionHStack className="items-center" gap={2} variants={positionAnimations}>
           {rewardContractTokens ? (

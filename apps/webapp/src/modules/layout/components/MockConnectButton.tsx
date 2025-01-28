@@ -1,5 +1,6 @@
 import { useConnect, useAccount } from 'wagmi';
 import { mockWagmiConfig } from '@/data/wagmi/config/config.e2e';
+import { JSX } from 'react';
 
 export function MockConnectButton(): JSX.Element {
   const { connect } = useConnect();
