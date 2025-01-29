@@ -8,10 +8,6 @@ import { interceptAndRejectTransactions } from '../utils/rejectTransaction.ts';
 import { approveOrPerformAction } from '../utils/approveOrPerformAction.ts';
 import { connectMockWalletAndAcceptTerms } from '../utils/connectMockWalletAndAcceptTerms.ts';
 
-test.beforeAll(async () => {
-  await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '100');
-});
-
 test('Supply and withdraw from Savings', async ({ page }) => {
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
@@ -147,7 +143,6 @@ test('Balance changes after a successful withdraw', async ({ page }) => {
 });
 
 test('supply with enough allowance does not require approval', async ({ page }) => {
-  await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '100');
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
   await page.getByRole('tab', { name: 'Savings' }).click();
@@ -204,7 +199,6 @@ test('if not connected it should show a connect button', async ({ page }) => {
 });
 
 test('percentage buttons work', async ({ page }) => {
-  await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '100');
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
   await page.getByRole('tab', { name: 'Savings' }).click();
@@ -295,7 +289,6 @@ test('An approval error redirects to the error screen', async ({ page }) => {
 });
 
 test('A supply error redirects to the error screen', async ({ page }) => {
-  await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '100');
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
   await page.getByRole('tab', { name: 'Savings' }).click();

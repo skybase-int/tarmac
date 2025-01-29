@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import '../mock-rpc-call.ts';
 import '../mock-vpn-check.ts';
 import { setErc20Balance } from '../utils/setBalance.ts';
-import { mcdDaiAddress, usdsAddress, usdcAddress, wethAddress } from '@jetstreamgg/hooks';
+import { mcdDaiAddress, usdsAddress, wethAddress } from '@jetstreamgg/hooks';
 import { TENDERLY_CHAIN_ID } from '@/data/wagmi/config/testTenderlyChain.ts';
 import { interceptAndRejectTransactions } from '../utils/rejectTransaction.ts';
 import { connectMockWalletAndAcceptTerms } from '../utils/connectMockWalletAndAcceptTerms.ts';
@@ -14,7 +14,6 @@ test.beforeEach(async ({ page }) => {
 
 // Trade token that needs allowance
 test('Trade USDC for DAI', async ({ page }) => {
-  await setErc20Balance(usdcAddress[TENDERLY_CHAIN_ID], '10', 6);
   await setErc20Balance(mcdDaiAddress[TENDERLY_CHAIN_ID], '10');
   await connectMockWalletAndAcceptTerms(page);
   await page.getByTestId('trade-input-origin').click();

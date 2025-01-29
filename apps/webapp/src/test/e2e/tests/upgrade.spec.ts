@@ -2,18 +2,14 @@ import { expect, test } from '@playwright/test';
 import '../mock-rpc-call.ts';
 import '../mock-vpn-check.ts';
 import { setErc20Balance } from '../utils/setBalance.ts';
-import { mcdDaiAddress, mkrAddress, usdsAddress } from '@jetstreamgg/hooks';
+import { mcdDaiAddress, usdsAddress } from '@jetstreamgg/hooks';
 import { TENDERLY_CHAIN_ID } from '@/data/wagmi/config/testTenderlyChain.ts';
 import { interceptAndRejectTransactions } from '../utils/rejectTransaction.ts';
 import { approveOrPerformAction } from '../utils/approveOrPerformAction.ts';
 import { connectMockWalletAndAcceptTerms } from '../utils/connectMockWalletAndAcceptTerms.ts';
 
-test.beforeAll(async () => {
-  await setErc20Balance(mcdDaiAddress[TENDERLY_CHAIN_ID], '10');
-  await setErc20Balance(mkrAddress[TENDERLY_CHAIN_ID], '10');
-});
-
 test('Upgrade DAI and revert USDS', async ({ page }) => {
+  await setErc20Balance(mcdDaiAddress[TENDERLY_CHAIN_ID], '10');
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
   await page.getByRole('tab', { name: 'Upgrade' }).click();
@@ -35,6 +31,7 @@ test('Upgrade DAI and revert USDS', async ({ page }) => {
 });
 
 test('Upgrade MKR and revert SKY', async ({ page }) => {
+  await setErc20Balance(mcdDaiAddress[TENDERLY_CHAIN_ID], '10');
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
   await page.getByRole('tab', { name: 'Upgrade' }).click();
@@ -60,9 +57,6 @@ test('Upgrade MKR and revert SKY', async ({ page }) => {
 });
 
 test('Upgrade and revert with insufficient balance', async ({ page }) => {
-  await setErc20Balance(mcdDaiAddress[TENDERLY_CHAIN_ID], '100');
-  await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '100');
-
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
   await page.getByRole('tab', { name: 'Upgrade' }).click();
@@ -130,7 +124,6 @@ test('Balances change after successfully upgrading and reverting', async ({ page
 });
 
 test('Insufficient token allowance triggers approval flow', async ({ page }) => {
-  await setErc20Balance(mcdDaiAddress[TENDERLY_CHAIN_ID], '100');
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
   await page.getByRole('tab', { name: 'Upgrade' }).click();
@@ -179,7 +172,6 @@ test('if not connected it should show a connect button', async ({ page }) => {
 
 // TODO: this test occasionally fails due to wallet not being connect, which might be related to above test
 test('percentage buttons work', async ({ page }) => {
-  await setErc20Balance(mcdDaiAddress[TENDERLY_CHAIN_ID], '100');
   await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '1000');
 
   await page.goto('/');
@@ -232,8 +224,6 @@ test('enter amount button should be disabled', async ({ page }) => {
 });
 
 test('An approval error redirects to the error screen', async ({ page }) => {
-  await setErc20Balance(mcdDaiAddress[TENDERLY_CHAIN_ID], '100');
-  await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '100');
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
   await page.getByRole('tab', { name: 'Upgrade' }).click();
@@ -273,7 +263,6 @@ test('An approval error redirects to the error screen', async ({ page }) => {
 });
 
 test('An upgrade error redirects to the error screen', async ({ page }) => {
-  await setErc20Balance(mcdDaiAddress[TENDERLY_CHAIN_ID], '100');
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
   await page.getByRole('tab', { name: 'Upgrade' }).click();
@@ -294,7 +283,6 @@ test('An upgrade error redirects to the error screen', async ({ page }) => {
 });
 
 test('A revert error redirects to the error screen', async ({ page }) => {
-  await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '100');
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
   await page.getByRole('tab', { name: 'Upgrade' }).click();

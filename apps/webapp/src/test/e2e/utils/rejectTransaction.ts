@@ -1,7 +1,7 @@
 import { Page } from '@playwright/test';
 import { mockRpcCalls } from '../mock-rpc-call';
 
-const URL = 'https://virtual.mainnet.rpc.tenderly.co/**';
+const URL = 'https://virtual.**.rpc.tenderly.co/**';
 
 export const interceptAndRejectTransactions = async (
   page: Page,
