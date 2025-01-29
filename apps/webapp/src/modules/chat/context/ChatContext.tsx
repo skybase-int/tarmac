@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { ChatHistory, ChatIntent } from '../types/Chat';
 import { generateUUID } from '../lib/generateUUID';
 import { t } from '@lingui/macro';
@@ -9,12 +9,13 @@ interface ChatContextType {
   chatHistory: ChatHistory[];
   confirmationModalOpened: boolean;
   selectedIntent: ChatIntent | undefined;
-  modalShown: boolean;
+  modalShown: ChatIntent[];
   sessionId: string;
   setChatHistory: React.Dispatch<React.SetStateAction<ChatHistory[]>>;
   setConfirmationModalOpened: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedIntent: React.Dispatch<React.SetStateAction<ChatIntent | undefined>>;
-  setModalShown: React.Dispatch<React.SetStateAction<boolean>>;
+  setModalShown: React.Dispatch<React.SetStateAction<ChatIntent[]>>;
+  hasShownIntent: (intent?: ChatIntent) => boolean;
 }
 
 const ChatContext = createContext<ChatContextType>({
@@ -25,9 +26,10 @@ const ChatContext = createContext<ChatContextType>({
   setConfirmationModalOpened: () => {},
   selectedIntent: undefined,
   setSelectedIntent: () => {},
-  modalShown: false,
+  modalShown: [],
   setModalShown: () => {},
-  sessionId: ''
+  sessionId: '',
+  hasShownIntent: () => false
 });
 
 export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -44,8 +46,15 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [chatHistory, setChatHistory] = useState<ChatHistory[]>(messages);
   const [selectedIntent, setSelectedIntent] = useState<ChatIntent | undefined>(undefined);
   const [confirmationModalOpened, setConfirmationModalOpened] = useState<boolean>(false);
-  const [modalShown, setModalShown] = useState<boolean>(false);
+  const [modalShown, setModalShown] = useState<ChatIntent[]>([]);
   const isLoading = chatHistory[chatHistory.length - 1]?.type === MessageType.loading;
+  const hasShownIntent = useCallback(
+    (intent?: ChatIntent) => {
+      if (!intent) return false;
+      return modalShown.some(i => i.intent_id === intent.intent_id);
+    },
+    [modalShown]
+  );
 
   return (
     <ChatContext.Provider
@@ -59,7 +68,8 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setSelectedIntent,
         modalShown,
         setModalShown,
-        sessionId
+        sessionId,
+        hasShownIntent
       }}
     >
       {children}

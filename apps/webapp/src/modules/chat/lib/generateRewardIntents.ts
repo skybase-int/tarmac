@@ -4,6 +4,7 @@ import { RewardContract } from '@jetstreamgg/hooks';
 
 export const generateRewardIntents = (slots: Slot[], rewards?: RewardContract[]): ChatIntent[] => {
   const { REWARDS_INTENT: REWARDS } = IntentMapping;
+  const intent_id = REWARDS;
   const { Widget, InputAmount, Chat } = QueryParams;
 
   const amountSlot = slots.find(slot => slot.field === 'amount');
@@ -25,11 +26,13 @@ export const generateRewardIntents = (slots: Slot[], rewards?: RewardContract[])
   if (stakeReward) {
     if (amountSlot && !Number.isNaN(Number(amountSlot.parsed_value))) {
       intents.push({
+        intent_id,
         intent_description: `Access rewards with ${amountSlot.parsed_value} ${stakeReward.supplyToken.symbol}`,
         url: `?${Widget}=${REWARDS}&${InputAmount}=${amountSlot.parsed_value}${stakeReward.contractAddress ? `&reward=${stakeReward.contractAddress}` : ''}&${Chat}=true`
       });
     } else {
       intents.push({
+        intent_id,
         intent_description: `Access rewards with ${stakeReward.supplyToken.symbol}`,
         url: `?${Widget}=${REWARDS}${stakeReward.contractAddress ? `&reward=${stakeReward.contractAddress}` : ''}&${Chat}=true`
       });
@@ -46,12 +49,14 @@ export const generateRewardIntents = (slots: Slot[], rewards?: RewardContract[])
 
   if (targetReward) {
     intents.push({
+      intent_id,
       intent_description: `Get ${targetReward.rewardToken.symbol} rewards with ${targetReward.supplyToken.symbol}`,
       url: `?${Widget}=${REWARDS}${targetReward.contractAddress ? `&reward=${targetReward.contractAddress}` : ''}&${Chat}=true`
     });
   }
 
   intents.push({
+    intent_id,
     intent_description: 'Go to Rewards',
     url: `?${Widget}=${REWARDS}&${Chat}=true`
   });

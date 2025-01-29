@@ -24,6 +24,7 @@ export const handleActionIntent = ({
       return generateUpgradeIntents(slots);
     case SAVINGS_ACTION:
       return generateSavingsIntents(slots);
+    // TODO: add Seal
     default:
       return [];
   }
