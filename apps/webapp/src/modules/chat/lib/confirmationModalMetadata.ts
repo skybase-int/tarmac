@@ -12,15 +12,15 @@ export const CONFIRMATION_MODAL_METADATA: Record<string, { description: string; 
     disclaimer
   },
   [IntentMapping[Intent.UPGRADE_INTENT]]: {
-    description: 'You are about to upgrade your tokens based on our AI chatbot&apos;s suggestion.',
+    description: "You are about to upgrade your tokens based on our AI chatbot's suggestion.",
     disclaimer
   },
   [IntentMapping[Intent.SAVINGS_INTENT]]: {
-    description: 'You are about to deposit into savings based on our AI chatbot&apos;s suggestion.',
+    description: "You are about to deposit into savings based on our AI chatbot's suggestion.",
     disclaimer
   },
   [IntentMapping[Intent.REWARDS_INTENT]]: {
-    description: 'You are about to access rewards based on our AI chatbot&apos;s suggestion.',
+    description: "You are about to access rewards based on our AI chatbot's suggestion.",
     disclaimer
   }
 };
