@@ -50,7 +50,8 @@ test('Go to Base Savings, deposit usds and usdc, withdraw usdc and usds', async 
   await page.getByRole('button', { name: 'USDS USDS USDS' }).click();
 
   await page.getByTestId('base-savings-withdraw-input').click();
-  await page.getByTestId('base-savings-withdraw-input').fill('10');
+  // Due to rounding, sometimes there's not enough sUSDS balance to withdraw the full amount of 10 USDS
+  await page.getByTestId('base-savings-withdraw-input').fill('9');
 
   await expect(page.getByRole('button', { name: 'Transaction overview' })).toBeVisible();
 

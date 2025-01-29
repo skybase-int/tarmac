@@ -1,10 +1,12 @@
 import { expect, test } from '../fixtures.ts';
 import { approveOrPerformAction } from '../utils/approveOrPerformAction.ts';
-import { interceptAndRejectTransactions, revertInterception } from '../utils/rejectTransaction.ts';
+import { interceptAndRejectTransactions } from '../utils/rejectTransaction.ts';
 import { distributeRewards } from '../utils/distributeRewards.ts';
-import { withdrawAllAndReset } from '../utils/rewards.ts';
 import { parseNumberFromString } from '@/lib/helpers/string/parseNumberFromString.ts';
 import { connectMockWalletAndAcceptTerms } from '../utils/connectMockWalletAndAcceptTerms.ts';
+import { setErc20Balance } from '../utils/setBalance.ts';
+import { skyAddress } from '@jetstreamgg/hooks';
+import { TENDERLY_CHAIN_ID } from '@/data/wagmi/config/testTenderlyChain.ts';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -55,8 +57,6 @@ test('A withdraw error redirects to the error screen', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Retry' }).last()).toBeEnabled();
   await page.getByRole('button', { name: 'Retry' }).last().click();
   await expect(page.getByText('An error occurred while withdrawing USDS')).toBeVisible();
-  await revertInterception(page);
-  await withdrawAllAndReset(page);
 });
 
 test('Details pane shows correct history data and layout subsections', async ({ page }) => {
@@ -147,6 +147,9 @@ test('Rewards overview cards redirect to the correct reward contract', async ({ 
 });
 
 test('Claim rewards', async ({ page }) => {
+  // Reset SKY balance to 0 so we can read the amount different at the end
+  await setErc20Balance(skyAddress[TENDERLY_CHAIN_ID], '0');
+
   // First, supply some tokens
   await page.getByTestId('supply-input-rewards').click();
   await page.getByTestId('supply-input-rewards').fill('90');
