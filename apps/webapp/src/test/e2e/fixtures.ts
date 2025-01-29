@@ -27,7 +27,8 @@ type TestFixture = {
 export const test = playwrightTest.extend<TestFixture, WorkerFixture>({
   // One-time setup fixture. This will run once at the beginning of the worker and provide the EVM snapshotIds to the tests or to other fixtures
   snapshotIds: [
-    async (context, use) => {
+    // eslint-disable-next-line no-empty-pattern
+    async ({}, use) => {
       await waitForVnetsReady();
 
       // Fund address before taking the snapshot, so we can return to a point where the address already has the funds
