@@ -38,8 +38,8 @@ function BalancesPage() {
 
 In addition to `WidgetProps`, `BalancesWidget` component also accepts the following props:
 
-- `customTokenList?: TokenForChain[];`
-  - A list of custom tokens to be used in the widget. If provided, this list will override the default list.
+- `customTokenMap?: { [chainId: number]: TokenForChain[]; }`
+  - A map of custom tokens to be used in the widget. If provided, this map will override the default list.
 - `hideModuleBalances?: boolean;`
   - A boolean to hide or show module balances.
 - `actionForToken?: (symbol: string, balance: string) => { label: string; actionUrl: string; image: string } | undefined;`

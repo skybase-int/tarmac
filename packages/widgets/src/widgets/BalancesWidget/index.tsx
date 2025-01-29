@@ -17,7 +17,8 @@ import { useMemo } from 'react';
 import { TokenForChain } from '@jetstreamgg/hooks';
 
 type BalancesWidgetProps = WidgetProps & {
-  customTokenList?: TokenForChain[];
+  customTokenMap?: { [chainId: number]: TokenForChain[] };
+  chainIds?: number[];
   hideModuleBalances?: boolean;
   actionForToken?: (
     symbol: string,
@@ -41,7 +42,8 @@ export const BalancesWidget = ({
   onClickRewardsCard,
   onClickSavingsCard,
   onClickSealCard,
-  customTokenList,
+  customTokenMap,
+  chainIds,
   onExternalLinkClicked
 }: BalancesWidgetProps) => {
   return (
@@ -55,7 +57,8 @@ export const BalancesWidget = ({
           hideModuleBalances={hideModuleBalances}
           enabled={enabled}
           actionForToken={actionForToken}
-          customTokenList={customTokenList}
+          customTokenMap={customTokenMap}
+          chainIds={chainIds}
           onClickRewardsCard={onClickRewardsCard}
           onClickSavingsCard={onClickSavingsCard}
           onClickSealCard={onClickSealCard}
@@ -74,7 +77,8 @@ const BalancesWidgetWrapped = ({
   hideModuleBalances = false,
   enabled = true,
   actionForToken,
-  customTokenList,
+  customTokenMap,
+  chainIds,
   onClickRewardsCard,
   onClickSavingsCard,
   onClickSealCard,
@@ -126,13 +130,14 @@ const BalancesWidgetWrapped = ({
             />
             <BalancesContent
               validatedExternalState={validatedExternalState}
-              customTokenList={customTokenList}
+              customTokenMap={customTokenMap}
               hideModuleBalances={hideModuleBalances}
               actionForToken={actionForToken}
               onClickRewardsCard={onClickRewardsCard}
               onClickSavingsCard={onClickSavingsCard}
               onClickSealCard={onClickSealCard}
               onExternalLinkClicked={onExternalLinkClicked}
+              chainIds={chainIds}
             />
           </CardAnimationWrapper>
         )}

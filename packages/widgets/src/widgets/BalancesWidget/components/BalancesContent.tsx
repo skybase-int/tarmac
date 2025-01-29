@@ -19,7 +19,7 @@ export interface TokenBalanceResponse extends GetBalanceData {
 
 interface BalancesContentProps {
   validatedExternalState?: BalancesWidgetState;
-  customTokenList?: TokenForChain[];
+  customTokenMap?: { [chainId: number]: TokenForChain[] };
   hideModuleBalances?: boolean;
   chainIds?: number[];
   actionForToken?: (
@@ -34,7 +34,7 @@ interface BalancesContentProps {
 
 export const BalancesContent = ({
   validatedExternalState,
-  customTokenList,
+  customTokenMap,
   hideModuleBalances,
   actionForToken,
   chainIds,
@@ -67,7 +67,7 @@ export const BalancesContent = ({
             </Heading>
             <TokenBalances
               actionForToken={actionForToken}
-              customTokenList={customTokenList}
+              customTokenMap={customTokenMap}
               chainIds={chainIds}
             />
           </motion.div>

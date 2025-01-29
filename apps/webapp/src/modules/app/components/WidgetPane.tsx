@@ -23,6 +23,7 @@ import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { defaultConfig } from '@/modules/config/default-config';
 import { useChainId } from 'wagmi';
 import { SealWidgetPane } from '@/modules/seal/components/SealWidgetPane';
+import { getSupportedChainIds } from '@/data/wagmi/config/config.default';
 
 export type WidgetContent = [
   Intent,
@@ -85,7 +86,8 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
           onClickRewardsCard={() => navigate(rewardsUrl)}
           onClickSavingsCard={() => navigate(savingsUrl)}
           onClickSealCard={() => navigate(sealUrl)}
-          customTokenList={defaultConfig.balancesTokenList[chainId]}
+          customTokenMap={defaultConfig.balancesTokenList}
+          chainIds={getSupportedChainIds(chainId)}
         />
       )
     ],
