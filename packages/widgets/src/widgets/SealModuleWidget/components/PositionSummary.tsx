@@ -1,7 +1,7 @@
 import { Heading, Text } from '@/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { useContext, useEffect, useMemo } from 'react';
+import { JSX, useContext, useEffect, useMemo } from 'react';
 import { SealModuleWidgetContext } from '../context/context';
 import {
   TOKENS,

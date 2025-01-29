@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { Header } from './Header';
-import { Helmet } from 'react-helmet-async';
 import { ConfigContext } from '../../config/context/ConfigContext';
 import { ErrorBoundary } from './ErrorBoundary';
 import { useAccount } from 'wagmi';
@@ -28,15 +27,14 @@ export function Layout({
     (import.meta.env.VITE_ENV_NAME === 'staging' || import.meta.env.VITE_ENV_NAME === 'development') &&
     import.meta.env.VITE_CF_PAGES_COMMIT_SHA;
 
+  const titleContent = `${siteConfig.name} | ${metaDescription || siteConfig.description}`;
+  const descriptionContent = metaDescription || siteConfig.description;
+
   return (
     <div>
-      <Helmet>
-        <title>
-          {siteConfig.name} | {metaDescription || siteConfig.description}
-        </title>
-        <meta name="description" content={metaDescription || siteConfig.description} />
-        <link rel="icon" href={siteConfig.favicon} />
-      </Helmet>
+      <title>{titleContent}</title>
+      <meta name="description" content={descriptionContent} />
+      <link rel="icon" href={siteConfig.favicon} />
 
       <VStack
         className={

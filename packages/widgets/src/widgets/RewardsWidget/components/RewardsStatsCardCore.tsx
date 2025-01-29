@@ -11,6 +11,7 @@ import { RewardContract, TOKENS, WriteHook, useRewardsChartInfo } from '@jetstre
 import { formatBigInt, formatDecimalPercentage } from '@jetstreamgg/utils';
 import { Trans } from '@lingui/react/macro';
 import { motion } from 'framer-motion';
+import { JSX } from 'react';
 
 export const RewardsStatsCardCore = ({
   rewardContract,
