@@ -61,12 +61,14 @@ export const test = playwrightTest.extend<TestFixture, WorkerFixture>({
       expect(allRevertsSuccessful).toBe(true);
     },
     { scope: 'test', auto: true }
-  ]
-});
+  ],
+  // Mock routes before starting the test, and before the `beforeAll` calls
+  page: async ({ page }, use) => {
+    await page.route('https://virtual.**.rpc.tenderly.co/**', mockRpcCalls);
+    await page.route('**/ip/status?ip=*', mockVpnCheck);
 
-test.beforeAll(async ({ page }) => {
-  await page.route('https://virtual.**.rpc.tenderly.co/**', mockRpcCalls);
-  await page.route('**/ip/status?ip=*', mockVpnCheck);
+    await use(page);
+  }
 });
 
 export { expect };
