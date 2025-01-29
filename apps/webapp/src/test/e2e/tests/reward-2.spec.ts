@@ -149,6 +149,10 @@ test('Rewards overview cards redirect to the correct reward contract', async ({ 
 test('Claim rewards', async ({ page }) => {
   // Reset SKY balance to 0 so we can read the amount different at the end
   await setErc20Balance(skyAddress[TENDERLY_CHAIN_ID], '0');
+  await page.reload();
+  await connectMockWalletAndAcceptTerms(page);
+  await page.getByRole('tab', { name: 'Rewards' }).click();
+  await page.getByText('With: USDS Get: SKY').first().click();
 
   // First, supply some tokens
   await page.getByTestId('supply-input-rewards').click();
