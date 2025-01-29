@@ -28,6 +28,7 @@ export interface ChatHistory {
 export interface ChatIntent {
   intent_description: string;
   url: string;
+  intent_id: string;
 }
 
 export interface Slot {

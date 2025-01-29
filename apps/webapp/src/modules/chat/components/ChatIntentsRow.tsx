@@ -4,6 +4,7 @@ import { Text } from '@/modules/layout/components/Typography';
 import { useChatContext } from '../context/ChatContext';
 import { useNavigate } from 'react-router-dom';
 import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
+import { intentSelectedMessage } from '../lib/intentSelectedMessage';
 
 type ChatIntentsRowProps = {
   intents: ChatIntent[];
@@ -27,7 +28,7 @@ type IntentRowProps = {
 };
 
 const IntentRow = ({ intent }: IntentRowProps) => {
-  const { setConfirmationModalOpened, setSelectedIntent, modalShown } = useChatContext();
+  const { setConfirmationModalOpened, setSelectedIntent, hasShownIntent, setChatHistory } = useChatContext();
   const navigate = useNavigate();
   const intentUrl = useRetainedQueryParams(intent?.url || '');
 
@@ -35,10 +36,11 @@ const IntentRow = ({ intent }: IntentRowProps) => {
     <Button
       variant="suggest"
       onClick={() => {
-        if (!modalShown) {
+        if (!hasShownIntent(intent)) {
           setConfirmationModalOpened(true);
           setSelectedIntent(intent);
         } else {
+          setChatHistory(prev => [...prev, intentSelectedMessage(intent)]);
           navigate(intentUrl);
         }
       }}

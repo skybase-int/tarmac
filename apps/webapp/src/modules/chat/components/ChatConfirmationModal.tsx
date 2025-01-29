@@ -6,9 +6,8 @@ import { Text } from '@/modules/layout/components/Typography';
 import { useChatContext } from '../context/ChatContext';
 import { useNavigate } from 'react-router-dom';
 import { ChatIntent } from '../types/Chat';
-import { generateUUID } from '../lib/generateUUID';
-import { MessageType, UserType } from '../constants';
 import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
+import { intentSelectedMessage } from '../lib/intentSelectedMessage';
 
 export const ChatConfirmationModal: React.FC = () => {
   const {
@@ -18,7 +17,8 @@ export const ChatConfirmationModal: React.FC = () => {
     setConfirmationModalOpened,
     setChatHistory,
     setSelectedIntent,
-    setModalShown
+    setModalShown,
+    hasShownIntent
   } = useChatContext();
 
   const selectedIntentUrl = useRetainedQueryParams(selectedIntent?.url || '');
@@ -26,16 +26,7 @@ export const ChatConfirmationModal: React.FC = () => {
   const navigate = useNavigate();
 
   const onIntentSelected = useCallback(
-    (intent: ChatIntent) =>
-      setChatHistory(prev => [
-        ...prev,
-        {
-          id: generateUUID(),
-          user: UserType.bot,
-          message: `I've updated the widget for you based on your selection of **"${intent.intent_description}"**. Please confirm the details before proceeding.`,
-          type: MessageType.internal
-        }
-      ]),
+    (intent: ChatIntent) => setChatHistory(prev => [...prev, intentSelectedMessage(intent)]),
     []
   );
 
@@ -49,13 +40,23 @@ export const ChatConfirmationModal: React.FC = () => {
 
   const handleConfirm = useCallback(() => {
     setConfirmationModalOpened(false);
-    setModalShown(true);
+    if (selectedIntent && !hasShownIntent(selectedIntent)) {
+      setModalShown([...modalShown, selectedIntent]);
+    }
     selectedIntentUrl && navigate(selectedIntentUrl);
     selectedIntent && onIntentSelected(selectedIntent);
-  }, [selectedIntentUrl, setConfirmationModalOpened, navigate, selectedIntent, onIntentSelected]);
+  }, [
+    selectedIntentUrl,
+    setConfirmationModalOpened,
+    navigate,
+    selectedIntent,
+    onIntentSelected,
+    modalShown,
+    hasShownIntent
+  ]);
 
   return (
-    <Dialog open={!modalShown && confirmationModalOpened} onOpenChange={handleCancel}>
+    <Dialog open={!hasShownIntent(selectedIntent) && confirmationModalOpened} onOpenChange={handleCancel}>
       <DialogContent className="bg-containerDark flex w-full flex-col items-center justify-center rounded-none p-5 md:w-[480px] md:rounded-2xl md:p-10">
         <Warning boxSize={50} />
 
