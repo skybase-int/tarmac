@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { ChatIntent } from '../types/Chat';
 import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
 import { intentSelectedMessage } from '../lib/intentSelectedMessage';
+import { getConfirmationModalMetadata } from '../lib/confirmationModalMetadata';
 
 export const ChatConfirmationModal: React.FC = () => {
   const {
@@ -55,6 +56,10 @@ export const ChatConfirmationModal: React.FC = () => {
     hasShownIntent
   ]);
 
+  const disclaimerMetadata = getConfirmationModalMetadata(selectedIntent);
+  const defaultDisclaimer =
+    'You are about to execute an action suggested by our AI chatbot. Please be aware that while we strive to provide accurate and helpful suggestions, you&apos;re solely responsible for reviewing and implementing any recommended actions. We do not guarantee the accuracy or completeness of the AI&apos;s suggestions and disclaim any liability for consequences arising from your use of this feature.';
+
   return (
     <Dialog open={!hasShownIntent(selectedIntent) && confirmationModalOpened} onOpenChange={handleCancel}>
       <DialogContent className="bg-containerDark flex w-full flex-col items-center justify-center rounded-none p-5 md:w-[480px] md:rounded-2xl md:p-10">
@@ -70,11 +75,9 @@ export const ChatConfirmationModal: React.FC = () => {
             </Text>
           )}
           <Text className="font-custom-450 text-text text-center">
-            You are about to execute an action suggested by our AI chatbot. Please be aware that while we
-            strive to provide accurate and helpful suggestions, you&apos;re solely responsible for reviewing
-            and implementing any recommended actions. We do not guarantee the accuracy or completeness of the
-            AI&apos;s suggestions and disclaim any liability for consequences arising from your use of this
-            feature.
+            {disclaimerMetadata
+              ? `${disclaimerMetadata.description} ${disclaimerMetadata.disclaimer}`
+              : defaultDisclaimer}
           </Text>
           <Text className="font-custom-450 text-text text-center">
             If you wish to proceed, click &quot;Continue.&quot; If not, click &quot;Cancel&quot; to return to
