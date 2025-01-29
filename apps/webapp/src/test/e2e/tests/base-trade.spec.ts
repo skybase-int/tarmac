@@ -1,6 +1,4 @@
-import { test } from '@playwright/test';
-import '../mock-rpc-call.ts';
-import '../mock-vpn-check.ts';
+import { test } from '../fixtures.ts';
 import { connectMockWalletAndAcceptTerms } from '../utils/connectMockWalletAndAcceptTerms.ts';
 import { switchToBase } from '../utils/switchToBase.ts';
 import { approveOrPerformAction } from '../utils/approveOrPerformAction.ts';

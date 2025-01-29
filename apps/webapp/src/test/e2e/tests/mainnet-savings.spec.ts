@@ -1,6 +1,4 @@
-import { test, expect } from '@playwright/test';
-import '../mock-rpc-call.ts';
-import '../mock-vpn-check.ts';
+import { expect, test } from '../fixtures.ts';
 import { setErc20Balance } from '../utils/setBalance.ts';
 import { usdsAddress } from '@jetstreamgg/hooks';
 import { TENDERLY_CHAIN_ID } from '@/data/wagmi/config/testTenderlyChain.ts';

@@ -1,6 +1,4 @@
-import { expect, test } from '@playwright/test';
-import '../mock-rpc-call.ts';
-import '../mock-vpn-check.ts';
+import { expect, test } from '../fixtures.ts';
 import { approveOrPerformAction } from '../utils/approveOrPerformAction.ts';
 import { setErc20Balance } from '../utils/setBalance.ts';
 import { mkrAddress, usdsAddress } from '@jetstreamgg/hooks';

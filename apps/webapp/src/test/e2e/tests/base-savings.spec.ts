@@ -1,9 +1,6 @@
-import { test } from '@playwright/test';
-import '../mock-rpc-call.ts';
-import '../mock-vpn-check.ts';
+import { expect, test } from '../fixtures.ts';
 import { connectMockWalletAndAcceptTerms } from '../utils/connectMockWalletAndAcceptTerms.ts';
 import { switchToBase } from '../utils/switchToBase.ts';
-import { expect } from '@playwright/test';
 import { approveOrPerformAction } from '../utils/approveOrPerformAction.ts';
 
 test('Go to Base Savings, deposit usds and usdc, withdraw usdc and usds', async ({ page }) => {
