@@ -76,7 +76,7 @@ const generateIntentDescription = (params: IntentParams): string => {
     return `Trade to ${targetToken}${networkSuffix}`;
   }
 
-  return 'Go to Trade';
+  return `Go to Trade${networkSuffix}`;
 };
 
 /**
@@ -195,6 +195,8 @@ export const generateTradeIntents = (
   const validIntents = allIntents.filter(intent => {
     const params = new URLSearchParams(intent.url.substring(1));
     const networkParam = params.get('network');
+    const sourceParam = params.get(QueryParams.SourceToken);
+    const targetParam = params.get(QueryParams.TargetToken);
 
     // Keep network-agnostic intents
     if (!networkParam) return true;
@@ -204,13 +206,20 @@ export const generateTradeIntents = (
 
     const chainId = chain.id;
 
+    // Don't allow same token for source and target
+    if (
+      sourceParam !== null &&
+      targetParam !== null &&
+      sourceParam.toLowerCase() === targetParam.toLowerCase()
+    ) {
+      return false;
+    }
+
     // Check if tokens are supported on this network
-    const sourceParam = params.get(QueryParams.SourceToken);
     if (sourceParam !== null && !isTokenSupportedOnNetwork(sourceParam, chainId, tradeTokens)) {
       return false;
     }
 
-    const targetParam = params.get(QueryParams.TargetToken);
     if (targetParam !== null && !isTokenSupportedOnNetwork(targetParam, chainId, tradeTokens)) {
       return false;
     }
@@ -250,3 +259,4 @@ export const generateTradeIntents = (
 // - Sort intents by relevance/priority
 
 // - If we're in a restricted build like MiCa don't return Trade intents
+// - don't allow the same token to be both source and target
