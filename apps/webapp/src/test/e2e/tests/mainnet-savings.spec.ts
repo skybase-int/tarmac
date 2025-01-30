@@ -108,7 +108,7 @@ test('Balance changes after a successful withdraw', async ({ page }) => {
 
   // Supply some USDS
   await page.getByTestId('supply-input-savings').click();
-  await page.getByTestId('supply-input-savings').fill('2');
+  await page.getByTestId('supply-input-savings').fill('4');
   await approveOrPerformAction(page, 'Supply');
   await page.getByRole('button', { name: 'Back to Savings' }).click();
 
@@ -130,7 +130,7 @@ test('Balance changes after a successful withdraw', async ({ page }) => {
 
   const expectedBalance = prewithdrawBalance - 2;
   if (expectedBalance >= 1) {
-    // initial supply was 2, we supplied 2 more, then withdrew 2
+    // We supplied 4 and then withdrew 2
     await expect(page.getByTestId('supplied-balance')).toHaveText('2 USDS', { timeout: 15000 });
   } else {
     const zeroBalance = Number(
@@ -310,6 +310,14 @@ test('A withdraw error redirects to the error screen', async ({ page }) => {
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
   await page.getByRole('tab', { name: 'Savings' }).click();
+
+  // Supply some USDS
+  await page.getByTestId('supply-input-savings').click();
+  await page.getByTestId('supply-input-savings').fill('4');
+  await approveOrPerformAction(page, 'Supply');
+  await page.getByRole('button', { name: 'Back to Savings' }).click();
+
+  // Then attempt to withdraw
   await page.getByRole('tab', { name: 'Withdraw' }).click();
   await page.getByTestId('withdraw-input-savings').click();
   await page.getByTestId('withdraw-input-savings').fill('1');
