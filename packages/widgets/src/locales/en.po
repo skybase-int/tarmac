@@ -82,6 +82,10 @@ msgstr ""
 msgid "Add {0} to wallet"
 msgstr ""
 
+#: src/widgets/RewardsWidget/components/RewardsOverview.tsx
+msgid "All rewards"
+msgstr ""
+
 #: src/widgets/UpgradeWidget/lib/constants.ts
 #: src/widgets/UpgradeWidget/lib/constants.ts
 #: src/widgets/TradeWidget/lib/constants.ts
@@ -882,6 +886,10 @@ msgstr ""
 
 #: src/widgets/SealModuleWidget/components/SelectRewardContract.tsx
 msgid "More rewards coming soon"
+msgstr ""
+
+#: src/widgets/RewardsWidget/components/RewardsOverview.tsx
+msgid "My rewards"
 msgstr ""
 
 #: src/widgets/RewardsWidget/components/HarvestRewards.tsx

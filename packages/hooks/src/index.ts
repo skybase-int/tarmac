@@ -36,6 +36,7 @@ export { useAllRewardsUserHistory } from './rewards/useAllRewardsUserHistory';
 export { useRewardsChartInfo } from './rewards/useRewardsChartInfo';
 export { useRewardContractTokens } from './rewards/useRewardContractTokens';
 export { useUserRewardsBalance } from './rewards/useUserRewardsBalance';
+export { useRewardsWithUserBalance } from './rewards/useRewardsWithUserBalance';
 
 // Rewards
 export { useRewardsSupply } from './rewards/useRewardsSupply';
