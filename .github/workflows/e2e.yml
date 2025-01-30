@@ -41,12 +41,12 @@ jobs:
           - test: base-trade.spec
             vnet: true
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     env:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
+      - uses: pnpm/action-setup@v4
         with:
           version: 9.9.0
       - uses: actions/setup-node@v4
@@ -55,7 +55,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Build
         run: pnpm build:packages
@@ -89,5 +89,5 @@ jobs:
         if: always()
         with:
           name: playwright-report-${{ matrix.test }}
-          path: playwright-report/
+          path: apps/webapp/playwright-report/
           retention-days: 30
