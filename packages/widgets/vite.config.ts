@@ -21,7 +21,7 @@ const externalPeerDeps = pkg['peerDependencies']
 // https://vitejs.dev/guide/build.html#library-mode
 export default defineConfig({
   build: {
-    sourcemap: true, // Add this line
+    sourcemap: true,
     target: ['es2020'],
     emptyOutDir: false,
     lib: {
@@ -37,8 +37,7 @@ export default defineConfig({
       external: [...externalDeps, ...externalPeerDeps],
       output: {
         // Add this configuration for better source maps
-        sourcemapExcludeSources: false,
-        sourcemap: true
+        sourcemapExcludeSources: false
       }
     }
   },

@@ -13,10 +13,8 @@
     "./dist/style.css": "./dist/style.css"
   },
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
-  "source": "src/index.ts",
   "scripts": {
     "dev": " vite build --config vite.config.ts --watch",
     "build": "pnpm messages:compile && vite build --config vite.config.ts",

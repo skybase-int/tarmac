@@ -30,8 +30,7 @@ export default defineConfig({
       // into your library
       external: [...externalDeps, ...externalPeerDeps],
       output: {
-        sourcemapExcludeSources: false,
-        sourcemap: true
+        sourcemapExcludeSources: false
       }
     }
   },
