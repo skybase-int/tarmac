@@ -35,18 +35,6 @@ Sky.money does not control the issuance, determination, or distribution of these
     question: 'How much does it cost to participate in Sky Token Rewards?',
     answer:
       'There is no fee to participate in Sky Token Rewards; however, with each transaction, you may pay a gas fee for using the Ethereum blockchain network. That fee is not controlled, imposed or received by Sky.money or the Sky Protocol.'
-  },
-  {
-    question: 'Where do I find my boosted Sky Token Rewards?',
-    answer:
-      'To claim your rewards, just click on the Claim button in the Rewards section of the app. You must claim all your Sky Token Rewards at once. It is not possible to claim partial rewards.',
-    type: 'restricted'
-  },
-  {
-    question: 'How do I claim my Sky Token Rewards?',
-    answer:
-      "If you participated in our Boosted Rewards promo campaign, you're accumulating double Sky Token Rewards, which you can claim one month after Sky launches. Look for your Boosted Rewards Counter here in the app in a few days. In the meantime, supply USDS into the Sky Token Rewards module to earn rewards you can claim right away.",
-    type: 'restricted'
   }
 ];
 
