@@ -53,6 +53,4 @@ export default defineConfig({
     timeout: 120000,
     reuseExistingServer: !process.env.CI
   }
-  // globalSetup: './src/test/e2e/globalSetup',
-  // globalTeardown: './src/test/e2e/globalTeardown'
 });
