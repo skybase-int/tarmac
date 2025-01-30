@@ -5,6 +5,7 @@ import { useChatContext } from '../context/ChatContext';
 import { useNavigate } from 'react-router-dom';
 import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
 import { intentSelectedMessage } from '../lib/intentSelectedMessage';
+import { QueryParams } from '@/lib/constants';
 
 type ChatIntentsRowProps = {
   intents: ChatIntent[];
@@ -30,7 +31,11 @@ type IntentRowProps = {
 const IntentRow = ({ intent }: IntentRowProps) => {
   const { setConfirmationModalOpened, setSelectedIntent, hasShownIntent, setChatHistory } = useChatContext();
   const navigate = useNavigate();
-  const intentUrl = useRetainedQueryParams(intent?.url || '');
+  const intentUrl = useRetainedQueryParams(intent?.url || '', [
+    QueryParams.Locale,
+    QueryParams.Details,
+    QueryParams.Chat
+  ]);
 
   return (
     <Button
@@ -43,6 +48,10 @@ const IntentRow = ({ intent }: IntentRowProps) => {
           setChatHistory(prev => [...prev, intentSelectedMessage(intent)]);
           navigate(intentUrl);
         }
+      }}
+      onMouseEnter={() => {
+        console.log('🚀 ~ onMouseEnter ~ intent:', intent);
+        console.log('🚀 ~ IntentRow ~ intentUrl:', intentUrl);
       }}
     >
       {intent.intent_description}
