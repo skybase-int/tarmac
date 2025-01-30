@@ -4,6 +4,19 @@ import { IntentMapping, QueryParams } from '@/lib/constants';
 import { defaultConfig } from '@/modules/config/default-config';
 import { Token } from '@jetstreamgg/hooks';
 
+const networkMapping = {
+  mainnet: 1,
+  ethereum: 1,
+  base: 8453,
+  arbitrum: 42161
+};
+
+const chainIdNameMapping = {
+  1: 'ethereum',
+  8453: 'base',
+  42161: 'arbitrum'
+};
+
 type TokenPair = {
   sourceToken: string;
   targetToken: string;
@@ -26,6 +39,13 @@ const isTokenSupportedOnNetwork = (
   chainId: number,
   tokenList: Record<number, Token[]>
 ): boolean => {
+  // TODO: Remove this once we have a token list for Arbitrum vvvvvv
+  if (chainId === networkMapping.arbitrum) {
+    // Use Base token list for now for Arbitrum
+    return tokenList[networkMapping.base].some(t => t.symbol.toLowerCase() === token.toLowerCase());
+  }
+  // ^^^^^^^
+
   const networkTokens = tokenList[chainId];
   if (!networkTokens) return false;
 
@@ -41,6 +61,20 @@ const isPairAllowedOnNetwork = (
   disallowedPairs: DisallowedPairs | undefined
 ): boolean => {
   if (!disallowedPairs) return true;
+
+  // TODO: Remove this once we have a token list for Arbitrum vvvvvv
+  if (chainId === networkMapping.arbitrum) {
+    // Use Base token list for now for Arbitrum. Remove this once we have a token list for Arbitrum
+    const pairs = disallowedPairs[networkMapping.base];
+    if (!pairs) return true;
+
+    return pairs.some(
+      p =>
+        p.sourceToken.toLowerCase() === pair.sourceToken.toLowerCase() &&
+        p.targetToken.toLowerCase() === pair.targetToken.toLowerCase()
+    );
+  }
+  // ^^^^^^^
 
   const networkDisallowedPairs = disallowedPairs[chainId];
   if (!networkDisallowedPairs) return true;
@@ -93,7 +127,7 @@ const generateIntentUrl = (params: IntentParams): string => {
   if (sourceToken) urlParams.append(SourceToken, sourceToken);
   if (targetToken) urlParams.append(TargetToken, targetToken);
   if (amount) urlParams.append(InputAmount, amount);
-  if (network) urlParams.append('network', network.name.toLowerCase());
+  if (network) urlParams.append('network', chainIdNameMapping[network.id as keyof typeof chainIdNameMapping]);
 
   return `?${urlParams.toString()}`;
 };
@@ -141,18 +175,11 @@ const sortIntentsByPriority = (intents: ChatIntent[]): ChatIntent[] => {
   });
 };
 
-const networkMapping = {
-  mainnet: 1,
-  base: 8453,
-  arbitrum: 42161
-};
-
 export const generateTradeIntents = (
   slots: Slot[],
   chains: Chain[],
   detectedNetwork?: string
 ): ChatIntent[] => {
-  console.log('🚀 ~ detectedNetwork:', detectedNetwork);
   const disallowedPairs = defaultConfig.tradeDisallowedPairs;
   const tradeTokens = defaultConfig.tradeTokenList;
   if (import.meta.env.VITE_RESTRICTED_BUILD_MICA === 'true') {
@@ -182,7 +209,7 @@ export const generateTradeIntents = (
   }
 
   // Always add network-agnostic intent as a fallback
-  allIntents.push(generateSingleIntent({ sourceToken, targetToken, amount }));
+  // allIntents.push(generateSingleIntent({ sourceToken, targetToken, amount }));
 
   // If no network was detected, generate intents for all supported networks
   if (!detectedNetwork) {
@@ -201,7 +228,9 @@ export const generateTradeIntents = (
     // Keep network-agnostic intents
     if (!networkParam) return true;
 
-    const chain = chains.find(c => c.name.toLowerCase() === networkParam.toLowerCase());
+    const chain = chains.find(
+      c => c.id === networkMapping[networkParam.toLowerCase() as keyof typeof networkMapping]
+    );
     if (!chain) return false;
 
     const chainId = chain.id;
@@ -253,7 +282,7 @@ export const generateTradeIntents = (
 // - Add a check to see if the trade pair is supported
 // - Add a check to see if the trade pair is supported on the detected network
 // - Filter out tokens that are not supported on the detected network
-// - Add a check if the buil is restricted
+// - Add a check if the build is restricted
 // - Have in mind that when the intent is generated without an associated network then the pairs and token list will be inffered from the current network
 // - Generate the trade intents for all the supported networks/chains
 // - Sort intents by relevance/priority
