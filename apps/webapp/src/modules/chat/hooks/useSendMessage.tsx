@@ -9,6 +9,7 @@ import { handleActionIntent } from '../lib/handleActionIntent';
 import { slotDefinitions } from '../lib/slotDefinitions';
 import { useAvailableTokenRewardContracts } from '@jetstreamgg/hooks';
 import { useChainId } from 'wagmi';
+import { ADVANCED_CHAT_ENABLED } from '@/modules/chat/constants';
 import {
   generateRandomResponse,
   generateRandomIntent,
@@ -45,6 +46,49 @@ const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
     return Promise.resolve(mockResponses);
   }
 
+  return ADVANCED_CHAT_ENABLED
+    ? fetchAdvancedChat(endpoint, messagePayload)
+    : fetchSimpleChat(endpoint, messagePayload);
+};
+
+const fetchAdvancedChat = async (endpoint: string, messagePayload: Partial<SendMessageRequest>) => {
+  const response = await fetch(`${endpoint}/copilot`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      ...messagePayload,
+      classification_options: actionIntentClassificationOptions,
+      slots: slotDefinitions,
+      limit: 4 // for recommendations
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error('Advanced chat response was not ok');
+  }
+
+  const data = await response.json();
+
+  // Transform the advanced response to match the simple mode structure
+  return {
+    chatResponse: {
+      response: data.response,
+      messageId: data.messageId
+    },
+    actionIntentResponse: {
+      classification: data.classification,
+      confidence: data.confidence
+    },
+    questionIntentResponse: {
+      recommendations: data.recommendations
+    },
+    slotResponse: {
+      slots: data.slots
+    }
+  };
+};
+
+const fetchSimpleChat = async (endpoint: string, messagePayload: Partial<SendMessageRequest>) => {
   const chatPromise = fetch(`${endpoint}/chat`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
