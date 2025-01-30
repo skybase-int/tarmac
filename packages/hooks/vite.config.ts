@@ -17,6 +17,7 @@ const externalPeerDeps = pkg['peerDependencies']
 // https://vitejs.dev/guide/build.html#library-mode
 export default defineConfig({
   build: {
+    sourcemap: true,
     emptyOutDir: false,
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
@@ -27,7 +28,11 @@ export default defineConfig({
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
       // into your library
-      external: [...externalDeps, ...externalPeerDeps]
+      external: [...externalDeps, ...externalPeerDeps],
+      output: {
+        sourcemapExcludeSources: false,
+        sourcemap: true
+      }
     }
   },
   test: {

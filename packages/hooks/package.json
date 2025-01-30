@@ -5,8 +5,10 @@
   "type": "module",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
+  "source": "src/index.ts",
   "main": "./dist/jetstream-gg-hooks.js",
   "exports": {
     ".": {
