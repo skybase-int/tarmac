@@ -24,7 +24,8 @@ interface BalancesContentProps {
   chainIds?: number[];
   actionForToken?: (
     symbol: string,
-    balance: string
+    balance: string,
+    tokenChainId: number
   ) => { label: string; actionUrl: string; image: string } | undefined;
   onClickRewardsCard?: () => void;
   onClickSavingsCard?: () => void;

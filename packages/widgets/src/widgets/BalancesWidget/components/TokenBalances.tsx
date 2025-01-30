@@ -11,7 +11,8 @@ export const TokenBalances = ({
 }: {
   actionForToken?: (
     symbol: string,
-    balance: string
+    balance: string,
+    tokenChainId: number
   ) => { label: string; actionUrl: string; image: string } | undefined;
   customTokenMap?: { [chainId: number]: TokenForChain[] };
   chainIds?: number[];

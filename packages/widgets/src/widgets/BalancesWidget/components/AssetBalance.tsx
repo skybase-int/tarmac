@@ -30,11 +30,15 @@ export const AssetBalance = ({
   chainId: number;
   actionForToken?: (
     symbol: string,
-    balance: string
+    balance: string,
+    tokenChainId: number
   ) => { label: string; actionUrl: string; image: string } | undefined;
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const action = useMemo(() => actionForToken?.(symbol, formatted), [actionForToken, symbol, formatted]);
+  const action = useMemo(
+    () => actionForToken?.(symbol, formatted, chainId),
+    [actionForToken, symbol, formatted, chainId]
+  );
   const hasAction = !!action?.label && !!action?.actionUrl && !!action?.image;
   const shouldShowAction = isHovered && hasAction && parseFloat(formatted) !== 0;
 
