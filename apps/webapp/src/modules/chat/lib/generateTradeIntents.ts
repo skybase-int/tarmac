@@ -277,8 +277,8 @@ export const generateTradeIntents = (
   return sortIntentsByPriority(validIntents);
 };
 
-// TODOs:
-
+// Checks:
+//
 // - Add a check to see if the trade pair is supported
 // - Add a check to see if the trade pair is supported on the detected network
 // - Filter out tokens that are not supported on the detected network
