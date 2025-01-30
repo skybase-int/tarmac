@@ -5,7 +5,7 @@ export const getRewardsFaqItems = (chainId: number) => [
   ...(isBaseChainId(chainId) && baseFaqItems ? baseFaqItems : [])
 ];
 
-const mainnetFaqItems = [
+const mainnetFaqItems: { question: string; answer: string; type?: 'restricted' | 'unrestricted' }[] = [
   {
     question: 'What are Sky Token Rewards, and how do they work?',
     answer: `When you supply USDS to the Sky Token Rewards module through the Sky Protocol, you receive Sky Token Rewards over time in the form of Sky governance tokens.
