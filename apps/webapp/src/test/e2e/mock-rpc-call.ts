@@ -1,10 +1,9 @@
 /**
  * Intercept RPC calls to tenderly so that we can increase the gas limit
- * This file has to be imported in every e2e test file that you want it to run on.
  */
-import { Request, Route, test } from '@playwright/test';
+import { Request, Route } from '@playwright/test';
 
-export const mockRpcCalls = async (route: Route, request: Request) => {
+export const mockRpcCalls = (route: Route, request: Request) => {
   // Check if the request is a POST request and targets the specific endpoint
   if (request.method() === 'POST') {
     // Parse the request body to manipulate it
@@ -32,7 +31,3 @@ export const mockRpcCalls = async (route: Route, request: Request) => {
     route.continue();
   }
 };
-
-test.beforeEach(async ({ page }) => {
-  await page.route('https://virtual.mainnet.rpc.tenderly.co/**', mockRpcCalls);
-});

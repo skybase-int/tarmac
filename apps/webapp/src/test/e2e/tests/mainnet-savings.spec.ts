@@ -1,16 +1,10 @@
-import { test, expect } from '@playwright/test';
-import '../mock-rpc-call.ts';
-import '../mock-vpn-check.ts';
+import { expect, test } from '../fixtures.ts';
 import { setErc20Balance } from '../utils/setBalance.ts';
 import { usdsAddress } from '@jetstreamgg/hooks';
 import { TENDERLY_CHAIN_ID } from '@/data/wagmi/config/testTenderlyChain.ts';
 import { interceptAndRejectTransactions } from '../utils/rejectTransaction.ts';
 import { approveOrPerformAction } from '../utils/approveOrPerformAction.ts';
 import { connectMockWalletAndAcceptTerms } from '../utils/connectMockWalletAndAcceptTerms.ts';
-
-test.beforeAll(async () => {
-  await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '100');
-});
 
 test('Supply and withdraw from Savings', async ({ page }) => {
   await page.goto('/');
@@ -114,7 +108,7 @@ test('Balance changes after a successful withdraw', async ({ page }) => {
 
   // Supply some USDS
   await page.getByTestId('supply-input-savings').click();
-  await page.getByTestId('supply-input-savings').fill('2');
+  await page.getByTestId('supply-input-savings').fill('4');
   await approveOrPerformAction(page, 'Supply');
   await page.getByRole('button', { name: 'Back to Savings' }).click();
 
@@ -136,7 +130,7 @@ test('Balance changes after a successful withdraw', async ({ page }) => {
 
   const expectedBalance = prewithdrawBalance - 2;
   if (expectedBalance >= 1) {
-    // initial supply was 2, we supplied 2 more, then withdrew 2
+    // We supplied 4 and then withdrew 2
     await expect(page.getByTestId('supplied-balance')).toHaveText('2 USDS', { timeout: 15000 });
   } else {
     const zeroBalance = Number(
@@ -147,7 +141,6 @@ test('Balance changes after a successful withdraw', async ({ page }) => {
 });
 
 test('supply with enough allowance does not require approval', async ({ page }) => {
-  await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '100');
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
   await page.getByRole('tab', { name: 'Savings' }).click();
@@ -204,7 +197,6 @@ test('if not connected it should show a connect button', async ({ page }) => {
 });
 
 test('percentage buttons work', async ({ page }) => {
-  await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '100');
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
   await page.getByRole('tab', { name: 'Savings' }).click();
@@ -295,7 +287,6 @@ test('An approval error redirects to the error screen', async ({ page }) => {
 });
 
 test('A supply error redirects to the error screen', async ({ page }) => {
-  await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '100');
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
   await page.getByRole('tab', { name: 'Savings' }).click();
@@ -319,6 +310,14 @@ test('A withdraw error redirects to the error screen', async ({ page }) => {
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
   await page.getByRole('tab', { name: 'Savings' }).click();
+
+  // Supply some USDS
+  await page.getByTestId('supply-input-savings').click();
+  await page.getByTestId('supply-input-savings').fill('4');
+  await approveOrPerformAction(page, 'Supply');
+  await page.getByRole('button', { name: 'Back to Savings' }).click();
+
+  // Then attempt to withdraw
   await page.getByRole('tab', { name: 'Withdraw' }).click();
   await page.getByTestId('withdraw-input-savings').click();
   await page.getByTestId('withdraw-input-savings').fill('1');
@@ -351,17 +350,17 @@ test('Details pane shows right data', async ({ page }) => {
   await connectMockWalletAndAcceptTerms(page);
   await page.getByRole('tab', { name: 'Savings' }).click();
 
-  const balanceDetails = await page
-    .getByTestId('savings-stats-section')
-    .getByText('100 USDS', { exact: true })
-    .innerText();
+  // Wait for data point to be ready
+  await expect(page.getByTestId('savings-remaining-balance-details')).toContainText('USDS');
+
+  const balanceDetails = await page.getByTestId('savings-remaining-balance-details').innerText();
   await expect(page.getByTestId('supply-input-savings-balance')).toHaveText(balanceDetails);
 
   await page.getByRole('tab', { name: 'Withdraw' }).click();
-  const detailsSuppliedBalance = await page
-    .getByTestId('savings-stats-section')
-    .getByText('102 USDS', { exact: true })
-    .innerText();
+  // Wait for data point to be ready
+  await expect(page.getByTestId('savings-supplied-balance-details')).toContainText('USDS');
+
+  const detailsSuppliedBalance = await page.getByTestId('savings-supplied-balance-details').innerText();
   await expect(page.getByTestId('supplied-balance')).toHaveText(detailsSuppliedBalance);
 
   // close details pane
