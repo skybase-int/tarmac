@@ -51,7 +51,7 @@ const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
     return Promise.resolve(mockResponses);
   }
 
-  return ADVANCED_CHAT_ENABLED
+  return ADVANCED_CHAT_ENABLED && CHAT_SUGGESTIONS_ENABLED
     ? fetchAdvancedChat(endpoint, messagePayload)
     : fetchSimpleChat(endpoint, messagePayload);
 };
