@@ -1,20 +1,18 @@
-import { expect, test } from '@playwright/test';
-import '../mock-rpc-call.ts';
-import '../mock-vpn-check.ts';
+import { expect, test } from '../fixtures.ts';
 import { approveOrPerformAction } from '../utils/approveOrPerformAction.ts';
 import { setErc20Balance } from '../utils/setBalance.ts';
-import { mkrAddress, skyAddress, usdsAddress } from '@jetstreamgg/hooks';
+import { mkrAddress, usdsAddress } from '@jetstreamgg/hooks';
 import { TENDERLY_CHAIN_ID } from '@/data/wagmi/config/testTenderlyChain.ts';
 // import { withdrawAllAndReset } from '../utils/rewards.ts';
 import { connectMockWalletAndAcceptTerms } from '../utils/connectMockWalletAndAcceptTerms.ts';
 
-test.beforeAll(async () => {
-  await setErc20Balance(mkrAddress[TENDERLY_CHAIN_ID], '100');
-  await setErc20Balance(skyAddress[TENDERLY_CHAIN_ID], '100000000');
-  await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '1');
-});
+test.beforeAll(async () => {});
 
 test.beforeEach(async ({ page }) => {
+  await Promise.all([
+    setErc20Balance(mkrAddress[TENDERLY_CHAIN_ID], '100'),
+    setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '1')
+  ]);
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
   await page.getByRole('tab', { name: 'Seal' }).click();
