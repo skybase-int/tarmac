@@ -1,7 +1,13 @@
 import { MutationFunction, useMutation } from '@tanstack/react-query';
 import { Recommendation, SendMessageRequest, SendMessageResponse } from '../types/Chat';
 import { useChatContext } from '../context/ChatContext';
-import { CHATBOT_NAME, MessageType, UserType } from '../constants';
+import {
+  CHAT_SUGGESTIONS_ENABLED,
+  ADVANCED_CHAT_ENABLED,
+  CHATBOT_NAME,
+  MessageType,
+  UserType
+} from '../constants';
 import { generateUUID } from '../lib/generateUUID';
 import { t } from '@lingui/macro';
 import { actionIntentClassificationOptions } from '../lib/intentClassificationOptions';
@@ -45,6 +51,49 @@ const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
     return Promise.resolve(mockResponses);
   }
 
+  return ADVANCED_CHAT_ENABLED && CHAT_SUGGESTIONS_ENABLED
+    ? fetchAdvancedChat(endpoint, messagePayload)
+    : fetchSimpleChat(endpoint, messagePayload);
+};
+
+const fetchAdvancedChat = async (endpoint: string, messagePayload: Partial<SendMessageRequest>) => {
+  const response = await fetch(`${endpoint}/copilot`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      ...messagePayload,
+      classification_options: actionIntentClassificationOptions,
+      slots: slotDefinitions,
+      limit: 4 // for recommendations
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error('Advanced chat response was not ok');
+  }
+
+  const data = await response.json();
+
+  // Transform the advanced response to match the simple mode structure
+  return {
+    chatResponse: {
+      response: data.response,
+      messageId: data.messageId
+    },
+    actionIntentResponse: {
+      classification: data.classification,
+      confidence: data.confidence
+    },
+    questionIntentResponse: {
+      recommendations: data.recommendations
+    },
+    slotResponse: {
+      slots: data.slots
+    }
+  };
+};
+
+const fetchSimpleChat = async (endpoint: string, messagePayload: Partial<SendMessageRequest>) => {
   const chatPromise = fetch(`${endpoint}/chat`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -56,53 +105,44 @@ const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
       throw new Error('Chat response was not ok');
     });
 
-  const actionIntentPromise = fetch(`${endpoint}/intent`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      classification_options: actionIntentClassificationOptions,
-      input: messagePayload.message,
-      history: messagePayload.history,
-      session_id: messagePayload.session_id
-    })
-  }).then(response => {
-    if (response.ok) {
-      return response.json();
-    }
-  });
+  // Only create these promises if suggestions are enabled
+  const [actionIntentPromise, questionIntentPromise, slotPromise] = CHAT_SUGGESTIONS_ENABLED
+    ? [
+        fetch(`${endpoint}/intent`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            classification_options: actionIntentClassificationOptions,
+            input: messagePayload.message,
+            history: messagePayload.history,
+            session_id: messagePayload.session_id
+          })
+        }).then(response => (response.ok ? response.json() : null)),
 
-  const questionIntentPromise = fetch(`${endpoint}/recommend`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      session_id: messagePayload.session_id,
-      input: messagePayload.message,
-      limit: 4
-    })
-  }).then(response => {
-    if (response.ok) {
-      return response.json();
-    }
-  });
+        fetch(`${endpoint}/recommend`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            session_id: messagePayload.session_id,
+            input: messagePayload.message,
+            limit: 4
+          })
+        }).then(response => (response.ok ? response.json() : null)),
 
-  const slotPromise = fetch(`${endpoint}/slot-machine/fill-slots`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      // in the future, there may be a separate field to include the current message as "input", rather than appending it to the history
-      // this update would make is consistent with the intent payload that we send
-      history: [
-        ...(messagePayload.history || []),
-        { id: generateUUID(), message: messagePayload.message, role: 'user' }
-      ],
-      slots: slotDefinitions,
-      session_id: messagePayload.session_id
-    })
-  }).then(response => {
-    if (response.ok) {
-      return response.json();
-    }
-  });
+        fetch(`${endpoint}/slot-machine/fill-slots`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            history: [
+              ...(messagePayload.history || []),
+              { id: generateUUID(), message: messagePayload.message, role: 'user' }
+            ],
+            slots: slotDefinitions,
+            session_id: messagePayload.session_id
+          })
+        }).then(response => (response.ok ? response.json() : null))
+      ]
+    : [Promise.resolve(null), Promise.resolve(null), Promise.resolve(null)];
 
   const [chatResponse, actionIntentResponse, questionIntentResponse, slotResponse] = await Promise.all([
     chatPromise,

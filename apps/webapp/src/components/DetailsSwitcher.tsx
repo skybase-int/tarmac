@@ -14,6 +14,7 @@ import { t } from '@lingui/core/macro';
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
 
 export function DetailsSwitcher(): JSX.Element {
+  // TODO replace all instances of this with CHATBOT_ENABLED from constants.ts
   const chatEnabled = import.meta.env.VITE_CHATBOT_ENABLED === 'true';
   const { bpi } = useBreakpointIndex();
   const [searchParams, setSearchParams] = useSearchParams();
