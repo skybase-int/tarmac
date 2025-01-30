@@ -4,11 +4,10 @@ import { DetailSectionWrapper } from '@/modules/ui/components/DetailSectionWrapp
 import { t } from '@lingui/core/macro';
 import { RewardsTokenInfo } from './RewardsTokenInfo';
 import { RewardsCharts } from './history/RewardsCharts';
-import { RewardContract, TOKENS, usdsSkyRewardAddress } from '@jetstreamgg/hooks';
+import { RewardContract, TOKENS } from '@jetstreamgg/hooks';
 import { RewardsBalanceDetails } from './RewardsBalanceDetails';
 import { RewardsHistory } from './RewardsHistory';
 import { RewardsFaq } from './RewardsFaq';
-import { BoostedRewardsClaim } from './BoostedRewardsClaim';
 import { ActionsShowcase } from '@/modules/ui/components/ActionsShowcase';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 import { IntentMapping } from '@/lib/constants';
@@ -17,13 +16,11 @@ import { AboutCle } from '@/modules/ui/components/AboutCle';
 import { useUserSuggestedActions } from '@/modules/ui/hooks/useUserSuggestedActions';
 import { RewardsOverviewAbout } from './RewardsOverviewAbout';
 import { filterActionsByIntent } from '@/lib/utils';
-import { useChainId } from 'wagmi';
 
 export function RewardsDetailsView({ rewardContract }: { rewardContract?: RewardContract }) {
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
   const { linkedActionConfig } = useConfigContext();
   const { data: actionData } = useUserSuggestedActions();
-  const chainId = useChainId();
   if (!rewardContract) {
     return null;
   }
@@ -31,9 +28,6 @@ export function RewardsDetailsView({ rewardContract }: { rewardContract?: Reward
 
   return (
     <DetailSectionWrapper>
-      {/* BoostedRewardsClaim is only rendered in the With: USDS Get: SKY reward and if the user is connected and has rewards to claim */}
-      {rewardContract.contractAddress ===
-        usdsSkyRewardAddress[chainId as keyof typeof usdsSkyRewardAddress] && <BoostedRewardsClaim />}
       <DetailSection title={t`Your Rewards balances`}>
         <DetailSectionRow>
           <RewardsBalanceDetails rewardContract={rewardContract} />
