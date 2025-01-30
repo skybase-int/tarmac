@@ -1,5 +1,4 @@
-import { expect, test } from '@playwright/test';
-import '../mock-vpn-check.ts';
+import { expect, test } from '../fixtures.ts';
 import { connectMockWalletAndAcceptTerms } from '../utils/connectMockWalletAndAcceptTerms.ts';
 
 test.describe('accept terms', () => {
