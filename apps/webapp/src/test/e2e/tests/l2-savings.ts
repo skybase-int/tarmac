@@ -1,11 +1,10 @@
-import { test } from '@playwright/test';
+import { expect, test } from '../fixtures.ts';
 import '../mock-rpc-call.ts';
 import '../mock-vpn-check.ts';
 import { setErc20Balance, setEthBalance } from '../utils/setBalance.ts';
 import { usdcL2Address, usdsL2Address } from '@jetstreamgg/hooks';
 import { connectMockWalletAndAcceptTerms } from '../utils/connectMockWalletAndAcceptTerms.ts';
 import { switchToL2 } from '../utils/switchToL2.ts';
-import { expect } from '@playwright/test';
 import { approveOrPerformAction } from '../utils/approveOrPerformAction.ts';
 import { NetworkName } from '../utils/constants.ts';
 import { TENDERLY_BASE_CHAIN_ID, TENDERLY_ARBITRUM_CHAIN_ID } from '@/data/wagmi/config/testTenderlyChain.ts';
@@ -71,6 +70,8 @@ export const runL2SavingsTests = async ({
 
     await page.getByTestId('l2-savings-withdraw-input').click();
     await page.getByTestId('l2-savings-withdraw-input').fill('10');
+    // Due to rounding, sometimes there's not enough sUSDS balance to withdraw the full amount of 10 USDS
+    await page.getByTestId('l2-savings-withdraw-input').fill('9');
 
     await expect(page.getByRole('button', { name: 'Transaction overview' })).toBeVisible();
 

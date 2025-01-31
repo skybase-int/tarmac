@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { test } from '../fixtures.ts';
 import '../mock-rpc-call.ts';
 import '../mock-vpn-check.ts';
 import { setErc20Balance, setEthBalance } from '../utils/setBalance.ts';

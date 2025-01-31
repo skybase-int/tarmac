@@ -1,10 +1,12 @@
 import { useAccount, useChainId, useSignTypedData } from 'wagmi';
-import { ORDER_TYPE_FIELDS, cowApiClient, gpv2SettlementAddress } from './constants';
+import { ORDER_TYPE_FIELDS, cowApiClient } from './constants';
 import { OrderQuoteResponse } from './trade';
 import { WriteHookParams } from '../hooks';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
 import { fetchOrderStatus } from './fetchOrderStatus';
+import { gPv2SettlementAddress, gPv2SettlementSepoliaAddress } from '../generated';
+import { sepolia } from 'viem/chains';
 
 const createTradeOrder = async (order: OrderQuoteResponse, signature: `0x${string}`, chainId: number) => {
   try {
@@ -114,7 +116,10 @@ export const useSignAndCreateTradeOrder = ({
             name: 'Gnosis Protocol',
             version: 'v2',
             chainId,
-            verifyingContract: gpv2SettlementAddress[chainId as keyof typeof gpv2SettlementAddress]
+            verifyingContract:
+              chainId === sepolia.id
+                ? gPv2SettlementSepoliaAddress[chainId as keyof typeof gPv2SettlementSepoliaAddress]
+                : gPv2SettlementAddress[chainId as keyof typeof gPv2SettlementAddress]
           },
           types: {
             Order: ORDER_TYPE_FIELDS

@@ -114,6 +114,9 @@ export default ({ mode }: { mode: string }) => {
         }
       }),
       nodePolyfills({
+        globals: {
+          process: false
+        },
         include: ['buffer']
       }),
       react({

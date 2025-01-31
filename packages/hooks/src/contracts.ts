@@ -202,6 +202,14 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
       [mainnet.id]: '0xca9eF7F3404B23C77A2a0Dee8ab54B3338d35eAe',
       [TENDERLY_CHAIN_ID]: '0x50eCf62440E15289867D777208C105f7Fd431Ff7'
     }
+  },
+  // CoW Protocol
+  {
+    name: 'gPv2Settlement',
+    address: {
+      [mainnet.id]: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41',
+      [TENDERLY_CHAIN_ID]: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41'
+    }
   }
 ];
 
@@ -245,6 +253,13 @@ export const sepoliaContracts: { name: string; address: Record<typeof sepolia.id
     name: 'ethFlowSepolia',
     address: {
       [sepolia.id]: '0x0b7795E18767259CC253a2dF471db34c72B49516'
+    }
+  },
+  // CoW Protocol
+  {
+    name: 'gPv2SettlementSepolia',
+    address: {
+      [sepolia.id]: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41'
     }
   }
 ];

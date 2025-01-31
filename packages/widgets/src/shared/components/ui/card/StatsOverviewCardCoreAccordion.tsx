@@ -2,6 +2,7 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { HStack } from '@/shared/components/ui/layout/HStack';
 import { cn } from '@/lib/utils';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { JSX } from 'react';
 
 export const StatsOverviewCardCoreAccordion = ({
   headerLeftContent,
