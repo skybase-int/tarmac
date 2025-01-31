@@ -1,3 +1,5 @@
+import { JSX } from 'react';
+
 export interface HistoryRow {
   id: string;
   type?: string;

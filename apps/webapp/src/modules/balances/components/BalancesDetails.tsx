@@ -7,7 +7,6 @@ import { BalancesAssets } from './BalancesAssets';
 import { BalancesSkyStatsOverview } from './BalancesSkyStatsOverview';
 import { useBreakpointIndex, BP } from '@/modules/ui/hooks/useBreakpointIndex';
 import { BalancesChart } from './BalancesChart';
-import { BoostedRewardsClaim } from '@/modules/rewards/components/BoostedRewardsClaim';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 import { BalancesFaq } from './BalancesFaq';
 
@@ -18,9 +17,6 @@ export function BalancesDetails() {
 
   return (
     <DetailSectionWrapper>
-      {/* BoostedRewardsClaim is only rendered if the user is connected and has rewards to claim */}
-      <BoostedRewardsClaim />
-
       {isConnectedAndAcceptedTerms && (
         <DetailSectionRow>
           <BalancesModuleShowcase />

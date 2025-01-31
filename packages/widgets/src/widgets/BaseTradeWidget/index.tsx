@@ -386,7 +386,8 @@ function TradeWidgetWrapped({
   const {
     execute: approveExecute,
     prepareError: approvePrepareError,
-    isLoading: approveIsLoading
+    isLoading: approveIsLoading,
+    prepared: approvePrepared
   } = useApproveToken({
     amount: debouncedOriginAmount,
     contractAddress: originTokenAddress,
@@ -430,7 +431,11 @@ function TradeWidgetWrapped({
     enabled: widgetState.action === TradeAction.APPROVE && allowance !== undefined && !!originToken
   });
 
-  const { execute: tradeExecute, retryPrepare: retryTradePrepare } = usePsmSwapExactIn({
+  const {
+    execute: tradeExecute,
+    retryPrepare: retryTradePrepare,
+    prepared: tradePrepared
+  } = usePsmSwapExactIn({
     amountIn: debouncedOriginAmount,
     assetIn: originToken?.address as `0x${string}`,
     assetOut: targetToken?.address as `0x${string}`,
@@ -482,7 +487,11 @@ function TradeWidgetWrapped({
     enabled: widgetState.action === TradeAction.TRADE && !!(originToken?.address && targetToken?.address)
   });
 
-  const { execute: tradeOutExecute, retryPrepare: retryTradeOutPrepare } = usePsmSwapExactOut({
+  const {
+    execute: tradeOutExecute,
+    retryPrepare: retryTradeOutPrepare,
+    prepared: tradeOutPrepared
+  } = usePsmSwapExactOut({
     amountOut: debouncedTargetAmount,
     assetIn: originToken?.address as `0x${string}`,
     assetOut: targetToken?.address as `0x${string}`,
@@ -541,11 +550,13 @@ function TradeWidgetWrapped({
 
   const approveDisabled =
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
+    !approvePrepared ||
     isBalanceError ||
     approveIsLoading ||
     !pairValid ||
     (!originToken.isNative && allowance === undefined) ||
     allowanceLoading ||
+    (txStatus === TxStatus.SUCCESS && (lastUpdated === TradeSide.OUT ? !tradeOutPrepared : !tradePrepared)) ||
     isAmountWaitingForDebounce ||
     !originAmount ||
     !targetAmount;
@@ -554,6 +565,8 @@ function TradeWidgetWrapped({
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
     isBalanceError ||
     !pairValid ||
+    (lastUpdated === TradeSide.OUT ? !tradeOutPrepared : !tradePrepared) ||
+    (!originToken.isNative && allowance === undefined) ||
     allowanceLoading ||
     isAmountWaitingForDebounce;
 
@@ -784,7 +797,7 @@ function TradeWidgetWrapped({
         : txStatus === TxStatus.SUCCESS
           ? nextOnClick
           : txStatus === TxStatus.ERROR
-            ? errorOnClick()
+            ? errorOnClick
             : widgetState.action === TradeAction.APPROVE
               ? approveOnClick
               : widgetState.action === TradeAction.TRADE

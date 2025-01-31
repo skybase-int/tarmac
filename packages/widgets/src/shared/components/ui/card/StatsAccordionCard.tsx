@@ -7,6 +7,7 @@ import { getEtherscanLink } from '@jetstreamgg/utils';
 import { Trans } from '@lingui/react/macro';
 import { positionAnimations } from '@/shared/animation/presets';
 import { motion } from 'framer-motion';
+import { JSX } from 'react';
 
 export const StatsAccordionCard = ({
   chainId,

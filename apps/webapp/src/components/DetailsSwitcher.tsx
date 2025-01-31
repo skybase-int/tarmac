@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/tooltip';
 import { t } from '@lingui/core/macro';
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
+import { JSX } from 'react';
 
 export function DetailsSwitcher(): JSX.Element {
   // TODO replace all instances of this with CHATBOT_ENABLED from constants.ts

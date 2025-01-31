@@ -32,12 +32,12 @@ export function ChartTooltip({
         <p>{labelFormatter(label)}</p>
         {payload.map((entry, i) => (
           <div key={`tooltip-value-item-${i}`}>
-            <div className="flex items-center space-x-2 ">
+            <div className="flex items-center space-x-2">
               {prefix || ''}
               {`${formatNumber(entry.value)}${symbol && !isPercentage ? ` ${symbol}` : ''}${isPercentage ? '%' : ''}`}
             </div>
             {(isMin || isMax) && (
-              <div className="flex items-center space-x-2 ">{isMin ? 'Min' : isMax ? 'Max' : ''}</div>
+              <div className="flex items-center space-x-2">{isMin ? 'Min' : isMax ? 'Max' : ''}</div>
             )}
           </div>
         ))}
