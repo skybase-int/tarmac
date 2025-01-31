@@ -38,6 +38,7 @@ export { useAllRewardsUserHistory } from './rewards/useAllRewardsUserHistory';
 export { useRewardsChartInfo } from './rewards/useRewardsChartInfo';
 export { useRewardContractTokens } from './rewards/useRewardContractTokens';
 export { useUserRewardsBalance } from './rewards/useUserRewardsBalance';
+export { useRewardsWithUserBalance } from './rewards/useRewardsWithUserBalance';
 
 // Rewards
 export { useRewardsSupply } from './rewards/useRewardsSupply';
@@ -48,8 +49,6 @@ export { useRewardsSuppliedBalance } from './rewards/useRewardsBalance';
 export { useRewardsTotalSupplied } from './rewards/useRewardsTotalSupplied';
 export { useRewardsRate } from './rewards/useRewardsRate';
 export { useRewardsPeriodFinish } from './rewards/useRewardsPeriodFinish';
-export { useBoostedRewards } from './rewards/useBoostedRewards';
-export { useClaimBoostedRewards } from './rewards/useClaimBoostedRewards';
 
 // Shared
 export { useCombinedHistory } from './shared/useCombinedHistory';
@@ -176,12 +175,7 @@ export {
 export type { DsProxyHookResponse } from './dsProxy/useDsProxyData';
 export type { WriteHookParams, ReadHook, WriteHook, TrustLevel, DataSource, ReadHookParams } from './hooks';
 export type { PaginationOption } from './filters';
-export type {
-  RewardContract,
-  RewardContractInfo,
-  RewardContractChange,
-  BoostedRewardsData
-} from './rewards/rewards';
+export type { RewardContract, RewardContractInfo, RewardContractChange } from './rewards/rewards';
 export type { SavingsHistory } from './savings/savings';
 export type { UpgradeHistory, UpgradeHistoryRow } from './upgrade/upgrade';
 export type { TradeRecord, OrderQuoteResponse } from './trade/trade';
