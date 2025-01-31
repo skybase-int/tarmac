@@ -21,7 +21,10 @@ export const InteractiveStatsCard = ({
   return (
     <Card variant={onClick ? 'statsInteractive' : 'stats'} onClick={onClick} className="p-4 lg:p-5">
       <div className="flex items-center gap-2">
-        {tokenSymbol && <TokenIcon className="h-8 w-8" token={{ symbol: tokenSymbol, name: tokenSymbol }} />}
+        {tokenSymbol && (
+          <TokenIcon className="h-8 w-8" token={{ symbol: tokenSymbol, name: tokenSymbol }} chainId={1} />
+        )}{' '}
+        {/* show the generic icon with no network in the corner */}
         <div className="grow">
           <CardContent className="flex items-center justify-between gap-4">
             <Text>{title}</Text>

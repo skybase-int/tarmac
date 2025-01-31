@@ -59,6 +59,7 @@ export const BalancesContent = ({
               onClickSealCard={onClickSealCard}
               onExternalLinkClicked={onExternalLinkClicked}
               hideModuleBalances={hideModuleBalances}
+              chainIds={chainIds}
             />
           </motion.div>
 

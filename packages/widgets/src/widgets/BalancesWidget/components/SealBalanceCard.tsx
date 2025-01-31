@@ -7,8 +7,12 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { PopoverRateInfo } from '@/shared/components/ui/PopoverRateInfo';
 import { formatUnits } from 'viem';
 import { CardProps } from './ModulesBalances';
+import { useChainId } from 'wagmi';
+import { isMainnetId } from '@jetstreamgg/utils';
 
 export const SealBalanceCard = ({ onClick, onExternalLinkClicked }: CardProps) => {
+  const currentChainId = useChainId();
+
   const {
     data: totalUserSealed,
     isLoading: totalUserSealedLoading,
@@ -27,6 +31,11 @@ export const SealBalanceCard = ({ onClick, onExternalLinkClicked }: CardProps) =
   const highestSealRewardsRate = sortedSealRewardsData.length > 0 ? sortedSealRewardsData[0].rate : null;
 
   if (totalUserSealedError || sealRewardsDataError) return null;
+
+  //hide card if total balance is 0 and we're not on mainnet
+  if ((!totalUserSealed || totalUserSealed === 0n) && !isMainnetId(currentChainId)) {
+    return null;
+  }
 
   return (
     <InteractiveStatsCard
