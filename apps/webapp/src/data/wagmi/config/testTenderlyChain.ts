@@ -1,5 +1,5 @@
 import { Chain, defineChain } from 'viem';
-import tenderlyTestnetData from '../../../../../../tenderlyTestnetData.json'; // assert { type: 'json' };
+import tenderlyTestnetData from '../../../../../../tenderlyTestnetData.json' assert { type: 'json' };
 
 export const TENDERLY_CHAIN_ID = 314310;
 export const TENDERLY_BASE_CHAIN_ID = 8555;
