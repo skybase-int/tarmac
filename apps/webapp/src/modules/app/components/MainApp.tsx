@@ -159,7 +159,7 @@ export function MainApp() {
           intent =>
             intent === mapQueryParamToIntent(userConfig.intent) &&
             // If there is no coming soon map for the current network, default to true
-            (!COMING_SOON_MAP[chainId]?.includes(mapQueryParamToIntent(userConfig.intent)) ?? true)
+            (COMING_SOON_MAP[chainId]?.includes(mapQueryParamToIntent(userConfig.intent)) ?? true)
         ) ??
         Intent.BALANCES_INTENT
     });

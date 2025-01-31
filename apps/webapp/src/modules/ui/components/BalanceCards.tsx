@@ -20,6 +20,7 @@ interface BalanceCardProps {
   toggle?: React.ReactNode;
   error?: Error | null;
   afterBalance?: string;
+  dataTestId?: string;
 }
 
 interface BaseBalanceCardProps extends BalanceCardProps {
@@ -41,7 +42,8 @@ function BaseBalanceCard({
   token,
   className,
   error,
-  afterBalance
+  afterBalance,
+  dataTestId
 }: BaseBalanceCardProps): React.ReactElement {
   const chainId = useChainId();
   const isPositiveBalance = useMemo(() => {
@@ -73,6 +75,7 @@ function BaseBalanceCard({
                 typeof balance === 'string' ? balance : formatBigInt(balance, { unit: decimals || 18 })
               }
               afterBalance={afterBalance}
+              dataTestId={dataTestId}
             />
           </BaseBalanceCardContent>
         </LoadingErrorWrapper>
@@ -134,7 +137,8 @@ export function SuppliedBalanceCard({
   token,
   label,
   error,
-  afterBalance
+  afterBalance,
+  dataTestId
 }: BalanceCardProps): React.ReactElement {
   return (
     <BaseBalanceCard
@@ -146,6 +150,7 @@ export function SuppliedBalanceCard({
       token={token}
       error={error}
       afterBalance={afterBalance}
+      dataTestId={dataTestId}
     />
   );
 }
@@ -155,7 +160,8 @@ export function UnsuppliedBalanceCard({
   isLoading,
   token,
   label,
-  error
+  error,
+  dataTestId
 }: BalanceCardProps): React.ReactElement {
   return (
     <BaseBalanceCard
@@ -166,6 +172,7 @@ export function UnsuppliedBalanceCard({
       isLoading={isLoading}
       token={token}
       error={error}
+      dataTestId={dataTestId}
     />
   );
 }
