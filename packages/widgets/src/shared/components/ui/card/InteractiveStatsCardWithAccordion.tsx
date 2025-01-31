@@ -11,57 +11,76 @@ export const InteractiveStatsCardWithAccordion = ({
   footer,
   footerRightContent,
   tokenSymbol,
-  onClick
+  accordionContent
 }: {
   title: React.ReactElement | string;
   headerRightContent: React.ReactElement | string;
   footer: React.ReactElement | string;
   footerRightContent?: React.ReactElement | string;
   tokenSymbol?: string;
-  onClick?: () => void;
+  accordionContent?: React.ReactElement | string;
 }): React.ReactElement => {
   return (
-    <Card variant={onClick ? 'statsInteractive' : 'stats'} onClick={onClick} className="p-4 lg:p-5">
-      <div className="flex items-center gap-2">
-        {tokenSymbol && (
-          <TokenIcon className="h-8 w-8" token={{ symbol: tokenSymbol, name: tokenSymbol }} chainId={1} />
-        )}{' '}
-        {/* show the generic icon with no network in the corner */}
-        <div className="grow">
-          <CardContent className="flex items-center justify-between gap-4">
-            <Text>{title}</Text>
-            {headerRightContent}
-          </CardContent>
-          <CardFooter>
-            <div className="flex w-full justify-between">
-              <div className="flex grow items-center gap-2">
-                {footer}
-                <div className="h-4 w-4">
-                  <ArrowRight
-                    size={16}
-                    className="opacity-0 transition-opacity group-hover/interactive-card:opacity-100"
+    <Accordion type="single" collapsible>
+      <AccordionItem value="details" className="border-0">
+        <AccordionTrigger className="w-full p-0 hover:no-underline [&>svg]:hidden [&[data-state=open]>div>.chevron]:rotate-180">
+          <Card variant={'stats'} className="w-full">
+            <div>
+              <div className="flex items-center gap-2">
+                {tokenSymbol && (
+                  <TokenIcon
+                    className="h-8 w-8"
+                    token={{ symbol: tokenSymbol, name: tokenSymbol }}
+                    chainId={1}
                   />
+                )}
+                <div className="grow">
+                  <CardContent className="flex items-center justify-between gap-4">
+                    <Text>{title}</Text>
+                    {headerRightContent}
+                  </CardContent>
+                  <CardFooter>
+                    <div className="flex w-full justify-between">
+                      <div className="flex grow items-center gap-2">
+                        {footer}
+                        <div className="h-4 w-4">
+                          <ArrowRight
+                            size={16}
+                            className="opacity-0 transition-opacity group-hover/interactive-card:opacity-100"
+                          />
+                        </div>
+                      </div>
+                      {footerRightContent}
+                    </div>
+                  </CardFooter>
                 </div>
               </div>
-              {footerRightContent}
+              <HStack className="text-textSecondary mt-3 w-full items-center justify-end gap-0.5">
+                <Text variant="small" className="leading-none">
+                  Funds per network
+                </Text>
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="chevron transition-transform duration-200"
+                >
+                  <path
+                    d="M2 4L6 8L10 4"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </HStack>
             </div>
-          </CardFooter>
-        </div>
-      </div>
-      <Accordion type="single" collapsible className="mt-4">
-        <AccordionItem value="details" className="border-border border-t">
-          <AccordionTrigger>
-            <HStack className="mr-1 w-full justify-between">
-              <Text>Details</Text>
-            </HStack>
-          </AccordionTrigger>
-          <AccordionContent className="pb-4">
-            <Text variant="small" className="text-muted-foreground">
-              Additional savings details and information will be displayed here.
-            </Text>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-    </Card>
+            <AccordionContent className="px-4 pb-4 lg:px-5">{accordionContent}</AccordionContent>
+          </Card>
+        </AccordionTrigger>
+      </AccordionItem>
+    </Accordion>
   );
 };

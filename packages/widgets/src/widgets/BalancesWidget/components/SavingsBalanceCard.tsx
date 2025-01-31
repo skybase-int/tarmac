@@ -21,10 +21,14 @@ export const SavingsBalanceCard = ({ onClick, onExternalLinkClicked, chainIds }:
   const { data: multichainSavingsBalances, isLoading: multichainSavingsBalancesLoading } =
     useMultiChainSavingsBalances({ chainIds });
 
-  const totalSavingsBalance = Object.values(multichainSavingsBalances ?? {}).reduce(
-    (acc, curr) => acc + curr,
-    0n
-  );
+  const sortedSavingsBalances = Object.entries(multichainSavingsBalances ?? {})
+    .sort(([, a], [, b]) => (b > a ? 1 : b < a ? -1 : 0))
+    .map(([chainId, balance]) => ({
+      chainId: Number(chainId),
+      balance
+    }));
+
+  const totalSavingsBalance = sortedSavingsBalances.reduce((acc, { balance }) => acc + balance, 0n);
 
   console.log('totalSavingsBalance', totalSavingsBalance);
 
@@ -77,6 +81,11 @@ export const SavingsBalanceCard = ({ onClick, onExternalLinkClicked, chainIds }:
         ) : undefined
       }
       onClick={onClick}
+      accordionContent={
+        <div>
+          <Text>Details</Text>
+        </div>
+      }
     />
   );
 };
