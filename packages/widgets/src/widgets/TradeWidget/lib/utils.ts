@@ -34,7 +34,7 @@ const targetTokensSort = (a: TokenForChain, b: TokenForChain): number => {
   } else if (bIndex !== -1) {
     return 1;
   }
-  return a.symbol.toLowerCase().localeCompare(b.symbol.toLowerCase());
+  return a.symbol.localeCompare(b.symbol);
 };
 
 export function getAllowedTargetTokens(
