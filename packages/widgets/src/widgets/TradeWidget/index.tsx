@@ -840,8 +840,8 @@ function TradeWidgetWrapped({
 
   useEffect(() => {
     const tokensHasChanged =
-      externalWidgetState?.token !== originToken?.symbol ||
-      externalWidgetState?.targetToken !== targetToken?.symbol ||
+      externalWidgetState?.token?.toLowerCase() !== originToken?.symbol?.toLowerCase() ||
+      externalWidgetState?.targetToken?.toLowerCase() !== targetToken?.symbol?.toLowerCase() ||
       externalWidgetState?.amount !==
         formatBigInt(originAmount, {
           locale,
@@ -863,7 +863,9 @@ function TradeWidgetWrapped({
         tokenList,
         disallowedPairs
       );
-      const newTargetToken = newTargetList.find(token => token.symbol === externalWidgetState?.targetToken);
+      const newTargetToken = newTargetList.find(
+        token => token.symbol.toLowerCase() === externalWidgetState?.targetToken?.toLowerCase()
+      );
       setTargetToken(newTargetToken);
       setWidgetState((prev: WidgetState) => ({
         ...prev,
