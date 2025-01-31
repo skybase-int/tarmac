@@ -196,7 +196,9 @@ function TradeWidgetWrapped({
   }, [originToken?.symbol, tokenList, disallowedPairs]);
 
   const initialTargetToken = targetTokenList.find(
-    token => token.symbol.toLowerCase() === validatedExternalState?.targetToken?.toLowerCase()
+    token =>
+      token.symbol.toLowerCase() === validatedExternalState?.targetToken?.toLowerCase() &&
+      token.symbol !== originToken?.symbol
   );
   const [targetToken, setTargetToken] = useState<TokenForChain | undefined>(initialTargetToken);
 

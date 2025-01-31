@@ -169,7 +169,9 @@ function TradeWidgetWrapped({
   }, [originToken?.symbol, tokenList, disallowedPairs]);
 
   const initialTargetToken = targetTokenList.find(
-    token => token.symbol.toLowerCase() === validatedExternalState?.targetToken?.toLowerCase()
+    token =>
+      token.symbol.toLowerCase() === validatedExternalState?.targetToken?.toLowerCase() &&
+      token.symbol !== originToken?.symbol
   );
   const [targetToken, setTargetToken] = useState<TokenForChain | undefined>(initialTargetToken);
   const initialOriginAmount = parseUnits(
@@ -864,7 +866,9 @@ function TradeWidgetWrapped({
         disallowedPairs
       );
       const newTargetToken = newTargetList.find(
-        token => token.symbol.toLowerCase() === externalWidgetState?.targetToken?.toLowerCase()
+        token =>
+          token.symbol.toLowerCase() === externalWidgetState?.targetToken?.toLowerCase() &&
+          token.symbol !== originToken?.symbol
       );
       setTargetToken(newTargetToken);
       setWidgetState((prev: WidgetState) => ({
