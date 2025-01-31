@@ -57,9 +57,12 @@
     "url": "https://github.com/jetstreamgg/tarmac/issues"
   },
   "homepage": "https://github.com/jetstreamgg/tarmac#readme",
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "apps/webapp"
+    ]
+  },
   "devDependencies": {
     "@changesets/cli": "^2.27.11",
     "@lingui/detect-locale": "^5.1.2",
