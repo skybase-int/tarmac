@@ -283,9 +283,7 @@ export const generateTradeIntents = (
 // - Add a check to see if the trade pair is supported on the detected network
 // - Filter out tokens that are not supported on the detected network
 // - Add a check if the build is restricted
-// - Have in mind that when the intent is generated without an associated network then the pairs and token list will be inffered from the current network
 // - Generate the trade intents for all the supported networks/chains
 // - Sort intents by relevance/priority
-
 // - If we're in a restricted build like MiCa don't return Trade intents
 // - don't allow the same token to be both source and target

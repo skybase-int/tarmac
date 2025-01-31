@@ -69,8 +69,8 @@ export const ChatBubble = ({
   suggestions,
   intents,
   sendMessage,
-  showModifierRow = true
-  // isLastMessage
+  showModifierRow = true,
+  isLastMessage
 }: ChatBubbleProps) => {
   const { address } = useAccount();
   const [searchParams] = useSearchParams();
@@ -129,9 +129,7 @@ export const ChatBubble = ({
             </HStack>
             {user === UserType.bot && !isError && !isInternal && !isCanceled && (
               <div className="space-y-5">
-                {/* TODO: Remove this after testing */}
-                {/* {intents && intents?.length > 0 && isLastMessage && <ChatIntentsRow intents={intents} />} */}
-                {intents && intents?.length > 0 && <ChatIntentsRow intents={intents} />}
+                {intents && intents?.length > 0 && isLastMessage && <ChatIntentsRow intents={intents} />}
                 {(!intents || intents.length === 0) && suggestions && (
                   <ChatSuggestionsRow suggestions={suggestions} sendMessage={sendMessage} />
                 )}
