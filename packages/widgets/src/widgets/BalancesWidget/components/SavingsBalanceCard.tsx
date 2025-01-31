@@ -7,8 +7,9 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { PopoverRateInfo } from '@/shared/components/ui/PopoverRateInfo';
 import { formatUnits } from 'viem';
 import { CardProps } from './ModulesBalances';
+// import { useMultiChainSavingsBalances } from '@jetstreamgg/hooks';
 
-export const SavingsBalanceCard = ({ onClick, onExternalLinkClicked }: CardProps) => {
+export const SavingsBalanceCard = ({ onClick, onExternalLinkClicked /*, chainIds */ }: CardProps) => {
   const { data: savingsData, isLoading: savingsDataLoading, error: savingsDataError } = useSavingsData();
   const {
     data: overallSkyData,
@@ -16,6 +17,9 @@ export const SavingsBalanceCard = ({ onClick, onExternalLinkClicked }: CardProps
     error: overallSkyDataError
   } = useOverallSkyData();
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
+
+  // const { data: multichainSavingsBalances, isLoading: multichainSavingsBalancesLoading } =
+  //   useMultiChainSavingsBalances({ chainIds });
 
   const skySavingsRate = parseFloat(overallSkyData?.skySavingsRatecRate ?? '0');
 

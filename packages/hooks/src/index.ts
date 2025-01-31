@@ -15,6 +15,7 @@ export { useReadSavingsUsds, sUsdsAddress, sUsdsImplementationAbi } from './savi
 export { useTotalSavingsSuppliers } from './savings/useTotalSavingsSuppliers';
 export { useSsrSharesToAssets } from './savings/useSsrSharesToAssets';
 export { useSsrAssetsToShares } from './savings/useSsrAssetsToShares';
+export { useMultiChainSavingsBalances } from './savings/useMultiChainSavingsBalances';
 
 // Authentication
 export { useRestrictedAddressCheck } from './authentication/useRestrictedAddressCheck';
