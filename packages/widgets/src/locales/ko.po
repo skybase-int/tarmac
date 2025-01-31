@@ -110,10 +110,6 @@ msgstr ""
 msgid "An error occurred when allowing this app to access the tokens in your wallet."
 msgstr ""
 
-#: src/widgets/RewardsWidget/lib/constants.ts
-msgid "An error occurred when claiming your boosted rewards."
-msgstr ""
-
 #: src/widgets/TradeWidget/lib/constants.ts
 msgid "An error occurred while allowing the app to access the {symbol}."
 msgstr ""
@@ -308,10 +304,6 @@ msgstr ""
 msgid "Begin the savings process"
 msgstr ""
 
-#: src/widgets/RewardsWidget/components/BoostedRewardsSection.tsx
-msgid "Boosted rewards"
-msgstr ""
-
 #: src/widgets/SealModuleWidget/components/Repay.tsx
 #: src/widgets/SealModuleWidget/components/PositionSummary.tsx
 #: src/widgets/SealModuleWidget/components/Borrow.tsx
@@ -395,10 +387,6 @@ msgstr ""
 msgid "Claim {0} {1}"
 msgstr ""
 
-#: src/widgets/RewardsWidget/components/BoostedRewardsSection.tsx
-msgid "Claim boosted rewards"
-msgstr ""
-
 #: src/widgets/SealModuleWidget/index.tsx
 msgid "Claim failed"
 msgstr ""
@@ -424,14 +412,6 @@ msgstr ""
 msgid "Claiming {amount} {symbol}"
 msgstr ""
 
-#: src/widgets/RewardsWidget/index.tsx
-msgid "Claiming boosted rewards"
-msgstr ""
-
-#: src/widgets/RewardsWidget/index.tsx
-msgid "Claiming failed"
-msgstr ""
-
 #. placeholder {0}: selectedRewardContract.name
 #: src/widgets/RewardsWidget/lib/constants.ts
 msgid "Claiming from the {0} rewards pool"
@@ -439,10 +419,6 @@ msgstr ""
 
 #: src/widgets/SealModuleWidget/lib/constants.ts
 msgid "Claiming rewards"
-msgstr ""
-
-#: src/widgets/RewardsWidget/lib/constants.ts
-msgid "Claiming SKY rewards"
 msgstr ""
 
 #: src/widgets/SealModuleWidget/components/Repay.tsx
@@ -477,7 +453,6 @@ msgstr ""
 msgid "Confirm trade details"
 msgstr ""
 
-#: src/widgets/RewardsWidget/lib/constants.ts
 #: src/widgets/RewardsWidget/lib/constants.ts
 msgid "Confirm your claim"
 msgstr ""
@@ -618,7 +593,6 @@ msgstr ""
 #: src/widgets/SavingsWidget/lib/constants.ts
 #: src/widgets/SavingsWidget/lib/constants.ts
 #: src/widgets/SavingsWidget/lib/constants.ts
-#: src/widgets/RewardsWidget/lib/constants.ts
 #: src/widgets/RewardsWidget/lib/constants.ts
 #: src/widgets/RewardsWidget/lib/constants.ts
 #: src/widgets/RewardsWidget/lib/constants.ts
@@ -778,7 +752,6 @@ msgstr ""
 #: src/widgets/RewardsWidget/lib/constants.ts
 #: src/widgets/RewardsWidget/lib/constants.ts
 #: src/widgets/RewardsWidget/lib/constants.ts
-#: src/widgets/RewardsWidget/lib/constants.ts
 msgid "In progress"
 msgstr ""
 
@@ -836,7 +809,6 @@ msgstr ""
 #: src/widgets/UpgradeWidget/lib/constants.ts
 #: src/widgets/SealModuleWidget/lib/constants.ts
 #: src/widgets/SealModuleWidget/lib/constants.ts
-#: src/widgets/RewardsWidget/lib/constants.ts
 msgid "Loading"
 msgstr ""
 
@@ -1009,10 +981,6 @@ msgstr ""
 
 #: src/widgets/RewardsWidget/lib/constants.ts
 msgid "Please confirm that you want to claim your {symbol} rewards directly to your wallet."
-msgstr ""
-
-#: src/widgets/RewardsWidget/lib/constants.ts
-msgid "Please confirm that you want to claim your boosted SKY rewards directly into your wallet."
 msgstr ""
 
 #: src/widgets/SealModuleWidget/lib/constants.ts
@@ -1294,12 +1262,7 @@ msgstr "성공"
 #: src/widgets/SavingsWidget/lib/constants.ts
 #: src/widgets/RewardsWidget/lib/constants.ts
 #: src/widgets/RewardsWidget/lib/constants.ts
-#: src/widgets/RewardsWidget/lib/constants.ts
 msgid "Success!"
-msgstr ""
-
-#: src/widgets/RewardsWidget/index.tsx
-msgid "Successfully claimed"
 msgstr ""
 
 #: src/widgets/SealModuleWidget/lib/constants.ts
@@ -1572,7 +1535,6 @@ msgstr ""
 #: src/widgets/RewardsWidget/lib/constants.ts
 #: src/widgets/RewardsWidget/lib/constants.ts
 #: src/widgets/RewardsWidget/lib/constants.ts
-#: src/widgets/RewardsWidget/lib/constants.ts
 #: src/shared/constants.ts
 msgid "Waiting for confirmation"
 msgstr ""
@@ -1599,10 +1561,6 @@ msgstr ""
 #: src/widgets/BaseSavingsWidget/index.tsx
 msgid "We could not approve your token allowance."
 msgstr "토큰 할당량을 승인할 수 없습니다."
-
-#: src/widgets/RewardsWidget/index.tsx
-msgid "We could not claim your boosted rewards."
-msgstr ""
 
 #: src/widgets/SealModuleWidget/index.tsx
 msgid "We could not claim your rewards."
@@ -1706,17 +1664,8 @@ msgstr ""
 msgid "You borrowed"
 msgstr ""
 
-#: src/widgets/RewardsWidget/components/BoostedRewardsSection.tsx
-msgid "You can claim your boosted rewards now and hold your SKY."
-msgstr ""
-
 #: src/widgets/SealModuleWidget/components/SelectDelegate.tsx
 msgid "You can optionally select a delegate or skip this step"
-msgstr ""
-
-#. placeholder {0}: formatBigInt(boostedRewardsData?.amount || 0n)
-#: src/widgets/RewardsWidget/index.tsx
-msgid "You claimed {0} SKY of boosted rewards"
 msgstr ""
 
 #: src/widgets/SealModuleWidget/index.tsx
@@ -1849,10 +1798,6 @@ msgstr ""
 msgid "You’ve claimed {amount} {symbol} rewards"
 msgstr ""
 
-#: src/widgets/RewardsWidget/lib/constants.ts
-msgid "You've claimed SKY into your wallet."
-msgstr ""
-
 #: src/widgets/SealModuleWidget/lib/constants.ts
 msgid "You’ve claimed your rewards"
 msgstr ""
@@ -1896,7 +1841,6 @@ msgid "Your cancellation request has been placed"
 msgstr ""
 
 #: src/widgets/SealModuleWidget/lib/constants.ts
-#: src/widgets/RewardsWidget/lib/constants.ts
 #: src/widgets/RewardsWidget/lib/constants.ts
 msgid "Your claim is being processed on the blockchain. Please wait."
 msgstr ""
