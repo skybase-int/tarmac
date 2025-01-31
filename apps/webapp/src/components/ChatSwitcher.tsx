@@ -12,6 +12,7 @@ import {
 import { t } from '@lingui/macro';
 import { Chat } from '@/modules/icons';
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
+import { JSX } from 'react';
 
 export function ChatSwitcher(): JSX.Element {
   const { bpi } = useBreakpointIndex();
