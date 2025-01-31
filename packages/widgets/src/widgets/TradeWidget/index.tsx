@@ -159,8 +159,9 @@ function TradeWidgetWrapped({
 
   const initialOriginTokenIndex = 0;
   const initialOriginToken =
-    originTokenList.find(token => token.symbol === validatedExternalState?.token) ||
-    (originTokenList.length ? originTokenList[initialOriginTokenIndex] : undefined);
+    originTokenList.find(
+      token => token.symbol.toLowerCase() === validatedExternalState?.token?.toLowerCase()
+    ) || (originTokenList.length ? originTokenList[initialOriginTokenIndex] : undefined);
   const [originToken, setOriginToken] = useState<TokenForChain | undefined>(initialOriginToken);
 
   const targetTokenList = useMemo(() => {
@@ -168,7 +169,7 @@ function TradeWidgetWrapped({
   }, [originToken?.symbol, tokenList, disallowedPairs]);
 
   const initialTargetToken = targetTokenList.find(
-    token => token.symbol === validatedExternalState?.targetToken
+    token => token.symbol.toLowerCase() === validatedExternalState?.targetToken?.toLowerCase()
   );
   const [targetToken, setTargetToken] = useState<TokenForChain | undefined>(initialTargetToken);
   const initialOriginAmount = parseUnits(
