@@ -26,58 +26,60 @@ export const InteractiveStatsCardWithAccordion = ({
         <AccordionTrigger className="w-full p-0 hover:no-underline [&>svg]:hidden [&[data-state=open]>div>.chevron]:rotate-180">
           <Card variant={'stats'} className="w-full">
             <div>
-              <div className="flex items-center gap-2">
-                {tokenSymbol && (
-                  <TokenIcon
-                    className="h-8 w-8"
-                    token={{ symbol: tokenSymbol, name: tokenSymbol }}
-                    chainId={1}
-                  />
-                )}
-                <div className="grow">
-                  <CardContent className="flex items-center justify-between gap-4">
-                    <Text>{title}</Text>
-                    {headerRightContent}
-                  </CardContent>
-                  <CardFooter>
-                    <div className="flex w-full justify-between">
-                      <div className="flex grow items-center gap-2">
-                        {footer}
-                        <div className="h-4 w-4">
-                          <ArrowRight
-                            size={16}
-                            className="opacity-0 transition-opacity group-hover/interactive-card:opacity-100"
-                          />
+              <div>
+                <div className="flex items-center gap-2">
+                  {tokenSymbol && (
+                    <TokenIcon
+                      className="h-8 w-8"
+                      token={{ symbol: tokenSymbol, name: tokenSymbol }}
+                      chainId={1}
+                    />
+                  )}
+                  <div className="grow">
+                    <CardContent className="flex items-center justify-between gap-4">
+                      <Text>{title}</Text>
+                      {headerRightContent}
+                    </CardContent>
+                    <CardFooter>
+                      <div className="flex w-full justify-between">
+                        <div className="flex grow items-center gap-2">
+                          {footer}
+                          <div className="h-4 w-4">
+                            <ArrowRight
+                              size={16}
+                              className="opacity-0 transition-opacity group-hover/interactive-card:opacity-100"
+                            />
+                          </div>
                         </div>
+                        {footerRightContent}
                       </div>
-                      {footerRightContent}
-                    </div>
-                  </CardFooter>
+                    </CardFooter>
+                  </div>
                 </div>
+                <HStack className="text-textSecondary mt-3 w-full items-center justify-end gap-0.5">
+                  <Text variant="small" className="leading-none">
+                    Funds per network
+                  </Text>
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="chevron transition-transform duration-200"
+                  >
+                    <path
+                      d="M2 4L6 8L10 4"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </HStack>
               </div>
-              <HStack className="text-textSecondary mt-3 w-full items-center justify-end gap-0.5">
-                <Text variant="small" className="leading-none">
-                  Funds per network
-                </Text>
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 12 12"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="chevron transition-transform duration-200"
-                >
-                  <path
-                    d="M2 4L6 8L10 4"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </HStack>
+              <AccordionContent className="px-0">{accordionContent}</AccordionContent>
             </div>
-            <AccordionContent className="px-4 pb-4 lg:px-5">{accordionContent}</AccordionContent>
           </Card>
         </AccordionTrigger>
       </AccordionItem>

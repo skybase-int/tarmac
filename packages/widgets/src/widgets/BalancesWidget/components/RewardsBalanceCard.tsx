@@ -15,7 +15,7 @@ import { PopoverRateInfo } from '@/shared/components/ui/PopoverRateInfo';
 import { formatUnits } from 'viem';
 import { CardProps } from './ModulesBalances';
 import { useChainId } from 'wagmi';
-import { isMainnetId, isTestnetId } from '@jetstreamgg/utils';
+import { isTestnetId } from '@jetstreamgg/utils';
 
 export const RewardsBalanceCard = ({ onClick, onExternalLinkClicked }: CardProps) => {
   const currentChainId = useChainId();
@@ -65,15 +65,6 @@ export const RewardsBalanceCard = ({ onClick, onExternalLinkClicked }: CardProps
   const mostRecentRateNumber = mostRecentRate ? parseFloat(mostRecentRate) : null;
 
   if (usdsSkySuppliedBalanceError || usdsCleSuppliedBalanceError || chartDataError) return null;
-
-  //hide card if total balance is 0 and we're not on mainnet
-  if (
-    (!usdsSkySuppliedBalance || usdsSkySuppliedBalance === 0n) &&
-    (!usdsCleSuppliedBalance || usdsCleSuppliedBalance === 0n) &&
-    !isMainnetId(currentChainId)
-  ) {
-    return null;
-  }
 
   return (
     <InteractiveStatsCard

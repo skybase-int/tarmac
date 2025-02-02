@@ -8,8 +8,11 @@ import { PopoverRateInfo } from '@/shared/components/ui/PopoverRateInfo';
 import { formatUnits } from 'viem';
 import { CardProps } from './ModulesBalances';
 import { useMultiChainSavingsBalances } from '@jetstreamgg/hooks';
+import { TokenIcon } from '@/shared/components/ui/token/TokenIcon';
+import { ArrowRight } from 'lucide-react';
+import { useChains } from 'wagmi';
 
-export const SavingsBalanceCard = ({ onClick, onExternalLinkClicked, chainIds }: CardProps) => {
+export const SavingsBalanceCard = ({ onExternalLinkClicked, chainIds }: CardProps) => {
   const { data: savingsData, isLoading: savingsDataLoading, error: savingsDataError } = useSavingsData();
   const {
     data: overallSkyData,
@@ -17,6 +20,8 @@ export const SavingsBalanceCard = ({ onClick, onExternalLinkClicked, chainIds }:
     error: overallSkyDataError
   } = useOverallSkyData();
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
+
+  const chains = useChains();
 
   const { data: multichainSavingsBalances, isLoading: multichainSavingsBalancesLoading } =
     useMultiChainSavingsBalances({ chainIds });
@@ -80,11 +85,34 @@ export const SavingsBalanceCard = ({ onClick, onExternalLinkClicked, chainIds }:
           </Text>
         ) : undefined
       }
-      onClick={onClick}
       accordionContent={
-        <div>
-          <Text>Details</Text>
-        </div>
+        <>
+          {sortedSavingsBalances.map(({ chainId, balance }) => {
+            const networkName = chains.find(c => c.id === chainId)?.name.toLowerCase();
+            return (
+              <div
+                key={chainId}
+                className="group/interactive-card hover:bg-primary transition-gradient-and-colors cursor-pointer [--gradient-opacity:0%] hover:[--gradient-opacity:100%]"
+              >
+                <div className="flex items-start gap-2 p-2">
+                  <TokenIcon className="h-8 w-8" token={{ symbol: 'USDS', name: 'USDS' }} chainId={chainId} />
+                  <div className="grow">
+                    <div className="flex flex-col gap-1">
+                      <div className="flex items-center justify-between">
+                        <Text>{networkName}</Text>
+                        <Text>{formatBigInt(balance)}</Text>
+                      </div>
+                      <ArrowRight
+                        size={16}
+                        className="opacity-0 transition-opacity group-hover/interactive-card:opacity-100"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </>
       }
     />
   );
