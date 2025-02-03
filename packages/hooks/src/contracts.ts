@@ -279,8 +279,8 @@ export const l2Contracts: { name: string; address: Record<L2ChainId, `0x${string
     address: {
       [base.id]: '0x820C137fa70C8691f0e44Dc420a5e53c168921Dc',
       [TENDERLY_BASE_CHAIN_ID]: '0x820C137fa70C8691f0e44Dc420a5e53c168921Dc',
-      [TENDERLY_ARBITRUM_CHAIN_ID]: '0x820C137fa70C8691f0e44Dc420a5e53c168921Dc',
-      [arbitrum.id]: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831' //TODO: placeholder address
+      [TENDERLY_ARBITRUM_CHAIN_ID]: '0x820C137fa70C8691f0e44Dc420a5e53c168921Dc', // TODO: update to Arbitrum address once we fork Arbitrum
+      [arbitrum.id]: '0x6491c05A82219b8D1479057361ff1654749b876b'
     }
   },
   {
@@ -288,8 +288,8 @@ export const l2Contracts: { name: string; address: Record<L2ChainId, `0x${string
     address: {
       [base.id]: '0x5875eEE11Cf8398102FdAd704C9E96607675467a',
       [TENDERLY_BASE_CHAIN_ID]: '0x5875eEE11Cf8398102FdAd704C9E96607675467a',
-      [TENDERLY_ARBITRUM_CHAIN_ID]: '0x5875eEE11Cf8398102FdAd704C9E96607675467a',
-      [arbitrum.id]: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831' //TODO: placeholder address
+      [TENDERLY_ARBITRUM_CHAIN_ID]: '0x5875eEE11Cf8398102FdAd704C9E96607675467a', // TODO: update to Arbitrum address once we fork Arbitrum
+      [arbitrum.id]: '0xdDb46999F8891663a8F2828d25298f70416d7610'
     }
   },
   {
