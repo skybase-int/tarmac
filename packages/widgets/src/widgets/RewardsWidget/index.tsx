@@ -678,7 +678,7 @@ const RewardsWidgetWrapped = ({
               onExternalLinkClicked={onExternalLinkClicked}
             />
           </CardAnimationWrapper>
-        ) : txStatus !== TxStatus.IDLE ? (
+        ) : txStatus !== TxStatus.IDLE && selectedRewardContract ? (
           <CardAnimationWrapper key="widget-transaction-status">
             <RewardsTransactionStatus
               rewardToken={

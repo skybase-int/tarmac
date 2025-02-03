@@ -12,6 +12,7 @@ import { formatBigInt, formatDecimalPercentage } from '@jetstreamgg/utils';
 import { Trans } from '@lingui/react/macro';
 import { motion } from 'framer-motion';
 import { JSX } from 'react';
+import { useChainId } from 'wagmi';
 
 export const RewardsStatsCardCore = ({
   rewardContract,
@@ -34,8 +35,14 @@ export const RewardsStatsCardCore = ({
   isConnectedAndEnabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 }) => {
-  const rewardTokenDecimals = rewardContract.rewardToken.decimals || 18;
-  const MIN_CLAIM_DISPLAY = BigInt(10 ** (rewardTokenDecimals - 2)); // 0.01
+  const chainId = useChainId();
+  const rewardTokenDecimals = rewardContract.rewardToken.decimals;
+  const parsedRewardTokenDecimals = !rewardTokenDecimals
+    ? 18
+    : typeof rewardTokenDecimals === 'number'
+      ? rewardTokenDecimals
+      : rewardTokenDecimals[chainId] || 18;
+  const MIN_CLAIM_DISPLAY = BigInt(10 ** (parsedRewardTokenDecimals - 2)); // 0.01
 
   const {
     data: chartData,
