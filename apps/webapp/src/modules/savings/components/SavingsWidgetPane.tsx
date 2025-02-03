@@ -28,7 +28,7 @@ export function SavingsWidgetPane(sharedProps: SharedProps) {
   const isRestrictedMiCa = import.meta.env.VITE_RESTRICTED_BUILD_MICA === 'true';
   const disallowedTokens =
     isRestrictedMiCa && isBaseChain ? { supply: [TOKENS.usdc], withdraw: [TOKENS.usdc] } : undefined;
-  const tab = searchParams.get(QueryParams.Tab) as 'left' | 'right' | undefined;
+  const tab = (searchParams.get(QueryParams.Tab) || undefined) as 'left' | 'right' | undefined;
 
   const onSavingsWidgetStateChange = ({
     hash,
