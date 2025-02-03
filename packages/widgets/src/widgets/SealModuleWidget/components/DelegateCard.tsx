@@ -5,7 +5,7 @@ import { HStack } from '@/shared/components/ui/layout/HStack';
 import { MotionHStack } from '@/shared/components/ui/layout/MotionHStack';
 import { MotionVStack } from '@/shared/components/ui/layout/MotionVStack';
 import { VStack } from '@/shared/components/ui/layout/VStack';
-import { DelegateInfo } from '@jetstreamgg/hooks/dist/src/delegates/delegate';
+import { DelegateInfo } from '@jetstreamgg/hooks';
 import { formatBigInt } from '@jetstreamgg/utils';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';

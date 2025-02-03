@@ -7,7 +7,7 @@ import { JSX } from 'react';
 export function DualSwitcher(): JSX.Element {
   const chatEnabled = import.meta.env.VITE_CHATBOT_ENABLED === 'true';
   return (
-    <HStack className="items-center gap-4 space-x-0">
+    <HStack className="items-start gap-4 space-x-0">
       <NetworkSwitcher />
       <HStack className="items-center space-x-0">
         <DetailsSwitcher />

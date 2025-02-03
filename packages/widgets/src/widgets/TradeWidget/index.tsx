@@ -169,7 +169,9 @@ function TradeWidgetWrapped({
   }, [originToken?.symbol, tokenList, disallowedPairs]);
 
   const initialTargetToken = targetTokenList.find(
-    token => token.symbol.toLowerCase() === validatedExternalState?.targetToken?.toLowerCase()
+    token =>
+      token.symbol.toLowerCase() === validatedExternalState?.targetToken?.toLowerCase() &&
+      token.symbol !== originToken?.symbol
   );
   const [targetToken, setTargetToken] = useState<TokenForChain | undefined>(initialTargetToken);
   const initialOriginAmount = parseUnits(
@@ -840,8 +842,8 @@ function TradeWidgetWrapped({
 
   useEffect(() => {
     const tokensHasChanged =
-      externalWidgetState?.token !== originToken?.symbol ||
-      externalWidgetState?.targetToken !== targetToken?.symbol ||
+      externalWidgetState?.token?.toLowerCase() !== originToken?.symbol?.toLowerCase() ||
+      externalWidgetState?.targetToken?.toLowerCase() !== targetToken?.symbol?.toLowerCase() ||
       externalWidgetState?.amount !==
         formatBigInt(originAmount, {
           locale,
@@ -863,7 +865,11 @@ function TradeWidgetWrapped({
         tokenList,
         disallowedPairs
       );
-      const newTargetToken = newTargetList.find(token => token.symbol === externalWidgetState?.targetToken);
+      const newTargetToken = newTargetList.find(
+        token =>
+          token.symbol.toLowerCase() === externalWidgetState?.targetToken?.toLowerCase() &&
+          token.symbol !== originToken?.symbol
+      );
       setTargetToken(newTargetToken);
       setWidgetState((prev: WidgetState) => ({
         ...prev,
