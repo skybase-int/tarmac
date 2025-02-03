@@ -4,7 +4,7 @@ import { getWagmiClientAndChains } from '../modules/providers/wagmi';
 import { lightTheme, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { MakerHooksProvider } from '@jetstreamgg/hooks';
 
-import '@jetstreamgg/widgets/dist/style.css';
+import '@jetstreamgg/widgets/style.css';
 
 import '@fontsource/plus-jakarta-sans';
 import '@rainbow-me/rainbowkit/styles.css';
