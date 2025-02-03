@@ -10,7 +10,7 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/jetstream-gg-widgets.js"
     },
-    "./dist/style.css": "./dist/style.css"
+    "./style.css": "./dist/style.css"
   },
   "files": [
     "dist"
