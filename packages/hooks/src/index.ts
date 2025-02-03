@@ -185,7 +185,9 @@ export type { PriceData } from './prices/usePrices';
 export type { CombinedHistoryItem } from './shared/shared';
 export type { TokenChartInfoParsed } from './tokens/useTokenChartInfo';
 export type { RewardsChartInfoParsed } from './rewards/useRewardsChartInfo';
-export type { Vault } from './vaults/vault';
+export type { Vault, CollateralRiskParameters } from './vaults/vault';
+export type { SealHistoryKick } from './seal/sealModule';
+export type { DelegateInfo } from './delegates/delegate';
 
 // Generated hooks and contracts data
 export {

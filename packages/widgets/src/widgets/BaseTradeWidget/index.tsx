@@ -185,8 +185,9 @@ function TradeWidgetWrapped({
 
   const initialOriginTokenIndex = 0;
   const initialOriginToken =
-    originTokenList.find(token => token.symbol === validatedExternalState?.token) ||
-    (originTokenList.length ? originTokenList[initialOriginTokenIndex] : undefined);
+    originTokenList.find(
+      token => token.symbol.toLowerCase() === validatedExternalState?.token?.toLowerCase()
+    ) || (originTokenList.length ? originTokenList[initialOriginTokenIndex] : undefined);
 
   const [originToken, setOriginToken] = useState<TokenForChain | undefined>(initialOriginToken);
 
@@ -195,7 +196,9 @@ function TradeWidgetWrapped({
   }, [originToken?.symbol, tokenList, disallowedPairs]);
 
   const initialTargetToken = targetTokenList.find(
-    token => token.symbol === validatedExternalState?.targetToken
+    token =>
+      token.symbol.toLowerCase() === validatedExternalState?.targetToken?.toLowerCase() &&
+      token.symbol !== originToken?.symbol
   );
   const [targetToken, setTargetToken] = useState<TokenForChain | undefined>(initialTargetToken);
 
@@ -398,7 +401,7 @@ function TradeWidgetWrapped({
         description: t`Approving ${formatBigInt(debouncedOriginAmount, {
           locale,
           unit: originToken && getTokenDecimals(originToken, chainId)
-        })} ${originToken?.symbol}`
+        })} ${originToken?.symbol ?? ''}`
       });
       setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
       setTxStatus(TxStatus.LOADING);
@@ -407,7 +410,7 @@ function TradeWidgetWrapped({
     onSuccess: (hash: string) => {
       onNotification?.({
         title: t`Approve successful`,
-        description: t`You approved ${originToken?.symbol}`,
+        description: t`You approved ${originToken?.symbol ?? ''}`,
         status: TxStatus.SUCCESS
       });
       setTxStatus(TxStatus.SUCCESS);
@@ -446,7 +449,7 @@ function TradeWidgetWrapped({
         description: t`Trading ${formatBigInt(debouncedOriginAmount, {
           locale,
           unit: originToken && getTokenDecimals(originToken, chainId)
-        })} ${originToken?.symbol}`
+        })} ${originToken?.symbol ?? ''}`
       });
       setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
       setTxStatus(TxStatus.LOADING);
@@ -459,10 +462,10 @@ function TradeWidgetWrapped({
         description: t`You traded ${formatBigInt(debouncedOriginAmount, {
           locale,
           unit: originToken && getTokenDecimals(originToken, chainId)
-        })} ${originToken?.symbol} for ${formatBigInt(debouncedTargetAmount, {
+        })} ${originToken?.symbol ?? ''} for ${formatBigInt(debouncedTargetAmount, {
           locale,
           unit: targetToken && getTokenDecimals(targetToken, chainId)
-        })} ${targetToken?.symbol}`,
+        })} ${targetToken?.symbol ?? ''}`,
         status: TxStatus.SUCCESS,
         type: notificationTypeMaping[targetToken?.symbol?.toUpperCase() || 'none']
       });
@@ -502,7 +505,7 @@ function TradeWidgetWrapped({
         description: t`Trading ${formatBigInt(debouncedOriginAmount, {
           locale,
           unit: originToken && getTokenDecimals(originToken, chainId)
-        })} ${originToken?.symbol}`
+        })} ${originToken?.symbol ?? ''}`
       });
       setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
       setTxStatus(TxStatus.LOADING);
@@ -515,10 +518,10 @@ function TradeWidgetWrapped({
         description: t`You traded ${formatBigInt(debouncedOriginAmount, {
           locale,
           unit: originToken && getTokenDecimals(originToken, chainId)
-        })} ${originToken?.symbol} for ${formatBigInt(debouncedTargetAmount, {
+        })} ${originToken?.symbol ?? ''} for ${formatBigInt(debouncedTargetAmount, {
           locale,
           unit: targetToken && getTokenDecimals(targetToken, chainId)
-        })} ${targetToken?.symbol}`,
+        })} ${targetToken?.symbol ?? ''}`,
         status: TxStatus.SUCCESS,
         type: notificationTypeMaping[targetToken?.symbol?.toUpperCase() || 'none']
       });

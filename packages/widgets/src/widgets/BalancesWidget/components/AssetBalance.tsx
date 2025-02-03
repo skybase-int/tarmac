@@ -56,7 +56,7 @@ export const AssetBalance = ({
           <Link to={action?.actionUrl || ''} hidden={!shouldShowAction} className="w-full">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                <img src={action?.image || ''} alt={`${symbol}-suggested-action`} className="h-[60px]" />
+                <img src={action?.image} alt={`${symbol}-suggested-action`} className="h-[60px]" />
                 <Text className="flex items-center">{action?.label}</Text>
               </div>
               <div className="ml-3">

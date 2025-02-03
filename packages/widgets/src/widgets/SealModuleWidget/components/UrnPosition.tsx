@@ -9,7 +9,8 @@ import {
   useUrnAddress,
   useUrnSelectedRewardContract,
   useUrnSelectedVoteDelegate,
-  useVault
+  useVault,
+  SealHistoryKick
 } from '@jetstreamgg/hooks';
 import { SealModuleWidgetContext } from '../context/context';
 import { WidgetContext } from '@/context/WidgetContext';
@@ -17,7 +18,6 @@ import { SealAction, SealStep } from '../lib/constants';
 import { WidgetState } from '@/index';
 import { formatUrnIndex } from '../lib/utils';
 import { PositionDetail } from './PositionDetail';
-import { SealHistoryKick } from '@jetstreamgg/hooks/dist/src/seal/sealModule';
 import { Button } from '@/components/ui/button';
 import { Edit } from '@/shared/components/icons/Edit';
 import { OnSealUrnChange } from '..';
