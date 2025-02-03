@@ -8,7 +8,8 @@ import {
   useCollateralData,
   useSimulatedVault,
   useVault,
-  Vault
+  Vault,
+  CollateralRiskParameters
 } from '@jetstreamgg/hooks';
 import { t } from '@lingui/core/macro';
 import { useContext, useEffect, useMemo } from 'react';
@@ -19,14 +20,14 @@ import {
   captitalizeFirstLetter,
   formatBigInt,
   formatPercent,
-  useDebounce
+  useDebounce,
+  math
 } from '@jetstreamgg/utils';
 import { formatUnits } from 'viem';
 import { RiskSlider } from '@/shared/components/ui/RiskSlider';
 import { getRiskTextColor, getCeilingTextColor } from '../lib/utils';
 import { useChainId } from 'wagmi';
 import { useRiskSlider } from '../hooks/useRiskSlider';
-import { math } from '@jetstreamgg/utils';
 import {
   collateralizationRatioTooltipText,
   liquidationPriceTooltipText,
@@ -34,7 +35,6 @@ import {
   borrowRateTooltipText,
   debtCeilingTooltipText
 } from '../lib/constants';
-import { CollateralRiskParameters } from '@jetstreamgg/hooks/dist/src/vaults/vault';
 import { Warning } from '@/shared/components/icons/Warning';
 import { Text } from '@/shared/components/ui/Typography';
 import { WidgetContext } from '@/context/WidgetContext';
