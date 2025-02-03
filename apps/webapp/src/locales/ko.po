@@ -270,7 +270,7 @@ msgstr ""
 msgid "Legal Terms"
 msgstr ""
 
-#. placeholder {0}: rewardContract?.supplyToken.symbol.toUpperCase()
+#. placeholder {0}: rewardContract?.supplyToken.symbol?.toUpperCase() ?? 'tokens'
 #: src/modules/app/hooks/useNotification.tsx
 msgid "Looks like you need {0} to get rewards"
 msgstr ""
@@ -545,7 +545,7 @@ msgstr ""
 msgid "Total {0} rewarded"
 msgstr ""
 
-#. placeholder {0}: userConfig?.sealToken
+#. placeholder {0}: userConfig?.sealToken ?? ''
 #: src/modules/seal/components/SealOverview.tsx
 msgid "Total {0} sealed"
 msgstr ""

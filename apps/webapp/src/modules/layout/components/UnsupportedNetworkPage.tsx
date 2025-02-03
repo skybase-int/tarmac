@@ -1,6 +1,6 @@
 import { Text } from '@/modules/layout/components/Typography';
 import { Trans } from '@lingui/react/macro';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { UnsupportedNetwork } from '@/modules/icons/UnsupportedNetwork';
 import { useSwitchChain } from 'wagmi';
 import { Button } from '@/components/ui/button';
@@ -29,9 +29,9 @@ export const UnsupportedNetworkPage = ({ children }: { children: React.ReactNode
           <div className="flex flex-col gap-5 sm:flex-row">
             <UnsupportedNetwork className="flex-shrink-0" />
             <div>
-              <Text className="text-text mb-2 text-[28px] md:-mt-2 md:text-[32px]">
+              <DialogTitle className="text-text mb-2 text-[28px] md:-mt-2 md:text-[32px]">
                 <Trans>Your wallet is connected to an unsupported network</Trans>
-              </Text>
+              </DialogTitle>
               <Text className="font-graphik text-text mb-10">
                 <Trans>
                   Only Ethereum Mainnet and Base are supported at this time.
