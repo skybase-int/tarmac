@@ -168,7 +168,7 @@ const RewardsWidgetWrapped = ({
       addRecentTransaction?.({
         hash,
         description: t`Supplying ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name
+          selectedRewardContract?.supplyToken.name ?? ''
         }`
       });
       setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
@@ -179,7 +179,7 @@ const RewardsWidgetWrapped = ({
       onNotification?.({
         title: t`Supply successful`,
         description: t`You supplied ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name
+          selectedRewardContract?.supplyToken.name ?? ''
         }`,
         status: TxStatus.SUCCESS
       });
@@ -213,7 +213,7 @@ const RewardsWidgetWrapped = ({
       addRecentTransaction?.({
         hash,
         description: t`Approving ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name
+          selectedRewardContract?.supplyToken.name ?? ''
         }`
       });
       setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
@@ -224,7 +224,7 @@ const RewardsWidgetWrapped = ({
       onNotification?.({
         title: t`Approve successful`,
         description: t`You approved ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name
+          selectedRewardContract?.supplyToken.name ?? ''
         }`,
         status: TxStatus.SUCCESS
       });
@@ -255,7 +255,7 @@ const RewardsWidgetWrapped = ({
       addRecentTransaction?.({
         hash,
         description: t`Withdrawing ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name
+          selectedRewardContract?.supplyToken.name ?? ''
         }`
       });
       setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
@@ -266,7 +266,7 @@ const RewardsWidgetWrapped = ({
       onNotification?.({
         title: t`Withdraw successful`,
         description: t`You withdrew ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name
+          selectedRewardContract?.supplyToken.name ?? ''
         }`,
         status: TxStatus.SUCCESS
       });
@@ -722,7 +722,7 @@ const RewardsWidgetWrapped = ({
                     fetchingMessage={t`Fetching transaction details`}
                     transactionData={[
                       {
-                        label: t`Total ${selectedRewardContract?.supplyToken.symbol} to ${
+                        label: t`Total ${selectedRewardContract?.supplyToken.symbol ?? ''} to ${
                           widgetState.flow === RewardsFlow.SUPPLY ? 'Supply' : 'Withdraw'
                         }`,
                         value: `${formatBigInt(amount, { maxDecimals: 2 })}`
