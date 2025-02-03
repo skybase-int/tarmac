@@ -10,7 +10,7 @@
     "build:restricted": "VITE_RESTRICTED_BUILD=true pnpm build",
     "build:restricted-mica": "VITE_RESTRICTED_BUILD_MICA=true pnpm build",
     "dev:mock": "VITE_USE_MOCK_WALLET=true pnpm dev",
-    "build": "tsc --project tsconfig.json && pnpm messages:compile && vite build --config vite.config.ts",
+    "build": "vite build --config vite.config.ts",
     "build:mock": "VITE_USE_MOCK_WALLET=true pnpm build",
     "preview": "pnpm build && vite preview  --config vite.config.ts",
     "preview:restricted": "VITE_RESTRICTED_BUILD=true pnpm preview",
