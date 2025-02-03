@@ -159,8 +159,9 @@ function TradeWidgetWrapped({
 
   const initialOriginTokenIndex = 0;
   const initialOriginToken =
-    originTokenList.find(token => token.symbol === validatedExternalState?.token) ||
-    (originTokenList.length ? originTokenList[initialOriginTokenIndex] : undefined);
+    originTokenList.find(
+      token => token.symbol.toLowerCase() === validatedExternalState?.token?.toLowerCase()
+    ) || (originTokenList.length ? originTokenList[initialOriginTokenIndex] : undefined);
   const [originToken, setOriginToken] = useState<TokenForChain | undefined>(initialOriginToken);
 
   const targetTokenList = useMemo(() => {
@@ -168,7 +169,9 @@ function TradeWidgetWrapped({
   }, [originToken?.symbol, tokenList, disallowedPairs]);
 
   const initialTargetToken = targetTokenList.find(
-    token => token.symbol === validatedExternalState?.targetToken
+    token =>
+      token.symbol.toLowerCase() === validatedExternalState?.targetToken?.toLowerCase() &&
+      token.symbol !== originToken?.symbol
   );
   const [targetToken, setTargetToken] = useState<TokenForChain | undefined>(initialTargetToken);
   const initialOriginAmount = parseUnits(
@@ -839,8 +842,8 @@ function TradeWidgetWrapped({
 
   useEffect(() => {
     const tokensHasChanged =
-      externalWidgetState?.token !== originToken?.symbol ||
-      externalWidgetState?.targetToken !== targetToken?.symbol ||
+      externalWidgetState?.token?.toLowerCase() !== originToken?.symbol?.toLowerCase() ||
+      externalWidgetState?.targetToken?.toLowerCase() !== targetToken?.symbol?.toLowerCase() ||
       externalWidgetState?.amount !==
         formatBigInt(originAmount, {
           locale,
@@ -862,7 +865,11 @@ function TradeWidgetWrapped({
         tokenList,
         disallowedPairs
       );
-      const newTargetToken = newTargetList.find(token => token.symbol === externalWidgetState?.targetToken);
+      const newTargetToken = newTargetList.find(
+        token =>
+          token.symbol.toLowerCase() === externalWidgetState?.targetToken?.toLowerCase() &&
+          token.symbol !== originToken?.symbol
+      );
       setTargetToken(newTargetToken);
       setWidgetState((prev: WidgetState) => ({
         ...prev,
