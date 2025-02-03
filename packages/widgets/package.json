@@ -56,14 +56,14 @@
   "peerDependencies": {
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
-    "@lingui/detect-locale": "^5.1.2",
-    "@lingui/macro": "^5.1.2",
-    "@lingui/react": "^5.1.2",
+    "@lingui/detect-locale": "^5.2.0",
+    "@lingui/macro": "^5.2.0",
+    "@lingui/react": "^5.2.0",
     "@tanstack/react-query": "^5.66.0",
     "framer-motion": "^11.18.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^6.28.2",
+    "react-router-dom": "^6.29.0",
     "viem": "^2.22.19",
     "wagmi": "^2.14.9"
   },

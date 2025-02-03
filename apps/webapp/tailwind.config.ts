@@ -6,8 +6,7 @@ module.exports = {
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-    './node_modules/@jetstreamgg/widgets/**/*.js'
+    './src/**/*.{ts,tsx}'
   ],
   prefix: '',
   theme: {
