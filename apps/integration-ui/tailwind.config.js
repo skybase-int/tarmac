@@ -1,17 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 
 import plugin from 'tailwindcss-animate';
+import { join, dirname } from 'path';
 
 export default {
   darkMode: ['class'],
-  content: [
-    './pages/**/*.{ts,tsx}',
-    './modules/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-    './node_modules/@jetstreamgg/widgets/**/*.js'
-  ],
+  content: ['./src/**/*.{ts,tsx}', join(dirname(require.resolve('@jetstreamgg/widgets')), '**/*.js')],
   prefix: '',
   theme: {
     container: {
