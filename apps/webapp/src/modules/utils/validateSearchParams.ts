@@ -11,15 +11,18 @@ import {
 import { Intent } from '@/lib/enums';
 import { defaultConfig } from '../config/default-config';
 import { isBaseChainId } from '@jetstreamgg/utils';
+import { Chain } from 'viem';
 
 export const validateSearchParams = (
   searchParams: URLSearchParams,
   rewardContracts: RewardContract[],
   widget: string,
   setSelectedRewardContract: (rewardContract?: RewardContract) => void,
-  chainId: number
+  chainId: number,
+  chains: readonly [Chain, ...Chain[]]
 ) => {
-  const isBaseChain = isBaseChainId(chainId);
+  const chainInUrl = chains.find(c => c.name.toLowerCase() === searchParams.get(QueryParams.Network));
+  const isBaseChain = isBaseChainId(chainInUrl?.id || chainId);
 
   searchParams.forEach((value, key) => {
     // removes any query param not found in QueryParams
@@ -36,8 +39,8 @@ export const validateSearchParams = (
     if (
       key === QueryParams.Widget &&
       (!Object.values(IntentMapping).includes(value.toLowerCase()) ||
-        !CHAIN_WIDGET_MAP[chainId].includes(mapQueryParamToIntent(value)) ||
-        COMING_SOON_MAP[chainId]?.includes(mapQueryParamToIntent(value)))
+        !CHAIN_WIDGET_MAP[chainInUrl?.id || chainId].includes(mapQueryParamToIntent(value)) ||
+        COMING_SOON_MAP[chainInUrl?.id || chainId]?.includes(mapQueryParamToIntent(value)))
     ) {
       searchParams.delete(key);
     }

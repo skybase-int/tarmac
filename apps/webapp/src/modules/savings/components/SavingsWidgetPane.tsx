@@ -3,7 +3,8 @@ import {
   BaseSavingsWidget,
   TxStatus,
   SavingsAction,
-  WidgetStateChangeParams
+  WidgetStateChangeParams,
+  SavingsFlow
 } from '@jetstreamgg/widgets';
 import { TOKENS, useSavingsHistory } from '@jetstreamgg/hooks';
 import { isBaseChainId } from '@jetstreamgg/utils';
@@ -29,7 +30,34 @@ export function SavingsWidgetPane(sharedProps: SharedProps) {
     isRestrictedMiCa && isBaseChain ? { supply: [TOKENS.usdc], withdraw: [TOKENS.usdc] } : undefined;
   const tab = searchParams.get(QueryParams.Tab) as 'left' | 'right' | undefined;
 
-  const onSavingsWidgetStateChange = ({ hash, txStatus, widgetState }: WidgetStateChangeParams) => {
+  const onSavingsWidgetStateChange = ({
+    hash,
+    txStatus,
+    widgetState,
+    originToken
+  }: WidgetStateChangeParams) => {
+    // Set tab search param based on widgetState.flow
+    if (widgetState.flow) {
+      setSearchParams(prevParams => {
+        const params = new URLSearchParams(prevParams);
+        // only set tab if it was set already
+        if (params.get(QueryParams.Tab)) {
+          params.set(QueryParams.Tab, widgetState.flow === SavingsFlow.SUPPLY ? 'left' : 'right');
+        }
+        return params;
+      });
+    }
+
+    if (originToken) {
+      setSearchParams(prevParams => {
+        const params = new URLSearchParams(prevParams);
+        if (params.get(QueryParams.SourceToken)) {
+          params.set(QueryParams.SourceToken, originToken);
+        }
+        return params;
+      });
+    }
+
     // After a successful linked action sUPPLY, set the final step to "success"
     if (
       widgetState.action === SavingsAction.SUPPLY &&

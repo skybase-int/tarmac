@@ -1,14 +1,15 @@
-import { ChatIntent, Slot } from '../types/Chat';
+import { ChatIntent, Slot, SlotType } from '../types/Chat';
 import { IntentMapping, QueryParams } from '@/lib/constants';
 
 export const generateUpgradeIntents = (slots: Slot[]): ChatIntent[] => {
   const { UPGRADE_INTENT: UPGRADE } = IntentMapping;
   const intent_id = UPGRADE;
   const { Widget, InputAmount, Chat, SourceToken } = QueryParams;
+  const { Amount, SourceToken: SourceTokenSlot, TargetToken: TargetTokenSlot } = SlotType;
 
-  const amountSlot = slots.find(slot => slot.field === 'amount');
-  const sourceTokenSlot = slots.find(slot => slot.field === 'source_token');
-  const targetTokenSlot = slots.find(slot => slot.field === 'target_token');
+  const amountSlot = slots.find(slot => slot.field === Amount);
+  const sourceTokenSlot = slots.find(slot => slot.field === SourceTokenSlot);
+  const targetTokenSlot = slots.find(slot => slot.field === TargetTokenSlot);
 
   const intents = [];
 

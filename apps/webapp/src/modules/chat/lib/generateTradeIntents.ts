@@ -1,5 +1,5 @@
 import { Chain } from 'wagmi/chains';
-import { ChatIntent, Slot } from '../types/Chat';
+import { ChatIntent, Slot, SlotType } from '../types/Chat';
 import { IntentMapping, QueryParams } from '@/lib/constants';
 import { defaultConfig } from '@/modules/config/default-config';
 import { Token } from '@jetstreamgg/hooks';
@@ -186,9 +186,11 @@ export const generateTradeIntents = (
     return [];
   }
 
-  const amountSlot = slots.find(slot => slot.field === 'amount');
-  const sourceTokenSlot = slots.find(slot => slot.field === 'source_token');
-  const targetTokenSlot = slots.find(slot => slot.field === 'target_token');
+  const { Amount, SourceToken, TargetToken } = SlotType;
+
+  const amountSlot = slots.find(slot => slot.field === Amount);
+  const sourceTokenSlot = slots.find(slot => slot.field === SourceToken);
+  const targetTokenSlot = slots.find(slot => slot.field === TargetToken);
 
   const amount = amountSlot?.parsed_value;
   const sourceToken = sourceTokenSlot?.parsed_value;

@@ -65,7 +65,7 @@ export function BaseSavingsSupplyWithdraw({
 
   return (
     <VStack className="w-full items-center justify-center">
-      <Tabs defaultValue={tabIndex === 0 ? 'left' : 'right'} className="w-full">
+      <Tabs value={tabIndex === 0 ? 'left' : 'right'} className="w-full">
         <motion.div variants={positionAnimations}>
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger

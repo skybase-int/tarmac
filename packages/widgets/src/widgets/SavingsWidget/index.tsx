@@ -98,6 +98,10 @@ const SavingsWidgetWrapped = ({
     setAmount(initialAmount);
   }, [initialAmount]);
 
+  useEffect(() => {
+    setTabIndex(initialTabIndex);
+  }, [initialTabIndex]);
+
   const {
     setButtonText,
     setIsDisabled,
