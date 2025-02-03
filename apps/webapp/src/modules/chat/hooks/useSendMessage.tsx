@@ -21,6 +21,9 @@ import {
   generateRandomRecommendations,
   generateRandomSlots
 } from './__mocks__/mock-chat-endpoints';
+import { mainnet } from 'wagmi/chains';
+import { base } from 'wagmi/chains';
+import { arbitrum } from 'wagmi/chains';
 
 const isMocked = true;
 
@@ -30,7 +33,8 @@ const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
   // Use mock data in development
   if (isMocked) {
     // Simulate a 2-second network delay
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    const delay = 1; // 2000
+    await new Promise(resolve => setTimeout(resolve, delay));
     const mockResponses = {
       chatResponse: {
         response: generateRandomResponse(),
@@ -44,7 +48,7 @@ const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
         recommendations: generateRandomRecommendations()
       },
       slotResponse: {
-        slots: generateRandomSlots()
+        slots: generateRandomSlots('TRADE')
       }
     };
 
@@ -187,7 +191,8 @@ const sendMessageMutation: MutationFunction<
     const actionIntents = handleActionIntent({
       classification: actionIntentResponse.classification,
       slots: slotResponse.slots,
-      rewards
+      rewards,
+      chains: [mainnet, base, arbitrum]
     });
 
     data.intents = actionIntents;

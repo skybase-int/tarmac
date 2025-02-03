@@ -9,6 +9,7 @@ import { ChatIntent } from '../types/Chat';
 import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
 import { intentSelectedMessage } from '../lib/intentSelectedMessage';
 import { getConfirmationModalMetadata } from '../lib/confirmationModalMetadata';
+import { QueryParams } from '@/lib/constants';
 
 export const ChatConfirmationModal: React.FC = () => {
   const {
@@ -22,7 +23,11 @@ export const ChatConfirmationModal: React.FC = () => {
     hasShownIntent
   } = useChatContext();
 
-  const selectedIntentUrl = useRetainedQueryParams(selectedIntent?.url || '');
+  const selectedIntentUrl = useRetainedQueryParams(selectedIntent?.url || '', [
+    QueryParams.Locale,
+    QueryParams.Details,
+    QueryParams.Chat
+  ]);
 
   const navigate = useNavigate();
 
