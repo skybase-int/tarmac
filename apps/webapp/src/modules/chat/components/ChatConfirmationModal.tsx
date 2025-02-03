@@ -1,4 +1,4 @@
-import { Dialog, DialogClose, DialogContent, DialogHeader } from '@/components/ui/dialog';
+import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Warning } from '@/modules/icons/Warning';
@@ -71,7 +71,9 @@ export const ChatConfirmationModal: React.FC = () => {
         <Warning boxSize={50} />
 
         <DialogHeader>
-          <Text className="text-text text-center text-[28px] md:text-[32px]">Confirm Action</Text>
+          <DialogTitle>
+            <Text className="text-text text-center text-[28px] md:text-[32px]">Confirm Action</Text>
+          </DialogTitle>
         </DialogHeader>
         <div className="flex w-full flex-col items-center justify-between gap-6">
           {selectedIntent && (
