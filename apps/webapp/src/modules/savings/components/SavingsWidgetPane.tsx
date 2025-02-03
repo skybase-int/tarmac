@@ -7,7 +7,7 @@ import {
 } from '@jetstreamgg/widgets';
 import { TOKENS, useSavingsHistory } from '@jetstreamgg/hooks';
 import { isBaseChainId } from '@jetstreamgg/utils';
-import { REFRESH_DELAY } from '@/lib/constants';
+import { QueryParams, REFRESH_DELAY } from '@/lib/constants';
 import { SharedProps } from '@/modules/app/types/Widgets';
 import { LinkedActionSteps } from '@/modules/config/context/ConfigContext';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
@@ -20,13 +20,14 @@ export function SavingsWidgetPane(sharedProps: SharedProps) {
   const subgraphUrl = useSubgraphUrl();
   const { linkedActionConfig, updateLinkedActionConfig, exitLinkedActionMode } = useConfigContext();
   const { mutate: refreshSavingsHistory } = useSavingsHistory(subgraphUrl);
-  const [, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const chainId = useChainId();
 
   const isBaseChain = isBaseChainId(chainId);
   const isRestrictedMiCa = import.meta.env.VITE_RESTRICTED_BUILD_MICA === 'true';
   const disallowedTokens =
     isRestrictedMiCa && isBaseChain ? { supply: [TOKENS.usdc], withdraw: [TOKENS.usdc] } : undefined;
+  const tab = searchParams.get(QueryParams.Tab) as 'left' | 'right' | undefined;
 
   const onSavingsWidgetStateChange = ({ hash, txStatus, widgetState }: WidgetStateChangeParams) => {
     // After a successful linked action sUPPLY, set the final step to "success"
@@ -66,7 +67,8 @@ export function SavingsWidgetPane(sharedProps: SharedProps) {
       onWidgetStateChange={onSavingsWidgetStateChange}
       externalWidgetState={{
         amount: linkedActionConfig?.inputAmount,
-        token: isBaseChain ? linkedActionConfig?.sourceToken : undefined
+        token: isBaseChain ? linkedActionConfig?.sourceToken : undefined,
+        tab
       }}
       disallowedTokens={disallowedTokens}
     />
