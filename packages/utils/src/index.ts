@@ -20,3 +20,4 @@ export * from './hooks/useFormatDate';
 export * from './hooks/useIsSmartContractWallet';
 export * from './math.constants';
 export * from './collection';
+export * from './getChainIcon';
