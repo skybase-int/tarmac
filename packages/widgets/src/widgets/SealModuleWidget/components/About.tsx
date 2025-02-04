@@ -67,12 +67,29 @@ export const About = () => {
             <Trans>Transfer the voting power of your MKR and SKY tokens to a recognized delegate</Trans>{' '}
             <InfoTooltip
               content={
-                <>
-                  {/* TODO: wait for real delegate tooltip */}
-                  <Text>{'tooltip for delegate'}</Text>
-                </>
+                <Text>
+                  When you hold MKR or SKY tokens, you maintain the right to participate in the process of Sky
+                  ecosystem governance voting. That means that you have the ability to contribute to the
+                  community-driven, decentralised ecosystem decision-making process, which occurs through
+                  onchain voting.
+                  <br />
+                  <br />
+                  The voting power delegation feature of the Seal Engine of the Sky Protocol enables you to
+                  entrust your voting power to a delegate of your choosing, who can then vote in the Sky
+                  ecosystem governance process on your behalf. You can choose one delegate per sealed MKR or
+                  SKY position. If you want to entrust your MKR or SKY to two delegates using the Seal Engine,
+                  you will need to create two separate positions.
+                  <br />
+                  <br />
+                  Delegates in receipt of token voting power can never directly access any tokens delegated to
+                  them, including sealed tokens. Throughout the delegation process, you always own and are in
+                  control of your sealed tokens, and you can change your delegate at any time.Sealing to
+                  delegate your voting power may be a useful option for governance token holders who have
+                  limited time to allocate to the process, who want to save on the cost of gas involved in
+                  voting on their own, and who also want to earn Seal Rewards.
+                </Text>
               }
-              contentClassname="max-w-[400px]"
+              contentClassname="max-w-[600px]"
             />{' '}
             <Trans>or a contract that you own</Trans>
           </Text>
