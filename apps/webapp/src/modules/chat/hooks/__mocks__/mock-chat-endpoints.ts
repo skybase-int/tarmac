@@ -1,4 +1,9 @@
-import { TRADE, TRADE_MAINNET, TRADE_BASE, TRADE_ARBITRUM } from '../../lib/intentClassificationOptions';
+import {
+  SAVINGS,
+  SAVINGS_MAINNET,
+  SAVINGS_BASE,
+  SAVINGS_ARBITRUM
+} from '../../lib/intentClassificationOptions';
 
 export const generateRandomResponse = () => {
   const responses = [
@@ -12,12 +17,15 @@ export const generateRandomResponse = () => {
 
 export const generateRandomIntent = () => {
   const intents = [
-    TRADE,
-    TRADE_MAINNET,
-    TRADE_BASE,
-    TRADE_ARBITRUM,
+    // TRADE,
+    // TRADE_MAINNET,
+    // TRADE_BASE,
+    // TRADE_ARBITRUM,
     // UPGRADE,
-    // SAVINGS,
+    SAVINGS,
+    SAVINGS_MAINNET,
+    SAVINGS_BASE,
+    SAVINGS_ARBITRUM,
     // REWARDS,
     'NONE'
   ];
@@ -46,84 +54,161 @@ type MockSlot = {
 
 export const generateRandomSlots = (intent?: string): MockSlot[] => {
   // If not a trade intent, return the original simple mock
-  if (!intent?.startsWith('TRADE')) {
-    const tokens = ['DAI', 'USDC', 'USDT', 'ETH', 'USDS'];
-    return [
-      {
-        field: 'token',
-        parsed_value: tokens[Math.floor(Math.random() * tokens.length)]
-      },
-      {
-        field: 'amount',
-        parsed_value: Math.floor(Math.random() * 1000).toString()
-      }
+  if (intent?.startsWith('SAVINGS')) {
+    // Token options depend on the network
+    const tokens = intent.startsWith('SAVINGS_') ? ['USDS', 'USDC'] : ['USDS'];
+    const amounts = ['0.1', '1', '10', '100', '1000', undefined];
+    const tabs = ['left', 'right', undefined]; // left=supply, right=withdraw
+
+    // Different combinations of slots for savings intents
+    const slotCombinations = [
+      // Complete savings info with amount and tab
+      () => [
+        {
+          field: 'source_token',
+          parsed_value: tokens[Math.floor(Math.random() * tokens.length)]
+        },
+        {
+          field: 'input_amount',
+          parsed_value: amounts[Math.floor(Math.random() * (amounts.length - 1))]!
+        },
+        {
+          field: 'tab',
+          parsed_value: tabs[Math.floor(Math.random() * (tabs.length - 1))]!
+        }
+      ],
+      // Token and amount only
+      () => [
+        {
+          field: 'source_token',
+          parsed_value: tokens[Math.floor(Math.random() * tokens.length)]
+        },
+        {
+          field: 'input_amount',
+          parsed_value: amounts[Math.floor(Math.random() * (amounts.length - 1))]!
+        }
+      ],
+      // Token and tab only
+      () => [
+        {
+          field: 'source_token',
+          parsed_value: tokens[Math.floor(Math.random() * tokens.length)]
+        },
+        {
+          field: 'tab',
+          parsed_value: tabs[Math.floor(Math.random() * (tabs.length - 1))]!
+        }
+      ],
+      // Amount and tab only
+      () => [
+        {
+          field: 'input_amount',
+          parsed_value: amounts[Math.floor(Math.random() * (amounts.length - 1))]!
+        },
+        {
+          field: 'tab',
+          parsed_value: tabs[Math.floor(Math.random() * (tabs.length - 1))]!
+        }
+      ],
+      // Only token
+      () => [
+        {
+          field: 'source_token',
+          parsed_value: tokens[Math.floor(Math.random() * tokens.length)]
+        }
+      ],
+      // Only tab
+      () => [
+        {
+          field: 'tab',
+          parsed_value: tabs[Math.floor(Math.random() * (tabs.length - 1))]!
+        }
+      ],
+      // Empty slots (generic savings)
+      () => []
     ];
+
+    const selectedCombination = slotCombinations[Math.floor(Math.random() * slotCombinations.length)];
+    return selectedCombination();
   }
 
-  // Trade-specific mock data
-  const sourceTokens = ['DAI', 'USDC', 'USDT', 'ETH', 'USDS', 'MKR', 'SKY'];
-  const targetTokens = ['DAI', 'USDC', 'USDT', 'ETH', 'USDS', 'MKR', 'SKY'];
-  const amounts = ['0.1', '1', '10', '100', '1000', undefined];
+  if (intent?.startsWith('TRADE')) {
+    // Trade-specific mock data
+    const sourceTokens = ['DAI', 'USDC', 'USDT', 'ETH', 'USDS', 'MKR', 'SKY'];
+    const targetTokens = ['DAI', 'USDC', 'USDT', 'ETH', 'USDS', 'MKR', 'SKY'];
+    const amounts = ['0.1', '1', '10', '100', '1000', undefined];
 
-  // Different combinations of slots for trade intents
-  const slotCombinations = [
-    // Complete trade info
-    () => [
-      {
-        field: 'source_token',
-        parsed_value: sourceTokens[Math.floor(Math.random() * sourceTokens.length)]
-      },
-      {
-        field: 'target_token',
-        parsed_value: targetTokens[Math.floor(Math.random() * targetTokens.length)]
-      },
-      {
-        field: 'amount',
-        parsed_value: amounts[Math.floor(Math.random() * (amounts.length - 1))]!
-      }
-    ],
-    // Only source token
-    () => [
-      {
-        field: 'source_token',
-        parsed_value: sourceTokens[Math.floor(Math.random() * sourceTokens.length)]
-      }
-    ],
-    // Only target token
-    () => [
-      {
-        field: 'target_token',
-        parsed_value: targetTokens[Math.floor(Math.random() * targetTokens.length)]
-      }
-    ],
-    // Source and target, no amount
-    () => [
-      {
-        field: 'source_token',
-        parsed_value: sourceTokens[Math.floor(Math.random() * sourceTokens.length)]
-      },
-      {
-        field: 'target_token',
-        parsed_value: targetTokens[Math.floor(Math.random() * targetTokens.length)]
-      }
-    ],
-    // Source and amount
-    () => [
-      {
-        field: 'source_token',
-        parsed_value: sourceTokens[Math.floor(Math.random() * sourceTokens.length)]
-      },
-      {
-        field: 'amount',
-        parsed_value: amounts[Math.floor(Math.random() * (amounts.length - 1))]!
-      }
-    ],
-    // Empty slots (generic trade)
-    () => []
+    // Different combinations of slots for trade intents
+    const slotCombinations = [
+      // Complete trade info
+      () => [
+        {
+          field: 'source_token',
+          parsed_value: sourceTokens[Math.floor(Math.random() * sourceTokens.length)]
+        },
+        {
+          field: 'target_token',
+          parsed_value: targetTokens[Math.floor(Math.random() * targetTokens.length)]
+        },
+        {
+          field: 'input_amount',
+          parsed_value: amounts[Math.floor(Math.random() * (amounts.length - 1))]!
+        }
+      ],
+      // Only source token
+      () => [
+        {
+          field: 'source_token',
+          parsed_value: sourceTokens[Math.floor(Math.random() * sourceTokens.length)]
+        }
+      ],
+      // Only target token
+      () => [
+        {
+          field: 'target_token',
+          parsed_value: targetTokens[Math.floor(Math.random() * targetTokens.length)]
+        }
+      ],
+      // Source and target, no amount
+      () => [
+        {
+          field: 'source_token',
+          parsed_value: sourceTokens[Math.floor(Math.random() * sourceTokens.length)]
+        },
+        {
+          field: 'target_token',
+          parsed_value: targetTokens[Math.floor(Math.random() * targetTokens.length)]
+        }
+      ],
+      // Source and amount
+      () => [
+        {
+          field: 'source_token',
+          parsed_value: sourceTokens[Math.floor(Math.random() * sourceTokens.length)]
+        },
+        {
+          field: 'input_amount',
+          parsed_value: amounts[Math.floor(Math.random() * (amounts.length - 1))]!
+        }
+      ],
+      // Empty slots (generic trade)
+      () => []
+    ];
+    // Pick a random combination
+
+    const selectedCombination = slotCombinations[Math.floor(Math.random() * slotCombinations.length)];
+    return selectedCombination();
+  }
+
+  const tokens = ['DAI', 'USDC', 'USDT', 'ETH', 'USDS'];
+  return [
+    {
+      field: 'source_token',
+      parsed_value: tokens[Math.floor(Math.random() * tokens.length)]
+    },
+    {
+      field: 'input_amount',
+      parsed_value: Math.floor(Math.random() * 1000).toString()
+    }
   ];
-
-  // Pick a random combination
-
-  const selectedCombination = slotCombinations[Math.floor(Math.random() * slotCombinations.length)];
-  return selectedCombination();
 };

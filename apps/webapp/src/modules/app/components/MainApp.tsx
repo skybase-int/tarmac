@@ -93,7 +93,8 @@ export function MainApp() {
           rewardContracts,
           widgetParam || '',
           setSelectedRewardContract,
-          chainId
+          chainId,
+          chains
         );
         // Runs second validation for linked-action-specific criteria
         const validatedLinkedActionParams = validateLinkedActionSearchParams(validatedParams);

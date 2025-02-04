@@ -1,3 +1,5 @@
+import { MessageType, UserType } from '../constants';
+
 export interface SendMessageRequest {
   api_key: string;
   chatbot_id: string;
@@ -31,9 +33,16 @@ export interface ChatIntent {
   intent_id: string;
 }
 
+export enum SlotType {
+  Amount = 'input_amount',
+  SourceToken = 'source_token',
+  TargetToken = 'target_token',
+  Tab = 'tab'
+}
+
 export interface Slot {
   description: string;
-  field: string;
+  field: SlotType;
   slot_type: string;
   valid: boolean;
   raw_value?: string | null;

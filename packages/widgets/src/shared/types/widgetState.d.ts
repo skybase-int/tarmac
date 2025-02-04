@@ -62,6 +62,7 @@ export type WidgetStateChangeParams = {
   hash?: string;
   txStatus: TxStatus;
   widgetState: WidgetState;
+  originToken?: string;
   targetToken?: string;
   executedBuyAmount?: string;
   executedSellAmount?: string;

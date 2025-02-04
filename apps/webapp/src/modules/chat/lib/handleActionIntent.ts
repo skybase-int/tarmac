@@ -5,7 +5,10 @@ import {
   SAVINGS,
   TRADE_MAINNET,
   TRADE_ARBITRUM,
-  TRADE_BASE
+  TRADE_BASE,
+  SAVINGS_MAINNET,
+  SAVINGS_ARBITRUM,
+  SAVINGS_BASE
 } from './intentClassificationOptions';
 import { ChatIntent, Slot } from '../types/Chat';
 import { generateRewardIntents } from './generateRewardIntents';
@@ -29,6 +32,9 @@ export const handleActionIntent = ({
   const parts = classification.split('_');
   const detectedNetwork = parts.length > 1 ? parts[1] : undefined;
 
+  // TODO: We don't know yet where we're going to get the tab from (slots or intent), so we're just going to presume it comes from the slots
+  const tab = slots.find(slot => slot.field === 'tab')?.parsed_value as 'left' | 'right' | undefined;
+
   switch (classification) {
     case TRADE:
     case TRADE_MAINNET:
@@ -40,7 +46,10 @@ export const handleActionIntent = ({
     case UPGRADE:
       return generateUpgradeIntents(slots);
     case SAVINGS:
-      return generateSavingsIntents(slots);
+    case SAVINGS_MAINNET:
+    case SAVINGS_BASE:
+    case SAVINGS_ARBITRUM:
+      return generateSavingsIntents(slots, chains, tab, detectedNetwork);
     // TODO: add Seal
     default:
       return [];

@@ -184,6 +184,14 @@ const SavingsWidgetWrapped = ({
   const [updatedChiForDeposit, setUpdatedChiForDeposit] = useState(0n);
 
   useEffect(() => {
+    setTabIndex(initialTabIndex);
+  }, [initialTabIndex]);
+
+  useEffect(() => {
+    setOriginToken(tokenForSymbol(validatedExternalState?.token || 'USDS'));
+  }, [validatedExternalState?.token]);
+
+  useEffect(() => {
     if (rho && dsr && chi) {
       const timestamp = Math.floor(Date.now() / 1000);
       const elapsedTimeWithEpoch = BigInt(timestamp) + BigInt(EPOCH_LENGTH) - rho;
@@ -792,6 +800,7 @@ const SavingsWidgetWrapped = ({
               onMenuItemChange={(op: Token | null) => {
                 if (op) {
                   setOriginToken(op as Token);
+                  onWidgetStateChange?.({ originToken: op.symbol, txStatus, widgetState });
                 }
               }}
               error={widgetState.flow === SavingsFlow.SUPPLY ? isSupplyBalanceError : isWithdrawBalanceError}

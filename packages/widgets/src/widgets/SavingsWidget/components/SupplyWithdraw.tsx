@@ -73,7 +73,7 @@ export const SupplyWithdraw = ({
 
   return (
     <MotionVStack gap={0} className="w-full" variants={positionAnimations}>
-      <Tabs defaultValue={tabIndex === 0 ? 'left' : 'right'}>
+      <Tabs value={tabIndex === 0 ? 'left' : 'right'}>
         <motion.div variants={positionAnimations}>
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger position="left" value="left" onClick={() => onToggle(0)}>

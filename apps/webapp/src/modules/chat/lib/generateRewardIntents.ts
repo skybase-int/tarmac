@@ -1,4 +1,4 @@
-import { ChatIntent, Slot } from '../types/Chat';
+import { ChatIntent, Slot, SlotType } from '../types/Chat';
 import { IntentMapping, QueryParams } from '@/lib/constants';
 import { RewardContract } from '@jetstreamgg/hooks';
 
@@ -6,10 +6,11 @@ export const generateRewardIntents = (slots: Slot[], rewards?: RewardContract[])
   const { REWARDS_INTENT: REWARDS } = IntentMapping;
   const intent_id = REWARDS;
   const { Widget, InputAmount, Chat } = QueryParams;
+  const { Amount, SourceToken, TargetToken } = SlotType;
 
-  const amountSlot = slots.find(slot => slot.field === 'amount');
-  const sourceTokenSlot = slots.find(slot => slot.field === 'source_token');
-  const targetTokenSlot = slots.find(slot => slot.field === 'target_token');
+  const amountSlot = slots.find(slot => slot.field === Amount);
+  const sourceTokenSlot = slots.find(slot => slot.field === SourceToken);
+  const targetTokenSlot = slots.find(slot => slot.field === TargetToken);
 
   let stakeReward;
   const intents = [];
