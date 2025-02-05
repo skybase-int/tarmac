@@ -4,7 +4,7 @@ import { mainnet, sepolia, base, arbitrum } from 'wagmi/chains';
 
 export const TENDERLY_CHAIN_ID = 314310;
 export const TENDERLY_BASE_CHAIN_ID = 8555;
-export const TENDERLY_ARBITRUM_CHAIN_ID = 42012;
+export const TENDERLY_ARBITRUM_CHAIN_ID = 42161;
 
 export const tenderly = {
   id: TENDERLY_CHAIN_ID,
