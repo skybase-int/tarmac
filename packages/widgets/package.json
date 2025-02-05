@@ -98,7 +98,7 @@
     "vite": "^6.0.11",
     "vite-plugin-dts": "^4.5.0",
     "vite-plugin-static-copy": "^2.2.0",
-    "vitest": "^3.0.4",
+    "vitest": "^3.0.5",
     "vitest-canvas-mock": "^0.3.3",
     "wagmi": "^2.14.9"
   },
