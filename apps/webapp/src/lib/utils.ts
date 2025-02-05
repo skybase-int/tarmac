@@ -60,7 +60,7 @@ export function sanitizeUrl(url: string | undefined) {
 
     return encodedUrl;
   } catch (error) {
-    console.error('Error parsing url');
+    console.error('Error parsing url: ', error);
     return undefined;
   }
 }
