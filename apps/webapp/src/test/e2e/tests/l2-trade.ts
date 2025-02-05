@@ -1,27 +1,10 @@
 import { test } from '../fixtures.ts';
-import '../mock-rpc-call.ts';
-import '../mock-vpn-check.ts';
-import { setErc20Balance, setEthBalance } from '../utils/setBalance.ts';
-import { usdcL2Address, usdsL2Address } from '@jetstreamgg/hooks';
 import { connectMockWalletAndAcceptTerms } from '../utils/connectMockWalletAndAcceptTerms.ts';
 import { switchToL2 } from '../utils/switchToL2.ts';
 import { NetworkName } from '../utils/constants.ts';
 import { approveOrPerformAction } from '../utils/approveOrPerformAction.ts';
-import { TENDERLY_ARBITRUM_CHAIN_ID, TENDERLY_BASE_CHAIN_ID } from '@/data/wagmi/config/testTenderlyChain.ts';
 
-export const runL2TradeTests = async ({
-  networkName,
-  chainId
-}: {
-  networkName: NetworkName;
-  chainId: typeof TENDERLY_BASE_CHAIN_ID | typeof TENDERLY_ARBITRUM_CHAIN_ID;
-}) => {
-  test.beforeAll(async () => {
-    await setEthBalance('100', networkName);
-    await setErc20Balance(usdsL2Address[chainId], '100', 18, networkName);
-    await setErc20Balance(usdcL2Address[chainId], '100', 6, networkName);
-  });
-
+export const runL2TradeTests = async ({ networkName }: { networkName: NetworkName }) => {
   test('trade usdc to usds, then trade usds back to usdc', async ({ page }) => {
     await page.goto('/');
     await connectMockWalletAndAcceptTerms(page);

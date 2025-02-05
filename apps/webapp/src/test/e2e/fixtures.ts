@@ -13,7 +13,11 @@ import {
   usdsAddress,
   usdsL2Address
 } from '@jetstreamgg/hooks';
-import { TENDERLY_BASE_CHAIN_ID, TENDERLY_CHAIN_ID } from '@/data/wagmi/config/testTenderlyChain';
+import {
+  TENDERLY_ARBITRUM_CHAIN_ID,
+  TENDERLY_BASE_CHAIN_ID,
+  TENDERLY_CHAIN_ID
+} from '@/data/wagmi/config/testTenderlyChain';
 import { NetworkName } from './utils/constants';
 
 type WorkerFixture = {
@@ -42,7 +46,11 @@ export const test = playwrightTest.extend<TestFixture, WorkerFixture>({
         // Base funding
         await setEthBalance('100', NetworkName.base),
         await setErc20Balance(usdsL2Address[TENDERLY_BASE_CHAIN_ID], '100', 18, NetworkName.base),
-        await setErc20Balance(usdcL2Address[TENDERLY_BASE_CHAIN_ID], '100', 6, NetworkName.base)
+        await setErc20Balance(usdcL2Address[TENDERLY_BASE_CHAIN_ID], '100', 6, NetworkName.base),
+        // Arbitrum funding
+        await setEthBalance('100', NetworkName.arbitrum),
+        await setErc20Balance(usdsL2Address[TENDERLY_ARBITRUM_CHAIN_ID], '100', 18, NetworkName.arbitrum),
+        await setErc20Balance(usdcL2Address[TENDERLY_ARBITRUM_CHAIN_ID], '100', 6, NetworkName.arbitrum)
       ]);
 
       const snapshotIds = await evmSnapshot();
