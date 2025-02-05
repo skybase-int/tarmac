@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useChainId } from 'wagmi';
-import { isBaseChainId } from '@jetstreamgg/utils';
+import { isBaseChainId, isMainnetId } from '@jetstreamgg/utils';
 
 const NOT_FOUND = 'image_not_found';
 const EXTENSIONS = ['svg', 'png']; // Add more extensions if needed
 
-export const useTokenImage = (symbol: string, chainId?: number) => {
+export const useTokenImage = (symbol: string, chainId?: number, noChain?: boolean) => {
   const [imageSrc, setImageSrc] = useState<string | undefined>();
   const connectedChainId = useChainId();
-  const chainIdToUse = chainId || connectedChainId;
+  const chainIdToUse = noChain ? undefined : chainId || connectedChainId;
 
   useEffect(() => {
     if (!symbol) return;
@@ -23,7 +23,7 @@ export const useTokenImage = (symbol: string, chainId?: number) => {
       }
 
       const extension = EXTENSIONS[currentIndex];
-      const path = `/tokens/${isBaseChainId(chainIdToUse) ? 'base/' : ''}${symbolLower}.${extension}`;
+      const path = `/tokens/${!chainIdToUse ? '' : isBaseChainId(chainIdToUse) ? 'base/' : isMainnetId(chainIdToUse) ? 'ethereum/' : ''}${symbolLower}.${extension}`;
 
       const img = new Image();
       img.onload = () => {

@@ -37,7 +37,7 @@ export const InteractiveStatsCardWithAccordion = ({
                   <TokenIcon
                     className="h-8 w-8"
                     token={{ symbol: tokenSymbol, name: tokenSymbol }}
-                    chainId={1}
+                    noChain={true}
                   />
                 )}
                 <div className="grow">

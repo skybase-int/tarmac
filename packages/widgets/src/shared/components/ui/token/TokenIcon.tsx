@@ -9,7 +9,8 @@ export function TokenIcon({
   width = 50,
   className,
   fallbackClassName,
-  fallbackDelay = 500
+  fallbackDelay = 500,
+  noChain
 }: {
   token: Partial<Token> & { symbol: string };
   chainId?: number;
@@ -17,8 +18,9 @@ export function TokenIcon({
   className?: string;
   fallbackClassName?: string;
   fallbackDelay?: number;
+  noChain?: boolean;
 }): React.ReactElement {
-  const imageSrc = useTokenImage(token.symbol, chainId);
+  const imageSrc = useTokenImage(token.symbol, chainId, noChain);
 
   if (!imageSrc) return <></>;
 
