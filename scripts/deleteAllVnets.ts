@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const deleteAllVnets = async (displayName: string) => {
   if (!displayName.length) {
     throw new Error('A display name is required for the virtual testnet');
