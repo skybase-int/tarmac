@@ -48,7 +48,7 @@ const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
         recommendations: generateRandomRecommendations()
       },
       slotResponse: {
-        slots: generateRandomSlots('SAVINGS_')
+        slots: generateRandomSlots('TRADE')
       }
     };
 

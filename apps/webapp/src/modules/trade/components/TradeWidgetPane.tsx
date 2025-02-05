@@ -36,8 +36,43 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
     hash,
     txStatus,
     widgetState,
-    executedBuyAmount
+    originToken,
+    targetToken,
+    executedBuyAmount,
+    originAmount
   }: WidgetStateChangeParams) => {
+    // Update search params
+    if (originAmount) {
+      setSearchParams(prev => {
+        prev.set(QueryParams.InputAmount, originAmount);
+        return prev;
+      });
+    } else if (originAmount === '') {
+      setSearchParams(prev => {
+        prev.delete(QueryParams.InputAmount);
+        return prev;
+      });
+    }
+
+    if (originToken) {
+      setSearchParams(prev => {
+        prev.set(QueryParams.SourceToken, originToken);
+        return prev;
+      });
+    }
+
+    if (targetToken) {
+      setSearchParams(prev => {
+        prev.set(QueryParams.TargetToken, targetToken);
+        return prev;
+      });
+    } else if (targetToken === '') {
+      setSearchParams(prev => {
+        prev.delete(QueryParams.TargetToken);
+        return prev;
+      });
+    }
+
     // After a successful trade, set the linked action step to "success"
     if (
       widgetState.action === TradeAction.TRADE &&
