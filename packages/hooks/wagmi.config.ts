@@ -30,23 +30,23 @@ export default defineConfig(() => {
       }),
       // The etherscan plugin fetches ABIs for contracts which have a mainnet deployment
       etherscan({
-        apiKey: env.ETHERSCAN_API_KEY,
+        apiKey: env.ETHERSCAN_V2_API_KEY,
         chainId: mainnet.id,
         contracts: contracts
       }),
       // This etherscan plugin fetches ABIs for contracts which have a sepolia deployment
       etherscan({
-        apiKey: env.ETHERSCAN_API_KEY,
+        apiKey: env.ETHERSCAN_V2_API_KEY,
         chainId: sepolia.id,
         contracts: sepoliaContracts
       }),
-      // This etherscan plugin fetches ABIs for contracts which have a base deployment
+      // This etherscan plugin fetches ABIs for L2 contracts which have a base deployment
       etherscan({
-        apiKey: env.BASESCAN_API_KEY,
+        apiKey: env.ETHERSCAN_V2_API_KEY,
         chainId: base.id,
         contracts: l2Contracts
       }),
-      // The fetch plugin fetches ABIs for contracts deployed on the tenderly testnet
+      // This fetch plugin fetches ABIs for contracts deployed on the tenderly testnet
       fetchPlugin({
         contracts: tenderlyContracts,
         request(contract) {
