@@ -899,20 +899,23 @@ function TradeWidgetWrapped({
           const tokenChanged = newOriginToken.symbol !== originToken?.symbol;
           setOriginToken(newOriginToken);
 
-          // Always clear target token if it matches the origin token
-          // This handles both direct matches and new origin matching existing target
-          if (
-            targetToken?.symbol.toLowerCase() === newOriginToken.symbol.toLowerCase() ||
-            externalWidgetState?.targetToken?.toLowerCase() === newOriginToken.symbol.toLowerCase()
-          ) {
-            setTargetToken(undefined);
-          } else if (externalWidgetState?.targetToken) {
+          // Handle target token changes
+          if (externalWidgetState?.targetToken) {
             // Get allowed target tokens for this origin
             const newTargetList = getAllowedTargetTokens(newOriginToken.symbol, tokenList, disallowedPairs);
             const newTargetToken = newTargetList.find(
               token => token.symbol.toLowerCase() === externalWidgetState.targetToken?.toLowerCase()
             );
-            setTargetToken(newTargetToken || undefined);
+
+            // Only clear target if it's the same as origin, otherwise set the new target
+            if (newOriginToken.symbol.toLowerCase() === externalWidgetState.targetToken?.toLowerCase()) {
+              setTargetToken(undefined);
+            } else {
+              setTargetToken(newTargetToken || undefined);
+            }
+          } else {
+            // If no target token in external state, clear it
+            setTargetToken(undefined);
           }
 
           // Handle amount updates
