@@ -65,6 +65,8 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.11",
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.19.0",
     "@lingui/detect-locale": "^5.2.0",
     "@lingui/macro": "^5.2.0",
     "@lingui/react": "^5.2.0",
