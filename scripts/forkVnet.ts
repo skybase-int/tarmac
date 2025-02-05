@@ -4,8 +4,8 @@ const { writeFile } = require('fs/promises');
 const MAINNET_FORK_CONTAINER_ID = '0f6b2f0e-98ca-4a7e-abaf-f2405dadf063';
 // corresponds to https://dashboard.tenderly.co/jetstreamgg/jetstream/testnet/d382d976-02a4-4fc2-a9ba-db43a1602719
 const BASE_FORK_CONTAINER_ID = 'd382d976-02a4-4fc2-a9ba-db43a1602719';
-// corresponds to https://dashboard.tenderly.co/jetstreamgg/jetstream/testnet/7edf678f-280c-4893-af29-a8551998e292
-const ARBITRUM_FORK_CONTAINER_ID = '7edf678f-280c-4893-af29-a8551998e292';
+// corresponds to https://dashboard.tenderly.co/jetstreamgg/jetstream/testnet/c69c31b7-0f5b-4a2f-bb1b-7e72ad6f08bb
+const ARBITRUM_FORK_CONTAINER_ID = 'c69c31b7-0f5b-4a2f-bb1b-7e72ad6f08bb';
 
 const forkVnets = async () => {
   const responses = await Promise.all(
