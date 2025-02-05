@@ -20,7 +20,7 @@ function getEtherscanPrefix(id: number) {
     case chainId.tenderlyBase:
       return 'dashboard.tenderly.co/explorer/vnet/376e4980-c2de-48b9-bf76-c25bd6d1c324';
     case chainId.tenderlyArbitrum:
-      return 'dashboard.tenderly.co/explorer/vnet/f60eedf8-6aa3-45a5-86c3-f001eab2da50';
+      return 'dashboard.tenderly.co/explorer/vnet/c67d99b5-9c23-429b-87f6-2e5e71326d53';
     default:
       return 'etherscan.io';
   }
