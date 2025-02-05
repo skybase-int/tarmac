@@ -23,9 +23,7 @@ export function BalancesWidgetDisplay() {
             }
           : undefined;
       }}
-      onClickRewardsCard={() => {
-        console.log('onClickRewardsCard clicked');
-      }}
+      rewardsCardUrl={''}
       onClickSavingsCard={() => {
         console.log('onClickSavingsCard clicked');
       }}

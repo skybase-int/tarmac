@@ -3,13 +3,13 @@ import { SavingsBalanceCard } from './SavingsBalanceCard';
 import { SealBalanceCard } from './SealBalanceCard';
 
 export interface CardProps {
-  onClick?: () => void;
+  url?: string;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   chainIds?: number[];
 }
 
 interface ModulesBalancesProps {
-  onClickRewardsCard?: () => void;
+  rewardsCardUrl?: string;
   onClickSavingsCard?: () => void;
   onClickSealCard?: () => void;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
@@ -18,7 +18,7 @@ interface ModulesBalancesProps {
 }
 
 export const ModulesBalances = ({
-  onClickRewardsCard,
+  rewardsCardUrl,
   onClickSavingsCard,
   onClickSealCard,
   onExternalLinkClicked,
@@ -28,7 +28,7 @@ export const ModulesBalances = ({
   return (
     <div className="flex flex-col gap-2">
       {!hideModuleBalances && (
-        <RewardsBalanceCard onClick={onClickRewardsCard} onExternalLinkClicked={onExternalLinkClicked} />
+        <RewardsBalanceCard url={rewardsCardUrl} onExternalLinkClicked={onExternalLinkClicked} />
       )}
       {!hideModuleBalances && (
         <SavingsBalanceCard

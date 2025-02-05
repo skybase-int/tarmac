@@ -26,7 +26,7 @@ function BalancesPage() {
         hideModuleBalances={false}
         enabled={true}
         actionForToken={actionForToken}
-        onClickRewardsCard={onClickRewardsCard}
+        rewardsCardUrl={rewardsCardUrl}
         onClickSavingsCard={onClickSavingsCard}
       />
     </div>
@@ -44,7 +44,7 @@ In addition to `WidgetProps`, `BalancesWidget` component also accepts the follow
   - A boolean to hide or show module balances.
 - `actionForToken?: (symbol: string, balance: string, tokenChainId: number) => { label: string; actionUrl: string; image: string } | undefined;`
   - A function to define actions for a specific token.
-- `onClickRewardsCard?: () => void;`
-  - A callback function that is called when the rewards card is clicked.
+- `rewardsCardUrl?: string;`
+  - A url to navigate to when the rewards card is clicked.
 - `onClickSavingsCard?: () => void;`
   - A callback function that is called when the savings card is clicked.

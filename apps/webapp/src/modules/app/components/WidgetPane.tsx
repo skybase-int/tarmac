@@ -4,7 +4,13 @@ import { Intent } from '@/lib/enums';
 import { useLingui } from '@lingui/react';
 import { useCustomConnectModal } from '@/modules/ui/hooks/useCustomConnectModal';
 import { useAddRecentTransaction } from '@rainbow-me/rainbowkit';
-import { CHAIN_WIDGET_MAP, COMING_SOON_MAP, mapIntentToQueryParam, restrictedIntents } from '@/lib/constants';
+import {
+  CHAIN_WIDGET_MAP,
+  COMING_SOON_MAP,
+  mapIntentToQueryParam,
+  QueryParams,
+  restrictedIntents
+} from '@/lib/constants';
 import { WidgetNavigation } from '@/modules/app/components/WidgetNavigation';
 import { withErrorBoundary } from '@/modules/utils/withErrorBoundary';
 import { DualSwitcher } from '@/components/DualSwitcher';
@@ -17,13 +23,14 @@ import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 import React from 'react';
 import { useNotification } from '../hooks/useNotification';
 import { useActionForToken } from '../hooks/useActionForToken';
-import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
+import { getRetainedQueryParams, useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
 import { useNavigate } from 'react-router-dom';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { defaultConfig } from '@/modules/config/default-config';
 import { useChainId } from 'wagmi';
 import { SealWidgetPane } from '@/modules/seal/components/SealWidgetPane';
 import { getSupportedChainIds } from '@/data/wagmi/config/config.default';
+import { useSearchParams } from 'react-router-dom';
 
 export type WidgetContent = [
   Intent,
@@ -67,8 +74,16 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
     referralCode
   };
 
+  const { Locale, Details } = QueryParams;
+  const retainedParams = [Locale, Details];
+  const [searchParams] = useSearchParams();
+
+  const getQueryParams = (url: string) => getRetainedQueryParams(url, retainedParams, searchParams);
+
   const actionForToken = useActionForToken();
-  const rewardsUrl = useRetainedQueryParams(`/?widget=${mapIntentToQueryParam(Intent.REWARDS_INTENT)}`);
+  const rewardsUrl = getQueryParams(
+    `/?network=mainnet&widget=${mapIntentToQueryParam(Intent.REWARDS_INTENT)}`
+  );
   const savingsUrl = useRetainedQueryParams(`/?widget=${mapIntentToQueryParam(Intent.SAVINGS_INTENT)}`);
   const sealUrl = useRetainedQueryParams(`/?widget=${mapIntentToQueryParam(Intent.SEAL_INTENT)}`);
   const navigate = useNavigate();
@@ -83,7 +98,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
           {...sharedProps}
           hideModuleBalances={isRestrictedBuild}
           actionForToken={actionForToken}
-          onClickRewardsCard={() => navigate(rewardsUrl)}
+          rewardsCardUrl={rewardsUrl}
           onClickSavingsCard={() => navigate(savingsUrl)}
           onClickSealCard={() => navigate(sealUrl)}
           customTokenMap={defaultConfig.balancesTokenList}
