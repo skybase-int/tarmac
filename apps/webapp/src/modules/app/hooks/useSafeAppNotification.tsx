@@ -21,15 +21,15 @@ export const useSafeAppNotification = () => {
       toast({
         title: (
           <Text variant="medium" className="text-selectActive">
-            <Trans>There is a better way to interact with the app using your Safe Wallet</Trans>
+            <Trans>A Better Way to Use the App with Safe Wallet</Trans>
           </Text>
         ),
         description: (
           <VStack className="mt-4 gap-4">
             <Text variant="medium" className="text-balance">
               <Trans>
-                Sky.money is officially listed as a Safe App, you can now open the app through your Safe
-                Wallet and enjoy a seamless experience.
+                Sky.money is now available as a Safe App! You can open it directly from your Safe Wallet for a
+                smoother, more integrated experience.
                 <br />
               </Trans>
             </Text>
@@ -38,7 +38,7 @@ export const useSafeAppNotification = () => {
                 href="https://app.safe.global/share/safe-app?appUrl=https%3A%2F%2Fapp.sky.money%2F"
                 showIcon={false}
               >
-                Go to the Safe Wallet app
+                Go to Safe Wallet
               </ExternalLink>
             </Button>
           </VStack>
