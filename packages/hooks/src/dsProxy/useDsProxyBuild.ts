@@ -41,7 +41,9 @@ export function useDsProxyBuild({
         onStart(hash);
       },
       onError: (err: Error) => {
-        onError && onError(err, data || '');
+        if (onError) {
+          onError(err, data || '');
+        }
       }
     }
   });

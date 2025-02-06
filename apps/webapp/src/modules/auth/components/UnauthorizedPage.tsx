@@ -91,7 +91,7 @@ export const UnauthorizedPage = ({ authData, vpnData, children }: UnauthorizedPa
   try {
     termsLink = JSON.parse(import.meta.env.VITE_TERMS_LINK);
   } catch (error) {
-    console.error('Error parsing terms link');
+    console.error('Error parsing terms link: ', error);
   }
 
   const isLoading = useMemo(
