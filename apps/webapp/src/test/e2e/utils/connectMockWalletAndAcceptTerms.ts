@@ -8,6 +8,7 @@ export const connectMockWalletAndAcceptTerms = async (page: Page) => {
     await page.getByRole('checkbox').click();
     await page.getByRole('button', { name: 'Agree and Sign' }).click();
   } catch (error) {
+    console.error('Error accepting terms: ', error);
     console.log('Skipping terms acceptance');
     return;
   }
