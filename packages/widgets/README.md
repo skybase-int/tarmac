@@ -12,7 +12,7 @@ npm install @jetstreamgg/widgets
 
 Below is an example of how to use the SavingsWidget in your React application. This example demonstrates handling connection, transactions, notifications, and widget state changes.
 
-```
+```jsx
 import React from 'react';
 import { SavingsWidget } from '@jetstreamgg/widgets';
 
