@@ -48,8 +48,6 @@
     "zod": "^3.24.1"
   },
   "peerDependencies": {
-    "@emotion/react": "^11",
-    "@emotion/styled": "^11",
     "@lingui/detect-locale": "^5.2.0",
     "@lingui/macro": "^5.2.0",
     "@lingui/react": "^5.2.0",
