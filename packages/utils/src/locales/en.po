@@ -37,25 +37,37 @@ msgstr ""
 msgid "/+Z5u4"
 msgstr ""
 
+#. placeholder {0}: signStatus === 'signing' ? 'Signing...' : 'Agree and Sign'
 #: apps/webapp/src/modules/ui/components/TermsModal.tsx
 msgid "{0}"
 msgstr ""
 
+#. placeholder {0}: flow === UpgradeFlow.UPGRADE ? 'Upgraded' : 'Reverted'
+#. placeholder {0}: flow === UpgradeFlow.UPGRADE ? 'Upgrading' : 'Reverting'
+#. placeholder {1}: originToken.symbol
+#. placeholder {2}: targetToken.symbol
 #: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
 msgid "{0} {1} to {2}"
 msgstr ""
 
+#. placeholder {0}: SealToken.MKR
+#. placeholder {0}: SealToken.SKY
 #: apps/webapp/src/modules/seal/components/SealPositionOverview.tsx
 #: apps/webapp/src/modules/seal/components/SealPositionOverview.tsx
 msgid "{0} sealed"
 msgstr ""
 
+#. placeholder {0}: flow === SavingsFlow.SUPPLY ? 'Supplied to' : 'Withdrawn from'
+#. placeholder {0}: flow === SavingsFlow.SUPPLY ? 'Supplying to' : 'Withdrawing from'
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 msgid "{0} the Sky Savings Rate module"
 msgstr ""
 
+#. placeholder {0}: intent && primaryToken && `${capitalizeFirstLetter(i18n._(intentTxt[intent]))} your `
+#. placeholder {1}: formatNumber(parseInt(balance))
+#. placeholder {2}: secondaryTagline[la]
 #: apps/webapp/src/modules/ui/components/LinkedActionCard.tsx
 msgid "{0}<0>{1} {primaryToken} </0> to <1>{secondaryToken} </1>{2}"
 msgstr ""
@@ -80,6 +92,8 @@ msgstr ""
 msgid "{title}"
 msgstr ""
 
+#. placeholder {0}: targetToken.symbol
+#. placeholder {1}: originToken.symbol
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 msgid "1 {0} = {executionPrice} {1}"
@@ -160,6 +174,7 @@ msgstr ""
 msgid "Accumulated Rewards"
 msgstr ""
 
+#. placeholder {0}: targetToken?.symbol || ''
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
 #: packages/widgets/src/widgets/BaseTradeWidget/index.tsx
 msgid "Add {0} to wallet"
@@ -274,6 +289,7 @@ msgstr ""
 msgid "Approve"
 msgstr ""
 
+#. placeholder {0}: tabIndex === 0 ? 'upgrade' : 'revert'
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 msgid "Approve {0} amount"
 msgstr ""
@@ -322,6 +338,12 @@ msgstr ""
 msgid "Approve withdraw amount"
 msgstr ""
 
+#. placeholder {0}: formatBigInt(debouncedOriginAmount, { locale, unit: originToken ? getTokenDecimals(originToken, chainId) : 18 })
+#. placeholder {0}: formatBigInt(debouncedAmount, { locale })
+#. placeholder {0}: formatBigInt(debouncedOriginAmount, { locale, unit: originToken && getTokenDecimals(originToken, chainId) })
+#. placeholder {1}: originToken?.symbol ?? ''
+#. placeholder {1}: selectedRewardContract?.supplyToken.name ?? ''
+#. placeholder {1}: originToken.symbol
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 #: packages/widgets/src/widgets/BaseTradeWidget/index.tsx
@@ -329,18 +351,23 @@ msgstr ""
 msgid "Approving {0} {1}"
 msgstr ""
 
+#. placeholder {0}: formatBigInt(debouncedMkrAmount)
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 msgid "Approving {0} MKR"
 msgstr ""
 
+#. placeholder {0}: formatBigInt(debouncedSkyAmount)
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 msgid "Approving {0} SKY"
 msgstr ""
 
+#. placeholder {0}: originToken.symbol
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 msgid "Approving {0} token"
 msgstr ""
 
+#. placeholder {0}: formatBigInt(debouncedUsdsAmount)
+#. placeholder {0}: formatBigInt(debouncedAmount)
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SavingsWidget/index.tsx
 msgid "Approving {0} USDS"
@@ -374,16 +401,16 @@ msgstr ""
 msgid "balances"
 msgstr ""
 
+#: packages/widgets/src/widgets/BalancesWidget/index.tsx
+msgid "Balances"
+msgstr ""
+
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
 msgid "Balances displays all of your Sky-related funds available on the Base network. When you connect your crypto wallet to Sky.money to access the decentralised Sky Protocol, only the tokens in the wallet that are relevant to the app on Base are listed. With this visibility, you can better self-manage your funds. Sky.money is non-custodial and permissionless."
 msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
 msgid "Balances displays all of your Sky-related funds. When you connect your crypto wallet to Sky.money to access the decentralised Sky Protocol, only the tokens in the wallet that are relevant to the app are listed. With all of your Sky funds visible in one place, you can better self-manage your funds. Sky.money is non-custodial and permissionless."
-msgstr ""
-
-#: packages/widgets/src/widgets/BalancesWidget/index.tsx
-msgid "Balances widget"
 msgstr ""
 
 #: packages/widgets/src/widgets/BaseTradeWidget/index.tsx
@@ -496,6 +523,8 @@ msgstr ""
 msgid "Chronicle Points are not a native feature of the Sky Protocol. Skybase International does not control or guarantee the availability, distribution or allocation of Chronicle Points or any other Chronicle funds. The Chronicle project operates independently of Sky.money and Skybase International. Please be aware that any engagement with Chronicle is at your own risk, and we bear no responsibility for any outcomes associated with this third-party system, or any funds associated with it."
 msgstr ""
 
+#. placeholder {0}: rewardsBalance < MIN_CLAIM_DISPLAY ? `<${formatBigInt(MIN_CLAIM_DISPLAY, { maxDecimals: 2 })}` : formatBigInt(rewardsBalance, { maxDecimals: 2 })
+#. placeholder {1}: rewardContract.rewardToken.symbol
 #: packages/widgets/src/widgets/RewardsWidget/components/RewardsStatsCardCore.tsx
 msgid "Claim {0} {1}"
 msgstr ""
@@ -518,6 +547,7 @@ msgstr ""
 msgid "Claim your rewards"
 msgstr ""
 
+#. placeholder {0}: selectedRewardContract.name
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 msgid "Claimed from the {0} rewards pool"
 msgstr ""
@@ -526,6 +556,7 @@ msgstr ""
 msgid "Claiming {amount} {symbol}"
 msgstr ""
 
+#. placeholder {0}: selectedRewardContract.name
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 msgid "Claiming from the {0} rewards pool"
 msgstr ""
@@ -625,6 +656,16 @@ msgstr ""
 msgid "Connect wallet"
 msgstr ""
 
+#: apps/webapp/src/modules/ui/components/TermsModal.tsx
+#: apps/webapp/src/modules/layout/components/CustomConnectButton.tsx
+#: apps/webapp/src/modules/layout/components/CustomConnectButton.tsx
+#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
+#: packages/widgets/src/widgets/TradeWidget/index.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+#: packages/widgets/src/widgets/SavingsWidget/index.tsx
+#: packages/widgets/src/widgets/RewardsWidget/index.tsx
+#: packages/widgets/src/widgets/BaseTradeWidget/index.tsx
+#: packages/widgets/src/widgets/BaseSavingsWidget/index.tsx
 #: packages/widgets/src/widgets/BalancesWidget/index.tsx
 msgid "Connect Wallet"
 msgstr ""
@@ -652,10 +693,13 @@ msgstr ""
 msgid "Creating order"
 msgstr ""
 
+#. placeholder {0}: originToken.symbol
+#. placeholder {1}: targetToken.symbol
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 msgid "Creating order to trade {originAmount} {0} for {targetAmount} {1}"
 msgstr ""
 
+#. placeholder {0}: displayToken.symbol
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
 msgid "Current {0} price"
@@ -688,6 +732,7 @@ msgstr ""
 msgid "Debt ceiling utilization"
 msgstr ""
 
+#. placeholder {0}: formatBigInt(simulatedVault?.dust || 0n)
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
 msgid "Debt must be paid off entirely, or left with a minimum of {0}"
 msgstr ""
@@ -749,6 +794,7 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
+#. placeholder {0}: selectedRewardContract.name
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 msgid "Error claiming from the {0} rewards pool"
 msgstr ""
@@ -854,6 +900,7 @@ msgstr ""
 msgid "Get SKY rewards with USDS"
 msgstr ""
 
+#. placeholder {0}: isBase ? 'Base' : ''
 #: apps/webapp/src/modules/balances/components/ModuleCard.tsx
 msgid "Go to {0} {module}"
 msgstr ""
@@ -875,15 +922,20 @@ msgstr ""
 msgid "High risk"
 msgstr ""
 
+#. placeholder {0}: selectedToken.symbol
 #: packages/widgets/src/widgets/SealModuleWidget/components/Lock.tsx
 msgid "How much {0} would you like to seal?"
 msgstr ""
 
+#. placeholder {0}: rewardContract?.supplyToken.name ?? ''
+#. placeholder {0}: originToken?.symbol
 #: packages/widgets/src/widgets/RewardsWidget/components/ManagePosition.tsx
 #: packages/widgets/src/widgets/BaseSavingsWidget/components/BaseSavingsSupplyWithdraw.tsx
 msgid "How much {0} would you like to supply?"
 msgstr ""
 
+#. placeholder {0}: rewardContract?.supplyToken.name ?? ''
+#. placeholder {0}: originToken?.symbol
 #: packages/widgets/src/widgets/RewardsWidget/components/ManagePosition.tsx
 #: packages/widgets/src/widgets/BaseSavingsWidget/components/BaseSavingsSupplyWithdraw.tsx
 msgid "How much {0} would you like to withdraw?"
@@ -938,6 +990,7 @@ msgstr ""
 msgid "In progress"
 msgstr ""
 
+#. placeholder {0}: token.symbol
 #: packages/widgets/src/widgets/TradeWidget/components/TradeSummary.tsx
 msgid "Input is estimated. You will spend at most {slippageAdjustedQuote} {0} or the transaction will revert."
 msgstr ""
@@ -956,6 +1009,8 @@ msgstr ""
 msgid "Insufficient funds"
 msgstr ""
 
+#. placeholder {0}: formatUnits( savingsBalance || 0n, inputToken ? getTokenDecimals(inputToken, chainId) : 18 )
+#. placeholder {1}: inputToken?.symbol
 #: packages/widgets/src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
 msgid "Insufficient funds. Your balance is {0} {1}."
 msgstr ""
@@ -996,6 +1051,7 @@ msgstr ""
 msgid "Loading"
 msgstr ""
 
+#. placeholder {0}: rewardContract?.supplyToken.symbol?.toUpperCase() ?? 'tokens'
 #: apps/webapp/src/modules/app/hooks/useNotification.tsx
 msgid "Looks like you need {0} to get rewards"
 msgstr ""
@@ -1009,6 +1065,7 @@ msgstr ""
 msgid "Low risk"
 msgstr ""
 
+#. placeholder {0}: formatUrnIndex(activeUrn?.urnIndex || 0n)
 #: packages/widgets/src/widgets/SealModuleWidget/components/OpenNewUrn.tsx
 msgid "Manage Position {0}"
 msgstr ""
@@ -1116,6 +1173,7 @@ msgstr ""
 msgid "No reward"
 msgstr ""
 
+#. placeholder {0}: rewardContract?.supplyToken.name
 #: packages/widgets/src/widgets/RewardsWidget/components/HarvestRewards.tsx
 msgid "No rewards available, supply {0} to earn rewards"
 msgstr ""
@@ -1186,6 +1244,7 @@ msgstr ""
 msgid "Order creation failed"
 msgstr ""
 
+#. placeholder {0}: token.symbol
 #: packages/widgets/src/widgets/TradeWidget/components/TradeSummary.tsx
 msgid "Output is estimated. You will receive at least {slippageAdjustedQuote} {0} or the transaction will revert."
 msgstr ""
@@ -1258,6 +1317,7 @@ msgstr ""
 msgid "Rate"
 msgstr ""
 
+#. placeholder {0}: formatDecimalPercentage(parseFloat(mostRecentRate))
 #: packages/widgets/src/widgets/RewardsWidget/components/RewardsStatsCardCore.tsx
 msgid "Rate: {0}"
 msgstr ""
@@ -1270,6 +1330,7 @@ msgstr ""
 msgid "Reject"
 msgstr ""
 
+#. placeholder {0}: token.symbol
 #: apps/webapp/src/modules/ui/components/BalanceCards.tsx
 msgid "Remaining {0} balance"
 msgstr ""
@@ -1303,6 +1364,8 @@ msgstr ""
 msgid "Revert"
 msgstr ""
 
+#. placeholder {0}: originToken.symbol
+#. placeholder {1}: targetToken.symbol
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 msgid "Revert {0} into {1}"
 msgstr ""
@@ -1472,10 +1535,13 @@ msgstr ""
 msgid "Select token"
 msgstr ""
 
+#. placeholder {0}: formatBigInt(debouncedOriginAmount, { locale, unit: originToken ? getTokenDecimals(originToken, chainId) : 18 })
+#. placeholder {1}: originToken?.symbol ?? ''
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
 msgid "Sending {0} {1} to the EthFlow contract"
 msgstr ""
 
+#. placeholder {0}: originToken.symbol
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 msgid "Sending {originAmount} {0} to the contract"
 msgstr ""
@@ -1648,6 +1714,7 @@ msgstr ""
 msgid "Successfully withdrawn"
 msgstr ""
 
+#. placeholder {0}: selectedRewardContract.supplyToken.symbol
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 msgid "Supplied {0} to Sky Token Rewards module"
 msgstr ""
@@ -1693,15 +1760,21 @@ msgstr ""
 msgid "Supply successful"
 msgstr ""
 
+#. placeholder {0}: formatBigInt(debouncedAmount, { locale })
+#. placeholder {0}: formatBigInt(debouncedAmount, { locale, unit: originToken && getTokenDecimals(originToken, chainId) })
+#. placeholder {1}: selectedRewardContract?.supplyToken.name ?? ''
+#. placeholder {1}: originToken.symbol
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 #: packages/widgets/src/widgets/BaseSavingsWidget/index.tsx
 msgid "Supplying {0} {1}"
 msgstr ""
 
+#. placeholder {0}: selectedRewardContract.supplyToken.symbol
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 msgid "Supplying {0} to Sky Token Rewards module"
 msgstr ""
 
+#. placeholder {0}: formatBigInt(debouncedAmount)
 #: packages/widgets/src/widgets/SavingsWidget/index.tsx
 msgid "Supplying {0} USDS"
 msgstr ""
@@ -1768,18 +1841,23 @@ msgstr ""
 msgid "Tokens to receive"
 msgstr ""
 
+#. placeholder {0}: rewardContract.rewardToken.symbol
 #: apps/webapp/src/modules/rewards/components/RewardsTokenInfo.tsx
 msgid "Total {0} Points rewarded"
 msgstr ""
 
+#. placeholder {0}: rewardContract.rewardToken.symbol
 #: apps/webapp/src/modules/rewards/components/RewardsTokenInfo.tsx
 msgid "Total {0} rewarded"
 msgstr ""
 
+#. placeholder {0}: userConfig?.sealToken ?? ''
 #: apps/webapp/src/modules/seal/components/SealOverview.tsx
 msgid "Total {0} sealed"
 msgstr ""
 
+#. placeholder {0}: selectedRewardContract?.supplyToken.symbol ?? ''
+#. placeholder {1}: widgetState.flow === RewardsFlow.SUPPLY ? 'Supply' : 'Withdraw'
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 msgid "Total {0} to {1}"
 msgstr ""
@@ -1896,11 +1974,15 @@ msgstr ""
 msgid "Trading"
 msgstr ""
 
+#. placeholder {0}: formatBigInt(debouncedOriginAmount, { locale, unit: originToken && getTokenDecimals(originToken, chainId) })
+#. placeholder {1}: originToken?.symbol ?? ''
 #: packages/widgets/src/widgets/BaseTradeWidget/index.tsx
 #: packages/widgets/src/widgets/BaseTradeWidget/index.tsx
 msgid "Trading {0} {1}"
 msgstr ""
 
+#. placeholder {0}: originToken.symbol
+#. placeholder {1}: targetToken.symbol
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
@@ -2024,6 +2106,8 @@ msgstr ""
 msgid "Upgrade"
 msgstr ""
 
+#. placeholder {0}: originToken.symbol
+#. placeholder {1}: targetToken.symbol
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 msgid "Upgrade {0} into {1}"
 msgstr ""
@@ -2153,6 +2237,8 @@ msgstr ""
 msgid "Waiting for confirmation"
 msgstr ""
 
+#. placeholder {0}: originToken.symbol
+#. placeholder {1}: targetToken.symbol
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 msgid "Waiting for the order to be executed by a solver to trade {originAmount} {0} for {targetAmount} {1}"
 msgstr ""
@@ -2221,16 +2307,22 @@ msgstr ""
 msgid "Withdrawal"
 msgstr ""
 
+#. placeholder {0}: formatBigInt(debouncedAmount, { locale })
+#. placeholder {0}: formatBigInt(debouncedAmount, { locale, unit: originToken && getTokenDecimals(originToken, chainId) })
+#. placeholder {1}: selectedRewardContract?.supplyToken.name ?? ''
+#. placeholder {1}: originToken.symbol
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 #: packages/widgets/src/widgets/BaseSavingsWidget/index.tsx
 #: packages/widgets/src/widgets/BaseSavingsWidget/index.tsx
 msgid "Withdrawing {0} {1}"
 msgstr ""
 
+#. placeholder {0}: selectedRewardContract.supplyToken.symbol
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 msgid "Withdrawing {0} from Sky Token Rewards module"
 msgstr ""
 
+#. placeholder {0}: formatBigInt(debouncedAmount)
 #: packages/widgets/src/widgets/SavingsWidget/index.tsx
 msgid "Withdrawing {0} USDS"
 msgstr ""
@@ -2241,17 +2333,24 @@ msgstr ""
 msgid "Withdrawing {amount} {symbol}"
 msgstr ""
 
+#. placeholder {0}: originToken?.symbol ?? ''
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
 #: packages/widgets/src/widgets/BaseTradeWidget/index.tsx
 msgid "You approved {0}"
 msgstr ""
 
+#. placeholder {0}: formatUnits(debouncedOriginAmount, 18)
+#. placeholder {0}: formatBigInt(debouncedAmount, { locale })
+#. placeholder {0}: formatBigInt(debouncedAmount, { locale, unit: originToken && getTokenDecimals(originToken, chainId) })
+#. placeholder {1}: originToken.symbol
+#. placeholder {1}: selectedRewardContract?.supplyToken.name ?? ''
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 #: packages/widgets/src/widgets/BaseSavingsWidget/index.tsx
 msgid "You approved {0} {1}"
 msgstr ""
 
+#. placeholder {0}: formatBigInt(debouncedMkrAmount)
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 msgid "You approved {0} MKR"
 msgstr ""
@@ -2269,6 +2368,8 @@ msgstr ""
 msgid "You approved USDS"
 msgstr ""
 
+#. placeholder {0}: originToken.symbol
+#. placeholder {1}: targetToken.symbol
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 msgid "You are now trading {originAmount} {0}. You will receive {targetAmount} {1}"
 msgstr ""
@@ -2298,10 +2399,15 @@ msgstr ""
 msgid "You just updated your position"
 msgstr ""
 
+#. placeholder {0}: targetToken.symbol
+#. placeholder {1}: originToken.symbol
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 msgid "You received {targetAmount} {0} for {originAmount} {1}."
 msgstr ""
 
+#. placeholder {0}: formatUnits(debouncedOriginAmount, 18)
+#. placeholder {1}: originToken.symbol
+#. placeholder {2}: targetToken.symbol
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 msgid "You reverted {0} {1} into {2}"
 msgstr ""
@@ -2317,6 +2423,8 @@ msgstr ""
 msgid "You successfully cancelled the order"
 msgstr ""
 
+#. placeholder {0}: originToken.symbol
+#. placeholder {1}: targetToken.symbol
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 msgid "You successfully traded {originAmount} {0} for {targetAmount} {1}"
 msgstr ""
@@ -2325,15 +2433,26 @@ msgstr ""
 msgid "You successfully withdrew {amount} {symbol}"
 msgstr ""
 
+#. placeholder {0}: formatBigInt(debouncedAmount, { locale })
+#. placeholder {0}: formatBigInt(debouncedAmount, { locale, unit: originToken && getTokenDecimals(originToken, chainId) })
+#. placeholder {1}: selectedRewardContract?.supplyToken.name ?? ''
+#. placeholder {1}: originToken.symbol
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 #: packages/widgets/src/widgets/BaseSavingsWidget/index.tsx
 msgid "You supplied {0} {1}"
 msgstr ""
 
+#. placeholder {0}: formatBigInt(debouncedAmount)
 #: packages/widgets/src/widgets/SavingsWidget/index.tsx
 msgid "You supplied {0} USDS"
 msgstr ""
 
+#. placeholder {0}: formatBigInt(executedSellAmount, { locale, unit: originToken ? getTokenDecimals(originToken, chainId) : 18 })
+#. placeholder {0}: formatBigInt(debouncedOriginAmount, { locale, unit: originToken && getTokenDecimals(originToken, chainId) })
+#. placeholder {1}: originToken?.symbol ?? ''
+#. placeholder {2}: formatBigInt(executedBuyAmount, { locale, unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18 })
+#. placeholder {2}: formatBigInt(debouncedTargetAmount, { locale, unit: targetToken && getTokenDecimals(targetToken, chainId) })
+#. placeholder {3}: targetToken?.symbol ?? ''
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
@@ -2342,6 +2461,9 @@ msgstr ""
 msgid "You traded {0} {1} for {2} {3}"
 msgstr ""
 
+#. placeholder {0}: formatUnits(debouncedOriginAmount, 18)
+#. placeholder {1}: originToken.symbol
+#. placeholder {2}: targetToken.symbol
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 msgid "You upgraded {0} {1} into {2}"
 msgstr ""
@@ -2356,12 +2478,17 @@ msgstr ""
 msgid "You will withdraw"
 msgstr ""
 
+#. placeholder {0}: formatBigInt(debouncedAmount, { locale })
+#. placeholder {0}: formatBigInt(debouncedAmount, { locale, unit: originToken && getTokenDecimals(originToken, chainId) })
+#. placeholder {1}: selectedRewardContract?.supplyToken.name ?? ''
+#. placeholder {1}: originToken.symbol
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 #: packages/widgets/src/widgets/BaseSavingsWidget/index.tsx
 #: packages/widgets/src/widgets/BaseSavingsWidget/index.tsx
 msgid "You withdrew {0} {1}"
 msgstr ""
 
+#. placeholder {0}: formatBigInt(debouncedAmount)
 #: packages/widgets/src/widgets/SavingsWidget/index.tsx
 msgid "You withdrew {0} USDS"
 msgstr ""
@@ -2370,10 +2497,12 @@ msgstr ""
 msgid "You’ve added {symbol} to the Sky Token Rewards module."
 msgstr ""
 
+#. placeholder {0}: selectedToken ?? ''
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "You've borrowed {borrowAmount} USDS by sealing {collateralToLock} {0}. Your new position is open."
 msgstr ""
 
+#. placeholder {0}: selectedToken ?? ''
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "You've borrowed {borrowAmount} USDS by sealing {collateralToLock} {0}. Your position is updated."
 msgstr ""
@@ -2399,10 +2528,12 @@ msgstr ""
 msgid "You've repaid {borrowToRepay} USDS to exit your position."
 msgstr ""
 
+#. placeholder {0}: selectedToken ?? ''
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "You've sealed {collateralToLock} {0}. Your new position is open."
 msgstr ""
 
+#. placeholder {0}: selectedToken ?? ''
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "You've sealed {collateralToLock} {0}. Your position is updated."
 msgstr ""
@@ -2411,10 +2542,12 @@ msgstr ""
 msgid "You've supplied {amount} {symbol} to the Sky Savings Rate module"
 msgstr ""
 
+#. placeholder {0}: selectedToken ?? ''
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "You've unsealed {collateralToFree} {0} and repaid {borrowToRepay} USDS to exit your position. An exit fee was applied."
 msgstr ""
 
+#. placeholder {0}: selectedToken ?? ''
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "You've unsealed {collateralToFree} {0} to exit your position. An exit fee was applied."
 msgstr ""
@@ -2423,6 +2556,7 @@ msgstr ""
 msgid "You've withdrawn {amount} {symbol} from the Sky Savings Rate module."
 msgstr ""
 
+#. placeholder {0}: Array.isArray(termsLink) && termsLink.length > 0 ? ( <ExternalLink skipConfirm className="text-textEmphasis" showIcon={false} href={sanitizeUrl(termsLink[0].url)} > {termsLink[0].name} </ExternalLink> ) : ( 'Terms of Use' )
 #: apps/webapp/src/modules/auth/components/UnauthorizedPage.tsx
 msgid "Your access is restricted. For more information, please refer to our {0}."
 msgstr ""
@@ -2453,6 +2587,7 @@ msgstr ""
 msgid "Your MKR and SKY tokens, as well as any rewards that you accumulate, are supplied to a non-custodial smart contract, such that no intermediary takes custody of those tokens. With Sky, you always remain in control of your assets."
 msgstr ""
 
+#. placeholder {0}: formatUrnIndex(BigInt(positionIndex))
 #: apps/webapp/src/modules/seal/components/SealPositionOverview.tsx
 msgid "Your position {0}"
 msgstr ""
@@ -2473,6 +2608,8 @@ msgstr ""
 msgid "Your Rewards transaction history"
 msgstr ""
 
+#. placeholder {0}: inputToken?.symbol
+#. placeholder {0}: originToken?.symbol
 #: packages/widgets/src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
 #: packages/widgets/src/widgets/BaseSavingsWidget/components/BaseSavingsSupplyWithdraw.tsx
 msgid "Your Savings {0} balance will be"
@@ -2526,6 +2663,8 @@ msgstr ""
 msgid "Your Upgrade/Revert transaction history"
 msgstr ""
 
+#. placeholder {0}: inputToken?.symbol
+#. placeholder {0}: originToken?.symbol
 #: packages/widgets/src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
 #: packages/widgets/src/widgets/BaseSavingsWidget/components/BaseSavingsSupplyWithdraw.tsx
 msgid "Your wallet {0} balance will be"
