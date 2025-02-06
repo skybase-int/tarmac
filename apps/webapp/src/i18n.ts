@@ -42,7 +42,7 @@ async function loadLocale(locale?: string) {
     console.log(`Locale file for ${locale} loaded in webapp.`);
     return messages;
   } catch (error) {
-    console.log(`Locale file for ${locale} not found in webapp.`);
+    console.error(`Locale file for ${locale} not found in webapp: `, error);
     return null;
   }
 }

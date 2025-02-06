@@ -104,7 +104,9 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
           </button>
           <button
             onClick={() => {
-              setSealInitialState && setSealInitialState?.({ urnIndex: undefined });
+              if (setSealInitialState) {
+                setSealInitialState({ urnIndex: undefined });
+              }
               window.location.reload(); // simulate a page refresh
             }}
             className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"

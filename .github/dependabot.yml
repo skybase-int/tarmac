@@ -10,10 +10,9 @@ updates:
     schedule:
       interval: "weekly"
     groups:
-      production-dependencies:
-        dependency-type: "production"
-      development-dependencies:
-        dependency-type: "development"
+      all-dependencies:
+        patterns:
+          - "*"
     ignore:
       - dependency-name: "*" # Apply to all dependencies
         update-types: ["version-update:semver-major"] # Ignore major version updates

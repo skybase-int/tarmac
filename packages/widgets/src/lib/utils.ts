@@ -27,7 +27,7 @@ const tokenValidationRule = z
       if (value === undefined) {
         return true;
       }
-      return tokenSymbols.includes(value);
+      return tokenSymbols.map(t => t.toLowerCase()).includes(value.toLowerCase());
     },
     {
       message: 'token must be in the list of valid tokens'

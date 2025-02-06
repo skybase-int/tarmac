@@ -19,8 +19,8 @@ export function useRewardsSupply({
   ref = 0
 }: WriteHookParams & {
   amount: bigint;
-  contractAddress: `0x${string}`;
-  supplyTokenAddress: `0x${string}`;
+  contractAddress: `0x${string}` | undefined;
+  supplyTokenAddress: `0x${string}` | undefined;
   ref?: number;
 }): WriteHook {
   const chainId = useChainId();
@@ -36,7 +36,7 @@ export function useRewardsSupply({
   // Only enabled if users allowance is GTE their supply amount
   const amountValid = !!amount && amount !== 0n && !!allowance && allowance >= amount;
   const addressValid = !!address && address !== ZERO_ADDRESS;
-  const enabled = !!paramEnabled && amountValid && addressValid;
+  const enabled = !!paramEnabled && amountValid && addressValid && !!contractAddress;
 
   return useWriteContractFlow({
     address: contractAddress,

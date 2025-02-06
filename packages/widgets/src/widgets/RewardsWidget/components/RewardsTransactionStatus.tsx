@@ -15,10 +15,7 @@ import {
   rewardsClaimLoadingButtonText,
   rewardsClaimTitle,
   rewardsClaimSubtitle,
-  rewardsClaimTxDescription,
-  boostedRewardsLoadingButtonText,
-  boostedRewardsTitle,
-  boostedRewardsSubtitle
+  rewardsClaimTxDescription
 } from '../lib/constants';
 import { TxCardCopyText } from '@/shared/types/txCardCopyText';
 import { WidgetContext } from '@/context/WidgetContext';
@@ -177,14 +174,6 @@ export const RewardsTransactionStatus = ({
       if (selectedRewardContract) {
         setTxDescription(i18n._(rewardsClaimTxDescription({ txStatus, selectedRewardContract })));
       }
-    } else if (
-      // Claim rewards
-      action === RewardsAction.BOOSTED_REWARDS &&
-      screen === RewardsScreen.TRANSACTION
-    ) {
-      setLoadingText(i18n._(boostedRewardsLoadingButtonText({ txStatus })));
-      setTxTitle(i18n._(boostedRewardsTitle[txStatus as keyof TxCardCopyText]));
-      setTxSubtitle(i18n._(boostedRewardsSubtitle[txStatus as keyof TxCardCopyText]));
     }
   }, [txStatus, flow, action, screen, i18n.locale]);
   return <TransactionStatus onExternalLinkClicked={onExternalLinkClicked} />;
