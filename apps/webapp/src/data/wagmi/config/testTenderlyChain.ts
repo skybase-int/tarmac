@@ -3,7 +3,7 @@ import tenderlyTestnetData from '../../../../../../tenderlyTestnetData.json' wit
 
 export const TENDERLY_CHAIN_ID = 314310;
 export const TENDERLY_BASE_CHAIN_ID = 8555;
-export const TENDERLY_ARBITRUM_CHAIN_ID = 42012;
+export const TENDERLY_ARBITRUM_CHAIN_ID = 42161;
 
 // only works if hardcoded, cannot be set via env variable. Corresponds to the public RPC of `mainnet_sep_30_0`
 export const TENDERLY_RPC_URL =
