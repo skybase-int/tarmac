@@ -60,7 +60,6 @@
     "wagmi": "^2.14.9"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.0",
     "@lingui/core": "^5.2.0",
     "@lingui/swc-plugin": "^5.0.2",
     "@lingui/vite-plugin": "^5.2.0",
@@ -72,7 +71,6 @@
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react-swc": "^3.7.2",
     "autoprefixer": "^10.4.16",
-    "babel-loader": "^8.3.0",
     "dotenv": "^16.4.7",
     "postcss": "^8.5.1",
     "prettier": "^3.4.2",
