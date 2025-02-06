@@ -35,7 +35,8 @@
     "messages:extract": "lingui extract --clean",
     "messages:compile": "lingui compile",
     "messages": "pnpm messages:extract && pnpm messages:compile",
-    "changeset:release": "pnpm build && changeset publish"
+    "changeset:release": "pnpm build && changeset publish",
+    "knip": "knip"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -85,6 +86,7 @@
     "globals": "^15.14.0",
     "happy-dom": "^15.11.7",
     "husky": "^8.0.3",
+    "knip": "^5.43.6",
     "lint-staged": "^15.4.3",
     "prettier": "^3.4.2",
     "rollup-plugin-visualizer": "^5.14.0",
