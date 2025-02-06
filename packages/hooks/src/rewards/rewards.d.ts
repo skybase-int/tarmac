@@ -83,12 +83,3 @@ export type RewardContract = {
   logo: string;
   featured?: boolean;
 };
-
-export type BoostedRewardsData = {
-  wallet_address?: `0x${string}`;
-  index?: number;
-  amount?: bigint;
-  proof?: `0x${string}`[];
-  is_claimed?: boolean;
-  has_rewards: boolean;
-};

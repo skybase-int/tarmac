@@ -39,7 +39,7 @@ export const ExternalLinkModal: React.FC = () => {
   try {
     termsLink = JSON.parse(import.meta.env.VITE_TERMS_LINK);
   } catch (error) {
-    console.error('Error parsing terms link');
+    console.error('Error parsing terms link: ', error);
   }
 
   return (

@@ -11,6 +11,7 @@ import { useAvailableTokenRewardContracts } from '@jetstreamgg/hooks';
 import { useAccount, useAccountEffect, useChainId, useChains, useSwitchChain } from 'wagmi';
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
 import { LinkedActionSteps } from '@/modules/config/context/ConfigContext';
+import { useSafeAppNotification } from '../hooks/useSafeAppNotification';
 
 export function MainApp() {
   const {
@@ -70,6 +71,9 @@ export function MainApp() {
 
   // step is initialized as 0 and will evaluate to false, setting the first step to 1
   const step = linkedAction ? linkedActionConfig.step || 1 : 0;
+
+  // If the user is connected to a Safe Wallet using WalletConnect, notify they can use the Safe App
+  useSafeAppNotification();
 
   // Run validation on search params whenever search params change
   useEffect(() => {

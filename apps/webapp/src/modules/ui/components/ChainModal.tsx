@@ -56,7 +56,9 @@ export function ChainModal({
           if (newChainName) {
             setSearchParams(params => {
               params.set(QueryParams.Network, newChainName.toLowerCase());
-              nextIntent && params.set(QueryParams.Widget, mapIntentToQueryParam(nextIntent));
+              if (nextIntent) {
+                params.set(QueryParams.Widget, mapIntentToQueryParam(nextIntent));
+              }
               return params;
             });
           }
