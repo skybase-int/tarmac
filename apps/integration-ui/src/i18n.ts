@@ -29,10 +29,10 @@ export async function dynamicActivate(locale: string) {
 async function loadLocale(locale?: string) {
   try {
     const { messages } = await import(`./locales/${locale}.ts`);
-    console.log(`Locale file for ${locale} loaded in webapp.`);
+    console.log(`Locale file for ${locale} loaded in integration-ui.`);
     return messages;
   } catch (error) {
-    console.log(`Locale file for ${locale} not found in webapp.`);
+    console.error(`Locale file for ${locale} not found in integration-ui: `, error);
     return null;
   }
 }

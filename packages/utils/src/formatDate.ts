@@ -10,6 +10,7 @@ export const getDateLocale = async (locale: string): Promise<Locale> => {
     const localeFn = localeImports[`${code}${region}`] || localeImports[`${code}`] || localeImports['enUS'];
     localeModule = await localeFn();
   } catch (error) {
+    console.error('Error importing locale: ', error);
     localeModule = await import('date-fns/locale/en-US');
   }
   return localeModule.default;
