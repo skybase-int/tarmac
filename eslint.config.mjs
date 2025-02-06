@@ -25,9 +25,7 @@ export default [
       '**/sw.js',
       '**/generated.ts',
       'packages/components',
-      'apps/integration-ui/src/locales/*',
-      'apps/webapp/src/locales/*',
-      'packages/widgets/src/locales/*'
+      'packages/utils/src/locales/*'
     ]
   },
   ...compat.extends(
