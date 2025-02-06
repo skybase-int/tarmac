@@ -185,7 +185,10 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
   const onExternalLinkClicked = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
       const href = e.currentTarget.getAttribute('href');
-      if (href && !ALLOWED_EXTERNAL_DOMAINS.some(domain => href?.includes(domain))) {
+      if (!href) return;
+
+      const hrefUrl = new URL(href);
+      if (!ALLOWED_EXTERNAL_DOMAINS.includes(hrefUrl.hostname)) {
         e.preventDefault();
         setExternalLinkModalUrl(href);
         setExternalLinkModalOpened(true);

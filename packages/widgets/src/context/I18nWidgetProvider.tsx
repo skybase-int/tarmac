@@ -16,7 +16,7 @@ async function loadLocale(locale?: string) {
     if (locale) setLocaleInLocaleStorage(locale);
     return messages;
   } catch (error) {
-    console.log(`Locale file for ${locale} not found in widgets.`);
+    console.error(`Locale file for ${locale} not found in widgets: `, error);
     return null;
   }
 }

@@ -7,14 +7,12 @@ import {
   useRewardsWithdraw,
   useRewardsClaim,
   useTokenAllowance,
-  useTokenBalance,
-  useBoostedRewards,
-  useClaimBoostedRewards
+  useTokenBalance
 } from '@jetstreamgg/hooks';
 import { getEtherscanLink, useDebounce, formatBigInt } from '@jetstreamgg/utils';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { WidgetContainer } from '../../shared/components/ui/widget/WidgetContainer';
-import { RewardsFlow, RewardsAction, RewardsScreen, JAN_01_2025_TIMESTAMP } from './lib/constants';
+import { RewardsFlow, RewardsAction, RewardsScreen } from './lib/constants';
 import { WidgetContext, WidgetProvider } from '../../context/WidgetContext';
 import { NotificationType, TxStatus } from '../../shared/constants';
 import { WidgetProps, WidgetState } from '../../shared/types/widgetState';
@@ -38,7 +36,6 @@ import { useNotifyWidgetState } from '@/shared/hooks/useNotifyWidgetState';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CardAnimationWrapper } from '@/shared/animation/Wrappers';
 import { positionAnimations } from '@/shared/animation/presets';
-import { BoostedRewardsSection } from './components/BoostedRewardsSection';
 
 export type RewardsWidgetProps = WidgetProps & {
   onRewardContractChange?: (rewardContract?: RewardContract) => void;
@@ -97,13 +94,16 @@ const RewardsWidgetWrapped = ({
   referralCode
 }: RewardsWidgetProps) => {
   const validatedExternalState = getValidatedState(externalWidgetState);
-  onStateValidated && onStateValidated(validatedExternalState);
   const chainId = useChainId();
   const { address, isConnecting, isConnected } = useAccount();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
   const [selectedRewardContract, setSelectedRewardContract] = useState<RewardContract | undefined>(undefined);
   const [amount, setAmount] = useState(parseUnits(validatedExternalState?.amount || '0', 18));
   const [claimAmount, setClaimAmount] = useState(0n);
+
+  useEffect(() => {
+    onStateValidated?.(validatedExternalState);
+  }, [onStateValidated, validatedExternalState]);
 
   useEffect(() => {
     setSelectedRewardContract(validatedExternalState?.selectedRewardContract);
@@ -171,7 +171,7 @@ const RewardsWidgetWrapped = ({
       addRecentTransaction?.({
         hash,
         description: t`Supplying ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name
+          selectedRewardContract?.supplyToken.name ?? ''
         }`
       });
       setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
@@ -182,7 +182,7 @@ const RewardsWidgetWrapped = ({
       onNotification?.({
         title: t`Supply successful`,
         description: t`You supplied ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name
+          selectedRewardContract?.supplyToken.name ?? ''
         }`,
         status: TxStatus.SUCCESS
       });
@@ -216,7 +216,7 @@ const RewardsWidgetWrapped = ({
       addRecentTransaction?.({
         hash,
         description: t`Approving ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name
+          selectedRewardContract?.supplyToken.name ?? ''
         }`
       });
       setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
@@ -227,7 +227,7 @@ const RewardsWidgetWrapped = ({
       onNotification?.({
         title: t`Approve successful`,
         description: t`You approved ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name
+          selectedRewardContract?.supplyToken.name ?? ''
         }`,
         status: TxStatus.SUCCESS
       });
@@ -258,7 +258,7 @@ const RewardsWidgetWrapped = ({
       addRecentTransaction?.({
         hash,
         description: t`Withdrawing ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name
+          selectedRewardContract?.supplyToken.name ?? ''
         }`
       });
       setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
@@ -269,7 +269,7 @@ const RewardsWidgetWrapped = ({
       onNotification?.({
         title: t`Withdraw successful`,
         description: t`You withdrew ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name
+          selectedRewardContract?.supplyToken.name ?? ''
         }`,
         status: TxStatus.SUCCESS
       });
@@ -329,52 +329,7 @@ const RewardsWidgetWrapped = ({
     }
   });
 
-  const isBoostedRewardsPeriodEnded = new Date().getTime() >= JAN_01_2025_TIMESTAMP;
-
-  // Claim boosted rewards
-  const {
-    data: boostedRewardsData,
-    mutate: mutateBoostedRewardsData,
-    isLoading: boostedRewardsDataLoading,
-    error: boostedRewardsDataError
-  } = useBoostedRewards();
-  const claimBoostedRewards = useClaimBoostedRewards({
-    boostedRewardsData,
-    onStart: (hash: string) => {
-      addRecentTransaction?.({ hash, description: t`Claiming boosted rewards` });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
-    },
-    onSuccess: hash => {
-      onNotification?.({
-        title: t`Successfully claimed`,
-        description: t`You claimed ${formatBigInt(boostedRewardsData?.amount || 0n)} SKY of boosted rewards`,
-        status: TxStatus.SUCCESS
-      });
-      setTxStatus(TxStatus.SUCCESS);
-      mutateBoostedRewardsData();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
-    },
-    onError: (error, hash) => {
-      console.log('error', error, hash);
-      onNotification?.({
-        title: t`Claiming failed`,
-        description: t`We could not claim your boosted rewards.`,
-        status: TxStatus.ERROR
-      });
-      setTxStatus(TxStatus.ERROR);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-    },
-    enabled: !isBoostedRewardsPeriodEnded
-  });
-
   const needsAllowance = !!(!allowance || allowance < amount);
-  const userHasBoostedRewards =
-    !!boostedRewardsData?.has_rewards &&
-    !boostedRewardsData?.is_claimed &&
-    !!boostedRewardsData.amount &&
-    !!boostedRewardsData.proof;
 
   useEffect(() => {
     if (widgetState.action === RewardsAction.CLAIM) {
@@ -529,30 +484,17 @@ const RewardsWidgetWrapped = ({
     setExternalLink(undefined);
     withdraw.execute();
   };
-  const claimBoostedRewardsOnClick = () => {
-    setShowStepIndicator(false);
-    setWidgetState((prev: WidgetState) => ({
-      ...prev,
-      action: RewardsAction.BOOSTED_REWARDS,
-      screen: RewardsScreen.TRANSACTION
-    }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    claimBoostedRewards.execute();
-  };
   const nextOnClick = () => {
     setTxStatus(TxStatus.IDLE);
 
     setWidgetState((prev: WidgetState) => ({
       ...prev,
       action:
-        prev.action === RewardsAction.BOOSTED_REWARDS
-          ? RewardsAction.OVERVIEW
-          : prev.flow === RewardsFlow.WITHDRAW
-            ? RewardsAction.WITHDRAW
-            : needsAllowance
-              ? RewardsAction.APPROVE
-              : RewardsAction.SUPPLY,
+        prev.flow === RewardsFlow.WITHDRAW
+          ? RewardsAction.WITHDRAW
+          : needsAllowance
+            ? RewardsAction.APPROVE
+            : RewardsAction.SUPPLY,
       screen: RewardsScreen.ACTION
     }));
 
@@ -571,12 +513,7 @@ const RewardsWidgetWrapped = ({
     setTxStatus(TxStatus.IDLE);
     setWidgetState((prev: WidgetState) => ({
       ...prev,
-      action:
-        prev.action === RewardsAction.BOOSTED_REWARDS
-          ? RewardsAction.OVERVIEW
-          : prev.flow === RewardsFlow.SUPPLY
-            ? RewardsAction.SUPPLY
-            : RewardsAction.WITHDRAW,
+      action: prev.flow === RewardsFlow.SUPPLY ? RewardsAction.SUPPLY : RewardsAction.WITHDRAW,
       screen: RewardsScreen.ACTION
     }));
   };
@@ -591,9 +528,7 @@ const RewardsWidgetWrapped = ({
           ? approveOnClick
           : widgetState.action === RewardsAction.CLAIM
             ? onClaimClick
-            : widgetState.action === RewardsAction.BOOSTED_REWARDS
-              ? claimBoostedRewardsOnClick
-              : undefined;
+            : undefined;
   };
 
   const onClaimClick = () => {
@@ -740,25 +675,13 @@ const RewardsWidgetWrapped = ({
       <AnimatePresence mode="popLayout" initial={false}>
         {widgetState.screen === RewardsScreen.ACTION && widgetState.action === RewardsAction.OVERVIEW ? (
           <CardAnimationWrapper key="widget-overview">
-            {userHasBoostedRewards && !isBoostedRewardsPeriodEnded && (
-              <BoostedRewardsSection
-                boostedRewardsData={boostedRewardsData}
-                claimBoostedRewards={claimBoostedRewardsOnClick}
-                isClaimBoostedRewardsDisabled={
-                  !claimBoostedRewards.prepared ||
-                  boostedRewardsData.is_claimed ||
-                  boostedRewardsDataLoading ||
-                  !!boostedRewardsDataError
-                }
-              />
-            )}
             <RewardsOverview
               onSelectRewardContract={onSelectRewardContract}
               isConnectedAndEnabled={isConnectedAndEnabled}
               onExternalLinkClicked={onExternalLinkClicked}
             />
           </CardAnimationWrapper>
-        ) : txStatus !== TxStatus.IDLE ? (
+        ) : txStatus !== TxStatus.IDLE && selectedRewardContract ? (
           <CardAnimationWrapper key="widget-transaction-status">
             <RewardsTransactionStatus
               rewardToken={
@@ -802,7 +725,7 @@ const RewardsWidgetWrapped = ({
                     fetchingMessage={t`Fetching transaction details`}
                     transactionData={[
                       {
-                        label: t`Total ${selectedRewardContract?.supplyToken.symbol} to ${
+                        label: t`Total ${selectedRewardContract?.supplyToken.symbol ?? ''} to ${
                           widgetState.flow === RewardsFlow.SUPPLY ? 'Supply' : 'Withdraw'
                         }`,
                         value: `${formatBigInt(amount, { maxDecimals: 2 })}`

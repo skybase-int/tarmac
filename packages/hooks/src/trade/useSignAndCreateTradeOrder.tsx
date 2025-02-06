@@ -65,7 +65,9 @@ export const useSignAndCreateTradeOrder = ({
         createOrder(signature);
       },
       onError: (err: Error) => {
-        onError && onError(err, signature || '');
+        if (onError) {
+          onError(err, signature || '');
+        }
       }
     }
   });

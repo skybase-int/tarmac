@@ -1,14 +1,9 @@
 import type { Config } from 'tailwindcss';
+import { join, dirname } from 'path';
 
 module.exports = {
   darkMode: ['class'],
-  content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-    './node_modules/@jetstreamgg/widgets/**/*.js'
-  ],
+  content: ['./src/**/*.{ts,tsx}', join(dirname(require.resolve('@jetstreamgg/widgets')), '**/*.js')],
   prefix: '',
   theme: {
     container: {

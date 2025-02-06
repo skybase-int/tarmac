@@ -15,6 +15,7 @@ export * from './hooks/useDeltaTimestamps';
 export * from './hooks/useEffectDebugger';
 export * from './localization';
 export * from './hooks/useFormatDate';
+export * from './hooks/useIsSafeWallet';
 export * from './hooks/useIsSmartContractWallet';
 export * from './math.constants';
 export * from './collection';

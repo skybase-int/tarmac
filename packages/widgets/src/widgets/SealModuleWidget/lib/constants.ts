@@ -125,20 +125,20 @@ export function getSealSubtitle({
     case TxStatus.SUCCESS:
       return flow === SealFlow.OPEN
         ? collateralToLock && borrowAmount
-          ? msg`You've borrowed ${borrowAmount} USDS by sealing ${collateralToLock} ${selectedToken}. Your new position is open.`
+          ? msg`You've borrowed ${borrowAmount} USDS by sealing ${collateralToLock} ${selectedToken ?? ''}. Your new position is open.`
           : collateralToLock
-            ? msg`You've sealed ${collateralToLock} ${selectedToken}. Your new position is open.`
+            ? msg`You've sealed ${collateralToLock} ${selectedToken ?? ''}. Your new position is open.`
             : msg`You just opened your position`
         : collateralToFree && borrowToRepay
-          ? msg`You've unsealed ${collateralToFree} ${selectedToken} and repaid ${borrowToRepay} USDS to exit your position. An exit fee was applied.`
+          ? msg`You've unsealed ${collateralToFree} ${selectedToken ?? ''} and repaid ${borrowToRepay} USDS to exit your position. An exit fee was applied.`
           : collateralToFree
-            ? msg`You've unsealed ${collateralToFree} ${selectedToken} to exit your position. An exit fee was applied.`
+            ? msg`You've unsealed ${collateralToFree} ${selectedToken ?? ''} to exit your position. An exit fee was applied.`
             : borrowToRepay
               ? msg`You've repaid ${borrowToRepay} USDS to exit your position.`
               : collateralToLock && borrowAmount
-                ? msg`You've borrowed ${borrowAmount} USDS by sealing ${collateralToLock} ${selectedToken}. Your position is updated.`
+                ? msg`You've borrowed ${borrowAmount} USDS by sealing ${collateralToLock} ${selectedToken ?? ''}. Your position is updated.`
                 : collateralToLock
-                  ? msg`You've sealed ${collateralToLock} ${selectedToken}. Your position is updated.`
+                  ? msg`You've sealed ${collateralToLock} ${selectedToken ?? ''}. Your position is updated.`
                   : borrowAmount
                     ? msg`You've borrowed ${borrowAmount} USDS. Your position is updated.`
                     : msg`You just updated your position`;

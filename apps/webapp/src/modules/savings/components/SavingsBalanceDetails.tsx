@@ -35,6 +35,7 @@ export function SavingsBalanceDetails() {
         token={usdsToken}
         error={error}
         afterBalance={isBase && sUsdsBalance ? ` (${formatBigInt(sUsdsBalance.value)} sUSDS)` : undefined}
+        dataTestId="savings-supplied-balance-details"
       />
     );
   };
@@ -46,6 +47,7 @@ export function SavingsBalanceDetails() {
         isLoading={isLoading}
         token={usdsToken}
         error={error}
+        dataTestId="savings-remaining-balance-details"
       />
     );
   };

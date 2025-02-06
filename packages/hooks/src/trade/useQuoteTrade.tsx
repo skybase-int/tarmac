@@ -160,7 +160,14 @@ export const useQuoteTrade = ({
       }),
     refetchOnWindowFocus: false,
     // Invalidate quote after 2 minutes, which matches the expiration time of the quote
-    gcTime: 2 * 60 * 1000
+    gcTime: 2 * 60 * 1000,
+    retry: (failureCount: number, error: Error) => {
+      //don't retry if the error is because the sell amount does not cover the fee
+      if (error.message?.includes('SellAmountDoesNotCoverFee')) {
+        return false;
+      }
+      return failureCount < 2;
+    }
   });
 
   return {

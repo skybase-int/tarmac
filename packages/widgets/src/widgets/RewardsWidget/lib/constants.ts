@@ -14,8 +14,7 @@ export enum RewardsAction {
   APPROVE = 'approve',
   SUPPLY = 'supply',
   WITHDRAW = 'withdraw',
-  CLAIM = 'claim',
-  BOOSTED_REWARDS = 'boosted_rewards'
+  CLAIM = 'claim'
 }
 
 export enum RewardsScreen {
@@ -233,30 +232,3 @@ export function rewardsClaimTxDescription({
       return msg``;
   }
 }
-
-export const boostedRewardsTitle: TxCardCopyText = {
-  [TxStatus.INITIALIZED]: msg`Confirm your claim`,
-  [TxStatus.LOADING]: msg`In progress`,
-  [TxStatus.SUCCESS]: msg`Success!`,
-  [TxStatus.ERROR]: msg`Error`
-};
-
-export const boostedRewardsSubtitle: TxCardCopyText = {
-  [TxStatus.INITIALIZED]: msg`Please confirm that you want to claim your boosted SKY rewards directly into your wallet.`,
-  [TxStatus.LOADING]: msg`Your claim is being processed on the blockchain. Please wait.`,
-  [TxStatus.SUCCESS]: msg`You've claimed SKY into your wallet.`,
-  [TxStatus.ERROR]: msg`An error occurred when claiming your boosted rewards.`
-};
-
-export function boostedRewardsLoadingButtonText({ txStatus }: { txStatus: TxStatus }): MessageDescriptor {
-  switch (txStatus) {
-    case TxStatus.INITIALIZED:
-      return msg`Waiting for confirmation`;
-    case TxStatus.LOADING:
-      return msg`Claiming SKY rewards`;
-    default:
-      return msg`Loading`;
-  }
-}
-
-export const JAN_01_2025_TIMESTAMP = new Date('January 1, 2025').getTime();
