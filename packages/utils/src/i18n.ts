@@ -1,4 +1,4 @@
-import { i18n } from '@lingui/core';
+import { I18n } from '@lingui/core';
 
 /**
  * Dynamically imports and activates the required language catalog based on the provided locale.
@@ -12,13 +12,12 @@ import { i18n } from '@lingui/core';
  *
  * @param locale A string representing the desired locale (e.g., 'en-US', 'fr-CA').
  */
-export async function dynamicActivate(locale: string) {
+export async function dynamicActivate(i18n: I18n, locale: string) {
   const baseLocale = locale.split('-').shift();
 
   const messages = (await loadLocale(locale)) || (await loadLocale(baseLocale)) || (await loadLocale('en'));
 
-  i18n.load(locale, messages);
-  i18n.activate(locale);
+  i18n.loadAndActivate({ locale, messages });
 }
 
 /**
@@ -29,10 +28,10 @@ export async function dynamicActivate(locale: string) {
 async function loadLocale(locale?: string) {
   try {
     const { messages } = await import(`./locales/${locale}.ts`);
-    console.log(`Locale file for ${locale} loaded in integration-ui.`);
+    console.log(`Locale file for ${locale} loaded.`);
     return messages;
   } catch (error) {
-    console.error(`Locale file for ${locale} not found in integration-ui: `, error);
+    console.error(`Locale file for ${locale} not found: `, error);
     return null;
   }
 }
