@@ -1054,7 +1054,6 @@ function TradeWidgetWrapped({
                 onWidgetStateChange?.({
                   originToken: originSymbol,
                   targetToken: targetSymbol,
-                  originAmount: '',
                   txStatus,
                   widgetState
                 });
