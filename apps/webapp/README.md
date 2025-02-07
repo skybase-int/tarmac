@@ -89,3 +89,13 @@ There's also a precommit hook that runs eslint and prettier on all staged files.
 For more detailed information, you can refer to the following documents in the `docs` folder:
 
 - [User Suggested Actions Construction](docs/generating-user-actions.md): This document explains how the `fetchUserSuggestedActions` function generates personalized actions for users based on their token balances and available reward opportunities.
+
+## Internationalization and Translation
+
+This application supports i18n and translations via the Lingui package. To add content that can be translated, you need to follow three simple steps:
+
+- Wrap the text in `<Trans>` tags, the `t` function or the `msg` function depending on the context.
+- Run `pnpm extract` from the root of this repo to extract the messages into `.po` files, which can then be translated.
+- Run `pnpm compile` to compile the translations into optimized JavaScript format.
+
+For more information on the i18n process, refer to the [Internationalization and Translation Process](../../README.md#internationalization-and-translation-process) section in the root README and for more information on how Lingui works, refer to the [Lingui documentation](https://lingui.dev/).
