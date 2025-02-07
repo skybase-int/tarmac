@@ -380,6 +380,14 @@ function TradeWidgetWrapped({
       ) {
         setOriginAmount(maxAmountInForWithdraw);
       }
+      if (originToken) {
+        const formattedValue = formatUnits(originAmount, getTokenDecimals(originToken, chainId));
+        onWidgetStateChange?.({
+          originAmount: formattedValue,
+          txStatus,
+          widgetState
+        });
+      }
     }
   }, [
     originToken,
