@@ -457,7 +457,6 @@ function TradeWidgetWrapped({
         );
 
         if (newOriginToken) {
-          const tokenChanged = newOriginToken.symbol !== originToken?.symbol;
           setOriginToken(newOriginToken);
 
           // Handle target token changes
@@ -478,25 +477,26 @@ function TradeWidgetWrapped({
             // If no target token in external state, clear it
             setTargetToken(undefined);
           }
-
-          // Handle amount updates
-          if (externalWidgetState?.amount !== undefined) {
-            if (tokenChanged || amountHasChanged) {
-              const newAmount = parseUnits(
-                externalWidgetState.amount,
-                getTokenDecimals(newOriginToken, chainId)
-              );
-              setTimeout(() => {
-                setOriginAmount(newAmount);
-                setTargetAmount(0n);
-                setLastUpdated(TradeSide.IN);
-              }, 500);
-            }
-          } else {
-            setOriginAmount(0n);
-            setTargetAmount(0n);
-          }
         }
+      }
+
+      // Handle amount updates
+      if (externalWidgetState?.amount !== undefined) {
+        const newOriginToken = tokenList.find(
+          token => token.symbol.toLowerCase() === externalWidgetState?.token?.toLowerCase()
+        );
+        if (amountHasChanged) {
+          const newAmount = parseUnits(externalWidgetState.amount, getTokenDecimals(newOriginToken, chainId));
+
+          setTimeout(() => {
+            setOriginAmount(newAmount);
+            setTargetAmount(0n);
+            setLastUpdated(TradeSide.IN);
+          }, 500);
+        }
+      } else {
+        setOriginAmount(0n);
+        setTargetAmount(0n);
       }
 
       setWidgetState((prev: WidgetState) => ({
@@ -505,7 +505,13 @@ function TradeWidgetWrapped({
         screen: TradeScreen.ACTION
       }));
     }
-  }, [externalWidgetState, txStatus]);
+  }, [
+    externalWidgetState?.timestamp,
+    externalWidgetState?.amount,
+    externalWidgetState?.token,
+    externalWidgetState?.targetToken,
+    txStatus
+  ]);
 
   const {
     execute: approveExecute,

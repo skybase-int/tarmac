@@ -42,7 +42,7 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
     originAmount
   }: WidgetStateChangeParams) => {
     // Update search params
-    if (originAmount) {
+    if (originAmount && originAmount !== '0') {
       setSearchParams(prev => {
         prev.set(QueryParams.InputAmount, originAmount);
         return prev;
