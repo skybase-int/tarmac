@@ -3,7 +3,7 @@ import tenderlyTestnetData from '../../../../../../tenderlyTestnetData.json' wit
 
 export const TENDERLY_CHAIN_ID = 314310;
 export const TENDERLY_BASE_CHAIN_ID = 8555;
-export const TENDERLY_ARBITRUM_CHAIN_ID = 42161;
+export const TENDERLY_ARBITRUM_CHAIN_ID = 42012;
 
 // only works if hardcoded, cannot be set via env variable. Corresponds to the public RPC of `mainnet_sep_30_0`
 export const TENDERLY_RPC_URL =
@@ -13,9 +13,9 @@ export const TENDERLY_RPC_URL =
 export const TENDERLY_BASE_RPC_URL =
   'https://virtual.base.rpc.tenderly.co/376e4980-c2de-48b9-bf76-c25bd6d1c324';
 
-// only works if hardcoded, cannot be set via env variable. Corresponds to the public RPC of `Arbitrum-fork-feb-5`
+// only works if hardcoded, cannot be set via env variable. Corresponds to the public RPC of `Arbitrum-fork-feb-7`
 export const TENDERLY_ARBITRUM_RPC_URL =
-  'https://virtual.arbitrum.rpc.tenderly.co/c67d99b5-9c23-429b-87f6-2e5e71326d53';
+  'https://virtual.arbitrum.rpc.tenderly.co/5a2a28a6-322f-4506-acf8-1151a13b5ccf';
 
 export const getTestTenderlyChains = () => {
   const [mainnetData, baseData, arbitrumData] = tenderlyTestnetData;

@@ -271,7 +271,7 @@ export const l2Contracts: { name: string; address: Record<L2ChainId, `0x${string
       [base.id]: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
       [TENDERLY_BASE_CHAIN_ID]: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
       [TENDERLY_ARBITRUM_CHAIN_ID]: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831',
-      [arbitrum.id]: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831' //TODO: confirm address
+      [arbitrum.id]: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831'
     }
   },
   {
