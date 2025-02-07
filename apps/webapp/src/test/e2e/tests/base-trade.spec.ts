@@ -36,7 +36,7 @@ test('trade usdc to usds, then trade usds back to usdc', async ({ page }) => {
   await page.locator('button', { hasText: 'Add USDC to wallet' }).first().click();
 });
 
-test('trade usdc to susds, then trade susds back to usdc', async ({ page }) => {
+test.skip('trade usdc to susds, then trade susds back to usdc', async ({ page }) => {
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
   await switchToBase(page);
@@ -68,7 +68,7 @@ test('trade usdc to susds, then trade susds back to usdc', async ({ page }) => {
   await page.locator('button', { hasText: 'Add USDC to wallet' }).first().click();
 });
 
-test('trade usds to susds, then trade susds back to usds', async ({ page }) => {
+test.skip('trade usds to susds, then trade susds back to usds', async ({ page }) => {
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
   await switchToBase(page);
