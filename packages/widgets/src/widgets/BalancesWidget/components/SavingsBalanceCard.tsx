@@ -30,8 +30,6 @@ export const SavingsBalanceCard = ({ onExternalLinkClicked, chainIds }: CardProp
 
   const totalSavingsBalance = sortedSavingsBalances.reduce((acc, { balance }) => acc + balance, 0n);
 
-  console.log('totalSavingsBalance', totalSavingsBalance);
-
   const skySavingsRate = parseFloat(overallSkyData?.skySavingsRatecRate ?? '0');
 
   if (savingsDataError || overallSkyDataError) return null;
