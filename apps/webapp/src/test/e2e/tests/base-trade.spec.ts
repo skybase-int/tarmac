@@ -69,7 +69,7 @@ test('trade usdc to susds, then trade susds back to usdc', async ({ page }) => {
   await page.locator('button', { hasText: 'Add USDC to wallet' }).first().click();
 });
 
-test.skip('trade usds to susds, then trade susds back to usds', async ({ page }) => {
+test('trade usds to susds, then trade susds back to usds', async ({ page }) => {
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
   await switchToBase(page);
