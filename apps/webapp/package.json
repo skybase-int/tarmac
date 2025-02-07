@@ -19,9 +19,8 @@
     "lint-no-files": "eslint --fix --ext .tsx,.ts,.js,.jsx",
     "lint": "pnpm lint-no-files src scripts",
     "test": "vitest run",
-    "e2e": "pnpm vnet:delete:all && pnpm vnet:fork && playwright test --trace on",
-    "e2e:no-vnet": "playwright test --trace on",
-    "e2e:ui": "pnpm vnet:delete:all && pnpm vnet:fork && playwright test --ui",
+    "e2e": "playwright test --trace on",
+    "e2e:ui": "playwright test --ui",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit"
