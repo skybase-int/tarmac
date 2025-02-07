@@ -81,7 +81,7 @@
     "eslint-plugin-testing-library": "^7.1.1",
     "globals": "^15.14.0",
     "happy-dom": "^15.11.7",
-    "husky": "^8.0.3",
+    "husky": "^9.0.11",
     "knip": "^5.43.6",
     "lint-staged": "^15.4.3",
     "prettier": "^3.4.2",
