@@ -92,10 +92,6 @@ test.skip('trade usds to susds, then trade susds back to usds', async ({ page })
 
   await page.locator('button', { hasText: 'Add sUSDS to wallet' }).first().click();
 
-  //select usds for origin token (will be switched)
-  await page.getByRole('button', { name: 'USDC USDC' }).click();
-  await page.getByRole('button', { name: 'USDS USDS USDS' }).click();
-
   //select sUsds for target token (will be switched)
   await page.getByRole('button', { name: 'Select token' }).click();
   await page.getByRole('button', { name: 'sUSDS sUSDS sUSDS' }).click();
