@@ -27,6 +27,7 @@ test('trade usdc to usds, then trade usds back to usdc', async ({ page }) => {
 
   await page.getByTestId('trade-input-target').click();
   await page.getByTestId('trade-input-target').fill('10');
+  await page.waitForTimeout(2000);
 
   await page.getByLabel('Switch token inputs').click();
 
