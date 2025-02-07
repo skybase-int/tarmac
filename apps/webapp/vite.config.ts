@@ -38,6 +38,7 @@ export default ({ mode }: { mode: string }) => {
       ${VITE_RPC_PROVIDER_TENDERLY_ARBITRUM}
       https://virtual.mainnet.rpc.tenderly.co
       https://virtual.base.rpc.tenderly.co
+      https://virtual.arbitrum.rpc.tenderly.co
       https://rpc.sepolia.org
       https://mainnet.base.org
       https://safe-transaction-mainnet.safe.global
