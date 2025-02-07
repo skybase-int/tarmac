@@ -59,6 +59,11 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
         prev.set(QueryParams.SourceToken, originToken);
         return prev;
       });
+    } else if (originToken === '') {
+      setSearchParams(prev => {
+        prev.delete(QueryParams.SourceToken);
+        return prev;
+      });
     }
 
     if (targetToken) {

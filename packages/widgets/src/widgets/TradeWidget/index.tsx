@@ -717,9 +717,6 @@ function TradeWidgetWrapped({
     }
   }, [widgetState.flow, widgetState.screen, needsAllowance, allowanceLoading]);
 
-  // Indicates that the user is manually switching tokens
-  const [, setUserSwitchingTokens] = useState(false);
-
   // update target/origin amount input when quote data changes
   useEffect(() => {
     const setFn = lastUpdated === TradeSide.IN ? setTargetAmount : setOriginAmount;
@@ -834,10 +831,6 @@ function TradeWidgetWrapped({
       });
     }
   }, [prepareError]);
-
-  useEffect(() => {
-    setUserSwitchingTokens(false);
-  }, [externalWidgetState]);
 
   useEffect(() => {
     const tokensHasChanged =
@@ -1069,16 +1062,32 @@ function TradeWidgetWrapped({
       // If we have a custom navigation label, leave the state as-is to proceed with custom navigation
       if (!customNavigationLabel) {
         // clear inputs and reset tx and widget state
-        setOriginAmount(0n);
-        setTargetAmount(0n);
-        setOriginToken(initialOriginToken);
-        setTargetToken(initialTargetToken);
-        setTxStatus(TxStatus.IDLE);
-        setEthFlowTxStatus(EthFlowTxStatus.IDLE);
-        setWidgetState({
-          flow: TradeFlow.TRADE,
-          action: TradeAction.TRADE,
-          screen: TradeScreen.ACTION
+        setTimeout(() => {
+          setOriginAmount(0n);
+          setTargetAmount(0n);
+          setOriginToken(initialOriginToken);
+          setTargetToken(undefined);
+          setTxStatus(TxStatus.IDLE);
+          setEthFlowTxStatus(EthFlowTxStatus.IDLE);
+          setWidgetState({
+            flow: TradeFlow.TRADE,
+            action: TradeAction.TRADE,
+            screen: TradeScreen.ACTION
+          });
+        }, 500);
+
+        // Notify widget state change to clear URL params and force a reset
+        onWidgetStateChange?.({
+          originToken: initialOriginToken?.symbol || '',
+          targetToken: '',
+          originAmount: '',
+          txStatus: TxStatus.IDLE,
+          widgetState: {
+            flow: TradeFlow.TRADE,
+            action: TradeAction.TRADE,
+            screen: TradeScreen.ACTION
+          },
+          hash: undefined // Clear any existing hash
         });
       }
       setShowAddToken(false);
@@ -1122,7 +1131,6 @@ function TradeWidgetWrapped({
       // if tokens are back to the original state, we set it to false
       const tokensHasChanged =
         externalWidgetState?.token !== originSymbol || externalWidgetState?.targetToken !== targetSymbol;
-      setUserSwitchingTokens(tokensHasChanged);
       if (tokensHasChanged) {
         onWidgetStateChange?.({
           originToken: originSymbol,
