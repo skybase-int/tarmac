@@ -23,14 +23,14 @@ import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 import React from 'react';
 import { useNotification } from '../hooks/useNotification';
 import { useActionForToken } from '../hooks/useActionForToken';
-import { getRetainedQueryParams, useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
-import { useNavigate } from 'react-router-dom';
+import { getRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { defaultConfig } from '@/modules/config/default-config';
 import { useChainId } from 'wagmi';
 import { SealWidgetPane } from '@/modules/seal/components/SealWidgetPane';
-import { getSupportedChainIds } from '@/data/wagmi/config/config.default';
+import { getSupportedChainIds, getMainnetChainName } from '@/data/wagmi/config/config.default';
 import { useSearchParams } from 'react-router-dom';
+import { useChains } from 'wagmi';
 
 export type WidgetContent = [
   Intent,
@@ -81,12 +81,27 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
   const getQueryParams = (url: string) => getRetainedQueryParams(url, retainedParams, searchParams);
 
   const actionForToken = useActionForToken();
+
+  const mainnetName = getMainnetChainName(chainId);
+
   const rewardsUrl = getQueryParams(
-    `/?network=mainnet&widget=${mapIntentToQueryParam(Intent.REWARDS_INTENT)}`
+    `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.REWARDS_INTENT)}`
   );
-  const savingsUrl = useRetainedQueryParams(`/?widget=${mapIntentToQueryParam(Intent.SAVINGS_INTENT)}`);
-  const sealUrl = useRetainedQueryParams(`/?widget=${mapIntentToQueryParam(Intent.SEAL_INTENT)}`);
-  const navigate = useNavigate();
+
+  const supportedChainIds = getSupportedChainIds(chainId);
+
+  const chains = useChains();
+
+  const savingsUrlMap: Record<number, string> = {};
+  for (const chainId of supportedChainIds) {
+    savingsUrlMap[chainId] = getQueryParams(
+      `/?network=${chains.find(c => c.id === chainId)?.name}&widget=${mapIntentToQueryParam(Intent.SAVINGS_INTENT)}`
+    );
+  }
+
+  const sealUrl = getQueryParams(
+    `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.SEAL_INTENT)}`
+  );
 
   const widgetContent: WidgetContent = [
     [
@@ -99,8 +114,8 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
           hideModuleBalances={isRestrictedBuild}
           actionForToken={actionForToken}
           rewardsCardUrl={rewardsUrl}
-          onClickSavingsCard={() => navigate(savingsUrl)}
-          onClickSealCard={() => navigate(sealUrl)}
+          savingsCardUrlMap={savingsUrlMap}
+          sealCardUrl={sealUrl}
           customTokenMap={defaultConfig.balancesTokenList}
           chainIds={getSupportedChainIds(chainId)}
         />

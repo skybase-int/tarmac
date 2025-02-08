@@ -24,12 +24,8 @@ export function BalancesWidgetDisplay() {
           : undefined;
       }}
       rewardsCardUrl={''}
-      onClickSavingsCard={() => {
-        console.log('onClickSavingsCard clicked');
-      }}
-      onClickSealCard={() => {
-        console.log('onClickSealCard clicked');
-      }}
+      savingsCardUrlMap={{}}
+      sealCardUrl={''}
     />
   );
 }

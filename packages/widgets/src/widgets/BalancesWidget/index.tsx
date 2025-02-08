@@ -26,8 +26,8 @@ type BalancesWidgetProps = WidgetProps & {
     tokenChainId: number
   ) => { label: string; actionUrl: string; image: string } | undefined;
   rewardsCardUrl?: string;
-  onClickSavingsCard?: () => void;
-  onClickSealCard?: () => void;
+  savingsCardUrlMap?: Record<number, string>;
+  sealCardUrl?: string;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 };
 
@@ -41,8 +41,8 @@ export const BalancesWidget = ({
   enabled = true,
   actionForToken,
   rewardsCardUrl,
-  onClickSavingsCard,
-  onClickSealCard,
+  savingsCardUrlMap,
+  sealCardUrl,
   customTokenMap,
   chainIds,
   onExternalLinkClicked
@@ -61,8 +61,8 @@ export const BalancesWidget = ({
           customTokenMap={customTokenMap}
           chainIds={chainIds}
           rewardsCardUrl={rewardsCardUrl}
-          onClickSavingsCard={onClickSavingsCard}
-          onClickSealCard={onClickSealCard}
+          savingsCardUrlMap={savingsCardUrlMap}
+          sealCardUrl={sealCardUrl}
           onExternalLinkClicked={onExternalLinkClicked}
         />
       </WidgetProvider>
@@ -81,8 +81,8 @@ const BalancesWidgetWrapped = ({
   customTokenMap,
   chainIds,
   rewardsCardUrl,
-  onClickSavingsCard,
-  onClickSealCard,
+  savingsCardUrlMap,
+  sealCardUrl,
   onExternalLinkClicked
 }: BalancesWidgetProps) => {
   const { isConnected, isConnecting } = useAccount();
@@ -135,8 +135,8 @@ const BalancesWidgetWrapped = ({
               hideModuleBalances={hideModuleBalances}
               actionForToken={actionForToken}
               rewardsCardUrl={rewardsCardUrl}
-              onClickSavingsCard={onClickSavingsCard}
-              onClickSealCard={onClickSealCard}
+              savingsCardUrlMap={savingsCardUrlMap}
+              sealCardUrl={sealCardUrl}
               onExternalLinkClicked={onExternalLinkClicked}
               chainIds={chainIds}
             />

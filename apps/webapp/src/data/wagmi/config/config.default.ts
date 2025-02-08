@@ -107,3 +107,10 @@ export const getSupportedChainIds = (chainId: number) => {
   }
   return [mainnet.id, base.id];
 };
+
+export const getMainnetChainName = (chainId: number) => {
+  if (isTestnetId(chainId)) {
+    return tenderly.name;
+  }
+  return mainnet.name;
+};

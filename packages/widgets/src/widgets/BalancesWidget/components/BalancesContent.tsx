@@ -28,8 +28,8 @@ interface BalancesContentProps {
     tokenChainId: number
   ) => { label: string; actionUrl: string; image: string } | undefined;
   rewardsCardUrl?: string;
-  onClickSavingsCard?: () => void;
-  onClickSealCard?: () => void;
+  savingsCardUrlMap?: Record<number, string>;
+  sealCardUrl?: string;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 }
 
@@ -40,8 +40,8 @@ export const BalancesContent = ({
   actionForToken,
   chainIds,
   rewardsCardUrl,
-  onClickSavingsCard,
-  onClickSealCard,
+  savingsCardUrlMap,
+  sealCardUrl,
   onExternalLinkClicked
 }: BalancesContentProps): React.ReactElement => {
   return (
@@ -55,8 +55,8 @@ export const BalancesContent = ({
             </Heading>
             <ModulesBalances
               rewardsCardUrl={rewardsCardUrl}
-              onClickSavingsCard={onClickSavingsCard}
-              onClickSealCard={onClickSealCard}
+              savingsCardUrlMap={savingsCardUrlMap}
+              sealCardUrl={sealCardUrl}
               onExternalLinkClicked={onExternalLinkClicked}
               hideModuleBalances={hideModuleBalances}
               chainIds={chainIds}

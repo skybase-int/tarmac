@@ -9,7 +9,11 @@ import { formatUnits } from 'viem';
 import { CardProps } from './ModulesBalances';
 import { useMultiChainSavingsBalances } from '@jetstreamgg/hooks';
 
-export const SavingsBalanceCard = ({ onExternalLinkClicked, chainIds }: CardProps) => {
+export const SavingsBalanceCard = ({
+  urlMap,
+  onExternalLinkClicked,
+  chainIds
+}: CardProps & { urlMap: Record<number, string> }) => {
   const { data: savingsData, isLoading: savingsDataLoading, error: savingsDataError } = useSavingsData();
   const {
     data: overallSkyData,
@@ -79,6 +83,7 @@ export const SavingsBalanceCard = ({ onExternalLinkClicked, chainIds }: CardProp
         ) : undefined
       }
       balancesByChain={sortedSavingsBalances}
+      urlMap={urlMap}
     />
   );
 };

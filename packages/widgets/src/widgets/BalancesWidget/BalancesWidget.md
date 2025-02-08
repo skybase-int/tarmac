@@ -27,7 +27,7 @@ function BalancesPage() {
         enabled={true}
         actionForToken={actionForToken}
         rewardsCardUrl={rewardsCardUrl}
-        onClickSavingsCard={onClickSavingsCard}
+        savingsCardUrlMap={savingsCardUrlMap}
       />
     </div>
   );
@@ -46,5 +46,7 @@ In addition to `WidgetProps`, `BalancesWidget` component also accepts the follow
   - A function to define actions for a specific token.
 - `rewardsCardUrl?: string;`
   - A url to navigate to when the rewards card is clicked.
-- `onClickSavingsCard?: () => void;`
-  - A callback function that is called when the savings card is clicked.
+- `savingsCardUrlMap?: Record<number, string>;`
+  - A map of chain ids to urls to navigate to when the savings card is clicked.
+- `sealCardUrl?: string;`
+  - A url to navigate to when the seal card is clicked.

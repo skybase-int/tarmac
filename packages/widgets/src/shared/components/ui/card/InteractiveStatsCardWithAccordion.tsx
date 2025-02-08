@@ -8,6 +8,7 @@ import { formatUnits } from 'viem';
 import { useChains } from 'wagmi';
 import { usePrices } from '@jetstreamgg/hooks';
 import { formatBigInt, formatNumber, getChainIcon } from '@jetstreamgg/utils';
+import { Link } from 'react-router-dom';
 
 export const InteractiveStatsCardWithAccordion = ({
   title,
@@ -15,7 +16,8 @@ export const InteractiveStatsCardWithAccordion = ({
   footer,
   footerRightContent,
   tokenSymbol,
-  balancesByChain
+  balancesByChain,
+  urlMap
 }: {
   title: React.ReactElement | string;
   headerRightContent: React.ReactElement | string;
@@ -23,6 +25,7 @@ export const InteractiveStatsCardWithAccordion = ({
   footerRightContent?: React.ReactElement | string;
   tokenSymbol?: string;
   balancesByChain: { chainId: number; balance: bigint }[];
+  urlMap: Record<number, string>;
 }): React.ReactElement => {
   const chains = useChains();
   const { data: pricesData } = usePrices();
@@ -100,35 +103,34 @@ export const InteractiveStatsCardWithAccordion = ({
                   : 0;
 
                 return (
-                  <div
-                    key={chainId}
-                    className="group/interactive-card hover:bg-primary transition-gradient-and-colors cursor-pointer [--gradient-opacity:0%] hover:[--gradient-opacity:100%]"
-                  >
-                    <div className="flex items-start gap-2 p-2 px-4 lg:px-5">
-                      <TokenIcon
-                        className="h-8 w-8"
-                        token={{ symbol: 'USDS', name: 'USDS' }}
-                        chainId={chainId}
-                      />
-                      <div className="grow">
-                        <div className="flex items-start justify-between">
-                          <div className="flex flex-col gap-1">
-                            <Text>{networkName}</Text>
-                            <ArrowRight
-                              size={16}
-                              className="opacity-0 transition-opacity group-hover/interactive-card:opacity-100"
-                            />
-                          </div>
-                          <div className="flex flex-col items-end">
-                            <Text>{formatBigInt(balance)}</Text>
-                            <Text variant="small" className="text-textSecondary">
-                              ${formatNumber(usdValue, { maxDecimals: 2 })}
-                            </Text>
+                  <Link to={urlMap[chainId]} key={chainId}>
+                    <div className="group/interactive-card hover:bg-primary transition-gradient-and-colors cursor-pointer [--gradient-opacity:0%] hover:[--gradient-opacity:100%]">
+                      <div className="flex items-start gap-2 p-2 px-4 lg:px-5">
+                        <TokenIcon
+                          className="h-8 w-8"
+                          token={{ symbol: 'USDS', name: 'USDS' }}
+                          chainId={chainId}
+                        />
+                        <div className="grow">
+                          <div className="flex items-start justify-between">
+                            <div className="flex flex-col gap-1">
+                              <Text>{networkName}</Text>
+                              <ArrowRight
+                                size={16}
+                                className="opacity-0 transition-opacity group-hover/interactive-card:opacity-100"
+                              />
+                            </div>
+                            <div className="flex flex-col items-end">
+                              <Text>{formatBigInt(balance)}</Text>
+                              <Text variant="small" className="text-textSecondary">
+                                ${formatNumber(usdValue, { maxDecimals: 2 })}
+                              </Text>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 );
               })}
             </AccordionContent>

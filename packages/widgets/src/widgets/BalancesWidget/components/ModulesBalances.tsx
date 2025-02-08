@@ -10,8 +10,8 @@ export interface CardProps {
 
 interface ModulesBalancesProps {
   rewardsCardUrl?: string;
-  onClickSavingsCard?: () => void;
-  onClickSealCard?: () => void;
+  savingsCardUrlMap?: Record<number, string>;
+  sealCardUrl?: string;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   hideModuleBalances?: boolean;
   chainIds?: number[];
@@ -19,8 +19,8 @@ interface ModulesBalancesProps {
 
 export const ModulesBalances = ({
   rewardsCardUrl,
-  onClickSavingsCard,
-  onClickSealCard,
+  savingsCardUrlMap,
+  sealCardUrl,
   onExternalLinkClicked,
   hideModuleBalances,
   chainIds
@@ -32,12 +32,12 @@ export const ModulesBalances = ({
       )}
       {!hideModuleBalances && (
         <SavingsBalanceCard
-          onClick={onClickSavingsCard}
+          urlMap={savingsCardUrlMap}
           onExternalLinkClicked={onExternalLinkClicked}
           chainIds={chainIds}
         />
       )}
-      <SealBalanceCard onClick={onClickSealCard} onExternalLinkClicked={onExternalLinkClicked} />
+      <SealBalanceCard url={sealCardUrl} onExternalLinkClicked={onExternalLinkClicked} />
     </div>
   );
 };
