@@ -81,7 +81,9 @@ export function useEthereumTradeHistory({
 }): ReadHook & { data?: TradeHistory } {
   const { address } = useAccount();
   const chainId = useChainId();
-  const tokens = Object.values(TRADE_TOKENS[chainId as keyof typeof TRADE_TOKENS]);
+  const tokens = TRADE_TOKENS[chainId as keyof typeof TRADE_TOKENS]
+    ? Object.values(TRADE_TOKENS[chainId as keyof typeof TRADE_TOKENS])
+    : [];
 
   const {
     data,
