@@ -52,6 +52,7 @@ export { useRewardsPeriodFinish } from './rewards/useRewardsPeriodFinish';
 
 // Shared
 export { useCombinedHistory } from './shared/useCombinedHistory';
+export { useAllNetworksCombinedHistory } from './shared/useAllNetworksCombinedHistory';
 export { useBaseCombinedHistory } from './shared/useBaseCombinedHistory';
 export { useEthereumCombinedHistory } from './shared/useEthereumCombinedHistory';
 export { useUsdsDaiData } from './shared/useUsdsDaiData';
