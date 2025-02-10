@@ -17,6 +17,11 @@ type ChatIntentsRowProps = {
 
 const mainnetIntents = [
   {
+    intent_description: 'Go to Savings on Base',
+    url: '?widget=savings&network=base',
+    intent_id: 'savings'
+  },
+  {
     intent_description: 'Supply 50 USDC to Savings', // this shoud be wrong
     url: '?widget=savings&input_amount=50&source_token=USDC&network=ethereum&tab=left',
     intent_id: 'savings'
@@ -69,6 +74,11 @@ const mainnetIntents = [
 ];
 
 const baseIntents = [
+  {
+    intent_description: 'Go to Savings on Mainnet',
+    url: '?widget=savings&network=ethereum',
+    intent_id: 'savings'
+  },
   {
     intent_description: 'Supply 50 USDC to Savings', // this should be wrong
     url: '?widget=savings&input_amount=50&source_token=USDC&network=base&tab=left',
