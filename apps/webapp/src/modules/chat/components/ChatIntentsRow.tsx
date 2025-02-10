@@ -7,7 +7,8 @@ import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParam
 import { intentSelectedMessage } from '../lib/intentSelectedMessage';
 import { QueryParams } from '@/lib/constants';
 import { useNetworkFromIntentUrl } from '../hooks/useNetworkFromUrl';
-
+import { chainIdNameMapping } from '../lib/intentUtils';
+import { useChainId } from 'wagmi';
 type ChatIntentsRowProps = {
   intents: ChatIntent[];
 };
@@ -30,6 +31,7 @@ type IntentRowProps = {
 };
 
 const IntentRow = ({ intent }: IntentRowProps) => {
+  const chainId = useChainId();
   const { setConfirmationModalOpened, setSelectedIntent, hasShownIntent, setChatHistory } = useChatContext();
   const navigate = useNavigate();
   const intentUrl = useRetainedQueryParams(intent?.url || '', [
@@ -38,7 +40,8 @@ const IntentRow = ({ intent }: IntentRowProps) => {
     QueryParams.Chat
   ]);
 
-  const network = useNetworkFromIntentUrl(intentUrl);
+  const network =
+    useNetworkFromIntentUrl(intentUrl) || chainIdNameMapping[chainId as keyof typeof chainIdNameMapping];
 
   return (
     <Button

@@ -11,7 +11,9 @@ export const networkMapping = {
 
 export const chainIdNameMapping = {
   1: 'ethereum',
+  314310: 'ethereum', // tenderly
   8453: 'base',
+  8555: 'base', // base tenderly
   42161: 'arbitrum'
 } as const;
 
