@@ -149,42 +149,12 @@ The SealModule Widget allows users to seal their tokens in the protocol's Seal M
 | `onSealUrnChange?` | `(urn: { urnAddress?: string; urnIndex?: bigint } \| undefined) => void` | A callback function triggered when the seal URN changes                                                 |
 | `termsLink?`       | `{ url: string; name: string }`                                          | An optional object specifying the URL and name of the terms of use that the user must review and accept |
 
-## Internationalization and Translation Process
+## Internationalization and Translation
 
-In this project, we're utilizing `lingui` library for handling the internationalization (i18n) of this project. The following steps provide an overview of the i18n process:
+This application supports i18n and translations via the Lingui package. To add content that can be translated, you need to follow three simple steps:
 
-The three commands we use for managing messages are listed in the `scripts` section of your `package.json` file:
+- Wrap the text in `<Trans>` tags, the `t` function or the `msg` function depending on the context.
+- Run `pnpm extract` from the root of this repo to extract the messages into `.po` files, which can then be translated.
+- Run `pnpm compile` to compile the translations into optimized JavaScript format.
 
-`"messages:extract": "lingui extract --clean"`
-`"messages:compile": "lingui compile"`
-`"messages": "pnpm messages:extract && pnpm messages:compile"`
-
-Here's what each script does:
-
-- `messages:extract`: This command extracts all messages from your source code into a `messages.po` file. The `--clean` option is used to remove obsolete messages from the file.
-
-- `messages:compile`: After translation, this command compiles the messages into an optimized JavaScript format which can be imported in the project.
-
-- `messages`: This is a convenience script that first extracts and then compiles the messages. It's typically run before building your application.
-
-#### Usage
-
-You can run these scripts using the `pnpm` package manager. Here are the commands you would use:
-
-##### To extract messages from your source code
-
-`pnpm messages:extract`
-
-This command will go through your code looking for `<Trans>`, `t`and `msg` ligui macros and extract them into a `.po` file.
-
-##### To compile your translated messages
-
-`pnpm messages:compile`
-
-Once you have the .po files you will need to compile them which will create a `.ts`and `.d.ts` file for each language.
-
-##### To extract and then compile your messages in a single command:
-
-`pnpm messages`
-
-Please ensure that all your translations are done in the corresponding `.po` files before compiling them. For more information about translating messages with `lingui`, see the official [documentation](https://lingui.dev/tutorials/react).
+For more information on the i18n process, refer to the [Internationalization and Translation Process](../../README.md#internationalization-and-translation-process) section in the root README and for more information on how Lingui works, refer to the [Lingui documentation](https://lingui.dev/).
