@@ -27,6 +27,7 @@ test('trade usdc to usds, then trade usds back to usdc', async ({ page }) => {
 
   await page.getByTestId('trade-input-target').click();
   await page.getByTestId('trade-input-target').fill('10');
+  await page.waitForTimeout(2000);
 
   await page.getByLabel('Switch token inputs').click();
 
@@ -59,6 +60,7 @@ test('trade usdc to susds, then trade susds back to usdc', async ({ page }) => {
 
   await page.getByTestId('trade-input-target').click();
   await page.getByTestId('trade-input-target').fill('9');
+  await page.waitForTimeout(2000);
 
   await page.getByLabel('Switch token inputs').click();
 
@@ -89,10 +91,6 @@ test('trade usds to susds, then trade susds back to usds', async ({ page }) => {
   await approveOrPerformAction(page, 'Trade');
 
   await page.locator('button', { hasText: 'Add sUSDS to wallet' }).first().click();
-
-  //select usds for origin token (will be switched)
-  await page.getByRole('button', { name: 'USDC USDC' }).click();
-  await page.getByRole('button', { name: 'USDS USDS USDS' }).click();
 
   //select sUsds for target token (will be switched)
   await page.getByRole('button', { name: 'Select token' }).click();

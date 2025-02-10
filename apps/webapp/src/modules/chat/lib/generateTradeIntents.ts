@@ -109,7 +109,7 @@ const generateSingleIntent = (params: TradeIntentParams): ChatIntent => {
   const urlParams: Record<string, string | undefined> = {
     [QueryParams.SourceToken]: sourceToken ?? undefined,
     [QueryParams.TargetToken]: targetToken ?? undefined,
-    [QueryParams.InputAmount]: amount ?? undefined,
+    [QueryParams.InputAmount]: amount && sourceToken ? amount : undefined,
     network: network ? chainIdNameMapping[network.id as keyof typeof chainIdNameMapping] : undefined
   };
 

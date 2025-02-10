@@ -1,31 +1,28 @@
-import {
-  SAVINGS,
-  SAVINGS_MAINNET,
-  SAVINGS_BASE,
-  SAVINGS_ARBITRUM
-} from '../../lib/intentClassificationOptions';
+import { TRADE_MAINNET } from '../../lib/intentClassificationOptions';
 
 export const generateRandomResponse = () => {
+  // ... existing code ...
   const responses = [
-    'I can help you with that! What would you like to know?',
-    "Here's what I found about your request.",
-    'Let me assist you with that.',
-    'I understand you want to know more about this topic.'
+    'I can help you with that! Learn more at [sky.money](https://sky.money)',
+    "Here's what I found about your request. Visit [sky.money](https://sky.money) for more details",
+    'Let me assist you with that. Check out [sky.money](https://sky.money)',
+    'I understand you want to know more. Explore [sky.money](https://sky.money) for additional information'
   ];
+  // ... existing code ...
   return responses[Math.floor(Math.random() * responses.length)];
 };
 
 export const generateRandomIntent = () => {
   const intents = [
     // TRADE,
-    // TRADE_MAINNET,
+    TRADE_MAINNET,
     // TRADE_BASE,
     // TRADE_ARBITRUM,
     // UPGRADE,
-    SAVINGS,
-    SAVINGS_MAINNET,
-    SAVINGS_BASE,
-    SAVINGS_ARBITRUM,
+    // SAVINGS,
+    // SAVINGS_MAINNET,
+    // SAVINGS_BASE,
+    // SAVINGS_ARBITRUM,
     // REWARDS,
     'NONE'
   ];
