@@ -46,10 +46,6 @@ msgstr ""
 msgid "{title}"
 msgstr ""
 
-#: src/modules/app/hooks/useSafeAppNotification.tsx
-msgid "A Better Way to Use the App with Safe Wallet"
-msgstr ""
-
 #: src/modules/layout/components/ConnectCard.tsx
 msgid "About Balances"
 msgstr ""
@@ -469,10 +465,6 @@ msgstr ""
 
 #: src/modules/layout/components/ConnectCard.tsx
 msgid "Sky Tokens Rewards are what you access when you supply USDS to the Sky Token Rewards module of the decentralised Sky Protocol. Sky Token Rewards are in the form of SKY governance tokens. No minimum USDS supply amount is required. With the Sky Protocol, you can access rewards without giving up control of your supplied funds."
-msgstr ""
-
-#: src/modules/app/hooks/useSafeAppNotification.tsx
-msgid "Sky.money is now available as a Safe App! You can open it directly from your Safe Wallet for a smoother, more integrated experience.<0/>"
 msgstr ""
 
 #: src/modules/layout/components/Error.tsx
