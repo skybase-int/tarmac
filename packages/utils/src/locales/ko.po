@@ -99,10 +99,6 @@ msgstr ""
 msgid "1 {0} = {executionPrice} {1}"
 msgstr ""
 
-#: apps/webapp/src/modules/app/hooks/useSafeAppNotification.tsx
-msgid "A Better Way to Use the App with Safe Wallet"
-msgstr ""
-
 #: packages/widgets/src/widgets/TradeWidget/components/TradeInputs.tsx
 msgid "A minimum 0.01 ETH is needed to cover transaction costs. Actual gas fees may be lower."
 msgstr ""
@@ -1621,10 +1617,6 @@ msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
 msgid "Sky Tokens Rewards are what you access when you supply USDS to the Sky Token Rewards module of the decentralised Sky Protocol. Sky Token Rewards are in the form of SKY governance tokens. No minimum USDS supply amount is required. With the Sky Protocol, you can access rewards without giving up control of your supplied funds."
-msgstr ""
-
-#: apps/webapp/src/modules/app/hooks/useSafeAppNotification.tsx
-msgid "Sky.money is now available as a Safe App! You can open it directly from your Safe Wallet for a smoother, more integrated experience.<0/>"
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/components/TradeSummary.tsx
