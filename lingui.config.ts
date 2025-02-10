@@ -1,13 +1,13 @@
 import type { LinguiConfig } from '@lingui/conf';
 import { formatter } from '@lingui/format-po';
+import { locales } from './supportedLocales';
 
-// TODO sync locales with webapp
 const config: LinguiConfig = {
-  locales: ['en', 'es', 'es-AR', 'es-ES', 'ko'],
+  locales,
   catalogs: [
     {
-      path: 'src/locales/{locale}',
-      include: ['src']
+      path: '<rootDir>/packages/utils/src/locales/{locale}',
+      include: ['apps/webapp/src', 'apps/integration-ui/src', 'packages/widgets/src']
     }
   ],
   format: formatter({ lineNumbers: false }),
