@@ -150,7 +150,10 @@ function TradeWidgetWrapped({
   const { mutate: addToWallet } = useAddTokenToWallet();
   const [showAddToken, setShowAddToken] = useState(false);
   const validatedExternalState = getValidatedState(externalWidgetState);
-  onStateValidated && onStateValidated(validatedExternalState);
+
+  useEffect(() => {
+    onStateValidated?.(validatedExternalState);
+  }, [onStateValidated, validatedExternalState]);
 
   const [lastUpdated, setLastUpdated] = useState<TradeSide>(TradeSide.IN);
 
@@ -712,7 +715,8 @@ function TradeWidgetWrapped({
     }));
     setTxStatus(TxStatus.INITIALIZED);
     setExternalLink(undefined);
-    lastUpdated === TradeSide.OUT ? tradeOutExecute() : tradeExecute();
+    const executeFunction = lastUpdated === TradeSide.OUT ? tradeOutExecute : tradeExecute;
+    executeFunction();
   };
 
   const nextOnClick = () => {

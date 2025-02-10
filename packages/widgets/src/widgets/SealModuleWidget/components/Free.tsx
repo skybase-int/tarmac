@@ -115,21 +115,27 @@ export const Free = ({
         onTokenSelected={option => {
           if (option.symbol !== selectedToken?.symbol) {
             setSelectedToken(option as Token);
-            selectedToken === TOKENS.mkr ? setMkrToFree(0n) : setSkyToFree(0n);
+            if (selectedToken === TOKENS.mkr) {
+              setMkrToFree(0n);
+            } else {
+              setSkyToFree(0n);
+            }
           }
         }}
         dataTestId="supply-first-input-lse"
-        error={
-          selectedToken === TOKENS.mkr
-            ? isMkrSupplyBalanceError
-              ? t`Insufficient funds`
-              : isLiquidationError
-                ? t`Liquidation risk too high`
-                : undefined
-            : isSkySupplyBalanceError
-              ? t`Insufficient funds`
-              : undefined
-        }
+        error={(() => {
+          if (selectedToken === TOKENS.mkr) {
+            if (isMkrSupplyBalanceError) {
+              return t`Insufficient funds`;
+            }
+            if (isLiquidationError) {
+              return t`Liquidation risk too high`;
+            }
+            return undefined;
+          } else {
+            return isSkySupplyBalanceError ? t`Insufficient funds` : undefined;
+          }
+        })()}
         showPercentageButtons={isConnectedAndEnabled}
         enabled={isConnectedAndEnabled}
       />

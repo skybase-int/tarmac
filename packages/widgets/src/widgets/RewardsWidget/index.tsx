@@ -94,13 +94,16 @@ const RewardsWidgetWrapped = ({
   referralCode
 }: RewardsWidgetProps) => {
   const validatedExternalState = getValidatedState(externalWidgetState);
-  onStateValidated && onStateValidated(validatedExternalState);
   const chainId = useChainId();
   const { address, isConnecting, isConnected } = useAccount();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
   const [selectedRewardContract, setSelectedRewardContract] = useState<RewardContract | undefined>(undefined);
   const [amount, setAmount] = useState(parseUnits(validatedExternalState?.amount || '0', 18));
   const [claimAmount, setClaimAmount] = useState(0n);
+
+  useEffect(() => {
+    onStateValidated?.(validatedExternalState);
+  }, [onStateValidated, validatedExternalState]);
 
   useEffect(() => {
     setSelectedRewardContract(validatedExternalState?.selectedRewardContract);

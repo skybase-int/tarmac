@@ -131,7 +131,10 @@ const SavingsWidgetWrapped = ({
   disallowedTokens
 }: SavingsWidgetProps) => {
   const validatedExternalState = getValidatedState(externalWidgetState);
-  onStateValidated && onStateValidated(validatedExternalState);
+
+  useEffect(() => {
+    onStateValidated?.(validatedExternalState);
+  }, [onStateValidated, validatedExternalState]);
 
   const [isMaxWithdraw, setMaxWithdraw] = useState(false);
 
@@ -262,11 +265,15 @@ const SavingsWidgetWrapped = ({
       mutateAllowance();
       mutateOriginBalance();
       mutateSUsdsBalance();
-      widgetState.flow === SavingsFlow.SUPPLY
-        ? savingsSupply.retryPrepare()
-        : isMaxWithdraw
-          ? savingsWithdrawAll.retryPrepare()
-          : savingsWithdraw.retryPrepare();
+
+      const retryFunction =
+        widgetState.flow === SavingsFlow.SUPPLY
+          ? savingsSupply.retryPrepare
+          : isMaxWithdraw
+            ? savingsWithdrawAll.retryPrepare
+            : savingsWithdraw.retryPrepare;
+      retryFunction();
+
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
     onError: (error, hash) => {
@@ -569,7 +576,8 @@ const SavingsWidgetWrapped = ({
     setWidgetState((prev: WidgetState) => ({ ...prev, screen: SavingsScreen.TRANSACTION }));
     setTxStatus(TxStatus.INITIALIZED);
     setExternalLink(undefined);
-    isMaxWithdraw ? savingsWithdrawAll.execute() : savingsWithdraw.execute();
+    const executeFunction = isMaxWithdraw ? savingsWithdrawAll.execute : savingsWithdraw.execute;
+    executeFunction();
   };
   const nextOnClick = () => {
     setTxStatus(TxStatus.IDLE);

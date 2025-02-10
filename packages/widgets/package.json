@@ -1,6 +1,6 @@
 {
   "name": "@jetstreamgg/widgets",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "",
   "type": "module",
   "main": "./dist/jetstream-gg-widgets.js",
@@ -17,16 +17,13 @@
   ],
   "scripts": {
     "dev": " vite build --config vite.config.ts --watch",
-    "build": "pnpm messages:compile && vite build --config vite.config.ts",
-    "build:watch": "pnpm messages:compile && vite build --config vite.config.ts --watch",
+    "build": "vite build --config vite.config.ts",
+    "build:watch": "vite build --config vite.config.ts --watch",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "typecheck": "tsc --noEmit",
-    "messages:extract": "lingui extract --clean",
-    "messages:compile": "lingui compile",
-    "messages": "pnpm messages:extract && pnpm messages:compile"
+    "typecheck": "tsc --noEmit"
   },
   "sideEffects": false,
   "dependencies": {
@@ -65,14 +62,11 @@
     "react-dom": "^19.0.0",
     "react-router-dom": "^6.29.0",
     "viem": "^2.22.19",
-    "wagmi": "^2.14.9"
+    "wagmi": "^2.14.11"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
-    "@lingui/cli": "^5.2.0",
-    "@lingui/conf": "^5.2.0",
     "@lingui/core": "^5.2.0",
-    "@lingui/format-po": "^5.2.0",
     "@lingui/swc-plugin": "^5.0.2",
     "@lingui/vite-plugin": "^5.2.0",
     "@tanstack/react-query": "^5.66.0",
@@ -98,9 +92,9 @@
     "vite": "^6.0.11",
     "vite-plugin-dts": "^4.5.0",
     "vite-plugin-static-copy": "^2.2.0",
-    "vitest": "^3.0.4",
+    "vitest": "^3.0.5",
     "vitest-canvas-mock": "^0.3.3",
-    "wagmi": "^2.14.9"
+    "wagmi": "^2.14.11"
   },
   "keywords": [
     "react",

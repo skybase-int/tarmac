@@ -4,7 +4,8 @@ import { UserConfig } from '../types/user-config';
 import { defaultConfig as siteConfig } from '../default-config';
 // import { detect, fromUrl, fromNavigator } from '@lingui/detect-locale';
 // import { QueryParams } from '@/lib/constants';
-import { dynamicActivate } from '@/i18n';
+import { i18n } from '@lingui/core';
+import { dynamicActivate } from '@jetstreamgg/utils';
 import { Intent } from '@/lib/enums';
 // import { z } from 'zod';
 import { RewardContract } from '@jetstreamgg/hooks';
@@ -177,15 +178,17 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
   const locale = useMemo(() => {
     // const locale = userConfig.locale || 'en';
     const locale = 'en';
-    // dynamicActivate(locale);
-    dynamicActivate();
+    dynamicActivate(i18n, locale);
     return locale;
   }, [userConfig]);
 
   const onExternalLinkClicked = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
       const href = e.currentTarget.getAttribute('href');
-      if (href && !ALLOWED_EXTERNAL_DOMAINS.some(domain => href?.includes(domain))) {
+      if (!href) return;
+
+      const hrefUrl = new URL(href);
+      if (!ALLOWED_EXTERNAL_DOMAINS.includes(hrefUrl.hostname)) {
         e.preventDefault();
         setExternalLinkModalUrl(href);
         setExternalLinkModalOpened(true);

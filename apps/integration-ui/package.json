@@ -6,17 +6,14 @@
   "scripts": {
     "dev": "vite --host --config vite.config.ts",
     "dev:restricted": "VITE_PUBLIC_RESTRICTED_BUILD=true vite --host --config vite.config.ts",
-    "build": "tsc --project tsconfig.json && pnpm messages:compile && vite build --config vite.config.ts",
+    "build": "tsc --project tsconfig.json && vite build --config vite.config.ts",
     "build:restricted": "VITE_PUBLIC_RESTRICTED_BUILD=true pnpm build",
     "preview": "pnpm build && vite preview  --config vite.config.ts",
     "preview:restricted": "VITE_PUBLIC_RESTRICTED_BUILD=true pnpm preview",
     "start": "vite --host --config vite.config.ts",
     "prettier": "prettier --config .prettierrc --write src/pages src/modules",
     "lint": "eslint --ext .tsx,.ts src/pages/ src/modules/",
-    "typecheck": "tsc --noEmit",
-    "messages:extract": "lingui extract --clean",
-    "messages:compile": "lingui compile",
-    "messages": "pnpm messages:extract && pnpm messages:compile"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@emotion/react": "^11",
@@ -59,10 +56,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
-    "@lingui/cli": "^5.2.0",
-    "@lingui/conf": "^5.2.0",
-    "@lingui/core": "^5.2.0",
-    "@lingui/format-po": "^5.2.0",
     "@lingui/swc-plugin": "^5.0.2",
     "@lingui/vite-plugin": "^5.2.0",
     "@tanstack/react-query": "^5.66.0",
@@ -77,13 +70,12 @@
     "eslint-plugin-import": "^2.27.5",
     "postcss": "^8.5.1",
     "prettier": "^3.4.2",
-    "start-server-and-test": "^1.15.2",
     "tailwindcss": "^3.4.17",
     "ts-node": "^10.9.1",
     "typescript": "5.7.3",
     "viem": "^2.22.19",
     "vite": "^6.0.4",
-    "vitest": "^3.0.4",
-    "wagmi": "^2.13.2"
+    "vitest": "^3.0.5",
+    "wagmi": "^2.14.11"
   }
 }
