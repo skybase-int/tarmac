@@ -39,7 +39,7 @@ type TradeInputsProps = {
   onTargetTokenChange?: (token: TokenForChain) => void;
 };
 
-export function BaseTradeInputs({
+export function L2TradeInputs({
   setOriginAmount,
   originBalance,
   originToken,
