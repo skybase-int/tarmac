@@ -7,8 +7,13 @@ import tailwindcss from 'tailwindcss';
 import simpleHtmlPlugin from 'vite-plugin-simple-html';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
+enum modeEnum {
+  development = 'development',
+  production = 'production'
+}
+
 // https://vitejs.dev/config/
-export default ({ mode }: { mode: string }) => {
+export default ({ mode }: { mode: modeEnum }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
   const RPC_PROVIDER_MAINNET = process.env.VITE_RPC_PROVIDER_MAINNET || '';
@@ -68,7 +73,10 @@ export default ({ mode }: { mode: string }) => {
   return defineConfig({
     server: {
       // vite default is 5173
-      port: 3000
+      port: 3000,
+      fs: {
+        allow: ['/', '../../packages']
+      }
     },
     preview: {
       port: 3000
@@ -86,7 +94,16 @@ export default ({ mode }: { mode: string }) => {
     },
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, './src')
+        '@': path.resolve(__dirname, './src'),
+        // If we're in dev mode, alias the packages to their local TypeScript source code for faster HMR
+        ...(mode === modeEnum.development
+          ? {
+              '@jetstreamgg/hooks': path.resolve(__dirname, '../../packages/hooks/src'),
+              '@jetstreamgg/utils': path.resolve(__dirname, '../../packages/utils/src'),
+              '@jetstreamgg/widgets': path.resolve(__dirname, '../../packages/widgets/src'),
+              '@widgets': path.resolve(__dirname, '../../packages/widgets/src')
+            }
+          : {})
       }
     },
     optimizeDeps: {

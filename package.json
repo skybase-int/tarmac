@@ -14,7 +14,7 @@
     "build:integration-ui": "pnpm -r --filter='!./apps/webapp' run build",
     "build:packages": "pnpm -r --filter='./packages/**' build",
     "build:restricted": "VITE_PUBLIC_RESTRICTED_BUILD=true pnpm -r run build",
-    "dev": "pnpm messages:compile && pnpm -r --parallel --filter='./packages/**' --filter='./apps/webapp' dev",
+    "dev": "pnpm messages:compile && pnpm -F webapp dev",
     "dev:integration-ui": "pnpm messages:compile && pnpm -r --parallel --filter='./packages/**' --filter='./apps/integration-ui' dev",
     "dev:packages": "pnpm messages:compile && pnpm --parallel -F './packages/**' dev",
     "preview": "pnpm --filter='./apps/integration-ui' preview",
