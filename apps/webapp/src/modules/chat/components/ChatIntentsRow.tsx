@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
 import { intentSelectedMessage } from '../lib/intentSelectedMessage';
 import { QueryParams } from '@/lib/constants';
+import { useNetworkFromIntentUrl } from '../hooks/useNetworkFromUrl';
 
 type ChatIntentsRowProps = {
   intents: ChatIntent[];
@@ -37,6 +38,8 @@ const IntentRow = ({ intent }: IntentRowProps) => {
     QueryParams.Chat
   ]);
 
+  const network = useNetworkFromIntentUrl(intentUrl);
+
   return (
     <Button
       variant="suggest"
@@ -55,6 +58,7 @@ const IntentRow = ({ intent }: IntentRowProps) => {
       }}
     >
       {intent.intent_description}
+      {network && <img src={`/networks/${network}.svg`} alt={`${network} logo`} className="ml-2 h-5 w-5" />}
     </Button>
   );
 };

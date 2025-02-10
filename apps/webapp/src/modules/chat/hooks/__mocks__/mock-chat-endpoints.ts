@@ -1,4 +1,4 @@
-import { TRADE_MAINNET } from '../../lib/intentClassificationOptions';
+import { TRADE, TRADE_ARBITRUM, TRADE_BASE, TRADE_MAINNET } from '../../lib/intentClassificationOptions';
 
 export const generateRandomResponse = () => {
   // ... existing code ...
@@ -14,10 +14,10 @@ export const generateRandomResponse = () => {
 
 export const generateRandomIntent = () => {
   const intents = [
-    // TRADE,
+    TRADE,
     TRADE_MAINNET,
-    // TRADE_BASE,
-    // TRADE_ARBITRUM,
+    TRADE_BASE,
+    TRADE_ARBITRUM,
     // UPGRADE,
     // SAVINGS,
     // SAVINGS_MAINNET,
