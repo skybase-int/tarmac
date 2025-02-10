@@ -22,7 +22,7 @@ import {
   // skyBaseAddress,
   sUsdsBaseAddress
 } from '@jetstreamgg/hooks';
-import { TENDERLY_BASE_CHAIN_ID, TENDERLY_CHAIN_ID } from '@/shared/constants';
+import { TENDERLY_BASE_CHAIN_ID, TENDERLY_CHAIN_ID } from '@widgets/shared/constants';
 import { SUPPORTED_TOKEN_SYMBOLS } from '..';
 
 const { usds, mkr, sky, susds, eth, weth, usdc, usdt, dai } = TOKENS;

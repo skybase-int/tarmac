@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { useSignAndCancelOrder } from '@jetstreamgg/hooks';
-import { LoadingButton } from '@/shared/components/ui/LoadingButton';
-import { WidgetContext } from '@/context/WidgetContext';
+import { LoadingButton } from '@widgets/shared/components/ui/LoadingButton';
+import { WidgetContext } from '@widgets/context/WidgetContext';
 import { t } from '@lingui/core/macro';
-import { TxStatus } from '@/shared/constants';
-import { WidgetMessage } from '@/shared/types/widgetState';
+import { TxStatus } from '@widgets/shared/constants';
+import { WidgetMessage } from '@widgets/shared/types/widgetState';
 
 export const CancelOrderButton: React.FC<{
   onNotification?: (message: WidgetMessage) => void;

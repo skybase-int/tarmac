@@ -9,9 +9,9 @@ import {
   getExplorerName,
   isBaseChainId
 } from '@jetstreamgg/utils';
-import { TxCardCopyText } from '@/shared/types/txCardCopyText';
-import { WidgetContext } from '@/context/WidgetContext';
-import { TransactionStatus } from '@/shared/components/ui/transaction/TransactionStatus';
+import { TxCardCopyText } from '@widgets/shared/types/txCardCopyText';
+import { WidgetContext } from '@widgets/context/WidgetContext';
+import { TransactionStatus } from '@widgets/shared/components/ui/transaction/TransactionStatus';
 import {
   EthFlowTxStatus,
   TradeAction,
@@ -30,7 +30,7 @@ import {
   tradeSubtitle,
   tradeTitle
 } from '../lib/constants';
-import { TxStatus, approveLoadingButtonText } from '@/shared/constants';
+import { TxStatus, approveLoadingButtonText } from '@widgets/shared/constants';
 import { formatUnits } from 'viem';
 import { EthTxCardCopyText } from '../lib/types';
 import { useChainId } from 'wagmi';

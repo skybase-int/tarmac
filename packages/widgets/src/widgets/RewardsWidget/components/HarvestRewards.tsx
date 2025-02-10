@@ -2,9 +2,9 @@ import { RewardContract, WriteHook } from '@jetstreamgg/hooks';
 import { formatBigInt } from '@jetstreamgg/utils';
 import { Trans } from '@lingui/react/macro';
 import { t } from '@lingui/core/macro';
-import { Skeleton } from '@/components/ui/skeleton';
-import { LoadingButton } from '@/shared/components/ui/LoadingButton';
-import { Text } from '@/shared/components/ui/Typography';
+import { Skeleton } from '@widgets/components/ui/skeleton';
+import { LoadingButton } from '@widgets/shared/components/ui/LoadingButton';
+import { Text } from '@widgets/shared/components/ui/Typography';
 
 type HarvestRewardsProps = {
   rewardContract?: RewardContract;

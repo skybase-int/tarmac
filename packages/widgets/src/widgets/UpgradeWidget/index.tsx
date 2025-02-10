@@ -1,35 +1,35 @@
 import { TOKENS, Token, daiUsdsAddress, mkrSkyAddress, useTokenBalance } from '@jetstreamgg/hooks';
 import { UpgradeRevert } from './components/UpgradeRevert';
-import { WidgetContext, WidgetProvider } from '@/context/WidgetContext';
-import { WidgetProps, WidgetState } from '@/shared/types/widgetState';
-import { WidgetContainer } from '@/shared/components/ui/widget/WidgetContainer';
+import { WidgetContext, WidgetProvider } from '@widgets/context/WidgetContext';
+import { WidgetProps, WidgetState } from '@widgets/shared/types/widgetState';
+import { WidgetContainer } from '@widgets/shared/components/ui/widget/WidgetContainer';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { Heading } from '@/shared/components/ui/Typography';
+import { Heading } from '@widgets/shared/components/ui/Typography';
 import { UpgradeTransactionStatus } from './components/UpgradeTransactionStatus';
 import { useAccount, useChainId } from 'wagmi';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { getEtherscanLink, useDebounce } from '@jetstreamgg/utils';
 import { useTokenAllowance } from '@jetstreamgg/hooks';
 import { useUpgraderManager } from './hooks/useUpgraderManager';
-import { TxStatus, notificationTypeMaping } from '@/shared/constants';
+import { TxStatus, notificationTypeMaping } from '@widgets/shared/constants';
 import { formatUnits, parseUnits } from 'viem';
 import { useApproveManager } from './hooks/useApproveManager';
 import { UpgradeAction, UpgradeFlow, UpgradeScreen, upgradeTokens } from './lib/constants';
 import { useLingui } from '@lingui/react';
-import { VStack } from '@/shared/components/ui/layout/VStack';
-import { getValidatedState } from '@/lib/utils';
-import { WidgetButtons } from '@/shared/components/ui/widget/WidgetButtons';
-import { ErrorBoundary } from '@/shared/components/ErrorBoundary';
+import { VStack } from '@widgets/shared/components/ui/layout/VStack';
+import { getValidatedState } from '@widgets/lib/utils';
+import { WidgetButtons } from '@widgets/shared/components/ui/widget/WidgetButtons';
+import { ErrorBoundary } from '@widgets/shared/components/ErrorBoundary';
 import { AnimatePresence } from 'framer-motion';
-import { CardAnimationWrapper } from '@/shared/animation/Wrappers';
-import { useNotifyWidgetState } from '@/shared/hooks/useNotifyWidgetState';
+import { CardAnimationWrapper } from '@widgets/shared/animation/Wrappers';
+import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
 import { math } from '@jetstreamgg/utils';
 
 const defaultUpgradeOptions = [TOKENS.dai, TOKENS.mkr];
 const defaultRevertOptions = [TOKENS.usds, TOKENS.sky];
 
-export function calculateOriginOptions(
+function calculateOriginOptions(
   token: Token,
   action: string,
   upgradeOptions: Token[] = [],

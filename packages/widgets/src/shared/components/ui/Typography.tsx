@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@widgets/lib/utils';
 
 type TextElement = 'p' | 'span';
 type HeadingElement = 'h1' | 'h2' | 'h3' | 'h4';

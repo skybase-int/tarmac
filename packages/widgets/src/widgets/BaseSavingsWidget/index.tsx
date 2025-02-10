@@ -12,25 +12,25 @@ import {
 } from '@jetstreamgg/hooks';
 import { getEtherscanLink, useDebounce, formatBigInt, math } from '@jetstreamgg/utils';
 import { useContext, useEffect, useMemo, useState } from 'react';
-import { WidgetContainer } from '@/shared/components/ui/widget/WidgetContainer';
+import { WidgetContainer } from '@widgets/shared/components/ui/widget/WidgetContainer';
 import { SavingsFlow, SavingsAction, SavingsScreen } from '../SavingsWidget/lib/constants';
 import { SavingsTransactionStatus } from '../SavingsWidget/components/SavingsTransactionStatus';
 import { BaseSavingsSupplyWithdraw } from './components/BaseSavingsSupplyWithdraw';
-import { WidgetContext, WidgetProvider } from '@/context/WidgetContext';
-import { NotificationType, TxStatus, EPOCH_LENGTH } from '@/shared/constants';
-import { WidgetProps, WidgetState } from '@/shared/types/widgetState';
+import { WidgetContext, WidgetProvider } from '@widgets/context/WidgetContext';
+import { NotificationType, TxStatus, EPOCH_LENGTH } from '@widgets/shared/constants';
+import { WidgetProps, WidgetState } from '@widgets/shared/types/widgetState';
 import { Trans } from '@lingui/react/macro';
 import { t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { useAccount, useChainId } from 'wagmi';
-import { Heading } from '@/shared/components/ui/Typography';
-import { getValidatedState } from '@/lib/utils';
+import { Heading } from '@widgets/shared/components/ui/Typography';
+import { getValidatedState } from '@widgets/lib/utils';
 import { parseUnits } from 'viem';
-import { WidgetButtons } from '@/shared/components/ui/widget/WidgetButtons';
-import { ErrorBoundary } from '@/shared/components/ErrorBoundary';
+import { WidgetButtons } from '@widgets/shared/components/ui/widget/WidgetButtons';
+import { ErrorBoundary } from '@widgets/shared/components/ErrorBoundary';
 import { AnimatePresence } from 'framer-motion';
-import { CardAnimationWrapper } from '@/shared/animation/Wrappers';
-import { useNotifyWidgetState } from '@/shared/hooks/useNotifyWidgetState';
+import { CardAnimationWrapper } from '@widgets/shared/animation/Wrappers';
+import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
 import { usePreviewSwapExactIn, usePreviewSwapExactOut } from '@jetstreamgg/hooks';
 import {
   useReadSsrAuthOracleGetChi,
@@ -41,7 +41,7 @@ import {
 const defaultDepositOptions = [TOKENS.usds, TOKENS.usdc];
 const defaultWithdrawOptions = [TOKENS.usds, TOKENS.usdc];
 
-export function calculateOriginOptions(
+function calculateOriginOptions(
   token: Token,
   action: string,
   flow: SavingsFlow,

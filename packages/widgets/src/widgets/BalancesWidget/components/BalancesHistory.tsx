@@ -2,15 +2,15 @@ import { useState, useMemo, useEffect } from 'react';
 import { CombinedHistoryItem, useCombinedHistory } from '@jetstreamgg/hooks';
 import { useFormatDates } from '@jetstreamgg/utils';
 import { useLingui } from '@lingui/react';
-import { CustomPagination } from '@/shared/components/ui/pagination/CustomPagination';
+import { CustomPagination } from '@widgets/shared/components/ui/pagination/CustomPagination';
 import { useChainId } from 'wagmi';
 import { BalancesHistoryItem } from './BalancesHistoryItem';
-import { Skeleton } from '@/components/ui/skeleton';
-import { VStack } from '@/shared/components/ui/layout/VStack';
-import { Text } from '@/shared/components/ui/Typography';
+import { Skeleton } from '@widgets/components/ui/skeleton';
+import { VStack } from '@widgets/shared/components/ui/layout/VStack';
+import { Text } from '@widgets/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
 import { motion } from 'framer-motion';
-import { positionAnimations } from '@/shared/animation/presets';
+import { positionAnimations } from '@widgets/shared/animation/presets';
 
 export const BalancesHistory = ({
   onExternalLinkClicked

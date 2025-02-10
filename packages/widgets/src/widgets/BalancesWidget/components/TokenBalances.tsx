@@ -1,6 +1,6 @@
-import { VStack } from '@/shared/components/ui/layout/VStack';
+import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { useTokenBalances, useTokens, usePrices, TokenForChain } from '@jetstreamgg/hooks';
-import { defaultConfig } from '@/config/default-config';
+import { defaultConfig } from '@widgets/config/default-config';
 import { useAccount, useChainId } from 'wagmi';
 import { AssetBalance } from './AssetBalance';
 
