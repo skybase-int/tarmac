@@ -13,9 +13,9 @@ export const TENDERLY_RPC_URL =
 export const TENDERLY_BASE_RPC_URL =
   'https://virtual.base.rpc.tenderly.co/376e4980-c2de-48b9-bf76-c25bd6d1c324';
 
-// only works if hardcoded, cannot be set via env variable. Corresponds to the public RPC of `arbitrum_testnet_base_fork_jan`
+// only works if hardcoded, cannot be set via env variable. Corresponds to the public RPC of `Arbitrum-fork-feb-7`
 export const TENDERLY_ARBITRUM_RPC_URL =
-  'https://virtual.base.rpc.tenderly.co/17eaddcc-2f8a-433d-a5dc-7382eb7755d1';
+  'https://virtual.arbitrum.rpc.tenderly.co/5a2a28a6-322f-4506-acf8-1151a13b5ccf';
 
 export const getTestTenderlyChains = () => {
   const [mainnetData, baseData, arbitrumData] = tenderlyTestnetData;

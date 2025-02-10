@@ -77,8 +77,8 @@ export const TOKENS: TokenMapping = {
       ...skyConfig.address,
       [base.id]: skyL2Address[base.id],
       [arbitrum.id]: skyL2Address[arbitrum.id],
-      [TENDERLY_BASE_CHAIN_ID]: skyL2Address[base.id],
-      [TENDERLY_ARBITRUM_CHAIN_ID]: skyL2Address[base.id]
+      [TENDERLY_BASE_CHAIN_ID]: skyL2Address[TENDERLY_BASE_CHAIN_ID],
+      [TENDERLY_ARBITRUM_CHAIN_ID]: skyL2Address[TENDERLY_ARBITRUM_CHAIN_ID]
     },
     name: 'SKY',
     symbol: 'SKY',
@@ -90,8 +90,8 @@ export const TOKENS: TokenMapping = {
       ...usdsConfig.address,
       [base.id]: usdsL2Address[base.id],
       [arbitrum.id]: usdsL2Address[arbitrum.id],
-      [TENDERLY_BASE_CHAIN_ID]: usdsL2Address[base.id],
-      [TENDERLY_ARBITRUM_CHAIN_ID]: usdsL2Address[base.id]
+      [TENDERLY_BASE_CHAIN_ID]: usdsL2Address[TENDERLY_BASE_CHAIN_ID],
+      [TENDERLY_ARBITRUM_CHAIN_ID]: usdsL2Address[TENDERLY_ARBITRUM_CHAIN_ID]
     },
     name: 'USDS',
     symbol: 'USDS',
@@ -112,8 +112,8 @@ export const TOKENS: TokenMapping = {
       ...usdcConfig.address,
       [base.id]: usdcL2Address[base.id],
       [arbitrum.id]: usdcL2Address[arbitrum.id],
-      [TENDERLY_BASE_CHAIN_ID]: usdcL2Address[base.id],
-      [TENDERLY_ARBITRUM_CHAIN_ID]: usdcL2Address[base.id]
+      [TENDERLY_BASE_CHAIN_ID]: usdcL2Address[TENDERLY_BASE_CHAIN_ID],
+      [TENDERLY_ARBITRUM_CHAIN_ID]: usdcL2Address[TENDERLY_ARBITRUM_CHAIN_ID]
     },
     name: 'USDC',
     symbol: 'USDC',
@@ -155,8 +155,8 @@ export const TOKENS: TokenMapping = {
       ...sUsdsConfig.address,
       [base.id]: sUsdsL2Address[base.id],
       [arbitrum.id]: sUsdsL2Address[arbitrum.id],
-      [TENDERLY_BASE_CHAIN_ID]: sUsdsL2Address[base.id],
-      [TENDERLY_ARBITRUM_CHAIN_ID]: sUsdsL2Address[base.id]
+      [TENDERLY_BASE_CHAIN_ID]: sUsdsL2Address[TENDERLY_BASE_CHAIN_ID],
+      [TENDERLY_ARBITRUM_CHAIN_ID]: sUsdsL2Address[TENDERLY_ARBITRUM_CHAIN_ID]
     },
     name: 'sUSDS',
     symbol: 'sUSDS',

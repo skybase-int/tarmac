@@ -44,7 +44,7 @@ export const tenderlyBase = {
 
 export const tenderlyArbitrum = {
   id: TENDERLY_ARBITRUM_CHAIN_ID,
-  name: 'arbitrum_testnet_base_fork_jan',
+  name: 'arbitrum_fork_feb_7',
   network: 'tenderly arbitrum',
   nativeCurrency: {
     decimals: 18,
