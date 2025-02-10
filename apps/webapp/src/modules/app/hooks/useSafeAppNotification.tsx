@@ -4,7 +4,6 @@ import { ExternalLink } from '@/modules/layout/components/ExternalLink';
 import { Text } from '@/modules/layout/components/Typography';
 import { VStack } from '@/modules/layout/components/VStack';
 import { useIsSafeWallet } from '@jetstreamgg/utils';
-import { Trans } from '@lingui/react/macro';
 import { useEffect } from 'react';
 import { useAccount } from 'wagmi';
 
@@ -21,24 +20,21 @@ export const useSafeAppNotification = () => {
       toast({
         title: (
           <Text variant="medium" className="text-selectActive">
-            <Trans>A Better Way to Use the App with Safe Wallet</Trans>
+            {'Sky.money is a Safe{Wallet} Safe App'}
           </Text>
         ),
         description: (
           <VStack className="mt-4 gap-4">
-            <Text variant="medium" className="text-balance">
-              <Trans>
-                Sky.money is now available as a Safe App! You can open it directly from your Safe Wallet for a
-                smoother, more integrated experience.
-                <br />
-              </Trans>
+            <Text variant="medium">
+              {'You can now open the app directly through your Safe{Wallet} interface.'}
+              <br />
             </Text>
             <Button className="place-self-start">
               <ExternalLink
                 href="https://app.safe.global/share/safe-app?appUrl=https%3A%2F%2Fapp.sky.money%2F"
                 showIcon={false}
               >
-                Go to Safe Wallet
+                Open Safe{'{'}Wallet{'}'}
               </ExternalLink>
             </Button>
           </VStack>
