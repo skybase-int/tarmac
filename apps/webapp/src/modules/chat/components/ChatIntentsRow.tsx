@@ -9,6 +9,8 @@ import { QueryParams } from '@/lib/constants';
 import { useNetworkFromIntentUrl } from '../hooks/useNetworkFromUrl';
 import { chainIdNameMapping } from '../lib/intentUtils';
 import { useChainId } from 'wagmi';
+import { isBaseChainId } from '@jetstreamgg/utils';
+
 type ChatIntentsRowProps = {
   intents: ChatIntent[];
 };
@@ -66,13 +68,69 @@ const mainnetIntents = [
   }
 ];
 
+const baseIntents = [
+  {
+    intent_description: 'Supply 50 USDC to Savings', // this should be wrong
+    url: '?widget=savings&input_amount=50&source_token=USDC&network=base&tab=left',
+    intent_id: 'savings'
+  },
+  {
+    intent_description: 'Supply 30 USDS to Savings',
+    url: '?widget=savings&input_amount=30&source_token=USDS&network=base&tab=left',
+    intent_id: 'savings'
+  },
+  {
+    intent_description: 'Supply 1000 USDS to Savings',
+    url: '?widget=savings&input_amount=1000&source_token=USDS&network=base&tab=left',
+    intent_id: 'savings'
+  },
+  {
+    intent_description: 'Supply to Savings',
+    url: '?widget=savings&network=base&tab=left',
+    intent_id: 'savings'
+  },
+  {
+    intent_description: 'Supply 1000 to Savings',
+    url: '?widget=savings&input_amount=1000&network=base&tab=left',
+    intent_id: 'savings'
+  },
+  {
+    intent_description: 'Withdraw 50 USDC from Savings', // this should be wrong
+    url: '?widget=savings&input_amount=50&source_token=USDC&network=base&tab=right',
+    intent_id: 'savings'
+  },
+  {
+    intent_description: 'Withdraw 30 USDS from Savings',
+    url: '?widget=savings&input_amount=30&source_token=USDS&network=base&tab=right',
+    intent_id: 'savings'
+  },
+  {
+    intent_description: 'Withdraw 1000 USDS from Savings',
+    url: '?widget=savings&input_amount=1000&source_token=USDS&network=base&tab=right',
+    intent_id: 'savings'
+  },
+  {
+    intent_description: 'Withdraw from Savings',
+    url: '?widget=savings&network=base&tab=right',
+    intent_id: 'savings'
+  },
+  {
+    intent_description: 'Withdraw 1000 from Savings',
+    url: '?widget=savings&input_amount=1000&network=base&tab=right',
+    intent_id: 'savings'
+  }
+];
+
 export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
   console.log('🚀 ~ ChatIntentsRow ~ intents:', intents);
+  const chainId = useChainId();
+  const isBase = isBaseChainId(chainId);
+
   return (
     <div>
       <Text className="text-xs italic text-gray-500">Try a suggested action</Text>
       <div className="mt-2 flex flex-wrap gap-2">
-        {mainnetIntents.map((intent, index) => (
+        {(isBase ? baseIntents : mainnetIntents).map((intent, index) => (
           <IntentRow key={index} intent={intent} />
         ))}
       </div>
