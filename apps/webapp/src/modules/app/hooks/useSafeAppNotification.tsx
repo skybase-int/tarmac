@@ -20,15 +20,13 @@ export const useSafeAppNotification = () => {
       toast({
         title: (
           <Text variant="medium" className="text-selectActive">
-            {'There is another way to interact with this app using your Safe{Wallet}'}
+            {'Sky.money is a Safe{Wallet} Safe App'}
           </Text>
         ),
         description: (
           <VStack className="mt-4 gap-4">
             <Text variant="medium">
-              {
-                'Sky.money is listed as a Safe{Wallet} Safe App, meaning you can open the app directly through your Safe{Wallet}'
-              }
+              {'You can now open the app directly through your Safe{Wallet} interface.'}
               <br />
             </Text>
             <Button className="place-self-start">
