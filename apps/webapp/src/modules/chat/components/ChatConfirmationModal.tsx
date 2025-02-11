@@ -49,8 +49,8 @@ export const ChatConfirmationModal: React.FC = () => {
     if (selectedIntent && !hasShownIntent(selectedIntent)) {
       setModalShown([...modalShown, selectedIntent]);
     }
-    selectedIntentUrl && navigate(selectedIntentUrl);
-    selectedIntent && onIntentSelected(selectedIntent);
+    if (selectedIntentUrl) navigate(selectedIntentUrl);
+    if (selectedIntent) onIntentSelected(selectedIntent);
   }, [
     selectedIntentUrl,
     setConfirmationModalOpened,

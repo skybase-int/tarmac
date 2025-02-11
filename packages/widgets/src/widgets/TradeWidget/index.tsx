@@ -125,7 +125,11 @@ function TradeWidgetWrapped({
   const [cancelLoading, setCancelLoading] = useState(false);
   const [ethFlowTxStatus, setEthFlowTxStatus] = useState<EthFlowTxStatus>(EthFlowTxStatus.IDLE);
   const validatedExternalState = getValidatedState(externalWidgetState);
-  onStateValidated && onStateValidated(validatedExternalState);
+
+  useEffect(() => {
+    onStateValidated?.(validatedExternalState);
+  }, [onStateValidated, validatedExternalState]);
+
   const [formattedExecutedSellAmount, setFormattedExecutedSellAmount] = useState<string | undefined>(
     undefined
   );
@@ -339,7 +343,7 @@ function TradeWidgetWrapped({
         description: t`Approving ${formatBigInt(debouncedOriginAmount, {
           locale,
           unit: originToken ? getTokenDecimals(originToken, chainId) : 18
-        })} ${originToken?.symbol}`
+        })} ${originToken?.symbol ?? ''}`
       });
       setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
       setTxStatus(TxStatus.LOADING);
@@ -348,7 +352,7 @@ function TradeWidgetWrapped({
     onSuccess: (hash: string) => {
       onNotification?.({
         title: t`Approve successful`,
-        description: t`You approved ${originToken?.symbol}`,
+        description: t`You approved ${originToken?.symbol ?? ''}`,
         status: TxStatus.SUCCESS
       });
       setTxStatus(TxStatus.SUCCESS);
@@ -401,10 +405,10 @@ function TradeWidgetWrapped({
         description: t`You traded ${formatBigInt(executedSellAmount, {
           locale,
           unit: originToken ? getTokenDecimals(originToken, chainId) : 18
-        })} ${originToken?.symbol} for ${formatBigInt(executedBuyAmount, {
+        })} ${originToken?.symbol ?? ''} for ${formatBigInt(executedBuyAmount, {
           locale,
           unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18
-        })} ${targetToken?.symbol}`,
+        })} ${targetToken?.symbol ?? ''}`,
         status: TxStatus.SUCCESS,
         type: notificationTypeMaping[targetToken?.symbol?.toUpperCase() || 'none']
       });
@@ -461,10 +465,10 @@ function TradeWidgetWrapped({
         description: t`You traded ${formatBigInt(executedSellAmount, {
           locale,
           unit: originToken ? getTokenDecimals(originToken, chainId) : 18
-        })} ${originToken?.symbol} for ${formatBigInt(executedBuyAmount, {
+        })} ${originToken?.symbol ?? ''} for ${formatBigInt(executedBuyAmount, {
           locale,
           unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18
-        })} ${targetToken?.symbol}`,
+        })} ${targetToken?.symbol ?? ''}`,
         status: TxStatus.SUCCESS,
         type: notificationTypeMaping[targetToken?.symbol?.toUpperCase() || 'none']
       });
@@ -517,7 +521,7 @@ function TradeWidgetWrapped({
         description: t`Sending ${formatBigInt(debouncedOriginAmount, {
           locale,
           unit: originToken ? getTokenDecimals(originToken, chainId) : 18
-        })} ${originToken?.symbol} to the EthFlow contract`
+        })} ${originToken?.symbol ?? ''} to the EthFlow contract`
       });
       setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
       setTxStatus(TxStatus.LOADING);
@@ -551,10 +555,10 @@ function TradeWidgetWrapped({
         description: t`You traded ${formatBigInt(executedSellAmount, {
           locale,
           unit: originToken ? getTokenDecimals(originToken, chainId) : 18
-        })} ${originToken?.symbol} for ${formatBigInt(executedBuyAmount, {
+        })} ${originToken?.symbol ?? ''} for ${formatBigInt(executedBuyAmount, {
           locale,
           unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18
-        })} ${targetToken?.symbol}`,
+        })} ${targetToken?.symbol ?? ''}`,
         status: TxStatus.SUCCESS,
         type: notificationTypeMaping[targetToken?.symbol?.toUpperCase() || 'none']
       });
@@ -643,8 +647,12 @@ function TradeWidgetWrapped({
   });
 
   const onCancelOrderClick = useCallback(() => {
-    isSmartContractWallet ? onChainCancelExecute() : offChainCancelExecute();
-  }, [isSmartContractWallet, onChainCancelPrepared]);
+    if (isSmartContractWallet) {
+      onChainCancelExecute();
+    } else {
+      offChainCancelExecute();
+    }
+  }, [isSmartContractWallet, onChainCancelExecute, offChainCancelExecute]);
 
   const prepareError = approvePrepareError || ethTradePrepareError;
 
@@ -974,8 +982,10 @@ function TradeWidgetWrapped({
     if (originToken?.isNative) {
       setEthFlowTxStatus(EthFlowTxStatus.INITIALIZED);
       ethTradeExecute();
+    } else if (isSmartContractWallet) {
+      preSignTradeExecute();
     } else {
-      isSmartContractWallet ? preSignTradeExecute() : tradeExecute();
+      tradeExecute();
     }
   };
 
@@ -1049,7 +1059,7 @@ function TradeWidgetWrapped({
   const onAddToken = () => {
     if (targetToken && targetToken?.symbol && targetToken?.address) {
       // add currency to wallet
-      addToWallet({
+      void addToWallet({
         type: 'ERC20',
         options: {
           address: targetToken.address,

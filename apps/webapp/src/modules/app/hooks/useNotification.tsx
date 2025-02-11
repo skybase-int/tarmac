@@ -90,8 +90,8 @@ export const useNotification = () => {
     if (isRewardsModule) {
       toast(
         generateToastConfig({
-          title: t`Looks like you need ${rewardContract?.supplyToken.symbol.toUpperCase()} to get rewards`,
-          description: `${rewardContract?.name} Reward Rate`,
+          title: t`Looks like you need ${rewardContract?.supplyToken.symbol?.toUpperCase() ?? 'tokens'} to get rewards`,
+          description: `${rewardContract?.name ?? 'Reward'} Reward Rate`,
           descriptionSub: rate || '',
           buttonTxt,
           rateType: 'str',

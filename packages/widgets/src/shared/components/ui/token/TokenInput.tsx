@@ -126,6 +126,7 @@ export function TokenInput({
 
       onChange(newValue, event);
     } catch (e) {
+      console.error('Error updating value: ', e);
       setErrorInvalidFormat(true);
       onChange(0n, event);
       return;
@@ -142,6 +143,7 @@ export function TokenInput({
           setInputValue(formatUnits(value, decimals) as `${number}`);
         }
       } catch (e) {
+        console.error('Error setting input value: ', e);
         setErrorInvalidFormat(true);
         onChange(0n);
       }
