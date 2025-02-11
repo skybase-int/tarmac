@@ -8,12 +8,14 @@ import { PopoverRateInfo } from '@/shared/components/ui/PopoverRateInfo';
 import { formatUnits } from 'viem';
 import { CardProps } from './ModulesBalances';
 import { useMultiChainSavingsBalances } from '@jetstreamgg/hooks';
+import { useChainId } from 'wagmi';
 
 export const SavingsBalanceCard = ({
   urlMap,
   onExternalLinkClicked,
   chainIds,
-  hideZeroBalance
+  hideZeroBalance,
+  showAllNetworks
 }: CardProps & { urlMap: Record<number, string> }) => {
   const { data: savingsData, isLoading: savingsDataLoading, error: savingsDataError } = useSavingsData();
   const {
@@ -22,6 +24,8 @@ export const SavingsBalanceCard = ({
     error: overallSkyDataError
   } = useOverallSkyData();
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
+
+  const currentChainId = useChainId();
 
   const { data: multichainSavingsBalances, isLoading: multichainSavingsBalancesLoading } =
     useMultiChainSavingsBalances({ chainIds });
@@ -33,9 +37,13 @@ export const SavingsBalanceCard = ({
       balance
     }));
 
-  const filteredAndSortedSavingsBalances = hideZeroBalance
+  const balancesWithBalanceFilter = hideZeroBalance
     ? sortedSavingsBalances.filter(({ balance }) => balance > 0n)
     : sortedSavingsBalances;
+
+  const filteredAndSortedSavingsBalances = showAllNetworks
+    ? balancesWithBalanceFilter
+    : balancesWithBalanceFilter.filter(({ chainId }) => chainId === currentChainId);
 
   const totalSavingsBalance = filteredAndSortedSavingsBalances.reduce(
     (acc, { balance }) => acc + balance,
@@ -45,6 +53,8 @@ export const SavingsBalanceCard = ({
   const skySavingsRate = parseFloat(overallSkyData?.skySavingsRatecRate ?? '0');
 
   if (savingsDataError || overallSkyDataError) return null;
+
+  if (filteredAndSortedSavingsBalances.length === 0) return null;
 
   return (
     <InteractiveStatsCardWithAccordion

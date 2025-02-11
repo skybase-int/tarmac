@@ -72,6 +72,7 @@ export const BalancesContent = ({
               hideModuleBalances={hideModuleBalances}
               chainIds={chainIds}
               hideZeroBalances={!showAllBalances}
+              showAllNetworks={showAllNetworks}
             />
           </motion.div>
 
@@ -84,6 +85,7 @@ export const BalancesContent = ({
               customTokenMap={customTokenMap}
               chainIds={chainIds}
               hideZeroBalances={!showAllBalances}
+              showAllNetworks={showAllNetworks}
             />
           </motion.div>
         </VStack>
@@ -97,7 +99,7 @@ export const BalancesContent = ({
             setShowAllNetworks={setShowAllNetworks}
             setShowAllBalances={setShowAllBalances}
           />
-          <BalancesHistory onExternalLinkClicked={onExternalLinkClicked} />
+          <BalancesHistory onExternalLinkClicked={onExternalLinkClicked} showAllNetworks={showAllNetworks} />
         </motion.div>
       </TabsContent>
     </Tabs>

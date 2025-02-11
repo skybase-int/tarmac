@@ -12,12 +12,12 @@ import { motion } from 'framer-motion';
 import { positionAnimations } from '@/shared/animation/presets';
 
 export const BalancesHistory = ({
-  onExternalLinkClicked
+  onExternalLinkClicked,
+  showAllNetworks
 }: {
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  showAllNetworks?: boolean;
 }) => {
-  const [showAllNetworks] = useState(true);
-
   const {
     data: singleNetworkData,
     isLoading: singleNetworkLoading,

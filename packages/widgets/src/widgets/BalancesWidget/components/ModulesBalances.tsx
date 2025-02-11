@@ -7,6 +7,7 @@ export interface CardProps {
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   chainIds?: number[];
   hideZeroBalance?: boolean;
+  showAllNetworks?: boolean;
 }
 
 interface ModulesBalancesProps {
@@ -17,6 +18,7 @@ interface ModulesBalancesProps {
   hideModuleBalances?: boolean;
   chainIds?: number[];
   hideZeroBalances?: boolean;
+  showAllNetworks?: boolean;
 }
 
 export const ModulesBalances = ({
@@ -26,7 +28,8 @@ export const ModulesBalances = ({
   onExternalLinkClicked,
   hideModuleBalances,
   chainIds,
-  hideZeroBalances
+  hideZeroBalances,
+  showAllNetworks
 }: ModulesBalancesProps): React.ReactElement => {
   return (
     <div className="flex flex-col gap-2">
@@ -35,6 +38,7 @@ export const ModulesBalances = ({
           url={rewardsCardUrl}
           onExternalLinkClicked={onExternalLinkClicked}
           hideZeroBalance={hideZeroBalances}
+          showAllNetworks={showAllNetworks}
         />
       )}
       {!hideModuleBalances && (
@@ -43,12 +47,14 @@ export const ModulesBalances = ({
           onExternalLinkClicked={onExternalLinkClicked}
           chainIds={chainIds}
           hideZeroBalance={hideZeroBalances}
+          showAllNetworks={showAllNetworks}
         />
       )}
       <SealBalanceCard
-        url={sealCardUrl}
         onExternalLinkClicked={onExternalLinkClicked}
+        url={sealCardUrl}
         hideZeroBalance={hideZeroBalances}
+        showAllNetworks={showAllNetworks}
       />
     </div>
   );

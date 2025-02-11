@@ -15,9 +15,14 @@ import { PopoverRateInfo } from '@/shared/components/ui/PopoverRateInfo';
 import { formatUnits } from 'viem';
 import { CardProps } from './ModulesBalances';
 import { useChainId } from 'wagmi';
-import { isTestnetId } from '@jetstreamgg/utils';
+import { isTestnetId, isMainnetId } from '@jetstreamgg/utils';
 
-export const RewardsBalanceCard = ({ url, onExternalLinkClicked, hideZeroBalance }: CardProps) => {
+export const RewardsBalanceCard = ({
+  url,
+  onExternalLinkClicked,
+  hideZeroBalance,
+  showAllNetworks
+}: CardProps) => {
   const currentChainId = useChainId();
   const chainId = isTestnetId(currentChainId) ? 314310 : 1; //hardcoded to mainnet for now
   const { address } = useAccount();
@@ -67,6 +72,8 @@ export const RewardsBalanceCard = ({ url, onExternalLinkClicked, hideZeroBalance
   if (usdsSkySuppliedBalanceError || usdsCleSuppliedBalanceError || chartDataError) return null;
 
   if (usdsSkySuppliedBalance === 0n && hideZeroBalance) return null;
+
+  if (!showAllNetworks && !isMainnetId(currentChainId)) return null;
 
   return (
     <InteractiveStatsCard

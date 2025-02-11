@@ -8,7 +8,8 @@ export const TokenBalances = ({
   actionForToken,
   customTokenMap,
   chainIds,
-  hideZeroBalances
+  hideZeroBalances,
+  showAllNetworks
 }: {
   actionForToken?: (
     symbol: string,
@@ -18,6 +19,7 @@ export const TokenBalances = ({
   customTokenMap?: { [chainId: number]: TokenForChain[] };
   chainIds?: number[];
   hideZeroBalances?: boolean;
+  showAllNetworks?: boolean;
 }) => {
   const { address } = useAccount();
   const chainId = useChainId();
@@ -64,9 +66,13 @@ export const TokenBalances = ({
       ? tokenBalancesWithPrices.sort((a, b) => b.valueInDollars - a.valueInDollars)
       : undefined;
 
-  const filteredAndSortedTokenBalances = hideZeroBalances
+  const balancesWithBalanceFilter = hideZeroBalances
     ? sortedTokenBalances?.filter(({ value }) => value > 0n)
     : sortedTokenBalances;
+
+  const filteredAndSortedTokenBalances = showAllNetworks
+    ? balancesWithBalanceFilter
+    : balancesWithBalanceFilter?.filter(({ chainId: id }) => id === chainId);
 
   const isLoading = tokenBalancesLoading || pricesLoading;
 
