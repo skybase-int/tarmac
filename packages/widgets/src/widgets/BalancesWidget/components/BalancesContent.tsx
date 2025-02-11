@@ -52,7 +52,7 @@ export const BalancesContent = ({
     <Tabs defaultValue={validatedExternalState?.tab || 'left'} className="w-full">
       <BalancesTabsList />
       <TabsContent value="left" className="mt-0">
-        <VStack className="items-stretch pt-4">
+        <VStack className="items-stretch">
           <motion.div variants={positionAnimations}>
             <BalancesFilter
               showBalanceFilter={true}

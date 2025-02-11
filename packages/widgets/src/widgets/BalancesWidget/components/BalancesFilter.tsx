@@ -16,7 +16,7 @@ export const BalancesFilter = ({
   setShowAllBalances
 }: BalancesFilterProps): React.ReactElement => {
   return (
-    <div className="flex justify-between">
+    <div className="mb-4 mt-3 flex justify-between">
       <div className="flex items-center gap-2">
         <span className="text-textSecondary text-sm">Network:</span>
         <div className="flex items-center gap-1">
@@ -38,13 +38,13 @@ export const BalancesFilter = ({
       </div>
 
       {showBalanceFilter && (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           <Checkbox
             id="all-balances"
             checked={!showAllBalances}
             onCheckedChange={checked => setShowAllBalances(!checked)}
           />
-          <label htmlFor="all-balances" className="cursor-pointer select-none text-sm">
+          <label htmlFor="all-balances" className="text-textSecondary cursor-pointer select-none text-sm">
             Hide 0 Balances
           </label>
         </div>
