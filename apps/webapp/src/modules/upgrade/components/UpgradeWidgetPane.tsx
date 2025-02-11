@@ -32,7 +32,9 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
   const { mutate: refreshUpgradeHistory } = useUpgradeHistory({ subgraphUrl });
 
   const wagmiConfig = useWagmiConfig();
-  const [, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const flow = (searchParams.get(QueryParams.Flow) || undefined) as UpgradeFlow | undefined;
 
   const { onNavigate, setCustomHref, customNavLabel, setCustomNavLabel } = useCustomNavigation();
 
@@ -42,6 +44,14 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
     widgetState,
     targetToken
   }: WidgetStateChangeParams) => {
+    // Set tab search param based on widgetState.flow
+    if (widgetState.flow) {
+      setSearchParams(prev => {
+        prev.set(QueryParams.Flow, widgetState.flow);
+        return prev;
+      });
+    }
+
     if (
       widgetState.action === UpgradeAction.UPGRADE &&
       txStatus === TxStatus.SUCCESS &&
@@ -115,7 +125,8 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
       {...sharedProps}
       externalWidgetState={{
         amount: linkedActionConfig?.inputAmount,
-        initialUpgradeToken: linkedActionConfig?.sourceToken
+        initialUpgradeToken: linkedActionConfig?.sourceToken,
+        flow
       }}
       onWidgetStateChange={onUpgradeWidgetStateChange}
       customNavigationLabel={customNavLabel}

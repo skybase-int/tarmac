@@ -148,7 +148,7 @@ export function UpgradeWidgetWrapped({
   // initialUpgradeToken takes first priority, then tab, then default to 0 for tabIndex
   const initialTabIndex = validatedExternalState?.initialUpgradeToken
     ? actionForTokenSymbol(validatedExternalState.initialUpgradeToken as keyof typeof upgradeTokens)
-    : validatedExternalState?.tab === 'right'
+    : validatedExternalState?.flow === UpgradeFlow.REVERT
       ? 1
       : 0;
 
@@ -163,6 +163,10 @@ export function UpgradeWidgetWrapped({
     targetTokenForSymbol((validatedExternalState?.initialUpgradeToken as keyof typeof upgradeTokens) || 'DAI')
   );
   const linguiCtx = useLingui();
+
+  useEffect(() => {
+    setTabIndex(initialTabIndex);
+  }, [initialTabIndex]);
 
   useEffect(() => {
     setOriginToken(
@@ -297,23 +301,7 @@ export function UpgradeWidgetWrapped({
   });
 
   useEffect(() => {
-    //Initialize the upgrade flow
-    if (isConnectedAndEnabled) {
-      if (tabIndex === 0) {
-        setWidgetState({
-          flow: UpgradeFlow.UPGRADE,
-          action: UpgradeAction.APPROVE,
-          screen: UpgradeScreen.ACTION
-        });
-      } else if (tabIndex === 1) {
-        //Initialize the revert flow
-        setWidgetState({
-          flow: UpgradeFlow.REVERT,
-          action: UpgradeAction.REVERT,
-          screen: UpgradeScreen.ACTION
-        });
-      }
-    } else {
+    if (!isConnectedAndEnabled) {
       // Reset widget state when we are not connected
       setWidgetState({
         flow: null,
@@ -321,7 +309,7 @@ export function UpgradeWidgetWrapped({
         screen: null
       });
     }
-  }, [tabIndex, isConnectedAndEnabled]);
+  }, [isConnectedAndEnabled]);
 
   // If we're in the upgrade or revert flow and we need allowance, set the action to approve,
   useEffect(() => {
@@ -582,6 +570,24 @@ export function UpgradeWidgetWrapped({
                   setOriginToken(targetToken);
                   setTargetToken(originToken);
                   setOriginAmount(0n);
+
+                  if (isConnectedAndEnabled) {
+                    if (index === 0) {
+                      //Initialize the upgrade flow
+                      setWidgetState({
+                        flow: UpgradeFlow.UPGRADE,
+                        action: UpgradeAction.APPROVE,
+                        screen: UpgradeScreen.ACTION
+                      });
+                    } else if (index === 1) {
+                      //Initialize the revert flow
+                      setWidgetState({
+                        flow: UpgradeFlow.REVERT,
+                        action: UpgradeAction.REVERT,
+                        screen: UpgradeScreen.ACTION
+                      });
+                    }
+                  }
                 }}
                 onOriginInputChange={setOriginAmount}
                 tabIndex={tabIndex}
