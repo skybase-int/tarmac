@@ -39,16 +39,6 @@ export const generateBaseUrl = (intentId: string, params: Record<string, string 
   return `?${urlParams.toString()}`;
 };
 
-// export const generateBaseUrl = (intentId: string, params: Record<string, string | undefined>): string => {
-//   const parts = [`${QueryParams.Widget}=${intentId}`, `${QueryParams.Chat}=true`];
-
-//   Object.entries(params).forEach(([key, value]) => {
-//     if (value) parts.push(`${key}=${value}`);
-//   });
-
-//   return `?${parts.join('&')}`;
-// };
-
 export const addNetworkToDescription = (description: string, network?: Chain): string => {
   return network ? `${description} on ${network.name}` : description;
 };
