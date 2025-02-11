@@ -1,14 +1,14 @@
 import {
   SavingsWidget,
-  BaseSavingsWidget,
+  L2SavingsWidget,
   TxStatus,
   SavingsAction,
   WidgetStateChangeParams,
   SavingsFlow
 } from '@jetstreamgg/widgets';
 import { TOKENS, useSavingsHistory } from '@jetstreamgg/hooks';
-import { isBaseChainId } from '@jetstreamgg/utils';
 import { QueryParams, REFRESH_DELAY } from '@/lib/constants';
+import { isL2ChainId } from '@jetstreamgg/utils';
 import { SharedProps } from '@/modules/app/types/Widgets';
 import { LinkedActionSteps } from '@/modules/config/context/ConfigContext';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
@@ -24,10 +24,12 @@ export function SavingsWidgetPane(sharedProps: SharedProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const chainId = useChainId();
 
-  const isBaseChain = isBaseChainId(chainId);
+  const isL2 = isL2ChainId(chainId);
   const isRestrictedMiCa = import.meta.env.VITE_RESTRICTED_BUILD_MICA === 'true';
+
   const disallowedTokens =
-    isRestrictedMiCa && isBaseChain ? { supply: [TOKENS.usdc], withdraw: [TOKENS.usdc] } : undefined;
+    isRestrictedMiCa && isL2 ? { supply: [TOKENS.usdc], withdraw: [TOKENS.usdc] } : undefined;
+
   const tab = (searchParams.get(QueryParams.Tab) || undefined) as 'left' | 'right' | undefined;
 
   const onSavingsWidgetStateChange = ({
@@ -100,7 +102,7 @@ export function SavingsWidgetPane(sharedProps: SharedProps) {
     }
   };
 
-  const Widget = isBaseChain ? BaseSavingsWidget : SavingsWidget;
+  const Widget = isL2 ? L2SavingsWidget : SavingsWidget;
 
   return (
     <Widget
@@ -108,7 +110,7 @@ export function SavingsWidgetPane(sharedProps: SharedProps) {
       onWidgetStateChange={onSavingsWidgetStateChange}
       externalWidgetState={{
         amount: linkedActionConfig?.inputAmount,
-        token: isBaseChain ? linkedActionConfig?.sourceToken : undefined,
+        token: isL2 ? linkedActionConfig?.sourceToken : undefined,
         tab
       }}
       disallowedTokens={disallowedTokens}

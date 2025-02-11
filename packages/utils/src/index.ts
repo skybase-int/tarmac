@@ -1,7 +1,7 @@
 export { getEtherscanLink } from './getEtherscanLink';
 export { getCowExplorerLink } from './getCowExplorerLink';
 export { getExplorerName, ExplorerName } from './getExplorerName';
-export { isBaseChainId } from './isBaseChainId';
+export { isBaseChainId, isArbitrumChainId, isL2ChainId } from './isL2ChainId';
 export { formatAddress } from './formatAddress';
 export { chainId } from './chainId';
 export * as math from './math';
@@ -15,6 +15,8 @@ export * from './hooks/useDeltaTimestamps';
 export * from './hooks/useEffectDebugger';
 export * from './localization';
 export * from './hooks/useFormatDate';
+export * from './hooks/useIsSafeWallet';
 export * from './hooks/useIsSmartContractWallet';
 export * from './math.constants';
 export * from './collection';
+export * from './i18n';

@@ -94,13 +94,16 @@ const RewardsWidgetWrapped = ({
   referralCode
 }: RewardsWidgetProps) => {
   const validatedExternalState = getValidatedState(externalWidgetState);
-  onStateValidated && onStateValidated(validatedExternalState);
   const chainId = useChainId();
   const { address, isConnecting, isConnected } = useAccount();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
   const [selectedRewardContract, setSelectedRewardContract] = useState<RewardContract | undefined>(undefined);
   const [amount, setAmount] = useState(parseUnits(validatedExternalState?.amount || '0', 18));
   const [claimAmount, setClaimAmount] = useState(0n);
+
+  useEffect(() => {
+    onStateValidated?.(validatedExternalState);
+  }, [onStateValidated, validatedExternalState]);
 
   useEffect(() => {
     setSelectedRewardContract(validatedExternalState?.selectedRewardContract);
@@ -168,7 +171,7 @@ const RewardsWidgetWrapped = ({
       addRecentTransaction?.({
         hash,
         description: t`Supplying ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name
+          selectedRewardContract?.supplyToken.name ?? ''
         }`
       });
       setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
@@ -179,7 +182,7 @@ const RewardsWidgetWrapped = ({
       onNotification?.({
         title: t`Supply successful`,
         description: t`You supplied ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name
+          selectedRewardContract?.supplyToken.name ?? ''
         }`,
         status: TxStatus.SUCCESS
       });
@@ -213,7 +216,7 @@ const RewardsWidgetWrapped = ({
       addRecentTransaction?.({
         hash,
         description: t`Approving ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name
+          selectedRewardContract?.supplyToken.name ?? ''
         }`
       });
       setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
@@ -224,7 +227,7 @@ const RewardsWidgetWrapped = ({
       onNotification?.({
         title: t`Approve successful`,
         description: t`You approved ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name
+          selectedRewardContract?.supplyToken.name ?? ''
         }`,
         status: TxStatus.SUCCESS
       });
@@ -255,7 +258,7 @@ const RewardsWidgetWrapped = ({
       addRecentTransaction?.({
         hash,
         description: t`Withdrawing ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name
+          selectedRewardContract?.supplyToken.name ?? ''
         }`
       });
       setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
@@ -266,7 +269,7 @@ const RewardsWidgetWrapped = ({
       onNotification?.({
         title: t`Withdraw successful`,
         description: t`You withdrew ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name
+          selectedRewardContract?.supplyToken.name ?? ''
         }`,
         status: TxStatus.SUCCESS
       });
@@ -722,7 +725,7 @@ const RewardsWidgetWrapped = ({
                     fetchingMessage={t`Fetching transaction details`}
                     transactionData={[
                       {
-                        label: t`Total ${selectedRewardContract?.supplyToken.symbol} to ${
+                        label: t`Total ${selectedRewardContract?.supplyToken.symbol ?? ''} to ${
                           widgetState.flow === RewardsFlow.SUPPLY ? 'Supply' : 'Withdraw'
                         }`,
                         value: `${formatBigInt(amount, { maxDecimals: 2 })}`

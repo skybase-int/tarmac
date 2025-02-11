@@ -14,6 +14,7 @@ import { LinkedActionSteps } from '@/modules/config/context/ConfigContext';
 import { useSendMessage } from '@/modules/chat/hooks/useSendMessage';
 import { ChatPane } from './ChatPane';
 import { useChatNotification } from '../hooks/useChatNotification';
+import { useSafeAppNotification } from '../hooks/useSafeAppNotification';
 
 export function MainApp() {
   const {
@@ -82,6 +83,9 @@ export function MainApp() {
   const step = linkedAction ? linkedActionConfig.step || 1 : 0;
 
   useChatNotification({ isAuthorized: chatEnabled });
+
+  // If the user is connected to a Safe Wallet using WalletConnect, notify they can use the Safe App
+  useSafeAppNotification();
 
   // Run validation on search params whenever search params change
   useEffect(() => {

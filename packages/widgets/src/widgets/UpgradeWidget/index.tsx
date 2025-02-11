@@ -136,7 +136,11 @@ export function UpgradeWidgetWrapped({
   enabled = true
 }: UpgradeWidgetProps): React.ReactElement {
   const validatedExternalState = getValidatedState(externalWidgetState);
-  onStateValidated && onStateValidated(validatedExternalState);
+
+  useEffect(() => {
+    onStateValidated?.(validatedExternalState);
+  }, [onStateValidated, validatedExternalState]);
+
   const chainId = useChainId();
   const { address, isConnected, isConnecting } = useAccount();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);

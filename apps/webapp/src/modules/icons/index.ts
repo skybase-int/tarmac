@@ -35,6 +35,7 @@ import { MainnetChain } from './MainnetChain';
 import { Chat } from './Chat';
 import { ChatError } from './ChatError';
 import { ChatbotSend } from './ChatbotSend';
+import { ArbitrumChain } from './ArbitrumChain';
 
 export {
   ArrowDown,
@@ -73,5 +74,6 @@ export {
   MainnetChain,
   Chat,
   ChatError,
-  ChatbotSend
+  ChatbotSend,
+  ArbitrumChain
 };

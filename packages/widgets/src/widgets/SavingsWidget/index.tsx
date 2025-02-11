@@ -80,7 +80,10 @@ const SavingsWidgetWrapped = ({
   referralCode
 }: SavingsWidgetProps) => {
   const validatedExternalState = getValidatedState(externalWidgetState);
-  onStateValidated && onStateValidated(validatedExternalState);
+
+  useEffect(() => {
+    onStateValidated?.(validatedExternalState);
+  }, [onStateValidated, validatedExternalState]);
 
   const chainId = useChainId();
   const { address, isConnecting, isConnected } = useAccount();
