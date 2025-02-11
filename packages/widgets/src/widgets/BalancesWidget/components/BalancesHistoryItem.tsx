@@ -60,7 +60,7 @@ export const BalancesHistoryItem: React.FC<BalancesHistoryItemProps> = ({
       >
         <div className="flex items-center">
           <div className="mr-3">
-            <Avatar>
+            <Avatar className="bg-transparent">
               <AvatarImage src={iconSrc} alt={getTitle({ type, module })} />
             </Avatar>
           </div>

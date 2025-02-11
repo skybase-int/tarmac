@@ -14,7 +14,7 @@ export const getHistoryIconSource = ({
   const src = 'history-icons/' + (isBase ? 'base/' : 'ethereum/');
   switch (module) {
     case ModuleEnum.SAVINGS:
-      return type === TransactionTypeEnum.SUPPLY ? src + 'savingssupply.svg' : src + 'savingswithdraw.svg';
+      return type === TransactionTypeEnum.SUPPLY ? src + 'savings-supply.svg' : src + 'savings-withdraw.svg';
     case ModuleEnum.UPGRADE:
       return type === TransactionTypeEnum.DAI_TO_USDS || type === TransactionTypeEnum.MKR_TO_SKY
         ? src + 'upgrade.svg'
@@ -23,10 +23,10 @@ export const getHistoryIconSource = ({
       return src + 'trade.svg';
     case ModuleEnum.REWARDS:
       return type === TransactionTypeEnum.SUPPLY
-        ? src + 'supply.svg'
+        ? src + 'rewards-supply.svg'
         : type === TransactionTypeEnum.REWARD
-          ? src + 'reward.svg'
-          : src + 'withdraw.svg';
+          ? src + 'claim.svg'
+          : src + 'rewards-withdraw.svg';
     case ModuleEnum.SEAL:
       return src + 'seal.svg';
   }
