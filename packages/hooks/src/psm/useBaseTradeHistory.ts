@@ -10,7 +10,7 @@ import { useTokenAddressMap } from '../tokens/useTokenAddressMap';
 import { Token } from '../tokens/types';
 import { isTestnetId, chainId as chainIdMap } from '@jetstreamgg/utils';
 
-type BaseTradeHistoryItem = HistoryItem & {
+export type BaseTradeHistoryItem = HistoryItem & {
   fromAmount: bigint;
   toAmount: bigint;
   referralCode: string;

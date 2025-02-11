@@ -68,10 +68,14 @@ export function useWriteContractFlow<
   } = useWriteContract({
     mutation: {
       onSuccess: (hash: `0x${string}`) => {
-        onStart(hash);
+        if (onStart) {
+          onStart(hash);
+        }
       },
       onError: (err: Error) => {
-        onError && onError(err, mutationHash || '');
+        if (onError) {
+          onError(err, mutationHash || '');
+        }
       }
     }
   });

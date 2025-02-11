@@ -13,7 +13,7 @@ import { ConnectWalletCopy } from '@/shared/components/ui/ConnectWalletCopy';
 import { ErrorBoundary } from '@/shared/components/ErrorBoundary';
 import { AnimatePresence } from 'framer-motion';
 import { CardAnimationWrapper } from '@/shared/animation/Wrappers';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { TokenForChain } from '@jetstreamgg/hooks';
 
 type BalancesWidgetProps = WidgetProps & {
@@ -88,7 +88,10 @@ const BalancesWidgetWrapped = ({
   const { isConnected, isConnecting } = useAccount();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
   const validatedExternalState = getValidatedState(externalWidgetState);
-  onStateValidated && onStateValidated(validatedExternalState);
+
+  useEffect(() => {
+    onStateValidated?.(validatedExternalState);
+  }, [onStateValidated, validatedExternalState]);
 
   return (
     <WidgetContainer

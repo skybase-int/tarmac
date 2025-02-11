@@ -29,7 +29,7 @@ import { math } from '@jetstreamgg/utils';
 const defaultUpgradeOptions = [TOKENS.dai, TOKENS.mkr];
 const defaultRevertOptions = [TOKENS.usds, TOKENS.sky];
 
-export function calculateOriginOptions(
+function calculateOriginOptions(
   token: Token,
   action: string,
   upgradeOptions: Token[] = [],
@@ -136,7 +136,11 @@ export function UpgradeWidgetWrapped({
   enabled = true
 }: UpgradeWidgetProps): React.ReactElement {
   const validatedExternalState = getValidatedState(externalWidgetState);
-  onStateValidated && onStateValidated(validatedExternalState);
+
+  useEffect(() => {
+    onStateValidated?.(validatedExternalState);
+  }, [onStateValidated, validatedExternalState]);
+
   const chainId = useChainId();
   const { address, isConnected, isConnecting } = useAccount();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);

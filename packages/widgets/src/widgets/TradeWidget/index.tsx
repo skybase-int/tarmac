@@ -119,7 +119,11 @@ function TradeWidgetWrapped({
   const [cancelLoading, setCancelLoading] = useState(false);
   const [ethFlowTxStatus, setEthFlowTxStatus] = useState<EthFlowTxStatus>(EthFlowTxStatus.IDLE);
   const validatedExternalState = getValidatedState(externalWidgetState);
-  onStateValidated && onStateValidated(validatedExternalState);
+
+  useEffect(() => {
+    onStateValidated?.(validatedExternalState);
+  }, [onStateValidated, validatedExternalState]);
+
   const [formattedExecutedSellAmount, setFormattedExecutedSellAmount] = useState<string | undefined>(
     undefined
   );
@@ -637,8 +641,12 @@ function TradeWidgetWrapped({
   });
 
   const onCancelOrderClick = useCallback(() => {
-    isSmartContractWallet ? onChainCancelExecute() : offChainCancelExecute();
-  }, [isSmartContractWallet, onChainCancelPrepared]);
+    if (isSmartContractWallet) {
+      onChainCancelExecute();
+    } else {
+      offChainCancelExecute();
+    }
+  }, [isSmartContractWallet, onChainCancelExecute, offChainCancelExecute]);
 
   const prepareError = approvePrepareError || ethTradePrepareError;
 
@@ -927,8 +935,10 @@ function TradeWidgetWrapped({
     if (originToken?.isNative) {
       setEthFlowTxStatus(EthFlowTxStatus.INITIALIZED);
       ethTradeExecute();
+    } else if (isSmartContractWallet) {
+      preSignTradeExecute();
     } else {
-      isSmartContractWallet ? preSignTradeExecute() : tradeExecute();
+      tradeExecute();
     }
   };
 
@@ -985,7 +995,7 @@ function TradeWidgetWrapped({
   const onAddToken = () => {
     if (targetToken && targetToken?.symbol && targetToken?.address) {
       // add currency to wallet
-      addToWallet({
+      void addToWallet({
         type: 'ERC20',
         options: {
           address: targetToken.address,

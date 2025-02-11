@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
-import { CombinedHistoryItem, useCombinedHistory, useAllNetworksCombinedHistory } from '@jetstreamgg/hooks';
+import { useCombinedHistory, useAllNetworksCombinedHistory } from '@jetstreamgg/hooks';
 import { useFormatDates } from '@jetstreamgg/utils';
 import { useLingui } from '@lingui/react';
 import { CustomPagination } from '@/shared/components/ui/pagination/CustomPagination';
@@ -62,7 +62,7 @@ export const BalancesHistory = ({
   return data.length > 0 ? (
     <>
       <VStack gap={2} className="mt-6">
-        {itemsToDisplay.map((item: CombinedHistoryItem, index: number) => {
+        {itemsToDisplay.map((item, index: number) => {
           const globalIndex = startIndex + index;
           const formattedDate = formattedDates.length > globalIndex ? formattedDates[globalIndex] : '';
           return (
@@ -73,8 +73,8 @@ export const BalancesHistory = ({
                 type={item.type}
                 formattedDate={formattedDate}
                 chainId={item.chainId}
-                savingsToken={item.token?.symbol}
-                tradeFromToken={item.fromToken?.symbol}
+                savingsToken={'token' in item ? item.token?.symbol : undefined}
+                tradeFromToken={'fromToken' in item ? item.fromToken?.symbol : undefined}
                 item={item}
                 onExternalLinkClicked={onExternalLinkClicked}
               />
