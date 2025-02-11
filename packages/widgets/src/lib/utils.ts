@@ -9,6 +9,7 @@ import { SavingsFlow } from '@/widgets/SavingsWidget/lib/constants';
 import { UpgradeFlow } from '@/widgets/UpgradeWidget/lib/constants';
 import { RewardsFlow } from '@/widgets/RewardsWidget/lib/constants';
 import { TradeFlow } from '@/widgets/TradeWidget/lib/constants';
+import { BalancesFlow } from '@/widgets/BalancesWidget/constants';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -84,7 +85,8 @@ const ExternalWidgetStateSchema = z
         ...Object.values(SavingsFlow),
         ...Object.values(UpgradeFlow),
         ...Object.values(RewardsFlow),
-        ...Object.values(TradeFlow)
+        ...Object.values(TradeFlow),
+        ...Object.values(BalancesFlow)
       ] as [string, ...string[]])
       .optional(),
     token: tokenValidationRule,

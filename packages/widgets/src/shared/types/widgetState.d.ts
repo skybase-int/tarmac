@@ -7,7 +7,7 @@ import { RewardContract } from '@jetstreamgg/hooks';
 import { TxStatus, NotificationType } from '../constants';
 
 export type WidgetState = {
-  flow: InitialFlow | SavingsFlow | UpgradeFlow | RewardsFlow | TradeFlow;
+  flow: InitialFlow | BalancesFlow | SavingsFlow | UpgradeFlow | RewardsFlow | TradeFlow;
   action: InitialAction | SavingsAction | UpgradeAction | RewardsAction | TradeAction;
   screen: InitialScreen | SavingsScreen | UpgradeScreen | RewardsScreen | TradeScreen;
 };
@@ -17,7 +17,7 @@ type Amount = {
 };
 
 type Flow = {
-  flow?: SavingsFlow | UpgradeFlow | RewardsFlow | TradeFlow;
+  flow?: BalancesFlow | SavingsFlow | UpgradeFlow | RewardsFlow | TradeFlow;
 };
 
 type BalancesWidgetState = Flow;
