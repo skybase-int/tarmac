@@ -73,10 +73,7 @@ export default ({ mode }: { mode: modeEnum }) => {
   return defineConfig({
     server: {
       // vite default is 5173
-      port: 3000,
-      fs: {
-        allow: ['/', '../../packages']
-      }
+      port: 3000
     },
     preview: {
       port: 3000
