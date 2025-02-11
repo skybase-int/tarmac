@@ -12,7 +12,8 @@ import { useMultiChainSavingsBalances } from '@jetstreamgg/hooks';
 export const SavingsBalanceCard = ({
   urlMap,
   onExternalLinkClicked,
-  chainIds
+  chainIds,
+  hideZeroBalance
 }: CardProps & { urlMap: Record<number, string> }) => {
   const { data: savingsData, isLoading: savingsDataLoading, error: savingsDataError } = useSavingsData();
   const {
@@ -32,7 +33,14 @@ export const SavingsBalanceCard = ({
       balance
     }));
 
-  const totalSavingsBalance = sortedSavingsBalances.reduce((acc, { balance }) => acc + balance, 0n);
+  const filteredAndSortedSavingsBalances = hideZeroBalance
+    ? sortedSavingsBalances.filter(({ balance }) => balance > 0n)
+    : sortedSavingsBalances;
+
+  const totalSavingsBalance = filteredAndSortedSavingsBalances.reduce(
+    (acc, { balance }) => acc + balance,
+    0n
+  );
 
   const skySavingsRate = parseFloat(overallSkyData?.skySavingsRatecRate ?? '0');
 
@@ -82,7 +90,7 @@ export const SavingsBalanceCard = ({
           </Text>
         ) : undefined
       }
-      balancesByChain={sortedSavingsBalances}
+      balancesByChain={filteredAndSortedSavingsBalances}
       urlMap={urlMap}
     />
   );

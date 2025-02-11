@@ -6,6 +6,7 @@ export interface CardProps {
   url?: string;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   chainIds?: number[];
+  hideZeroBalance?: boolean;
 }
 
 interface ModulesBalancesProps {
@@ -15,6 +16,7 @@ interface ModulesBalancesProps {
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   hideModuleBalances?: boolean;
   chainIds?: number[];
+  hideZeroBalances?: boolean;
 }
 
 export const ModulesBalances = ({
@@ -23,21 +25,31 @@ export const ModulesBalances = ({
   sealCardUrl,
   onExternalLinkClicked,
   hideModuleBalances,
-  chainIds
+  chainIds,
+  hideZeroBalances
 }: ModulesBalancesProps): React.ReactElement => {
   return (
     <div className="flex flex-col gap-2">
       {!hideModuleBalances && (
-        <RewardsBalanceCard url={rewardsCardUrl} onExternalLinkClicked={onExternalLinkClicked} />
+        <RewardsBalanceCard
+          url={rewardsCardUrl}
+          onExternalLinkClicked={onExternalLinkClicked}
+          hideZeroBalance={hideZeroBalances}
+        />
       )}
       {!hideModuleBalances && (
         <SavingsBalanceCard
           urlMap={savingsCardUrlMap}
           onExternalLinkClicked={onExternalLinkClicked}
           chainIds={chainIds}
+          hideZeroBalance={hideZeroBalances}
         />
       )}
-      <SealBalanceCard url={sealCardUrl} onExternalLinkClicked={onExternalLinkClicked} />
+      <SealBalanceCard
+        url={sealCardUrl}
+        onExternalLinkClicked={onExternalLinkClicked}
+        hideZeroBalance={hideZeroBalances}
+      />
     </div>
   );
 };

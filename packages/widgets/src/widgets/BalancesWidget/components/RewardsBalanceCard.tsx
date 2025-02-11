@@ -17,7 +17,7 @@ import { CardProps } from './ModulesBalances';
 import { useChainId } from 'wagmi';
 import { isTestnetId } from '@jetstreamgg/utils';
 
-export const RewardsBalanceCard = ({ url, onExternalLinkClicked }: CardProps) => {
+export const RewardsBalanceCard = ({ url, onExternalLinkClicked, hideZeroBalance }: CardProps) => {
   const currentChainId = useChainId();
   const chainId = isTestnetId(currentChainId) ? 314310 : 1; //hardcoded to mainnet for now
   const { address } = useAccount();
@@ -65,6 +65,8 @@ export const RewardsBalanceCard = ({ url, onExternalLinkClicked }: CardProps) =>
   const mostRecentRateNumber = mostRecentRate ? parseFloat(mostRecentRate) : null;
 
   if (usdsSkySuppliedBalanceError || usdsCleSuppliedBalanceError || chartDataError) return null;
+
+  if (usdsSkySuppliedBalance === 0n && hideZeroBalance) return null;
 
   return (
     <InteractiveStatsCard

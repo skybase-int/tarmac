@@ -12,7 +12,6 @@ export const getHistoryIconSource = ({
 }) => {
   const isBase = isBaseChainId(chainId);
   const src = 'history-icons/' + (isBase ? 'base/' : 'ethereum/');
-  console.log('src', src);
   switch (module) {
     case ModuleEnum.SAVINGS:
       return type === TransactionTypeEnum.SUPPLY ? src + 'savingssupply.svg' : src + 'savingswithdraw.svg';

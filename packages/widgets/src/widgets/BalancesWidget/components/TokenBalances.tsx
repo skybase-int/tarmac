@@ -7,7 +7,8 @@ import { AssetBalance } from './AssetBalance';
 export const TokenBalances = ({
   actionForToken,
   customTokenMap,
-  chainIds
+  chainIds,
+  hideZeroBalances
 }: {
   actionForToken?: (
     symbol: string,
@@ -16,6 +17,7 @@ export const TokenBalances = ({
   ) => { label: string; actionUrl: string; image: string } | undefined;
   customTokenMap?: { [chainId: number]: TokenForChain[] };
   chainIds?: number[];
+  hideZeroBalances?: boolean;
 }) => {
   const { address } = useAccount();
   const chainId = useChainId();
@@ -62,13 +64,17 @@ export const TokenBalances = ({
       ? tokenBalancesWithPrices.sort((a, b) => b.valueInDollars - a.valueInDollars)
       : undefined;
 
+  const filteredAndSortedTokenBalances = hideZeroBalances
+    ? sortedTokenBalances?.filter(({ value }) => value > 0n)
+    : sortedTokenBalances;
+
   const isLoading = tokenBalancesLoading || pricesLoading;
 
   // TODO handle error
   // const error = tokenBalancesError || pricesError;
   return (
     <VStack gap={2}>
-      {sortedTokenBalances?.map(tokenBalance => {
+      {filteredAndSortedTokenBalances?.map(tokenBalance => {
         const priceData = pricesData?.[tokenBalance.symbol];
         return (
           <AssetBalance

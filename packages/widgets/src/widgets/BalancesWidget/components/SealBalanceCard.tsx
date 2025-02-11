@@ -8,7 +8,7 @@ import { PopoverRateInfo } from '@/shared/components/ui/PopoverRateInfo';
 import { formatUnits } from 'viem';
 import { CardProps } from './ModulesBalances';
 
-export const SealBalanceCard = ({ url, onExternalLinkClicked }: CardProps) => {
+export const SealBalanceCard = ({ url, onExternalLinkClicked, hideZeroBalance }: CardProps) => {
   const {
     data: totalUserSealed,
     isLoading: totalUserSealedLoading,
@@ -27,6 +27,8 @@ export const SealBalanceCard = ({ url, onExternalLinkClicked }: CardProps) => {
   const highestSealRewardsRate = sortedSealRewardsData.length > 0 ? sortedSealRewardsData[0].rate : null;
 
   if (totalUserSealedError || sealRewardsDataError) return null;
+
+  if (totalUserSealed === 0n && hideZeroBalance) return null;
 
   return (
     <InteractiveStatsCard
