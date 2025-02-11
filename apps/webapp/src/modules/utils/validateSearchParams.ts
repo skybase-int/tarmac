@@ -12,6 +12,7 @@ import { Intent } from '@/lib/enums';
 import { defaultConfig } from '../config/default-config';
 import { isL2ChainId } from '@jetstreamgg/utils';
 import { Chain } from 'viem';
+import { normalizeNetworkName } from '@/lib/helpers/string/normalizeNetworkName';
 
 export const validateSearchParams = (
   searchParams: URLSearchParams,
@@ -21,7 +22,7 @@ export const validateSearchParams = (
   chainId: number,
   chains: readonly [Chain, ...Chain[]]
 ) => {
-  const chainInUrl = chains.find(c => c.name.toLowerCase() === searchParams.get(QueryParams.Network));
+  const chainInUrl = chains.find(c => normalizeNetworkName(c.name) === searchParams.get(QueryParams.Network));
   const isL2Chain = isL2ChainId(chainInUrl?.id || chainId);
 
   searchParams.forEach((value, key) => {

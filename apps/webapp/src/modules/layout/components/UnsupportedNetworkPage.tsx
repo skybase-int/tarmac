@@ -6,6 +6,7 @@ import { useSwitchChain } from 'wagmi';
 import { Button } from '@/components/ui/button';
 import { useSearchParams } from 'react-router-dom';
 import { QueryParams } from '@/lib/constants';
+import { normalizeNetworkName } from '@/lib/helpers/string/normalizeNetworkName';
 
 export const UnsupportedNetworkPage = ({ children }: { children: React.ReactNode }) => {
   const { chains, switchChain } = useSwitchChain();
@@ -13,7 +14,7 @@ export const UnsupportedNetworkPage = ({ children }: { children: React.ReactNode
 
   const handleSwitchChain = (chainId: number, name: string) => {
     setSearchParams(params => {
-      params.set(QueryParams.Network, name.toLowerCase());
+      params.set(QueryParams.Network, normalizeNetworkName(name));
       return params;
     });
     switchChain({ chainId });

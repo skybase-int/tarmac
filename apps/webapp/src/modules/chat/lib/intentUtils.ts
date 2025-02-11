@@ -6,7 +6,8 @@ export const networkMapping = {
   mainnet: 1,
   ethereum: 1,
   base: 8453,
-  arbitrum: 42161
+  arbitrum: 42161,
+  arbitrumone: 42161
 } as const;
 
 export const chainIdNameMapping = {
@@ -14,7 +15,8 @@ export const chainIdNameMapping = {
   314310: 'ethereum', // tenderly
   8453: 'base',
   8555: 'base', // base tenderly
-  42161: 'arbitrum'
+  42161: 'arbitrumone',
+  421611: 'arbitrumone' // arbitrum+one tenderly
 } as const;
 
 export type NetworkName = keyof typeof networkMapping;
@@ -36,6 +38,16 @@ export const generateBaseUrl = (intentId: string, params: Record<string, string 
 
   return `?${urlParams.toString()}`;
 };
+
+// export const generateBaseUrl = (intentId: string, params: Record<string, string | undefined>): string => {
+//   const parts = [`${QueryParams.Widget}=${intentId}`, `${QueryParams.Chat}=true`];
+
+//   Object.entries(params).forEach(([key, value]) => {
+//     if (value) parts.push(`${key}=${value}`);
+//   });
+
+//   return `?${parts.join('&')}`;
+// };
 
 export const addNetworkToDescription = (description: string, network?: Chain): string => {
   return network ? `${description} on ${network.name}` : description;
