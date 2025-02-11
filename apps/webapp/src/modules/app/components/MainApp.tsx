@@ -15,7 +15,7 @@ import { useSendMessage } from '@/modules/chat/hooks/useSendMessage';
 import { ChatPane } from './ChatPane';
 import { useChatNotification } from '../hooks/useChatNotification';
 import { useSafeAppNotification } from '../hooks/useSafeAppNotification';
-import { normalizeNetworkName } from '@/lib/helpers/string/normalizeNetworkName';
+import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
 
 export function MainApp() {
   const {
@@ -37,7 +37,7 @@ export function MainApp() {
     // Once the user connects their wallet, check if the network param is set and switch chains if necessary
     onConnect() {
       const parsedChainId = chains.find(
-        chain => normalizeNetworkName(chain.name) === normalizeNetworkName(network || '')
+        chain => normalizeUrlParam(chain.name) === normalizeUrlParam(network || '')
       )?.id;
       if (parsedChainId) {
         switchChain({ chainId: parsedChainId });
@@ -53,7 +53,7 @@ export function MainApp() {
           const chainName = chains.find(c => c.id === chainId)?.name;
           if (chainName) {
             setSearchParams(params => {
-              params.set(QueryParams.Network, normalizeNetworkName(chainName));
+              params.set(QueryParams.Network, normalizeUrlParam(chainName));
               return params;
             });
           }
@@ -117,13 +117,13 @@ export function MainApp() {
       const chainName = chains.find(c => c.id === chainId)?.name;
       if (chainName)
         setSearchParams(params => {
-          params.set(QueryParams.Network, normalizeNetworkName(chainName));
+          params.set(QueryParams.Network, normalizeUrlParam(chainName));
           return params;
         });
     } else {
       // If the network param doesn't match the current chain, switch chains
       const parsedChainId = chains.find(
-        chain => normalizeNetworkName(chain.name) === normalizeNetworkName(network)
+        chain => normalizeUrlParam(chain.name) === normalizeUrlParam(network)
       )?.id;
       if (parsedChainId && parsedChainId !== chainId) {
         switchChain({ chainId: parsedChainId });
@@ -137,7 +137,7 @@ export function MainApp() {
       const newChainName = chains.find(c => c.id === newChainId)?.name;
       if (newChainName) {
         setSearchParams(params => {
-          params.set(QueryParams.Network, normalizeNetworkName(newChainName));
+          params.set(QueryParams.Network, normalizeUrlParam(newChainName));
           return params;
         });
       }

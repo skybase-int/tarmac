@@ -12,7 +12,7 @@ import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { mapIntentToQueryParam, QueryParams } from '@/lib/constants';
 import { Intent } from '@/lib/enums';
-import { normalizeNetworkName } from '@/lib/helpers/string/normalizeNetworkName';
+import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
 
 enum ChainModalVariant {
   default = 'default',
@@ -58,7 +58,7 @@ export function ChainModal({
           const newChainName = chains.find(c => c.id === newChainId)?.name;
           if (newChainName) {
             setSearchParams(params => {
-              params.set(QueryParams.Network, normalizeNetworkName(newChainName));
+              params.set(QueryParams.Network, normalizeUrlParam(newChainName));
               if (nextIntent) {
                 params.set(QueryParams.Widget, mapIntentToQueryParam(nextIntent));
               }
