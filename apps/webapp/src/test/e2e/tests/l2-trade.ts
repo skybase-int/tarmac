@@ -92,9 +92,7 @@ export const runL2TradeTests = async ({ networkName }: { networkName: NetworkNam
 
     await page.locator('button', { hasText: 'Add sUSDS to wallet' }).first().click();
 
-    //select usds for origin token (will be switched)
-    await page.getByRole('button', { name: 'USDC USDC' }).click();
-    await page.getByRole('button', { name: 'USDS USDS USDS' }).click();
+    // USDS remain as the origin token after the trade
 
     //select sUsds for target token (will be switched)
     await page.getByRole('button', { name: 'Select token' }).click();
