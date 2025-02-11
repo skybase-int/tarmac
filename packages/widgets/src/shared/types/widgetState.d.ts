@@ -16,11 +16,11 @@ type Amount = {
   amount?: string;
 };
 
-type Tab = {
-  tab?: 'left' | 'right';
+type Flow = {
+  flow?: SavingsFlow | UpgradeFlow | RewardsFlow | TradeFlow;
 };
 
-type BalancesWidgetState = Tab;
+type BalancesWidgetState = Flow;
 
 type UpgradeWidgetState = Amount & {
   initialUpgradeToken?: keyof typeof upgradeTokens;
@@ -33,10 +33,10 @@ type TradeWidgetState = Amount & {
   timestamp?: number;
 };
 
-type SavingsWidgetState = Amount & Tab;
+type SavingsWidgetState = Amount & Flow;
 
 type RewardsWidgetState = Amount &
-  Tab & {
+  Flow & {
     selectedRewardContract?: RewardContract;
   };
 

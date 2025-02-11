@@ -96,7 +96,7 @@ const SavingsWidgetWrapped = ({
       : 0n;
   const [amount, setAmount] = useState(initialAmount);
   const debouncedAmount = useDebounce(amount);
-  const initialTabIndex = validatedExternalState?.tab === 'right' ? 1 : 0;
+  const initialTabIndex = validatedExternalState?.flow === SavingsFlow.WITHDRAW ? 1 : 0;
   const [tabIndex, setTabIndex] = useState<0 | 1>(initialTabIndex);
   const [max, setMax] = useState<boolean>(false);
   const linguiCtx = useLingui();
