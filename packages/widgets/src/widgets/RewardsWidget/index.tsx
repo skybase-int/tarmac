@@ -627,7 +627,7 @@ const RewardsWidgetWrapped = ({
     setWidgetState({
       ...widgetState,
       action: RewardsAction.OVERVIEW,
-      flow: null
+      flow: RewardsFlow.SUPPLY
     });
     setTxStatus(TxStatus.IDLE);
     setAmount(0n);
