@@ -42,7 +42,7 @@ export function ManagePosition({
 }: Props) {
   return (
     <VStack className="items-stretch">
-      <Tabs defaultValue={tabIndex === 0 ? RewardsFlow.SUPPLY : RewardsFlow.WITHDRAW} className="space-y-4">
+      <Tabs value={tabIndex === 0 ? RewardsFlow.SUPPLY : RewardsFlow.WITHDRAW} className="space-y-4">
         <motion.div variants={positionAnimations}>
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger

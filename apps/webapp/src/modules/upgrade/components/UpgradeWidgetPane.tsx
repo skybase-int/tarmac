@@ -45,7 +45,7 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
     widgetState,
     targetToken
   }: WidgetStateChangeParams) => {
-    // Set tab search param based on widgetState.flow
+    // Set flow search param based on widgetState.flow
     if (widgetState.flow) {
       setSearchParams(prev => {
         prev.set(QueryParams.Flow, widgetState.flow);

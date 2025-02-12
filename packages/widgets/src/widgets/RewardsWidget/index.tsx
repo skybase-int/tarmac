@@ -146,6 +146,10 @@ const RewardsWidgetWrapped = ({
   const [tabIndex, setTabIndex] = useState<0 | 1>(initialTabIndex);
   const linguiCtx = useLingui();
 
+  useEffect(() => {
+    setTabIndex(initialTabIndex);
+  }, [initialTabIndex]);
+
   const {
     setButtonText,
     setIsDisabled,

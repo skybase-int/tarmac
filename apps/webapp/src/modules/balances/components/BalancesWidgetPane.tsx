@@ -14,7 +14,7 @@ export function BalancesWidgetPane(sharedProps: SharedProps & BalancesWidgetProp
   const flow = (searchParams.get(QueryParams.Flow) || undefined) as SavingsFlow | undefined;
 
   const onBalancesWidgetStateChange = ({ widgetState }: WidgetStateChangeParams) => {
-    // Set tab search param based on widgetState.flow
+    // Set flow search param based on widgetState.flow
     if (widgetState.flow) {
       setSearchParams(prev => {
         prev.set(QueryParams.Flow, widgetState.flow);
