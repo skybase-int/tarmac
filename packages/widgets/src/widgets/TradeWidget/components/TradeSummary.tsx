@@ -79,14 +79,14 @@ export function TradeSummary({
             <MotionHStack className="mb-4 mt-8 items-stretch" variants={positionAnimations}>
               <VStack className="flex-1 items-center gap-3">
                 <TokenIcon token={{ symbol: originToken.symbol || 'ETH' }} className="h-8 w-8" />
-                <Text variant="large" className="!mt-0 flex-1 text-[18px] font-medium">
+                <Text variant="large" className="mt-0! flex-1 text-[18px] font-medium">
                   {formattedInputAmount} {originToken.symbol}
                 </Text>
               </VStack>
               <ArrowRight className="text-textSecondary self-center" />
               <VStack className="flex-1 items-center gap-3">
                 <TokenIcon token={{ symbol: targetToken.symbol || 'ETH' }} className="h-8 w-8" />
-                <Text variant="large" className="!mt-0 flex-1 text-[18px] font-medium">
+                <Text variant="large" className="mt-0! flex-1 text-[18px] font-medium">
                   {formattedOutputAmount} {targetToken.symbol}
                 </Text>
               </VStack>

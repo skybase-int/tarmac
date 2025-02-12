@@ -3,7 +3,7 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import { configDefaults } from 'vitest/config';
 import { lingui } from '@lingui/vite-plugin';
-import tailwindcss from 'tailwindcss';
+import tailwindcss from '@tailwindcss/vite';
 import simpleHtmlPlugin from 'vite-plugin-simple-html';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
@@ -137,12 +137,8 @@ export default ({ mode }: { mode: modeEnum }) => {
       react({
         plugins: [['@lingui/swc-plugin', {}]]
       }),
+      tailwindcss(),
       lingui()
-    ],
-    css: {
-      postcss: {
-        plugins: [tailwindcss()]
-      }
-    }
+    ]
   });
 };

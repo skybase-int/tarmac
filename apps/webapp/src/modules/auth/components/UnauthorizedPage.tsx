@@ -114,7 +114,7 @@ export const UnauthorizedPage = ({ authData, vpnData, children }: UnauthorizedPa
         ) : (
           <DialogContent className="bg-containerDark max-w-[640px] p-10">
             <div className="flex flex-col gap-5 sm:flex-row">
-              <Unavailable className="flex-shrink-0" />
+              <Unavailable className="shrink-0" />
               <div className="">
                 <Text className="text-text mb-2 text-[28px] md:text-[32px]">
                   {getTitle(authData, vpnData)}

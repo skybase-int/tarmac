@@ -46,7 +46,7 @@ const card = tv({
       address: {
         base: 'py-3 px-5'
       },
-      fade: { base: 'pb-3 lg:pb-3 bg-transparent bg-gradient-to-b from-card via-transparent to-transparent' },
+      fade: { base: 'pb-3 lg:pb-3 bg-transparent bg-linear-to-b from-card via-transparent to-transparent' },
       history: { base: 'hover:bg-cardHover' }
     }
   },

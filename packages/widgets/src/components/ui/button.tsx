@@ -17,7 +17,7 @@ export type ButtonVariant =
   | 'ghost';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded-[12px] text-sm font-medium ring-offset-background transition-gradient-and-colors duration-250 ease-out-expo focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none',
+  'inline-flex items-center justify-center whitespace-nowrap rounded-[12px] text-sm font-medium ring-offset-background transition-gradient-and-colors duration-250 ease-out-expo focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none',
   {
     variants: {
       variant: {
@@ -32,8 +32,8 @@ const buttonVariants = cva(
         link: 'text-textSecondary no-underline disabled:text-textMuted',
         purpleLink: 'text-textEmphasis',
         pagination:
-          'text-selectActive text-base leading-normal bg-primary [--gradient-opacity:0%] rounded-full hover:[--gradient-opacity:50%] hover:text-text focus:border-2 focus:border-primaryActive focus:text-text active:text-text active:[--gradient-opacity:30%] disabled:bg-primary disabled:[--gradient-opacity:0%] !rounded-full !border-0',
-        paginationActive: 'bg-primary hover:bg-primaryHover !rounded-full text-text',
+          'text-selectActive text-base leading-normal bg-primary [--gradient-opacity:0%] rounded-full hover:[--gradient-opacity:50%] hover:text-text focus:border-2 focus:border-primaryActive focus:text-text active:text-text active:[--gradient-opacity:30%] disabled:bg-primary disabled:[--gradient-opacity:0%] rounded-full! border-0!',
+        paginationActive: 'bg-primary hover:bg-primaryHover rounded-full! text-text',
         input:
           'bg-black/20 hover:bg-primaryAlt hover:[--gradient-opacity:70%] active:bg-primaryAlt active:[--gradient-opacity:50%] text-text text-[13px] font-normal leading-4 disabled:pointer-events-auto disabled:cursor-not-allowed font-graphik',
         ghost: 'text-text hover:text-white/80 active:text-white/60'

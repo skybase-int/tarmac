@@ -5,7 +5,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded-xl text-sm font-medium ring-offset-background transition-gradient-and-colors duration-250 ease-out-expo focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:bg-primaryDisabled disabled:text-surfaceAlt',
+  'inline-flex items-center justify-center whitespace-nowrap rounded-xl text-sm font-medium ring-offset-background transition-gradient-and-colors duration-250 ease-out-expo focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:bg-primaryDisabled disabled:text-surfaceAlt',
   {
     variants: {
       variant: {
@@ -18,8 +18,8 @@ const buttonVariants = cva(
         chip: 'bg-secondary text-text rounded-full hover:bg-secondaryHover active:bg-secondaryActive, focus:bg-secondaryFocus',
         link: 'text-textSecondary no-underline hover:text-white active:text-[rgba(198,194,255,0.5)]',
         pagination:
-          'text-selectActive text-base leading-normal bg-primary [--gradient-opacity:0%] rounded-full hover:[--gradient-opacity:50%] hover:text-text focus:border-2 focus:border-primaryActive focus:text-text active:text-text active:[--gradient-opacity:30%] disabled:bg-primary disabled:[--gradient-opacity:0%] !rounded-full !border-0',
-        paginationActive: 'bg-primary [--gradient-opacity:100%] !rounded-full text-text !border-0',
+          'text-selectActive text-base leading-normal bg-primary [--gradient-opacity:0%] rounded-full hover:[--gradient-opacity:50%] hover:text-text focus:border-2 focus:border-primaryActive focus:text-text active:text-text active:[--gradient-opacity:30%] disabled:bg-primary disabled:[--gradient-opacity:0%] rounded-full! border-0!',
+        paginationActive: 'bg-primary [--gradient-opacity:100%] rounded-full! text-text border-0!',
         outline:
           'text-text border border-surface hover:bg-surface/15 active:bg-surface/25 focus:bg-surface/25',
         ghost: 'text-selectActive hover:bg-[rgb(43,36,90)] active:bg-[rgb(49,41,100)] active:text-text',
