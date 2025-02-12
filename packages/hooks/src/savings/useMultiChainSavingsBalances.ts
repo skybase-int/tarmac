@@ -7,7 +7,7 @@ import { getEtherscanLink } from '@jetstreamgg/utils';
 import { useReadSavingsUsds, sUsdsAddress } from './useReadSavingsUsds';
 import { TOKENS } from '../tokens/tokens.constants';
 import { usePreviewSwapExactIn } from '../psm/usePreviewSwapExactIn';
-import { isMainnetId, isBaseChainId } from '@jetstreamgg/utils';
+import { isMainnetId, isBaseChainId, isArbitrumChainId } from '@jetstreamgg/utils';
 
 export type MultiChainSavingsBalancesHook = ReadHook & {
   data?: Record<number, bigint>;
@@ -22,7 +22,7 @@ export function useMultiChainSavingsBalances({
 }): MultiChainSavingsBalancesHook {
   const ethereumChainId = chainIds?.find(chainId => isMainnetId(chainId));
   const baseChainId = chainIds?.find(chainId => isBaseChainId(chainId));
-  //TODO: handle arbitrum chains
+  const arbitrumChainId = chainIds?.find(chainId => isArbitrumChainId(chainId));
 
   const { address: connectedAddress } = useAccount();
   const acct = address || connectedAddress;
@@ -52,6 +52,7 @@ export function useMultiChainSavingsBalances({
     ),
     trustLevel: TRUST_LEVELS[TrustLevelEnum.ZERO]
   };
+
   //BASE - get balance of sUSDS
   const {
     data: baseSusdsBalance,
@@ -76,8 +77,6 @@ export function useMultiChainSavingsBalances({
     trustLevel: TRUST_LEVELS[TrustLevelEnum.ZERO]
   };
 
-  //TODO: get arbitrum balance and convert it
-
   const convertedBaseBalance = usePreviewSwapExactIn(
     baseSusdsBalance?.value || 0n,
     TOKENS.susds,
@@ -85,18 +84,50 @@ export function useMultiChainSavingsBalances({
     baseChainId
   );
 
+  //ARBITRUM - get balance of sUSDS
+  const {
+    data: arbitrumSusdsBalance,
+    isLoading: arbitrumSusdsBalanceIsLoading,
+    error: arbitrumSusdsBalanceError,
+    refetch: refetchArbitrumSusdsBalance
+  } = useTokenBalance({
+    chainId: baseChainId,
+    address: acct,
+    token: TOKENS.susds.address[baseChainId as keyof typeof TOKENS.susds.address],
+    enabled: !!acct && !!baseChainId
+  });
+
+  const dataSourcesArbitrum: DataSource = {
+    title: 'sUSDS Token Balance',
+    onChain: true,
+    href: getEtherscanLink(
+      arbitrumChainId || 1,
+      TOKENS.susds.address[arbitrumChainId as keyof typeof TOKENS.susds.address],
+      'address'
+    ),
+    trustLevel: TRUST_LEVELS[TrustLevelEnum.ZERO]
+  };
+
+  const convertedArbitrumBalance = usePreviewSwapExactIn(
+    arbitrumSusdsBalance?.value || 0n,
+    TOKENS.susds,
+    TOKENS.usds,
+    arbitrumChainId
+  );
+
   // Hook common interface
   const isLoading = useMemo(() => {
-    return maxWithdrawIsLoading || baseSusdsBalanceIsLoading;
-  }, [maxWithdrawIsLoading, baseSusdsBalanceIsLoading]);
+    return maxWithdrawIsLoading || baseSusdsBalanceIsLoading || arbitrumSusdsBalanceIsLoading;
+  }, [maxWithdrawIsLoading, baseSusdsBalanceIsLoading, arbitrumSusdsBalanceIsLoading]);
 
   const error = useMemo(() => {
-    return maxWithdrawError || baseSusdsBalanceError;
-  }, [maxWithdrawError, baseSusdsBalanceError]);
+    return maxWithdrawError || baseSusdsBalanceError || arbitrumSusdsBalanceError;
+  }, [maxWithdrawError, baseSusdsBalanceError, arbitrumSusdsBalanceError]);
 
   const mutate = () => {
     refetchMaxWithdraw();
     refetchBaseSusdsBalance();
+    refetchArbitrumSusdsBalance();
   };
 
   const data = useMemo<Record<number, bigint> | undefined>(() => {
@@ -112,16 +143,26 @@ export function useMultiChainSavingsBalances({
       balances[baseChainId] = convertedBaseBalance.value || 0n;
     }
 
-    //TODO: add arbitrum balance
+    // Add arbitrum balance
+    if (arbitrumChainId) {
+      balances[arbitrumChainId] = convertedArbitrumBalance.value || 0n;
+    }
 
     return balances;
-  }, [maxWithdraw, convertedBaseBalance.value, ethereumChainId, baseChainId]);
+  }, [
+    maxWithdraw,
+    convertedBaseBalance.value,
+    convertedArbitrumBalance.value,
+    ethereumChainId,
+    baseChainId,
+    arbitrumChainId
+  ]);
 
   return {
     isLoading,
     data,
     error,
     mutate,
-    dataSources: [dataSourcesMaxWithdraw, dataSourcesBase]
+    dataSources: [dataSourcesMaxWithdraw, dataSourcesBase, dataSourcesArbitrum]
   };
 }

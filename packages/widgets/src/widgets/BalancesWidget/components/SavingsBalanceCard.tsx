@@ -1,8 +1,9 @@
-import { useSavingsData, useOverallSkyData, usePrices } from '@jetstreamgg/hooks';
+import { useOverallSkyData, usePrices } from '@jetstreamgg/hooks';
 import { formatBigInt, formatDecimalPercentage, formatNumber } from '@jetstreamgg/utils';
 import { Text } from '@/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
 import { InteractiveStatsCardWithAccordion } from '@/shared/components/ui/card/InteractiveStatsCardWithAccordion';
+import { InteractiveStatsCard } from '@/shared/components/ui/card/InteractiveStatsCard';
 import { Skeleton } from '@/components/ui/skeleton';
 import { PopoverRateInfo } from '@/shared/components/ui/PopoverRateInfo';
 import { formatUnits } from 'viem';
@@ -17,7 +18,6 @@ export const SavingsBalanceCard = ({
   hideZeroBalance,
   showAllNetworks
 }: CardProps & { urlMap: Record<number, string> }) => {
-  const { data: savingsData, isLoading: savingsDataLoading, error: savingsDataError } = useSavingsData();
   const {
     data: overallSkyData,
     isLoading: overallSkyDataLoading,
@@ -27,8 +27,11 @@ export const SavingsBalanceCard = ({
 
   const currentChainId = useChainId();
 
-  const { data: multichainSavingsBalances, isLoading: multichainSavingsBalancesLoading } =
-    useMultiChainSavingsBalances({ chainIds });
+  const {
+    data: multichainSavingsBalances,
+    isLoading: multichainSavingsBalancesLoading,
+    error: multichainSavingsBalancesError
+  } = useMultiChainSavingsBalances({ chainIds });
 
   const sortedSavingsBalances = Object.entries(multichainSavingsBalances ?? {})
     .sort(([, a], [, b]) => (b > a ? 1 : b < a ? -1 : 0))
@@ -52,19 +55,69 @@ export const SavingsBalanceCard = ({
 
   const skySavingsRate = parseFloat(overallSkyData?.skySavingsRatecRate ?? '0');
 
-  if (savingsDataError || overallSkyDataError) return null;
+  if (multichainSavingsBalancesError || overallSkyDataError) return null;
 
   if (filteredAndSortedSavingsBalances.length === 0) return null;
+
+  if (filteredAndSortedSavingsBalances.length === 1)
+    return (
+      <InteractiveStatsCard
+        title={t`Savings balance`}
+        tokenSymbol="USDS"
+        headerRightContent={
+          multichainSavingsBalancesLoading ? (
+            <Skeleton className="w-32" />
+          ) : (
+            <Text>{`${multichainSavingsBalances ? formatBigInt(totalSavingsBalance) : '0'}`}</Text>
+          )
+        }
+        footer={
+          overallSkyDataLoading ? (
+            <Skeleton className="h-4 w-20" />
+          ) : skySavingsRate > 0 ? (
+            <div className="flex w-fit items-center gap-1.5">
+              <Text variant="small" className="text-bullish leading-4">
+                {`Rate: ${formatDecimalPercentage(skySavingsRate)}`}
+              </Text>
+              <PopoverRateInfo
+                type="ssr"
+                onExternalLinkClicked={onExternalLinkClicked}
+                iconClassName="h-[13px] w-[13px]"
+              />
+            </div>
+          ) : (
+            <></>
+          )
+        }
+        footerRightContent={
+          multichainSavingsBalancesLoading || pricesLoading ? (
+            <Skeleton className="h-[13px] w-20" />
+          ) : multichainSavingsBalances !== undefined && !!pricesData?.USDS ? (
+            <Text variant="small" className="text-textSecondary">
+              $
+              {formatNumber(
+                parseFloat(formatUnits(totalSavingsBalance, 18)) * parseFloat(pricesData.USDS.price),
+                {
+                  maxDecimals: 2
+                }
+              )}
+            </Text>
+          ) : undefined
+        }
+        url={urlMap[filteredAndSortedSavingsBalances[0].chainId]}
+        chainId={filteredAndSortedSavingsBalances[0].chainId}
+      />
+    );
 
   return (
     <InteractiveStatsCardWithAccordion
       title={t`Savings balance`}
       tokenSymbol="USDS"
       headerRightContent={
-        savingsDataLoading ? (
+        multichainSavingsBalancesLoading ? (
           <Skeleton className="w-32" />
         ) : (
-          <Text>{`${savingsData ? formatBigInt(totalSavingsBalance) : '0'}`}</Text>
+          <Text>{`${multichainSavingsBalances ? formatBigInt(totalSavingsBalance) : '0'}`}</Text>
         )
       }
       footer={

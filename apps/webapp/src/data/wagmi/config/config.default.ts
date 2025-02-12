@@ -124,12 +124,11 @@ export const wagmiConfigMainnet = createConfig({
   multiInjectedProviderDiscovery: false
 });
 
-//TODO: add arbitrum
 export const getSupportedChainIds = (chainId: number) => {
   if (isTestnetId(chainId)) {
-    return [tenderly.id, tenderlyBase.id];
+    return [tenderly.id, tenderlyBase.id, tenderlyArbitrum.id];
   }
-  return [mainnet.id, base.id];
+  return [mainnet.id, base.id, arbitrum.id];
 };
 
 export const getMainnetChainName = (chainId: number) => {
