@@ -142,7 +142,7 @@ const SavingsWidgetWrapped = ({
   const { address, isConnecting, isConnected } = useAccount();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
 
-  const initialTabIndex = validatedExternalState?.tab === 'right' ? 1 : 0;
+  const initialTabIndex = validatedExternalState?.flow === SavingsFlow.WITHDRAW ? 1 : 0;
   const [tabIndex, setTabIndex] = useState<0 | 1>(initialTabIndex);
   const linguiCtx = useLingui();
   const [originToken, setOriginToken] = useState<Token>(

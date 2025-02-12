@@ -30,7 +30,7 @@ export function SavingsWidgetPane(sharedProps: SharedProps) {
   const disallowedTokens =
     isRestrictedMiCa && isL2 ? { supply: [TOKENS.usdc], withdraw: [TOKENS.usdc] } : undefined;
 
-  const tab = (searchParams.get(QueryParams.Tab) || undefined) as 'left' | 'right' | undefined;
+  const flow = (searchParams.get(QueryParams.Flow) || undefined) as SavingsFlow | undefined;
 
   const onSavingsWidgetStateChange = ({
     hash,
@@ -68,7 +68,7 @@ export function SavingsWidgetPane(sharedProps: SharedProps) {
     // Set tab search param based on widgetState.flow
     if (widgetState.flow) {
       setSearchParams(prev => {
-        prev.set(QueryParams.Tab, widgetState.flow === SavingsFlow.SUPPLY ? 'left' : 'right');
+        prev.set(QueryParams.Flow, widgetState.flow);
         return prev;
       });
     }
@@ -111,7 +111,7 @@ export function SavingsWidgetPane(sharedProps: SharedProps) {
       externalWidgetState={{
         amount: linkedActionConfig?.inputAmount,
         token: isL2 ? linkedActionConfig?.sourceToken : undefined,
-        tab
+        flow
       }}
       disallowedTokens={disallowedTokens}
     />
