@@ -18,7 +18,7 @@ type Props = {
   suppliedBalance?: bigint;
   rewardsBalance?: bigint;
   claim?: WriteHook;
-  onChange: (val: bigint) => void;
+  onChange: (val: bigint, userTriggered?: boolean) => void;
   onToggle: (number: 0 | 1) => void;
   onClaimClick: () => void;
   tabIndex: 0 | 1;
@@ -82,7 +82,7 @@ export function ManagePosition({
               tokenList={[]}
               className="w-full"
               balance={tokenBalance}
-              onChange={onChange}
+              onChange={(val, event) => onChange(val, !!event)}
               value={amount}
               dataTestId="supply-input-rewards"
               label={t`How much ${rewardContract?.supplyToken.name ?? ''} would you like to supply?`}
@@ -99,7 +99,7 @@ export function ManagePosition({
               tokenList={[]}
               className="w-full"
               balance={suppliedBalance}
-              onChange={onChange}
+              onChange={(val, event) => onChange(val, !!event)}
               value={amount}
               dataTestId="withdraw-input-rewards"
               label={t`How much ${rewardContract?.supplyToken.name ?? ''} would you like to withdraw?`}

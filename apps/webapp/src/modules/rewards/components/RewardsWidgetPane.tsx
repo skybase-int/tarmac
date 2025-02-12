@@ -45,11 +45,29 @@ export function RewardsWidgetPane(sharedProps: SharedProps) {
     setSelectedRewardContract(rewardContract);
   };
 
-  const onRewardsWidgetStateChange = ({ hash, txStatus, widgetState }: WidgetStateChangeParams) => {
+  const onRewardsWidgetStateChange = ({
+    hash,
+    txStatus,
+    widgetState,
+    originAmount
+  }: WidgetStateChangeParams) => {
     // Set flow search param based on widgetState.flow
     if (widgetState.flow) {
       setSearchParams(prev => {
         prev.set(QueryParams.Flow, widgetState.flow);
+        return prev;
+      });
+    }
+
+    // Update amount in URL if provided and not zero
+    if (originAmount && originAmount !== '0') {
+      setSearchParams(prev => {
+        prev.set(QueryParams.InputAmount, originAmount);
+        return prev;
+      });
+    } else if (originAmount === '') {
+      setSearchParams(prev => {
+        prev.delete(QueryParams.InputAmount);
         return prev;
       });
     }
