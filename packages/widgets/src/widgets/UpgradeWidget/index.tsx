@@ -301,6 +301,26 @@ export function UpgradeWidgetWrapped({
   });
 
   useEffect(() => {
+    //Initialize the upgrade flow
+    if (isConnectedAndEnabled) {
+      if (tabIndex === 0) {
+        setWidgetState({
+          flow: UpgradeFlow.UPGRADE,
+          action: UpgradeAction.APPROVE,
+          screen: UpgradeScreen.ACTION
+        });
+      } else if (tabIndex === 1) {
+        //Initialize the revert flow
+        setWidgetState({
+          flow: UpgradeFlow.REVERT,
+          action: UpgradeAction.REVERT,
+          screen: UpgradeScreen.ACTION
+        });
+      }
+    }
+  }, []); // only on start
+
+  useEffect(() => {
     if (!isConnectedAndEnabled) {
       // Reset widget state when we are not connected
       setWidgetState({
