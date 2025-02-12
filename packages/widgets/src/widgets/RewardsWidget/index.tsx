@@ -142,7 +142,7 @@ const RewardsWidgetWrapped = ({
   });
 
   const debouncedAmount = useDebounce(amount);
-  const initialTabIndex = validatedExternalState?.tab === 'right' ? 1 : 0;
+  const initialTabIndex = validatedExternalState?.flow === RewardsFlow.WITHDRAW ? 1 : 0;
   const [tabIndex, setTabIndex] = useState<0 | 1>(initialTabIndex);
   const linguiCtx = useLingui();
 

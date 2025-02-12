@@ -7,6 +7,7 @@ import { TokenInput } from '@/shared/components/ui/token/TokenInput';
 import { SelectedRewardsCard } from './SelectedRewardsCard';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@/shared/animation/presets';
+import { RewardsFlow } from '../lib/constants';
 
 type Props = {
   amount: bigint;
@@ -41,13 +42,13 @@ export function ManagePosition({
 }: Props) {
   return (
     <VStack className="items-stretch">
-      <Tabs defaultValue={tabIndex === 0 ? 'left' : 'right'} className="space-y-4">
+      <Tabs defaultValue={tabIndex === 0 ? RewardsFlow.SUPPLY : RewardsFlow.WITHDRAW} className="space-y-4">
         <motion.div variants={positionAnimations}>
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger
               position="left"
               data-testid="rewards-toggle-left"
-              value="left"
+              value={RewardsFlow.SUPPLY}
               onClick={() => onToggle(0)}
             >
               <Trans>Supply</Trans>
@@ -55,7 +56,7 @@ export function ManagePosition({
             <TabsTrigger
               position="right"
               data-testid="rewards-toggle-right"
-              value="right"
+              value={RewardsFlow.WITHDRAW}
               onClick={() => onToggle(1)}
             >
               <Trans>Withdraw</Trans>
@@ -74,7 +75,7 @@ export function ManagePosition({
             />
           )}
         </motion.div>
-        <TabsContent value="left">
+        <TabsContent value={RewardsFlow.SUPPLY}>
           <motion.div variants={positionAnimations}>
             <TokenInput
               token={rewardContract?.supplyToken}
@@ -91,7 +92,7 @@ export function ManagePosition({
             />
           </motion.div>
         </TabsContent>
-        <TabsContent value="right">
+        <TabsContent value={RewardsFlow.WITHDRAW}>
           <motion.div variants={positionAnimations}>
             <TokenInput
               token={rewardContract?.supplyToken}
