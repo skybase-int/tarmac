@@ -11,7 +11,7 @@ import { Card } from '@/components/ui/card';
 import { CopyToClipboard } from '@/shared/components/ui/CopyToClipboard';
 import { ExternalLink } from '@/shared/components/ExternalLink';
 import { useChainId } from 'wagmi';
-import { isBaseChainId } from '@jetstreamgg/utils';
+import { isBaseChainId, isArbitrumChainId } from '@jetstreamgg/utils';
 
 export const BalancesHeader = ({
   initialTabSide,
@@ -30,6 +30,7 @@ export const BalancesHeader = ({
     [address]
   );
   const isBaseChain = useMemo(() => isBaseChainId(chainId), [chainId]);
+  const isArbitrumChain = useMemo(() => isArbitrumChainId(chainId), [chainId]);
 
   const jazziconComponent = useMemo(() => {
     return address ? <Jazzicon diameter={24} seed={jsNumberForAddress(address)} /> : null;
@@ -70,6 +71,22 @@ export const BalancesHeader = ({
               onExternalLinkClicked={onExternalLinkClicked}
             >
               <span className="inline">bridge your assets to Base.</span>
+            </ExternalLink>
+          </Text>
+        </div>
+      )}
+      {isArbitrumChain && (
+        <div className="mt-3 flex">
+          <Text variant="medium">
+            Learn how to{' '}
+            <ExternalLink
+              href="https://bridge.base.org/deposit" //TODO: update to the arbitrum bridge
+              iconSize={11}
+              className="text-textEmphasis inline"
+              inline
+              onExternalLinkClicked={onExternalLinkClicked}
+            >
+              <span className="inline">bridge your assets to Arbitrum.</span>
             </ExternalLink>
           </Text>
         </div>

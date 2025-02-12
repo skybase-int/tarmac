@@ -1,15 +1,14 @@
 import { request, gql } from 'graphql-request';
 import { ReadHook } from '../hooks';
 import { TRUST_LEVELS, TrustLevelEnum, ModuleEnum, TransactionTypeEnum } from '../constants';
-import { getBaseSubgraphUrl } from '../helpers/getSubgraphUrl';
+import { getL2SubgraphUrl } from '../helpers/getSubgraphUrl';
 import { useQuery } from '@tanstack/react-query';
 import { useAccount, useChainId } from 'wagmi';
 import { TOKENS } from '../tokens/tokens.constants';
 import { useTokenAddressMap } from '../tokens/useTokenAddressMap';
 import { SavingsHistory, SavingsHistoryItem } from '../savings/savings';
-import { isTestnetId, chainId as chainIdMap } from '@jetstreamgg/utils';
 
-async function fetchBaseSavingsHistory(
+async function fetchL2SavingsHistory(
   urlSubgraph: string,
   chainId: number,
   address?: string,
@@ -120,18 +119,20 @@ async function fetchBaseSavingsHistory(
   );
 }
 
-export function useBaseSavingsHistory({
+export function useL2SavingsHistory({
   subgraphUrl,
-  enabled = true
+  enabled = true,
+  chainId
 }: {
   subgraphUrl?: string;
   enabled?: boolean;
+  chainId?: number;
 } = {}): ReadHook & { data?: SavingsHistory } {
   const { address } = useAccount();
-  const chainId = useChainId();
-  const urlSubgraph = subgraphUrl ? subgraphUrl : getBaseSubgraphUrl(chainId) || '';
-  const fetchedChainId = isTestnetId(chainId) ? chainIdMap.tenderlyBase : chainIdMap.base;
-  const tokenAddressMap = useTokenAddressMap(fetchedChainId);
+  const currentChainId = useChainId();
+  const chainIdToUse = chainId ?? currentChainId;
+  const urlSubgraph = subgraphUrl ? subgraphUrl : getL2SubgraphUrl(chainIdToUse) || '';
+  const tokenAddressMap = useTokenAddressMap(chainIdToUse);
   const {
     data,
     error,
@@ -139,8 +140,8 @@ export function useBaseSavingsHistory({
     isLoading
   } = useQuery({
     enabled: Boolean(urlSubgraph) && enabled && Boolean(tokenAddressMap) && Boolean(address),
-    queryKey: ['base-savings-history', urlSubgraph, address, fetchedChainId],
-    queryFn: () => fetchBaseSavingsHistory(urlSubgraph, fetchedChainId, address, tokenAddressMap)
+    queryKey: ['L2-savings-history', urlSubgraph, address, chainIdToUse],
+    queryFn: () => fetchL2SavingsHistory(urlSubgraph, chainIdToUse, address, tokenAddressMap)
   });
 
   return {

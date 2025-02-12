@@ -1,9 +1,9 @@
 export { getEtherscanLink } from './getEtherscanLink';
 export { getCowExplorerLink } from './getCowExplorerLink';
 export { getExplorerName, ExplorerName } from './getExplorerName';
-export { isBaseChainId } from './isBaseChainId';
 export { isTestnetId } from './isTestnetId';
 export { isMainnetId } from './isMainnetId';
+export { isBaseChainId, isArbitrumChainId, isL2ChainId } from './isL2ChainId';
 export { formatAddress } from './formatAddress';
 export { chainId } from './chainId';
 export * as math from './math';

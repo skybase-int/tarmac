@@ -1,16 +1,17 @@
-import { formatNumber, isBaseChainId } from '@jetstreamgg/utils';
+import { formatNumber, isBaseChainId, isArbitrumChainId } from '@jetstreamgg/utils';
 import { useCallback } from 'react';
 import { RewardContract, useAvailableTokenRewardContractsForChain } from '@jetstreamgg/hooks';
 import { getRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
 import { useSearchParams } from 'react-router-dom';
 import { IntentMapping, QueryParams } from '@/lib/constants';
 import { t } from '@lingui/core/macro';
-import { base, mainnet } from 'viem/chains';
+import { base, mainnet, arbitrum } from 'viem/chains';
 import { useChains, useChainId } from 'wagmi';
 
 export const useActionForToken = () => {
-  const [searchParams] = useSearchParams();
   const chainId = useChainId();
+  const isArbitrumChain = isArbitrumChainId(chainId);
+  const [searchParams] = useSearchParams();
   const isRestrictedBuild = import.meta.env.VITE_RESTRICTED_BUILD === 'true';
   const isRestrictedMiCa = import.meta.env.VITE_RESTRICTED_BUILD_MICA === 'true';
 
@@ -69,7 +70,8 @@ export const useActionForToken = () => {
                   ),
                   image
                 },
-            [base.id]: undefined
+            [base.id]: undefined,
+            [arbitrum.id]: undefined
           };
           break;
         case 'mkr':
@@ -81,7 +83,8 @@ export const useActionForToken = () => {
               ),
               image
             },
-            [base.id]: undefined
+            [base.id]: undefined,
+            [arbitrum.id]: undefined
           };
           break;
         case 'usds':
@@ -99,6 +102,15 @@ export const useActionForToken = () => {
               ? undefined
               : {
                   label: t`Start saving with your ${formattedBalance} ${upperSymbol} ${isDifferentChain ? 'on Base' : ''}`,
+                  actionUrl: getQueryParams(
+                    `?${Network}=${networkName}&${Widget}=${SAVINGS}&${InputAmount}=${balance}&${SourceToken}=${symbol}`
+                  ),
+                  image
+                },
+            [arbitrum.id]: isRestrictedBuild
+              ? undefined
+              : {
+                  label: t`Start saving with your ${formattedBalance} ${upperSymbol} ${isDifferentChain ? 'on Arbitrum' : ''}`,
                   actionUrl: getQueryParams(
                     `?${Network}=${networkName}&${Widget}=${SAVINGS}&${InputAmount}=${balance}&${SourceToken}=${symbol}`
                   ),
@@ -151,14 +163,32 @@ export const useActionForToken = () => {
                           `?${Network}=${networkName}&${Widget}=${SAVINGS}&${InputAmount}=${balance}&${SourceToken}=${symbol}`
                         ),
                         image
-                      }
+                      },
+            [arbitrum.id]:
+              lowerSymbol === 'usdt'
+                ? undefined
+                : isRestrictedBuild
+                  ? {
+                      label: t`Trade your ${formattedBalance} ${upperSymbol} for USDS ${isDifferentChain ? 'on Arbitrum' : ''}`,
+                      actionUrl: getQueryParams(
+                        `?${Network}=${networkName}&${Widget}=${TRADE}&${InputAmount}=${balance}&${SourceToken}=${symbol}&${TargetToken}=USDS`
+                      ),
+                      image
+                    }
+                  : {
+                      label: t`Start saving with your ${formattedBalance} ${upperSymbol} ${isDifferentChain ? 'on Base' : ''}`,
+                      actionUrl: getQueryParams(
+                        `?${Network}=${networkName}&${Widget}=${SAVINGS}&${InputAmount}=${balance}&${SourceToken}=${symbol}`
+                      ),
+                      image
+                    }
           };
           break;
         default:
           action = undefined;
       }
 
-      return isBaseChain ? action?.[base.id] : action?.[mainnet.id];
+      return isBaseChain ? action?.[base.id] : isArbitrumChain ? action?.[arbitrum.id] : action?.[mainnet.id];
     },
     [getRewardContracts, searchParams, isRestrictedBuild, isRestrictedMiCa, chainId, chains]
   );
