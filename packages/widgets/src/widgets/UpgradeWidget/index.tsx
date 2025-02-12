@@ -317,11 +317,7 @@ export function UpgradeWidgetWrapped({
           screen: UpgradeScreen.ACTION
         });
       }
-    }
-  }, []); // only on first render
-
-  useEffect(() => {
-    if (!isConnectedAndEnabled) {
+    } else {
       // Reset widget state when we are not connected
       setWidgetState({
         flow: null,
