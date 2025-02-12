@@ -59,6 +59,11 @@ export const validateSearchParams = (
       }
     }
 
+    // Reset the selected reward contract if the widget is set to rewards and no valid reward contract parameter exists.
+    if (widget === IntentMapping[Intent.REWARDS_INTENT] && !searchParams.get(QueryParams.Reward)) {
+      setSelectedRewardContract(undefined);
+    }
+
     // if widget changes to something other than rewards, and we're not in a rewards linked action, reset the selected reward contract
     if (
       widget !== IntentMapping[Intent.REWARDS_INTENT] &&
