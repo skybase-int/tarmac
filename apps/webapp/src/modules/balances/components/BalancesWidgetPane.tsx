@@ -1,8 +1,12 @@
-import { WidgetStateChangeParams, SavingsFlow, BalancesWidget } from '@jetstreamgg/widgets';
+import {
+  WidgetStateChangeParams,
+  SavingsFlow,
+  BalancesWidget,
+  BalancesWidgetProps
+} from '@jetstreamgg/widgets';
 import { useSearchParams } from 'react-router-dom';
 import { SharedProps } from '@/modules/app/types/Widgets';
 import { QueryParams } from '@/lib/constants';
-import { BalancesWidgetProps } from 'node_modules/@jetstreamgg/widgets/dist/widgets/BalancesWidget';
 
 export function BalancesWidgetPane(sharedProps: SharedProps & BalancesWidgetProps) {
   const [searchParams, setSearchParams] = useSearchParams();
