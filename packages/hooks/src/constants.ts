@@ -3,15 +3,6 @@ import { TrustLevel } from './hooks';
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 export const ZERO_BYTES32 = '0x0000000000000000000000000000000000000000000000000000000000000000';
 
-// WAD = 1 with 18 zeroes
-export const WAD = BigInt('1000000000000000000');
-// RAY = 1 with 27 zeroes
-export const RAY = BigInt('1000000000000000000000000000');
-// RAD = 1 with 45 zeroes
-export const RAD = BigInt('1000000000000000000000000000000000000000000000');
-
-export const SECONDS_PER_YEAR = 365 * 24 * 60 * 60;
-
 export const TRUST_LEVELS: Record<TrustLevelEnum, TrustLevel> = {
   0: {
     level: 0,
