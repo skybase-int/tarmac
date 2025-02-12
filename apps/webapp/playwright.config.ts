@@ -30,7 +30,7 @@ export default defineConfig({
     trace: 'on-first-retry',
 
     // Recording off by default, but can be set to 'on' for debugging
-    video: 'on'
+    video: 'off'
   },
   // Configure projects for major browsers.
   projects: [

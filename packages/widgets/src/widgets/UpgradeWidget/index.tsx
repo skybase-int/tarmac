@@ -320,7 +320,7 @@ export function UpgradeWidgetWrapped({
     } else {
       // Reset widget state when we are not connected
       setWidgetState({
-        flow: null,
+        flow: tabIndex === 0 ? UpgradeFlow.UPGRADE : UpgradeFlow.REVERT,
         action: null,
         screen: null
       });
@@ -603,6 +603,12 @@ export function UpgradeWidgetWrapped({
                         screen: UpgradeScreen.ACTION
                       });
                     }
+                  } else {
+                    setWidgetState({
+                      flow: index === 0 ? UpgradeFlow.UPGRADE : UpgradeFlow.REVERT,
+                      action: null,
+                      screen: null
+                    });
                   }
                 }}
                 onOriginInputChange={setOriginAmount}
