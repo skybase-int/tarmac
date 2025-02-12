@@ -318,7 +318,7 @@ export function UpgradeWidgetWrapped({
         });
       }
     }
-  }, []); // only on start
+  }, []); // only on first render
 
   useEffect(() => {
     if (!isConnectedAndEnabled) {
