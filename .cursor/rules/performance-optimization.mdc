@@ -2,10 +2,6 @@
 description: React Performance Optimization Standards
 globs: *.{ts,tsx}
 ---
----
-description: React Performance Optimization Standards
-globs: *.{ts,tsx}
----
 # Performance Optimization Standards
 
 Standards for optimizing React application performance.

@@ -2,10 +2,6 @@
 description: UI Styling Standards using Radix UI and Tailwind CSS
 globs: *.{ts,tsx,css}
 ---
----
-description: UI Styling Standards using Radix UI and Tailwind CSS
-globs: *.{ts,tsx,css}
----
 # UI Styling Standards
 
 Standards for implementing UI components using Radix UI primitives and Tailwind CSS.

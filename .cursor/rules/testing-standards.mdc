@@ -2,10 +2,6 @@
 description: Testing Standards for React TypeScript Applications
 globs: *.{test,spec}.{ts,tsx}
 ---
----
-description: Testing Standards for React TypeScript Applications
-globs: *.{test,spec}.{ts,tsx}
----
 # Testing Standards
 
 Standards for implementing tests using Vitest and Playwright.
@@ -93,7 +89,7 @@ filters:
   - type: file_extension
     pattern: "\\.spec\\.(ts|tsx)$"
   - type: content
-    pattern: "(?s)test\\(['\"](.*?)['\"]"
+    pattern: "(?s)test\\(['\"](mdc:.*?)['\"]"
 
 actions:
   - type: suggest

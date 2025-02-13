@@ -2,10 +2,6 @@
 description: Web3 Integration Standards for React Applications
 globs: *.{ts,tsx}
 ---
----
-description: Web3 Integration Standards for React Applications
-globs: *.{ts,tsx}
----
 # Web3 Integration Standards
 
 Standards for implementing Web3 functionality using Wagmi, Viem, and RainbowKit.

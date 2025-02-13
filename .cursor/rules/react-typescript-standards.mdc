@@ -2,10 +2,6 @@
 description: React TypeScript Development Standards
 globs: *.{ts,tsx}
 ---
----
-description: React TypeScript Development Standards
-globs: *.{ts,tsx}
----
 # React TypeScript Development Standards
 
 Standards for React TypeScript development including component structure, naming conventions, and best practices.
