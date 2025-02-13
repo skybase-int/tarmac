@@ -9,39 +9,39 @@
   --font-circle: CircleStd;
 
   --color-text: var(--primary-white);
-  --color-text-secondary: var(--transparent-white-overlay-40);
+  --color-textSecondary: var(--transparent-white-overlay-40);
   --color-bullish: var(--service-green);
-  --color-text-emphasis: var(--primary-pink);
-  --color-text-muted: var(--transparent-white-overlay-15);
+  --color-textEmphasis: var(--primary-pink);
+  --color-textMuted: var(--transparent-white-overlay-15);
   --color-error: var(--service-red);
-  --color-text-dimmed: rgba(255, 255, 255, 0.25);
-  --color-text-desaturated: rgba(255, 255, 255, 0.5);
-  --color-container-dark: var(--transparent-black-85);
+  --color-textDimmed: rgba(255, 255, 255, 0.25);
+  --color-textDesaturated: rgba(255, 255, 255, 0.5);
+  --color-containerDark: var(--transparent-black-85);
   --color-container: var(--transparent-black-65);
   --color-surface: var(--transparent-white-25);
-  --color-surface-alt: var(--transparent-white-20);
+  --color-surfaceAlt: var(--transparent-white-20);
   --color-panel: var(--transparent-white-25);
-  --color-select-background: var(--transparent-white-25);
-  --color-select-active: var(--transparent-white-40);
+  --color-selectBackground: var(--transparent-white-25);
+  --color-selectActive: var(--transparent-white-40);
   --color-widget: transparent;
   --color-primary: transparent;
-  --color-primary-hover: hsla(300, 100%, 25%, 0.5);
-  --color-primary-active: hsla(300, 100%, 25%, 0.2);
-  --color-primary-focus: hsla(300, 100%, 25%, 0.7);
-  --color-primary-disabled: hsla(200, 100%, 25%, 1);
+  --color-primaryHover: hsla(300, 100%, 25%, 0.5);
+  --color-primaryActive: hsla(300, 100%, 25%, 0.2);
+  --color-primaryFocus: hsla(300, 100%, 25%, 0.7);
+  --color-primaryDisabled: hsla(200, 100%, 25%, 1);
   --color-secondary: var(--transparent-black-20);
-  --color-secondary-hover: var(--transparent-black-20);
-  --color-secondary-active: var(--transparent-black-20);
-  --color-secondary-focus: var(--transparent-black-20);
-  --color-secondary-disabled: var(--transparent-black-20);
+  --color-secondaryHover: var(--transparent-black-20);
+  --color-secondaryActive: var(--transparent-black-20);
+  --color-secondaryFocus: var(--transparent-black-20);
+  --color-secondaryDisabled: var(--transparent-black-20);
   --color-tab: var(--transparent-white-70);
-  --color-tab-primary: var(--transparent-white-40);
+  --color-tabPrimary: var(--transparent-white-40);
   --color-card: var(--transparent-white-15);
   --color-border: var(--transparent-white-15);
-  --color-border-active: --transparent-white-25;
-  --color-card-hover: var(--service-purple-5);
+  --color-borderActive: --transparent-white-25;
+  --color-cardHover: var(--service-purple-5);
   --color-brand: rgb(var(--brand-purple));
-  --color-brand-light: rgb(var(--brand-light-purple));
+  --color-brandLight: rgb(var(--brand-light-purple));
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
 
@@ -50,7 +50,7 @@
     rgba(61, 47, 164, var(--gradient-opacity)) 0%,
     rgba(76, 61, 183, var(--gradient-opacity)) 100%
   );
-  --background-image-primary-alt: radial-gradient(
+  --background-image-primaryAlt: radial-gradient(
     116.48% 116.48% at 50% 2.27%,
     rgba(98, 89, 191, var(--gradient-opacity)) 0%,
     rgba(123, 113, 204, var(--gradient-opacity)) 100%
@@ -72,8 +72,8 @@
   --transition-duration-350: 350ms;
 
   --transition-property-gradient-opacity: --gradient-opacity;
-  --transition-property-gradient-and-colors: --gradient-opacity, color, background-color, border-color,
-    text-decoration-color, fill, stroke;
+  --transition-property-gradient-and-colors:
+    --gradient-opacity, color, background-color, border-color, text-decoration-color, fill, stroke;
 
   @keyframes accordion-down {
     from {
@@ -201,29 +201,37 @@
     /* NOTE: in the radial gradients, the color stop percentages needs to be placed after the color value.
        TODO: update the rest of the gradients to this format
      */
-    --primary-purple-40: linear-gradient(#ffffff4d, #ffffff4d), linear-gradient(#4331e966, #4331e966),
+    --primary-purple-40:
+      linear-gradient(#ffffff4d, #ffffff4d), linear-gradient(#4331e966, #4331e966),
       radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
 
     /* --primary-purple-40: #ffffff4d, #4331e966,
       radial-gradient(50% 50% at 50% 50%, 0% rgba(255, 255, 255, 0), 100% rgba(255, 255, 255, 1)); */
-    --primary-purple-100: #ffffffb3, #1a1855ff,
+    --primary-purple-100:
+      #ffffffb3, #1a1855ff,
       radial-gradient(50% 50% at 50% 50%, 0% rgba(255, 255, 255, 0), 100% rgba(255, 255, 255, 1));
-    --primary-purple-5: #ffffffff, #4331e90d,
+    --primary-purple-5:
+      #ffffffff, #4331e90d,
       radial-gradient(50% 50% at 50% 50%, 0% rgba(255, 255, 255, 0), 100% rgba(255, 255, 255, 1));
     --primary-pink: #b68effff;
     --primary-white: #ffffffff;
-    --primary-glass-stroke: linear-gradient(90deg, 0% rgba(255, 255, 255, 1), 100% rgba(255, 255, 255, 0)),
-      #ffffff80;
+    --primary-glass-stroke:
+      linear-gradient(90deg, 0% rgba(255, 255, 255, 1), 100% rgba(255, 255, 255, 0)), #ffffff80;
 
-    --service-purple-25: #ffffff4d, #4331e940,
+    --service-purple-25:
+      #ffffff4d, #4331e940,
       radial-gradient(50% 50% at 50% 50%, 0% rgba(255, 255, 255, 0), 100% rgba(255, 255, 255, 1));
-    --service-purple-15: #ffffff4d, #4331e926,
+    --service-purple-15:
+      #ffffff4d, #4331e926,
       radial-gradient(50% 50% at 50% 50%, 0% rgba(255, 255, 255, 0), 100% rgba(255, 255, 255, 1));
-    --service-purple-5: #ffffff4d, #4331e90d,
+    --service-purple-5:
+      #ffffff4d, #4331e90d,
       radial-gradient(50% 50% at 50% 50%, 0% rgba(255, 255, 255, 0), 100% rgba(255, 255, 255, 1));
-    --service-purple-0: #ffffff4d, #4331e9ff,
+    --service-purple-0:
+      #ffffff4d, #4331e9ff,
       radial-gradient(50% 50% at 50% 50%, 0% rgba(255, 255, 255, 0), 100% rgba(255, 255, 255, 1));
-    --service-focused: #ffffffe6, #312e9dff,
+    --service-focused:
+      #ffffffe6, #312e9dff,
       radial-gradient(50% 50% at 50% 50%, 0% rgba(255, 255, 255, 0), 100% rgba(255, 255, 255, 1));
     --service-green: #1dd9ba;
     --service-chart-green: linear-gradient(90deg, 0% rgba(0, 161, 103, 1), 100% rgba(0, 161, 103, 0));

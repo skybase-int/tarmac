@@ -26,45 +26,45 @@
   --font-sans: GraphikStd;
 
   --color-text: var(--primary-white);
-  --color-text-secondary: rgba(198, 194, 255, 0.8);
+  --color-textSecondary: rgba(198, 194, 255, 0.8);
   --color-bullish: var(--service-green);
-  --color-text-emphasis: var(--primary-pink);
-  --color-text-muted: rgba(198, 194, 255, 0.8);
+  --color-textEmphasis: var(--primary-pink);
+  --color-textMuted: rgba(198, 194, 255, 0.8);
   --color-error: var(--service-red);
-  --color-text-dimmed: rgb(120, 116, 208);
-  --color-text-desaturated: rgb(186, 182, 250);
+  --color-textDimmed: rgb(120, 116, 208);
+  --color-textDesaturated: rgb(186, 182, 250);
   --color-container: var(--transparent-black-65);
-  --color-container-dark: var(--transparent-black-85);
+  --color-containerDark: var(--transparent-black-85);
   --color-surface: rgba(108, 104, 255, 0.3);
-  --color-surface-hover: rgba(68, 45, 125, 0.202);
-  --color-surface-alt: var(--transparent-white-20);
+  --color-surfaceHover: rgba(68, 45, 125, 0.202);
+  --color-surfaceAlt: var(--transparent-white-20);
   --color-panel: var(--transparent-black-20);
-  --color-select-background: var(--transparent-white-25);
-  --color-select-active: var(--transparent-white-40);
+  --color-selectBackground: var(--transparent-white-25);
+  --color-selectActive: var(--transparent-white-40);
   --color-primary: transparent;
-  --color-primary-hover: transparent;
-  --color-primary-active: transparent;
-  --color-primary-focus: transparent;
-  --color-primary-disabled: transparent;
+  --color-primaryHover: transparent;
+  --color-primaryActive: transparent;
+  --color-primaryFocus: transparent;
+  --color-primaryDisabled: transparent;
   --color-secondary: var(--transparent-black-20);
-  --color-secondary-hover: var(--transparent-black-20);
-  --color-secondary-active: var(--transparent-black-20);
-  --color-secondary-focus: var(--transparent-black-20);
-  --color-secondary-disabled: var(--transparent-black-20);
+  --color-secondaryHover: var(--transparent-black-20);
+  --color-secondaryActive: var(--transparent-black-20);
+  --color-secondaryFocus: var(--transparent-black-20);
+  --color-secondaryDisabled: var(--transparent-black-20);
   --color-tab: var(--transparent-white-70);
-  --color-tab-primary: var(--transparent-white-40);
+  --color-tabPrimary: var(--transparent-white-40);
   --color-card: rgba(128, 117, 255, 0.07);
-  --color-card-light: rgba(64, 60, 113, 0.207);
+  --color-cardLight: rgba(64, 60, 113, 0.207);
   --color-border: var(--transparent-white-15);
-  --color-border-active: --transparent-white-25;
-  --color-border-purple: #4c4577;
+  --color-borderActive: --transparent-white-25;
+  --color-borderPurple: #4c4577;
   --color-brand: rgb(var(--brand-purple));
-  --color-brand-light: rgb(var(--brand-light-purple));
-  --color-brand-dark: rgb(var(--brand-dark-purple));
-  --color-brand-middle: rgb(var(--brand-middle-purple));
+  --color-brandLight: rgb(var(--brand-light-purple));
+  --color-brandDark: rgb(var(--brand-dark-purple));
+  --color-brandMiddle: rgb(var(--brand-middle-purple));
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
-  --color-chart-select: rgba(22, 17, 53, 1);
+  --color-chartSelect: rgba(22, 17, 53, 1);
 
   --font-weight-custom-450: 450;
 
@@ -73,17 +73,17 @@
     rgba(61, 47, 164, var(--gradient-opacity)) 0%,
     rgba(76, 61, 183, var(--gradient-opacity)) 100%
   );
-  --background-image-primary-bright: radial-gradient(
+  --background-image-primaryBright: radial-gradient(
     116.48% 116.48% at 50% 2.27%,
     rgba(87, 59, 246, var(--gradient-opacity)) 0%,
     rgba(102, 72, 246, var(--gradient-opacity)) 100%
   );
-  --background-image-primary-hover: var(--service-purple-15);
-  --background-image-primary-disabled: var(--service-purple-0);
-  --background-image-primary-active: var(--service-purple-5);
-  --background-image-primary-focus: var(--primary-purple-40);
-  --background-image-primary-transparent: var(--service-purple-transparent);
-  --background-image-primary-alt: radial-gradient(
+  --background-image-primaryHover: var(--service-purple-15);
+  --background-image-primaryDisabled: var(--service-purple-0);
+  --background-image-primaryActive: var(--service-purple-5);
+  --background-image-primaryFocus: var(--primary-purple-40);
+  --background-image-primaryTransparent: var(--service-purple-transparent);
+  --background-image-primaryAlt: radial-gradient(
     116.48% 116.48% at 50% 2.27%,
     rgba(98, 89, 191, var(--gradient-opacity)) 0%,
     rgba(123, 113, 204, var(--gradient-opacity)) 100%
@@ -122,8 +122,7 @@
 
   --transition-property-gradient-opacity: --gradient-opacity;
   --transition-property-gradient-and-colors:
-    --gradient-opacity, color, background-color, border-color,
-    text-decoration-color, fill, stroke;
+    --gradient-opacity, color, background-color, border-color, text-decoration-color, fill, stroke;
 
   @keyframes accordion-down {
     from {
@@ -256,7 +255,8 @@
     /* NOTE: in the radial gradients, the color stop percentages needs to be placed after the color value.
        TODO: update the rest of the gradients to this format
      */
-    --primary-purple-40: radial-gradient(
+    --primary-purple-40:
+      radial-gradient(
         116.48% 116.48% at 50% 2.27%,
         rgba(255, 255, 255, 0) 0%,
         rgba(255, 255, 255, 0.25) 100%
@@ -264,19 +264,23 @@
       linear-gradient(0deg, rgba(67, 49, 233, 0.4) 0%, rgba(67, 49, 233, 0.4) 100%),
       linear-gradient(0deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3));
 
-    --primary-purple-100: #ffffffb3, #1a1855ff,
+    --primary-purple-100:
+      #ffffffb3, #1a1855ff,
       radial-gradient(50% 50% at 50% 50%, 0% rgba(255, 255, 255, 0), 100% rgba(255, 255, 255, 1));
-    --primary-purple-5: #ffffffff, #4331e90d,
+    --primary-purple-5:
+      #ffffffff, #4331e90d,
       radial-gradient(50% 50% at 50% 50%, 0% rgba(255, 255, 255, 0), 100% rgba(255, 255, 255, 1));
     --primary-pink: #d298ff;
     --primary-white: #ffffffff;
-    --primary-glass-stroke: linear-gradient(90deg, 0% rgba(255, 255, 255, 1), 100% rgba(255, 255, 255, 0)),
-      #ffffff80;
+    --primary-glass-stroke:
+      linear-gradient(90deg, 0% rgba(255, 255, 255, 1), 100% rgba(255, 255, 255, 0)), #ffffff80;
 
-    --service-purple-25: #ffffff4d, #4331e940,
+    --service-purple-25:
+      #ffffff4d, #4331e940,
       radial-gradient(50% 50% at 50% 50%, 0% rgba(255, 255, 255, 0), 100% rgba(255, 255, 255, 1));
 
-    --service-purple-15: radial-gradient(
+    --service-purple-15:
+      radial-gradient(
         116.48% 116.48% at 50% 2.27%,
         rgba(255, 255, 255, 0) 0%,
         rgba(255, 255, 255, 0.25) 100%
@@ -284,7 +288,8 @@
       linear-gradient(0deg, rgba(67, 49, 233, 0.15) 0%, rgba(67, 49, 233, 0.15) 100%),
       linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
 
-    --service-purple-5: radial-gradient(
+    --service-purple-5:
+      radial-gradient(
         116.48% 116.48% at 50% 2.27%,
         rgba(255, 255, 255, 0) 0%,
         rgba(255, 255, 255, 0.25) 100%
@@ -292,7 +297,8 @@
       linear-gradient(0deg, rgba(67, 49, 233, 0.05) 0%, rgba(67, 49, 233, 0.05) 100%),
       linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08));
 
-    --service-purple-0: radial-gradient(
+    --service-purple-0:
+      radial-gradient(
         116.48% 116.48% at 50% 2.27%,
         rgba(255, 255, 255, 0) 0%,
         rgba(255, 255, 255, 0.12) 100%
@@ -300,7 +306,8 @@
       linear-gradient(0deg, rgba(67, 49, 233, 0) 0%, rgba(67, 49, 233, 0) 100%),
       linear-gradient(0deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05));
 
-    --service-focused: #ffffffe6, #312e9dff,
+    --service-focused:
+      #ffffffe6, #312e9dff,
       radial-gradient(50% 50% at 50% 50%, 0% rgba(255, 255, 255, 0), 100% rgba(255, 255, 255, 1));
     --service-green: #1dd9ba;
     --service-chart-green: linear-gradient(90deg, 0% rgba(0, 161, 103, 1), 100% rgba(0, 161, 103, 0));
