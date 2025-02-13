@@ -3,7 +3,6 @@ import { formatBigInt, formatDecimalPercentage, formatNumber } from '@jetstreamg
 import { Text } from '@/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
 import { InteractiveStatsCardWithAccordion } from '@/shared/components/ui/card/InteractiveStatsCardWithAccordion';
-import { InteractiveStatsCard } from '@/shared/components/ui/card/InteractiveStatsCard';
 import { Skeleton } from '@/components/ui/skeleton';
 import { PopoverRateInfo } from '@/shared/components/ui/PopoverRateInfo';
 import { formatUnits } from 'viem';
@@ -58,56 +57,6 @@ export const SavingsBalanceCard = ({
   if (multichainSavingsBalancesError || overallSkyDataError) return null;
 
   if (filteredAndSortedSavingsBalances.length === 0) return null;
-
-  if (filteredAndSortedSavingsBalances.length === 1)
-    return (
-      <InteractiveStatsCard
-        title={t`Savings balance`}
-        tokenSymbol="USDS"
-        headerRightContent={
-          multichainSavingsBalancesLoading ? (
-            <Skeleton className="w-32" />
-          ) : (
-            <Text>{`${multichainSavingsBalances ? formatBigInt(totalSavingsBalance) : '0'}`}</Text>
-          )
-        }
-        footer={
-          overallSkyDataLoading ? (
-            <Skeleton className="h-4 w-20" />
-          ) : skySavingsRate > 0 ? (
-            <div className="flex w-fit items-center gap-1.5">
-              <Text variant="small" className="text-bullish leading-4">
-                {`Rate: ${formatDecimalPercentage(skySavingsRate)}`}
-              </Text>
-              <PopoverRateInfo
-                type="ssr"
-                onExternalLinkClicked={onExternalLinkClicked}
-                iconClassName="h-[13px] w-[13px]"
-              />
-            </div>
-          ) : (
-            <></>
-          )
-        }
-        footerRightContent={
-          multichainSavingsBalancesLoading || pricesLoading ? (
-            <Skeleton className="h-[13px] w-20" />
-          ) : multichainSavingsBalances !== undefined && !!pricesData?.USDS ? (
-            <Text variant="small" className="text-textSecondary">
-              $
-              {formatNumber(
-                parseFloat(formatUnits(totalSavingsBalance, 18)) * parseFloat(pricesData.USDS.price),
-                {
-                  maxDecimals: 2
-                }
-              )}
-            </Text>
-          ) : undefined
-        }
-        url={urlMap[filteredAndSortedSavingsBalances[0].chainId]}
-        chainId={filteredAndSortedSavingsBalances[0].chainId}
-      />
-    );
 
   return (
     <InteractiveStatsCardWithAccordion

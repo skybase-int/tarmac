@@ -9,6 +9,7 @@ import { useChains } from 'wagmi';
 import { usePrices } from '@jetstreamgg/hooks';
 import { formatBigInt, formatNumber, getChainIcon } from '@jetstreamgg/utils';
 import { Link } from 'react-router-dom';
+import { InteractiveStatsCard } from './InteractiveStatsCard';
 
 export const InteractiveStatsCardWithAccordion = ({
   title,
@@ -23,12 +24,25 @@ export const InteractiveStatsCardWithAccordion = ({
   headerRightContent: React.ReactElement | string;
   footer: React.ReactElement | string;
   footerRightContent?: React.ReactElement | string;
-  tokenSymbol?: string;
+  tokenSymbol: string;
   balancesByChain: { chainId: number; balance: bigint }[];
   urlMap: Record<number, string>;
 }): React.ReactElement => {
   const chains = useChains();
   const { data: pricesData } = usePrices();
+  if (balancesByChain.length === 1) {
+    return (
+      <InteractiveStatsCard
+        title={title}
+        headerRightContent={headerRightContent}
+        footer={footer}
+        footerRightContent={footerRightContent}
+        tokenSymbol={tokenSymbol}
+        url={urlMap[balancesByChain[0].chainId]}
+        chainId={balancesByChain[0].chainId}
+      />
+    );
+  }
   return (
     <Accordion type="single" collapsible>
       <AccordionItem value="details" className="accordion-item border-0">
