@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 
 const card = tv({
   // Base styles apply to the base component before variant styles are applied
-  base: 'rounded-[20px] bg-card p-4 lg:p-5 text-text text-base font-normal leading-normal data-[status=success]:bg-primary',
+  base: 'rounded-[20px] bg-card p-4 lg:p-5 text-text text-base font-normal leading-normal data-[status=success]:bg-radial-(--gradient-position)',
 
   // Slot styles will apply to every slot before slot variants are applied
   slots: {
@@ -34,7 +34,7 @@ const card = tv({
       },
       statsCompact: { base: 'p-3 lg:pl-4 lg:pb-4 lg:pt-3 lg:pr-3' },
       statsInteractive: {
-        base: 'hover:bg-primary transition-gradient-and-colors group/interactive-card cursor-pointer px-4 py-3 [--gradient-opacity:0%] hover:[--gradient-opacity:100%] lg:px-4 lg:py-3 w-full',
+        base: 'hover:bg-radial-(--gradient-position) hover:from-primary-start/100 hover:to-primary-end/100 transition group/interactive-card cursor-pointer px-4 py-3 lg:px-4 lg:py-3 w-full',
         header: 'p-0',
         title: 'text-sm font-normal leading-tight text-textSecondary',
         content: 'pt-0 mt-1'

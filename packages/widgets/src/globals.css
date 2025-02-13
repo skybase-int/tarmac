@@ -44,17 +44,14 @@
   --color-brandLight: rgb(var(--brand-light-purple));
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
+  --color-primary-start: rgba(61, 47, 164);
+  --color-primary-end: rgba(76, 61, 183);
+  --color-primary-bright-start: rgba(87, 59, 246);
+  --color-primary-bright-end: rgba(102, 72, 246);
+  --color-primary-alt-start: rgba(98, 89, 191);
+  --color-primary-alt-end: rgba(123, 113, 204);
 
-  --background-image-primary: radial-gradient(
-    116.48% 116.48% at 50% 2.27%,
-    rgba(61, 47, 164, var(--gradient-opacity)) 0%,
-    rgba(76, 61, 183, var(--gradient-opacity)) 100%
-  );
-  --background-image-primaryAlt: radial-gradient(
-    116.48% 116.48% at 50% 2.27%,
-    rgba(98, 89, 191, var(--gradient-opacity)) 0%,
-    rgba(123, 113, 204, var(--gradient-opacity)) 100%
-  );
+  --gradient-position: 116.48% 116.48% at 50% 2.27%;
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
@@ -70,10 +67,6 @@
 
   --transition-duration-250: 250ms;
   --transition-duration-350: 350ms;
-
-  --transition-property-gradient-opacity: --gradient-opacity;
-  --transition-property-gradient-and-colors:
-    --gradient-opacity, color, background-color, border-color, text-decoration-color, fill, stroke;
 
   @keyframes accordion-down {
     from {
@@ -186,12 +179,6 @@
 }
 
 @layer base {
-  @property --gradient-opacity {
-    syntax: '<percentage>';
-    inherits: false;
-    initial-value: 100%;
-  }
-
   :root {
     --brand-dark-purple: 26 24 85;
     --brand-middle-purple: 42 25 125;

@@ -65,32 +65,23 @@
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
   --color-chartSelect: rgba(22, 17, 53, 1);
+  --color-primary-start: rgba(61, 47, 164);
+  --color-primary-end: rgba(76, 61, 183);
+  --color-primary-bright-start: rgba(87, 59, 246);
+  --color-primary-bright-end: rgba(102, 72, 246);
+  --color-primary-alt-start: rgba(98, 89, 191);
+  --color-primary-alt-end: rgba(123, 113, 204);
 
   --font-weight-custom-450: 450;
 
-  --background-image-primary: radial-gradient(
-    116.48% 116.48% at 50% 2.27%,
-    rgba(61, 47, 164, var(--gradient-opacity)) 0%,
-    rgba(76, 61, 183, var(--gradient-opacity)) 100%
-  );
-  --background-image-primaryBright: radial-gradient(
-    116.48% 116.48% at 50% 2.27%,
-    rgba(87, 59, 246, var(--gradient-opacity)) 0%,
-    rgba(102, 72, 246, var(--gradient-opacity)) 100%
-  );
+  --gradient-position: 116.48% 116.48% at 50% 2.27%;
+
   --background-image-primaryHover: var(--service-purple-15);
   --background-image-primaryDisabled: var(--service-purple-0);
   --background-image-primaryActive: var(--service-purple-5);
   --background-image-primaryFocus: var(--primary-purple-40);
   --background-image-primaryTransparent: var(--service-purple-transparent);
-  --background-image-primaryAlt: radial-gradient(
-    116.48% 116.48% at 50% 2.27%,
-    rgba(98, 89, 191, var(--gradient-opacity)) 0%,
-    rgba(123, 113, 204, var(--gradient-opacity)) 100%
-  );
   --background-image-app-background: URL('/images/background.png');
-  --background-image-blend-overlay: overlay;
-  --background-image-blend-plus-lighter: plus-lighter;
   --background-image-sky-blue: URL('/images/sky-blue.png');
   --background-image-sky-purple: URL('/images/sky-purple.png');
   --background-image-sky-pink: URL('/images/sky-pink.png');
@@ -119,10 +110,6 @@
 
   --transition-duration-250: 250ms;
   --transition-duration-350: 350ms;
-
-  --transition-property-gradient-opacity: --gradient-opacity;
-  --transition-property-gradient-and-colors:
-    --gradient-opacity, color, background-color, border-color, text-decoration-color, fill, stroke;
 
   @keyframes accordion-down {
     from {
@@ -234,14 +221,6 @@
   @font-face {
     font-family: 'CircleStd';
     src: URL('/fonts/CircularXXWeb-Book.woff2') format('woff2');
-  }
-}
-
-@layer utilities {
-  @property --gradient-opacity {
-    syntax: '<percentage>';
-    inherits: false;
-    initial-value: 100%;
   }
 }
 
