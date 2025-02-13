@@ -18,7 +18,7 @@ type Props = {
   suppliedBalance?: bigint;
   rewardsBalance?: bigint;
   claim?: WriteHook;
-  onChange: (val: bigint) => void;
+  onChange: (val: bigint, userTriggered?: boolean) => void;
   onToggle: (number: 0 | 1) => void;
   onClaimClick: () => void;
   tabIndex: 0 | 1;
@@ -42,7 +42,7 @@ export function ManagePosition({
 }: Props) {
   return (
     <VStack className="items-stretch">
-      <Tabs defaultValue={tabIndex === 0 ? RewardsFlow.SUPPLY : RewardsFlow.WITHDRAW} className="space-y-4">
+      <Tabs value={tabIndex === 0 ? RewardsFlow.SUPPLY : RewardsFlow.WITHDRAW} className="space-y-4">
         <motion.div variants={positionAnimations}>
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger
@@ -82,7 +82,7 @@ export function ManagePosition({
               tokenList={[]}
               className="w-full"
               balance={tokenBalance}
-              onChange={onChange}
+              onChange={(val, event) => onChange(val, !!event)}
               value={amount}
               dataTestId="supply-input-rewards"
               label={t`How much ${rewardContract?.supplyToken.name ?? ''} would you like to supply?`}
@@ -99,7 +99,7 @@ export function ManagePosition({
               tokenList={[]}
               className="w-full"
               balance={suppliedBalance}
-              onChange={onChange}
+              onChange={(val, event) => onChange(val, !!event)}
               value={amount}
               dataTestId="withdraw-input-rewards"
               label={t`How much ${rewardContract?.supplyToken.name ?? ''} would you like to withdraw?`}

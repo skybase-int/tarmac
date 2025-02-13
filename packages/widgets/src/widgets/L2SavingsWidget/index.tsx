@@ -483,7 +483,7 @@ const SavingsWidgetWrapped = ({
     } else {
       // Reset widget state when we are not connected
       setWidgetState({
-        flow: null,
+        flow: tabIndex === 0 ? SavingsFlow.SUPPLY : SavingsFlow.WITHDRAW,
         action: null,
         screen: null
       });

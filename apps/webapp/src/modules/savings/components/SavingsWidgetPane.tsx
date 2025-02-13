@@ -65,7 +65,7 @@ export function SavingsWidgetPane(sharedProps: SharedProps) {
       });
     }
 
-    // Set tab search param based on widgetState.flow
+    // Set flow search param based on widgetState.flow
     if (widgetState.flow) {
       setSearchParams(prev => {
         prev.set(QueryParams.Flow, widgetState.flow);
