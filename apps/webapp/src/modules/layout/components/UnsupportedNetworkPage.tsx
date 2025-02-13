@@ -44,8 +44,8 @@ export const UnsupportedNetworkPage = ({ children }: { children: React.ReactNode
                  * For production this would only use Mainnet and Base */}
                 {chains.map(({ name, id }) => (
                   <Button
-                    variant="connect"
-                    className="bg-primary border-transparent hover:border-transparent focus:border-transparent"
+                    variant="connectPrimary"
+                    className="border-transparent hover:border-transparent focus:border-transparent"
                     key={id}
                     onClick={() => handleSwitchChain(id, name)}
                   >

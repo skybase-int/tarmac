@@ -25,7 +25,7 @@ const card = tv({
         title: 'text-xl font-semibold leading-normal lg:text-2xl lg:leading-loose',
         content: 'pt-0'
       },
-      pool: { base: 'leading-tight lg:px-5 lg:py-4 cursor-pointer space-y-3' },
+      pool: { base: 'leading-tight lg:px-5 lg:py-4 cursor-pointer' },
       stats: {
         base: 'py-3 px-5 lg:px-5 w-full',
         header: 'p-0',

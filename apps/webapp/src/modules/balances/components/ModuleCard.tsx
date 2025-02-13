@@ -32,7 +32,7 @@ export const ModuleCard = ({ className, title, intent, module, notAvailable, soo
       {soon && (
         <Text
           variant="small"
-          className="bg-primary text-text absolute -top-3 right-2 z-10 rounded-full px-1.5 py-0 md:px-2 md:py-1"
+          className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 text-text absolute -top-3 right-2 z-10 rounded-full px-1.5 py-0 md:px-2 md:py-1"
         >
           <Trans>Soon on {isBase ? 'Base' : isArbitrum ? 'Arbitrum' : ''}</Trans>
         </Text>

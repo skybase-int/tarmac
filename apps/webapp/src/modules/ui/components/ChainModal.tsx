@@ -108,7 +108,8 @@ export function ChainModal({
               onClick={() => handleSwitchChain(chain.id)}
               className={cn(
                 'flex w-full justify-between p-1.5',
-                chainId === chain.id && 'hover:bg-primary focus:bg-primary active:bg-primary'
+                chainId === chain.id &&
+                  'bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100'
               )}
               variant={chainId === chain.id ? 'default' : 'ghost'}
             >
