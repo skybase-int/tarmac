@@ -1,6 +1,6 @@
-import { cn } from '@/lib/utils';
-import { LinkExternal } from '@/shared/components/icons/LinkExternal';
-import { HStack } from '@/shared/components/ui/layout/HStack';
+import { cn } from '@widgets/lib/utils';
+import { LinkExternal } from '@widgets/shared/components/icons/LinkExternal';
+import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import React from 'react';
 
 export function ExternalLink({

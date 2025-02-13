@@ -1,6 +1,6 @@
 import { useCallback, useContext } from 'react';
-import { Card } from '@/components/ui/card';
-import { Text } from '@/shared/components/ui/Typography';
+import { Card } from '@widgets/components/ui/card';
+import { Text } from '@widgets/shared/components/ui/Typography';
 import {
   TransactionTypeEnum,
   ZERO_ADDRESS,
@@ -13,13 +13,13 @@ import {
   SealHistoryKick
 } from '@jetstreamgg/hooks';
 import { SealModuleWidgetContext } from '../context/context';
-import { WidgetContext } from '@/context/WidgetContext';
+import { WidgetContext } from '@widgets/context/WidgetContext';
 import { SealAction, SealStep } from '../lib/constants';
-import { WidgetState } from '@/index';
+import { WidgetState } from '@widgets/index';
 import { formatUrnIndex } from '../lib/utils';
 import { PositionDetail } from './PositionDetail';
-import { Button } from '@/components/ui/button';
-import { Edit } from '@/shared/components/icons/Edit';
+import { Button } from '@widgets/components/ui/button';
+import { Edit } from '@widgets/shared/components/icons/Edit';
 import { OnSealUrnChange } from '..';
 import { fromHex, trim } from 'viem';
 

@@ -1,5 +1,5 @@
-import { PopoverTrigger } from '@/components/ui/popover';
-import { Text } from '@/shared/components/ui/Typography';
+import { PopoverTrigger } from '@widgets/components/ui/popover';
+import { Text } from '@widgets/shared/components/ui/Typography';
 import { HStack } from '../layout/HStack';
 import { TokenIcon } from './TokenIcon';
 import { ChevronDown } from 'lucide-react';

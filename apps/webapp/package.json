@@ -23,7 +23,7 @@
     "e2e:ui": "playwright test --ui",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit --project tsconfig.production.json"
   },
   "dependencies": {
     "@jetstreamgg/hooks": "workspace:^",

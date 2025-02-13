@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button';
-import { TokenIcon } from '@/shared/components/ui/token/TokenIcon';
+import { Button } from '@widgets/components/ui/button';
+import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
 import { Token } from '@jetstreamgg/hooks';
 import { ArrowLeftRight } from 'lucide-react';
 import {
@@ -8,8 +8,8 @@ import {
   TooltipContent,
   TooltipArrow,
   TooltipPortal
-} from '@/components/ui/tooltip';
-import { Text } from '@/shared/components/ui/Typography';
+} from '@widgets/components/ui/tooltip';
+import { Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
 
 export const ViewSkyMkrButton = ({ onClick, displayToken }: { onClick: () => void; displayToken: Token }) => {

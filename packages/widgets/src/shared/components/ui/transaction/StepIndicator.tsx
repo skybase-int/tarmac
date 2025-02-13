@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { TxStatus } from '../../../constants';
 import { motion } from 'framer-motion';
 import { SuccessCheckSolidColor } from '../../icons/Icons';
-import { Text } from '@/shared/components/ui/Typography';
-import { cn } from '@/lib/utils';
+import { Text } from '@widgets/shared/components/ui/Typography';
+import { cn } from '@widgets/lib/utils';
 
 export interface StepIndicatorProps {
   stepNumber: number;

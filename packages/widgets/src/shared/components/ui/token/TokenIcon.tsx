@@ -1,6 +1,6 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { cn } from '@/lib/utils';
-import { useTokenImage } from '@/shared/hooks/useTokenImage';
+import { Avatar, AvatarFallback, AvatarImage } from '@widgets/components/ui/avatar';
+import { cn } from '@widgets/lib/utils';
+import { useTokenImage } from '@widgets/shared/hooks/useTokenImage';
 import { Token } from '@jetstreamgg/hooks';
 
 export function TokenIcon({

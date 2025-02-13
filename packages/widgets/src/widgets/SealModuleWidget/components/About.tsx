@@ -1,5 +1,5 @@
-import { InfoTooltip } from '@/shared/components/ui/tooltip/InfoTooltip';
-import { Heading, Text } from '@/shared/components/ui/Typography';
+import { InfoTooltip } from '@widgets/shared/components/ui/tooltip/InfoTooltip';
+import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
 
 export const About = () => {
