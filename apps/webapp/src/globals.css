@@ -181,6 +181,11 @@
     src: URL('/fonts/CircularXXWeb-Book.woff2') format('woff2');
   }
 
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+
   :root {
     --brand-dark-purple: 26 24 85;
     --brand-middle-purple: 42 25 125;
