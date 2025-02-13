@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
-import { WidgetContext } from '@/context/WidgetContext';
-import { TransactionStatus } from '@/shared/components/ui/transaction/TransactionStatus';
-import { TxCardCopyText } from '@/shared/types/txCardCopyText';
+import { WidgetContext } from '@widgets/context/WidgetContext';
+import { TransactionStatus } from '@widgets/shared/components/ui/transaction/TransactionStatus';
+import { TxCardCopyText } from '@widgets/shared/types/txCardCopyText';
 import { i18n } from '@lingui/core';
 import { t } from '@lingui/core/macro';
 import {
@@ -13,7 +13,7 @@ import {
   ZERO_ADDRESS
 } from '@jetstreamgg/hooks';
 import { formatBigInt } from '@jetstreamgg/utils';
-import { approveLoadingButtonText } from '@/shared/constants';
+import { approveLoadingButtonText } from '@widgets/shared/constants';
 import {
   claimLoadingButtonText,
   claimSubtitle,
@@ -29,13 +29,13 @@ import {
   sealApproveDescription,
   repayApproveDescription
 } from '../lib/constants';
-import { positionAnimations } from '@/shared/animation/presets';
-import { HStack } from '@/shared/components/ui/layout/HStack';
-import { TokenIconWithBalance } from '@/shared/components/ui/token/TokenIconWithBalance';
-import { Text } from '@/shared/components/ui/Typography';
-import { VStack } from '@/shared/components/ui/layout/VStack';
+import { positionAnimations } from '@widgets/shared/animation/presets';
+import { HStack } from '@widgets/shared/components/ui/layout/HStack';
+import { TokenIconWithBalance } from '@widgets/shared/components/ui/token/TokenIconWithBalance';
+import { Text } from '@widgets/shared/components/ui/Typography';
+import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { SealModuleWidgetContext } from '../context/context';
-import { TokenIcon } from '@/shared/components/ui/token/TokenIcon';
+import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
 import { useDelegateName } from '@jetstreamgg/hooks';
 import { JazziconComponent } from './Jazzicon';
 import { needsDelegateUpdate, needsRewardUpdate } from '../lib/utils';

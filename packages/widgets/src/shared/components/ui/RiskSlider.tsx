@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as SliderPrimitive from '@radix-ui/react-slider';
-import { Text } from '@/shared/components/ui/Typography';
-import { cn } from '@/lib/utils';
+import { Text } from '@widgets/shared/components/ui/Typography';
+import { cn } from '@widgets/lib/utils';
 import { HStack } from './layout/HStack';
 
 type RiskSliderProps = React.ComponentProps<typeof SliderPrimitive.Root> & {

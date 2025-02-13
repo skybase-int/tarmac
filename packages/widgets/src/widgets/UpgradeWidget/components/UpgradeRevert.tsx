@@ -1,15 +1,15 @@
 import React, { useMemo } from 'react';
-import { WidgetProps } from '@/shared/types/widgetState';
-import { VStack } from '@/shared/components/ui/layout/VStack';
-import { TokenInput } from '@/shared/components/ui/token/TokenInput';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { WidgetProps } from '@widgets/shared/types/widgetState';
+import { VStack } from '@widgets/shared/components/ui/layout/VStack';
+import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
+import { Tabs, TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
 import { getTokenDecimals, Token } from '@jetstreamgg/hooks';
 import { UpgradeStats } from './UpgradeStats';
-import { TransactionOverview } from '@/shared/components/ui/transaction/TransactionOverview';
+import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
 import { t } from '@lingui/core/macro';
 import { formatBigInt } from '@jetstreamgg/utils';
 import { motion } from 'framer-motion';
-import { positionAnimations } from '@/shared/animation/presets';
+import { positionAnimations } from '@widgets/shared/animation/presets';
 import { useChainId } from 'wagmi';
 
 type Props = WidgetProps & {

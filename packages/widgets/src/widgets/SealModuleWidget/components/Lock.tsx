@@ -1,10 +1,10 @@
-import { TokenInput } from '@/shared/components/ui/token/TokenInput';
+import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
 import { Token, TOKENS, useTokenBalance } from '@jetstreamgg/hooks';
 import { t } from '@lingui/core/macro';
 import { useContext, useEffect } from 'react';
 import { useAccount, useChainId } from 'wagmi';
 import { SealModuleWidgetContext } from '../context/context';
-import { WidgetContext } from '@/context/WidgetContext';
+import { WidgetContext } from '@widgets/context/WidgetContext';
 import { SealFlow } from '../lib/constants';
 
 export const Lock = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolean }) => {
