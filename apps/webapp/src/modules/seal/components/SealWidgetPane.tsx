@@ -44,8 +44,8 @@ export function SealWidgetPane(sharedProps: SharedProps) {
   };
 
   // Reset detail pane urn index when widget is mounted
+  const urnIndexParam = searchParams.get(QueryParams.SealUrnIndex);
   useEffect(() => {
-    const urnIndexParam = searchParams.get(QueryParams.SealUrnIndex);
     setSelectedSealUrnIndex(
       urnIndexParam ? (isNaN(Number(urnIndexParam)) ? undefined : Number(urnIndexParam)) : undefined
     );
@@ -54,7 +54,7 @@ export function SealWidgetPane(sharedProps: SharedProps) {
     return () => {
       setSelectedSealUrnIndex(undefined);
     };
-  }, []);
+  }, [urnIndexParam]);
 
   const onSealWidgetStateChange = ({
     hash,

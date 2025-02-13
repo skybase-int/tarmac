@@ -165,7 +165,7 @@ function SealModuleWidgetWrapped({
   } = useContext(SealModuleWidgetContext);
 
   // Returns the urn index to use for opening a new urn
-  const { data: currentUrnIndex } = useCurrentUrnIndex();
+  const { data: currentUrnIndex, error: currentUrnIndexError } = useCurrentUrnIndex();
 
   const { data: externalParamUrnAddress } = useUrnAddress(
     validatedExternalState?.urnIndex !== undefined ? BigInt(validatedExternalState.urnIndex) : -1n
@@ -633,9 +633,29 @@ function SealModuleWidgetWrapped({
     !!widgetState.action && widgetState.action !== SealAction.OVERVIEW && currentStep !== SealStep.ABOUT;
 
   useEffect(() => {
+    if (currentUrnIndexError) {
+      throw new Error('Failed to fetch current urn index');
+    }
+  }, [currentUrnIndexError]);
+
+  useEffect(() => {
+    // If there are no urns open
+    if (currentUrnIndex === 0n) {
+      // Initialize the open position flow
+      setWidgetState({
+        flow: SealFlow.OPEN,
+        action: SealAction.MULTICALL,
+        screen: SealScreen.ACTION
+      });
+      setCurrentStep(SealStep.ABOUT);
+      return;
+    }
+
+    // Handle existing urns
     if (
       validatedExternalState?.urnIndex !== undefined &&
       validatedExternalState.urnIndex !== null &&
+      BigInt(validatedExternalState.urnIndex) < (currentUrnIndex || 0n) &&
       !!externalParamUrnAddress
     ) {
       // Navigate to the Urn
@@ -659,6 +679,12 @@ function SealModuleWidgetWrapped({
       );
       setCurrentStep(SealStep.OPEN_BORROW);
       setAcceptedExitFee(false);
+    } else if (
+      validatedExternalState?.urnIndex === undefined ||
+      validatedExternalState?.urnIndex === null ||
+      BigInt(validatedExternalState.urnIndex) > (currentUrnIndex || 0n)
+    ) {
+      resetToOverviewState();
     }
   }, [validatedExternalState?.urnIndex, externalParamUrnAddress]);
 
@@ -835,7 +861,7 @@ function SealModuleWidgetWrapped({
     );
   }, [widgetState.flow, widgetState.action, txStatus, currentStep]);
 
-  const handleViewAll = () => {
+  const resetToOverviewState = () => {
     setActiveUrn(undefined, onSealUrnChange ?? (() => {}));
     onSealUrnChange?.(undefined);
     setWidgetState((prev: WidgetState) => ({
@@ -872,7 +898,7 @@ function SealModuleWidgetWrapped({
         ) : (
           // do we want to wrap this? <CardAnimationWrapper key="widget-back-button"></CardAnimationWrapper>
           <VStack className="w-full">
-            <Button variant="link" onClick={handleViewAll} className="justify-start p-0">
+            <Button variant="link" onClick={resetToOverviewState} className="justify-start p-0">
               <HStack className="space-x-2">
                 <ArrowLeft className="self-center" />
                 <Heading tag="h3" variant="small" className="text-textSecondary">
