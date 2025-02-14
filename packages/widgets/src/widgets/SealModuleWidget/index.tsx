@@ -1,7 +1,7 @@
 import { ErrorBoundary } from '@/shared/components/ErrorBoundary';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { WidgetContext, WidgetProvider } from '@/context/WidgetContext';
-import { WidgetProps, WidgetState } from '@/shared/types/widgetState';
+import { WidgetProps, WidgetState, WidgetStateChangeParams } from '@/shared/types/widgetState';
 import { WidgetContainer } from '@/shared/components/ui/widget/WidgetContainer';
 import { Heading } from '@/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
@@ -50,7 +50,7 @@ import { ArrowLeft } from 'lucide-react';
 import { getValidatedState } from '@/lib/utils';
 import { UnconnectedState } from './components/UnconnectedState';
 import { useLingui } from '@lingui/react';
-import { parseUnits } from 'viem';
+import { formatUnits, parseUnits } from 'viem';
 
 export type OnSealUrnChange = (
   urn: { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined } | undefined
@@ -1031,7 +1031,22 @@ function SealModuleWidgetWrapped({
       }
     >
       <AnimatePresence mode="popLayout" initial={false}>
-        {!isConnectedAndEnabled && <UnconnectedState />}
+        {!isConnectedAndEnabled && (
+          <UnconnectedState
+            onInputAmountChange={(val: bigint, userTriggered?: boolean) => {
+              if (userTriggered) {
+                // If newValue is 0n and it was triggered by user, it means they're clearing the input
+                const formattedValue =
+                  val === 0n ? '' : formatUnits(val, getTokenDecimals(selectedToken, chainId));
+                onWidgetStateChange?.({
+                  originAmount: formattedValue,
+                  txStatus,
+                  widgetState
+                });
+              }
+            }}
+          />
+        )}
         {txStatus !== TxStatus.IDLE ? (
           <CardAnimationWrapper key="widget-transaction-status">
             <SealModuleTransactionStatus onExternalLinkClicked={onExternalLinkClicked} />
@@ -1062,6 +1077,7 @@ function SealModuleWidgetWrapped({
                       claimExecute={claimRewards.execute}
                       onSealUrnChange={onSealUrnChange}
                       termsLink={termsLink}
+                      onWidgetStateChange={onWidgetStateChange}
                     />
                   )}
                   {widgetState.flow === SealFlow.OPEN && (
@@ -1072,6 +1088,7 @@ function SealModuleWidgetWrapped({
                       onClickTrigger={onClickTab}
                       tabSide={tabSide}
                       termsLink={termsLink}
+                      onWidgetStateChange={onWidgetStateChange}
                     />
                   )}
                 </MotionVStack>
@@ -1090,7 +1107,8 @@ const Wizard = ({
   currentStep,
   onClickTrigger,
   tabSide,
-  termsLink
+  termsLink,
+  onWidgetStateChange
 }: {
   isConnectedAndEnabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
@@ -1098,7 +1116,11 @@ const Wizard = ({
   onClickTrigger: any;
   tabSide: 'left' | 'right';
   termsLink?: { url: string; name: string };
+  onWidgetStateChange?: (params: WidgetStateChangeParams) => void;
 }) => {
+  const chainId = useChainId();
+  const { selectedToken } = useContext(SealModuleWidgetContext);
+  const { widgetState, txStatus } = useContext(WidgetContext);
   return (
     <div>
       {(currentStep === SealStep.ABOUT || currentStep === SealStep.OPEN_BORROW) && (
@@ -1108,6 +1130,18 @@ const Wizard = ({
           onClickTrigger={onClickTrigger}
           tabSide={tabSide}
           termsLink={termsLink}
+          onInputAmountChange={(val: bigint, userTriggered?: boolean) => {
+            if (userTriggered) {
+              // If newValue is 0n and it was triggered by user, it means they're clearing the input
+              const formattedValue =
+                val === 0n ? '' : formatUnits(val, getTokenDecimals(selectedToken, chainId));
+              onWidgetStateChange?.({
+                originAmount: formattedValue,
+                txStatus,
+                widgetState
+              });
+            }
+          }}
         />
       )}
       {currentStep === SealStep.REWARDS && (
@@ -1129,7 +1163,8 @@ const ManagePosition = ({
   claimPrepared,
   claimExecute,
   onSealUrnChange,
-  termsLink
+  termsLink,
+  onWidgetStateChange
 }: {
   isConnectedAndEnabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
@@ -1141,6 +1176,7 @@ const ManagePosition = ({
   claimExecute: () => void;
   onSealUrnChange?: OnSealUrnChange;
   termsLink?: { url: string; name: string };
+  onWidgetStateChange?: (params: WidgetStateChangeParams) => void;
 }) => {
   return currentAction === SealAction.OVERVIEW ? (
     <UrnsList claimPrepared={claimPrepared} claimExecute={claimExecute} onSealUrnChange={onSealUrnChange} />
@@ -1152,6 +1188,7 @@ const ManagePosition = ({
       onClickTrigger={onClickTrigger}
       tabSide={tabSide}
       termsLink={termsLink}
+      onWidgetStateChange={onWidgetStateChange}
     />
   );
 };
