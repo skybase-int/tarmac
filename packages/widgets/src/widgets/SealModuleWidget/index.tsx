@@ -110,8 +110,6 @@ function SealModuleWidgetWrapped({
   referralCode
 }: SealModuleWidgetProps) {
   const validatedExternalState = getValidatedState(externalWidgetState);
-  const [tabIndex, setTabIndex] = useState<0 | 1>(0);
-  const tabSide = tabIndex === 0 ? 'left' : 'right';
   const containerRef = useRef<HTMLDivElement>(null);
 
   const {
@@ -163,6 +161,10 @@ function SealModuleWidgetWrapped({
     selectedToken,
     displayToken
   } = useContext(SealModuleWidgetContext);
+
+  const initialTabIndex = validatedExternalState?.sealTab === SealAction.FREE ? 1 : 0;
+  const [tabIndex, setTabIndex] = useState<0 | 1>(initialTabIndex);
+  const tabSide = tabIndex === 0 ? 'left' : 'right';
 
   // Returns the urn index to use for opening a new urn
   const { data: currentUrnIndex, error: currentUrnIndexError } = useCurrentUrnIndex();
@@ -418,6 +420,10 @@ function SealModuleWidgetWrapped({
   const needsNgtAllowance = !!(sealNgtAllowance === undefined || sealNgtAllowance < debouncedSkyAmount);
   const needsLockAllowance = selectedToken === TOKENS.mkr ? needsMkrAllowance : needsNgtAllowance;
   const needsUsdsAllowance = !!(sealUsdsAllowance === undefined || sealUsdsAllowance < debouncedUsdsAmount);
+
+  useEffect(() => {
+    setTabIndex(initialTabIndex);
+  }, [initialTabIndex]);
 
   // Generate calldata when all steps are complete
   useEffect(() => {
@@ -915,6 +921,17 @@ function SealModuleWidgetWrapped({
 
   const widgetStateLoaded = !!widgetState.flow && !!widgetState.action;
 
+  const onClickTab = (index: 0 | 1) => {
+    setTabIndex(index);
+    onWidgetStateChange?.({
+      widgetState: {
+        ...widgetState
+      },
+      txStatus,
+      sealTab: index === 1 ? SealAction.FREE : SealAction.LOCK
+    });
+  };
+
   return (
     <WidgetContainer
       ref={containerRef}
@@ -980,7 +997,7 @@ function SealModuleWidgetWrapped({
                       onExternalLinkClicked={onExternalLinkClicked}
                       currentStep={currentStep}
                       currentAction={widgetState.action}
-                      onClickTrigger={setTabIndex}
+                      onClickTrigger={onClickTab}
                       tabSide={tabSide}
                       claimPrepared={claimRewards.prepared}
                       claimExecute={claimRewards.execute}
@@ -993,7 +1010,7 @@ function SealModuleWidgetWrapped({
                       isConnectedAndEnabled={isConnectedAndEnabled}
                       onExternalLinkClicked={onExternalLinkClicked}
                       currentStep={currentStep}
-                      onClickTrigger={setTabIndex}
+                      onClickTrigger={onClickTab}
                       tabSide={tabSide}
                       termsLink={termsLink}
                     />

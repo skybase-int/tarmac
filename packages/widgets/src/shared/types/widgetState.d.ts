@@ -9,6 +9,7 @@ import { RewardsAction, RewardsFlow, RewardsScreen } from '@/widgets/RewardsWidg
 import { TradeAction, TradeFlow, TradeScreen } from '@/widgets/TradeWidget/lib/constants';
 import { RewardContract } from '@jetstreamgg/hooks';
 import { TxStatus, NotificationType } from '../constants';
+import { SealAction } from '@/widgets/SealModuleWidget/lib/constants';
 
 export type WidgetState = {
   flow: InitialFlow | BalancesFlow | SavingsFlow | UpgradeFlow | RewardsFlow | TradeFlow;
@@ -46,6 +47,7 @@ type RewardsWidgetState = Amount &
 
 type SealWidgetState = Amount & {
   urnIndex?: number;
+  sealTab?: SealAction.LOCK | SealAction.FREE;
 };
 
 export type ExternalWidgetState = BalancesWidgetState &
@@ -72,6 +74,7 @@ export type WidgetStateChangeParams = {
   executedSellAmount?: string;
   displayToken?: Token;
   originAmount?: string;
+  sealTab?: SealAction.LOCK | SealAction.FREE;
 };
 
 export type WidgetProps = {

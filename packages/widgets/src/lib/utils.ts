@@ -8,6 +8,7 @@ import { ExternalWidgetState } from '@/shared/types/widgetState';
 import { SavingsFlow } from '@/widgets/SavingsWidget/lib/constants';
 import { UpgradeFlow } from '@/widgets/UpgradeWidget/lib/constants';
 import { RewardsFlow } from '@/widgets/RewardsWidget/lib/constants';
+import { SealAction } from '@/widgets/SealModuleWidget/lib/constants';
 import { TradeFlow } from '@/widgets/TradeWidget/lib/constants';
 import { BalancesFlow } from '@/widgets/BalancesWidget/constants';
 
@@ -86,7 +87,8 @@ const ExternalWidgetStateSchema = z
         ...Object.values(UpgradeFlow),
         ...Object.values(RewardsFlow),
         ...Object.values(TradeFlow),
-        ...Object.values(BalancesFlow)
+        ...Object.values(BalancesFlow),
+        ...[SealAction.LOCK, SealAction.FREE]
       ] as [string, ...string[]])
       .optional(),
     token: tokenValidationRule,
