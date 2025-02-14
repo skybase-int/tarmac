@@ -641,7 +641,6 @@ function SealModuleWidgetWrapped({
   useEffect(() => {
     // If there are no urns open
     if (currentUrnIndex === 0n) {
-      // Initialize the open position flow
       setWidgetState({
         flow: SealFlow.OPEN,
         action: SealAction.MULTICALL,
@@ -651,13 +650,19 @@ function SealModuleWidgetWrapped({
       return;
     }
 
-    // Handle existing urns
+    // Only proceed if we have both a valid urn index and address
     if (
-      validatedExternalState?.urnIndex !== undefined &&
-      validatedExternalState.urnIndex !== null &&
-      BigInt(validatedExternalState.urnIndex) < (currentUrnIndex || 0n) &&
-      !!externalParamUrnAddress
+      validatedExternalState?.urnIndex === undefined ||
+      validatedExternalState?.urnIndex === null ||
+      !externalParamUrnAddress
     ) {
+      return;
+    }
+
+    const urnIndexBigInt = BigInt(validatedExternalState.urnIndex);
+
+    // Handle existing urns
+    if (urnIndexBigInt < (currentUrnIndex || 0n)) {
       // Navigate to the Urn
       if (externalParamVaultData?.collateralAmount && externalUrnRewardContract) {
         setSelectedRewardContract(externalUrnRewardContract);
@@ -674,16 +679,12 @@ function SealModuleWidgetWrapped({
         action: SealAction.MULTICALL
       }));
       setActiveUrn(
-        { urnAddress: externalParamUrnAddress, urnIndex: BigInt(validatedExternalState.urnIndex) },
+        { urnAddress: externalParamUrnAddress, urnIndex: urnIndexBigInt },
         onSealUrnChange ?? (() => {})
       );
       setCurrentStep(SealStep.OPEN_BORROW);
       setAcceptedExitFee(false);
-    } else if (
-      validatedExternalState?.urnIndex === undefined ||
-      validatedExternalState?.urnIndex === null ||
-      BigInt(validatedExternalState.urnIndex) > (currentUrnIndex || 0n)
-    ) {
+    } else if (urnIndexBigInt > (currentUrnIndex || 0n)) {
       resetToOverviewState();
     }
   }, [validatedExternalState?.urnIndex, externalParamUrnAddress]);
