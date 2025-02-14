@@ -67,8 +67,17 @@ export function SealWidgetPane(sharedProps: SharedProps) {
     txStatus,
     widgetState,
     displayToken,
-    sealTab
+    sealTab,
+    originAmount
   }: WidgetStateChangeParams) => {
+    // Set flow search param based on widgetState.flow
+    if (widgetState.flow) {
+      setSearchParams(prev => {
+        prev.set(QueryParams.Flow, widgetState.flow);
+        return prev;
+      });
+    }
+
     // Set flow search param based on widgetState.flow
     if (sealTab) {
       setSearchParams(prev => {
@@ -78,6 +87,19 @@ export function SealWidgetPane(sharedProps: SharedProps) {
     } else if (sealTab === '') {
       setSearchParams(prev => {
         prev.delete(QueryParams.SealTab);
+        return prev;
+      });
+    }
+
+    // Update amount in URL if provided and not zero
+    if (originAmount && originAmount !== '0') {
+      setSearchParams(prev => {
+        prev.set(QueryParams.InputAmount, originAmount);
+        return prev;
+      });
+    } else if (originAmount === '') {
+      setSearchParams(prev => {
+        prev.delete(QueryParams.InputAmount);
         return prev;
       });
     }
@@ -123,6 +145,7 @@ export function SealWidgetPane(sharedProps: SharedProps) {
   }
 
   const sealTab = searchParams.get(QueryParams.SealTab) === 'free' ? SealAction.FREE : SealAction.LOCK;
+  const flow = searchParams.get(QueryParams.Flow) === 'open' ? SealFlow.OPEN : undefined;
 
   return (
     <SealModuleWidget
@@ -132,7 +155,8 @@ export function SealWidgetPane(sharedProps: SharedProps) {
       externalWidgetState={{
         amount: linkedActionConfig?.inputAmount,
         urnIndex: selectedSealUrnIndex,
-        sealTab
+        sealTab,
+        flow
       }}
       termsLink={termsLink[0]}
     />

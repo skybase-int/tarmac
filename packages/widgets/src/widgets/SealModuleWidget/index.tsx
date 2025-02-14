@@ -38,7 +38,8 @@ import {
   ZERO_ADDRESS,
   useUrnSelectedRewardContract,
   useUrnSelectedVoteDelegate,
-  TOKENS
+  TOKENS,
+  getTokenDecimals
 } from '@jetstreamgg/hooks';
 import { formatBigInt, getEtherscanLink, useDebounce } from '@jetstreamgg/utils';
 import { useNotifyWidgetState } from '@/shared/hooks/useNotifyWidgetState';
@@ -49,6 +50,7 @@ import { ArrowLeft } from 'lucide-react';
 import { getValidatedState } from '@/lib/utils';
 import { UnconnectedState } from './components/UnconnectedState';
 import { useLingui } from '@lingui/react';
+import { parseUnits } from 'viem';
 
 export type OnSealUrnChange = (
   urn: { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined } | undefined
@@ -110,6 +112,7 @@ function SealModuleWidgetWrapped({
   referralCode
 }: SealModuleWidgetProps) {
   const validatedExternalState = getValidatedState(externalWidgetState);
+  console.log('🚀 ~ validatedExternalState:', validatedExternalState);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const {
@@ -159,8 +162,11 @@ function SealModuleWidgetWrapped({
     wipeAll,
     setSelectedToken,
     selectedToken,
-    displayToken
+    displayToken,
+    mkrToFree
   } = useContext(SealModuleWidgetContext);
+  console.log('🚀 ~ mkrToLock:', mkrToLock);
+  console.log('🚀 ~ mkrToFree:', mkrToFree);
 
   const initialTabIndex = validatedExternalState?.sealTab === SealAction.FREE ? 1 : 0;
   const [tabIndex, setTabIndex] = useState<0 | 1>(initialTabIndex);
@@ -353,7 +359,6 @@ function SealModuleWidgetWrapped({
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
     onError: (error, hash) => {
-      console.log('error', error, hash);
       //TODO: fix all this copy
       onNotification?.({
         title: t`Approval failed`,
@@ -740,6 +745,45 @@ function SealModuleWidgetWrapped({
     });
   }, [displayToken]);
 
+  // Handle external amount
+  useEffect(() => {
+    if (validatedExternalState?.amount === undefined) {
+      setMkrToLock(0n);
+      setSkyToLock(0n);
+      setMkrToFree(0n);
+      setSkyToFree(0n);
+
+      return;
+    }
+
+    const decimals = getTokenDecimals(selectedToken, chainId);
+    const amount = parseUnits(validatedExternalState.amount, decimals);
+
+    if (selectedToken === TOKENS.mkr) {
+      if (tabSide === 'left') {
+        setMkrToLock(amount);
+        setMkrToFree(0n);
+      } else {
+        setMkrToFree(amount);
+        setMkrToLock(0n);
+      }
+    } else if (selectedToken === TOKENS.sky) {
+      if (tabSide === 'left') {
+        setSkyToLock(amount);
+        setSkyToFree(0n);
+      } else {
+        setSkyToFree(amount);
+        setSkyToLock(0n);
+      }
+    }
+  }, [validatedExternalState?.amount, selectedToken, tabSide, chainId, widgetState.flow]);
+
+  useEffect(() => {
+    if (validatedExternalState?.flow === SealFlow.OPEN) {
+      handleClickOpenPosition();
+    }
+  }, [externalWidgetState?.flow]);
+
   /**
    * BUTTON CLICKS ----------------------------------------------------------------------------------
    */
@@ -838,9 +882,19 @@ function SealModuleWidgetWrapped({
     setUsdsToWipe(0n);
     setUsdsToBorrow(0n);
     setTabIndex(0);
+
+    onWidgetStateChange?.({
+      widgetState,
+      txStatus,
+      sealTab: SealAction.LOCK,
+      originAmount: ''
+    });
   };
 
   const handleClickOpenPosition = () => {
+    // First reset urn
+    setActiveUrn(undefined, onSealUrnChange ?? (() => {}));
+
     setWidgetState({
       flow: SealFlow.OPEN,
       action: SealAction.MULTICALL,
@@ -917,6 +971,13 @@ function SealModuleWidgetWrapped({
     setUsdsToWipe(0n);
     setUsdsToBorrow(0n);
     setTabIndex(0);
+
+    onWidgetStateChange?.({
+      widgetState,
+      txStatus,
+      sealTab: SealAction.LOCK,
+      originAmount: ''
+    });
   };
 
   const widgetStateLoaded = !!widgetState.flow && !!widgetState.action;
@@ -924,9 +985,7 @@ function SealModuleWidgetWrapped({
   const onClickTab = (index: 0 | 1) => {
     setTabIndex(index);
     onWidgetStateChange?.({
-      widgetState: {
-        ...widgetState
-      },
+      widgetState,
       txStatus,
       sealTab: index === 1 ? SealAction.FREE : SealAction.LOCK
     });
