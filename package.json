@@ -97,7 +97,8 @@
   },
   "pnpm": {
     "overrides": {
-      "nwsapi": "2.2.2"
+      "nwsapi": "2.2.2",
+      "esbuild@<=0.24.2": "^0.25.0"
     }
   }
 }
