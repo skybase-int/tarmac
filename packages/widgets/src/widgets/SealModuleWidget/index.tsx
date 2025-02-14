@@ -639,7 +639,7 @@ function SealModuleWidgetWrapped({
   }, [currentUrnIndexError]);
 
   useEffect(() => {
-    // If there are no urns open
+    // If there are no urns open, set up initial open flow
     if (currentUrnIndex === 0n) {
       setWidgetState({
         flow: SealFlow.OPEN,
@@ -650,44 +650,77 @@ function SealModuleWidgetWrapped({
       return;
     }
 
-    // Only proceed if we have both a valid urn index and address
-    if (
-      validatedExternalState?.urnIndex === undefined ||
-      validatedExternalState?.urnIndex === null ||
-      !externalParamUrnAddress
-    ) {
+    // Skip effect if we don't have the current urn index yet
+    if (currentUrnIndex === undefined) {
       return;
     }
 
-    const urnIndexBigInt = BigInt(validatedExternalState.urnIndex);
+    // Get the current URL urn index
+    const urlUrnIndex = validatedExternalState?.urnIndex;
 
-    // Handle existing urns
-    if (urnIndexBigInt < (currentUrnIndex || 0n)) {
-      // Navigate to the Urn
-      if (externalParamVaultData?.collateralAmount && externalUrnRewardContract) {
-        setSelectedRewardContract(externalUrnRewardContract);
-      } else {
-        setSelectedRewardContract(undefined);
-      }
-      if (externalParamVaultData?.collateralAmount && externalUrnVoteDelegate) {
-        setSelectedDelegate(externalUrnVoteDelegate);
-      } else {
-        setSelectedDelegate(undefined);
-      }
-      setWidgetState((prev: WidgetState) => ({
-        ...prev,
-        action: SealAction.MULTICALL
-      }));
-      setActiveUrn(
-        { urnAddress: externalParamUrnAddress, urnIndex: urnIndexBigInt },
-        onSealUrnChange ?? (() => {})
-      );
-      setCurrentStep(SealStep.OPEN_BORROW);
-      setAcceptedExitFee(false);
-    } else if (urnIndexBigInt > (currentUrnIndex || 0n)) {
-      resetToOverviewState();
+    // If we're already in the correct state, don't do anything
+    // This is key to prevent the infinite loop - if we're already showing the correct urn, do nothing
+    if (activeUrn?.urnIndex === urlUrnIndex) {
+      return;
     }
-  }, [validatedExternalState?.urnIndex, externalParamUrnAddress]);
+
+    // Handle navigation to root (no urn index)
+    if (urlUrnIndex === undefined || urlUrnIndex === null) {
+      resetToOverviewState();
+      return;
+    }
+
+    // Handle navigation to specific urn
+    const urnIndexBigInt = BigInt(urlUrnIndex);
+
+    // Validate the urn index is within bounds
+    if (urnIndexBigInt >= (currentUrnIndex || 0n)) {
+      resetToOverviewState();
+      return;
+    }
+
+    // Wait for the urn address before proceeding
+    if (!externalParamUrnAddress) {
+      return;
+    }
+
+    // Set up the urn state
+    if (externalParamVaultData?.collateralAmount && externalUrnRewardContract) {
+      setSelectedRewardContract(externalUrnRewardContract);
+    } else {
+      setSelectedRewardContract(undefined);
+    }
+
+    if (externalParamVaultData?.collateralAmount && externalUrnVoteDelegate) {
+      setSelectedDelegate(externalUrnVoteDelegate);
+    } else {
+      setSelectedDelegate(undefined);
+    }
+
+    // Update widget state first
+    setWidgetState({
+      flow: SealFlow.MANAGE,
+      action: SealAction.MULTICALL,
+      screen: SealScreen.ACTION
+    });
+
+    // Then update the active urn
+    setActiveUrn(
+      { urnAddress: externalParamUrnAddress, urnIndex: urnIndexBigInt },
+      onSealUrnChange ?? (() => {})
+    );
+
+    setCurrentStep(SealStep.OPEN_BORROW);
+    setAcceptedExitFee(false);
+  }, [
+    validatedExternalState?.urnIndex,
+    externalParamUrnAddress,
+    currentUrnIndex,
+    activeUrn?.urnIndex,
+    externalParamVaultData?.collateralAmount,
+    externalUrnRewardContract,
+    externalUrnVoteDelegate
+  ]);
 
   useEffect(() => {
     if (!displayToken) return;
