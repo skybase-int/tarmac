@@ -55,10 +55,11 @@ export const useSignAndCancelOrder = ({
     mutation: {
       onSuccess: signature => {
         mutate(signature);
-        // onSuccess && onSuccess();
       },
       onError: (err: Error) => {
-        onError && onError(err, signature || '');
+        if (onError) {
+          onError(err, signature || '');
+        }
       }
     }
   });
@@ -67,10 +68,14 @@ export const useSignAndCancelOrder = ({
     mutationKey: ['cancel-order', orderUids],
     mutationFn: (signature: `0x${string}`) => cancelOrders(orderUids, signature, chainId),
     onSuccess: () => {
-      onStart && onStart('');
+      if (onStart) {
+        onStart('');
+      }
     },
     onError: (err: Error) => {
-      onError && onError(err, '');
+      if (onError) {
+        onError(err, '');
+      }
     }
   });
 

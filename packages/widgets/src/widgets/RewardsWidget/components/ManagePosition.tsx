@@ -84,7 +84,7 @@ export function ManagePosition({
               onChange={onChange}
               value={amount}
               dataTestId="supply-input-rewards"
-              label={t`How much ${rewardContract?.supplyToken.name} would you like to supply?`}
+              label={t`How much ${rewardContract?.supplyToken.name ?? ''} would you like to supply?`}
               error={error ? t`Insufficient funds` : undefined}
               showPercentageButtons={isConnectedAndEnabled}
               enabled={isConnectedAndEnabled}
@@ -101,7 +101,7 @@ export function ManagePosition({
               onChange={onChange}
               value={amount}
               dataTestId="withdraw-input-rewards"
-              label={t`How much ${rewardContract?.supplyToken.name} would you like to withdraw?`}
+              label={t`How much ${rewardContract?.supplyToken.name ?? ''} would you like to withdraw?`}
               error={error ? t`Insufficient funds` : undefined}
               showPercentageButtons={isConnectedAndEnabled}
               enabled={isConnectedAndEnabled}

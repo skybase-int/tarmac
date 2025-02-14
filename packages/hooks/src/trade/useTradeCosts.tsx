@@ -110,11 +110,10 @@ export const useTradeCosts = ({
 
   const sellTokenPrice = sellToken
     ? baPricesData?.[sellToken.symbol]?.price ||
-      (nativeCowSellTokenPrice ? formatUnits(BigInt(nativeCowSellTokenPrice), WAD_PRECISION) : undefined)
+      (nativeCowSellTokenPrice ? nativeCowSellTokenPrice : undefined)
     : undefined;
   const buyTokenPrice = buyToken
-    ? baPricesData?.[buyToken.symbol]?.price ||
-      (nativeCowBuyTokenPrice ? formatUnits(BigInt(nativeCowBuyTokenPrice), WAD_PRECISION) : undefined)
+    ? baPricesData?.[buyToken.symbol]?.price || (nativeCowBuyTokenPrice ? nativeCowBuyTokenPrice : undefined)
     : undefined;
 
   const sellAmountBeforeFeeUsd =

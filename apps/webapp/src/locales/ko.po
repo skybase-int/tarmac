@@ -135,10 +135,6 @@ msgstr ""
 msgid "Balances displays all of your Sky-related funds. When you connect your crypto wallet to Sky.money to access the decentralised Sky Protocol, only the tokens in the wallet that are relevant to the app are listed. With all of your Sky funds visible in one place, you can better self-manage your funds. Sky.money is non-custodial and permissionless."
 msgstr ""
 
-#: src/modules/rewards/components/BoostedRewardsClaim.tsx
-msgid "Boosted Rewards"
-msgstr ""
-
 #: src/modules/seal/components/SealHistory.tsx
 msgid "Borrow"
 msgstr ""
@@ -157,10 +153,6 @@ msgstr ""
 
 #: src/modules/ui/components/AboutCle.tsx
 msgid "Chronicle Points are not a native feature of the Sky Protocol. Skybase International does not control or guarantee the availability, distribution or allocation of Chronicle Points or any other Chronicle funds. The Chronicle project operates independently of Sky.money and Skybase International. Please be aware that any engagement with Chronicle is at your own risk, and we bear no responsibility for any outcomes associated with this third-party system, or any funds associated with it."
-msgstr ""
-
-#: src/modules/rewards/components/BoostedRewardsClaim.tsx
-msgid "Claim all"
 msgstr ""
 
 #: src/modules/seal/components/SealHistory.tsx
@@ -278,7 +270,7 @@ msgstr ""
 msgid "Legal Terms"
 msgstr ""
 
-#. placeholder {0}: rewardContract?.supplyToken.symbol.toUpperCase()
+#. placeholder {0}: rewardContract?.supplyToken.symbol?.toUpperCase() ?? 'tokens'
 #: src/modules/app/hooks/useNotification.tsx
 msgid "Looks like you need {0} to get rewards"
 msgstr ""
@@ -552,7 +544,7 @@ msgstr ""
 msgid "Total {0} rewarded"
 msgstr ""
 
-#. placeholder {0}: userConfig?.sealToken
+#. placeholder {0}: userConfig?.sealToken ?? ''
 #: src/modules/seal/components/SealOverview.tsx
 msgid "Total {0} sealed"
 msgstr ""

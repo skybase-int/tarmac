@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const { readFile } = require('fs/promises');
 
 const deleteVnets = async () => {

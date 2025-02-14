@@ -53,7 +53,7 @@ export function SealOverview() {
         <DetailSectionRow>
           <HStack gap={2} className="scrollbar-thin w-full overflow-auto">
             <StatsCard
-              title={t`Total ${userConfig?.sealToken} sealed`}
+              title={t`Total ${userConfig?.sealToken ?? ''} sealed`}
               isLoading={isLoading}
               error={error}
               content={
