@@ -5,7 +5,6 @@ import { configDefaults } from 'vitest/config';
 import { lingui } from '@lingui/vite-plugin';
 import tailwindcss from 'tailwindcss';
 import simpleHtmlPlugin from 'vite-plugin-simple-html';
-import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
 // https://vitejs.dev/config/
 export default ({ mode }: { mode: string }) => {
@@ -108,12 +107,6 @@ export default ({ mode }: { mode: string }) => {
             }
           ]
         }
-      }),
-      nodePolyfills({
-        globals: {
-          process: false
-        },
-        include: ['buffer']
       }),
       react({
         plugins: [['@lingui/swc-plugin', {}]]
