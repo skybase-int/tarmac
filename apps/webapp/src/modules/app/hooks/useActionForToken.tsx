@@ -1,4 +1,4 @@
-import { formatNumber, isBaseChainId, isArbitrumChainId } from '@jetstreamgg/utils';
+import { formatNumber, isBaseChainId, isArbitrumChainId, isL2ChainId } from '@jetstreamgg/utils';
 import { useCallback } from 'react';
 import { RewardContract, useAvailableTokenRewardContractsForChain } from '@jetstreamgg/hooks';
 import { getRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
@@ -38,6 +38,7 @@ export const useActionForToken = () => {
 
       const isBaseChainAction = isBaseChainId(tokenChainId);
       const isArbitrumChainAction = isArbitrumChainId(tokenChainId);
+      const isL2ChainAction = isL2ChainId(tokenChainId);
 
       const networkName = chains.find(c => c.id === tokenChainId)?.name || 'ethereum';
 
@@ -45,7 +46,11 @@ export const useActionForToken = () => {
 
       const lowerSymbol = symbol.toLowerCase();
       const upperSymbol = symbol.toUpperCase();
-      const image = `/tokens/actions/${lowerSymbol}.png`;
+      //TODO: make this more generalizable
+      //currently, we assume that usds action is savings on L2 chains, and rewards on mainnet
+      const image = `/tokens/actions/${lowerSymbol}${
+        lowerSymbol === 'usds' && isL2ChainAction ? '-savings' : ''
+      }.png`;
       const formattedBalance = formatNumber(parseFloat(balance));
       let action;
 
