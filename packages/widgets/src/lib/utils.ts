@@ -1,15 +1,16 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { z } from 'zod';
-import { upgradeTokens } from '@/widgets/UpgradeWidget/lib/constants';
+import { upgradeTokens } from '@widgets/widgets/UpgradeWidget/lib/constants';
 import { defaultConfig } from '../config/default-config';
 import { SUPPORTED_TOKEN_SYMBOLS } from '..';
-import { ExternalWidgetState } from '@/shared/types/widgetState';
-import { SavingsFlow } from '@/widgets/SavingsWidget/lib/constants';
-import { UpgradeFlow } from '@/widgets/UpgradeWidget/lib/constants';
-import { RewardsFlow } from '@/widgets/RewardsWidget/lib/constants';
-import { TradeFlow } from '@/widgets/TradeWidget/lib/constants';
-import { BalancesFlow } from '@/widgets/BalancesWidget/constants';
+import { RewardsFlow } from '../widgets/RewardsWidget/lib/constants';
+import { SavingsFlow } from '../widgets/SavingsWidget/lib/constants';
+import { SealFlow } from '../widgets/SealModuleWidget/lib/constants';
+import { TradeFlow } from '../widgets/TradeWidget/lib/constants';
+import { UpgradeFlow } from '../widgets/UpgradeWidget/lib/constants';
+import { ExternalWidgetState } from '@widgets/shared/types/widgetState';
+import { BalancesFlow } from '@widgets/widgets/BalancesWidget/constants';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -86,7 +87,8 @@ const ExternalWidgetStateSchema = z
         ...Object.values(UpgradeFlow),
         ...Object.values(RewardsFlow),
         ...Object.values(TradeFlow),
-        ...Object.values(BalancesFlow)
+        ...Object.values(BalancesFlow),
+        ...Object.values(SealFlow)
       ] as [string, ...string[]])
       .optional(),
     token: tokenValidationRule,

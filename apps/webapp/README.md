@@ -54,6 +54,7 @@ Create a `.env` file in the root directory of the project. You can use the `.env
 - `VITE_CHATBOT_ENABLED`: If set to `'true`, enables the chatbot functionality
 - `VITE_ADVANCED_CHAT_ENABLED`: If set to `'true`, enables advanced chat features
 - `VITE_CHAT_SUGGESTIONS_ENABLED`: If set to `'true`, enables chat suggestions functionality, set to 'true' to enable
+- `VITE_CHATBOT_NAME`: The name of the chatbot
 
 ## Running the App
 

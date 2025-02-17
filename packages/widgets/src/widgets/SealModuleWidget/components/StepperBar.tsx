@@ -1,7 +1,7 @@
-import { Progress } from '@/components/ui/progress';
-import { HStack } from '@/shared/components/ui/layout/HStack';
-import { VStack } from '@/shared/components/ui/layout/VStack';
-import { Text } from '@/shared/components/ui/Typography';
+import { Progress } from '@widgets/components/ui/progress';
+import { HStack } from '@widgets/shared/components/ui/layout/HStack';
+import { VStack } from '@widgets/shared/components/ui/layout/VStack';
+import { Text } from '@widgets/shared/components/ui/Typography';
 
 export const StepperBar = ({
   step,

@@ -2,17 +2,17 @@ import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { getTokenDecimals, sUsdsAddress, TOKENS, useOverallSkyData } from '@jetstreamgg/hooks';
 import { formatBigInt, formatDecimalPercentage } from '@jetstreamgg/utils';
-import { TokenInput } from '@/shared/components/ui/token/TokenInput';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { TransactionOverview } from '@/shared/components/ui/transaction/TransactionOverview';
+import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
+import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
 import { useContext, useMemo } from 'react';
-import { WidgetContext } from '@/context/WidgetContext';
+import { WidgetContext } from '@widgets/context/WidgetContext';
 import { SavingsFlow } from '../lib/constants';
 import { SavingsStatsCard } from './SavingsStatsCard';
 import { useAccount, useChainId } from 'wagmi';
 import { motion } from 'framer-motion';
-import { positionAnimations } from '@/shared/animation/presets';
-import { MotionVStack } from '@/shared/components/ui/layout/MotionVStack';
+import { positionAnimations } from '@widgets/shared/animation/presets';
+import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
 import { formatUnits } from 'viem';
 
 type SupplyWithdrawProps = {

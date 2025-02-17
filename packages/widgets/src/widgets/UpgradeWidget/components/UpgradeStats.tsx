@@ -1,5 +1,5 @@
-import { StatsCard } from '@/shared/components/ui/card/StatsCard';
-import { TokenIconWithBalance } from '@/shared/components/ui/token/TokenIconWithBalance';
+import { StatsCard } from '@widgets/shared/components/ui/card/StatsCard';
+import { TokenIconWithBalance } from '@widgets/shared/components/ui/token/TokenIconWithBalance';
 import { useUpgradeTotals } from '@jetstreamgg/hooks';
 import { formatBigInt } from '@jetstreamgg/utils';
 import { t } from '@lingui/core/macro';

@@ -5,4 +5,4 @@
 '@jetstreamgg/webapp': patch
 ---
 
-Bump dependencies
+Add support for importing source files directly in dev mode for faster HMR

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
 import { Trans } from '@lingui/react/macro';
 import { BalancesFlow } from '../constants';
 

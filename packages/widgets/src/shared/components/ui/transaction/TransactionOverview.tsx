@@ -1,9 +1,14 @@
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from '@widgets/components/ui/accordion';
 import { Text } from '../Typography';
 import { FetchingSpinner } from '../spinner/FetchingSpinner';
 import { AnimatePresence, motion } from 'framer-motion';
-import { positionAnimations, positionAnimationsWithExit } from '@/shared/animation/presets';
-import { AnimationLabels } from '@/shared/animation/constants';
+import { positionAnimations, positionAnimationsWithExit } from '@widgets/shared/animation/presets';
+import { AnimationLabels } from '@widgets/shared/animation/constants';
 import { PopoverRateInfo } from '../PopoverRateInfo';
 import { HStack } from '../layout/HStack';
 import { ArrowDown } from '../../icons/ArrowDown';

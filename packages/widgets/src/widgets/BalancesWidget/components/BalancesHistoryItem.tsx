@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { getEtherscanLink, formatAddress, getCowExplorerLink, getExplorerName } from '@jetstreamgg/utils';
-import { Card } from '@/components/ui/card';
-import { LinkExternal } from '@/shared/components/icons/LinkExternal';
-import { Text } from '@/shared/components/ui/Typography';
+import { Card } from '@widgets/components/ui/card';
+import { LinkExternal } from '@widgets/shared/components/icons/LinkExternal';
+import { Text } from '@widgets/shared/components/ui/Typography';
 import { getPositive } from '../lib/getPositive';
 import { ModuleEnum, TransactionTypeEnum, CombinedHistoryItem } from '@jetstreamgg/hooks';
 import { getIcon } from '../lib/getIcon';
 import { getTitle } from '../lib/getTitle';
-import { ExternalLink } from '@/shared/components/ExternalLink';
+import { ExternalLink } from '@widgets/shared/components/ExternalLink';
 import { getHistoryRightText } from '../lib/getHistoryRightText';
 import { isBaseChainId } from '@jetstreamgg/utils';
 
