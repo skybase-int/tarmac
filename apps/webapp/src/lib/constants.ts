@@ -18,7 +18,8 @@ export enum QueryParams {
   Timestamp = 'timestamp',
   Network = 'network',
   Chat = 'chat',
-  Flow = 'flow'
+  Flow = 'flow',
+  SealTab = 'seal_tab'
 }
 
 const isRestrictedBuild = import.meta.env.VITE_RESTRICTED_BUILD === 'true';
