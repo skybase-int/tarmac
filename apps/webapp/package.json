@@ -23,7 +23,7 @@
     "e2e:ui": "playwright test --ui",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit --project tsconfig.production.json"
   },
   "dependencies": {
     "@jetstreamgg/hooks": "workspace:^",
@@ -84,7 +84,6 @@
     "tailwindcss": "^3.4.17",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "5.7.3",
-    "vite-plugin-node-polyfills": "^0.23.0",
     "vite-plugin-simple-html": "^0.2.0",
     "vitest": "^3.0.5"
   }

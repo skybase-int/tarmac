@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import { cn } from '@/lib/utils';
-import { HStack } from '@/shared/components/ui/layout/HStack';
-import { Text } from '@/shared/components/ui/Typography';
-import { Warning } from '@/shared/components/icons/Warning';
+import { cn } from '@widgets/lib/utils';
+import { HStack } from '@widgets/shared/components/ui/layout/HStack';
+import { Text } from '@widgets/shared/components/ui/Typography';
+import { Warning } from '@widgets/shared/components/icons/Warning';
 import { Tooltip, TooltipArrow, TooltipContent, TooltipPortal, TooltipTrigger } from './tooltip';
 import { useState } from 'react';
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {

@@ -28,7 +28,7 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'jetstream-gg-widgets',
       fileName: 'jetstream-gg-widgets',
-      cssFileName: 'style',
+      cssFileName: 'globals',
       formats: ['es']
     },
     rollupOptions: {
@@ -49,7 +49,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src')
+      '@widgets': resolve(__dirname, './src')
     }
   },
   plugins: [

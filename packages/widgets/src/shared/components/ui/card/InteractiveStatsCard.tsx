@@ -1,4 +1,4 @@
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardFooter } from '@widgets/components/ui/card';
 import { ArrowRight } from 'lucide-react';
 import { Text } from '../Typography';
 import { TokenIcon } from '../token/TokenIcon';

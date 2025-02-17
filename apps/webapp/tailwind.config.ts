@@ -1,9 +1,20 @@
 import type { Config } from 'tailwindcss';
-import { join, dirname } from 'path';
+import { resolve } from 'path';
+
+enum modeEnum {
+  development = 'development',
+  production = 'production'
+}
 
 module.exports = {
   darkMode: ['class'],
-  content: ['./src/**/*.{ts,tsx}', join(dirname(require.resolve('@jetstreamgg/widgets')), '**/*.js')],
+  content: [
+    './src/**/*.{ts,tsx}',
+    // If we are in dev mode, also detect changes in the widgets package for faster HMR
+    ...(process.env.NODE_ENV === modeEnum.development
+      ? [resolve(__dirname, '../../packages/widgets/src/**/*.{ts,tsx}')]
+      : [])
+  ],
   prefix: '',
   theme: {
     container: {
@@ -84,6 +95,8 @@ module.exports = {
         primaryActive: 'var(--service-purple-5)',
         primaryFocus: 'var(--primary-purple-40)',
         primaryTransparent: 'var(--service-purple-transparent)',
+        primaryAlt:
+          'radial-gradient(116.48% 116.48% at 50% 2.27%, rgba(98, 89, 191, var(--gradient-opacity)) 0%,rgba(123, 113, 204, var(--gradient-opacity)) 100%)',
         'app-background': 'url(/images/background.png)',
         'blend-overlay': 'overlay',
         'blend-plus-lighter': 'plus-lighter',

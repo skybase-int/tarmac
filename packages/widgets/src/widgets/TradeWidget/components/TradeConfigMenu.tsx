@@ -8,15 +8,15 @@ import {
   ETH_SLIPPAGE_STORAGE_KEY,
   ERC_SLIPPAGE_STORAGE_KEY
 } from '../lib/constants';
-import { Settings as SettingsIcon } from '@/shared/components/icons/Icons';
+import { Settings as SettingsIcon } from '@widgets/shared/components/icons/Icons';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { VStack } from '@/shared/components/ui/layout/VStack';
-import { Heading, Text } from '@/shared/components/ui/Typography';
-import { HStack } from '@/shared/components/ui/layout/HStack';
-import { Popover, PopoverArrow, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { WidgetContext } from '@/context/WidgetContext';
+import { VStack } from '@widgets/shared/components/ui/layout/VStack';
+import { Heading, Text } from '@widgets/shared/components/ui/Typography';
+import { HStack } from '@widgets/shared/components/ui/layout/HStack';
+import { Popover, PopoverArrow, PopoverContent, PopoverTrigger } from '@widgets/components/ui/popover';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
+import { WidgetContext } from '@widgets/context/WidgetContext';
 import { verifySlippage } from '../lib/utils';
 
 type PropTypes = {

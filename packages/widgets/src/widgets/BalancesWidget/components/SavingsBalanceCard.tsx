@@ -1,10 +1,10 @@
 import { useOverallSkyData, usePrices } from '@jetstreamgg/hooks';
 import { formatBigInt, formatDecimalPercentage, formatNumber } from '@jetstreamgg/utils';
-import { Text } from '@/shared/components/ui/Typography';
+import { Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
-import { InteractiveStatsCardWithAccordion } from '@/shared/components/ui/card/InteractiveStatsCardWithAccordion';
-import { Skeleton } from '@/components/ui/skeleton';
-import { PopoverRateInfo } from '@/shared/components/ui/PopoverRateInfo';
+import { InteractiveStatsCardWithAccordion } from '@widgets/shared/components/ui/card/InteractiveStatsCardWithAccordion';
+import { Skeleton } from '@widgets/components/ui/skeleton';
+import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
 import { formatUnits } from 'viem';
 import { CardProps } from './ModulesBalances';
 import { useMultiChainSavingsBalances } from '@jetstreamgg/hooks';

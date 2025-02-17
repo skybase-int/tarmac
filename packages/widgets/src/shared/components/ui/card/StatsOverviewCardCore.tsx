@@ -1,6 +1,6 @@
-import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
-import { HStack } from '@/shared/components/ui/layout/HStack';
-import { cn } from '@/lib/utils';
+import { Card, CardHeader, CardContent, CardFooter } from '@widgets/components/ui/card';
+import { HStack } from '@widgets/shared/components/ui/layout/HStack';
+import { cn } from '@widgets/lib/utils';
 import { JSX } from 'react';
 
 export const StatsOverviewCardCore = ({

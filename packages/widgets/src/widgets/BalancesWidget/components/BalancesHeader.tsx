@@ -1,15 +1,15 @@
 import { useMemo } from 'react';
 import { useAccount, useBalance } from 'wagmi';
-import { Text } from '@/shared/components/ui/Typography';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Tabs, TabsContent } from '@/components/ui/tabs';
-import { BalancesTabsList } from '@/widgets/BalancesWidget/components/BalancesTabsList';
-import { AssetsNoWalletConnected } from '@/widgets/BalancesWidget/components/AssetsNoWalletConnected';
-import { HistoryNoWalletConnected } from '@/widgets/BalancesWidget/components/HistoryNoWalletConnected';
+import { Text } from '@widgets/shared/components/ui/Typography';
+import { Skeleton } from '@widgets/components/ui/skeleton';
+import { Tabs, TabsContent } from '@widgets/components/ui/tabs';
+import { BalancesTabsList } from '@widgets/widgets/BalancesWidget/components/BalancesTabsList';
+import { AssetsNoWalletConnected } from '@widgets/widgets/BalancesWidget/components/AssetsNoWalletConnected';
+import { HistoryNoWalletConnected } from '@widgets/widgets/BalancesWidget/components/HistoryNoWalletConnected';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
-import { Card } from '@/components/ui/card';
-import { CopyToClipboard } from '@/shared/components/ui/CopyToClipboard';
-import { ExternalLink } from '@/shared/components/ExternalLink';
+import { Card } from '@widgets/components/ui/card';
+import { CopyToClipboard } from '@widgets/shared/components/ui/CopyToClipboard';
+import { ExternalLink } from '@widgets/shared/components/ExternalLink';
 import { useChainId } from 'wagmi';
 import { isBaseChainId, isArbitrumChainId } from '@jetstreamgg/utils';
 

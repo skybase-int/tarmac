@@ -1,18 +1,18 @@
-import { Heading } from '@/shared/components/ui/Typography';
-import { WidgetContainer } from '@/shared/components/ui/widget/WidgetContainer';
+import { Heading } from '@widgets/shared/components/ui/Typography';
+import { WidgetContainer } from '@widgets/shared/components/ui/widget/WidgetContainer';
 import { Trans } from '@lingui/react/macro';
 import { t } from '@lingui/core/macro';
-import { WidgetProvider } from '@/context/WidgetContext';
-import { WidgetProps } from '@/shared/types/widgetState';
+import { WidgetProvider } from '@widgets/context/WidgetContext';
+import { WidgetProps } from '@widgets/shared/types/widgetState';
 import { useAccount } from 'wagmi';
 import { BalancesHeader } from './components/BalancesHeader';
 import { BalancesContent } from './components/BalancesContent';
-import { getValidatedState } from '@/lib/utils';
-import { LoadingButton } from '@/shared/components/ui/LoadingButton';
-import { ConnectWalletCopy } from '@/shared/components/ui/ConnectWalletCopy';
-import { ErrorBoundary } from '@/shared/components/ErrorBoundary';
+import { getValidatedState } from '@widgets/lib/utils';
+import { LoadingButton } from '@widgets/shared/components/ui/LoadingButton';
+import { ConnectWalletCopy } from '@widgets/shared/components/ui/ConnectWalletCopy';
+import { ErrorBoundary } from '@widgets/shared/components/ErrorBoundary';
 import { AnimatePresence } from 'framer-motion';
-import { CardAnimationWrapper } from '@/shared/animation/Wrappers';
+import { CardAnimationWrapper } from '@widgets/shared/animation/Wrappers';
 import { useEffect, useMemo } from 'react';
 import { TokenForChain } from '@jetstreamgg/hooks';
 
