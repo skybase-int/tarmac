@@ -420,7 +420,7 @@ export function Chart({
     <>
       <Card
         data-testid={dataTestId}
-        className="bg-card-light relative h-[288px] overflow-hidden p-0 lg:h-[220px] lg:p-0"
+        className="bg-cardLight relative h-[288px] overflow-hidden p-0 lg:h-[220px] lg:p-0"
         ref={containerRef}
       >
         <CardHeader className="p-5 pb-0">
