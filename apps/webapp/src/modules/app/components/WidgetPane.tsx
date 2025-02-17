@@ -31,6 +31,7 @@ import { SealWidgetPane } from '@/modules/seal/components/SealWidgetPane';
 import { getSupportedChainIds, getMainnetChainName } from '@/data/wagmi/config/config.default';
 import { useSearchParams } from 'react-router-dom';
 import { useChains } from 'wagmi';
+import { useBalanceFilters } from '@/modules/ui/context/BalanceFiltersContext';
 
 export type WidgetContent = [
   Intent,
@@ -54,6 +55,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
   const onNotification = useNotification();
   const { onExternalLinkClicked } = useConfigContext();
+  const { hideZeroBalances, setHideZeroBalances, showAllNetworks, setShowAllNetworks } = useBalanceFilters();
   const locale = i18n.locale;
 
   const isRestrictedBuild = import.meta.env.VITE_RESTRICTED_BUILD === 'true';
@@ -118,6 +120,10 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
           sealCardUrl={sealUrl}
           customTokenMap={defaultConfig.balancesTokenList}
           chainIds={getSupportedChainIds(chainId)}
+          hideZeroBalances={hideZeroBalances}
+          setHideZeroBalances={setHideZeroBalances}
+          showAllNetworks={showAllNetworks}
+          setShowAllNetworks={setShowAllNetworks}
         />
       )
     ],

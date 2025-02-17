@@ -3,17 +3,17 @@ import { Checkbox } from '@/components/ui/checkbox';
 type BalancesFilterProps = {
   showBalanceFilter: boolean;
   showAllNetworks: boolean;
-  showAllBalances: boolean;
+  hideZeroBalances: boolean;
   setShowAllNetworks: (value: boolean) => void;
-  setShowAllBalances: (value: boolean) => void;
+  setHideZeroBalances: (value: boolean) => void;
 };
 
 export const BalancesFilter = ({
   showBalanceFilter,
   showAllNetworks,
-  showAllBalances,
+  hideZeroBalances,
   setShowAllNetworks,
-  setShowAllBalances
+  setHideZeroBalances
 }: BalancesFilterProps): React.ReactElement => {
   return (
     <div className="mb-4 mt-3 flex justify-between">
@@ -39,11 +39,7 @@ export const BalancesFilter = ({
 
       {showBalanceFilter && (
         <div className="flex items-center gap-1.5">
-          <Checkbox
-            id="all-balances"
-            checked={!showAllBalances}
-            onCheckedChange={checked => setShowAllBalances(!checked)}
-          />
+          <Checkbox id="all-balances" checked={hideZeroBalances} onCheckedChange={setHideZeroBalances} />
           <label htmlFor="all-balances" className="text-textSecondary cursor-pointer select-none text-sm">
             Hide 0 Balances
           </label>

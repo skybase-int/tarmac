@@ -9,6 +9,7 @@ import { Text } from '@/modules/layout/components/Typography';
 import { Trans } from '@lingui/react/macro';
 import { defaultConfig } from '@/modules/config/default-config';
 import { TokenItem } from '@jetstreamgg/hooks';
+import { useBalanceFilters } from '@/modules/ui/context/BalanceFiltersContext';
 
 type BalancesAssetsProps = {
   chainIds?: number[];
@@ -19,6 +20,7 @@ export function BalancesAssets({ chainIds }: BalancesAssetsProps) {
   const currentChainId = useChainId();
   const chainsToQuery = chainIds ?? [currentChainId];
   const { data: pricesData, isLoading: pricesIsLoading, error: pricesError } = usePrices();
+  const { hideZeroBalances, showAllNetworks } = useBalanceFilters();
 
   // Create an object mapping chainIds to their tokens
   const chainTokenMap: Record<number, TokenItem[]> = {};
@@ -52,9 +54,19 @@ export function BalancesAssets({ chainIds }: BalancesAssetsProps) {
       ? tokenBalancesWithPrices.sort((a, b) => b.valueInDollars - a.valueInDollars)
       : undefined;
 
+  // Apply zero balance filter
+  const balancesWithBalanceFilter = hideZeroBalances
+    ? sortedTokenBalances?.filter(({ value }) => value > 0n)
+    : sortedTokenBalances;
+
+  // Apply network filter
+  const filteredAndSortedTokenBalances = showAllNetworks
+    ? balancesWithBalanceFilter
+    : balancesWithBalanceFilter?.filter(({ chainId: id }) => id === currentChainId);
+
   return (
     <LoadingErrorWrapper
-      isLoading={tokenBalancesIsLoading || !sortedTokenBalances}
+      isLoading={tokenBalancesIsLoading || !filteredAndSortedTokenBalances}
       loadingComponent={
         <HStack gap={2} className="scrollbar-thin w-full overflow-auto">
           {[1, 2, 3, 4].map(i => (
@@ -70,7 +82,7 @@ export function BalancesAssets({ chainIds }: BalancesAssetsProps) {
       }
     >
       <HStack gap={2} className="scrollbar-thin w-full overflow-auto">
-        {sortedTokenBalances?.map(tokenBalance => {
+        {filteredAndSortedTokenBalances?.map(tokenBalance => {
           if (!tokenBalance) return null;
           const priceData = pricesData?.[tokenBalance.symbol];
 

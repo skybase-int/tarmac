@@ -29,6 +29,10 @@ type BalancesWidgetProps = WidgetProps & {
   savingsCardUrlMap?: Record<number, string>;
   sealCardUrl?: string;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  showAllNetworks?: boolean;
+  setShowAllNetworks?: (showAllNetworks: boolean) => void;
+  hideZeroBalances?: boolean;
+  setHideZeroBalances?: (hideZeroBalances: boolean) => void;
 };
 
 export const BalancesWidget = ({
@@ -45,7 +49,11 @@ export const BalancesWidget = ({
   sealCardUrl,
   customTokenMap,
   chainIds,
-  onExternalLinkClicked
+  onExternalLinkClicked,
+  showAllNetworks,
+  hideZeroBalances,
+  setShowAllNetworks,
+  setHideZeroBalances
 }: BalancesWidgetProps) => {
   return (
     <ErrorBoundary componentName="BalancesWidget">
@@ -64,6 +72,10 @@ export const BalancesWidget = ({
           savingsCardUrlMap={savingsCardUrlMap}
           sealCardUrl={sealCardUrl}
           onExternalLinkClicked={onExternalLinkClicked}
+          showAllNetworks={showAllNetworks}
+          hideZeroBalances={hideZeroBalances}
+          setShowAllNetworks={setShowAllNetworks}
+          setHideZeroBalances={setHideZeroBalances}
         />
       </WidgetProvider>
     </ErrorBoundary>
@@ -83,7 +95,11 @@ const BalancesWidgetWrapped = ({
   rewardsCardUrl,
   savingsCardUrlMap,
   sealCardUrl,
-  onExternalLinkClicked
+  onExternalLinkClicked,
+  showAllNetworks,
+  hideZeroBalances,
+  setShowAllNetworks,
+  setHideZeroBalances
 }: BalancesWidgetProps) => {
   const { isConnected, isConnecting } = useAccount();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
@@ -142,6 +158,10 @@ const BalancesWidgetWrapped = ({
               sealCardUrl={sealCardUrl}
               onExternalLinkClicked={onExternalLinkClicked}
               chainIds={chainIds}
+              showAllNetworks={showAllNetworks}
+              hideZeroBalances={hideZeroBalances}
+              setShowAllNetworks={setShowAllNetworks}
+              setHideZeroBalances={setHideZeroBalances}
             />
           </CardAnimationWrapper>
         )}

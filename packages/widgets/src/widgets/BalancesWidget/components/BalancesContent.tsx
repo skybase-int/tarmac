@@ -33,6 +33,10 @@ interface BalancesContentProps {
   savingsCardUrlMap?: Record<number, string>;
   sealCardUrl?: string;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  showAllNetworks?: boolean;
+  hideZeroBalances?: boolean;
+  setShowAllNetworks?: (showAllNetworks: boolean) => void;
+  setHideZeroBalances?: (hideZeroBalances: boolean) => void;
 }
 
 export const BalancesContent = ({
@@ -44,10 +48,20 @@ export const BalancesContent = ({
   rewardsCardUrl,
   savingsCardUrlMap,
   sealCardUrl,
-  onExternalLinkClicked
+  onExternalLinkClicked,
+  showAllNetworks: showAllNetworksProp,
+  hideZeroBalances: hideZeroBalancesProp,
+  setShowAllNetworks: setShowAllNetworksProp,
+  setHideZeroBalances: setHideZeroBalancesProp
 }: BalancesContentProps): React.ReactElement => {
-  const [showAllNetworks, setShowAllNetworks] = useState(false);
-  const [showAllBalances, setShowAllBalances] = useState(true);
+  const [showAllNetworksInternal, setShowAllNetworksInternal] = useState(false);
+  const [hideZeroBalancesInternal, setHideZeroBalancesInternal] = useState(false);
+
+  const showAllNetworks = showAllNetworksProp ?? showAllNetworksInternal;
+  const hideZeroBalances = hideZeroBalancesProp ?? hideZeroBalancesInternal;
+  const setShowAllNetworks = setShowAllNetworksProp ?? setShowAllNetworksInternal;
+  const setHideZeroBalances = setHideZeroBalancesProp ?? setHideZeroBalancesInternal;
+
   return (
     <Tabs defaultValue={validatedExternalState?.tab || 'left'} className="w-full">
       <BalancesTabsList />
@@ -57,9 +71,9 @@ export const BalancesContent = ({
             <BalancesFilter
               showBalanceFilter={true}
               showAllNetworks={showAllNetworks}
-              showAllBalances={showAllBalances}
+              hideZeroBalances={hideZeroBalances}
               setShowAllNetworks={setShowAllNetworks}
-              setShowAllBalances={setShowAllBalances}
+              setHideZeroBalances={setHideZeroBalances}
             />
             <Heading variant="small" className="mb-3 leading-6">
               <Trans>Supplied Funds</Trans>
@@ -71,7 +85,7 @@ export const BalancesContent = ({
               onExternalLinkClicked={onExternalLinkClicked}
               hideModuleBalances={hideModuleBalances}
               chainIds={chainIds}
-              hideZeroBalances={!showAllBalances}
+              hideZeroBalances={hideZeroBalances}
               showAllNetworks={showAllNetworks}
             />
           </motion.div>
@@ -84,7 +98,7 @@ export const BalancesContent = ({
               actionForToken={actionForToken}
               customTokenMap={customTokenMap}
               chainIds={chainIds}
-              hideZeroBalances={!showAllBalances}
+              hideZeroBalances={hideZeroBalances}
               showAllNetworks={showAllNetworks}
             />
           </motion.div>
@@ -95,9 +109,9 @@ export const BalancesContent = ({
           <BalancesFilter
             showBalanceFilter={false}
             showAllNetworks={showAllNetworks}
-            showAllBalances={showAllBalances}
+            hideZeroBalances={hideZeroBalances}
             setShowAllNetworks={setShowAllNetworks}
-            setShowAllBalances={setShowAllBalances}
+            setHideZeroBalances={setHideZeroBalances}
           />
           <BalancesHistory onExternalLinkClicked={onExternalLinkClicked} showAllNetworks={showAllNetworks} />
         </motion.div>
