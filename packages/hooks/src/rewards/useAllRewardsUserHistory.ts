@@ -69,6 +69,7 @@ async function fetchAllRewardsUserHistory(
       chainId
     }));
     const rewardClaims = f.rewardClaims.map(e => ({
+      blockTimestamp: new Date(parseInt(e.blockTimestamp, 10) * 1000),
       transactionHash: e.transactionHash,
       amount: BigInt(e.amount),
       rewardsClaim: true,

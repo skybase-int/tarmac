@@ -1,4 +1,4 @@
-import { Checkbox } from '@/components/ui/checkbox';
+import { Checkbox } from '@widgets/components/ui/checkbox';
 
 type BalancesFilterProps = {
   showBalanceFilter: boolean;

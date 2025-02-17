@@ -1,8 +1,13 @@
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardFooter } from '@widgets/components/ui/card';
 import { Text } from '../Typography';
 import { TokenIcon } from '../token/TokenIcon';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { HStack } from '@/shared/components/ui/layout/HStack';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from '@widgets/components/ui/accordion';
+import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { ArrowRight } from 'lucide-react';
 import { formatUnits } from 'viem';
 import { useChains } from 'wagmi';

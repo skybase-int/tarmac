@@ -23,7 +23,7 @@ export const useTokenImage = (symbol: string, chainId?: number, noChain?: boolea
       }
 
       const extension = EXTENSIONS[currentIndex];
-      const path = `/tokens/${!chainIdToUse ? '' : isBaseChainId(chainIdToUse) ? 'base/' : isMainnetId(chainIdToUse) ? 'ethereum/' : isArbitrumChainId(chainId) ? 'arbitrum/' : ''}${symbolLower}.${extension}`;
+      const path = `/tokens/${!chainIdToUse ? '' : isBaseChainId(chainIdToUse) ? 'base/' : isMainnetId(chainIdToUse) ? 'ethereum/' : isArbitrumChainId(chainIdToUse) ? 'arbitrum/' : ''}${symbolLower}.${extension}`;
 
       const img = new Image();
       img.onload = () => {

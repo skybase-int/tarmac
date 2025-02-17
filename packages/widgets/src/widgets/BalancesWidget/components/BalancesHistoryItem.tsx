@@ -10,7 +10,7 @@ import { getTitle } from '../lib/getTitle';
 import { ExternalLink } from '@widgets/shared/components/ExternalLink';
 import { getHistoryRightText } from '../lib/getHistoryRightText';
 import { isBaseChainId } from '@jetstreamgg/utils';
-import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarImage } from '@widgets/components/ui/avatar';
 
 interface BalancesHistoryItemProps {
   transactionHash: string;

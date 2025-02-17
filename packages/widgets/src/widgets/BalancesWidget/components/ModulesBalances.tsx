@@ -43,7 +43,7 @@ export const ModulesBalances = ({
       )}
       {!hideModuleBalances && (
         <SavingsBalanceCard
-          urlMap={savingsCardUrlMap}
+          urlMap={savingsCardUrlMap ?? {}}
           onExternalLinkClicked={onExternalLinkClicked}
           chainIds={chainIds}
           hideZeroBalance={hideZeroBalances}
