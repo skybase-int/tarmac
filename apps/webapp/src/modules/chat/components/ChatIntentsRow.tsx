@@ -14,81 +14,12 @@ type ChatIntentsRowProps = {
   intents: ChatIntent[];
 };
 
-const sealIntents = [
-  {
-    intent_description: 'Go to Seal',
-    url: '/?widget=seal',
-    intent_id: 'seal'
-  },
-  {
-    intent_description: 'Manage Seal URN 1',
-    url: '/?widget=seal&urn_index=0',
-    intent_id: 'seal'
-  },
-  {
-    intent_description: 'Manage Seal URN 2',
-    url: '/?widget=seal&urn_index=1',
-    intent_id: 'seal'
-  },
-  {
-    intent_description: 'Seal 10 tokens in URN 3',
-    url: '/?widget=seal&urn_index=2&input_amount=10&seal_tab=lock',
-    intent_id: 'seal'
-  },
-  {
-    intent_description: 'OPEN NEW position with 10 tokens',
-    url: '/?widget=seal&input_amount=10&flow=open',
-    intent_id: 'seal'
-  },
-  {
-    intent_description: 'OPEN NEW position',
-    url: '/?widget=seal&flow=open',
-    intent_id: 'seal'
-  },
-  {
-    intent_description: 'Unseal 33 tokens in URN 4',
-    url: '/?widget=seal&urn_index=3&input_amount=33&seal_tab=free',
-    intent_id: 'seal'
-  },
-  {
-    intent_description: 'Manage Seal URN 3',
-    url: '/?widget=seal&urn_index=2',
-    intent_id: 'seal'
-  },
-  {
-    intent_description: 'Seal - LOCK tokens in URN 3',
-    url: '/?widget=seal&urn_index=2&seal_tab=lock',
-    intent_id: 'seal'
-  },
-  {
-    intent_description: 'Seal - FREE tokens in URN 13 (LAST ONE)',
-    url: '/?widget=seal&urn_index=12&seal_tab=free',
-    intent_id: 'seal'
-  },
-  {
-    intent_description: 'Manage Seal URN 14 (IT DOES NOT EXIST)',
-    url: '/?widget=seal&urn_index=14',
-    intent_id: 'seal'
-  },
-  {
-    intent_description: 'Manage Seal URN 99 (IT DOES NOT EXIST)',
-    url: '/?widget=seal&urn_index=98',
-    intent_id: 'seal'
-  },
-  {
-    intent_description: 'Go to Rewards',
-    url: '/?widget=rewards',
-    intent_id: 'rewards'
-  }
-];
-
 export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
-  console.log('🚀 ~ ChatIntentsRow ~ intents:', intents);
   return (
     <div>
       <Text className="text-xs italic text-gray-500">Try a suggested action</Text>
       <div className="mt-2 flex flex-wrap gap-2">
-        {sealIntents.map((intent, index) => (
+        {intents.map((intent, index) => (
           <IntentRow key={index} intent={intent} />
         ))}
       </div>
@@ -126,8 +57,8 @@ const IntentRow = ({ intent }: IntentRowProps) => {
         }
       }}
       onMouseEnter={() => {
-        // console.log('🚀 ~ onMouseEnter ~ intent:', intent);
-        // console.log('🚀 ~ IntentRow ~ intentUrl:', intentUrl);
+        console.log('🚀 ~ onMouseEnter ~ intent:', intent);
+        console.log('🚀 ~ IntentRow ~ intentUrl:', intentUrl);
       }}
     >
       {intent.intent_description}
