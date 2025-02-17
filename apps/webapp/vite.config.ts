@@ -5,6 +5,7 @@ import { configDefaults } from 'vitest/config';
 import { lingui } from '@lingui/vite-plugin';
 import tailwindcss from '@tailwindcss/vite';
 import simpleHtmlPlugin from 'vite-plugin-simple-html';
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
 enum modeEnum {
   development = 'development',
@@ -126,6 +127,12 @@ export default ({ mode }: { mode: modeEnum }) => {
             }
           ]
         }
+      }),
+      nodePolyfills({
+        globals: {
+          process: false
+        },
+        include: ['buffer']
       }),
       react({
         plugins: [['@lingui/swc-plugin', {}]]
