@@ -9,12 +9,17 @@ import { QueryParams } from '@/lib/constants';
 import { useNetworkFromIntentUrl } from '../hooks/useNetworkFromUrl';
 import { chainIdNameMapping } from '../lib/intentUtils';
 import { useChainId } from 'wagmi';
+import { ConfirmationWarningRow } from './ConfirmationWarningRow';
 
 type ChatIntentsRowProps = {
   intents: ChatIntent[];
 };
 
 export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
+  const { confirmationWarningOpened, selectedIntent, hasShownIntent } = useChatContext();
+
+  const showConfirmationWarning = !hasShownIntent(selectedIntent) && confirmationWarningOpened;
+
   return (
     <div>
       <Text className="text-xs italic text-gray-500">Try a suggested action</Text>
@@ -23,6 +28,7 @@ export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
           <IntentRow key={index} intent={intent} />
         ))}
       </div>
+      {showConfirmationWarning && <ConfirmationWarningRow />}
     </div>
   );
 };
@@ -33,7 +39,8 @@ type IntentRowProps = {
 
 const IntentRow = ({ intent }: IntentRowProps) => {
   const chainId = useChainId();
-  const { setConfirmationModalOpened, setSelectedIntent, hasShownIntent, setChatHistory } = useChatContext();
+  const { setConfirmationWarningOpened, setSelectedIntent, hasShownIntent, setChatHistory } =
+    useChatContext();
   const navigate = useNavigate();
   const intentUrl = useRetainedQueryParams(intent?.url || '', [
     QueryParams.Locale,
@@ -49,7 +56,7 @@ const IntentRow = ({ intent }: IntentRowProps) => {
       variant="suggest"
       onClick={() => {
         if (!hasShownIntent(intent)) {
-          setConfirmationModalOpened(true);
+          setConfirmationWarningOpened(true);
           setSelectedIntent(intent);
         } else {
           setChatHistory(prev => [...prev, intentSelectedMessage(intent)]);

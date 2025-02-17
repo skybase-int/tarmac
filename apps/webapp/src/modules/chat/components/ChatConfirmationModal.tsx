@@ -13,13 +13,13 @@ import { QueryParams } from '@/lib/constants';
 
 export const ChatConfirmationModal: React.FC = () => {
   const {
-    confirmationModalOpened,
-    modalShown,
+    // confirmationWarningOpened: confirmationModalOpened,
+    warningShown: modalShown,
     selectedIntent,
-    setConfirmationModalOpened,
+    setConfirmationWarningOpened: setConfirmationModalOpened,
     setChatHistory,
     setSelectedIntent,
-    setModalShown,
+    setWarningShown: setModalShown,
     hasShownIntent
   } = useChatContext();
 
@@ -66,7 +66,8 @@ export const ChatConfirmationModal: React.FC = () => {
     'You are about to execute an action suggested by our AI chatbot. Please be aware that while we strive to provide accurate and helpful suggestions, you&apos;re solely responsible for reviewing and implementing any recommended actions. We do not guarantee the accuracy or completeness of the AI&apos;s suggestions and disclaim any liability for consequences arising from your use of this feature.';
 
   return (
-    <Dialog open={!hasShownIntent(selectedIntent) && confirmationModalOpened} onOpenChange={handleCancel}>
+    // <Dialog open={!hasShownIntent(selectedIntent) && confirmationModalOpened} onOpenChange={handleCancel}>
+    <Dialog open={false} onOpenChange={handleCancel}>
       <DialogContent className="bg-containerDark flex w-full flex-col items-center justify-center rounded-none p-5 md:w-[480px] md:rounded-2xl md:p-10">
         <Warning boxSize={50} />
 
