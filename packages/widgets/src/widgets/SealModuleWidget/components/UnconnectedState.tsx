@@ -1,5 +1,5 @@
-import { VStack } from '@/shared/components/ui/layout/VStack';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { VStack } from '@widgets/shared/components/ui/layout/VStack';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
 import { Lock } from './Lock';
 import { Borrow } from './Borrow';
 import { Free } from './Free';

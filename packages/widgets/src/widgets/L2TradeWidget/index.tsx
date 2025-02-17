@@ -1,5 +1,5 @@
-import { WidgetProps, WidgetState } from '@/shared/types/widgetState';
-import { WidgetContext, WidgetProvider } from '@/context/WidgetContext';
+import { WidgetProps, WidgetState } from '@widgets/shared/types/widgetState';
+import { WidgetContext, WidgetProvider } from '@widgets/context/WidgetContext';
 import {
   useTokenBalance,
   TokenForChain,
@@ -28,24 +28,24 @@ import {
 } from '@jetstreamgg/utils';
 import { useAccount, useChainId } from 'wagmi';
 import { t } from '@lingui/core/macro';
-import { notificationTypeMaping, TxStatus, EPOCH_LENGTH } from '@/shared/constants';
-import { WidgetContainer } from '@/shared/components/ui/widget/WidgetContainer';
-import { SUPPORTED_TOKEN_SYMBOLS, TradeAction, TradeFlow, TradeScreen, TradeSide } from '@/index';
+import { notificationTypeMaping, TxStatus, EPOCH_LENGTH } from '@widgets/shared/constants';
+import { WidgetContainer } from '@widgets/shared/components/ui/widget/WidgetContainer';
+import { SUPPORTED_TOKEN_SYMBOLS, TradeAction, TradeFlow, TradeScreen, TradeSide } from '@widgets/index';
 import { getAllowedTargetTokens } from '../TradeWidget/lib/utils';
-import { defaultConfig } from '@/config/default-config';
+import { defaultConfig } from '@widgets/config/default-config';
 import { useLingui } from '@lingui/react';
 import { formatUnits, parseUnits } from 'viem';
-import { getValidatedState } from '@/lib/utils';
+import { getValidatedState } from '@widgets/lib/utils';
 import { L2TradeInputs } from './components/L2TradeInputs';
-import { WidgetButtons } from '@/shared/components/ui/widget/WidgetButtons';
-import { useAddTokenToWallet } from '@/shared/hooks/useAddTokenToWallet';
-import { ErrorBoundary } from '@/shared/components/ErrorBoundary';
+import { WidgetButtons } from '@widgets/shared/components/ui/widget/WidgetButtons';
+import { useAddTokenToWallet } from '@widgets/shared/hooks/useAddTokenToWallet';
+import { ErrorBoundary } from '@widgets/shared/components/ErrorBoundary';
 import { AnimatePresence } from 'framer-motion';
-import { CardAnimationWrapper } from '@/shared/animation/Wrappers';
-import { useNotifyWidgetState } from '@/shared/hooks/useNotifyWidgetState';
-import { Heading } from '@/shared/components/ui/Typography';
+import { CardAnimationWrapper } from '@widgets/shared/animation/Wrappers';
+import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
+import { Heading } from '@widgets/shared/components/ui/Typography';
 import { TradeTransactionStatus } from '../TradeWidget/components/TradeTransactionStatus';
-import { useTokenImage } from '@/shared/hooks/useTokenImage';
+import { useTokenImage } from '@widgets/shared/hooks/useTokenImage';
 
 const useMaxInForWithdraw = (
   targetAmount: bigint,

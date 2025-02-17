@@ -1,15 +1,15 @@
 import { type GetBalanceData } from 'wagmi/query';
-import { Tabs, TabsContent } from '@/components/ui/tabs';
-import { VStack } from '@/shared/components/ui/layout/VStack';
+import { Tabs, TabsContent } from '@widgets/components/ui/tabs';
+import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { TokenBalances } from './TokenBalances';
 import { BalancesHistory } from './BalancesHistory';
 import { BalancesTabsList } from './BalancesTabsList';
 import { ModulesBalances } from './ModulesBalances';
 import { motion } from 'framer-motion';
-import { positionAnimations } from '@/shared/animation/presets';
-import { BalancesWidgetState } from '@/shared/types/widgetState';
+import { positionAnimations } from '@widgets/shared/animation/presets';
+import { BalancesWidgetState } from '@widgets/shared/types/widgetState';
 import { TokenForChain } from '@jetstreamgg/hooks';
-import { Heading } from '@/shared/components/ui/Typography';
+import { Heading } from '@widgets/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
 import { BalancesFlow } from '../constants';
 

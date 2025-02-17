@@ -1,6 +1,6 @@
-import { Card, CardHeader, CardFooter, CardContent } from '@/components/ui/card';
+import { Card, CardHeader, CardFooter, CardContent } from '@widgets/components/ui/card';
 import { forwardRef } from 'react';
-import { cn } from '@/lib/utils';
+import { cn } from '@widgets/lib/utils';
 
 interface WidgetContainerProps {
   header?: React.ReactElement;
