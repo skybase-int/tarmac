@@ -10,7 +10,6 @@ import { useChains, useChainId } from 'wagmi';
 
 export const useActionForToken = () => {
   const chainId = useChainId();
-  const isArbitrumChain = isArbitrumChainId(chainId);
   const [searchParams] = useSearchParams();
   const isRestrictedBuild = import.meta.env.VITE_RESTRICTED_BUILD === 'true';
   const isRestrictedMiCa = import.meta.env.VITE_RESTRICTED_BUILD_MICA === 'true';
@@ -37,7 +36,8 @@ export const useActionForToken = () => {
         (rewardContract: RewardContract) => rewardContract.rewardToken.symbol === 'SKY'
       );
 
-      const isBaseChain = isBaseChainId(tokenChainId);
+      const isBaseChainAction = isBaseChainId(tokenChainId);
+      const isArbitrumChainAction = isArbitrumChainId(tokenChainId);
 
       const networkName = chains.find(c => c.id === tokenChainId)?.name || 'ethereum';
 
@@ -188,7 +188,11 @@ export const useActionForToken = () => {
           action = undefined;
       }
 
-      return isBaseChain ? action?.[base.id] : isArbitrumChain ? action?.[arbitrum.id] : action?.[mainnet.id];
+      return isBaseChainAction
+        ? action?.[base.id]
+        : isArbitrumChainAction
+          ? action?.[arbitrum.id]
+          : action?.[mainnet.id];
     },
     [getRewardContracts, searchParams, isRestrictedBuild, isRestrictedMiCa, chainId, chains]
   );
