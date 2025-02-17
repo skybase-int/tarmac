@@ -6,7 +6,7 @@ import {
   TooltipPortal,
   TooltipTrigger
 } from '../../../../components/ui/tooltip';
-import { Text } from '@/shared/components/ui/Typography';
+import { Text } from '@widgets/shared/components/ui/Typography';
 
 export function InfoTooltip({
   content,

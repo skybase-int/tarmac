@@ -26,7 +26,11 @@ The following environment variables are used in this project:
 
 - `VITE_PUBLIC_RPC_PROVIDER_BASE`: The RPC provider URL for the Base network. This should be set to your preferred Base node provider.
 
+- `VITE_PUBLIC_RPC_PROVIDER_ARBITRUM`: The RPC provider URL for the Arbitrum network. This should be set to your preferred Arbitrum node provider.
+
 - `VITE_PUBLIC_RPC_PROVIDER_TENDERLY_BASE`: The RPC provider URL for Tenderly's virtual Base network. This is used for testing and development purposes.
+
+- `VITE_PUBLIC_RPC_PROVIDER_TENDERLY_ARBITRUM`: The RPC provider URL for Tenderly's virtual Arbitrum network. This is used for testing and development purposes.
 
 - `VITE_PUBLIC_RESTRICTED_BUILD`: Optional. When set, this variable enables restricted build features. It can be left empty if not needed.
 
@@ -53,3 +57,13 @@ To preview the production build, run:
 ```sh
 pnpm preview
 ```
+
+## Internationalization and Translation
+
+This application supports i18n and translations via the Lingui package. To add content that can be translated, you need to follow three simple steps:
+
+- Wrap the text in `<Trans>` tags, the `t` function or the `msg` function depending on the context.
+- Run `pnpm extract` from the root of this repo to extract the messages into `.po` files, which can then be translated.
+- Run `pnpm compile` to compile the translations into optimized JavaScript format.
+
+For more information on the i18n process, refer to the [Internationalization and Translation Process](../../README.md#internationalization-and-translation-process) section in the root README and for more information on how Lingui works, refer to the [Lingui documentation](https://lingui.dev/).

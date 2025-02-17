@@ -1,8 +1,8 @@
-import { VStack } from '@/shared/components/ui/layout/VStack';
-import { HStack } from '@/shared/components/ui/layout/HStack';
-import { Text } from '@/shared/components/ui/Typography';
-import { TokenIcon } from '@/shared/components/ui/token/TokenIcon';
-import { TokenIconWithBalance } from '@/shared/components/ui/token/TokenIconWithBalance';
+import { VStack } from '@widgets/shared/components/ui/layout/VStack';
+import { HStack } from '@widgets/shared/components/ui/layout/HStack';
+import { Text } from '@widgets/shared/components/ui/Typography';
+import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
+import { TokenIconWithBalance } from '@widgets/shared/components/ui/token/TokenIconWithBalance';
 import {
   RiskLevel,
   TOKENS,
@@ -12,13 +12,13 @@ import {
   useDelegateOwner
 } from '@jetstreamgg/hooks';
 import { captitalizeFirstLetter, formatBigInt, formatPercent, math } from '@jetstreamgg/utils';
-import { positionAnimations } from '@/shared/animation/presets';
+import { positionAnimations } from '@widgets/shared/animation/presets';
 import { getRiskTextColor } from '../lib/utils';
-import { MotionVStack } from '@/shared/components/ui/layout/MotionVStack';
-import { Warning } from '@/shared/components/icons/Warning';
-import { ExternalLink } from '@/shared/components/ExternalLink';
+import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
+import { Warning } from '@widgets/shared/components/icons/Warning';
+import { ExternalLink } from '@widgets/shared/components/ExternalLink';
 import { JazziconComponent } from './Jazzicon';
-import { TextWithTooltip } from '@/shared/components/ui/tooltip/TextWithTooltip';
+import { TextWithTooltip } from '@widgets/shared/components/ui/tooltip/TextWithTooltip';
 import { PositionDetailAccordion } from './PositionDetailsAccordion';
 import { ClaimRewardsButton } from './ClaimRewardsButton';
 import { useContext } from 'react';

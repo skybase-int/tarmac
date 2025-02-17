@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react';
 import { WagmiWrapper } from '../../../../test/WagmiWrapper';
 import { RewardsWidget } from '..';
 import { TOKENS } from '@jetstreamgg/hooks';
-import { TENDERLY_CHAIN_ID } from '@/shared/constants';
+import { TENDERLY_CHAIN_ID } from '@widgets/shared/constants';
 
 const renderWithWagmiWrapper = (ui: any, options?: any) => render(ui, { wrapper: WagmiWrapper, ...options });
 
