@@ -236,7 +236,7 @@ export function TokenInput({
         <MotionCard
           ref={cardRef}
           className={cn(
-            'hover-in-before min-h-16 w-96 overflow-hidden rounded-2xl border-0 !pb-4',
+            'hover-in-before pb-4! min-h-16 w-96 overflow-hidden rounded-2xl border-0',
             className
           )}
           style={{

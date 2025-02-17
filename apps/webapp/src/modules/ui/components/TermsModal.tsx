@@ -163,14 +163,18 @@ export function TermsModal() {
           )}
           <div className="flex w-full justify-between gap-4 sm:mt-0 sm:w-auto">
             <DialogClose asChild>
-              <Button variant="secondary" className="flex-1 border" onClick={handleReject}>
+              <Button
+                variant="secondary"
+                className="flex-1 border bg-transparent hover:bg-[rgb(17,16,31)] active:bg-[rgb(34,32,66)]"
+                onClick={handleReject}
+              >
                 <Text>
                   <Trans>Reject</Trans>
                 </Text>
               </Button>
             </DialogClose>
             <Button
-              variant="default"
+              variant="primary"
               className="flex-1"
               onClick={handleAgreeAndSign}
               disabled={!isChecked || signStatus === 'signing'}

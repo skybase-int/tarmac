@@ -39,7 +39,7 @@ export const StatsOverviewCardCoreAccordion = ({
           </AccordionItem>
         </Accordion>
       </CardContent>
-      {footerContent && <CardFooter className="!mt-0">{footerContent}</CardFooter>}
+      {footerContent && <CardFooter className="mt-0!">{footerContent}</CardFooter>}
     </Card>
   );
 };
