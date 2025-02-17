@@ -1,4 +1,4 @@
-import { TokenInput } from '@/shared/components/ui/token/TokenInput';
+import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
 import {
   getIlkName,
   getTokenDecimals,
@@ -14,7 +14,7 @@ import {
 import { t } from '@lingui/core/macro';
 import { useContext, useEffect, useMemo } from 'react';
 import { SealModuleWidgetContext } from '../context/context';
-import { TransactionOverview } from '@/shared/components/ui/transaction/TransactionOverview';
+import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
 import {
   WAD_PRECISION,
   captitalizeFirstLetter,
@@ -24,7 +24,7 @@ import {
   useDebounce
 } from '@jetstreamgg/utils';
 import { formatUnits } from 'viem';
-import { RiskSlider } from '@/shared/components/ui/RiskSlider';
+import { RiskSlider } from '@widgets/shared/components/ui/RiskSlider';
 import { getRiskTextColor } from '../lib/utils';
 import { useAccount, useChainId } from 'wagmi';
 import { useSealExitFee } from '@jetstreamgg/hooks';

@@ -3,12 +3,17 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import { configDefaults } from 'vitest/config';
 import { lingui } from '@lingui/vite-plugin';
-import tailwindcss from 'tailwindcss';
+import tailwindcss from '@tailwindcss/vite';
 import simpleHtmlPlugin from 'vite-plugin-simple-html';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
+enum modeEnum {
+  development = 'development',
+  production = 'production'
+}
+
 // https://vitejs.dev/config/
-export default ({ mode }: { mode: string }) => {
+export default ({ mode }: { mode: modeEnum }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
   const RPC_PROVIDER_MAINNET = process.env.VITE_RPC_PROVIDER_MAINNET || '';
@@ -16,6 +21,8 @@ export default ({ mode }: { mode: string }) => {
   const RPC_PROVIDER_TENDERLY = process.env.VITE_RPC_PROVIDER_TENDERLY || '';
   const RPC_PROVIDER_BASE = process.env.VITE_RPC_PROVIDER_BASE || '';
   const RPC_PROVIDER_TENDERLY_BASE = process.env.VITE_RPC_PROVIDER_TENDERLY_BASE || '';
+  const VITE_RPC_PROVIDER_ARBITRUM = process.env.VITE_RPC_PROVIDER_ARBITRUM || '';
+  const VITE_RPC_PROVIDER_TENDERLY_ARBITRUM = process.env.VITE_RPC_PROVIDER_TENDERLY_ARBITRUM || '';
 
   const CONTENT_SECURITY_POLICY = `
     default-src 'self';
@@ -32,8 +39,11 @@ export default ({ mode }: { mode: string }) => {
       ${RPC_PROVIDER_SEPOLIA}
       ${RPC_PROVIDER_BASE}
       ${RPC_PROVIDER_TENDERLY_BASE}
+      ${VITE_RPC_PROVIDER_ARBITRUM}
+      ${VITE_RPC_PROVIDER_TENDERLY_ARBITRUM}
       https://virtual.mainnet.rpc.tenderly.co
       https://virtual.base.rpc.tenderly.co
+      https://virtual.arbitrum.rpc.tenderly.co
       https://rpc.sepolia.org
       https://mainnet.base.org
       https://safe-transaction-mainnet.safe.global
@@ -86,7 +96,16 @@ export default ({ mode }: { mode: string }) => {
     },
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, './src')
+        '@': path.resolve(__dirname, './src'),
+        // If we're in dev mode, alias the packages to their local TypeScript source code for faster HMR
+        ...(mode === modeEnum.development
+          ? {
+              '@jetstreamgg/hooks': path.resolve(__dirname, '../../packages/hooks/src'),
+              '@jetstreamgg/utils': path.resolve(__dirname, '../../packages/utils/src'),
+              '@jetstreamgg/widgets': path.resolve(__dirname, '../../packages/widgets/src'),
+              '@widgets': path.resolve(__dirname, '../../packages/widgets/src')
+            }
+          : {})
       }
     },
     optimizeDeps: {
@@ -118,12 +137,8 @@ export default ({ mode }: { mode: string }) => {
       react({
         plugins: [['@lingui/swc-plugin', {}]]
       }),
+      tailwindcss(),
       lingui()
-    ],
-    css: {
-      postcss: {
-        plugins: [tailwindcss()]
-      }
-    }
+    ]
   });
 };

@@ -4,14 +4,11 @@ import { Copy } from './Copy';
 import { SavingsSupply } from './SavingsSupply';
 import { Failure } from './Failure';
 import { RewardsModule } from './RewardsModule';
-import { Globe } from './Globe';
-import { Hourglass } from './Hourglass';
 import { LinkExternal } from './LinkExternal';
 import { Metrics } from './Metrics';
 import { Reward } from './Reward';
 import { Rewards } from './Rewards';
 import { RewardsEmpty } from './RewardsEmpty';
-import { Rocket } from './Rocket';
 import { Savings } from './Savings';
 import { Supply } from './Supply';
 import { Supplied } from './Supplied';
@@ -27,11 +24,9 @@ import { Balances } from './Balances';
 import { Info } from './Info';
 import { Close } from './Close';
 import { Seal } from './Seal';
-import { Toggle } from './Toggle';
-import { BaseNetwork } from './BaseNetwork';
-import { MainnetNetwork } from './MainnetNetwork';
 import { BaseChain } from './BaseChain';
 import { MainnetChain } from './MainnetChain';
+import { ArbitrumChain } from './ArbitrumChain';
 
 export {
   ArrowDown,
@@ -40,14 +35,11 @@ export {
   SavingsSupply,
   Failure,
   RewardsModule,
-  Globe,
-  Hourglass,
   LinkExternal,
   Metrics,
   Reward,
   Rewards,
   RewardsEmpty,
-  Rocket,
   Savings,
   Supply,
   Supplied,
@@ -63,9 +55,7 @@ export {
   Info,
   Close,
   Seal,
-  Toggle,
-  BaseNetwork,
-  MainnetNetwork,
   BaseChain,
-  MainnetChain
+  MainnetChain,
+  ArbitrumChain
 };

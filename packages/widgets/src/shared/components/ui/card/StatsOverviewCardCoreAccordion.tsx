@@ -1,7 +1,12 @@
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { HStack } from '@/shared/components/ui/layout/HStack';
-import { cn } from '@/lib/utils';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Card, CardContent, CardFooter } from '@widgets/components/ui/card';
+import { HStack } from '@widgets/shared/components/ui/layout/HStack';
+import { cn } from '@widgets/lib/utils';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from '@widgets/components/ui/accordion';
 import { JSX } from 'react';
 
 export const StatsOverviewCardCoreAccordion = ({
@@ -34,7 +39,7 @@ export const StatsOverviewCardCoreAccordion = ({
           </AccordionItem>
         </Accordion>
       </CardContent>
-      {footerContent && <CardFooter className="!mt-0">{footerContent}</CardFooter>}
+      {footerContent && <CardFooter className="mt-0!">{footerContent}</CardFooter>}
     </Card>
   );
 };
