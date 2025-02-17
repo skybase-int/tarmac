@@ -80,7 +80,7 @@ export const BalancesHeader = ({
           <Text variant="medium">
             Learn how to{' '}
             <ExternalLink
-              href="https://bridge.base.org/deposit" //TODO: update to the arbitrum bridge
+              href="https://bridge.arbitrum.io/?destinationChain=arbitrum-one&sourceChain=ethereum"
               iconSize={11}
               className="text-textEmphasis inline"
               inline
