@@ -43,7 +43,6 @@ export const BalancesHistoryItem: React.FC<BalancesHistoryItemProps> = ({
   const explorerName = getExplorerName(chainId || 1);
   const positive = getPositive({ type });
   const iconSrc = getHistoryIconSource({ type, module, chainId: chainId || 1 });
-  console.log(iconSrc);
   return (
     <ExternalLink
       href={href}

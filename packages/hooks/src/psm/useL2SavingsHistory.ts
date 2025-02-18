@@ -88,31 +88,33 @@ async function fetchL2SavingsHistory(
     })
     .filter((swap: SavingsHistoryItem | null) => swap !== null);
 
-  const swapsOutParsed: SavingsHistory = response.usdsOut.map((e: any) => {
-    const tokenAddress = e.assetIn.toLowerCase();
-    const token = tokenAddressMap[tokenAddress];
+  const swapsOutParsed: SavingsHistory = response.usdsOut
+    .map((e: any) => {
+      const tokenAddress = e.assetIn.toLowerCase();
+      const token = tokenAddressMap[tokenAddress];
 
-    if (!token) {
-      console.warn(
-        `Skipping savings supply due to missing token mapping for chainId ${chainId}:`,
-        `token (${tokenAddress}): ${!!token}`
-      );
-      return null;
-    }
+      if (!token) {
+        console.warn(
+          `Skipping savings supply due to missing token mapping for chainId ${chainId}:`,
+          `token (${tokenAddress}): ${!!token}`
+        );
+        return null;
+      }
 
-    return {
-      blockTimestamp: new Date(parseInt(e.blockTimestamp) * 1000),
-      transactionHash: e.transactionHash,
-      module: ModuleEnum.SAVINGS,
-      type: TransactionTypeEnum.SUPPLY,
-      assets: BigInt(e.amountIn),
-      shares: BigInt(e.amountOut),
-      referralCode: e.referralCode,
-      token,
-      address: e.sender,
-      chainId
-    };
-  });
+      return {
+        blockTimestamp: new Date(parseInt(e.blockTimestamp) * 1000),
+        transactionHash: e.transactionHash,
+        module: ModuleEnum.SAVINGS,
+        type: TransactionTypeEnum.SUPPLY,
+        assets: BigInt(e.amountIn),
+        shares: BigInt(e.amountOut),
+        referralCode: e.referralCode,
+        token,
+        address: e.sender,
+        chainId
+      };
+    })
+    .filter((swap: SavingsHistoryItem | null) => swap !== null);
 
   return [...swapsInParsed, ...swapsOutParsed].sort(
     (a, b) => b.blockTimestamp.getTime() - a.blockTimestamp.getTime()

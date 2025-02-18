@@ -129,6 +129,7 @@ export function useTokenBalance({
   };
 }
 
+//takes in either a chainTokenMap, or a tokens array and chainId
 export function useTokenBalances({
   address,
   tokens,
@@ -141,13 +142,9 @@ export function useTokenBalances({
 
   // Aggregate results from all chains
   const results = Object.entries(tokenMap).map(([chainId, tokens]) => {
-    const pair = {
-      chainId: Number(chainId),
-      tokens
-    };
-
-    const nonNativeTokens = pair.tokens.filter(tokenItem => !tokenItem.isNative);
-    const nativeToken = pair.tokens.find(tokenItem => tokenItem.isNative) || null;
+    const numericChainId = Number(chainId);
+    const nonNativeTokens = tokens.filter(tokenItem => !tokenItem.isNative);
+    const nativeToken = tokens.find(tokenItem => tokenItem.isNative) || null;
 
     const {
       data: tokenResultData,
@@ -160,14 +157,14 @@ export function useTokenBalances({
           {
             address: tokenItem.address,
             abi: erc20Abi,
-            chainId: pair.chainId,
+            chainId: numericChainId,
             functionName: 'balanceOf',
             args: address ? [address] : undefined
           },
           {
             address: tokenItem.address,
             abi: erc20Abi,
-            chainId: pair.chainId,
+            chainId: numericChainId,
             functionName: 'decimals'
           }
         ])
@@ -185,7 +182,7 @@ export function useTokenBalances({
       error: nativeResultError
     } = useBalance({
       address,
-      chainId: pair.chainId,
+      chainId: numericChainId,
       query: { enabled: enabled && !!nativeToken }
     });
 
@@ -198,7 +195,7 @@ export function useTokenBalances({
           decimals: array[index + 1] as number,
           formatted: formatUnits(tokenResultData[index] as bigint, tokenResultData[index + 1] as number),
           symbol: tokenItem.symbol,
-          chainId: pair.chainId
+          chainId: numericChainId
         });
       }
       return acc;
@@ -209,7 +206,7 @@ export function useTokenBalances({
         ? {
             ...nativeResultData,
             symbol: nativeToken.symbol,
-            chainId: pair.chainId
+            chainId: numericChainId
           }
         : null;
 

@@ -81,11 +81,11 @@ export function useRewardsUserHistory({
   subgraphUrl?: string;
   rewardContractAddress: string;
 }): ReadHook & { data?: RewardUserHistoryItem[] } {
-  const chainId = useChainId();
+  const currentChainId = useChainId();
   const { address: userAddress } = useAccount();
-  const urlSubgraph = subgraphUrl ? subgraphUrl : getMakerSubgraphUrl(chainId) || '';
+  const urlSubgraph = subgraphUrl ? subgraphUrl : getMakerSubgraphUrl(currentChainId) || '';
   //this hook is only used for mainnet, update this if this ever changes
-  const fetchedChainId = isTestnetId(chainId) ? chainIdMap.tenderly : chainIdMap.mainnet;
+  const chainIdToUse = isTestnetId(currentChainId) ? chainIdMap.tenderly : chainIdMap.mainnet;
 
   const {
     data,
@@ -94,9 +94,9 @@ export function useRewardsUserHistory({
     isLoading
   } = useQuery({
     enabled: Boolean(urlSubgraph && rewardContractAddress && userAddress),
-    queryKey: ['rewards-user-history', urlSubgraph, rewardContractAddress, userAddress, fetchedChainId],
+    queryKey: ['rewards-user-history', urlSubgraph, rewardContractAddress, userAddress, chainIdToUse],
     queryFn: () =>
-      fetchRewardsUserHistory(urlSubgraph, fetchedChainId, rewardContractAddress, userAddress || '')
+      fetchRewardsUserHistory(urlSubgraph, chainIdToUse, rewardContractAddress, userAddress || '')
   });
 
   return {

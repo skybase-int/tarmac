@@ -24,7 +24,7 @@ export const RewardsBalanceCard = ({
   showAllNetworks
 }: CardProps) => {
   const currentChainId = useChainId();
-  const chainId = isTestnetId(currentChainId) ? 314310 : 1; //hardcoded to mainnet for now
+  const chainId = isTestnetId(currentChainId) ? 314310 : 1; //TODO: update once we add non-mainnet rewards
   const { address } = useAccount();
   const rewardContracts = useAvailableTokenRewardContracts(chainId);
 

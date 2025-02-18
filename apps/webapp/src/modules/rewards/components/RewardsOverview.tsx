@@ -19,7 +19,7 @@ export function RewardsOverview() {
   const { linkedActionConfig } = useConfigContext();
   const { data: actionData } = useUserSuggestedActions();
   const widget = IntentMapping.REWARDS_INTENT;
-  const allRewardContracts = useAvailableTokenRewardContracts(1); //hardcode to mainnet for now to avoid bugs when linking to mainnet rewards from another chain
+  const allRewardContracts = useAvailableTokenRewardContracts(1); //hardcode to mainnet for now to avoid bugs when linking to mainnet rewards from another chain. Should maybe update to read from query params
 
   return (
     <DetailSectionWrapper>

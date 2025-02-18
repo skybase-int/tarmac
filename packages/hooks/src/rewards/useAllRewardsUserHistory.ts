@@ -94,11 +94,11 @@ export function useAllRewardsUserHistory({
   subgraphUrl?: string;
 } = {}): ReadHook & { data?: RewardUserHistoryItem[] } {
   const { address: userAddress } = useAccount();
-  const chainId = useChainId();
-  const urlSubgraph = subgraphUrl ? subgraphUrl : getMakerSubgraphUrl(chainId) || '';
+  const currentChainId = useChainId();
+  const urlSubgraph = subgraphUrl ? subgraphUrl : getMakerSubgraphUrl(currentChainId) || '';
   //this hook is only used for mainnet, update this if this ever changes
-  const fetchedChainId = isTestnetId(chainId) ? chainIdMap.tenderly : chainIdMap.mainnet;
-  const rewardContracts = useAvailableTokenRewardContracts(fetchedChainId);
+  const chainIdToUse = isTestnetId(currentChainId) ? chainIdMap.tenderly : chainIdMap.mainnet;
+  const rewardContracts = useAvailableTokenRewardContracts(chainIdToUse);
   const {
     data,
     error,
@@ -106,8 +106,8 @@ export function useAllRewardsUserHistory({
     isLoading
   } = useQuery({
     enabled: Boolean(urlSubgraph && userAddress),
-    queryKey: ['all-rewards-user-history', urlSubgraph, userAddress, fetchedChainId],
-    queryFn: () => fetchAllRewardsUserHistory(urlSubgraph, userAddress || '', rewardContracts, fetchedChainId)
+    queryKey: ['all-rewards-user-history', urlSubgraph, userAddress, chainIdToUse],
+    queryFn: () => fetchAllRewardsUserHistory(urlSubgraph, userAddress || '', rewardContracts, chainIdToUse)
   });
 
   return {

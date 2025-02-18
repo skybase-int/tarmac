@@ -258,9 +258,9 @@ export function useSealHistory({
   index?: number;
 } = {}): ReadHook & { data?: SealHistory } {
   const { address } = useAccount();
-  const chainId = useChainId();
-  const urlSubgraph = subgraphUrl ? subgraphUrl : getMakerSubgraphUrl(chainId) || '';
-  const fetchedChainId = isTestnetId(chainId) ? chainIdMap.tenderly : chainIdMap.mainnet;
+  const currentChainId = useChainId();
+  const urlSubgraph = subgraphUrl ? subgraphUrl : getMakerSubgraphUrl(currentChainId) || '';
+  const chainIdToUse = isTestnetId(currentChainId) ? chainIdMap.tenderly : chainIdMap.mainnet;
 
   const {
     data,
@@ -269,8 +269,8 @@ export function useSealHistory({
     isLoading
   } = useQuery({
     enabled: Boolean(urlSubgraph),
-    queryKey: ['seal-history', urlSubgraph, address, index, chainId],
-    queryFn: () => fetchSealHistory(urlSubgraph, fetchedChainId, address, index)
+    queryKey: ['seal-history', urlSubgraph, address, index, chainIdToUse],
+    queryFn: () => fetchSealHistory(urlSubgraph, chainIdToUse, address, index)
   });
 
   return {

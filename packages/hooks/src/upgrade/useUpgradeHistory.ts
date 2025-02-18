@@ -96,9 +96,9 @@ export function useUpgradeHistory({
   subgraphUrl?: string;
 } = {}): ReadHook & { data?: UpgradeHistory } {
   const { address } = useAccount();
-  const chainId = useChainId();
-  const urlSubgraph = subgraphUrl ? subgraphUrl : getMakerSubgraphUrl(chainId) || '';
-  const fetchedChainId = isTestnetId(chainId) ? chainIdMap.tenderly : chainIdMap.mainnet;
+  const currentChainId = useChainId();
+  const urlSubgraph = subgraphUrl ? subgraphUrl : getMakerSubgraphUrl(currentChainId) || '';
+  const chainIdToUse = isTestnetId(currentChainId) ? chainIdMap.tenderly : chainIdMap.mainnet;
 
   const {
     data,
@@ -107,8 +107,8 @@ export function useUpgradeHistory({
     isLoading
   } = useQuery({
     enabled: Boolean(urlSubgraph && address),
-    queryKey: ['upgrade-history', urlSubgraph, address, fetchedChainId],
-    queryFn: () => fetchUpgradeHistory(urlSubgraph, fetchedChainId, address)
+    queryKey: ['upgrade-history', urlSubgraph, address, chainIdToUse],
+    queryFn: () => fetchUpgradeHistory(urlSubgraph, chainIdToUse, address)
   });
 
   return {

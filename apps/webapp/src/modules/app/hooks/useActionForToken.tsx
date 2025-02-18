@@ -1,6 +1,6 @@
 import { formatNumber, isBaseChainId, isArbitrumChainId, isL2ChainId } from '@jetstreamgg/utils';
 import { useCallback } from 'react';
-import { RewardContract, useAvailableTokenRewardContractsForChain } from '@jetstreamgg/hooks';
+import { RewardContract, useAvailableTokenRewardContractsForChains } from '@jetstreamgg/hooks';
 import { getRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
 import { useSearchParams } from 'react-router-dom';
 import { IntentMapping, QueryParams } from '@/lib/constants';
@@ -14,7 +14,7 @@ export const useActionForToken = () => {
   const isRestrictedBuild = import.meta.env.VITE_RESTRICTED_BUILD === 'true';
   const isRestrictedMiCa = import.meta.env.VITE_RESTRICTED_BUILD_MICA === 'true';
 
-  const getRewardContracts = useAvailableTokenRewardContractsForChain();
+  const getRewardContracts = useAvailableTokenRewardContractsForChains();
 
   const chains = useChains();
 

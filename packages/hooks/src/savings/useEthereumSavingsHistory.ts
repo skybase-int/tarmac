@@ -69,9 +69,9 @@ export function useEthereumSavingsHistory({
   enabled?: boolean;
 } = {}): ReadHook & { data?: SavingsHistory } {
   const { address } = useAccount();
-  const chainId = useChainId();
-  const urlSubgraph = subgraphUrl ? subgraphUrl : getMakerSubgraphUrl(chainId) || '';
-  const fetchedChainId = isTestnetId(chainId) ? chainIdMap.tenderly : chainIdMap.mainnet;
+  const currentChainId = useChainId();
+  const urlSubgraph = subgraphUrl ? subgraphUrl : getMakerSubgraphUrl(currentChainId) || '';
+  const chainIdToUse = isTestnetId(currentChainId) ? chainIdMap.tenderly : chainIdMap.mainnet;
 
   const {
     data,
@@ -80,8 +80,8 @@ export function useEthereumSavingsHistory({
     isLoading
   } = useQuery({
     enabled: Boolean(urlSubgraph) && enabled,
-    queryKey: ['savings-history', urlSubgraph, address, fetchedChainId],
-    queryFn: () => fetchEthereumSavingsHistory(urlSubgraph, fetchedChainId, address)
+    queryKey: ['savings-history', urlSubgraph, address, chainIdToUse],
+    queryFn: () => fetchEthereumSavingsHistory(urlSubgraph, chainIdToUse, address)
   });
 
   return {

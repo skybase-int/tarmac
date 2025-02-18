@@ -32,7 +32,7 @@ export function MainApp() {
   useAccountEffect({
     // Once the user connects their wallet, check if the network param is set and switch chains if necessary
     onConnect() {
-      const parsedChainId = chains.find(chain => chain.name.toLowerCase() === network?.toLowerCase())?.id;
+      const parsedChainId = chains.find(chain => chain.name?.toLowerCase() === network?.toLowerCase())?.id;
       if (parsedChainId) {
         switchChain({ chainId: parsedChainId });
       }
@@ -69,7 +69,7 @@ export function MainApp() {
   const network = searchParams.get(QueryParams.Network) || undefined;
 
   const newChainId = network
-    ? (chains.find(chain => chain.name.toLowerCase() === network.toLowerCase())?.id ?? chainId)
+    ? (chains.find(chain => chain.name?.toLowerCase() === network.toLowerCase())?.id ?? chainId)
     : chainId;
 
   const rewardContracts = useAvailableTokenRewardContracts(newChainId);
@@ -111,7 +111,7 @@ export function MainApp() {
         });
     } else {
       // If the network param doesn't match the current chain, switch chains
-      const parsedChainId = chains.find(chain => chain.name.toLowerCase() === network.toLowerCase())?.id;
+      const parsedChainId = chains.find(chain => chain.name?.toLowerCase() === network?.toLowerCase())?.id;
       if (parsedChainId && parsedChainId !== chainId) {
         switchChain({ chainId: parsedChainId });
       }

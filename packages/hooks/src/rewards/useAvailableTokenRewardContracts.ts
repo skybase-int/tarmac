@@ -38,7 +38,7 @@ export function useAvailableTokenRewardContracts(chainId: number) {
   return useMemo(() => createRewardContracts(chainId), [chainId]);
 }
 
-export function useAvailableTokenRewardContractsForChain() {
+export function useAvailableTokenRewardContractsForChains() {
   const allContracts = useMemo(() => {
     const contracts: Record<number, RewardContract[]> = {};
 

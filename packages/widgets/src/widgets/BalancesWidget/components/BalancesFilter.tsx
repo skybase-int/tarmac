@@ -29,7 +29,6 @@ export const BalancesFilter = ({
           <span className="text-sm">|</span>
           <button
             onClick={() => setShowAllNetworks(false)}
-            // TODO update disabled text color
             className={`text-sm ${!showAllNetworks ? 'text-text' : 'text-textSecondary'}`}
           >
             Active

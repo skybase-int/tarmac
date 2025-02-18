@@ -82,10 +82,10 @@ export function useEthereumTradeHistory({
   enabled?: boolean;
 }): ReadHook & { data?: TradeHistory } {
   const { address } = useAccount();
-  const chainId = useChainId();
-  const fetchedChainId = isTestnetId(chainId) ? chainIdMap.tenderly : chainIdMap.mainnet;
-  const tokens = TRADE_TOKENS[fetchedChainId as keyof typeof TRADE_TOKENS]
-    ? Object.values(TRADE_TOKENS[fetchedChainId as keyof typeof TRADE_TOKENS])
+  const currentChainId = useChainId();
+  const chainIdToUse = isTestnetId(currentChainId) ? chainIdMap.tenderly : chainIdMap.mainnet;
+  const tokens = TRADE_TOKENS[chainIdToUse as keyof typeof TRADE_TOKENS]
+    ? Object.values(TRADE_TOKENS[chainIdToUse as keyof typeof TRADE_TOKENS])
     : [];
 
   const {
@@ -95,8 +95,8 @@ export function useEthereumTradeHistory({
     isLoading
   } = useQuery({
     enabled: Boolean(address) && enabled,
-    queryKey: ['trade-history', address, limit, fetchedChainId],
-    queryFn: () => fetchEthereumTradeHistory(fetchedChainId, address, limit, tokens)
+    queryKey: ['trade-history', address, limit, chainIdToUse],
+    queryFn: () => fetchEthereumTradeHistory(chainIdToUse, address, limit, tokens)
   });
 
   return {

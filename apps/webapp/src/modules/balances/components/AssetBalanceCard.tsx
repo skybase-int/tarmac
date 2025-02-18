@@ -11,6 +11,7 @@ type TokenBalance = {
   decimals: number;
   symbol: string;
   formatted: string;
+  chainId: number;
 };
 
 export function AssetBalanceCard({

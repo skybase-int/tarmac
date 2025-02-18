@@ -54,7 +54,7 @@ export const BalancesContent = ({
   setShowAllNetworks: setShowAllNetworksProp,
   setHideZeroBalances: setHideZeroBalancesProp
 }: BalancesContentProps): React.ReactElement => {
-  const [showAllNetworksInternal, setShowAllNetworksInternal] = useState(false);
+  const [showAllNetworksInternal, setShowAllNetworksInternal] = useState(true);
   const [hideZeroBalancesInternal, setHideZeroBalancesInternal] = useState(false);
 
   const showAllNetworks = showAllNetworksProp ?? showAllNetworksInternal;

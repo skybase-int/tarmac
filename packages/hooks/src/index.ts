@@ -30,7 +30,7 @@ export { useTokenChartInfo } from './tokens/useTokenChartInfo';
 
 // Rewards
 export { useAvailableTokenRewardContracts } from './rewards/useAvailableTokenRewardContracts';
-export { useAvailableTokenRewardContractsForChain } from './rewards/useAvailableTokenRewardContracts';
+export { useAvailableTokenRewardContractsForChains } from './rewards/useAvailableTokenRewardContracts';
 export { useRewardContractInfo } from './rewards/useRewardContractInfo';
 export { useRewardContractsInfo } from './rewards/useRewardContractsInfo';
 export { useRewardsUserHistory } from './rewards/useRewardsUserHistory';
