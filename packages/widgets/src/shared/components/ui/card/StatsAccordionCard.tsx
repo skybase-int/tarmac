@@ -31,7 +31,7 @@ export const StatsAccordionCard = ({
     <Accordion type="single" collapsible defaultValue={'info'}>
       <AccordionItem value="info">
         <motion.div variants={positionAnimations}>
-          <AccordionTrigger>
+          <AccordionTrigger className="mt-3">
             <HStack className="mr-1 w-full justify-between">
               {address ? (
                 <ExternalLink

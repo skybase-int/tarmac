@@ -137,13 +137,13 @@ export function WidgetNavigation({ widgetContent, intent, children }: WidgetNavi
                 disabled={options?.disabled || false}
               >
                 {!isMobile && icon({ color: 'inherit' })}
-                <Text variant="small" className="text-inherit">
+                <Text variant="small" className="leading-4 text-inherit">
                   <Trans>{label}</Trans>
                 </Text>
                 {comingSoon && (
                   <Text
                     variant="small"
-                    className="bg-primary text-textSecondary absolute left-1/2 top-0 rounded-full px-1.5 py-0 md:px-2 md:py-1"
+                    className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 text-textSecondary absolute left-1/2 top-0 rounded-full px-1.5 py-0 md:px-2 md:py-1"
                   >
                     <Trans>Soon</Trans>
                   </Text>
