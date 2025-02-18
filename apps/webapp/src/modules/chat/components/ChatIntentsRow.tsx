@@ -7,7 +7,7 @@ import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParam
 import { intentSelectedMessage } from '../lib/intentSelectedMessage';
 import { QueryParams } from '@/lib/constants';
 import { useNetworkFromIntentUrl } from '../hooks/useNetworkFromUrl';
-import { chainIdNameMapping } from '../lib/intentUtils';
+import { chainIdNameMapping, intentModifiesState } from '../lib/intentUtils';
 import { useChainId } from 'wagmi';
 import { ConfirmationWarningRow } from './ConfirmationWarningRow';
 
@@ -15,20 +15,42 @@ type ChatIntentsRowProps = {
   intents: ChatIntent[];
 };
 
-export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
-  const { confirmationWarningOpened, selectedIntent, hasShownIntent } = useChatContext();
+const testIntents = [
+  {
+    intent_id: 'balances',
+    intent_description: 'View Balances',
+    url: '/?widget=balances'
+  },
+  {
+    intent_id: 'trade',
+    intent_description: 'Go to Trade',
+    url: '/?widget=trade'
+  },
+  {
+    intent_id: 'trade',
+    intent_description: 'Trade 10 USDS',
+    url: '/?widget=trade&input_amount=10&source_token=USDS&target_token=USDC'
+  },
+  {
+    intent_id: 'savings',
+    intent_description: 'Save 10 USDS',
+    url: '/?widget=savings&input_amount=10&source_token=USDS'
+  }
+];
 
-  const showConfirmationWarning = !hasShownIntent(selectedIntent) && confirmationWarningOpened;
+export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
+  console.log('🚀 ~ ChatIntentsRow ~ intents:', intents);
+  const { shouldShowConfirmationWarning } = useChatContext();
 
   return (
     <div>
       <Text className="text-xs italic text-gray-500">Try a suggested action</Text>
       <div className="mt-2 flex flex-wrap gap-2">
-        {intents.map((intent, index) => (
+        {testIntents.map((intent, index) => (
           <IntentRow key={index} intent={intent} />
         ))}
       </div>
-      {showConfirmationWarning && <ConfirmationWarningRow />}
+      {shouldShowConfirmationWarning && <ConfirmationWarningRow />}
     </div>
   );
 };
@@ -39,7 +61,7 @@ type IntentRowProps = {
 
 const IntentRow = ({ intent }: IntentRowProps) => {
   const chainId = useChainId();
-  const { setConfirmationWarningOpened, setSelectedIntent, hasShownIntent, setChatHistory } =
+  const { setConfirmationWarningOpened, setSelectedIntent, setChatHistory, hasShownIntent } =
     useChatContext();
   const navigate = useNavigate();
   const intentUrl = useRetainedQueryParams(intent?.url || '', [
@@ -50,12 +72,15 @@ const IntentRow = ({ intent }: IntentRowProps) => {
 
   const network =
     useNetworkFromIntentUrl(intentUrl) || chainIdNameMapping[chainId as keyof typeof chainIdNameMapping];
+  const modifiesState = intentModifiesState(intent);
 
   return (
     <Button
       variant="suggest"
       onClick={() => {
-        if (!hasShownIntent(intent)) {
+        setConfirmationWarningOpened(false);
+
+        if (!hasShownIntent(intent) && modifiesState) {
           setConfirmationWarningOpened(true);
           setSelectedIntent(intent);
         } else {
@@ -64,8 +89,8 @@ const IntentRow = ({ intent }: IntentRowProps) => {
         }
       }}
       onMouseEnter={() => {
-        console.log('🚀 ~ onMouseEnter ~ intent:', intent);
-        console.log('🚀 ~ IntentRow ~ intentUrl:', intentUrl);
+        // console.log('🚀 ~ onMouseEnter ~ intent:', intent);
+        // console.log('🚀 ~ IntentRow ~ intentUrl:', intentUrl);
       }}
     >
       {intent.intent_description}

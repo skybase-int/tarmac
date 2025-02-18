@@ -3,6 +3,7 @@ import { ChatHistory, ChatIntent } from '../types/Chat';
 import { generateUUID } from '../lib/generateUUID';
 import { t } from '@lingui/macro';
 import { CHATBOT_NAME, MessageType, UserType } from '../constants';
+import { intentModifiesState } from '../lib/intentUtils';
 
 interface ChatContextType {
   isLoading: boolean;
@@ -11,6 +12,7 @@ interface ChatContextType {
   selectedIntent: ChatIntent | undefined;
   warningShown: ChatIntent[];
   sessionId: string;
+  shouldShowConfirmationWarning: boolean;
   setChatHistory: React.Dispatch<React.SetStateAction<ChatHistory[]>>;
   setConfirmationWarningOpened: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedIntent: React.Dispatch<React.SetStateAction<ChatIntent | undefined>>;
@@ -29,7 +31,8 @@ const ChatContext = createContext<ChatContextType>({
   warningShown: [],
   setWarningShown: () => {},
   sessionId: '',
-  hasShownIntent: () => false
+  hasShownIntent: () => false,
+  shouldShowConfirmationWarning: false
 });
 
 export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -56,6 +59,11 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
     [warningShown]
   );
 
+  const modifiesState = intentModifiesState(selectedIntent);
+
+  const shouldShowConfirmationWarning =
+    !hasShownIntent(selectedIntent) && confirmationWarningOpened && modifiesState;
+
   return (
     <ChatContext.Provider
       value={{
@@ -69,7 +77,8 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
         warningShown,
         setWarningShown,
         sessionId,
-        hasShownIntent
+        hasShownIntent,
+        shouldShowConfirmationWarning
       }}
     >
       {children}

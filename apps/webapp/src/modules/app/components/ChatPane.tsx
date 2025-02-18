@@ -10,7 +10,7 @@ import { useDismissChatSuggestion } from '../hooks/useDismissChatSuggestion';
 import { ChatConfirmationModal } from '@/modules/chat/components/ChatConfirmationModal';
 
 export const ChatPane = ({ sendMessage }: { sendMessage: (message: string) => void }) => {
-  const { chatHistory } = useChatContext();
+  const { chatHistory, shouldShowConfirmationWarning } = useChatContext();
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export const ChatPane = ({ sendMessage }: { sendMessage: (message: string) => vo
         behavior: 'smooth'
       });
     }
-  }, [chatHistory]);
+  }, [chatHistory, shouldShowConfirmationWarning]);
 
   useDismissChatSuggestion();
 
