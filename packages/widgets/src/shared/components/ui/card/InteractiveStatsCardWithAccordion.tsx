@@ -11,7 +11,6 @@ import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { ArrowRight } from 'lucide-react';
 import { formatUnits } from 'viem';
 import { useChains } from 'wagmi';
-import { usePrices } from '@jetstreamgg/hooks';
 import { formatBigInt, formatNumber, getChainIcon } from '@jetstreamgg/utils';
 import { Link } from 'react-router-dom';
 import { InteractiveStatsCard } from './InteractiveStatsCard';
@@ -23,7 +22,8 @@ export const InteractiveStatsCardWithAccordion = ({
   footerRightContent,
   tokenSymbol,
   balancesByChain,
-  urlMap
+  urlMap,
+  pricesData
 }: {
   title: React.ReactElement | string;
   headerRightContent: React.ReactElement | string;
@@ -32,9 +32,9 @@ export const InteractiveStatsCardWithAccordion = ({
   tokenSymbol: string;
   balancesByChain: { chainId: number; balance: bigint }[];
   urlMap: Record<number, string>;
+  pricesData: Record<string, { price: string }>;
 }): React.ReactElement => {
   const chains = useChains();
-  const { data: pricesData } = usePrices();
   if (balancesByChain.length === 1) {
     return (
       <InteractiveStatsCard
@@ -117,7 +117,7 @@ export const InteractiveStatsCardWithAccordion = ({
             <AccordionContent className="p-0">
               {balancesByChain.map(({ chainId, balance }) => {
                 const networkName = chains.find(c => c.id === chainId)?.name;
-                const usdValue = pricesData?.USDS
+                const usdValue = pricesData?.USDS?.price
                   ? parseFloat(formatUnits(balance, 18)) * parseFloat(pricesData.USDS.price)
                   : 0;
 

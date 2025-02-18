@@ -104,6 +104,7 @@ export const SavingsBalanceCard = ({
       }
       balancesByChain={filteredAndSortedSavingsBalances}
       urlMap={urlMap}
+      pricesData={pricesData}
     />
   );
 };
