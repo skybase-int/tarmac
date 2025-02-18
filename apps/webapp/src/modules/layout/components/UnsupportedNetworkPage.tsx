@@ -28,7 +28,7 @@ export const UnsupportedNetworkPage = ({ children }: { children: React.ReactNode
           onOpenAutoFocus={e => e.preventDefault()} //don't automatically focus the first button
         >
           <div className="flex flex-col gap-5 sm:flex-row">
-            <UnsupportedNetwork className="flex-shrink-0" />
+            <UnsupportedNetwork className="shrink-0" />
             <div>
               <DialogTitle className="text-text mb-2 text-[28px] md:-mt-2 md:text-[32px]">
                 <Trans>Your wallet is connected to an unsupported network</Trans>
@@ -45,8 +45,8 @@ export const UnsupportedNetworkPage = ({ children }: { children: React.ReactNode
                  * For production this would only use Mainnet and Base */}
                 {chains.map(({ name, id }) => (
                   <Button
-                    variant="connect"
-                    className="bg-primary border-transparent hover:border-transparent focus:border-transparent"
+                    variant="connectPrimary"
+                    className="border-transparent hover:border-transparent focus:border-transparent"
                     key={id}
                     onClick={() => handleSwitchChain(id, name)}
                   >

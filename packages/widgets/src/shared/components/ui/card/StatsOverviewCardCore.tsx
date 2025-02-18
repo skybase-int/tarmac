@@ -27,7 +27,7 @@ export const StatsOverviewCardCore = ({
         </HStack>
       </CardHeader>
       <CardContent>{content}</CardContent>
-      {footerContent && <CardFooter className="!mt-0">{footerContent}</CardFooter>}
+      {footerContent && <CardFooter className="mt-0!">{footerContent}</CardFooter>}
     </Card>
   );
 };

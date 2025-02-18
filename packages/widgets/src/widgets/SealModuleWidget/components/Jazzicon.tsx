@@ -10,7 +10,7 @@ export const JazziconComponent = ({
 }) => {
   return useMemo(() => {
     return address ? (
-      <div className="h-6 w-6 flex-shrink-0">
+      <div className="h-6 w-6 shrink-0">
         <Jazzicon diameter={diameter} seed={jsNumberForAddress(address)} />
       </div>
     ) : null;
