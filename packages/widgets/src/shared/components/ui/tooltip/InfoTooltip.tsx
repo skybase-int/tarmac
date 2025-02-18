@@ -24,7 +24,9 @@ export function InfoTooltip({
       </TooltipTrigger>
       <TooltipPortal>
         <TooltipContent className={`max-w-[400px] ${contentClassname}`} arrowPadding={10}>
-          {typeof content === 'string' ? <Text>{content}</Text> : content}
+          <div className="scrollbar-thin max-h-[calc(var(--radix-tooltip-content-available-height)-64px)] overflow-y-auto">
+            {typeof content === 'string' ? <Text>{content}</Text> : content}
+          </div>
           <TooltipArrow width={12} height={8} />
         </TooltipContent>
       </TooltipPortal>

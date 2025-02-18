@@ -238,7 +238,7 @@ export function TradeInputs({
         <Button
           aria-label="Switch token inputs"
           size="icon"
-          className="border-background text-tabPrimary my-0 h-9 w-9 rounded-full bg-transparent hover:bg-transparent focus:bg-transparent focus:outline-none active:bg-transparent disabled:bg-transparent"
+          className="border-background text-tabPrimary focus:outline-hidden my-0 h-9 w-9 rounded-full bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent disabled:bg-transparent"
           onClick={() => {
             setLastSwitchTimestamp(Date.now());
             const auxOriginAmount = originAmount;

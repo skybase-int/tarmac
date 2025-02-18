@@ -106,7 +106,7 @@ export function Landing(): React.ReactElement {
           <select
             value={activeWidget}
             onChange={e => setActiveWidget(e.target.value)}
-            className="rounded border p-2"
+            className="rounded-sm border p-2"
           >
             {widgetsToShow.map(widget => (
               <option key={widget} value={widget}>

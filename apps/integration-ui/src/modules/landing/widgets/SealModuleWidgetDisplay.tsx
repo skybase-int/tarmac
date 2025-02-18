@@ -58,25 +58,25 @@ export function SealModuleWidgetDisplay({
   {
     /* <button
           onClick={openUrn}
-          className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+          className="rounded-sm bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
         >
           Open Urn
         </button>
         <button
           onClick={selectRewardContract}
-          className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+          className="rounded-sm bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
         >
           Select Urn Reward Contract
         </button>
         <button
           onClick={selectVoteDelegate}
-          className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+          className="rounded-sm bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
         >
           Select Urn Vote Delegate
         </button>
         <button
           onClick={claimRewards}
-          className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+          className="rounded-sm bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
         >
           Claim Urn Rewards
         </button> */
@@ -84,7 +84,7 @@ export function SealModuleWidgetDisplay({
   {
     /* <button
           onClick={drawNst}
-          className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+          className="rounded-sm bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
         >
           Draw USDS for urn
         </button> */

@@ -79,7 +79,7 @@ const LineItem = ({
         {tooltipText && <InfoTooltip content={tooltipText} iconClassName="text-textSecondary" />}
       </HStack>
       {Array.isArray(value) && value.length >= 2 ? (
-        <HStack className="flex-shrink-0 items-center">
+        <HStack className="shrink-0 items-center">
           <div className="flex items-center gap-2">
             {Array.isArray(icon) ? icon[0] : icon}
             <Text

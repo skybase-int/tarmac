@@ -75,7 +75,7 @@ export function LandingSepolia(): React.ReactElement {
           onClick={() => {
             setTradeInitialState({ amount: '2', token: 'USDC', targetToken: 'USDS', timestamp: Date.now() });
           }}
-          className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+          className="rounded-sm bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
         >
           Trade 2 USDC to USDS
         </button>
@@ -83,7 +83,7 @@ export function LandingSepolia(): React.ReactElement {
           onClick={() => {
             setTradeInitialState({ amount: '999', token: 'USDT', targetToken: 'DAI', timestamp: Date.now() });
           }}
-          className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+          className="rounded-sm bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
         >
           Trade 999 USDT to DAI
         </button>
@@ -91,7 +91,7 @@ export function LandingSepolia(): React.ReactElement {
           onClick={() => {
             setTradeInitialState({ amount: '50', token: 'USDT', targetToken: 'USDC', timestamp: Date.now() });
           }}
-          className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+          className="rounded-sm bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
         >
           Trade 50 USDT to USDC
         </button>
@@ -99,7 +99,7 @@ export function LandingSepolia(): React.ReactElement {
           onClick={() => {
             setTradeInitialState({ amount: '0.1', token: 'ETH', targetToken: 'DAI', timestamp: Date.now() });
           }}
-          className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+          className="rounded-sm bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
         >
           Trade 0.1 ETH to DAI
         </button>
