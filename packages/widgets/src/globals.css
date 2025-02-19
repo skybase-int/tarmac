@@ -233,7 +233,7 @@
   }
 }
 
-@utility hideSpinButton {
+@utility hide-spin-button {
   /* InputStyles.module.css */
   -webkit-appearance: none;
   -moz-appearance: textfield;
