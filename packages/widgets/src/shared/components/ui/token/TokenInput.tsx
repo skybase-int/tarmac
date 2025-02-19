@@ -236,7 +236,7 @@ export function TokenInput({
         <MotionCard
           ref={cardRef}
           className={cn(
-            'hover-in-before min-h-16 w-96 overflow-hidden rounded-2xl border-0 !pb-4',
+            'hover-in-before pb-4! min-h-16 w-96 overflow-hidden rounded-2xl border-0',
             className
           )}
           style={{
@@ -258,7 +258,7 @@ export function TokenInput({
                   <motion.div variants={positionAnimations}>
                     <Input
                       ref={inputRef}
-                      className="hideSpinButton"
+                      className="hide-spin-button"
                       value={inputValue !== '00' ? inputValue : '0'}
                       onChange={e => {
                         updateValue(e.target.value as `${number}`);

@@ -16,7 +16,12 @@ export const ViewSkyMkrButton = ({ onClick, displayToken }: { onClick: () => voi
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Button className="h-full px-3 text-xs" onClick={onClick} data-testid="view-sky-mkr-button">
+        <Button
+          variant="primary"
+          className="h-full px-3 text-xs"
+          onClick={onClick}
+          data-testid="view-sky-mkr-button"
+        >
           <TokenIcon className="h-4 w-4" token={displayToken} width={16} />{' '}
           <ArrowLeftRight size={14} className="ml-1" />
         </Button>

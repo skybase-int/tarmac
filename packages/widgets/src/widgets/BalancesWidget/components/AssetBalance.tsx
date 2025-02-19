@@ -70,30 +70,28 @@ export const AssetBalance = ({
             <TokenIcon className="h-8 w-8" token={{ symbol: symbol, name: symbol }} chainId={chainId} />
             <div className="flex flex-col justify-between">
               <Text>{symbol}</Text>
-              <Text className="text-textSecondary text-[13px]">
-                {isLoading ? (
-                  <Skeleton className="bg-textSecondary h-5" />
-                ) : priceData ? (
-                  `$${formatNumber(parseFloat(priceData.price), { maxDecimals: 2 })}`
-                ) : (
-                  '--'
-                )}
-              </Text>
+              {isLoading ? (
+                <Skeleton className="bg-textSecondary h-5" />
+              ) : (
+                <Text className="text-textSecondary text-[13px]">
+                  {priceData ? `$${formatNumber(parseFloat(priceData.price), { maxDecimals: 2 })}` : '--'}
+                </Text>
+              )}
             </div>
           </div>
           <div className={`flex flex-col justify-between ${shouldShowAction ? 'hidden' : ''}`}>
             <Text className="text-right font-bold">{formatNumber(parseFloat(formatted))}</Text>
-            <Text className="text-textSecondary text-[13px]">
-              {isLoading ? (
-                <Skeleton className="bg-textSecondary h-5" />
-              ) : priceData ? (
-                `$${formatNumber(parseFloat(formatUnits(value, decimals)) * parseFloat(priceData.price), {
-                  maxDecimals: 2
-                })}`
-              ) : (
-                '--'
-              )}
-            </Text>
+            {isLoading ? (
+              <Skeleton className="bg-textSecondary h-5" />
+            ) : (
+              <Text className="text-textSecondary text-[13px]">
+                {priceData
+                  ? `$${formatNumber(parseFloat(formatUnits(value, decimals)) * parseFloat(priceData.price), {
+                      maxDecimals: 2
+                    })}`
+                  : '--'}
+              </Text>
+            )}
           </div>
         </>
       </Card>
