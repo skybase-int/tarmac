@@ -41,8 +41,7 @@ const forkVnets = async () => {
 
   const testnetDataToWrite = testnetsData.map(testnetData => {
     const adminEndpoint = testnetData.connectivityConfig.endpoints.find(
-      //@ts-ignore
-      x => x.description === 'admin endpoint'
+      (x: { description: string }) => x.description === 'admin endpoint'
     );
 
     return {

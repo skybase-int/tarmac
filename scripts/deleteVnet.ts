@@ -7,8 +7,7 @@ const deleteVnets = async () => {
   const testnetsData = JSON.parse(file);
 
   const responses = await Promise.all(
-    //@ts-ignore
-    testnetsData.map(({ TENDERLY_TESTNET_ID }) =>
+    testnetsData.map(({ TENDERLY_TESTNET_ID }: { TENDERLY_TESTNET_ID: string }) =>
       fetch(
         `https://api.tenderly.co/api/v1/account/jetstreamgg/project/jetstream/testnet/container/${TENDERLY_TESTNET_ID}`,
         {
