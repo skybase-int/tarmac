@@ -1,12 +1,12 @@
-import { VStack } from '@/shared/components/ui/layout/VStack';
+import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { RewardContract, WriteHook } from '@jetstreamgg/hooks';
 import { Trans } from '@lingui/react/macro';
 import { t } from '@lingui/core/macro';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { TokenInput } from '@/shared/components/ui/token/TokenInput';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
+import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
 import { SelectedRewardsCard } from './SelectedRewardsCard';
 import { motion } from 'framer-motion';
-import { positionAnimations } from '@/shared/animation/presets';
+import { positionAnimations } from '@widgets/shared/animation/presets';
 
 type Props = {
   amount: bigint;

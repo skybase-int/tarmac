@@ -32,13 +32,14 @@ export const approveLoadingButtonText: TxCardCopyText = {
 
 export const TENDERLY_CHAIN_ID = 314310;
 export const TENDERLY_BASE_CHAIN_ID = 8555;
+export const TENDERLY_ARBITRUM_CHAIN_ID = 42012;
 
 export const tokenColors = [
   { symbol: 'ETH', color: '#6d7ce3' },
   { symbol: 'WETH', color: '#6d7ce3' },
   { symbol: 'DAI', color: '#fbc854' },
   { symbol: 'MKR', color: '#1aab9b' },
-  { symbol: 'USDS', color: '#b66bfc' },
+  { symbol: 'USDS', color: '#ffa74e' },
   { symbol: 'SKY', color: '#d56ed7' },
   { symbol: 'USDT', color: '#5a9e7d' },
   { symbol: 'USDC', color: '#4872c4' },

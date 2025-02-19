@@ -1,19 +1,19 @@
 import { useMemo } from 'react';
 import { useAccount, useBalance } from 'wagmi';
-import { Text } from '@/shared/components/ui/Typography';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Tabs, TabsContent } from '@/components/ui/tabs';
-import { BalancesTabsList } from '@/widgets/BalancesWidget/components/BalancesTabsList';
-import { AssetsNoWalletConnected } from '@/widgets/BalancesWidget/components/AssetsNoWalletConnected';
-import { HistoryNoWalletConnected } from '@/widgets/BalancesWidget/components/HistoryNoWalletConnected';
+import { Text } from '@widgets/shared/components/ui/Typography';
+import { Skeleton } from '@widgets/components/ui/skeleton';
+import { Tabs, TabsContent } from '@widgets/components/ui/tabs';
+import { BalancesTabsList } from '@widgets/widgets/BalancesWidget/components/BalancesTabsList';
+import { AssetsNoWalletConnected } from '@widgets/widgets/BalancesWidget/components/AssetsNoWalletConnected';
+import { HistoryNoWalletConnected } from '@widgets/widgets/BalancesWidget/components/HistoryNoWalletConnected';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
-import { Card } from '@/components/ui/card';
-import { CopyToClipboard } from '@/shared/components/ui/CopyToClipboard';
-import { ExternalLink } from '@/shared/components/ExternalLink';
+import { Card } from '@widgets/components/ui/card';
+import { CopyToClipboard } from '@widgets/shared/components/ui/CopyToClipboard';
+import { ExternalLink } from '@widgets/shared/components/ExternalLink';
 import { useSwitchChain } from 'wagmi';
-import { Button } from '@/components/ui/button';
+import { Button } from '@widgets/components/ui/button';
 import { useChainId } from 'wagmi';
-import { isBaseChainId } from '@jetstreamgg/utils';
+import { isBaseChainId, isArbitrumChainId } from '@jetstreamgg/utils';
 
 export const BalancesHeader = ({
   initialTabSide,
@@ -33,6 +33,7 @@ export const BalancesHeader = ({
     [address]
   );
   const isBaseChain = useMemo(() => isBaseChainId(chainId), [chainId]);
+  const isArbitrumChain = useMemo(() => isArbitrumChainId(chainId), [chainId]);
 
   const jazziconComponent = useMemo(() => {
     return address ? <Jazzicon diameter={24} seed={jsNumberForAddress(address)} /> : null;
@@ -81,6 +82,30 @@ export const BalancesHeader = ({
               onExternalLinkClicked={onExternalLinkClicked}
             >
               <span className="inline">bridge your assets to Base.</span>
+            </ExternalLink>
+          </Text>
+        </div>
+      )}
+      {isArbitrumChain && (
+        <div className="mt-3 flex">
+          <Text variant="medium">
+            Ethereum balances are not shown when connected to Arbitrum.{' '}
+            <Button
+              variant="purpleLink"
+              className="mx-0 my-0 inline h-0 p-0"
+              onClick={() => switchChain({ chainId: 1 })}
+            >
+              Connect to Mainnet
+            </Button>{' '}
+            instead or{' '}
+            <ExternalLink
+              href="https://bridge.base.org/deposit" //TODO: update to arbitrum bridge
+              iconSize={11}
+              className="text-textEmphasis inline"
+              inline
+              onExternalLinkClicked={onExternalLinkClicked}
+            >
+              <span className="inline">bridge your assets to Arbitrum.</span>
             </ExternalLink>
           </Text>
         </div>

@@ -1,8 +1,14 @@
-import { Popover, PopoverArrow, PopoverClose, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import {
+  Popover,
+  PopoverArrow,
+  PopoverClose,
+  PopoverContent,
+  PopoverTrigger
+} from '@widgets/components/ui/popover';
 import { Close } from '../icons/Close';
 import { Info } from '../icons/Info';
-import { Heading, Text } from '@/shared/components/ui/Typography';
-import { ExternalLink } from '@/shared/components/ExternalLink';
+import { Heading, Text } from '@widgets/shared/components/ui/Typography';
+import { ExternalLink } from '@widgets/shared/components/ExternalLink';
 
 const getContent = (
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void

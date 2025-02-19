@@ -91,3 +91,43 @@ This monorepo uses `changesets` to manage the versioning and changelog of the Je
 - Use `pnpm changeset publish` to publish the packages to NPM and create the corresponding git tags.
   - It is recommended to make sure that changes made from the `changeset version` command are merged into the main branch before running the `changeset publish` command
   - No changes should be committed between calling `version` and `publish` since this command assumes that last commit is the release commit.
+
+## Internationalization and Translation Process
+
+In this project, we're utilizing `lingui` library for handling the internationalization (i18n) of the widgets package, and the webapp and integration-ui apps. The following steps provide an overview of the i18n process:
+
+The three commands we use for managing messages are listed in the `scripts` section of your `package.json` file:
+
+`"messages:extract": "lingui extract --clean"`
+`"messages:compile": "lingui compile"`
+`"messages": "pnpm messages:extract && pnpm messages:compile"`
+
+Here's what each script does:
+
+- `messages:extract`: This command extracts all messages from your source code into a `messages.po` file located in the [utils package](./packages/utils/src/locales/). The `--clean` option is used to remove obsolete messages from the file.
+
+- `messages:compile`: After translation, this command compiles the messages into an optimized JavaScript format which can be imported in the projects.
+
+- `messages`: This is a convenience script that first extracts and then compiles the messages. It's typically run before building your application.
+
+#### Usage
+
+You can run these scripts using the `pnpm` package manager. Here are the commands you would use:
+
+##### To extract messages from your source code
+
+`pnpm messages:extract`
+
+This command will go through your code looking for `<Trans>`, `t`and `msg` ligui macros and extract them into a `.po` file.
+
+##### To compile your translated messages
+
+`pnpm messages:compile`
+
+Once you have the .po files you will need to compile them which will create a `.ts`and `.d.ts` file for each language.
+
+##### To extract and then compile your messages in a single command:
+
+`pnpm messages`
+
+Please ensure that all your translations are done in the corresponding `.po` files before compiling them. For more information about translating messages with `lingui`, see the official [documentation](https://lingui.dev/tutorials/react).
