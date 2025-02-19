@@ -16,7 +16,7 @@ import {
   useTotalUserSealed,
   useMultiChainSavingsBalances
 } from '@jetstreamgg/hooks';
-import { Heading } from '@widgets/shared/components/ui/Typography';
+import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
 import { BalancesFilter } from './BalancesFilter';
 import { useState } from 'react';
@@ -26,6 +26,7 @@ import { useAvailableTokenRewardContracts } from '@jetstreamgg/hooks';
 import { useRewardsSuppliedBalance } from '@jetstreamgg/hooks';
 import { isTestnetId, isMainnetId } from '@jetstreamgg/utils';
 import { TOKENS } from '@jetstreamgg/hooks';
+import { NoResults } from '@widgets/shared/components/icons/NoResults';
 
 export interface TokenBalanceResponse extends GetBalanceData {
   tokenAddress?: string;
@@ -131,8 +132,8 @@ export const BalancesContent = ({
   const isLoading = tokenBalancesLoading || pricesLoading;
 
   const currentChainId = useChainId();
-  const mainnetChainId = isTestnetId(currentChainId) ? 314310 : 1; //TODO: update once we add non-mainnet rewards
-  const rewardContracts = useAvailableTokenRewardContracts(chainId);
+  const mainnetChainId = isTestnetId(currentChainId) ? 314310 : 1;
+  const rewardContracts = useAvailableTokenRewardContracts(mainnetChainId);
 
   const usdsSkyRewardContract = rewardContracts.find(
     f => f.supplyToken.symbol === TOKENS.usds.symbol && f.rewardToken.symbol === TOKENS.sky.symbol
@@ -234,8 +235,6 @@ export const BalancesContent = ({
               onExternalLinkClicked={onExternalLinkClicked}
               hideModuleBalances={hideModuleBalances}
               chainIds={chainIds}
-              hideZeroBalances={hideZeroBalances}
-              showAllNetworks={showAllNetworks}
               hideRewards={hideRewards}
               rewardsLoading={usdsSkySuppliedBalanceLoading || usdsCleSuppliedBalanceIsLoading}
               hideSeal={hideSeal}
@@ -259,12 +258,18 @@ export const BalancesContent = ({
               actionForToken={actionForToken}
               customTokenMap={customTokenMap}
               chainIds={chainIds}
-              hideZeroBalances={hideZeroBalances}
-              showAllNetworks={showAllNetworks}
               filteredAndSortedTokenBalances={filteredAndSortedTokenBalances}
               pricesData={pricesData}
               isLoading={isLoading}
             />
+            {hideModules && hideTokenBalances && (
+              <VStack gap={3} className="items-center pb-3 pt-6">
+                <NoResults />
+                <Text className="text-textSecondary text-center">
+                  <Trans>No balances found</Trans>
+                </Text>
+              </VStack>
+            )}
           </motion.div>
         </VStack>
       </TabsContent>

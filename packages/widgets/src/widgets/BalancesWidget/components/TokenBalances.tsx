@@ -15,8 +15,6 @@ export const TokenBalances = ({
   ) => { label: string; actionUrl: string; image: string } | undefined;
   customTokenMap?: { [chainId: number]: TokenForChain[] };
   chainIds?: number[];
-  hideZeroBalances?: boolean;
-  showAllNetworks?: boolean;
   pricesData?: Record<string, PriceData>;
   isLoading: boolean;
   filteredAndSortedTokenBalances?: {
@@ -26,7 +24,7 @@ export const TokenBalances = ({
     formatted: string;
     symbol: string;
     chainId: number;
-}[]
+  }[];
 }) => {
   // TODO handle error
   // const error = tokenBalancesError || pricesError;

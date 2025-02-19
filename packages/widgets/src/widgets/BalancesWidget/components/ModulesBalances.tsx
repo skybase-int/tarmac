@@ -6,8 +6,6 @@ export interface CardProps {
   url?: string;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   chainIds?: number[];
-  hideZeroBalance?: boolean;
-  showAllNetworks?: boolean;
   loading?: boolean;
   error?: string;
   usdsSkySuppliedBalance?: bigint;
