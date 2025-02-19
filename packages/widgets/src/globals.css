@@ -134,37 +134,29 @@
     /* NOTE: in the radial gradients, the color stop percentages needs to be placed after the color value.
        TODO: update the rest of the gradients to this format
      */
-    --primary-purple-40:
-      linear-gradient(#ffffff4d, #ffffff4d), linear-gradient(#4331e966, #4331e966),
+    --primary-purple-40: linear-gradient(#ffffff4d, #ffffff4d), linear-gradient(#4331e966, #4331e966),
       radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
 
     /* --primary-purple-40: #ffffff4d, #4331e966,
       radial-gradient(50% 50% at 50% 50%, 0% rgba(255, 255, 255, 0), 100% rgba(255, 255, 255, 1)); */
-    --primary-purple-100:
-      #ffffffb3, #1a1855ff,
+    --primary-purple-100: #ffffffb3, #1a1855ff,
       radial-gradient(50% 50% at 50% 50%, 0% rgba(255, 255, 255, 0), 100% rgba(255, 255, 255, 1));
-    --primary-purple-5:
-      #ffffffff, #4331e90d,
+    --primary-purple-5: #ffffffff, #4331e90d,
       radial-gradient(50% 50% at 50% 50%, 0% rgba(255, 255, 255, 0), 100% rgba(255, 255, 255, 1));
     --primary-pink: #b68effff;
     --primary-white: #ffffffff;
-    --primary-glass-stroke:
-      linear-gradient(90deg, 0% rgba(255, 255, 255, 1), 100% rgba(255, 255, 255, 0)), #ffffff80;
+    --primary-glass-stroke: linear-gradient(90deg, 0% rgba(255, 255, 255, 1), 100% rgba(255, 255, 255, 0)),
+      #ffffff80;
 
-    --service-purple-25:
-      #ffffff4d, #4331e940,
+    --service-purple-25: #ffffff4d, #4331e940,
       radial-gradient(50% 50% at 50% 50%, 0% rgba(255, 255, 255, 0), 100% rgba(255, 255, 255, 1));
-    --service-purple-15:
-      #ffffff4d, #4331e926,
+    --service-purple-15: #ffffff4d, #4331e926,
       radial-gradient(50% 50% at 50% 50%, 0% rgba(255, 255, 255, 0), 100% rgba(255, 255, 255, 1));
-    --service-purple-5:
-      #ffffff4d, #4331e90d,
+    --service-purple-5: #ffffff4d, #4331e90d,
       radial-gradient(50% 50% at 50% 50%, 0% rgba(255, 255, 255, 0), 100% rgba(255, 255, 255, 1));
-    --service-purple-0:
-      #ffffff4d, #4331e9ff,
+    --service-purple-0: #ffffff4d, #4331e9ff,
       radial-gradient(50% 50% at 50% 50%, 0% rgba(255, 255, 255, 0), 100% rgba(255, 255, 255, 1));
-    --service-focused:
-      #ffffffe6, #312e9dff,
+    --service-focused: #ffffffe6, #312e9dff,
       radial-gradient(50% 50% at 50% 50%, 0% rgba(255, 255, 255, 0), 100% rgba(255, 255, 255, 1));
     --service-green: #1dd9ba;
     --service-chart-green: linear-gradient(90deg, 0% rgba(0, 161, 103, 1), 100% rgba(0, 161, 103, 0));
