@@ -19,7 +19,7 @@ export const WidgetContainer = forwardRef<HTMLDivElement, WidgetContainerProps>(
             {header}
             {rightHeader}
           </CardHeader>
-          <CardContent className={cn('mb-0 mt-6 flex-grow p-0 pb-6 pr-2.5 md:pr-0', contentClassname)}>
+          <CardContent className={cn('mb-0 mt-6 grow p-0 pb-6 pr-2.5 md:pr-0', contentClassname)}>
             {children}
           </CardContent>
         </div>

@@ -78,7 +78,7 @@ export function TransactionOverview({
                       </HStack>
 
                       {Array.isArray(value) && value.length >= 2 ? (
-                        <HStack className="flex-shrink-0 items-center">
+                        <HStack className="shrink-0 items-center">
                           <Text
                             className={`${error ? 'text-error' : classNamePrev || className} text-right text-sm`}
                           >
