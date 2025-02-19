@@ -91,10 +91,10 @@ export function useMultiChainSavingsBalances({
     error: arbitrumSusdsBalanceError,
     refetch: refetchArbitrumSusdsBalance
   } = useTokenBalance({
-    chainId: baseChainId,
+    chainId: arbitrumChainId,
     address: acct,
-    token: TOKENS.susds.address[baseChainId as keyof typeof TOKENS.susds.address],
-    enabled: !!acct && !!baseChainId
+    token: TOKENS.susds.address[arbitrumChainId as keyof typeof TOKENS.susds.address],
+    enabled: !!acct && !!arbitrumChainId
   });
 
   const dataSourcesArbitrum: DataSource = {
