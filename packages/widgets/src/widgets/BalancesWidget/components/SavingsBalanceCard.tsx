@@ -7,66 +7,29 @@ import { Skeleton } from '@widgets/components/ui/skeleton';
 import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
 import { formatUnits } from 'viem';
 import { CardProps } from './ModulesBalances';
-import { useMultiChainSavingsBalances } from '@jetstreamgg/hooks';
-import { useChainId } from 'wagmi';
 
 export const SavingsBalanceCard = ({
   urlMap,
   onExternalLinkClicked,
-  chainIds,
-  hideZeroBalance,
-  showAllNetworks
+  savingsBalances,
+  loading
 }: CardProps & { urlMap: Record<number, string> }) => {
-  const {
-    data: overallSkyData,
-    isLoading: overallSkyDataLoading,
-    error: overallSkyDataError
-  } = useOverallSkyData();
+  const { data: overallSkyData, isLoading: overallSkyDataLoading } = useOverallSkyData();
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
 
-  const currentChainId = useChainId();
-
-  const {
-    data: multichainSavingsBalances,
-    isLoading: multichainSavingsBalancesLoading,
-    error: multichainSavingsBalancesError
-  } = useMultiChainSavingsBalances({ chainIds });
-
-  const sortedSavingsBalances = Object.entries(multichainSavingsBalances ?? {})
-    .sort(([, a], [, b]) => (b > a ? 1 : b < a ? -1 : 0))
-    .map(([chainId, balance]) => ({
-      chainId: Number(chainId),
-      balance
-    }));
-
-  const balancesWithBalanceFilter = hideZeroBalance
-    ? sortedSavingsBalances.filter(({ balance }) => balance > 0n)
-    : sortedSavingsBalances;
-
-  const filteredAndSortedSavingsBalances = showAllNetworks
-    ? balancesWithBalanceFilter
-    : balancesWithBalanceFilter.filter(({ chainId }) => chainId === currentChainId);
-
-  const totalSavingsBalance = filteredAndSortedSavingsBalances.reduce(
-    (acc, { balance }) => acc + balance,
-    0n
-  );
+  const totalSavingsBalance = savingsBalances?.reduce((acc, { balance }) => acc + balance, 0n);
 
   const skySavingsRate = parseFloat(overallSkyData?.skySavingsRatecRate ?? '0');
-
-  if (multichainSavingsBalancesError || overallSkyDataError) return null;
-
-  if (filteredAndSortedSavingsBalances.length === 0) return null;
 
   return (
     <InteractiveStatsCardWithAccordion
       title={t`Savings balance`}
       tokenSymbol="USDS"
       headerRightContent={
-        multichainSavingsBalancesLoading ? (
+        loading ? (
           <Skeleton className="w-32" />
         ) : (
-          <Text>{`${multichainSavingsBalances ? formatBigInt(totalSavingsBalance) : '0'}`}</Text>
+          <Text>{`${totalSavingsBalance !== undefined ? formatBigInt(totalSavingsBalance) : '0'}`}</Text>
         )
       }
       footer={
@@ -88,7 +51,7 @@ export const SavingsBalanceCard = ({
         )
       }
       footerRightContent={
-        multichainSavingsBalancesLoading || pricesLoading ? (
+        loading || pricesLoading ? (
           <Skeleton className="h-[13px] w-20" />
         ) : totalSavingsBalance !== undefined && !!pricesData?.USDS ? (
           <Text variant="small" className="text-textSecondary">
@@ -102,9 +65,9 @@ export const SavingsBalanceCard = ({
           </Text>
         ) : undefined
       }
-      balancesByChain={filteredAndSortedSavingsBalances}
+      balancesByChain={savingsBalances ?? []}
       urlMap={urlMap}
-      pricesData={pricesData}
+      pricesData={pricesData ?? {}}
     />
   );
 };

@@ -6,8 +6,12 @@ export interface CardProps {
   url?: string;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   chainIds?: number[];
-  hideZeroBalance?: boolean;
-  showAllNetworks?: boolean;
+  loading?: boolean;
+  error?: string;
+  usdsSkySuppliedBalance?: bigint;
+  usdsCleSuppliedBalance?: bigint;
+  savingsBalances?: { chainId: number; balance: bigint }[];
+  sealBalance?: bigint;
 }
 
 interface ModulesBalancesProps {
@@ -17,8 +21,17 @@ interface ModulesBalancesProps {
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   hideModuleBalances?: boolean;
   chainIds?: number[];
-  hideZeroBalances?: boolean;
-  showAllNetworks?: boolean;
+  hideRewards?: boolean;
+  rewardsLoading?: boolean;
+  hideSeal?: boolean;
+  sealLoading?: boolean;
+  usdsSkySuppliedBalance?: bigint;
+  usdsCleSuppliedBalance?: bigint;
+  hideSavings?: boolean;
+  totalUserSealed?: bigint;
+  savingsBalances?: { chainId: number; balance: bigint }[];
+  savingsLoading?: boolean;
+  sealBalance?: bigint;
 }
 
 export const ModulesBalances = ({
@@ -27,35 +40,44 @@ export const ModulesBalances = ({
   sealCardUrl,
   onExternalLinkClicked,
   hideModuleBalances,
-  chainIds,
-  hideZeroBalances,
-  showAllNetworks
+  hideRewards,
+  rewardsLoading,
+  hideSeal,
+  sealLoading,
+  sealBalance,
+  usdsSkySuppliedBalance,
+  usdsCleSuppliedBalance,
+  hideSavings,
+  savingsBalances,
+  savingsLoading
 }: ModulesBalancesProps): React.ReactElement => {
   return (
     <div className="flex flex-col gap-2">
-      {!hideModuleBalances && (
+      {!hideModuleBalances && !hideRewards && (
         <RewardsBalanceCard
           url={rewardsCardUrl}
           onExternalLinkClicked={onExternalLinkClicked}
-          hideZeroBalance={hideZeroBalances}
-          showAllNetworks={showAllNetworks}
+          loading={rewardsLoading}
+          usdsSkySuppliedBalance={usdsSkySuppliedBalance}
+          usdsCleSuppliedBalance={usdsCleSuppliedBalance}
         />
       )}
-      {!hideModuleBalances && (
+      {!hideModuleBalances && !hideSavings && (
         <SavingsBalanceCard
           urlMap={savingsCardUrlMap ?? {}}
           onExternalLinkClicked={onExternalLinkClicked}
-          chainIds={chainIds}
-          hideZeroBalance={hideZeroBalances}
-          showAllNetworks={showAllNetworks}
+          loading={savingsLoading}
+          savingsBalances={savingsBalances}
         />
       )}
-      <SealBalanceCard
-        onExternalLinkClicked={onExternalLinkClicked}
-        url={sealCardUrl}
-        hideZeroBalance={hideZeroBalances}
-        showAllNetworks={showAllNetworks}
-      />
+      {!hideSeal && (
+        <SealBalanceCard
+          onExternalLinkClicked={onExternalLinkClicked}
+          url={sealCardUrl}
+          loading={sealLoading}
+          sealBalance={sealBalance}
+        />
+      )}
     </div>
   );
 };

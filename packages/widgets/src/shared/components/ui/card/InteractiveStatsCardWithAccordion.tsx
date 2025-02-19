@@ -14,6 +14,7 @@ import { useChains } from 'wagmi';
 import { formatBigInt, formatNumber, getChainIcon } from '@jetstreamgg/utils';
 import { Link } from 'react-router-dom';
 import { InteractiveStatsCard } from './InteractiveStatsCard';
+import { PriceData } from 'node_modules/@jetstreamgg/hooks/src';
 
 export const InteractiveStatsCardWithAccordion = ({
   title,
@@ -32,7 +33,7 @@ export const InteractiveStatsCardWithAccordion = ({
   tokenSymbol: string;
   balancesByChain: { chainId: number; balance: bigint }[];
   urlMap: Record<number, string>;
-  pricesData: Record<string, { price: string }>;
+  pricesData: Record<string, PriceData>;
 }): React.ReactElement => {
   const chains = useChains();
   if (balancesByChain.length === 1) {

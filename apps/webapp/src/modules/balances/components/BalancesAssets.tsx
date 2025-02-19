@@ -65,7 +65,7 @@ export function BalancesAssets({ chainIds }: BalancesAssetsProps) {
     : balancesWithBalanceFilter?.filter(({ chainId: id }) => id === currentChainId);
 
   if (filteredAndSortedTokenBalances?.length === 0 && !tokenBalancesIsLoading) {
-    return <Text className="text-text text-center">No funds found</Text>;
+    return <Text className="text-text text-center">No balances found</Text>;
   }
 
   return (
