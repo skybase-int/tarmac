@@ -50,7 +50,8 @@ async function fetchRewardsUserHistory(
     amount: BigInt(e.amount),
     rewardsClaim: false,
     module: ModuleEnum.REWARDS,
-    type: TransactionTypeEnum.SUPPLY
+    type: TransactionTypeEnum.SUPPLY,
+    chainId
   }));
   const withdrawals = reward.withdrawals.map(e => ({
     blockTimestamp: new Date(parseInt(e.blockTimestamp, 10) * 1000),
