@@ -8,11 +8,13 @@ import { ModulesBalances } from './ModulesBalances';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { BalancesWidgetState } from '@widgets/shared/types/widgetState';
-import { TokenForChain } from '@jetstreamgg/hooks';
+import { useTokenBalances, usePrices, TokenForChain, TokenItem } from '@jetstreamgg/hooks';
 import { Heading } from '@widgets/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
 import { BalancesFilter } from './BalancesFilter';
 import { useState } from 'react';
+import { defaultConfig } from '@widgets/config/default-config';
+import { useAccount, useChainId } from 'wagmi';
 
 export interface TokenBalanceResponse extends GetBalanceData {
   tokenAddress?: string;
@@ -62,6 +64,112 @@ export const BalancesContent = ({
   const setShowAllNetworks = setShowAllNetworksProp ?? setShowAllNetworksInternal;
   const setHideZeroBalances = setHideZeroBalancesProp ?? setHideZeroBalancesInternal;
 
+  const { address } = useAccount();
+  const chainId = useChainId();
+  const chainsToQuery = chainIds ?? [chainId];
+
+  // Create an object mapping chainIds to their tokens
+  const defaultChainTokenMap: Record<number, TokenItem[]> = {};
+  for (const chainId of chainsToQuery) {
+    defaultChainTokenMap[chainId] = defaultConfig.balancesTokenList[chainId] ?? [];
+  }
+
+  const customChainTokenMap: Record<number, TokenItem[]> = {};
+  for (const chainId of chainsToQuery) {
+    customChainTokenMap[chainId] = customTokenMap?.[chainId] ?? [];
+  }
+
+  // Use customTokenMap if provided, otherwise use the default config
+  const chainTokenMap =
+    customChainTokenMap && Object.values(customChainTokenMap).some(tokenArray => tokenArray?.length > 0)
+      ? customChainTokenMap
+      : defaultChainTokenMap;
+
+  const { data: pricesData, isLoading: pricesLoading /*, error: pricesError */ } = usePrices();
+  const {
+    data: tokenBalances,
+    isLoading: tokenBalancesLoading
+    /* error: tokenBalancesError */
+  } = useTokenBalances({ address, chainTokenMap });
+
+  // map token balances to include price
+  const tokenBalancesWithPrices =
+    tokenBalances?.map(tokenBalance => {
+      const price = pricesData?.[tokenBalance.symbol]?.price || 0;
+      const tokenDecimalsFactor = Math.pow(10, -tokenBalance.decimals);
+      return {
+        ...tokenBalance,
+        valueInDollars: Number(tokenBalance.value) * tokenDecimalsFactor * Number(price)
+      };
+    }) || [];
+
+  // sort token balances by total in USD prices
+  const sortedTokenBalances =
+    tokenBalancesWithPrices && pricesData
+      ? tokenBalancesWithPrices.sort((a, b) => b.valueInDollars - a.valueInDollars)
+      : undefined;
+
+  const balancesWithBalanceFilter = hideZeroBalances
+    ? sortedTokenBalances?.filter(({ value }) => value > 0n)
+    : sortedTokenBalances;
+
+  const filteredAndSortedTokenBalances = showAllNetworks
+    ? balancesWithBalanceFilter
+    : balancesWithBalanceFilter?.filter(({ chainId: id }) => id === chainId);
+
+  const isLoading = tokenBalancesLoading || pricesLoading;
+
+  //SKY REWARDS
+  const currentChainId = useChainId();
+  const chainId = isTestnetId(currentChainId) ? 314310 : 1; //TODO: update once we add non-mainnet rewards
+  const { address } = useAccount();
+  const rewardContracts = useAvailableTokenRewardContracts(chainId);
+
+  const usdsSkyRewardContract = rewardContracts.find(
+    f => f.supplyToken.symbol === TOKENS.usds.symbol && f.rewardToken.symbol === TOKENS.sky.symbol
+  );
+  const usdsCleRewardContract = rewardContracts.find(
+    f => f.supplyToken.symbol === TOKENS.usds.symbol && f.rewardToken.symbol === TOKENS.cle.symbol
+  );
+
+  const {
+    data: usdsSkySuppliedBalance,
+    isLoading: usdsSkySuppliedBalanceLoading,
+    error: usdsSkySuppliedBalanceError
+  } = useRewardsSuppliedBalance({
+    chainId,
+    address,
+    contractAddress: usdsSkyRewardContract?.contractAddress as `0x${string}`
+  });
+
+  const {
+    data: usdsCleSuppliedBalance,
+    isLoading: usdsCleSuppliedBalanceIsLoading,
+    error: usdsCleSuppliedBalanceError
+  } = useRewardsSuppliedBalance({
+    chainId,
+    address,
+    contractAddress: usdsCleRewardContract?.contractAddress as `0x${string}`
+  });
+
+  const {
+    data: chartData,
+    isLoading: chartDataLoading,
+    error: chartDataError
+  } = useRewardsChartInfo({
+    rewardContractAddress: usdsSkyRewardContract?.contractAddress as string
+  });
+
+  const { data: pricesData, isLoading: pricesLoading } = usePrices();
+
+  const sortedChartData = chartData ? [...chartData].sort((a, b) => b.blockTimestamp - a.blockTimestamp) : [];
+  const mostRecentRate = sortedChartData.length > 0 ? sortedChartData[0].rate : null;
+  const mostRecentRateNumber = mostRecentRate ? parseFloat(mostRecentRate) : null;
+
+  const hideRewards = (usdsSkySuppliedBalanceError || usdsCleSuppliedBalanceError || chartDataError)
+    || (usdsSkySuppliedBalance === 0n && hideZeroBalance)
+    || (!showAllNetworks && !isMainnetId(currentChainId));
+
   return (
     <Tabs defaultValue={validatedExternalState?.tab || 'left'} className="w-full">
       <BalancesTabsList />
@@ -87,6 +195,7 @@ export const BalancesContent = ({
               chainIds={chainIds}
               hideZeroBalances={hideZeroBalances}
               showAllNetworks={showAllNetworks}
+              hideRewards={hideRewards}
             />
           </motion.div>
 
@@ -100,6 +209,9 @@ export const BalancesContent = ({
               chainIds={chainIds}
               hideZeroBalances={hideZeroBalances}
               showAllNetworks={showAllNetworks}
+              filteredAndSortedTokenBalances={filteredAndSortedTokenBalances}
+              pricesData={pricesData}
+              isLoading={isLoading}
             />
           </motion.div>
         </VStack>
