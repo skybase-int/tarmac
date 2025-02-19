@@ -32,8 +32,10 @@ export const DelegateCard = ({
 
   return (
     <StatsOverviewCardCoreAccordion
-      className={`${
-        selectedDelegate && getAddress(selectedDelegate) === getAddress(delegate.id) ? 'bg-primary' : ''
+      className={`transition-colors ${
+        selectedDelegate && getAddress(selectedDelegate) === getAddress(delegate.id)
+          ? 'bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100'
+          : ''
       } ${setSelectedDelegate ? 'cursor-pointer' : 'cursor-default'}`}
       headerLeftContent={
         <VStack className="mr-2 grow">
