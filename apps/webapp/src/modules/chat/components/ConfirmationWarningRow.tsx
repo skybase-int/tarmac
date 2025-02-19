@@ -8,6 +8,7 @@ import { intentSelectedMessage } from '../lib/intentSelectedMessage';
 import { QueryParams } from '@/lib/constants';
 import { useCallback } from 'react';
 import { Warning } from '@/modules/icons/Warning';
+import { getConfirmationWarningMetadata } from '../lib/confirmationWarningMetadata';
 
 export const ConfirmationWarningRow = () => {
   const {
@@ -58,19 +59,16 @@ export const ConfirmationWarningRow = () => {
     hasShownIntent
   ]);
 
-  // TODO: Get the text dynamically for module
+  const disclaimerMetadata = getConfirmationWarningMetadata(selectedIntent);
 
   return (
     <div className="text-text mt-5 rounded-xl bg-[#0b0b0c]/60 p-5">
       <div className="flex items-center gap-2">
         <Warning boxSize={20} viewBox="0 0 16 16" fill="#fdc134" />
-        <Text variant="medium">You are about to execute a transaction suggested by our Al chatbot.</Text>
+        <Text variant="medium">{disclaimerMetadata?.description}</Text>
       </div>
       <Text variant="terms" className="mt-2">
-        Please be aware that while we strive to provide accurate and helpful suggestions, you&apos;re solely
-        responsible for reviewing and implementing any recommended actions. We do not guarantee the accuracy
-        or completeness of the Al&apos;s suggestions and disclaim any liability for consequences arising from
-        your use of this feature.
+        {disclaimerMetadata?.disclaimer}
       </Text>
       <div className="mt-3 flex gap-5">
         <Button

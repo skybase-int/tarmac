@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { ChatIntent } from '../types/Chat';
 import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
 import { intentSelectedMessage } from '../lib/intentSelectedMessage';
-import { getConfirmationModalMetadata } from '../lib/confirmationModalMetadata';
+import { getConfirmationWarningMetadata } from '../lib/confirmationWarningMetadata';
 import { QueryParams } from '@/lib/constants';
 
 export const ChatConfirmationModal: React.FC = () => {
@@ -61,7 +61,7 @@ export const ChatConfirmationModal: React.FC = () => {
     hasShownIntent
   ]);
 
-  const disclaimerMetadata = getConfirmationModalMetadata(selectedIntent);
+  const disclaimerMetadata = getConfirmationWarningMetadata(selectedIntent);
   const defaultDisclaimer =
     'You are about to execute an action suggested by our AI chatbot. Please be aware that while we strive to provide accurate and helpful suggestions, you&apos;re solely responsible for reviewing and implementing any recommended actions. We do not guarantee the accuracy or completeness of the AI&apos;s suggestions and disclaim any liability for consequences arising from your use of this feature.';
 
