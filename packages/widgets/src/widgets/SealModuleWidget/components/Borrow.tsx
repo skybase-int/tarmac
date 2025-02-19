@@ -37,8 +37,6 @@ import {
 } from '../lib/constants';
 import { Warning } from '@widgets/shared/components/icons/Warning';
 import { Text } from '@widgets/shared/components/ui/Typography';
-import { WidgetContext } from '@widgets/context/WidgetContext';
-import { SealFlow } from '../lib/constants';
 
 const { usds, mkr, sky } = TOKENS;
 
@@ -308,8 +306,6 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
     selectedToken
   } = useContext(SealModuleWidgetContext);
 
-  const { widgetState } = useContext(WidgetContext);
-
   const chainId = useChainId();
   const ilkName = getIlkName(chainId);
 
@@ -376,10 +372,9 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
       debouncedUsdsToBorrow === usdsToBorrow &&
         !error &&
         !isLoading &&
-        //TODO: delete the widgetState.flow !== SealFlow.MANAGE check if rewards are turned on.
         //This will allow opening a position without borrowing any USDS
         ((debouncedUsdsToBorrow > 0n && debouncedUsdsToBorrow < availableBorrowFromDebtCeiling) ||
-          (widgetState.flow == SealFlow.MANAGE && !debouncedUsdsToBorrow))
+          !debouncedUsdsToBorrow)
     );
   }, [debouncedUsdsToBorrow, usdsToBorrow, error, isLoading, availableBorrowFromDebtCeiling]);
 

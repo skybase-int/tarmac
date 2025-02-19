@@ -30,15 +30,15 @@ export const SavingsStatsCardCore = ({
       }
       headerRightContent={
         <MotionHStack className="items-center" gap={2} variants={positionAnimations}>
-          <Text className="text-bullish">
-            {isLoading || isOverallSkyDataLoading ? (
-              <Skeleton className="bg-textSecondary h-5 w-12" />
-            ) : overallSkyData?.skySavingsRatecRate ? (
-              `Rate: ${formatDecimalPercentage(parseFloat(overallSkyData.skySavingsRatecRate))}`
-            ) : (
-              '--'
-            )}
-          </Text>
+          {isLoading || isOverallSkyDataLoading ? (
+            <Skeleton className="bg-textSecondary h-5 w-12" />
+          ) : (
+            <Text className="text-bullish">
+              {overallSkyData?.skySavingsRatecRate
+                ? `Rate: ${formatDecimalPercentage(parseFloat(overallSkyData.skySavingsRatecRate))}`
+                : '--'}
+            </Text>
+          )}
           <PopoverRateInfo type="ssr" onExternalLinkClicked={onExternalLinkClicked} />
         </MotionHStack>
       }
