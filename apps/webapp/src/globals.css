@@ -195,8 +195,7 @@
     /* NOTE: in the radial gradients, the color stop percentages needs to be placed after the color value.
        TODO: update the rest of the gradients to this format
      */
-    --primary-purple-40:
-      radial-gradient(
+    --primary-purple-40: radial-gradient(
         116.48% 116.48% at 50% 2.27%,
         rgba(255, 255, 255, 0) 0%,
         rgba(255, 255, 255, 0.25) 100%
@@ -204,23 +203,19 @@
       linear-gradient(0deg, rgba(67, 49, 233, 0.4) 0%, rgba(67, 49, 233, 0.4) 100%),
       linear-gradient(0deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3));
 
-    --primary-purple-100:
-      #ffffffb3, #1a1855ff,
+    --primary-purple-100: #ffffffb3, #1a1855ff,
       radial-gradient(50% 50% at 50% 50%, 0% rgba(255, 255, 255, 0), 100% rgba(255, 255, 255, 1));
-    --primary-purple-5:
-      #ffffffff, #4331e90d,
+    --primary-purple-5: #ffffffff, #4331e90d,
       radial-gradient(50% 50% at 50% 50%, 0% rgba(255, 255, 255, 0), 100% rgba(255, 255, 255, 1));
     --primary-pink: #d298ff;
     --primary-white: #ffffffff;
-    --primary-glass-stroke:
-      linear-gradient(90deg, 0% rgba(255, 255, 255, 1), 100% rgba(255, 255, 255, 0)), #ffffff80;
+    --primary-glass-stroke: linear-gradient(90deg, 0% rgba(255, 255, 255, 1), 100% rgba(255, 255, 255, 0)),
+      #ffffff80;
 
-    --service-purple-25:
-      #ffffff4d, #4331e940,
+    --service-purple-25: #ffffff4d, #4331e940,
       radial-gradient(50% 50% at 50% 50%, 0% rgba(255, 255, 255, 0), 100% rgba(255, 255, 255, 1));
 
-    --service-purple-15:
-      radial-gradient(
+    --service-purple-15: radial-gradient(
         116.48% 116.48% at 50% 2.27%,
         rgba(255, 255, 255, 0) 0%,
         rgba(255, 255, 255, 0.25) 100%
@@ -228,8 +223,7 @@
       linear-gradient(0deg, rgba(67, 49, 233, 0.15) 0%, rgba(67, 49, 233, 0.15) 100%),
       linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
 
-    --service-purple-5:
-      radial-gradient(
+    --service-purple-5: radial-gradient(
         116.48% 116.48% at 50% 2.27%,
         rgba(255, 255, 255, 0) 0%,
         rgba(255, 255, 255, 0.25) 100%
@@ -237,8 +231,7 @@
       linear-gradient(0deg, rgba(67, 49, 233, 0.05) 0%, rgba(67, 49, 233, 0.05) 100%),
       linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08));
 
-    --service-purple-0:
-      radial-gradient(
+    --service-purple-0: radial-gradient(
         116.48% 116.48% at 50% 2.27%,
         rgba(255, 255, 255, 0) 0%,
         rgba(255, 255, 255, 0.12) 100%
@@ -246,8 +239,7 @@
       linear-gradient(0deg, rgba(67, 49, 233, 0) 0%, rgba(67, 49, 233, 0) 100%),
       linear-gradient(0deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05));
 
-    --service-focused:
-      #ffffffe6, #312e9dff,
+    --service-focused: #ffffffe6, #312e9dff,
       radial-gradient(50% 50% at 50% 50%, 0% rgba(255, 255, 255, 0), 100% rgba(255, 255, 255, 1));
     --service-green: #1dd9ba;
     --service-chart-green: linear-gradient(90deg, 0% rgba(0, 161, 103, 1), 100% rgba(0, 161, 103, 0));
@@ -321,7 +313,7 @@
   }
 }
 
-@utility hide-spin-button {
+@utility hideSpinButton {
   /* InputStyles.module.css */
   -webkit-appearance: none;
   -moz-appearance: textfield;
