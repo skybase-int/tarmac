@@ -15,38 +15,14 @@ type ChatIntentsRowProps = {
   intents: ChatIntent[];
 };
 
-const testIntents = [
-  {
-    intent_id: 'balances',
-    intent_description: 'View Balances',
-    url: '/?widget=balances'
-  },
-  {
-    intent_id: 'trade',
-    intent_description: 'Go to Trade',
-    url: '/?widget=trade'
-  },
-  {
-    intent_id: 'trade',
-    intent_description: 'Trade 10 USDS',
-    url: '/?widget=trade&input_amount=10&source_token=USDS&target_token=USDC'
-  },
-  {
-    intent_id: 'savings',
-    intent_description: 'Save 10 USDS',
-    url: '/?widget=savings&input_amount=10&source_token=USDS'
-  }
-];
-
 export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
-  console.log('🚀 ~ ChatIntentsRow ~ intents:', intents);
   const { shouldShowConfirmationWarning } = useChatContext();
 
   return (
     <div>
       <Text className="text-xs italic text-gray-500">Try a suggested action</Text>
       <div className="mt-2 flex flex-wrap gap-2">
-        {testIntents.map((intent, index) => (
+        {intents.map((intent, index) => (
           <IntentRow key={index} intent={intent} />
         ))}
       </div>
