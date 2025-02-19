@@ -47,7 +47,9 @@ const card = tv({
         base: 'py-3 px-5'
       },
       fade: { base: 'pb-3 lg:pb-3 bg-transparent bg-linear-to-b from-card via-transparent to-transparent' },
-      history: { base: 'hover:bg-cardHover' }
+      history: {
+        base: 'hover:bg-radial-(--gradient-position) from-primary-alt-start/2 to-primary-alt-end/2 hover:from-primary-alt-start/20 hover:to-primary-alt-end/20 active:from-primary-alt-start/25 active:to-primary-alt-end/25 transition'
+      }
     }
   },
 

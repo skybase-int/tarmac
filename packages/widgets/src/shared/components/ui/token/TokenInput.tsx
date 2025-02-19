@@ -258,7 +258,7 @@ export function TokenInput({
                   <motion.div variants={positionAnimations}>
                     <Input
                       ref={inputRef}
-                      className="hideSpinButton"
+                      className="hide-spin-button"
                       value={inputValue !== '00' ? inputValue : '0'}
                       onChange={e => {
                         updateValue(e.target.value as `${number}`);
