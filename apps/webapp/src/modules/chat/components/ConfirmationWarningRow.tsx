@@ -7,6 +7,7 @@ import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParam
 import { intentSelectedMessage } from '../lib/intentSelectedMessage';
 import { QueryParams } from '@/lib/constants';
 import { useCallback } from 'react';
+import { Warning } from '@/modules/icons/Warning';
 
 export const ConfirmationWarningRow = () => {
   const {
@@ -57,15 +58,33 @@ export const ConfirmationWarningRow = () => {
     hasShownIntent
   ]);
 
+  // TODO: Get the text dynamically for module
+
   return (
-    <div className="mt-6 h-[200px] bg-red-200">
-      <Text>ConfirmationWarning</Text>
-      <Button variant="secondary" onClick={() => handleCancel(false)}>
-        Cancel
-      </Button>
-      <Button variant="default" onClick={handleConfirm}>
-        Continue
-      </Button>
+    <div className="text-text mt-5 rounded-xl bg-[#0b0b0c]/60 p-5">
+      <div className="flex items-center gap-2">
+        <Warning boxSize={20} viewBox="0 0 16 16" fill="#fdc134" />
+        <Text variant="medium">You are about to execute a transaction suggested by our Al chatbot.</Text>
+      </div>
+      <Text variant="terms" className="mt-2">
+        Please be aware that while we strive to provide accurate and helpful suggestions, you&apos;re solely
+        responsible for reviewing and implementing any recommended actions. We do not guarantee the accuracy
+        or completeness of the Al&apos;s suggestions and disclaim any liability for consequences arising from
+        your use of this feature.
+      </Text>
+      <div className="mt-3 flex gap-5">
+        <Button
+          variant="pill"
+          size="xs"
+          className="border border-white/40 bg-transparent"
+          onClick={() => handleCancel(false)}
+        >
+          Cancel
+        </Button>
+        <Button variant="pill" size="xs" onClick={handleConfirm}>
+          Continue
+        </Button>
+      </div>
     </div>
   );
 };
