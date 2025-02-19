@@ -60,7 +60,7 @@ export function useMultiChainSavingsBalances({
     error: baseSusdsBalanceError,
     refetch: refetchBaseSusdsBalance
   } = useTokenBalance({
-    chainId: baseChainId,
+    chainId: baseChainId as number,
     address: acct,
     token: TOKENS.susds.address[baseChainId as keyof typeof TOKENS.susds.address],
     enabled: !!acct && !!baseChainId
@@ -91,7 +91,7 @@ export function useMultiChainSavingsBalances({
     error: arbitrumSusdsBalanceError,
     refetch: refetchArbitrumSusdsBalance
   } = useTokenBalance({
-    chainId: arbitrumChainId,
+    chainId: arbitrumChainId as number,
     address: acct,
     token: TOKENS.susds.address[arbitrumChainId as keyof typeof TOKENS.susds.address],
     enabled: !!acct && !!arbitrumChainId

@@ -5,7 +5,7 @@ import type { ReadContractsErrorType, GetBalanceErrorType } from '@wagmi/core';
 type UseTokenBalanceParameters = {
   address?: `0x${string}`;
   token?: `0x${string}`;
-  chainId?: number;
+  chainId: number;
   isNative?: boolean;
   enabled?: boolean;
 };
