@@ -115,7 +115,7 @@ export const wagmiConfigDev = createConfig({
 });
 
 export const wagmiConfigMainnet = createConfig({
-  chains: [mainnet, base],
+  chains: [mainnet, base, arbitrum],
   connectors,
   transports: {
     [mainnet.id]: http(import.meta.env.VITE_RPC_PROVIDER_MAINNET || ''),
