@@ -27,7 +27,7 @@ import {
 } from 'react';
 import { SealFlow, SealStep } from '../lib/constants';
 import { OnSealUrnChange } from '..';
-import { WidgetContext } from '@/context/WidgetContext';
+import { WidgetContext } from '@widgets/context/WidgetContext';
 import { needsDelegateUpdate, needsRewardUpdate } from '../lib/utils';
 
 export interface SealModuleWidgetContextProps {

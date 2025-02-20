@@ -1,7 +1,7 @@
-import { VStack } from '@/shared/components/ui/layout/VStack';
+import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { useCurrentUrnIndex, TOKENS } from '@jetstreamgg/hooks';
 import { UrnPosition } from './UrnPosition';
-import { Heading } from '@/shared/components/ui/Typography';
+import { Heading } from '@widgets/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
 import { OnSealUrnChange } from '..';
 import { useContext } from 'react';

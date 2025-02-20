@@ -1,12 +1,12 @@
-import { TokenIcon } from '@/shared/components/ui/token/TokenIcon';
-import { Text } from '@/shared/components/ui/Typography';
+import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
+import { Text } from '@widgets/shared/components/ui/Typography';
 import { formatNumber } from '@jetstreamgg/utils';
-import { Card } from '@/components/ui/card';
+import { Card } from '@widgets/components/ui/card';
 import { PriceData } from '@jetstreamgg/hooks';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@widgets/components/ui/skeleton';
 import { formatUnits } from 'viem';
 import { motion } from 'framer-motion';
-import { positionAnimations } from '@/shared/animation/presets';
+import { positionAnimations } from '@widgets/shared/animation/presets';
 import { useMemo, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -64,30 +64,28 @@ export const AssetBalance = ({
             <TokenIcon className="h-8 w-8" token={{ symbol: symbol, name: symbol }} />
             <div className="flex flex-col justify-between">
               <Text>{symbol}</Text>
-              <Text className="text-textSecondary text-[13px]">
-                {isLoading ? (
-                  <Skeleton className="bg-textSecondary h-5" />
-                ) : priceData ? (
-                  `$${formatNumber(parseFloat(priceData.price), { maxDecimals: 2 })}`
-                ) : (
-                  '--'
-                )}
-              </Text>
+              {isLoading ? (
+                <Skeleton className="bg-textSecondary h-5" />
+              ) : (
+                <Text className="text-textSecondary text-[13px]">
+                  {priceData ? `$${formatNumber(parseFloat(priceData.price), { maxDecimals: 2 })}` : '--'}
+                </Text>
+              )}
             </div>
           </div>
           <div className={`flex flex-col justify-between ${shouldShowAction ? 'hidden' : ''}`}>
             <Text className="text-right font-bold">{formatNumber(parseFloat(formatted))}</Text>
-            <Text className="text-textSecondary text-[13px]">
-              {isLoading ? (
-                <Skeleton className="bg-textSecondary h-5" />
-              ) : priceData ? (
-                `$${formatNumber(parseFloat(formatUnits(value, decimals)) * parseFloat(priceData.price), {
-                  maxDecimals: 2
-                })}`
-              ) : (
-                '--'
-              )}
-            </Text>
+            {isLoading ? (
+              <Skeleton className="bg-textSecondary h-5" />
+            ) : (
+              <Text className="text-textSecondary text-[13px]">
+                {priceData
+                  ? `$${formatNumber(parseFloat(formatUnits(value, decimals)) * parseFloat(priceData.price), {
+                      maxDecimals: 2
+                    })}`
+                  : '--'}
+              </Text>
+            )}
           </div>
         </>
       </Card>

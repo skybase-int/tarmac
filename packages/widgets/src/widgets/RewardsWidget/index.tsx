@@ -22,20 +22,20 @@ import { useLingui } from '@lingui/react';
 import { useAccount, useChainId } from 'wagmi';
 import { RewardsTransactionStatus } from './components/RewardsTransactionStatus';
 import { ManagePosition } from './components/ManagePosition';
-import { Heading } from '@/shared/components/ui/Typography';
+import { Heading } from '@widgets/shared/components/ui/Typography';
 import { RewardsOverview } from './components/RewardsOverview';
-import { Button } from '@/components/ui/button';
+import { Button } from '@widgets/components/ui/button';
 import { getValidatedState } from '../../lib/utils';
 import { parseUnits } from 'viem';
-import { WidgetButtons } from '@/shared/components/ui/widget/WidgetButtons';
-import { HStack } from '@/shared/components/ui/layout/HStack';
+import { WidgetButtons } from '@widgets/shared/components/ui/widget/WidgetButtons';
+import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { ArrowLeft } from 'lucide-react';
-import { TransactionOverview } from '@/shared/components/ui/transaction/TransactionOverview';
-import { ErrorBoundary } from '@/shared/components/ErrorBoundary';
-import { useNotifyWidgetState } from '@/shared/hooks/useNotifyWidgetState';
+import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
+import { ErrorBoundary } from '@widgets/shared/components/ErrorBoundary';
+import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
 import { AnimatePresence, motion } from 'framer-motion';
-import { CardAnimationWrapper } from '@/shared/animation/Wrappers';
-import { positionAnimations } from '@/shared/animation/presets';
+import { CardAnimationWrapper } from '@widgets/shared/animation/Wrappers';
+import { positionAnimations } from '@widgets/shared/animation/presets';
 
 export type RewardsWidgetProps = WidgetProps & {
   onRewardContractChange?: (rewardContract?: RewardContract) => void;
@@ -654,7 +654,7 @@ const RewardsWidgetWrapped = ({
       rightHeader={rightHeaderComponent}
       footer={
         <AnimatePresence mode="popLayout" initial={false}>
-          {widgetState.action !== RewardsAction.OVERVIEW ? (
+          {widgetState.action !== RewardsAction.OVERVIEW && (
             <CardAnimationWrapper key="widget-footer" className="w-full">
               {widgetState.action !== RewardsAction.OVERVIEW && (
                 <WidgetButtons
@@ -666,8 +666,6 @@ const RewardsWidgetWrapped = ({
                 />
               )}
             </CardAnimationWrapper>
-          ) : (
-            <></>
           )}
         </AnimatePresence>
       }
