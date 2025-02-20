@@ -14,7 +14,7 @@ export function useNetworkChangeNotification() {
     if (chain?.name) {
       if (previousChainRef.current && previousChainRef.current.name !== chain.name) {
         toast({
-          title: 'Your Network switched:',
+          title: 'The network has changed:',
           description: (
             <div className="mt-3 flex items-center gap-5">
               <div className="flex items-center gap-2">
