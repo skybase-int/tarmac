@@ -8,19 +8,18 @@ import { ArrowRightLong } from '@/modules/icons';
 export function useNetworkChangeNotification() {
   const chainId = useChainId();
   const chains = useChains();
-  const previousChainNameRef = useRef<string | undefined>(undefined);
-
+  const previousChainRef = useRef<{ id: number; name: string } | undefined>(undefined);
   useEffect(() => {
     const chain = chains.find(c => c.id === chainId);
     if (chain?.name) {
-      if (previousChainNameRef.current && previousChainNameRef.current !== chain.name) {
+      if (previousChainRef.current && previousChainRef.current.name !== chain.name) {
         toast({
           title: 'Your Network switched:',
           description: (
             <div className="mt-3 flex items-center gap-5">
               <div className="flex items-center gap-2">
-                {getChainIcon(chainId, 'h-[22px] w-[22px]')}
-                <Text variant="large">{previousChainNameRef.current}</Text>
+                {getChainIcon(previousChainRef.current.id, 'h-[22px] w-[22px]')}
+                <Text variant="large">{previousChainRef.current.name}</Text>
               </div>
               <ArrowRightLong width={18} height={18} />
               <div className="flex items-center gap-2">
@@ -32,7 +31,7 @@ export function useNetworkChangeNotification() {
           duration: 5000
         });
       }
-      previousChainNameRef.current = chain.name;
+      previousChainRef.current = { id: chain.id, name: chain.name };
     }
   }, [chainId, chains]);
 }
