@@ -1,4 +1,5 @@
 import { Checkbox } from '@widgets/components/ui/checkbox';
+import { useChains } from 'wagmi';
 
 type BalancesFilterProps = {
   showBalanceFilter: boolean;
@@ -6,6 +7,7 @@ type BalancesFilterProps = {
   hideZeroBalances: boolean;
   setShowAllNetworks: (value: boolean) => void;
   setHideZeroBalances: (value: boolean) => void;
+  chainId: number;
 };
 
 export const BalancesFilter = ({
@@ -13,8 +15,12 @@ export const BalancesFilter = ({
   showAllNetworks,
   hideZeroBalances,
   setShowAllNetworks,
-  setHideZeroBalances
+  setHideZeroBalances,
+  chainId
 }: BalancesFilterProps): React.ReactElement => {
+  const chains = useChains();
+  const chainInfo = chains.find(chain => chain.id === chainId);
+  const chainName = chainInfo?.name;
   return (
     <div className="mb-4 mt-3 flex justify-between">
       <div className="flex items-center gap-2">
@@ -31,7 +37,7 @@ export const BalancesFilter = ({
             onClick={() => setShowAllNetworks(false)}
             className={`text-sm ${!showAllNetworks ? 'text-text' : 'text-textSecondary'}`}
           >
-            Active
+            {chainName || 'Active'}
           </button>
         </div>
       </div>

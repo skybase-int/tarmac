@@ -222,6 +222,7 @@ export const BalancesContent = ({
               hideZeroBalances={hideZeroBalances}
               setShowAllNetworks={setShowAllNetworks}
               setHideZeroBalances={setHideZeroBalances}
+              chainId={chainId}
             />
             {!hideModules && (
               <Heading variant="small" className="mb-3 leading-6">
@@ -281,6 +282,7 @@ export const BalancesContent = ({
             hideZeroBalances={hideZeroBalances}
             setShowAllNetworks={setShowAllNetworks}
             setHideZeroBalances={setHideZeroBalances}
+            chainId={chainId}
           />
           <BalancesHistory onExternalLinkClicked={onExternalLinkClicked} showAllNetworks={showAllNetworks} />
         </motion.div>
