@@ -9,7 +9,8 @@ import {
   useSimulatedVault,
   useVault,
   Vault,
-  CollateralRiskParameters
+  CollateralRiskParameters,
+  useSealExitFee
 } from '@jetstreamgg/hooks';
 import { t } from '@lingui/core/macro';
 import { useContext, useEffect, useMemo } from 'react';
@@ -149,6 +150,8 @@ const PositionManagerOverviewContainer = ({
       ? [formattedExistingMaxBorrowable, formatterSimulatedMaxBorrowable]
       : formatterSimulatedMaxBorrowable;
 
+  const { data: exitFee } = useSealExitFee();
+
   const initialTxData = useMemo(
     () =>
       [
@@ -161,6 +164,13 @@ const PositionManagerOverviewContainer = ({
                   `${formatBigInt(displayToken === mkr ? newCollateralAmount : math.calculateConversion(mkr, newCollateralAmount))}  ${displayToken.symbol}`
                 ]
               : `${formatBigInt(displayToken === mkr ? newCollateralAmount : math.calculateConversion(mkr, newCollateralAmount))}  ${displayToken.symbol}`
+        },
+        {
+          label: t`Exit fee percentage`,
+          value:
+            typeof exitFee === 'bigint'
+              ? [`${Number(formatUnits(exitFee * 100n, WAD_PRECISION)).toFixed(2)}%`]
+              : ''
         },
         {
           label: t`You borrowed`,
@@ -199,7 +209,8 @@ const PositionManagerOverviewContainer = ({
       existingColAmount,
       existingBorrowAmount,
       hasPositions,
-      displayToken
+      displayToken,
+      exitFee
     ]
   );
 
