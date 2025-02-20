@@ -363,7 +363,8 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
       : availableBorrowFromDebtCeiling;
 
   const formattedMaxBorrowable = `${formatBigInt(availableBorrowBalance, {
-    unit: getTokenDecimals(usds, chainId)
+    unit: getTokenDecimals(usds, chainId),
+    roundingMode: 'floor'
   })} ${usds.symbol}`;
 
   useEffect(() => {
