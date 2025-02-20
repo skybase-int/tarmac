@@ -1,0 +1,23 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "workspaces": {
+    ".": {
+      "entry": ["lingui.config.ts", "scripts/**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}!"]
+    },
+    "apps/webapp": {
+      "entry": ["src/pages/main.tsx"],
+      "project": ["src/**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}!"]
+    },
+    "apps/integration-ui": {
+      "entry": ["src/pages/main.tsx"],
+      "project": ["src/**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}!"]
+    },
+    "packages/hooks": {
+      "entry": ["src/index.{js,ts,tsx}", "wagmi.config.ts"],
+      "ignore": ["src/generated.ts"]
+    },
+    "packages/utils": {
+      "ignore": ["src/locales/**/*"]
+    }
+  }
+}

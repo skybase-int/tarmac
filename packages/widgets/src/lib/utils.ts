@@ -1,10 +1,10 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { z } from 'zod';
-import { upgradeTokens } from '@/widgets/UpgradeWidget/lib/constants';
+import { upgradeTokens } from '@widgets/widgets/UpgradeWidget/lib/constants';
 import { defaultConfig } from '../config/default-config';
 import { SUPPORTED_TOKEN_SYMBOLS } from '..';
-import { ExternalWidgetState } from '@/shared/types/widgetState';
+import { ExternalWidgetState } from '@widgets/shared/types/widgetState';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

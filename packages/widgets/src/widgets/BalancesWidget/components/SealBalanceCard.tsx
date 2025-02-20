@@ -1,10 +1,10 @@
 import { useTotalUserSealed, useSealRewardsData, usePrices } from '@jetstreamgg/hooks';
 import { formatBigInt, formatNumber } from '@jetstreamgg/utils';
-import { Text } from '@/shared/components/ui/Typography';
+import { Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
-import { InteractiveStatsCard } from '@/shared/components/ui/card/InteractiveStatsCard';
-import { Skeleton } from '@/components/ui/skeleton';
-import { PopoverRateInfo } from '@/shared/components/ui/PopoverRateInfo';
+import { InteractiveStatsCard } from '@widgets/shared/components/ui/card/InteractiveStatsCard';
+import { Skeleton } from '@widgets/components/ui/skeleton';
+import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
 import { formatUnits } from 'viem';
 import { CardProps } from './ModulesBalances';
 

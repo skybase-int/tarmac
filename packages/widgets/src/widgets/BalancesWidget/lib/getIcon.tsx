@@ -1,16 +1,16 @@
 import { TransactionTypeEnum, ModuleEnum } from '@jetstreamgg/hooks';
-import { SavingsSupply } from '@/shared/components/icons/SavingsSupply';
-import { SavingsSupply as SavingsSupplyBase } from '@/shared/components/icons/base/SavingsSupply';
-import { ArrowDown } from '@/shared/components/icons/ArrowDown';
-import { ArrowDown as ArrowDownBase } from '@/shared/components/icons/base/ArrowDown';
-import { Trade } from '@/shared/components/icons/Trade';
-import { Trade as TradeBase } from '@/shared/components/icons/base/Trade';
-import { Upgrade } from '@/shared/components/icons/Upgrade';
-import { Revert } from '@/shared/components/icons/Revert';
-import { Supply } from '@/shared/components/icons/Supply';
-import { Withdraw } from '@/shared/components/icons/Withdraw';
-import { Reward } from '@/shared/components/icons/Reward';
-import { Seal } from '@/shared/components/icons/Seal';
+import { SavingsSupply } from '@widgets/shared/components/icons/SavingsSupply';
+import { SavingsSupply as SavingsSupplyBase } from '@widgets/shared/components/icons/base/SavingsSupply';
+import { ArrowDown } from '@widgets/shared/components/icons/ArrowDown';
+import { ArrowDown as ArrowDownBase } from '@widgets/shared/components/icons/base/ArrowDown';
+import { Trade } from '@widgets/shared/components/icons/Trade';
+import { Trade as TradeBase } from '@widgets/shared/components/icons/base/Trade';
+import { Upgrade } from '@widgets/shared/components/icons/Upgrade';
+import { Revert } from '@widgets/shared/components/icons/Revert';
+import { Supply } from '@widgets/shared/components/icons/Supply';
+import { Withdraw } from '@widgets/shared/components/icons/Withdraw';
+import { Reward } from '@widgets/shared/components/icons/Reward';
+import { Seal } from '@widgets/shared/components/icons/Seal';
 import { isBaseChainId } from '@jetstreamgg/utils';
 
 export const getIcon = ({
