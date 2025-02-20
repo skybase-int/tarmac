@@ -14,7 +14,7 @@ import { useChains } from 'wagmi';
 import { formatBigInt, formatNumber, getChainIcon } from '@jetstreamgg/utils';
 import { Link } from 'react-router-dom';
 import { InteractiveStatsCard } from './InteractiveStatsCard';
-import { PriceData } from 'node_modules/@jetstreamgg/hooks/src';
+import { PriceData } from '@jetstreamgg/hooks';
 
 export const InteractiveStatsCardWithAccordion = ({
   title,
