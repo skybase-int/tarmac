@@ -1,11 +1,11 @@
-import { TokenInput } from '@/shared/components/ui/token/TokenInput';
+import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
 import { TOKENS, useVault, useSimulatedVault, getIlkName, Token } from '@jetstreamgg/hooks';
 import { math } from '@jetstreamgg/utils';
 import { t } from '@lingui/core/macro';
 import { useContext, useEffect, useMemo } from 'react';
 import { useAccount, useChainId } from 'wagmi';
 import { SealModuleWidgetContext } from '../context/context';
-import { WidgetContext } from '@/context/WidgetContext';
+import { WidgetContext } from '@widgets/context/WidgetContext';
 import { SealFlow } from '../lib/constants';
 
 export const Free = ({

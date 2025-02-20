@@ -1,4 +1,4 @@
-import { TokenInput } from '@/shared/components/ui/token/TokenInput';
+import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
 import {
   getIlkName,
   getTokenDecimals,
@@ -14,7 +14,7 @@ import {
 import { t } from '@lingui/core/macro';
 import { useContext, useEffect, useMemo } from 'react';
 import { SealModuleWidgetContext } from '../context/context';
-import { TransactionOverview } from '@/shared/components/ui/transaction/TransactionOverview';
+import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
 import {
   WAD_PRECISION,
   captitalizeFirstLetter,
@@ -24,7 +24,7 @@ import {
   math
 } from '@jetstreamgg/utils';
 import { formatUnits } from 'viem';
-import { RiskSlider } from '@/shared/components/ui/RiskSlider';
+import { RiskSlider } from '@widgets/shared/components/ui/RiskSlider';
 import { getRiskTextColor, getCeilingTextColor } from '../lib/utils';
 import { useChainId } from 'wagmi';
 import { useRiskSlider } from '../hooks/useRiskSlider';
@@ -35,8 +35,8 @@ import {
   borrowRateTooltipText,
   debtCeilingTooltipText
 } from '../lib/constants';
-import { Warning } from '@/shared/components/icons/Warning';
-import { Text } from '@/shared/components/ui/Typography';
+import { Warning } from '@widgets/shared/components/icons/Warning';
+import { Text } from '@widgets/shared/components/ui/Typography';
 
 const { usds, mkr, sky } = TOKENS;
 
@@ -418,7 +418,7 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
       {collateralData?.debtCeilingUtilization === 1 ? (
         <div className="ml-3">
           <Text variant="small" className="text-error flex gap-2">
-            <Warning boxSize={16} viewBox="0 0 16 16" className="mt-1 flex-shrink-0" />
+            <Warning boxSize={16} viewBox="0 0 16 16" className="mt-1 shrink-0" />
             Debt ceiling reached. New positions and additional USDS borrowing are temporarily disabled.
           </Text>
         </div>
