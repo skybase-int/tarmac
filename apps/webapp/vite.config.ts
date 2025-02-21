@@ -48,6 +48,7 @@ export default ({ mode }: { mode: modeEnum }) => {
       https://mainnet.base.org
       https://safe-transaction-mainnet.safe.global
       https://safe-transaction-base.safe.global
+      https://safe-transaction-arbitrum.safe.global
       https://safe-transaction-sepolia.safe.global
       https://vote.makerdao.com
       https://query-subgraph-testnet.sky.money
