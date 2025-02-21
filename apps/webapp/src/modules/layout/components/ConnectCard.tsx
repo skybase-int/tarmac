@@ -48,7 +48,7 @@ export function ConnectCard({ intent }: { intent: Intent }) {
       colorMiddle="radial-gradient(circle at 0% 100%, #FFCD6B 0%, #EB5EDF 150%)"
       colorRight="#2A197D"
     >
-      <div className="w-[80%] space-y-2 lg:w-1/2" data-testid="connect-wallet-card">
+      <div className="w-[80%] space-y-2 lg:w-2/3" data-testid="connect-wallet-card">
         <Heading className="mb-2">{heading[intent]}</Heading>
         <Text variant="small" className="leading-[18px]">
           {contentText[intent]}
