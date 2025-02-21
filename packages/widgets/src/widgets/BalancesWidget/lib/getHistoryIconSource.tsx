@@ -1,5 +1,5 @@
 import { TransactionTypeEnum, ModuleEnum } from '@jetstreamgg/hooks';
-import { isBaseChainId } from '@jetstreamgg/utils';
+import { isBaseChainId, isArbitrumChainId } from '@jetstreamgg/utils';
 
 export const getHistoryIconSource = ({
   type,
@@ -11,7 +11,8 @@ export const getHistoryIconSource = ({
   chainId: number;
 }) => {
   const isBase = isBaseChainId(chainId);
-  const src = 'history-icons/' + (isBase ? 'base/' : 'ethereum/');
+  const isArbitrum = isArbitrumChainId(chainId);
+  const src = 'history-icons/' + (isBase ? 'base/' : isArbitrum ? 'arbitrum/' : 'ethereum/');
   switch (module) {
     case ModuleEnum.SAVINGS:
       return type === TransactionTypeEnum.SUPPLY ? src + 'savings-supply.svg' : src + 'savings-withdraw.svg';

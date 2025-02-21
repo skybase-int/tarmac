@@ -94,7 +94,7 @@ export const InteractiveStatsCardWithAccordion = ({
                 </HStack>
                 <HStack className="text-textSecondary w-full items-center justify-end gap-0.5">
                   <Text variant="small" className="leading-none">
-                    Funds per network
+                    Funds by network
                   </Text>
                   <svg
                     width="12"
