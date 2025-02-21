@@ -19,12 +19,14 @@ export function useNetworkChangeNotification() {
             <div className="mt-3 flex items-center gap-5">
               <div className="flex items-center gap-2">
                 {getChainIcon(previousChainRef.current.id, 'h-[22px] w-[22px]')}
-                <Text variant="large">{previousChainRef.current.name}</Text>
+                <Text className="text-small sm:text-medium md:text-large">
+                  {previousChainRef.current.name}
+                </Text>
               </div>
               <ArrowRightLong width={18} height={18} />
               <div className="flex items-center gap-2">
                 {getChainIcon(chainId, 'h-[22px] w-[22px]')}
-                <Text variant="large">{chain.name}</Text>
+                <Text className="text-small sm:text-medium md:text-large">{chain.name}</Text>
               </div>
             </div>
           ),
