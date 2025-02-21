@@ -99,7 +99,7 @@ export const BalancesHeader = ({
             </Button>{' '}
             instead or{' '}
             <ExternalLink
-              href="https://bridge.base.org/deposit" //TODO: update to arbitrum bridge
+              href="https://bridge.arbitrum.io/?destinationChain=arbitrum-one&sourceChain=ethereum"
               iconSize={11}
               className="text-textEmphasis inline"
               inline
