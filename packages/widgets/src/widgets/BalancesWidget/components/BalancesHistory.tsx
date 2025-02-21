@@ -10,6 +10,7 @@ import { Text } from '@widgets/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
+import { NoResults } from '@widgets/shared/components/icons/NoResults';
 
 export const BalancesHistory = ({
   onExternalLinkClicked,
@@ -93,8 +94,11 @@ export const BalancesHistory = ({
       </Text>
     </div>
   ) : (
-    <Text className="text-textSecondary mt-10 text-center text-xs">
-      <Trans>No history found</Trans>
-    </Text>
+    <VStack gap={3} className="items-center pb-3 pt-9">
+      <NoResults />
+      <Text className="text-textSecondary text-center">
+        <Trans>No history found</Trans>
+      </Text>
+    </VStack>
   );
 };
