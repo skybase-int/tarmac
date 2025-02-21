@@ -15,7 +15,7 @@ import { Trans } from '@lingui/react/macro';
 import { Heading } from '@widgets/shared/components/ui/Typography';
 import { UpgradeTransactionStatus } from './components/UpgradeTransactionStatus';
 import { useAccount, useChainId } from 'wagmi';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { getEtherscanLink, useDebounce } from '@jetstreamgg/utils';
 import { useTokenAllowance } from '@jetstreamgg/hooks';
 import { useUpgraderManager } from './hooks/useUpgraderManager';
@@ -139,6 +139,7 @@ export function UpgradeWidgetWrapped({
   enabled = true
 }: UpgradeWidgetProps): React.ReactElement {
   const validatedExternalState = getValidatedState(externalWidgetState);
+  const shouldAllowExternalUpdate = useRef(true);
 
   useEffect(() => {
     onStateValidated?.(validatedExternalState);
@@ -167,6 +168,8 @@ export function UpgradeWidgetWrapped({
   }, [initialTabIndex]);
 
   useEffect(() => {
+    if (!shouldAllowExternalUpdate.current) return;
+
     const externalToken = validatedExternalState?.initialUpgradeToken;
     let newOriginToken: Token;
 
@@ -198,7 +201,9 @@ export function UpgradeWidgetWrapped({
       setTargetToken(newTargetToken);
     }
 
-    setOriginAmount(parseUnits(validatedExternalState?.amount || '0', 18));
+    if (validatedExternalState?.amount !== undefined) {
+      setOriginAmount(parseUnits(validatedExternalState.amount, 18));
+    }
   }, [
     validatedExternalState?.initialUpgradeToken,
     validatedExternalState?.amount,
@@ -327,7 +332,7 @@ export function UpgradeWidgetWrapped({
   });
 
   useEffect(() => {
-    //Initialize the upgrade flow
+    if (widgetState.screen === UpgradeScreen.TRANSACTION) return;
     const flow = validatedExternalState?.flow || (tabIndex === 0 ? UpgradeFlow.UPGRADE : UpgradeFlow.REVERT);
     if (isConnectedAndEnabled) {
       // Use external flow if available, otherwise use tabIndex
@@ -340,7 +345,7 @@ export function UpgradeWidgetWrapped({
       } else if (flow === UpgradeFlow.REVERT) {
         setWidgetState({
           flow: UpgradeFlow.REVERT,
-          action: UpgradeAction.REVERT,
+          action: UpgradeAction.APPROVE,
           screen: UpgradeScreen.ACTION
         });
       }
@@ -352,7 +357,7 @@ export function UpgradeWidgetWrapped({
         screen: null
       });
     }
-  }, [isConnectedAndEnabled, validatedExternalState?.flow, tabIndex]);
+  }, [isConnectedAndEnabled, validatedExternalState?.flow, tabIndex, widgetState.screen]);
 
   // If we're in the upgrade or revert flow and we need allowance, set the action to approve,
   useEffect(() => {
@@ -414,13 +419,19 @@ export function UpgradeWidgetWrapped({
     isAmountWaitingForDebounce;
 
   const approveOnClick = () => {
-    setWidgetState((prev: WidgetState) => ({ ...prev, screen: UpgradeScreen.TRANSACTION }));
+    shouldAllowExternalUpdate.current = false;
+    setWidgetState((prev: WidgetState) => ({
+      ...prev,
+      action: UpgradeAction.APPROVE,
+      screen: UpgradeScreen.TRANSACTION
+    }));
     setTxStatus(TxStatus.INITIALIZED);
     setExternalLink(undefined);
     approve.execute();
   };
 
   const upgradeOnClick = () => {
+    shouldAllowExternalUpdate.current = false;
     setWidgetState((prev: WidgetState) => ({
       ...prev,
       action: UpgradeAction.UPGRADE,
@@ -432,6 +443,7 @@ export function UpgradeWidgetWrapped({
   };
 
   const revertOnClick = () => {
+    shouldAllowExternalUpdate.current = false;
     setWidgetState((prev: WidgetState) => ({
       ...prev,
       action: UpgradeAction.REVERT,
@@ -443,6 +455,7 @@ export function UpgradeWidgetWrapped({
   };
 
   const nextOnClick = () => {
+    shouldAllowExternalUpdate.current = true;
     setTxStatus(TxStatus.IDLE);
 
     // After a successful upgrade/revert, we reset the origin amount
@@ -460,6 +473,17 @@ export function UpgradeWidgetWrapped({
       action: UpgradeAction.UPGRADE,
       screen: UpgradeScreen.ACTION
     }));
+
+    onWidgetStateChange?.({
+      originAmount: '',
+      originToken: '',
+      widgetState: {
+        ...widgetState,
+        action: UpgradeAction.UPGRADE,
+        screen: UpgradeScreen.ACTION
+      },
+      txStatus: TxStatus.IDLE
+    });
   };
 
   // Handle the error onClicks separately to keep it clear
@@ -491,6 +515,7 @@ export function UpgradeWidgetWrapped({
                 : undefined;
 
   const onClickBack = () => {
+    shouldAllowExternalUpdate.current = true;
     setTxStatus(TxStatus.IDLE);
     setWidgetState((prev: WidgetState) => ({
       ...prev,
