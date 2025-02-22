@@ -7,8 +7,9 @@ import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParam
 import { intentSelectedMessage } from '../lib/intentSelectedMessage';
 import { QueryParams } from '@/lib/constants';
 import { useNetworkFromIntentUrl } from '../hooks/useNetworkFromUrl';
-import { chainIdNameMapping } from '../lib/intentUtils';
+import { chainIdNameMapping, intentModifiesState } from '../lib/intentUtils';
 import { useChainId } from 'wagmi';
+import { ConfirmationWarningRow } from './ConfirmationWarningRow';
 
 type ChatIntentsRowProps = {
   intents: ChatIntent[];
@@ -49,6 +50,8 @@ const testIntents = [
 
 export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
   console.log('🚀 ~ ChatIntentsRow ~ intents:', intents);
+  const { shouldShowConfirmationWarning } = useChatContext();
+
   return (
     <div>
       <Text className="text-xs italic text-gray-500">Try a suggested action</Text>
@@ -57,6 +60,7 @@ export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
           <IntentRow key={index} intent={intent} />
         ))}
       </div>
+      {shouldShowConfirmationWarning && <ConfirmationWarningRow />}
     </div>
   );
 };
@@ -67,7 +71,8 @@ type IntentRowProps = {
 
 const IntentRow = ({ intent }: IntentRowProps) => {
   const chainId = useChainId();
-  const { setConfirmationModalOpened, setSelectedIntent, hasShownIntent, setChatHistory } = useChatContext();
+  const { setConfirmationWarningOpened, setSelectedIntent, setChatHistory, hasShownIntent } =
+    useChatContext();
   const navigate = useNavigate();
   const intentUrl = useRetainedQueryParams(intent?.url || '', [
     QueryParams.Locale,
@@ -77,13 +82,16 @@ const IntentRow = ({ intent }: IntentRowProps) => {
 
   const network =
     useNetworkFromIntentUrl(intentUrl) || chainIdNameMapping[chainId as keyof typeof chainIdNameMapping];
+  const modifiesState = intentModifiesState(intent);
 
   return (
     <Button
       variant="suggest"
       onClick={() => {
-        if (!hasShownIntent(intent)) {
-          setConfirmationModalOpened(true);
+        setConfirmationWarningOpened(false);
+
+        if (!hasShownIntent(intent) && modifiesState) {
+          setConfirmationWarningOpened(true);
           setSelectedIntent(intent);
         } else {
           setChatHistory(prev => [...prev, intentSelectedMessage(intent)]);
