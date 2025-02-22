@@ -499,9 +499,7 @@ const SavingsWidgetWrapped = ({
     }
   }, [widgetState.flow, widgetState.screen, needsAllowance, allowanceLoading]);
 
-  useEffect(() => {
-    setShowStepIndicator(widgetState.flow === SavingsFlow.SUPPLY);
-  }, [widgetState.flow]);
+  setShowStepIndicator(true);
 
   const isSupplyBalanceError =
     txStatus === TxStatus.IDLE &&
