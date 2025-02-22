@@ -41,7 +41,7 @@ const forkVnets = async () => {
 
   const testnetDataToWrite = testnetsData.map(testnetData => {
     const adminEndpoint = testnetData.connectivityConfig.endpoints.find(
-      //@ts-ignore
+      //@ts-expect-error TypeScript syntax is not supported when running this script
       x => x.description === 'admin endpoint'
     );
 

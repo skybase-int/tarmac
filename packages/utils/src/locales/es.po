@@ -42,6 +42,11 @@ msgstr ""
 msgid "{0}"
 msgstr ""
 
+#. placeholder {0}: rewardContract.name
+#: apps/webapp/src/modules/rewards/components/RewardsDetailsView.tsx
+msgid "{0} — Rewards statistics"
+msgstr ""
+
 #. placeholder {0}: flow === UpgradeFlow.UPGRADE ? 'Upgraded' : 'Reverted'
 #. placeholder {0}: flow === UpgradeFlow.UPGRADE ? 'Upgrading' : 'Reverting'
 #. placeholder {1}: originToken.symbol
@@ -240,7 +245,7 @@ msgid "An error occurred while reverting your tokens."
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/TermsModal.tsx
-msgid "An error occurred while submitting your signature. Please ensure your wallet is connected to either Ethereum mainnet, Base or Arbitrum and try again. If the issue persists, reach out for assistance in the official <0>Sky Discord</0>"
+msgid "An error occurred while submitting your signature. Please ensure your wallet is connected to either Ethereum mainnet or Base and try again. If the issue persists, reach out for assistance in the official <0>Sky Discord</0>"
 msgstr ""
 
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
@@ -463,13 +468,8 @@ msgstr ""
 msgid "Cancel order"
 msgstr ""
 
-#: packages/widgets/src/widgets/TradeWidget/components/CancelOrderButton.tsx
-msgid "Cancel Order"
-msgstr ""
-
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
-#: packages/widgets/src/widgets/TradeWidget/components/CancelOrderButton.tsx
 msgid "Cancel successful"
 msgstr ""
 
@@ -497,10 +497,6 @@ msgstr ""
 
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 msgid "Choose a token to upgrade, and enter an amount"
-msgstr ""
-
-#: apps/webapp/src/modules/config/components/LanguageSelector.tsx
-msgid "Choose language"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/SelectDelegate.tsx
@@ -1146,10 +1142,6 @@ msgstr ""
 msgid "My rewards"
 msgstr ""
 
-#: packages/widgets/src/widgets/RewardsWidget/components/HarvestRewards.tsx
-msgid "My Rewards"
-msgstr ""
-
 #: packages/widgets/src/widgets/TradeWidget/components/TradeSummary.tsx
 #: packages/widgets/src/widgets/TradeWidget/components/TradeDetails.tsx
 msgid "Network costs (est.)"
@@ -1191,11 +1183,6 @@ msgstr ""
 
 #: packages/widgets/src/widgets/BalancesWidget/lib/getHistoryRightText.ts
 msgid "No reward"
-msgstr ""
-
-#. placeholder {0}: rewardContract?.supplyToken.name
-#: packages/widgets/src/widgets/RewardsWidget/components/HarvestRewards.tsx
-msgid "No rewards available, supply {0} to earn rewards"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/historyTable/HistoryTable.tsx
@@ -1426,10 +1413,6 @@ msgstr ""
 
 #: apps/webapp/src/modules/seal/components/SealOverview.tsx
 msgid "Rewards overview"
-msgstr ""
-
-#: apps/webapp/src/modules/rewards/components/RewardsDetailsView.tsx
-msgid "Rewards statistics"
 msgstr ""
 
 #: apps/webapp/src/modules/rewards/components/RewardsSuppliersCard.tsx
@@ -2472,7 +2455,6 @@ msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
-#: packages/widgets/src/widgets/TradeWidget/components/CancelOrderButton.tsx
 msgid "You successfully cancelled the order"
 msgstr ""
 

@@ -659,7 +659,7 @@ const RewardsWidgetWrapped = ({
       rightHeader={rightHeaderComponent}
       footer={
         <AnimatePresence mode="popLayout" initial={false}>
-          {widgetState.action !== RewardsAction.OVERVIEW ? (
+          {widgetState.action !== RewardsAction.OVERVIEW && (
             <CardAnimationWrapper key="widget-footer" className="w-full">
               {widgetState.action !== RewardsAction.OVERVIEW && (
                 <WidgetButtons
@@ -671,8 +671,6 @@ const RewardsWidgetWrapped = ({
                 />
               )}
             </CardAnimationWrapper>
-          ) : (
-            <></>
           )}
         </AnimatePresence>
       }

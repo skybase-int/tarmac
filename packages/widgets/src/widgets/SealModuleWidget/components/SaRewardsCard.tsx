@@ -55,9 +55,9 @@ export const SaRewardsCard = ({
 
   return (
     <StatsOverviewCardCoreAccordion
-      className={`${
+      className={`transition-colors ${
         selectedRewardContract && getAddress(selectedRewardContract) === getAddress(contractAddress)
-          ? 'bg-primary'
+          ? 'bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100'
           : ''
       } ${setSelectedRewardContract ? 'cursor-pointer' : 'cursor-default'}`}
       headerLeftContent={
