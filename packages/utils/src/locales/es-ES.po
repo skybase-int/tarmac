@@ -826,6 +826,7 @@ msgid "Exit fee"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/Borrow.tsx
 msgid "Exit fee percentage"
 msgstr ""
 
@@ -895,14 +896,6 @@ msgstr ""
 #. placeholder {0}: isBase ? 'Base' : isArbitrum ? 'Arbitrum' : ''
 #: apps/webapp/src/modules/balances/components/ModuleCard.tsx
 msgid "Go to {0} {module}"
-msgstr ""
-
-#: packages/widgets/src/widgets/RewardsWidget/components/HarvestRewards.tsx
-msgid "Harvest"
-msgstr ""
-
-#: packages/widgets/src/widgets/RewardsWidget/components/HarvestRewards.tsx
-msgid "Harvesting..."
 msgstr ""
 
 #: apps/webapp/src/modules/app/hooks/useChatNotification.tsx
