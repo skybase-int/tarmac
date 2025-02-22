@@ -15,48 +15,14 @@ type ChatIntentsRowProps = {
   intents: ChatIntent[];
 };
 
-const testIntents = [
-  {
-    intent_description: 'Upgrade DAI',
-    url: '/?widget=upgrade&source_token=DAI&flow=upgrade',
-    intent_id: 'upgrade'
-  },
-  {
-    intent_description: 'Upgrade 10 MKR',
-    url: '/?widget=upgrade&source_token=MKR&flow=upgrade&input_amount=10',
-    intent_id: 'upgrade'
-  },
-  {
-    intent_description: 'Upgrade ZZZ',
-    url: '/?widget=upgrade&source_token=ZZZ&flow=upgrade',
-    intent_id: 'upgrade'
-  },
-  {
-    intent_description: 'Revert USDS',
-    url: '/?widget=upgrade&source_token=USDS&flow=revert',
-    intent_id: 'upgrade'
-  },
-  {
-    intent_description: 'Revert 7 SKY',
-    url: '/?widget=upgrade&source_token=SKY&flow=revert&input_amount=7',
-    intent_id: 'upgrade'
-  },
-  {
-    intent_description: 'Revert ZZZ',
-    url: '/?widget=upgrade&source_token=ZZZ&flow=revert',
-    intent_id: 'upgrade'
-  }
-];
-
 export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
-  console.log('🚀 ~ ChatIntentsRow ~ intents:', intents);
   const { shouldShowConfirmationWarning } = useChatContext();
 
   return (
     <div>
       <Text className="text-xs italic text-gray-500">Try a suggested action</Text>
       <div className="mt-2 flex flex-wrap gap-2">
-        {testIntents.map((intent, index) => (
+        {intents.map((intent, index) => (
           <IntentRow key={index} intent={intent} />
         ))}
       </div>
