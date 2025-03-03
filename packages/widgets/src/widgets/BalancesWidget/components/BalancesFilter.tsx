@@ -46,7 +46,7 @@ export const BalancesFilter = ({
         <div className="flex items-center gap-1.5">
           <Checkbox id="all-balances" checked={hideZeroBalances} onCheckedChange={setHideZeroBalances} />
           <label htmlFor="all-balances" className="text-textSecondary cursor-pointer select-none text-sm">
-            Hide 0 Balances
+            Hide 0 balances
           </label>
         </div>
       )}
