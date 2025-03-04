@@ -63,7 +63,6 @@ export function MainApp() {
   });
 
   const chatEnabled = import.meta.env.VITE_CHATBOT_ENABLED === 'true';
-  const rewardContracts = useAvailableTokenRewardContracts(chainId);
   const { sendMessage } = useSendMessage();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -81,6 +80,12 @@ export function MainApp() {
     (bpi >= BP['3xl']
       ? !(searchParams.get(QueryParams.Chat) === 'false')
       : searchParams.get(QueryParams.Chat) === 'true');
+
+  const newChainId = network
+    ? (chains.find(chain => normalizeUrlParam(chain.name) === normalizeUrlParam(network))?.id ?? chainId)
+    : chainId;
+
+  const rewardContracts = useAvailableTokenRewardContracts(newChainId);
 
   // step is initialized as 0 and will evaluate to false, setting the first step to 1
   const step = linkedAction ? linkedActionConfig.step || 1 : 0;
@@ -100,7 +105,7 @@ export function MainApp() {
           rewardContracts,
           widgetParam || '',
           setSelectedRewardContract,
-          chainId,
+          newChainId,
           chains
         );
         // Runs second validation for linked-action-specific criteria

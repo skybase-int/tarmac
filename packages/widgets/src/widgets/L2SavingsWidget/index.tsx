@@ -508,8 +508,8 @@ const SavingsWidgetWrapped = ({
   }, [widgetState.flow, widgetState.screen, needsAllowance, allowanceLoading]);
 
   useEffect(() => {
-    setShowStepIndicator(widgetState.flow === SavingsFlow.SUPPLY);
-  }, [widgetState.flow]);
+    setShowStepIndicator(true);
+  }, []);
 
   const isSupplyBalanceError =
     txStatus === TxStatus.IDLE &&
@@ -531,14 +531,13 @@ const SavingsWidgetWrapped = ({
 
   const isAmountWaitingForDebounce = debouncedAmount !== amount;
 
-  const isSuccessfulWithdrawAll =
-    isMaxWithdraw &&
+  const isSuccessfulWithdraw =
     widgetState.screen === SavingsScreen.TRANSACTION &&
     widgetState.action === SavingsAction.WITHDRAW &&
     txStatus === TxStatus.SUCCESS;
   const withdrawDisabled =
     // Enable button if we're in transaction screen and status is success
-    isSuccessfulWithdrawAll
+    isSuccessfulWithdraw
       ? false
       : [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
         isWithdrawBalanceError ||

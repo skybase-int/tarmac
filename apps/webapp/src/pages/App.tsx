@@ -13,6 +13,7 @@ import { CustomAvatar } from '@/modules/ui/components/Avatar';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { ConnectedProvider } from '@/modules/ui/context/ConnectedContext';
 import { TermsModalProvider } from '@/modules/ui/context/TermsModalContext';
+import { BalanceFiltersProvider } from '@/modules/ui/context/BalanceFiltersContext';
 
 import '@rainbow-me/rainbowkit/styles.css';
 import { ExternalLinkModal } from '@/modules/layout/components/ExternalLinkModal';
@@ -37,11 +38,13 @@ export const App = () => (
           <ConnectedProvider>
             <ChatProvider>
               <TermsModalProvider>
-                <TooltipProvider delayDuration={300}>
-                  <ExternalLinkModal />
-                  <Toaster />
-                  <RouterProvider router={router} />
-                </TooltipProvider>
+                <BalanceFiltersProvider>
+                  <TooltipProvider delayDuration={300}>
+                    <ExternalLinkModal />
+                    <Toaster />
+                    <RouterProvider router={router} />
+                  </TooltipProvider>
+                </BalanceFiltersProvider>
               </TermsModalProvider>
             </ChatProvider>
           </ConnectedProvider>

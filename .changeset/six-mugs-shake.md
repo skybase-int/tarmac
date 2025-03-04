@@ -5,4 +5,4 @@
 '@jetstreamgg/webapp': patch
 ---
 
-Add support for importing source files directly in dev mode for faster HMR
+handle multi-network balances
