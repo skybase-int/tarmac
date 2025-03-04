@@ -127,6 +127,7 @@ export const ChatBubble = ({
                 <ChatMarkdownRenderer markdown={message} />
               </div>
             </HStack>
+            <ChatIntentsRow intents={[]} />
             {user === UserType.bot && !isError && !isInternal && !isCanceled && (
               <div className="space-y-5">
                 {intents && intents?.length > 0 && isLastMessage && <ChatIntentsRow intents={intents} />}
