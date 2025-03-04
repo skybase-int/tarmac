@@ -91,12 +91,15 @@ export const L2SavingsWidget = ({
   onExternalLinkClicked,
   enabled = true,
   referralCode,
-  disallowedTokens
+  disallowedTokens,
+  shouldReset = false
 }: SavingsWidgetProps) => {
+  const key = shouldReset ? 'reset' : undefined;
   return (
     <ErrorBoundary componentName="SavingsWidget">
-      <WidgetProvider locale={locale}>
+      <WidgetProvider key={key} locale={locale}>
         <SavingsWidgetWrapped
+          key={key}
           onConnect={onConnect}
           addRecentTransaction={addRecentTransaction}
           rightHeaderComponent={rightHeaderComponent}

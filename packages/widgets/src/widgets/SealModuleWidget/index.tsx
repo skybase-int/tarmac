@@ -74,13 +74,16 @@ export const SealModuleWidget = ({
   onExternalLinkClicked,
   addRecentTransaction,
   termsLink,
-  referralCode
+  referralCode,
+  shouldReset = false
 }: SealModuleWidgetProps) => {
+  const key = shouldReset ? 'reset' : undefined;
   return (
     <ErrorBoundary componentName="SealModuleWidget">
-      <WidgetProvider locale={locale}>
+      <WidgetProvider key={key} locale={locale}>
         <SealModuleWidgetProvider>
           <SealModuleWidgetWrapped
+            key={key}
             rightHeaderComponent={rightHeaderComponent}
             onSealUrnChange={onSealUrnChange}
             externalWidgetState={externalWidgetState}

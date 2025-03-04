@@ -90,4 +90,5 @@ export type WidgetProps = {
   customNavigationLabel?: string;
   enabled?: boolean;
   referralCode?: number;
+  shouldReset?: boolean;
 };

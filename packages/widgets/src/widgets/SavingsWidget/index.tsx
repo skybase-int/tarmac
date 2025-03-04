@@ -44,12 +44,15 @@ export const SavingsWidget = ({
   onWidgetStateChange,
   onExternalLinkClicked,
   enabled = true,
-  referralCode
+  referralCode,
+  shouldReset = false
 }: SavingsWidgetProps) => {
+  const key = shouldReset ? 'reset' : undefined;
   return (
     <ErrorBoundary componentName="SavingsWidget">
-      <WidgetProvider locale={locale}>
+      <WidgetProvider key={key} locale={locale}>
         <SavingsWidgetWrapped
+          key={key}
           onConnect={onConnect}
           addRecentTransaction={addRecentTransaction}
           rightHeaderComponent={rightHeaderComponent}
