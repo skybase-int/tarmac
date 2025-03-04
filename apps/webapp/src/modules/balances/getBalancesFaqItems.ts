@@ -1,8 +1,9 @@
-import { isBaseChainId } from '@jetstreamgg/utils';
+import { isBaseChainId, isArbitrumChainId } from '@jetstreamgg/utils';
 
 export const getBalancesFaqItems = (chainId: number) => [
   ...mainnetFaqItems,
-  ...(isBaseChainId(chainId) ? baseFaqItems : [])
+  ...(isBaseChainId(chainId) ? baseFaqItems : []),
+  ...(isArbitrumChainId(chainId) ? arbitrumFaqItems : [])
 ];
 
 const mainnetFaqItems = [
@@ -69,6 +70,16 @@ const baseFaqItems = [
     answer: `[Base](https://www.base.org/) is a Coinbase-developed Layer 2 (L2) network that provides easy access to some L1 networks, including Ethereum and Solana, and other L2s. 
 
 SkyLink, Sky’s bridge system, enhances your ability to manage your digital assets efficiently by seamlessly connecting your Ethereum L1-based Sky Protocol tokens and features to the Base network. If you have shied away from the Ethereum blockchain due to the high price of gas, SkyLink introduces reduced fees and faster transaction speeds. 
+`
+  }
+];
+
+const arbitrumFaqItems = [
+  {
+    question: 'What is Arbitrum?',
+    answer: `[Arbitrum](https://arbitrum.io/) is a Layer 2 (L2) scaling solution designed to improve the scalability and efficiency of Ethereum. Specifically, it is an Optimistic roll-up built on top of the Ethereum blockchain, relying on Ethereum for security and consensus. Although it functions like an independent network for users interacting with it, Arbitrum is not a standalone Layer 1 (L1) blockchain. 
+
+SkyLink, the Sky system that provides the rails for Sky Ecosystem projects to bridge assets between the Sky Protocol on Ethereum Mainnet and supported L2 networks, enhances your ability to manage your digital assets efficiently by seamlessly connecting your Ethereum L1-based Sky Protocol tokens and features to Arbitrum. If you have shied away from the Ethereum blockchain due to the high price of gas, SkyLink introduces reduced fees and faster transaction speeds.
 `
   }
 ];
