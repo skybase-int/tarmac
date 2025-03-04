@@ -65,6 +65,10 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
 
   const rightHeaderComponent = <DualSwitcher />;
 
+  const { Locale, Details } = QueryParams;
+  const retainedParams = [Locale, Details];
+  const [searchParams] = useSearchParams();
+
   const sharedProps = {
     onConnect,
     addRecentTransaction,
@@ -73,12 +77,9 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
     onNotification,
     enabled: isConnectedAndAcceptedTerms,
     onExternalLinkClicked,
-    referralCode
+    referralCode,
+    shouldReset: searchParams.get(QueryParams.Reset) === 'true'
   };
-
-  const { Locale, Details } = QueryParams;
-  const retainedParams = [Locale, Details];
-  const [searchParams] = useSearchParams();
 
   const getQueryParams = (url: string) => getRetainedQueryParams(url, retainedParams, searchParams);
 

@@ -19,7 +19,8 @@ export enum QueryParams {
   Network = 'network',
   Chat = 'chat',
   Flow = 'flow',
-  SealTab = 'seal_tab'
+  SealTab = 'seal_tab',
+  Reset = 'reset'
 }
 
 const isRestrictedBuild = import.meta.env.VITE_RESTRICTED_BUILD === 'true';
