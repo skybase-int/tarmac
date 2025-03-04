@@ -523,14 +523,13 @@ const SavingsWidgetWrapped = ({
 
   const isAmountWaitingForDebounce = debouncedAmount !== amount;
 
-  const isSuccessfulWithdrawAll =
-    isMaxWithdraw &&
+  const isSuccessfulWithdraw =
     widgetState.screen === SavingsScreen.TRANSACTION &&
     widgetState.action === SavingsAction.WITHDRAW &&
     txStatus === TxStatus.SUCCESS;
   const withdrawDisabled =
     // Enable button if we're in transaction screen and status is success
-    isSuccessfulWithdrawAll
+    isSuccessfulWithdraw
       ? false
       : [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
         isWithdrawBalanceError ||
