@@ -73,7 +73,7 @@ const intentsTest = (current: string) => {
 
 export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
   console.log('🚀 ~ ChatIntentsRow ~ intents:', intents);
-  const { shouldShowConfirmationWarning } = useChatContext();
+  const { shouldShowConfirmationWarning, shouldDisableActionButtons } = useChatContext();
 
   // TODO: remove this vvvvvv
   const [searchParams] = useSearchParams();
@@ -87,7 +87,7 @@ export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
       <Text className="text-xs italic text-gray-500">Try a suggested action</Text>
       <div className="mt-2 flex flex-wrap gap-2">
         {intentsTest(newSearchParams.toString()).map((intent, index) => (
-          <IntentRow key={index} intent={intent} />
+          <IntentRow key={index} intent={intent} shouldDisableActionButtons={shouldDisableActionButtons} />
         ))}
       </div>
       {shouldShowConfirmationWarning && <ConfirmationWarningRow />}
@@ -97,9 +97,10 @@ export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
 
 type IntentRowProps = {
   intent: ChatIntent;
+  shouldDisableActionButtons: boolean;
 };
 
-const IntentRow = ({ intent }: IntentRowProps) => {
+const IntentRow = ({ intent, shouldDisableActionButtons }: IntentRowProps) => {
   const chainId = useChainId();
   const { setConfirmationWarningOpened, setSelectedIntent, setChatHistory, hasShownIntent } =
     useChatContext();
@@ -117,6 +118,7 @@ const IntentRow = ({ intent }: IntentRowProps) => {
   return (
     <Button
       variant="suggest"
+      disabled={shouldDisableActionButtons}
       onClick={() => {
         setConfirmationWarningOpened(false);
 
@@ -134,7 +136,13 @@ const IntentRow = ({ intent }: IntentRowProps) => {
       }}
     >
       {intent.intent_description}
-      {network && <img src={`/networks/${network}.svg`} alt={`${network} logo`} className="ml-2 h-5 w-5" />}
+      {network && (
+        <img
+          src={`/networks/${network}.svg`}
+          alt={`${network} logo`}
+          className={`ml-2 h-5 w-5 ${shouldDisableActionButtons ? 'opacity-30' : ''}`}
+        />
+      )}
     </Button>
   );
 };
