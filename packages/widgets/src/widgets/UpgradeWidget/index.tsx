@@ -526,6 +526,43 @@ export function UpgradeWidgetWrapped({
     setIsLoading(isConnecting || txStatus === TxStatus.LOADING || txStatus === TxStatus.INITIALIZED);
   }, [txStatus, isConnecting]);
 
+  // Reset widget state after switching network
+  useEffect(() => {
+    // Reset all state variables
+    setOriginAmount(parseUnits(validatedExternalState?.amount || '0', 18));
+    setTxStatus(TxStatus.IDLE);
+    setExternalLink(undefined);
+
+    // Reset tokens to initial values
+    setOriginToken(
+      tokenForSymbol((validatedExternalState?.initialUpgradeToken as keyof typeof upgradeTokens) || 'DAI')
+    );
+    setTargetToken(
+      targetTokenForSymbol(
+        (validatedExternalState?.initialUpgradeToken as keyof typeof upgradeTokens) || 'DAI'
+      )
+    );
+
+    // Reset widget state to initial screen based on current tab
+    if (tabIndex === 0) {
+      setWidgetState({
+        flow: UpgradeFlow.UPGRADE,
+        action: UpgradeAction.APPROVE,
+        screen: UpgradeScreen.ACTION
+      });
+    } else {
+      setWidgetState({
+        flow: UpgradeFlow.REVERT,
+        action: UpgradeAction.REVERT,
+        screen: UpgradeScreen.ACTION
+      });
+    }
+
+    // Refresh data
+    mutateAllowance();
+    mutateOriginBalance();
+  }, [chainId]);
+
   return (
     <WidgetContainer
       header={
