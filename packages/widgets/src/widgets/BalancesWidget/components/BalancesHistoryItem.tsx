@@ -9,7 +9,7 @@ import { getHistoryIconSource } from '../lib/getHistoryIconSource';
 import { getTitle } from '../lib/getTitle';
 import { ExternalLink } from '@widgets/shared/components/ExternalLink';
 import { getHistoryRightText } from '../lib/getHistoryRightText';
-import { isBaseChainId } from '@jetstreamgg/utils';
+import { isL2ChainId } from '@jetstreamgg/utils';
 import { Avatar, AvatarImage } from '@widgets/components/ui/avatar';
 
 interface BalancesHistoryItemProps {
@@ -37,7 +37,7 @@ export const BalancesHistoryItem: React.FC<BalancesHistoryItemProps> = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const href =
-    type === TransactionTypeEnum.TRADE && !isBaseChainId(chainId || 1)
+    type === TransactionTypeEnum.TRADE && !isL2ChainId(chainId || 1)
       ? getCowExplorerLink(chainId || 1, transactionHash)
       : getEtherscanLink(chainId || 1, transactionHash, 'tx');
   const explorerName = getExplorerName(chainId || 1);
@@ -70,7 +70,7 @@ export const BalancesHistoryItem: React.FC<BalancesHistoryItemProps> = ({
                 <div className="text-textEmphasis flex items-center">
                   <Text variant="small" className="mr-[7px]">
                     View on
-                    {module === ModuleEnum.TRADE && !isBaseChainId(chainId || 1)
+                    {module === ModuleEnum.TRADE && !isL2ChainId(chainId || 1)
                       ? ' Cow Explorer'
                       : ` ${explorerName}`}
                   </Text>
