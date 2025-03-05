@@ -509,6 +509,34 @@ const SavingsWidgetWrapped = ({
     }
   }, [debouncedBalanceError]);
 
+  // Reset widget state after switching network
+  useEffect(() => {
+    // Reset all state variables
+    setAmount(initialAmount);
+    setMax(false);
+    setTxStatus(TxStatus.IDLE);
+    setExternalLink(undefined);
+
+    // Reset widget state to initial screen based on current tab
+    if (tabIndex === 0) {
+      setWidgetState({
+        flow: SavingsFlow.SUPPLY,
+        action: SavingsAction.SUPPLY,
+        screen: SavingsScreen.ACTION
+      });
+    } else {
+      setWidgetState({
+        flow: SavingsFlow.WITHDRAW,
+        action: SavingsAction.WITHDRAW,
+        screen: SavingsScreen.ACTION
+      });
+    }
+
+    // Refresh data
+    mutateSavings();
+    mutateAllowance();
+  }, [chainId]);
+
   return (
     <WidgetContainer
       header={

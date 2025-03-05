@@ -634,6 +634,31 @@ const RewardsWidgetWrapped = ({
     setAmount(0n);
   };
 
+  // Reset widget state after switching network
+  useEffect(() => {
+    // Reset all state variables
+    setAmount(parseUnits(validatedExternalState?.amount || '0', 18));
+    setClaimAmount(0n);
+    setTxStatus(TxStatus.IDLE);
+    setExternalLink(undefined);
+
+    // Reset selected reward contract to initial value
+    setSelectedRewardContract(validatedExternalState?.selectedRewardContract);
+
+    // Reset widget state to overview screen
+    setWidgetState({
+      flow: null,
+      action: RewardsAction.OVERVIEW,
+      screen: RewardsScreen.ACTION
+    });
+
+    // Refresh data
+    mutateAllowance?.();
+    mutateTokenBalance?.();
+    mutateRewardsBalance?.();
+    mutateUserSuppliedBalance?.();
+  }, [chainId]);
+
   return (
     <WidgetContainer
       header={
