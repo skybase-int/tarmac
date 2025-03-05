@@ -783,6 +783,64 @@ function SealModuleWidgetWrapped({
     }
   }, [externalWidgetState?.flow]);
 
+  // Handle network changes
+  useEffect(() => {
+    // Reset widget state when network changes
+    setTxStatus(TxStatus.IDLE);
+    setExternalLink(undefined);
+
+    // Reset all state variables
+    setMkrToLock(0n);
+    setSkyToLock(0n);
+    setMkrToFree(0n);
+    setSkyToFree(0n);
+    setUsdsToWipe(0n);
+    setUsdsToBorrow(0n);
+    setAcceptedExitFee(false);
+
+    // Reset claim-related state
+    setIndexToClaim(undefined);
+    setRewardContractToClaim(undefined);
+
+    // Reset to initial widget state
+    if (isConnectedAndEnabled) {
+      if (currentUrnIndex === 0n) {
+        // Initialize the open position flow
+        setWidgetState({
+          flow: SealFlow.OPEN,
+          action: SealAction.MULTICALL,
+          screen: SealScreen.ACTION
+        });
+      } else if (currentUrnIndex && currentUrnIndex > 0n) {
+        setWidgetState({
+          flow: SealFlow.MANAGE,
+          action: SealAction.OVERVIEW,
+          screen: SealScreen.ACTION
+        });
+      }
+    } else {
+      setWidgetState({
+        flow: null,
+        action: null,
+        screen: null
+      });
+    }
+
+    // Reset to first tab
+    setTabIndex(0);
+
+    // Reset current step
+    setCurrentStep(SealStep.ABOUT);
+
+    // Reset active URN
+    setActiveUrn(undefined, onSealUrnChange ?? (() => {}));
+
+    // Refresh allowances
+    mutateSealMkrAllowance();
+    mutateSealNgtAllowance();
+    mutateSealUsdsAllowance();
+  }, [chainId]);
+
   /**
    * BUTTON CLICKS ----------------------------------------------------------------------------------
    */

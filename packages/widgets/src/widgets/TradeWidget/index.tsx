@@ -830,6 +830,15 @@ function TradeWidgetWrapped({
       action: TradeAction.TRADE,
       screen: TradeScreen.ACTION
     });
+
+    // Reset additional state
+    setTradeAnyway(false);
+    setShowAddToken(false);
+    setCancelLoading(false);
+    setOrderId(undefined);
+    setExternalLink(undefined);
+    setFormattedExecutedSellAmount(undefined);
+    setFormattedExecutedBuyAmount(undefined);
   }, [chainId]);
 
   useEffect(() => {
