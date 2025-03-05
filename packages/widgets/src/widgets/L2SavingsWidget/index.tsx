@@ -743,6 +743,31 @@ const SavingsWidgetWrapped = ({
 
   const usds = TOKENS.usds;
 
+  // Reset widget state after switching network
+  useEffect(() => {
+    // Reset all state variables
+    setAmount(initialAmount);
+    setMaxWithdraw(false);
+    setTxStatus(TxStatus.IDLE);
+    setExternalLink(undefined);
+    setOriginToken(tokenForSymbol(validatedExternalState?.token || 'USDS'));
+
+    // Reset widget state to initial screen
+    if (tabIndex === 0) {
+      setWidgetState({
+        flow: SavingsFlow.SUPPLY,
+        action: SavingsAction.SUPPLY,
+        screen: SavingsScreen.ACTION
+      });
+    } else {
+      setWidgetState({
+        flow: SavingsFlow.WITHDRAW,
+        action: SavingsAction.WITHDRAW,
+        screen: SavingsScreen.ACTION
+      });
+    }
+  }, [chainId]);
+
   return (
     <WidgetContainer
       header={
