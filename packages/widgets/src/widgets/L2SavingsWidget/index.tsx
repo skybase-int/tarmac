@@ -500,8 +500,8 @@ const SavingsWidgetWrapped = ({
   }, [widgetState.flow, widgetState.screen, needsAllowance, allowanceLoading]);
 
   useEffect(() => {
-    setShowStepIndicator(widgetState.flow === SavingsFlow.SUPPLY);
-  }, [widgetState.flow]);
+    setShowStepIndicator(true);
+  }, []);
 
   const isSupplyBalanceError =
     txStatus === TxStatus.IDLE &&
@@ -523,14 +523,13 @@ const SavingsWidgetWrapped = ({
 
   const isAmountWaitingForDebounce = debouncedAmount !== amount;
 
-  const isSuccessfulWithdrawAll =
-    isMaxWithdraw &&
+  const isSuccessfulWithdraw =
     widgetState.screen === SavingsScreen.TRANSACTION &&
     widgetState.action === SavingsAction.WITHDRAW &&
     txStatus === TxStatus.SUCCESS;
   const withdrawDisabled =
     // Enable button if we're in transaction screen and status is success
-    isSuccessfulWithdrawAll
+    isSuccessfulWithdraw
       ? false
       : [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
         isWithdrawBalanceError ||
@@ -743,6 +742,31 @@ const SavingsWidgetWrapped = ({
   }, [debouncedBalanceError]);
 
   const usds = TOKENS.usds;
+
+  // Reset widget state after switching network
+  useEffect(() => {
+    // Reset all state variables
+    setAmount(initialAmount);
+    setMaxWithdraw(false);
+    setTxStatus(TxStatus.IDLE);
+    setExternalLink(undefined);
+    setOriginToken(tokenForSymbol(validatedExternalState?.token || 'USDS'));
+
+    // Reset widget state to initial screen
+    if (tabIndex === 0) {
+      setWidgetState({
+        flow: SavingsFlow.SUPPLY,
+        action: SavingsAction.SUPPLY,
+        screen: SavingsScreen.ACTION
+      });
+    } else {
+      setWidgetState({
+        flow: SavingsFlow.WITHDRAW,
+        action: SavingsAction.WITHDRAW,
+        screen: SavingsScreen.ACTION
+      });
+    }
+  }, [chainId]);
 
   return (
     <WidgetContainer
