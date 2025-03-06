@@ -59,7 +59,11 @@ export function ClaimRewardsButton({
   if (!rewardsBalance || !rewardContractTokens) return null;
 
   return (
-    <Button onClick={handleClick} disabled={!!rewardContractToClaim && indexToClaim !== undefined}>
+    <Button
+      variant="primaryAlt"
+      onClick={handleClick}
+      disabled={!!rewardContractToClaim && indexToClaim !== undefined}
+    >
       <Text>
         {indexToClaim === index && rewardContractToClaim === rewardContract
           ? 'Preparing your claim transaction...'
