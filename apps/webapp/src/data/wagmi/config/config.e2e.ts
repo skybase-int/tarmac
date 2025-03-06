@@ -1,5 +1,5 @@
 import { http } from 'viem';
-import { createConfig } from 'wagmi';
+import { createConfig, createStorage, noopStorage } from 'wagmi';
 import { getTestTenderlyChains } from './testTenderlyChain';
 import { mock } from 'wagmi/connectors';
 
@@ -22,5 +22,9 @@ export const mockWagmiConfig = createConfig({
     [tenderlyMainnet.id]: http(),
     [tenderlyBase.id]: http(),
     [tenderlyArbitrum.id]: http()
-  }
+  },
+  storage: createStorage({
+    storage: typeof window !== 'undefined' && window.localStorage ? window.localStorage : noopStorage,
+    key: 'wagmi-mock'
+  })
 });
