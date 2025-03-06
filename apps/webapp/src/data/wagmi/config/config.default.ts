@@ -1,5 +1,5 @@
 import { connectorsForWallets } from '@rainbow-me/rainbowkit';
-import { createConfig, http } from 'wagmi';
+import { createConfig, createStorage, http, noopStorage } from 'wagmi';
 import { mainnet, base, sepolia, arbitrum } from 'wagmi/chains';
 import {
   safeWallet,
@@ -111,7 +111,11 @@ export const wagmiConfigDev = createConfig({
     [sepolia.id]: http(import.meta.env.VITE_RPC_PROVIDER_SEPOLIA || ''),
     [tenderlyArbitrum.id]: http(import.meta.env.VITE_RPC_PROVIDER_TENDERLY_ARBITRUM || '')
   },
-  multiInjectedProviderDiscovery: false
+  multiInjectedProviderDiscovery: false,
+  storage: createStorage({
+    storage: typeof window !== 'undefined' && window.localStorage ? window.localStorage : noopStorage,
+    key: 'wagmi-dev'
+  })
 });
 
 export const wagmiConfigMainnet = createConfig({
