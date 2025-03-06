@@ -697,6 +697,26 @@ function TradeWidgetWrapped({
     setShowStepIndicator(!originToken?.isNative);
   }, [originToken?.isNative]);
 
+  // Reset widget state after switching network
+  useEffect(() => {
+    // Reset all state variables
+    setOriginAmount(initialOriginAmount);
+    setTargetAmount(initialTargetAmount);
+    setLastUpdated(TradeSide.IN);
+    setOriginToken(initialOriginToken);
+    setTargetToken(initialTargetToken);
+    setTxStatus(TxStatus.IDLE);
+    setShowAddToken(false);
+    setExternalLink(undefined);
+
+    // Reset widget state to initial screen
+    setWidgetState({
+      flow: TradeFlow.TRADE,
+      action: TradeAction.TRADE,
+      screen: TradeScreen.ACTION
+    });
+  }, [chainId]);
+
   const approveOnClick = () => {
     setWidgetState((prev: WidgetState) => ({
       ...prev,
@@ -792,9 +812,9 @@ function TradeWidgetWrapped({
   // Handle the error onClicks separately to keep it clean
   const errorOnClick = () => {
     return widgetState.action === TradeAction.TRADE
-      ? tradeOnClick
+      ? tradeOnClick()
       : widgetState.action === TradeAction.APPROVE
-        ? approveOnClick
+        ? approveOnClick()
         : undefined;
   };
 
