@@ -492,11 +492,11 @@ export function UpgradeWidgetWrapped({
   // Handle the error onClicks separately to keep it clear
   const errorOnClick = () => {
     return widgetState.action === UpgradeAction.UPGRADE
-      ? upgradeOnClick
+      ? upgradeOnClick()
       : widgetState.action === UpgradeAction.REVERT
-        ? revertOnClick
+        ? revertOnClick()
         : widgetState.action === UpgradeAction.APPROVE
-          ? approveOnClick
+          ? approveOnClick()
           : undefined;
   };
 
@@ -507,7 +507,7 @@ export function UpgradeWidgetWrapped({
       : txStatus === TxStatus.SUCCESS
         ? nextOnClick
         : txStatus === TxStatus.ERROR
-          ? errorOnClick()
+          ? errorOnClick
           : (widgetState.flow === UpgradeFlow.UPGRADE && widgetState.action === UpgradeAction.APPROVE) ||
               (widgetState.flow === UpgradeFlow.REVERT && widgetState.action === UpgradeAction.APPROVE)
             ? approveOnClick

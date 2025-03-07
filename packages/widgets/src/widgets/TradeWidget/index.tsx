@@ -1119,9 +1119,9 @@ function TradeWidgetWrapped({
   // Handle the error onClicks separately to keep it clean
   const errorOnClick = () => {
     return widgetState.action === TradeAction.TRADE
-      ? tradeOnClick
+      ? tradeOnClick()
       : widgetState.action === TradeAction.APPROVE
-        ? approveOnClick
+        ? approveOnClick()
         : undefined;
   };
 
@@ -1137,7 +1137,7 @@ function TradeWidgetWrapped({
         : txStatus === TxStatus.SUCCESS
           ? nextOnClick
           : txStatus === TxStatus.ERROR
-            ? errorOnClick()
+            ? errorOnClick
             : txStatus === TxStatus.CANCELLED
               ? nextOnClick
               : widgetState.screen === TradeScreen.ACTION

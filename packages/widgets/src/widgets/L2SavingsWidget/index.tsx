@@ -625,11 +625,11 @@ const SavingsWidgetWrapped = ({
   // Handle the error onClicks separately to keep it clean
   const errorOnClick = () => {
     return widgetState.action === SavingsAction.SUPPLY
-      ? supplyOnClick
+      ? supplyOnClick()
       : widgetState.action === SavingsAction.WITHDRAW
-        ? withdrawOnClick
+        ? withdrawOnClick()
         : widgetState.action === SavingsAction.APPROVE
-          ? approveOnClick
+          ? approveOnClick()
           : undefined;
   };
 
@@ -642,7 +642,7 @@ const SavingsWidgetWrapped = ({
       : txStatus === TxStatus.SUCCESS
         ? nextOnClick
         : txStatus === TxStatus.ERROR
-          ? errorOnClick()
+          ? errorOnClick
           : (widgetState.flow === SavingsFlow.SUPPLY && widgetState.action === SavingsAction.APPROVE) ||
               (widgetState.flow === SavingsFlow.WITHDRAW && widgetState.action === SavingsAction.APPROVE)
             ? approveOnClick

@@ -529,13 +529,13 @@ const RewardsWidgetWrapped = ({
   // Handle the error onClicks separately to keep it clean
   const errorOnClick = () => {
     return widgetState.action === RewardsAction.SUPPLY
-      ? supplyOnClick
+      ? supplyOnClick()
       : widgetState.action === RewardsAction.WITHDRAW
-        ? withdrawOnClick
+        ? withdrawOnClick()
         : widgetState.action === RewardsAction.APPROVE
-          ? approveOnClick
+          ? approveOnClick()
           : widgetState.action === RewardsAction.CLAIM
-            ? onClaimClick
+            ? onClaimClick()
             : undefined;
   };
 
@@ -561,7 +561,7 @@ const RewardsWidgetWrapped = ({
       : txStatus === TxStatus.SUCCESS
         ? nextOnClick
         : txStatus === TxStatus.ERROR
-          ? errorOnClick()
+          ? errorOnClick
           : widgetState.flow === RewardsFlow.SUPPLY && widgetState.action === RewardsAction.APPROVE
             ? approveOnClick
             : widgetState.flow === RewardsFlow.SUPPLY && widgetState.action === RewardsAction.SUPPLY
