@@ -18,8 +18,8 @@ export const AgeWarningRow = () => {
         <Text variant="medium">You must be at least 18 years old to use this service.</Text>
       </div>
       <Text variant="terms" className="mt-2">
-        By clicking &quot;Continue&quot;, you confirm that you are at least 18 years old and agree to comply
-        with all applicable laws and regulations regarding age restrictions.
+        By clicking, you confirm that you are at least 18 years old and agree to comply with all applicable
+        laws and regulations regarding age restrictions.
       </Text>
       <div className="mt-3 flex gap-5">
         <Button variant="pill" size="xs" onClick={handleConfirm}>
