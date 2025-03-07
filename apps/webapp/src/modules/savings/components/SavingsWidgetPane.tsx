@@ -16,6 +16,7 @@ import { useSearchParams } from 'react-router-dom';
 import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
 import { useSubgraphUrl } from '@/modules/app/hooks/useSubgraphUrl';
 import { useChainId } from 'wagmi';
+import { useChatContext } from '@/modules/chat/context/ChatContext';
 
 export function SavingsWidgetPane(sharedProps: SharedProps) {
   const subgraphUrl = useSubgraphUrl();
@@ -23,6 +24,7 @@ export function SavingsWidgetPane(sharedProps: SharedProps) {
   const { mutate: refreshSavingsHistory } = useSavingsHistory(subgraphUrl);
   const [searchParams, setSearchParams] = useSearchParams();
   const chainId = useChainId();
+  const { setShouldDisableActionButtons } = useChatContext();
 
   const isL2 = isL2ChainId(chainId);
   const isRestrictedMiCa = import.meta.env.VITE_RESTRICTED_BUILD_MICA === 'true';
@@ -39,6 +41,8 @@ export function SavingsWidgetPane(sharedProps: SharedProps) {
     originToken,
     originAmount
   }: WidgetStateChangeParams) => {
+    setShouldDisableActionButtons(txStatus === TxStatus.INITIALIZED);
+
     // Update amount in URL if provided and not zero
     if (originAmount && originAmount !== '0') {
       setSearchParams(prev => {

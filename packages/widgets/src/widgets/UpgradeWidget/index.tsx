@@ -98,19 +98,22 @@ export const UpgradeWidget = ({
   onExternalLinkClicked,
   upgradeOptions = defaultUpgradeOptions,
   revertOptions = defaultRevertOptions,
-  enabled = true
+  enabled = true,
+  shouldReset = false
 }: UpgradeWidgetProps) => {
+  const key = shouldReset ? 'reset' : undefined;
   return (
     <ErrorBoundary componentName="UpgradeWidget">
-      <WidgetProvider locale={locale}>
+      <WidgetProvider key={key} locale={locale}>
         <UpgradeWidgetWrapped
+          key={key}
           onConnect={onConnect}
           addRecentTransaction={addRecentTransaction}
           rightHeaderComponent={rightHeaderComponent}
           externalWidgetState={externalWidgetState}
           onStateValidated={onStateValidated}
           onNotification={onNotification}
-          onWidgetStateChange={onWidgetStateChange}
+          onWidgetStateChange={shouldReset ? undefined : onWidgetStateChange}
           customNavigationLabel={customNavigationLabel}
           onCustomNavigation={onCustomNavigation}
           onExternalLinkClicked={onExternalLinkClicked}

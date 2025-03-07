@@ -152,6 +152,11 @@ export const validateSearchParams = (
       // TODO here we could also check if it's a valid linked action based on the combination of widget and LA value
       searchParams.delete(key);
     }
+
+    // removes reset param
+    if (key === QueryParams.Reset) {
+      searchParams.delete(key);
+    }
   });
 
   return searchParams;

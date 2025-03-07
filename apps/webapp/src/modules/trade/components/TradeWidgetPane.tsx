@@ -18,6 +18,7 @@ import { updateParamsFromTransaction } from '@/modules/utils/updateParamsFromTra
 import { useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { isBaseChainId, isArbitrumChainId, isL2ChainId } from '@jetstreamgg/utils';
+import { useChatContext } from '@/modules/chat/context/ChatContext';
 
 export function TradeWidgetPane(sharedProps: SharedProps) {
   const chainId = useChainId();
@@ -33,6 +34,7 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
   const isBase = isBaseChainId(chainId);
   const isArbitrum = isArbitrumChainId(chainId);
   const isL2 = isL2ChainId(chainId);
+  const { setShouldDisableActionButtons } = useChatContext();
 
   const onTradeWidgetStateChange = ({
     hash,
@@ -43,6 +45,8 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
     executedBuyAmount,
     originAmount
   }: WidgetStateChangeParams) => {
+    setShouldDisableActionButtons(txStatus === TxStatus.INITIALIZED);
+
     // Update search params
     if (originAmount && originAmount !== '0') {
       setSearchParams(prev => {

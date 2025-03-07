@@ -13,11 +13,13 @@ interface ChatContextType {
   warningShown: ChatIntent[];
   sessionId: string;
   shouldShowConfirmationWarning: boolean;
+  shouldDisableActionButtons: boolean;
   setChatHistory: React.Dispatch<React.SetStateAction<ChatHistory[]>>;
   setConfirmationWarningOpened: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedIntent: React.Dispatch<React.SetStateAction<ChatIntent | undefined>>;
   setWarningShown: React.Dispatch<React.SetStateAction<ChatIntent[]>>;
   hasShownIntent: (intent?: ChatIntent) => boolean;
+  setShouldDisableActionButtons: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ChatContext = createContext<ChatContextType>({
@@ -32,7 +34,9 @@ const ChatContext = createContext<ChatContextType>({
   setWarningShown: () => {},
   sessionId: '',
   hasShownIntent: () => false,
-  shouldShowConfirmationWarning: false
+  shouldShowConfirmationWarning: false,
+  shouldDisableActionButtons: false,
+  setShouldDisableActionButtons: () => {}
 });
 
 export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -50,6 +54,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [selectedIntent, setSelectedIntent] = useState<ChatIntent | undefined>(undefined);
   const [confirmationWarningOpened, setConfirmationWarningOpened] = useState<boolean>(false);
   const [warningShown, setWarningShown] = useState<ChatIntent[]>([]);
+  const [shouldDisableActionButtons, setShouldDisableActionButtons] = useState<boolean>(false);
   const isLoading = chatHistory[chatHistory.length - 1]?.type === MessageType.loading;
   const hasShownIntent = useCallback(
     (intent?: ChatIntent) => {
@@ -78,7 +83,9 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setWarningShown,
         sessionId,
         hasShownIntent,
-        shouldShowConfirmationWarning
+        shouldShowConfirmationWarning,
+        shouldDisableActionButtons,
+        setShouldDisableActionButtons
       }}
     >
       {children}

@@ -55,12 +55,15 @@ export const RewardsWidget = ({
   onWidgetStateChange,
   onExternalLinkClicked,
   enabled = true,
-  referralCode
+  referralCode,
+  shouldReset = false
 }: RewardsWidgetProps) => {
+  const key = shouldReset ? 'reset' : undefined;
   return (
     <ErrorBoundary componentName="RewardsWidget">
-      <WidgetProvider locale={locale}>
+      <WidgetProvider key={key} locale={locale}>
         <RewardsWidgetWrapped
+          key={key}
           addRecentTransaction={addRecentTransaction}
           onConnect={onConnect}
           locale={locale}
@@ -69,7 +72,7 @@ export const RewardsWidget = ({
           externalWidgetState={externalWidgetState}
           onStateValidated={onStateValidated}
           onNotification={onNotification}
-          onWidgetStateChange={onWidgetStateChange}
+          onWidgetStateChange={shouldReset ? undefined : onWidgetStateChange}
           onExternalLinkClicked={onExternalLinkClicked}
           enabled={enabled}
           referralCode={referralCode}

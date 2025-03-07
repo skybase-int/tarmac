@@ -20,6 +20,7 @@ import { updateParamsFromTransaction } from '@/modules/utils/updateParamsFromTra
 import { capitalizeFirstLetter } from '@/lib/helpers/string/capitalizeFirstLetter';
 import { useSubgraphUrl } from '@/modules/app/hooks/useSubgraphUrl';
 import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
+import { useChatContext } from '@/modules/chat/context/ChatContext';
 
 const targetTokenFromSourceToken = (sourceToken?: string) => {
   if (sourceToken === 'DAI') return 'USDS';
@@ -34,6 +35,7 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
 
   const wagmiConfig = useWagmiConfig();
   const [searchParams, setSearchParams] = useSearchParams();
+  const { setShouldDisableActionButtons } = useChatContext();
 
   const flow = (searchParams.get(QueryParams.Flow) || undefined) as UpgradeFlow | undefined;
 
@@ -47,6 +49,8 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
     originToken,
     originAmount
   }: WidgetStateChangeParams) => {
+    setShouldDisableActionButtons(txStatus === TxStatus.INITIALIZED);
+
     // Set flow search param based on widgetState.flow
     if (widgetState.flow) {
       setSearchParams(prev => {

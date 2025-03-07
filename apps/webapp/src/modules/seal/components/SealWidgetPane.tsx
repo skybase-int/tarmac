@@ -13,6 +13,7 @@ import { useSearchParams } from 'react-router-dom';
 import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
 import { Intent } from '@/lib/enums';
 import { useEffect } from 'react';
+import { useChatContext } from '@/modules/chat/context/ChatContext';
 
 export function SealWidgetPane(sharedProps: SharedProps) {
   let termsLink: any[] = [];
@@ -35,6 +36,7 @@ export function SealWidgetPane(sharedProps: SharedProps) {
   const refreshSealHistory = () => {};
   // const { mutate: refreshSealHistory } = useSealHistory();
   const [searchParams, setSearchParams] = useSearchParams();
+  const { setShouldDisableActionButtons } = useChatContext();
 
   const onSealUrnChange = (urn?: { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined }) => {
     setSearchParams(params => {
@@ -70,6 +72,8 @@ export function SealWidgetPane(sharedProps: SharedProps) {
     sealTab,
     originAmount
   }: WidgetStateChangeParams) => {
+    setShouldDisableActionButtons(txStatus === TxStatus.INITIALIZED);
+
     // Set flow search param based on widgetState.flow
     if (widgetState.flow) {
       setSearchParams(prev => {

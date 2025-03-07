@@ -77,12 +77,15 @@ export const TradeWidget = ({
   onCustomNavigation,
   customNavigationLabel,
   onExternalLinkClicked,
-  enabled = true
+  enabled = true,
+  shouldReset = false
 }: TradeWidgetProps) => {
+  const key = shouldReset ? 'reset' : undefined;
   return (
     <ErrorBoundary componentName="TradeWidget">
-      <WidgetProvider locale={locale}>
+      <WidgetProvider key={key} locale={locale}>
         <TradeWidgetWrapped
+          key={key}
           onConnect={onConnect}
           addRecentTransaction={addRecentTransaction}
           rightHeaderComponent={rightHeaderComponent}
@@ -92,7 +95,7 @@ export const TradeWidget = ({
           externalWidgetState={externalWidgetState}
           onStateValidated={onStateValidated}
           onNotification={onNotification}
-          onWidgetStateChange={onWidgetStateChange}
+          onWidgetStateChange={shouldReset ? undefined : onWidgetStateChange}
           customNavigationLabel={customNavigationLabel}
           onCustomNavigation={onCustomNavigation}
           onExternalLinkClicked={onExternalLinkClicked}
