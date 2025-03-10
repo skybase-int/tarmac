@@ -378,6 +378,10 @@ msgstr ""
 msgid "Ask another question"
 msgstr ""
 
+#: apps/webapp/src/modules/chat/components/ChatInput.tsx
+msgid "Ask me anything"
+msgstr ""
+
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 msgid "Back to Rewards"
 msgstr ""
@@ -1275,6 +1279,10 @@ msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "Please confirm that you want to claim your rewards directly to your wallet."
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/ChatInput.tsx
+msgid "Please confirm you're at least 18"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/historyTable/HistoryTable.tsx
