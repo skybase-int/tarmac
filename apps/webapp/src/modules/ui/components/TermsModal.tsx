@@ -18,16 +18,12 @@ import { sanitizeUrl } from '@/lib/utils';
 
 export function TermsModal() {
   const { closeModal, isModalOpen, openModal } = useTermsModal();
-  console.log('🚀 ~ isModalOpen:', isModalOpen);
   const { isCheckingTerms, setHasAcceptedTerms } = useConnectedContext();
   const [isChecked, setIsChecked] = useState(false);
   const [signStatus, setSignStatus] = useState<'idle' | 'loading' | 'signing' | 'error'>('idle');
   const { address, chainId } = useAccount();
   const { disconnect } = useDisconnect();
   const [endOfTermsRef, hasScrolledToEnd] = useInView({ triggerOnce: true });
-
-  // TODO: delete
-  const shouldShowError = true;
 
   const onSuccess = async (signature: string) => {
     const payload = {
@@ -104,8 +100,7 @@ export function TermsModal() {
   };
 
   return (
-    // <Dialog open={isModalOpen} onOpenChange={handleOpenChange}>
-    <Dialog open={true} onOpenChange={handleOpenChange}>
+    <Dialog open={isModalOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button variant="connect" onClick={openModal}>
           <Trans>Connect Wallet</Trans>
@@ -149,8 +144,7 @@ export function TermsModal() {
               {import.meta.env.VITE_TERMS_CHECKBOX_TEXT}
             </label>
           </div>
-          {/* {signStatus === 'error' && ( */}
-          {shouldShowError && (
+          {signStatus === 'error' && (
             <Text className="text-error mb-4 text-center text-sm leading-none md:leading-tight">
               <Trans>
                 An error occurred while submitting your signature. Please ensure your wallet is connected to
