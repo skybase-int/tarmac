@@ -245,7 +245,7 @@ msgid "An error occurred while reverting your tokens."
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/TermsModal.tsx
-msgid "An error occurred while submitting your signature. Please ensure your wallet is connected to either Ethereum mainnet or Base and try again. If the issue persists, reach out for assistance in the official <0>Sky Discord</0>"
+msgid "An error occurred while submitting your signature. Please ensure your wallet is connected to either Ethereum mainnet, Base or Arbitrum and try again. If the issue persists, reach out for assistance in the official <0>Sky Discord</0>"
 msgstr ""
 
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
@@ -822,6 +822,7 @@ msgid "Exit fee"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/Borrow.tsx
 msgid "Exit fee percentage"
 msgstr ""
 
