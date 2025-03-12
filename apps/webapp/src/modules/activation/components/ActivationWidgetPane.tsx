@@ -12,6 +12,7 @@ import { useSearchParams } from 'react-router-dom';
 import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
 import { Intent } from '@/lib/enums';
 import { useEffect } from 'react';
+import { Error } from '@/modules/layout/components/Error';
 
 export function ActivationWidgetPane(sharedProps: SharedProps) {
   let termsLink: any[] = [];
@@ -107,7 +108,7 @@ export function ActivationWidgetPane(sharedProps: SharedProps) {
   const hasTermsLink = Array.isArray(termsLink) && termsLink.length > 0;
   if (!hasTermsLink) {
     console.error('No terms link found');
-    return null;
+    return <Error />;
   }
 
   return (
@@ -116,7 +117,7 @@ export function ActivationWidgetPane(sharedProps: SharedProps) {
       onActivationUrnChange={onActivationUrnChange}
       onWidgetStateChange={onActivationWidgetStateChange}
       externalWidgetState={{ amount: linkedActionConfig?.inputAmount, urnIndex: selectedActivationUrnIndex }}
-      termsLink={termsLink[0]}
+      termsLink={Array.isArray(termsLink) && termsLink.length > 0 ? termsLink[0] : undefined}
     />
   );
 }
