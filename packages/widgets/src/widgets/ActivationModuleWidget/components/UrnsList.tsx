@@ -1,12 +1,9 @@
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
-import { useCurrentUrnIndex, TOKENS } from '@jetstreamgg/hooks';
+import { useCurrentUrnIndex } from '@jetstreamgg/hooks';
 import { UrnPosition } from './UrnPosition';
 import { Heading } from '@widgets/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
 import { OnActivationUrnChange } from '..';
-import { useContext } from 'react';
-import { ActivationModuleWidgetContext } from '../context/context';
-import { ViewSkyMkrButton } from './ViewSkyMkrButton';
 
 export const UrnsList = ({
   claimPrepared,
@@ -17,7 +14,6 @@ export const UrnsList = ({
   claimExecute: () => void;
   onActivationUrnChange?: OnActivationUrnChange;
 }) => {
-  const { displayToken, setDisplayToken } = useContext(ActivationModuleWidgetContext);
   const { data: currentIndex } = useCurrentUrnIndex();
   const amountOfUrns = Array.from(Array(Number(currentIndex || 0n)).keys());
   if (!currentIndex) return null;
@@ -27,12 +23,6 @@ export const UrnsList = ({
       <Heading tag="h3" variant="small" className="leading-6">
         <div className="flex items-center">
           <Trans>Your positions</Trans>
-          <div className="ml-2 flex">
-            <ViewSkyMkrButton
-              onClick={() => setDisplayToken(displayToken === TOKENS.mkr ? TOKENS.sky : TOKENS.mkr)}
-              displayToken={displayToken}
-            />
-          </div>
         </div>
       </Heading>
       <div className="h-1/2 overflow-auto">
