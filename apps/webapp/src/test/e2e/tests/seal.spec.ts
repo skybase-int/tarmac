@@ -13,9 +13,8 @@ test.beforeEach(async ({ page }) => {
     setErc20Balance(mkrAddress[TENDERLY_CHAIN_ID], '100'),
     setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '1')
   ]);
-  await page.goto('/');
+  await page.goto('/seal-engine');
   await connectMockWalletAndAcceptTerms(page);
-  await page.getByRole('tab', { name: 'Seal' }).click();
 });
 
 test('Lock MKR, select rewards, select delegate, and open position', async ({ page }) => {
