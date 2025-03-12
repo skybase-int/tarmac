@@ -1,4 +1,9 @@
-import { SealModuleWidget, TxStatus, WidgetStateChangeParams, SealFlow } from '@jetstreamgg/widgets';
+import {
+  TxStatus,
+  WidgetStateChangeParams,
+  ActivationFlow,
+  ActivationModuleWidget
+} from '@jetstreamgg/widgets';
 import { IntentMapping, QueryParams, REFRESH_DELAY } from '@/lib/constants';
 import { SharedProps } from '@/modules/app/types/Widgets';
 import { LinkedActionSteps } from '@/modules/config/context/ConfigContext';
@@ -8,7 +13,7 @@ import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
 import { Intent } from '@/lib/enums';
 import { useEffect } from 'react';
 
-export function SealWidgetPane(sharedProps: SharedProps) {
+export function ActivationWidgetPane(sharedProps: SharedProps) {
   let termsLink: any[] = [];
   try {
     termsLink = JSON.parse(import.meta.env.VITE_TERMS_LINK);
@@ -22,54 +27,57 @@ export function SealWidgetPane(sharedProps: SharedProps) {
     linkedActionConfig,
     updateLinkedActionConfig,
     exitLinkedActionMode,
-    selectedSealUrnIndex,
-    setSelectedSealUrnIndex
+    selectedActivationUrnIndex,
+    setSelectedActivationUrnIndex
   } = useConfigContext();
   // TODO: Implemet `useSealHistory` hook
-  const refreshSealHistory = () => {};
+  const refreshActivationHistory = () => {};
   // const { mutate: refreshSealHistory } = useSealHistory();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const onSealUrnChange = (urn?: { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined }) => {
+  const onActivationUrnChange = (urn?: {
+    urnAddress: `0x${string}` | undefined;
+    urnIndex: bigint | undefined;
+  }) => {
     setSearchParams(params => {
       if (urn?.urnAddress && urn?.urnIndex !== undefined) {
-        params.set(QueryParams.Widget, IntentMapping[Intent.SEAL_INTENT]);
+        params.set(QueryParams.Widget, IntentMapping[Intent.ACTIVATION_INTENT]);
         params.set(QueryParams.UrnIndex, urn.urnIndex.toString());
       } else {
         params.delete(QueryParams.UrnIndex);
       }
       return params;
     });
-    setSelectedSealUrnIndex(urn?.urnIndex !== undefined ? Number(urn.urnIndex) : undefined);
+    setSelectedActivationUrnIndex(urn?.urnIndex !== undefined ? Number(urn.urnIndex) : undefined);
   };
 
   // Reset detail pane urn index when widget is mounted
   useEffect(() => {
     const urnIndexParam = searchParams.get(QueryParams.UrnIndex);
-    setSelectedSealUrnIndex(
+    setSelectedActivationUrnIndex(
       urnIndexParam ? (isNaN(Number(urnIndexParam)) ? undefined : Number(urnIndexParam)) : undefined
     );
 
     // Reset when unmounting
     return () => {
-      setSelectedSealUrnIndex(undefined);
+      setSelectedActivationUrnIndex(undefined);
     };
   }, []);
 
-  const onSealWidgetStateChange = ({
+  const onActivationWidgetStateChange = ({
     hash,
     txStatus,
     widgetState,
     displayToken
   }: WidgetStateChangeParams) => {
     // Return early so we don't trigger the linked action code below
-    if (displayToken && displayToken !== userConfig?.sealToken) {
-      return updateUserConfig({ ...userConfig, sealToken: displayToken?.symbol });
+    if (displayToken && displayToken !== userConfig?.activationToken) {
+      return updateUserConfig({ ...userConfig, activationToken: displayToken?.symbol });
     }
 
     // After a successful linked action open flow, set the final step to "success"
     if (
-      widgetState.flow === SealFlow.OPEN &&
+      widgetState.flow === ActivationFlow.OPEN &&
       txStatus === TxStatus.SUCCESS &&
       linkedActionConfig.step === LinkedActionSteps.COMPLETED_CURRENT
     ) {
@@ -88,10 +96,10 @@ export function SealWidgetPane(sharedProps: SharedProps) {
     if (
       hash &&
       txStatus === TxStatus.SUCCESS &&
-      [SealFlow.OPEN, SealFlow.MANAGE].includes(widgetState.flow)
+      [ActivationFlow.OPEN, ActivationFlow.MANAGE].includes(widgetState.flow)
     ) {
       setTimeout(() => {
-        refreshSealHistory();
+        refreshActivationHistory();
       }, REFRESH_DELAY);
     }
   };
@@ -103,11 +111,11 @@ export function SealWidgetPane(sharedProps: SharedProps) {
   }
 
   return (
-    <SealModuleWidget
+    <ActivationModuleWidget
       {...sharedProps}
-      onSealUrnChange={onSealUrnChange}
-      onWidgetStateChange={onSealWidgetStateChange}
-      externalWidgetState={{ amount: linkedActionConfig?.inputAmount, urnIndex: selectedSealUrnIndex }}
+      onActivationUrnChange={onActivationUrnChange}
+      onWidgetStateChange={onActivationWidgetStateChange}
+      externalWidgetState={{ amount: linkedActionConfig?.inputAmount, urnIndex: selectedActivationUrnIndex }}
       termsLink={termsLink[0]}
     />
   );

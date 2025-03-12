@@ -933,7 +933,7 @@ function ActivationModuleWidgetWrapped({
         widgetState.screen === ActivationScreen.TRANSACTION ? (
           <VStack className="w-full">
             <Heading variant="x-large">
-              <Trans>Seal Engine</Trans>
+              <Trans>Activation Engine</Trans>
             </Heading>
           </VStack>
         ) : (
