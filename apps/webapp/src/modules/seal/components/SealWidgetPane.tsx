@@ -99,7 +99,6 @@ export function SealWidgetPane(sharedProps: SharedProps) {
   const hasTermsLink = Array.isArray(termsLink) && termsLink.length > 0;
   if (!hasTermsLink) {
     console.error('No terms link found');
-    return null;
   }
 
   return (
@@ -108,7 +107,7 @@ export function SealWidgetPane(sharedProps: SharedProps) {
       onSealUrnChange={onSealUrnChange}
       onWidgetStateChange={onSealWidgetStateChange}
       externalWidgetState={{ amount: linkedActionConfig?.inputAmount, urnIndex: selectedSealUrnIndex }}
-      termsLink={termsLink[0]}
+      termsLink={Array.isArray(termsLink) && termsLink.length > 0 ? termsLink[0] : undefined}
     />
   );
 }
