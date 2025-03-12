@@ -1724,12 +1724,10 @@ msgid "Sending ETH"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/ViewSkyMkrButton.tsx
-#: packages/widgets/src/widgets/ActivationModuleWidget/components/ViewSkyMkrButton.tsx
 msgid "Show MKR values"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/ViewSkyMkrButton.tsx
-#: packages/widgets/src/widgets/ActivationModuleWidget/components/ViewSkyMkrButton.tsx
 msgid "Show SKY values"
 msgstr ""
 
