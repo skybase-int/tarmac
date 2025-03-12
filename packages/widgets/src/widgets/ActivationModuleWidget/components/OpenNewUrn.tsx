@@ -1,7 +1,7 @@
 import { Checkbox } from '@widgets/components/ui/checkbox';
 import { ExternalLink } from '@widgets/shared/components/ExternalLink';
 import { Text } from '@widgets/shared/components/ui/Typography';
-import { TOKENS, useUrnAddress, useVault } from '@jetstreamgg/hooks';
+import { useUrnAddress, useVault } from '@jetstreamgg/hooks';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { useContext, useMemo } from 'react';
@@ -20,7 +20,6 @@ import { ActivationAction, ActivationFlow, ActivationStep } from '../lib/constan
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
 import { motion } from 'framer-motion';
-import { ViewSkyMkrButton } from './ViewSkyMkrButton';
 
 export const OpenNewUrn = ({
   isConnectedAndEnabled,
@@ -35,9 +34,7 @@ export const OpenNewUrn = ({
   tabSide: 'left' | 'right';
   termsLink?: { url: string; name: string };
 }) => {
-  const { acceptedExitFee, setAcceptedExitFee, displayToken, setDisplayToken } = useContext(
-    ActivationModuleWidgetContext
-  );
+  const { acceptedExitFee, setAcceptedExitFee } = useContext(ActivationModuleWidgetContext);
   const { widgetState } = useContext(WidgetContext);
   const {
     setMkrToLock,
@@ -95,12 +92,6 @@ export const OpenNewUrn = ({
                     ? t`Manage Position ${formatUrnIndex(activeUrn?.urnIndex || 0n)}`
                     : t`Open Position`}
                 </Text>
-                <div className="ml-2 flex">
-                  <ViewSkyMkrButton
-                    onClick={() => setDisplayToken(displayToken === TOKENS.mkr ? TOKENS.sky : TOKENS.mkr)}
-                    displayToken={displayToken}
-                  />
-                </div>
               </div>
             </HStack>
             {widgetState.flow !== ActivationFlow.OPEN && (
