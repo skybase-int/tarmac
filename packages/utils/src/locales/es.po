@@ -113,6 +113,15 @@ msgid "A minimum 0.01 ETH is needed to cover transaction costs. Actual gas fees 
 msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
+msgid "About Activation Engine"
+msgstr ""
+
+#: apps/webapp/src/modules/activation/components/ActivationPositionDetails.tsx
+#: apps/webapp/src/modules/activation/components/ActivationOverview.tsx
+msgid "About Activation Rewards"
+msgstr ""
+
+#: apps/webapp/src/modules/layout/components/ConnectCard.tsx
 msgid "About Balances"
 msgstr ""
 
@@ -135,8 +144,6 @@ msgstr ""
 #: apps/webapp/src/modules/ui/components/AboutSealModule.tsx
 #: apps/webapp/src/modules/seal/components/SealPositionDetails.tsx
 #: apps/webapp/src/modules/seal/components/SealOverview.tsx
-#: apps/webapp/src/modules/activation/components/ActivationPositionDetails.tsx
-#: apps/webapp/src/modules/activation/components/ActivationOverview.tsx
 msgid "About Seal Rewards"
 msgstr ""
 
@@ -1982,6 +1989,10 @@ msgstr ""
 #: packages/widgets/src/widgets/SealModuleWidget/components/OpenNewUrn.tsx
 #: packages/widgets/src/widgets/ActivationModuleWidget/components/OpenNewUrn.tsx
 msgid "Terms of Use."
+msgstr ""
+
+#: apps/webapp/src/modules/layout/components/ConnectCard.tsx
+msgid "The Activation Engine is a module of the Sky Protocol. The SKY token you supply to the Activation Engine are sealed behind an exit fee in order to provide access to Activation Rewards and encourage a deeper commitment to Sky ecosystem governance. With Sky, you always remain in control of your funds."
 msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
