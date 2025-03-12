@@ -36,7 +36,7 @@ export function ActivationPositionDetails({ positionIndex }: { positionIndex?: n
           <ActivationChart />
         </DetailSectionRow>
       </DetailSection>
-      <DetailSection title={t`About Seal Rewards`}>
+      <DetailSection title={t`About Activation Rewards`}>
         <DetailSectionRow>
           <AboutSealModule />
         </DetailSectionRow>
