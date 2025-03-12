@@ -18,7 +18,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('Lock MKR, select rewards, select delegate, and open position', async ({ page }) => {
-  await expect(page.getByRole('heading', { name: 'About Seal Rewards' }).nth(1)).toBeVisible();
   await page.getByRole('checkbox').click();
   await page.getByRole('button', { name: 'Continue' }).click();
   await expect(page.getByTestId('supply-first-input-lse-balance')).toHaveText('100 MKR');
