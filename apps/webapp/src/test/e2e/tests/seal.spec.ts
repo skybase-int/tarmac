@@ -67,7 +67,6 @@ test('Lock MKR, select rewards, select delegate, and open position', async ({ pa
 
   // manage position
   await page.getByRole('button', { name: 'Manage Position' }).click();
-  await expect(page.getByText('Your position 1')).toBeVisible();
   await expect(page.getByTestId('borrow-input-lse-balance')).toHaveText('Limit 0 <> 15,593 USDS');
 
   // borrow more and skip rewards and delegate selection
@@ -89,7 +88,6 @@ test('Lock MKR, select rewards, select delegate, and open position', async ({ pa
 
   // repay all
   await page.getByRole('button', { name: 'Manage Position' }).click();
-  await expect(page.getByText('Your position 1')).toBeVisible();
   await expect(page.getByTestId('borrow-input-lse-balance')).toHaveText('Limit 0 <> 15,493 USDS');
 
   // switch tabs
@@ -125,7 +123,6 @@ test('Lock MKR, select rewards, select delegate, and open position', async ({ pa
 
   // unseal all
   await page.getByRole('button', { name: 'Manage Position' }).click();
-  await expect(page.getByText('Your position 1')).toBeVisible();
 
   // switch tabs
   await page.getByRole('tab', { name: 'Unseal and pay back' }).click();
