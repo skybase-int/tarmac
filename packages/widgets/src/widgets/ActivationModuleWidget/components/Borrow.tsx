@@ -3,7 +3,6 @@ import {
   getIlkName,
   getTokenDecimals,
   RiskLevel,
-  Token,
   TOKENS,
   useCollateralData,
   useSimulatedVault,
@@ -69,11 +68,9 @@ const PositionManagerOverviewContainer = ({
   simulatedVault,
   existingVault,
   minCollateralNotMet,
-  selectedToken,
   collateralData,
   debouncedUsdsToBorrow
 }: {
-  selectedToken: Token;
   simulatedVault?: Vault;
   existingVault?: Vault;
   minCollateralNotMet: boolean;
@@ -81,7 +78,6 @@ const PositionManagerOverviewContainer = ({
   debouncedUsdsToBorrow: bigint;
 }) => {
   const chainId = useChainId();
-  const { displayToken, setDisplayToken } = useContext(ActivationModuleWidgetContext);
   const hasPositions = !!existingVault;
 
   // New amount values here will factor in user input, if there is no existing vault then amounts will not be included
@@ -98,24 +94,15 @@ const PositionManagerOverviewContainer = ({
     Number(formatUnits(existingVault?.collateralizationRatio || 0n, WAD_PRECISION)) * 100
   ).toFixed(2)}%`;
 
-  const newMkrLiqPrice = `$${formatBigInt(simulatedVault?.liquidationPrice || 0n, { unit: WAD_PRECISION })}`;
-  const existingMkrLiqPrice = `$${formatBigInt(existingVault?.liquidationPrice || 0n, {
+  const newLiqPrice = `$${formatBigInt(math.calculateMKRtoSKYPrice(simulatedVault?.liquidationPrice || 0n), {
     unit: WAD_PRECISION
   })}`;
-  const newSkyLiqPrice = `$${formatBigInt(
-    math.calculateMKRtoSKYPrice(simulatedVault?.liquidationPrice || 0n),
-    {
-      unit: WAD_PRECISION
-    }
-  )}`;
-  const existingSkyLiqPrice = `$${formatBigInt(
+  const existingLiqPrice = `$${formatBigInt(
     math.calculateMKRtoSKYPrice(existingVault?.liquidationPrice || 0n),
     {
       unit: WAD_PRECISION
     }
   )}`;
-  const newLiqPrice = displayToken === mkr ? newMkrLiqPrice : newSkyLiqPrice;
-  const existingLiqPrice = displayToken === mkr ? existingMkrLiqPrice : existingSkyLiqPrice;
 
   const existingRiskLevel = existingVault?.riskLevel || LOW;
   const riskLevel = simulatedVault?.riskLevel || LOW;
@@ -160,10 +147,10 @@ const PositionManagerOverviewContainer = ({
           value:
             hasPositions && newCollateralAmount !== existingColAmount
               ? [
-                  `${formatBigInt(displayToken === mkr ? existingColAmount : math.calculateConversion(mkr, existingColAmount))}  ${displayToken.symbol}`,
-                  `${formatBigInt(displayToken === mkr ? newCollateralAmount : math.calculateConversion(mkr, newCollateralAmount))}  ${displayToken.symbol}`
+                  `${formatBigInt(math.calculateConversion(mkr, existingColAmount))}  SKY`,
+                  `${formatBigInt(math.calculateConversion(mkr, newCollateralAmount))} SKY`
                 ]
-              : `${formatBigInt(displayToken === mkr ? newCollateralAmount : math.calculateConversion(mkr, newCollateralAmount))}  ${displayToken.symbol}`
+              : `${formatBigInt(math.calculateConversion(mkr, newCollateralAmount))}  SKY`
         },
         {
           label: t`Exit fee percentage`,
@@ -222,8 +209,8 @@ const PositionManagerOverviewContainer = ({
               }
             ],
         {
-          label: displayToken === mkr ? t`Current MKR price` : t`Current SKY price`,
-          value: `$${formatBigInt(displayToken === mkr ? simulatedVault?.delayedPrice || 0n : math.calculateConversion(sky, simulatedVault?.delayedPrice || 0n), { unit: WAD_PRECISION })}`
+          label: t`Current SKY price`,
+          value: `$${formatBigInt(math.calculateConversion(sky, simulatedVault?.delayedPrice || 0n), { unit: WAD_PRECISION })}`
         }
       ].flat(),
     [
@@ -236,7 +223,6 @@ const PositionManagerOverviewContainer = ({
       existingColAmount,
       existingBorrowAmount,
       hasPositions,
-      displayToken,
       exitFee
     ]
   );
@@ -319,10 +305,6 @@ const PositionManagerOverviewContainer = ({
     ]
   );
 
-  useEffect(() => {
-    setDisplayToken(selectedToken);
-  }, [selectedToken]);
-
   return (
     <TransactionOverview
       title={t`Position overview`}
@@ -334,15 +316,9 @@ const PositionManagerOverviewContainer = ({
 };
 
 export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolean }) => {
-  const {
-    setIsBorrowCompleted,
-    usdsToBorrow,
-    setUsdsToBorrow,
-    mkrToLock,
-    activeUrn,
-    skyToLock,
-    selectedToken
-  } = useContext(ActivationModuleWidgetContext);
+  const { setIsBorrowCompleted, usdsToBorrow, setUsdsToBorrow, activeUrn, skyToLock } = useContext(
+    ActivationModuleWidgetContext
+  );
 
   const chainId = useChainId();
   const ilkName = getIlkName(chainId);
@@ -357,8 +333,7 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
 
   // Calculated total amount user will have locked based on existing collateral locked plus user input
   const newCollateralAmount =
-    (selectedToken === mkr ? mkrToLock : math.calculateConversion(sky, skyToLock)) +
-    (existingVault?.collateralAmount || 0n);
+    math.calculateConversion(sky, skyToLock) + (existingVault?.collateralAmount || 0n);
 
   const { data: collateralData } = useCollateralData();
 
@@ -427,11 +402,7 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
           : undefined;
 
   const inputText = minCollateralNotMet
-    ? `You need to seal at least ${
-        selectedToken === mkr
-          ? simulatedVault?.formattedMinCollateralForDust
-          : simulatedVault?.formattedMinSkyCollateralForDust
-      } ${selectedToken.symbol} to borrow`
+    ? `You need to seal at least ${simulatedVault?.formattedMinSkyCollateralForDust} SKY to borrow`
     : `Limit ${formattedMinBorrowable.slice(0, -5)} <> ${formattedMaxBorrowable}`;
 
   return (
@@ -470,7 +441,6 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
         simulatedVault={simulatedVault}
         existingVault={existingVault}
         minCollateralNotMet={minCollateralNotMet}
-        selectedToken={selectedToken}
         collateralData={collateralData}
         debouncedUsdsToBorrow={debouncedUsdsToBorrow}
       />

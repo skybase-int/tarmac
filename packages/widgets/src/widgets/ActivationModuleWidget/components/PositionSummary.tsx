@@ -1,7 +1,7 @@
 import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { JSX, useContext, useEffect, useMemo } from 'react';
+import { JSX, useContext, useMemo } from 'react';
 import { ActivationModuleWidgetContext } from '../context/context';
 import {
   TOKENS,
@@ -119,17 +119,12 @@ export const PositionSummary = () => {
 
   const {
     activeUrn,
-    mkrToLock,
-    mkrToFree,
     skyToLock,
     skyToFree,
     usdsToBorrow,
     usdsToWipe,
     selectedDelegate,
-    selectedRewardContract,
-    selectedToken,
-    displayToken,
-    setDisplayToken
+    selectedRewardContract
   } = useContext(ActivationModuleWidgetContext);
 
   const { data: existingRewardContract } = useUrnSelectedRewardContract({
@@ -161,10 +156,8 @@ export const PositionSummary = () => {
   const newBorrowAmount = usdsToBorrow + (existingVault?.debtValue || 0n) - usdsToWipe;
 
   // Calculated total amount user will have locked based on existing collateral locked plus user input
-  const collateralToLock =
-    selectedToken === mkr ? mkrToLock : math.calculateConversion(TOKENS.sky, skyToLock);
-  const collateralToFree =
-    selectedToken === mkr ? mkrToFree : math.calculateConversion(TOKENS.sky, skyToFree);
+  const collateralToLock = math.calculateConversion(TOKENS.sky, skyToLock);
+  const collateralToFree = math.calculateConversion(TOKENS.sky, skyToFree);
   const newCollateralAmount = collateralToLock + (existingVault?.collateralAmount || 0n) - collateralToFree;
 
   const { data: updatedVault } = useSimulatedVault(
@@ -182,23 +175,11 @@ export const PositionSummary = () => {
 
   const { data: exitFee } = useSealExitFee();
 
-  const existingCollateralAmount =
-    displayToken === mkr
-      ? existingVault?.collateralAmount || 0n
-      : math.calculateConversion(mkr, existingVault?.collateralAmount || 0n);
-  const updatedCollateralAmount =
-    displayToken === mkr
-      ? updatedVault?.collateralAmount || 0n
-      : math.calculateConversion(mkr, updatedVault?.collateralAmount || 0n);
+  const existingCollateralAmount = math.calculateConversion(mkr, existingVault?.collateralAmount || 0n);
+  const updatedCollateralAmount = math.calculateConversion(mkr, updatedVault?.collateralAmount || 0n);
 
-  const existingLiquidationPrice =
-    displayToken === mkr
-      ? existingVault?.liquidationPrice || 0n
-      : math.calculateMKRtoSKYPrice(existingVault?.liquidationPrice || 0n);
-  const updatedLiquidationPrice =
-    displayToken === mkr
-      ? updatedVault?.liquidationPrice || 0n
-      : math.calculateMKRtoSKYPrice(updatedVault?.liquidationPrice || 0n);
+  const existingLiquidationPrice = math.calculateMKRtoSKYPrice(existingVault?.liquidationPrice || 0n);
+  const updatedLiquidationPrice = math.calculateMKRtoSKYPrice(updatedVault?.liquidationPrice || 0n);
 
   const { data: collateralData } = useCollateralData();
 
@@ -206,14 +187,12 @@ export const PositionSummary = () => {
     return [
       {
         label: t`Exit fee`,
-        updated: hasPositions && (mkrToFree > 0n || skyToFree > 0n),
+        updated: hasPositions && skyToFree > 0n,
         value:
-          hasPositions && (mkrToFree > 0n || skyToFree > 0n) && typeof exitFee === 'bigint'
-            ? [
-                `${Number(formatUnits((displayToken === mkr ? mkrToFree : math.calculateConversion(mkr, mkrToFree)) * exitFee, WAD_PRECISION * 2)).toFixed(2)} ${displayToken.symbol}`
-              ]
+          hasPositions && skyToFree > 0n && typeof exitFee === 'bigint'
+            ? [`${Number(formatUnits(skyToFree * exitFee, WAD_PRECISION * 2)).toFixed(2)} SKY`]
             : '',
-        icon: <TokenIcon token={displayToken} className="h-5 w-5" />
+        icon: <TokenIcon token={TOKENS.sky} className="h-5 w-5" />
       },
       {
         label: getActivationLabel(existingVault?.collateralAmount, updatedVault?.collateralAmount),
@@ -222,13 +201,13 @@ export const PositionSummary = () => {
         value:
           hasPositions && isUpdatedValue(existingVault?.collateralAmount, updatedVault?.collateralAmount)
             ? [
-                `${formatBigInt(existingCollateralAmount)} ${displayToken.symbol}`,
-                `${formatBigInt(updatedCollateralAmount)} ${displayToken.symbol}`
+                `${formatBigInt(existingCollateralAmount)} SKY`,
+                `${formatBigInt(updatedCollateralAmount)} SKY`
               ]
             : hasPositions
-              ? `${formatBigInt(existingCollateralAmount)} ${displayToken.symbol}`
-              : `${formatBigInt(updatedCollateralAmount)} ${displayToken.symbol}`,
-        icon: <TokenIcon token={displayToken} className="h-5 w-5" />
+              ? `${formatBigInt(existingCollateralAmount)} SKY`
+              : `${formatBigInt(updatedCollateralAmount)} SKY`,
+        icon: <TokenIcon token={TOKENS.sky} className="h-5 w-5" />
       },
       {
         label: getBorrowLabel(existingVault?.debtValue, updatedVault?.debtValue),
@@ -288,8 +267,8 @@ export const PositionSummary = () => {
         tooltipText: borrowRateTooltipText
       },
       {
-        label: t`Current ${displayToken.symbol} price`,
-        value: `$${formatBigInt(displayToken === mkr ? updatedVault?.delayedPrice || 0n : math.calculateMKRtoSKYPrice(updatedVault?.delayedPrice || 0n), { unit: WAD_PRECISION })}`
+        label: t`Current SKY price`,
+        value: `$${formatBigInt(math.calculateMKRtoSKYPrice(updatedVault?.delayedPrice || 0n), { unit: WAD_PRECISION })}`
       },
       {
         label: t`Liquidation price`,
@@ -421,7 +400,6 @@ export const PositionSummary = () => {
     selectedDelegateName,
     selectedDelegateOwner,
     isDelegateLoading,
-    displayToken,
     exitFee
   ]);
 
@@ -432,10 +410,6 @@ export const PositionSummary = () => {
       ? lineItems.filter(item => !item.hideIfNoDebt)
       : lineItems;
   const lineItemsUpdated = lineItemsFiltered.filter(item => item.updated);
-
-  useEffect(() => {
-    setDisplayToken(selectedToken);
-  }, [selectedToken]);
 
   return (
     <motion.div variants={positionAnimations}>

@@ -23,7 +23,6 @@ import { DetailSectionRow } from '@/modules/ui/components/DetailSectionRow';
 import { ActivationDelegateCard } from './ActivationDelegateCard';
 import { ActivationRewardCard } from './ActivationRewardCard';
 import { useMemo } from 'react';
-import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { formatUrnIndex } from '@jetstreamgg/widgets';
 
 const RISK_COLORS = {
@@ -38,7 +37,6 @@ export function ActivationPositionOverview({
 }: {
   positionIndex: number;
 }): React.ReactElement | null {
-  const { userConfig } = useConfigContext();
   const { data, isLoading, error } = useSealPosition({ urnIndex: positionIndex });
   const { data: urnAddress, isLoading: urnAddressLoading } = useUrnAddress(BigInt(positionIndex));
   const { data: vault, isLoading: vaultLoading, error: vaultError } = useVault(urnAddress || ZERO_ADDRESS);
@@ -47,14 +45,9 @@ export function ActivationPositionOverview({
 
   const riskColor = vault?.riskLevel ? RISK_COLORS[vault?.riskLevel] : undefined;
 
-  const mkrSealed = formatBigInt(vault?.collateralAmount || 0n);
   const skySealed = useMemo(() => {
     return vault?.collateralAmount ? math.calculateConversion(TOKENS.mkr, vault?.collateralAmount || 0n) : 0n;
   }, [vault?.collateralAmount]);
-
-  const displayToken = useMemo(() => {
-    return userConfig?.activationToken === ActivationToken.MKR ? ActivationToken.MKR : ActivationToken.SKY;
-  }, [userConfig?.activationToken]);
 
   return (
     <DetailSection
@@ -78,13 +71,9 @@ export function ActivationPositionOverview({
         <VStack className="gap-8">
           <HStack gap={2} className="scrollbar-thin w-full overflow-auto">
             <SealSealedCard
-              label={
-                displayToken === ActivationToken.MKR
-                  ? t`${ActivationToken.MKR} sealed`
-                  : t`${ActivationToken.SKY} sealed`
-              }
-              token={{ name: 'Maker', symbol: displayToken }}
-              balance={displayToken === ActivationToken.MKR ? mkrSealed : skySealed}
+              label={t`${ActivationToken.SKY} sealed`}
+              token={{ name: 'Sky', symbol: 'SKY' }}
+              balance={skySealed}
               isLoading={vaultLoading}
               error={vaultError}
             />
@@ -117,34 +106,22 @@ export function ActivationPositionOverview({
               }
             />
             <StatsCard
-              title={
-                displayToken === ActivationToken.MKR ? t`MKR Liquidation price` : t`SKY Liquidation price`
-              }
+              title={t`SKY Liquidation price`}
               isLoading={urnAddressLoading || vaultLoading}
               error={urnAddressLoading ? null : vaultError}
               content={
                 <Text className="mt-2">
-                  $
-                  {formatBigInt(
-                    displayToken === ActivationToken.MKR
-                      ? vault?.liquidationPrice || 0n
-                      : math.calculateMKRtoSKYPrice(vault?.liquidationPrice || 0n)
-                  )}
+                  ${formatBigInt(math.calculateMKRtoSKYPrice(vault?.liquidationPrice || 0n))}
                 </Text>
               }
             />
             <StatsCard
-              title={displayToken === ActivationToken.MKR ? t`Current MKR price` : t`Current SKY price`}
+              title={t`Current SKY price`}
               isLoading={urnAddressLoading || vaultLoading}
               error={urnAddressLoading ? null : vaultError}
               content={
                 <Text className="mt-2">
-                  $
-                  {formatBigInt(
-                    displayToken === ActivationToken.MKR
-                      ? vault?.delayedPrice || 0n
-                      : math.calculateMKRtoSKYPrice(vault?.delayedPrice || 0n)
-                  )}
+                  ${formatBigInt(math.calculateMKRtoSKYPrice(vault?.delayedPrice || 0n))}
                 </Text>
               }
             />

@@ -21,8 +21,6 @@ import { JazziconComponent } from './Jazzicon';
 import { TextWithTooltip } from '@widgets/shared/components/ui/tooltip/TextWithTooltip';
 import { PositionDetailAccordion } from './PositionDetailsAccordion';
 import { ClaimRewardsButton } from './ClaimRewardsButton';
-import { useContext } from 'react';
-import { ActivationModuleWidgetContext } from '../context/context';
 
 type Props = {
   collateralizationRatio?: bigint;
@@ -64,7 +62,6 @@ export function PositionDetail({
   const { data: selectedDelegateName } = useDelegateName(selectedVoteDelegate);
   const { data: selectedDelegateOwner } = useDelegateOwner(selectedVoteDelegate);
   const { data: sealRewardContracts } = useSaRewardContracts();
-  const { displayToken, setDisplayToken } = useContext(ActivationModuleWidgetContext);
 
   const riskTextColor = getRiskTextColor(riskLevel as RiskLevel);
 
@@ -109,12 +106,8 @@ export function PositionDetail({
               Sealed
             </Text>
             <TokenIconWithBalance
-              token={displayToken}
-              balance={formatBigInt(
-                displayToken === TOKENS.mkr
-                  ? sealedAmount || 0n
-                  : math.calculateConversion(TOKENS.mkr, sealedAmount || 0n)
-              )}
+              token={TOKENS.sky}
+              balance={formatBigInt(math.calculateConversion(TOKENS.mkr, sealedAmount || 0n))}
             />
           </VStack>
           {rewardContractTokens && (
@@ -171,8 +164,6 @@ export function PositionDetail({
         </VStack>
       </HStack>
       <PositionDetailAccordion
-        displayToken={displayToken}
-        setDisplayToken={setDisplayToken}
         collateralizationRatio={collateralizationRatio}
         riskLevel={riskLevel}
         sealedAmount={sealedAmount}

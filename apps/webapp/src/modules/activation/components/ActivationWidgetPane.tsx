@@ -23,8 +23,6 @@ export function ActivationWidgetPane(sharedProps: SharedProps) {
   }
 
   const {
-    userConfig,
-    updateUserConfig,
     linkedActionConfig,
     updateLinkedActionConfig,
     exitLinkedActionMode,
@@ -65,17 +63,7 @@ export function ActivationWidgetPane(sharedProps: SharedProps) {
     };
   }, []);
 
-  const onActivationWidgetStateChange = ({
-    hash,
-    txStatus,
-    widgetState,
-    displayToken
-  }: WidgetStateChangeParams) => {
-    // Return early so we don't trigger the linked action code below
-    if (displayToken && displayToken !== userConfig?.activationToken) {
-      return updateUserConfig({ ...userConfig, activationToken: displayToken?.symbol });
-    }
-
+  const onActivationWidgetStateChange = ({ hash, txStatus, widgetState }: WidgetStateChangeParams) => {
     // After a successful linked action open flow, set the final step to "success"
     if (
       widgetState.flow === ActivationFlow.OPEN &&

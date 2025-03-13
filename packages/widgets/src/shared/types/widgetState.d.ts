@@ -69,7 +69,6 @@ export type WidgetStateChangeParams = {
   targetToken?: string;
   executedBuyAmount?: string;
   executedSellAmount?: string;
-  displayToken?: Token;
 };
 
 export type WidgetProps = {
