@@ -3,7 +3,8 @@ import {
   TradeWidget,
   ExternalWidgetState,
   BalancesWidget,
-  WidgetStateChangeParams
+  WidgetStateChangeParams,
+  TradeFlow
 } from '@jetstreamgg/widgets';
 import { ConnectButton, useAddRecentTransaction } from '@rainbow-me/rainbowkit';
 import { useCustomConnectModal } from '../hooks/useCustomConnectModal';
@@ -62,7 +63,7 @@ export function LandingSepolia(): React.ReactElement {
   // Helper to make it easy to show/hide widgets while developing
   const widgetsToShow = ['trade', 'balances'];
 
-  const [tradeInitialState, setTradeInitialState] = useState<ExternalWidgetState>({ tab: 'left' });
+  const [tradeInitialState, setTradeInitialState] = useState<ExternalWidgetState>({ flow: TradeFlow.TRADE });
 
   return (
     <div className="p-8">
@@ -112,7 +113,7 @@ export function LandingSepolia(): React.ReactElement {
                 onConnect={onConnect}
                 locale="en"
                 rightHeaderComponent={undefined}
-                externalWidgetState={{ tab: 'left' }}
+                externalWidgetState={{ flow: 'balances' }}
                 hideModuleBalances={false}
                 actionForToken={(symbol, balance) => {
                   // TODO: The host app should provide this action for each supported asset
@@ -126,8 +127,8 @@ export function LandingSepolia(): React.ReactElement {
                       }
                     : undefined;
                 }}
-                rewardsCardUrl={''}
-                savingsCardUrlMap={{}}
+                // rewardsCardUrl={''}
+                // savingsCardUrlMap={{}}
                 // onStateValidated={state => {
                 //   console.log('validated balances widget state: ', state);
                 // }}
