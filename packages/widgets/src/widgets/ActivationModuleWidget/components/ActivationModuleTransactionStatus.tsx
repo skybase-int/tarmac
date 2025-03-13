@@ -48,8 +48,6 @@ type ActivationModuleTransactionProps = {
 
 function TransactionDetail() {
   const {
-    mkrToLock,
-    mkrToFree,
     skyToLock,
     skyToFree,
     usdsToBorrow,
@@ -57,8 +55,7 @@ function TransactionDetail() {
     wipeAll,
     selectedRewardContract,
     selectedDelegate,
-    activeUrn,
-    selectedToken
+    activeUrn
   } = useContext(ActivationModuleWidgetContext);
   const { data: rewardContractTokens } = useRewardContractTokens(selectedRewardContract);
 
@@ -72,8 +69,8 @@ function TransactionDetail() {
     urn: activeUrn?.urnAddress || ZERO_ADDRESS
   });
 
-  const showSealing = (!!mkrToLock && mkrToLock > 0n) || (!!skyToLock && skyToLock > 0n);
-  const showUnsealing = (!!mkrToFree && mkrToFree > 0n) || (!!skyToFree && skyToFree > 0n);
+  const showSealing = !!skyToLock && skyToLock > 0n;
+  const showUnsealing = !!skyToFree && skyToFree > 0n;
   const showBorrowing = !!usdsToBorrow && usdsToBorrow > 0n;
   const showRepaying = (!!usdsToWipe && usdsToWipe > 0n) || wipeAll;
   const showReward =
@@ -84,9 +81,6 @@ function TransactionDetail() {
     selectedDelegateOwner &&
     selectedDelegateName;
 
-  const amountToLock = !!skyToLock && skyToLock > 0n ? skyToLock : mkrToLock;
-  const amountToFree = !!skyToFree && skyToFree > 0n ? skyToFree : mkrToFree;
-
   const transactionComponents = [
     {
       show: showSealing,
@@ -95,7 +89,7 @@ function TransactionDetail() {
           <Text variant="medium" className="text-textSecondary leading-4">
             Sealing
           </Text>
-          <TokenIconWithBalance token={selectedToken} balance={formatBigInt(amountToLock)} textLarge />
+          <TokenIconWithBalance token={TOKENS.sky} balance={formatBigInt(skyToLock)} textLarge />
         </VStack>
       )
     },
@@ -106,7 +100,7 @@ function TransactionDetail() {
           <Text variant="medium" className="text-textSecondary leading-4">
             Unsealing
           </Text>
-          <TokenIconWithBalance token={selectedToken} balance={formatBigInt(amountToFree)} textLarge />
+          <TokenIconWithBalance token={TOKENS.sky} balance={formatBigInt(skyToFree)} textLarge />
         </VStack>
       )
     },
@@ -190,9 +184,7 @@ export const ActivationModuleTransactionStatus = ({
     setOriginAmount,
     setTxDescription
   } = useContext(WidgetContext);
-  const { mkrToLock, skyToLock, usdsToBorrow, mkrToFree, skyToFree, usdsToWipe, selectedToken } = useContext(
-    ActivationModuleWidgetContext
-  );
+  const { skyToLock, usdsToBorrow, skyToFree, usdsToWipe } = useContext(ActivationModuleWidgetContext);
 
   const { flow, action, screen } = widgetState;
 
@@ -201,24 +193,12 @@ export const ActivationModuleTransactionStatus = ({
   // This sets the correct token and amount in the transaction screens
   useEffect(() => {
     setOriginToken(
-      mkrToLock && mkrToLock > 0n
-        ? TOKENS.mkr
-        : skyToLock && skyToLock > 0n
-          ? TOKENS.sky
-          : usdsToWipe && usdsToWipe > 0n
-            ? TOKENS.usds
-            : undefined
+      skyToLock && skyToLock > 0n ? TOKENS.sky : usdsToWipe && usdsToWipe > 0n ? TOKENS.usds : undefined
     );
     setOriginAmount(
-      mkrToLock && mkrToLock > 0n
-        ? mkrToLock
-        : skyToLock && skyToLock > 0n
-          ? skyToLock
-          : usdsToWipe && usdsToWipe > 0n
-            ? usdsToWipe
-            : undefined
+      skyToLock && skyToLock > 0n ? skyToLock : usdsToWipe && usdsToWipe > 0n ? usdsToWipe : undefined
     );
-  }, [mkrToLock, skyToLock]);
+  }, [skyToLock]);
 
   // Sets the title and subtitle of the card
   useEffect(() => {
@@ -235,7 +215,7 @@ export const ActivationModuleTransactionStatus = ({
         i18n._(
           usdsToWipe && usdsToWipe > 0n
             ? repayApproveDescription
-            : activationApproveDescription[selectedToken.symbol as keyof typeof activationApproveDescription]
+            : activationApproveDescription[TOKENS.sky.symbol]
         )
       );
     } else if (action === ActivationAction.MULTICALL && screen === ActivationScreen.TRANSACTION) {
@@ -255,21 +235,11 @@ export const ActivationModuleTransactionStatus = ({
           getActivationSubtitle({
             flow,
             txStatus,
-            collateralToLock:
-              !!mkrToLock && mkrToLock > 0n
-                ? formatBigInt(mkrToLock)
-                : !!skyToLock && skyToLock > 0n
-                  ? formatBigInt(skyToLock)
-                  : undefined,
+            collateralToLock: !!skyToLock && skyToLock > 0n ? formatBigInt(skyToLock) : undefined,
             borrowAmount: usdsToBorrow && usdsToBorrow > 0n ? formatBigInt(usdsToBorrow) : undefined,
-            collateralToFree:
-              mkrToFree && mkrToFree > 0n
-                ? formatBigInt(mkrToFree)
-                : skyToFree && skyToFree > 0n
-                  ? formatBigInt(skyToFree)
-                  : undefined,
+            collateralToFree: skyToFree && skyToFree > 0n ? formatBigInt(skyToFree) : undefined,
             borrowToRepay: usdsToWipe && usdsToWipe > 0n ? formatBigInt(usdsToWipe) : undefined,
-            selectedToken: selectedToken.symbol
+            selectedToken: TOKENS.sky.symbol
           })
         )
       );
