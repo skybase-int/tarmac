@@ -1,5 +1,5 @@
 import { RewardContract } from '@jetstreamgg/hooks';
-import { SUPPORTED_TOKEN_SYMBOLS, UpgradeFlow } from '@jetstreamgg/widgets';
+import { RewardsFlow, SealFlow, SUPPORTED_TOKEN_SYMBOLS, UpgradeFlow } from '@jetstreamgg/widgets';
 import {
   QueryParams,
   IntentMapping,
@@ -64,6 +64,18 @@ export const validateSearchParams = (
       if (!searchParams.get(QueryParams.Reward)) {
         setSelectedRewardContract(undefined);
         searchParams.delete(QueryParams.InputAmount);
+      }
+
+      // if the flow is claim, remove the flow param as it's only used by the chatbot
+      if (searchParams.get(QueryParams.Flow) === RewardsFlow.CLAIM) {
+        searchParams.delete(QueryParams.Flow);
+      }
+    }
+
+    if (widget === IntentMapping[Intent.SEAL_INTENT]) {
+      // if the flow is claim, remove the flow param as it's only used by the chatbot
+      if (searchParams.get(QueryParams.Flow) === SealFlow.CLAIM) {
+        searchParams.delete(QueryParams.Flow);
       }
     }
 
