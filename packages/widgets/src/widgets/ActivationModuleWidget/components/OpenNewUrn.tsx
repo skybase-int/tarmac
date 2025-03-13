@@ -37,14 +37,12 @@ export const OpenNewUrn = ({
   const { acceptedExitFee, setAcceptedExitFee } = useContext(ActivationModuleWidgetContext);
   const { widgetState } = useContext(WidgetContext);
   const {
-    setMkrToLock,
     setSkyToLock,
     currentStep,
     setCurrentStep,
     setUsdsToBorrow,
     setUsdsToWipe,
     activeUrn,
-    setMkrToFree,
     setSkyToFree,
     setIsLockCompleted,
     setIsBorrowCompleted
@@ -63,9 +61,7 @@ export const OpenNewUrn = ({
   );
 
   const clearInputs = () => {
-    setMkrToLock(0n);
     setSkyToLock(0n);
-    setMkrToFree(0n);
     setSkyToFree(0n);
     setUsdsToWipe(0n);
     setUsdsToBorrow(0n);

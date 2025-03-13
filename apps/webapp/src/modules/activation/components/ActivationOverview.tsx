@@ -17,18 +17,15 @@ import { ActivationFaq } from './ActivationFaq';
 import { ActivationChart } from './ActivationChart';
 import { PopoverRateInfo } from '@/modules/ui/components/PopoverRateInfo';
 import { useMemo } from 'react';
-import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { ActivationToken } from '../constants';
 
 export function ActivationOverview() {
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
-  const { userConfig } = useConfigContext();
   const { data, isLoading, error } = useSealHistoricData();
   const mostRecentData = data?.sort(
     (a, b) => new Date(b.datetime).getTime() - new Date(a.datetime).getTime()
   )[0];
 
-  const mkrSealed = formatNumber(mostRecentData?.totalMkr ?? 0);
   const skySealed = useMemo(() => {
     return formatNumber(
       mostRecentData?.totalMkr ? mostRecentData?.totalMkr * Number(math.MKR_TO_SKY_PRICE_RATIO) : 0
@@ -53,23 +50,15 @@ export function ActivationOverview() {
         <DetailSectionRow>
           <HStack gap={2} className="scrollbar-thin w-full overflow-auto">
             <StatsCard
-              title={t`Total ${userConfig?.activationToken ?? ''} sealed`}
+              title={t`Total SKY sealed`}
               isLoading={isLoading}
               error={error}
               content={
-                userConfig?.activationToken === ActivationToken.SKY ? (
-                  <TokenIconWithBalance
-                    className="mt-2"
-                    token={{ name: ActivationToken.SKY, symbol: ActivationToken.SKY }}
-                    balance={skySealed}
-                  />
-                ) : (
-                  <TokenIconWithBalance
-                    className="mt-2"
-                    token={{ name: ActivationToken.MKR, symbol: ActivationToken.MKR }}
-                    balance={mkrSealed}
-                  />
-                )
+                <TokenIconWithBalance
+                  className="mt-2"
+                  token={{ name: ActivationToken.SKY, symbol: ActivationToken.SKY }}
+                  balance={skySealed}
+                />
               }
             />
             <StatsCard

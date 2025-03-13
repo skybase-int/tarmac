@@ -31,10 +31,8 @@ import { SelectDelegate } from './components/SelectDelegate';
 import { PositionSummary } from './components/PositionSummary';
 import {
   useCurrentUrnIndex,
-  useSaMkrAllowance,
   useSaNgtAllowance,
   useSaNstAllowance as useSealUsdsAllowance,
-  useSaMkrApprove,
   useSaNgtApprove,
   useSaNstApprove as useSealUsdsApprove,
   useSaMulticall,
@@ -43,8 +41,7 @@ import {
   useVault,
   ZERO_ADDRESS,
   useUrnSelectedRewardContract,
-  useUrnSelectedVoteDelegate,
-  TOKENS
+  useUrnSelectedVoteDelegate
 } from '@jetstreamgg/hooks';
 import { formatBigInt, getEtherscanLink, useDebounce } from '@jetstreamgg/utils';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
@@ -144,20 +141,17 @@ function ActivationModuleWidgetWrapped({
     isBorrowCompleted,
     calldata,
     setCalldata,
-    mkrToLock,
     skyToLock,
     usdsToWipe,
     generateAllCalldata,
     currentStep,
     setCurrentStep,
     setActiveUrn,
-    setMkrToLock,
     setSkyToLock,
     setUsdsToBorrow,
     setSelectedDelegate,
     setSelectedRewardContract,
     setAcceptedExitFee,
-    setMkrToFree,
     setSkyToFree,
     setUsdsToWipe,
     activeUrn,
@@ -165,10 +159,7 @@ function ActivationModuleWidgetWrapped({
     setIndexToClaim,
     rewardContractToClaim,
     setRewardContractToClaim,
-    wipeAll,
-    setSelectedToken,
-    selectedToken,
-    displayToken
+    wipeAll
   } = useContext(ActivationModuleWidgetContext);
 
   // Returns the urn index to use for opening a new urn
@@ -187,9 +178,7 @@ function ActivationModuleWidgetWrapped({
 
   const urnIndexForTransaction = activeUrn?.urnIndex ?? currentUrnIndex;
 
-  const debouncedMkrAmount = useDebounce(mkrToLock);
-  const debouncedSkyAmount = useDebounce(skyToLock);
-  const debouncedLockAmount = selectedToken === TOKENS.mkr ? debouncedMkrAmount : debouncedSkyAmount;
+  const debouncedLockAmount = useDebounce(skyToLock);
   const WIPE_BUFFER_MULTIPLIER = 100005n;
   const WIPE_BUFFER_DIVISOR = 100000n;
   // Approve a 0.005% extra amount of USDS to give users a time margin to pay the debt
@@ -199,19 +188,10 @@ function ActivationModuleWidgetWrapped({
   );
 
   const {
-    data: sealMkrAllowance,
-    mutate: mutateSealMkrAllowance,
-    isLoading: sealMkrAllowanceLoading
-  } = useSaMkrAllowance();
-
-  const {
     data: sealNgtAllowance,
     mutate: mutateSealNgtAllowance,
-    isLoading: sealNgtAllowanceLoading
+    isLoading: sealLockAllowanceLoading
   } = useSaNgtAllowance();
-
-  const sealLockAllowanceLoading =
-    selectedToken === TOKENS.mkr ? sealMkrAllowanceLoading : sealNgtAllowanceLoading;
 
   const {
     data: sealUsdsAllowance,
@@ -228,48 +208,12 @@ function ActivationModuleWidgetWrapped({
   const allStepsComplete =
     isLockCompleted && isBorrowCompleted && isSelectRewardContractCompleted && isSelectDelegateCompleted;
 
-  const lockMkrApprove = useSaMkrApprove({
-    amount: debouncedMkrAmount,
-    onStart: (hash: string) => {
-      addRecentTransaction?.({
-        hash,
-        description: t`Approving ${formatBigInt(debouncedMkrAmount)} MKR`
-      });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
-    },
-    onSuccess: hash => {
-      onNotification?.({
-        title: t`Approve successful`,
-        description: t`You approved MKR`,
-        status: TxStatus.SUCCESS
-      });
-      setTxStatus(TxStatus.SUCCESS);
-      mutateSealMkrAllowance();
-      multicall.retryPrepare();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
-    },
-    onError: (error, hash) => {
-      onNotification?.({
-        title: t`Approval failed`,
-        description: t`We could not approve your token allowance.`,
-        status: TxStatus.ERROR
-      });
-      setTxStatus(TxStatus.ERROR);
-      mutateSealMkrAllowance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
-    },
-    enabled: widgetState.action === ActivationAction.APPROVE && sealMkrAllowance !== undefined
-  });
-
   const lockNgtApprove = useSaNgtApprove({
-    amount: debouncedSkyAmount,
+    amount: debouncedLockAmount,
     onStart: (hash: string) => {
       addRecentTransaction?.({
         hash,
-        description: t`Approving ${formatBigInt(debouncedSkyAmount)} SKY`
+        description: t`Approving ${formatBigInt(debouncedLockAmount)} SKY`
       });
       setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
       setTxStatus(TxStatus.LOADING);
@@ -349,11 +293,11 @@ function ActivationModuleWidgetWrapped({
       //TODO: fix all this copy
       onNotification?.({
         title: t`Approve successful`,
-        description: t`You approved ${formatBigInt(debouncedMkrAmount)} MKR`, // TODO fix copy
+        description: t`You approved ${formatBigInt(debouncedLockAmount)} SKY`, // TODO fix copy
         status: TxStatus.SUCCESS
       });
       setTxStatus(TxStatus.SUCCESS);
-      mutateSealMkrAllowance();
+      mutateSealNgtAllowance();
       // TODO Mutate balances here
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
@@ -366,7 +310,7 @@ function ActivationModuleWidgetWrapped({
         status: TxStatus.ERROR
       });
       setTxStatus(TxStatus.ERROR);
-      mutateSealMkrAllowance();
+      mutateSealNgtAllowance();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
       console.log(error);
     }
@@ -421,9 +365,7 @@ function ActivationModuleWidgetWrapped({
    * USEEFFECTS ----------------------------------------------------------------------------------
    */
 
-  const needsMkrAllowance = !!(sealMkrAllowance === undefined || sealMkrAllowance < debouncedMkrAmount);
-  const needsNgtAllowance = !!(sealNgtAllowance === undefined || sealNgtAllowance < debouncedSkyAmount);
-  const needsLockAllowance = selectedToken === TOKENS.mkr ? needsMkrAllowance : needsNgtAllowance;
+  const needsLockAllowance = !!(sealNgtAllowance === undefined || sealNgtAllowance < debouncedLockAmount);
   const needsUsdsAllowance = !!(sealUsdsAllowance === undefined || sealUsdsAllowance < debouncedUsdsAmount);
 
   // Generate calldata when all steps are complete
@@ -497,12 +439,7 @@ function ActivationModuleWidgetWrapped({
 
   const approveDisabled =
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
-    (selectedToken === TOKENS.mkr &&
-      needsLockAllowance &&
-      (!lockMkrApprove.prepared || lockMkrApprove.isLoading)) ||
-    (selectedToken === TOKENS.sky &&
-      needsLockAllowance &&
-      (!lockNgtApprove.prepared || lockNgtApprove.isLoading)) ||
+    (needsLockAllowance && (!lockNgtApprove.prepared || lockNgtApprove.isLoading)) ||
     (needsUsdsAllowance && (!repayUsdsApprove.prepared || repayUsdsApprove.isLoading)) ||
     (!needsLockAllowance && !needsUsdsAllowance && txStatus === TxStatus.SUCCESS && !multicall.prepared); //disable next button if multicall is not prepared
 
@@ -621,7 +558,6 @@ function ActivationModuleWidgetWrapped({
     if (widgetState.flow === ActivationFlow.OPEN) {
       // Reset the wizard state when we start a new open flow
       setActiveUrn(undefined, onActivationUrnChange ?? (() => {}));
-      setMkrToLock(0n);
       setSkyToLock(0n);
       setUsdsToBorrow(0n);
       setSelectedDelegate(undefined);
@@ -671,18 +607,6 @@ function ActivationModuleWidgetWrapped({
     }
   }, [externalWidgetState?.urnIndex, externalParamUrnAddress]);
 
-  useEffect(() => {
-    if (!displayToken) return;
-
-    setSelectedToken(displayToken);
-
-    onWidgetStateChange?.({
-      widgetState,
-      txStatus,
-      displayToken
-    });
-  }, [displayToken]);
-
   // Handle network changes
   useEffect(() => {
     // Reset widget state when network changes
@@ -690,9 +614,7 @@ function ActivationModuleWidgetWrapped({
     setExternalLink(undefined);
 
     // Reset all state variables
-    setMkrToLock(0n);
     setSkyToLock(0n);
-    setMkrToFree(0n);
     setSkyToFree(0n);
     setUsdsToWipe(0n);
     setUsdsToBorrow(0n);
@@ -736,7 +658,6 @@ function ActivationModuleWidgetWrapped({
     setActiveUrn(undefined, onActivationUrnChange ?? (() => {}));
 
     // Refresh allowances
-    mutateSealMkrAllowance();
     mutateSealNgtAllowance();
     mutateSealUsdsAllowance();
   }, [chainId]);
@@ -766,9 +687,7 @@ function ActivationModuleWidgetWrapped({
     }));
     setTxStatus(TxStatus.INITIALIZED);
     setExternalLink(undefined);
-    if (selectedToken === TOKENS.mkr && needsLockAllowance) {
-      lockMkrApprove.execute();
-    } else if (selectedToken === TOKENS.sky && needsLockAllowance) {
+    if (needsLockAllowance) {
       lockNgtApprove.execute();
     } else if (needsUsdsAllowance) {
       repayUsdsApprove.execute();
@@ -832,9 +751,7 @@ function ActivationModuleWidgetWrapped({
     setActiveUrn(undefined, onActivationUrnChange ?? (() => {}));
     setCurrentStep(ActivationStep.ABOUT);
     setAcceptedExitFee(false);
-    setMkrToLock(0n);
     setSkyToLock(0n);
-    setMkrToFree(0n);
     setSkyToFree(0n);
     setUsdsToWipe(0n);
     setUsdsToBorrow(0n);
@@ -849,7 +766,6 @@ function ActivationModuleWidgetWrapped({
     });
     setCurrentStep(ActivationStep.ABOUT);
     setAcceptedExitFee(false);
-    setSelectedToken(displayToken);
   };
 
   const onClickAction = !isConnectedAndEnabled
@@ -911,9 +827,7 @@ function ActivationModuleWidgetWrapped({
       action: ActivationAction.OVERVIEW
     }));
     setCurrentStep(ActivationStep.ABOUT);
-    setMkrToLock(0n);
     setSkyToLock(0n);
-    setMkrToFree(0n);
     setSkyToFree(0n);
     setUsdsToWipe(0n);
     setUsdsToBorrow(0n);

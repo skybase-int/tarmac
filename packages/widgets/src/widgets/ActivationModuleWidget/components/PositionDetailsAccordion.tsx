@@ -10,7 +10,7 @@ import { Text } from '@widgets/shared/components/ui/Typography';
 import { captitalizeFirstLetter, formatBigInt, formatPercent, math } from '@jetstreamgg/utils';
 import { motion } from 'framer-motion';
 import { getRiskTextColor } from '../lib/utils';
-import { RiskLevel, Token, TOKENS, useCollateralData } from '@jetstreamgg/hooks';
+import { RiskLevel, TOKENS, useCollateralData } from '@jetstreamgg/hooks';
 import { cn } from '@widgets/lib/utils';
 import {
   collateralizationRatioTooltipText,
@@ -30,8 +30,6 @@ type Props = {
   };
   delayedPrice?: bigint;
   liquidationPrice?: bigint;
-  displayToken: Token;
-  setDisplayToken: (token: Token) => void;
 };
 
 export function PositionDetailAccordion({
@@ -41,8 +39,7 @@ export function PositionDetailAccordion({
   borrowedAmount,
   liquidationData,
   delayedPrice,
-  liquidationPrice,
-  displayToken
+  liquidationPrice
 }: Props) {
   const riskTextColor = getRiskTextColor(riskLevel as RiskLevel);
   const { data: collateralData } = useCollateralData();
@@ -59,18 +56,13 @@ export function PositionDetailAccordion({
           <motion.div className="flex justify-between" variants={positionAnimations}>
             <TextWithTooltip
               text="Sealed"
-              tooltip={`The amount of ${displayToken.symbol} you’ve sealed in this position.`}
+              tooltip="The amount of SKY you’ve sealed in this position."
               textClassName="leading-4"
               gap={1}
               iconClassName="text-textSecondary"
             />
             <Text className="text-right text-sm">
-              {formatBigInt(
-                displayToken === TOKENS.mkr
-                  ? sealedAmount || 0n
-                  : math.calculateConversion(TOKENS.mkr, sealedAmount || 0n)
-              )}{' '}
-              {displayToken.symbol}
+              {formatBigInt(math.calculateConversion(TOKENS.mkr, sealedAmount || 0n))} SKY
             </Text>
           </motion.div>
           {!!borrowedAmount && borrowedAmount > 0n && (
@@ -124,23 +116,15 @@ export function PositionDetailAccordion({
                 iconClassName="text-textSecondary"
               />
               <Text className="text-right text-sm">
-                $
-                {formatBigInt(
-                  displayToken === TOKENS.mkr
-                    ? liquidationPrice
-                    : math.calculateMKRtoSKYPrice(liquidationPrice)
-                )}
+                ${formatBigInt(math.calculateMKRtoSKYPrice(liquidationPrice))}
               </Text>
             </motion.div>
           )}
           {!!delayedPrice && delayedPrice > 0n && (
             <motion.div className="flex justify-between" variants={positionAnimations}>
-              <Text className="text-textSecondary text-sm font-normal leading-4">{`Current ${displayToken.symbol} price`}</Text>
+              <Text className="text-textSecondary text-sm font-normal leading-4">Current SKY price</Text>
               <Text className="text-right text-sm">
-                $
-                {formatBigInt(
-                  displayToken === TOKENS.mkr ? delayedPrice : math.calculateMKRtoSKYPrice(delayedPrice)
-                )}
+                ${formatBigInt(math.calculateMKRtoSKYPrice(delayedPrice))}
               </Text>
             </motion.div>
           )}
