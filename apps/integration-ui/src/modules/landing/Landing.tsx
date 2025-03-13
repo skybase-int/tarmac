@@ -7,7 +7,7 @@ import { RewardsWidgetDisplay } from './widgets/RewardsWidgetDisplay';
 import { UpgradeWidgetDisplay } from './widgets/UpgradeWidgetDisplay';
 import { TradeWidgetDisplay } from './widgets/TradeWidgetDisplay';
 import { SealModuleWidgetDisplay } from './widgets/SealModuleWidgetDisplay';
-import { ExternalWidgetState, RewardsFlow, SavingsFlow } from '@jetstreamgg/widgets';
+import { ExternalWidgetState } from '@jetstreamgg/widgets';
 import { ActionButtons } from './components/ActionButtons';
 
 export type CustomNavigation = { href: string; label: string };
@@ -60,11 +60,9 @@ export function Landing(): React.ReactElement {
     initialUpgradeToken: 'DAI'
   });
   const [rewardsInitialState, setRewardsInitialState] = useState<ExternalWidgetState>({
-    flow: RewardsFlow.SUPPLY
+    tab: 'left'
   });
-  const [savingsInitialState, setSavingsInitialState] = useState<ExternalWidgetState>({
-    flow: SavingsFlow.SUPPLY
-  });
+  const [savingsInitialState, setSavingsInitialState] = useState<ExternalWidgetState>({ tab: 'left' });
   const [sealInitialState, setSealInitialState] = useState<ExternalWidgetState>({
     urnIndex: undefined
   });

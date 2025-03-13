@@ -10,7 +10,7 @@ export function BalancesWidgetDisplay() {
       onConnect={onConnectModal}
       locale="en"
       rightHeaderComponent={undefined}
-      externalWidgetState={{ flow: 'balances' }}
+      externalWidgetState={{ tab: 'left' }}
       hideModuleBalances={false}
       actionForToken={(symbol, balance) => {
         return symbol.toLowerCase() === 'dai'
@@ -23,9 +23,9 @@ export function BalancesWidgetDisplay() {
             }
           : undefined;
       }}
-      // rewardsCardUrl={''}
-      // savingsCardUrlMap={{}}
-      // sealCardUrl={''}
+      rewardsCardUrl={''}
+      savingsCardUrlMap={{}}
+      sealCardUrl={''}
     />
   );
 }
