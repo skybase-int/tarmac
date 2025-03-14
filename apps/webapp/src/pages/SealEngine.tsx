@@ -106,6 +106,7 @@ export function SealEngine() {
                 Creation of new positions has been disabled. Management of existing positions remains
                 available.
               </Text>
+              <Text className="text-text mt-8">You don&apos;t have any open positions.</Text>
             </div>
           ) : (
             <SealModuleWidget
