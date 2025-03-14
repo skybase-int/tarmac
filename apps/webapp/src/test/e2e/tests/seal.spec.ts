@@ -11,7 +11,7 @@ test.beforeAll(async () => {});
 test.beforeEach(async ({ page }) => {
   await Promise.all([
     setErc20Balance(mkrAddress[TENDERLY_CHAIN_ID], '100'),
-    setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '1')
+    setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '38100')
   ]);
   await page.goto('/seal-engine');
   await connectMockWalletAndAcceptTerms(page);
