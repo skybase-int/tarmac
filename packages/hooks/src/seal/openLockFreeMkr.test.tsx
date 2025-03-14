@@ -21,7 +21,7 @@ import { waitForPreparedExecuteAndMine } from '../../test/helpers';
 describe('Open position, lock MKR, delegate, select reward contract and free MKR', async () => {
   const wrapper = WagmiWrapper;
   let URN_ADDRESS: `0x${string}`;
-  const URN_INDEX = 0n;
+  const URN_INDEX = 1n; // Test account already has a URN open
 
   it('Should open urn', async () => {
     const { result: resultUrnIndex } = renderHook(() => useCurrentUrnIndex(), { wrapper });
