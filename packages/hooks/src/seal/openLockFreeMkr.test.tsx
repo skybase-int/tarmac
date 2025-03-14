@@ -42,13 +42,13 @@ describe('Open position, lock MKR, delegate, select reward contract and free MKR
 
     await waitFor(
       () => {
-        expect(resultNewUrnIndex.current.data).toEqual(1n);
+        expect(resultNewUrnIndex.current.data).toEqual(URN_INDEX + 1n);
         return;
       },
       { timeout: 5000 }
     );
 
-    const { result: resultUrnAddress } = renderHook(() => useUrnAddress(0n), { wrapper });
+    const { result: resultUrnAddress } = renderHook(() => useUrnAddress(URN_INDEX), { wrapper });
 
     await waitFor(
       () => {
