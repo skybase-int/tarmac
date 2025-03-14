@@ -48,7 +48,7 @@ test('Lock MKR, select rewards, select delegate, and open position', async ({ pa
 
   // switch tabs
   await page.getByRole('tab', { name: 'Unseal and pay back' }).click();
-  await expect(page.getByTestId('repay-input-lse-balance')).toHaveText('Limit 0 <> 28,100, or 38,100 USDS');
+  await expect(page.getByTestId('repay-input-lse-balance')).toHaveText('Limit 0 <> 28,101, or 38,101 USDS');
 
   // click repay 100% button
   await page.getByRole('button', { name: '100%' }).nth(1).click();
@@ -73,7 +73,7 @@ test('Lock MKR, select rewards, select delegate, and open position', async ({ pa
 
   await approveOrPerformAction(page, 'Continue');
   expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible();
-  await expect(page.getByText("You've repaid 38,100 USDS to exit your position.")).toBeVisible();
+  await expect(page.getByText("You've repaid 38,101 USDS to exit your position.")).toBeVisible();
   await page.getByRole('button', { name: 'Manage your position(s)' }).click();
   await expect(page.getByText('Position 1')).toBeVisible();
 
