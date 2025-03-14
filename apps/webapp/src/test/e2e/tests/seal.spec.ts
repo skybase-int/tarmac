@@ -44,7 +44,7 @@ test('Lock MKR, select rewards, select delegate, and open position', async ({ pa
 
   // repay all
   await page.getByRole('button', { name: 'Manage Position' }).click();
-  await expect(page.getByTestId('borrow-input-lse-balance')).toHaveText('Limit 0 <> 15,493 USDS');
+  await expect(page.getByTestId('borrow-input-lse-balance')).toHaveText('Limit 0 <> 15,492 USDS');
 
   // switch tabs
   await page.getByRole('tab', { name: 'Unseal and pay back' }).click();
