@@ -33,7 +33,14 @@ const deleteAllVnets = async displayName => {
 
     // Process each network in the current page
     const deletePromises = data.map(async vnet => {
-      if (vnet.display_name === displayName) {
+      // Prevent deletion of other testnets and teams.
+      // double check before deleting but the query should be specific enough as is
+      const createdAt = new Date(vnet.created_at);
+      const AGE = 45; // in minutes
+      const pastTime = new Date(Date.now() - AGE * 60000);
+      const isOldEnough = createdAt.getTime() <= pastTime.getTime();
+
+      if (vnet.display_name === displayName && isOldEnough) {
         console.log(`Deleting Virtual Testnet with ID ${vnet.id}`);
 
         const response = await fetch(
