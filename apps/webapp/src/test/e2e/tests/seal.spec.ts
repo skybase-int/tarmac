@@ -43,11 +43,15 @@ test('Lock MKR, select rewards, select delegate, and open position', async ({ pa
 
   // repay all
   await page.getByRole('button', { name: 'Manage Position' }).click();
-  await expect(page.getByTestId('borrow-input-lse-balance')).toHaveText('Limit 0 <> 15,474 USDS');
+  // This value is time sensitive, so we use a regex to match the value between 14,474 and 15,473
+  await expect(page.getByTestId('borrow-input-lse-balance')).toHaveText(/Limit 0 <> (14,474|15,473) USDS/);
 
   // switch tabs
   await page.getByRole('tab', { name: 'Unseal and pay back' }).click();
-  await expect(page.getByTestId('repay-input-lse-balance')).toHaveText('Limit 0 <> 28,119, or 38,119 USDS');
+  // This value is time sensitive, so we use a regex to match the value between 28,119 and 28,120
+  await expect(page.getByTestId('repay-input-lse-balance')).toHaveText(
+    /Limit 0 <> (28,119|28,120), or (38,119|38,120) USDS/
+  );
 
   // click repay 100% button
   await page.getByRole('button', { name: '100%' }).nth(1).click();
@@ -72,7 +76,8 @@ test('Lock MKR, select rewards, select delegate, and open position', async ({ pa
 
   await approveOrPerformAction(page, 'Continue');
   expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible();
-  await expect(page.getByText("You've repaid 38,119 USDS to exit your position.")).toBeVisible();
+  // This value is time sensitive, so we use a regex to match the value between 38,119 and 38,120
+  await expect(page.getByText(/You've repaid (38,119|38,120) USDS to exit your position./)).toBeVisible();
   await page.getByRole('button', { name: 'Manage your position(s)' }).click();
   await expect(page.getByText('Position 1')).toBeVisible();
 
