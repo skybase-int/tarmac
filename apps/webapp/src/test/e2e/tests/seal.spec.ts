@@ -59,7 +59,7 @@ test('Lock MKR, select rewards, select delegate, and open position', async ({ pa
   // due to stability fee accumulation, the exact repay amount will change based on time
   const repayValue = Number(await page.getByTestId('repay-input-lse').inputValue());
   expect(repayValue).toBeGreaterThan(38119);
-  expect(repayValue).toBeLessThan(38120);
+  expect(repayValue).toBeLessThan(38121);
   await page.getByTestId('widget-button').click();
 
   // skip the rewards and delegates and confirm position
