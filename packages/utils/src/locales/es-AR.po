@@ -59,10 +59,9 @@ msgstr ""
 
 #. placeholder {0}: SealToken.MKR
 #. placeholder {0}: SealToken.SKY
-#. placeholder {0}: ActivationToken.MKR
+#. placeholder {0}: ActivationToken.SKY
 #: apps/webapp/src/modules/seal/components/SealPositionOverview.tsx
 #: apps/webapp/src/modules/seal/components/SealPositionOverview.tsx
-#: apps/webapp/src/modules/activation/components/ActivationPositionOverview.tsx
 #: apps/webapp/src/modules/activation/components/ActivationPositionOverview.tsx
 msgid "{0} sealed"
 msgstr ""
@@ -320,7 +319,6 @@ msgstr ""
 #: packages/widgets/src/widgets/ActivationModuleWidget/index.tsx
 #: packages/widgets/src/widgets/ActivationModuleWidget/index.tsx
 #: packages/widgets/src/widgets/ActivationModuleWidget/index.tsx
-#: packages/widgets/src/widgets/ActivationModuleWidget/index.tsx
 msgid "Approval failed"
 msgstr ""
 
@@ -353,7 +351,6 @@ msgstr ""
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 #: packages/widgets/src/widgets/L2TradeWidget/index.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
-#: packages/widgets/src/widgets/ActivationModuleWidget/index.tsx
 #: packages/widgets/src/widgets/ActivationModuleWidget/index.tsx
 #: packages/widgets/src/widgets/ActivationModuleWidget/index.tsx
 #: packages/widgets/src/widgets/ActivationModuleWidget/index.tsx
@@ -399,11 +396,11 @@ msgstr ""
 
 #. placeholder {0}: formatBigInt(debouncedMkrAmount)
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-#: packages/widgets/src/widgets/ActivationModuleWidget/index.tsx
 msgid "Approving {0} MKR"
 msgstr ""
 
 #. placeholder {0}: formatBigInt(debouncedSkyAmount)
+#. placeholder {0}: formatBigInt(debouncedLockAmount)
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 #: packages/widgets/src/widgets/ActivationModuleWidget/index.tsx
 msgid "Approving {0} SKY"
@@ -774,21 +771,19 @@ msgstr ""
 #. placeholder {0}: displayToken.symbol
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
-#: packages/widgets/src/widgets/ActivationModuleWidget/components/Repay.tsx
-#: packages/widgets/src/widgets/ActivationModuleWidget/components/PositionSummary.tsx
 msgid "Current {0} price"
 msgstr ""
 
 #: apps/webapp/src/modules/seal/components/SealPositionOverview.tsx
-#: apps/webapp/src/modules/activation/components/ActivationPositionOverview.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Borrow.tsx
-#: packages/widgets/src/widgets/ActivationModuleWidget/components/Borrow.tsx
 msgid "Current MKR price"
 msgstr ""
 
 #: apps/webapp/src/modules/seal/components/SealPositionOverview.tsx
 #: apps/webapp/src/modules/activation/components/ActivationPositionOverview.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Borrow.tsx
+#: packages/widgets/src/widgets/ActivationModuleWidget/components/Repay.tsx
+#: packages/widgets/src/widgets/ActivationModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/ActivationModuleWidget/components/Borrow.tsx
 msgid "Current SKY price"
 msgstr ""
@@ -1020,7 +1015,6 @@ msgstr ""
 
 #. placeholder {0}: selectedToken.symbol
 #: packages/widgets/src/widgets/SealModuleWidget/components/Lock.tsx
-#: packages/widgets/src/widgets/ActivationModuleWidget/components/Lock.tsx
 msgid "How much {0} would you like to seal?"
 msgstr ""
 
@@ -1054,6 +1048,10 @@ msgstr ""
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/ActivationModuleWidget/components/Repay.tsx
 msgid "How much would you like to repay?"
+msgstr ""
+
+#: packages/widgets/src/widgets/ActivationModuleWidget/components/Lock.tsx
+msgid "How much would you like to seal?"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/Free.tsx
@@ -1112,7 +1110,6 @@ msgstr ""
 #: packages/widgets/src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
 #: packages/widgets/src/widgets/ActivationModuleWidget/components/Lock.tsx
-#: packages/widgets/src/widgets/ActivationModuleWidget/components/Free.tsx
 #: packages/widgets/src/widgets/ActivationModuleWidget/components/Free.tsx
 msgid "Insufficient funds"
 msgstr ""
@@ -1243,7 +1240,6 @@ msgid "MKR delegated by you"
 msgstr ""
 
 #: apps/webapp/src/modules/seal/components/SealPositionOverview.tsx
-#: apps/webapp/src/modules/activation/components/ActivationPositionOverview.tsx
 msgid "MKR Liquidation price"
 msgstr ""
 
@@ -1268,6 +1264,11 @@ msgstr ""
 #: apps/webapp/src/modules/auth/components/UnauthorizedPage.tsx
 #: apps/webapp/src/modules/auth/components/UnauthorizedPage.tsx
 msgid "Network Error"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+msgid "New positions disabled"
 msgstr ""
 
 #: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
@@ -1342,7 +1343,6 @@ msgstr ""
 msgid "Only Ethereum Mainnet and Base are supported at this time.<0/>Please switch networks to continue."
 msgstr ""
 
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 #: packages/widgets/src/widgets/ActivationModuleWidget/index.tsx
 msgid "Open a new position"
 msgstr ""
@@ -2054,9 +2054,7 @@ msgid "Total {0} rewarded"
 msgstr ""
 
 #. placeholder {0}: userConfig?.sealToken ?? ''
-#. placeholder {0}: userConfig?.activationToken ?? ''
 #: apps/webapp/src/modules/seal/components/SealOverview.tsx
-#: apps/webapp/src/modules/activation/components/ActivationOverview.tsx
 msgid "Total {0} sealed"
 msgstr ""
 
@@ -2083,6 +2081,10 @@ msgstr ""
 
 #: apps/webapp/src/modules/ui/components/UsdsSkyTotalsChart.tsx
 msgid "Total SKY"
+msgstr ""
+
+#: apps/webapp/src/modules/activation/components/ActivationOverview.tsx
+msgid "Total SKY sealed"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/UsdsTotalSupplyCard.tsx
@@ -2493,7 +2495,6 @@ msgstr ""
 #: packages/widgets/src/widgets/ActivationModuleWidget/index.tsx
 #: packages/widgets/src/widgets/ActivationModuleWidget/index.tsx
 #: packages/widgets/src/widgets/ActivationModuleWidget/index.tsx
-#: packages/widgets/src/widgets/ActivationModuleWidget/index.tsx
 msgid "We could not approve your token allowance."
 msgstr ""
 
@@ -2591,12 +2592,15 @@ msgstr ""
 
 #. placeholder {0}: formatBigInt(debouncedMkrAmount)
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-#: packages/widgets/src/widgets/ActivationModuleWidget/index.tsx
 msgid "You approved {0} MKR"
 msgstr ""
 
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+#. placeholder {0}: formatBigInt(debouncedLockAmount)
 #: packages/widgets/src/widgets/ActivationModuleWidget/index.tsx
+msgid "You approved {0} SKY"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 msgid "You approved MKR"
 msgstr ""
 
