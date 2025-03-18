@@ -521,13 +521,13 @@ const RewardsWidgetWrapped = ({
   // Handle the error onClicks separately to keep it clean
   const errorOnClick = () => {
     return widgetState.action === RewardsAction.SUPPLY
-      ? supplyOnClick
+      ? supplyOnClick()
       : widgetState.action === RewardsAction.WITHDRAW
-        ? withdrawOnClick
+        ? withdrawOnClick()
         : widgetState.action === RewardsAction.APPROVE
-          ? approveOnClick
+          ? approveOnClick()
           : widgetState.action === RewardsAction.CLAIM
-            ? onClaimClick
+            ? onClaimClick()
             : undefined;
   };
 
@@ -553,7 +553,7 @@ const RewardsWidgetWrapped = ({
       : txStatus === TxStatus.SUCCESS
         ? nextOnClick
         : txStatus === TxStatus.ERROR
-          ? errorOnClick()
+          ? errorOnClick
           : widgetState.flow === RewardsFlow.SUPPLY && widgetState.action === RewardsAction.APPROVE
             ? approveOnClick
             : widgetState.flow === RewardsFlow.SUPPLY && widgetState.action === RewardsAction.SUPPLY
@@ -628,6 +628,31 @@ const RewardsWidgetWrapped = ({
     setTxStatus(TxStatus.IDLE);
     setAmount(0n);
   };
+
+  // Reset widget state after switching network
+  useEffect(() => {
+    // Reset all state variables
+    setAmount(parseUnits(validatedExternalState?.amount || '0', 18));
+    setClaimAmount(0n);
+    setTxStatus(TxStatus.IDLE);
+    setExternalLink(undefined);
+
+    // Reset selected reward contract to initial value
+    setSelectedRewardContract(validatedExternalState?.selectedRewardContract);
+
+    // Reset widget state to overview screen
+    setWidgetState({
+      flow: null,
+      action: RewardsAction.OVERVIEW,
+      screen: RewardsScreen.ACTION
+    });
+
+    // Refresh data
+    mutateAllowance?.();
+    mutateTokenBalance?.();
+    mutateRewardsBalance?.();
+    mutateUserSuppliedBalance?.();
+  }, [chainId]);
 
   return (
     <WidgetContainer
