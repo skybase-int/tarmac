@@ -35,10 +35,8 @@ const isTokenSupportedOnNetwork = (
   chainId: number,
   tokenList: Record<number, Token[]>
 ): boolean => {
-  // TODO: Remove this once we have a token list for Arbitrum vvvvvv
   if (chainId === networkMapping.arbitrum) {
-    // Use Base token list for now for Arbitrum
-    return tokenList[networkMapping.base].some(t => t.symbol.toLowerCase() === token.toLowerCase());
+    return tokenList[networkMapping.arbitrum].some(t => t.symbol.toLowerCase() === token.toLowerCase());
   }
 
   const networkTokens = tokenList[chainId];
@@ -57,9 +55,8 @@ const isPairAllowedOnNetwork = (
 ): boolean => {
   if (!disallowedPairs) return true;
 
-  // TODO: Remove this once we have a token list for Arbitrum vvvvvv
   if (chainId === networkMapping.arbitrum) {
-    const pairs = disallowedPairs[networkMapping.base];
+    const pairs = disallowedPairs[networkMapping.arbitrum];
     if (!pairs) return true;
 
     return pairs.some(
