@@ -57,6 +57,9 @@ Create a `.env` file in the root directory of the project. You can use the `.env
 - `VITE_ADVANCED_CHAT_ENABLED`: If set to `'true`, enables advanced chat features
 - `VITE_CHAT_SUGGESTIONS_ENABLED`: If set to `'true`, enables chat suggestions functionality, set to 'true' to enable
 - `VITE_CHATBOT_NAME`: The name of the chatbot
+- `VITE_CHATBOT_ENDPOINT`: The endpoint URL for the chatbot service
+- `VITE_CHATBOT_ENDPOINT_HOST`: The endpoint host for the chatbot service
+- `VITE_CHATBOT_API_KEY`: API key for authenticating with the chatbot service
 
 ## Running the App
 
