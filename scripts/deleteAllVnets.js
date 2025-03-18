@@ -6,8 +6,8 @@ const deleteAllVnets = async displayName => {
     throw new Error('A display name is required for the virtual testnet');
   }
 
-  const PAGE_SIZE = 10; // This is the maximum allowed by the API atm, greater values will be ignered and 10 will be used
-  const MAX_PAGES = 30;
+  const PAGE_SIZE = 100; // This is the maximum allowed by the API atm, greater values will be ignered and 10 will be used
+  const MAX_PAGES = 10;
   let totalDeleted = 0;
 
   // Process page by page
@@ -15,7 +15,7 @@ const deleteAllVnets = async displayName => {
     console.log(`Fetching page ${page} of virtual networks...`);
 
     const res = await fetch(
-      `https://api.tenderly.co/api/v1/account/jetstreamgg/project/jetstream/vnets?page=${page}&size=${PAGE_SIZE}&display_name=${displayName}`,
+      `https://api.tenderly.co/api/v1/account/jetstreamgg/project/jetstream/vnets?page=${page}&per_page=${PAGE_SIZE}&display_name=${displayName}`,
       {
         headers: [['X-Access-Key', `${process.env.TENDERLY_API_KEY}`]],
         method: 'GET'
