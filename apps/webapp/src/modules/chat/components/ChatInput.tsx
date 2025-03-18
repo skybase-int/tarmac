@@ -10,7 +10,6 @@ export const ChatInput = ({ sendMessage }: { sendMessage: (message: string) => v
   const { isLoading, hasAcceptedAgeRestriction, chatHistory } = useChatContext();
 
   const handleSubmit = () => {
-    console.log('handleSubmit', inputText);
     sendMessage(inputText);
     setInputText('');
   };
