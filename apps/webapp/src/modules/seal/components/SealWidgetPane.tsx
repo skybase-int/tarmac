@@ -15,6 +15,7 @@ import { Intent } from '@/lib/enums';
 import { useEffect } from 'react';
 import { useChatContext } from '@/modules/chat/context/ChatContext';
 
+import { Error } from '@/modules/layout/components/Error';
 export function SealWidgetPane(sharedProps: SharedProps) {
   let termsLink: any[] = [];
   try {
@@ -145,7 +146,7 @@ export function SealWidgetPane(sharedProps: SharedProps) {
   const hasTermsLink = Array.isArray(termsLink) && termsLink.length > 0;
   if (!hasTermsLink) {
     console.error('No terms link found');
-    return null;
+    return <Error />;
   }
 
   const sealTab = searchParams.get(QueryParams.SealTab) === 'free' ? SealAction.FREE : SealAction.LOCK;
@@ -162,7 +163,7 @@ export function SealWidgetPane(sharedProps: SharedProps) {
         sealTab,
         flow
       }}
-      termsLink={termsLink[0]}
+      termsLink={Array.isArray(termsLink) && termsLink.length > 0 ? termsLink[0] : undefined}
     />
   );
 }
