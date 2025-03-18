@@ -1,12 +1,13 @@
 import { MessageType, UserType } from '../constants';
 
 export interface SendMessageRequest {
-  api_key: string;
-  chatbot_id: string;
-  session_id: string;
-  history: ChatHistory[];
-  message: string;
-  traceable: boolean;
+  // api_key: string;
+  // chatbot_id: string;
+  // session_id: string;
+  // history: ChatHistory[];
+  // message: string;
+  // traceable: boolean;
+  promptText: string;
 }
 
 export interface SendMessageResponse {
