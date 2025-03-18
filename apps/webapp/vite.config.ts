@@ -26,6 +26,7 @@ export default ({ mode }: { mode: modeEnum }) => {
 
   // TODO: Remove this once we have the endpoint working with localhost so we don't have to use the proxy to prevent CORS issues
   const CHATBOT_ENDPOINT_HOST = process.env.VITE_CHATBOT_ENDPOINT_HOST || '';
+  const CHATBOT_API_KEY = process.env.VITE_CHATBOT_API_KEY || '';
 
   const CONTENT_SECURITY_POLICY = `
     default-src 'self';
@@ -90,7 +91,13 @@ export default ({ mode }: { mode: modeEnum }) => {
           target: CHATBOT_ENDPOINT_HOST,
           changeOrigin: true,
           rewrite: path => path.replace(/^\/chatbot-api/, CHATBOT_ENDPOINT_HOST),
-          secure: false
+          secure: false,
+          configure: proxy => {
+            proxy.on('proxyReq', proxyReq => {
+              // Add custom headers to the proxied request
+              proxyReq.setHeader('Authorization', `Bearer ${CHATBOT_API_KEY}`);
+            });
+          }
         }
       }
     },

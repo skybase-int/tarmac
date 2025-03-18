@@ -18,8 +18,7 @@ const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
   const response = await fetch(`${endpoint}`.replaceAll(host, '/chatbot-api'), {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${import.meta.env.VITE_CHATBOT_API_KEY}`
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify([
       {
