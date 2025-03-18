@@ -29,11 +29,11 @@ export type BaseIntentParams = {
 
 export const generateBaseUrl = (intentId: string, params: Record<string, string | undefined>): string => {
   const urlParams = new URLSearchParams();
-  urlParams.append(QueryParams.Widget, intentId);
+  urlParams.append(QueryParams.Widget, encodeURIComponent(intentId));
   urlParams.append(QueryParams.Chat, 'true');
 
   Object.entries(params).forEach(([key, value]) => {
-    if (value) urlParams.append(key, value);
+    if (value) urlParams.append(key, encodeURIComponent(value));
   });
 
   return `?${urlParams.toString()}`;
