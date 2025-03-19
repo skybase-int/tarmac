@@ -24,10 +24,6 @@ export default ({ mode }: { mode: modeEnum }) => {
   const RPC_PROVIDER_ARBITRUM = process.env.VITE_RPC_PROVIDER_ARBITRUM || '';
   const RPC_PROVIDER_TENDERLY_ARBITRUM = process.env.VITE_RPC_PROVIDER_TENDERLY_ARBITRUM || '';
 
-  // TODO: Remove this once we have the endpoint working with localhost so we don't have to use the proxy to prevent CORS issues
-  const CHATBOT_ENDPOINT_HOST = process.env.VITE_CHATBOT_ENDPOINT_HOST || '';
-  const CHATBOT_API_KEY = process.env.VITE_CHATBOT_API_KEY || '';
-
   const CONTENT_SECURITY_POLICY = `
     default-src 'self';
     script-src 'self'
@@ -71,7 +67,6 @@ export default ({ mode }: { mode: modeEnum }) => {
       wss://www.walletlink.org
       https://explorer-api.walletconnect.com/
       https://enhanced-provider.rainbow.me
-      ${CHATBOT_ENDPOINT_HOST}
       cloudflareinsights.com;
     frame-src 'self'
       https://verify.walletconnect.com
@@ -84,22 +79,7 @@ export default ({ mode }: { mode: modeEnum }) => {
   return defineConfig({
     server: {
       // vite default is 5173
-      port: 3000,
-      // TODO: Remove this once we have the endpoint working with localhost so we don't have to use the proxy to prevent CORS issues
-      proxy: {
-        '/chatbot-api': {
-          target: CHATBOT_ENDPOINT_HOST,
-          changeOrigin: true,
-          rewrite: path => path.replace(/^\/chatbot-api/, CHATBOT_ENDPOINT_HOST),
-          secure: false,
-          configure: proxy => {
-            proxy.on('proxyReq', proxyReq => {
-              // Add custom headers to the proxied request
-              proxyReq.setHeader('Authorization', `Bearer ${CHATBOT_API_KEY}`);
-            });
-          }
-        }
-      }
+      port: 3000
     },
     preview: {
       port: 3000
