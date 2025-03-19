@@ -11,11 +11,8 @@ import { arbitrum } from 'wagmi/chains';
 
 const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
   const endpoint = import.meta.env.VITE_CHATBOT_ENDPOINT || 'https://staging-api.sky.money';
-  const host = import.meta.env.VITE_CHATBOT_ENDPOINT_HOST || '';
 
-  // TODO: Remove this once we have the endpoint working with localhost so we don't have to use the proxy to prevent CORS issues
-  // const response = await fetch(`${endpoint}`), {
-  const response = await fetch(`${endpoint}`.replaceAll(host, '/chatbot-api'), {
+  const response = await fetch(`${endpoint}/chat/predictions`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
