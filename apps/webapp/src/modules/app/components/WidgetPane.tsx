@@ -101,9 +101,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
     );
   }
 
-  const sealUrl = getQueryParams(
-    `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.SEAL_INTENT)}`
-  );
+  const sealUrl = `/seal-engine${getQueryParams(`/?network=${mainnetName}`)}`;
 
   const widgetContent: WidgetContent = [
     [
