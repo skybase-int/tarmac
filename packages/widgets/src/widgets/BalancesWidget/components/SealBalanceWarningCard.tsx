@@ -45,7 +45,7 @@ export const SealBalanceWarningCard = ({
             <div className="flex w-full justify-between">
               <HStack className="items-center" gap={1}>
                 <Warning boxSize={14} viewBox="0 0 16 16" />
-                <Text variant="captionSm" className="text-textSecondary text-error">
+                <Text variant="captionSm" className="text-error">
                   <Trans>Seal Engine is deprecated</Trans>
                 </Text>
               </HStack>

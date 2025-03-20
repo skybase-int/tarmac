@@ -1638,6 +1638,10 @@ msgstr ""
 msgid "Seal Engine"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/components/UrnsList.tsx
+msgid "Seal Engine is being deprecated. Exit your positions now. Migration to Staking Engine coming soon."
+msgstr ""
+
 #: packages/widgets/src/widgets/BalancesWidget/components/SealBalanceWarningCard.tsx
 msgid "Seal Engine is deprecated"
 msgstr ""
