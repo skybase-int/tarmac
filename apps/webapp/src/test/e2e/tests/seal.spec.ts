@@ -5,7 +5,11 @@ import { mkrAddress, usdsAddress } from '@jetstreamgg/hooks';
 import { TENDERLY_CHAIN_ID } from '@/data/wagmi/config/testTenderlyChain.ts';
 import { connectMockWalletAndAcceptTerms } from '../utils/connectMockWalletAndAcceptTerms.ts';
 import { newSealPosition } from '../utils/newSealPosition.ts';
-import { mkrAbi, sealModuleAddress } from 'node_modules/@jetstreamgg/hooks/src/generated.ts';
+import {
+  lsMkrUsdsRewardAddress,
+  mkrAbi,
+  sealModuleAddress
+} from 'node_modules/@jetstreamgg/hooks/src/generated.ts';
 import { approveToken } from '../utils/approveToken.ts';
 
 test.beforeAll(async () => {
@@ -14,7 +18,12 @@ test.beforeAll(async () => {
     setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '38100'),
     approveToken(mkrAddress[TENDERLY_CHAIN_ID], sealModuleAddress[TENDERLY_CHAIN_ID], '100', mkrAbi)
   ]);
-  await newSealPosition();
+  await newSealPosition(
+    '100',
+    '38000',
+    '0x278c4Cbf1726Af5a62f0bCe40B1ddC2ea784aA45',
+    lsMkrUsdsRewardAddress[TENDERLY_CHAIN_ID]
+  );
 });
 
 test.beforeEach(async ({ page }) => {

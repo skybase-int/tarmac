@@ -4,15 +4,17 @@ import {
   getSaMulticallCalldata,
   getSaOpenCalldata,
   getSaSelectDelegateCalldata,
-  getSaSelectRewardContractCalldata,
-  lsMkrUsdsRewardAddress
+  getSaSelectRewardContractCalldata
 } from '@jetstreamgg/hooks';
 import { readFile } from 'fs/promises';
 import { parseEther } from 'viem';
-import { TENDERLY_CHAIN_ID } from '@/data/wagmi/config/testTenderlyChain.ts';
 
-// TODO: Accept params for the new position
-export const newSealPosition = async () => {
+export const newSealPosition = async (
+  mkrAmount: string,
+  usdsAmount: string,
+  delegateAddress: `0x${string}`,
+  rewardContractAddress: `0x${string}`
+) => {
   const file = await readFile('../../tenderlyTestnetData.json', 'utf-8');
   // RPC URL for the Mainnet fork
   const [{ TENDERLY_RPC_URL }] = JSON.parse(file);
@@ -21,9 +23,8 @@ export const newSealPosition = async () => {
   // Address of the LockStakeEngine (Seal Module) contract in Tenderly
   const SEAL_MODULE_ADDRESS = '0x9581c795dbcaf408e477f6f1908a41be43093122';
   const URN_INDEX = 1n; // Test account already has a URN open
-  const MKR_TO_LOCK = parseEther('100');
-  const USDS_TO_DRAW = parseEther('38000');
-  const SELECTED_DELEGATE = '0x278c4Cbf1726Af5a62f0bCe40B1ddC2ea784aA45';
+  const MKR_TO_LOCK = parseEther(mkrAmount);
+  const USDS_TO_DRAW = parseEther(usdsAmount);
 
   // Generate calldata for each operation
   const calldataOpen = getSaOpenCalldata({ urnIndex: URN_INDEX });
@@ -44,13 +45,13 @@ export const newSealPosition = async () => {
   const calldataSelectRewardContract = getSaSelectRewardContractCalldata({
     ownerAddress: TEST_WALLET_ADDRESS,
     urnIndex: URN_INDEX,
-    rewardContractAddress: lsMkrUsdsRewardAddress[TENDERLY_CHAIN_ID]
+    rewardContractAddress
   });
 
   const calldataSelectDelegate = getSaSelectDelegateCalldata({
     ownerAddress: TEST_WALLET_ADDRESS,
     urnIndex: URN_INDEX,
-    delegateAddress: SELECTED_DELEGATE
+    delegateAddress
   });
 
   // Encode function calls as bytes arrays
