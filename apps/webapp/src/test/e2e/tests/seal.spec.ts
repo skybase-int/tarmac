@@ -18,6 +18,7 @@ test.beforeAll(async () => {
     setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '38100'),
     approveToken(mkrAddress[TENDERLY_CHAIN_ID], sealModuleAddress[TENDERLY_CHAIN_ID], '100', mkrAbi)
   ]);
+  // Create a new Seal position in the forked testnet before running the tests. Seal widget has the "Open new position" button disabled for the migration.
   await newSealPosition(
     '100',
     '38000',
