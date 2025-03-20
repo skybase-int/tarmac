@@ -1,15 +1,27 @@
 import { readFile } from 'fs/promises';
 import { encodeFunctionData, parseEther } from 'viem';
+import { NetworkName } from './constants';
 
 export const approveToken = async (
   tokenAddress: `0x${string}`,
   spenderAddress: `0x${string}`,
   amount: string,
-  abi: any
+  abi: any,
+  network = NetworkName.mainnet
 ) => {
   const file = await readFile('../../tenderlyTestnetData.json', 'utf-8');
-  // RPC URL for the Mainnet fork
-  const [{ TENDERLY_RPC_URL }] = JSON.parse(file);
+  const [
+    { TENDERLY_RPC_URL: TENDERLY_MAINNET_RPC_URL },
+    { TENDERLY_RPC_URL: TENDERLY_BASE_RPC_URL },
+    { TENDERLY_RPC_URL: TENDERLY_ARBITRUM_RPC_URL }
+  ] = JSON.parse(file);
+  const rpcUrl =
+    network === NetworkName.mainnet
+      ? TENDERLY_MAINNET_RPC_URL
+      : network === NetworkName.base
+        ? TENDERLY_BASE_RPC_URL
+        : TENDERLY_ARBITRUM_RPC_URL;
+
   const TEST_WALLET_ADDRESS = '0xFebC63589D8a3bc5CD97E86C174A836c9caa6DEe';
   const amountToApprove = parseEther(amount);
 
@@ -19,7 +31,7 @@ export const approveToken = async (
     args: [spenderAddress, amountToApprove]
   });
 
-  const response = await fetch(TENDERLY_RPC_URL, {
+  const response = await fetch(rpcUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -46,7 +58,7 @@ export const approveToken = async (
   }
 
   // Mine a block to confirm the transaction
-  const blockMineResponse = await fetch(TENDERLY_RPC_URL, {
+  const blockMineResponse = await fetch(rpcUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
