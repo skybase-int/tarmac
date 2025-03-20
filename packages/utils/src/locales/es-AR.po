@@ -1219,7 +1219,7 @@ msgid "Metrics"
 msgstr ""
 
 #: packages/widgets/src/widgets/BalancesWidget/components/SealBalanceWarningCard.tsx
-msgid "Migrate your position(s) to the Activation Engine"
+msgid "Migrate your position(s) to the Staking Engine"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
