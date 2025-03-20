@@ -4,10 +4,6 @@ import { useChatContext } from '../context/ChatContext';
 import { CHATBOT_NAME, MessageType, UserType } from '../constants';
 import { generateUUID } from '../lib/generateUUID';
 import { t } from '@lingui/macro';
-import { handleActionIntent } from '../lib/handleActionIntent';
-import { mainnet } from 'wagmi/chains';
-import { base } from 'wagmi/chains';
-import { arbitrum } from 'wagmi/chains';
 
 const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
   const endpoint = import.meta.env.VITE_CHATBOT_ENDPOINT || 'https://staging-api.sky.money';
@@ -38,10 +34,17 @@ const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
       response: data?.[0]?.prediction || '',
       messageId: data?.[0]?.messageId || ''
     },
-    actionIntentResponse: {
-      classification: '',
-      confidence: 0
-    },
+    // Mocked response for now
+    actionIntentResponse: [
+      {
+        label: 'Save 100 USDC',
+        url: '/?network=arbitrumone&details=false&widget=savings&flow=supply&source_token=USDC&input_amount=100'
+      },
+      {
+        label: 'Upgrade 300 DAI',
+        url: '/?network=mainnet_sep_30_0&details=false&widget=upgrade&flow=upgrade&input_amount=300'
+      }
+    ],
     questionIntentResponse: {
       recommendations: []
     },
@@ -60,8 +63,7 @@ const sendMessageMutation: MutationFunction<
     throw new Error(`${CHATBOT_NAME} is disabled`);
   }
 
-  const { chatResponse, actionIntentResponse, questionIntentResponse, slotResponse } =
-    await fetchEndpoints(messagePayload);
+  const { chatResponse, actionIntentResponse, questionIntentResponse } = await fetchEndpoints(messagePayload);
 
   if (!chatResponse.response) {
     throw new Error('Chatbot did not respond');
@@ -70,20 +72,11 @@ const sendMessageMutation: MutationFunction<
   // we will override the response if we detect an action intent
   const data: SendMessageResponse = { ...chatResponse };
 
-  if (
-    actionIntentResponse.classification &&
-    slotResponse.slots &&
-    actionIntentResponse.classification !== 'NONE'
-  ) {
-    // if so, return the action intent button, accompanied by hard-coded text acknowledging the intent
-    const actionIntents = handleActionIntent({
-      classification: actionIntentResponse.classification,
-      slots: slotResponse.slots,
-      chains: [mainnet, base, arbitrum]
-    });
-
-    data.intents = actionIntents;
-  }
+  data.intents = actionIntentResponse.map(intent => ({
+    intent_description: intent.label,
+    url: intent.url,
+    intent_id: intent.label
+  }));
 
   // next, check for question intents
   if (questionIntentResponse.recommendations && questionIntentResponse.recommendations.length > 0) {
