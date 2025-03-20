@@ -231,7 +231,8 @@ export {
   useReadSsrAuthOracleGetSsr,
   useReadPsm3L2Pocket,
   useReadPsm3L2PreviewSwapExactIn,
-  useReadPsm3L2PreviewSwapExactOut
+  useReadPsm3L2PreviewSwapExactOut,
+  lsMkrUsdsRewardAddress
 } from './generated';
 export { contracts, tenderlyContracts, sepoliaContracts, l2Contracts } from './contracts';
 export * from './seal/calldata';
