@@ -169,3 +169,10 @@ export const getSaGetRewardCalldata = ({
     functionName: 'getReward',
     args: [ownerAddress, urnIndex, rewardContractAddress, toAddress]
   });
+
+export const getSaMulticallCalldata = ({ calldata }: { calldata: `0x${string}`[] }) =>
+  encodeFunctionData({
+    abi: sealModuleAbi,
+    functionName: 'multicall',
+    args: [calldata]
+  });
