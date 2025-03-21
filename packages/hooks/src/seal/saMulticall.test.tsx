@@ -239,6 +239,22 @@ describe('Seal Module Multicall tests', async () => {
     );
     await waitForPreparedExecuteAndMine(resultApproveSky);
 
+    // First check the current collateral amount before adding SKY
+    const urnAddress = await getUrnAddress(URN_INDEX, useUrnAddress);
+    const { result: resultInitialLocked } = renderHook(() => useVault(urnAddress), {
+      wrapper
+    });
+
+    let initialCollateralAmount: bigint | undefined;
+    await waitFor(
+      () => {
+        initialCollateralAmount = resultInitialLocked.current.data?.collateralAmount;
+        expect(initialCollateralAmount).toBeDefined();
+        return;
+      },
+      { timeout: 5000 }
+    );
+
     // Generate calldata for locking SKY
     const calldataLockSky = getSaLockSkyCalldata({
       ownerAddress: TEST_WALLET_ADDRESS,
@@ -258,16 +274,21 @@ describe('Seal Module Multicall tests', async () => {
 
     await waitForPreparedExecuteAndMine(resultMulticall);
 
-    const urnAddress = await getUrnAddress(URN_INDEX, useUrnAddress);
-
     // Check Urn locked MKR equivalent amount
     const { result: resultMkrLocked } = renderHook(() => useVault(urnAddress), {
       wrapper
     });
 
+    console.log(
+      '🚀 ~ const{result:resultMkrLocked}=renderHook ~ resultMkrLocked:',
+      resultMkrLocked.current.data?.collateralAmount
+    );
+    console.log('🚀 ~ it ~ initialCollateralAmount:', initialCollateralAmount);
     await waitFor(
       () => {
-        expect(resultMkrLocked.current.data?.collateralAmount).toBe(MKR_TO_LOCK);
+        expect(resultMkrLocked.current.data?.collateralAmount).toBe(
+          (initialCollateralAmount || 0n) + MKR_TO_LOCK
+        );
         return;
       },
       { timeout: 5000 }
