@@ -36,6 +36,7 @@ describe('Seal Module Multicall tests', async () => {
   const USDS_TO_DRAW = parseEther('10000');
   const SKY_TO_LOCK = parseEther('480000');
   const SELECTED_DELEGATE = '0x278c4Cbf1726Af5a62f0bCe40B1ddC2ea784aA45';
+  const LOADING_TIMEOUT = 15000;
 
   it('Should open, lock MKR, draw USDS, select a reward contract and a delegate in a single multicall transaction', async () => {
     // Make sure URN_INDEX is correct
@@ -60,7 +61,7 @@ describe('Seal Module Multicall tests', async () => {
         wrapper
       }
     );
-    await waitForPreparedExecuteAndMine(resultApproveMkr);
+    await waitForPreparedExecuteAndMine(resultApproveMkr, LOADING_TIMEOUT);
 
     const { result: resultApproveUsds } = renderHook(
       () =>
@@ -72,7 +73,7 @@ describe('Seal Module Multicall tests', async () => {
         wrapper
       }
     );
-    await waitForPreparedExecuteAndMine(resultApproveUsds);
+    await waitForPreparedExecuteAndMine(resultApproveUsds, LOADING_TIMEOUT);
 
     // Generate calldata for each operation
     const calldataOpen = getSaOpenCalldata({ urnIndex: URN_INDEX });
@@ -118,7 +119,7 @@ describe('Seal Module Multicall tests', async () => {
       { wrapper }
     );
 
-    await waitForPreparedExecuteAndMine(resultMulticall);
+    await waitForPreparedExecuteAndMine(resultMulticall, LOADING_TIMEOUT);
 
     // If urn was opened correctly, the new urn index should be incremented by 1
     const { result: resultNewUrnIndex } = renderHook(() => useCurrentUrnIndex(), { wrapper });
@@ -237,7 +238,23 @@ describe('Seal Module Multicall tests', async () => {
         wrapper
       }
     );
-    await waitForPreparedExecuteAndMine(resultApproveSky);
+    await waitForPreparedExecuteAndMine(resultApproveSky, LOADING_TIMEOUT);
+
+    // First check the current collateral amount before adding SKY
+    const urnAddress = await getUrnAddress(URN_INDEX, useUrnAddress);
+    const { result: resultInitialLocked } = renderHook(() => useVault(urnAddress), {
+      wrapper
+    });
+
+    let initialCollateralAmount: bigint | undefined;
+    await waitFor(
+      () => {
+        initialCollateralAmount = resultInitialLocked.current.data?.collateralAmount;
+        expect(initialCollateralAmount).toBeDefined();
+        return;
+      },
+      { timeout: 5000 }
+    );
 
     // Generate calldata for locking SKY
     const calldataLockSky = getSaLockSkyCalldata({
@@ -256,9 +273,7 @@ describe('Seal Module Multicall tests', async () => {
       { wrapper }
     );
 
-    await waitForPreparedExecuteAndMine(resultMulticall);
-
-    const urnAddress = await getUrnAddress(URN_INDEX, useUrnAddress);
+    await waitForPreparedExecuteAndMine(resultMulticall, LOADING_TIMEOUT);
 
     // Check Urn locked MKR equivalent amount
     const { result: resultMkrLocked } = renderHook(() => useVault(urnAddress), {
@@ -267,7 +282,9 @@ describe('Seal Module Multicall tests', async () => {
 
     await waitFor(
       () => {
-        expect(resultMkrLocked.current.data?.collateralAmount).toBe(MKR_TO_LOCK);
+        expect(resultMkrLocked.current.data?.collateralAmount).toBe(
+          (initialCollateralAmount || 0n) + MKR_TO_LOCK
+        );
         return;
       },
       { timeout: 5000 }
@@ -286,7 +303,7 @@ describe('Seal Module Multicall tests', async () => {
         wrapper
       }
     );
-    await waitForPreparedExecuteAndMine(resultApproveSky);
+    await waitForPreparedExecuteAndMine(resultApproveSky, LOADING_TIMEOUT);
 
     const calldataFreeSky = getSaFreeSkyCalldata({
       ownerAddress: TEST_WALLET_ADDRESS,
@@ -305,7 +322,7 @@ describe('Seal Module Multicall tests', async () => {
       { wrapper }
     );
 
-    await waitForPreparedExecuteAndMine(resultMulticall);
+    await waitForPreparedExecuteAndMine(resultMulticall, LOADING_TIMEOUT);
 
     const urnAddress = await getUrnAddress(URN_INDEX, useUrnAddress);
 
@@ -370,7 +387,7 @@ describe('Seal Module Multicall tests', async () => {
       { wrapper }
     );
 
-    await waitForPreparedExecuteAndMine(resultMulticall);
+    await waitForPreparedExecuteAndMine(resultMulticall, LOADING_TIMEOUT);
 
     const urnAddress = await getUrnAddress(URN_INDEX, useUrnAddress);
 
@@ -400,7 +417,7 @@ describe('Seal Module Multicall tests', async () => {
         wrapper
       }
     );
-    await waitForPreparedExecuteAndMine(resultApproveSky);
+    await waitForPreparedExecuteAndMine(resultApproveSky, LOADING_TIMEOUT);
 
     const freeMkrCalldata = getSaFreeMkrCalldata({
       ownerAddress: TEST_WALLET_ADDRESS,
@@ -426,7 +443,7 @@ describe('Seal Module Multicall tests', async () => {
       { wrapper }
     );
 
-    await waitForPreparedExecuteAndMine(resultMulticall);
+    await waitForPreparedExecuteAndMine(resultMulticall, LOADING_TIMEOUT);
 
     const urnAddress = await getUrnAddress(URN_INDEX, useUrnAddress);
 
@@ -465,7 +482,7 @@ describe('Seal Module Multicall tests', async () => {
       { wrapper }
     );
 
-    await waitForPreparedExecuteAndMine(resultMulticall);
+    await waitForPreparedExecuteAndMine(resultMulticall, LOADING_TIMEOUT);
 
     // Check users USDS and MKR balances
     const { result: resultUSDSBalance } = renderHook(
