@@ -1,12 +1,14 @@
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { useCurrentUrnIndex, TOKENS } from '@jetstreamgg/hooks';
 import { UrnPosition } from './UrnPosition';
-import { Heading } from '@widgets/shared/components/ui/Typography';
+import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
 import { OnSealUrnChange } from '..';
 import { useContext } from 'react';
 import { SealModuleWidgetContext } from '../context/context';
 import { ViewSkyMkrButton } from './ViewSkyMkrButton';
+import { Warning } from '@widgets/shared/components/icons/Warning';
+import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 
 export const UrnsList = ({
   claimPrepared,
@@ -24,6 +26,14 @@ export const UrnsList = ({
 
   return (
     <VStack gap={6}>
+      <HStack className="items-start" gap={2}>
+        <Warning boxSize={20} viewBox="0 0 16 16" className="mt-1" />
+        <Text variant="small" className="text-error">
+          <Trans>
+            Seal Engine is being deprecated. Exit your positions now. Migration to Staking Engine coming soon.
+          </Trans>
+        </Text>
+      </HStack>
       <Heading tag="h3" variant="small" className="leading-6">
         <div className="flex items-center">
           <Trans>Your positions</Trans>

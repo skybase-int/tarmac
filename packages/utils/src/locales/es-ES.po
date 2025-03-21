@@ -1218,6 +1218,10 @@ msgstr ""
 msgid "Metrics"
 msgstr ""
 
+#: packages/widgets/src/widgets/BalancesWidget/components/SealBalanceWarningCard.tsx
+msgid "Migrate your position(s) to the Staking Engine"
+msgstr ""
+
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Borrow.tsx
 #: packages/widgets/src/widgets/ActivationModuleWidget/components/Repay.tsx
@@ -1243,6 +1247,7 @@ msgstr ""
 msgid "MKR Liquidation price"
 msgstr ""
 
+#: packages/widgets/src/widgets/BalancesWidget/components/SealBalanceWarningCard.tsx
 #: packages/widgets/src/widgets/BalancesWidget/components/SealBalanceCard.tsx
 msgid "MKR supplied to Seal Engine"
 msgstr ""
@@ -1631,6 +1636,14 @@ msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 msgid "Seal Engine"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/components/UrnsList.tsx
+msgid "Seal Engine is being deprecated. Exit your positions now. Migration to Staking Engine coming soon."
+msgstr ""
+
+#: packages/widgets/src/widgets/BalancesWidget/components/SealBalanceWarningCard.tsx
+msgid "Seal Engine is deprecated"
 msgstr ""
 
 #: apps/webapp/src/modules/seal/components/SealOverview.tsx
