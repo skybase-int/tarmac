@@ -49,6 +49,8 @@ describe('Seal Module Multicall tests', async () => {
       { timeout: 5000 }
     );
 
+    console.log('🚀 ~ 111111111111111111');
+
     // Unlimited approvals for convenience
     const { result: resultApproveMkr } = renderHook(
       () =>
@@ -62,6 +64,8 @@ describe('Seal Module Multicall tests', async () => {
     );
     await waitForPreparedExecuteAndMine(resultApproveMkr);
 
+    console.log('🚀 ~ 222222222222222222');
+
     const { result: resultApproveUsds } = renderHook(
       () =>
         useSaNstApprove({
@@ -73,6 +77,8 @@ describe('Seal Module Multicall tests', async () => {
       }
     );
     await waitForPreparedExecuteAndMine(resultApproveUsds);
+
+    console.log('🚀 ~ 333333333333333333');
 
     // Generate calldata for each operation
     const calldataOpen = getSaOpenCalldata({ urnIndex: URN_INDEX });
@@ -120,6 +126,8 @@ describe('Seal Module Multicall tests', async () => {
 
     await waitForPreparedExecuteAndMine(resultMulticall);
 
+    console.log('🚀 ~ 444444444444444444');
+
     // If urn was opened correctly, the new urn index should be incremented by 1
     const { result: resultNewUrnIndex } = renderHook(() => useCurrentUrnIndex(), { wrapper });
 
@@ -130,6 +138,8 @@ describe('Seal Module Multicall tests', async () => {
       },
       { timeout: 5000 }
     );
+
+    console.log('🚀 ~ 555555555555555555');
 
     const urnAddress = await getUrnAddress(URN_INDEX, useUrnAddress);
 
@@ -145,6 +155,8 @@ describe('Seal Module Multicall tests', async () => {
       },
       { timeout: 5000 }
     );
+
+    console.log('🚀 ~ 666666666666666666');
 
     // Check USDS drawn
     const { result: resultUSDSBalance } = renderHook(
@@ -168,6 +180,8 @@ describe('Seal Module Multicall tests', async () => {
       { timeout: 5000 }
     );
 
+    console.log('🚀 ~ 777777777777777777');
+
     // Check selected reward contract
     const { result: resultUrnSelectedRewardContract } = renderHook(
       () => useUrnSelectedRewardContract({ urn: urnAddress }),
@@ -184,6 +198,8 @@ describe('Seal Module Multicall tests', async () => {
       { timeout: 5000 }
     );
 
+    console.log('🚀 ~ 888888888888888888');
+
     // Check selected delegate
     const { result: resultUrnSelectedDelegate } = renderHook(
       () => useUrnSelectedVoteDelegate({ urn: urnAddress }),
@@ -199,6 +215,8 @@ describe('Seal Module Multicall tests', async () => {
       },
       { timeout: 5000 }
     );
+
+    console.log('🚀 ~ 999999999999999999');
 
     // Check balance of reward contract
     const { result: resultRewardContractBalance } = renderHook(
@@ -220,6 +238,8 @@ describe('Seal Module Multicall tests', async () => {
       },
       { timeout: 5000 }
     );
+
+    console.log('🚀 ~ 1000000000000000000');
   });
 
   it('Can lock additional SKY in position', async () => {
