@@ -11,7 +11,6 @@ import { useChainId } from 'wagmi';
 import { ChainModal } from '@/modules/ui/components/ChainModal';
 import { useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
 import { BP } from '@/modules/ui/hooks/useBreakpointIndex';
-import { AppContainer } from '@/modules/app/components/AppContainer';
 import { ArrowLeft } from 'lucide-react';
 import { HStack } from '@/modules/layout/components/HStack';
 import { Link } from 'react-router-dom';
@@ -24,6 +23,7 @@ import {
 } from '@jetstreamgg/widgets';
 import { useCurrentUrnIndex } from '@jetstreamgg/hooks';
 import { useState } from 'react';
+import { PageContainer } from '@/modules/app/components/PageContainer';
 
 export function SealEngine() {
   const { i18n } = useLingui();
@@ -74,8 +74,8 @@ export function SealEngine() {
 
   return (
     <Layout>
-      <AppContainer>
-        <div className="h-full w-[500px] rounded-lg py-6 pl-6 pr-4">
+      <PageContainer>
+        <div className="h-full w-full py-6 pl-4 pr-0 md:w-[500px] md:rounded-lg md:pl-6 md:pr-4">
           {!shouldHideLink && (
             <Link to="/" className="text-textSecondary">
               <HStack className="mb-3 space-x-2">
@@ -116,7 +116,7 @@ export function SealEngine() {
             />
           )}
         </div>
-      </AppContainer>
+      </PageContainer>
     </Layout>
   );
 }
