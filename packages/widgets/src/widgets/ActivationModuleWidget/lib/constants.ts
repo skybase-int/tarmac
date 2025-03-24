@@ -30,7 +30,6 @@ export enum ActivationAction {
 }
 
 export enum ActivationStep {
-  ABOUT = 'about',
   OPEN_BORROW = 'open_borrow', // TODO: technically lock and borrow
   REWARDS = 'rewards',
   DELEGATE = 'delegate',

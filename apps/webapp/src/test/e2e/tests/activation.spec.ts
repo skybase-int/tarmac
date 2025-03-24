@@ -14,13 +14,11 @@ test.beforeEach(async ({ page }) => {
   ]);
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
-  await page.getByRole('tab', { name: 'Activation' }).click();
+  await page.getByRole('tab', { name: 'Stake' }).click();
 });
 
 test('Lock SKY, select rewards, select delegate, and open position', async ({ page }) => {
   await page.getByRole('button', { name: 'Open a new position' }).click();
-  await page.getByRole('checkbox').click();
-  await page.getByRole('button', { name: 'Continue' }).click();
   await expect(page.getByTestId('supply-first-input-lse-balance')).toHaveText('100,000,000 SKY');
 
   // fill seal and borrow inputs and click next
@@ -34,14 +32,14 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
   // select rewards
   await expect(page.getByText('Choose your reward token')).toBeVisible();
   await page.getByRole('button', { name: 'USDS' }).click();
-  await expect(page.getByTestId('widget-button')).toBeEnabled();
-  await page.getByTestId('widget-button').click();
+  await expect(page.getByTestId('widget-button').first()).toBeEnabled();
+  await page.getByTestId('widget-button').first().click();
 
   // select delegate
   await expect(page.getByText('Choose your delegate')).toBeVisible();
   await page.getByRole('button', { name: '0x278' }).click();
-  await expect(page.getByTestId('widget-button')).toBeEnabled();
-  await page.getByTestId('widget-button').click();
+  await expect(page.getByTestId('widget-button').first()).toBeEnabled();
+  await page.getByTestId('widget-button').first().click();
 
   // position summary
   await expect(page.getByText('Confirm your position').nth(0)).toBeVisible({ timeout: 10000 });
@@ -74,7 +72,7 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
   // borrow more and skip rewards and delegate selection
   await page.getByTestId('borrow-input-lse').fill('100');
   await expect(page.getByText('Insufficient collateral')).not.toBeVisible();
-  await page.getByTestId('widget-button').click();
+  await page.getByTestId('widget-button').first().click();
 
   await expect(page.getByText('Choose your reward token')).toBeVisible();
   await page.getByRole('button', { name: 'skip' }).click();
@@ -104,7 +102,7 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
   const repayValue = Number(await page.getByTestId('repay-input-lse').inputValue());
   expect(repayValue).toBeGreaterThan(38100);
   expect(repayValue).toBeLessThan(38101);
-  await page.getByTestId('widget-button').click();
+  await page.getByTestId('widget-button').first().click();
 
   // skip the rewards and delegates and confirm position
   await expect(page.getByText('Choose your reward token')).toBeVisible();
@@ -134,7 +132,7 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
 
   // fill some SKY and proceed to skip the rewards and delegates and confirm position
   await page.getByTestId('supply-first-input-lse').fill('12000');
-  await page.getByTestId('widget-button').click();
+  await page.getByTestId('widget-button').first().click();
 
   await expect(page.getByText('Choose your reward token')).toBeVisible();
   await page.getByRole('button', { name: 'skip' }).click();

@@ -33,7 +33,7 @@ export const IntentMapping = {
   [Intent.SAVINGS_INTENT]: 'savings',
   [Intent.REWARDS_INTENT]: 'rewards',
   [Intent.SEAL_INTENT]: 'seal',
-  [Intent.STAKE_INTENT]: 'activation'
+  [Intent.STAKE_INTENT]: 'stake'
 };
 
 export const CHAIN_WIDGET_MAP: Record<number, Intent[]> = {

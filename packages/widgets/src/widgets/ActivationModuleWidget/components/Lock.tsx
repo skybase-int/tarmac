@@ -11,21 +11,16 @@ export const Lock = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolean
   const { address } = useAccount();
   const chainId = useChainId();
   const { widgetState } = useContext(WidgetContext);
-  const { skyToLock, setSkyToLock, acceptedExitFee, setIsLockCompleted } = useContext(
-    ActivationModuleWidgetContext
-  );
+  const { skyToLock, setSkyToLock, setIsLockCompleted } = useContext(ActivationModuleWidgetContext);
 
   const { data: skyBalance } = useTokenBalance({ address, token: TOKENS.sky.address[chainId], chainId });
 
   useEffect(() => {
-    // If the user is managing their position, they have already accepted the exit fee
-    const hasAcceptedExitFee =
-      widgetState.flow === ActivationFlow.MANAGE || acceptedExitFee || skyToLock === 0n;
     const canLockZeroWhenManaging = skyToLock > 0n || widgetState.flow === ActivationFlow.MANAGE; // can lock 0 when managing
     const hasSufficientBalance = !!skyBalance && skyToLock <= skyBalance.value;
 
-    setIsLockCompleted(hasAcceptedExitFee && canLockZeroWhenManaging && hasSufficientBalance);
-  }, [acceptedExitFee, skyToLock, skyBalance, widgetState.flow]);
+    setIsLockCompleted(canLockZeroWhenManaging && hasSufficientBalance);
+  }, [skyToLock, skyBalance, widgetState.flow]);
 
   const isSupplyBalanceError =
     address &&

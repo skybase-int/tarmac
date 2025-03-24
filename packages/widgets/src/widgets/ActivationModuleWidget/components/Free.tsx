@@ -19,7 +19,7 @@ export const Free = ({
   const chainId = useChainId();
   const ilkName = getIlkName(chainId);
 
-  const { setSkyToFree, skyToFree, usdsToWipe, acceptedExitFee, setIsLockCompleted, activeUrn } = useContext(
+  const { setSkyToFree, skyToFree, usdsToWipe, setIsLockCompleted, activeUrn } = useContext(
     ActivationModuleWidgetContext
   );
   const { widgetState } = useContext(WidgetContext);
@@ -53,10 +53,8 @@ export const Free = ({
   useEffect(() => {
     const isFreeComplete = !!skySealed && skyToFree <= skySealed && !isLiquidationError && !isLoading;
     // If the user is managing their position, they have already accepted the exit fee
-    setIsLockCompleted(
-      (widgetState.flow === ActivationFlow.MANAGE || acceptedExitFee || skyToFree === 0n) && isFreeComplete
-    );
-  }, [acceptedExitFee, skyToFree, skySealed, widgetState.flow, isLiquidationError, isLoading]);
+    setIsLockCompleted((widgetState.flow === ActivationFlow.MANAGE || skyToFree === 0n) && isFreeComplete);
+  }, [skyToFree, skySealed, widgetState.flow, isLiquidationError, isLoading]);
 
   const isSkySupplyBalanceError =
     address && (skySealed || skySealed === 0n) && skyToFree > skySealed && skyToFree !== 0n;

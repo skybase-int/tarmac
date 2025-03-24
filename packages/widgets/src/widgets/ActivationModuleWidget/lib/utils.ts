@@ -2,7 +2,6 @@ import { RiskLevel, ZERO_ADDRESS } from '@jetstreamgg/hooks';
 import { ActivationFlow, ActivationStep } from './constants';
 
 const openFlowSequence = [
-  ActivationStep.ABOUT,
   ActivationStep.OPEN_BORROW,
   ActivationStep.REWARDS,
   ActivationStep.DELEGATE,
@@ -23,7 +22,7 @@ export function getPreviousStep(step: ActivationStep): ActivationStep {
   if (currentIndex > 0) {
     return openFlowSequence[currentIndex - 1];
   }
-  return ActivationStep.ABOUT; // or handle the case when there's no previous action
+  return ActivationStep.OPEN_BORROW; // or handle the case when there's no previous action
 }
 
 export function getNextStep(step: ActivationStep): ActivationStep {

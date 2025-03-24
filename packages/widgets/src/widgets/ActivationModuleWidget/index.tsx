@@ -61,7 +61,6 @@ type ActivationModuleWidgetProps = WidgetProps & {
   onActivationUrnChange?: OnActivationUrnChange;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   addRecentTransaction: any;
-  termsLink?: { url: string; name: string };
 };
 
 export const ActivationModuleWidget = ({
@@ -74,7 +73,6 @@ export const ActivationModuleWidget = ({
   onWidgetStateChange,
   onExternalLinkClicked,
   addRecentTransaction,
-  termsLink,
   referralCode
 }: ActivationModuleWidgetProps) => {
   return (
@@ -90,7 +88,6 @@ export const ActivationModuleWidget = ({
             onWidgetStateChange={onWidgetStateChange}
             onExternalLinkClicked={onExternalLinkClicked}
             addRecentTransaction={addRecentTransaction}
-            termsLink={termsLink}
             referralCode={referralCode}
           />
         </ActivationModuleWidgetProvider>
@@ -109,7 +106,6 @@ function ActivationModuleWidgetWrapped({
   onWidgetStateChange,
   onExternalLinkClicked,
   addRecentTransaction,
-  termsLink,
   referralCode
 }: ActivationModuleWidgetProps) {
   const validatedExternalState = getValidatedState(externalWidgetState);
@@ -134,7 +130,6 @@ function ActivationModuleWidgetWrapped({
   const { isConnected, isConnecting, address } = useAccount();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
   const {
-    acceptedExitFee,
     isLockCompleted,
     isSelectRewardContractCompleted,
     isSelectDelegateCompleted,
@@ -151,7 +146,6 @@ function ActivationModuleWidgetWrapped({
     setUsdsToBorrow,
     setSelectedDelegate,
     setSelectedRewardContract,
-    setAcceptedExitFee,
     setSkyToFree,
     setUsdsToWipe,
     activeUrn,
@@ -463,8 +457,7 @@ function ActivationModuleWidgetWrapped({
     }
 
     setIsDisabled(
-      (widgetState.flow === ActivationFlow.OPEN && !acceptedExitFee) ||
-        (currentStep === ActivationStep.OPEN_BORROW && (!isLockCompleted || !isBorrowCompleted)) ||
+      (currentStep === ActivationStep.OPEN_BORROW && (!isLockCompleted || !isBorrowCompleted)) ||
         (currentStep === ActivationStep.REWARDS && !isSelectRewardContractCompleted) ||
         (currentStep === ActivationStep.DELEGATE && !isSelectDelegateCompleted) ||
         (currentStep === ActivationStep.SUMMARY &&
@@ -483,7 +476,6 @@ function ActivationModuleWidgetWrapped({
     isSelectDelegateCompleted,
     isBorrowCompleted,
     shouldOpenFromWidgetButton,
-    acceptedExitFee,
     multicallDisabled,
     approveDisabled,
     txStatus
@@ -513,7 +505,7 @@ function ActivationModuleWidgetWrapped({
         action: null,
         screen: null
       });
-      setCurrentStep(ActivationStep.ABOUT);
+      setCurrentStep(ActivationStep.OPEN_BORROW);
     }
   }, [currentUrnIndex, isConnectedAndEnabled]);
 
@@ -572,10 +564,7 @@ function ActivationModuleWidgetWrapped({
     }
   }, [widgetState.flow, currentStep]);
 
-  const showStep =
-    !!widgetState.action &&
-    widgetState.action !== ActivationAction.OVERVIEW &&
-    currentStep !== ActivationStep.ABOUT;
+  const showStep = !!widgetState.action && widgetState.action !== ActivationAction.OVERVIEW;
 
   useEffect(() => {
     if (
@@ -603,7 +592,6 @@ function ActivationModuleWidgetWrapped({
         onActivationUrnChange ?? (() => {})
       );
       setCurrentStep(ActivationStep.OPEN_BORROW);
-      setAcceptedExitFee(false);
     }
   }, [externalWidgetState?.urnIndex, externalParamUrnAddress]);
 
@@ -618,7 +606,6 @@ function ActivationModuleWidgetWrapped({
     setSkyToFree(0n);
     setUsdsToWipe(0n);
     setUsdsToBorrow(0n);
-    setAcceptedExitFee(false);
 
     // Reset claim-related state
     setIndexToClaim(undefined);
@@ -652,7 +639,7 @@ function ActivationModuleWidgetWrapped({
     setTabIndex(0);
 
     // Reset current step
-    setCurrentStep(ActivationStep.ABOUT);
+    setCurrentStep(ActivationStep.OPEN_BORROW);
 
     // Reset active URN
     setActiveUrn(undefined, onActivationUrnChange ?? (() => {}));
@@ -749,8 +736,7 @@ function ActivationModuleWidgetWrapped({
       screen: ActivationScreen.ACTION
     });
     setActiveUrn(undefined, onActivationUrnChange ?? (() => {}));
-    setCurrentStep(ActivationStep.ABOUT);
-    setAcceptedExitFee(false);
+    setCurrentStep(ActivationStep.OPEN_BORROW);
     setSkyToLock(0n);
     setSkyToFree(0n);
     setUsdsToWipe(0n);
@@ -764,8 +750,7 @@ function ActivationModuleWidgetWrapped({
       action: ActivationAction.MULTICALL,
       screen: ActivationScreen.ACTION
     });
-    setCurrentStep(ActivationStep.ABOUT);
-    setAcceptedExitFee(false);
+    setCurrentStep(ActivationStep.OPEN_BORROW);
   };
 
   const onClickAction = !isConnectedAndEnabled
@@ -810,11 +795,9 @@ function ActivationModuleWidgetWrapped({
     }
 
     return (
-      (widgetState.flow === ActivationFlow.OPEN && currentStep !== ActivationStep.ABOUT) ||
+      (widgetState.flow === ActivationFlow.OPEN && currentStep !== ActivationStep.OPEN_BORROW) ||
       // TODO update for manage:
-      (widgetState.flow === ActivationFlow.MANAGE &&
-        currentStep !== ActivationStep.OPEN_BORROW &&
-        currentStep !== ActivationStep.ABOUT)
+      (widgetState.flow === ActivationFlow.MANAGE && currentStep !== ActivationStep.OPEN_BORROW)
     );
   }, [widgetState.flow, widgetState.action, txStatus, currentStep]);
 
@@ -826,7 +809,7 @@ function ActivationModuleWidgetWrapped({
       flow: ActivationFlow.MANAGE,
       action: ActivationAction.OVERVIEW
     }));
-    setCurrentStep(ActivationStep.ABOUT);
+    setCurrentStep(ActivationStep.OPEN_BORROW);
     setSkyToLock(0n);
     setSkyToFree(0n);
     setUsdsToWipe(0n);
@@ -906,7 +889,6 @@ function ActivationModuleWidgetWrapped({
                       claimPrepared={claimRewards.prepared}
                       claimExecute={claimRewards.execute}
                       onActivationUrnChange={onActivationUrnChange}
-                      termsLink={termsLink}
                     />
                   )}
                   {widgetState.flow === ActivationFlow.OPEN && (
@@ -916,7 +898,6 @@ function ActivationModuleWidgetWrapped({
                       currentStep={currentStep}
                       onClickTrigger={setTabIndex}
                       tabSide={tabSide}
-                      termsLink={termsLink}
                     />
                   )}
                 </MotionVStack>
@@ -934,25 +915,21 @@ const Wizard = ({
   onExternalLinkClicked,
   currentStep,
   onClickTrigger,
-  tabSide,
-  termsLink
+  tabSide
 }: {
   isConnectedAndEnabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   currentStep: ActivationStep;
   onClickTrigger: any;
   tabSide: 'left' | 'right';
-  termsLink?: { url: string; name: string };
 }) => {
   return (
     <div>
-      {(currentStep === ActivationStep.ABOUT || currentStep === ActivationStep.OPEN_BORROW) && (
+      {currentStep === ActivationStep.OPEN_BORROW && (
         <OpenNewUrn
           isConnectedAndEnabled={isConnectedAndEnabled}
-          onExternalLinkClicked={onExternalLinkClicked}
           onClickTrigger={onClickTrigger}
           tabSide={tabSide}
-          termsLink={termsLink}
         />
       )}
       {currentStep === ActivationStep.REWARDS && (
@@ -975,8 +952,7 @@ const ManagePosition = ({
   tabSide,
   claimPrepared,
   claimExecute,
-  onActivationUrnChange,
-  termsLink
+  onActivationUrnChange
 }: {
   isConnectedAndEnabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
@@ -987,7 +963,6 @@ const ManagePosition = ({
   claimPrepared: boolean;
   claimExecute: () => void;
   onActivationUrnChange?: OnActivationUrnChange;
-  termsLink?: { url: string; name: string };
 }) => {
   return currentAction === ActivationAction.OVERVIEW ? (
     <UrnsList
@@ -1002,7 +977,6 @@ const ManagePosition = ({
       currentStep={currentStep}
       onClickTrigger={onClickTrigger}
       tabSide={tabSide}
-      termsLink={termsLink}
     />
   );
 };

@@ -51,9 +51,6 @@ export interface ActivationModuleWidgetContextProps {
   wipeAll: boolean;
   setWipeAll: Dispatch<SetStateAction<boolean>>;
 
-  acceptedExitFee: boolean;
-  setAcceptedExitFee: Dispatch<SetStateAction<boolean>>;
-
   selectedRewardContract: `0x${string}` | undefined;
   setSelectedRewardContract: Dispatch<SetStateAction<`0x${string}` | undefined>>;
 
@@ -112,9 +109,6 @@ export const ActivationModuleWidgetContext = createContext<ActivationModuleWidge
   wipeAll: false,
   setWipeAll: () => null,
 
-  acceptedExitFee: false,
-  setAcceptedExitFee: () => null,
-
   selectedRewardContract: undefined,
   setSelectedRewardContract: () => null,
 
@@ -129,7 +123,7 @@ export const ActivationModuleWidgetContext = createContext<ActivationModuleWidge
 
   generateAllCalldata: () => [],
 
-  currentStep: ActivationStep.ABOUT,
+  currentStep: ActivationStep.OPEN_BORROW,
   setCurrentStep: () => null,
 
   activeUrn: undefined,
@@ -151,11 +145,10 @@ export const ActivationModuleWidgetProvider = ({ children }: { children: ReactNo
   const [skyToFree, setSkyToFree] = useState<bigint>(0n);
   const [usdsToWipe, setUsdsToWipe] = useState<bigint>(0n);
   const [wipeAll, setWipeAll] = useState<boolean>(false);
-  const [acceptedExitFee, setAcceptedExitFee] = useState<boolean>(false);
   const [selectedRewardContract, setSelectedRewardContract] = useState<`0x${string}` | undefined>();
   const [selectedDelegate, setSelectedDelegate] = useState<`0x${string}` | undefined>();
   const [usdsToBorrow, setUsdsToBorrow] = useState<bigint>(0n);
-  const [currentStep, setCurrentStep] = useState<ActivationStep>(ActivationStep.ABOUT);
+  const [currentStep, setCurrentStep] = useState<ActivationStep>(ActivationStep.OPEN_BORROW);
   const [calldata, setCalldata] = useState<`0x${string}`[]>([]);
   const [activeUrn, setActiveUrnState] = useState<
     { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined } | undefined
@@ -307,8 +300,6 @@ export const ActivationModuleWidgetProvider = ({ children }: { children: ReactNo
         setUsdsToWipe,
         wipeAll,
         setWipeAll,
-        acceptedExitFee,
-        setAcceptedExitFee,
         selectedRewardContract,
         setSelectedRewardContract,
         selectedDelegate,
