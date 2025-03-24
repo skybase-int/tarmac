@@ -105,7 +105,6 @@ export function ActivationWidgetPane(sharedProps: SharedProps) {
       onActivationUrnChange={onActivationUrnChange}
       onWidgetStateChange={onActivationWidgetStateChange}
       externalWidgetState={{ amount: linkedActionConfig?.inputAmount, urnIndex: selectedActivationUrnIndex }}
-      termsLink={Array.isArray(termsLink) && termsLink.length > 0 ? termsLink[0] : undefined}
     />
   );
 }
