@@ -1060,7 +1060,6 @@ msgid "How much would you like to unseal?"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/OpenNewUrn.tsx
-#: packages/widgets/src/widgets/ActivationModuleWidget/components/OpenNewUrn.tsx
 msgid "I have read and understand the"
 msgstr ""
 
@@ -2000,7 +1999,6 @@ msgid "Switch network"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/OpenNewUrn.tsx
-#: packages/widgets/src/widgets/ActivationModuleWidget/components/OpenNewUrn.tsx
 msgid "Terms of Use."
 msgstr ""
 
