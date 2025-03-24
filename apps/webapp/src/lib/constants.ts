@@ -33,7 +33,7 @@ export const IntentMapping = {
   [Intent.SAVINGS_INTENT]: 'savings',
   [Intent.REWARDS_INTENT]: 'rewards',
   [Intent.SEAL_INTENT]: 'seal',
-  [Intent.ACTIVATION_INTENT]: 'activation'
+  [Intent.STAKE_INTENT]: 'activation'
 };
 
 export const CHAIN_WIDGET_MAP: Record<number, Intent[]> = {
@@ -44,7 +44,7 @@ export const CHAIN_WIDGET_MAP: Record<number, Intent[]> = {
     Intent.UPGRADE_INTENT,
     Intent.TRADE_INTENT,
     Intent.SEAL_INTENT,
-    Intent.ACTIVATION_INTENT
+    Intent.STAKE_INTENT
   ],
   [tenderly.id]: [
     Intent.BALANCES_INTENT,
@@ -52,7 +52,7 @@ export const CHAIN_WIDGET_MAP: Record<number, Intent[]> = {
     Intent.SAVINGS_INTENT,
     Intent.UPGRADE_INTENT,
     Intent.SEAL_INTENT,
-    Intent.ACTIVATION_INTENT
+    Intent.STAKE_INTENT
   ],
   [base.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
   [arbitrum.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
@@ -110,7 +110,7 @@ export const linkedActionMetadata = {
   [IntentMapping[Intent.SAVINGS_INTENT]]: { text: 'Access Savings', icon: Savings },
   [IntentMapping[Intent.REWARDS_INTENT]]: { text: 'Get Rewards', icon: RewardsModule },
   [IntentMapping[Intent.SEAL_INTENT]]: { text: 'Seal', icon: Seal },
-  [IntentMapping[Intent.ACTIVATION_INTENT]]: { text: 'Activate', icon: Seal }
+  [IntentMapping[Intent.STAKE_INTENT]]: { text: 'Activate', icon: Seal }
 };
 
 export const ALLOWED_EXTERNAL_DOMAINS = ['sky.money', 'app.sky.money', 'docs.sky.money'];

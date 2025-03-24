@@ -40,7 +40,7 @@ export function ActivationWidgetPane(sharedProps: SharedProps) {
   }) => {
     setSearchParams(params => {
       if (urn?.urnAddress && urn?.urnIndex !== undefined) {
-        params.set(QueryParams.Widget, IntentMapping[Intent.ACTIVATION_INTENT]);
+        params.set(QueryParams.Widget, IntentMapping[Intent.STAKE_INTENT]);
         params.set(QueryParams.UrnIndex, urn.urnIndex.toString());
       } else {
         params.delete(QueryParams.UrnIndex);

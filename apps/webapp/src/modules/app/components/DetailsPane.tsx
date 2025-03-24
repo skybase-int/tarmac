@@ -100,7 +100,7 @@ export const DetailsPane = ({ intent }: DetailsPaneProps) => {
                   <SealDetailsPane />
                 </MotionDetailsWrapper>
               );
-            case Intent.ACTIVATION_INTENT:
+            case Intent.STAKE_INTENT:
               return (
                 <MotionDetailsWrapper key={keys[3]}>
                   <ActivationDetailsPane />
