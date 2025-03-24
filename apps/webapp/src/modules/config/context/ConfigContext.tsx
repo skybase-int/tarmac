@@ -11,7 +11,7 @@ import { Intent } from '@/lib/enums';
 import { RewardContract } from '@jetstreamgg/hooks';
 import { ALLOWED_EXTERNAL_DOMAINS } from '@/lib/constants';
 import { SealToken } from '@/modules/seal/constants';
-import { ActivationToken } from '@/modules/activation/constants';
+import { StakeToken } from '@/modules/stake/constants';
 
 type LinkedActionConfig = {
   inputAmount?: string;
@@ -55,7 +55,7 @@ const defaultUserConfig: UserConfig = {
   locale: undefined,
   intent: Intent.BALANCES_INTENT,
   sealToken: SealToken.MKR,
-  activationToken: ActivationToken.SKY
+  stakeToken: StakeToken.SKY
 };
 
 const defaultLinkedActionConfig = {
@@ -74,8 +74,8 @@ export interface ConfigContextProps {
   setSelectedRewardContract: (rewardContract?: RewardContract) => void;
   selectedSealUrnIndex: number | undefined;
   setSelectedSealUrnIndex: (position: number | undefined) => void;
-  selectedActivationUrnIndex: number | undefined;
-  setSelectedActivationUrnIndex: (position: number | undefined) => void;
+  selectedStakeUrnIndex: number | undefined;
+  setSelectedStakeUrnIndex: (position: number | undefined) => void;
   linkedActionConfig: LinkedActionConfig;
   updateLinkedActionConfig: (config: Partial<LinkedActionConfig>) => void;
   exitLinkedActionMode: () => void;
@@ -105,8 +105,8 @@ export const ConfigContext = createContext<ConfigContextProps>({
   setSelectedRewardContract: () => {},
   selectedSealUrnIndex: undefined,
   setSelectedSealUrnIndex: () => {},
-  selectedActivationUrnIndex: undefined,
-  setSelectedActivationUrnIndex: () => {},
+  selectedStakeUrnIndex: undefined,
+  setSelectedStakeUrnIndex: () => {},
   updateLinkedActionConfig: () => {},
   linkedActionConfig: defaultLinkedActionConfig,
   exitLinkedActionMode: () => {},
@@ -122,7 +122,7 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
   const [loaded, setLoaded] = useState<boolean>(false);
   const [selectedRewardContract, setSelectedRewardContract] = useState<RewardContract | undefined>(undefined);
   const [selectedSealUrnIndex, setSelectedSealUrnIndex] = useState<number | undefined>(undefined);
-  const [selectedActivationUrnIndex, setSelectedActivationUrnIndex] = useState<number | undefined>(undefined);
+  const [selectedStakeUrnIndex, setSelectedStakeUrnIndex] = useState<number | undefined>(undefined);
   const [linkedActionConfig, setLinkedActionConfig] = useState(defaultLinkedActionConfig);
   const [externalLinkModalOpened, setExternalLinkModalOpened] = useState(false);
   const [externalLinkModalUrl, setExternalLinkModalUrl] = useState('');
@@ -217,8 +217,8 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
         setSelectedRewardContract,
         selectedSealUrnIndex,
         setSelectedSealUrnIndex,
-        selectedActivationUrnIndex,
-        setSelectedActivationUrnIndex,
+        selectedStakeUrnIndex: selectedStakeUrnIndex,
+        setSelectedStakeUrnIndex: setSelectedStakeUrnIndex,
         linkedActionConfig,
         updateLinkedActionConfig,
         exitLinkedActionMode,

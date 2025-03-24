@@ -72,7 +72,7 @@ export const intentTxt: Record<string, MessageDescriptor> = {
   rewards: msg`rewards`,
   balances: msg`balances`,
   seal: msg`seal`,
-  activation: msg`activation`
+  stake: msg`stake`
 };
 
 export const VALID_LINKED_ACTIONS = [
