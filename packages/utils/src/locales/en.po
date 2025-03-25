@@ -310,7 +310,7 @@ msgstr ""
 msgid "Approve"
 msgstr ""
 
-#. placeholder {0}: tabIndex === 0 ? 'upgrade' : 'revert'
+#. placeholder {0}: tabIndex === 0 ? 'migrate' : 'revert'
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 msgid "Approve {0} amount"
 msgstr ""
@@ -1207,6 +1207,10 @@ msgstr ""
 msgid "Migrate your position(s) to the Staking Engine"
 msgstr ""
 
+#: apps/webapp/src/modules/upgrade/components/UpgradeDetails.tsx
+msgid "Migration stats"
+msgstr ""
+
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Borrow.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
@@ -2070,12 +2074,9 @@ msgstr ""
 msgid "Total {0} to {1}"
 msgstr ""
 
+#: apps/webapp/src/modules/upgrade/components/UpgradedDaiToUsds.tsx
 #: packages/widgets/src/widgets/UpgradeWidget/components/UpgradeStats.tsx
 msgid "Total DAI migrated"
-msgstr ""
-
-#: apps/webapp/src/modules/upgrade/components/UpgradedDaiToUsds.tsx
-msgid "Total DAI upgraded"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/DelegateCard.tsx
@@ -2083,12 +2084,9 @@ msgstr ""
 msgid "Total MKR delegated"
 msgstr ""
 
+#: apps/webapp/src/modules/upgrade/components/UpgradedMkrToSky.tsx
 #: packages/widgets/src/widgets/UpgradeWidget/components/UpgradeStats.tsx
 msgid "Total MKR migrated"
-msgstr ""
-
-#: apps/webapp/src/modules/upgrade/components/UpgradedMkrToSky.tsx
-msgid "Total MKR upgraded"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/UsdsSkyTotalsChart.tsx
@@ -2371,10 +2369,6 @@ msgstr ""
 
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 msgid "Upgrade MKR to SKY"
-msgstr ""
-
-#: apps/webapp/src/modules/upgrade/components/UpgradeDetails.tsx
-msgid "Upgrade stats"
 msgstr ""
 
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
@@ -2878,6 +2872,10 @@ msgstr ""
 msgid "Your funds"
 msgstr ""
 
+#: apps/webapp/src/modules/upgrade/components/UpgradeDetails.tsx
+msgid "Your Migrate/Revert transaction history"
+msgstr ""
+
 #: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
 msgid "Your migration is being processed on the blockchain. Please wait."
 msgstr ""
@@ -2958,10 +2956,6 @@ msgstr ""
 
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 msgid "Your transfer is being processed on the blockchain. Please wait."
-msgstr ""
-
-#: apps/webapp/src/modules/upgrade/components/UpgradeDetails.tsx
-msgid "Your Upgrade/Revert transaction history"
 msgstr ""
 
 #. placeholder {0}: inputToken?.symbol
