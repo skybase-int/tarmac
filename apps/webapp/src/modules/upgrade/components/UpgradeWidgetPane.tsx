@@ -126,7 +126,6 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
       customNavigationLabel={customNavLabel}
       onCustomNavigation={onNavigate}
       upgradeOptions={[TOKENS.dai, TOKENS.mkr]}
-      revertOptions={[TOKENS.usds, TOKENS.sky]}
     />
   );
 }
