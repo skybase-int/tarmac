@@ -1,4 +1,3 @@
-import React, { useMemo } from 'react';
 import { WidgetProps } from '@widgets/shared/types/widgetState';
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
@@ -50,14 +49,6 @@ export function UpgradeRevert({
   isConnectedAndEnabled = true
 }: Props): React.ReactElement {
   const chainId = useChainId();
-  const shouldShowDaiStats = useMemo(
-    () => originOptions?.some(token => ['DAI', 'USDS'].includes(token.symbol)),
-    [originOptions]
-  );
-  const shouldShowMkrStats = useMemo(
-    () => originOptions?.some(token => ['MKR', 'SKY'].includes(token.symbol)),
-    [originOptions]
-  );
 
   return (
     <VStack className="w-full items-center justify-center">
@@ -84,7 +75,7 @@ export function UpgradeRevert({
         </motion.div>
 
         <motion.div variants={positionAnimations}>
-          <UpgradeStats shouldShowDai={!!shouldShowDaiStats} shouldShowMkr={!!shouldShowMkrStats} />
+          <UpgradeStats />
         </motion.div>
 
         <VStack className="w-full" gap={0}>

@@ -27,7 +27,7 @@ import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState
 import { math } from '@jetstreamgg/utils';
 
 const defaultUpgradeOptions = [TOKENS.dai, TOKENS.mkr];
-const defaultRevertOptions = [TOKENS.usds, TOKENS.sky];
+const defaultRevertOptions = [TOKENS.usds];
 
 function calculateOriginOptions(
   token: Token,
@@ -78,7 +78,6 @@ const targetTokenForSymbol = (symbol: keyof typeof upgradeTokens) => {
 export type UpgradeWidgetProps = WidgetProps & {
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   upgradeOptions?: Token[];
-  revertOptions?: Token[];
 };
 
 export const UpgradeWidget = ({
@@ -94,7 +93,6 @@ export const UpgradeWidget = ({
   customNavigationLabel,
   onExternalLinkClicked,
   upgradeOptions = defaultUpgradeOptions,
-  revertOptions = defaultRevertOptions,
   enabled = true
 }: UpgradeWidgetProps) => {
   return (
@@ -113,7 +111,6 @@ export const UpgradeWidget = ({
           onExternalLinkClicked={onExternalLinkClicked}
           enabled={enabled}
           upgradeOptions={upgradeOptions}
-          revertOptions={revertOptions}
         />
       </WidgetProvider>
     </ErrorBoundary>
@@ -132,7 +129,6 @@ export function UpgradeWidgetWrapped({
   customNavigationLabel,
   onExternalLinkClicked,
   upgradeOptions,
-  revertOptions,
   enabled = true
 }: UpgradeWidgetProps): React.ReactElement {
   const validatedExternalState = getValidatedState(externalWidgetState);
@@ -485,16 +481,16 @@ export function UpgradeWidgetWrapped({
         if (customNavigationLabel) {
           setButtonText(customNavigationLabel);
         } else {
-          setButtonText(t`Back to Upgrade`);
+          setButtonText(t`Back to Migrate`);
         }
       } else if (txStatus === TxStatus.ERROR) {
         setButtonText(t`Retry`);
       } else if (widgetState.screen === UpgradeScreen.ACTION && debouncedOriginAmount === 0n) {
         setButtonText(t`Enter amount`);
       } else if (widgetState.action === UpgradeAction.APPROVE) {
-        setButtonText(t`Approve ${tabIndex === 0 ? 'upgrade' : 'revert'} amount`);
+        setButtonText(t`Approve ${tabIndex === 0 ? 'migrate' : 'revert'} amount`);
       } else if (widgetState.flow === UpgradeFlow.UPGRADE && widgetState.action === UpgradeAction.UPGRADE) {
-        setButtonText(t`Upgrade`);
+        setButtonText(t`Migrate`);
       } else if (widgetState.flow === UpgradeFlow.REVERT && widgetState.action === UpgradeAction.REVERT) {
         setButtonText(t`Revert`);
       }
@@ -567,7 +563,7 @@ export function UpgradeWidgetWrapped({
     <WidgetContainer
       header={
         <Heading variant="x-large">
-          <Trans>Upgrade</Trans>
+          <Trans>Migrate</Trans>
         </Heading>
       }
       rightHeader={rightHeaderComponent}
@@ -596,11 +592,11 @@ export function UpgradeWidgetWrapped({
           <CardAnimationWrapper key="widget-inputs" className="w-full">
             <VStack className="w-full">
               <UpgradeRevert
-                leftTabTitle={t`Upgrade`}
+                leftTabTitle={t`Migrate`}
                 rightTabTitle={t`Revert`}
                 originTitle={
                   tabIndex === 0
-                    ? t`Choose a token to upgrade, and enter an amount`
+                    ? t`Choose a token to migrate, and enter an amount`
                     : t`Choose a token to revert, and enter an amount`
                 }
                 originAmount={originAmount}
@@ -609,15 +605,15 @@ export function UpgradeWidgetWrapped({
                   originToken,
                   tabIndex === 0 ? 'upgrade' : 'revert',
                   upgradeOptions,
-                  revertOptions
+                  defaultRevertOptions
                 )}
                 originToken={originToken}
                 targetToken={targetToken}
                 originBalance={originBalance?.value}
                 onToggle={(index: 0 | 1) => {
                   setTabIndex(index);
-                  setOriginToken(targetToken);
-                  setTargetToken(originToken);
+                  setOriginToken(index === 0 ? targetToken : TOKENS.usds);
+                  setTargetToken(index === 0 ? originToken : TOKENS.dai);
                   setOriginAmount(0n);
                 }}
                 onOriginInputChange={setOriginAmount}
@@ -626,7 +622,10 @@ export function UpgradeWidgetWrapped({
                 onMenuItemChange={(op: Token | null) => {
                   if (op) {
                     setOriginToken(op as Token);
-                    const target = calculateTargetOptions(op as Token, upgradeOptions, revertOptions);
+                    const target = calculateTargetOptions(op as Token, upgradeOptions, [
+                      TOKENS.usds,
+                      TOKENS.sky
+                    ]);
                     if (target?.length) {
                       setTargetToken(target[0]);
                     }
