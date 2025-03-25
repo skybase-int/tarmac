@@ -10,29 +10,29 @@ test('Upgrade DAI and revert USDS', async ({ page }) => {
   await setErc20Balance(mcdDaiAddress[TENDERLY_CHAIN_ID], '10');
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
-  await page.getByRole('tab', { name: 'Upgrade' }).click();
+  await page.getByRole('tab', { name: 'Migrate' }).click();
 
   await expect(page.getByRole('button', { name: 'Transaction overview' })).not.toBeVisible();
 
   await page.getByTestId('upgrade-input-origin').click();
   await page.getByTestId('upgrade-input-origin').fill('4');
   await expect(page.getByRole('button', { name: 'Transaction overview' })).toBeVisible();
-  await approveOrPerformAction(page, 'Upgrade');
-  await page.getByRole('button', { name: 'Back to Upgrade' }).click();
+  await approveOrPerformAction(page, 'Migrate');
+  await page.getByRole('button', { name: 'Back to Migrate' }).click();
   await page.getByRole('tab', { name: 'Revert' }).click();
   await expect(page.getByRole('button', { name: 'Transaction overview' })).not.toBeVisible();
   await page.getByTestId('upgrade-input-origin').click();
   await page.getByTestId('upgrade-input-origin').fill('4');
   await expect(page.getByRole('button', { name: 'Transaction overview' })).toBeVisible();
   await approveOrPerformAction(page, 'Revert');
-  await page.getByRole('button', { name: 'Back to Upgrade' }).click();
+  await page.getByRole('button', { name: 'Back to Migrate' }).click();
 });
 
-test('Upgrade MKR and revert SKY', async ({ page }) => {
+test('Migrate MKR but revert SKY isnt allowed', async ({ page }) => {
   await setErc20Balance(mcdDaiAddress[TENDERLY_CHAIN_ID], '10');
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
-  await page.getByRole('tab', { name: 'Upgrade' }).click();
+  await page.getByRole('tab', { name: 'Migrate' }).click();
   await page.getByTestId('undefined-menu-button').click();
   await page.getByRole('button', { name: 'MKR MKR MKR' }).click();
 
@@ -41,23 +41,17 @@ test('Upgrade MKR and revert SKY', async ({ page }) => {
   await page.getByTestId('upgrade-input-origin').click();
   await page.getByTestId('upgrade-input-origin').fill('4');
   await expect(page.getByRole('button', { name: 'Transaction overview' })).not.toBeVisible();
-  await approveOrPerformAction(page, 'Upgrade');
-  await page.getByRole('button', { name: 'Back to Upgrade' }).click();
+  await approveOrPerformAction(page, 'Migrate');
+  await page.getByRole('button', { name: 'Back to Migrate' }).click();
   await page.getByRole('tab', { name: 'Revert' }).click();
-  await page.getByTestId('undefined-menu-button').click();
-  await page.getByRole('button', { name: 'SKY SKY SKY' }).click();
-  await expect(page.getByRole('button', { name: 'Transaction overview' })).not.toBeVisible();
-  await page.getByTestId('upgrade-input-origin').click();
-  await page.getByTestId('upgrade-input-origin').fill((4 * 24000).toString());
-  await expect(page.getByRole('button', { name: 'Transaction overview' })).not.toBeVisible();
-  await approveOrPerformAction(page, 'Revert');
-  await page.getByRole('button', { name: 'Back to Upgrade' }).click();
+  // Sky can't be reverted
+  await expect(page.getByRole('button', { name: 'SKY SKY SKY' })).not.toBeVisible();
 });
 
 test('Upgrade and revert with insufficient balance', async ({ page }) => {
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
-  await page.getByRole('tab', { name: 'Upgrade' }).click();
+  await page.getByRole('tab', { name: 'Migrate' }).click();
 
   await expect(page.getByTestId('upgrade-input-origin-balance')).not.toHaveText('No wallet connected');
   const daiBalanceLabel = page.getByTestId('upgrade-input-origin-balance');
@@ -81,13 +75,13 @@ test('Upgrade and revert with insufficient balance', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Approve' })).toBeDisabled();
 });
 
-test('Balances change after successfully upgrading and reverting', async ({ page }) => {
+test('Balances change after successfully migrating and reverting', async ({ page }) => {
   await setErc20Balance(mcdDaiAddress[TENDERLY_CHAIN_ID], '10');
   await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '10');
 
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
-  await page.getByRole('tab', { name: 'Upgrade' }).click();
+  await page.getByRole('tab', { name: 'Migrate' }).click();
 
   await expect(page.getByTestId('upgrade-input-origin-balance')).not.toHaveText('No wallet connected');
   expect(await page.getByTestId('upgrade-input-origin-balance').innerText()).toBe('10 DAI');
@@ -95,13 +89,13 @@ test('Balances change after successfully upgrading and reverting', async ({ page
   await page.getByRole('tab', { name: 'Revert' }).click();
   await expect(page.getByTestId('upgrade-input-origin-balance')).not.toHaveText('No wallet connected');
   expect(await page.getByTestId('upgrade-input-origin-balance').innerText()).toBe('10 USDS');
-  await page.getByRole('tab', { name: 'Upgrade' }).last().click();
+  await page.getByRole('tab', { name: 'Migrate' }).last().click();
 
   await page.getByTestId('upgrade-input-origin').click();
   await page.getByTestId('upgrade-input-origin').fill('5');
 
-  await approveOrPerformAction(page, 'Upgrade');
-  await page.getByRole('button', { name: 'Back to Upgrade' }).click();
+  await approveOrPerformAction(page, 'Migrate');
+  await page.getByRole('button', { name: 'Back to Migrate' }).click();
 
   await expect(page.getByTestId('upgrade-input-origin-balance')).not.toHaveText('No wallet connected');
   await expect(page.getByTestId('upgrade-input-origin-balance')).toHaveText('5 DAI');
@@ -113,18 +107,18 @@ test('Balances change after successfully upgrading and reverting', async ({ page
   await page.getByTestId('upgrade-input-origin').click();
   await page.getByTestId('upgrade-input-origin').fill('4');
   await approveOrPerformAction(page, 'Revert');
-  await page.getByRole('button', { name: 'Back to Upgrade' }).click();
+  await page.getByRole('button', { name: 'Back to Migrate' }).click();
 
   await expect(page.getByTestId('upgrade-input-origin-balance')).toHaveText('11 USDS');
 
-  await page.getByRole('tab', { name: 'Upgrade' }).last().click();
+  await page.getByRole('tab', { name: 'Migrate' }).last().click();
   await expect(page.getByTestId('upgrade-input-origin-balance')).toHaveText('9 DAI');
 });
 
 test('Insufficient token allowance triggers approval flow', async ({ page }) => {
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
-  await page.getByRole('tab', { name: 'Upgrade' }).click();
+  await page.getByRole('tab', { name: 'Migrate' }).click();
   await page.getByTestId('upgrade-input-origin').click();
   await page.getByTestId('upgrade-input-origin').fill('90');
   // Not enough allowance, so approve button should be visible
@@ -138,10 +132,10 @@ test('Insufficient token allowance triggers approval flow', async ({ page }) => 
   await page.getByTestId('upgrade-input-origin').click();
   await page.getByTestId('upgrade-input-origin').fill('90');
   // It should not ask for approval
-  await expect(page.getByTestId('widget-container').getByRole('button', { name: 'Upgrade' })).toBeVisible();
+  await expect(page.getByTestId('widget-container').getByRole('button', { name: 'Migrate' })).toBeVisible();
   // Upgrade and reset approval
-  await page.getByTestId('widget-container').getByRole('button', { name: 'Upgrade' }).click();
-  await page.getByRole('button', { name: 'Back to Upgrade' }).click();
+  await page.getByTestId('widget-container').getByRole('button', { name: 'Migrate' }).click();
+  await page.getByRole('button', { name: 'Back to Migrate' }).click();
 
   // Restart
   await page.reload();
@@ -154,7 +148,7 @@ test('Insufficient token allowance triggers approval flow', async ({ page }) => 
 
 test('if not connected it should show a connect button', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('tab', { name: 'Upgrade' }).click();
+  await page.getByRole('tab', { name: 'Migrate' }).click();
 
   // Connect button and copy should be visible
   const widgetConnectButton = page
@@ -174,7 +168,7 @@ test('percentage buttons work', async ({ page }) => {
 
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
-  await page.getByRole('tab', { name: 'Upgrade' }).click();
+  await page.getByRole('tab', { name: 'Migrate' }).click();
 
   await page.getByRole('button', { name: '25%' }).click();
   expect(await page.getByTestId('upgrade-input-origin').inputValue()).toBe('25');
@@ -196,7 +190,7 @@ test('percentage buttons work', async ({ page }) => {
 test('enter amount button should be disabled', async ({ page }) => {
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
-  await page.getByRole('tab', { name: 'Upgrade' }).click();
+  await page.getByRole('tab', { name: 'Migrate' }).click();
 
   await expect(
     page.getByTestId('widget-container').locator('button').filter({ hasText: 'Enter amount' })
@@ -225,7 +219,7 @@ test('enter amount button should be disabled', async ({ page }) => {
 test('An approval error redirects to the error screen', async ({ page }) => {
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
-  await page.getByRole('tab', { name: 'Upgrade' }).click();
+  await page.getByRole('tab', { name: 'Migrate' }).click();
   await page.getByTestId('upgrade-input-origin').click();
   await page.getByTestId('upgrade-input-origin').fill('100');
 
@@ -264,13 +258,13 @@ test('An approval error redirects to the error screen', async ({ page }) => {
 test('An upgrade error redirects to the error screen', async ({ page }) => {
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
-  await page.getByRole('tab', { name: 'Upgrade' }).click();
+  await page.getByRole('tab', { name: 'Migrate' }).click();
   await page.getByTestId('upgrade-input-origin').click();
   await page.getByTestId('upgrade-input-origin').fill('1');
 
-  await approveOrPerformAction(page, 'Upgrade', { reject: true });
+  await approveOrPerformAction(page, 'Migrate', { reject: true });
 
-  await expect(page.getByText('An error occurred while upgrading your tokens')).toBeVisible();
+  await expect(page.getByText('An error occurred while migrating your tokens')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Back' }).last()).toBeVisible();
   await expect(page.getByRole('button', { name: 'Back' }).last()).toBeEnabled();
   await expect(page.getByRole('button', { name: 'Retry' }).last()).toBeVisible();
@@ -278,13 +272,13 @@ test('An upgrade error redirects to the error screen', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Retry' }).last().click();
 
-  await expect(page.getByText('An error occurred while upgrading your tokens')).toBeVisible();
+  await expect(page.getByText('An error occurred while migrating your tokens')).toBeVisible();
 });
 
 test('A revert error redirects to the error screen', async ({ page }) => {
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
-  await page.getByRole('tab', { name: 'Upgrade' }).click();
+  await page.getByRole('tab', { name: 'Migrate' }).click();
   await page.getByRole('tab', { name: 'Revert' }).click();
   await page.getByTestId('upgrade-input-origin').click();
   await page.getByTestId('upgrade-input-origin').fill('1');
@@ -305,7 +299,7 @@ test('A revert error redirects to the error screen', async ({ page }) => {
 
 test('Details pane shows right data', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('tab', { name: 'Upgrade' }).click();
+  await page.getByRole('tab', { name: 'Migrate' }).click();
 
   expect(page.getByTestId('upgrade-input-origin-balance')).toHaveText('No wallet connected');
 
@@ -341,7 +335,7 @@ test('Details pane shows right data', async ({ page }) => {
   await page.pause();
   const totalDaiUpgradedWidget = await page
     .getByTestId('widget-container')
-    .getByRole('heading', { name: 'Total DAI upgraded', exact: true })
+    .getByRole('heading', { name: 'Total DAI migrated', exact: true })
     .first()
     .locator('xpath=ancestor::div[1]')
     .getByText(/\d+/)
@@ -355,13 +349,13 @@ test('Details pane shows right data', async ({ page }) => {
   //   .innerText();
   const totalDaiUpgradedDetails = await page
     .getByTestId('upgrade-stats-details')
-    .getByRole('heading', { name: 'Total DAI upgraded', exact: true })
+    .getByRole('heading', { name: 'Total DAI migrated', exact: true })
     .locator('xpath=ancestor::div[1]')
     .getByText(/\d+/)
     .innerText();
   await page
     .getByTestId('upgrade-stats-details')
-    .getByRole('heading', { name: 'Total MKR upgraded', exact: true })
+    .getByRole('heading', { name: 'Total MKR migrated', exact: true })
     .locator('xpath=ancestor::div[1]')
     .getByText(/\d+/)
     .innerText();
@@ -373,12 +367,12 @@ test('Details pane shows right data', async ({ page }) => {
   // close details pane
   await page.getByLabel('Toggle details').click();
   await expect(
-    page.getByRole('button', { name: 'Your Upgrade/Revert transaction history' })
+    page.getByRole('button', { name: 'Your Migrate/Revert transaction history' })
   ).not.toBeVisible();
 
   // open details pane
   await page.getByLabel('Toggle details').click();
-  await expect(page.getByRole('button', { name: 'Your Upgrade/Revert transaction history' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Your Migrate/Revert transaction history' })).toBeVisible();
 
   // Chart is present
   await expect(page.getByTestId('usds-sky-totals-chart')).toBeVisible();

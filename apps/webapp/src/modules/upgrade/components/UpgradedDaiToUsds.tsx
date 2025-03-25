@@ -15,7 +15,7 @@ export function UpgradedDaiToUsds() {
 
   return (
     <StatsCard
-      title={t`Total DAI upgraded`}
+      title={t`Total DAI migrated`}
       isLoading={isLoading}
       error={error}
       content={

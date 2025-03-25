@@ -132,7 +132,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
       withErrorBoundary(<RewardsWidgetPane {...sharedProps} />)
     ],
     [Intent.SAVINGS_INTENT, 'Savings', Savings, withErrorBoundary(<SavingsWidgetPane {...sharedProps} />)],
-    [Intent.UPGRADE_INTENT, 'Upgrade', Upgrade, withErrorBoundary(<UpgradeWidgetPane {...sharedProps} />)],
+    [Intent.UPGRADE_INTENT, 'Migrate', Upgrade, withErrorBoundary(<UpgradeWidgetPane {...sharedProps} />)],
     [Intent.TRADE_INTENT, 'Trade', Trade, withErrorBoundary(<TradeWidgetPane {...sharedProps} />)],
     [Intent.STAKE_INTENT, 'Stake', Seal, withErrorBoundary(<StakeWidgetPane {...sharedProps} />)]
   ].map(([intent, label, icon, component]) => {
