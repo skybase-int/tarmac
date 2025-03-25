@@ -1200,10 +1200,12 @@ msgstr ""
 msgid "migrate"
 msgstr ""
 
+#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 #: packages/widgets/src/widgets/UpgradeWidget/components/UpgradeTransactionStatus.tsx
+#: packages/widgets/src/widgets/BalancesWidget/lib/getTitle.ts
 msgid "Migrate"
 msgstr ""
 
@@ -1223,6 +1225,25 @@ msgstr ""
 
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 msgid "Migrate MKR to SKY"
+msgstr ""
+
+#. placeholder {0}: isDifferentChain ? 'on Mainnet' : ''
+#: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
+msgid "Migrate your {formattedBalance} {upperSymbol} to SKY {0}"
+msgstr ""
+
+#. placeholder {0}: isDifferentChain ? 'on Mainnet' : ''
+#: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
+msgid "Migrate your {formattedBalance} {upperSymbol} to USDS {0}"
+msgstr ""
+
+#. placeholder {0}: isDifferentChain ? 'on Mainnet' : ''
+#: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
+msgid "Migrate your {formattedBalance} {upperSymbol} to USDS to get rewards {0}"
+msgstr ""
+
+#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
+msgid "Migrate your DAI and MKR"
 msgstr ""
 
 #: packages/widgets/src/widgets/BalancesWidget/components/SealBalanceWarningCard.tsx
@@ -2096,23 +2117,18 @@ msgstr ""
 msgid "Total {0} to {1}"
 msgstr ""
 
-#: apps/webapp/src/modules/upgrade/components/UpgradedDaiToUsds.tsx
-#: packages/widgets/src/widgets/UpgradeWidget/components/UpgradeStats.tsx
-msgid "Total DAI migrated"
-msgstr ""
-
 #: packages/widgets/src/widgets/StakeModuleWidget/components/DelegateCard.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/DelegateCard.tsx
 msgid "Total MKR delegated"
 msgstr ""
 
-#: apps/webapp/src/modules/upgrade/components/UpgradedMkrToSky.tsx
-#: packages/widgets/src/widgets/UpgradeWidget/components/UpgradeStats.tsx
-msgid "Total MKR migrated"
-msgstr ""
-
 #: apps/webapp/src/modules/ui/components/UsdsSkyTotalsChart.tsx
 msgid "Total SKY"
+msgstr ""
+
+#: apps/webapp/src/modules/upgrade/components/UpgradedMkrToSky.tsx
+#: packages/widgets/src/widgets/UpgradeWidget/components/UpgradeStats.tsx
+msgid "Total SKY migrated"
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeOverview.tsx
@@ -2134,6 +2150,11 @@ msgstr ""
 #: apps/webapp/src/modules/stake/components/StakeOverview.tsx
 #: apps/webapp/src/modules/seal/components/SealOverview.tsx
 msgid "Total USDS borrowed"
+msgstr ""
+
+#: apps/webapp/src/modules/upgrade/components/UpgradedDaiToUsds.tsx
+#: packages/widgets/src/widgets/UpgradeWidget/components/UpgradeStats.tsx
+msgid "Total USDS migrated"
 msgstr ""
 
 #: apps/webapp/src/lib/constants.ts
@@ -2353,11 +2374,6 @@ msgstr ""
 msgid "Updating position"
 msgstr ""
 
-#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
-#: packages/widgets/src/widgets/BalancesWidget/lib/getTitle.ts
-msgid "Upgrade"
-msgstr ""
-
 #. placeholder {0}: originToken.symbol
 #. placeholder {1}: targetToken.symbol
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
@@ -2379,25 +2395,6 @@ msgstr ""
 
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 msgid "Upgrade successful"
-msgstr ""
-
-#. placeholder {0}: isDifferentChain ? 'on Mainnet' : ''
-#: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
-msgid "Upgrade your {formattedBalance} {upperSymbol} to SKY {0}"
-msgstr ""
-
-#. placeholder {0}: isDifferentChain ? 'on Mainnet' : ''
-#: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
-msgid "Upgrade your {formattedBalance} {upperSymbol} to USDS {0}"
-msgstr ""
-
-#. placeholder {0}: isDifferentChain ? 'on Mainnet' : ''
-#: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
-msgid "Upgrade your {formattedBalance} {upperSymbol} to USDS to get rewards {0}"
-msgstr ""
-
-#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
-msgid "Upgrade your DAI and MKR"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/AboutUsds.tsx
