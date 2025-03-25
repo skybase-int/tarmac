@@ -335,7 +335,7 @@ test('Details pane shows right data', async ({ page }) => {
   await page.pause();
   const totalDaiUpgradedWidget = await page
     .getByTestId('widget-container')
-    .getByRole('heading', { name: 'Total DAI migrated', exact: true })
+    .getByRole('heading', { name: 'Total USDS migrated', exact: true })
     .first()
     .locator('xpath=ancestor::div[1]')
     .getByText(/\d+/)
@@ -349,13 +349,13 @@ test('Details pane shows right data', async ({ page }) => {
   //   .innerText();
   const totalDaiUpgradedDetails = await page
     .getByTestId('upgrade-stats-details')
-    .getByRole('heading', { name: 'Total DAI migrated', exact: true })
+    .getByRole('heading', { name: 'Total USDS migrated', exact: true })
     .locator('xpath=ancestor::div[1]')
     .getByText(/\d+/)
     .innerText();
   await page
     .getByTestId('upgrade-stats-details')
-    .getByRole('heading', { name: 'Total MKR migrated', exact: true })
+    .getByRole('heading', { name: 'Total SKY migrated', exact: true })
     .locator('xpath=ancestor::div[1]')
     .getByText(/\d+/)
     .innerText();
