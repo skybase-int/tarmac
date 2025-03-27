@@ -82,7 +82,7 @@ const IntentRow = ({ intent, shouldDisableActionButtons }: IntentRowProps) => {
         }
       }}
     >
-      {intent.intent_description}
+      {intent.title}
       {network && (
         <img
           src={`/networks/${network}.svg`}

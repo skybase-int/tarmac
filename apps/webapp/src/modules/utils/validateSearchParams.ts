@@ -50,7 +50,7 @@ export const validateSearchParams = (
     // also sets the selected reward contract if the reward contract address is valid
     if (key === QueryParams.Reward) {
       const rewardContract = rewardContracts?.find(
-        f => f.contractAddress.toLowerCase() === value.toLowerCase()
+        f => f.contractAddress?.toLowerCase() === value?.toLowerCase()
       );
       if (!rewardContract) {
         searchParams.delete(key);

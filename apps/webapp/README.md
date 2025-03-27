@@ -58,6 +58,8 @@ Create a `.env` file in the root directory of the project. You can use the `.env
 - `VITE_CHAT_SUGGESTIONS_ENABLED`: If set to `'true`, enables chat suggestions functionality, set to 'true' to enable
 - `VITE_CHATBOT_NAME`: The name of the chatbot
 - `VITE_CHATBOT_ENDPOINT`: The endpoint URL for the chatbot service
+- `VITE_CHATBOT_MAX_HISTORY`: Maximum number of previous messages to include in chat context.
+- `VITE_CHATBOT_MAX_MESSAGE_LENGTH`: Maximum character length for user input messages.
 
 ## Running the App
 

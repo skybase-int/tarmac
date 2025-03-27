@@ -1,9 +1,18 @@
+import { useChainId } from 'wagmi';
 import { MutationFunction, useMutation } from '@tanstack/react-query';
-import { Recommendation, SendMessageRequest, SendMessageResponse } from '../types/Chat';
+import { SendMessageRequest, SendMessageResponse, ChatIntent } from '../types/Chat';
 import { useChatContext } from '../context/ChatContext';
 import { CHATBOT_NAME, MessageType, UserType } from '../constants';
 import { generateUUID } from '../lib/generateUUID';
 import { t } from '@lingui/macro';
+import { chainIdNameMapping } from '../lib/intentUtils';
+
+interface ChatbotResponse {
+  chatResponse: {
+    response: string;
+  };
+  actionIntentResponse: Pick<ChatIntent, 'title' | 'url'>[];
+}
 
 const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
   const endpoint = import.meta.env.VITE_CHATBOT_ENDPOINT || 'https://staging-api.sky.money';
@@ -13,45 +22,22 @@ const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify([
-      {
-        ...messagePayload
-      }
-    ])
+    body: JSON.stringify(messagePayload)
   });
 
   if (!response.ok) {
     throw new Error('Advanced chat response was not ok');
   }
 
-  const { data } = await response.json();
+  const data = await response.json();
 
   // Transform the advanced response to match the simple mode structure
-  // TODO: Handle the response from the chatbot, for now we focus on the chat response
   return {
     chatResponse: {
-      message: '', // TODO: add message
-      response: data?.[0]?.prediction || '',
-      messageId: data?.[0]?.messageId || ''
+      response: data?.response || ''
     },
-    // Mocked response for now
-    actionIntentResponse: [
-      {
-        label: 'Save 100 USDC',
-        url: '/?network=arbitrumone&details=false&widget=savings&flow=supply&source_token=USDC&input_amount=100'
-      },
-      {
-        label: 'Upgrade 300 DAI',
-        url: '/?network=mainnet_sep_30_0&details=false&widget=upgrade&flow=upgrade&input_amount=300'
-      }
-    ],
-    questionIntentResponse: {
-      recommendations: []
-    },
-    slotResponse: {
-      slots: []
-    }
-  };
+    actionIntentResponse: data?.actions || []
+  } as ChatbotResponse;
 };
 
 const sendMessageMutation: MutationFunction<
@@ -63,7 +49,7 @@ const sendMessageMutation: MutationFunction<
     throw new Error(`${CHATBOT_NAME} is disabled`);
   }
 
-  const { chatResponse, actionIntentResponse, questionIntentResponse } = await fetchEndpoints(messagePayload);
+  const { chatResponse, actionIntentResponse } = await fetchEndpoints(messagePayload);
 
   if (!chatResponse.response) {
     throw new Error('Chatbot did not respond');
@@ -72,25 +58,19 @@ const sendMessageMutation: MutationFunction<
   // we will override the response if we detect an action intent
   const data: SendMessageResponse = { ...chatResponse };
 
-  data.intents = actionIntentResponse.map(intent => ({
-    intent_description: intent.label,
-    url: intent.url,
-    intent_id: intent.label
+  data.intents = actionIntentResponse.map(action => ({
+    title: action.title,
+    url: action.url,
+    intent_id: action.title
   }));
-
-  // next, check for question intents
-  if (questionIntentResponse.recommendations && questionIntentResponse.recommendations.length > 0) {
-    const questions = questionIntentResponse.recommendations.map(
-      (rec: Recommendation) => rec.metadata.content
-    );
-    data.suggestions = questions;
-  }
 
   return data;
 };
 
 export const useSendMessage = () => {
-  const { setChatHistory } = useChatContext();
+  const { setChatHistory, sessionId, chatHistory } = useChatContext();
+  const chainId = useChainId();
+
   const { loading: LOADING, error: ERROR, canceled: CANCELED } = MessageType;
   const { mutate } = useMutation<SendMessageResponse, Error, { messagePayload: Partial<SendMessageRequest> }>(
     {
@@ -98,19 +78,23 @@ export const useSendMessage = () => {
     }
   );
 
+  const MAX_HISTORY_LENGTH = parseInt(import.meta.env.VITE_CHATBOT_MAX_HISTORY || 4) - 1;
+  const history = chatHistory
+    .filter(record => record.type !== CANCELED)
+    .map(record => ({
+      content: record.message,
+      role: record.user === UserType.user ? 'user' : 'assistant'
+    }));
+  const network = chainIdNameMapping[chainId as keyof typeof chainIdNameMapping];
+
   const sendMessage = (message: string) => {
     mutate(
       {
         messagePayload: {
-          // session_id: sessionId,
-          // message,
-          // history: history
-          //   .filter(record => record.type !== CANCELED)
-          //   .map(record => ({
-          //     ...record,
-          //     role: record.user === UserType.user ? 'user' : 'assistant'
-          //   }))
-          promptText: message
+          session_id: sessionId,
+          accepted_terms_hash: 'aaaaaaaa11111111bbbbbbbb22222222cccccccc33333333dddddddd44444444', // TODO, this is hardcoded for now
+          network,
+          messages: [...history.slice(-MAX_HISTORY_LENGTH), { role: 'user', content: message }]
         }
       },
       {
@@ -124,7 +108,6 @@ export const useSendMessage = () => {
                     id: generateUUID(),
                     user: UserType.bot,
                     message: data.response,
-                    suggestions: data.suggestions,
                     intents: data.intents
                   }
                 ];

@@ -68,7 +68,7 @@ export const getChainFromNetwork = (
 
 export const generateFallbackIntent = (intentId: string, description: string): ChatIntent => ({
   intent_id: intentId,
-  intent_description: description,
+  title: description,
   url: generateBaseUrl(intentId, {})
 });
 
