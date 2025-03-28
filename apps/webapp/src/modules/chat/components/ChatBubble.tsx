@@ -10,7 +10,6 @@ import { QueryParams } from '@/lib/constants';
 import { motion } from 'framer-motion';
 import { ResponseModifierRow } from './ResponseModifierRow';
 import { t } from '@lingui/macro';
-import { ChatSuggestionsRow } from './ChatSuggestionsRow';
 import { ChatIntent } from '../types/Chat';
 import { ChatIntentsRow } from './ChatIntentsRow';
 import { StopGeneratingButton } from './StopGeneratingButton';
@@ -25,7 +24,6 @@ type ChatBubbleProps = {
   type?: MessageType;
   isLastMessage?: boolean;
   isFirstMessage?: boolean;
-  suggestions?: string[];
   intents?: ChatIntent[];
   sendMessage: (message: string) => void;
   showModifierRow?: boolean;
@@ -69,7 +67,6 @@ export const ChatBubble = ({
   user,
   message,
   type,
-  suggestions,
   intents,
   sendMessage,
   showModifierRow = true,
@@ -136,9 +133,6 @@ export const ChatBubble = ({
             {user === UserType.bot && !isError && !isInternal && !isCanceled && (
               <div className="space-y-5">
                 {intents && intents?.length > 0 && isLastMessage && <ChatIntentsRow intents={intents} />}
-                {(!intents || intents.length === 0) && suggestions && (
-                  <ChatSuggestionsRow suggestions={suggestions} sendMessage={sendMessage} />
-                )}
                 {showModifierRow && <ResponseModifierRow sendMessage={sendMessage} />}
               </div>
             )}

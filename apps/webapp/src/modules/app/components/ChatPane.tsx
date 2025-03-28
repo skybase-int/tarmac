@@ -41,7 +41,7 @@ export const ChatPane = ({ sendMessage }: { sendMessage: (message: string) => vo
             ref={chatContainerRef}
             className="scrollbar-thin flex w-full flex-col gap-10 overflow-y-auto pr-2 xl:gap-8"
           >
-            {chatHistory.map(({ user, message, type, suggestions, intents }, index) => {
+            {chatHistory.map(({ user, message, type, intents }, index) => {
               const formattedMessage = formatMessage(message);
               const isLastMessage = index === chatHistory.length - 1 && index !== 0;
               const isFirstMessage = index === 0;
@@ -52,7 +52,6 @@ export const ChatPane = ({ sendMessage }: { sendMessage: (message: string) => vo
                   message={formattedMessage}
                   type={type}
                   isLastMessage={isLastMessage}
-                  suggestions={suggestions}
                   intents={intents}
                   sendMessage={sendMessage}
                   showModifierRow={!isFirstMessage && isLastMessage}
