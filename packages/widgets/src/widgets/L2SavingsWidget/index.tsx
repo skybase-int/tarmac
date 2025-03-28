@@ -54,6 +54,7 @@ function calculateOriginOptions(
 ) {
   const options = action === 'deposit' ? [...depositOptions] : [...withdrawOptions];
   const disallowed = disallowedTokens[flow];
+  console.log('🚀 ~ disallowedTokens:', disallowedTokens);
   const allowedOptions = options.filter(option => !disallowed.includes(option));
 
   // Sort the array so that the selected token is first
@@ -133,7 +134,28 @@ const SavingsWidgetWrapped = ({
   referralCode,
   disallowedTokens
 }: SavingsWidgetProps) => {
-  const validatedExternalState = getValidatedState(externalWidgetState, ['USDS', 'USDC']);
+  const {
+    setButtonText,
+    setIsDisabled,
+    setIsLoading,
+    txStatus,
+    setTxStatus,
+    setExternalLink,
+    widgetState,
+    setWidgetState,
+    setShowStepIndicator
+  } = useContext(WidgetContext);
+
+  const disallowedForFlow =
+    disallowedTokens?.[SavingsFlow.WITHDRAW ? SavingsFlow.WITHDRAW : SavingsFlow.SUPPLY] || [];
+  const allowedSymbolsForValidation = ['USDS', 'USDC'].filter(
+    symbol =>
+      !disallowedForFlow.some(
+        disallowedToken => disallowedToken.symbol.toLowerCase() === symbol.toLowerCase()
+      )
+  );
+
+  const validatedExternalState = getValidatedState(externalWidgetState, allowedSymbolsForValidation);
 
   useEffect(() => {
     onStateValidated?.(validatedExternalState);
@@ -158,18 +180,6 @@ const SavingsWidgetWrapped = ({
   );
   const [amount, setAmount] = useState(initialAmount);
   const debouncedAmount = useDebounce(amount);
-
-  const {
-    setButtonText,
-    setIsDisabled,
-    setIsLoading,
-    txStatus,
-    setTxStatus,
-    setExternalLink,
-    widgetState,
-    setWidgetState,
-    setShowStepIndicator
-  } = useContext(WidgetContext);
 
   const {
     data: allowance,
