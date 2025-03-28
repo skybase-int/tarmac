@@ -78,7 +78,7 @@ export const useSendMessage = () => {
     }
   );
 
-  const MAX_HISTORY_LENGTH = parseInt(import.meta.env.VITE_CHATBOT_MAX_HISTORY || 4) - 1;
+  const MAX_HISTORY_LENGTH = parseInt(import.meta.env.VITE_CHATBOT_MAX_HISTORY || 8) - 1;
   const history = chatHistory
     .filter(record => record.type !== CANCELED)
     .map(record => ({
