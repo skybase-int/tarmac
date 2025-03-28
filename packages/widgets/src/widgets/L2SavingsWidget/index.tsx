@@ -54,7 +54,6 @@ function calculateOriginOptions(
 ) {
   const options = action === 'deposit' ? [...depositOptions] : [...withdrawOptions];
   const disallowed = disallowedTokens[flow];
-  console.log('🚀 ~ disallowedTokens:', disallowedTokens);
   const allowedOptions = options.filter(option => !disallowed.includes(option));
 
   // Sort the array so that the selected token is first
