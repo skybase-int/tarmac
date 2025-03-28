@@ -133,7 +133,28 @@ const SavingsWidgetWrapped = ({
   referralCode,
   disallowedTokens
 }: SavingsWidgetProps) => {
-  const validatedExternalState = getValidatedState(externalWidgetState, ['USDS', 'USDC']);
+  const {
+    setButtonText,
+    setIsDisabled,
+    setIsLoading,
+    txStatus,
+    setTxStatus,
+    setExternalLink,
+    widgetState,
+    setWidgetState,
+    setShowStepIndicator
+  } = useContext(WidgetContext);
+
+  const disallowedForFlow =
+    disallowedTokens?.[SavingsFlow.WITHDRAW ? SavingsFlow.WITHDRAW : SavingsFlow.SUPPLY] || [];
+  const allowedSymbolsForValidation = ['USDS', 'USDC'].filter(
+    symbol =>
+      !disallowedForFlow.some(
+        disallowedToken => disallowedToken.symbol.toLowerCase() === symbol.toLowerCase()
+      )
+  );
+
+  const validatedExternalState = getValidatedState(externalWidgetState, allowedSymbolsForValidation);
 
   useEffect(() => {
     onStateValidated?.(validatedExternalState);
@@ -158,18 +179,6 @@ const SavingsWidgetWrapped = ({
   );
   const [amount, setAmount] = useState(initialAmount);
   const debouncedAmount = useDebounce(amount);
-
-  const {
-    setButtonText,
-    setIsDisabled,
-    setIsLoading,
-    txStatus,
-    setTxStatus,
-    setExternalLink,
-    widgetState,
-    setWidgetState,
-    setShowStepIndicator
-  } = useContext(WidgetContext);
 
   const {
     data: allowance,
