@@ -67,7 +67,7 @@ export const COMING_SOON_MAP: Record<number, Intent[]> = {
 
 export const intentTxt: Record<string, MessageDescriptor> = {
   trade: msg`trade`,
-  upgrade: msg`migrate`,
+  upgrade: msg`upgrade`,
   savings: msg`savings`,
   rewards: msg`rewards`,
   balances: msg`balances`,

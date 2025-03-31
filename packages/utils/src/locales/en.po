@@ -1196,10 +1196,6 @@ msgstr ""
 msgid "Metrics"
 msgstr ""
 
-#: apps/webapp/src/lib/constants.ts
-msgid "migrate"
-msgstr ""
-
 #: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
@@ -1207,24 +1203,6 @@ msgstr ""
 #: packages/widgets/src/widgets/UpgradeWidget/components/UpgradeTransactionStatus.tsx
 #: packages/widgets/src/widgets/BalancesWidget/lib/getTitle.ts
 msgid "Migrate"
-msgstr ""
-
-#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
-msgid "Migrate and get rewards"
-msgstr ""
-
-#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
-msgid "Migrate and Save"
-msgstr ""
-
-#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
-#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
-#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
-msgid "Migrate DAI to USDS"
-msgstr ""
-
-#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
-msgid "Migrate MKR to SKY"
 msgstr ""
 
 #. placeholder {0}: isDifferentChain ? 'on Mainnet' : ''
@@ -2376,23 +2354,39 @@ msgstr ""
 msgid "Updating position"
 msgstr ""
 
+#: apps/webapp/src/lib/constants.ts
+msgid "upgrade"
+msgstr ""
+
 #. placeholder {0}: originToken.symbol
 #. placeholder {1}: targetToken.symbol
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 msgid "Upgrade {0} into {1}"
 msgstr ""
 
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 #: apps/webapp/src/modules/app/hooks/useNotification.tsx
 #: apps/webapp/src/modules/app/hooks/useNotification.tsx
 msgid "Upgrade and get rewards"
 msgstr ""
 
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+msgid "Upgrade and Save"
+msgstr ""
+
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 #: apps/webapp/src/modules/app/hooks/useNotification.tsx
 msgid "Upgrade DAI to USDS"
 msgstr ""
 
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 msgid "Upgrade failed"
+msgstr ""
+
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+msgid "Upgrade MKR to SKY"
 msgstr ""
 
 #: apps/webapp/src/modules/upgrade/components/UpgradeDetails.tsx
