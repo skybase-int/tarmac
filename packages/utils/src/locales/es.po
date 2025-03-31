@@ -1196,32 +1196,11 @@ msgstr ""
 msgid "Metrics"
 msgstr ""
 
-#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 #: packages/widgets/src/widgets/UpgradeWidget/components/UpgradeTransactionStatus.tsx
-#: packages/widgets/src/widgets/BalancesWidget/lib/getTitle.ts
 msgid "Migrate"
-msgstr ""
-
-#. placeholder {0}: isDifferentChain ? 'on Mainnet' : ''
-#: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
-msgid "Migrate your {formattedBalance} {upperSymbol} to SKY {0}"
-msgstr ""
-
-#. placeholder {0}: isDifferentChain ? 'on Mainnet' : ''
-#: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
-msgid "Migrate your {formattedBalance} {upperSymbol} to USDS {0}"
-msgstr ""
-
-#. placeholder {0}: isDifferentChain ? 'on Mainnet' : ''
-#: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
-msgid "Migrate your {formattedBalance} {upperSymbol} to USDS to get rewards {0}"
-msgstr ""
-
-#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
-msgid "Migrate your DAI and MKR"
 msgstr ""
 
 #: packages/widgets/src/widgets/BalancesWidget/components/SealBalanceWarningCard.tsx
@@ -2358,6 +2337,11 @@ msgstr ""
 msgid "upgrade"
 msgstr ""
 
+#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
+#: packages/widgets/src/widgets/BalancesWidget/lib/getTitle.ts
+msgid "Upgrade"
+msgstr ""
+
 #. placeholder {0}: originToken.symbol
 #. placeholder {1}: targetToken.symbol
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
@@ -2395,6 +2379,25 @@ msgstr ""
 
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 msgid "Upgrade successful"
+msgstr ""
+
+#. placeholder {0}: isDifferentChain ? 'on Mainnet' : ''
+#: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
+msgid "Upgrade your {formattedBalance} {upperSymbol} to SKY {0}"
+msgstr ""
+
+#. placeholder {0}: isDifferentChain ? 'on Mainnet' : ''
+#: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
+msgid "Upgrade your {formattedBalance} {upperSymbol} to USDS {0}"
+msgstr ""
+
+#. placeholder {0}: isDifferentChain ? 'on Mainnet' : ''
+#: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
+msgid "Upgrade your {formattedBalance} {upperSymbol} to USDS to get rewards {0}"
+msgstr ""
+
+#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
+msgid "Upgrade your DAI and MKR"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/AboutUsds.tsx
