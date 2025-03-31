@@ -62,7 +62,7 @@ export const UpgradeTransactionStatus = ({
 
   // Sets the title and subtitle of the card
   useEffect(() => {
-    if (flow === UpgradeFlow.UPGRADE) setStepTwoTitle(t`Migrate`);
+    if (flow === UpgradeFlow.UPGRADE) setStepTwoTitle(t`Upgrade`);
     if (flow === UpgradeFlow.REVERT) setStepTwoTitle(t`Revert`);
     // Upgrade & Approve transaction state
     if (
@@ -102,7 +102,7 @@ export const UpgradeTransactionStatus = ({
             txStatus,
             amount: formatBigInt(originAmount, { unit: getTokenDecimals(originToken, chainId) }),
             symbol: originToken.symbol,
-            actionLabel: 'Migrating'
+            actionLabel: 'Upgrading'
           })
         )
       );

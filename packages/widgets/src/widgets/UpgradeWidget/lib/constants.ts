@@ -30,7 +30,7 @@ export const upgradeTokens = {
 export function upgradeApproveTitle(txStatus: TxStatus, flow: UpgradeFlow): string {
   switch (txStatus) {
     case TxStatus.INITIALIZED:
-      return flow === UpgradeFlow.UPGRADE ? 'Begin the migration process' : 'Begin the revert process';
+      return flow === UpgradeFlow.UPGRADE ? 'Begin the upgrade process' : 'Begin the revert process';
     case TxStatus.LOADING:
       return 'In progress';
     case TxStatus.SUCCESS:
@@ -43,7 +43,7 @@ export function upgradeApproveTitle(txStatus: TxStatus, flow: UpgradeFlow): stri
 }
 
 export const upgradeTitle: TxCardCopyText = {
-  [TxStatus.INITIALIZED]: msg`Confirm your migration`,
+  [TxStatus.INITIALIZED]: msg`Confirm your upgrade`,
   [TxStatus.LOADING]: msg`In progress`,
   [TxStatus.SUCCESS]: msg`Success!`,
   [TxStatus.ERROR]: msg`Error`
@@ -63,7 +63,7 @@ export function approveUpgradeSubtitle(txStatus: TxStatus, symbol: string): Mess
     case TxStatus.LOADING:
       return msg`Token access approval in progress.`;
     case TxStatus.SUCCESS:
-      return msg`Next, confirm the migration transaction.`;
+      return msg`Next, confirm the upgrade transaction.`;
     case TxStatus.ERROR:
       return msg`An error occurred while approving access to your ${symbol}.`;
     default:
@@ -100,10 +100,10 @@ export function upgradeActionDescription({
   targetToken: Token;
 }): MessageDescriptor {
   if ((action === UpgradeAction.UPGRADE || action === UpgradeAction.REVERT) && txStatus === TxStatus.SUCCESS)
-    return msg`${flow === UpgradeFlow.UPGRADE ? 'Migrated' : 'Reverted'} ${originToken.symbol} to ${
+    return msg`${flow === UpgradeFlow.UPGRADE ? 'Upgraded' : 'Reverted'} ${originToken.symbol} to ${
       targetToken.symbol
     }`;
-  return msg`${flow === UpgradeFlow.UPGRADE ? 'Migrating' : 'Reverting'} ${originToken.symbol} to ${
+  return msg`${flow === UpgradeFlow.UPGRADE ? 'Upgrading' : 'Reverting'} ${originToken.symbol} to ${
     targetToken.symbol
   }`;
 }
@@ -121,11 +121,11 @@ export function upgradeSubtitle({
     case TxStatus.INITIALIZED:
       return msg`Almost done!`;
     case TxStatus.LOADING:
-      return msg`Your migration is being processed on the blockchain. Please wait.`;
+      return msg`Your upgrade is being processed on the blockchain. Please wait.`;
     case TxStatus.SUCCESS:
       return msg`You've received ${amount} ${symbol}.`;
     case TxStatus.ERROR:
-      return msg`An error occurred while migrating your tokens.`;
+      return msg`An error occurred while upgrading your tokens.`;
     default:
       return msg``;
   }
