@@ -1,5 +1,5 @@
 import { BalancesWidget } from '@jetstreamgg/widgets';
-import { Balances, Upgrade, Trade, RewardsModule, Savings, Seal } from '../../icons';
+import { Balances, Upgrade, Trade, RewardsModule, Savings, Stake } from '../../icons';
 import { Intent } from '@/lib/enums';
 import { useLingui } from '@lingui/react';
 import { useCustomConnectModal } from '@/modules/ui/hooks/useCustomConnectModal';
@@ -134,7 +134,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
     [Intent.SAVINGS_INTENT, 'Savings', Savings, withErrorBoundary(<SavingsWidgetPane {...sharedProps} />)],
     [Intent.UPGRADE_INTENT, 'Migrate', Upgrade, withErrorBoundary(<UpgradeWidgetPane {...sharedProps} />)],
     [Intent.TRADE_INTENT, 'Trade', Trade, withErrorBoundary(<TradeWidgetPane {...sharedProps} />)],
-    [Intent.STAKE_INTENT, 'Stake', Seal, withErrorBoundary(<StakeWidgetPane {...sharedProps} />)]
+    [Intent.STAKE_INTENT, 'Stake', Stake, withErrorBoundary(<StakeWidgetPane {...sharedProps} />)]
   ].map(([intent, label, icon, component]) => {
     const comingSoon = COMING_SOON_MAP[chainId]?.includes(intent as Intent);
     return [
