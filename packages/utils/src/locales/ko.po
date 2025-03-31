@@ -145,9 +145,10 @@ msgstr ""
 msgid "About Stake Engine"
 msgstr ""
 
+#: apps/webapp/src/modules/ui/components/AboutStakeModule.tsx
 #: apps/webapp/src/modules/stake/components/StakePositionDetails.tsx
 #: apps/webapp/src/modules/stake/components/StakeOverview.tsx
-msgid "About Stake Rewards"
+msgid "About Staking Rewards"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/About.tsx
@@ -320,9 +321,12 @@ msgstr ""
 msgid "Approve repay amount"
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 msgid "Approve seal amount"
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
+msgid "Approve stake amount"
 msgstr ""
 
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
@@ -903,7 +907,6 @@ msgid "Exit fee"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
-#: packages/widgets/src/widgets/StakeModuleWidget/components/Borrow.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Borrow.tsx
 msgid "Exit fee percentage"
@@ -1031,12 +1034,15 @@ msgid "How much would you like to repay?"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Lock.tsx
-msgid "How much would you like to seal?"
+msgid "How much would you like to stake?"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/components/Free.tsx
+msgid "How much would you like to unseal?"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Free.tsx
-#: packages/widgets/src/widgets/SealModuleWidget/components/Free.tsx
-msgid "How much would you like to unseal?"
+msgid "How much would you like to unstake?"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/OpenNewUrn.tsx
@@ -1651,19 +1657,15 @@ msgstr ""
 msgid "seal"
 msgstr ""
 
-#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
 #: apps/webapp/src/modules/seal/components/SealHistory.tsx
 msgid "Seal"
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/components/UnconnectedState.tsx
-#: packages/widgets/src/widgets/StakeModuleWidget/components/OpenNewUrn.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/UnconnectedState.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/OpenNewUrn.tsx
 msgid "Seal and borrow"
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "Seal and Borrow"
 msgstr ""
@@ -1684,12 +1686,10 @@ msgstr ""
 msgid "Seal Engine Overview"
 msgstr ""
 
-#: apps/webapp/src/modules/stake/components/StakeOverview.tsx
 #: apps/webapp/src/modules/seal/components/SealOverview.tsx
 msgid "Seal Positions"
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
 msgid "Seal reward"
 msgstr ""
@@ -1702,13 +1702,10 @@ msgstr ""
 msgid "Seal your tokens and continue to collect rewards"
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
 msgid "Sealed"
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
-#: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
 msgid "Sealing"
@@ -1718,16 +1715,8 @@ msgstr ""
 msgid "Sealing MKR in the Seal Rewards module"
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
-msgid "Sealing MKR in the Stake Rewards module"
-msgstr ""
-
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "Sealing SKY in the Seal Rewards module"
-msgstr ""
-
-#: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
-msgid "Sealing SKY in the Stake Rewards module"
 msgstr ""
 
 #: apps/webapp/src/modules/app/hooks/useNotification.tsx
@@ -1907,12 +1896,54 @@ msgstr ""
 msgid "stake"
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
-msgid "Stake Engine"
+#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
+msgid "Stake"
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/components/UnconnectedState.tsx
+#: packages/widgets/src/widgets/StakeModuleWidget/components/OpenNewUrn.tsx
+msgid "Stake and borrow"
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
+msgid "Stake and Borrow"
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeOverview.tsx
-msgid "Stake Engine Overview"
+msgid "Stake Positions"
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
+msgid "Stake reward"
+msgstr ""
+
+#: apps/webapp/src/modules/ui/components/AboutStakeModule.tsx
+msgid "Stake Rewards can be accessed when you supply SKY to the Stake Engine of the decentralised, non-custodial Sky Protocol. Currently, all Stake Rewards take the form of USDS. Eventually, subject to Sky ecosystem governance approval, Stake Rewards may also be available in the form of Sky Star tokens."
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
+msgid "Staked"
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
+#: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
+msgid "Staking"
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
+msgid "Staking Engine"
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeOverview.tsx
+msgid "Staking Engine Overview"
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
+msgid "Staking MKR in the Stake Rewards module"
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
+msgid "Staking SKY in the Stake Rewards module"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
@@ -2132,7 +2163,7 @@ msgid "Total SKY migrated"
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeOverview.tsx
-msgid "Total SKY sealed"
+msgid "Total SKY staked"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/UsdsTotalSupplyCard.tsx
@@ -2340,28 +2371,40 @@ msgstr ""
 msgid "Unknown status."
 msgstr ""
 
-#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
 #: apps/webapp/src/modules/seal/components/SealHistory.tsx
 msgid "Unseal"
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
-#: packages/widgets/src/widgets/StakeModuleWidget/components/UnconnectedState.tsx
-#: packages/widgets/src/widgets/StakeModuleWidget/components/OpenNewUrn.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/components/UnconnectedState.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/OpenNewUrn.tsx
 msgid "Unseal and pay back"
 msgstr ""
 
-#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
 #: apps/webapp/src/modules/seal/components/SealHistory.tsx
 msgid "Unseal kick"
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
 msgid "Unsealing"
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
+msgid "Unstake"
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/StakeModuleWidget/components/UnconnectedState.tsx
+#: packages/widgets/src/widgets/StakeModuleWidget/components/OpenNewUrn.tsx
+msgid "Unstake and pay back"
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
+msgid "Unstake kick"
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
+msgid "Unstaking"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/StakeModuleTransactionStatus.tsx
@@ -2429,6 +2472,7 @@ msgid "View Chronicle"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/AboutUsds.tsx
+#: apps/webapp/src/modules/ui/components/AboutStakeModule.tsx
 #: apps/webapp/src/modules/ui/components/AboutSky.tsx
 #: apps/webapp/src/modules/ui/components/AboutSealModule.tsx
 #: apps/webapp/src/modules/ui/components/AboutSUsds.tsx
@@ -2673,11 +2717,14 @@ msgstr ""
 msgid "You reverted {0} {1} into {2}"
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
-#: packages/widgets/src/widgets/StakeModuleWidget/components/Borrow.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Borrow.tsx
 msgid "You sealed"
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
+#: packages/widgets/src/widgets/StakeModuleWidget/components/Borrow.tsx
+msgid "You staked"
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
@@ -2760,7 +2807,6 @@ msgid "You’ve added {symbol} to the Sky Token Rewards module."
 msgstr ""
 
 #. placeholder {0}: selectedToken ?? ''
-#: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "You've borrowed {borrowAmount} USDS by sealing {collateralToLock} {0}. Your new position is open."
 msgstr ""
@@ -2768,6 +2814,11 @@ msgstr ""
 #. placeholder {0}: selectedToken ?? ''
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "You've borrowed {borrowAmount} USDS by sealing {collateralToLock} {0}. Your position is updated."
+msgstr ""
+
+#. placeholder {0}: selectedToken ?? ''
+#: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
+msgid "You've borrowed {borrowAmount} USDS by staking {collateralToLock} {0}. Your new position is open."
 msgstr ""
 
 #. placeholder {0}: selectedToken ?? ''
@@ -2921,18 +2972,24 @@ msgstr ""
 msgid "Your Savings transaction history"
 msgstr ""
 
-#: apps/webapp/src/modules/stake/components/StakeOverview.tsx
 #: apps/webapp/src/modules/seal/components/SealOverview.tsx
 msgid "Your Seal Engine transaction history"
 msgstr ""
 
-#: apps/webapp/src/modules/stake/components/StakePositionDetails.tsx
 #: apps/webapp/src/modules/seal/components/SealPositionDetails.tsx
 msgid "Your Seal position transaction history"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/About.tsx
 msgid "Your sealed tokens enable you to create one or more positions through which you access rewards. You can:"
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeOverview.tsx
+msgid "Your Staking Engine transaction history"
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakePositionDetails.tsx
+msgid "Your Staking position transaction history"
 msgstr ""
 
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
