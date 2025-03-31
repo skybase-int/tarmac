@@ -488,7 +488,7 @@ export function UpgradeWidgetWrapped({
       } else if (widgetState.screen === UpgradeScreen.ACTION && debouncedOriginAmount === 0n) {
         setButtonText(t`Enter amount`);
       } else if (widgetState.action === UpgradeAction.APPROVE) {
-        setButtonText(t`Approve ${tabIndex === 0 ? 'migrate' : 'revert'} amount`);
+        setButtonText(t`Approve ${tabIndex === 0 ? 'upgrade' : 'revert'} amount`);
       } else if (widgetState.flow === UpgradeFlow.UPGRADE && widgetState.action === UpgradeAction.UPGRADE) {
         setButtonText(t`Migrate`);
       } else if (widgetState.flow === UpgradeFlow.REVERT && widgetState.action === UpgradeAction.REVERT) {

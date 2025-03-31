@@ -15,7 +15,7 @@ export function UpgradedDaiToUsds() {
 
   return (
     <StatsCard
-      title={t`Total USDS migrated`}
+      title={t`Total USDS upgraded`}
       isLoading={isLoading}
       error={error}
       content={
