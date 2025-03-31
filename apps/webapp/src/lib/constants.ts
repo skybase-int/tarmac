@@ -105,7 +105,7 @@ export function mapQueryParamToIntent(queryParam: string): Intent {
 export const REFRESH_DELAY = 1000;
 
 export const linkedActionMetadata = {
-  [IntentMapping[Intent.UPGRADE_INTENT]]: { text: 'Migrate DAI', icon: Upgrade },
+  [IntentMapping[Intent.UPGRADE_INTENT]]: { text: 'Upgrade DAI', icon: Upgrade },
   [IntentMapping[Intent.TRADE_INTENT]]: { text: 'Trade Tokens', icon: Trade },
   [IntentMapping[Intent.SAVINGS_INTENT]]: { text: 'Access Savings', icon: Savings },
   [IntentMapping[Intent.REWARDS_INTENT]]: { text: 'Get Rewards', icon: RewardsModule },
