@@ -124,7 +124,7 @@ export function getStakeSubtitle({
     case TxStatus.SUCCESS:
       return flow === StakeFlow.OPEN
         ? collateralToLock && borrowAmount
-          ? msg`You've borrowed ${borrowAmount} USDS by sealing ${collateralToLock} ${selectedToken ?? ''}. Your new position is open.`
+          ? msg`You've borrowed ${borrowAmount} USDS by staking ${collateralToLock} ${selectedToken ?? ''}. Your new position is open.`
           : collateralToLock
             ? msg`You've staked ${collateralToLock} ${selectedToken ?? ''}. Your new position is open.`
             : msg`You just opened your position`
