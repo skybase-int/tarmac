@@ -87,7 +87,7 @@ function TransactionDetail() {
       component: (
         <VStack gap={3} className="mt-2">
           <Text variant="medium" className="text-textSecondary leading-4">
-            Sealing
+            Staking
           </Text>
           <TokenIconWithBalance token={TOKENS.sky} balance={formatBigInt(skyToLock)} textLarge />
         </VStack>
@@ -98,7 +98,7 @@ function TransactionDetail() {
       component: (
         <VStack gap={3} className="mt-2">
           <Text variant="medium" className="text-textSecondary leading-4">
-            Unsealing
+            Unstaking
           </Text>
           <TokenIconWithBalance token={TOKENS.sky} balance={formatBigInt(skyToFree)} textLarge />
         </VStack>
@@ -109,7 +109,7 @@ function TransactionDetail() {
       component: rewardContractTokens ? (
         <VStack gap={3} className="mt-2">
           <Text variant="medium" className="text-textSecondary leading-4">
-            Seal reward
+            Stake reward
           </Text>
           <HStack gap={2}>
             <TokenIcon token={rewardContractTokens.rewardsToken} width={24} className="h-6 w-6 text-[18px]" />

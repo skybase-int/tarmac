@@ -44,8 +44,8 @@ const { usds, mkr } = TOKENS;
 
 const isUpdatedValue = (prev: any, next: any) => prev !== undefined && next !== undefined && prev !== next;
 const getStakeLabel = (prev: bigint | undefined, next: bigint | undefined) => {
-  if (prev === undefined || next === undefined) return t`Sealing`;
-  return next > prev ? t`Sealing` : next < prev ? t`Unsealing` : t`Sealed`;
+  if (prev === undefined || next === undefined) return t`Staking`;
+  return next > prev ? t`Staking` : next < prev ? t`Unstaking` : t`Staked`;
 };
 const getBorrowLabel = (prev: bigint | undefined, next: bigint | undefined) => {
   if (prev === undefined || next === undefined) return t`Borrowing`;
@@ -302,7 +302,7 @@ export const PositionSummary = () => {
         hideIfNoDebt: true
       },
       {
-        label: t`Seal reward`,
+        label: t`Stake reward`,
         updated:
           hasPositions &&
           isUpdatedValue(existingRewardContract?.toLowerCase(), selectedRewardContract?.toLowerCase()),

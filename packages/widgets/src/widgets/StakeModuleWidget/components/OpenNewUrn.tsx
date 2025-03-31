@@ -96,7 +96,7 @@ export const OpenNewUrn = ({
                   onClickTrigger(0);
                 }}
               >
-                <Trans>Seal and borrow</Trans>
+                <Trans>Stake and borrow</Trans>
               </TabsTrigger>
               <TabsTrigger
                 position="right"
@@ -106,7 +106,7 @@ export const OpenNewUrn = ({
                   onClickTrigger(1);
                 }}
               >
-                <Trans>Unseal and pay back</Trans>
+                <Trans>Unstake and pay back</Trans>
               </TabsTrigger>
             </TabsList>
           </motion.div>

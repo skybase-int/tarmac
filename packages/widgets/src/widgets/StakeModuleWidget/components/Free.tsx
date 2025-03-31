@@ -62,7 +62,7 @@ export const Free = ({
     <div>
       <TokenInput
         className="w-full"
-        label={t`How much would you like to unseal?`}
+        label={t`How much would you like to unstake?`}
         placeholder={t`Enter amount`}
         token={TOKENS.sky}
         tokenList={[TOKENS.sky]}

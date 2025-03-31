@@ -55,8 +55,8 @@ export function PositionDetailAccordion({
         <AccordionContent className="space-y-4 pt-4">
           <motion.div className="flex justify-between" variants={positionAnimations}>
             <TextWithTooltip
-              text="Sealed"
-              tooltip="The amount of SKY you’ve sealed in this position."
+              text="Staked"
+              tooltip="The amount of SKY you’ve staked in this position."
               textClassName="leading-4"
               gap={1}
               iconClassName="text-textSecondary"

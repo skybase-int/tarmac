@@ -383,7 +383,7 @@ function StakeModuleWidgetWrapped({
         currentStep === StakeStep.SUMMARY &&
         needsLockAllowance
       ) {
-        setButtonText(t`Approve seal amount`);
+        setButtonText(t`Approve stake amount`);
       } else if (
         widgetState.action === StakeAction.APPROVE &&
         currentStep === StakeStep.SUMMARY &&
@@ -824,7 +824,7 @@ function StakeModuleWidgetWrapped({
         widgetState.screen === StakeScreen.TRANSACTION ? (
           <VStack className="w-full">
             <Heading variant="x-large">
-              <Trans>Stake Engine</Trans>
+              <Trans>Staking Engine</Trans>
             </Heading>
           </VStack>
         ) : (
