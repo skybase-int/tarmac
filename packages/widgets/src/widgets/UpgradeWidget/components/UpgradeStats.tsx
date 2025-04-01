@@ -17,7 +17,7 @@ export const UpgradeStats = () => {
   return (
     <div ref={ref} className="my-4 flex justify-between gap-3">
       <StatsCard
-        title={t`Total USDS migrated`}
+        title={t`Total USDS upgraded`}
         content={
           <TokenIconWithBalance
             className="mt-1"
@@ -31,7 +31,7 @@ export const UpgradeStats = () => {
       ></StatsCard>
 
       <StatsCard
-        title={t`Total SKY migrated`}
+        title={t`Total SKY upgraded`}
         content={
           <TokenIconWithBalance
             className="mt-1"

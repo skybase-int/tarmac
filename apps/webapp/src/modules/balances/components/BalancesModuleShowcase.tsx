@@ -41,8 +41,8 @@ export function BalancesModuleShowcase() {
       )}
       <ModuleCard
         intent={Intent.UPGRADE_INTENT}
-        module={t`Migrate`}
-        title={t`Migrate your DAI and MKR`}
+        module={t`Upgrade`}
+        title={t`Upgrade your DAI and MKR`}
         className="bg-sky-pink"
         notAvailable={isBase || isArbitrum}
       />

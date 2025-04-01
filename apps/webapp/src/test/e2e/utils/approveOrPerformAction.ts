@@ -4,7 +4,7 @@ import { interceptAndRejectTransactions } from './rejectTransaction';
 export type Action =
   | 'Supply'
   | 'Withdraw'
-  | 'Migrate'
+  | 'Upgrade'
   | 'Revert'
   | 'Trade'
   | 'Approve'

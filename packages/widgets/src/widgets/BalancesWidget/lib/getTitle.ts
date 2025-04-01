@@ -6,7 +6,7 @@ export const getTitle = ({ type, module }: { type: TransactionTypeEnum; module: 
   switch (type) {
     case TransactionTypeEnum.DAI_TO_USDS:
     case TransactionTypeEnum.MKR_TO_SKY:
-      return t`Migrate`;
+      return t`Upgrade`;
     case TransactionTypeEnum.SKY_TO_MKR:
     case TransactionTypeEnum.USDS_TO_DAI:
       return t`Revert`;

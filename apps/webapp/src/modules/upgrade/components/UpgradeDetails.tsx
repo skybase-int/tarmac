@@ -22,7 +22,7 @@ export function UpgradeDetails(): React.ReactElement {
 
   return (
     <DetailSectionWrapper>
-      <DetailSection title={t`Migration stats`}>
+      <DetailSection title={t`Upgrade stats`}>
         <DetailSectionRow>
           <UpgradeStats />
         </DetailSectionRow>
@@ -37,7 +37,7 @@ export function UpgradeDetails(): React.ReactElement {
           </DetailSection>
         )}
       {isConnectedAndAcceptedTerms && (
-        <DetailSection title={t`Your Migrate/Revert transaction history`}>
+        <DetailSection title={t`Your Upgrade/Revert transaction history`}>
           <DetailSectionRow>
             <UpgradeHistory />
           </DetailSectionRow>
