@@ -62,14 +62,14 @@ export const useActionForToken = () => {
           action = {
             [mainnet.id]: isRestrictedBuild
               ? {
-                  label: t`Migrate your ${formattedBalance} ${upperSymbol} to USDS ${isDifferentChain ? 'on Mainnet' : ''}`,
+                  label: t`Upgrade your ${formattedBalance} ${upperSymbol} to USDS ${isDifferentChain ? 'on Mainnet' : ''}`,
                   actionUrl: getQueryParams(
                     `?${Network}=${networkName}&${Widget}=${UPGRADE}&${InputAmount}=${balance}`
                   ),
                   image
                 }
               : {
-                  label: t`Migrate your ${formattedBalance} ${upperSymbol} to USDS to get rewards ${isDifferentChain ? 'on Mainnet' : ''}`,
+                  label: t`Upgrade your ${formattedBalance} ${upperSymbol} to USDS to get rewards ${isDifferentChain ? 'on Mainnet' : ''}`,
                   actionUrl: getQueryParams(
                     `?${Network}=${networkName}&${Widget}=${UPGRADE}&${InputAmount}=${balance}&${LinkedAction}=${REWARD}&${skyRewardContract ? `&reward=${skyRewardContract.contractAddress}` : ''}`
                   ),
@@ -82,7 +82,7 @@ export const useActionForToken = () => {
         case 'mkr':
           action = {
             [mainnet.id]: {
-              label: t`Migrate your ${formattedBalance} ${upperSymbol} to SKY ${isDifferentChain ? 'on Mainnet' : ''}`,
+              label: t`Upgrade your ${formattedBalance} ${upperSymbol} to SKY ${isDifferentChain ? 'on Mainnet' : ''}`,
               actionUrl: getQueryParams(
                 `?${Network}=${networkName}&${Widget}=${UPGRADE}&${InputAmount}=${balance}&${SourceToken}=MKR`
               ),

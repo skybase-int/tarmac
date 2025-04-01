@@ -28,7 +28,7 @@ describe('Upgrade widget tests', () => {
   it('loads data when wrapped in wagmi config', async () => {
     renderWithWagmiWrapper(<UpgradeWidgetWrapped onConnect={() => true} />);
 
-    const items = await screen.findAllByText('Migrate');
+    const items = await screen.findAllByText('Upgrade');
 
     // Header and button
     expect(items).toHaveLength(2);

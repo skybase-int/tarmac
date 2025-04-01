@@ -48,8 +48,8 @@ msgstr ""
 msgid "{0} — Rewards statistics"
 msgstr ""
 
-#. placeholder {0}: flow === UpgradeFlow.UPGRADE ? 'Migrated' : 'Reverted'
-#. placeholder {0}: flow === UpgradeFlow.UPGRADE ? 'Migrating' : 'Reverting'
+#. placeholder {0}: flow === UpgradeFlow.UPGRADE ? 'Upgraded' : 'Reverted'
+#. placeholder {0}: flow === UpgradeFlow.UPGRADE ? 'Upgrading' : 'Reverting'
 #. placeholder {1}: originToken.symbol
 #. placeholder {2}: targetToken.symbol
 #: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
@@ -251,10 +251,6 @@ msgstr ""
 msgid "An error occurred while claiming your rewards"
 msgstr ""
 
-#: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
-msgid "An error occurred while migrating your tokens."
-msgstr ""
-
 #: packages/widgets/src/widgets/SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
@@ -280,6 +276,10 @@ msgstr ""
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 msgid "An error occurred while trading your tokens"
+msgstr ""
+
+#: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
+msgid "An error occurred while upgrading your tokens."
 msgstr ""
 
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
@@ -310,7 +310,7 @@ msgstr ""
 msgid "Approve"
 msgstr ""
 
-#. placeholder {0}: tabIndex === 0 ? 'migrate' : 'revert'
+#. placeholder {0}: tabIndex === 0 ? 'upgrade' : 'revert'
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 msgid "Approve {0} amount"
 msgstr ""
@@ -403,10 +403,6 @@ msgstr ""
 msgid "Approving {0} USDS"
 msgstr ""
 
-#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
-msgid "Back to Migrate"
-msgstr ""
-
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 msgid "Back to Rewards"
 msgstr ""
@@ -425,6 +421,10 @@ msgstr ""
 #: packages/widgets/src/widgets/L2TradeWidget/index.tsx
 #: packages/widgets/src/widgets/L2TradeWidget/index.tsx
 msgid "Back to Trade"
+msgstr ""
+
+#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
+msgid "Back to Upgrade"
 msgstr ""
 
 #: apps/webapp/src/lib/constants.ts
@@ -514,10 +514,6 @@ msgstr ""
 msgid "Cancelled"
 msgstr ""
 
-#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
-msgid "Choose a token to migrate, and enter an amount"
-msgstr ""
-
 #: packages/widgets/src/widgets/TradeWidget/components/TradeInputs.tsx
 #: packages/widgets/src/widgets/L2TradeWidget/components/L2TradeInputs.tsx
 msgid "Choose a token to receive"
@@ -530,6 +526,10 @@ msgstr ""
 #: packages/widgets/src/widgets/TradeWidget/components/TradeInputs.tsx
 #: packages/widgets/src/widgets/L2TradeWidget/components/L2TradeInputs.tsx
 msgid "Choose a token to trade, and enter an amount"
+msgstr ""
+
+#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
+msgid "Choose a token to upgrade, and enter an amount"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/SelectDelegate.tsx
@@ -654,10 +654,6 @@ msgstr ""
 msgid "Confirm your claim"
 msgstr ""
 
-#: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
-msgid "Confirm your migration"
-msgstr ""
-
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
@@ -684,6 +680,10 @@ msgstr ""
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 msgid "Confirm your transfer"
+msgstr ""
+
+#: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
+msgid "Confirm your upgrade"
 msgstr ""
 
 #: packages/widgets/src/widgets/BalancesWidget/components/AssetsNoWalletConnected.tsx
@@ -1196,62 +1196,8 @@ msgstr ""
 msgid "Metrics"
 msgstr ""
 
-#: apps/webapp/src/lib/constants.ts
-msgid "migrate"
-msgstr ""
-
-#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
-#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
-#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
-#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
-#: packages/widgets/src/widgets/UpgradeWidget/components/UpgradeTransactionStatus.tsx
-#: packages/widgets/src/widgets/BalancesWidget/lib/getTitle.ts
-msgid "Migrate"
-msgstr ""
-
-#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
-msgid "Migrate and get rewards"
-msgstr ""
-
-#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
-msgid "Migrate and Save"
-msgstr ""
-
-#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
-#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
-#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
-msgid "Migrate DAI to USDS"
-msgstr ""
-
-#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
-msgid "Migrate MKR to SKY"
-msgstr ""
-
-#. placeholder {0}: isDifferentChain ? 'on Mainnet' : ''
-#: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
-msgid "Migrate your {formattedBalance} {upperSymbol} to SKY {0}"
-msgstr ""
-
-#. placeholder {0}: isDifferentChain ? 'on Mainnet' : ''
-#: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
-msgid "Migrate your {formattedBalance} {upperSymbol} to USDS {0}"
-msgstr ""
-
-#. placeholder {0}: isDifferentChain ? 'on Mainnet' : ''
-#: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
-msgid "Migrate your {formattedBalance} {upperSymbol} to USDS to get rewards {0}"
-msgstr ""
-
-#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
-msgid "Migrate your DAI and MKR"
-msgstr ""
-
 #: packages/widgets/src/widgets/BalancesWidget/components/SealBalanceWarningCard.tsx
 msgid "Migrate your position(s) to the Staking Engine"
-msgstr ""
-
-#: apps/webapp/src/modules/upgrade/components/UpgradeDetails.tsx
-msgid "Migration stats"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
@@ -1309,10 +1255,6 @@ msgid "New positions disabled"
 msgstr ""
 
 #: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
-msgid "Next, confirm the migration transaction."
-msgstr ""
-
-#: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
 msgid "Next, confirm the revert transaction."
 msgstr ""
 
@@ -1321,6 +1263,10 @@ msgstr ""
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 msgid "Next, confirm the transaction in your wallet."
+msgstr ""
+
+#: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
+msgid "Next, confirm the upgrade transaction."
 msgstr ""
 
 #: packages/widgets/src/widgets/BalancesWidget/components/BalancesContent.tsx
@@ -2126,13 +2072,13 @@ msgstr ""
 msgid "Total SKY"
 msgstr ""
 
-#: apps/webapp/src/modules/upgrade/components/UpgradedMkrToSky.tsx
-#: packages/widgets/src/widgets/UpgradeWidget/components/UpgradeStats.tsx
-msgid "Total SKY migrated"
-msgstr ""
-
 #: apps/webapp/src/modules/stake/components/StakeOverview.tsx
 msgid "Total SKY sealed"
+msgstr ""
+
+#: apps/webapp/src/modules/upgrade/components/UpgradedMkrToSky.tsx
+#: packages/widgets/src/widgets/UpgradeWidget/components/UpgradeStats.tsx
+msgid "Total SKY upgraded"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/UsdsTotalSupplyCard.tsx
@@ -2154,7 +2100,7 @@ msgstr ""
 
 #: apps/webapp/src/modules/upgrade/components/UpgradedDaiToUsds.tsx
 #: packages/widgets/src/widgets/UpgradeWidget/components/UpgradeStats.tsx
-msgid "Total USDS migrated"
+msgid "Total USDS upgraded"
 msgstr ""
 
 #: apps/webapp/src/lib/constants.ts
@@ -2374,17 +2320,38 @@ msgstr ""
 msgid "Updating position"
 msgstr ""
 
+#: apps/webapp/src/lib/constants.ts
+msgid "upgrade"
+msgstr ""
+
+#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
+#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
+#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
+#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
+#: packages/widgets/src/widgets/UpgradeWidget/components/UpgradeTransactionStatus.tsx
+#: packages/widgets/src/widgets/BalancesWidget/lib/getTitle.ts
+msgid "Upgrade"
+msgstr ""
+
 #. placeholder {0}: originToken.symbol
 #. placeholder {1}: targetToken.symbol
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 msgid "Upgrade {0} into {1}"
 msgstr ""
 
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 #: apps/webapp/src/modules/app/hooks/useNotification.tsx
 #: apps/webapp/src/modules/app/hooks/useNotification.tsx
 msgid "Upgrade and get rewards"
 msgstr ""
 
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+msgid "Upgrade and Save"
+msgstr ""
+
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 #: apps/webapp/src/modules/app/hooks/useNotification.tsx
 msgid "Upgrade DAI to USDS"
 msgstr ""
@@ -2393,8 +2360,35 @@ msgstr ""
 msgid "Upgrade failed"
 msgstr ""
 
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+msgid "Upgrade MKR to SKY"
+msgstr ""
+
+#: apps/webapp/src/modules/upgrade/components/UpgradeDetails.tsx
+msgid "Upgrade stats"
+msgstr ""
+
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 msgid "Upgrade successful"
+msgstr ""
+
+#. placeholder {0}: isDifferentChain ? 'on Mainnet' : ''
+#: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
+msgid "Upgrade your {formattedBalance} {upperSymbol} to SKY {0}"
+msgstr ""
+
+#. placeholder {0}: isDifferentChain ? 'on Mainnet' : ''
+#: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
+msgid "Upgrade your {formattedBalance} {upperSymbol} to USDS {0}"
+msgstr ""
+
+#. placeholder {0}: isDifferentChain ? 'on Mainnet' : ''
+#: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
+msgid "Upgrade your {formattedBalance} {upperSymbol} to USDS to get rewards {0}"
+msgstr ""
+
+#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
+msgid "Upgrade your DAI and MKR"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/AboutUsds.tsx
@@ -2875,14 +2869,6 @@ msgstr ""
 msgid "Your funds"
 msgstr ""
 
-#: apps/webapp/src/modules/upgrade/components/UpgradeDetails.tsx
-msgid "Your Migrate/Revert transaction history"
-msgstr ""
-
-#: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
-msgid "Your migration is being processed on the blockchain. Please wait."
-msgstr ""
-
 #: packages/widgets/src/widgets/SealModuleWidget/components/About.tsx
 msgid "Your MKR and SKY tokens, as well as any rewards that you accumulate, are supplied to a non-custodial smart contract, such that no intermediary takes custody of those tokens. With Sky, you always remain in control of your assets."
 msgstr ""
@@ -2959,6 +2945,14 @@ msgstr ""
 
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 msgid "Your transfer is being processed on the blockchain. Please wait."
+msgstr ""
+
+#: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
+msgid "Your upgrade is being processed on the blockchain. Please wait."
+msgstr ""
+
+#: apps/webapp/src/modules/upgrade/components/UpgradeDetails.tsx
+msgid "Your Upgrade/Revert transaction history"
 msgstr ""
 
 #. placeholder {0}: inputToken?.symbol

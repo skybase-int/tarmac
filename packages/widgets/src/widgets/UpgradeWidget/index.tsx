@@ -481,16 +481,16 @@ export function UpgradeWidgetWrapped({
         if (customNavigationLabel) {
           setButtonText(customNavigationLabel);
         } else {
-          setButtonText(t`Back to Migrate`);
+          setButtonText(t`Back to Upgrade`);
         }
       } else if (txStatus === TxStatus.ERROR) {
         setButtonText(t`Retry`);
       } else if (widgetState.screen === UpgradeScreen.ACTION && debouncedOriginAmount === 0n) {
         setButtonText(t`Enter amount`);
       } else if (widgetState.action === UpgradeAction.APPROVE) {
-        setButtonText(t`Approve ${tabIndex === 0 ? 'migrate' : 'revert'} amount`);
+        setButtonText(t`Approve ${tabIndex === 0 ? 'upgrade' : 'revert'} amount`);
       } else if (widgetState.flow === UpgradeFlow.UPGRADE && widgetState.action === UpgradeAction.UPGRADE) {
-        setButtonText(t`Migrate`);
+        setButtonText(t`Upgrade`);
       } else if (widgetState.flow === UpgradeFlow.REVERT && widgetState.action === UpgradeAction.REVERT) {
         setButtonText(t`Revert`);
       }
@@ -563,7 +563,7 @@ export function UpgradeWidgetWrapped({
     <WidgetContainer
       header={
         <Heading variant="x-large">
-          <Trans>Migrate</Trans>
+          <Trans>Upgrade</Trans>
         </Heading>
       }
       rightHeader={rightHeaderComponent}
@@ -592,11 +592,11 @@ export function UpgradeWidgetWrapped({
           <CardAnimationWrapper key="widget-inputs" className="w-full">
             <VStack className="w-full">
               <UpgradeRevert
-                leftTabTitle={t`Migrate`}
+                leftTabTitle={t`Upgrade`}
                 rightTabTitle={t`Revert`}
                 originTitle={
                   tabIndex === 0
-                    ? t`Choose a token to migrate, and enter an amount`
+                    ? t`Choose a token to upgrade, and enter an amount`
                     : t`Choose a token to revert, and enter an amount`
                 }
                 originAmount={originAmount}
