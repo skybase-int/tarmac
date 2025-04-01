@@ -13,10 +13,10 @@ const mapTypeEnumToColumn = (type: TransactionTypeEnum) => {
       return t`Open position`;
     case TransactionTypeEnum.SEAL:
     case TransactionTypeEnum.SEAL_SKY:
-      return t`Seal`;
+      return t`Stake`;
     case TransactionTypeEnum.UNSEAL:
     case TransactionTypeEnum.UNSEAL_SKY:
-      return t`Unseal`;
+      return t`Unstake`;
     case TransactionTypeEnum.SEAL_REWARD:
       return t`Claim rewards`;
     case TransactionTypeEnum.BORROW:
@@ -28,7 +28,7 @@ const mapTypeEnumToColumn = (type: TransactionTypeEnum) => {
     case TransactionTypeEnum.SELECT_REWARD:
       return t`Select reward`;
     case TransactionTypeEnum.UNSEAL_KICK:
-      return t`Unseal kick`;
+      return t`Unstake kick`;
     default:
       return '';
   }

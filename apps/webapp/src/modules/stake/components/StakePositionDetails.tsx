@@ -8,7 +8,7 @@ import { IntentMapping } from '@/lib/constants';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { useUserSuggestedActions } from '@/modules/ui/hooks/useUserSuggestedActions';
 import { filterActionsByIntent } from '@/lib/utils';
-import { AboutSealModule } from '@/modules/ui/components/AboutSealModule';
+import { AboutStakeModule } from '@/modules/ui/components/AboutStakeModule';
 import { StakeFaq } from './StakeFaq';
 import { StakePositionOverview } from './StakePositionOverview';
 import { StakeHistory } from './StakeHistory';
@@ -36,13 +36,13 @@ export function StakePositionDetails({ positionIndex }: { positionIndex?: number
           <StakeChart />
         </DetailSectionRow>
       </DetailSection>
-      <DetailSection title={t`About Stake Rewards`}>
+      <DetailSection title={t`About Staking Rewards`}>
         <DetailSectionRow>
-          <AboutSealModule />
+          <AboutStakeModule />
         </DetailSectionRow>
       </DetailSection>
       {isConnectedAndAcceptedTerms && (
-        <DetailSection title={t`Your Seal position transaction history`}>
+        <DetailSection title={t`Your Staking position transaction history`}>
           <DetailSectionRow>
             <StakeHistory index={positionIndex} />
           </DetailSectionRow>

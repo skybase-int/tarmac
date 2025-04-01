@@ -27,6 +27,7 @@ import { Seal } from './Seal';
 import { BaseChain } from './BaseChain';
 import { MainnetChain } from './MainnetChain';
 import { ArbitrumChain } from './ArbitrumChain';
+import { Stake } from './Stake';
 
 export {
   ArrowDown,
@@ -57,5 +58,6 @@ export {
   Seal,
   BaseChain,
   MainnetChain,
-  ArbitrumChain
+  ArbitrumChain,
+  Stake
 };

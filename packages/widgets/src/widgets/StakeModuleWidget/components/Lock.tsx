@@ -34,7 +34,7 @@ export const Lock = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolean
     <div>
       <TokenInput
         className="w-full"
-        label={t`How much would you like to seal?`}
+        label={t`How much would you like to stake?`}
         placeholder={t`Enter amount`}
         token={TOKENS.sky}
         tokenList={[TOKENS.sky]}

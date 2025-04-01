@@ -44,7 +44,7 @@ export enum StakeScreen {
 export function getStepTitle(step: StakeStep, tab: 'left' | 'right'): MessageDescriptor {
   switch (step) {
     case StakeStep.OPEN_BORROW:
-      return tab === 'left' ? msg`Seal and Borrow` : msg`Unseal and pay back`;
+      return tab === 'left' ? msg`Stake and Borrow` : msg`Unstake and pay back`;
     case StakeStep.REWARDS:
       return msg`Select reward`;
     case StakeStep.DELEGATE:
@@ -71,8 +71,8 @@ export const stakeApproveSubtitle: TxCardCopyText = {
 };
 
 export const stakeApproveDescription: Record<string, MessageDescriptor> = {
-  [TOKENS.mkr.symbol]: msg`Sealing MKR in the Stake Rewards module`,
-  [TOKENS.sky.symbol]: msg`Sealing SKY in the Stake Rewards module`
+  [TOKENS.mkr.symbol]: msg`Staking MKR in the Stake Rewards module`,
+  [TOKENS.sky.symbol]: msg`Staking SKY in the Stake Rewards module`
 };
 
 export const repayApproveDescription: MessageDescriptor = msg`Repaying USDS in the Stake Rewards module`;
@@ -124,7 +124,7 @@ export function getStakeSubtitle({
     case TxStatus.SUCCESS:
       return flow === StakeFlow.OPEN
         ? collateralToLock && borrowAmount
-          ? msg`You've borrowed ${borrowAmount} USDS by sealing ${collateralToLock} ${selectedToken ?? ''}. Your new position is open.`
+          ? msg`You've borrowed ${borrowAmount} USDS by staking ${collateralToLock} ${selectedToken ?? ''}. Your new position is open.`
           : collateralToLock
             ? msg`You've staked ${collateralToLock} ${selectedToken ?? ''}. Your new position is open.`
             : msg`You just opened your position`

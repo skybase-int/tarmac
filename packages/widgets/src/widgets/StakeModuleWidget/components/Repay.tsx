@@ -126,7 +126,7 @@ const PositionManagerOverviewContainer = ({
     () =>
       [
         {
-          label: t`You sealed`,
+          label: t`You staked`,
           value:
             hasPositions && newCollateralAmount !== existingColAmount
               ? [`${formatBigInt(existingColAmount)}  SKY`, `${formatBigInt(newCollateralAmount)}  SKY`]

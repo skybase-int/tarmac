@@ -103,7 +103,7 @@ export function PositionDetail({
           )}
           <VStack gap={3}>
             <Text variant="medium" className="text-textSecondary leading-4">
-              Sealed
+              Staked
             </Text>
             <TokenIconWithBalance
               token={TOKENS.sky}

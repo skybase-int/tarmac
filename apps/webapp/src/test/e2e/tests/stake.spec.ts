@@ -43,21 +43,21 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
 
   // position summary
   await expect(page.getByText('Confirm your position').nth(0)).toBeVisible({ timeout: 10000 });
-  await expect(page.getByTestId('widget-container').getByText('Sealing')).toBeVisible();
+  await expect(page.getByTestId('widget-container').getByText('Staking')).toBeVisible();
   await expect(page.getByText('2,400,000 SKY')).toBeVisible();
   await expect(page.getByTestId('widget-container').getByText('Borrowing')).toBeVisible();
   await expect(page.getByText('38,000 USDS')).toBeVisible();
-  await expect(page.getByTestId('widget-container').getByText('Seal reward')).toBeVisible();
+  await expect(page.getByTestId('widget-container').getByText('Stake reward')).toBeVisible();
 
   // approval
-  await approveOrPerformAction(page, 'Approve seal amount');
+  await approveOrPerformAction(page, 'Approve stake amount');
   expect(page.getByRole('heading', { name: 'Token access approved' })).toBeVisible();
 
   // confirm position
   await approveOrPerformAction(page, 'Continue');
   expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible();
   await expect(
-    page.getByText("You've borrowed 38,000 USDS by sealing 2,400,000 SKY. Your new position is open.")
+    page.getByText("You've borrowed 38,000 USDS by staking 2,400,000 SKY. Your new position is open.")
   ).toBeVisible();
 
   // positions overview
@@ -92,7 +92,7 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
   await expect(page.getByTestId('borrow-input-lse-balance')).toHaveText('Limit 0 <> 15,493 USDS');
 
   // switch tabs
-  await page.getByRole('tab', { name: 'Unseal and pay back' }).click();
+  await page.getByRole('tab', { name: 'Unstake and pay back' }).click();
   await expect(page.getByTestId('repay-input-lse-balance')).toHaveText('Limit 0 <> 28,100, or 38,100 USDS');
 
   // click repay 100% button
@@ -127,7 +127,7 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
   await expect(page.getByText('Your position 2')).toBeVisible();
 
   // switch tabs
-  await page.getByRole('tab', { name: 'Unseal and pay back' }).click();
+  await page.getByRole('tab', { name: 'Unstake and pay back' }).click();
   await expect(page.getByTestId('supply-first-input-lse-balance')).toHaveText('2,400,000 SKY');
 
   // fill some SKY and proceed to skip the rewards and delegates and confirm position

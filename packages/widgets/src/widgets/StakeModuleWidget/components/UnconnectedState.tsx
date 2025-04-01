@@ -12,10 +12,10 @@ export const UnconnectedState = () => {
       <Tabs defaultValue="left">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger position="left" value="left">
-            <Trans>Seal and borrow</Trans>
+            <Trans>Stake and borrow</Trans>
           </TabsTrigger>
           <TabsTrigger position="right" value="right">
-            <Trans>Unseal and pay back</Trans>
+            <Trans>Unstake and pay back</Trans>
           </TabsTrigger>
         </TabsList>
         <TabsContent value="left">

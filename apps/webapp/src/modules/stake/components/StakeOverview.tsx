@@ -9,7 +9,7 @@ import { HStack } from '@/modules/layout/components/HStack';
 import { StatsCard } from '@/modules/ui/components/StatsCard';
 import { TokenIconWithBalance } from '@/modules/ui/components/TokenIconWithBalance';
 import { Heading, Text } from '@/modules/layout/components/Typography';
-import { AboutSealModule } from '@/modules/ui/components/AboutSealModule';
+import { AboutStakeModule } from '@/modules/ui/components/AboutStakeModule';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 import { StakeHistory } from './StakeHistory';
 import { StakeRewardsOverview } from './StakeRewardsOverview';
@@ -46,11 +46,11 @@ export function StakeOverview() {
 
   return (
     <DetailSectionWrapper>
-      <DetailSection title={t`Stake Engine Overview`}>
+      <DetailSection title={t`Staking Engine Overview`}>
         <DetailSectionRow>
           <HStack gap={2} className="scrollbar-thin w-full overflow-auto">
             <StatsCard
-              title={t`Total SKY sealed`}
+              title={t`Total SKY staked`}
               isLoading={isLoading}
               error={error}
               content={
@@ -109,7 +109,7 @@ export function StakeOverview() {
               content={<Text className="mt-2">{`$${formatNumber(tvl)}`}</Text>}
             />
             <StatsCard
-              title={t`Seal Positions`}
+              title={t`Stake Positions`}
               isLoading={isLoading}
               error={error}
               content={<Text className="mt-2">{numberOfUrns}</Text>}
@@ -123,7 +123,7 @@ export function StakeOverview() {
         </DetailSectionRow>
       </DetailSection>
       {isConnectedAndAcceptedTerms && (
-        <DetailSection title={t`Your Seal Engine transaction history`}>
+        <DetailSection title={t`Your Staking Engine transaction history`}>
           <DetailSectionRow>
             <StakeHistory />
           </DetailSectionRow>
@@ -134,9 +134,9 @@ export function StakeOverview() {
           <StakeChart />
         </DetailSectionRow>
       </DetailSection>
-      <DetailSection title={t`About Stake Rewards`}>
+      <DetailSection title={t`About Staking Rewards`}>
         <DetailSectionRow>
-          <AboutSealModule />
+          <AboutStakeModule />
         </DetailSectionRow>
       </DetailSection>
       <DetailSection title={t`FAQs`}>

@@ -143,7 +143,7 @@ const PositionManagerOverviewContainer = ({
     () =>
       [
         {
-          label: t`You sealed`,
+          label: t`You staked`,
           value:
             hasPositions && newCollateralAmount !== existingColAmount
               ? [
@@ -151,40 +151,6 @@ const PositionManagerOverviewContainer = ({
                   `${formatBigInt(math.calculateConversion(mkr, newCollateralAmount))} SKY`
                 ]
               : `${formatBigInt(math.calculateConversion(mkr, newCollateralAmount))}  SKY`
-        },
-        {
-          label: t`Exit fee percentage`,
-          value:
-            typeof exitFee === 'bigint'
-              ? [`${Number(formatUnits(exitFee * 100n, WAD_PRECISION)).toFixed(2)}%`]
-              : '',
-          tooltipText: (
-            <>
-              <Text>
-                When you supply MKR or SKY to the Seal Engine, a position is created and those tokens are
-                sealed behind an exit fee. You can seal and unseal your tokens anytime.
-              </Text>
-              <br />
-              <Text>
-                Unsealing requires the payment of an exit fee, which is a percentage of the total amount of
-                tokens that you have sealed in that position. The fee is automatically subtracted from that
-                total amount, and then burnt, removing the tokens from circulation. Your accumulated rewards
-                are not affected.
-              </Text>
-              <br />
-              <Text>
-                The exit fee is a risk parameter managed and determined (regardless of position duration) by
-                Sky ecosystem governance. The exit fee applies at unsealing, not at sealing, which means that
-                it is determined the moment you unseal your MKR.
-              </Text>
-              <br />
-              <Text>
-                The moment the Seal Engine launched, the exit fee rate was set to 5% of the value of the MKR
-                or SKY tokens that you have sealed, with a planned 1% increase every 6 months thereafter until
-                it reaches the long-term fee rate of 15%.
-              </Text>
-            </>
-          )
         },
         {
           label: t`You borrowed`,
@@ -401,7 +367,7 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
           : undefined;
 
   const inputText = minCollateralNotMet
-    ? `You need to seal at least ${simulatedVault?.formattedMinSkyCollateralForDust} SKY to borrow`
+    ? `You need to stake at least ${simulatedVault?.formattedMinSkyCollateralForDust} SKY to borrow`
     : `Limit ${formattedMinBorrowable.slice(0, -5)} <> ${formattedMaxBorrowable}`;
 
   return (
