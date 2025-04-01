@@ -2870,12 +2870,12 @@ msgstr ""
 
 #. placeholder {0}: selectedToken ?? ''
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
-msgid "You've unsealed {collateralToFree} {0} and repaid {borrowToRepay} USDS to exit your position. An exit fee was applied."
+msgid "You've unsealed {collateralToFree} {0} and repaid {borrowToRepay} USDS to exit your position. An exit fee may have been applied."
 msgstr ""
 
 #. placeholder {0}: selectedToken ?? ''
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
-msgid "You've unsealed {collateralToFree} {0} to exit your position. An exit fee was applied."
+msgid "You've unsealed {collateralToFree} {0} to exit your position. An exit fee may have been applied."
 msgstr ""
 
 #. placeholder {0}: selectedToken ?? ''

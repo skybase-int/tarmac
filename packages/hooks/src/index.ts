@@ -234,5 +234,5 @@ export {
   useReadPsm3L2PreviewSwapExactOut,
   lsMkrUsdsRewardAddress
 } from './generated';
-export { contracts, tenderlyContracts, sepoliaContracts, l2Contracts } from './contracts';
+export { contracts, /*tenderlyContracts,*/ sepoliaContracts, l2Contracts } from './contracts';
 export * from './seal/calldata';
