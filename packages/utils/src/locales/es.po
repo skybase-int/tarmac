@@ -1556,6 +1556,10 @@ msgstr ""
 msgid "Select token"
 msgstr ""
 
+#: apps/webapp/src/modules/chat/components/ChatIntentsRow.tsx
+msgid "Selecting a suggested action will prefill transaction details, but execution still requires user review and confirmation."
+msgstr ""
+
 #. placeholder {0}: formatBigInt(debouncedOriginAmount, { locale, unit: originToken ? getTokenDecimals(originToken, chainId) : 18 })
 #. placeholder {1}: originToken?.symbol ?? ''
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
@@ -1839,10 +1843,6 @@ msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/OpenNewUrn.tsx
 msgid "Terms of Use."
-msgstr ""
-
-#: apps/webapp/src/modules/chat/components/ChatIntentsRow.tsx
-msgid "The chatbot can suggest actions, but you're in control and will always need to confirm them in the widget"
 msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx

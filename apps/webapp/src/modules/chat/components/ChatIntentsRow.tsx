@@ -48,8 +48,8 @@ export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
             <TooltipContent arrowPadding={10} className="max-w-[300px]">
               <Text variant="small">
                 <Trans>
-                  The chatbot can suggest actions, but you&apos;re in control and will always need to confirm
-                  them in the widget
+                  Selecting a suggested action will prefill transaction details, but execution still requires
+                  user review and confirmation.
                 </Trans>
               </Text>
               <TooltipArrow width={12} height={8} />
