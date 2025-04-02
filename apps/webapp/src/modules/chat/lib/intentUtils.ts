@@ -1,5 +1,5 @@
 import { Chain } from 'wagmi/chains';
-import { QueryParams } from '@/lib/constants';
+import { COMING_SOON_MAP, QueryParams } from '@/lib/constants';
 import { ChatIntent } from '../types/Chat';
 import { Intent } from '@/lib/enums';
 import { isIntentAllowed } from '@/lib/utils';
@@ -112,19 +112,21 @@ export const isChatIntentAllowed = (intent: ChatIntent, currentChainId: number):
       return false; // Widget name is not recognized
     }
 
-    // If network parameter exists, validate and use it
+    // In case the network param is missing, we use the current chainId as fallback
+    let chainIdToCheck: number = currentChainId;
+
+    // If the network param is present and it's a valid network, we use the mapped chainId
     if (intentNetwork) {
       const mappedChainId = networkMapping[intentNetwork as keyof typeof networkMapping];
       if (mappedChainId === undefined) {
         // Invalid network param value, intent is not allowed
         return false;
       }
-      // Network is valid, check allowance using the mapped chainId
-      return isIntentAllowed(intentEnum, mappedChainId);
+      chainIdToCheck = mappedChainId;
     }
-
-    // Network parameter is missing, check allowance using the current chainId
-    return isIntentAllowed(intentEnum, currentChainId);
+    return (
+      isIntentAllowed(intentEnum, chainIdToCheck) && !COMING_SOON_MAP[chainIdToCheck]?.includes(intentEnum)
+    );
   } catch (error) {
     console.error('Failed to parse intent URL or check allowance:', error);
     return false;
