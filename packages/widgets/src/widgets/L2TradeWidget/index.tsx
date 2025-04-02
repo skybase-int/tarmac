@@ -494,7 +494,7 @@ function TradeWidgetWrapped({
         const newOriginToken = tokenList.find(
           token => token.symbol.toLowerCase() === externalWidgetState?.token?.toLowerCase()
         );
-        if (amountHasChanged) {
+        if (amountHasChanged && newOriginToken !== undefined) {
           const newAmount = parseUnits(externalWidgetState.amount, getTokenDecimals(newOriginToken, chainId));
 
           setTimeout(() => {
