@@ -1841,6 +1841,10 @@ msgstr ""
 msgid "Terms of Use."
 msgstr ""
 
+#: apps/webapp/src/modules/chat/components/ChatIntentsRow.tsx
+msgid "The chatbot can suggest actions, but you're in control and will always need to confirm them in the widget"
+msgstr ""
+
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
 msgid "The experience of supplying stablecoins to the Savings feature on Base and Ethereum is very similar. However, given that no native Sky Savings Rate module is deployed to Base, when transacting on Base you always interact with the Peg Stability Module (PSM) for conversions to/from USDS, sUSDS and USDC. The PSM on Base handles conversions programmatically, driven at your direction, between these pairs directly."
 msgstr ""
@@ -2058,6 +2062,10 @@ msgstr ""
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 msgid "Transferring {amount} {symbol}"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/ChatIntentsRow.tsx
+msgid "Try a suggested action"
 msgstr ""
 
 #: apps/webapp/src/modules/seal/components/SealOverview.tsx
