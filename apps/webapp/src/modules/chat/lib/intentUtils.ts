@@ -1,6 +1,8 @@
 import { Chain } from 'wagmi/chains';
 import { QueryParams } from '@/lib/constants';
 import { ChatIntent } from '../types/Chat';
+import { Intent } from '@/lib/enums';
+import { isIntentAllowed } from '@/lib/utils';
 
 export const networkMapping = {
   mainnet: 1,
@@ -17,6 +19,15 @@ export const chainIdNameMapping = {
   8555: 'base', // base tenderly
   42161: 'arbitrumone',
   421611: 'arbitrumone' // arbitrum+one tenderly
+} as const;
+
+export const intents = {
+  balances: Intent.BALANCES_INTENT,
+  rewards: Intent.REWARDS_INTENT,
+  savings: Intent.SAVINGS_INTENT,
+  upgrade: Intent.UPGRADE_INTENT,
+  trade: Intent.TRADE_INTENT,
+  seal: Intent.SEAL_INTENT
 } as const;
 
 export type NetworkName = keyof typeof networkMapping;
@@ -80,4 +91,42 @@ export const intentModifiesState = (intent?: ChatIntent): boolean => {
       intent.url.includes(QueryParams.SourceToken) ||
       intent.url.includes(QueryParams.TargetToken))
   );
+};
+
+export const isChatIntentAllowed = (intent: ChatIntent, currentChainId: number): boolean => {
+  try {
+    const urlObj = new URL(intent.url, window.location.origin);
+    const intentWidget = urlObj.searchParams.get(QueryParams.Widget);
+    const intentNetwork = urlObj.searchParams.get(QueryParams.Network);
+
+    if (!intentWidget) {
+      console.warn('Intent URL missing widget param:', intent.url);
+      return false; // Cannot determine allowance without widget
+    }
+
+    // Look up the Intent enum based on the widget string
+    const intentEnum = intents[intentWidget as keyof typeof intents];
+
+    if (intentEnum === undefined) {
+      console.warn('Could not map widget to known value:', { intentWidget });
+      return false; // Widget name is not recognized
+    }
+
+    // If network parameter exists, validate and use it
+    if (intentNetwork) {
+      const mappedChainId = networkMapping[intentNetwork as keyof typeof networkMapping];
+      if (mappedChainId === undefined) {
+        // Invalid network param value, intent is not allowed
+        return false;
+      }
+      // Network is valid, check allowance using the mapped chainId
+      return isIntentAllowed(intentEnum, mappedChainId);
+    }
+
+    // Network parameter is missing, check allowance using the current chainId
+    return isIntentAllowed(intentEnum, currentChainId);
+  } catch (error) {
+    console.error('Failed to parse intent URL or check allowance:', error);
+    return false;
+  }
 };

@@ -3,13 +3,7 @@ import { Intent } from '@/lib/enums';
 import { useLingui } from '@lingui/react';
 import { useCustomConnectModal } from '@/modules/ui/hooks/useCustomConnectModal';
 import { useAddRecentTransaction } from '@rainbow-me/rainbowkit';
-import {
-  CHAIN_WIDGET_MAP,
-  COMING_SOON_MAP,
-  mapIntentToQueryParam,
-  QueryParams,
-  restrictedIntents
-} from '@/lib/constants';
+import { COMING_SOON_MAP, mapIntentToQueryParam, QueryParams } from '@/lib/constants';
 import { WidgetNavigation } from '@/modules/app/components/WidgetNavigation';
 import { withErrorBoundary } from '@/modules/utils/withErrorBoundary';
 import { DualSwitcher } from '@/components/DualSwitcher';
@@ -32,6 +26,7 @@ import { getSupportedChainIds, getMainnetChainName } from '@/data/wagmi/config/c
 import { useSearchParams } from 'react-router-dom';
 import { useChains } from 'wagmi';
 import { useBalanceFilters } from '@/modules/ui/context/BalanceFiltersContext';
+import { isIntentAllowed } from '@/lib/utils';
 
 export type WidgetContent = [
   Intent,
@@ -59,8 +54,6 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
   const locale = i18n.locale;
 
   const isRestrictedBuild = import.meta.env.VITE_RESTRICTED_BUILD === 'true';
-  const isRestrictedMiCa = import.meta.env.VITE_RESTRICTED_BUILD_MICA === 'true';
-  const isRestricted = isRestrictedBuild || isRestrictedMiCa;
   const referralCode = Number(import.meta.env.VITE_REFERRAL_CODE) || 0; // fallback to 0 if invalid
 
   const rightHeaderComponent = <DualSwitcher />;
@@ -152,15 +145,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
 
   return (
     <WidgetNavigation
-      widgetContent={widgetContent.filter(([widgetIntent]) => {
-        // First check if restricted build
-        if (isRestricted && restrictedIntents.includes(widgetIntent)) {
-          return false;
-        }
-        // Then check if widget is supported on current chain
-        const supportedIntents = CHAIN_WIDGET_MAP[chainId] || [];
-        return supportedIntents.includes(widgetIntent);
-      })}
+      widgetContent={widgetContent.filter(([widgetIntent]) => isIntentAllowed(widgetIntent, chainId))}
       intent={intent}
     >
       {children}
