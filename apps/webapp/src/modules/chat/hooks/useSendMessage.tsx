@@ -15,9 +15,9 @@ interface ChatbotResponse {
 }
 
 const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
-  const endpoint = import.meta.env.VITE_CHATBOT_ENDPOINT || 'https://staging-api.sky.money';
+  const domain = import.meta.env.VITE_CHATBOT_DOMAIN || 'https://staging-api.sky.money';
 
-  const response = await fetch(`${endpoint}/chat/predictions`, {
+  const response = await fetch(`${domain}/chat/predictions`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

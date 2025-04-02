@@ -10,6 +10,11 @@ import { useNetworkFromIntentUrl } from '../hooks/useNetworkFromUrl';
 import { chainIdNameMapping, intentModifiesState } from '../lib/intentUtils';
 import { useChainId } from 'wagmi';
 import { ConfirmationWarningRow } from './ConfirmationWarningRow';
+import { HStack } from '@/modules/layout/components/HStack';
+import { Info } from '@/modules/icons';
+import { Tooltip, TooltipArrow, TooltipPortal, TooltipTrigger } from '@/components/ui/tooltip';
+import { TooltipContent } from '@/components/ui/tooltip';
+import { Trans } from '@lingui/react/macro';
 
 type ChatIntentsRowProps = {
   intents: ChatIntent[];
@@ -31,7 +36,27 @@ export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
 
   return (
     <div>
-      <Text className="text-xs italic text-gray-500">Try a suggested action</Text>
+      <HStack>
+        <Text className="mr-2 text-xs italic text-gray-500">
+          <Trans>Try a suggested action</Trans>
+        </Text>
+        <Tooltip>
+          <TooltipTrigger asChild className="cursor-pointer text-gray-400">
+            <Info width={12} height={12} />
+          </TooltipTrigger>
+          <TooltipPortal>
+            <TooltipContent arrowPadding={10} className="max-w-[300px]">
+              <Text variant="small">
+                <Trans>
+                  Selecting a suggested action will prefill transaction details, but execution still requires
+                  user review and confirmation.
+                </Trans>
+              </Text>
+              <TooltipArrow width={12} height={8} />
+            </TooltipContent>
+          </TooltipPortal>
+        </Tooltip>
+      </HStack>
       <div className="mt-2 flex flex-wrap gap-2">
         {intents.map((intent, index) => (
           <IntentRow

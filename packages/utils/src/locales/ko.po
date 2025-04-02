@@ -1556,6 +1556,10 @@ msgstr ""
 msgid "Select token"
 msgstr ""
 
+#: apps/webapp/src/modules/chat/components/ChatIntentsRow.tsx
+msgid "Selecting a suggested action will prefill transaction details, but execution still requires user review and confirmation."
+msgstr ""
+
 #. placeholder {0}: formatBigInt(debouncedOriginAmount, { locale, unit: originToken ? getTokenDecimals(originToken, chainId) : 18 })
 #. placeholder {1}: originToken?.symbol ?? ''
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
@@ -2058,6 +2062,10 @@ msgstr ""
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 msgid "Transferring {amount} {symbol}"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/ChatIntentsRow.tsx
+msgid "Try a suggested action"
 msgstr ""
 
 #: apps/webapp/src/modules/seal/components/SealOverview.tsx

@@ -178,7 +178,10 @@ export const validateSearchParams = (
 
     // removes reset param
     if (key === QueryParams.Reset) {
-      searchParams.delete(key);
+      setTimeout(() => {
+        // wait for the widget to reset
+        searchParams.delete(key);
+      }, 500);
     }
   });
 
