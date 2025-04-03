@@ -316,6 +316,14 @@ msgstr ""
 msgid "Approve {0} amount"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+msgid "Approve migrator for new position"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+msgid "Approve migrator for old position"
+msgstr ""
+
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 msgid "Approve repay amount"
@@ -1339,6 +1347,10 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/components/StakeModuleTransactionStatus.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/SealModuleTransactionStatus.tsx
 msgid "Open a position"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+msgid "Open a position in new engine"
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeHistory.tsx

@@ -23,6 +23,10 @@ import { PositionDetailAccordion } from './PositionDetailsAccordion';
 import { ClaimRewardsButton } from './ClaimRewardsButton';
 import { useContext } from 'react';
 import { SealModuleWidgetContext } from '../context/context';
+import { Button } from '@widgets/components/ui/button';
+import { SealAction, SealFlow, SealStep } from '../lib/constants';
+import { WidgetState } from '@widgets/index';
+import { WidgetContext } from '@widgets/context/WidgetContext';
 
 type Props = {
   collateralizationRatio?: bigint;
@@ -181,6 +185,7 @@ export function PositionDetail({
         delayedPrice={delayedPrice}
         liquidationPrice={liquidationPrice}
       />
+      <MigrateButton />
       <>
         {sealRewardContracts &&
           urnAddress &&
@@ -198,3 +203,27 @@ export function PositionDetail({
     </MotionVStack>
   );
 }
+
+const MigrateButton = () => {
+  const { setWidgetState } = useContext(WidgetContext);
+
+  const { setCurrentStep } = useContext(SealModuleWidgetContext);
+
+  const handleOnClick = () => {
+    setCurrentStep(SealStep.OPEN_NEW);
+    setWidgetState((prev: WidgetState) => ({
+      ...prev,
+      flow: SealFlow.MIGRATE,
+      action: SealAction.MIGRATE
+    }));
+  };
+  return (
+    <Button
+      variant="primaryAlt"
+      onClick={handleOnClick}
+      // disabled={!!rewardContractToClaim && indexToClaim !== undefined}
+    >
+      <Text>Migrate Position</Text>
+    </Button>
+  );
+};

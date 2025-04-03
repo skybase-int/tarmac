@@ -11,6 +11,9 @@ const openFlowSequence = [
 
 const manageFlowSequence = [SealStep.OPEN_BORROW, SealStep.REWARDS, SealStep.DELEGATE, SealStep.SUMMARY];
 
+// TODO: should the final step be SUMMARY?
+const migrateFlowSequence = [SealStep.OPEN_NEW, SealStep.HOPE_OLD, SealStep.HOPE_NEW, SealStep.MIGRATE];
+
 export function getPreviousStep(step: SealStep): SealStep {
   // TODO: This is for Open Flow, it should be different for Manage flow
 
@@ -30,13 +33,23 @@ export function getNextStep(step: SealStep): SealStep {
 }
 
 export function getStepIndex(step: SealStep, flow: SealFlow): number {
-  const sequence = flow === SealFlow.OPEN ? openFlowSequence : manageFlowSequence;
+  const sequence =
+    flow === SealFlow.OPEN
+      ? openFlowSequence
+      : flow === SealFlow.MIGRATE
+        ? migrateFlowSequence
+        : manageFlowSequence;
   const index = sequence.indexOf(step);
   return index !== -1 ? index : 0;
 }
 
 export function getTotalSteps(flow: SealFlow): number {
-  const sequence = flow === SealFlow.OPEN ? openFlowSequence : manageFlowSequence;
+  const sequence =
+    flow === SealFlow.OPEN
+      ? openFlowSequence
+      : flow === SealFlow.MIGRATE
+        ? migrateFlowSequence
+        : manageFlowSequence;
   return sequence.length;
 }
 

@@ -126,6 +126,9 @@ function SealModuleWidgetWrapped({
     setExternalLink,
     setShowStepIndicator
   } = useContext(WidgetContext);
+
+  console.log('^^^', { ...widgetState });
+
   const { i18n } = useLingui();
   const chainId = useChainId();
   const { isConnected, isConnecting, address } = useAccount();
@@ -642,6 +645,9 @@ function SealModuleWidgetWrapped({
   const showStep =
     !!widgetState.action && widgetState.action !== SealAction.OVERVIEW && currentStep !== SealStep.ABOUT;
 
+  console.log('^^^ showStep', showStep);
+  console.log('^^^ currentStep', currentStep);
+
   useEffect(() => {
     if (
       externalWidgetState?.urnIndex !== undefined &&
@@ -1006,6 +1012,16 @@ function SealModuleWidgetWrapped({
                       termsLink={termsLink}
                     />
                   )}
+                  {widgetState.flow == SealFlow.MIGRATE && (
+                    <MigrateWizard
+                      isConnectedAndEnabled={isConnectedAndEnabled}
+                      onExternalLinkClicked={onExternalLinkClicked}
+                      currentStep={currentStep}
+                      onClickTrigger={setTabIndex}
+                      tabSide={tabSide}
+                      termsLink={termsLink}
+                    />
+                  )}
                 </MotionVStack>
               </VStack>
             </CardAnimationWrapper>
@@ -1090,5 +1106,45 @@ const ManagePosition = ({
       tabSide={tabSide}
       termsLink={termsLink}
     />
+  );
+};
+
+const MigrateWizard = ({
+  isConnectedAndEnabled,
+  onExternalLinkClicked,
+  currentStep,
+  onClickTrigger,
+  tabSide,
+  termsLink
+}: {
+  isConnectedAndEnabled: boolean;
+  onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  currentStep: SealStep;
+  onClickTrigger: any;
+  tabSide: 'left' | 'right';
+  termsLink?: { url: string; name: string };
+}) => {
+  return (
+    <div>
+      {currentStep === SealStep.ABOUT && (
+        <Text>
+          Creation of new positions has been disabled. Management of existing positions remains available.
+        </Text>
+      )}
+      {currentStep === SealStep.OPEN_BORROW && (
+        <OpenNewUrn
+          isConnectedAndEnabled={isConnectedAndEnabled}
+          onExternalLinkClicked={onExternalLinkClicked}
+          onClickTrigger={onClickTrigger}
+          tabSide={tabSide}
+          termsLink={termsLink}
+        />
+      )}
+      {currentStep === SealStep.REWARDS && (
+        <SelectRewardContract onExternalLinkClicked={onExternalLinkClicked} />
+      )}
+      {currentStep === SealStep.DELEGATE && <SelectDelegate onExternalLinkClicked={onExternalLinkClicked} />}
+      {currentStep === SealStep.SUMMARY && <PositionSummary />}
+    </div>
   );
 };

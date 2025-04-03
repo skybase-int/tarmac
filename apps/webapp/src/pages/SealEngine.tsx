@@ -51,12 +51,15 @@ export function SealEngine() {
 
   const onSealWidgetStateChange = ({ widgetState, txStatus }: WidgetStateChangeParams) => {
     const shouldHide =
+      // we're in a transaction
       txStatus !== TxStatus.IDLE ||
+      // we're managing an urn
       (widgetState.action === SealAction.MULTICALL &&
         currentUrnIndex !== undefined &&
         currentUrnIndex > 0n &&
-        (widgetState.flow === SealFlow.OPEN || widgetState.flow === SealFlow.MANAGE));
-
+        (widgetState.flow === SealFlow.OPEN || widgetState.flow === SealFlow.MANAGE)) ||
+      // we're migrating
+      widgetState.action === SealAction.MIGRATE;
     setShouldHideLink(shouldHide);
   };
 
