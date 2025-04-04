@@ -26,7 +26,8 @@ export const RewardsBalanceCard = ({
   );
 
   const { data: chartData, isLoading: chartDataLoading } = useRewardsChartInfo({
-    rewardContractAddress: usdsSkyRewardContract?.contractAddress as string
+    rewardContractAddress: usdsSkyRewardContract?.contractAddress as string,
+    limit: 1
   });
 
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
