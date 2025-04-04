@@ -1,5 +1,5 @@
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
-import { useCurrentUrnIndex, TOKENS } from '@jetstreamgg/hooks';
+import { useCurrentUrnIndex, TOKENS, useSealMigrations, checkUrnMigrationStatus } from '@jetstreamgg/hooks';
 import { UrnPosition } from './UrnPosition';
 import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
@@ -9,6 +9,8 @@ import { SealModuleWidgetContext } from '../context/context';
 import { ViewSkyMkrButton } from './ViewSkyMkrButton';
 import { Warning } from '@widgets/shared/components/icons/Warning';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
+import { useAccount } from 'wagmi';
+import { ZERO_ADDRESS } from '@jetstreamgg/hooks';
 
 export const UrnsList = ({
   claimPrepared,
@@ -19,9 +21,14 @@ export const UrnsList = ({
   claimExecute: () => void;
   onSealUrnChange?: OnSealUrnChange;
 }) => {
+  const { address } = useAccount();
   const { displayToken, setDisplayToken } = useContext(SealModuleWidgetContext);
   const { data: currentIndex } = useCurrentUrnIndex();
   const amountOfUrns = Array.from(Array(Number(currentIndex || 0n)).keys());
+  const { data: migrations } = useSealMigrations({
+    owner: address || ZERO_ADDRESS
+  });
+
   if (!currentIndex) return null;
 
   return (
@@ -47,15 +54,21 @@ export const UrnsList = ({
       </Heading>
       <div className="h-1/2 overflow-auto">
         <div className="flex flex-col gap-6">
-          {amountOfUrns.map(index => (
-            <UrnPosition
-              key={index}
-              index={BigInt(index)}
-              claimPrepared={claimPrepared}
-              claimExecute={claimExecute}
-              onSealUrnChange={onSealUrnChange}
-            />
-          ))}
+          {amountOfUrns.map(index => {
+            // TEMPORARY: Remove this once the migration is complete
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const isMigrated = checkUrnMigrationStatus(migrations, index);
+
+            return (
+              <UrnPosition
+                key={index}
+                index={BigInt(index)}
+                claimPrepared={claimPrepared}
+                claimExecute={claimExecute}
+                onSealUrnChange={onSealUrnChange}
+              />
+            );
+          })}
         </div>
       </div>
     </VStack>
