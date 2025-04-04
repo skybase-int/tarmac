@@ -16,7 +16,10 @@ export enum QueryParams {
   LinkedAction = 'linked_action',
   InputAmount = 'input_amount',
   Timestamp = 'timestamp',
-  Network = 'network'
+  Network = 'network',
+  Flow = 'flow',
+  StakeTab = 'stake_tab',
+  SealTab = 'seal_tab'
 }
 
 const isRestrictedBuild = import.meta.env.VITE_RESTRICTED_BUILD === 'true';

@@ -1,4 +1,10 @@
-import { TxStatus, WidgetStateChangeParams, StakeFlow, StakeModuleWidget } from '@jetstreamgg/widgets';
+import {
+  TxStatus,
+  WidgetStateChangeParams,
+  StakeFlow,
+  StakeModuleWidget,
+  StakeAction
+} from '@jetstreamgg/widgets';
 import { IntentMapping, QueryParams, REFRESH_DELAY } from '@/lib/constants';
 import { SharedProps } from '@/modules/app/types/Widgets';
 import { LinkedActionSteps } from '@/modules/config/context/ConfigContext';
@@ -7,16 +13,8 @@ import { useSearchParams } from 'react-router-dom';
 import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
 import { Intent } from '@/lib/enums';
 import { useEffect } from 'react';
-import { Error } from '@/modules/layout/components/Error';
 
 export function StakeWidgetPane(sharedProps: SharedProps) {
-  let termsLink: any[] = [];
-  try {
-    termsLink = JSON.parse(import.meta.env.VITE_TERMS_LINK);
-  } catch (error) {
-    console.error('Error parsing terms link: ', error);
-  }
-
   const {
     linkedActionConfig,
     updateLinkedActionConfig,
@@ -24,9 +22,9 @@ export function StakeWidgetPane(sharedProps: SharedProps) {
     selectedStakeUrnIndex,
     setSelectedStakeUrnIndex
   } = useConfigContext();
-  // TODO: Implemet `useSealHistory` hook
+  // TODO: Implement `useStakeHistory` hook
   const refreshStakeHistory = () => {};
-  // const { mutate: refreshSealHistory } = useSealHistory();
+  // const { mutate: refreshStakeHistory } = useStakeHistory(); // Corrected hook name
   const [searchParams, setSearchParams] = useSearchParams();
 
   const onStakeUrnChange = (urn?: {
@@ -45,9 +43,10 @@ export function StakeWidgetPane(sharedProps: SharedProps) {
     setSelectedStakeUrnIndex(urn?.urnIndex !== undefined ? Number(urn.urnIndex) : undefined);
   };
 
+  const urnIndexParam = searchParams.get(QueryParams.UrnIndex);
+
   // Reset detail pane urn index when widget is mounted
   useEffect(() => {
-    const urnIndexParam = searchParams.get(QueryParams.UrnIndex);
     setSelectedStakeUrnIndex(
       urnIndexParam ? (isNaN(Number(urnIndexParam)) ? undefined : Number(urnIndexParam)) : undefined
     );
@@ -56,9 +55,46 @@ export function StakeWidgetPane(sharedProps: SharedProps) {
     return () => {
       setSelectedStakeUrnIndex(undefined);
     };
-  }, []);
+  }, [urnIndexParam]);
 
-  const onStakeWidgetStateChange = ({ hash, txStatus, widgetState }: WidgetStateChangeParams) => {
+  const onStakeWidgetStateChange = ({
+    hash,
+    txStatus,
+    widgetState,
+    stakeTab,
+    originAmount
+  }: WidgetStateChangeParams) => {
+    if (widgetState.flow) {
+      setSearchParams(prev => {
+        prev.set(QueryParams.Flow, widgetState.flow);
+        return prev;
+      });
+    }
+
+    if (stakeTab) {
+      setSearchParams(prev => {
+        prev.set(QueryParams.StakeTab, stakeTab === StakeAction.FREE ? 'free' : 'lock'); // Example mapping
+        return prev;
+      });
+    } else if (stakeTab === '') {
+      setSearchParams(prev => {
+        prev.delete(QueryParams.StakeTab);
+        return prev;
+      });
+    }
+
+    if (originAmount && originAmount !== '0') {
+      setSearchParams(prev => {
+        prev.set(QueryParams.InputAmount, originAmount);
+        return prev;
+      });
+    } else if (originAmount === '') {
+      setSearchParams(prev => {
+        prev.delete(QueryParams.InputAmount);
+        return prev;
+      });
+    }
+
     // After a successful linked action open flow, set the final step to "success"
     if (
       widgetState.flow === StakeFlow.OPEN &&
@@ -88,18 +124,23 @@ export function StakeWidgetPane(sharedProps: SharedProps) {
     }
   };
 
-  const hasTermsLink = Array.isArray(termsLink) && termsLink.length > 0;
-  if (!hasTermsLink) {
-    console.error('No terms link found');
-    return <Error />;
-  }
+  const stakeTabParam = searchParams.get(QueryParams.StakeTab);
+  const stakeTab =
+    stakeTabParam === 'free' ? StakeAction.FREE : stakeTabParam === 'lock' ? StakeAction.LOCK : undefined;
+  const flowParam = searchParams.get(QueryParams.Flow);
+  const flow = flowParam === 'open' ? StakeFlow.OPEN : undefined;
 
   return (
     <StakeModuleWidget
       {...sharedProps}
       onStakeUrnChange={onStakeUrnChange}
       onWidgetStateChange={onStakeWidgetStateChange}
-      externalWidgetState={{ amount: linkedActionConfig?.inputAmount, urnIndex: selectedStakeUrnIndex }}
+      externalWidgetState={{
+        amount: linkedActionConfig?.inputAmount,
+        urnIndex: selectedStakeUrnIndex,
+        stakeTab,
+        flow
+      }}
     />
   );
 }
