@@ -19,6 +19,7 @@ import { getNextStep, getPreviousStep, getStepIndex, getTotalSteps } from './lib
 import { StepperBar } from './components/StepperBar';
 import { UrnsList } from './components/UrnsList';
 import { OpenNewUrn } from './components/OpenNewUrn';
+import { MigrateOpenNewUrn } from './components/MigrateOpenNewUrn';
 import { SelectRewardContract } from './components/SelectRewardContract';
 import { SealModuleWidgetContext, SealModuleWidgetProvider } from './context/context';
 import { SelectDelegate } from './components/SelectDelegate';
@@ -49,6 +50,9 @@ import { ArrowLeft } from 'lucide-react';
 import { getValidatedState } from '@widgets/lib/utils';
 import { UnconnectedState } from './components/UnconnectedState';
 import { useLingui } from '@lingui/react';
+import { MigrateHopeNew } from './components/MigrateHopeNew';
+import { MigrateHopeOld } from './components/MigrateHopeOld';
+import { MigratePosition } from './components/MigratePosition';
 
 export type OnSealUrnChange = (
   urn: { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined } | undefined
@@ -1141,8 +1145,8 @@ const MigrateWizard = ({
           Creation of new positions has been disabled. Management of existing positions remains available.
         </Text>
       )}
-      {currentStep === SealStep.OPEN_BORROW && (
-        <OpenNewUrn
+      {currentStep === SealStep.OPEN_NEW && (
+        <MigrateOpenNewUrn
           isConnectedAndEnabled={isConnectedAndEnabled}
           onExternalLinkClicked={onExternalLinkClicked}
           onClickTrigger={onClickTrigger}
@@ -1150,11 +1154,33 @@ const MigrateWizard = ({
           termsLink={termsLink}
         />
       )}
-      {currentStep === SealStep.REWARDS && (
-        <SelectRewardContract onExternalLinkClicked={onExternalLinkClicked} />
+      {currentStep === SealStep.HOPE_OLD && (
+        <MigrateHopeOld
+          isConnectedAndEnabled={isConnectedAndEnabled}
+          onExternalLinkClicked={onExternalLinkClicked}
+          onClickTrigger={onClickTrigger}
+          tabSide={tabSide}
+          termsLink={termsLink}
+        />
       )}
-      {currentStep === SealStep.DELEGATE && <SelectDelegate onExternalLinkClicked={onExternalLinkClicked} />}
-      {currentStep === SealStep.SUMMARY && <PositionSummary />}
+      {currentStep === SealStep.HOPE_NEW && (
+        <MigrateHopeNew
+          isConnectedAndEnabled={isConnectedAndEnabled}
+          onExternalLinkClicked={onExternalLinkClicked}
+          onClickTrigger={onClickTrigger}
+          tabSide={tabSide}
+          termsLink={termsLink}
+        />
+      )}
+      {currentStep === SealStep.MIGRATE && (
+        <MigratePosition
+          isConnectedAndEnabled={isConnectedAndEnabled}
+          onExternalLinkClicked={onExternalLinkClicked}
+          onClickTrigger={onClickTrigger}
+          tabSide={tabSide}
+          termsLink={termsLink}
+        />
+      )}
     </div>
   );
 };
