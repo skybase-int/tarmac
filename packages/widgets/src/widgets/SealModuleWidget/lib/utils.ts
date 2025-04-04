@@ -36,7 +36,7 @@ export function getNextStep(step: SealStep, flow: SealFlow = SealFlow.OPEN): Sea
   if (currentIndex >= 0 && currentIndex < sequence.length - 1) {
     return sequence[currentIndex + 1];
   }
-  return SealStep.SUMMARY; // or handle the case when there's no next action
+  return sequence[sequence.length - 1];
 }
 
 export function getStepIndex(step: SealStep, flow: SealFlow): number {
