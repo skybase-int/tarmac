@@ -7,7 +7,13 @@ import { StakeModuleWidgetContext } from '../context/context';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { StakeFlow } from '../lib/constants';
 
-export const Lock = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolean }) => {
+export const Lock = ({
+  isConnectedAndEnabled,
+  onChange
+}: {
+  isConnectedAndEnabled: boolean;
+  onChange?: (val: bigint, userTriggered?: boolean) => void;
+}) => {
   const { address } = useAccount();
   const chainId = useChainId();
   const { widgetState } = useContext(WidgetContext);
@@ -40,7 +46,10 @@ export const Lock = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolean
         tokenList={[TOKENS.sky]}
         balance={skyBalance?.value}
         value={skyToLock}
-        onChange={setSkyToLock}
+        onChange={(val, event) => {
+          setSkyToLock(val);
+          onChange?.(val, !!event);
+        }}
         dataTestId="supply-first-input-lse"
         error={isSupplyBalanceError ? t`Insufficient funds` : undefined}
         showPercentageButtons={isConnectedAndEnabled}

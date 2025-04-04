@@ -10,10 +10,12 @@ import { StakeFlow } from '../lib/constants';
 
 export const Free = ({
   isConnectedAndEnabled,
-  sealedAmount
+  sealedAmount,
+  onChange
 }: {
   isConnectedAndEnabled: boolean;
   sealedAmount?: bigint;
+  onChange?: (val: bigint, userTriggered?: boolean) => void;
 }) => {
   const { address } = useAccount();
   const chainId = useChainId();
@@ -68,7 +70,10 @@ export const Free = ({
         tokenList={[TOKENS.sky]}
         balance={skySealed}
         value={skyToFree}
-        onChange={setSkyToFree}
+        onChange={(val, event) => {
+          setSkyToFree(val);
+          onChange?.(val, !!event);
+        }}
         dataTestId="supply-first-input-lse"
         error={(() => {
           if (isSkySupplyBalanceError) {
