@@ -15,17 +15,19 @@ import { ZERO_ADDRESS } from '@jetstreamgg/hooks';
 export const UrnsList = ({
   claimPrepared,
   claimExecute,
-  onSealUrnChange
+  onSealUrnChange,
+  onNavigateToMigratedUrn
 }: {
   claimPrepared: boolean;
   claimExecute: () => void;
   onSealUrnChange?: OnSealUrnChange;
+  onNavigateToMigratedUrn?: (index: bigint) => void;
 }) => {
   const { address } = useAccount();
   const { displayToken, setDisplayToken } = useContext(SealModuleWidgetContext);
   const { data: currentIndex } = useCurrentUrnIndex();
   const amountOfUrns = Array.from(Array(Number(currentIndex || 0n)).keys());
-  const { data: migrations } = useSealMigrations({
+  const { data: migrations, isLoading: isMigrationsLoading } = useSealMigrations({
     owner: address || ZERO_ADDRESS
   });
 
@@ -57,7 +59,7 @@ export const UrnsList = ({
           {amountOfUrns.map(index => {
             // TEMPORARY: Remove this once the migration is complete
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const isMigrated = checkUrnMigrationStatus(migrations, index);
+            const { isMigrated } = checkUrnMigrationStatus(migrations, index);
 
             return (
               <UrnPosition
@@ -66,6 +68,8 @@ export const UrnsList = ({
                 claimPrepared={claimPrepared}
                 claimExecute={claimExecute}
                 onSealUrnChange={onSealUrnChange}
+                isMigrated={isMigrationsLoading ? undefined : isMigrated}
+                onNavigateToMigratedUrn={onNavigateToMigratedUrn}
               />
             );
           })}

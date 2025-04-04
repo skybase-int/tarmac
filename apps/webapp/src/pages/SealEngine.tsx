@@ -13,7 +13,8 @@ import { useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
 import { BP } from '@/modules/ui/hooks/useBreakpointIndex';
 import { ArrowLeft } from 'lucide-react';
 import { HStack } from '@/modules/layout/components/HStack';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 import {
   SealAction,
   SealFlow,
@@ -39,6 +40,7 @@ export function SealEngine() {
   const { bpi } = useBreakpointIndex();
   const isMobile = bpi < BP.md;
   const [shouldHideLink, setShouldHideLink] = useState(false);
+  const navigate = useNavigate();
 
   const referralCode = Number(import.meta.env.VITE_REFERRAL_CODE) || 0; // fallback to 0 if invalid
 
@@ -73,6 +75,15 @@ export function SealEngine() {
     onExternalLinkClicked,
     referralCode,
     onWidgetStateChange: onSealWidgetStateChange
+  };
+
+  const onNavigateToMigratedUrn = (index: bigint) => {
+    console.log(`🚀 ~ /?widget=stake&urn_index=${index}`);
+    // TODO: The widget is not reacting to changes in the `urn_index` query parameter in this branch.
+    // When navigating between URNs using a URL, the widget doesn't update to show the selected URN's details.
+    // This is working correctly in the feature/scarlett branch.
+    // So far this is only taking the user to the URN list page.
+    navigate(`/?widget=stake&urn_index=${index}`);
   };
 
   return (
@@ -116,6 +127,7 @@ export function SealEngine() {
               {...sharedProps}
               onWidgetStateChange={onSealWidgetStateChange}
               termsLink={termsLink[0]}
+              onNavigateToMigratedUrn={onNavigateToMigratedUrn}
             />
           )}
         </div>

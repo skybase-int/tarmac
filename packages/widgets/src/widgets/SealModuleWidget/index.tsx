@@ -57,6 +57,7 @@ export type OnSealUrnChange = (
 type SealModuleWidgetProps = WidgetProps & {
   onSealUrnChange?: OnSealUrnChange;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  onNavigateToMigratedUrn?: (index: bigint) => void;
   addRecentTransaction: any;
   termsLink?: { url: string; name: string };
 };
@@ -70,6 +71,7 @@ export const SealModuleWidget = ({
   onNotification,
   onWidgetStateChange,
   onExternalLinkClicked,
+  onNavigateToMigratedUrn,
   addRecentTransaction,
   termsLink,
   referralCode
@@ -89,6 +91,7 @@ export const SealModuleWidget = ({
             addRecentTransaction={addRecentTransaction}
             termsLink={termsLink}
             referralCode={referralCode}
+            onNavigateToMigratedUrn={onNavigateToMigratedUrn}
           />
         </SealModuleWidgetProvider>
       </WidgetProvider>
@@ -107,7 +110,8 @@ function SealModuleWidgetWrapped({
   onExternalLinkClicked,
   addRecentTransaction,
   termsLink,
-  referralCode
+  referralCode,
+  onNavigateToMigratedUrn
 }: SealModuleWidgetProps) {
   const validatedExternalState = getValidatedState(externalWidgetState);
   const initialTabIndex = validatedExternalState?.tab === 'right' ? 1 : 0;
@@ -1000,6 +1004,7 @@ function SealModuleWidgetWrapped({
                       claimExecute={claimRewards.execute}
                       onSealUrnChange={onSealUrnChange}
                       termsLink={termsLink}
+                      onNavigateToMigratedUrn={onNavigateToMigratedUrn}
                     />
                   )}
                   {widgetState.flow === SealFlow.OPEN && (
@@ -1082,7 +1087,8 @@ const ManagePosition = ({
   claimPrepared,
   claimExecute,
   onSealUrnChange,
-  termsLink
+  termsLink,
+  onNavigateToMigratedUrn
 }: {
   isConnectedAndEnabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
@@ -1094,9 +1100,15 @@ const ManagePosition = ({
   claimExecute: () => void;
   onSealUrnChange?: OnSealUrnChange;
   termsLink?: { url: string; name: string };
+  onNavigateToMigratedUrn?: (index: bigint) => void;
 }) => {
   return currentAction === SealAction.OVERVIEW ? (
-    <UrnsList claimPrepared={claimPrepared} claimExecute={claimExecute} onSealUrnChange={onSealUrnChange} />
+    <UrnsList
+      claimPrepared={claimPrepared}
+      claimExecute={claimExecute}
+      onSealUrnChange={onSealUrnChange}
+      onNavigateToMigratedUrn={onNavigateToMigratedUrn}
+    />
   ) : (
     <Wizard
       isConnectedAndEnabled={isConnectedAndEnabled}

@@ -46,6 +46,8 @@ type Props = {
   index: bigint;
   claimPrepared: boolean;
   claimExecute: () => void;
+  isMigrated?: boolean;
+  onNavigateToMigratedUrn?: (index: bigint) => void;
 };
 
 // Copied from TransactionDetail, it could be reusable
@@ -62,7 +64,9 @@ export function PositionDetail({
   urnAddress,
   index,
   claimPrepared,
-  claimExecute
+  claimExecute,
+  isMigrated,
+  onNavigateToMigratedUrn
 }: Props) {
   const { data: rewardContractTokens } = useRewardContractTokens(selectedRewardContract);
   const { data: selectedDelegateName } = useDelegateName(selectedVoteDelegate);
@@ -185,7 +189,11 @@ export function PositionDetail({
         delayedPrice={delayedPrice}
         liquidationPrice={liquidationPrice}
       />
-      <MigrateButton />
+      <MigrateButton
+        isMigrated={isMigrated}
+        index={index}
+        onNavigateToMigratedUrn={onNavigateToMigratedUrn}
+      />
       <>
         {sealRewardContracts &&
           urnAddress &&
@@ -204,7 +212,15 @@ export function PositionDetail({
   );
 }
 
-const MigrateButton = () => {
+const MigrateButton = ({
+  isMigrated,
+  index,
+  onNavigateToMigratedUrn
+}: {
+  isMigrated?: boolean;
+  index: bigint;
+  onNavigateToMigratedUrn?: (index: bigint) => void;
+}) => {
   const { setWidgetState } = useContext(WidgetContext);
 
   const { setCurrentStep } = useContext(SealModuleWidgetContext);
@@ -217,6 +233,21 @@ const MigrateButton = () => {
       action: SealAction.MIGRATE
     }));
   };
+
+  if (isMigrated)
+    return (
+      <div>
+        <Text variant="small" className="text-warning text-center">
+          This position has been migrated to the new Staking Engine.
+        </Text>
+        {onNavigateToMigratedUrn && (
+          <Button variant="primaryAlt" className="mt-2 w-full" onClick={() => onNavigateToMigratedUrn(index)}>
+            <Text>Manage position in Staking Engine</Text>
+          </Button>
+        )}
+      </div>
+    );
+
   return (
     <Button
       variant="primaryAlt"
