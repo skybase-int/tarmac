@@ -125,6 +125,9 @@ export { usePositionsAtRisk } from './seal/usePositionsAtRisk';
 export { useTotalUserSealed } from './seal/useTotalUserSealed';
 export { useSealRewardsData } from './seal/useSealRewardsData';
 export { useSealHistoricData } from './seal/useSealHistoricData';
+export { useIsUrnMigrated } from './seal/useIsUrnMigrated';
+export { useSealMigrations } from './seal/useSealMigrations';
+export { checkUrnMigrationStatus } from './seal/checkUrnMigrationStatus';
 
 //Vaults
 export { useVault } from './vaults/useVault';

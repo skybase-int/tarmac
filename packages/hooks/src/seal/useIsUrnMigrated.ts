@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { ReadHook } from '../hooks';
 import { SealMigration } from './sealModule';
 import { useSealMigrations } from './useSealMigrations';
+import { checkUrnMigrationStatus } from './checkUrnMigrationStatus';
 
 export function useIsUrnMigrated({
   owner,
@@ -20,18 +21,10 @@ export function useIsUrnMigrated({
     dataSources
   } = useSealMigrations({ owner, subgraphUrl });
 
-  const { isMigrated, migrationDetails } = useMemo(() => {
-    if (!migrations || migrations.length === 0) {
-      return { isMigrated: false, migrationDetails: undefined };
-    }
-
-    const migration = migrations.find(m => m.oldIndex === oldUrnIndex.toString());
-
-    return {
-      isMigrated: !!migration,
-      migrationDetails: migration
-    };
-  }, [migrations, oldUrnIndex]);
+  const { isMigrated, migrationDetails } = useMemo(
+    () => checkUrnMigrationStatus(migrations, oldUrnIndex),
+    [migrations, oldUrnIndex]
+  );
 
   return {
     isLoading,
