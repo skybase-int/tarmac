@@ -234,21 +234,18 @@ const MigrateButton = ({
     }));
   };
 
-  if (isMigrated)
-    return (
-      <div>
-        <Text variant="small" className="text-warning text-center">
-          This position has been migrated to the new Staking Engine.
-        </Text>
-        {onNavigateToMigratedUrn && (
-          <Button variant="primaryAlt" className="mt-2 w-full" onClick={() => onNavigateToMigratedUrn(index)}>
-            <Text>Manage position in Staking Engine</Text>
-          </Button>
-        )}
-      </div>
-    );
-
-  return (
+  return isMigrated === undefined ? null : isMigrated ? (
+    <div>
+      <Text variant="small" className="text-warning text-center">
+        This position has been migrated to the new Staking Engine.
+      </Text>
+      {onNavigateToMigratedUrn && (
+        <Button variant="primaryAlt" className="mt-2 w-full" onClick={() => onNavigateToMigratedUrn(index)}>
+          <Text>Manage position in Staking Engine</Text>
+        </Button>
+      )}
+    </div>
+  ) : (
     <Button
       variant="primaryAlt"
       onClick={handleOnClick}
