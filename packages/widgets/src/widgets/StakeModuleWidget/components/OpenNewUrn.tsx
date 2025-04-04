@@ -21,11 +21,13 @@ import { motion } from 'framer-motion';
 export const OpenNewUrn = ({
   isConnectedAndEnabled,
   onClickTrigger,
-  tabSide
+  tabSide,
+  onInputAmountChange
 }: {
   isConnectedAndEnabled: boolean;
   onClickTrigger: any;
   tabSide: 'left' | 'right';
+  onInputAmountChange: (val: bigint, userTriggered?: boolean) => void;
 }) => {
   const { widgetState } = useContext(WidgetContext);
   const {
@@ -113,13 +115,17 @@ export const OpenNewUrn = ({
         )}
         <TabsContent value="left">
           <VStack gap={2} className="mt-4">
-            <Lock isConnectedAndEnabled={isConnectedAndEnabled} />
+            <Lock isConnectedAndEnabled={isConnectedAndEnabled} onChange={onInputAmountChange} />
             <Borrow isConnectedAndEnabled={isConnectedAndEnabled} />
           </VStack>
         </TabsContent>
         <TabsContent value="right">
           <VStack gap={2} className="mt-4">
-            <Free isConnectedAndEnabled={isConnectedAndEnabled} sealedAmount={vaultData?.collateralAmount} />
+            <Free
+              isConnectedAndEnabled={isConnectedAndEnabled}
+              sealedAmount={vaultData?.collateralAmount}
+              onChange={onInputAmountChange}
+            />
             <Repay isConnectedAndEnabled={isConnectedAndEnabled} />
           </VStack>
         </TabsContent>

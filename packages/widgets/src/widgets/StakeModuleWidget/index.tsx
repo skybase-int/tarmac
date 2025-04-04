@@ -1,7 +1,7 @@
 import { ErrorBoundary } from '@widgets/shared/components/ErrorBoundary';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { WidgetProps, WidgetState, WidgetStateChangeParams } from '@widgets/shared/types/widgetState';
 import { WidgetContext, WidgetProvider } from '@widgets/context/WidgetContext';
-import { WidgetProps, WidgetState } from '@widgets/shared/types/widgetState';
 import { WidgetContainer } from '@widgets/shared/components/ui/widget/WidgetContainer';
 import { Heading } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
@@ -26,26 +26,29 @@ import { PositionSummary } from './components/PositionSummary';
 import {
   useCurrentUrnIndex,
   useSaNgtAllowance,
-  useSaNstAllowance as useSealUsdsAllowance,
+  useSaNstAllowance as useStakeUsdsAllowance,
   useSaNgtApprove,
-  useSaNstApprove as useSealUsdsApprove,
+  useSaNstApprove as useStakeUsdsApprove,
   useSaMulticall,
   useClaimRewards,
   useUrnAddress,
   useVault,
   ZERO_ADDRESS,
   useUrnSelectedRewardContract,
-  useUrnSelectedVoteDelegate
+  useUrnSelectedVoteDelegate,
+  TOKENS,
+  getTokenDecimals
 } from '@jetstreamgg/hooks';
 import { formatBigInt, getEtherscanLink, useDebounce } from '@jetstreamgg/utils';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
-import { StakeModuleTransactionStatus } from './components/StakeModuleTransactionStatus';
 import { Button } from '@widgets/components/ui/button';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { ArrowLeft } from 'lucide-react';
 import { getValidatedState } from '@widgets/lib/utils';
 import { UnconnectedState } from './components/UnconnectedState';
 import { useLingui } from '@lingui/react';
+import { formatUnits, parseUnits } from 'viem';
+import { StakeModuleTransactionStatus } from './components/StakeModuleTransactionStatus';
 
 export type OnStakeUrnChange = (
   urn: { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined } | undefined
@@ -67,19 +70,22 @@ export const StakeModuleWidget = ({
   onWidgetStateChange,
   onExternalLinkClicked,
   addRecentTransaction,
-  referralCode
+  referralCode,
+  shouldReset = false
 }: StakeModuleWidgetProps) => {
+  const key = shouldReset ? 'reset' : undefined;
   return (
-    <ErrorBoundary componentName="StakeModuleWidget">
-      <WidgetProvider locale={locale}>
+    <ErrorBoundary componentName="SealModuleWidget">
+      <WidgetProvider key={key} locale={locale}>
         <StakeModuleWidgetProvider>
           <StakeModuleWidgetWrapped
+            key={key}
             rightHeaderComponent={rightHeaderComponent}
             onStakeUrnChange={onStakeUrnChange}
             externalWidgetState={externalWidgetState}
             onConnect={onConnect}
             onNotification={onNotification}
-            onWidgetStateChange={onWidgetStateChange}
+            onWidgetStateChange={shouldReset ? undefined : onWidgetStateChange}
             onExternalLinkClicked={onExternalLinkClicked}
             addRecentTransaction={addRecentTransaction}
             referralCode={referralCode}
@@ -103,9 +109,6 @@ function StakeModuleWidgetWrapped({
   referralCode
 }: StakeModuleWidgetProps) {
   const validatedExternalState = getValidatedState(externalWidgetState);
-  const initialTabIndex = validatedExternalState?.tab === 'right' ? 1 : 0;
-  const [tabIndex, setTabIndex] = useState<0 | 1>(initialTabIndex);
-  const tabSide = tabIndex === 0 ? 'left' : 'right';
   const containerRef = useRef<HTMLDivElement>(null);
 
   const {
@@ -140,6 +143,7 @@ function StakeModuleWidgetWrapped({
     setUsdsToBorrow,
     setSelectedDelegate,
     setSelectedRewardContract,
+
     setSkyToFree,
     setUsdsToWipe,
     activeUrn,
@@ -150,11 +154,15 @@ function StakeModuleWidgetWrapped({
     wipeAll
   } = useContext(StakeModuleWidgetContext);
 
+  const initialTabIndex = validatedExternalState?.stakeTab === StakeAction.FREE ? 1 : 0;
+  const [tabIndex, setTabIndex] = useState<0 | 1>(initialTabIndex);
+  const tabSide = tabIndex === 0 ? 'left' : 'right';
+
   // Returns the urn index to use for opening a new urn
-  const { data: currentUrnIndex } = useCurrentUrnIndex();
+  const { data: currentUrnIndex, error: currentUrnIndexError } = useCurrentUrnIndex();
 
   const { data: externalParamUrnAddress } = useUrnAddress(
-    externalWidgetState?.urnIndex !== undefined ? BigInt(externalWidgetState.urnIndex) : -1n
+    validatedExternalState?.urnIndex !== undefined ? BigInt(validatedExternalState.urnIndex) : -1n
   );
   const { data: externalParamVaultData } = useVault(externalParamUrnAddress || ZERO_ADDRESS);
   const { data: externalUrnRewardContract } = useUrnSelectedRewardContract({
@@ -165,7 +173,6 @@ function StakeModuleWidgetWrapped({
   });
 
   const urnIndexForTransaction = activeUrn?.urnIndex ?? currentUrnIndex;
-
   const debouncedLockAmount = useDebounce(skyToLock);
   const WIPE_BUFFER_MULTIPLIER = 100005n;
   const WIPE_BUFFER_DIVISOR = 100000n;
@@ -176,16 +183,16 @@ function StakeModuleWidgetWrapped({
   );
 
   const {
-    data: sealNgtAllowance,
-    mutate: mutateSealNgtAllowance,
-    isLoading: sealLockAllowanceLoading
+    data: stakeNgtAllowance,
+    mutate: mutateStakeNgtAllowance,
+    isLoading: stakeLockAllowanceLoading
   } = useSaNgtAllowance();
 
   const {
-    data: sealUsdsAllowance,
-    mutate: mutateSealUsdsAllowance,
-    isLoading: sealUsdsAllowanceLoading
-  } = useSealUsdsAllowance();
+    data: stakeUsdsAllowance,
+    mutate: mutateStakeUsdsAllowance,
+    isLoading: stakeUsdsAllowanceLoading
+  } = useStakeUsdsAllowance();
 
   useNotifyWidgetState({ widgetState, txStatus, onWidgetStateChange });
 
@@ -214,7 +221,7 @@ function StakeModuleWidgetWrapped({
         status: TxStatus.SUCCESS
       });
       setTxStatus(TxStatus.SUCCESS);
-      mutateSealNgtAllowance();
+      mutateStakeNgtAllowance();
       multicall.retryPrepare();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
@@ -225,14 +232,14 @@ function StakeModuleWidgetWrapped({
         status: TxStatus.ERROR
       });
       setTxStatus(TxStatus.ERROR);
-      mutateSealNgtAllowance();
+      mutateStakeNgtAllowance();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
       console.log(error);
     },
-    enabled: widgetState.action === StakeAction.APPROVE && sealNgtAllowance !== undefined
+    enabled: widgetState.action === StakeAction.APPROVE && stakeNgtAllowance !== undefined
   });
 
-  const repayUsdsApprove = useSealUsdsApprove({
+  const repayUsdsApprove = useStakeUsdsApprove({
     amount: debouncedUsdsAmount,
     onStart: (hash: string) => {
       addRecentTransaction?.({
@@ -250,7 +257,7 @@ function StakeModuleWidgetWrapped({
         status: TxStatus.SUCCESS
       });
       setTxStatus(TxStatus.SUCCESS);
-      mutateSealUsdsAllowance();
+      mutateStakeUsdsAllowance();
       multicall.retryPrepare();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
@@ -261,11 +268,11 @@ function StakeModuleWidgetWrapped({
         status: TxStatus.ERROR
       });
       setTxStatus(TxStatus.ERROR);
-      mutateSealUsdsAllowance();
+      mutateStakeUsdsAllowance();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
       console.log(error);
     },
-    enabled: widgetState.action === StakeAction.APPROVE && sealUsdsAllowance !== undefined
+    enabled: widgetState.action === StakeAction.APPROVE && stakeUsdsAllowance !== undefined
   });
 
   const multicall = useSaMulticall({
@@ -285,7 +292,7 @@ function StakeModuleWidgetWrapped({
         status: TxStatus.SUCCESS
       });
       setTxStatus(TxStatus.SUCCESS);
-      mutateSealNgtAllowance();
+      mutateStakeNgtAllowance();
       // TODO Mutate balances here
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
@@ -298,7 +305,7 @@ function StakeModuleWidgetWrapped({
         status: TxStatus.ERROR
       });
       setTxStatus(TxStatus.ERROR);
-      mutateSealNgtAllowance();
+      mutateStakeNgtAllowance();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
       console.log(error);
     }
@@ -353,8 +360,12 @@ function StakeModuleWidgetWrapped({
    * USEEFFECTS ----------------------------------------------------------------------------------
    */
 
-  const needsLockAllowance = !!(sealNgtAllowance === undefined || sealNgtAllowance < debouncedLockAmount);
-  const needsUsdsAllowance = !!(sealUsdsAllowance === undefined || sealUsdsAllowance < debouncedUsdsAmount);
+  const needsLockAllowance = !!(stakeNgtAllowance === undefined || stakeNgtAllowance < debouncedLockAmount);
+  const needsUsdsAllowance = !!(stakeUsdsAllowance === undefined || stakeUsdsAllowance < debouncedUsdsAmount);
+
+  useEffect(() => {
+    setTabIndex(initialTabIndex);
+  }, [initialTabIndex]);
 
   // Generate calldata when all steps are complete
   useEffect(() => {
@@ -513,7 +524,7 @@ function StakeModuleWidgetWrapped({
         setWidgetState((prev: WidgetState) => ({
           ...prev,
           action:
-            debouncedUsdsAmount > 0n && needsUsdsAllowance && !sealUsdsAllowanceLoading
+            debouncedUsdsAmount > 0n && needsUsdsAllowance && !stakeUsdsAllowanceLoading
               ? StakeAction.APPROVE
               : StakeAction.MULTICALL
         }));
@@ -521,7 +532,7 @@ function StakeModuleWidgetWrapped({
         setWidgetState((prev: WidgetState) => ({
           ...prev,
           action:
-            debouncedLockAmount > 0n && needsLockAllowance && !sealLockAllowanceLoading
+            debouncedLockAmount > 0n && needsLockAllowance && !stakeLockAllowanceLoading
               ? StakeAction.APPROVE
               : StakeAction.MULTICALL
         }));
@@ -533,9 +544,9 @@ function StakeModuleWidgetWrapped({
     widgetState.screen,
     widgetState.flow,
     needsUsdsAllowance,
-    sealUsdsAllowanceLoading,
+    stakeUsdsAllowanceLoading,
     needsLockAllowance,
-    sealLockAllowanceLoading,
+    stakeLockAllowanceLoading,
     activeUrn,
     tabSide
   ]);
@@ -560,88 +571,122 @@ function StakeModuleWidgetWrapped({
 
   const showStep = !!widgetState.action && widgetState.action !== StakeAction.OVERVIEW;
 
+  // AQUI
   useEffect(() => {
-    if (
-      externalWidgetState?.urnIndex !== undefined &&
-      externalWidgetState.urnIndex !== null &&
-      !!externalParamUrnAddress
-    ) {
-      // Navigate to the Urn
-      if (externalParamVaultData?.collateralAmount && externalUrnRewardContract) {
-        setSelectedRewardContract(externalUrnRewardContract);
-      } else {
-        setSelectedRewardContract(undefined);
-      }
-      if (externalParamVaultData?.collateralAmount && externalUrnVoteDelegate) {
-        setSelectedDelegate(externalUrnVoteDelegate);
-      } else {
-        setSelectedDelegate(undefined);
-      }
-      setWidgetState((prev: WidgetState) => ({
-        ...prev,
-        action: StakeAction.MULTICALL
-      }));
-      setActiveUrn(
-        { urnAddress: externalParamUrnAddress, urnIndex: BigInt(externalWidgetState.urnIndex) },
-        onStakeUrnChange ?? (() => {})
-      );
-      setCurrentStep(StakeStep.OPEN_BORROW);
+    if (currentUrnIndexError) {
+      throw new Error('Failed to fetch current urn index');
     }
-  }, [externalWidgetState?.urnIndex, externalParamUrnAddress]);
+  }, [currentUrnIndexError]);
 
-  // Handle network changes
   useEffect(() => {
-    // Reset widget state when network changes
-    setTxStatus(TxStatus.IDLE);
-    setExternalLink(undefined);
-
-    // Reset all state variables
-    setSkyToLock(0n);
-    setSkyToFree(0n);
-    setUsdsToWipe(0n);
-    setUsdsToBorrow(0n);
-
-    // Reset claim-related state
-    setIndexToClaim(undefined);
-    setRewardContractToClaim(undefined);
-
-    // Reset to initial widget state
-    if (isConnectedAndEnabled) {
-      if (currentUrnIndex === 0n) {
-        // Initialize the open position flow
-        setWidgetState({
-          flow: StakeFlow.OPEN,
-          action: StakeAction.MULTICALL,
-          screen: StakeScreen.ACTION
-        });
-      } else if (currentUrnIndex && currentUrnIndex > 0n) {
-        setWidgetState({
-          flow: StakeFlow.MANAGE,
-          action: StakeAction.OVERVIEW,
-          screen: StakeScreen.ACTION
-        });
-      }
-    } else {
+    // If there are no urns open, set up initial open flow
+    if (currentUrnIndex === 0n) {
       setWidgetState({
-        flow: null,
-        action: null,
-        screen: null
+        flow: StakeFlow.OPEN,
+        action: StakeAction.MULTICALL,
+        screen: StakeScreen.ACTION
       });
+      setCurrentStep(StakeStep.OPEN_BORROW);
+      return;
     }
 
-    // Reset to first tab
-    setTabIndex(0);
+    // Skip effect if we don't have the current urn index yet
+    if (currentUrnIndex === undefined) {
+      return;
+    }
 
-    // Reset current step
+    // Get the current URL urn index
+    const urlUrnIndex = validatedExternalState?.urnIndex;
+
+    // If we're already in the correct state, don't do anything
+    // This is key to prevent the infinite loop - if we're already showing the correct urn, do nothing
+    if (activeUrn?.urnIndex === urlUrnIndex) {
+      return;
+    }
+
+    // Handle navigation to root (no urn index)
+    if (urlUrnIndex === undefined || urlUrnIndex === null) {
+      resetToOverviewState();
+      return;
+    }
+
+    // Handle navigation to specific urn
+    const urnIndexBigInt = BigInt(urlUrnIndex);
+
+    // Validate the urn index is within bounds
+    if (urnIndexBigInt >= (currentUrnIndex || 0n)) {
+      resetToOverviewState();
+      return;
+    }
+
+    // Wait for the urn address before proceeding
+    if (!externalParamUrnAddress) {
+      return;
+    }
+
+    // Set up the urn state
+    if (externalParamVaultData?.collateralAmount && externalUrnRewardContract) {
+      setSelectedRewardContract(externalUrnRewardContract);
+    } else {
+      setSelectedRewardContract(undefined);
+    }
+
+    if (externalParamVaultData?.collateralAmount && externalUrnVoteDelegate) {
+      setSelectedDelegate(externalUrnVoteDelegate);
+    } else {
+      setSelectedDelegate(undefined);
+    }
+
+    // Update widget state first
+    setWidgetState({
+      flow: StakeFlow.MANAGE,
+      action: StakeAction.MULTICALL,
+      screen: StakeScreen.ACTION
+    });
+
+    // Then update the active urn
+    setActiveUrn(
+      { urnAddress: externalParamUrnAddress, urnIndex: urnIndexBigInt },
+      onStakeUrnChange ?? (() => {})
+    );
+
     setCurrentStep(StakeStep.OPEN_BORROW);
+  }, [
+    validatedExternalState?.urnIndex,
+    externalParamUrnAddress,
+    currentUrnIndex,
+    activeUrn?.urnIndex,
+    externalParamVaultData?.collateralAmount,
+    externalUrnRewardContract,
+    externalUrnVoteDelegate
+  ]);
 
-    // Reset active URN
-    setActiveUrn(undefined, onStakeUrnChange ?? (() => {}));
+  // Handle external amount
+  useEffect(() => {
+    if (validatedExternalState?.amount === undefined) {
+      setSkyToLock(0n);
+      setSkyToFree(0n);
 
-    // Refresh allowances
-    mutateSealNgtAllowance();
-    mutateSealUsdsAllowance();
-  }, [chainId]);
+      return;
+    }
+
+    const decimals = getTokenDecimals(TOKENS.sky, chainId);
+    const amount = parseUnits(validatedExternalState.amount, decimals);
+
+    if (tabSide === 'left') {
+      setSkyToLock(amount);
+      setSkyToFree(0n);
+    } else {
+      setSkyToFree(amount);
+      setSkyToLock(0n);
+    }
+  }, [validatedExternalState?.amount, tabSide, chainId, widgetState.flow]);
+
+  useEffect(() => {
+    if (validatedExternalState?.flow === StakeFlow.OPEN) {
+      handleClickOpenPosition();
+    }
+  }, [externalWidgetState?.flow]);
 
   /**
    * BUTTON CLICKS ----------------------------------------------------------------------------------
@@ -736,9 +781,19 @@ function StakeModuleWidgetWrapped({
     setUsdsToWipe(0n);
     setUsdsToBorrow(0n);
     setTabIndex(0);
+
+    onWidgetStateChange?.({
+      widgetState,
+      txStatus,
+      stakeTab: StakeAction.LOCK,
+      originAmount: ''
+    });
   };
 
   const handleClickOpenPosition = () => {
+    // First reset urn
+    setActiveUrn(undefined, onStakeUrnChange ?? (() => {}));
+
     setWidgetState({
       flow: StakeFlow.OPEN,
       action: StakeAction.MULTICALL,
@@ -795,7 +850,7 @@ function StakeModuleWidgetWrapped({
     );
   }, [widgetState.flow, widgetState.action, txStatus, currentStep]);
 
-  const handleViewAll = () => {
+  const resetToOverviewState = () => {
     setActiveUrn(undefined, onStakeUrnChange ?? (() => {}));
     onStakeUrnChange?.(undefined);
     setWidgetState((prev: WidgetState) => ({
@@ -809,9 +864,25 @@ function StakeModuleWidgetWrapped({
     setUsdsToWipe(0n);
     setUsdsToBorrow(0n);
     setTabIndex(0);
+
+    onWidgetStateChange?.({
+      widgetState,
+      txStatus,
+      stakeTab: StakeAction.LOCK,
+      originAmount: ''
+    });
   };
 
   const widgetStateLoaded = !!widgetState.flow && !!widgetState.action;
+
+  const onClickTab = (index: 0 | 1) => {
+    setTabIndex(index);
+    onWidgetStateChange?.({
+      widgetState,
+      txStatus,
+      stakeTab: index === 1 ? StakeAction.FREE : StakeAction.LOCK
+    });
+  };
 
   return (
     <WidgetContainer
@@ -830,7 +901,7 @@ function StakeModuleWidgetWrapped({
         ) : (
           // do we want to wrap this? <CardAnimationWrapper key="widget-back-button"></CardAnimationWrapper>
           <VStack className="w-full">
-            <Button variant="link" onClick={handleViewAll} className="justify-start p-0">
+            <Button variant="link" onClick={resetToOverviewState} className="justify-start p-0">
               <HStack className="space-x-2">
                 <ArrowLeft className="self-center" />
                 <Heading tag="h3" variant="small" className="text-textSecondary">
@@ -853,7 +924,22 @@ function StakeModuleWidgetWrapped({
       }
     >
       <AnimatePresence mode="popLayout" initial={false}>
-        {!isConnectedAndEnabled && <UnconnectedState />}
+        {!isConnectedAndEnabled && (
+          <UnconnectedState
+            onInputAmountChange={(val: bigint, userTriggered?: boolean) => {
+              if (userTriggered) {
+                // If newValue is 0n and it was triggered by user, it means they're clearing the input
+                const formattedValue =
+                  val === 0n ? '' : formatUnits(val, getTokenDecimals(TOKENS.sky, chainId));
+                onWidgetStateChange?.({
+                  originAmount: formattedValue,
+                  txStatus,
+                  widgetState
+                });
+              }
+            }}
+          />
+        )}
         {txStatus !== TxStatus.IDLE ? (
           <CardAnimationWrapper key="widget-transaction-status">
             <StakeModuleTransactionStatus onExternalLinkClicked={onExternalLinkClicked} />
@@ -878,11 +964,12 @@ function StakeModuleWidgetWrapped({
                       onExternalLinkClicked={onExternalLinkClicked}
                       currentStep={currentStep}
                       currentAction={widgetState.action}
-                      onClickTrigger={setTabIndex}
+                      onClickTrigger={onClickTab}
                       tabSide={tabSide}
                       claimPrepared={claimRewards.prepared}
                       claimExecute={claimRewards.execute}
                       onStakeUrnChange={onStakeUrnChange}
+                      onWidgetStateChange={onWidgetStateChange}
                     />
                   )}
                   {widgetState.flow === StakeFlow.OPEN && (
@@ -890,8 +977,9 @@ function StakeModuleWidgetWrapped({
                       isConnectedAndEnabled={isConnectedAndEnabled}
                       onExternalLinkClicked={onExternalLinkClicked}
                       currentStep={currentStep}
-                      onClickTrigger={setTabIndex}
+                      onClickTrigger={onClickTab}
                       tabSide={tabSide}
+                      onWidgetStateChange={onWidgetStateChange}
                     />
                   )}
                 </MotionVStack>
@@ -909,14 +997,18 @@ const Wizard = ({
   onExternalLinkClicked,
   currentStep,
   onClickTrigger,
-  tabSide
+  tabSide,
+  onWidgetStateChange
 }: {
   isConnectedAndEnabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   currentStep: StakeStep;
   onClickTrigger: any;
   tabSide: 'left' | 'right';
+  onWidgetStateChange?: (params: WidgetStateChangeParams) => void;
 }) => {
+  const chainId = useChainId();
+  const { widgetState, txStatus } = useContext(WidgetContext);
   return (
     <div>
       {currentStep === StakeStep.OPEN_BORROW && (
@@ -924,6 +1016,18 @@ const Wizard = ({
           isConnectedAndEnabled={isConnectedAndEnabled}
           onClickTrigger={onClickTrigger}
           tabSide={tabSide}
+          onInputAmountChange={(val: bigint, userTriggered?: boolean) => {
+            if (userTriggered) {
+              // If newValue is 0n and it was triggered by user, it means they're clearing the input
+              const formattedValue =
+                val === 0n ? '' : formatUnits(val, getTokenDecimals(TOKENS.sky, chainId));
+              onWidgetStateChange?.({
+                originAmount: formattedValue,
+                txStatus,
+                widgetState
+              });
+            }
+          }}
         />
       )}
       {currentStep === StakeStep.REWARDS && (
@@ -944,7 +1048,8 @@ const ManagePosition = ({
   tabSide,
   claimPrepared,
   claimExecute,
-  onStakeUrnChange
+  onStakeUrnChange,
+  onWidgetStateChange
 }: {
   isConnectedAndEnabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
@@ -955,6 +1060,7 @@ const ManagePosition = ({
   claimPrepared: boolean;
   claimExecute: () => void;
   onStakeUrnChange?: OnStakeUrnChange;
+  onWidgetStateChange?: (params: WidgetStateChangeParams) => void;
 }) => {
   return currentAction === StakeAction.OVERVIEW ? (
     <UrnsList claimPrepared={claimPrepared} claimExecute={claimExecute} onStakeUrnChange={onStakeUrnChange} />
@@ -965,6 +1071,7 @@ const ManagePosition = ({
       currentStep={currentStep}
       onClickTrigger={onClickTrigger}
       tabSide={tabSide}
+      onWidgetStateChange={onWidgetStateChange}
     />
   );
 };
