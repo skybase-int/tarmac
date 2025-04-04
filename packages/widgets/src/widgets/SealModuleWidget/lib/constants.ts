@@ -69,6 +69,8 @@ export function getStepTitle(step: SealStep, tab: 'left' | 'right'): MessageDesc
       return msg`Approve migrator for old position`;
     case SealStep.HOPE_NEW:
       return msg`Approve migrator for new position`;
+    case SealStep.MIGRATE:
+      return msg`Migrate position`;
     default:
       return msg``;
   }

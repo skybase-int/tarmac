@@ -758,7 +758,7 @@ function SealModuleWidgetWrapped({
 
   const nextOnClick = () => {
     setTxStatus(TxStatus.IDLE);
-    setCurrentStep(getNextStep(currentStep));
+    setCurrentStep(getNextStep(currentStep, widgetState.flow));
 
     // setWidgetState((prev: WidgetState) => ({
     //   ...prev,
@@ -881,9 +881,7 @@ function SealModuleWidgetWrapped({
               ? handleClickOpenPosition
               : widgetState.flow === SealFlow.MANAGE && widgetState.action === SealAction.CLAIM
                 ? claimOnClick
-                : widgetState.flow === SealFlow.OPEN || widgetState.flow === SealFlow.MANAGE
-                  ? nextOnClick
-                  : undefined;
+                : nextOnClick;
 
   const [stepIndex, totalSteps] = useMemo(
     () => [getStepIndex(currentStep, widgetState.flow) + 1, getTotalSteps(widgetState.flow)],

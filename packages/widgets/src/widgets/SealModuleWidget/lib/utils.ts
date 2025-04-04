@@ -24,10 +24,17 @@ export function getPreviousStep(step: SealStep): SealStep {
   return SealStep.ABOUT; // or handle the case when there's no previous action
 }
 
-export function getNextStep(step: SealStep): SealStep {
-  const currentIndex = openFlowSequence.indexOf(step);
-  if (currentIndex >= 0 && currentIndex < openFlowSequence.length - 1) {
-    return openFlowSequence[currentIndex + 1];
+export function getNextStep(step: SealStep, flow: SealFlow = SealFlow.OPEN): SealStep {
+  const sequence =
+    flow === SealFlow.OPEN
+      ? openFlowSequence
+      : flow === SealFlow.MIGRATE
+        ? migrateFlowSequence
+        : manageFlowSequence;
+
+  const currentIndex = sequence.indexOf(step);
+  if (currentIndex >= 0 && currentIndex < sequence.length - 1) {
+    return sequence[currentIndex + 1];
   }
   return SealStep.SUMMARY; // or handle the case when there's no next action
 }
