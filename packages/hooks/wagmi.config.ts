@@ -19,8 +19,7 @@ export default defineConfig(() => {
   });
   return {
     out: 'src/generated.ts',
-    // --- Add your local contracts here ---
-    // Replace 'MyContract1', './abis/MyContract1.json', etc. with your actual contract names and ABI imports
+    // --- Local contracts ---
     // contracts: [
     //   {
     //     name: 'stakeModule',
