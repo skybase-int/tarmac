@@ -103,6 +103,8 @@ export const wagmiConfigDev = createConfig({
     [sepolia.id]: http(import.meta.env.VITE_RPC_PROVIDER_SEPOLIA || ''),
     [tenderlyArbitrum.id]: http(import.meta.env.VITE_RPC_PROVIDER_TENDERLY_ARBITRUM || '')
   },
+  // This was causing issues in the past when users tried to connect to the Safe connector and had the Phantom wallet installed
+  // due to how Phantom handled `eth_accounts` requests, resulting in the Safe connector hanging in a reconnecting state
   multiInjectedProviderDiscovery: true,
   storage: createStorage({
     storage: typeof window !== 'undefined' && window.localStorage ? window.localStorage : noopStorage,
