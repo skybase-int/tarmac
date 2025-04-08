@@ -103,7 +103,7 @@ export function PositionDetail({
             <VStack gap={3}>
               <TextWithTooltip
                 text="Collateralization ratio"
-                tooltip="The ratio between the value of collateral you’ve provided and the amount you’ve borrowed against that collateral."
+                tooltip="The ratio between the value of collateral you've provided and the amount you've borrowed against that collateral."
                 contentClassname="w-[400px]"
                 textClassName="leading-4"
                 gap={1}
@@ -193,6 +193,7 @@ export function PositionDetail({
         isMigrated={isMigrated}
         index={index}
         onNavigateToMigratedUrn={onNavigateToMigratedUrn}
+        sealedAmount={sealedAmount}
       />
       <>
         {sealRewardContracts &&
@@ -215,11 +216,13 @@ export function PositionDetail({
 const MigrateButton = ({
   isMigrated,
   index,
+  sealedAmount,
   onNavigateToMigratedUrn
 }: {
   isMigrated?: boolean;
   index: bigint;
   onNavigateToMigratedUrn?: (index: bigint) => void;
+  sealedAmount?: bigint;
 }) => {
   const { setWidgetState } = useContext(WidgetContext);
 
@@ -234,18 +237,32 @@ const MigrateButton = ({
     }));
   };
 
-  return isMigrated === undefined ? null : isMigrated ? (
-    <div>
+  if (isMigrated === undefined) return null;
+
+  if (isMigrated) {
+    return (
+      <>
+        <Text variant="small" className="text-warning text-center">
+          This position has been migrated to the new Staking Engine.
+        </Text>
+        {onNavigateToMigratedUrn && (
+          <Button variant="primaryAlt" className="mt-2 w-full" onClick={() => onNavigateToMigratedUrn(index)}>
+            <Text>Manage position in Staking Engine</Text>
+          </Button>
+        )}
+      </>
+    );
+  }
+
+  if (sealedAmount === undefined || sealedAmount === 0n) {
+    return (
       <Text variant="small" className="text-warning text-center">
-        This position has been migrated to the new Staking Engine.
+        Only positions with collateral can be migrated.
       </Text>
-      {onNavigateToMigratedUrn && (
-        <Button variant="primaryAlt" className="mt-2 w-full" onClick={() => onNavigateToMigratedUrn(index)}>
-          <Text>Manage position in Staking Engine</Text>
-        </Button>
-      )}
-    </div>
-  ) : (
+    );
+  }
+
+  return (
     <Button
       variant="primaryAlt"
       onClick={handleOnClick}
