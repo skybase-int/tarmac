@@ -69,6 +69,30 @@ export default defineConfig(() => {
         chainId: base.id,
         contracts: l2Contracts
       })
+      // // This fetch plugin fetches ABIs for contracts deployed on the tenderly testnet
+      // fetchPlugin({
+      //   contracts: tenderlyContracts,
+      //   request(contract) {
+      //     if (!contract.address) throw new Error('address is required');
+      //     const address =
+      //       typeof contract.address === 'string' ? contract.address : Object.values(contract.address)[0];
+
+      //     return {
+      //       url: `https://api.tenderly.co/api/v1/account/pullup-labs/project/endgame-0/testnet/c8bf3399-e510-4836-9ab1-4112e8b93aad/verified-contract/${address}`,
+      //       init: {
+      //         headers: {
+      //           'Content-Type': 'application/json',
+      //           'X-Access-Key': `${env.TENDERLY_API_KEY}`
+      //         }
+      //       }
+      //     };
+      //   },
+      //   async parse({ response }) {
+      //     const json = await response.json();
+      //     if (json.status === '0') throw new Error(json.message);
+      //     return json.data.raw_abi;
+      //   }
+      // })
     ]
   };
 });
