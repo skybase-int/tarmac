@@ -1620,10 +1620,6 @@ msgstr ""
 msgid "Seal Engine"
 msgstr ""
 
-#: packages/widgets/src/widgets/SealModuleWidget/components/UrnsList.tsx
-msgid "Seal Engine is being deprecated. Exit your positions now. Migration to Staking Engine coming soon."
-msgstr ""
-
 #: packages/widgets/src/widgets/BalancesWidget/components/SealBalanceWarningCard.tsx
 msgid "Seal Engine is deprecated"
 msgstr ""
@@ -2031,6 +2027,10 @@ msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/About.tsx
 msgid "The MKR and or SKY tokens you supply to the Seal Engine are sealed behind an exit fee"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/components/UrnsList.tsx
+msgid "The Seal Engine has been deprecated. You can either migrate your positions to the Staking Engine or manually close them below."
 msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx

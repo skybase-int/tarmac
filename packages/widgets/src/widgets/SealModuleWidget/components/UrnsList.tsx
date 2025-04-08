@@ -37,7 +37,8 @@ export const UrnsList = ({
         <Warning boxSize={20} viewBox="0 0 16 16" className="mt-1" />
         <Text variant="small" className="text-error">
           <Trans>
-            Seal Engine is being deprecated. Exit your positions now. Migration to Staking Engine coming soon.
+            The Seal Engine has been deprecated. You can either migrate your positions to the Staking Engine
+            or manually close them below.
           </Trans>
         </Text>
       </HStack>
