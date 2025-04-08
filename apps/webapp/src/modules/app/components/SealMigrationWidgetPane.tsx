@@ -67,6 +67,7 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
   const onSealWidgetStateChange = ({ widgetState, txStatus }: WidgetStateChangeParams) => {
     const shouldHide =
       txStatus !== TxStatus.IDLE ||
+      widgetState.flow === SealFlow.MIGRATE ||
       (widgetState.action === SealAction.MULTICALL &&
         currentUrnIndex !== undefined &&
         currentUrnIndex > 0n &&
