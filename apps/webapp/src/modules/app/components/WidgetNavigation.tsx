@@ -19,9 +19,15 @@ interface WidgetNavigationProps {
   widgetContent: WidgetContent;
   intent?: Intent;
   children?: React.ReactNode;
+  hideTabs?: boolean;
 }
 
-export function WidgetNavigation({ widgetContent, intent, children }: WidgetNavigationProps): JSX.Element {
+export function WidgetNavigation({
+  widgetContent,
+  intent,
+  children,
+  hideTabs
+}: WidgetNavigationProps): JSX.Element {
   const { bpi } = useBreakpointIndex();
   const isMobile = bpi < BP.md;
   const containerRef = useRef<HTMLDivElement>(null);
@@ -128,7 +134,7 @@ export function WidgetNavigation({ widgetContent, intent, children }: WidgetNavi
                 variant="icons"
                 value={widgetIntent}
                 className={cn(
-                  'text-textSecondary data-[state=active]:text-text w-full px-1 md:px-2',
+                  `text-textSecondary data-[state=active]:text-text ${hideTabs ? 'hidden' : ''} w-full px-1 md:px-2`,
                   'before:opacity-0',
                   'disabled:cursor-not-allowed disabled:text-[rgba(198,194,255,0.4)] disabled:before:opacity-0 disabled:hover:before:opacity-0',
                   tabGlowClasses,
