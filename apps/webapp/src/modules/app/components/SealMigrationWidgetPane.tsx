@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MainnetChain, Seal } from '../../icons';
+import { Seal } from '../../icons';
 import { Intent } from '@/lib/enums';
 import { useLingui } from '@lingui/react';
 import { useCustomConnectModal } from '@/modules/ui/hooks/useCustomConnectModal';
@@ -23,12 +23,12 @@ import {
 } from '@jetstreamgg/widgets';
 import { useCurrentUrnIndex } from '@jetstreamgg/hooks';
 import { isL2ChainId } from '@jetstreamgg/utils';
-import { useChainId, useSwitchChain } from 'wagmi';
+import { useAccount, useChainId, useSwitchChain } from 'wagmi';
 
 import { IntentMapping } from '@/lib/constants';
 import { QueryParams } from '@/lib/constants';
 import { DetailsSwitcher } from '@/components/DetailsSwitcher';
-import { Button } from '@/components/ui/button';
+import { CustomConnectButton } from '@/modules/layout/components/CustomConnectButton';
 
 export type WidgetContent = [
   Intent,
@@ -57,6 +57,7 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
   const isL2 = isL2ChainId(chainId);
   const [searchParams, setSearchParams] = useSearchParams();
   const { switchChain } = useSwitchChain();
+  const { isConnected } = useAccount();
 
   const referralCode = Number(import.meta.env.VITE_REFERRAL_CODE) || 0; // fallback to 0 if invalid
 
@@ -118,6 +119,13 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
     onSealUrnChange
   };
 
+  // If the user is on a L2, switch to mainnet
+  useEffect(() => {
+    if (isL2 && isConnected) {
+      switchChain({ chainId: 1 });
+    }
+  }, [isConnected, isL2]);
+
   const widgetContent: WidgetContent = [
     [
       Intent.SEAL_INTENT,
@@ -135,16 +143,17 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
               </HStack>
             </Link>
           )}
-          {isL2 ? (
+          {!isConnected ? (
             <div className="text-center">
               <Heading variant="large">Seal Engine</Heading>
               <Text className="text-text mt-8">
-                This module is not available on L2s. Please connect to mainnet to use it.
+                The Seal Engine has been deprecated. You can either migrate your positions to the Staking
+                Engine or manually close them.
               </Text>
-              <Button variant="primary" className="mt-8" onClick={() => switchChain({ chainId: 1 })}>
-                <MainnetChain className="mr-2 h-5 w-5" />
-                Connect to Ethereum Mainnet
-              </Button>
+              <Text className="text-text mb-8 mt-8">
+                Please connect your wallet to Ethereum Mainnet to start the migration of your positions.
+              </Text>
+              <CustomConnectButton />
             </div>
           ) : currentUrnIndex === 0n ? (
             <div className="mt-10 text-center">
