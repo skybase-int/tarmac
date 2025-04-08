@@ -11,8 +11,14 @@ const openFlowSequence = [
 
 const manageFlowSequence = [SealStep.OPEN_BORROW, SealStep.REWARDS, SealStep.DELEGATE, SealStep.SUMMARY];
 
-// TODO: should the final step be SUMMARY?
-const migrateFlowSequence = [SealStep.OPEN_NEW, SealStep.HOPE_OLD, SealStep.HOPE_NEW, SealStep.MIGRATE];
+const migrateFlowSequence = [
+  SealStep.ABOUT,
+  SealStep.REWARDS,
+  SealStep.DELEGATE,
+  SealStep.SUMMARY,
+  SealStep.HOPE_OLD,
+  SealStep.MIGRATE
+];
 
 export function getPreviousStep(step: SealStep): SealStep {
   // TODO: This is for Open Flow, it should be different for Manage flow

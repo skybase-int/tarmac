@@ -170,6 +170,21 @@ export const getSaGetRewardCalldata = ({
     args: [ownerAddress, urnIndex, rewardContractAddress, toAddress]
   });
 
+export const getSaHopeCalldata = ({
+  ownerAddress,
+  urnIndex,
+  usrAddress
+}: {
+  ownerAddress: `0x${string}`;
+  urnIndex: bigint;
+  usrAddress: `0x${string}`;
+}) =>
+  encodeFunctionData({
+    abi: sealModuleAbi,
+    functionName: 'hope',
+    args: [ownerAddress, urnIndex, usrAddress]
+  });
+
 export const getSaMulticallCalldata = ({ calldata }: { calldata: `0x${string}`[] }) =>
   encodeFunctionData({
     abi: sealModuleAbi,

@@ -300,24 +300,32 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
               selectRewardContractCalldata,
               selectDelegateCalldata
             ]
-          : [
-              /* For the manage flow, we need to sort the calldatas that unseal MKR before the ones that seal it
-               * to avoid conflicts with the selectDelegate calldata, as the DSChief has a protection that
-               * prevents `lock`ing and then `free`ing MKR in the same block
-               * Also, sort repay before free to prevent free from failing due to the position becoming unsafe */
-              repayCalldata,
-              repayAllCalldata,
-              freeMkrCalldata,
-              freeSkyCalldata,
-              selectRewardContractCalldata,
-              selectDelegateCalldata,
-              lockMkrCalldata,
-              lockSkyCalldata,
-              borrowUsdsCalldata
-            ];
+          : widgetState.flow === SealFlow.MIGRATE
+            ? [
+                // openCalldata,
+                selectRewardContractCalldata,
+                selectDelegateCalldata
+              ]
+            : [
+                /* For the manage flow, we need to sort the calldatas that unseal MKR before the ones that seal it
+                 * to avoid conflicts with the selectDelegate calldata, as the DSChief has a protection that
+                 * prevents `lock`ing and then `free`ing MKR in the same block
+                 * Also, sort repay before free to prevent free from failing due to the position becoming unsafe */
+                repayCalldata,
+                repayAllCalldata,
+                freeMkrCalldata,
+                freeSkyCalldata,
+                selectRewardContractCalldata,
+                selectDelegateCalldata,
+                lockMkrCalldata,
+                lockSkyCalldata,
+                borrowUsdsCalldata
+              ];
 
       // Filter out undefined calldata
       const filteredCalldata = sortedCalldata.filter(calldata => !!calldata) as `0x${string}`[];
+
+      console.log('^^^ calldata', sortedCalldata);
 
       return filteredCalldata;
     },
