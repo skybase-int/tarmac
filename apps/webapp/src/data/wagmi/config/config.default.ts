@@ -6,8 +6,7 @@ import {
   rainbowWallet,
   walletConnectWallet,
   metaMaskWallet,
-  coinbaseWallet,
-  injectedWallet
+  coinbaseWallet
 } from '@rainbow-me/rainbowkit/wallets';
 import {
   TENDERLY_CHAIN_ID,
@@ -83,14 +82,7 @@ const connectors = connectorsForWallets(
   [
     {
       groupName: 'Suggested',
-      wallets: [
-        metaMaskWallet,
-        coinbaseWallet,
-        walletConnectWallet,
-        rainbowWallet,
-        safeWallet,
-        injectedWallet
-      ]
+      wallets: [metaMaskWallet, coinbaseWallet, walletConnectWallet, rainbowWallet, safeWallet]
     }
   ],
   {
@@ -111,7 +103,7 @@ export const wagmiConfigDev = createConfig({
     [sepolia.id]: http(import.meta.env.VITE_RPC_PROVIDER_SEPOLIA || ''),
     [tenderlyArbitrum.id]: http(import.meta.env.VITE_RPC_PROVIDER_TENDERLY_ARBITRUM || '')
   },
-  multiInjectedProviderDiscovery: false,
+  multiInjectedProviderDiscovery: true,
   storage: createStorage({
     storage: typeof window !== 'undefined' && window.localStorage ? window.localStorage : noopStorage,
     key: 'wagmi-dev'
@@ -126,7 +118,7 @@ export const wagmiConfigMainnet = createConfig({
     [base.id]: http(import.meta.env.VITE_RPC_PROVIDER_BASE || ''),
     [arbitrum.id]: http(import.meta.env.VITE_RPC_PROVIDER_ARBITRUM || '')
   },
-  multiInjectedProviderDiscovery: false
+  multiInjectedProviderDiscovery: true
 });
 
 export const getSupportedChainIds = (chainId: number) => {
