@@ -111,7 +111,7 @@ export const UrnPosition: React.FC<UrnPositionProps> = ({
     <Card>
       <div className="flex items-center justify-between">
         <Text className="text-sm leading-4">{`Position ${formatUrnIndex(index)}`}</Text>
-        {isMigrated === false && (
+        {isMigrated === false && !!vaultData?.collateralAmount && (
           <Button variant="ghost" onClick={handleOnClick} className="h-fit px-0 py-1.5">
             Manage position <Edit className="ml-[5px]" />
           </Button>
