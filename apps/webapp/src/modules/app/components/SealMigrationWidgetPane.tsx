@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Seal } from '../../icons';
+import { MainnetChain, Seal } from '../../icons';
 import { Intent } from '@/lib/enums';
 import { useLingui } from '@lingui/react';
 import { useCustomConnectModal } from '@/modules/ui/hooks/useCustomConnectModal';
 import { useAddRecentTransaction } from '@rainbow-me/rainbowkit';
 import { WidgetNavigation } from '@/modules/app/components/WidgetNavigation';
 import { withErrorBoundary } from '@/modules/utils/withErrorBoundary';
-import { DualSwitcher } from '@/components/DualSwitcher';
 import { IconProps } from '@/modules/icons/Icon';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 import { useNotification } from '../hooks/useNotification';
@@ -24,12 +23,12 @@ import {
 } from '@jetstreamgg/widgets';
 import { useCurrentUrnIndex } from '@jetstreamgg/hooks';
 import { isL2ChainId } from '@jetstreamgg/utils';
-import { useChainId } from 'wagmi';
-import { useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
-import { BP } from '@/modules/ui/hooks/useBreakpointIndex';
-import { ChainModal } from '@/modules/ui/components/ChainModal';
+import { useChainId, useSwitchChain } from 'wagmi';
+
 import { IntentMapping } from '@/lib/constants';
 import { QueryParams } from '@/lib/constants';
+import { DetailsSwitcher } from '@/components/DetailsSwitcher';
+import { Button } from '@/components/ui/button';
 
 export type WidgetContent = [
   Intent,
@@ -56,13 +55,12 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
   const locale = i18n.locale;
   const chainId = useChainId();
   const isL2 = isL2ChainId(chainId);
-  const { bpi } = useBreakpointIndex();
-  const isMobile = bpi < BP.md;
   const [searchParams, setSearchParams] = useSearchParams();
+  const { switchChain } = useSwitchChain();
 
   const referralCode = Number(import.meta.env.VITE_REFERRAL_CODE) || 0; // fallback to 0 if invalid
 
-  const rightHeaderComponent = <DualSwitcher />;
+  const rightHeaderComponent = <DetailsSwitcher />;
 
   const onSealWidgetStateChange = ({ widgetState, txStatus }: WidgetStateChangeParams) => {
     const shouldHide =
@@ -132,23 +130,21 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
               <HStack className="mb-3 space-x-2">
                 <ArrowLeft className="self-center" />
                 <Heading tag="h3" variant="small" className="text-textSecondary">
-                  Back to Home
+                  Exit Seal Engine
                 </Heading>
               </HStack>
             </Link>
           )}
           {isL2 ? (
             <div className="text-center">
-              <Heading variant="large">Connect to Mainnet</Heading>
+              <Heading variant="large">Seal Engine</Heading>
               <Text className="text-text mt-8">
                 This module is not available on L2s. Please connect to mainnet to use it.
               </Text>
-              <div className="mt-10 flex justify-center gap-3">
-                <ChainModal dataTestId="chain-modal-trigger-header" showLabel={!isMobile} variant="widget" />
-              </div>
-              <Text variant="captionSm" className="text-text text-textSecondary mt-2">
-                Select mainnet in the chain selector
-              </Text>
+              <Button variant="primary" className="mt-8" onClick={() => switchChain({ chainId: 1 })}>
+                <MainnetChain className="mr-2 h-5 w-5" />
+                Connect to Ethereum Mainnet
+              </Button>
             </div>
           ) : currentUrnIndex === 0n ? (
             <div className="mt-10 text-center">
