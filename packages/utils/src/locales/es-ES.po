@@ -752,6 +752,10 @@ msgstr ""
 msgid "Creating order to trade {originAmount} {0} for {targetAmount} {1}"
 msgstr ""
 
+#: apps/webapp/src/modules/app/components/SealMigrationWidgetPane.tsx
+msgid "Creation of new positions has been disabled. Management of existing positions remains available."
+msgstr ""
+
 #. placeholder {0}: displayToken.symbol
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
@@ -910,6 +914,10 @@ msgstr ""
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Borrow.tsx
 msgid "Exit fee percentage"
+msgstr ""
+
+#: apps/webapp/src/modules/app/components/SealMigrationWidgetPane.tsx
+msgid "Exit Seal Engine"
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/components/TradeSummary.tsx
@@ -1404,6 +1412,10 @@ msgstr ""
 msgid "Please confirm that you want to claim your rewards directly to your wallet."
 msgstr ""
 
+#: apps/webapp/src/modules/app/components/SealMigrationWidgetPane.tsx
+msgid "Please connect your wallet to Ethereum Mainnet to start the migration of your positions."
+msgstr ""
+
 #: apps/webapp/src/modules/ui/components/historyTable/HistoryTable.tsx
 msgid "Please connect your wallet to view your history"
 msgstr ""
@@ -1616,10 +1628,12 @@ msgstr ""
 msgid "Seal and Borrow"
 msgstr ""
 
+#: apps/webapp/src/modules/app/components/SealMigrationWidgetPane.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 msgid "Seal Engine"
 msgstr ""
 
+#: apps/webapp/src/modules/app/components/SealMigrationWidgetPane.tsx
 #: packages/widgets/src/widgets/BalancesWidget/components/SealBalanceWarningCard.tsx
 msgid "Seal Engine is deprecated"
 msgstr ""
@@ -2031,6 +2045,10 @@ msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/UrnsList.tsx
 msgid "The Seal Engine has been deprecated. You can either migrate your positions to the Staking Engine or manually close them below."
+msgstr ""
+
+#: apps/webapp/src/modules/app/components/SealMigrationWidgetPane.tsx
+msgid "The Seal Engine has been deprecated. You can either migrate your positions to the Staking Engine or manually close them."
 msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
@@ -2681,6 +2699,10 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 msgid "You claimed your rewards"
+msgstr ""
+
+#: apps/webapp/src/modules/app/components/SealMigrationWidgetPane.tsx
+msgid "You don't have any open positions."
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx

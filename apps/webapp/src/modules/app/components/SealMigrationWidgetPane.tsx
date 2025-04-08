@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Seal } from '../../icons';
 import { Intent } from '@/lib/enums';
 import { useLingui } from '@lingui/react';
+import { Trans } from '@lingui/react/macro';
 import { useCustomConnectModal } from '@/modules/ui/hooks/useCustomConnectModal';
 import { useAddRecentTransaction } from '@rainbow-me/rainbowkit';
 import { WidgetNavigation } from '@/modules/app/components/WidgetNavigation';
@@ -138,31 +139,43 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
               <HStack className="mb-3 space-x-2">
                 <ArrowLeft className="self-center" />
                 <Heading tag="h3" variant="small" className="text-textSecondary">
-                  Exit Seal Engine
+                  <Trans>Exit Seal Engine</Trans>
                 </Heading>
               </HStack>
             </Link>
           )}
           {!isConnected ? (
             <div className="text-center">
-              <Heading variant="large">Seal Engine</Heading>
+              <Heading variant="large">
+                <Trans>Seal Engine</Trans>
+              </Heading>
               <Text className="text-text mt-8">
-                The Seal Engine has been deprecated. You can either migrate your positions to the Staking
-                Engine or manually close them.
+                <Trans>
+                  The Seal Engine has been deprecated. You can either migrate your positions to the Staking
+                  Engine or manually close them.
+                </Trans>
               </Text>
               <Text className="text-text mb-8 mt-8">
-                Please connect your wallet to Ethereum Mainnet to start the migration of your positions.
+                <Trans>
+                  Please connect your wallet to Ethereum Mainnet to start the migration of your positions.
+                </Trans>
               </Text>
               <CustomConnectButton />
             </div>
           ) : currentUrnIndex === 0n ? (
             <div className="mt-10 text-center">
-              <Heading variant="large">Seal Engine is deprecated</Heading>
+              <Heading variant="large">
+                <Trans>Seal Engine is deprecated</Trans>
+              </Heading>
               <Text className="text-text mt-8">
-                Creation of new positions has been disabled. Management of existing positions remains
-                available.
+                <Trans>
+                  Creation of new positions has been disabled. Management of existing positions remains
+                  available.
+                </Trans>
               </Text>
-              <Text className="text-text mt-8">You don&apos;t have any open positions.</Text>
+              <Text className="text-text mt-8">
+                <Trans>You don&apos;t have any open positions.</Trans>
+              </Text>
             </div>
           ) : (
             <SealModuleWidget
