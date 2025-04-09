@@ -1,0 +1,38 @@
+import { ReadHook } from '../hooks';
+import { ZERO_ADDRESS } from '../constants';
+// TODO: Update this import to the correct address once the contract is deployed
+import { stakeModuleAbi, sealModuleAddress as stakeModuleAddress } from '../generated';
+import { useChainId, useReadContract } from 'wagmi';
+import { stakeDataSource } from './datasources';
+
+type UseCurrentUrnSelectedRewardContractResponse = ReadHook & {
+  data: `0x${string}` | undefined;
+};
+
+export function useUrnSelectedRewardContract({
+  urn
+}: {
+  urn: `0x${string}`;
+}): UseCurrentUrnSelectedRewardContractResponse {
+  const chainId = useChainId();
+  const dataSource = stakeDataSource(chainId, 'urnFarms');
+
+  const { data, isLoading, error, refetch } = useReadContract({
+    chainId,
+    address: stakeModuleAddress[chainId as keyof typeof stakeModuleAddress],
+    abi: stakeModuleAbi,
+    functionName: 'urnFarms',
+    args: [urn || ZERO_ADDRESS],
+    scopeKey: `stake-urnFarms-${urn}-${chainId}`,
+    query: {
+      enabled: !!urn
+    }
+  });
+  return {
+    data,
+    isLoading,
+    error,
+    mutate: refetch,
+    dataSources: [dataSource]
+  };
+}
