@@ -19,7 +19,6 @@ import { getNextStep, getPreviousStep, getStepIndex, getTotalSteps } from './lib
 import { StepperBar } from './components/StepperBar';
 import { UrnsList } from './components/UrnsList';
 import { OpenNewUrn } from './components/OpenNewUrn';
-import { MigrateOpenNewUrn } from './components/MigrateOpenNewUrn';
 import { SelectRewardContract } from './components/SelectRewardContract';
 import { SealModuleWidgetContext, SealModuleWidgetProvider } from './context/context';
 import { SelectDelegate } from './components/SelectDelegate';
@@ -50,9 +49,10 @@ import { ArrowLeft } from 'lucide-react';
 import { getValidatedState } from '@widgets/lib/utils';
 import { UnconnectedState } from './components/UnconnectedState';
 import { useLingui } from '@lingui/react';
-import { MigrateHopeNew } from './components/MigrateHopeNew';
 import { MigrateHopeOld } from './components/MigrateHopeOld';
 import { MigratePosition } from './components/MigratePosition';
+import { MigrateAbout } from './components/MigrateAbout';
+import { MigratePositionSummary } from './components/MigratePositionSummary';
 
 export type OnSealUrnChange = (
   urn: { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined } | undefined
@@ -136,6 +136,7 @@ function SealModuleWidgetWrapped({
   } = useContext(WidgetContext);
 
   console.log('^^^', { ...widgetState });
+  console.log('^^^ txStatus', txStatus);
 
   const { i18n } = useLingui();
   const chainId = useChainId();
@@ -232,6 +233,14 @@ function SealModuleWidgetWrapped({
 
   const allStepsComplete =
     isLockCompleted && isBorrowCompleted && isSelectRewardContractCompleted && isSelectDelegateCompleted;
+
+  console.log(
+    '^^^ allsteps:',
+    isLockCompleted,
+    isBorrowCompleted,
+    isSelectRewardContractCompleted,
+    isSelectDelegateCompleted
+  );
 
   const lockMkrApprove = useSaMkrApprove({
     amount: debouncedMkrAmount,
@@ -340,6 +349,9 @@ function SealModuleWidgetWrapped({
     },
     enabled: widgetState.action === SealAction.APPROVE && sealUsdsAllowance !== undefined
   });
+
+  console.log('^^^ allStepsComplete', allStepsComplete);
+  console.log('^^^ calldata for hook', calldata);
 
   const multicall = useSaMulticall({
     calldata,
@@ -814,6 +826,7 @@ function SealModuleWidgetWrapped({
   };
 
   const submitOnClick = () => {
+    // TODO: should only show this for last two
     setShowStepIndicator(true);
     setWidgetState((prev: WidgetState) => ({
       ...prev,
@@ -869,11 +882,14 @@ function SealModuleWidgetWrapped({
 
   const onClickAction = !isConnectedAndEnabled
     ? onConnect
-    : currentStep === SealStep.SUMMARY &&
-        widgetState.action === SealAction.APPROVE &&
-        txStatus === TxStatus.SUCCESS &&
-        !needsLockAllowance &&
-        !needsUsdsAllowance
+    : (currentStep === SealStep.SUMMARY &&
+          // Just finished a successful approval, no longer need allowance
+          widgetState.action === SealAction.APPROVE &&
+          txStatus === TxStatus.SUCCESS &&
+          !needsLockAllowance &&
+          !needsUsdsAllowance) ||
+        // We're at the summary step for migrate flow
+        (currentStep === SealStep.SUMMARY && widgetState.flow === SealFlow.MIGRATE)
       ? submitOnClick
       : txStatus === TxStatus.SUCCESS
         ? finishOnClick
@@ -1140,12 +1156,8 @@ const MigrateWizard = ({
 }) => {
   return (
     <div>
-      {currentStep === SealStep.ABOUT && (
-        <Text>
-          Creation of new positions has been disabled. Management of existing positions remains available.
-        </Text>
-      )}
-      {currentStep === SealStep.OPEN_NEW && (
+      {currentStep === SealStep.ABOUT && <MigrateAbout />}
+      {/* {currentStep === SealStep.OPEN_NEW && (
         <MigrateOpenNewUrn
           isConnectedAndEnabled={isConnectedAndEnabled}
           onExternalLinkClicked={onExternalLinkClicked}
@@ -1153,18 +1165,23 @@ const MigrateWizard = ({
           tabSide={tabSide}
           termsLink={termsLink}
         />
+      )} */}
+      {currentStep === SealStep.REWARDS && (
+        <SelectRewardContract onExternalLinkClicked={onExternalLinkClicked} />
       )}
+      {currentStep === SealStep.DELEGATE && <SelectDelegate onExternalLinkClicked={onExternalLinkClicked} />}
+      {currentStep === SealStep.SUMMARY && <MigratePositionSummary />}
       {currentStep === SealStep.HOPE_OLD && (
+        // {currentStep === SealStep.HOPE_NEW && (
+        //   <MigrateHopeNew
+        //     isConnectedAndEnabled={isConnectedAndEnabled}
+        //     onExternalLinkClicked={onExternalLinkClicked}
+        //     onClickTrigger={onClickTrigger}
+        //     tabSide={tabSide}
+        //     termsLink={termsLink}
+        //   />
+        // )}
         <MigrateHopeOld
-          isConnectedAndEnabled={isConnectedAndEnabled}
-          onExternalLinkClicked={onExternalLinkClicked}
-          onClickTrigger={onClickTrigger}
-          tabSide={tabSide}
-          termsLink={termsLink}
-        />
-      )}
-      {currentStep === SealStep.HOPE_NEW && (
-        <MigrateHopeNew
           isConnectedAndEnabled={isConnectedAndEnabled}
           onExternalLinkClicked={onExternalLinkClicked}
           onClickTrigger={onClickTrigger}

@@ -2,6 +2,7 @@ import {
   getSaDrawCalldata,
   getSaFreeMkrCalldata,
   getSaFreeSkyCalldata,
+  getSaHopeCalldata,
   getSaLockMkrCalldata,
   getSaLockSkyCalldata,
   getSaOpenCalldata,
@@ -29,6 +30,9 @@ import { SealFlow, SealStep } from '../lib/constants';
 import { OnSealUrnChange } from '..';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { needsDelegateUpdate, needsRewardUpdate } from '../lib/utils';
+
+// TODO: temp hardcoded address, get the real one when it's available
+const MIGRATOR_CONTRACT = '0x7Ac6E2b9ea61e2E587A06e083E4373918071dCfc';
 
 export interface SealModuleWidgetContextProps {
   isLockCompleted: boolean;
@@ -289,6 +293,9 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
           })
         : undefined;
 
+      // 'Hope' for migration
+      const hopeCalldata = getSaHopeCalldata({ ownerAddress, urnIndex, usrAddress: MIGRATOR_CONTRACT });
+
       // Order calldata based on the flow
       const sortedCalldata =
         widgetState.flow === SealFlow.OPEN
@@ -300,21 +307,23 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
               selectRewardContractCalldata,
               selectDelegateCalldata
             ]
-          : [
-              /* For the manage flow, we need to sort the calldatas that unseal MKR before the ones that seal it
-               * to avoid conflicts with the selectDelegate calldata, as the DSChief has a protection that
-               * prevents `lock`ing and then `free`ing MKR in the same block
-               * Also, sort repay before free to prevent free from failing due to the position becoming unsafe */
-              repayCalldata,
-              repayAllCalldata,
-              freeMkrCalldata,
-              freeSkyCalldata,
-              selectRewardContractCalldata,
-              selectDelegateCalldata,
-              lockMkrCalldata,
-              lockSkyCalldata,
-              borrowUsdsCalldata
-            ];
+          : widgetState.flow === SealFlow.MIGRATE
+            ? [openCalldata, selectRewardContractCalldata, selectDelegateCalldata, hopeCalldata]
+            : [
+                /* For the manage flow, we need to sort the calldatas that unseal MKR before the ones that seal it
+                 * to avoid conflicts with the selectDelegate calldata, as the DSChief has a protection that
+                 * prevents `lock`ing and then `free`ing MKR in the same block
+                 * Also, sort repay before free to prevent free from failing due to the position becoming unsafe */
+                repayCalldata,
+                repayAllCalldata,
+                freeMkrCalldata,
+                freeSkyCalldata,
+                selectRewardContractCalldata,
+                selectDelegateCalldata,
+                lockMkrCalldata,
+                lockSkyCalldata,
+                borrowUsdsCalldata
+              ];
 
       // Filter out undefined calldata
       const filteredCalldata = sortedCalldata.filter(calldata => !!calldata) as `0x${string}`[];

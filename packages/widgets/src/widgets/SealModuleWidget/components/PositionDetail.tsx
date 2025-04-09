@@ -229,7 +229,8 @@ const MigrateButton = ({
   const { setCurrentStep } = useContext(SealModuleWidgetContext);
 
   const handleOnClick = () => {
-    setCurrentStep(SealStep.OPEN_NEW);
+    //TODO this could programatically select the first step
+    setCurrentStep(SealStep.ABOUT);
     setWidgetState((prev: WidgetState) => ({
       ...prev,
       flow: SealFlow.MIGRATE,
