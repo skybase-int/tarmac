@@ -218,6 +218,7 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
 
   const generateAllCalldata = useCallback(
     (ownerAddress: `0x${string}`, urnIndex: bigint, referralCode: number = 0) => {
+      console.log('*** urnIndex', urnIndex, ownerAddress);
       // --- CALLDATA GENERATION ---
       // If we have an activeUrn address, we're not opening a new one, we're managing an existing one
       const openCalldata = !activeUrn?.urnAddress ? getSaOpenCalldata({ urnIndex }) : undefined;
@@ -308,7 +309,12 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
               selectDelegateCalldata
             ]
           : widgetState.flow === SealFlow.MIGRATE
-            ? [openCalldata, selectRewardContractCalldata, selectDelegateCalldata, hopeCalldata]
+            ? [
+                // openCalldata,
+                // selectRewardContractCalldata,
+                selectDelegateCalldata,
+                hopeCalldata
+              ]
             : [
                 /* For the manage flow, we need to sort the calldatas that unseal MKR before the ones that seal it
                  * to avoid conflicts with the selectDelegate calldata, as the DSChief has a protection that
@@ -327,6 +333,8 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
 
       // Filter out undefined calldata
       const filteredCalldata = sortedCalldata.filter(calldata => !!calldata) as `0x${string}`[];
+
+      console.log('*** filtered calldata', hopeCalldata);
 
       return filteredCalldata;
     },
