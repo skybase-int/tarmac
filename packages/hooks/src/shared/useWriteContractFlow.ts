@@ -131,7 +131,8 @@ export function useWriteContractFlow<
           function name: ${useSimulateContractParamters.functionName}
           function arguments: ${useSimulateContractParamters.args}
           isSimulationLoading: ${isSimulationLoading}
-          simulationError: ${simulationError}`);
+          simulationError: ${simulationError}
+          enabled: ${enabled}`);
       }
     },
     data: txHash,
