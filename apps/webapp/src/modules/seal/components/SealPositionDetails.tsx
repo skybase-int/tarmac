@@ -11,8 +11,6 @@ import { filterActionsByIntent } from '@/lib/utils';
 import { AboutSealModule } from '@/modules/ui/components/AboutSealModule';
 import { SealFaq } from './SealFaq';
 import { SealPositionOverview } from './SealPositionOverview';
-import { SealHistory } from './SealHistory';
-import { SealChart } from './SealChart';
 
 export function SealPositionDetails({ positionIndex }: { positionIndex?: number }): React.ReactElement {
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
@@ -31,23 +29,11 @@ export function SealPositionDetails({ positionIndex }: { positionIndex?: number 
             </DetailSectionRow>
           </DetailSection>
         )}
-      <DetailSection title={t`Metrics`}>
-        <DetailSectionRow>
-          <SealChart />
-        </DetailSectionRow>
-      </DetailSection>
       <DetailSection title={t`About Seal Rewards`}>
         <DetailSectionRow>
           <AboutSealModule />
         </DetailSectionRow>
       </DetailSection>
-      {isConnectedAndAcceptedTerms && (
-        <DetailSection title={t`Your Seal position transaction history`}>
-          <DetailSectionRow>
-            <SealHistory index={positionIndex} />
-          </DetailSectionRow>
-        </DetailSection>
-      )}
       <DetailSection title={t`FAQs`}>
         <DetailSectionRow>
           <SealFaq />
