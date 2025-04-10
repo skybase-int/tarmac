@@ -3,7 +3,7 @@ import { useCurrentUrnIndex, TOKENS, useSealMigrations, checkUrnMigrationStatus 
 import { UrnPosition } from './UrnPosition';
 import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
-import { OnSealUrnChange } from './types';
+import { OnSealUrnChange } from '../lib/types';
 import { useContext } from 'react';
 import { SealModuleWidgetContext } from '../context/context';
 import { ViewSkyMkrButton } from './ViewSkyMkrButton';

@@ -20,7 +20,7 @@ import { formatUrnIndex } from '../lib/utils';
 import { PositionDetail } from './PositionDetail';
 import { Button } from '@widgets/components/ui/button';
 import { Edit } from '@widgets/shared/components/icons/Edit';
-import { OnSealUrnChange } from '../components/types';
+import { OnSealUrnChange } from '../lib/types';
 import { fromHex, trim } from 'viem';
 
 interface UrnPositionProps {

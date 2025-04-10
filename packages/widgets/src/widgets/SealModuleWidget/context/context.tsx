@@ -27,7 +27,7 @@ import {
   useState
 } from 'react';
 import { SealFlow, SealStep } from '../lib/constants';
-import { OnSealUrnChange } from '../components/types';
+import { OnSealUrnChange } from '../lib/types';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { needsDelegateUpdate, needsRewardUpdate } from '../lib/utils';
 

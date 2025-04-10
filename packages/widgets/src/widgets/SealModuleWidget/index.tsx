@@ -53,7 +53,7 @@ import { MigrateHopeOld } from './components/MigrateHopeOld';
 import { MigratePosition } from './components/MigratePosition';
 import { MigrateAbout } from './components/MigrateAbout';
 import { MigratePositionSummary } from './components/MigratePositionSummary';
-import { OnSealUrnChange } from './components/types';
+import { OnSealUrnChange } from './lib/types';
 
 type SealModuleWidgetProps = WidgetProps & {
   onSealUrnChange?: OnSealUrnChange;

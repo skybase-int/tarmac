@@ -32,7 +32,7 @@ import { Button } from '@widgets/components/ui/button';
 import { SealAction, SealFlow, SealStep } from '../lib/constants';
 import { WidgetState } from '@widgets/index';
 import { WidgetContext } from '@widgets/context/WidgetContext';
-import { OnSealUrnChange } from './types';
+import { OnSealUrnChange } from '../lib/types';
 
 type Props = {
   collateralizationRatio?: bigint;
