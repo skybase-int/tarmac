@@ -29,7 +29,8 @@ export enum SealAction {
 
   CLAIM = 'claim',
 
-  MIGRATE = 'migrate'
+  MIGRATE = 'migrate',
+  HOPE = 'hope'
 }
 
 export enum SealStep {

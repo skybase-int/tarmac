@@ -352,9 +352,7 @@ function SealModuleWidgetWrapped({
 
   const multicall = useSaMulticall({
     calldata,
-    enabled:
-      (widgetState.action === SealAction.MULTICALL || widgetState.action === SealAction.MIGRATE) &&
-      !!allStepsComplete,
+    enabled: widgetState.action === SealAction.MULTICALL && !!allStepsComplete,
     onStart: (hash: string) => {
       addRecentTransaction?.({ hash, description: t`Doing multicall` });
       setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
@@ -558,7 +556,7 @@ function SealModuleWidgetWrapped({
         (currentStep === SealStep.SUMMARY &&
           ((widgetState.action === SealAction.APPROVE && approveDisabled) ||
             (txStatus !== TxStatus.SUCCESS &&
-              (widgetState.action === SealAction.MIGRATE || widgetState.action === SealAction.MULTICALL) &&
+              widgetState.action === SealAction.MULTICALL &&
               multicallDisabled)))
     );
   }, [

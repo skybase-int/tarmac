@@ -262,7 +262,7 @@ const MigrateButton = ({
     setWidgetState((prev: WidgetState) => ({
       ...prev,
       flow: SealFlow.MIGRATE,
-      action: SealAction.MIGRATE
+      action: SealAction.MULTICALL
     }));
 
     setActiveUrn({ urnAddress, urnIndex: index }, onSealUrnChange ?? (() => {}));

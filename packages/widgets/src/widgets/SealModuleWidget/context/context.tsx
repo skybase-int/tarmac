@@ -309,12 +309,7 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
               selectDelegateCalldata
             ]
           : widgetState.flow === SealFlow.MIGRATE
-            ? [
-                // openCalldata,
-                // selectRewardContractCalldata,
-                selectDelegateCalldata,
-                hopeCalldata
-              ]
+            ? [openCalldata, selectRewardContractCalldata, selectDelegateCalldata, hopeCalldata]
             : [
                 /* For the manage flow, we need to sort the calldatas that unseal MKR before the ones that seal it
                  * to avoid conflicts with the selectDelegate calldata, as the DSChief has a protection that
