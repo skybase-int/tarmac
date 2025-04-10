@@ -20,8 +20,10 @@ import { StepperBar } from './components/StepperBar';
 import { UrnsList } from './components/UrnsList';
 import { OpenNewUrn } from './components/OpenNewUrn';
 import { SelectRewardContract } from './components/SelectRewardContract';
+import { MigrateSelectRewardContract } from './components/MigrateSelectRewardContract';
 import { SealModuleWidgetContext, SealModuleWidgetProvider } from './context/context';
 import { SelectDelegate } from './components/SelectDelegate';
+import { MigrateSelectDelegate } from './components/MigrateSelectDelegate';
 import { PositionSummary } from './components/PositionSummary';
 import {
   useCurrentUrnIndex,
@@ -1154,30 +1156,14 @@ const MigrateWizard = ({
   return (
     <div>
       {currentStep === SealStep.ABOUT && <MigrateAbout />}
-      {/* {currentStep === SealStep.OPEN_NEW && (
-        <MigrateOpenNewUrn
-          isConnectedAndEnabled={isConnectedAndEnabled}
-          onExternalLinkClicked={onExternalLinkClicked}
-          onClickTrigger={onClickTrigger}
-          tabSide={tabSide}
-          termsLink={termsLink}
-        />
-      )} */}
       {currentStep === SealStep.REWARDS && (
-        <SelectRewardContract onExternalLinkClicked={onExternalLinkClicked} />
+        <MigrateSelectRewardContract onExternalLinkClicked={onExternalLinkClicked} />
       )}
-      {currentStep === SealStep.DELEGATE && <SelectDelegate onExternalLinkClicked={onExternalLinkClicked} />}
+      {currentStep === SealStep.DELEGATE && (
+        <MigrateSelectDelegate onExternalLinkClicked={onExternalLinkClicked} />
+      )}
       {currentStep === SealStep.SUMMARY && <MigratePositionSummary />}
       {currentStep === SealStep.HOPE_OLD && (
-        // {currentStep === SealStep.HOPE_NEW && (
-        //   <MigrateHopeNew
-        //     isConnectedAndEnabled={isConnectedAndEnabled}
-        //     onExternalLinkClicked={onExternalLinkClicked}
-        //     onClickTrigger={onClickTrigger}
-        //     tabSide={tabSide}
-        //     termsLink={termsLink}
-        //   />
-        // )}
         <MigrateHopeOld
           isConnectedAndEnabled={isConnectedAndEnabled}
           onExternalLinkClicked={onExternalLinkClicked}

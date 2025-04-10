@@ -129,6 +129,10 @@ export { useIsUrnMigrated } from './seal/useIsUrnMigrated';
 export { useSealMigrations } from './seal/useSealMigrations';
 export { checkUrnMigrationStatus } from './seal/checkUrnMigrationStatus';
 
+// Stake Module
+export { useStakeRewardContracts } from './stake/useStakeRewardContracts';
+export { useStakeUserDelegates } from './stake/useStakeUserDelegates';
+
 //Vaults
 export { useVault } from './vaults/useVault';
 export { useCollateralData } from './vaults/useCollateralData';
