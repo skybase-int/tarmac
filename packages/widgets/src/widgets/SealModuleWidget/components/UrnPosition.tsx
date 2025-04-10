@@ -20,7 +20,7 @@ import { formatUrnIndex } from '../lib/utils';
 import { PositionDetail } from './PositionDetail';
 import { Button } from '@widgets/components/ui/button';
 import { Edit } from '@widgets/shared/components/icons/Edit';
-import { OnSealUrnChange } from '..';
+import { OnSealUrnChange } from '../components/types';
 import { fromHex, trim } from 'viem';
 
 interface UrnPositionProps {
@@ -133,6 +133,7 @@ export const UrnPosition: React.FC<UrnPositionProps> = ({
         claimExecute={claimExecute}
         isMigrated={isMigrated}
         onNavigateToMigratedUrn={onNavigateToMigratedUrn}
+        onSealUrnChange={onSealUrnChange}
       />
     </Card>
   );

@@ -53,10 +53,7 @@ import { MigrateHopeOld } from './components/MigrateHopeOld';
 import { MigratePosition } from './components/MigratePosition';
 import { MigrateAbout } from './components/MigrateAbout';
 import { MigratePositionSummary } from './components/MigratePositionSummary';
-
-export type OnSealUrnChange = (
-  urn: { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined } | undefined
-) => void;
+import { OnSealUrnChange } from './components/types';
 
 type SealModuleWidgetProps = WidgetProps & {
   onSealUrnChange?: OnSealUrnChange;

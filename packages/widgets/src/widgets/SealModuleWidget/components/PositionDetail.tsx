@@ -32,6 +32,7 @@ import { Button } from '@widgets/components/ui/button';
 import { SealAction, SealFlow, SealStep } from '../lib/constants';
 import { WidgetState } from '@widgets/index';
 import { WidgetContext } from '@widgets/context/WidgetContext';
+import { OnSealUrnChange } from './types';
 
 type Props = {
   collateralizationRatio?: bigint;
@@ -53,6 +54,7 @@ type Props = {
   claimExecute: () => void;
   isMigrated?: boolean;
   onNavigateToMigratedUrn?: (index: bigint) => void;
+  onSealUrnChange?: OnSealUrnChange;
 };
 
 // Copied from TransactionDetail, it could be reusable
@@ -71,7 +73,8 @@ export function PositionDetail({
   claimPrepared,
   claimExecute,
   isMigrated,
-  onNavigateToMigratedUrn
+  onNavigateToMigratedUrn,
+  onSealUrnChange
 }: Props) {
   const { data: rewardContractTokens } = useRewardContractTokens(selectedRewardContract);
   const { data: selectedDelegateName } = useDelegateName(selectedVoteDelegate);
@@ -199,6 +202,7 @@ export function PositionDetail({
         index={index}
         onNavigateToMigratedUrn={onNavigateToMigratedUrn}
         sealedAmount={sealedAmount}
+        onSealUrnChange={onSealUrnChange}
       />
       <>
         {sealRewardContracts &&
@@ -222,11 +226,13 @@ const MigrateButton = ({
   isMigrated,
   index,
   sealedAmount,
-  onNavigateToMigratedUrn
+  onNavigateToMigratedUrn,
+  onSealUrnChange
 }: {
   isMigrated?: boolean;
   index: bigint;
   onNavigateToMigratedUrn?: (index: bigint) => void;
+  onSealUrnChange?: OnSealUrnChange;
   sealedAmount?: bigint;
 }) => {
   const { setWidgetState } = useContext(WidgetContext);
@@ -259,7 +265,7 @@ const MigrateButton = ({
       action: SealAction.MIGRATE
     }));
 
-    setActiveUrn({ urnAddress, urnIndex: index }, () => {});
+    setActiveUrn({ urnAddress, urnIndex: index }, onSealUrnChange ?? (() => {}));
     setCurrentStep(SealStep.ABOUT);
   }, [urnAddress, index, vaultData, urnSelectedVoteDelegate, urnSelectedRewardContract]);
 
