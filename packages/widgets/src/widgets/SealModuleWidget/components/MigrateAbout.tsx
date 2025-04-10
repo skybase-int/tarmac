@@ -1,6 +1,6 @@
 import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { SealModuleWidgetContext } from '../context/context';
 
 export const MigrateAbout = () => {
@@ -8,8 +8,10 @@ export const MigrateAbout = () => {
 
   // We automatically complete this steps to proceed with migration flow
   // TODO: make sure to clear this if the user clicks back to enter manage flow
-  setIsLockCompleted(true);
-  setIsBorrowCompleted(true);
+  useEffect(() => {
+    setIsLockCompleted(true);
+    setIsBorrowCompleted(true);
+  }, []);
 
   return (
     <div className="mb-4">

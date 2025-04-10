@@ -9,7 +9,12 @@ import {
   useRewardContractTokens,
   useDelegateName,
   useSaRewardContracts,
-  useDelegateOwner
+  useDelegateOwner,
+  useVault,
+  ZERO_ADDRESS,
+  useUrnAddress,
+  useUrnSelectedRewardContract,
+  useUrnSelectedVoteDelegate
 } from '@jetstreamgg/hooks';
 import { captitalizeFirstLetter, formatBigInt, formatPercent, math } from '@jetstreamgg/utils';
 import { positionAnimations } from '@widgets/shared/animation/presets';
@@ -21,7 +26,7 @@ import { JazziconComponent } from './Jazzicon';
 import { TextWithTooltip } from '@widgets/shared/components/ui/tooltip/TextWithTooltip';
 import { PositionDetailAccordion } from './PositionDetailsAccordion';
 import { ClaimRewardsButton } from './ClaimRewardsButton';
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import { SealModuleWidgetContext } from '../context/context';
 import { Button } from '@widgets/components/ui/button';
 import { SealAction, SealFlow, SealStep } from '../lib/constants';
@@ -225,18 +230,38 @@ const MigrateButton = ({
   sealedAmount?: bigint;
 }) => {
   const { setWidgetState } = useContext(WidgetContext);
+  const { setCurrentStep, setSelectedRewardContract, setSelectedDelegate, setActiveUrn } =
+    useContext(SealModuleWidgetContext);
 
-  const { setCurrentStep } = useContext(SealModuleWidgetContext);
+  //TODO this stuff is just to help  mock the transaction screens temporarily
+  const { data: urnAddress } = useUrnAddress(index);
+  const { data: urnSelectedRewardContract } = useUrnSelectedRewardContract({
+    urn: urnAddress || ZERO_ADDRESS
+  });
+  const { data: urnSelectedVoteDelegate } = useUrnSelectedVoteDelegate({ urn: urnAddress || ZERO_ADDRESS });
+  const { data: vaultData } = useVault(urnAddress || ZERO_ADDRESS);
 
-  const handleOnClick = () => {
-    //TODO this could programatically select the first step
-    setCurrentStep(SealStep.ABOUT);
+  const handleOnClick = useCallback(() => {
+    if (vaultData?.collateralAmount && urnSelectedRewardContract) {
+      setSelectedRewardContract(urnSelectedRewardContract);
+    } else {
+      setSelectedRewardContract(undefined);
+    }
+    if (vaultData?.collateralAmount && urnSelectedVoteDelegate) {
+      setSelectedDelegate(urnSelectedVoteDelegate);
+    } else {
+      setSelectedDelegate(undefined);
+    }
+
     setWidgetState((prev: WidgetState) => ({
       ...prev,
       flow: SealFlow.MIGRATE,
       action: SealAction.MIGRATE
     }));
-  };
+
+    setActiveUrn({ urnAddress, urnIndex: index }, () => {});
+    setCurrentStep(SealStep.ABOUT);
+  }, [urnAddress, index, vaultData, urnSelectedVoteDelegate, urnSelectedRewardContract]);
 
   if (isMigrated === undefined) return null;
 
