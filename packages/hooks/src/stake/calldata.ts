@@ -1,14 +1,14 @@
 import { encodeFunctionData } from 'viem';
-import { lsMigratorAbi, sealModuleAbi } from '../generated';
+import { stakeModuleAbi } from '../generated';
 
-export const getSaOpenCalldata = ({ urnIndex }: { urnIndex: bigint }) =>
+export const getStakeOpenCalldata = ({ urnIndex }: { urnIndex: bigint }) =>
   encodeFunctionData({
-    abi: sealModuleAbi,
+    abi: stakeModuleAbi,
     functionName: 'open',
     args: [urnIndex]
   });
 
-export const getSaLockMkrCalldata = ({
+export const getStakeLockCalldata = ({
   ownerAddress,
   urnIndex,
   amount,
@@ -20,29 +20,12 @@ export const getSaLockMkrCalldata = ({
   refCode?: number;
 }) =>
   encodeFunctionData({
-    abi: sealModuleAbi,
+    abi: stakeModuleAbi,
     functionName: 'lock',
     args: [ownerAddress, urnIndex, amount, refCode]
   });
 
-export const getSaLockSkyCalldata = ({
-  ownerAddress,
-  urnIndex,
-  amount,
-  refCode = 0
-}: {
-  ownerAddress: `0x${string}`;
-  urnIndex: bigint;
-  amount: bigint;
-  refCode?: number;
-}) =>
-  encodeFunctionData({
-    abi: sealModuleAbi,
-    functionName: 'lockSky',
-    args: [ownerAddress, urnIndex, amount, refCode]
-  });
-
-export const getSaDrawCalldata = ({
+export const getStakeDrawCalldata = ({
   ownerAddress,
   urnIndex,
   toAddress,
@@ -54,12 +37,12 @@ export const getSaDrawCalldata = ({
   amount: bigint;
 }) =>
   encodeFunctionData({
-    abi: sealModuleAbi,
+    abi: stakeModuleAbi,
     functionName: 'draw',
     args: [ownerAddress, urnIndex, toAddress, amount]
   });
 
-export const getSaSelectRewardContractCalldata = ({
+export const getStakeSelectRewardContractCalldata = ({
   ownerAddress,
   urnIndex,
   rewardContractAddress,
@@ -71,12 +54,12 @@ export const getSaSelectRewardContractCalldata = ({
   refCode?: number;
 }) =>
   encodeFunctionData({
-    abi: sealModuleAbi,
+    abi: stakeModuleAbi,
     functionName: 'selectFarm',
     args: [ownerAddress, urnIndex, rewardContractAddress, refCode]
   });
 
-export const getSaSelectDelegateCalldata = ({
+export const getStakeSelectDelegateCalldata = ({
   ownerAddress,
   urnIndex,
   delegateAddress
@@ -86,12 +69,12 @@ export const getSaSelectDelegateCalldata = ({
   delegateAddress: `0x${string}`;
 }) =>
   encodeFunctionData({
-    abi: sealModuleAbi,
+    abi: stakeModuleAbi,
     functionName: 'selectVoteDelegate',
     args: [ownerAddress, urnIndex, delegateAddress]
   });
 
-export const getSaFreeMkrCalldata = ({
+export const getStakeFreeCalldata = ({
   ownerAddress,
   urnIndex,
   toAddress,
@@ -103,29 +86,12 @@ export const getSaFreeMkrCalldata = ({
   amount: bigint;
 }) =>
   encodeFunctionData({
-    abi: sealModuleAbi,
+    abi: stakeModuleAbi,
     functionName: 'free',
     args: [ownerAddress, urnIndex, toAddress, amount]
   });
 
-export const getSaFreeSkyCalldata = ({
-  ownerAddress,
-  urnIndex,
-  toAddress,
-  amount
-}: {
-  ownerAddress: `0x${string}`;
-  urnIndex: bigint;
-  toAddress: `0x${string}`;
-  amount: bigint;
-}) =>
-  encodeFunctionData({
-    abi: sealModuleAbi,
-    functionName: 'freeSky',
-    args: [ownerAddress, urnIndex, toAddress, amount]
-  });
-
-export const getSaWipeCalldata = ({
+export const getStakeWipeCalldata = ({
   ownerAddress,
   urnIndex,
   amount
@@ -135,12 +101,12 @@ export const getSaWipeCalldata = ({
   amount: bigint;
 }) =>
   encodeFunctionData({
-    abi: sealModuleAbi,
+    abi: stakeModuleAbi,
     functionName: 'wipe',
     args: [ownerAddress, urnIndex, amount]
   });
 
-export const getSaWipeAllCalldata = ({
+export const getStakeWipeAllCalldata = ({
   ownerAddress,
   urnIndex
 }: {
@@ -148,12 +114,12 @@ export const getSaWipeAllCalldata = ({
   urnIndex: bigint;
 }) =>
   encodeFunctionData({
-    abi: sealModuleAbi,
+    abi: stakeModuleAbi,
     functionName: 'wipeAll',
     args: [ownerAddress, urnIndex]
   });
 
-export const getSaGetRewardCalldata = ({
+export const getStakeGetRewardCalldata = ({
   ownerAddress,
   urnIndex,
   rewardContractAddress,
@@ -165,12 +131,12 @@ export const getSaGetRewardCalldata = ({
   toAddress: `0x${string}`;
 }) =>
   encodeFunctionData({
-    abi: sealModuleAbi,
+    abi: stakeModuleAbi,
     functionName: 'getReward',
     args: [ownerAddress, urnIndex, rewardContractAddress, toAddress]
   });
 
-export const getSaHopeCalldata = ({
+export const getStakeHopeCalldata = ({
   ownerAddress,
   urnIndex,
   usrAddress
@@ -180,33 +146,14 @@ export const getSaHopeCalldata = ({
   usrAddress: `0x${string}`;
 }) =>
   encodeFunctionData({
-    abi: sealModuleAbi,
+    abi: stakeModuleAbi,
     functionName: 'hope',
     args: [ownerAddress, urnIndex, usrAddress]
   });
 
-export const getSaMigrateCalldata = ({
-  oldOwner,
-  oldIndex,
-  newOwner,
-  newIndex,
-  ref = 0
-}: {
-  oldOwner: `0x${string}`;
-  oldIndex: bigint;
-  newOwner: `0x${string}`;
-  newIndex: bigint;
-  ref?: number;
-}) =>
+export const getStakeMulticallCalldata = ({ calldata }: { calldata: `0x${string}`[] }) =>
   encodeFunctionData({
-    abi: lsMigratorAbi,
-    functionName: 'migrate',
-    args: [oldOwner, oldIndex, newOwner, newIndex, ref]
-  });
-
-export const getSaMulticallCalldata = ({ calldata }: { calldata: `0x${string}`[] }) =>
-  encodeFunctionData({
-    abi: sealModuleAbi,
+    abi: stakeModuleAbi,
     functionName: 'multicall',
     args: [calldata]
   });

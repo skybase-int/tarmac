@@ -2,6 +2,12 @@ import { defineConfig, loadEnv } from '@wagmi/cli';
 import { etherscan, /*fetch as fetchPlugin,*/ react } from '@wagmi/cli/plugins';
 import { mainnet, sepolia, base } from 'wagmi/chains';
 
+// --- Add imports for your local ABI files here ---
+// import LockstakeEngineAbi from './abis/LockstakeEngine.json';
+// import LockstakeMigratorAbi from './abis/LockstakeMigrator.json';
+// import LockstakeSkyAbi from './abis/LockstakeSky.json';
+// --- End ABI imports ---
+
 import { contracts, /*tenderlyContracts,*/ sepoliaContracts, l2Contracts } from './src';
 
 export default defineConfig(() => {
@@ -13,6 +19,22 @@ export default defineConfig(() => {
   });
   return {
     out: 'src/generated.ts',
+    // --- Local contracts ---
+    // contracts: [
+    //   {
+    //     name: 'stakeModule',
+    //     abi: LockstakeEngineAbi.abi as any
+    //   },
+    //   {
+    //     name: 'lsMigrator',
+    //     abi: LockstakeMigratorAbi.abi as any
+    //   },
+    //   {
+    //     name: 'lsSky',
+    //     abi: LockstakeSkyAbi.abi as any
+    //   }
+    // ],
+    // --- End local contracts ---
     plugins: [
       react({
         getHookName({ contractName, itemName, type }) {
