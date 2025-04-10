@@ -2,11 +2,13 @@ import { http } from 'viem';
 import { createConfig, createStorage, noopStorage } from 'wagmi';
 import { getTestTenderlyChains } from './testTenderlyChain';
 import { mock } from 'wagmi/connectors';
+import { getTestWalletAddress } from '@/test/e2e/utils/testWallets';
 
 const [tenderlyMainnet, tenderlyBase, tenderlyArbitrum] = getTestTenderlyChains();
 
-//this address is able to send transactions on the tenderly vnet via the wagmi mock
-const TEST_WALLET_ADDRESS = '0xFebC63589D8a3bc5CD97E86C174A836c9caa6DEe';
+// Get worker index from environment variable or default to 0
+const workerIndex = Number(import.meta.env.VITE_TEST_WORKER_INDEX || 0);
+const TEST_WALLET_ADDRESS = getTestWalletAddress(workerIndex);
 
 export const mockWagmiConfig = createConfig({
   chains: [tenderlyMainnet, tenderlyBase, tenderlyArbitrum],
@@ -25,6 +27,6 @@ export const mockWagmiConfig = createConfig({
   },
   storage: createStorage({
     storage: typeof window !== 'undefined' && window.localStorage ? window.localStorage : noopStorage,
-    key: 'wagmi-mock'
+    key: `wagmi-mock-${workerIndex}`
   })
 });

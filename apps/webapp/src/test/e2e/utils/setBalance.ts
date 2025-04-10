@@ -12,7 +12,11 @@ export async function backOffRetry<T>(fn: () => Promise<T>, retries: number, del
   }
 }
 
-const setEthBalanceRequest = async (amount: string, network = NetworkName.mainnet) => {
+const setEthBalanceRequest = async (
+  amount: string,
+  network = NetworkName.mainnet,
+  address = TEST_ADDRESS
+) => {
   const file = await readFile('../../tenderlyTestnetData.json', 'utf-8');
   const [
     { TENDERLY_RPC_URL: TENDERLY_MAINNET_RPC_URL },
@@ -34,7 +38,7 @@ const setEthBalanceRequest = async (amount: string, network = NetworkName.mainne
     },
     body: JSON.stringify({
       method: 'tenderly_setBalance',
-      params: [[TEST_ADDRESS], toHex(parseEther(amount))],
+      params: [[address], toHex(parseEther(amount))],
       id: 42,
       jsonrpc: '2.0'
     })
@@ -45,15 +49,20 @@ const setEthBalanceRequest = async (amount: string, network = NetworkName.mainne
   }
 };
 
-export const setEthBalance = async (amount: string, network = NetworkName.mainnet) => {
-  await backOffRetry(() => setEthBalanceRequest(amount, network), 3, 2);
+export const setEthBalance = async (
+  amount: string,
+  network = NetworkName.mainnet,
+  address = TEST_ADDRESS
+) => {
+  await backOffRetry(() => setEthBalanceRequest(amount, network, address), 3, 2);
 };
 
 const setErc20BalanceRequest = async (
   tokenAddress: string,
   amount: string,
   decimals: number = 18,
-  network = NetworkName.mainnet
+  network = NetworkName.mainnet,
+  address = TEST_ADDRESS
 ) => {
   const file = await readFile('../../tenderlyTestnetData.json', 'utf-8');
   const [
@@ -76,7 +85,7 @@ const setErc20BalanceRequest = async (
     },
     body: JSON.stringify({
       method: 'tenderly_setErc20Balance',
-      params: [tokenAddress, [TEST_ADDRESS], toHex(parseUnits(amount, decimals))],
+      params: [tokenAddress, [address], toHex(parseUnits(amount, decimals))],
       id: 42,
       jsonrpc: '2.0'
     })
@@ -91,7 +100,8 @@ export const setErc20Balance = async (
   tokenAddress: string,
   amount: string,
   decimals: number = 18,
-  network = NetworkName.mainnet
+  network = NetworkName.mainnet,
+  address = TEST_ADDRESS
 ) => {
-  await backOffRetry(() => setErc20BalanceRequest(tokenAddress, amount, decimals, network), 3, 2);
+  await backOffRetry(() => setErc20BalanceRequest(tokenAddress, amount, decimals, network, address), 3, 2);
 };
