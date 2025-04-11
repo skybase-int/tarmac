@@ -2,7 +2,7 @@
  * Intercept RPC calls to tenderly so that we can increase the gas limit and handle eth_accounts
  */
 import { Request, Route } from '@playwright/test';
-import { getTestWalletAddress } from './utils/testWallets';
+import { getTestWalletAddress, TEST_WALLET_ADDRESSES } from './utils/testWallets';
 
 export const mockRpcCalls = (route: Route, request: Request) => {
   // Check if the request is a POST request and targets the specific endpoint
@@ -14,6 +14,14 @@ export const mockRpcCalls = (route: Route, request: Request) => {
     if (postData.method === 'eth_accounts') {
       const workerIndex = Number(process.env.VITE_TEST_WORKER_INDEX ?? 0);
       const address = getTestWalletAddress(workerIndex).toLowerCase();
+
+      console.log('eth_accounts mock call:', {
+        workerIndex,
+        envWorkerIndex: process.env.VITE_TEST_WORKER_INDEX,
+        address,
+        expectedAddress: getTestWalletAddress(0).toLowerCase(),
+        allAddresses: TEST_WALLET_ADDRESSES.map((a: string) => a.toLowerCase())
+      });
 
       route.fulfill({
         status: 200,
