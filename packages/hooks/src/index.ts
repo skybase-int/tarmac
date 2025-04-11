@@ -128,10 +128,14 @@ export { useSealHistoricData } from './seal/useSealHistoricData';
 export { useIsUrnMigrated } from './seal/useIsUrnMigrated';
 export { useSealMigrations } from './seal/useSealMigrations';
 export { checkUrnMigrationStatus } from './seal/checkUrnMigrationStatus';
+export { useSaHope } from './seal/useSaHope';
 
 // Stake Module
 export { useStakeRewardContracts } from './stake/useStakeRewardContracts';
 export { useStakeUserDelegates } from './stake/useStakeUserDelegates';
+export { useStakeMulticall } from './stake/useStakeMulticall';
+export { useCurrentUrnIndex as useStakeCurrentIndex } from './stake/useCurrentUrnIndex';
+export { useUrnAddress as useStakeUrnAddress } from './stake/useUrnAddress';
 
 //Vaults
 export { useVault } from './vaults/useVault';

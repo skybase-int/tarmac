@@ -2,9 +2,12 @@ import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
 import { useContext, useEffect } from 'react';
 import { SealModuleWidgetContext } from '../context/context';
+import { useStakeCurrentIndex, useStakeUrnAddress } from '@jetstreamgg/hooks';
 
 export const MigrateAbout = () => {
-  const { setIsLockCompleted, setIsBorrowCompleted } = useContext(SealModuleWidgetContext);
+  const { setIsLockCompleted, setIsBorrowCompleted, setNewStakeUrn } = useContext(SealModuleWidgetContext);
+  const { data: stakeUrnIndex } = useStakeCurrentIndex();
+  const { data: urnAddress } = useStakeUrnAddress(stakeUrnIndex || 0n);
 
   // We automatically complete this steps to proceed with migration flow
   // TODO: make sure to clear this if the user clicks back to enter manage flow
@@ -12,6 +15,10 @@ export const MigrateAbout = () => {
     setIsLockCompleted(true);
     setIsBorrowCompleted(true);
   }, []);
+
+  useEffect(() => {
+    setNewStakeUrn({ urnAddress, urnIndex: stakeUrnIndex }, () => {});
+  }, [stakeUrnIndex]);
 
   return (
     <div className="mb-4">

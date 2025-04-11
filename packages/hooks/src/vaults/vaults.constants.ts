@@ -1,6 +1,7 @@
 export enum SupportedCollateralTypes {
   LOCKSTAKE = 'LOCKSTAKE',
-  LSE_MKR_A = 'LSE-MKR-A'
+  LSE_MKR_A = 'LSE-MKR-A',
+  LOCKSTAKE_SKY = 'LockstakeSky'
 }
 
 export enum RiskLevel {

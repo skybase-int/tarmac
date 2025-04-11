@@ -40,7 +40,9 @@ import {
   ZERO_ADDRESS,
   useUrnSelectedRewardContract,
   useUrnSelectedVoteDelegate,
-  TOKENS
+  TOKENS,
+  useStakeMulticall,
+  useSaHope
 } from '@jetstreamgg/hooks';
 import { formatBigInt, getEtherscanLink, useDebounce } from '@jetstreamgg/utils';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
@@ -173,7 +175,8 @@ function SealModuleWidgetWrapped({
     wipeAll,
     setSelectedToken,
     selectedToken,
-    displayToken
+    displayToken,
+    newStakeUrn
   } = useContext(SealModuleWidgetContext);
 
   // Returns the urn index to use for opening a new urn
@@ -240,6 +243,42 @@ function SealModuleWidgetWrapped({
     isSelectRewardContractCompleted,
     isSelectDelegateCompleted
   );
+
+  const hope = useSaHope({
+    // TODO: make sure this is the index of the urn we want to migrate
+    index: urnIndexForTransaction || 0n,
+    onStart: (hash: string) => {
+      addRecentTransaction?.({
+        hash,
+        description: t`Approving migrator contract`
+      });
+      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setTxStatus(TxStatus.LOADING);
+      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
+    },
+    onSuccess: hash => {
+      onNotification?.({
+        title: t`Approve migrator contract successful`,
+        description: t`You approved the migrator contract to migrate your position.`,
+        status: TxStatus.SUCCESS
+      });
+      setTxStatus(TxStatus.SUCCESS);
+      // TODO: retry prepare the migrator contract here
+      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
+    },
+    onError: (error, hash) => {
+      onNotification?.({
+        title: t`Approval failed`,
+        description: t`We could not approve the migrator contract to migrate your position.`,
+        status: TxStatus.ERROR
+      });
+      setTxStatus(TxStatus.ERROR);
+      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
+      console.log(error);
+    },
+    // Enabled once we have created the new staking urn
+    enabled: !!newStakeUrn?.urnIndex
+  });
 
   const lockMkrApprove = useSaMkrApprove({
     amount: debouncedMkrAmount,
@@ -352,7 +391,7 @@ function SealModuleWidgetWrapped({
   console.log('^^^ allStepsComplete', allStepsComplete);
   console.log('^^^ calldata for hook', calldata);
 
-  const multicall = useSaMulticall({
+  const sealMulticall = useSaMulticall({
     calldata,
     enabled: widgetState.action === SealAction.MULTICALL && !!allStepsComplete,
     onStart: (hash: string) => {
@@ -375,10 +414,9 @@ function SealModuleWidgetWrapped({
     },
     onError: (error, hash) => {
       console.log('error', error, hash);
-      //TODO: fix all this copy
       onNotification?.({
-        title: t`Approval failed`,
-        description: t`We could not approve your token allowance.`,
+        title: t`Multicall failed`,
+        description: t`We could not complete the transaction.`,
         status: TxStatus.ERROR
       });
       setTxStatus(TxStatus.ERROR);
@@ -387,6 +425,41 @@ function SealModuleWidgetWrapped({
       console.log(error);
     }
   });
+
+  const stakeMulticall = useStakeMulticall({
+    calldata,
+    enabled: widgetState.action === SealAction.MULTICALL && !!allStepsComplete,
+    onStart: (hash: string) => {
+      addRecentTransaction?.({ hash, description: t`Doing multicall` });
+      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setTxStatus(TxStatus.LOADING);
+      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
+    },
+    onSuccess: hash => {
+      onNotification?.({
+        title: t`Multicall failed`,
+        description: t`We could not complete the transaction.`,
+        status: TxStatus.ERROR
+      });
+      setTxStatus(TxStatus.SUCCESS);
+      hope.retryPrepare();
+      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
+    },
+    onError: (error, hash) => {
+      console.log('error', error, hash);
+      //TODO: fix all this copy
+      onNotification?.({
+        title: t`Approval failed`,
+        description: t`We could not approve your token allowance.`,
+        status: TxStatus.ERROR
+      });
+      setTxStatus(TxStatus.ERROR);
+      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
+      console.log(error);
+    }
+  });
+
+  const multicall = widgetState.flow === SealFlow.MIGRATE ? stakeMulticall : sealMulticall;
 
   const claimRewards = useClaimRewards({
     index: indexToClaim,
@@ -444,10 +517,18 @@ function SealModuleWidgetWrapped({
 
   // Generate calldata when all steps are complete
   useEffect(() => {
-    if (allStepsComplete && address && urnIndexForTransaction !== undefined) {
-      setCalldata(generateAllCalldata(address, urnIndexForTransaction, referralCode));
+    if (allStepsComplete && address && urnIndexForTransaction !== undefined && newStakeUrn?.urnIndex) {
+      const cd = generateAllCalldata(address, urnIndexForTransaction, referralCode, newStakeUrn?.urnIndex);
+      setCalldata(cd);
     }
-  }, [allStepsComplete, address, urnIndexForTransaction, generateAllCalldata, referralCode]);
+  }, [
+    allStepsComplete,
+    address,
+    urnIndexForTransaction,
+    generateAllCalldata,
+    referralCode,
+    newStakeUrn?.urnIndex
+  ]);
 
   // Update button state according to action and tx
   // Ref: https://lingui.dev/tutorials/react-patterns#memoization-pitfall
@@ -588,11 +669,20 @@ function SealModuleWidgetWrapped({
           screen: SealScreen.ACTION
         });
       } else if (currentUrnIndex && currentUrnIndex > 0n) {
-        setWidgetState({
-          flow: SealFlow.MANAGE,
-          action: SealAction.OVERVIEW,
-          screen: SealScreen.ACTION
-        });
+        if (widgetState.flow === SealFlow.MIGRATE && txStatus == TxStatus.SUCCESS) {
+          setWidgetState({
+            flow: SealFlow.MANAGE,
+            action: SealAction.HOPE,
+            screen: SealScreen.ACTION
+          });
+          // TODO: hope() retry prepare here
+        } else {
+          setWidgetState({
+            flow: SealFlow.MANAGE,
+            action: SealAction.OVERVIEW,
+            screen: SealScreen.ACTION
+          });
+        }
       }
     } else {
       // Reset widget state when we are not connected
@@ -606,6 +696,9 @@ function SealModuleWidgetWrapped({
   }, [currentUrnIndex, isConnectedAndEnabled]);
 
   // If we need allowance, set the action to approve,
+  // TODO: check if we have already completed "open" and "hope" steps for the new LSE, and then we can set
+  // the action to SealAction.HOPE for the old one
+  // can also set it to SealAction.MIGRATE for the final step
   useEffect(() => {
     if (
       widgetState.screen === SealScreen.ACTION &&
@@ -825,7 +918,6 @@ function SealModuleWidgetWrapped({
   };
 
   const submitOnClick = () => {
-    // TODO: should only show this for last two
     setShowStepIndicator(true);
     setWidgetState((prev: WidgetState) => ({
       ...prev,
@@ -835,6 +927,17 @@ function SealModuleWidgetWrapped({
     setTxStatus(TxStatus.INITIALIZED);
     setExternalLink(undefined);
     multicall.execute();
+  };
+
+  const hopeOnClick = () => {
+    setWidgetState((prev: WidgetState) => ({
+      ...prev,
+      action: SealAction.MULTICALL,
+      screen: SealScreen.TRANSACTION
+    }));
+    setTxStatus(TxStatus.INITIALIZED);
+    setExternalLink(undefined);
+    hope.execute();
   };
 
   const claimOnClick = () => {
@@ -890,17 +993,21 @@ function SealModuleWidgetWrapped({
         // We're at the summary step for migrate flow
         (currentStep === SealStep.SUMMARY && widgetState.flow === SealFlow.MIGRATE)
       ? submitOnClick
-      : txStatus === TxStatus.SUCCESS
-        ? finishOnClick
-        : currentStep === SealStep.SUMMARY && widgetState.action === SealAction.APPROVE
-          ? approveOnClick
-          : currentStep === SealStep.SUMMARY && widgetState.action === SealAction.MULTICALL
-            ? submitOnClick
-            : shouldOpenFromWidgetButton
-              ? handleClickOpenPosition
-              : widgetState.flow === SealFlow.MANAGE && widgetState.action === SealAction.CLAIM
-                ? claimOnClick
-                : nextOnClick;
+      : // TODO: this logic isn't quite right
+        txStatus === TxStatus.SUCCESS && widgetState.flow === SealFlow.MIGRATE
+        ? // && widgetState.action === SealAction.HOPE
+          hopeOnClick
+        : txStatus === TxStatus.SUCCESS
+          ? finishOnClick
+          : currentStep === SealStep.SUMMARY && widgetState.action === SealAction.APPROVE
+            ? approveOnClick
+            : currentStep === SealStep.SUMMARY && widgetState.action === SealAction.MULTICALL
+              ? submitOnClick
+              : shouldOpenFromWidgetButton
+                ? handleClickOpenPosition
+                : widgetState.flow === SealFlow.MANAGE && widgetState.action === SealAction.CLAIM
+                  ? claimOnClick
+                  : nextOnClick;
 
   const [stepIndex, totalSteps] = useMemo(
     () => [getStepIndex(currentStep, widgetState.flow) + 1, getTotalSteps(widgetState.flow)],

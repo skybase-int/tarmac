@@ -15,7 +15,8 @@ import {
   useSealExitFee,
   useDelegateName,
   useDelegateOwner,
-  useCollateralData
+  useCollateralData,
+  SupportedCollateralTypes
 } from '@jetstreamgg/hooks';
 import { useChainId } from 'wagmi';
 import { Card, CardContent } from '@widgets/components/ui/card';
@@ -119,28 +120,26 @@ export const MigratePositionSummary = () => {
 
   const {
     activeUrn,
-    mkrToLock,
     mkrToFree,
-    skyToLock,
     skyToFree,
-    usdsToBorrow,
-    usdsToWipe,
     selectedDelegate,
     selectedRewardContract,
     selectedToken,
     displayToken,
     setDisplayToken
   } = useContext(SealModuleWidgetContext);
-
   const { data: existingRewardContract } = useUrnSelectedRewardContract({
     urn: activeUrn?.urnAddress || ZERO_ADDRESS
   });
 
   const { data: existingRewardContractTokens, isLoading: isRewardContractTokensLoading } =
     useRewardContractTokens(existingRewardContract);
+
+  // This needs to come from staking, check that this hook is returning the expected data
   const { data: selectedRewardContractTokens, isLoading: isSelectedContractTokensLoading } =
     useRewardContractTokens(selectedRewardContract);
 
+  // This correctly comes from Seal
   const { data: existingSelectedVoteDelegate, isLoading: isDelegateLoading } = useUrnSelectedVoteDelegate({
     urn: activeUrn?.urnAddress || ZERO_ADDRESS
   });
@@ -149,39 +148,53 @@ export const MigratePositionSummary = () => {
   const { data: existingDelegateOwner, isLoading: loadingExistingDelegateOwner } = useDelegateOwner(
     existingSelectedVoteDelegate
   );
+
+  // These two need to come from staking, make sure the hooks are returning the expected data
   const { data: selectedDelegateName } = useDelegateName(selectedDelegate);
   const { data: selectedDelegateOwner, isLoading: loadingSelectedDelegateOwner } =
     useDelegateOwner(selectedDelegate);
 
+  // techncially we know there is an existing fault now bc we're migrating but maybe
+  // its ok to fetch again
   const { data: existingVault } = useVault(activeUrn?.urnAddress, ilkName);
-
   const hasPositions = !!existingVault;
 
   // Calculated total amount user will have borrowed based on existing debt plus the user input
-  const newBorrowAmount = usdsToBorrow + (existingVault?.debtValue || 0n) - usdsToWipe;
+  // const newBorrowAmount = usdsToBorrow + (existingVault?.debtValue || 0n) - usdsToWipe;
+  // NEW there is no user input for borrow or wipe
+  const newBorrowAmount = existingVault?.debtValue || 0n;
 
   // Calculated total amount user will have locked based on existing collateral locked plus user input
-  const collateralToLock =
-    selectedToken === mkr ? mkrToLock : math.calculateConversion(TOKENS.sky, skyToLock);
-  const collateralToFree =
-    selectedToken === mkr ? mkrToFree : math.calculateConversion(TOKENS.sky, skyToFree);
-  const newCollateralAmount = collateralToLock + (existingVault?.collateralAmount || 0n) - collateralToFree;
+  // const collateralToLock =
+  //   selectedToken === mkr ? mkrToLock : math.calculateConversion(TOKENS.sky, skyToLock);
+  // const collateralToFree =
+  //   selectedToken === mkr ? mkrToFree : math.calculateConversion(TOKENS.sky, skyToFree);
+  // const newCollateralAmount = collateralToLock + (existingVault?.collateralAmount || 0n) - collateralToFree;
 
+  // there will be no collateral to lock or free
+  // const newCollateralAmount = collateralToLock + (existingVault?.collateralAmount || 0n) - collateralToFree;
+  // NEW here we need to refactor this to "collateral to migrate" which will be denominated in SKY
+  const newCollateralAmount = existingVault?.collateralAmount || 0n;
+
+  // NEW I think this needs to be the stake version, using the stake params
   const { data: updatedVault } = useSimulatedVault(
     newCollateralAmount,
     newBorrowAmount,
     existingVault?.debtValue || 0n
   );
 
-  const delegateNameToDisplay = hasPositions ? existingDelegateName : selectedDelegateName;
-  const delegateOwnerToDisplay = hasPositions ? existingDelegateOwner : selectedDelegateOwner;
-  const rewardsTokensToDisplay = hasPositions ? existingRewardContractTokens : selectedRewardContractTokens;
-  const vaultToDisplay = hasPositions ? existingVault : updatedVault;
+  // We are guaranteed to have positions, so we can set this variables without the conditional
+  const delegateNameToDisplay = selectedDelegateName;
+  const delegateOwnerToDisplay = selectedDelegateOwner;
+  const rewardsTokensToDisplay = selectedRewardContractTokens;
+  const vaultToDisplay = updatedVault;
   const isRiskLevelUpdated =
     hasPositions && isUpdatedValue(existingVault?.riskLevel, updatedVault?.riskLevel);
 
+  // This correctly uses seal engine hook
   const { data: exitFee } = useSealExitFee();
 
+  // these are correct
   const existingCollateralAmount =
     displayToken === mkr
       ? existingVault?.collateralAmount || 0n
@@ -191,6 +204,7 @@ export const MigratePositionSummary = () => {
       ? updatedVault?.collateralAmount || 0n
       : math.calculateConversion(mkr, updatedVault?.collateralAmount || 0n);
 
+  // these are correct
   const existingLiquidationPrice =
     displayToken === mkr
       ? existingVault?.liquidationPrice || 0n
@@ -200,7 +214,8 @@ export const MigratePositionSummary = () => {
       ? updatedVault?.liquidationPrice || 0n
       : math.calculateMKRtoSKYPrice(updatedVault?.liquidationPrice || 0n);
 
-  const { data: collateralData } = useCollateralData();
+  // collateral data will be for lockstake sky
+  const { data: collateralData } = useCollateralData(SupportedCollateralTypes.LOCKSTAKE_SKY);
 
   const lineItems = useMemo(() => {
     return [

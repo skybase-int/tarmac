@@ -134,7 +134,6 @@ export const MigrateSelectDelegate = ({
             }))
             .sort((a, b) => b.totalDelegatedEther - a.totalDelegatedEther)
             .map((delegate, index) => (
-              // TODO: Use stake delegate card
               <DelegateCard
                 key={`${delegate.id}-${index}`}
                 delegate={delegate}

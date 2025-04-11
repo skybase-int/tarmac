@@ -26,13 +26,10 @@ import {
   useContext,
   useState
 } from 'react';
-import { SealFlow, SealStep } from '../lib/constants';
+import { MIGRATOR_CONTRACT, SealFlow, SealStep } from '../lib/constants';
 import { OnSealUrnChange } from '../lib/types';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { needsDelegateUpdate, needsRewardUpdate } from '../lib/utils';
-
-// TODO: temp hardcoded address, get the real one when it's available
-const MIGRATOR_CONTRACT = '0x7Ac6E2b9ea61e2E587A06e083E4373918071dCfc';
 
 export interface SealModuleWidgetContextProps {
   isLockCompleted: boolean;
@@ -100,6 +97,13 @@ export interface SealModuleWidgetContextProps {
     urn: { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined } | undefined,
     onSealUrnChange: OnSealUrnChange
   ) => void;
+
+  newStakeUrn: { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined } | undefined;
+  setNewStakeUrn: (
+    urn: { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined } | undefined,
+    onSealUrnChange: OnSealUrnChange
+  ) => void;
+
   indexToClaim: bigint | undefined;
   setIndexToClaim: Dispatch<SetStateAction<bigint | undefined>>;
 
@@ -167,6 +171,9 @@ export const SealModuleWidgetContext = createContext<SealModuleWidgetContextProp
   activeUrn: undefined,
   setActiveUrn: () => undefined,
 
+  newStakeUrn: undefined,
+  setNewStakeUrn: () => undefined,
+
   indexToClaim: undefined,
   setIndexToClaim: () => undefined,
 
@@ -196,6 +203,9 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
   const [activeUrn, setActiveUrnState] = useState<
     { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined } | undefined
   >();
+  const [newStakeUrn, setNewStakeUrnState] = useState<
+    { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined } | undefined
+  >();
   const [indexToClaim, setIndexToClaim] = useState<bigint | undefined>();
   const [rewardContractToClaim, setRewardContractToClaim] = useState<`0x${string}` | undefined>();
 
@@ -209,6 +219,15 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
     onSealUrnChange?.(urn);
   };
 
+  const setNewStakeUrn = (
+    urn: { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined } | undefined
+    // TODO: is this required for migration flow?
+    // onSealUrnChange: OnSealUrnChange
+  ) => {
+    setNewStakeUrnState(urn);
+    // onSealUrnChange?.(urn);
+  };
+
   const { data: urnSelectedRewardContract } = useUrnSelectedRewardContract({
     urn: activeUrn?.urnAddress || ZERO_ADDRESS
   });
@@ -217,11 +236,15 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
   });
 
   const generateAllCalldata = useCallback(
-    (ownerAddress: `0x${string}`, urnIndex: bigint, referralCode: number = 0) => {
-      console.log('*** urnIndex', urnIndex, ownerAddress);
+    (ownerAddress: `0x${string}`, urnIndex: bigint, referralCode: number = 0, newStakeUrnIndex?: bigint) => {
+      console.log('*** urnIndex, newStakeUrnIndex, ownerAddress', urnIndex, newStakeUrnIndex, ownerAddress);
       // --- CALLDATA GENERATION ---
       // If we have an activeUrn address, we're not opening a new one, we're managing an existing one
       const openCalldata = !activeUrn?.urnAddress ? getSaOpenCalldata({ urnIndex }) : undefined;
+
+      const openStakeCalldata = newStakeUrnIndex
+        ? getSaOpenCalldata({ urnIndex: newStakeUrnIndex })
+        : undefined;
 
       // MKR to lock
       const lockMkrCalldata =
@@ -268,34 +291,36 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
           : undefined;
 
       // Select reward
-      const selectRewardContractCalldata = needsRewardUpdate(
-        activeUrn?.urnAddress,
-        selectedRewardContract,
-        urnSelectedRewardContract
-      )
-        ? getSaSelectRewardContractCalldata({
-            ownerAddress,
-            urnIndex,
-            rewardContractAddress: selectedRewardContract || ZERO_ADDRESS,
-            refCode: referralCode
-          })
-        : undefined;
+      const selectRewardContractCalldata =
+        needsRewardUpdate(activeUrn?.urnAddress, selectedRewardContract, urnSelectedRewardContract) &&
+        !!newStakeUrnIndex
+          ? getSaSelectRewardContractCalldata({
+              ownerAddress,
+              urnIndex: widgetState.flow === SealFlow.MIGRATE ? newStakeUrnIndex : urnIndex,
+              rewardContractAddress: selectedRewardContract || ZERO_ADDRESS,
+              refCode: referralCode
+            })
+          : undefined;
 
       // Select delegate
-      const selectDelegateCalldata = needsDelegateUpdate(
-        activeUrn?.urnAddress,
-        selectedDelegate,
-        urnSelectedVoteDelegate
-      )
-        ? getSaSelectDelegateCalldata({
-            ownerAddress,
-            urnIndex,
-            delegateAddress: selectedDelegate || ZERO_ADDRESS
-          })
-        : undefined;
+      const selectDelegateCalldata =
+        needsDelegateUpdate(activeUrn?.urnAddress, selectedDelegate, urnSelectedVoteDelegate) &&
+        newStakeUrnIndex
+          ? getSaSelectDelegateCalldata({
+              ownerAddress,
+              urnIndex: widgetState.flow === SealFlow.MIGRATE ? newStakeUrnIndex : urnIndex,
+              delegateAddress: selectedDelegate || ZERO_ADDRESS
+            })
+          : undefined;
 
       // 'Hope' for migration
-      const hopeCalldata = getSaHopeCalldata({ ownerAddress, urnIndex, usrAddress: MIGRATOR_CONTRACT });
+      const hopeCalldata = newStakeUrnIndex
+        ? getSaHopeCalldata({
+            ownerAddress,
+            urnIndex: newStakeUrnIndex,
+            usrAddress: MIGRATOR_CONTRACT
+          })
+        : undefined;
 
       // Order calldata based on the flow
       const sortedCalldata =
@@ -309,7 +334,7 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
               selectDelegateCalldata
             ]
           : widgetState.flow === SealFlow.MIGRATE
-            ? [openCalldata, selectRewardContractCalldata, selectDelegateCalldata, hopeCalldata]
+            ? [openStakeCalldata, selectRewardContractCalldata, selectDelegateCalldata, hopeCalldata]
             : [
                 /* For the manage flow, we need to sort the calldatas that unseal MKR before the ones that seal it
                  * to avoid conflicts with the selectDelegate calldata, as the DSChief has a protection that
@@ -387,6 +412,8 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
         setCurrentStep,
         activeUrn,
         setActiveUrn,
+        newStakeUrn,
+        setNewStakeUrn,
         indexToClaim,
         setIndexToClaim,
         rewardContractToClaim,
