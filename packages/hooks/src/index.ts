@@ -129,6 +129,7 @@ export { useIsUrnMigrated } from './seal/useIsUrnMigrated';
 export { useSealMigrations } from './seal/useSealMigrations';
 export { checkUrnMigrationStatus } from './seal/checkUrnMigrationStatus';
 export { useSaHope } from './seal/useSaHope';
+export { useMigrateUrn } from './seal/useMigrateUrn';
 
 // Stake Module
 export { useStakeRewardContracts } from './stake/useStakeRewardContracts';

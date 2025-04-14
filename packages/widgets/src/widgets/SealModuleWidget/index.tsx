@@ -42,7 +42,8 @@ import {
   useUrnSelectedVoteDelegate,
   TOKENS,
   useStakeMulticall,
-  useSaHope
+  useSaHope,
+  useMigrateUrn
 } from '@jetstreamgg/hooks';
 import { formatBigInt, getEtherscanLink, useDebounce } from '@jetstreamgg/utils';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
@@ -206,6 +207,7 @@ function SealModuleWidgetWrapped({
     wipeAll && usdsToWipe ? (usdsToWipe * WIPE_BUFFER_MULTIPLIER) / WIPE_BUFFER_DIVISOR : usdsToWipe
   );
 
+  // TODO: add checks for the correct "can" state to see if we still need to "hope"
   const {
     data: sealMkrAllowance,
     mutate: mutateSealMkrAllowance,
@@ -263,7 +265,7 @@ function SealModuleWidgetWrapped({
         status: TxStatus.SUCCESS
       });
       setTxStatus(TxStatus.SUCCESS);
-      // TODO: retry prepare the migrator contract here
+      migrate.retryPrepare();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
     onError: (error, hash) => {
@@ -277,6 +279,42 @@ function SealModuleWidgetWrapped({
       console.log(error);
     },
     // Enabled once we have created the new staking urn
+    enabled: !!newStakeUrn?.urnIndex
+  });
+
+  const migrate = useMigrateUrn({
+    // TODO: make sure this is the index of the urn we want to migrate
+    oldIndex: currentUrnIndex || 0n,
+    newIndex: newStakeUrn?.urnIndex || 0n,
+    onStart: (hash: string) => {
+      addRecentTransaction?.({
+        hash,
+        description: t`Migrating your old position`
+      });
+      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setTxStatus(TxStatus.LOADING);
+      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
+    },
+    onSuccess: hash => {
+      onNotification?.({
+        title: t`Migration successful`,
+        description: t`You successfully migrated your position.`,
+        status: TxStatus.SUCCESS
+      });
+      setTxStatus(TxStatus.SUCCESS);
+      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
+    },
+    onError: (error, hash) => {
+      onNotification?.({
+        title: t`Migration failed`,
+        description: t`We could not migrate your position.`,
+        status: TxStatus.ERROR
+      });
+      setTxStatus(TxStatus.ERROR);
+      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
+      console.log(error);
+    },
+    // TODO: criteria should be old hope, new hope and new index
     enabled: !!newStakeUrn?.urnIndex
   });
 
@@ -918,7 +956,8 @@ function SealModuleWidgetWrapped({
   };
 
   const submitOnClick = () => {
-    setShowStepIndicator(true);
+    // TODO: make this conditional on the action/flow
+    setShowStepIndicator(false);
     setWidgetState((prev: WidgetState) => ({
       ...prev,
       action: SealAction.MULTICALL,
@@ -938,6 +977,17 @@ function SealModuleWidgetWrapped({
     setTxStatus(TxStatus.INITIALIZED);
     setExternalLink(undefined);
     hope.execute();
+  };
+
+  const migrateOnClick = () => {
+    setWidgetState((prev: WidgetState) => ({
+      ...prev,
+      action: SealAction.MULTICALL,
+      screen: SealScreen.TRANSACTION
+    }));
+    setTxStatus(TxStatus.INITIALIZED);
+    setExternalLink(undefined);
+    migrate.execute();
   };
 
   const claimOnClick = () => {
@@ -991,23 +1041,32 @@ function SealModuleWidgetWrapped({
           !needsLockAllowance &&
           !needsUsdsAllowance) ||
         // We're at the summary step for migrate flow
-        (currentStep === SealStep.SUMMARY && widgetState.flow === SealFlow.MIGRATE)
+        (txStatus === TxStatus.IDLE &&
+          currentStep === SealStep.SUMMARY &&
+          widgetState.flow === SealFlow.MIGRATE)
       ? submitOnClick
-      : // TODO: this logic isn't quite right
-        txStatus === TxStatus.SUCCESS && widgetState.flow === SealFlow.MIGRATE
-        ? // && widgetState.action === SealAction.HOPE
-          hopeOnClick
-        : txStatus === TxStatus.SUCCESS
-          ? finishOnClick
-          : currentStep === SealStep.SUMMARY && widgetState.action === SealAction.APPROVE
-            ? approveOnClick
-            : currentStep === SealStep.SUMMARY && widgetState.action === SealAction.MULTICALL
-              ? submitOnClick
-              : shouldOpenFromWidgetButton
-                ? handleClickOpenPosition
-                : widgetState.flow === SealFlow.MANAGE && widgetState.action === SealAction.CLAIM
-                  ? claimOnClick
-                  : nextOnClick;
+      : // After successful open, we now hope the new urn
+        txStatus === TxStatus.SUCCESS &&
+          currentStep === SealStep.SUMMARY &&
+          widgetState.flow === SealFlow.MIGRATE
+        ? hopeOnClick
+        : // After successful hope, we are ready to migrate
+          txStatus === TxStatus.SUCCESS &&
+            currentStep === SealStep.SUMMARY &&
+            widgetState.action === SealAction.HOPE &&
+            widgetState.flow === SealFlow.MIGRATE
+          ? migrateOnClick
+          : txStatus === TxStatus.SUCCESS
+            ? finishOnClick
+            : currentStep === SealStep.SUMMARY && widgetState.action === SealAction.APPROVE
+              ? approveOnClick
+              : currentStep === SealStep.SUMMARY && widgetState.action === SealAction.MULTICALL
+                ? submitOnClick
+                : shouldOpenFromWidgetButton
+                  ? handleClickOpenPosition
+                  : widgetState.flow === SealFlow.MANAGE && widgetState.action === SealAction.CLAIM
+                    ? claimOnClick
+                    : nextOnClick;
 
   const [stepIndex, totalSteps] = useMemo(
     () => [getStepIndex(currentStep, widgetState.flow) + 1, getTotalSteps(widgetState.flow)],
