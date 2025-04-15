@@ -107,9 +107,10 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
     name: 'ethFlow',
     address: {
       [mainnet.id]: '0xba3cb449bd2b4adddbc894d8697f5170800eadec',
+      [TENDERLY_CHAIN_ID]: '0xba3cb449bd2b4adddbc894d8697f5170800eadec'
       // TODO: Update the Tenderly address to the mainnet address
       // if we use a testnet forked after March 28, 2025
-      [TENDERLY_CHAIN_ID]: '0x40A50cf069e992AA4536211B23F286eF88752187'
+      // [TENDERLY_CHAIN_ID]: '0x40A50cf069e992AA4536211B23F286eF88752187'
     }
   },
   // new Sky contracts
@@ -125,7 +126,7 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
     name: 'mkrSky',
     address: {
       [mainnet.id]: '0xBDcFCA946b6CDd965f99a839e4435Bcdc1bc470B',
-      [TENDERLY_CHAIN_ID]: '0xBDcFCA946b6CDd965f99a839e4435Bcdc1bc470B'
+      [TENDERLY_CHAIN_ID]: '0x831C6C334f8DDeE62246a5c81B82c8e18008b38f'
     }
   },
   // Savings module
@@ -215,16 +216,44 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
   }
 ];
 
-// export const tenderlyContracts: { name: string; address: Record<typeof TENDERLY_CHAIN_ID, `0x${string}`> }[] =
-//   [
-//     {
-//       name: 'cle',
-//       address: {
-//         // same token as USDS for now
-//         [TENDERLY_CHAIN_ID]: '0xdC035D45d973E3EC169d2276DDab16f1e407384F'
-//       }
-//     }
-//   ];
+export const tenderlyContracts: { name: string; address: Record<typeof TENDERLY_CHAIN_ID, `0x${string}`> }[] =
+  [
+    // StakeModule
+    {
+      name: 'stakeModule',
+      address: {
+        [TENDERLY_CHAIN_ID]: '0xB1fC11F03b084FfF8daE95fA08e8D69ad2547Ec1'
+      }
+    },
+    // LockstakeSky
+    {
+      name: 'lsSky',
+      address: {
+        [TENDERLY_CHAIN_ID]: '0x9cC87998ba85D81e017E6B7662aC00eE2Ab8fe13'
+      }
+    },
+    // Rewards Lockstake MKR
+    {
+      name: 'lsSkyUsdsReward',
+      address: {
+        [TENDERLY_CHAIN_ID]: '0xAf7868a9BB72E16B930D50636519038d7F057470'
+      }
+    },
+    // Rewards Lockstake MKR
+    {
+      name: 'lsMigrator',
+      address: {
+        [TENDERLY_CHAIN_ID]: '0xf4c5C29b14f0237131F7510A51684c8191f98E06'
+      }
+    }
+    // {
+    //   name: 'cle',
+    //   address: {
+    //     // same token as USDS for now
+    //     [TENDERLY_CHAIN_ID]: '0xdC035D45d973E3EC169d2276DDab16f1e407384F'
+    //   }
+    // }
+  ];
 
 export const sepoliaContracts: { name: string; address: Record<typeof sepolia.id, `0x${string}`> }[] = [
   {

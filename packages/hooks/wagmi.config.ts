@@ -76,8 +76,10 @@ export default defineConfig(() => {
       //     const address =
       //       typeof contract.address === 'string' ? contract.address : Object.values(contract.address)[0];
 
+      //     console.log('Fetching contract:', contract.name, '--', address);
+
       //     return {
-      //       url: `https://api.tenderly.co/api/v1/account/pullup-labs/project/endgame-0/testnet/c8bf3399-e510-4836-9ab1-4112e8b93aad/verified-contract/${address}`,
+      //       url: `https://api.tenderly.co/api/v1/account/pullup-labs/project/endgame-0/testnet/da404f7a-d40d-4c75-928f-308835f9e0e3/verified-contract/${address}`,
       //       init: {
       //         headers: {
       //           'Content-Type': 'application/json',
