@@ -209,7 +209,6 @@ function SealModuleWidgetWrapped({
     wipeAll && usdsToWipe ? (usdsToWipe * WIPE_BUFFER_MULTIPLIER) / WIPE_BUFFER_DIVISOR : usdsToWipe
   );
 
-  // TODO: add checks for the correct "can" state to see if we still need to "hope"
   const { data: isOldUrnAuth } = useIsSealUrnAuth({
     urnIndex: activeUrn?.urnIndex || 0n
   });
@@ -256,6 +255,7 @@ function SealModuleWidgetWrapped({
     isSelectDelegateCompleted
   );
 
+  // TODO: this will have to be stake hope
   const hope = useSaHope({
     // TODO: make sure this is the index of the urn we want to migrate
     index: urnIndexForTransaction || 0n,
@@ -563,6 +563,9 @@ function SealModuleWidgetWrapped({
   const needsLockAllowance = selectedToken === TOKENS.mkr ? needsMkrAllowance : needsNgtAllowance;
   const needsUsdsAllowance = !!(sealUsdsAllowance === undefined || sealUsdsAllowance < debouncedUsdsAmount);
 
+  const needsOldUrnAuth = isOldUrnAuth === undefined || !!isOldUrnAuth;
+  const needsNewUrnAuth = isNewUrnAuth === undefined || !!isNewUrnAuth;
+
   // Generate calldata when all steps are complete
   useEffect(() => {
     if (allStepsComplete && address && urnIndexForTransaction !== undefined && newStakeUrn?.urnIndex) {
@@ -609,14 +612,18 @@ function SealModuleWidgetWrapped({
         setButtonText(t`Confirm your position`);
       } else if (widgetState.flow === SealFlow.MANAGE && currentStep === SealStep.SUMMARY) {
         setButtonText(t`Confirm`);
+      } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.SUMMARY) {
+        setButtonText(t`Submit`);
       } else if (shouldOpenFromWidgetButton) {
         setButtonText(t`New positions disabled`);
       } else if ([SealStep.REWARDS, SealStep.DELEGATE].includes(currentStep)) {
         setButtonText(t`Confirm`);
       } else if (currentStep === SealStep.OPEN_BORROW) {
         setButtonText(t`Confirm position`);
-      } else if (currentStep === SealStep.ABOUT) {
+      } else if (widgetState.flow === SealFlow.MANAGE && currentStep === SealStep.ABOUT) {
         setButtonText(t`New positions disabled`);
+      } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.ABOUT) {
+        setButtonText(t`Continue to migrate`);
       } else {
         // let's set it to Next for now
         setButtonText(t`Continue`);
@@ -1100,7 +1107,7 @@ function SealModuleWidgetWrapped({
     return (
       (widgetState.flow === SealFlow.OPEN && currentStep !== SealStep.ABOUT) ||
       // TODO update for manage:
-      (widgetState.flow === SealFlow.MANAGE &&
+      ((widgetState.flow === SealFlow.MANAGE || widgetState.flow === SealFlow.MIGRATE) &&
         currentStep !== SealStep.OPEN_BORROW &&
         currentStep !== SealStep.ABOUT)
     );

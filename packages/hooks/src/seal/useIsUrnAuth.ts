@@ -1,8 +1,7 @@
 import { useAccount, useChainId } from 'wagmi';
-import { useReadSealModuleIsUrnAuth } from '../generated';
+import { lsMigratorAddress, useReadSealModuleIsUrnAuth } from '../generated';
 import { ReadHook, ReadHookParams } from '../hooks';
 import { ZERO_ADDRESS } from '../constants';
-import { MIGRATOR_CONTRACT } from './useSaHope';
 import { lseDataSource } from './datasources';
 
 export type Response = ReadHook & {
@@ -26,7 +25,11 @@ export function useIsUrnAuth({
     isLoading,
     error
   } = useReadSealModuleIsUrnAuth({
-    args: [address || ZERO_ADDRESS, urnIndex || 0n, MIGRATOR_CONTRACT],
+    args: [
+      address || ZERO_ADDRESS,
+      urnIndex || 0n,
+      lsMigratorAddress[chainId as keyof typeof lsMigratorAddress]
+    ],
     query: {
       enabled: enabled && !!address && !!urnIndex
       // staleTime: 30_000

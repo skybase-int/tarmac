@@ -26,10 +26,11 @@ import {
   useContext,
   useState
 } from 'react';
-import { MIGRATOR_CONTRACT, SealFlow, SealStep } from '../lib/constants';
+import { SealFlow, SealStep } from '../lib/constants';
 import { OnSealUrnChange } from '../lib/types';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { needsDelegateUpdate, needsRewardUpdate } from '../lib/utils';
+import { lsMigratorAddress } from 'node_modules/@jetstreamgg/hooks/src/generated';
 
 export interface SealModuleWidgetContextProps {
   isLockCompleted: boolean;
@@ -318,7 +319,8 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
         ? getSaHopeCalldata({
             ownerAddress,
             urnIndex: newStakeUrnIndex,
-            usrAddress: MIGRATOR_CONTRACT
+            // TODO: make the address dynamic
+            usrAddress: lsMigratorAddress[314310]
           })
         : undefined;
 

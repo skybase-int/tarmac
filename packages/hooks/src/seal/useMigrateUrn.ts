@@ -1,7 +1,6 @@
 import { useAccount, useChainId } from 'wagmi';
 import { SaWriteHookReturnType } from './sealModule';
-// TODO: Add the real lsMigratorAddress once contract is deployed
-import { lsMigratorAbi, sealModuleAddress as lsMigratorAddress } from '../generated';
+import { lsMigratorAbi, lsMigratorAddress } from '../generated';
 import { WriteHookParams } from '../hooks';
 import { useWriteContractFlow } from '../shared/useWriteContractFlow';
 import { ZERO_ADDRESS } from '../constants';

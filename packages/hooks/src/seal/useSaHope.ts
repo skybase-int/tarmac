@@ -1,12 +1,9 @@
 import { useAccount, useChainId } from 'wagmi';
 import { SaWriteHookReturnType } from './sealModule';
 import { WriteHookParams } from '../hooks';
-import { sealModuleAbi, sealModuleAddress } from '../generated';
+import { lsMigratorAddress, sealModuleAbi, sealModuleAddress } from '../generated';
 import { getSaHopeCalldata } from './calldata';
 import { useWriteContractFlow } from '../shared/useWriteContractFlow';
-
-// TODO: temp hardcoded address, get the real one when it's available
-export const MIGRATOR_CONTRACT = '0x7Ac6E2b9ea61e2E587A06e083E4373918071dCfc';
 
 export function useSaHope({
   gas,
@@ -21,13 +18,13 @@ export function useSaHope({
   const chainId = useChainId();
   const { isConnected, address } = useAccount();
 
-  const enabled = !!address && isConnected && paramEnabled && !!MIGRATOR_CONTRACT;
+  const enabled = !!address && isConnected && paramEnabled;
 
   const writeContractFlowData = useWriteContractFlow({
     address: sealModuleAddress[chainId as keyof typeof sealModuleAddress],
     abi: sealModuleAbi,
     functionName: 'hope',
-    args: [address!, index, MIGRATOR_CONTRACT],
+    args: [address!, index, lsMigratorAddress[chainId as keyof typeof lsMigratorAddress]],
     chainId,
     gas,
     enabled,
@@ -37,7 +34,11 @@ export function useSaHope({
   });
 
   const calldata = address
-    ? getSaHopeCalldata({ ownerAddress: address, urnIndex: index, usrAddress: MIGRATOR_CONTRACT })
+    ? getSaHopeCalldata({
+        ownerAddress: address,
+        urnIndex: index,
+        usrAddress: lsMigratorAddress[chainId as keyof typeof lsMigratorAddress]
+      })
     : undefined;
 
   return { ...writeContractFlowData, calldata };

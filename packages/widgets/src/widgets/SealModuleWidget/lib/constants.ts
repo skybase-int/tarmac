@@ -226,6 +226,3 @@ export const riskLevelTooltipText =
 
 export const debtCeilingTooltipText =
   'If the debt ceiling utilization reaches 100%, no new USDS can be borrowed. The debt ceiling is a parameter determined by Sky ecosystem governance through a process of decentralised onchain voting.';
-
-// TODO: temp hardcoded address, get the real one when it's available
-export const MIGRATOR_CONTRACT = '0x7Ac6E2b9ea61e2E587A06e083E4373918071dCfc';
