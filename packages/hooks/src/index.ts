@@ -130,6 +130,7 @@ export { useSealMigrations } from './seal/useSealMigrations';
 export { checkUrnMigrationStatus } from './seal/checkUrnMigrationStatus';
 export { useSaHope } from './seal/useSaHope';
 export { useMigrateUrn } from './seal/useMigrateUrn';
+export { useIsUrnAuth as useIsSealUrnAuth } from './seal/useIsUrnAuth';
 
 // Stake Module
 export { useStakeRewardContracts } from './stake/useStakeRewardContracts';
@@ -137,6 +138,7 @@ export { useStakeUserDelegates } from './stake/useStakeUserDelegates';
 export { useStakeMulticall } from './stake/useStakeMulticall';
 export { useCurrentUrnIndex as useStakeCurrentIndex } from './stake/useCurrentUrnIndex';
 export { useUrnAddress as useStakeUrnAddress } from './stake/useUrnAddress';
+export { useIsUrnAuth as useIsStakeUrnAuth } from './stake/useIsUrnAuth';
 
 //Vaults
 export { useVault } from './vaults/useVault';

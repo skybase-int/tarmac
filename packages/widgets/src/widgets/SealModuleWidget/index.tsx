@@ -43,7 +43,9 @@ import {
   TOKENS,
   useStakeMulticall,
   useSaHope,
-  useMigrateUrn
+  useMigrateUrn,
+  useIsSealUrnAuth,
+  useIsStakeUrnAuth
 } from '@jetstreamgg/hooks';
 import { formatBigInt, getEtherscanLink, useDebounce } from '@jetstreamgg/utils';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
@@ -208,6 +210,14 @@ function SealModuleWidgetWrapped({
   );
 
   // TODO: add checks for the correct "can" state to see if we still need to "hope"
+  const { data: isOldUrnAuth } = useIsSealUrnAuth({
+    urnIndex: activeUrn?.urnIndex || 0n
+  });
+
+  const { data: isNewUrnAuth } = useIsStakeUrnAuth({
+    urnIndex: activeUrn?.urnIndex || 0n
+  });
+
   const {
     data: sealMkrAllowance,
     mutate: mutateSealMkrAllowance,
