@@ -784,7 +784,7 @@ export const ethFlowAbi = [
  */
 export const ethFlowAddress = {
   1: '0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC',
-  314310: '0x40A50cf069e992AA4536211B23F286eF88752187'
+  314310: '0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC'
 } as const;
 
 /**
@@ -1709,7 +1709,7 @@ export const lsMkrAbi = [
  */
 export const lsMkrAddress = {
   1: '0xb4e0e45e142101dC3Ed768bac219fC35EDBED295',
-  314310: '0x061FB3749C4eD5e3c2d28a284940093cfDFcBa20'
+  314310: '0xb4e0e45e142101dC3Ed768bac219fC35EDBED295'
 } as const;
 
 /**
@@ -2039,7 +2039,7 @@ export const lsMkrUsdsRewardAbi = [
  */
 export const lsMkrUsdsRewardAddress = {
   1: '0x92282235a39bE957fF1f37619fD22A9aE5507CB1',
-  314310: '0xe58cBE144dD5556C84874deC1b3F2d0D6Ac45F1b'
+  314310: '0x92282235a39bE957fF1f37619fD22A9aE5507CB1'
 } as const;
 
 /**
@@ -3594,7 +3594,7 @@ export const merkleDistributorAbi = [
  */
 export const merkleDistributorAddress = {
   1: '0xca9eF7F3404B23C77A2a0Dee8ab54B3338d35eAe',
-  314310: '0x50eCf62440E15289867D777208C105f7Fd431Ff7'
+  314310: '0xca9eF7F3404B23C77A2a0Dee8ab54B3338d35eAe'
 } as const;
 
 /**
@@ -4038,7 +4038,7 @@ export const mkrSkyAbi = [
  */
 export const mkrSkyAddress = {
   1: '0xBDcFCA946b6CDd965f99a839e4435Bcdc1bc470B',
-  314310: '0xBDcFCA946b6CDd965f99a839e4435Bcdc1bc470B'
+  314310: '0x831C6C334f8DDeE62246a5c81B82c8e18008b38f'
 } as const;
 
 /**
@@ -6314,7 +6314,7 @@ export const sealModuleAbi = [
  */
 export const sealModuleAddress = {
   1: '0x2b16C07D5fD5cC701a0a871eae2aad6DA5fc8f12',
-  314310: '0x9581c795DBcaf408E477F6f1908a41BE43093122'
+  314310: '0x2b16C07D5fD5cC701a0a871eae2aad6DA5fc8f12'
 } as const;
 
 /**
