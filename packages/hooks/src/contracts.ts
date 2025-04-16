@@ -179,7 +179,7 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
     name: 'sealModule',
     address: {
       [mainnet.id]: '0x2b16c07d5fd5cc701a0a871eae2aad6da5fc8f12',
-      [TENDERLY_CHAIN_ID]: '0x9581c795dbcaf408e477f6f1908a41be43093122'
+      [TENDERLY_CHAIN_ID]: '0x2b16c07d5fd5cc701a0a871eae2aad6da5fc8f12'
     }
   },
   // LockstakeMkr
@@ -187,7 +187,7 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
     name: 'lsMkr',
     address: {
       [mainnet.id]: '0xb4e0e45e142101dc3ed768bac219fc35edbed295',
-      [TENDERLY_CHAIN_ID]: '0x061fb3749c4ed5e3c2d28a284940093cfdfcba20'
+      [TENDERLY_CHAIN_ID]: '0xb4e0e45e142101dc3ed768bac219fc35edbed295'
     }
   },
   // Rewards Lockstake MKR
@@ -195,7 +195,7 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
     name: 'lsMkrUsdsReward',
     address: {
       [mainnet.id]: '0x92282235a39be957ff1f37619fd22a9ae5507cb1',
-      [TENDERLY_CHAIN_ID]: '0xe58cbe144dd5556c84874dec1b3f2d0d6ac45f1b'
+      [TENDERLY_CHAIN_ID]: '0x92282235a39be957ff1f37619fd22a9ae5507cb1'
     }
   },
   // Merkle Distributor
@@ -203,7 +203,7 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
     name: 'merkleDistributor',
     address: {
       [mainnet.id]: '0xca9eF7F3404B23C77A2a0Dee8ab54B3338d35eAe',
-      [TENDERLY_CHAIN_ID]: '0x50eCf62440E15289867D777208C105f7Fd431Ff7'
+      [TENDERLY_CHAIN_ID]: '0xca9eF7F3404B23C77A2a0Dee8ab54B3338d35eAe'
     }
   },
   // CoW Protocol

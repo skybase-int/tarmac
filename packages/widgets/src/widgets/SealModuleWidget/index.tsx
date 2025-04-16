@@ -26,7 +26,7 @@ import { SelectDelegate } from './components/SelectDelegate';
 import { MigrateSelectDelegate } from './components/MigrateSelectDelegate';
 import { PositionSummary } from './components/PositionSummary';
 import {
-  useCurrentUrnIndex,
+  useSealCurrentIndex,
   useSaMkrAllowance,
   useSaNgtAllowance,
   useSaNstAllowance as useSealUsdsAllowance,
@@ -183,7 +183,7 @@ function SealModuleWidgetWrapped({
   } = useContext(SealModuleWidgetContext);
 
   // Returns the urn index to use for opening a new urn
-  const { data: currentUrnIndex } = useCurrentUrnIndex();
+  const { data: currentUrnIndex } = useSealCurrentIndex();
 
   const { data: externalParamUrnAddress } = useUrnAddress(
     externalWidgetState?.urnIndex !== undefined ? BigInt(externalWidgetState.urnIndex) : -1n

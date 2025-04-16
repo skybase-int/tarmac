@@ -2,11 +2,11 @@ import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
 import { useContext, useEffect } from 'react';
 import { SealModuleWidgetContext } from '../context/context';
-import { useStakeCurrentIndex, useStakeUrnAddress } from '@jetstreamgg/hooks';
+import { useCurrentUrnIndex, useStakeUrnAddress } from '@jetstreamgg/hooks';
 
 export const MigrateAbout = () => {
   const { setIsLockCompleted, setIsBorrowCompleted, setNewStakeUrn } = useContext(SealModuleWidgetContext);
-  const { data: stakeUrnIndex } = useStakeCurrentIndex();
+  const { data: stakeUrnIndex } = useCurrentUrnIndex();
   const { data: urnAddress } = useStakeUrnAddress(stakeUrnIndex || 0n);
 
   // We automatically complete this steps to proceed with migration flow

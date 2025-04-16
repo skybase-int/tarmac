@@ -30,7 +30,11 @@ import { SealFlow, SealStep } from '../lib/constants';
 import { OnSealUrnChange } from '../lib/types';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { needsDelegateUpdate, needsRewardUpdate } from '../lib/utils';
-import { lsMigratorAddress } from 'node_modules/@jetstreamgg/hooks/src/generated';
+
+// TODO: need to import this from generated file
+const lsMigratorAddress = {
+  314310: '0xB1fC11F03b084FfF8daE95fA08e8D69ad2547Ec1'
+} as const;
 
 export interface SealModuleWidgetContextProps {
   isLockCompleted: boolean;
