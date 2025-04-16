@@ -9162,7 +9162,7 @@ export const wethSepoliaConfig = { address: wethSepoliaAddress, abi: wethSepolia
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const lsMigratorAddress = {
-  314310: '0xB1fC11F03b084FfF8daE95fA08e8D69ad2547Ec1'
+  314310: '0xf4c5C29b14f0237131F7510A51684c8191f98E06'
 } as const;
 
 export const lsMigratorAbi = [

@@ -56,7 +56,7 @@ import { ArrowLeft } from 'lucide-react';
 import { getValidatedState } from '@widgets/lib/utils';
 import { UnconnectedState } from './components/UnconnectedState';
 import { useLingui } from '@lingui/react';
-import { MigrateHopeOld } from './components/MigrateHopeOld';
+// import { MigrateHopeOld } from './components/MigrateHopeOld';
 import { MigratePosition } from './components/MigratePosition';
 import { MigrateAbout } from './components/MigrateAbout';
 import { MigratePositionSummary } from './components/MigratePositionSummary';
@@ -566,6 +566,9 @@ function SealModuleWidgetWrapped({
   const needsOldUrnAuth = isOldUrnAuth === undefined || !!isOldUrnAuth;
   const needsNewUrnAuth = isNewUrnAuth === undefined || !!isNewUrnAuth;
 
+  console.log('hopefind needsOldUrnAuth', needsOldUrnAuth);
+  console.log('hopefind needsNewUrnAuth', needsNewUrnAuth);
+
   // Generate calldata when all steps are complete
   useEffect(() => {
     if (allStepsComplete && address && urnIndexForTransaction !== undefined && newStakeUrn?.urnIndex) {
@@ -614,6 +617,10 @@ function SealModuleWidgetWrapped({
         setButtonText(t`Confirm`);
       } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.SUMMARY) {
         setButtonText(t`Submit`);
+      } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.HOPE_OLD) {
+        setButtonText(t`You must hope it`);
+      } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.MIGRATE) {
+        setButtonText(t`Migration time 😎`);
       } else if (shouldOpenFromWidgetButton) {
         setButtonText(t`New positions disabled`);
       } else if ([SealStep.REWARDS, SealStep.DELEGATE].includes(currentStep)) {
@@ -725,11 +732,11 @@ function SealModuleWidgetWrapped({
         });
       } else if (currentUrnIndex && currentUrnIndex > 0n) {
         if (widgetState.flow === SealFlow.MIGRATE && txStatus == TxStatus.SUCCESS) {
-          setWidgetState({
-            flow: SealFlow.MANAGE,
-            action: SealAction.HOPE,
-            screen: SealScreen.ACTION
-          });
+          // setWidgetState({
+          //   flow: SealFlow.MANAGE,
+          //   action: SealAction.HOPE,
+          //   screen: SealScreen.ACTION
+          // });
           // TODO: hope() retry prepare here
         } else {
           setWidgetState({
@@ -776,7 +783,33 @@ function SealModuleWidgetWrapped({
               : SealAction.MULTICALL
         }));
       }
-    } // else { } //For single action managements, we'll need to be more detailed here
+    } else if (
+      widgetState.flow === SealFlow.MIGRATE &&
+      widgetState.action === SealAction.MULTICALL &&
+      widgetState.screen === SealScreen.ACTION
+    ) {
+      // If we already opened & hoped the new urn, jump straight to this step
+      if (needsOldUrnAuth) {
+        setWidgetState((prev: WidgetState) => ({
+          ...prev,
+          action: SealAction.HOPE
+        }));
+        setCurrentStep(SealStep.HOPE_OLD);
+      }
+    } else if (
+      widgetState.flow === SealFlow.MIGRATE &&
+      widgetState.action === SealAction.HOPE
+      // &&
+      // widgetState.screen === SealScreen.ACTION
+    ) {
+      setWidgetState((prev: WidgetState) => ({
+        ...prev,
+        action: SealAction.MIGRATE
+      }));
+      setCurrentStep(SealStep.MIGRATE);
+
+      //
+    }
   }, [
     debouncedUsdsAmount,
     debouncedLockAmount,
@@ -1063,27 +1096,31 @@ function SealModuleWidgetWrapped({
           widgetState.flow === SealFlow.MIGRATE)
       ? submitOnClick
       : // After successful open, we now hope the new urn
-        txStatus === TxStatus.SUCCESS &&
-          currentStep === SealStep.SUMMARY &&
-          widgetState.flow === SealFlow.MIGRATE
-        ? hopeOnClick
-        : // After successful hope, we are ready to migrate
-          txStatus === TxStatus.SUCCESS &&
+        (txStatus === TxStatus.SUCCESS &&
             currentStep === SealStep.SUMMARY &&
-            widgetState.action === SealAction.HOPE &&
-            widgetState.flow === SealFlow.MIGRATE
+            widgetState.flow === SealFlow.MIGRATE) ||
+          // TODO: this needs tweaking
+          needsOldUrnAuth
+        ? hopeOnClick
+        : !needsOldUrnAuth
           ? migrateOnClick
-          : txStatus === TxStatus.SUCCESS
-            ? finishOnClick
-            : currentStep === SealStep.SUMMARY && widgetState.action === SealAction.APPROVE
-              ? approveOnClick
-              : currentStep === SealStep.SUMMARY && widgetState.action === SealAction.MULTICALL
-                ? submitOnClick
-                : shouldOpenFromWidgetButton
-                  ? handleClickOpenPosition
-                  : widgetState.flow === SealFlow.MANAGE && widgetState.action === SealAction.CLAIM
-                    ? claimOnClick
-                    : nextOnClick;
+          : // After successful hope, we are ready to migrate
+            txStatus === TxStatus.SUCCESS &&
+              currentStep === SealStep.SUMMARY &&
+              widgetState.action === SealAction.HOPE &&
+              widgetState.flow === SealFlow.MIGRATE
+            ? migrateOnClick
+            : txStatus === TxStatus.SUCCESS
+              ? finishOnClick
+              : currentStep === SealStep.SUMMARY && widgetState.action === SealAction.APPROVE
+                ? approveOnClick
+                : currentStep === SealStep.SUMMARY && widgetState.action === SealAction.MULTICALL
+                  ? submitOnClick
+                  : shouldOpenFromWidgetButton
+                    ? handleClickOpenPosition
+                    : widgetState.flow === SealFlow.MANAGE && widgetState.action === SealAction.CLAIM
+                      ? claimOnClick
+                      : nextOnClick;
 
   const [stepIndex, totalSteps] = useMemo(
     () => [getStepIndex(currentStep, widgetState.flow) + 1, getTotalSteps(widgetState.flow)],
@@ -1346,15 +1383,7 @@ const MigrateWizard = ({
         <MigrateSelectDelegate onExternalLinkClicked={onExternalLinkClicked} />
       )}
       {currentStep === SealStep.SUMMARY && <MigratePositionSummary />}
-      {currentStep === SealStep.HOPE_OLD && (
-        <MigrateHopeOld
-          isConnectedAndEnabled={isConnectedAndEnabled}
-          onExternalLinkClicked={onExternalLinkClicked}
-          onClickTrigger={onClickTrigger}
-          tabSide={tabSide}
-          termsLink={termsLink}
-        />
-      )}
+      {currentStep === SealStep.HOPE_OLD && <MigratePositionSummary />}
       {currentStep === SealStep.MIGRATE && (
         <MigratePosition
           isConnectedAndEnabled={isConnectedAndEnabled}
