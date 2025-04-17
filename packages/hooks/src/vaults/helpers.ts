@@ -8,9 +8,9 @@ import { TENDERLY_CHAIN_ID } from '../constants';
 export const getIlkName = (chainId: number, version: number = 1): SupportedCollateralTypes => {
   switch (chainId) {
     case mainnet.id:
-      return version === 1 ? SupportedCollateralTypes.LSE_MKR_A : SupportedCollateralTypes.LOCKSTAKE_SKY;
+      return version === 1 ? SupportedCollateralTypes.LSE_MKR_A : SupportedCollateralTypes.LSEV2_A;
     case TENDERLY_CHAIN_ID:
     default:
-      return version === 1 ? SupportedCollateralTypes.LSE_MKR_A : SupportedCollateralTypes.LOCKSTAKE_SKY;
+      return version === 1 ? SupportedCollateralTypes.LSE_MKR_A : SupportedCollateralTypes.LSEV2_A;
   }
 };

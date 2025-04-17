@@ -294,7 +294,7 @@ function SealModuleWidgetWrapped({
 
   const migrate = useMigrateUrn({
     // TODO: make sure this is the index of the urn we want to migrate
-    oldIndex: currentUrnIndex || 0n,
+    oldIndex: activeUrn?.urnIndex || 0n,
     newIndex: newStakeUrn?.urnIndex || 0n,
     onStart: (hash: string) => {
       addRecentTransaction?.({
@@ -563,11 +563,8 @@ function SealModuleWidgetWrapped({
   const needsLockAllowance = selectedToken === TOKENS.mkr ? needsMkrAllowance : needsNgtAllowance;
   const needsUsdsAllowance = !!(sealUsdsAllowance === undefined || sealUsdsAllowance < debouncedUsdsAmount);
 
-  const needsOldUrnAuth = isOldUrnAuth === undefined || !!isOldUrnAuth;
-  const needsNewUrnAuth = isNewUrnAuth === undefined || !!isNewUrnAuth;
-
-  console.log('hopefind needsOldUrnAuth', needsOldUrnAuth);
-  console.log('hopefind needsNewUrnAuth', needsNewUrnAuth);
+  const needsOldUrnAuth = isOldUrnAuth === undefined || !isOldUrnAuth;
+  // const needsNewUrnAuth = isNewUrnAuth === undefined || !isNewUrnAuth;
 
   // Generate calldata when all steps are complete
   useEffect(() => {
@@ -795,6 +792,14 @@ function SealModuleWidgetWrapped({
           action: SealAction.HOPE
         }));
         setCurrentStep(SealStep.HOPE_OLD);
+        // We're ready to migrate
+      } else {
+        //TODO: account for state where use has old auth and needs new auth (should be an outlier)
+        setWidgetState((prev: WidgetState) => ({
+          ...prev,
+          action: SealAction.MIGRATE
+        }));
+        setCurrentStep(SealStep.MIGRATE);
       }
     } else if (
       widgetState.flow === SealFlow.MIGRATE &&

@@ -13,13 +13,15 @@ export function useUrnAddress(urnIndex: bigint): UseUrnAddressResponse {
 
   const dataSource = stakeDataSource(chainId, 'getUrn');
 
+  const engineAddress = stakeModuleAddress[chainId as keyof typeof stakeModuleAddress];
+
   const { data, isLoading, error, refetch } = useReadContract({
     chainId,
-    address: stakeModuleAddress[chainId as keyof typeof stakeModuleAddress],
+    address: engineAddress,
     abi: stakeModuleAbi,
     functionName: 'ownerUrns',
     args: [address!, urnIndex],
-    scopeKey: `urnAddress-${address}-${urnIndex}-${chainId}`,
+    scopeKey: `urnAddress-${address}-${urnIndex}-${chainId}-${engineAddress}`,
     query: {
       enabled: !!address
     }

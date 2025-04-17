@@ -1,5 +1,5 @@
 import { useAccount, useChainId } from 'wagmi';
-import { lsMigratorAddress, useReadStakeModuleIsUrnAuth } from '../generated';
+import { lsMigratorAddress, stakeModuleAddress, useReadStakeModuleIsUrnAuth } from '../generated';
 import { ReadHook, ReadHookParams } from '../hooks';
 import { ZERO_ADDRESS } from '../constants';
 import { lseDataSource } from '../seal/datasources';
@@ -17,7 +17,8 @@ export function useIsUrnAuth({
   const { isConnected, address } = useAccount();
   const chainId = useChainId();
 
-  const enabled = isConnected && paramEnabled && !!address && address !== ZERO_ADDRESS;
+  const enabled =
+    isConnected && paramEnabled && !!address && address !== ZERO_ADDRESS && urnIndex !== undefined;
 
   const {
     data: isUrnAuth,
@@ -25,14 +26,15 @@ export function useIsUrnAuth({
     isLoading,
     error
   } = useReadStakeModuleIsUrnAuth({
+    //TODO: remove address property after address is correctly added to  generated file
+    address: stakeModuleAddress[chainId as keyof typeof stakeModuleAddress],
     args: [
       address || ZERO_ADDRESS,
       urnIndex || 0n,
       lsMigratorAddress[chainId as keyof typeof lsMigratorAddress]
     ],
     query: {
-      enabled: enabled && !!address && !!urnIndex
-      // staleTime: 30_000
+      enabled
     }
   });
 

@@ -17,7 +17,8 @@ export function useIsUrnAuth({
   const { isConnected, address } = useAccount();
   const chainId = useChainId();
 
-  const enabled = isConnected && paramEnabled && !!address && address !== ZERO_ADDRESS;
+  const enabled =
+    isConnected && paramEnabled && !!address && address !== ZERO_ADDRESS && urnIndex !== undefined;
 
   const {
     data: isUrnAuth,
@@ -31,7 +32,7 @@ export function useIsUrnAuth({
       lsMigratorAddress[chainId as keyof typeof lsMigratorAddress]
     ],
     query: {
-      enabled: enabled && !!address && !!urnIndex
+      enabled
       // staleTime: 30_000
     }
   });

@@ -7,7 +7,8 @@ import { useCurrentUrnIndex, useStakeUrnAddress } from '@jetstreamgg/hooks';
 export const MigrateAbout = () => {
   const { setIsLockCompleted, setIsBorrowCompleted, setNewStakeUrn } = useContext(SealModuleWidgetContext);
   const { data: stakeUrnIndex } = useCurrentUrnIndex();
-  const { data: urnAddress } = useStakeUrnAddress(stakeUrnIndex || 0n);
+
+  const { data: stakeUrnAddress } = useStakeUrnAddress(stakeUrnIndex || 0n);
 
   // We automatically complete this steps to proceed with migration flow
   // TODO: make sure to clear this if the user clicks back to enter manage flow
@@ -17,7 +18,7 @@ export const MigrateAbout = () => {
   }, []);
 
   useEffect(() => {
-    setNewStakeUrn({ urnAddress, urnIndex: stakeUrnIndex }, () => {});
+    setNewStakeUrn({ urnAddress: stakeUrnAddress, urnIndex: stakeUrnIndex }, () => {});
   }, [stakeUrnIndex]);
 
   return (
