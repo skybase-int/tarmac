@@ -61,9 +61,7 @@ export function PositionDetailAccordion({
               gap={1}
               iconClassName="text-textSecondary"
             />
-            <Text className="text-right text-sm">
-              {formatBigInt(math.calculateConversion(TOKENS.mkr, sealedAmount || 0n))} SKY
-            </Text>
+            <Text className="text-right text-sm">{formatBigInt(sealedAmount || 0n)} SKY</Text>
           </motion.div>
           {!!borrowedAmount && borrowedAmount > 0n && (
             <motion.div className="flex justify-between" variants={positionAnimations}>

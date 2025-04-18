@@ -1,9 +1,11 @@
 import { HStack } from '@/modules/layout/components/HStack';
 import {
+  getIlkName,
   RiskLevel,
-  TOKENS,
+  // TOKENS,
   useSealPosition,
-  useUrnAddress,
+  useStakeUrnAddress,
+  // useUrnAddress,
   useVault,
   ZERO_ADDRESS
 } from '@jetstreamgg/hooks';
@@ -22,8 +24,9 @@ import { DetailSection } from '@/modules/ui/components/DetailSection';
 import { DetailSectionRow } from '@/modules/ui/components/DetailSectionRow';
 import { StakeDelegateCard } from './StakeDelegateCard';
 import { StakeRewardCard } from './StakeRewardCard';
-import { useMemo } from 'react';
+// import { useMemo } from 'react';
 import { formatUrnIndex } from '@jetstreamgg/widgets';
+import { useChainId } from 'wagmi';
 
 const RISK_COLORS = {
   [RiskLevel.LIQUIDATION]: { text: 'text-red-400', bg: 'bg-red-400' },
@@ -37,17 +40,22 @@ export function StakePositionOverview({
 }: {
   positionIndex: number;
 }): React.ReactElement | null {
+  const chainId = useChainId();
   const { data, isLoading, error } = useSealPosition({ urnIndex: positionIndex });
-  const { data: urnAddress, isLoading: urnAddressLoading } = useUrnAddress(BigInt(positionIndex));
-  const { data: vault, isLoading: vaultLoading, error: vaultError } = useVault(urnAddress || ZERO_ADDRESS);
+  const { data: urnAddress, isLoading: urnAddressLoading } = useStakeUrnAddress(BigInt(positionIndex));
+  const {
+    data: vault,
+    isLoading: vaultLoading,
+    error: vaultError
+  } = useVault(urnAddress || ZERO_ADDRESS, getIlkName(chainId, 2));
 
   if (!error && !isLoading && !data) return null;
 
   const riskColor = vault?.riskLevel ? RISK_COLORS[vault?.riskLevel] : undefined;
 
-  const skySealed = useMemo(() => {
-    return vault?.collateralAmount ? math.calculateConversion(TOKENS.mkr, vault?.collateralAmount || 0n) : 0n;
-  }, [vault?.collateralAmount]);
+  // const skySealed = useMemo(() => {
+  //   return vault?.collateralAmount ? math.calculateConversion(TOKENS.mkr, vault?.collateralAmount || 0n) : 0n;
+  // }, [vault?.collateralAmount]);
 
   return (
     <DetailSection
@@ -73,7 +81,7 @@ export function StakePositionOverview({
             <SealSealedCard
               label={t`${StakeToken.SKY} sealed`}
               token={{ name: 'Sky', symbol: 'SKY' }}
-              balance={skySealed}
+              balance={vault?.collateralAmount || 0n}
               isLoading={vaultLoading}
               error={vaultError}
             />
