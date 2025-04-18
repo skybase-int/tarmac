@@ -6,7 +6,8 @@ import { TOKENS } from '@jetstreamgg/hooks';
 
 export enum SealFlow {
   OPEN = 'open',
-  MANAGE = 'manage'
+  MANAGE = 'manage',
+  MIGRATE = 'migrate'
 }
 
 export enum SealAction {
@@ -26,7 +27,10 @@ export enum SealAction {
   REWARDS = 'rewards',
   DELEGATE = 'delegate',
 
-  CLAIM = 'claim'
+  CLAIM = 'claim',
+
+  MIGRATE = 'migrate',
+  HOPE = 'hope'
 }
 
 export enum SealStep {
@@ -34,7 +38,13 @@ export enum SealStep {
   OPEN_BORROW = 'open_borrow', // TODO: technically lock and borrow
   REWARDS = 'rewards',
   DELEGATE = 'delegate',
-  SUMMARY = 'summary'
+  SUMMARY = 'summary',
+
+  // Migrate-only steps
+  OPEN_NEW = 'open_new',
+  HOPE_NEW = 'hope_new',
+  HOPE_OLD = 'hope_old',
+  MIGRATE = 'migrate'
 }
 
 export enum SealScreen {
@@ -52,6 +62,16 @@ export function getStepTitle(step: SealStep, tab: 'left' | 'right'): MessageDesc
       return msg`Select a delegate`;
     case SealStep.SUMMARY:
       return msg`Confirm your position`;
+
+    // TODO: get final copy for these titles
+    case SealStep.OPEN_NEW:
+      return msg`Open a position in new engine`;
+    case SealStep.HOPE_OLD:
+      return msg`Approve migrator for old position`;
+    case SealStep.HOPE_NEW:
+      return msg`Approve migrator for new position`;
+    case SealStep.MIGRATE:
+      return msg`Migrate position`;
     default:
       return msg``;
   }

@@ -1,5 +1,5 @@
 import { Text } from '@widgets/shared/components/ui/Typography';
-import { useUrnAddress, useVault } from '@jetstreamgg/hooks';
+import { getIlkName, useStakeUrnAddress, useVault } from '@jetstreamgg/hooks';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { useContext, useMemo } from 'react';
@@ -17,6 +17,7 @@ import { StakeAction, StakeFlow, StakeStep } from '../lib/constants';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
 import { motion } from 'framer-motion';
+import { useChainId } from 'wagmi';
 
 export const OpenNewUrn = ({
   isConnectedAndEnabled,
@@ -29,6 +30,7 @@ export const OpenNewUrn = ({
   tabSide: 'left' | 'right';
   onInputAmountChange: (val: bigint, userTriggered?: boolean) => void;
 }) => {
+  const chainId = useChainId();
   const { widgetState } = useContext(WidgetContext);
   const {
     setSkyToLock,
@@ -42,9 +44,9 @@ export const OpenNewUrn = ({
     setIsBorrowCompleted
   } = useContext(StakeModuleWidgetContext);
 
-  const { data: urnAddress } = useUrnAddress(activeUrn?.urnIndex || 0n);
+  const { data: urnAddress } = useStakeUrnAddress(activeUrn?.urnIndex || 0n);
 
-  const { data: vaultData } = useVault(urnAddress);
+  const { data: vaultData } = useVault(urnAddress, getIlkName(chainId, 2));
 
   const showTabs = useMemo(
     () =>

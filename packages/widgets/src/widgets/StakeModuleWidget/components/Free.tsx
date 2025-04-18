@@ -2,7 +2,7 @@ import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
 import { TOKENS, useVault, useSimulatedVault, getIlkName } from '@jetstreamgg/hooks';
 import { math } from '@jetstreamgg/utils';
 import { t } from '@lingui/core/macro';
-import { useContext, useEffect, useMemo } from 'react';
+import { useContext, useEffect } from 'react';
 import { useAccount, useChainId } from 'wagmi';
 import { StakeModuleWidgetContext } from '../context/context';
 import { WidgetContext } from '@widgets/context/WidgetContext';
@@ -25,9 +25,10 @@ export const Free = ({
     useContext(StakeModuleWidgetContext);
   const { widgetState } = useContext(WidgetContext);
 
-  const skySealed = useMemo(() => {
-    return sealedAmount ? sealedAmount * math.MKR_TO_SKY_PRICE_RATIO : 0n;
-  }, [sealedAmount]);
+  const skySealed = sealedAmount || 0n;
+  // const skySealed = useMemo(() => {
+  //   return sealedAmount ? sealedAmount * math.MKR_TO_SKY_PRICE_RATIO : 0n;
+  // }, [sealedAmount]);
 
   const { data: existingVault } = useVault(activeUrn?.urnAddress, ilkName);
 

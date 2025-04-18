@@ -151,6 +151,10 @@ msgstr ""
 msgid "About Staking Rewards"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
+msgid "About the Migration"
+msgstr ""
+
 #: packages/widgets/src/widgets/SealModuleWidget/components/About.tsx
 msgid "About the Seal Engine"
 msgstr ""
@@ -316,6 +320,14 @@ msgstr ""
 msgid "Approve {0} amount"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+msgid "Approve migrator for new position"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+msgid "Approve migrator for old position"
+msgstr ""
+
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 msgid "Approve repay amount"
@@ -349,6 +361,10 @@ msgstr ""
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
 msgid "Approve supply amount"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
+msgid "Approve the migrator to migrate the old contract"
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
@@ -466,6 +482,7 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Borrow.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Borrow.tsx
 msgid "Borrow rate"
 msgstr ""
@@ -481,6 +498,7 @@ msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 msgid "Borrowed"
 msgstr ""
 
@@ -488,6 +506,8 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 msgid "Borrowing"
 msgstr ""
 
@@ -615,6 +635,7 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Borrow.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Borrow.tsx
 msgid "Collateralization ratio"
 msgstr ""
@@ -759,6 +780,7 @@ msgstr ""
 #. placeholder {0}: displayToken.symbol
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 msgid "Current {0} price"
 msgstr ""
 
@@ -805,6 +827,7 @@ msgstr ""
 #: apps/webapp/src/modules/seal/components/SealDelegateCard.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 msgid "Delegate"
 msgstr ""
 
@@ -903,10 +926,15 @@ msgstr ""
 msgid "Exchange rate"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
+msgid "Execute the migration transaction"
+msgstr ""
+
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 msgid "Exit fee"
 msgstr ""
 
@@ -1054,6 +1082,10 @@ msgid "How much would you like to unstake?"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/OpenNewUrn.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePosition.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateOpenNewUrn.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateHopeOld.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateHopeNew.tsx
 msgid "I have read and understand the"
 msgstr ""
 
@@ -1128,6 +1160,7 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Borrow.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Borrow.tsx
 msgid "Liquidation price"
 msgstr ""
@@ -1137,6 +1170,7 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Borrow.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Borrow.tsx
 msgid "Liquidation ratio"
 msgstr ""
@@ -1180,6 +1214,10 @@ msgstr ""
 #. placeholder {0}: formatUrnIndex(activeUrn?.urnIndex || 0n)
 #: packages/widgets/src/widgets/StakeModuleWidget/components/OpenNewUrn.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/OpenNewUrn.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePosition.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateOpenNewUrn.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateHopeOld.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateHopeNew.tsx
 msgid "Manage Position {0}"
 msgstr ""
 
@@ -1210,8 +1248,16 @@ msgstr ""
 msgid "Metrics"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+msgid "Migrate position"
+msgstr ""
+
 #: packages/widgets/src/widgets/BalancesWidget/components/SealBalanceWarningCard.tsx
 msgid "Migrate your position(s) to the Staking Engine"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
+msgid "Migrating your Seal Engine position requires 5 steps"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
@@ -1293,6 +1339,9 @@ msgstr ""
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 #: packages/widgets/src/widgets/BalancesWidget/lib/getHistoryRightText.ts
 msgid "No delegate"
 msgstr ""
@@ -1349,6 +1398,10 @@ msgstr ""
 msgid "Open a position"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+msgid "Open a position in new engine"
+msgstr ""
+
 #: apps/webapp/src/modules/stake/components/StakeHistory.tsx
 #: apps/webapp/src/modules/seal/components/SealHistory.tsx
 msgid "Open position"
@@ -1356,7 +1409,15 @@ msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/OpenNewUrn.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/OpenNewUrn.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePosition.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateOpenNewUrn.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateHopeOld.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateHopeNew.tsx
 msgid "Open Position"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
+msgid "Open the new position, approving it for the migrator contract"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
@@ -1443,6 +1504,7 @@ msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 msgid "Position summary"
 msgstr ""
 
@@ -1493,6 +1555,7 @@ msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 msgid "Repaying"
 msgstr ""
 
@@ -1580,6 +1643,7 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Borrow.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Borrow.tsx
 msgid "Risk level"
 msgstr ""
@@ -1621,6 +1685,10 @@ msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/UnconnectedState.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/OpenNewUrn.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePosition.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateOpenNewUrn.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateHopeOld.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateHopeNew.tsx
 msgid "Seal and borrow"
 msgstr ""
 
@@ -1647,6 +1715,7 @@ msgid "Seal Positions"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 msgid "Seal reward"
 msgstr ""
 
@@ -1659,11 +1728,14 @@ msgid "Seal your tokens and continue to collect rewards"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 msgid "Sealed"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 msgid "Sealing"
 msgstr ""
 
@@ -1682,6 +1754,14 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "Select a delegate"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
+msgid "Select a delegate for your new position"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
+msgid "Select a reward contract for your new position"
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
@@ -2032,6 +2112,10 @@ msgid "Switch network"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/OpenNewUrn.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePosition.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateOpenNewUrn.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateHopeOld.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateHopeNew.tsx
 msgid "Terms of Use."
 msgstr ""
 
@@ -2342,6 +2426,10 @@ msgstr ""
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/components/UnconnectedState.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/OpenNewUrn.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePosition.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateOpenNewUrn.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateHopeOld.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateHopeNew.tsx
 msgid "Unseal and pay back"
 msgstr ""
 
@@ -2350,6 +2438,7 @@ msgid "Unseal kick"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 msgid "Unsealing"
 msgstr ""
 

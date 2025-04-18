@@ -784,7 +784,7 @@ export const ethFlowAbi = [
  */
 export const ethFlowAddress = {
   1: '0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC',
-  314310: '0x40A50cf069e992AA4536211B23F286eF88752187'
+  314310: '0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC'
 } as const;
 
 /**
@@ -1709,7 +1709,7 @@ export const lsMkrAbi = [
  */
 export const lsMkrAddress = {
   1: '0xb4e0e45e142101dC3Ed768bac219fC35EDBED295',
-  314310: '0x061FB3749C4eD5e3c2d28a284940093cfDFcBa20'
+  314310: '0xb4e0e45e142101dC3Ed768bac219fC35EDBED295'
 } as const;
 
 /**
@@ -2039,7 +2039,7 @@ export const lsMkrUsdsRewardAbi = [
  */
 export const lsMkrUsdsRewardAddress = {
   1: '0x92282235a39bE957fF1f37619fD22A9aE5507CB1',
-  314310: '0xe58cBE144dD5556C84874deC1b3F2d0D6Ac45F1b'
+  314310: '0x92282235a39bE957fF1f37619fD22A9aE5507CB1'
 } as const;
 
 /**
@@ -3594,7 +3594,7 @@ export const merkleDistributorAbi = [
  */
 export const merkleDistributorAddress = {
   1: '0xca9eF7F3404B23C77A2a0Dee8ab54B3338d35eAe',
-  314310: '0x50eCf62440E15289867D777208C105f7Fd431Ff7'
+  314310: '0xca9eF7F3404B23C77A2a0Dee8ab54B3338d35eAe'
 } as const;
 
 /**
@@ -4038,7 +4038,7 @@ export const mkrSkyAbi = [
  */
 export const mkrSkyAddress = {
   1: '0xBDcFCA946b6CDd965f99a839e4435Bcdc1bc470B',
-  314310: '0xBDcFCA946b6CDd965f99a839e4435Bcdc1bc470B'
+  314310: '0x831C6C334f8DDeE62246a5c81B82c8e18008b38f'
 } as const;
 
 /**
@@ -6314,7 +6314,7 @@ export const sealModuleAbi = [
  */
 export const sealModuleAddress = {
   1: '0x2b16C07D5fD5cC701a0a871eae2aad6DA5fc8f12',
-  314310: '0x9581c795DBcaf408E477F6f1908a41BE43093122'
+  314310: '0x2b16C07D5fD5cC701a0a871eae2aad6DA5fc8f12'
 } as const;
 
 /**
@@ -9156,6 +9156,853 @@ export const wethSepoliaAddress = {
  * [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14)
  */
 export const wethSepoliaConfig = { address: wethSepoliaAddress, abi: wethSepoliaAbi } as const;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// lsMigrator
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const lsMigratorAddress = {
+  314310: '0xf4c5C29b14f0237131F7510A51684c8191f98E06'
+} as const;
+
+export const lsMigratorAbi = [
+  {
+    type: 'constructor',
+    inputs: [
+      { name: 'oldEngine_', internalType: 'address', type: 'address' },
+      { name: 'newEngine_', internalType: 'address', type: 'address' },
+      { name: 'mkrSky_', internalType: 'address', type: 'address' },
+      { name: 'flash_', internalType: 'address', type: 'address' }
+    ],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'flash',
+    outputs: [{ name: '', internalType: 'contract FlashLike', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'oldOwner', internalType: 'address', type: 'address' },
+      { name: 'oldIndex', internalType: 'uint256', type: 'uint256' },
+      { name: 'newOwner', internalType: 'address', type: 'address' },
+      { name: 'newIndex', internalType: 'uint256', type: 'uint256' },
+      { name: 'ref', internalType: 'uint16', type: 'uint16' }
+    ],
+    name: 'migrate',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'mkrSky',
+    outputs: [{ name: '', internalType: 'contract MkrSkyLike', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'mkrSkyRate',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'newEngine',
+    outputs: [{ name: '', internalType: 'contract LockstakeEngineLike', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'oldEngine',
+    outputs: [{ name: '', internalType: 'contract LockstakeEngineLike', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'oldIlk',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'initiator', internalType: 'address', type: 'address' },
+      { name: 'radAmt', internalType: 'uint256', type: 'uint256' },
+      { name: '', internalType: 'uint256', type: 'uint256' },
+      { name: 'data', internalType: 'bytes', type: 'bytes' }
+    ],
+    name: 'onVatDaiFlashLoan',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'usdsJoin',
+    outputs: [{ name: '', internalType: 'contract UsdsJoinLike', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'vat',
+    outputs: [{ name: '', internalType: 'contract VatLike', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'event',
+    anonymous: true,
+    inputs: [
+      { name: 'oldOwner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'oldIndex', internalType: 'uint256', type: 'uint256', indexed: true },
+      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'newIndex', internalType: 'uint256', type: 'uint256', indexed: true },
+      { name: 'ink', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'debt', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Migrate'
+  }
+] as const;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// lsSky
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const lsSkyAddress = {
+  314310: '0x9cC87998ba85D81e017E6B7662aC00eE2Ab8fe13'
+} as const;
+
+export const lsSkyAbi = [
+  { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
+  {
+    type: 'function',
+    inputs: [
+      { name: '', internalType: 'address', type: 'address' },
+      { name: '', internalType: 'address', type: 'address' }
+    ],
+    name: 'allowance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'approve',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'burn',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'decimals',
+    outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'usr', internalType: 'address', type: 'address' }],
+    name: 'deny',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'mint',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'name',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'usr', internalType: 'address', type: 'address' }],
+    name: 'rely',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'symbol',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'transfer',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'transferFrom',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'version',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: 'wards',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'spender', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Approval'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'usr', internalType: 'address', type: 'address', indexed: true }],
+    name: 'Deny'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'usr', internalType: 'address', type: 'address', indexed: true }],
+    name: 'Rely'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Transfer'
+  }
+] as const;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// stakeModule
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const stakeModuleAddress = {
+  314310: '0xB1fC11F03b084FfF8daE95fA08e8D69ad2547Ec1'
+} as const;
+
+export const stakeModuleAbi = [
+  {
+    type: 'constructor',
+    inputs: [
+      { name: 'voteDelegateFactory_', internalType: 'address', type: 'address' },
+      { name: 'usdsJoin_', internalType: 'address', type: 'address' },
+      { name: 'ilk_', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'sky_', internalType: 'address', type: 'address' },
+      { name: 'lssky_', internalType: 'address', type: 'address' },
+      { name: 'fee_', internalType: 'uint256', type: 'uint256' }
+    ],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'farm', internalType: 'address', type: 'address' }],
+    name: 'addFarm',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'farm', internalType: 'address', type: 'address' }],
+    name: 'delFarm',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'usr', internalType: 'address', type: 'address' }],
+    name: 'deny',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'index', internalType: 'uint256', type: 'uint256' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'wad', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'draw',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'farm', internalType: 'address', type: 'address' }],
+    name: 'farms',
+    outputs: [{ name: '', internalType: 'enum LockstakeEngine.FarmStatus', type: 'uint8' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'fee',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'what', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'data', internalType: 'address', type: 'address' }
+    ],
+    name: 'file',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'index', internalType: 'uint256', type: 'uint256' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'wad', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'free',
+    outputs: [{ name: 'freed', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'index', internalType: 'uint256', type: 'uint256' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'wad', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'freeNoFee',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'index', internalType: 'uint256', type: 'uint256' },
+      { name: 'farm', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' }
+    ],
+    name: 'getReward',
+    outputs: [{ name: 'amt', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'index', internalType: 'uint256', type: 'uint256' },
+      { name: 'usr', internalType: 'address', type: 'address' }
+    ],
+    name: 'hope',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'ilk',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'index', internalType: 'uint256', type: 'uint256' },
+      { name: 'usr', internalType: 'address', type: 'address' }
+    ],
+    name: 'isUrnAuth',
+    outputs: [{ name: 'ok', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'jug',
+    outputs: [{ name: '', internalType: 'contract JugLike', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'index', internalType: 'uint256', type: 'uint256' },
+      { name: 'wad', internalType: 'uint256', type: 'uint256' },
+      { name: 'ref', internalType: 'uint16', type: 'uint16' }
+    ],
+    name: 'lock',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'lssky',
+    outputs: [{ name: '', internalType: 'contract GemLike', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'data', internalType: 'bytes[]', type: 'bytes[]' }],
+    name: 'multicall',
+    outputs: [{ name: 'results', internalType: 'bytes[]', type: 'bytes[]' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'index', internalType: 'uint256', type: 'uint256' },
+      { name: 'usr', internalType: 'address', type: 'address' }
+    ],
+    name: 'nope',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'urn', internalType: 'address', type: 'address' },
+      { name: 'wad', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'onKick',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'urn', internalType: 'address', type: 'address' },
+      { name: 'sold', internalType: 'uint256', type: 'uint256' },
+      { name: 'left', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'onRemove',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'urn', internalType: 'address', type: 'address' },
+      { name: 'who', internalType: 'address', type: 'address' },
+      { name: 'wad', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'onTake',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'index', internalType: 'uint256', type: 'uint256' }],
+    name: 'open',
+    outputs: [{ name: 'urn', internalType: 'address', type: 'address' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'index', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'ownerUrns',
+    outputs: [{ name: 'urn', internalType: 'address', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
+    name: 'ownerUrnsCount',
+    outputs: [{ name: 'count', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'usr', internalType: 'address', type: 'address' }],
+    name: 'rely',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'index', internalType: 'uint256', type: 'uint256' },
+      { name: 'farm', internalType: 'address', type: 'address' },
+      { name: 'ref', internalType: 'uint16', type: 'uint16' }
+    ],
+    name: 'selectFarm',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'index', internalType: 'uint256', type: 'uint256' },
+      { name: 'voteDelegate', internalType: 'address', type: 'address' }
+    ],
+    name: 'selectVoteDelegate',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'sky',
+    outputs: [{ name: '', internalType: 'contract GemLike', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'urn', internalType: 'address', type: 'address' }],
+    name: 'urnAuctions',
+    outputs: [{ name: 'auctionsCount', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'urn', internalType: 'address', type: 'address' },
+      { name: 'usr', internalType: 'address', type: 'address' }
+    ],
+    name: 'urnCan',
+    outputs: [{ name: 'allowed', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'urn', internalType: 'address', type: 'address' }],
+    name: 'urnFarms',
+    outputs: [{ name: 'farm', internalType: 'address', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'urnImplementation',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'urn', internalType: 'address', type: 'address' }],
+    name: 'urnOwners',
+    outputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'urn', internalType: 'address', type: 'address' }],
+    name: 'urnVoteDelegates',
+    outputs: [{ name: 'voteDelegate', internalType: 'address', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'usds',
+    outputs: [{ name: '', internalType: 'contract GemLike', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'usdsJoin',
+    outputs: [{ name: '', internalType: 'contract UsdsJoinLike', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'vat',
+    outputs: [{ name: '', internalType: 'contract VatLike', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'voteDelegateFactory',
+    outputs: [{ name: '', internalType: 'contract VoteDelegateFactoryLike', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'usr', internalType: 'address', type: 'address' }],
+    name: 'wards',
+    outputs: [{ name: 'allowed', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'index', internalType: 'uint256', type: 'uint256' },
+      { name: 'wad', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'wipe',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'index', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'wipeAll',
+    outputs: [{ name: 'wad', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'farm', internalType: 'address', type: 'address', indexed: false }],
+    name: 'AddFarm'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'farm', internalType: 'address', type: 'address', indexed: false }],
+    name: 'DelFarm'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'usr', internalType: 'address', type: 'address', indexed: true }],
+    name: 'Deny'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'index', internalType: 'uint256', type: 'uint256', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: false },
+      { name: 'wad', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Draw'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'what', internalType: 'bytes32', type: 'bytes32', indexed: true },
+      { name: 'data', internalType: 'address', type: 'address', indexed: false }
+    ],
+    name: 'File'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'index', internalType: 'uint256', type: 'uint256', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: false },
+      { name: 'wad', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'freed', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Free'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'index', internalType: 'uint256', type: 'uint256', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: false },
+      { name: 'wad', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'FreeNoFee'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'index', internalType: 'uint256', type: 'uint256', indexed: true },
+      { name: 'farm', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: false },
+      { name: 'amt', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'GetReward'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'index', internalType: 'uint256', type: 'uint256', indexed: true },
+      { name: 'usr', internalType: 'address', type: 'address', indexed: true }
+    ],
+    name: 'Hope'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'index', internalType: 'uint256', type: 'uint256', indexed: true },
+      { name: 'wad', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'ref', internalType: 'uint16', type: 'uint16', indexed: false }
+    ],
+    name: 'Lock'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'index', internalType: 'uint256', type: 'uint256', indexed: true },
+      { name: 'usr', internalType: 'address', type: 'address', indexed: true }
+    ],
+    name: 'Nope'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'urn', internalType: 'address', type: 'address', indexed: true },
+      { name: 'wad', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'OnKick'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'urn', internalType: 'address', type: 'address', indexed: true },
+      { name: 'sold', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'burn', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'refund', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'OnRemove'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'urn', internalType: 'address', type: 'address', indexed: true },
+      { name: 'who', internalType: 'address', type: 'address', indexed: true },
+      { name: 'wad', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'OnTake'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'index', internalType: 'uint256', type: 'uint256', indexed: true },
+      { name: 'urn', internalType: 'address', type: 'address', indexed: false }
+    ],
+    name: 'Open'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'usr', internalType: 'address', type: 'address', indexed: true }],
+    name: 'Rely'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'index', internalType: 'uint256', type: 'uint256', indexed: true },
+      { name: 'farm', internalType: 'address', type: 'address', indexed: true },
+      { name: 'ref', internalType: 'uint16', type: 'uint16', indexed: false }
+    ],
+    name: 'SelectFarm'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'index', internalType: 'uint256', type: 'uint256', indexed: true },
+      { name: 'voteDelegate', internalType: 'address', type: 'address', indexed: true }
+    ],
+    name: 'SelectVoteDelegate'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'index', internalType: 'uint256', type: 'uint256', indexed: true },
+      { name: 'wad', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Wipe'
+  }
+] as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // React
@@ -22960,4 +23807,1021 @@ export const useWatchWethSepoliaWithdrawal = /*#__PURE__*/ createUseWatchContrac
   abi: wethSepoliaAbi,
   address: wethSepoliaAddress,
   eventName: 'Withdrawal'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMigratorAbi}__
+ */
+export const useReadLsMigrator = /*#__PURE__*/ createUseReadContract({ abi: lsMigratorAbi });
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMigratorAbi}__ and `functionName` set to `"flash"`
+ */
+export const useReadLsMigratorFlash = /*#__PURE__*/ createUseReadContract({
+  abi: lsMigratorAbi,
+  functionName: 'flash'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMigratorAbi}__ and `functionName` set to `"mkrSky"`
+ */
+export const useReadLsMigratorMkrSky = /*#__PURE__*/ createUseReadContract({
+  abi: lsMigratorAbi,
+  functionName: 'mkrSky'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMigratorAbi}__ and `functionName` set to `"mkrSkyRate"`
+ */
+export const useReadLsMigratorMkrSkyRate = /*#__PURE__*/ createUseReadContract({
+  abi: lsMigratorAbi,
+  functionName: 'mkrSkyRate'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMigratorAbi}__ and `functionName` set to `"newEngine"`
+ */
+export const useReadLsMigratorNewEngine = /*#__PURE__*/ createUseReadContract({
+  abi: lsMigratorAbi,
+  functionName: 'newEngine'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMigratorAbi}__ and `functionName` set to `"oldEngine"`
+ */
+export const useReadLsMigratorOldEngine = /*#__PURE__*/ createUseReadContract({
+  abi: lsMigratorAbi,
+  functionName: 'oldEngine'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMigratorAbi}__ and `functionName` set to `"oldIlk"`
+ */
+export const useReadLsMigratorOldIlk = /*#__PURE__*/ createUseReadContract({
+  abi: lsMigratorAbi,
+  functionName: 'oldIlk'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMigratorAbi}__ and `functionName` set to `"usdsJoin"`
+ */
+export const useReadLsMigratorUsdsJoin = /*#__PURE__*/ createUseReadContract({
+  abi: lsMigratorAbi,
+  functionName: 'usdsJoin'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMigratorAbi}__ and `functionName` set to `"vat"`
+ */
+export const useReadLsMigratorVat = /*#__PURE__*/ createUseReadContract({
+  abi: lsMigratorAbi,
+  functionName: 'vat'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsMigratorAbi}__
+ */
+export const useWriteLsMigrator = /*#__PURE__*/ createUseWriteContract({ abi: lsMigratorAbi });
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsMigratorAbi}__ and `functionName` set to `"migrate"`
+ */
+export const useWriteLsMigratorMigrate = /*#__PURE__*/ createUseWriteContract({
+  abi: lsMigratorAbi,
+  functionName: 'migrate'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsMigratorAbi}__ and `functionName` set to `"onVatDaiFlashLoan"`
+ */
+export const useWriteLsMigratorOnVatDaiFlashLoan = /*#__PURE__*/ createUseWriteContract({
+  abi: lsMigratorAbi,
+  functionName: 'onVatDaiFlashLoan'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsMigratorAbi}__
+ */
+export const useSimulateLsMigrator = /*#__PURE__*/ createUseSimulateContract({ abi: lsMigratorAbi });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsMigratorAbi}__ and `functionName` set to `"migrate"`
+ */
+export const useSimulateLsMigratorMigrate = /*#__PURE__*/ createUseSimulateContract({
+  abi: lsMigratorAbi,
+  functionName: 'migrate'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsMigratorAbi}__ and `functionName` set to `"onVatDaiFlashLoan"`
+ */
+export const useSimulateLsMigratorOnVatDaiFlashLoan = /*#__PURE__*/ createUseSimulateContract({
+  abi: lsMigratorAbi,
+  functionName: 'onVatDaiFlashLoan'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsMigratorAbi}__
+ */
+export const useWatchLsMigrator = /*#__PURE__*/ createUseWatchContractEvent({ abi: lsMigratorAbi });
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsMigratorAbi}__ and `eventName` set to `"Migrate"`
+ */
+export const useWatchLsMigratorMigrate = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: lsMigratorAbi,
+  eventName: 'Migrate'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyAbi}__
+ */
+export const useReadLsSky = /*#__PURE__*/ createUseReadContract({ abi: lsSkyAbi });
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"allowance"`
+ */
+export const useReadLsSkyAllowance = /*#__PURE__*/ createUseReadContract({
+  abi: lsSkyAbi,
+  functionName: 'allowance'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"balanceOf"`
+ */
+export const useReadLsSkyBalanceOf = /*#__PURE__*/ createUseReadContract({
+  abi: lsSkyAbi,
+  functionName: 'balanceOf'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"decimals"`
+ */
+export const useReadLsSkyDecimals = /*#__PURE__*/ createUseReadContract({
+  abi: lsSkyAbi,
+  functionName: 'decimals'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"name"`
+ */
+export const useReadLsSkyName = /*#__PURE__*/ createUseReadContract({ abi: lsSkyAbi, functionName: 'name' });
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"symbol"`
+ */
+export const useReadLsSkySymbol = /*#__PURE__*/ createUseReadContract({
+  abi: lsSkyAbi,
+  functionName: 'symbol'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"totalSupply"`
+ */
+export const useReadLsSkyTotalSupply = /*#__PURE__*/ createUseReadContract({
+  abi: lsSkyAbi,
+  functionName: 'totalSupply'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"version"`
+ */
+export const useReadLsSkyVersion = /*#__PURE__*/ createUseReadContract({
+  abi: lsSkyAbi,
+  functionName: 'version'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"wards"`
+ */
+export const useReadLsSkyWards = /*#__PURE__*/ createUseReadContract({
+  abi: lsSkyAbi,
+  functionName: 'wards'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyAbi}__
+ */
+export const useWriteLsSky = /*#__PURE__*/ createUseWriteContract({ abi: lsSkyAbi });
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"approve"`
+ */
+export const useWriteLsSkyApprove = /*#__PURE__*/ createUseWriteContract({
+  abi: lsSkyAbi,
+  functionName: 'approve'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"burn"`
+ */
+export const useWriteLsSkyBurn = /*#__PURE__*/ createUseWriteContract({
+  abi: lsSkyAbi,
+  functionName: 'burn'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"deny"`
+ */
+export const useWriteLsSkyDeny = /*#__PURE__*/ createUseWriteContract({
+  abi: lsSkyAbi,
+  functionName: 'deny'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"mint"`
+ */
+export const useWriteLsSkyMint = /*#__PURE__*/ createUseWriteContract({
+  abi: lsSkyAbi,
+  functionName: 'mint'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"rely"`
+ */
+export const useWriteLsSkyRely = /*#__PURE__*/ createUseWriteContract({
+  abi: lsSkyAbi,
+  functionName: 'rely'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"transfer"`
+ */
+export const useWriteLsSkyTransfer = /*#__PURE__*/ createUseWriteContract({
+  abi: lsSkyAbi,
+  functionName: 'transfer'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useWriteLsSkyTransferFrom = /*#__PURE__*/ createUseWriteContract({
+  abi: lsSkyAbi,
+  functionName: 'transferFrom'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyAbi}__
+ */
+export const useSimulateLsSky = /*#__PURE__*/ createUseSimulateContract({ abi: lsSkyAbi });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"approve"`
+ */
+export const useSimulateLsSkyApprove = /*#__PURE__*/ createUseSimulateContract({
+  abi: lsSkyAbi,
+  functionName: 'approve'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"burn"`
+ */
+export const useSimulateLsSkyBurn = /*#__PURE__*/ createUseSimulateContract({
+  abi: lsSkyAbi,
+  functionName: 'burn'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"deny"`
+ */
+export const useSimulateLsSkyDeny = /*#__PURE__*/ createUseSimulateContract({
+  abi: lsSkyAbi,
+  functionName: 'deny'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"mint"`
+ */
+export const useSimulateLsSkyMint = /*#__PURE__*/ createUseSimulateContract({
+  abi: lsSkyAbi,
+  functionName: 'mint'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"rely"`
+ */
+export const useSimulateLsSkyRely = /*#__PURE__*/ createUseSimulateContract({
+  abi: lsSkyAbi,
+  functionName: 'rely'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"transfer"`
+ */
+export const useSimulateLsSkyTransfer = /*#__PURE__*/ createUseSimulateContract({
+  abi: lsSkyAbi,
+  functionName: 'transfer'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useSimulateLsSkyTransferFrom = /*#__PURE__*/ createUseSimulateContract({
+  abi: lsSkyAbi,
+  functionName: 'transferFrom'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkyAbi}__
+ */
+export const useWatchLsSky = /*#__PURE__*/ createUseWatchContractEvent({ abi: lsSkyAbi });
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkyAbi}__ and `eventName` set to `"Approval"`
+ */
+export const useWatchLsSkyApproval = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: lsSkyAbi,
+  eventName: 'Approval'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkyAbi}__ and `eventName` set to `"Deny"`
+ */
+export const useWatchLsSkyDeny = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: lsSkyAbi,
+  eventName: 'Deny'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkyAbi}__ and `eventName` set to `"Rely"`
+ */
+export const useWatchLsSkyRely = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: lsSkyAbi,
+  eventName: 'Rely'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkyAbi}__ and `eventName` set to `"Transfer"`
+ */
+export const useWatchLsSkyTransfer = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: lsSkyAbi,
+  eventName: 'Transfer'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__
+ */
+export const useReadStakeModule = /*#__PURE__*/ createUseReadContract({ abi: stakeModuleAbi });
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"farms"`
+ */
+export const useReadStakeModuleFarms = /*#__PURE__*/ createUseReadContract({
+  abi: stakeModuleAbi,
+  functionName: 'farms'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"fee"`
+ */
+export const useReadStakeModuleFee = /*#__PURE__*/ createUseReadContract({
+  abi: stakeModuleAbi,
+  functionName: 'fee'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"ilk"`
+ */
+export const useReadStakeModuleIlk = /*#__PURE__*/ createUseReadContract({
+  abi: stakeModuleAbi,
+  functionName: 'ilk'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"isUrnAuth"`
+ */
+export const useReadStakeModuleIsUrnAuth = /*#__PURE__*/ createUseReadContract({
+  abi: stakeModuleAbi,
+  functionName: 'isUrnAuth'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"jug"`
+ */
+export const useReadStakeModuleJug = /*#__PURE__*/ createUseReadContract({
+  abi: stakeModuleAbi,
+  functionName: 'jug'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"lssky"`
+ */
+export const useReadStakeModuleLssky = /*#__PURE__*/ createUseReadContract({
+  abi: stakeModuleAbi,
+  functionName: 'lssky'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"ownerUrns"`
+ */
+export const useReadStakeModuleOwnerUrns = /*#__PURE__*/ createUseReadContract({
+  abi: stakeModuleAbi,
+  functionName: 'ownerUrns'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"ownerUrnsCount"`
+ */
+export const useReadStakeModuleOwnerUrnsCount = /*#__PURE__*/ createUseReadContract({
+  abi: stakeModuleAbi,
+  functionName: 'ownerUrnsCount'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"sky"`
+ */
+export const useReadStakeModuleSky = /*#__PURE__*/ createUseReadContract({
+  abi: stakeModuleAbi,
+  functionName: 'sky'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"urnAuctions"`
+ */
+export const useReadStakeModuleUrnAuctions = /*#__PURE__*/ createUseReadContract({
+  abi: stakeModuleAbi,
+  functionName: 'urnAuctions'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"urnCan"`
+ */
+export const useReadStakeModuleUrnCan = /*#__PURE__*/ createUseReadContract({
+  abi: stakeModuleAbi,
+  functionName: 'urnCan'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"urnFarms"`
+ */
+export const useReadStakeModuleUrnFarms = /*#__PURE__*/ createUseReadContract({
+  abi: stakeModuleAbi,
+  functionName: 'urnFarms'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"urnImplementation"`
+ */
+export const useReadStakeModuleUrnImplementation = /*#__PURE__*/ createUseReadContract({
+  abi: stakeModuleAbi,
+  functionName: 'urnImplementation'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"urnOwners"`
+ */
+export const useReadStakeModuleUrnOwners = /*#__PURE__*/ createUseReadContract({
+  abi: stakeModuleAbi,
+  functionName: 'urnOwners'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"urnVoteDelegates"`
+ */
+export const useReadStakeModuleUrnVoteDelegates = /*#__PURE__*/ createUseReadContract({
+  abi: stakeModuleAbi,
+  functionName: 'urnVoteDelegates'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"usds"`
+ */
+export const useReadStakeModuleUsds = /*#__PURE__*/ createUseReadContract({
+  abi: stakeModuleAbi,
+  functionName: 'usds'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"usdsJoin"`
+ */
+export const useReadStakeModuleUsdsJoin = /*#__PURE__*/ createUseReadContract({
+  abi: stakeModuleAbi,
+  functionName: 'usdsJoin'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"vat"`
+ */
+export const useReadStakeModuleVat = /*#__PURE__*/ createUseReadContract({
+  abi: stakeModuleAbi,
+  functionName: 'vat'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"voteDelegateFactory"`
+ */
+export const useReadStakeModuleVoteDelegateFactory = /*#__PURE__*/ createUseReadContract({
+  abi: stakeModuleAbi,
+  functionName: 'voteDelegateFactory'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"wards"`
+ */
+export const useReadStakeModuleWards = /*#__PURE__*/ createUseReadContract({
+  abi: stakeModuleAbi,
+  functionName: 'wards'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__
+ */
+export const useWriteStakeModule = /*#__PURE__*/ createUseWriteContract({ abi: stakeModuleAbi });
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"addFarm"`
+ */
+export const useWriteStakeModuleAddFarm = /*#__PURE__*/ createUseWriteContract({
+  abi: stakeModuleAbi,
+  functionName: 'addFarm'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"delFarm"`
+ */
+export const useWriteStakeModuleDelFarm = /*#__PURE__*/ createUseWriteContract({
+  abi: stakeModuleAbi,
+  functionName: 'delFarm'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"deny"`
+ */
+export const useWriteStakeModuleDeny = /*#__PURE__*/ createUseWriteContract({
+  abi: stakeModuleAbi,
+  functionName: 'deny'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"draw"`
+ */
+export const useWriteStakeModuleDraw = /*#__PURE__*/ createUseWriteContract({
+  abi: stakeModuleAbi,
+  functionName: 'draw'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"file"`
+ */
+export const useWriteStakeModuleFile = /*#__PURE__*/ createUseWriteContract({
+  abi: stakeModuleAbi,
+  functionName: 'file'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"free"`
+ */
+export const useWriteStakeModuleFree = /*#__PURE__*/ createUseWriteContract({
+  abi: stakeModuleAbi,
+  functionName: 'free'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"freeNoFee"`
+ */
+export const useWriteStakeModuleFreeNoFee = /*#__PURE__*/ createUseWriteContract({
+  abi: stakeModuleAbi,
+  functionName: 'freeNoFee'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"getReward"`
+ */
+export const useWriteStakeModuleGetReward = /*#__PURE__*/ createUseWriteContract({
+  abi: stakeModuleAbi,
+  functionName: 'getReward'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"hope"`
+ */
+export const useWriteStakeModuleHope = /*#__PURE__*/ createUseWriteContract({
+  abi: stakeModuleAbi,
+  functionName: 'hope'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"lock"`
+ */
+export const useWriteStakeModuleLock = /*#__PURE__*/ createUseWriteContract({
+  abi: stakeModuleAbi,
+  functionName: 'lock'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"multicall"`
+ */
+export const useWriteStakeModuleMulticall = /*#__PURE__*/ createUseWriteContract({
+  abi: stakeModuleAbi,
+  functionName: 'multicall'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"nope"`
+ */
+export const useWriteStakeModuleNope = /*#__PURE__*/ createUseWriteContract({
+  abi: stakeModuleAbi,
+  functionName: 'nope'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"onKick"`
+ */
+export const useWriteStakeModuleOnKick = /*#__PURE__*/ createUseWriteContract({
+  abi: stakeModuleAbi,
+  functionName: 'onKick'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"onRemove"`
+ */
+export const useWriteStakeModuleOnRemove = /*#__PURE__*/ createUseWriteContract({
+  abi: stakeModuleAbi,
+  functionName: 'onRemove'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"onTake"`
+ */
+export const useWriteStakeModuleOnTake = /*#__PURE__*/ createUseWriteContract({
+  abi: stakeModuleAbi,
+  functionName: 'onTake'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"open"`
+ */
+export const useWriteStakeModuleOpen = /*#__PURE__*/ createUseWriteContract({
+  abi: stakeModuleAbi,
+  functionName: 'open'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"rely"`
+ */
+export const useWriteStakeModuleRely = /*#__PURE__*/ createUseWriteContract({
+  abi: stakeModuleAbi,
+  functionName: 'rely'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"selectFarm"`
+ */
+export const useWriteStakeModuleSelectFarm = /*#__PURE__*/ createUseWriteContract({
+  abi: stakeModuleAbi,
+  functionName: 'selectFarm'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"selectVoteDelegate"`
+ */
+export const useWriteStakeModuleSelectVoteDelegate = /*#__PURE__*/ createUseWriteContract({
+  abi: stakeModuleAbi,
+  functionName: 'selectVoteDelegate'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"wipe"`
+ */
+export const useWriteStakeModuleWipe = /*#__PURE__*/ createUseWriteContract({
+  abi: stakeModuleAbi,
+  functionName: 'wipe'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"wipeAll"`
+ */
+export const useWriteStakeModuleWipeAll = /*#__PURE__*/ createUseWriteContract({
+  abi: stakeModuleAbi,
+  functionName: 'wipeAll'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__
+ */
+export const useSimulateStakeModule = /*#__PURE__*/ createUseSimulateContract({ abi: stakeModuleAbi });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"addFarm"`
+ */
+export const useSimulateStakeModuleAddFarm = /*#__PURE__*/ createUseSimulateContract({
+  abi: stakeModuleAbi,
+  functionName: 'addFarm'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"delFarm"`
+ */
+export const useSimulateStakeModuleDelFarm = /*#__PURE__*/ createUseSimulateContract({
+  abi: stakeModuleAbi,
+  functionName: 'delFarm'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"deny"`
+ */
+export const useSimulateStakeModuleDeny = /*#__PURE__*/ createUseSimulateContract({
+  abi: stakeModuleAbi,
+  functionName: 'deny'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"draw"`
+ */
+export const useSimulateStakeModuleDraw = /*#__PURE__*/ createUseSimulateContract({
+  abi: stakeModuleAbi,
+  functionName: 'draw'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"file"`
+ */
+export const useSimulateStakeModuleFile = /*#__PURE__*/ createUseSimulateContract({
+  abi: stakeModuleAbi,
+  functionName: 'file'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"free"`
+ */
+export const useSimulateStakeModuleFree = /*#__PURE__*/ createUseSimulateContract({
+  abi: stakeModuleAbi,
+  functionName: 'free'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"freeNoFee"`
+ */
+export const useSimulateStakeModuleFreeNoFee = /*#__PURE__*/ createUseSimulateContract({
+  abi: stakeModuleAbi,
+  functionName: 'freeNoFee'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"getReward"`
+ */
+export const useSimulateStakeModuleGetReward = /*#__PURE__*/ createUseSimulateContract({
+  abi: stakeModuleAbi,
+  functionName: 'getReward'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"hope"`
+ */
+export const useSimulateStakeModuleHope = /*#__PURE__*/ createUseSimulateContract({
+  abi: stakeModuleAbi,
+  functionName: 'hope'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"lock"`
+ */
+export const useSimulateStakeModuleLock = /*#__PURE__*/ createUseSimulateContract({
+  abi: stakeModuleAbi,
+  functionName: 'lock'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"multicall"`
+ */
+export const useSimulateStakeModuleMulticall = /*#__PURE__*/ createUseSimulateContract({
+  abi: stakeModuleAbi,
+  functionName: 'multicall'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"nope"`
+ */
+export const useSimulateStakeModuleNope = /*#__PURE__*/ createUseSimulateContract({
+  abi: stakeModuleAbi,
+  functionName: 'nope'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"onKick"`
+ */
+export const useSimulateStakeModuleOnKick = /*#__PURE__*/ createUseSimulateContract({
+  abi: stakeModuleAbi,
+  functionName: 'onKick'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"onRemove"`
+ */
+export const useSimulateStakeModuleOnRemove = /*#__PURE__*/ createUseSimulateContract({
+  abi: stakeModuleAbi,
+  functionName: 'onRemove'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"onTake"`
+ */
+export const useSimulateStakeModuleOnTake = /*#__PURE__*/ createUseSimulateContract({
+  abi: stakeModuleAbi,
+  functionName: 'onTake'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"open"`
+ */
+export const useSimulateStakeModuleOpen = /*#__PURE__*/ createUseSimulateContract({
+  abi: stakeModuleAbi,
+  functionName: 'open'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"rely"`
+ */
+export const useSimulateStakeModuleRely = /*#__PURE__*/ createUseSimulateContract({
+  abi: stakeModuleAbi,
+  functionName: 'rely'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"selectFarm"`
+ */
+export const useSimulateStakeModuleSelectFarm = /*#__PURE__*/ createUseSimulateContract({
+  abi: stakeModuleAbi,
+  functionName: 'selectFarm'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"selectVoteDelegate"`
+ */
+export const useSimulateStakeModuleSelectVoteDelegate = /*#__PURE__*/ createUseSimulateContract({
+  abi: stakeModuleAbi,
+  functionName: 'selectVoteDelegate'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"wipe"`
+ */
+export const useSimulateStakeModuleWipe = /*#__PURE__*/ createUseSimulateContract({
+  abi: stakeModuleAbi,
+  functionName: 'wipe'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"wipeAll"`
+ */
+export const useSimulateStakeModuleWipeAll = /*#__PURE__*/ createUseSimulateContract({
+  abi: stakeModuleAbi,
+  functionName: 'wipeAll'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__
+ */
+export const useWatchStakeModule = /*#__PURE__*/ createUseWatchContractEvent({ abi: stakeModuleAbi });
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"AddFarm"`
+ */
+export const useWatchStakeModuleAddFarm = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stakeModuleAbi,
+  eventName: 'AddFarm'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"DelFarm"`
+ */
+export const useWatchStakeModuleDelFarm = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stakeModuleAbi,
+  eventName: 'DelFarm'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"Deny"`
+ */
+export const useWatchStakeModuleDeny = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stakeModuleAbi,
+  eventName: 'Deny'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"Draw"`
+ */
+export const useWatchStakeModuleDraw = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stakeModuleAbi,
+  eventName: 'Draw'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"File"`
+ */
+export const useWatchStakeModuleFile = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stakeModuleAbi,
+  eventName: 'File'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"Free"`
+ */
+export const useWatchStakeModuleFree = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stakeModuleAbi,
+  eventName: 'Free'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"FreeNoFee"`
+ */
+export const useWatchStakeModuleFreeNoFee = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stakeModuleAbi,
+  eventName: 'FreeNoFee'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"GetReward"`
+ */
+export const useWatchStakeModuleGetReward = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stakeModuleAbi,
+  eventName: 'GetReward'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"Hope"`
+ */
+export const useWatchStakeModuleHope = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stakeModuleAbi,
+  eventName: 'Hope'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"Lock"`
+ */
+export const useWatchStakeModuleLock = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stakeModuleAbi,
+  eventName: 'Lock'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"Nope"`
+ */
+export const useWatchStakeModuleNope = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stakeModuleAbi,
+  eventName: 'Nope'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"OnKick"`
+ */
+export const useWatchStakeModuleOnKick = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stakeModuleAbi,
+  eventName: 'OnKick'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"OnRemove"`
+ */
+export const useWatchStakeModuleOnRemove = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stakeModuleAbi,
+  eventName: 'OnRemove'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"OnTake"`
+ */
+export const useWatchStakeModuleOnTake = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stakeModuleAbi,
+  eventName: 'OnTake'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"Open"`
+ */
+export const useWatchStakeModuleOpen = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stakeModuleAbi,
+  eventName: 'Open'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"Rely"`
+ */
+export const useWatchStakeModuleRely = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stakeModuleAbi,
+  eventName: 'Rely'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"SelectFarm"`
+ */
+export const useWatchStakeModuleSelectFarm = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stakeModuleAbi,
+  eventName: 'SelectFarm'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"SelectVoteDelegate"`
+ */
+export const useWatchStakeModuleSelectVoteDelegate = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stakeModuleAbi,
+  eventName: 'SelectVoteDelegate'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"Wipe"`
+ */
+export const useWatchStakeModuleWipe = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stakeModuleAbi,
+  eventName: 'Wipe'
 });

@@ -6,11 +6,12 @@ import {
   ZERO_ADDRESS,
   useSealHistory,
   useSealPosition,
-  useUrnAddress,
+  useStakeUrnAddress,
   useUrnSelectedRewardContract,
   useUrnSelectedVoteDelegate,
   useVault,
-  SealHistoryKick
+  SealHistoryKick,
+  getIlkName
 } from '@jetstreamgg/hooks';
 import { StakeModuleWidgetContext } from '../context/context';
 import { WidgetContext } from '@widgets/context/WidgetContext';
@@ -22,6 +23,7 @@ import { Button } from '@widgets/components/ui/button';
 import { Edit } from '@widgets/shared/components/icons/Edit';
 import { OnStakeUrnChange } from '..';
 import { fromHex, trim } from 'viem';
+import { useChainId } from 'wagmi';
 
 interface UrnPositionProps {
   index: bigint;
@@ -36,18 +38,24 @@ export const UrnPosition: React.FC<UrnPositionProps> = ({
   claimExecute,
   onStakeUrnChange
 }) => {
-  const { data: urnAddress } = useUrnAddress(index);
+  const chainId = useChainId();
+  const { data: urnAddress } = useStakeUrnAddress(index);
+  // TODO: is this the correct stake hook?
   const { data: urnSelectedRewardContract } = useUrnSelectedRewardContract({
     urn: urnAddress || ZERO_ADDRESS
   });
+  // TODO: is this the correct stake hook?
   const { data: urnSelectedVoteDelegate } = useUrnSelectedVoteDelegate({ urn: urnAddress || ZERO_ADDRESS });
-  const { data: vaultData } = useVault(urnAddress || ZERO_ADDRESS);
+  const { data: vaultData } = useVault(urnAddress || ZERO_ADDRESS, getIlkName(chainId, 2));
+
+  console.log('stakurnfind vaultData', vaultData);
 
   const { setWidgetState } = useContext(WidgetContext);
 
   const { setSelectedRewardContract, setSelectedDelegate, setActiveUrn, setCurrentStep } =
     useContext(StakeModuleWidgetContext);
 
+  // TODO: This needs to be updated for stake but not important for migration UI
   const { data: urnHistory } = useSealHistory();
   const { data: urnPosition } = useSealPosition({ urnIndex: Number(index) });
 

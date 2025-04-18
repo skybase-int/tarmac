@@ -98,7 +98,7 @@ export { useLsMkrPrice } from './prices/useLsMkrPrice';
 
 // Seal Module
 export { useOpenUrn } from './seal/useOpenUrn';
-export { useCurrentUrnIndex } from './seal/useCurrentUrnIndex';
+export { useCurrentUrnIndex as useSealCurrentIndex } from './seal/useCurrentUrnIndex';
 export { useUrnAddress } from './seal/useUrnAddress';
 export { useSelectRewardContract } from './seal/useSelectRewardContract';
 export { useSelectVoteDelegate } from './seal/useSelectVoteDelegate';
@@ -128,6 +128,17 @@ export { useSealHistoricData } from './seal/useSealHistoricData';
 export { useIsUrnMigrated } from './seal/useIsUrnMigrated';
 export { useSealMigrations } from './seal/useSealMigrations';
 export { checkUrnMigrationStatus } from './seal/checkUrnMigrationStatus';
+export { useSaHope } from './seal/useSaHope';
+export { useMigrateUrn } from './seal/useMigrateUrn';
+export { useIsUrnAuth as useIsSealUrnAuth } from './seal/useIsUrnAuth';
+
+// Stake Module
+export { useStakeRewardContracts } from './stake/useStakeRewardContracts';
+export { useStakeUserDelegates } from './stake/useStakeUserDelegates';
+export { useStakeMulticall } from './stake/useStakeMulticall';
+export { useCurrentUrnIndex } from './stake/useCurrentUrnIndex';
+export { useUrnAddress as useStakeUrnAddress } from './stake/useUrnAddress';
+export { useIsUrnAuth as useIsStakeUrnAuth } from './stake/useIsUrnAuth';
 
 //Vaults
 export { useVault } from './vaults/useVault';

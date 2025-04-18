@@ -41,7 +41,7 @@ export const SelectRewardContract = ({
   const handleSkip = () => {
     // If this is an open flow, `urnSelectedRewardContract` would be undefined,
     // if it's a manage flow, it would default to the reward the user previously selected
-    setSelectedRewardContract(urnSelectedRewardContract);
+    setSelectedRewardContract(undefined);
     // When we skip, we still set the step to complete
     setIsSelectRewardContractCompleted(true);
     setCurrentStep(getNextStep(currentStep));
@@ -59,11 +59,12 @@ export const SelectRewardContract = ({
               <Trans>More rewards coming soon</Trans>
             </Text>
           </div>
-          {widgetState.flow !== StakeFlow.OPEN && (
-            <Button variant="link" className="text-white" onClick={handleSkip}>
-              Skip
-            </Button>
-          )}
+          {/* commented this out to make debuggin easier */}
+          {/* {widgetState.flow !== StakeFlow.OPEN && ( */}
+          <Button variant="link" className="text-white" onClick={handleSkip}>
+            Skip
+          </Button>
+          {/* )} */}
         </HStack>
       </div>
       <VStack className="py-3">

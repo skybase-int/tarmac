@@ -11,6 +11,15 @@ const openFlowSequence = [
 
 const manageFlowSequence = [SealStep.OPEN_BORROW, SealStep.REWARDS, SealStep.DELEGATE, SealStep.SUMMARY];
 
+const migrateFlowSequence = [
+  SealStep.ABOUT,
+  SealStep.REWARDS,
+  SealStep.DELEGATE,
+  SealStep.SUMMARY,
+  SealStep.HOPE_OLD,
+  SealStep.MIGRATE
+];
+
 export function getPreviousStep(step: SealStep): SealStep {
   // TODO: This is for Open Flow, it should be different for Manage flow
 
@@ -21,22 +30,39 @@ export function getPreviousStep(step: SealStep): SealStep {
   return SealStep.ABOUT; // or handle the case when there's no previous action
 }
 
-export function getNextStep(step: SealStep): SealStep {
-  const currentIndex = openFlowSequence.indexOf(step);
-  if (currentIndex >= 0 && currentIndex < openFlowSequence.length - 1) {
-    return openFlowSequence[currentIndex + 1];
+export function getNextStep(step: SealStep, flow: SealFlow = SealFlow.OPEN): SealStep {
+  const sequence =
+    flow === SealFlow.OPEN
+      ? openFlowSequence
+      : flow === SealFlow.MIGRATE
+        ? migrateFlowSequence
+        : manageFlowSequence;
+
+  const currentIndex = sequence.indexOf(step);
+  if (currentIndex >= 0 && currentIndex < sequence.length - 1) {
+    return sequence[currentIndex + 1];
   }
-  return SealStep.SUMMARY; // or handle the case when there's no next action
+  return sequence[sequence.length - 1];
 }
 
 export function getStepIndex(step: SealStep, flow: SealFlow): number {
-  const sequence = flow === SealFlow.OPEN ? openFlowSequence : manageFlowSequence;
+  const sequence =
+    flow === SealFlow.OPEN
+      ? openFlowSequence
+      : flow === SealFlow.MIGRATE
+        ? migrateFlowSequence
+        : manageFlowSequence;
   const index = sequence.indexOf(step);
   return index !== -1 ? index : 0;
 }
 
 export function getTotalSteps(flow: SealFlow): number {
-  const sequence = flow === SealFlow.OPEN ? openFlowSequence : manageFlowSequence;
+  const sequence =
+    flow === SealFlow.OPEN
+      ? openFlowSequence
+      : flow === SealFlow.MIGRATE
+        ? migrateFlowSequence
+        : manageFlowSequence;
   return sequence.length;
 }
 

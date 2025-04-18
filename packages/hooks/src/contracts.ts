@@ -107,9 +107,10 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
     name: 'ethFlow',
     address: {
       [mainnet.id]: '0xba3cb449bd2b4adddbc894d8697f5170800eadec',
+      [TENDERLY_CHAIN_ID]: '0xba3cb449bd2b4adddbc894d8697f5170800eadec'
       // TODO: Update the Tenderly address to the mainnet address
       // if we use a testnet forked after March 28, 2025
-      [TENDERLY_CHAIN_ID]: '0x40A50cf069e992AA4536211B23F286eF88752187'
+      // [TENDERLY_CHAIN_ID]: '0x40A50cf069e992AA4536211B23F286eF88752187'
     }
   },
   // new Sky contracts
@@ -125,7 +126,7 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
     name: 'mkrSky',
     address: {
       [mainnet.id]: '0xBDcFCA946b6CDd965f99a839e4435Bcdc1bc470B',
-      [TENDERLY_CHAIN_ID]: '0xBDcFCA946b6CDd965f99a839e4435Bcdc1bc470B'
+      [TENDERLY_CHAIN_ID]: '0x831C6C334f8DDeE62246a5c81B82c8e18008b38f'
     }
   },
   // Savings module
@@ -178,7 +179,7 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
     name: 'sealModule',
     address: {
       [mainnet.id]: '0x2b16c07d5fd5cc701a0a871eae2aad6da5fc8f12',
-      [TENDERLY_CHAIN_ID]: '0x9581c795dbcaf408e477f6f1908a41be43093122'
+      [TENDERLY_CHAIN_ID]: '0x2b16c07d5fd5cc701a0a871eae2aad6da5fc8f12'
     }
   },
   // LockstakeMkr
@@ -186,7 +187,7 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
     name: 'lsMkr',
     address: {
       [mainnet.id]: '0xb4e0e45e142101dc3ed768bac219fc35edbed295',
-      [TENDERLY_CHAIN_ID]: '0x061fb3749c4ed5e3c2d28a284940093cfdfcba20'
+      [TENDERLY_CHAIN_ID]: '0xb4e0e45e142101dc3ed768bac219fc35edbed295'
     }
   },
   // Rewards Lockstake MKR
@@ -194,7 +195,7 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
     name: 'lsMkrUsdsReward',
     address: {
       [mainnet.id]: '0x92282235a39be957ff1f37619fd22a9ae5507cb1',
-      [TENDERLY_CHAIN_ID]: '0xe58cbe144dd5556c84874dec1b3f2d0d6ac45f1b'
+      [TENDERLY_CHAIN_ID]: '0x92282235a39be957ff1f37619fd22a9ae5507cb1'
     }
   },
   // Merkle Distributor
@@ -202,7 +203,7 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
     name: 'merkleDistributor',
     address: {
       [mainnet.id]: '0xca9eF7F3404B23C77A2a0Dee8ab54B3338d35eAe',
-      [TENDERLY_CHAIN_ID]: '0x50eCf62440E15289867D777208C105f7Fd431Ff7'
+      [TENDERLY_CHAIN_ID]: '0xca9eF7F3404B23C77A2a0Dee8ab54B3338d35eAe'
     }
   },
   // CoW Protocol
@@ -215,16 +216,44 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
   }
 ];
 
-// export const tenderlyContracts: { name: string; address: Record<typeof TENDERLY_CHAIN_ID, `0x${string}`> }[] =
-//   [
-//     {
-//       name: 'cle',
-//       address: {
-//         // same token as USDS for now
-//         [TENDERLY_CHAIN_ID]: '0xdC035D45d973E3EC169d2276DDab16f1e407384F'
-//       }
-//     }
-//   ];
+export const tenderlyContracts: { name: string; address: Record<typeof TENDERLY_CHAIN_ID, `0x${string}`> }[] =
+  [
+    // StakeModule
+    {
+      name: 'stakeModule',
+      address: {
+        [TENDERLY_CHAIN_ID]: '0xB1fC11F03b084FfF8daE95fA08e8D69ad2547Ec1'
+      }
+    },
+    // LockstakeSky
+    {
+      name: 'lsSky',
+      address: {
+        [TENDERLY_CHAIN_ID]: '0x9cC87998ba85D81e017E6B7662aC00eE2Ab8fe13'
+      }
+    },
+    // Rewards Lockstake MKR
+    {
+      name: 'lsSkyUsdsReward',
+      address: {
+        [TENDERLY_CHAIN_ID]: '0xAf7868a9BB72E16B930D50636519038d7F057470'
+      }
+    },
+    // Rewards Lockstake MKR
+    {
+      name: 'lsMigrator',
+      address: {
+        [TENDERLY_CHAIN_ID]: '0xf4c5C29b14f0237131F7510A51684c8191f98E06'
+      }
+    }
+    // {
+    //   name: 'cle',
+    //   address: {
+    //     // same token as USDS for now
+    //     [TENDERLY_CHAIN_ID]: '0xdC035D45d973E3EC169d2276DDab16f1e407384F'
+    //   }
+    // }
+  ];
 
 export const sepoliaContracts: { name: string; address: Record<typeof sepolia.id, `0x${string}`> }[] = [
   {

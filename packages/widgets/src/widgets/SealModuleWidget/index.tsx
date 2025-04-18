@@ -20,11 +20,13 @@ import { StepperBar } from './components/StepperBar';
 import { UrnsList } from './components/UrnsList';
 import { OpenNewUrn } from './components/OpenNewUrn';
 import { SelectRewardContract } from './components/SelectRewardContract';
+import { MigrateSelectRewardContract } from './components/MigrateSelectRewardContract';
 import { SealModuleWidgetContext, SealModuleWidgetProvider } from './context/context';
 import { SelectDelegate } from './components/SelectDelegate';
+import { MigrateSelectDelegate } from './components/MigrateSelectDelegate';
 import { PositionSummary } from './components/PositionSummary';
 import {
-  useCurrentUrnIndex,
+  useSealCurrentIndex,
   useSaMkrAllowance,
   useSaNgtAllowance,
   useSaNstAllowance as useSealUsdsAllowance,
@@ -38,7 +40,12 @@ import {
   ZERO_ADDRESS,
   useUrnSelectedRewardContract,
   useUrnSelectedVoteDelegate,
-  TOKENS
+  TOKENS,
+  useStakeMulticall,
+  useSaHope,
+  useMigrateUrn,
+  useIsSealUrnAuth,
+  useIsStakeUrnAuth
 } from '@jetstreamgg/hooks';
 import { formatBigInt, getEtherscanLink, useDebounce } from '@jetstreamgg/utils';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
@@ -49,14 +56,16 @@ import { ArrowLeft } from 'lucide-react';
 import { getValidatedState } from '@widgets/lib/utils';
 import { UnconnectedState } from './components/UnconnectedState';
 import { useLingui } from '@lingui/react';
-
-export type OnSealUrnChange = (
-  urn: { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined } | undefined
-) => void;
+// import { MigrateHopeOld } from './components/MigrateHopeOld';
+import { MigratePosition } from './components/MigratePosition';
+import { MigrateAbout } from './components/MigrateAbout';
+import { MigratePositionSummary } from './components/MigratePositionSummary';
+import { OnSealUrnChange } from './lib/types';
 
 type SealModuleWidgetProps = WidgetProps & {
   onSealUrnChange?: OnSealUrnChange;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  onNavigateToMigratedUrn?: (index: bigint) => void;
   addRecentTransaction: any;
   termsLink?: { url: string; name: string };
 };
@@ -70,6 +79,7 @@ export const SealModuleWidget = ({
   onNotification,
   onWidgetStateChange,
   onExternalLinkClicked,
+  onNavigateToMigratedUrn,
   addRecentTransaction,
   termsLink,
   referralCode
@@ -89,6 +99,7 @@ export const SealModuleWidget = ({
             addRecentTransaction={addRecentTransaction}
             termsLink={termsLink}
             referralCode={referralCode}
+            onNavigateToMigratedUrn={onNavigateToMigratedUrn}
           />
         </SealModuleWidgetProvider>
       </WidgetProvider>
@@ -107,7 +118,8 @@ function SealModuleWidgetWrapped({
   onExternalLinkClicked,
   addRecentTransaction,
   termsLink,
-  referralCode
+  referralCode,
+  onNavigateToMigratedUrn
 }: SealModuleWidgetProps) {
   const validatedExternalState = getValidatedState(externalWidgetState);
   const initialTabIndex = validatedExternalState?.tab === 'right' ? 1 : 0;
@@ -126,6 +138,10 @@ function SealModuleWidgetWrapped({
     setExternalLink,
     setShowStepIndicator
   } = useContext(WidgetContext);
+
+  console.log('^^^', { ...widgetState });
+  console.log('^^^ txStatus', txStatus);
+
   const { i18n } = useLingui();
   const chainId = useChainId();
   const { isConnected, isConnecting, address } = useAccount();
@@ -162,11 +178,12 @@ function SealModuleWidgetWrapped({
     wipeAll,
     setSelectedToken,
     selectedToken,
-    displayToken
+    displayToken,
+    newStakeUrn
   } = useContext(SealModuleWidgetContext);
 
   // Returns the urn index to use for opening a new urn
-  const { data: currentUrnIndex } = useCurrentUrnIndex();
+  const { data: currentUrnIndex } = useSealCurrentIndex();
 
   const { data: externalParamUrnAddress } = useUrnAddress(
     externalWidgetState?.urnIndex !== undefined ? BigInt(externalWidgetState.urnIndex) : -1n
@@ -191,6 +208,14 @@ function SealModuleWidgetWrapped({
   const debouncedUsdsAmount = useDebounce(
     wipeAll && usdsToWipe ? (usdsToWipe * WIPE_BUFFER_MULTIPLIER) / WIPE_BUFFER_DIVISOR : usdsToWipe
   );
+
+  const { data: isOldUrnAuth } = useIsSealUrnAuth({
+    urnIndex: activeUrn?.urnIndex || 0n
+  });
+
+  const { data: isNewUrnAuth } = useIsStakeUrnAuth({
+    urnIndex: activeUrn?.urnIndex || 0n
+  });
 
   const {
     data: sealMkrAllowance,
@@ -221,6 +246,87 @@ function SealModuleWidgetWrapped({
 
   const allStepsComplete =
     isLockCompleted && isBorrowCompleted && isSelectRewardContractCompleted && isSelectDelegateCompleted;
+
+  console.log(
+    '^^^ allsteps:',
+    isLockCompleted,
+    isBorrowCompleted,
+    isSelectRewardContractCompleted,
+    isSelectDelegateCompleted
+  );
+
+  // TODO: this will have to be stake hope
+  const hope = useSaHope({
+    // TODO: make sure this is the index of the urn we want to migrate
+    index: urnIndexForTransaction || 0n,
+    onStart: (hash: string) => {
+      addRecentTransaction?.({
+        hash,
+        description: t`Approving migrator contract`
+      });
+      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setTxStatus(TxStatus.LOADING);
+      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
+    },
+    onSuccess: hash => {
+      onNotification?.({
+        title: t`Approve migrator contract successful`,
+        description: t`You approved the migrator contract to migrate your position.`,
+        status: TxStatus.SUCCESS
+      });
+      setTxStatus(TxStatus.SUCCESS);
+      migrate.retryPrepare();
+      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
+    },
+    onError: (error, hash) => {
+      onNotification?.({
+        title: t`Approval failed`,
+        description: t`We could not approve the migrator contract to migrate your position.`,
+        status: TxStatus.ERROR
+      });
+      setTxStatus(TxStatus.ERROR);
+      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
+      console.log(error);
+    },
+    // Enabled once we have created the new staking urn
+    enabled: !!newStakeUrn?.urnIndex
+  });
+
+  const migrate = useMigrateUrn({
+    // TODO: make sure this is the index of the urn we want to migrate
+    oldIndex: activeUrn?.urnIndex || 0n,
+    newIndex: newStakeUrn?.urnIndex || 0n,
+    onStart: (hash: string) => {
+      addRecentTransaction?.({
+        hash,
+        description: t`Migrating your old position`
+      });
+      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setTxStatus(TxStatus.LOADING);
+      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
+    },
+    onSuccess: hash => {
+      onNotification?.({
+        title: t`Migration successful`,
+        description: t`You successfully migrated your position.`,
+        status: TxStatus.SUCCESS
+      });
+      setTxStatus(TxStatus.SUCCESS);
+      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
+    },
+    onError: (error, hash) => {
+      onNotification?.({
+        title: t`Migration failed`,
+        description: t`We could not migrate your position.`,
+        status: TxStatus.ERROR
+      });
+      setTxStatus(TxStatus.ERROR);
+      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
+      console.log(error);
+    },
+    // TODO: criteria should be old hope, new hope and new index
+    enabled: !!newStakeUrn?.urnIndex
+  });
 
   const lockMkrApprove = useSaMkrApprove({
     amount: debouncedMkrAmount,
@@ -330,7 +436,10 @@ function SealModuleWidgetWrapped({
     enabled: widgetState.action === SealAction.APPROVE && sealUsdsAllowance !== undefined
   });
 
-  const multicall = useSaMulticall({
+  console.log('^^^ allStepsComplete', allStepsComplete);
+  console.log('^^^ calldata for hook', calldata);
+
+  const sealMulticall = useSaMulticall({
     calldata,
     enabled: widgetState.action === SealAction.MULTICALL && !!allStepsComplete,
     onStart: (hash: string) => {
@@ -353,10 +462,9 @@ function SealModuleWidgetWrapped({
     },
     onError: (error, hash) => {
       console.log('error', error, hash);
-      //TODO: fix all this copy
       onNotification?.({
-        title: t`Approval failed`,
-        description: t`We could not approve your token allowance.`,
+        title: t`Multicall failed`,
+        description: t`We could not complete the transaction.`,
         status: TxStatus.ERROR
       });
       setTxStatus(TxStatus.ERROR);
@@ -365,6 +473,41 @@ function SealModuleWidgetWrapped({
       console.log(error);
     }
   });
+
+  const stakeMulticall = useStakeMulticall({
+    calldata,
+    enabled: widgetState.action === SealAction.MULTICALL && !!allStepsComplete,
+    onStart: (hash: string) => {
+      addRecentTransaction?.({ hash, description: t`Doing multicall` });
+      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setTxStatus(TxStatus.LOADING);
+      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
+    },
+    onSuccess: hash => {
+      onNotification?.({
+        title: t`Multicall failed`,
+        description: t`We could not complete the transaction.`,
+        status: TxStatus.ERROR
+      });
+      setTxStatus(TxStatus.SUCCESS);
+      hope.retryPrepare();
+      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
+    },
+    onError: (error, hash) => {
+      console.log('error', error, hash);
+      //TODO: fix all this copy
+      onNotification?.({
+        title: t`Approval failed`,
+        description: t`We could not approve your token allowance.`,
+        status: TxStatus.ERROR
+      });
+      setTxStatus(TxStatus.ERROR);
+      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
+      console.log(error);
+    }
+  });
+
+  const multicall = widgetState.flow === SealFlow.MIGRATE ? stakeMulticall : sealMulticall;
 
   const claimRewards = useClaimRewards({
     index: indexToClaim,
@@ -420,12 +563,23 @@ function SealModuleWidgetWrapped({
   const needsLockAllowance = selectedToken === TOKENS.mkr ? needsMkrAllowance : needsNgtAllowance;
   const needsUsdsAllowance = !!(sealUsdsAllowance === undefined || sealUsdsAllowance < debouncedUsdsAmount);
 
+  const needsOldUrnAuth = isOldUrnAuth === undefined || !isOldUrnAuth;
+  // const needsNewUrnAuth = isNewUrnAuth === undefined || !isNewUrnAuth;
+
   // Generate calldata when all steps are complete
   useEffect(() => {
-    if (allStepsComplete && address && urnIndexForTransaction !== undefined) {
-      setCalldata(generateAllCalldata(address, urnIndexForTransaction, referralCode));
+    if (allStepsComplete && address && urnIndexForTransaction !== undefined && newStakeUrn?.urnIndex) {
+      const cd = generateAllCalldata(address, urnIndexForTransaction, referralCode, newStakeUrn?.urnIndex);
+      setCalldata(cd);
     }
-  }, [allStepsComplete, address, urnIndexForTransaction, generateAllCalldata, referralCode]);
+  }, [
+    allStepsComplete,
+    address,
+    urnIndexForTransaction,
+    generateAllCalldata,
+    referralCode,
+    newStakeUrn?.urnIndex
+  ]);
 
   // Update button state according to action and tx
   // Ref: https://lingui.dev/tutorials/react-patterns#memoization-pitfall
@@ -458,14 +612,22 @@ function SealModuleWidgetWrapped({
         setButtonText(t`Confirm your position`);
       } else if (widgetState.flow === SealFlow.MANAGE && currentStep === SealStep.SUMMARY) {
         setButtonText(t`Confirm`);
+      } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.SUMMARY) {
+        setButtonText(t`Submit`);
+      } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.HOPE_OLD) {
+        setButtonText(t`You must hope it`);
+      } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.MIGRATE) {
+        setButtonText(t`Migration time 😎`);
       } else if (shouldOpenFromWidgetButton) {
         setButtonText(t`New positions disabled`);
       } else if ([SealStep.REWARDS, SealStep.DELEGATE].includes(currentStep)) {
         setButtonText(t`Confirm`);
       } else if (currentStep === SealStep.OPEN_BORROW) {
         setButtonText(t`Confirm position`);
-      } else if (currentStep === SealStep.ABOUT) {
+      } else if (widgetState.flow === SealFlow.MANAGE && currentStep === SealStep.ABOUT) {
         setButtonText(t`New positions disabled`);
+      } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.ABOUT) {
+        setButtonText(t`Continue to migrate`);
       } else {
         // let's set it to Next for now
         setButtonText(t`Continue`);
@@ -566,11 +728,20 @@ function SealModuleWidgetWrapped({
           screen: SealScreen.ACTION
         });
       } else if (currentUrnIndex && currentUrnIndex > 0n) {
-        setWidgetState({
-          flow: SealFlow.MANAGE,
-          action: SealAction.OVERVIEW,
-          screen: SealScreen.ACTION
-        });
+        if (widgetState.flow === SealFlow.MIGRATE && txStatus == TxStatus.SUCCESS) {
+          // setWidgetState({
+          //   flow: SealFlow.MANAGE,
+          //   action: SealAction.HOPE,
+          //   screen: SealScreen.ACTION
+          // });
+          // TODO: hope() retry prepare here
+        } else {
+          setWidgetState({
+            flow: SealFlow.MANAGE,
+            action: SealAction.OVERVIEW,
+            screen: SealScreen.ACTION
+          });
+        }
       }
     } else {
       // Reset widget state when we are not connected
@@ -584,6 +755,9 @@ function SealModuleWidgetWrapped({
   }, [currentUrnIndex, isConnectedAndEnabled]);
 
   // If we need allowance, set the action to approve,
+  // TODO: check if we have already completed "open" and "hope" steps for the new LSE, and then we can set
+  // the action to SealAction.HOPE for the old one
+  // can also set it to SealAction.MIGRATE for the final step
   useEffect(() => {
     if (
       widgetState.screen === SealScreen.ACTION &&
@@ -606,7 +780,41 @@ function SealModuleWidgetWrapped({
               : SealAction.MULTICALL
         }));
       }
-    } // else { } //For single action managements, we'll need to be more detailed here
+    } else if (
+      widgetState.flow === SealFlow.MIGRATE &&
+      widgetState.action === SealAction.MULTICALL &&
+      widgetState.screen === SealScreen.ACTION
+    ) {
+      // If we already opened & hoped the new urn, jump straight to this step
+      if (needsOldUrnAuth) {
+        setWidgetState((prev: WidgetState) => ({
+          ...prev,
+          action: SealAction.HOPE
+        }));
+        setCurrentStep(SealStep.HOPE_OLD);
+        // We're ready to migrate
+      } else {
+        //TODO: account for state where use has old auth and needs new auth (should be an outlier)
+        setWidgetState((prev: WidgetState) => ({
+          ...prev,
+          action: SealAction.MIGRATE
+        }));
+        setCurrentStep(SealStep.MIGRATE);
+      }
+    } else if (
+      widgetState.flow === SealFlow.MIGRATE &&
+      widgetState.action === SealAction.HOPE
+      // &&
+      // widgetState.screen === SealScreen.ACTION
+    ) {
+      setWidgetState((prev: WidgetState) => ({
+        ...prev,
+        action: SealAction.MIGRATE
+      }));
+      setCurrentStep(SealStep.MIGRATE);
+
+      //
+    }
   }, [
     debouncedUsdsAmount,
     debouncedLockAmount,
@@ -641,6 +849,9 @@ function SealModuleWidgetWrapped({
 
   const showStep =
     !!widgetState.action && widgetState.action !== SealAction.OVERVIEW && currentStep !== SealStep.ABOUT;
+
+  console.log('^^^ showStep', showStep);
+  console.log('^^^ currentStep', currentStep);
 
   useEffect(() => {
     if (
@@ -748,7 +959,7 @@ function SealModuleWidgetWrapped({
 
   const nextOnClick = () => {
     setTxStatus(TxStatus.IDLE);
-    setCurrentStep(getNextStep(currentStep));
+    setCurrentStep(getNextStep(currentStep, widgetState.flow));
 
     // setWidgetState((prev: WidgetState) => ({
     //   ...prev,
@@ -800,7 +1011,8 @@ function SealModuleWidgetWrapped({
   };
 
   const submitOnClick = () => {
-    setShowStepIndicator(true);
+    // TODO: make this conditional on the action/flow
+    setShowStepIndicator(false);
     setWidgetState((prev: WidgetState) => ({
       ...prev,
       action: SealAction.MULTICALL,
@@ -809,6 +1021,28 @@ function SealModuleWidgetWrapped({
     setTxStatus(TxStatus.INITIALIZED);
     setExternalLink(undefined);
     multicall.execute();
+  };
+
+  const hopeOnClick = () => {
+    setWidgetState((prev: WidgetState) => ({
+      ...prev,
+      action: SealAction.MULTICALL,
+      screen: SealScreen.TRANSACTION
+    }));
+    setTxStatus(TxStatus.INITIALIZED);
+    setExternalLink(undefined);
+    hope.execute();
+  };
+
+  const migrateOnClick = () => {
+    setWidgetState((prev: WidgetState) => ({
+      ...prev,
+      action: SealAction.MULTICALL,
+      screen: SealScreen.TRANSACTION
+    }));
+    setTxStatus(TxStatus.INITIALIZED);
+    setExternalLink(undefined);
+    migrate.execute();
   };
 
   const claimOnClick = () => {
@@ -855,25 +1089,43 @@ function SealModuleWidgetWrapped({
 
   const onClickAction = !isConnectedAndEnabled
     ? onConnect
-    : currentStep === SealStep.SUMMARY &&
-        widgetState.action === SealAction.APPROVE &&
-        txStatus === TxStatus.SUCCESS &&
-        !needsLockAllowance &&
-        !needsUsdsAllowance
+    : (currentStep === SealStep.SUMMARY &&
+          // Just finished a successful approval, no longer need allowance
+          widgetState.action === SealAction.APPROVE &&
+          txStatus === TxStatus.SUCCESS &&
+          !needsLockAllowance &&
+          !needsUsdsAllowance) ||
+        // We're at the summary step for migrate flow
+        (txStatus === TxStatus.IDLE &&
+          currentStep === SealStep.SUMMARY &&
+          widgetState.flow === SealFlow.MIGRATE)
       ? submitOnClick
-      : txStatus === TxStatus.SUCCESS
-        ? finishOnClick
-        : currentStep === SealStep.SUMMARY && widgetState.action === SealAction.APPROVE
-          ? approveOnClick
-          : currentStep === SealStep.SUMMARY && widgetState.action === SealAction.MULTICALL
-            ? submitOnClick
-            : shouldOpenFromWidgetButton
-              ? handleClickOpenPosition
-              : widgetState.flow === SealFlow.MANAGE && widgetState.action === SealAction.CLAIM
-                ? claimOnClick
-                : widgetState.flow === SealFlow.OPEN || widgetState.flow === SealFlow.MANAGE
-                  ? nextOnClick
-                  : undefined;
+      : // After successful open, we now hope the new urn
+        (txStatus === TxStatus.SUCCESS &&
+            currentStep === SealStep.SUMMARY &&
+            widgetState.flow === SealFlow.MIGRATE) ||
+          // TODO: this needs tweaking
+          needsOldUrnAuth
+        ? hopeOnClick
+        : !needsOldUrnAuth
+          ? migrateOnClick
+          : // After successful hope, we are ready to migrate
+            txStatus === TxStatus.SUCCESS &&
+              currentStep === SealStep.SUMMARY &&
+              widgetState.action === SealAction.HOPE &&
+              widgetState.flow === SealFlow.MIGRATE
+            ? migrateOnClick
+            : txStatus === TxStatus.SUCCESS
+              ? finishOnClick
+              : currentStep === SealStep.SUMMARY && widgetState.action === SealAction.APPROVE
+                ? approveOnClick
+                : currentStep === SealStep.SUMMARY && widgetState.action === SealAction.MULTICALL
+                  ? submitOnClick
+                  : shouldOpenFromWidgetButton
+                    ? handleClickOpenPosition
+                    : widgetState.flow === SealFlow.MANAGE && widgetState.action === SealAction.CLAIM
+                      ? claimOnClick
+                      : nextOnClick;
 
   const [stepIndex, totalSteps] = useMemo(
     () => [getStepIndex(currentStep, widgetState.flow) + 1, getTotalSteps(widgetState.flow)],
@@ -897,7 +1149,7 @@ function SealModuleWidgetWrapped({
     return (
       (widgetState.flow === SealFlow.OPEN && currentStep !== SealStep.ABOUT) ||
       // TODO update for manage:
-      (widgetState.flow === SealFlow.MANAGE &&
+      ((widgetState.flow === SealFlow.MANAGE || widgetState.flow === SealFlow.MIGRATE) &&
         currentStep !== SealStep.OPEN_BORROW &&
         currentStep !== SealStep.ABOUT)
     );
@@ -994,10 +1246,21 @@ function SealModuleWidgetWrapped({
                       claimExecute={claimRewards.execute}
                       onSealUrnChange={onSealUrnChange}
                       termsLink={termsLink}
+                      onNavigateToMigratedUrn={onNavigateToMigratedUrn}
                     />
                   )}
                   {widgetState.flow === SealFlow.OPEN && (
                     <Wizard
+                      isConnectedAndEnabled={isConnectedAndEnabled}
+                      onExternalLinkClicked={onExternalLinkClicked}
+                      currentStep={currentStep}
+                      onClickTrigger={setTabIndex}
+                      tabSide={tabSide}
+                      termsLink={termsLink}
+                    />
+                  )}
+                  {widgetState.flow == SealFlow.MIGRATE && (
+                    <MigrateWizard
                       isConnectedAndEnabled={isConnectedAndEnabled}
                       onExternalLinkClicked={onExternalLinkClicked}
                       currentStep={currentStep}
@@ -1066,7 +1329,8 @@ const ManagePosition = ({
   claimPrepared,
   claimExecute,
   onSealUrnChange,
-  termsLink
+  termsLink,
+  onNavigateToMigratedUrn
 }: {
   isConnectedAndEnabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
@@ -1078,9 +1342,15 @@ const ManagePosition = ({
   claimExecute: () => void;
   onSealUrnChange?: OnSealUrnChange;
   termsLink?: { url: string; name: string };
+  onNavigateToMigratedUrn?: (index: bigint) => void;
 }) => {
   return currentAction === SealAction.OVERVIEW ? (
-    <UrnsList claimPrepared={claimPrepared} claimExecute={claimExecute} onSealUrnChange={onSealUrnChange} />
+    <UrnsList
+      claimPrepared={claimPrepared}
+      claimExecute={claimExecute}
+      onSealUrnChange={onSealUrnChange}
+      onNavigateToMigratedUrn={onNavigateToMigratedUrn}
+    />
   ) : (
     <Wizard
       isConnectedAndEnabled={isConnectedAndEnabled}
@@ -1090,5 +1360,44 @@ const ManagePosition = ({
       tabSide={tabSide}
       termsLink={termsLink}
     />
+  );
+};
+
+const MigrateWizard = ({
+  isConnectedAndEnabled,
+  onExternalLinkClicked,
+  currentStep,
+  onClickTrigger,
+  tabSide,
+  termsLink
+}: {
+  isConnectedAndEnabled: boolean;
+  onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  currentStep: SealStep;
+  onClickTrigger: any;
+  tabSide: 'left' | 'right';
+  termsLink?: { url: string; name: string };
+}) => {
+  return (
+    <div>
+      {currentStep === SealStep.ABOUT && <MigrateAbout />}
+      {currentStep === SealStep.REWARDS && (
+        <MigrateSelectRewardContract onExternalLinkClicked={onExternalLinkClicked} />
+      )}
+      {currentStep === SealStep.DELEGATE && (
+        <MigrateSelectDelegate onExternalLinkClicked={onExternalLinkClicked} />
+      )}
+      {currentStep === SealStep.SUMMARY && <MigratePositionSummary />}
+      {currentStep === SealStep.HOPE_OLD && <MigratePositionSummary />}
+      {currentStep === SealStep.MIGRATE && (
+        <MigratePosition
+          isConnectedAndEnabled={isConnectedAndEnabled}
+          onExternalLinkClicked={onExternalLinkClicked}
+          onClickTrigger={onClickTrigger}
+          tabSide={tabSide}
+          termsLink={termsLink}
+        />
+      )}
+    </div>
   );
 };

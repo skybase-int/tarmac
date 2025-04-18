@@ -14,7 +14,7 @@ import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { Heading, Text } from '@/modules/layout/components/Typography';
 import { ArrowLeft } from 'lucide-react';
 import { HStack } from '@/modules/layout/components/HStack';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import {
   SealAction,
   SealFlow,
@@ -22,7 +22,7 @@ import {
   TxStatus,
   WidgetStateChangeParams
 } from '@jetstreamgg/widgets';
-import { useCurrentUrnIndex } from '@jetstreamgg/hooks';
+import { useCurrentUrnIndex, useSealCurrentIndex } from '@jetstreamgg/hooks';
 import { isL2ChainId } from '@jetstreamgg/utils';
 import { useAccount, useChainId, useSwitchChain } from 'wagmi';
 
@@ -47,7 +47,9 @@ type WidgetPaneProps = {
 export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
   const { i18n } = useLingui();
   const onConnect = useCustomConnectModal();
-  const { data: currentUrnIndex } = useCurrentUrnIndex();
+  // TODO: not sure which engine this should use, but I had to set it to "Seal" to get the seal positions to show up
+  const { data: currentUrnIndex } = useSealCurrentIndex();
+  console.log('currentUrnIndex', currentUrnIndex);
   const addRecentTransaction = useAddRecentTransaction();
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
   const onNotification = useNotification();
@@ -59,7 +61,7 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { switchChain } = useSwitchChain();
   const { isConnected } = useAccount();
-
+  const navigate = useNavigate();
   const referralCode = Number(import.meta.env.VITE_REFERRAL_CODE) || 0; // fallback to 0 if invalid
 
   const rightHeaderComponent = <DetailsSwitcher />;
@@ -67,6 +69,7 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
   const onSealWidgetStateChange = ({ widgetState, txStatus }: WidgetStateChangeParams) => {
     const shouldHide =
       txStatus !== TxStatus.IDLE ||
+      widgetState.flow === SealFlow.MIGRATE ||
       (widgetState.action === SealAction.MULTICALL &&
         currentUrnIndex !== undefined &&
         currentUrnIndex > 0n &&
@@ -86,6 +89,10 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
       return params;
     });
     setSelectedSealUrnIndex(urn?.urnIndex !== undefined ? Number(urn.urnIndex) : undefined);
+  };
+
+  const onNavigateToMigratedUrn = (index: bigint) => {
+    navigate(`/?widget=stake&urn_index=${index}`);
   };
 
   // Reset detail pane urn index when widget is mounted
@@ -182,6 +189,7 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
               {...sharedProps}
               onWidgetStateChange={onSealWidgetStateChange}
               termsLink={termsLink[0]}
+              onNavigateToMigratedUrn={onNavigateToMigratedUrn}
             />
           )}
         </>
