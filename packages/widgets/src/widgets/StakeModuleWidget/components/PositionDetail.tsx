@@ -105,10 +105,7 @@ export function PositionDetail({
             <Text variant="medium" className="text-textSecondary leading-4">
               Staked
             </Text>
-            <TokenIconWithBalance
-              token={TOKENS.sky}
-              balance={formatBigInt(math.calculateConversion(TOKENS.mkr, sealedAmount || 0n))}
-            />
+            <TokenIconWithBalance token={TOKENS.sky} balance={formatBigInt(sealedAmount || 0n)} />
           </VStack>
           {rewardContractTokens && (
             <VStack gap={3}>
