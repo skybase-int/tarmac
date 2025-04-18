@@ -8,7 +8,8 @@ export function checkUrnMigrationStatus(
   // Return mock data for now
   // Delete this vvvvvvvvv
   return {
-    isMigrated: oldUrnIndex % 2 === 0,
+    // isMigrated: oldUrnIndex % 2 === 0,
+    isMigrated: false, // I set it to false to make it easier to test for now
     migrationDetails: undefined
   };
   // Delete this ^^^^^^^^

@@ -286,13 +286,14 @@ const MigrateButton = ({
     );
   }
 
-  if (sealedAmount === undefined || sealedAmount === 0n) {
-    return (
-      <Text variant="small" className="text-warning text-center">
-        Only positions with collateral can be migrated.
-      </Text>
-    );
-  }
+  // TODO: turn this back on after testing is done
+  // if (sealedAmount === undefined || sealedAmount === 0n) {
+  //   return (
+  //     <Text variant="small" className="text-warning text-center">
+  //       Only positions with collateral can be migrated.
+  //     </Text>
+  //   );
+  // }
 
   return (
     <Button
