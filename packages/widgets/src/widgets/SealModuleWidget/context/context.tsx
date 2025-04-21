@@ -247,9 +247,8 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
       // If we have an activeUrn address, we're not opening a new one, we're managing an existing one
       const openCalldata = !activeUrn?.urnAddress ? getSaOpenCalldata({ urnIndex }) : undefined;
 
-      const openStakeCalldata = newStakeUrnIndex
-        ? getSaOpenCalldata({ urnIndex: newStakeUrnIndex })
-        : undefined;
+      const openStakeCalldata =
+        newStakeUrnIndex !== undefined ? getSaOpenCalldata({ urnIndex: newStakeUrnIndex }) : undefined;
 
       // MKR to lock
       const lockMkrCalldata =
@@ -298,7 +297,7 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
       // Select reward
       const selectRewardContractCalldata =
         needsRewardUpdate(activeUrn?.urnAddress, selectedRewardContract, urnSelectedRewardContract) &&
-        !!newStakeUrnIndex
+        newStakeUrnIndex !== undefined
           ? getSaSelectRewardContractCalldata({
               ownerAddress,
               urnIndex: widgetState.flow === SealFlow.MIGRATE ? newStakeUrnIndex : urnIndex,
@@ -309,8 +308,8 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
 
       // Select delegate
       const selectDelegateCalldata =
-        needsDelegateUpdate(activeUrn?.urnAddress, selectedDelegate, urnSelectedVoteDelegate) &&
-        newStakeUrnIndex
+        needsDelegateUpdate(activeUrn?.urnAddress, selectedDelegate, urnSelectedVoteDelegate) && // TODO: should be or?
+        newStakeUrnIndex !== undefined
           ? getSaSelectDelegateCalldata({
               ownerAddress,
               urnIndex: widgetState.flow === SealFlow.MIGRATE ? newStakeUrnIndex : urnIndex,
@@ -319,14 +318,15 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
           : undefined;
 
       // 'Hope' for migration
-      const hopeCalldata = newStakeUrnIndex
-        ? getSaHopeCalldata({
-            ownerAddress,
-            urnIndex: newStakeUrnIndex,
-            // TODO: make the address dynamic
-            usrAddress: lsMigratorAddress[314310]
-          })
-        : undefined;
+      const hopeCalldata =
+        newStakeUrnIndex !== undefined
+          ? getSaHopeCalldata({
+              ownerAddress,
+              urnIndex: newStakeUrnIndex,
+              // TODO: make the address dynamic
+              usrAddress: lsMigratorAddress[314310]
+            })
+          : undefined;
 
       // Order calldata based on the flow
       const sortedCalldata =

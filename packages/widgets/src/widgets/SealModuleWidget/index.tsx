@@ -27,6 +27,7 @@ import { MigrateSelectDelegate } from './components/MigrateSelectDelegate';
 import { PositionSummary } from './components/PositionSummary';
 import {
   useSealCurrentIndex,
+  useCurrentUrnIndex as useStakeCurrentUrnIndex,
   useSaMkrAllowance,
   useSaNgtAllowance,
   useSaNstAllowance as useSealUsdsAllowance,
@@ -45,7 +46,8 @@ import {
   useSaHope,
   useMigrateUrn,
   useIsSealUrnAuth,
-  useIsStakeUrnAuth
+  useIsStakeUrnAuth,
+  useStakeUrnAddress
 } from '@jetstreamgg/hooks';
 import { formatBigInt, getEtherscanLink, useDebounce } from '@jetstreamgg/utils';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
@@ -184,6 +186,8 @@ function SealModuleWidgetWrapped({
 
   // Returns the urn index to use for opening a new urn
   const { data: currentUrnIndex } = useSealCurrentIndex();
+  const { data: currentStakeUrnIndex } = useStakeCurrentUrnIndex();
+  const { data: currentStakeUrnAddress } = useStakeUrnAddress(currentStakeUrnIndex || 0n);
 
   const { data: externalParamUrnAddress } = useUrnAddress(
     externalWidgetState?.urnIndex !== undefined ? BigInt(externalWidgetState.urnIndex) : -1n
@@ -214,7 +218,7 @@ function SealModuleWidgetWrapped({
   });
 
   const { data: isNewUrnAuth } = useIsStakeUrnAuth({
-    urnIndex: activeUrn?.urnIndex || 0n
+    urnIndex: newStakeUrn?.urnIndex || 0n
   });
 
   const {
@@ -563,12 +567,18 @@ function SealModuleWidgetWrapped({
   const needsLockAllowance = selectedToken === TOKENS.mkr ? needsMkrAllowance : needsNgtAllowance;
   const needsUsdsAllowance = !!(sealUsdsAllowance === undefined || sealUsdsAllowance < debouncedUsdsAmount);
 
+  const needsNewUrnAuth = isNewUrnAuth === undefined || !isNewUrnAuth;
   const needsOldUrnAuth = isOldUrnAuth === undefined || !isOldUrnAuth;
-  // const needsNewUrnAuth = isNewUrnAuth === undefined || !isNewUrnAuth;
+  const needsToOpenStakeUrn = currentStakeUrnAddress === undefined || currentStakeUrnAddress === ZERO_ADDRESS;
 
   // Generate calldata when all steps are complete
   useEffect(() => {
-    if (allStepsComplete && address && urnIndexForTransaction !== undefined && newStakeUrn?.urnIndex) {
+    if (
+      allStepsComplete &&
+      address &&
+      urnIndexForTransaction !== undefined &&
+      newStakeUrn?.urnIndex !== undefined
+    ) {
       const cd = generateAllCalldata(address, urnIndexForTransaction, referralCode, newStakeUrn?.urnIndex);
       setCalldata(cd);
     }
@@ -785,12 +795,14 @@ function SealModuleWidgetWrapped({
       widgetState.action === SealAction.MULTICALL &&
       widgetState.screen === SealScreen.ACTION
     ) {
-      // If we already opened & hoped the new urn, jump straight to this step
-      if (needsOldUrnAuth) {
+      if (needsToOpenStakeUrn) {
         setWidgetState((prev: WidgetState) => ({
           ...prev,
-          action: SealAction.HOPE
+          action: SealAction.MULTICALL
         }));
+        setCurrentStep(SealStep.ABOUT);
+        // If we already opened & hoped the new urn, jump straight to this step
+      } else if (needsOldUrnAuth) {
         setCurrentStep(SealStep.HOPE_OLD);
         // We're ready to migrate
       } else {
@@ -1101,12 +1113,13 @@ function SealModuleWidgetWrapped({
           widgetState.flow === SealFlow.MIGRATE)
       ? submitOnClick
       : // After successful open, we now hope the new urn
-        (txStatus === TxStatus.SUCCESS &&
-            currentStep === SealStep.SUMMARY &&
-            widgetState.flow === SealFlow.MIGRATE) ||
+        txStatus === TxStatus.SUCCESS &&
+          currentStep === SealStep.SUMMARY &&
+          widgetState.flow === SealFlow.MIGRATE
+        ? // ||
           // TODO: this needs tweaking
-          needsOldUrnAuth
-        ? hopeOnClick
+          // needsOldUrnAuth
+          hopeOnClick
         : !needsOldUrnAuth
           ? migrateOnClick
           : // After successful hope, we are ready to migrate

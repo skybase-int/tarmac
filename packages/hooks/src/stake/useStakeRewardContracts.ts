@@ -6,6 +6,8 @@ import { TRUST_LEVELS, TrustLevelEnum } from '../constants';
 import { ReadHook } from '../hooks';
 
 async function fetchStakeRewardContracts(urlSubgraph: string) {
+  // TODO: Mock the response until the subgraph is synced and remove htis
+  return [{ contractAddress: '0xAf7868a9BB72E16B930D50636519038d7F057470' as `0x${string}` }];
   // TODO do we want to change the property name?
   const query = gql`
     {

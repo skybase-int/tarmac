@@ -1,7 +1,7 @@
 import { useAccount, useChainId } from 'wagmi';
 import { WriteHook, WriteHookParams } from '../hooks';
 // TODO: Update this import to the correct address once the contract is deployed
-import { stakeModuleAbi, sealModuleAddress as stakeModuleAddress } from '../generated';
+import { stakeModuleAbi, stakeModuleAddress } from '../generated';
 import { useWriteContractFlow } from '../shared/useWriteContractFlow';
 
 // Token approvals should be checked and handled outside of this hook,
