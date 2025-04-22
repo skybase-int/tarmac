@@ -1,4 +1,4 @@
-import { useSealHistoricData, useCollateralData } from '@jetstreamgg/hooks';
+import { useSealHistoricData, useCollateralData, SupportedCollateralTypes } from '@jetstreamgg/hooks';
 import { formatDecimalPercentage, formatNumber, math, formatBigInt } from '@jetstreamgg/utils';
 import { DetailSectionRow } from '@/modules/ui/components/DetailSectionRow';
 import { DetailSectionWrapper } from '@/modules/ui/components/DetailSectionWrapper';
@@ -40,7 +40,7 @@ export function StakeOverview() {
     data: collateralData,
     isLoading: collateralDataLoading,
     error: collateralDataError
-  } = useCollateralData();
+  } = useCollateralData(SupportedCollateralTypes.LSEV2_A);
   const debtCeiling = collateralData?.debtCeiling ?? 0n;
   const totalDebt = collateralData?.totalDaiDebt ?? 0n;
 

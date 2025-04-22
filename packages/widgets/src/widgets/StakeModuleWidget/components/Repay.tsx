@@ -3,6 +3,7 @@ import {
   getIlkName,
   getTokenDecimals,
   RiskLevel,
+  SupportedCollateralTypes,
   TOKENS,
   useCollateralData,
   useSimulatedVault,
@@ -71,7 +72,7 @@ const PositionManagerOverviewContainer = ({
   minDebtNotMet: boolean;
 }) => {
   const chainId = useChainId();
-  const { data: collateralData } = useCollateralData();
+  const { data: collateralData } = useCollateralData(SupportedCollateralTypes.LSEV2_A);
   const hasPositions = !!existingVault;
 
   // New amount values here will factor in user input, if there is no existing vault then amounts will not be included

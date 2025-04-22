@@ -10,7 +10,7 @@ import { Text } from '@widgets/shared/components/ui/Typography';
 import { captitalizeFirstLetter, formatBigInt, formatPercent, math } from '@jetstreamgg/utils';
 import { motion } from 'framer-motion';
 import { getRiskTextColor } from '../lib/utils';
-import { RiskLevel, TOKENS, useCollateralData } from '@jetstreamgg/hooks';
+import { RiskLevel, SupportedCollateralTypes, useCollateralData } from '@jetstreamgg/hooks';
 import { cn } from '@widgets/lib/utils';
 import {
   collateralizationRatioTooltipText,
@@ -42,7 +42,7 @@ export function PositionDetailAccordion({
   liquidationPrice
 }: Props) {
   const riskTextColor = getRiskTextColor(riskLevel as RiskLevel);
-  const { data: collateralData } = useCollateralData();
+  const { data: collateralData } = useCollateralData(SupportedCollateralTypes.LSEV2_A);
 
   return (
     <Accordion type="single" collapsible>
