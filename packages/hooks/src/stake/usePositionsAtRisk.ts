@@ -53,7 +53,7 @@ export function usePositionsAtRisk(): ReadHook & { data?: number[] } {
 
   const urnAddresses = data as `0x${string}`[] | undefined;
 
-  const ilkName = getIlkName(chainId);
+  const ilkName = getIlkName(chainId, 2);
   const ilkHex = stringToHex(ilkName, { size: 32 });
 
   const {

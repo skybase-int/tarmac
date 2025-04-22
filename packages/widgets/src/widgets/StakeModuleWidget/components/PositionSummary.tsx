@@ -116,7 +116,7 @@ const LineItem = ({
 
 export const PositionSummary = () => {
   const chainId = useChainId();
-  const ilkName = getIlkName(chainId);
+  const ilkName = getIlkName(chainId, 2);
 
   const {
     activeUrn,

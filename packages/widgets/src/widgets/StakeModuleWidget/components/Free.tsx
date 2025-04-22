@@ -19,7 +19,7 @@ export const Free = ({
 }) => {
   const { address } = useAccount();
   const chainId = useChainId();
-  const ilkName = getIlkName(chainId);
+  const ilkName = getIlkName(chainId, 2);
 
   const { setSkyToFree, skyToFree, usdsToWipe, setIsLockCompleted, activeUrn } =
     useContext(StakeModuleWidgetContext);
