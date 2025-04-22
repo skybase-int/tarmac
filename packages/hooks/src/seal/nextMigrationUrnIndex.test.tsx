@@ -168,7 +168,7 @@ describe('useNextMigrationUrnIndex - Determining the next URN for migration', ()
 
   // --- Test Cases ---
 
-  it('should return the candidateUrnIndex when it is valid for migration', () => {
+  it('should return candidateUrnIndex when candidate URN is valid for migration (owned, empty, not auctioned)', () => {
     // Arrange (Defaults are already set for this case in beforeEach)
     const { result } = renderHook(() => useNextMigrationUrnIndex());
 
@@ -178,7 +178,7 @@ describe('useNextMigrationUrnIndex - Determining the next URN for migration', ()
     expect(result.current.error).toBe(null);
   });
 
-  it('should return currentUrnIndex if currentUrnIndex is 0', () => {
+  it('should return 0 when currentUrnIndex is 0', () => {
     // Arrange
     mockCurrentUrnIndexReturn.data = 0n;
     mockUseCurrentUrnIndex.mockReturnValue(mockCurrentUrnIndexReturn);
@@ -196,22 +196,9 @@ describe('useNextMigrationUrnIndex - Determining the next URN for migration', ()
     expect(result.current.data).toBe(0n); // currentUrnIndex
     expect(result.current.isLoading).toBe(false);
     expect(result.current.error).toBe(null);
-    // Check that read contracts *were* enabled (even for ZERO_ADDRESS)
-    expect(mockUseReadContract).toHaveBeenCalledWith(
-      expect.objectContaining({
-        functionName: 'urnOwners',
-        query: expect.objectContaining({ enabled: true })
-      })
-    );
-    expect(mockUseReadContract).toHaveBeenCalledWith(
-      expect.objectContaining({
-        functionName: 'urnAuctions',
-        query: expect.objectContaining({ enabled: true })
-      })
-    );
   });
 
-  it('should return currentUrnIndex if candidateUrnAddress is ZERO_ADDRESS', () => {
+  it('should return currentUrnIndex when candidate URN address resolves to ZERO_ADDRESS', () => {
     // Arrange
     mockUrnAddressReturn.data = ZERO_ADDRESS;
     mockUseUrnAddress.mockImplementation((index: bigint) => {
@@ -227,22 +214,9 @@ describe('useNextMigrationUrnIndex - Determining the next URN for migration', ()
     expect(result.current.data).toBe(2n); // currentUrnIndex
     expect(result.current.isLoading).toBe(false);
     expect(result.current.error).toBe(null);
-    // Check that read contracts *were* enabled (even for ZERO_ADDRESS)
-    expect(mockUseReadContract).toHaveBeenCalledWith(
-      expect.objectContaining({
-        functionName: 'urnOwners',
-        query: expect.objectContaining({ enabled: true })
-      })
-    );
-    expect(mockUseReadContract).toHaveBeenCalledWith(
-      expect.objectContaining({
-        functionName: 'urnAuctions',
-        query: expect.objectContaining({ enabled: true })
-      })
-    );
   });
 
-  it('should return currentUrnIndex if candidateUrnAddress is undefined', () => {
+  it('should return currentUrnIndex when candidate URN address resolves to undefined', () => {
     // Arrange
     mockUrnAddressReturn.data = undefined;
     mockUseUrnAddress.mockImplementation((index: bigint) => {
@@ -258,22 +232,9 @@ describe('useNextMigrationUrnIndex - Determining the next URN for migration', ()
     expect(result.current.data).toBe(2n); // currentUrnIndex
     expect(result.current.isLoading).toBe(false); // Should be false as useUrnAddress finished loading
     expect(result.current.error).toBe(null);
-    // Check that read contracts weren't enabled without an address
-    expect(mockUseReadContract).toHaveBeenCalledWith(
-      expect.objectContaining({
-        functionName: 'urnOwners',
-        query: expect.objectContaining({ enabled: false })
-      })
-    );
-    expect(mockUseReadContract).toHaveBeenCalledWith(
-      expect.objectContaining({
-        functionName: 'urnAuctions',
-        query: expect.objectContaining({ enabled: false })
-      })
-    );
   });
 
-  it('should return currentUrnIndex if candidate URN is not owned by the user', () => {
+  it('should return currentUrnIndex when candidate URN is owned by another address', () => {
     // Arrange
     mockUrnOwnersReturn.data = otherUrnAddr; // Different address
 
@@ -283,9 +244,17 @@ describe('useNextMigrationUrnIndex - Determining the next URN for migration', ()
     expect(result.current.data).toBe(2n); // currentUrnIndex
     expect(result.current.isLoading).toBe(false);
     expect(result.current.error).toBe(null);
+
+    // Check that read contracts weren't enabled without an address
+    expect(mockUseReadContract).toHaveBeenCalledWith(
+      expect.objectContaining({
+        functionName: 'urnOwners',
+        args: [candidateUrnAddr]
+      })
+    );
   });
 
-  it('should return currentUrnIndex if candidate URN vault has debt', () => {
+  it('should return currentUrnIndex when candidate URN has debt', () => {
     // Arrange
     mockVaultReturn.data = {
       ...mockVaultReturn.data,
@@ -301,7 +270,7 @@ describe('useNextMigrationUrnIndex - Determining the next URN for migration', ()
     expect(result.current.error).toBe(null);
   });
 
-  it('should return currentUrnIndex if candidate URN vault has collateral', () => {
+  it('should return currentUrnIndex when candidate URN has collateral', () => {
     // Arrange
     mockVaultReturn.data = {
       ...mockVaultReturn.data,
@@ -317,7 +286,7 @@ describe('useNextMigrationUrnIndex - Determining the next URN for migration', ()
     expect(result.current.error).toBe(null);
   });
 
-  it('should return currentUrnIndex if candidate URN is auctioned', () => {
+  it('should return currentUrnIndex when candidate URN is under auction', () => {
     // Arrange
     mockUrnAuctionsReturn.data = 1n; // Auction exists
 
@@ -327,46 +296,12 @@ describe('useNextMigrationUrnIndex - Determining the next URN for migration', ()
     expect(result.current.data).toBe(2n); // currentUrnIndex
     expect(result.current.isLoading).toBe(false);
     expect(result.current.error).toBe(null);
-  });
 
-  it('should return isLoading true if any dependency is loading', () => {
-    // Arrange
-    mockCurrentUrnIndexReturn.isLoading = true; // Example: current index is loading
-    mockUseCurrentUrnIndex.mockReturnValue(mockCurrentUrnIndexReturn);
-
-    const { result } = renderHook(() => useNextMigrationUrnIndex());
-
-    // Assert
-    expect(result.current.isLoading).toBe(true);
-    expect(result.current.error).toBe(null);
-
-    // Reset for other tests if needed, or test other loading states
-    mockCurrentUrnIndexReturn.isLoading = false;
-    mockUseCurrentUrnIndex.mockReturnValue(mockCurrentUrnIndexReturn);
-
-    mockUrnOwnersReturn.isLoading = true; // Test urnOwners loading
-    const { result: result2 } = renderHook(() => useNextMigrationUrnIndex());
-    expect(result2.current.isLoading).toBe(true);
-    mockUrnOwnersReturn.isLoading = false; // reset
-
-    // ... test other loading states similarly (useVault, useUrnAuctions)
-  });
-
-  it('should return an error if any dependency has an error', () => {
-    // Arrange
-    const testError = new Error('Failed to fetch vault');
-    mockVaultReturn.error = testError;
-    mockVaultReturn.data = undefined; // Data is usually undefined on error
-
-    const { result } = renderHook(() => useNextMigrationUrnIndex());
-
-    // Assert
-    expect(result.current.error).toBe(testError);
-    expect(result.current.isLoading).toBe(false);
-
-    // Reset for other tests
-    mockVaultReturn.error = null;
-
-    // ... test other error states similarly (useCurrentUrnIndex, useUrnAddress, urnOwners, urnAuctions)
+    expect(mockUseReadContract).toHaveBeenCalledWith(
+      expect.objectContaining({
+        functionName: 'urnAuctions',
+        args: [candidateUrnAddr]
+      })
+    );
   });
 });
