@@ -22,7 +22,7 @@ import {
   TxStatus,
   WidgetStateChangeParams
 } from '@jetstreamgg/widgets';
-import { useCurrentUrnIndex, useSealCurrentIndex } from '@jetstreamgg/hooks';
+import { useSealCurrentIndex } from '@jetstreamgg/hooks';
 import { isL2ChainId } from '@jetstreamgg/utils';
 import { useAccount, useChainId, useSwitchChain } from 'wagmi';
 
@@ -91,8 +91,12 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
     setSelectedSealUrnIndex(urn?.urnIndex !== undefined ? Number(urn.urnIndex) : undefined);
   };
 
-  const onNavigateToMigratedUrn = (index: bigint) => {
-    navigate(`/?widget=stake&urn_index=${index}`);
+  const onNavigateToMigratedUrn = (index?: bigint) => {
+    if (index) {
+      navigate(`/?widget=stake&urn_index=${index}`);
+    } else {
+      navigate('/?widget=stake');
+    }
   };
 
   // Reset detail pane urn index when widget is mounted

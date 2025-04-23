@@ -96,6 +96,48 @@ export const sealApproveDescription: Record<string, MessageDescriptor> = {
   [TOKENS.sky.symbol]: msg`Sealing SKY in the Seal Rewards module`
 };
 
+export const hopeLoadingButtonText: TxCardCopyText = {
+  [TxStatus.INITIALIZED]: msg``,
+  [TxStatus.LOADING]: msg``,
+  [TxStatus.SUCCESS]: msg``,
+  [TxStatus.ERROR]: msg``
+};
+
+export const hopeTitle: TxCardCopyText = {
+  [TxStatus.INITIALIZED]: msg`Approve Migration contract`,
+  [TxStatus.LOADING]: msg`In progress`,
+  [TxStatus.SUCCESS]: msg`Migration contract approved`,
+  [TxStatus.ERROR]: msg`Error`
+};
+
+export const hopeSubtitle: TxCardCopyText = {
+  [TxStatus.INITIALIZED]: msg`Please allow the migration contract to access your SKY and/or MKR tokens in order to migrate your position`,
+  [TxStatus.LOADING]: msg`Please allow the migration contract to access your SKY and/or MKR tokens in order to migrate your position`,
+  [TxStatus.SUCCESS]: msg`Next, execute Migration.`,
+  [TxStatus.ERROR]: msg`An error occurred when allowing the migration contract to access your SKY and/or MKR tokens.`
+};
+
+export const migrateLoadingButtonText: TxCardCopyText = {
+  [TxStatus.INITIALIZED]: msg``,
+  [TxStatus.LOADING]: msg``,
+  [TxStatus.SUCCESS]: msg``,
+  [TxStatus.ERROR]: msg``
+};
+
+export const migrateTitle: TxCardCopyText = {
+  [TxStatus.INITIALIZED]: msg`Confirm your migration`,
+  [TxStatus.LOADING]: msg`In progress`,
+  [TxStatus.SUCCESS]: msg`Success!`,
+  [TxStatus.ERROR]: msg`Error`
+};
+
+export const migrateSubtitle: TxCardCopyText = {
+  [TxStatus.INITIALIZED]: msg`You will migrate your debt and your sealed MKR/SKY from the Seal Engine and stake directly into the Staking Engine`,
+  [TxStatus.LOADING]: msg`Your migration is being processed on the blockchain. Please wait.`,
+  [TxStatus.SUCCESS]: msg`You've successfully migrated your MKR (automatically upgraded to SKY) and USDS debt from the Seal Engine to the Staking Engine.`,
+  [TxStatus.ERROR]: msg`An error occurred when allowing the migration contract to access your SKY and/or MKR tokens.`
+};
+
 export const repayApproveDescription: MessageDescriptor = msg`Repaying USDS in the Seal Rewards module`;
 
 export function getSealTitle(
@@ -141,27 +183,29 @@ export function getSealSubtitle({
     case TxStatus.LOADING:
       return flow === SealFlow.OPEN
         ? msg`Your transaction is being processed on the blockchain to create your position. Please wait.`
-        : msg`Your transaction is being processed on the blockchain to update your position. Please wait.`;
+        : msg`Your transaction is being processed on the blockchain to update your position in the Staking Engine. Please wait.`;
     case TxStatus.SUCCESS:
-      return flow === SealFlow.OPEN
-        ? collateralToLock && borrowAmount
-          ? msg`You've borrowed ${borrowAmount} USDS by sealing ${collateralToLock} ${selectedToken ?? ''}. Your new position is open.`
-          : collateralToLock
-            ? msg`You've sealed ${collateralToLock} ${selectedToken ?? ''}. Your new position is open.`
-            : msg`You just opened your position`
-        : collateralToFree && borrowToRepay
-          ? msg`You've unsealed ${collateralToFree} ${selectedToken ?? ''} and repaid ${borrowToRepay} USDS to exit your position. An exit fee may have been applied.`
-          : collateralToFree
-            ? msg`You've unsealed ${collateralToFree} ${selectedToken ?? ''} to exit your position. An exit fee may have been applied.`
-            : borrowToRepay
-              ? msg`You've repaid ${borrowToRepay} USDS to exit your position.`
-              : collateralToLock && borrowAmount
-                ? msg`You've borrowed ${borrowAmount} USDS by sealing ${collateralToLock} ${selectedToken ?? ''}. Your position is updated.`
-                : collateralToLock
-                  ? msg`You've sealed ${collateralToLock} ${selectedToken ?? ''}. Your position is updated.`
-                  : borrowAmount
-                    ? msg`You've borrowed ${borrowAmount} USDS. Your position is updated.`
-                    : msg`You just updated your position`;
+      return flow === SealFlow.MIGRATE
+        ? msg`Your staking position is now active. Next, start migration.`
+        : flow === SealFlow.OPEN
+          ? collateralToLock && borrowAmount
+            ? msg`You've borrowed ${borrowAmount} USDS by sealing ${collateralToLock} ${selectedToken ?? ''}. Your new position is open.`
+            : collateralToLock
+              ? msg`You've sealed ${collateralToLock} ${selectedToken ?? ''}. Your new position is open.`
+              : msg`You just opened your position`
+          : collateralToFree && borrowToRepay
+            ? msg`You've unsealed ${collateralToFree} ${selectedToken ?? ''} and repaid ${borrowToRepay} USDS to exit your position. An exit fee may have been applied.`
+            : collateralToFree
+              ? msg`You've unsealed ${collateralToFree} ${selectedToken ?? ''} to exit your position. An exit fee may have been applied.`
+              : borrowToRepay
+                ? msg`You've repaid ${borrowToRepay} USDS to exit your position.`
+                : collateralToLock && borrowAmount
+                  ? msg`You've borrowed ${borrowAmount} USDS by sealing ${collateralToLock} ${selectedToken ?? ''}. Your position is updated.`
+                  : collateralToLock
+                    ? msg`You've sealed ${collateralToLock} ${selectedToken ?? ''}. Your position is updated.`
+                    : borrowAmount
+                      ? msg`You've borrowed ${borrowAmount} USDS. Your position is updated.`
+                      : msg`You just updated your position`;
     case TxStatus.ERROR:
     default:
       return msg`Error`;

@@ -15,11 +15,15 @@ export const SealBalanceCard = ({ url, loading, sealBalance }: CardProps) => {
     sealBalance && pricesData?.MKR
       ? parseFloat(formatUnits(sealBalance, 18)) * parseFloat(pricesData.MKR.price)
       : 0;
-  const shouldShowSealWarning = totalSealedValue > 10;
 
-  if (totalSealedValue === 0) {
-    return null;
-  }
+  // TODO: Revert this after
+  // const shouldShowSealWarning = totalSealedValue > 10;
+
+  // if (totalSealedValue === 0) {
+  //   return null;
+  // }
+  //
+  const shouldShowSealWarning = true;
 
   return shouldShowSealWarning ? (
     <SealBalanceWarningCard

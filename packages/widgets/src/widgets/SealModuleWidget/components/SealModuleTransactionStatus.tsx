@@ -27,7 +27,13 @@ import {
   getSealTitle,
   getSealSubtitle,
   sealApproveDescription,
-  repayApproveDescription
+  repayApproveDescription,
+  hopeLoadingButtonText,
+  hopeTitle,
+  hopeSubtitle,
+  migrateLoadingButtonText,
+  migrateTitle,
+  migrateSubtitle
 } from '../lib/constants';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
@@ -221,9 +227,24 @@ export const SealModuleTransactionStatus = ({ onExternalLinkClicked }: SealModul
   useEffect(() => {
     if (flow === SealFlow.OPEN) setStepTwoTitle(t`Open a position`);
     if (flow === SealFlow.MANAGE) setStepTwoTitle(t`Update Position`);
+    if (flow === SealFlow.MIGRATE) setStepTwoTitle(t`Execute Migration`);
 
-    // Both flows will have the same approval copy
-    if (action === SealAction.APPROVE && screen === SealScreen.TRANSACTION) {
+    if (flow === SealFlow.MIGRATE && action === SealAction.HOPE && screen === SealScreen.TRANSACTION) {
+      setStep(1);
+      setLoadingText(i18n._(hopeLoadingButtonText[txStatus]));
+      setTxTitle(i18n._(hopeTitle[txStatus]));
+      setTxSubtitle(i18n._(hopeSubtitle[txStatus]));
+    } else if (
+      flow === SealFlow.MIGRATE &&
+      action === SealAction.MIGRATE &&
+      screen === SealScreen.TRANSACTION
+    ) {
+      setStep(2);
+      setLoadingText(i18n._(migrateLoadingButtonText[txStatus]));
+      setTxTitle(i18n._(migrateTitle[txStatus]));
+      setTxSubtitle(i18n._(migrateSubtitle[txStatus]));
+    } else if (action === SealAction.APPROVE && screen === SealScreen.TRANSACTION) {
+      // Both flows will have the same approval copy
       setStep(1);
       setLoadingText(i18n._(approveLoadingButtonText[txStatus]));
       setTxTitle(i18n._(sealApproveTitle[txStatus]));

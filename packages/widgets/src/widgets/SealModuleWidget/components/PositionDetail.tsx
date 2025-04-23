@@ -53,7 +53,7 @@ type Props = {
   claimPrepared: boolean;
   claimExecute: () => void;
   isMigrated?: boolean;
-  onNavigateToMigratedUrn?: (index: bigint) => void;
+  onNavigateToMigratedUrn?: (index?: bigint) => void;
   onSealUrnChange?: OnSealUrnChange;
 };
 
@@ -225,13 +225,13 @@ export function PositionDetail({
 const MigrateButton = ({
   isMigrated,
   index,
-  sealedAmount,
+  // sealedAmount,
   onNavigateToMigratedUrn,
   onSealUrnChange
 }: {
   isMigrated?: boolean;
   index: bigint;
-  onNavigateToMigratedUrn?: (index: bigint) => void;
+  onNavigateToMigratedUrn?: (index?: bigint) => void;
   onSealUrnChange?: OnSealUrnChange;
   sealedAmount?: bigint;
 }) => {
