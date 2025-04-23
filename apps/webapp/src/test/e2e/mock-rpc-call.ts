@@ -2,7 +2,6 @@
  * Intercept RPC calls to tenderly so that we can increase the gas limit and handle eth_accounts
  */
 import { Request, Route } from '@playwright/test';
-import { getTestWalletAddress, TEST_WALLET_ADDRESSES } from './utils/testWallets';
 
 export const mockRpcCalls = (route: Route, request: Request) => {
   // Check if the request is a POST request and targets the specific endpoint
@@ -11,29 +10,29 @@ export const mockRpcCalls = (route: Route, request: Request) => {
     const postData = JSON.parse(request.postData() || '{}');
 
     // Handle eth_accounts calls
-    if (postData.method === 'eth_accounts') {
-      const workerIndex = Number(process.env.VITE_TEST_WORKER_INDEX ?? 0);
-      const address = getTestWalletAddress(workerIndex).toLowerCase();
+    // if (postData.method === 'eth_accounts') {
+    //   const workerIndex = Number(process.env.VITE_TEST_WORKER_INDEX ?? 0);
+    //   const address = getTestWalletAddress(workerIndex).toLowerCase();
 
-      console.log('eth_accounts mock call:', {
-        workerIndex,
-        envWorkerIndex: process.env.VITE_TEST_WORKER_INDEX,
-        address,
-        expectedAddress: getTestWalletAddress(0).toLowerCase(),
-        allAddresses: TEST_WALLET_ADDRESSES.map((a: string) => a.toLowerCase())
-      });
+    //   console.log('eth_accounts mock call:', {
+    //     workerIndex,
+    //     envWorkerIndex: process.env.VITE_TEST_WORKER_INDEX,
+    //     address,
+    //     expectedAddress: getTestWalletAddress(workerIndex).toLowerCase(),
+    //     allAddresses: TEST_WALLET_ADDRESSES.map((a: string) => a.toLowerCase())
+    //   });
 
-      route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({
-          jsonrpc: '2.0',
-          id: postData.id,
-          result: [address]
-        })
-      });
-      return;
-    }
+    //   route.fulfill({
+    //     status: 200,
+    //     contentType: 'application/json',
+    //     body: JSON.stringify({
+    //       jsonrpc: '2.0',
+    //       id: postData.id,
+    //       result: [address]
+    //     })
+    //   });
+    //   return;
+    // }
 
     // Check if the method is eth_sendTransaction or eth_call
     if (

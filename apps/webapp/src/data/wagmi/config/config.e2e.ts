@@ -2,19 +2,21 @@ import { http } from 'viem';
 import { createConfig, createStorage, noopStorage } from 'wagmi';
 import { getTestTenderlyChains } from './testTenderlyChain';
 import { mock } from 'wagmi/connectors';
-import { getTestWalletAddress } from '@/test/e2e/utils/testWallets';
+import { TEST_WALLET_ADDRESSES } from '@/test/e2e/utils/testWallets';
 
 const [tenderlyMainnet, tenderlyBase, tenderlyArbitrum] = getTestTenderlyChains();
 
 // Get worker index from environment variable or default to 0
 const workerIndex = Number(import.meta.env.VITE_TEST_WORKER_INDEX || 0);
-const TEST_WALLET_ADDRESS = getTestWalletAddress(workerIndex);
+
+// Assert the array as a non-empty tuple type
+const accounts = TEST_WALLET_ADDRESSES as [`0x${string}`, ...`0x${string}`[]];
 
 export const mockWagmiConfig = createConfig({
   chains: [tenderlyMainnet, tenderlyBase, tenderlyArbitrum],
   connectors: [
     mock({
-      accounts: [TEST_WALLET_ADDRESS],
+      accounts,
       features: {
         reconnect: true
       }

@@ -5,9 +5,17 @@ import { TENDERLY_CHAIN_ID } from '@/data/wagmi/config/testTenderlyChain.ts';
 import { interceptAndRejectTransactions } from '../utils/rejectTransaction.ts';
 import { approveOrPerformAction } from '../utils/approveOrPerformAction.ts';
 import { connectMockWalletAndAcceptTerms } from '../utils/connectMockWalletAndAcceptTerms.ts';
+import { getTestWalletAddress } from '../utils/testWallets.ts';
+import { NetworkName } from '../utils/constants.ts';
+
+const setTestBalance = async (tokenAddress: string, amount: string, decimals = 18) => {
+  const workerIndex = Number(process.env.VITE_TEST_WORKER_INDEX ?? 1);
+  const address = getTestWalletAddress(workerIndex);
+  await setErc20Balance(tokenAddress, amount, decimals, NetworkName.mainnet, address);
+};
 
 test('Upgrade DAI and revert USDS', async ({ page }) => {
-  await setErc20Balance(mcdDaiAddress[TENDERLY_CHAIN_ID], '10');
+  await setTestBalance(mcdDaiAddress[TENDERLY_CHAIN_ID], '10');
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
   await page.getByRole('tab', { name: 'Upgrade' }).click();
@@ -29,7 +37,7 @@ test('Upgrade DAI and revert USDS', async ({ page }) => {
 });
 
 test('Upgrade MKR and revert SKY', async ({ page }) => {
-  await setErc20Balance(mcdDaiAddress[TENDERLY_CHAIN_ID], '10');
+  await setTestBalance(mcdDaiAddress[TENDERLY_CHAIN_ID], '10');
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
   await page.getByRole('tab', { name: 'Upgrade' }).click();
@@ -82,8 +90,8 @@ test('Upgrade and revert with insufficient balance', async ({ page }) => {
 });
 
 test('Balances change after successfully upgrading and reverting', async ({ page }) => {
-  await setErc20Balance(mcdDaiAddress[TENDERLY_CHAIN_ID], '10');
-  await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '10');
+  await setTestBalance(mcdDaiAddress[TENDERLY_CHAIN_ID], '10');
+  await setTestBalance(usdsAddress[TENDERLY_CHAIN_ID], '10');
 
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
@@ -170,7 +178,7 @@ test('if not connected it should show a connect button', async ({ page }) => {
 
 // TODO: this test occasionally fails due to wallet not being connect, which might be related to above test
 test('percentage buttons work', async ({ page }) => {
-  await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '1000');
+  await setTestBalance(usdsAddress[TENDERLY_CHAIN_ID], '1000');
 
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
