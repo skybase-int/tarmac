@@ -9,7 +9,8 @@ import {
   useVault,
   Vault,
   CollateralRiskParameters,
-  useSealExitFee
+  useSealExitFee,
+  SupportedCollateralTypes
 } from '@jetstreamgg/hooks';
 import { t } from '@lingui/core/macro';
 import { useContext, useEffect, useMemo } from 'react';
@@ -286,7 +287,7 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
     useContext(StakeModuleWidgetContext);
 
   const chainId = useChainId();
-  const ilkName = getIlkName(chainId);
+  const ilkName = getIlkName(chainId, 2);
 
   const { data: existingVault } = useVault(activeUrn?.urnAddress, ilkName);
 
@@ -300,7 +301,7 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
   const newCollateralAmount =
     math.calculateConversion(sky, skyToLock) + (existingVault?.collateralAmount || 0n);
 
-  const { data: collateralData } = useCollateralData();
+  const { data: collateralData } = useCollateralData(SupportedCollateralTypes.LSEV2_A);
 
   const {
     data: simulatedVault,
