@@ -48,6 +48,7 @@ import {
   useIsSealUrnAuth,
   useIsStakeUrnAuth,
   useStakeUrnAddress
+  // useRewardsChartInfo
 } from '@jetstreamgg/hooks';
 import { formatBigInt, getEtherscanLink, useDebounce } from '@jetstreamgg/utils';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
@@ -188,6 +189,9 @@ function SealModuleWidgetWrapped({
   const { data: currentUrnIndex } = useSealCurrentIndex();
   const { data: currentStakeUrnIndex } = useStakeCurrentUrnIndex();
   const { data: currentStakeUrnAddress } = useStakeUrnAddress(currentStakeUrnIndex || 0n);
+
+  console.log('currentSealUrnIndex', currentUrnIndex);
+  console.log('currentStakeUrnIndex', currentStakeUrnIndex);
 
   const { data: externalParamUrnAddress } = useUrnAddress(
     externalWidgetState?.urnIndex !== undefined ? BigInt(externalWidgetState.urnIndex) : -1n
@@ -445,7 +449,10 @@ function SealModuleWidgetWrapped({
 
   const sealMulticall = useSaMulticall({
     calldata,
-    enabled: widgetState.action === SealAction.MULTICALL && !!allStepsComplete,
+    enabled:
+      widgetState.flow !== SealFlow.MIGRATE &&
+      widgetState.action === SealAction.MULTICALL &&
+      !!allStepsComplete,
     onStart: (hash: string) => {
       addRecentTransaction?.({ hash, description: t`Doing multicall` });
       setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
@@ -795,18 +802,27 @@ function SealModuleWidgetWrapped({
       widgetState.action === SealAction.MULTICALL &&
       widgetState.screen === SealScreen.ACTION
     ) {
+      // If we don't have an urn on the new engine
       if (needsToOpenStakeUrn) {
         setWidgetState((prev: WidgetState) => ({
           ...prev,
           action: SealAction.MULTICALL
         }));
         setCurrentStep(SealStep.ABOUT);
+        // If we already have an urn, but it's not hoped yet
+        // TODO: need to update the calldata logic in context to exclude 'open' in this case
+      } else if (needsNewUrnAuth) {
+        setCurrentStep(SealStep.ABOUT);
         // If we already opened & hoped the new urn, jump straight to this step
       } else if (needsOldUrnAuth) {
+        setWidgetState((prev: WidgetState) => ({
+          ...prev,
+          action: SealAction.HOPE
+        }));
         setCurrentStep(SealStep.HOPE_OLD);
         // We're ready to migrate
       } else {
-        //TODO: account for state where use has old auth and needs new auth (should be an outlier)
+        //TODO: account for state where user has old auth and needs new auth (should be an outlier)
         setWidgetState((prev: WidgetState) => ({
           ...prev,
           action: SealAction.MIGRATE
@@ -1038,9 +1054,10 @@ function SealModuleWidgetWrapped({
   const hopeOnClick = () => {
     setWidgetState((prev: WidgetState) => ({
       ...prev,
-      action: SealAction.MULTICALL,
+      action: SealAction.HOPE,
       screen: SealScreen.TRANSACTION
     }));
+    setCurrentStep(SealStep.HOPE_OLD);
     setTxStatus(TxStatus.INITIALIZED);
     setExternalLink(undefined);
     hope.execute();
@@ -1049,9 +1066,10 @@ function SealModuleWidgetWrapped({
   const migrateOnClick = () => {
     setWidgetState((prev: WidgetState) => ({
       ...prev,
-      action: SealAction.MULTICALL,
+      action: SealAction.MIGRATE,
       screen: SealScreen.TRANSACTION
     }));
+    setCurrentStep(SealStep.MIGRATE);
     setTxStatus(TxStatus.INITIALIZED);
     setExternalLink(undefined);
     migrate.execute();
@@ -1120,7 +1138,9 @@ function SealModuleWidgetWrapped({
           // TODO: this needs tweaking
           // needsOldUrnAuth
           hopeOnClick
-        : !needsOldUrnAuth
+        : txStatus === TxStatus.SUCCESS &&
+            currentStep === SealStep.HOPE_OLD &&
+            widgetState.flow === SealFlow.MIGRATE
           ? migrateOnClick
           : // After successful hope, we are ready to migrate
             txStatus === TxStatus.SUCCESS &&
