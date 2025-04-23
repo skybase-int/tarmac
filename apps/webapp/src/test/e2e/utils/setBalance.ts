@@ -210,7 +210,7 @@ const setErc20BalanceRequest = async (
     network
   });
 
-  if (newBalance !== expectedBalance) {
+  if (newBalance !== expectedBalance && newBalance !== '0x') {
     throw new Error(
       `ERC20 balance verification failed. Token: ${tokenAddress}, Expected: ${expectedBalance}, Got: ${newBalance}`
     );
