@@ -27,7 +27,13 @@ import {
   getSealTitle,
   getSealSubtitle,
   sealApproveDescription,
-  repayApproveDescription
+  repayApproveDescription,
+  hopeLoadingButtonText,
+  hopeTitle,
+  hopeSubtitle,
+  migrateLoadingButtonText,
+  migrateTitle,
+  migrateSubtitle
 } from '../lib/constants';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
@@ -225,14 +231,18 @@ export const SealModuleTransactionStatus = ({ onExternalLinkClicked }: SealModul
 
     if (flow === SealFlow.MIGRATE && action === SealAction.HOPE && screen === SealScreen.TRANSACTION) {
       setStep(1);
-      // TODO: Add hote texts
+      setLoadingText(i18n._(hopeLoadingButtonText[txStatus]));
+      setTxTitle(i18n._(hopeTitle[txStatus]));
+      setTxSubtitle(i18n._(hopeSubtitle[txStatus]));
     } else if (
       flow === SealFlow.MIGRATE &&
       action === SealAction.MIGRATE &&
       screen === SealScreen.TRANSACTION
     ) {
       setStep(2);
-      // TODO: Add migrate texts
+      setLoadingText(i18n._(migrateLoadingButtonText[txStatus]));
+      setTxTitle(i18n._(migrateTitle[txStatus]));
+      setTxSubtitle(i18n._(migrateSubtitle[txStatus]));
     } else if (action === SealAction.APPROVE && screen === SealScreen.TRANSACTION) {
       // Both flows will have the same approval copy
       setStep(1);
