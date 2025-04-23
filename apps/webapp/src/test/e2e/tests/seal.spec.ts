@@ -11,6 +11,8 @@ import {
   sealModuleAddress
 } from 'node_modules/@jetstreamgg/hooks/src/generated.ts';
 import { approveToken } from '../utils/approveToken.ts';
+import { NetworkName } from '../utils/constants.ts';
+import { getTestWalletAddress } from '../utils/testWallets.ts';
 
 test.beforeAll(async () => {
   await Promise.all([
@@ -28,6 +30,12 @@ test.beforeAll(async () => {
 });
 
 test.beforeEach(async ({ page }) => {
+  const workerIndex = Number(process.env.VITE_TEST_WORKER_INDEX ?? 1);
+  const address = getTestWalletAddress(workerIndex);
+  await Promise.all([
+    setErc20Balance(mkrAddress[TENDERLY_CHAIN_ID], '100', 18, NetworkName.mainnet, address),
+    setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '1', 18, NetworkName.mainnet, address)
+  ]);
   await page.goto('/seal-engine');
   await connectMockWalletAndAcceptTerms(page);
 });
