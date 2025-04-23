@@ -68,7 +68,7 @@ import { OnSealUrnChange } from './lib/types';
 type SealModuleWidgetProps = WidgetProps & {
   onSealUrnChange?: OnSealUrnChange;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-  onNavigateToMigratedUrn?: (index: bigint) => void;
+  onNavigateToMigratedUrn?: (index?: bigint) => void;
   addRecentTransaction: any;
   termsLink?: { url: string; name: string };
 };
@@ -609,8 +609,17 @@ function SealModuleWidgetWrapped({
         !needsUsdsAllowance
       ) {
         setButtonText(t`Continue`);
+      } else if (
+        txStatus === TxStatus.SUCCESS &&
+        widgetState.flow === SealFlow.MIGRATE &&
+        currentStep === SealStep.SUMMARY &&
+        widgetState.action === SealAction.MULTICALL
+      ) {
+        setButtonText(t`Let's now start the migration process`);
+      } else if (currentStep === SealStep.HOPE_OLD && txStatus === TxStatus.SUCCESS) {
+        setButtonText(t`Migrate`);
       } else if (txStatus === TxStatus.SUCCESS) {
-        setButtonText(t`Manage your position(s)`);
+        setButtonText(t`Manage your staking position(s)`);
       } else if (txStatus === TxStatus.ERROR) {
         setButtonText(t`Retry`);
       } else if (
@@ -632,9 +641,9 @@ function SealModuleWidgetWrapped({
       } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.SUMMARY) {
         setButtonText(t`Submit`);
       } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.HOPE_OLD) {
-        setButtonText(t`You must hope it`);
+        setButtonText(t`Let's now start the migration process`);
       } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.MIGRATE) {
-        setButtonText(t`Migration time 😎`);
+        setButtonText(t`Migrate`);
       } else if (shouldOpenFromWidgetButton) {
         setButtonText(t`New positions disabled`);
       } else if ([SealStep.REWARDS, SealStep.DELEGATE].includes(currentStep)) {
@@ -644,7 +653,7 @@ function SealModuleWidgetWrapped({
       } else if (widgetState.flow === SealFlow.MANAGE && currentStep === SealStep.ABOUT) {
         setButtonText(t`New positions disabled`);
       } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.ABOUT) {
-        setButtonText(t`Continue to migrate`);
+        setButtonText(t`Continue to open Staking position and migrate`);
       } else {
         // let's set it to Next for now
         setButtonText(t`Continue`);
@@ -1052,6 +1061,7 @@ function SealModuleWidgetWrapped({
   };
 
   const hopeOnClick = () => {
+    setShowStepIndicator(true);
     setWidgetState((prev: WidgetState) => ({
       ...prev,
       action: SealAction.HOPE,
@@ -1117,6 +1127,11 @@ function SealModuleWidgetWrapped({
     setSelectedToken(displayToken);
   };
 
+  const navigateToMigratedUrn = () => {
+    // TODO: we need to know which urn to navigate to in the Stake engine, for now we just navigate to urn list
+    onNavigateToMigratedUrn?.();
+  };
+
   const onClickAction = !isConnectedAndEnabled
     ? onConnect
     : (currentStep === SealStep.SUMMARY &&
@@ -1148,17 +1163,19 @@ function SealModuleWidgetWrapped({
               widgetState.action === SealAction.HOPE &&
               widgetState.flow === SealFlow.MIGRATE
             ? migrateOnClick
-            : txStatus === TxStatus.SUCCESS
-              ? finishOnClick
-              : currentStep === SealStep.SUMMARY && widgetState.action === SealAction.APPROVE
-                ? approveOnClick
-                : currentStep === SealStep.SUMMARY && widgetState.action === SealAction.MULTICALL
-                  ? submitOnClick
-                  : shouldOpenFromWidgetButton
-                    ? handleClickOpenPosition
-                    : widgetState.flow === SealFlow.MANAGE && widgetState.action === SealAction.CLAIM
-                      ? claimOnClick
-                      : nextOnClick;
+            : currentStep === SealStep.MIGRATE && txStatus === TxStatus.SUCCESS
+              ? navigateToMigratedUrn
+              : txStatus === TxStatus.SUCCESS
+                ? finishOnClick
+                : currentStep === SealStep.SUMMARY && widgetState.action === SealAction.APPROVE
+                  ? approveOnClick
+                  : currentStep === SealStep.SUMMARY && widgetState.action === SealAction.MULTICALL
+                    ? submitOnClick
+                    : shouldOpenFromWidgetButton
+                      ? handleClickOpenPosition
+                      : widgetState.flow === SealFlow.MANAGE && widgetState.action === SealAction.CLAIM
+                        ? claimOnClick
+                        : nextOnClick;
 
   const [stepIndex, totalSteps] = useMemo(
     () => [getStepIndex(currentStep, widgetState.flow) + 1, getTotalSteps(widgetState.flow)],
@@ -1375,7 +1392,7 @@ const ManagePosition = ({
   claimExecute: () => void;
   onSealUrnChange?: OnSealUrnChange;
   termsLink?: { url: string; name: string };
-  onNavigateToMigratedUrn?: (index: bigint) => void;
+  onNavigateToMigratedUrn?: (index?: bigint) => void;
 }) => {
   return currentAction === SealAction.OVERVIEW ? (
     <UrnsList

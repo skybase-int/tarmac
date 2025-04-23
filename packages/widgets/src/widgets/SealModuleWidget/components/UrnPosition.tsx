@@ -29,7 +29,7 @@ interface UrnPositionProps {
   claimExecute: () => void;
   onSealUrnChange?: OnSealUrnChange;
   isMigrated?: boolean;
-  onNavigateToMigratedUrn?: (index: bigint) => void;
+  onNavigateToMigratedUrn?: (index?: bigint) => void;
 }
 
 export const UrnPosition: React.FC<UrnPositionProps> = ({

@@ -21,7 +21,7 @@ export const UrnsList = ({
   claimPrepared: boolean;
   claimExecute: () => void;
   onSealUrnChange?: OnSealUrnChange;
-  onNavigateToMigratedUrn?: (index: bigint) => void;
+  onNavigateToMigratedUrn?: (index?: bigint) => void;
 }) => {
   const { address } = useAccount();
   const { displayToken, setDisplayToken } = useContext(SealModuleWidgetContext);

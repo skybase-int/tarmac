@@ -221,9 +221,20 @@ export const SealModuleTransactionStatus = ({ onExternalLinkClicked }: SealModul
   useEffect(() => {
     if (flow === SealFlow.OPEN) setStepTwoTitle(t`Open a position`);
     if (flow === SealFlow.MANAGE) setStepTwoTitle(t`Update Position`);
+    if (flow === SealFlow.MIGRATE) setStepTwoTitle(t`Execute Migration`);
 
-    // Both flows will have the same approval copy
-    if (action === SealAction.APPROVE && screen === SealScreen.TRANSACTION) {
+    if (flow === SealFlow.MIGRATE && action === SealAction.HOPE && screen === SealScreen.TRANSACTION) {
+      setStep(1);
+      // TODO: Add hote texts
+    } else if (
+      flow === SealFlow.MIGRATE &&
+      action === SealAction.MIGRATE &&
+      screen === SealScreen.TRANSACTION
+    ) {
+      setStep(2);
+      // TODO: Add migrate texts
+    } else if (action === SealAction.APPROVE && screen === SealScreen.TRANSACTION) {
+      // Both flows will have the same approval copy
       setStep(1);
       setLoadingText(i18n._(approveLoadingButtonText[txStatus]));
       setTxTitle(i18n._(sealApproveTitle[txStatus]));
