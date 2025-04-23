@@ -21,7 +21,7 @@ import { isTestnetId } from '@jetstreamgg/utils';
 
 export const tenderly = {
   id: TENDERLY_CHAIN_ID,
-  name: 'mainnet_sep_30_0',
+  name: 'mainnet_2025_apr_15_0',
   network: 'tenderly',
   // This is used by RainbowKit to display a chain icon for small screens
   iconUrl: 'tokens/weth.svg',
