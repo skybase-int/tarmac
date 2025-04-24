@@ -27,7 +27,7 @@ import { MigrateSelectDelegate } from './components/MigrateSelectDelegate';
 import { PositionSummary } from './components/PositionSummary';
 import {
   useSealCurrentIndex,
-  useCurrentUrnIndex as useStakeCurrentUrnIndex,
+  // useCurrentUrnIndex as useStakeCurrentUrnIndex,
   useSaMkrAllowance,
   useSaNgtAllowance,
   useSaNstAllowance as useSealUsdsAllowance,
@@ -46,8 +46,8 @@ import {
   useSaHope,
   useMigrateUrn,
   useIsSealUrnAuth,
-  useIsStakeUrnAuth,
-  useStakeUrnAddress
+  useIsStakeUrnAuth
+  // useNextMigrationUrnIndex
   // useRewardsChartInfo
 } from '@jetstreamgg/hooks';
 import { formatBigInt, getEtherscanLink, useDebounce } from '@jetstreamgg/utils';
@@ -187,11 +187,8 @@ function SealModuleWidgetWrapped({
 
   // Returns the urn index to use for opening a new urn
   const { data: currentUrnIndex } = useSealCurrentIndex();
-  const { data: currentStakeUrnIndex } = useStakeCurrentUrnIndex();
-  const { data: currentStakeUrnAddress } = useStakeUrnAddress(currentStakeUrnIndex || 0n);
-
-  console.log('currentSealUrnIndex', currentUrnIndex);
-  console.log('currentStakeUrnIndex', currentStakeUrnIndex);
+  // const { data: currentStakeUrnIndex } = useStakeCurrentUrnIndex();
+  // const { data: migrationUrnIndex } = useNextMigrationUrnIndex();
 
   const { data: externalParamUrnAddress } = useUrnAddress(
     externalWidgetState?.urnIndex !== undefined ? BigInt(externalWidgetState.urnIndex) : -1n
@@ -263,7 +260,6 @@ function SealModuleWidgetWrapped({
     isSelectDelegateCompleted
   );
 
-  // TODO: this will have to be stake hope
   const hope = useSaHope({
     // TODO: make sure this is the index of the urn we want to migrate
     index: urnIndexForTransaction || 0n,
@@ -576,7 +572,8 @@ function SealModuleWidgetWrapped({
 
   const needsNewUrnAuth = isNewUrnAuth === undefined || !isNewUrnAuth;
   const needsOldUrnAuth = isOldUrnAuth === undefined || !isOldUrnAuth;
-  const needsToOpenStakeUrn = currentStakeUrnAddress === undefined || currentStakeUrnAddress === ZERO_ADDRESS;
+  const needsToOpenStakeUrn =
+    newStakeUrn?.urnAddress === undefined || newStakeUrn?.urnAddress === ZERO_ADDRESS;
 
   // Generate calldata when all steps are complete
   useEffect(() => {
@@ -808,7 +805,7 @@ function SealModuleWidgetWrapped({
       }
     } else if (
       widgetState.flow === SealFlow.MIGRATE &&
-      widgetState.action === SealAction.MULTICALL &&
+      // widgetState.action === SealAction.MULTICALL &&
       widgetState.screen === SealScreen.ACTION
     ) {
       // If we don't have an urn on the new engine
@@ -862,7 +859,10 @@ function SealModuleWidgetWrapped({
     needsLockAllowance,
     sealLockAllowanceLoading,
     activeUrn,
-    tabSide
+    tabSide,
+    needsToOpenStakeUrn,
+    needsNewUrnAuth,
+    needsOldUrnAuth
   ]);
 
   useEffect(() => {
@@ -1048,8 +1048,7 @@ function SealModuleWidgetWrapped({
   };
 
   const submitOnClick = () => {
-    // TODO: make this conditional on the action/flow
-    setShowStepIndicator(false);
+    setShowStepIndicator(widgetState.flow !== SealFlow.MIGRATE);
     setWidgetState((prev: WidgetState) => ({
       ...prev,
       action: SealAction.MULTICALL,
