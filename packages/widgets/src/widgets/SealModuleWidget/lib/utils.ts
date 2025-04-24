@@ -20,14 +20,19 @@ const migrateFlowSequence = [
   SealStep.MIGRATE
 ];
 
-export function getPreviousStep(step: SealStep): SealStep {
-  // TODO: This is for Open Flow, it should be different for Manage flow
+export function getPreviousStep(step: SealStep, flow: SealFlow = SealFlow.OPEN): SealStep {
+  const sequence =
+    flow === SealFlow.OPEN
+      ? openFlowSequence
+      : flow === SealFlow.MIGRATE
+        ? migrateFlowSequence
+        : manageFlowSequence;
 
-  const currentIndex = openFlowSequence.indexOf(step);
+  const currentIndex = sequence.indexOf(step);
   if (currentIndex > 0) {
-    return openFlowSequence[currentIndex - 1];
+    return sequence[currentIndex - 1];
   }
-  return SealStep.ABOUT; // or handle the case when there's no previous action
+  return sequence[sequence.length - 1];
 }
 
 export function getNextStep(step: SealStep, flow: SealFlow = SealFlow.OPEN): SealStep {

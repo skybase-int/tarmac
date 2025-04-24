@@ -1028,7 +1028,7 @@ function SealModuleWidgetWrapped({
     // TODO: This may need to handle other screens, this is for testing navigation in the wizard
     // const previousStep = getPreviousStep(widgetState.action);
     if (widgetState.screen !== SealScreen.TRANSACTION) {
-      setCurrentStep(getPreviousStep(currentStep));
+      setCurrentStep(getPreviousStep(currentStep, widgetState.flow));
     } else {
       if (widgetState.action === SealAction.CLAIM) {
         setIndexToClaim(undefined);
