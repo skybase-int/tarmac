@@ -583,7 +583,13 @@ function SealModuleWidgetWrapped({
       urnIndexForTransaction !== undefined &&
       newStakeUrn?.urnIndex !== undefined
     ) {
-      const cd = generateAllCalldata(address, urnIndexForTransaction, referralCode, newStakeUrn?.urnIndex);
+      const cd = generateAllCalldata(
+        address,
+        urnIndexForTransaction,
+        referralCode,
+        newStakeUrn?.urnIndex,
+        newStakeUrn?.urnAddress
+      );
       setCalldata(cd);
     }
   }, [
@@ -821,13 +827,16 @@ function SealModuleWidgetWrapped({
         setCurrentStep(SealStep.ABOUT);
         // If we already opened & hoped the new urn, jump straight to this step
       } else if (needsOldUrnAuth) {
+        // console.log('NEED OLD URN AUTH');
         setWidgetState((prev: WidgetState) => ({
           ...prev,
           action: SealAction.HOPE
         }));
-        setCurrentStep(SealStep.HOPE_OLD);
+        // setCurrentStep(SealStep.HOPE_OLD);
+        setCurrentStep(SealStep.ABOUT);
         // We're ready to migrate
-      } else {
+      } else if (currentStep !== SealStep.ABOUT) {
+        // console.log('NEED MIGRATE');
         //TODO: account for state where user has old auth and needs new auth (should be an outlier)
         setWidgetState((prev: WidgetState) => ({
           ...prev,
@@ -835,20 +844,21 @@ function SealModuleWidgetWrapped({
         }));
         setCurrentStep(SealStep.MIGRATE);
       }
-    } else if (
-      widgetState.flow === SealFlow.MIGRATE &&
-      widgetState.action === SealAction.HOPE
-      // &&
-      // widgetState.screen === SealScreen.ACTION
-    ) {
-      setWidgetState((prev: WidgetState) => ({
-        ...prev,
-        action: SealAction.MIGRATE
-      }));
-      setCurrentStep(SealStep.MIGRATE);
-
-      //
     }
+    //  else if (
+    //   widgetState.flow === SealFlow.MIGRATE &&
+    //   widgetState.action === SealAction.HOPE &&
+    //   widgetState.screen === SealScreen.ACTION
+    // ) {
+    //   // console.log('MIGRATE');
+    //   setWidgetState((prev: WidgetState) => ({
+    //     ...prev,
+    //     action: SealAction.MIGRATE
+    //   }));
+    //   setCurrentStep(SealStep.MIGRATE);
+
+    //   //
+    // }
   }, [
     debouncedUsdsAmount,
     debouncedLockAmount,
@@ -996,12 +1006,12 @@ function SealModuleWidgetWrapped({
 
   const nextOnClick = () => {
     setTxStatus(TxStatus.IDLE);
-    setCurrentStep(getNextStep(currentStep, widgetState.flow));
-
-    // setWidgetState((prev: WidgetState) => ({
-    //   ...prev,
-    //   screen: SealScreen.ACTION
-    // }));
+    // Handle Cases 3 & 4: If Stake Urn is open and Stake Hope is done, go to Summary from About
+    if (currentStep === SealStep.ABOUT && !needsNewUrnAuth) {
+      setCurrentStep(SealStep.SUMMARY);
+    } else {
+      setCurrentStep(getNextStep(currentStep, widgetState.flow));
+    }
 
     // TODO: Handle all states to determine the next action, this is only to test navigation in the wizard
   };
@@ -1133,48 +1143,52 @@ function SealModuleWidgetWrapped({
 
   const onClickAction = !isConnectedAndEnabled
     ? onConnect
-    : (currentStep === SealStep.SUMMARY &&
-          // Just finished a successful approval, no longer need allowance
-          widgetState.action === SealAction.APPROVE &&
-          txStatus === TxStatus.SUCCESS &&
-          !needsLockAllowance &&
-          !needsUsdsAllowance) ||
-        // We're at the summary step for migrate flow
-        (txStatus === TxStatus.IDLE &&
-          currentStep === SealStep.SUMMARY &&
-          widgetState.flow === SealFlow.MIGRATE)
-      ? submitOnClick
-      : // After successful open, we now hope the new urn
-        txStatus === TxStatus.SUCCESS &&
-          currentStep === SealStep.SUMMARY &&
-          widgetState.flow === SealFlow.MIGRATE
-        ? // ||
-          // TODO: this needs tweaking
-          // needsOldUrnAuth
-          hopeOnClick
-        : txStatus === TxStatus.SUCCESS &&
-            currentStep === SealStep.HOPE_OLD &&
-            widgetState.flow === SealFlow.MIGRATE
-          ? migrateOnClick
-          : // After successful hope, we are ready to migrate
+    : !needsNewUrnAuth && needsOldUrnAuth && currentStep === SealStep.ABOUT
+      ? hopeOnClick
+      : !needsNewUrnAuth && !needsOldUrnAuth && currentStep === SealStep.ABOUT
+        ? migrateOnClick
+        : (currentStep === SealStep.SUMMARY &&
+              // Just finished a successful approval, no longer need allowance
+              widgetState.action === SealAction.APPROVE &&
+              txStatus === TxStatus.SUCCESS &&
+              !needsLockAllowance &&
+              !needsUsdsAllowance) ||
+            // We're at the summary step for migrate flow
+            (txStatus === TxStatus.IDLE &&
+              currentStep === SealStep.SUMMARY &&
+              widgetState.flow === SealFlow.MIGRATE)
+          ? submitOnClick
+          : // After successful open, we now hope the new urn
             txStatus === TxStatus.SUCCESS &&
               currentStep === SealStep.SUMMARY &&
-              widgetState.action === SealAction.HOPE &&
               widgetState.flow === SealFlow.MIGRATE
-            ? migrateOnClick
-            : currentStep === SealStep.MIGRATE && txStatus === TxStatus.SUCCESS
-              ? navigateToMigratedUrn
-              : txStatus === TxStatus.SUCCESS
-                ? finishOnClick
-                : currentStep === SealStep.SUMMARY && widgetState.action === SealAction.APPROVE
-                  ? approveOnClick
-                  : currentStep === SealStep.SUMMARY && widgetState.action === SealAction.MULTICALL
-                    ? submitOnClick
-                    : shouldOpenFromWidgetButton
-                      ? handleClickOpenPosition
-                      : widgetState.flow === SealFlow.MANAGE && widgetState.action === SealAction.CLAIM
-                        ? claimOnClick
-                        : nextOnClick;
+            ? // ||
+              // TODO: this needs tweaking
+              // needsOldUrnAuth
+              hopeOnClick
+            : txStatus === TxStatus.SUCCESS &&
+                currentStep === SealStep.HOPE_OLD &&
+                widgetState.flow === SealFlow.MIGRATE
+              ? migrateOnClick
+              : // After successful hope, we are ready to migrate
+                txStatus === TxStatus.SUCCESS &&
+                  currentStep === SealStep.SUMMARY &&
+                  widgetState.action === SealAction.HOPE &&
+                  widgetState.flow === SealFlow.MIGRATE
+                ? migrateOnClick
+                : currentStep === SealStep.MIGRATE && txStatus === TxStatus.SUCCESS
+                  ? navigateToMigratedUrn
+                  : txStatus === TxStatus.SUCCESS
+                    ? finishOnClick
+                    : currentStep === SealStep.SUMMARY && widgetState.action === SealAction.APPROVE
+                      ? approveOnClick
+                      : currentStep === SealStep.SUMMARY && widgetState.action === SealAction.MULTICALL
+                        ? submitOnClick
+                        : shouldOpenFromWidgetButton
+                          ? handleClickOpenPosition
+                          : widgetState.flow === SealFlow.MANAGE && widgetState.action === SealAction.CLAIM
+                            ? claimOnClick
+                            : nextOnClick;
 
   const [stepIndex, totalSteps] = useMemo(
     () => [getStepIndex(currentStep, widgetState.flow) + 1, getTotalSteps(widgetState.flow)],
