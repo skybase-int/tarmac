@@ -581,7 +581,8 @@ function SealModuleWidgetWrapped({
       allStepsComplete &&
       address &&
       urnIndexForTransaction !== undefined &&
-      newStakeUrn?.urnIndex !== undefined
+      // We only need to check the new stake urn during a migration flow
+      !!(widgetState.flow === SealFlow.MIGRATE ? newStakeUrn?.urnIndex !== undefined : true)
     ) {
       const cd = generateAllCalldata(
         address,
@@ -598,7 +599,8 @@ function SealModuleWidgetWrapped({
     urnIndexForTransaction,
     generateAllCalldata,
     referralCode,
-    newStakeUrn?.urnIndex
+    newStakeUrn?.urnIndex,
+    widgetState?.flow
   ]);
 
   // Update button state according to action and tx
