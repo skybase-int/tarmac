@@ -2,13 +2,12 @@ import { ReadHook } from '../hooks';
 import { TRUST_LEVELS } from '../constants';
 import { useAccount, useChainId, useReadContracts } from 'wagmi';
 import { useCurrentUrnIndex } from './useCurrentUrnIndex';
-// TODO: Update this import to the correct address once the contract is deployed
 import {
   mcdSpotAddress,
   mcdVatAbi,
   mcdVatAddress,
   stakeModuleAbi,
-  sealModuleAddress as stakeModuleAddress,
+  stakeModuleAddress,
   useReadMcdSpot,
   useReadMcdVat
 } from '../generated';

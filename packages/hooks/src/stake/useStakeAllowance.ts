@@ -2,7 +2,7 @@ import { useAccount, useChainId } from 'wagmi';
 import { UseTokenAllowanceResponse, useTokenAllowance } from '../tokens/useTokenAllowance';
 import { ZERO_ADDRESS } from '../constants';
 import { skyAddress, usdsAddress } from '../generated';
-import { sealModuleAddress as stakeModuleAddress } from '../generated';
+import { stakeModuleAddress } from '../generated';
 
 export function useStakeSkyAllowance(address?: `0x${string}` | undefined): UseTokenAllowanceResponse {
   const { address: connectedAddress } = useAccount();
