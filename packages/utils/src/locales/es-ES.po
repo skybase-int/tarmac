@@ -22,14 +22,6 @@ msgstr ""
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
-#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
-#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
-#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
-#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
-#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
-#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
-#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
-#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
@@ -915,6 +907,8 @@ msgstr ""
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
@@ -1603,6 +1597,8 @@ msgstr ""
 msgid "Price impact"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/shared/constants.ts
 msgid "Processing transaction"
 msgstr ""
@@ -1788,7 +1784,6 @@ msgid "Seal Engine is deprecated"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
-#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 msgid "Seal reward"
 msgstr ""
 
@@ -2021,6 +2016,7 @@ msgid "Stake Positions"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 msgid "Stake reward"
 msgstr ""
 
@@ -2075,6 +2071,8 @@ msgid "Submit"
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/shared/constants.ts
 msgid "Success"
 msgstr ""
@@ -2678,6 +2676,8 @@ msgstr ""
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
