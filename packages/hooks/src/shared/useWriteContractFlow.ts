@@ -61,8 +61,6 @@ export function useWriteContractFlow<
     query: { ...useSimulateContractParamters.query, enabled, gcTime: gcTime || 30000 }
   } as UseSimulateContractParameters);
 
-  console.log({ simulationData, simulationError, isSimulationLoading });
-
   const {
     writeContract,
     error: writeError,
