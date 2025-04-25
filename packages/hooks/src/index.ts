@@ -140,6 +140,8 @@ export { useStakeMulticall } from './stake/useStakeMulticall';
 export { useCurrentUrnIndex } from './stake/useCurrentUrnIndex';
 export { useUrnAddress as useStakeUrnAddress } from './stake/useUrnAddress';
 export { useIsUrnAuth as useIsStakeUrnAuth } from './stake/useIsUrnAuth';
+export { useUrnSelectedRewardContract as useStakeUrnSelectedRewardContract } from './stake/useUrnSelectedRewardContract';
+export { useUrnSelectedVoteDelegate as useStakeUrnSelectedVoteDelegate } from './stake/useUrnSelectedVoteDelegate';
 
 //Vaults
 export { useVault } from './vaults/useVault';

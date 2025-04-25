@@ -9,8 +9,8 @@ import {
   getIlkName,
   useRewardContractTokens,
   useSimulatedVault,
-  useUrnSelectedRewardContract,
-  useUrnSelectedVoteDelegate,
+  useStakeUrnSelectedRewardContract as useUrnSelectedRewardContract,
+  useStakeUrnSelectedVoteDelegate as useUrnSelectedVoteDelegate,
   useVault,
   useSealExitFee,
   useDelegateName,
@@ -217,6 +217,14 @@ export const MigratePositionSummary = () => {
   // collateral data will be for lockstake sky
   const { data: collateralData } = useCollateralData(SupportedCollateralTypes.LOCKSTAKE_SKY);
 
+  // If the contract is ZERO_ADDRESS, we need to treat it as undefined
+  const validatedExistingRewardsContract =
+    existingRewardContract && existingRewardContract !== ZERO_ADDRESS ? existingRewardContract : undefined;
+  const validatedExistingSelectedVoteDelegate =
+    existingSelectedVoteDelegate && existingSelectedVoteDelegate !== ZERO_ADDRESS
+      ? existingSelectedVoteDelegate
+      : undefined;
+
   const lineItems = useMemo(() => {
     return [
       {
@@ -340,13 +348,19 @@ export const MigratePositionSummary = () => {
         hideIfNoDebt: true
       },
       {
-        label: t`Seal reward`,
+        label: t`Stake reward`,
         updated:
           hasPositions &&
-          isUpdatedValue(existingRewardContract?.toLowerCase(), selectedRewardContract?.toLowerCase()),
+          isUpdatedValue(
+            validatedExistingRewardsContract?.toLowerCase(),
+            selectedRewardContract?.toLowerCase()
+          ),
         value:
           hasPositions &&
-          isUpdatedValue(existingRewardContract?.toLowerCase(), selectedRewardContract?.toLowerCase())
+          isUpdatedValue(
+            validatedExistingRewardsContract?.toLowerCase(),
+            selectedRewardContract?.toLowerCase()
+          )
             ? [
                 existingRewardContractTokens?.rewardsToken.symbol,
                 selectedRewardContractTokens?.rewardsToken.symbol
@@ -354,7 +368,10 @@ export const MigratePositionSummary = () => {
             : rewardsTokensToDisplay?.rewardsToken.symbol,
         icon:
           hasPositions &&
-          isUpdatedValue(existingRewardContract?.toLowerCase(), selectedRewardContract?.toLowerCase()) ? (
+          isUpdatedValue(
+            validatedExistingRewardsContract?.toLowerCase(),
+            selectedRewardContract?.toLowerCase()
+          ) ? (
             [
               isRewardContractTokensLoading || !existingRewardContractTokens ? (
                 <Skeleton className="w-30 h-5" />
@@ -376,18 +393,27 @@ export const MigratePositionSummary = () => {
       {
         label: t`Delegate`,
         updated:
-          hasPositions && existingSelectedVoteDelegate?.toLowerCase() !== selectedDelegate?.toLowerCase(),
+          hasPositions &&
+          isUpdatedValue(
+            validatedExistingSelectedVoteDelegate?.toLowerCase(),
+            selectedDelegate?.toLowerCase()
+          ),
         value:
-          hasPositions && existingSelectedVoteDelegate?.toLowerCase() !== selectedDelegate?.toLowerCase()
+          hasPositions &&
+          isUpdatedValue(
+            validatedExistingSelectedVoteDelegate?.toLowerCase(),
+            selectedDelegate?.toLowerCase()
+          )
             ? [
-                !!existingSelectedVoteDelegate &&
+                !!validatedExistingSelectedVoteDelegate &&
                 existingDelegateName &&
                 existingDelegateName !== 'Shadow delegate'
                   ? existingDelegateName
-                  : existingSelectedVoteDelegate && existingSelectedVoteDelegate !== ZERO_ADDRESS
-                    ? existingSelectedVoteDelegate?.slice(0, 5) +
+                  : validatedExistingSelectedVoteDelegate &&
+                      validatedExistingSelectedVoteDelegate !== ZERO_ADDRESS
+                    ? validatedExistingSelectedVoteDelegate?.slice(0, 5) +
                       '...' +
-                      existingSelectedVoteDelegate?.slice(-3)
+                      validatedExistingSelectedVoteDelegate?.slice(-3)
                     : t`No delegate`,
                 !!selectedDelegate && selectedDelegateName && selectedDelegateName !== 'Shadow delegate'
                   ? selectedDelegateName
@@ -403,7 +429,10 @@ export const MigratePositionSummary = () => {
         icon:
           selectedDelegate &&
           hasPositions &&
-          existingSelectedVoteDelegate?.toLowerCase() !== selectedDelegate.toLowerCase() ? (
+          isUpdatedValue(
+            validatedExistingSelectedVoteDelegate?.toLowerCase(),
+            selectedDelegate?.toLowerCase()
+          ) ? (
             [
               loadingExistingDelegateOwner || !existingDelegateOwner ? (
                 <Skeleton className="w-30 h-5" />
@@ -427,11 +456,13 @@ export const MigratePositionSummary = () => {
     existingVault,
     updatedVault,
     existingRewardContract,
+    validatedExistingRewardsContract,
     selectedRewardContract,
     existingRewardContractTokens,
     selectedRewardContractTokens,
     isRewardContractTokensLoading,
     existingSelectedVoteDelegate,
+    validatedExistingSelectedVoteDelegate,
     existingDelegateName,
     existingDelegateOwner,
     selectedDelegate,
@@ -448,7 +479,6 @@ export const MigratePositionSummary = () => {
     (updatedVault?.debtValue === 0n || updatedVault?.debtValue === undefined)
       ? lineItems.filter(item => !item.hideIfNoDebt)
       : lineItems;
-  const lineItemsUpdated = lineItemsFiltered.filter(item => item.updated);
 
   useEffect(() => {
     setDisplayToken(selectedToken);
@@ -464,11 +494,13 @@ export const MigratePositionSummary = () => {
           <MotionVStack gap={2} variants={positionAnimations} className="space-y-3">
             <motion.div key="overview" variants={positionAnimations}>
               <Text variant="medium" className="mb-1 font-medium">
-                Position overview
+                Staking Engine position overview
               </Text>
               {lineItemsFiltered
-                .filter(item => !item.updated && !!item.value)
-                .map(({ label, value, icon, className, tooltipText }) => {
+                .filter(item => /*!item.updated &&*/ !!item.value)
+                .map(i => {
+                  console.log('ixx', i);
+                  const { label, value, icon, className, tooltipText } = i;
                   return (
                     <LineItem
                       key={label}
@@ -481,25 +513,6 @@ export const MigratePositionSummary = () => {
                   );
                 })}
             </motion.div>
-            {hasPositions && lineItemsUpdated.length > 0 && (
-              <motion.div key="updates" variants={positionAnimations}>
-                <Text variant="medium" className="mb-1 font-medium">
-                  Position updates
-                </Text>
-                {lineItemsUpdated.map(({ label, value, icon, className, tooltipText }) => {
-                  return (
-                    <LineItem
-                      key={label}
-                      label={label}
-                      value={value}
-                      tooltipText={tooltipText}
-                      icon={icon}
-                      className={className}
-                    />
-                  );
-                })}
-              </motion.div>
-            )}
           </MotionVStack>
         </CardContent>
       </Card>
