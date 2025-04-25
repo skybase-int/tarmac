@@ -91,7 +91,9 @@ export interface SealModuleWidgetContextProps {
   generateAllCalldata: (
     ownerAddress: `0x${string}`,
     urnIndex: bigint,
-    referralCode?: number
+    referralCode?: number,
+    newStakeUrnIndex?: bigint,
+    newStakeUrnIndexAddress?: `0x${string}`
   ) => `0x${string}`[];
 
   currentStep: SealStep;
@@ -241,14 +243,23 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
   });
 
   const generateAllCalldata = useCallback(
-    (ownerAddress: `0x${string}`, urnIndex: bigint, referralCode: number = 0, newStakeUrnIndex?: bigint) => {
+    (
+      ownerAddress: `0x${string}`,
+      urnIndex: bigint,
+      referralCode: number = 0,
+      newStakeUrnIndex?: bigint,
+      newStakeUrnIndexAddress?: `0x${string}`
+    ) => {
       console.log('*** urnIndex, newStakeUrnIndex, ownerAddress', urnIndex, newStakeUrnIndex, ownerAddress);
       // --- CALLDATA GENERATION ---
       // If we have an activeUrn address, we're not opening a new one, we're managing an existing one
       const openCalldata = !activeUrn?.urnAddress ? getSaOpenCalldata({ urnIndex }) : undefined;
 
+      const newStakeUrnCreated = !!newStakeUrnIndexAddress && newStakeUrnIndexAddress !== ZERO_ADDRESS;
       const openStakeCalldata =
-        newStakeUrnIndex !== undefined ? getSaOpenCalldata({ urnIndex: newStakeUrnIndex }) : undefined;
+        newStakeUrnIndex !== undefined && !newStakeUrnCreated
+          ? getSaOpenCalldata({ urnIndex: newStakeUrnIndex })
+          : undefined;
 
       // MKR to lock
       const lockMkrCalldata =
