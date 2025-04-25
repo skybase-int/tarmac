@@ -96,7 +96,7 @@ export const SaRewardsCard = ({
           <MotionVStack className="justify-between" gap={2} variants={positionAnimations}>
             <Text className="text-textSecondary text-sm leading-4">{t`TVL`}</Text>
             {rewardContractInfo ? (
-              <Text>{formatBigInt(rewardContractInfo.totalSupplied, { maxDecimals: 0 })} MKR</Text>
+              <Text>{formatBigInt(rewardContractInfo.totalSupplied, { maxDecimals: 0 })} SKY</Text>
             ) : isRewardContractInfoLoading ? (
               <Skeleton className="bg-textSecondary h-5 w-10" />
             ) : rewardContractInfoError ? (

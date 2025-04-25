@@ -1,14 +1,14 @@
 import {
-  getSaDrawCalldata,
-  getSaFreeSkyCalldata,
-  getSaLockSkyCalldata,
-  getSaOpenCalldata,
-  getSaSelectDelegateCalldata,
-  getSaSelectRewardContractCalldata,
-  getSaWipeAllCalldata,
-  getSaWipeCalldata,
-  useUrnSelectedRewardContract,
-  useUrnSelectedVoteDelegate,
+  getStakeDrawCalldata,
+  getStakeFreeCalldata,
+  getStakeLockCalldata,
+  getStakeOpenCalldata,
+  getStakeSelectDelegateCalldata,
+  getStakeSelectRewardContractCalldata,
+  getStakeWipeAllCalldata,
+  getStakeWipeCalldata,
+  useStakeUrnSelectedRewardContract,
+  useStakeUrnSelectedVoteDelegate,
   ZERO_ADDRESS
 } from '@jetstreamgg/hooks';
 import {
@@ -166,10 +166,10 @@ export const StakeModuleWidgetProvider = ({ children }: { children: ReactNode })
     onStakeUrnChange?.(urn);
   };
 
-  const { data: urnSelectedRewardContract } = useUrnSelectedRewardContract({
+  const { data: urnSelectedRewardContract } = useStakeUrnSelectedRewardContract({
     urn: activeUrn?.urnAddress || ZERO_ADDRESS
   });
-  const { data: urnSelectedVoteDelegate } = useUrnSelectedVoteDelegate({
+  const { data: urnSelectedVoteDelegate } = useStakeUrnSelectedVoteDelegate({
     urn: activeUrn?.urnAddress || ZERO_ADDRESS
   });
 
@@ -177,33 +177,33 @@ export const StakeModuleWidgetProvider = ({ children }: { children: ReactNode })
     (ownerAddress: `0x${string}`, urnIndex: bigint, referralCode: number = 0) => {
       // --- CALLDATA GENERATION ---
       // If we have an activeUrn address, we're not opening a new one, we're managing an existing one
-      const openCalldata = !activeUrn?.urnAddress ? getSaOpenCalldata({ urnIndex }) : undefined;
+      const openCalldata = !activeUrn?.urnAddress ? getStakeOpenCalldata({ urnIndex }) : undefined;
 
       // SKY to lock
       const lockSkyCalldata =
         skyToLock && skyToLock > 0n
-          ? getSaLockSkyCalldata({ ownerAddress, urnIndex, amount: skyToLock, refCode: referralCode })
+          ? getStakeLockCalldata({ ownerAddress, urnIndex, amount: skyToLock, refCode: referralCode })
           : undefined;
 
       // USDS to wipe
       const repayCalldata =
         !wipeAll && usdsToWipe && usdsToWipe > 0n
-          ? getSaWipeCalldata({ ownerAddress, urnIndex, amount: usdsToWipe })
+          ? getStakeWipeCalldata({ ownerAddress, urnIndex, amount: usdsToWipe })
           : undefined;
 
       // Wipe All USDS
-      const repayAllCalldata = wipeAll ? getSaWipeAllCalldata({ ownerAddress, urnIndex }) : undefined;
+      const repayAllCalldata = wipeAll ? getStakeWipeAllCalldata({ ownerAddress, urnIndex }) : undefined;
 
       // SKY to free
       const freeSkyCalldata =
         skyToFree && skyToFree > 0n
-          ? getSaFreeSkyCalldata({ ownerAddress, urnIndex, toAddress: ownerAddress, amount: skyToFree })
+          ? getStakeFreeCalldata({ ownerAddress, urnIndex, toAddress: ownerAddress, amount: skyToFree })
           : undefined;
 
       // USDS to borrow
       const borrowUsdsCalldata =
         usdsToBorrow && usdsToBorrow > 0n
-          ? getSaDrawCalldata({
+          ? getStakeDrawCalldata({
               ownerAddress,
               urnIndex,
               toAddress: ownerAddress,
@@ -217,7 +217,7 @@ export const StakeModuleWidgetProvider = ({ children }: { children: ReactNode })
         selectedRewardContract,
         urnSelectedRewardContract
       )
-        ? getSaSelectRewardContractCalldata({
+        ? getStakeSelectRewardContractCalldata({
             ownerAddress,
             urnIndex,
             rewardContractAddress: selectedRewardContract || ZERO_ADDRESS,
@@ -231,7 +231,7 @@ export const StakeModuleWidgetProvider = ({ children }: { children: ReactNode })
         selectedDelegate,
         urnSelectedVoteDelegate
       )
-        ? getSaSelectDelegateCalldata({
+        ? getStakeSelectDelegateCalldata({
             ownerAddress,
             urnIndex,
             delegateAddress: selectedDelegate || ZERO_ADDRESS

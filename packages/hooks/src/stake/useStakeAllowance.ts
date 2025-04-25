@@ -4,7 +4,7 @@ import { ZERO_ADDRESS } from '../constants';
 import { skyAddress, usdsAddress } from '../generated';
 import { sealModuleAddress as stakeModuleAddress } from '../generated';
 
-export function useStakeNgtAllowance(address?: `0x${string}` | undefined): UseTokenAllowanceResponse {
+export function useStakeSkyAllowance(address?: `0x${string}` | undefined): UseTokenAllowanceResponse {
   const { address: connectedAddress } = useAccount();
   const acct = address || connectedAddress || ZERO_ADDRESS;
   const chainId = useChainId();
@@ -24,7 +24,7 @@ export function useStakeNgtAllowance(address?: `0x${string}` | undefined): UseTo
   };
 }
 
-export function useStakeNstAllowance(address?: `0x${string}` | undefined): UseTokenAllowanceResponse {
+export function useStakeUsdsAllowance(address?: `0x${string}` | undefined): UseTokenAllowanceResponse {
   const { address: connectedAddress } = useAccount();
   const acct = address || connectedAddress || ZERO_ADDRESS;
   const chainId = useChainId();

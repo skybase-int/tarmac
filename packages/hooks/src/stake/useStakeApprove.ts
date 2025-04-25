@@ -4,7 +4,7 @@ import { sealModuleAddress as stakeModuleAddress, skyAddress, usdsAddress } from
 import { useApproveToken } from '../tokens/useApproveToken';
 import { math } from '@jetstreamgg/utils';
 
-export function useStakeNgtApprove({
+export function useStakeSkyApprove({
   amount,
   gas,
   onSuccess = () => null,
@@ -28,7 +28,7 @@ export function useStakeNgtApprove({
   });
 }
 
-export function useStakeNstApprove({
+export function useStakeUsdsApprove({
   amount,
   roundUp = false,
   gas,

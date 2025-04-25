@@ -54,18 +54,18 @@ export const DelegateCard = ({
         <VStack className="items-end">
           <HStack className="mt-5 w-full justify-between" gap={2}>
             <MotionVStack className="justify-between" gap={2} variants={positionAnimations}>
-              <Text className="text-textSecondary text-sm leading-4">{t`MKR delegated by you`}</Text>
+              <Text className="text-textSecondary text-sm leading-4">{t`SKY delegated by you`}</Text>
               <Text>{formatBigInt(delegate.delegations?.[0]?.amount || 0n, { maxDecimals: 0 })}</Text>
             </MotionVStack>
             <MotionVStack className="justify-between" gap={2} variants={positionAnimations}>
-              <Text className="text-textSecondary text-sm leading-4">{t`Total MKR delegated`}</Text>
+              <Text className="text-textSecondary text-sm leading-4">{t`Total SKY delegated`}</Text>
               <Text>{formatBigInt(delegate.totalDelegated, { maxDecimals: 0 })}</Text>
             </MotionVStack>
           </HStack>
           <ExternalLink
             href={
               delegate.metadata?.externalProfileURL ||
-              `https://vote.makerdao.com/address/${delegate.id.toLowerCase()}`
+              `https://vote.sky.money/address/${delegate.id.toLowerCase()}`
             }
             iconSize={13}
             className="text-textEmphasis text-sm leading-4"

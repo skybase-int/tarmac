@@ -323,12 +323,11 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
   )} ${usds.symbol}`;
 
   //increase total debt by 0.001% to account for future changes to the rate
-  const adjustedTotalDebt = collateralData?.totalDaiDebt
-    ? (collateralData.totalDaiDebt * 100001n) / 100000n
-    : 0n;
+  const adjustedTotalDebt =
+    collateralData?.totalDaiDebt !== undefined ? (collateralData.totalDaiDebt * 100001n) / 100000n : 0n;
 
   const availableBorrowFromDebtCeiling =
-    collateralData?.debtCeiling && collateralData?.totalDaiDebt
+    collateralData?.debtCeiling !== undefined && collateralData?.totalDaiDebt !== undefined
       ? collateralData.debtCeiling - adjustedTotalDebt < 0n
         ? 0n
         : collateralData.debtCeiling - adjustedTotalDebt
