@@ -37,7 +37,8 @@ import {
   useStakeUrnSelectedRewardContract,
   useStakeUrnSelectedVoteDelegate,
   TOKENS,
-  getTokenDecimals
+  getTokenDecimals,
+  getIlkName
 } from '@jetstreamgg/hooks';
 import { formatBigInt, getEtherscanLink, useDebounce } from '@jetstreamgg/utils';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
@@ -164,7 +165,10 @@ function StakeModuleWidgetWrapped({
   const { data: externalParamUrnAddress } = useStakeUrnAddress(
     validatedExternalState?.urnIndex !== undefined ? BigInt(validatedExternalState.urnIndex) : -1n
   );
-  const { data: externalParamVaultData } = useVault(externalParamUrnAddress || ZERO_ADDRESS);
+  const { data: externalParamVaultData } = useVault(
+    externalParamUrnAddress || ZERO_ADDRESS,
+    getIlkName(chainId, 2)
+  );
   const { data: externalUrnRewardContract } = useStakeUrnSelectedRewardContract({
     urn: externalParamUrnAddress || ZERO_ADDRESS
   });

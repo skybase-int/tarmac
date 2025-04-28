@@ -146,6 +146,7 @@ export { useUrnSelectedVoteDelegate as useStakeUrnSelectedVoteDelegate } from '.
 export { useStakeSkyAllowance, useStakeUsdsAllowance } from './stake/useStakeAllowance';
 export { useStakeSkyApprove, useStakeUsdsApprove } from './stake/useStakeApprove';
 export { useClaimRewards as useStakeClaimRewards } from './stake/useClaimRewards';
+export { useStakeRewardsData } from './stake/useStakeRewardsData';
 export * from './stake/calldata';
 
 //Vaults
