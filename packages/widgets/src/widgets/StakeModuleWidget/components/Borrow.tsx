@@ -39,7 +39,7 @@ import {
 import { Warning } from '@widgets/shared/components/icons/Warning';
 import { Text } from '@widgets/shared/components/ui/Typography';
 
-const { usds, mkr, sky } = TOKENS;
+const { usds } = TOKENS;
 
 const { LOW } = RiskLevel;
 
@@ -95,15 +95,12 @@ const PositionManagerOverviewContainer = ({
     Number(formatUnits(existingVault?.collateralizationRatio || 0n, WAD_PRECISION)) * 100
   ).toFixed(2)}%`;
 
-  const newLiqPrice = `$${formatBigInt(math.calculateMKRtoSKYPrice(simulatedVault?.liquidationPrice || 0n), {
+  const newLiqPrice = `$${formatBigInt(simulatedVault?.liquidationPrice || 0n, {
     unit: WAD_PRECISION
   })}`;
-  const existingLiqPrice = `$${formatBigInt(
-    math.calculateMKRtoSKYPrice(existingVault?.liquidationPrice || 0n),
-    {
-      unit: WAD_PRECISION
-    }
-  )}`;
+  const existingLiqPrice = `$${formatBigInt(existingVault?.liquidationPrice || 0n, {
+    unit: WAD_PRECISION
+  })}`;
 
   const existingRiskLevel = existingVault?.riskLevel || LOW;
   const riskLevel = simulatedVault?.riskLevel || LOW;
@@ -147,21 +144,18 @@ const PositionManagerOverviewContainer = ({
           label: t`You staked`,
           value:
             hasPositions && newCollateralAmount !== existingColAmount
-              ? [
-                  `${formatBigInt(math.calculateConversion(mkr, existingColAmount))}  SKY`,
-                  `${formatBigInt(math.calculateConversion(mkr, newCollateralAmount))} SKY`
-                ]
-              : `${formatBigInt(math.calculateConversion(mkr, newCollateralAmount))}  SKY`
+              ? [`${formatBigInt(existingColAmount)} SKY`, `${formatBigInt(newCollateralAmount)} SKY`]
+              : `${formatBigInt(newCollateralAmount)} SKY`
         },
         {
           label: t`You borrowed`,
           value:
             hasPositions && newBorrowAmount !== existingBorrowAmount
               ? [
-                  `${formatBigInt(existingBorrowAmount)}  ${usds.symbol}`,
-                  `${formatBigInt(newBorrowAmount)}  ${usds.symbol}`
+                  `${formatBigInt(existingBorrowAmount)} ${usds.symbol}`,
+                  `${formatBigInt(newBorrowAmount)} ${usds.symbol}`
                 ]
-              : `${formatBigInt(newBorrowAmount)}  ${usds.symbol}`
+              : `${formatBigInt(newBorrowAmount)} ${usds.symbol}`
         },
         minCollateralNotMet
           ? { label: 'Borrow limit', value: t`Not enough collateral to borrow` }
@@ -177,7 +171,7 @@ const PositionManagerOverviewContainer = ({
             ],
         {
           label: t`Current SKY price`,
-          value: `$${formatBigInt(math.calculateConversion(sky, simulatedVault?.delayedPrice || 0n), { unit: WAD_PRECISION })}`
+          value: `$${formatBigInt(simulatedVault?.delayedPrice || 0n, { unit: WAD_PRECISION })}`
         }
       ].flat(),
     [
@@ -298,8 +292,7 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
   const newBorrowAmount = debouncedUsdsToBorrow + (existingVault?.debtValue || 0n);
 
   // Calculated total amount user will have locked based on existing collateral locked plus user input
-  const newCollateralAmount =
-    math.calculateConversion(sky, skyToLock) + (existingVault?.collateralAmount || 0n);
+  const newCollateralAmount = skyToLock + (existingVault?.collateralAmount || 0n);
 
   const { data: collateralData } = useCollateralData(SupportedCollateralTypes.LSEV2_A);
 
@@ -307,7 +300,7 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
     data: simulatedVault,
     isLoading,
     error
-  } = useSimulatedVault(newCollateralAmount, newBorrowAmount, existingVault?.debtValue || 0n);
+  } = useSimulatedVault(newCollateralAmount, newBorrowAmount, existingVault?.debtValue || 0n, ilkName);
 
   const minCollateralNotMet =
     simulatedVault?.collateralAmount !== undefined &&

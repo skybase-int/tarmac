@@ -3,7 +3,6 @@ import {
   getIlkName,
   getTokenDecimals,
   RiskLevel,
-  SupportedCollateralTypes,
   TOKENS,
   useCollateralData,
   useSimulatedVault,
@@ -20,7 +19,6 @@ import {
   captitalizeFirstLetter,
   formatBigInt,
   formatPercent,
-  math,
   useDebounce
 } from '@jetstreamgg/utils';
 import { formatUnits } from 'viem';
@@ -36,7 +34,7 @@ import {
   borrowRateTooltipText
 } from '../lib/constants';
 
-const { usds, mkr, sky } = TOKENS;
+const { usds } = TOKENS;
 
 const { LOW } = RiskLevel;
 
@@ -72,12 +70,12 @@ const PositionManagerOverviewContainer = ({
   minDebtNotMet: boolean;
 }) => {
   const chainId = useChainId();
-  const { data: collateralData } = useCollateralData(SupportedCollateralTypes.LSEV2_A);
+  const { data: collateralData } = useCollateralData(getIlkName(chainId, 2));
   const hasPositions = !!existingVault;
 
   // New amount values here will factor in user input, if there is no existing vault then amounts will not be included
-  const newCollateralAmount = math.calculateConversion(mkr, simulatedVault?.collateralAmount || 0n);
-  const existingColAmount = math.calculateConversion(mkr, existingVault?.collateralAmount || 0n);
+  const newCollateralAmount = simulatedVault?.collateralAmount || 0n;
+  const existingColAmount = existingVault?.collateralAmount || 0n;
 
   const newBorrowAmount = simulatedVault?.debtValue || 0n;
   const existingBorrowAmount = existingVault?.debtValue || 0n;
@@ -89,15 +87,12 @@ const PositionManagerOverviewContainer = ({
     Number(formatUnits(existingVault?.collateralizationRatio || 0n, WAD_PRECISION)) * 100
   ).toFixed(2)}%`;
 
-  const newLiqPrice = `$${formatBigInt(math.calculateMKRtoSKYPrice(simulatedVault?.liquidationPrice || 0n), {
+  const newLiqPrice = `$${formatBigInt(simulatedVault?.liquidationPrice || 0n, {
     unit: WAD_PRECISION
   })}`;
-  const existingLiqPrice = `$${formatBigInt(
-    math.calculateMKRtoSKYPrice(existingVault?.liquidationPrice || 0n),
-    {
-      unit: WAD_PRECISION
-    }
-  )}`;
+  const existingLiqPrice = `$${formatBigInt(existingVault?.liquidationPrice || 0n, {
+    unit: WAD_PRECISION
+  })}`;
 
   const existingRiskLevel = existingVault?.riskLevel || LOW;
   const riskLevel = simulatedVault?.riskLevel || LOW;
@@ -175,7 +170,7 @@ const PositionManagerOverviewContainer = ({
             ],
         {
           label: t`Current SKY price`,
-          value: `$${formatBigInt(math.calculateMKRtoSKYPrice(simulatedVault?.delayedPrice || 0n), { unit: WAD_PRECISION })}`
+          value: `$${formatBigInt(simulatedVault?.delayedPrice || 0n, { unit: WAD_PRECISION })}`
         }
       ].flat(),
     [
@@ -285,8 +280,7 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
   const newDebtValue = (existingVault?.debtValue || 0n) - debouncedUsdsToWipe;
 
   // Calculated total amount user will have locked based on existing collateral locked plus user input
-  const newCollateralAmount =
-    (existingVault?.collateralAmount || 0n) - math.calculateConversion(sky, skyToFree);
+  const newCollateralAmount = (existingVault?.collateralAmount || 0n) - skyToFree;
 
   const {
     data: simulatedVault,
@@ -296,7 +290,8 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
     // Collateral amounts must be > 0
     newCollateralAmount > 0n ? newCollateralAmount : 0n,
     newDebtValue > 0n ? newDebtValue : 0n,
-    existingVault?.debtValue || 0n
+    existingVault?.debtValue || 0n,
+    ilkName
   );
 
   useEffect(() => {
