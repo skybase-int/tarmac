@@ -236,8 +236,13 @@ const MigrateButton = ({
   sealedAmount?: bigint;
 }) => {
   const { setWidgetState } = useContext(WidgetContext);
-  const { setCurrentStep, setSelectedRewardContract, setSelectedDelegate, setActiveUrn } =
-    useContext(SealModuleWidgetContext);
+  const {
+    setCurrentStep,
+    setSelectedRewardContract,
+    setSelectedDelegate,
+    setActiveUrn
+    // setAcceptedMkrUpgrade
+  } = useContext(SealModuleWidgetContext);
 
   //TODO this stuff is just to help  mock the transaction screens temporarily
   const { data: urnAddress } = useUrnAddress(index);
@@ -267,6 +272,7 @@ const MigrateButton = ({
 
     setActiveUrn({ urnAddress, urnIndex: index }, onSealUrnChange ?? (() => {}));
     setCurrentStep(SealStep.ABOUT);
+    // setAcceptedMkrUpgrade(false);
   }, [urnAddress, index, vaultData, urnSelectedVoteDelegate, urnSelectedRewardContract]);
 
   if (isMigrated === undefined) return null;

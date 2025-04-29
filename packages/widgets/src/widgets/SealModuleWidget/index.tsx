@@ -151,6 +151,7 @@ function SealModuleWidgetWrapped({
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
   const {
     acceptedExitFee,
+    // acceptedMkrUpgrade,
     isLockCompleted,
     isSelectRewardContractCompleted,
     isSelectDelegateCompleted,
@@ -731,6 +732,7 @@ function SealModuleWidgetWrapped({
             (txStatus !== TxStatus.SUCCESS &&
               widgetState.action === SealAction.MULTICALL &&
               multicallDisabled)))
+      // (widgetState.flow === SealFlow.MIGRATE && !acceptedMkrUpgrade)
     );
   }, [
     currentStep,

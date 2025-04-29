@@ -1,7 +1,7 @@
 import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { JSX, useContext, useEffect, useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { SealModuleWidgetContext } from '../context/context';
 import {
   TOKENS,
@@ -27,19 +27,15 @@ import { Skeleton } from '@widgets/components/ui/skeleton';
 import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
 import { WAD_PRECISION, captitalizeFirstLetter, formatBigInt, formatPercent, math } from '@jetstreamgg/utils';
 import { formatUnits } from 'viem';
-import { cn } from '@widgets/lib/utils';
 import { getRiskTextColor } from '../lib/utils';
-import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
-import { HStack } from '@widgets/shared/components/ui/layout/HStack';
-import { ArrowDown } from '@widgets/shared/components/icons/ArrowDown';
 import { JazziconComponent } from './Jazzicon';
-import { InfoTooltip } from '@widgets/shared/components/ui/tooltip/InfoTooltip';
 import {
   collateralizationRatioTooltipText,
   liquidationPriceTooltipText,
   riskLevelTooltipText,
   borrowRateTooltipText
 } from '../lib/constants';
+import { LineItem } from './LineItem';
 
 const { usds, mkr } = TOKENS;
 
@@ -52,67 +48,6 @@ const isUpdatedValue = (prev: any, next: any) => prev !== undefined && next !== 
 //   if (prev === undefined || next === undefined) return t`Borrowing`;
 //   return next > prev ? t`Borrowing` : next < prev ? t`Repaying` : t`Borrowed`;
 // };
-
-const LineItem = ({
-  label,
-  value,
-  icon,
-  className,
-  tooltipText
-}: {
-  label: string;
-  value?: string | (string | undefined)[] | string[];
-  icon?: JSX.Element | JSX.Element[];
-  className?: string | string[];
-  tooltipText?: string;
-}) => {
-  return (
-    <motion.div key={label} className="flex justify-between py-2" variants={positionAnimations}>
-      <HStack className="items-center" gap={1}>
-        <Text className={'text-textSecondary flex items-center text-sm'}>
-          {label}
-          {label === 'Rate' && (
-            <span className="ml-2 mt-1">
-              <PopoverRateInfo type="ssr" />
-            </span>
-          )}
-        </Text>
-        {tooltipText && <InfoTooltip content={tooltipText} iconClassName="text-textSecondary" />}
-      </HStack>
-      {Array.isArray(value) && value.length >= 2 ? (
-        <HStack className="shrink-0 items-center">
-          <div className="flex items-center gap-2">
-            {Array.isArray(icon) ? icon[0] : icon}
-            <Text
-              className={cn(
-                Array.isArray(className) && className.length >= 2 ? className[0] : className,
-                'text-right text-sm'
-              )}
-            >
-              {value[0]}
-            </Text>
-          </div>
-          {value[0] && <ArrowDown className="-rotate-90" boxSize={12} />}
-          <div className="flex items-center gap-2">
-            {Array.isArray(icon) && icon.length === 2 && icon[1]}
-            <Text
-              className={`${
-                Array.isArray(className) && className.length >= 2 ? className[1] : className
-              } text-right text-sm`}
-            >
-              {value[1]}
-            </Text>
-          </div>
-        </HStack>
-      ) : (
-        <div className="flex items-center gap-2">
-          {icon}
-          <Text className={cn(className, 'text-right text-sm')}>{value}</Text>
-        </div>
-      )}
-    </motion.div>
-  );
-};
 
 export const MigratePositionSummary = () => {
   const chainId = useChainId();
