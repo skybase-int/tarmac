@@ -151,7 +151,7 @@ function SealModuleWidgetWrapped({
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
   const {
     acceptedExitFee,
-    // acceptedMkrUpgrade,
+    acceptedMkrUpgrade,
     isLockCompleted,
     isSelectRewardContractCompleted,
     isSelectDelegateCompleted,
@@ -724,6 +724,7 @@ function SealModuleWidgetWrapped({
 
     setIsDisabled(
       (widgetState.flow === SealFlow.OPEN && !acceptedExitFee) ||
+        (widgetState.flow === SealFlow.MIGRATE && !acceptedMkrUpgrade) ||
         (currentStep === SealStep.OPEN_BORROW && (!isLockCompleted || !isBorrowCompleted)) ||
         (currentStep === SealStep.REWARDS && !isSelectRewardContractCompleted) ||
         (currentStep === SealStep.DELEGATE && !isSelectDelegateCompleted) ||
@@ -736,6 +737,7 @@ function SealModuleWidgetWrapped({
     );
   }, [
     currentStep,
+    acceptedMkrUpgrade,
     isConnectedAndEnabled,
     widgetState.flow,
     widgetState.action,

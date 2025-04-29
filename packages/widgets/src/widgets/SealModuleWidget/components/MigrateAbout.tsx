@@ -59,6 +59,7 @@ export const MigrateAbout = () => {
   useEffect(() => {
     setIsLockCompleted(true);
     setIsBorrowCompleted(true);
+    setAcceptedMkrUpgrade(false);
   }, []);
 
   useEffect(() => {
@@ -95,7 +96,12 @@ export const MigrateAbout = () => {
         icon: <JazziconComponent address={existingDelegateOwner} diameter={20} />
       }
     ];
-  }, []);
+  }, [
+    vaultData?.debtValue,
+    vaultData?.collateralAmount,
+    existingRewardContractTokens?.rewardsToken.symbol,
+    existingDelegateOwner
+  ]);
 
   const stakingPositionItems = useMemo(() => {
     return [
@@ -131,7 +137,7 @@ export const MigrateAbout = () => {
         icon: <JazziconComponent address={ZERO_ADDRESS} diameter={20} />
       }
     ];
-  }, []);
+  }, [vaultData?.debtValue, vaultData?.collateralAmount]);
 
   return (
     <div className="mb-4">
