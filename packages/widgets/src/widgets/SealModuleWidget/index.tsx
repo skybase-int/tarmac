@@ -151,6 +151,7 @@ function SealModuleWidgetWrapped({
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
   const {
     acceptedExitFee,
+    acceptedMkrUpgrade,
     isLockCompleted,
     isSelectRewardContractCompleted,
     isSelectDelegateCompleted,
@@ -658,7 +659,13 @@ function SealModuleWidgetWrapped({
       } else if (widgetState.flow === SealFlow.MANAGE && currentStep === SealStep.ABOUT) {
         setButtonText(t`New positions disabled`);
       } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.ABOUT) {
-        setButtonText(t`Continue to open Staking position and migrate`);
+        setButtonText(
+          newStakeUrn?.urnAddress === undefined
+            ? t`Checking your position status...`
+            : newStakeUrn?.urnAddress === ZERO_ADDRESS
+              ? t`Continue to open Staking position and migrate`
+              : t`Continue to migrate`
+        );
       } else {
         // let's set it to Next for now
         setButtonText(t`Continue`);
@@ -723,6 +730,7 @@ function SealModuleWidgetWrapped({
 
     setIsDisabled(
       (widgetState.flow === SealFlow.OPEN && !acceptedExitFee) ||
+        (widgetState.flow === SealFlow.MIGRATE && !acceptedMkrUpgrade) ||
         (currentStep === SealStep.OPEN_BORROW && (!isLockCompleted || !isBorrowCompleted)) ||
         (currentStep === SealStep.REWARDS && !isSelectRewardContractCompleted) ||
         (currentStep === SealStep.DELEGATE && !isSelectDelegateCompleted) ||
@@ -731,9 +739,11 @@ function SealModuleWidgetWrapped({
             (txStatus !== TxStatus.SUCCESS &&
               widgetState.action === SealAction.MULTICALL &&
               multicallDisabled)))
+      // (widgetState.flow === SealFlow.MIGRATE && !acceptedMkrUpgrade)
     );
   }, [
     currentStep,
+    acceptedMkrUpgrade,
     isConnectedAndEnabled,
     widgetState.flow,
     widgetState.action,

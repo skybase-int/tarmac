@@ -70,6 +70,9 @@ export interface SealModuleWidgetContextProps {
   acceptedExitFee: boolean;
   setAcceptedExitFee: Dispatch<SetStateAction<boolean>>;
 
+  acceptedMkrUpgrade: boolean;
+  setAcceptedMkrUpgrade: Dispatch<SetStateAction<boolean>>;
+
   selectedToken: Token;
   setSelectedToken: Dispatch<SetStateAction<Token>>;
 
@@ -152,6 +155,9 @@ export const SealModuleWidgetContext = createContext<SealModuleWidgetContextProp
   acceptedExitFee: false,
   setAcceptedExitFee: () => null,
 
+  acceptedMkrUpgrade: false,
+  setAcceptedMkrUpgrade: () => null,
+
   selectedRewardContract: undefined,
   setSelectedRewardContract: () => null,
 
@@ -200,6 +206,7 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
   const [usdsToWipe, setUsdsToWipe] = useState<bigint>(0n);
   const [wipeAll, setWipeAll] = useState<boolean>(false);
   const [acceptedExitFee, setAcceptedExitFee] = useState<boolean>(false);
+  const [acceptedMkrUpgrade, setAcceptedMkrUpgrade] = useState<boolean>(false);
   const [selectedRewardContract, setSelectedRewardContract] = useState<`0x${string}` | undefined>();
   const [selectedDelegate, setSelectedDelegate] = useState<`0x${string}` | undefined>();
   const [selectedToken, setSelectedToken] = useState<Token>(TOKENS.mkr);
@@ -416,6 +423,8 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
         setWipeAll,
         acceptedExitFee,
         setAcceptedExitFee,
+        acceptedMkrUpgrade,
+        setAcceptedMkrUpgrade,
         selectedRewardContract,
         setSelectedRewardContract,
         selectedDelegate,
