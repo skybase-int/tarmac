@@ -1,7 +1,7 @@
 import { Input } from '@widgets/components/ui/input';
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { Text } from '@widgets/shared/components/ui/Typography';
-import { ZERO_ADDRESS, useSaUserDelegates, useUrnSelectedVoteDelegate } from '@jetstreamgg/hooks';
+import { ZERO_ADDRESS, useStakeUserDelegates, useStakeUrnSelectedVoteDelegate } from '@jetstreamgg/hooks';
 import { useDebounce } from '@jetstreamgg/utils';
 import { useContext, useEffect, useState } from 'react';
 import { useAccount, useChainId } from 'wagmi';
@@ -41,7 +41,7 @@ export const SelectDelegate = ({
 
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search);
-  const { data: delegates, isLoading } = useSaUserDelegates({
+  const { data: delegates, isLoading } = useStakeUserDelegates({
     chainId,
     user: address || ZERO_ADDRESS,
     page: 1,
@@ -49,7 +49,7 @@ export const SelectDelegate = ({
     random: true,
     search: debouncedSearch
   });
-  const { data: urnSelectedVoteDelegate } = useUrnSelectedVoteDelegate({
+  const { data: urnSelectedVoteDelegate } = useStakeUrnSelectedVoteDelegate({
     urn: activeUrn?.urnAddress || ZERO_ADDRESS
   });
 
@@ -131,7 +131,7 @@ export const SelectDelegate = ({
             //       ? 1
             //       : 0
             // )
-            // Sort delegates by total delegated MKR descending
+            // Sort delegates by total delegated SKY descending
             ?.map(delegate => ({
               ...delegate,
               totalDelegatedEther: delegate.totalDelegated ? Number(formatEther(delegate.totalDelegated)) : 0

@@ -7,7 +7,7 @@ import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { MotionHStack } from '@widgets/shared/components/ui/layout/MotionHStack';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
 import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
-import { useRewardContractInfo, useRewardContractTokens, useSealRewardsData } from '@jetstreamgg/hooks';
+import { useRewardContractInfo, useRewardContractTokens, useStakeRewardsData } from '@jetstreamgg/hooks';
 import { formatBigInt } from '@jetstreamgg/utils';
 import { t } from '@lingui/core/macro';
 import { Dispatch, SetStateAction } from 'react';
@@ -41,7 +41,7 @@ export const SaRewardsCard = ({
     error: rewardContractTokensError
   } = useRewardContractTokens(contractAddress);
 
-  const { data: stakeRewardsData, isLoading: isStakeRewardsDataLoading } = useSealRewardsData();
+  const { data: stakeRewardsData, isLoading: isStakeRewardsDataLoading } = useStakeRewardsData();
 
   const contractRewardsData = stakeRewardsData?.find(
     data => getAddress(data.address) === getAddress(contractAddress)
@@ -96,7 +96,7 @@ export const SaRewardsCard = ({
           <MotionVStack className="justify-between" gap={2} variants={positionAnimations}>
             <Text className="text-textSecondary text-sm leading-4">{t`TVL`}</Text>
             {rewardContractInfo ? (
-              <Text>{formatBigInt(rewardContractInfo.totalSupplied, { maxDecimals: 0 })} MKR</Text>
+              <Text>{formatBigInt(rewardContractInfo.totalSupplied, { maxDecimals: 0 })} SKY</Text>
             ) : isRewardContractInfoLoading ? (
               <Skeleton className="bg-textSecondary h-5 w-10" />
             ) : rewardContractInfoError ? (

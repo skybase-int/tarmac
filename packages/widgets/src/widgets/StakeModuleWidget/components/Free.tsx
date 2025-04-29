@@ -1,6 +1,5 @@
 import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
 import { TOKENS, useVault, useSimulatedVault, getIlkName } from '@jetstreamgg/hooks';
-import { math } from '@jetstreamgg/utils';
 import { t } from '@lingui/core/macro';
 import { useContext, useEffect } from 'react';
 import { useAccount, useChainId } from 'wagmi';
@@ -26,9 +25,6 @@ export const Free = ({
   const { widgetState } = useContext(WidgetContext);
 
   const skySealed = sealedAmount || 0n;
-  // const skySealed = useMemo(() => {
-  //   return sealedAmount ? sealedAmount * math.MKR_TO_SKY_PRICE_RATIO : 0n;
-  // }, [sealedAmount]);
 
   const { data: existingVault } = useVault(activeUrn?.urnAddress, ilkName);
 
@@ -36,8 +32,7 @@ export const Free = ({
   const newDebtValue = (existingVault?.debtValue || 0n) - usdsToWipe;
 
   // Calculated total amount user will have locked based on existing collateral locked plus user input
-  const newCollateralAmount =
-    (existingVault?.collateralAmount || 0n) * math.MKR_TO_SKY_PRICE_RATIO - skyToFree;
+  const newCollateralAmount = (existingVault?.collateralAmount || 0n) - skyToFree;
 
   const { data: simulatedVault, isLoading } = useSimulatedVault(
     // Collateral amounts must be > 0

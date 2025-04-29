@@ -132,6 +132,7 @@ export { useSaHope } from './seal/useSaHope';
 export { useMigrateUrn } from './seal/useMigrateUrn';
 export { useIsUrnAuth as useIsSealUrnAuth } from './seal/useIsUrnAuth';
 export { useNextMigrationUrnIndex } from './seal/useNextMigrationUrnIndex';
+export * from './seal/calldata';
 
 // Stake Module
 export { useStakeRewardContracts } from './stake/useStakeRewardContracts';
@@ -142,6 +143,11 @@ export { useUrnAddress as useStakeUrnAddress } from './stake/useUrnAddress';
 export { useIsUrnAuth as useIsStakeUrnAuth } from './stake/useIsUrnAuth';
 export { useUrnSelectedRewardContract as useStakeUrnSelectedRewardContract } from './stake/useUrnSelectedRewardContract';
 export { useUrnSelectedVoteDelegate as useStakeUrnSelectedVoteDelegate } from './stake/useUrnSelectedVoteDelegate';
+export { useStakeSkyAllowance, useStakeUsdsAllowance } from './stake/useStakeAllowance';
+export { useStakeSkyApprove, useStakeUsdsApprove } from './stake/useStakeApprove';
+export { useClaimRewards as useStakeClaimRewards } from './stake/useClaimRewards';
+export { useStakeRewardsData } from './stake/useStakeRewardsData';
+export * from './stake/calldata';
 
 //Vaults
 export { useVault } from './vaults/useVault';
@@ -252,4 +258,3 @@ export {
   lsMkrUsdsRewardAddress
 } from './generated';
 export { contracts, /*tenderlyContracts,*/ sepoliaContracts, l2Contracts } from './contracts';
-export * from './seal/calldata';

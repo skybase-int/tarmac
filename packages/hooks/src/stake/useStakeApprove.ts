@@ -1,10 +1,10 @@
 import { useChainId } from 'wagmi';
 import { WriteHook, WriteHookParams } from '../hooks';
-import { sealModuleAddress as stakeModuleAddress, skyAddress, usdsAddress } from '../generated';
+import { stakeModuleAddress, skyAddress, usdsAddress } from '../generated';
 import { useApproveToken } from '../tokens/useApproveToken';
 import { math } from '@jetstreamgg/utils';
 
-export function useStakeNgtApprove({
+export function useStakeSkyApprove({
   amount,
   gas,
   onSuccess = () => null,
@@ -28,7 +28,7 @@ export function useStakeNgtApprove({
   });
 }
 
-export function useStakeNstApprove({
+export function useStakeUsdsApprove({
   amount,
   roundUp = false,
   gas,
