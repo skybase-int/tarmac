@@ -165,7 +165,7 @@ export const MigrateAbout = () => {
         className="mt-4"
       />
       <Text className="mt-4">
-        <Trans>Migrate from:</Trans>
+        <Trans>Migrate to:</Trans>
       </Text>
       {!isStakeUrnCreated && (
         <>
