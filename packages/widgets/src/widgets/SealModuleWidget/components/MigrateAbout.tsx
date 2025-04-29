@@ -2,7 +2,18 @@ import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
 import { useContext, useEffect, useMemo } from 'react';
 import { SealModuleWidgetContext } from '../context/context';
-import { TOKENS, useNextMigrationUrnIndex, useStakeUrnAddress, ZERO_ADDRESS } from '@jetstreamgg/hooks';
+import {
+  TOKENS,
+  useDelegateOwner,
+  useNextMigrationUrnIndex,
+  useRewardContractTokens,
+  useStakeUrnAddress,
+  useUrnSelectedRewardContract,
+  useUrnSelectedVoteDelegate,
+  useVault,
+  ZERO_ADDRESS
+} from '@jetstreamgg/hooks';
+import { formatBigInt, math } from '@jetstreamgg/utils';
 import { Checkbox } from '@widgets/components/ui/checkbox';
 import { Card, CardContent } from '@widgets/components/ui/card';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
@@ -12,6 +23,7 @@ import { LineItem } from './LineItem';
 import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
 import { t } from '@lingui/core/macro';
 import { cn } from '@widgets/lib/utils';
+import { JazziconComponent } from '@widgets/widgets/StakeModuleWidget/components/Jazzicon';
 
 export const MigrateAbout = () => {
   const {
@@ -27,6 +39,17 @@ export const MigrateAbout = () => {
   const { data: stakeUrnAddress, isLoading: isStakeUrnAddressLoading } = useStakeUrnAddress(
     stakeUrnIndex || 0n
   );
+
+  const { data: vaultData } = useVault(activeUrn?.urnAddress || ZERO_ADDRESS);
+  const { data: existingRewardContract } = useUrnSelectedRewardContract({
+    urn: activeUrn?.urnAddress || ZERO_ADDRESS
+  });
+  const { data: existingRewardContractTokens, isLoading: isRewardContractTokensLoading } =
+    useRewardContractTokens(existingRewardContract);
+  const { data: existingSelectedVoteDelegate } = useUrnSelectedVoteDelegate({
+    urn: activeUrn?.urnAddress || ZERO_ADDRESS
+  });
+  const { data: existingDelegateOwner } = useDelegateOwner(existingSelectedVoteDelegate);
 
   const isStakeUrnCreated =
     !!stakeUrnAddress && stakeUrnAddress !== ZERO_ADDRESS && !isStakeUrnAddressLoading;
@@ -47,26 +70,29 @@ export const MigrateAbout = () => {
       {
         label: t`Sealing`,
         updated: false,
-        value: '300 MKR',
-        icon: <TokenIcon token={TOKENS.mkr} className="h-5 w-5" />
+        value: `${formatBigInt(vaultData?.collateralAmount || 0n)} ${TOKENS.mkr.symbol}`,
+        icon: <TokenIcon noChain token={TOKENS.mkr} className="h-5 w-5" />
       },
       {
         label: t`Borrowing`,
         updated: false,
-        value: '300 USDS',
-        icon: <TokenIcon token={TOKENS.usds} className="h-5 w-5" />
+        value: `${formatBigInt(vaultData?.debtValue || 0n)} ${TOKENS.usds.symbol}`,
+        icon: <TokenIcon noChain token={TOKENS.usds} className="h-5 w-5" />
       },
       {
         label: t`Seal reward`,
         updated: false,
-        value: 'USDS',
-        icon: <TokenIcon token={TOKENS.usds} className="h-5 w-5" />
+        value: existingRewardContractTokens?.rewardsToken.symbol,
+        icon:
+          existingRewardContractTokens && !isRewardContractTokensLoading ? (
+            <TokenIcon noChain token={existingRewardContractTokens?.rewardsToken} className="h-5 w-5" />
+          ) : undefined
       },
       {
         label: t`Delegate`,
         updated: false,
-        value: '0xabc...123',
-        icon: <TokenIcon token={TOKENS.usds} className="h-5 w-5" />
+        value: existingDelegateOwner,
+        icon: <JazziconComponent address={existingDelegateOwner} diameter={20} />
       }
     ];
   }, []);
@@ -76,26 +102,33 @@ export const MigrateAbout = () => {
       {
         label: t`Collateral to Migrate`,
         updated: false,
-        value: ['300 MKR', '3000 SKY'],
-        icon: <TokenIcon token={TOKENS.mkr} className="h-5 w-5" />
+        value: vaultData?.collateralAmount
+          ? [
+              `${formatBigInt(vaultData?.collateralAmount || 0n)} ${TOKENS.mkr.symbol}`,
+              `${formatBigInt(math.calculateConversion(TOKENS.mkr, vaultData?.collateralAmount || 0n))} ${TOKENS.sky.symbol}`
+            ]
+          : '0 MKR',
+        icon: <TokenIcon noChain token={TOKENS.mkr} className="h-5 w-5" />
       },
       {
         label: t`Debt to Migrate`,
         updated: false,
-        value: '300 USDS',
-        icon: <TokenIcon token={TOKENS.usds} className="h-5 w-5" />
+        value: vaultData?.debtValue
+          ? `${formatBigInt(vaultData?.debtValue || 0n)} ${TOKENS.usds.symbol}`
+          : '0 USDS',
+        icon: <TokenIcon noChain token={TOKENS.usds} className="h-5 w-5" />
       },
       {
         label: t`Stake reward`,
         updated: false,
         value: t`Cannot be migrated`,
-        icon: <TokenIcon token={TOKENS.usds} className="h-5 w-5" />
+        icon: <TokenIcon noChain token={TOKENS.usds} className="h-5 w-5" />
       },
       {
         label: t`Delegate`,
         updated: false,
         value: t`Cannot be migrated`,
-        icon: <TokenIcon token={TOKENS.usds} className="h-5 w-5" />
+        icon: <JazziconComponent address={ZERO_ADDRESS} diameter={20} />
       }
     ];
   }, []);
