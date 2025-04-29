@@ -9,7 +9,7 @@ import {
   useRewardContractTokens,
   useDelegateOwner,
   useUrnSelectedRewardContract,
-  useUrnSelectedVoteDelegate,
+  useStakeUrnSelectedVoteDelegate,
   ZERO_ADDRESS
 } from '@jetstreamgg/hooks';
 import { formatBigInt } from '@jetstreamgg/utils';
@@ -65,7 +65,7 @@ function TransactionDetail() {
   const { data: urnSelectedRewardContract } = useUrnSelectedRewardContract({
     urn: activeUrn?.urnAddress || ZERO_ADDRESS
   });
-  const { data: urnSelectedVoteDelegate } = useUrnSelectedVoteDelegate({
+  const { data: urnSelectedVoteDelegate } = useStakeUrnSelectedVoteDelegate({
     urn: activeUrn?.urnAddress || ZERO_ADDRESS
   });
 
