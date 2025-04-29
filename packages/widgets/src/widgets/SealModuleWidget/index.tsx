@@ -659,7 +659,13 @@ function SealModuleWidgetWrapped({
       } else if (widgetState.flow === SealFlow.MANAGE && currentStep === SealStep.ABOUT) {
         setButtonText(t`New positions disabled`);
       } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.ABOUT) {
-        setButtonText(t`Continue to open Staking position and migrate`);
+        setButtonText(
+          newStakeUrn?.urnAddress === undefined
+            ? t`Checking your position status...`
+            : newStakeUrn?.urnAddress === ZERO_ADDRESS
+              ? t`Continue to open Staking position and migrate`
+              : t`Continue to migrate`
+        );
       } else {
         // let's set it to Next for now
         setButtonText(t`Continue`);
