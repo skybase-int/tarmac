@@ -2043,6 +2043,13 @@ export const lsMkrUsdsRewardAddress = {
 } as const;
 
 /**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xAf7868a9BB72E16B930D50636519038d7F057470)
+ */
+export const lsSkyUsdsRewardAddress = {
+  314310: '0xAf7868a9BB72E16B930D50636519038d7F057470'
+} as const;
+
+/**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x92282235a39be957ff1f37619fd22a9ae5507cb1)
  */
 export const lsMkrUsdsRewardConfig = { address: lsMkrUsdsRewardAddress, abi: lsMkrUsdsRewardAbi } as const;
