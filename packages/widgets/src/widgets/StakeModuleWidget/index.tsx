@@ -25,19 +25,20 @@ import { SelectDelegate } from './components/SelectDelegate';
 import { PositionSummary } from './components/PositionSummary';
 import {
   useCurrentUrnIndex,
-  useSaNgtAllowance,
-  useSaNstAllowance as useStakeUsdsAllowance,
-  useSaNgtApprove,
-  useSaNstApprove as useStakeUsdsApprove,
-  useSaMulticall,
-  useClaimRewards,
-  useUrnAddress,
+  useStakeSkyAllowance,
+  useStakeUsdsAllowance,
+  useStakeSkyApprove,
+  useStakeUsdsApprove,
+  useStakeMulticall,
+  useStakeClaimRewards,
+  useStakeUrnAddress,
   useVault,
   ZERO_ADDRESS,
-  useUrnSelectedRewardContract,
-  useUrnSelectedVoteDelegate,
+  useStakeUrnSelectedRewardContract,
+  useStakeUrnSelectedVoteDelegate,
   TOKENS,
-  getTokenDecimals
+  getTokenDecimals,
+  getIlkName
 } from '@jetstreamgg/hooks';
 import { formatBigInt, getEtherscanLink, useDebounce } from '@jetstreamgg/utils';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
@@ -75,7 +76,7 @@ export const StakeModuleWidget = ({
 }: StakeModuleWidgetProps) => {
   const key = shouldReset ? 'reset' : undefined;
   return (
-    <ErrorBoundary componentName="SealModuleWidget">
+    <ErrorBoundary componentName="StakeModuleWidget">
       <WidgetProvider key={key} locale={locale}>
         <StakeModuleWidgetProvider>
           <StakeModuleWidgetWrapped
@@ -161,14 +162,17 @@ function StakeModuleWidgetWrapped({
   // Returns the urn index to use for opening a new urn
   const { data: currentUrnIndex, error: currentUrnIndexError } = useCurrentUrnIndex();
 
-  const { data: externalParamUrnAddress } = useUrnAddress(
+  const { data: externalParamUrnAddress } = useStakeUrnAddress(
     validatedExternalState?.urnIndex !== undefined ? BigInt(validatedExternalState.urnIndex) : -1n
   );
-  const { data: externalParamVaultData } = useVault(externalParamUrnAddress || ZERO_ADDRESS);
-  const { data: externalUrnRewardContract } = useUrnSelectedRewardContract({
+  const { data: externalParamVaultData } = useVault(
+    externalParamUrnAddress || ZERO_ADDRESS,
+    getIlkName(chainId, 2)
+  );
+  const { data: externalUrnRewardContract } = useStakeUrnSelectedRewardContract({
     urn: externalParamUrnAddress || ZERO_ADDRESS
   });
-  const { data: externalUrnVoteDelegate } = useUrnSelectedVoteDelegate({
+  const { data: externalUrnVoteDelegate } = useStakeUrnSelectedVoteDelegate({
     urn: externalParamUrnAddress || ZERO_ADDRESS
   });
 
@@ -183,10 +187,10 @@ function StakeModuleWidgetWrapped({
   );
 
   const {
-    data: stakeNgtAllowance,
-    mutate: mutateStakeNgtAllowance,
+    data: stakeSkyAllowance,
+    mutate: mutateStakeSkyAllowance,
     isLoading: stakeLockAllowanceLoading
-  } = useSaNgtAllowance();
+  } = useStakeSkyAllowance();
 
   const {
     data: stakeUsdsAllowance,
@@ -203,7 +207,7 @@ function StakeModuleWidgetWrapped({
   const allStepsComplete =
     isLockCompleted && isBorrowCompleted && isSelectRewardContractCompleted && isSelectDelegateCompleted;
 
-  const lockNgtApprove = useSaNgtApprove({
+  const lockSkyApprove = useStakeSkyApprove({
     amount: debouncedLockAmount,
     onStart: (hash: string) => {
       addRecentTransaction?.({
@@ -221,7 +225,7 @@ function StakeModuleWidgetWrapped({
         status: TxStatus.SUCCESS
       });
       setTxStatus(TxStatus.SUCCESS);
-      mutateStakeNgtAllowance();
+      mutateStakeSkyAllowance();
       multicall.retryPrepare();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
@@ -232,11 +236,11 @@ function StakeModuleWidgetWrapped({
         status: TxStatus.ERROR
       });
       setTxStatus(TxStatus.ERROR);
-      mutateStakeNgtAllowance();
+      mutateStakeSkyAllowance();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
       console.log(error);
     },
-    enabled: widgetState.action === StakeAction.APPROVE && stakeNgtAllowance !== undefined
+    enabled: widgetState.action === StakeAction.APPROVE && stakeSkyAllowance !== undefined
   });
 
   const repayUsdsApprove = useStakeUsdsApprove({
@@ -275,7 +279,7 @@ function StakeModuleWidgetWrapped({
     enabled: widgetState.action === StakeAction.APPROVE && stakeUsdsAllowance !== undefined
   });
 
-  const multicall = useSaMulticall({
+  const multicall = useStakeMulticall({
     calldata,
     enabled: widgetState.action === StakeAction.MULTICALL && !!allStepsComplete,
     onStart: (hash: string) => {
@@ -292,7 +296,7 @@ function StakeModuleWidgetWrapped({
         status: TxStatus.SUCCESS
       });
       setTxStatus(TxStatus.SUCCESS);
-      mutateStakeNgtAllowance();
+      mutateStakeSkyAllowance();
       // TODO Mutate balances here
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
@@ -305,13 +309,13 @@ function StakeModuleWidgetWrapped({
         status: TxStatus.ERROR
       });
       setTxStatus(TxStatus.ERROR);
-      mutateStakeNgtAllowance();
+      mutateStakeSkyAllowance();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
       console.log(error);
     }
   });
 
-  const claimRewards = useClaimRewards({
+  const claimRewards = useStakeClaimRewards({
     index: indexToClaim,
     rewardContract: rewardContractToClaim,
     to: address,
@@ -360,7 +364,7 @@ function StakeModuleWidgetWrapped({
    * USEEFFECTS ----------------------------------------------------------------------------------
    */
 
-  const needsLockAllowance = !!(stakeNgtAllowance === undefined || stakeNgtAllowance < debouncedLockAmount);
+  const needsLockAllowance = !!(stakeSkyAllowance === undefined || stakeSkyAllowance < debouncedLockAmount);
   const needsUsdsAllowance = !!(stakeUsdsAllowance === undefined || stakeUsdsAllowance < debouncedUsdsAmount);
 
   useEffect(() => {
@@ -438,7 +442,7 @@ function StakeModuleWidgetWrapped({
 
   const approveDisabled =
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
-    (needsLockAllowance && (!lockNgtApprove.prepared || lockNgtApprove.isLoading)) ||
+    (needsLockAllowance && (!lockSkyApprove.prepared || lockSkyApprove.isLoading)) ||
     (needsUsdsAllowance && (!repayUsdsApprove.prepared || repayUsdsApprove.isLoading)) ||
     (!needsLockAllowance && !needsUsdsAllowance && txStatus === TxStatus.SUCCESS && !multicall.prepared); //disable next button if multicall is not prepared
 
@@ -698,7 +702,7 @@ function StakeModuleWidgetWrapped({
 
     // setWidgetState((prev: WidgetState) => ({
     //   ...prev,
-    //   screen: SealScreen.ACTION
+    //   screen: StakeScreen.ACTION
     // }));
 
     // TODO: Handle all states to determine the next action, this is only to test navigation in the wizard
@@ -714,7 +718,7 @@ function StakeModuleWidgetWrapped({
     setTxStatus(TxStatus.INITIALIZED);
     setExternalLink(undefined);
     if (needsLockAllowance) {
-      lockNgtApprove.execute();
+      lockSkyApprove.execute();
     } else if (needsUsdsAllowance) {
       repayUsdsApprove.execute();
     }

@@ -1,4 +1,4 @@
-import { useSaRewardContracts, useUrnSelectedRewardContract, ZERO_ADDRESS } from '@jetstreamgg/hooks';
+import { useStakeRewardContracts, useStakeUrnSelectedRewardContract, ZERO_ADDRESS } from '@jetstreamgg/hooks';
 import { SaRewardsCard } from './SaRewardsCard';
 import { Skeleton } from '@widgets/components/ui/skeleton';
 import { Card } from '@widgets/components/ui/card';
@@ -29,8 +29,8 @@ export const SelectRewardContract = ({
   } = useContext(StakeModuleWidgetContext);
 
   // TODO handle error
-  const { data: lseRewardContracts, isLoading /*, error */ } = useSaRewardContracts();
-  const { data: urnSelectedRewardContract } = useUrnSelectedRewardContract({
+  const { data: stakeRewardContracts, isLoading /*, error */ } = useStakeRewardContracts();
+  const { data: urnSelectedRewardContract } = useStakeUrnSelectedRewardContract({
     urn: activeUrn?.urnAddress || ZERO_ADDRESS
   });
 
@@ -41,7 +41,7 @@ export const SelectRewardContract = ({
   const handleSkip = () => {
     // If this is an open flow, `urnSelectedRewardContract` would be undefined,
     // if it's a manage flow, it would default to the reward the user previously selected
-    setSelectedRewardContract(undefined);
+    setSelectedRewardContract(urnSelectedRewardContract);
     // When we skip, we still set the step to complete
     setIsSelectRewardContractCompleted(true);
     setCurrentStep(getNextStep(currentStep));
@@ -59,21 +59,20 @@ export const SelectRewardContract = ({
               <Trans>More rewards coming soon</Trans>
             </Text>
           </div>
-          {/* commented this out to make debuggin easier */}
-          {/* {widgetState.flow !== StakeFlow.OPEN && ( */}
-          <Button variant="link" className="text-white" onClick={handleSkip}>
-            Skip
-          </Button>
-          {/* )} */}
+          {widgetState.flow !== StakeFlow.OPEN && (
+            <Button variant="link" className="text-white" onClick={handleSkip}>
+              Skip
+            </Button>
+          )}
         </HStack>
       </div>
       <VStack className="py-3">
-        {isLoading || !lseRewardContracts ? (
+        {isLoading || !stakeRewardContracts ? (
           <Card>
             <Skeleton />
           </Card>
         ) : (
-          lseRewardContracts?.map(({ contractAddress }) => (
+          stakeRewardContracts?.map(({ contractAddress }) => (
             <SaRewardsCard
               key={contractAddress}
               contractAddress={contractAddress}

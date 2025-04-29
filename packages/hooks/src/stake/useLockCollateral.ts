@@ -1,9 +1,8 @@
 import { useAccount, useChainId } from 'wagmi';
 import { StakeWriteHookReturnType } from './stakeModule';
 import { WriteHookParams } from '../hooks';
-import { useStakeNgtAllowance } from './useStakeAllowance';
-// TODO: Update this import to the correct address once the contract is deployed
-import { stakeModuleAbi, sealModuleAddress as stakeModuleAddress } from '../generated';
+import { useStakeSkyAllowance } from './useStakeAllowance';
+import { stakeModuleAbi, stakeModuleAddress } from '../generated';
 import { getStakeLockCalldata } from './calldata';
 import { useWriteContractFlow } from '../shared/useWriteContractFlow';
 
@@ -23,7 +22,7 @@ export function useLockCollateral({
 }): StakeWriteHookReturnType {
   const chainId = useChainId();
   const { isConnected, address } = useAccount();
-  const { data: allowance } = useStakeNgtAllowance();
+  const { data: allowance } = useStakeSkyAllowance();
 
   const enabled =
     !!address &&

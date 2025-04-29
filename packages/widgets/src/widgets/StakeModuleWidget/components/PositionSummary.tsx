@@ -9,8 +9,8 @@ import {
   getIlkName,
   useRewardContractTokens,
   useSimulatedVault,
-  useUrnSelectedRewardContract,
-  useUrnSelectedVoteDelegate,
+  useStakeUrnSelectedRewardContract,
+  useStakeUrnSelectedVoteDelegate,
   useVault,
   useSealExitFee,
   useDelegateName,
@@ -25,7 +25,7 @@ import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack'
 import { motion } from 'framer-motion';
 import { Skeleton } from '@widgets/components/ui/skeleton';
 import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
-import { WAD_PRECISION, captitalizeFirstLetter, formatBigInt, formatPercent, math } from '@jetstreamgg/utils';
+import { WAD_PRECISION, captitalizeFirstLetter, formatBigInt, formatPercent } from '@jetstreamgg/utils';
 import { formatUnits } from 'viem';
 import { cn } from '@widgets/lib/utils';
 import { getRiskTextColor } from '../lib/utils';
@@ -41,7 +41,7 @@ import {
   borrowRateTooltipText
 } from '../lib/constants';
 
-const { usds, mkr } = TOKENS;
+const { usds } = TOKENS;
 
 const isUpdatedValue = (prev: any, next: any) => prev !== undefined && next !== undefined && prev !== next;
 const getStakeLabel = (prev: bigint | undefined, next: bigint | undefined) => {
@@ -128,7 +128,7 @@ export const PositionSummary = () => {
     selectedRewardContract
   } = useContext(StakeModuleWidgetContext);
 
-  const { data: existingRewardContract } = useUrnSelectedRewardContract({
+  const { data: existingRewardContract } = useStakeUrnSelectedRewardContract({
     urn: activeUrn?.urnAddress || ZERO_ADDRESS
   });
 
@@ -137,9 +137,10 @@ export const PositionSummary = () => {
   const { data: selectedRewardContractTokens, isLoading: isSelectedContractTokensLoading } =
     useRewardContractTokens(selectedRewardContract);
 
-  const { data: existingSelectedVoteDelegate, isLoading: isDelegateLoading } = useUrnSelectedVoteDelegate({
-    urn: activeUrn?.urnAddress || ZERO_ADDRESS
-  });
+  const { data: existingSelectedVoteDelegate, isLoading: isDelegateLoading } =
+    useStakeUrnSelectedVoteDelegate({
+      urn: activeUrn?.urnAddress || ZERO_ADDRESS
+    });
 
   const { data: existingDelegateName } = useDelegateName(existingSelectedVoteDelegate);
   const { data: existingDelegateOwner, isLoading: loadingExistingDelegateOwner } = useDelegateOwner(
@@ -157,14 +158,13 @@ export const PositionSummary = () => {
   const newBorrowAmount = usdsToBorrow + (existingVault?.debtValue || 0n) - usdsToWipe;
 
   // Calculated total amount user will have locked based on existing collateral locked plus user input
-  const collateralToLock = math.calculateConversion(TOKENS.sky, skyToLock);
-  const collateralToFree = math.calculateConversion(TOKENS.sky, skyToFree);
-  const newCollateralAmount = collateralToLock + (existingVault?.collateralAmount || 0n) - collateralToFree;
+  const newCollateralAmount = skyToLock + (existingVault?.collateralAmount || 0n) - skyToFree;
 
   const { data: updatedVault } = useSimulatedVault(
     newCollateralAmount,
     newBorrowAmount,
-    existingVault?.debtValue || 0n
+    existingVault?.debtValue || 0n,
+    ilkName
   );
 
   const delegateNameToDisplay = hasPositions ? existingDelegateName : selectedDelegateName;
@@ -176,11 +176,11 @@ export const PositionSummary = () => {
 
   const { data: exitFee } = useSealExitFee();
 
-  const existingCollateralAmount = math.calculateConversion(mkr, existingVault?.collateralAmount || 0n);
-  const updatedCollateralAmount = math.calculateConversion(mkr, updatedVault?.collateralAmount || 0n);
+  const existingCollateralAmount = existingVault?.collateralAmount || 0n;
+  const updatedCollateralAmount = updatedVault?.collateralAmount || 0n;
 
-  const existingLiquidationPrice = math.calculateMKRtoSKYPrice(existingVault?.liquidationPrice || 0n);
-  const updatedLiquidationPrice = math.calculateMKRtoSKYPrice(updatedVault?.liquidationPrice || 0n);
+  const existingLiquidationPrice = existingVault?.liquidationPrice || 0n;
+  const updatedLiquidationPrice = updatedVault?.liquidationPrice || 0n;
 
   const { data: collateralData } = useCollateralData(SupportedCollateralTypes.LSEV2_A);
 
@@ -269,7 +269,7 @@ export const PositionSummary = () => {
       },
       {
         label: t`Current SKY price`,
-        value: `$${formatBigInt(math.calculateMKRtoSKYPrice(updatedVault?.delayedPrice || 0n), { unit: WAD_PRECISION })}`
+        value: `$${formatBigInt(updatedVault?.delayedPrice || 0n, { unit: WAD_PRECISION })}`
       },
       {
         label: t`Liquidation price`,

@@ -51,6 +51,7 @@ export default ({ mode }: { mode: modeEnum }) => {
       https://safe-transaction-arbitrum.safe.global
       https://safe-transaction-sepolia.safe.global
       https://vote.makerdao.com
+      https://vote.sky.money
       https://query-subgraph-testnet.sky.money
       https://query-subgraph-staging.sky.money
       https://query-subgraph.sky.money

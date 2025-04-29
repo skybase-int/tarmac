@@ -1,7 +1,6 @@
 import { useChainId, useReadContract } from 'wagmi';
 import { ReadHook } from '../hooks';
-// TODO: Update this import to the correct address once the contract is deployed
-import { stakeModuleAbi, sealModuleAddress as stakeModuleAddress } from '../generated';
+import { stakeModuleAbi, stakeModuleAddress } from '../generated';
 import { stakeDataSource } from './datasources';
 
 type UseStakeExitFeeResponse = ReadHook & {

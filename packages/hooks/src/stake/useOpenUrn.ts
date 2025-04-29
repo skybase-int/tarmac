@@ -1,8 +1,7 @@
 import { useAccount, useChainId } from 'wagmi';
 import { useCurrentUrnIndex } from './useCurrentUrnIndex';
 import { StakeWriteHookReturnType } from './stakeModule';
-// TODO: Update this import to the correct address once the contract is deployed
-import { stakeModuleAbi, sealModuleAddress as stakeModuleAddress } from '../generated';
+import { stakeModuleAbi, stakeModuleAddress } from '../generated';
 import { WriteHookParams } from '../hooks';
 import { getStakeOpenCalldata } from './calldata';
 import { useWriteContractFlow } from '../shared/useWriteContractFlow';
