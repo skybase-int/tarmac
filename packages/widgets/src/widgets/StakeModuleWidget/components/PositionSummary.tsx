@@ -9,8 +9,8 @@ import {
   getIlkName,
   useRewardContractTokens,
   useSimulatedVault,
-  useUrnSelectedRewardContract,
-  useUrnSelectedVoteDelegate,
+  useStakeUrnSelectedRewardContract,
+  useStakeUrnSelectedVoteDelegate,
   useVault,
   useSealExitFee,
   useDelegateName,
@@ -128,7 +128,7 @@ export const PositionSummary = () => {
     selectedRewardContract
   } = useContext(StakeModuleWidgetContext);
 
-  const { data: existingRewardContract } = useUrnSelectedRewardContract({
+  const { data: existingRewardContract } = useStakeUrnSelectedRewardContract({
     urn: activeUrn?.urnAddress || ZERO_ADDRESS
   });
 
@@ -137,9 +137,10 @@ export const PositionSummary = () => {
   const { data: selectedRewardContractTokens, isLoading: isSelectedContractTokensLoading } =
     useRewardContractTokens(selectedRewardContract);
 
-  const { data: existingSelectedVoteDelegate, isLoading: isDelegateLoading } = useUrnSelectedVoteDelegate({
-    urn: activeUrn?.urnAddress || ZERO_ADDRESS
-  });
+  const { data: existingSelectedVoteDelegate, isLoading: isDelegateLoading } =
+    useStakeUrnSelectedVoteDelegate({
+      urn: activeUrn?.urnAddress || ZERO_ADDRESS
+    });
 
   const { data: existingDelegateName } = useDelegateName(existingSelectedVoteDelegate);
   const { data: existingDelegateOwner, isLoading: loadingExistingDelegateOwner } = useDelegateOwner(
