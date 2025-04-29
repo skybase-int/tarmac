@@ -83,7 +83,9 @@ export const MigrateAbout = () => {
       {
         label: t`Seal reward`,
         updated: false,
-        value: existingRewardContractTokens?.rewardsToken.symbol,
+        value: existingRewardContractTokens
+          ? existingRewardContractTokens?.rewardsToken.symbol
+          : t`No reward`,
         icon:
           existingRewardContractTokens && !isRewardContractTokensLoading ? (
             <TokenIcon noChain token={existingRewardContractTokens?.rewardsToken} className="h-5 w-5" />
@@ -92,7 +94,9 @@ export const MigrateAbout = () => {
       {
         label: t`Delegate`,
         updated: false,
-        value: existingDelegateOwner,
+        value: existingDelegateOwner
+          ? existingDelegateOwner?.slice(0, 5) + '...' + existingDelegateOwner?.slice(-3)
+          : t`No delegate`,
         icon: <JazziconComponent address={existingDelegateOwner} diameter={20} />
       }
     ];

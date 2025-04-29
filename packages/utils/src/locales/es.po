@@ -1442,6 +1442,7 @@ msgstr ""
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
 #: packages/widgets/src/widgets/BalancesWidget/lib/getHistoryRightText.ts
 msgid "No delegate"
 msgstr ""
@@ -1456,6 +1457,7 @@ msgstr ""
 msgid "No history found"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
 #: packages/widgets/src/widgets/BalancesWidget/lib/getHistoryRightText.ts
 msgid "No reward"
 msgstr ""
