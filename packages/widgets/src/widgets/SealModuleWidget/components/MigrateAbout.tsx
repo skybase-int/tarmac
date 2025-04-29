@@ -165,10 +165,10 @@ export const MigrateAbout = () => {
       </Text>
       {!isStakeUrnCreated && (
         <>
-          <Text className="mt-4">
+          <Text className="text-textSecondary mt-4">
             <Trans>You&apos;ll need an open Staking Engine position —</Trans>
           </Text>
-          <Text>
+          <Text className="text-textSecondary">
             <Trans>create one beforehand or during the migration flow.</Trans>
           </Text>
         </>
@@ -185,6 +185,7 @@ export const MigrateAbout = () => {
       <div className="mt-4">
         <div className="flex gap-2">
           <Checkbox
+            className="mt-1"
             checked={acceptedMkrUpgrade}
             onCheckedChange={(checked: boolean) => {
               setAcceptedMkrUpgrade(checked === true);
@@ -196,7 +197,7 @@ export const MigrateAbout = () => {
               setAcceptedMkrUpgrade(!acceptedMkrUpgrade);
             }}
           >
-            <Text variant="medium">
+            <Text variant="medium" className="text-textSecondary">
               <Trans>
                 I acknowledge the fact that my MKR collateral will be upgraded to SKY and there is no way to
                 retrieve my MKR.
