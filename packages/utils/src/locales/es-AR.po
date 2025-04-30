@@ -1314,12 +1314,15 @@ msgid "Migrate"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
-#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
 msgid "Migrate from:"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "Migrate position"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
+msgid "Migrate to:"
 msgstr ""
 
 #: packages/widgets/src/widgets/BalancesWidget/components/SealBalanceWarningCard.tsx
@@ -1366,7 +1369,6 @@ msgstr ""
 msgid "MKR"
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/components/DelegateCard.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/DelegateCard.tsx
 msgid "MKR delegated by you"
 msgstr ""
@@ -1921,6 +1923,10 @@ msgstr ""
 msgid "SKY"
 msgstr ""
 
+#: packages/widgets/src/widgets/StakeModuleWidget/components/DelegateCard.tsx
+msgid "SKY delegated by you"
+msgstr ""
+
 #: apps/webapp/src/modules/ui/components/AboutSky.tsx
 msgid "SKY is a native governance token of the decentralised Sky ecosystem and the upgraded version of MKR. You can upgrade your MKR to SKY at the rate of 1:24,000, trade SKY for USDS and, soon, use it to accumulate Activation Token Rewards and participate in Sky ecosystem governance."
 msgstr ""
@@ -2301,13 +2307,16 @@ msgstr ""
 msgid "Total {0} to {1}"
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/components/DelegateCard.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/DelegateCard.tsx
 msgid "Total MKR delegated"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/UsdsSkyTotalsChart.tsx
 msgid "Total SKY"
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/components/DelegateCard.tsx
+msgid "Total SKY delegated"
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeOverview.tsx
