@@ -9,20 +9,20 @@ async function fetchTotalUserStaked(urlSubgraph: string, address: string): Promi
   // TODO: Update this query once the subgraph is updated
   const query = gql`
     {
-      sealUrns(where: {owner: "${address}"}) {
-        mkrLocked
+      stakingUrns(where: {owner: "${address}"}) {
+        skyLocked
       }
     }
   `;
 
-  const response = (await request(urlSubgraph, query)) as { sealUrns: { mkrLocked: string }[] };
+  const response = (await request(urlSubgraph, query)) as { stakingUrns: { skyLocked: string }[] };
 
-  if (!response.sealUrns || response.sealUrns.length === 0) {
+  if (!response.stakingUrns || response.stakingUrns.length === 0) {
     return 0n;
   }
 
-  return response.sealUrns.reduce((acum, urn) => {
-    return acum + BigInt(urn.mkrLocked);
+  return response.stakingUrns.reduce((acum, urn) => {
+    return acum + BigInt(urn.skyLocked);
   }, 0n);
 }
 
