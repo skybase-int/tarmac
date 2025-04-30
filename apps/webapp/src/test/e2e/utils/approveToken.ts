@@ -1,6 +1,6 @@
 import { readFile } from 'fs/promises';
 import { encodeFunctionData, parseEther } from 'viem';
-import { NetworkName } from './constants';
+import { NetworkName, TEST_ADDRESS } from './constants';
 
 export const approveToken = async (
   tokenAddress: `0x${string}`,
@@ -22,7 +22,6 @@ export const approveToken = async (
         ? TENDERLY_BASE_RPC_URL
         : TENDERLY_ARBITRUM_RPC_URL;
 
-  const TEST_WALLET_ADDRESS = '0xFebC63589D8a3bc5CD97E86C174A836c9caa6DEe';
   const amountToApprove = parseEther(amount);
 
   const calldata = encodeFunctionData({
@@ -42,7 +41,7 @@ export const approveToken = async (
       method: 'eth_sendTransaction',
       params: [
         {
-          from: TEST_WALLET_ADDRESS,
+          from: TEST_ADDRESS,
           to: tokenAddress,
           gas: '0x7A1200',
           gasPrice: '0x0',
