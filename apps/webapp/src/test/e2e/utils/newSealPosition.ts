@@ -1,6 +1,6 @@
 import { TENDERLY_CHAIN_ID } from '@/data/wagmi/config/testTenderlyChain';
 import {
-  getSaDrawCalldata,
+  // getSaDrawCalldata,
   getSaLockMkrCalldata,
   getSaMulticallCalldata,
   getSaOpenCalldata,
@@ -14,7 +14,7 @@ import { TEST_ADDRESS } from './constants';
 
 export const newSealPosition = async (
   mkrAmount: string,
-  usdsAmount: string,
+  // usdsAmount: string,
   delegateAddress: `0x${string}`,
   rewardContractAddress: `0x${string}`
 ) => {
@@ -22,9 +22,9 @@ export const newSealPosition = async (
   // RPC URL for the Mainnet fork
   const [{ TENDERLY_RPC_URL }] = JSON.parse(file);
 
-  const URN_INDEX = 1n; // Test account already has a URN open
+  const URN_INDEX = 0n;
   const MKR_TO_LOCK = parseEther(mkrAmount);
-  const USDS_TO_DRAW = parseEther(usdsAmount);
+  // const USDS_TO_DRAW = parseEther(usdsAmount);
 
   // Generate calldata for each operation
   const calldataOpen = getSaOpenCalldata({ urnIndex: URN_INDEX });
@@ -35,12 +35,12 @@ export const newSealPosition = async (
     amount: MKR_TO_LOCK
   });
 
-  const calldataDrawNst = getSaDrawCalldata({
-    ownerAddress: TEST_ADDRESS,
-    urnIndex: URN_INDEX,
-    toAddress: TEST_ADDRESS,
-    amount: USDS_TO_DRAW
-  });
+  // const calldataDrawNst = getSaDrawCalldata({
+  //   ownerAddress: TEST_ADDRESS,
+  //   urnIndex: URN_INDEX,
+  //   toAddress: TEST_ADDRESS,
+  //   amount: USDS_TO_DRAW
+  // });
 
   const calldataSelectRewardContract = getSaSelectRewardContractCalldata({
     ownerAddress: TEST_ADDRESS,
@@ -58,7 +58,8 @@ export const newSealPosition = async (
   const calldata = [
     calldataOpen,
     calldataLockMkr,
-    calldataDrawNst,
+    // No USDS borrowing because debt ceiling has been reached
+    // calldataDrawNst,
     calldataSelectRewardContract,
     calldataSelectDelegate
   ];

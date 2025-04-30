@@ -443,6 +443,12 @@ function SealModuleWidgetWrapped({
 
   console.log('^^^ allStepsComplete', allStepsComplete);
   console.log('^^^ calldata for hook', calldata);
+  console.log({
+    enabled:
+      widgetState.flow !== SealFlow.MIGRATE &&
+      widgetState.action === SealAction.MULTICALL &&
+      !!allStepsComplete
+  });
 
   const sealMulticall = useSaMulticall({
     calldata,
