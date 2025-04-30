@@ -7,7 +7,7 @@ import {
   useSealHistory,
   useSealPosition,
   useStakeUrnAddress,
-  useUrnSelectedRewardContract,
+  useStakeUrnSelectedRewardContract,
   useStakeUrnSelectedVoteDelegate,
   useVault,
   SealHistoryKick,
@@ -41,7 +41,7 @@ export const UrnPosition: React.FC<UrnPositionProps> = ({
   const chainId = useChainId();
   const { data: urnAddress } = useStakeUrnAddress(index);
   // TODO: is this the correct stake hook?
-  const { data: urnSelectedRewardContract } = useUrnSelectedRewardContract({
+  const { data: urnSelectedRewardContract } = useStakeUrnSelectedRewardContract({
     urn: urnAddress || ZERO_ADDRESS
   });
 
