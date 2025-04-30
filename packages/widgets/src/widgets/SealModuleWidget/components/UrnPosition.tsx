@@ -87,12 +87,12 @@ export const UrnPosition: React.FC<UrnPositionProps> = ({
   };
 
   const handleOnClick = useCallback(() => {
-    if (vaultData?.collateralAmount && urnSelectedRewardContract) {
+    if (urnAddress && urnAddress !== ZERO_ADDRESS && urnSelectedRewardContract) {
       setSelectedRewardContract(urnSelectedRewardContract);
     } else {
       setSelectedRewardContract(undefined);
     }
-    if (vaultData?.collateralAmount && urnSelectedVoteDelegate) {
+    if (urnAddress && urnAddress !== ZERO_ADDRESS && urnSelectedVoteDelegate) {
       setSelectedDelegate(urnSelectedVoteDelegate);
     } else {
       setSelectedDelegate(undefined);

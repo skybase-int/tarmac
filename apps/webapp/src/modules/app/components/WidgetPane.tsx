@@ -102,6 +102,9 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
   }
 
   const sealUrl = `/seal-engine${getQueryParams(`/?network=${mainnetName}`)}`;
+  const stakeUrl = getQueryParams(
+    `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.STAKE_INTENT)}`
+  );
 
   const widgetContent: WidgetContent = [
     [
@@ -116,6 +119,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
           rewardsCardUrl={rewardsUrl}
           savingsCardUrlMap={savingsUrlMap}
           sealCardUrl={sealUrl}
+          stakeCardUrl={stakeUrl}
           customTokenMap={defaultConfig.balancesTokenList}
           chainIds={getSupportedChainIds(chainId)}
           hideZeroBalances={hideZeroBalances}

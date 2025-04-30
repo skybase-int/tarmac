@@ -15,6 +15,8 @@ type UseNextMigrationUrnIndexResponse = ReadHook & {
 export function useNextMigrationUrnIndex(): UseNextMigrationUrnIndexResponse {
   const chainId = useChainId();
   const { address } = useAccount();
+
+  // Get the current (uncreated) urn index from stake engine
   const {
     data: currentUrnIndex,
     isLoading: isCurrentUrnIndexLoading,
@@ -22,8 +24,13 @@ export function useNextMigrationUrnIndex(): UseNextMigrationUrnIndexResponse {
     mutate: refetchCurrentUrnIndex,
     dataSources: currentUrnIndexDataSource
   } = useCurrentUrnIndex();
+
+  // If there's more than 1, set this variable to the second-to-last urn so we can check it's status
   const candidateUrnIndex = currentUrnIndex && currentUrnIndex > 0n ? currentUrnIndex - 1n : 0n;
+
   const { data: candidateUrnAddress } = useUrnAddress(candidateUrnIndex);
+
+  // Check if the urn address exists
   const isCandidateUrnAddressValid = candidateUrnAddress && candidateUrnAddress !== ZERO_ADDRESS;
 
   const {
@@ -44,6 +51,7 @@ export function useNextMigrationUrnIndex(): UseNextMigrationUrnIndexResponse {
   });
   const stakeUrnOwnersDataSource = stakeDataSource(chainId, 'urnOwners');
 
+  // Check if the currently connected address is the urn owner
   const isCandidateUrnOwner = recordedAddress?.toLocaleLowerCase() === address?.toLocaleLowerCase();
 
   const {
@@ -53,6 +61,8 @@ export function useNextMigrationUrnIndex(): UseNextMigrationUrnIndexResponse {
     mutate: refetchVault,
     dataSources: vaultDataSources
   } = useVault(candidateUrnAddress, SupportedCollateralTypes.LSEV2_A);
+
+  // Check that there is no collateral locked or debt drawn
   const isUrnEmpty = vaultData?.debtValue === 0n && vaultData?.collateralAmount === 0n;
 
   const {
@@ -79,6 +89,7 @@ export function useNextMigrationUrnIndex(): UseNextMigrationUrnIndexResponse {
     isCandidateUrnAddressValid && isCandidateUrnOwner && isUrnEmpty && !isUrnAuctioned;
 
   return {
+    // If the candidate urn is valid, we can proceed with it for migration, if not we default to the latest unused urn index
     data: isCandidateUrnValid ? candidateUrnIndex : currentUrnIndex,
     isLoading: isCurrentUrnIndexLoading || isRecordedAddressLoading || isVaultLoading || isAuctionsLoading,
     error: isCurrentUrnIndexError || isRecordedAddressError || isVaultError || isAuctionsError,

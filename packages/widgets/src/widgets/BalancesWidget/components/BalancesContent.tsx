@@ -14,7 +14,8 @@ import {
   TokenForChain,
   TokenItem,
   useTotalUserSealed,
-  useMultiChainSavingsBalances
+  useMultiChainSavingsBalances,
+  useTotalUserStaked
 } from '@jetstreamgg/hooks';
 import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
@@ -46,6 +47,7 @@ interface BalancesContentProps {
   rewardsCardUrl?: string;
   savingsCardUrlMap?: Record<number, string>;
   sealCardUrl?: string;
+  stakeCardUrl?: string;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   showAllNetworks?: boolean;
   hideZeroBalances?: boolean;
@@ -62,6 +64,7 @@ export const BalancesContent = ({
   rewardsCardUrl,
   savingsCardUrlMap,
   sealCardUrl,
+  stakeCardUrl,
   onExternalLinkClicked,
   showAllNetworks: showAllNetworksProp,
   hideZeroBalances: hideZeroBalancesProp,
@@ -170,10 +173,21 @@ export const BalancesContent = ({
   );
 
   const { data: totalUserSealed, isLoading: sealLoading, error: totalUserSealedError } = useTotalUserSealed();
+  const {
+    data: totalUserStaked,
+    isLoading: stakeLoading,
+    error: totalUserStakedError
+  } = useTotalUserStaked();
 
   const hideSeal = Boolean(
     totalUserSealedError ||
       (totalUserSealed === 0n && hideZeroBalances) ||
+      (!showAllNetworks && !isMainnetId(currentChainId))
+  );
+
+  const hideStake = Boolean(
+    totalUserStakedError ||
+      (totalUserStaked === 0n && hideZeroBalances) ||
       (!showAllNetworks && !isMainnetId(currentChainId))
   );
 
@@ -233,6 +247,7 @@ export const BalancesContent = ({
               rewardsCardUrl={rewardsCardUrl}
               savingsCardUrlMap={savingsCardUrlMap}
               sealCardUrl={sealCardUrl}
+              stakeCardUrl={stakeCardUrl}
               onExternalLinkClicked={onExternalLinkClicked}
               hideModuleBalances={hideModuleBalances}
               chainIds={chainIds}
@@ -241,6 +256,9 @@ export const BalancesContent = ({
               hideSeal={hideSeal}
               sealLoading={sealLoading}
               sealBalance={totalUserSealed}
+              hideStake={hideStake}
+              stakeLoading={stakeLoading}
+              stakeBalance={totalUserStaked}
               usdsSkySuppliedBalance={usdsSkySuppliedBalance}
               usdsCleSuppliedBalance={usdsCleSuppliedBalance}
               hideSavings={hideSavings}

@@ -123,6 +123,7 @@ export { useSealPosition } from './seal/useSealPosition';
 export { useSealExitFee } from './seal/useSealExitFee';
 export { usePositionsAtRisk } from './seal/usePositionsAtRisk';
 export { useTotalUserSealed } from './seal/useTotalUserSealed';
+export { useTotalUserStaked } from './stake/useTotalUserStaked';
 export { useSealRewardsData } from './seal/useSealRewardsData';
 export { useSealHistoricData } from './seal/useSealHistoricData';
 export { useIsUrnMigrated } from './seal/useIsUrnMigrated';

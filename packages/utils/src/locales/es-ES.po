@@ -151,10 +151,6 @@ msgstr ""
 msgid "About Staking Rewards"
 msgstr ""
 
-#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
-msgid "About the Migration"
-msgstr ""
-
 #: packages/widgets/src/widgets/SealModuleWidget/components/About.tsx
 msgid "About the Seal Engine"
 msgstr ""
@@ -227,6 +223,11 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
 msgid "Amount exceeds debt"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+msgid "An error occurred when allowing the migration contract to access your SKY and/or MKR tokens."
 msgstr ""
 
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
@@ -304,6 +305,7 @@ msgstr ""
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 #: packages/widgets/src/widgets/L2TradeWidget/index.tsx
@@ -318,6 +320,14 @@ msgstr ""
 #. placeholder {0}: tabIndex === 0 ? 'upgrade' : 'revert'
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 msgid "Approve {0} amount"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+msgid "Approve Migration contract"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+msgid "Approve migrator contract successful"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
@@ -361,10 +371,6 @@ msgstr ""
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
 msgid "Approve supply amount"
-msgstr ""
-
-#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
-msgid "Approve the migrator to migrate the old contract"
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
@@ -421,6 +427,10 @@ msgstr ""
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SavingsWidget/index.tsx
 msgid "Approving {0} USDS"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+msgid "Approving migrator contract"
 msgstr ""
 
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
@@ -488,7 +498,6 @@ msgid "Borrow rate"
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeOverview.tsx
-#: apps/webapp/src/modules/seal/components/SealOverview.tsx
 msgid "Borrow Rate"
 msgstr ""
 
@@ -498,7 +507,6 @@ msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
-#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 msgid "Borrowed"
 msgstr ""
 
@@ -506,8 +514,7 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
-#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
-#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
 msgid "Borrowing"
 msgstr ""
 
@@ -538,6 +545,15 @@ msgstr ""
 msgid "Cancelled"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
+msgid "Cannot be migrated"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+msgid "Checking your position status..."
+msgstr ""
+
 #: packages/widgets/src/widgets/TradeWidget/components/TradeInputs.tsx
 #: packages/widgets/src/widgets/L2TradeWidget/components/L2TradeInputs.tsx
 msgid "Choose a token to receive"
@@ -558,11 +574,13 @@ msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/SelectDelegate.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/SelectDelegate.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateSelectDelegate.tsx
 msgid "Choose your delegate"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/SelectRewardContract.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/SelectRewardContract.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateSelectRewardContract.tsx
 msgid "Choose your reward token"
 msgstr ""
 
@@ -621,6 +639,10 @@ msgstr ""
 msgid "Claiming rewards"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
+msgid "Collateral to Migrate"
+msgstr ""
+
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Borrow.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
@@ -677,6 +699,10 @@ msgstr ""
 
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 msgid "Confirm your claim"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+msgid "Confirm your migration"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
@@ -755,12 +781,24 @@ msgstr ""
 msgid "Continue"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+msgid "Continue to migrate"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+msgid "Continue to open Staking position and migrate"
+msgstr ""
+
 #: apps/webapp/src/modules/ui/components/CopyToClipboard.tsx
 msgid "Copied"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/historyTable/HistoryRow.tsx
 msgid "Copy transaction hash"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
+msgid "create one beforehand or during the migration flow."
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
@@ -808,7 +846,6 @@ msgid "Date"
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeOverview.tsx
-#: apps/webapp/src/modules/seal/components/SealOverview.tsx
 msgid "Debt ceiling"
 msgstr ""
 
@@ -823,11 +860,17 @@ msgstr ""
 msgid "Debt must be paid off entirely, or left with a minimum of {0}"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
+msgid "Debt to Migrate"
+msgstr ""
+
 #: apps/webapp/src/modules/stake/components/StakeDelegateCard.tsx
 #: apps/webapp/src/modules/seal/components/SealDelegateCard.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
 msgid "Delegate"
 msgstr ""
 
@@ -840,6 +883,7 @@ msgid "Directly trade eligible tokens for Sky ecosystem tokens using permissionl
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 msgid "Doing multicall"
 msgstr ""
@@ -877,6 +921,10 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
@@ -926,8 +974,8 @@ msgstr ""
 msgid "Exchange rate"
 msgstr ""
 
-#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
-msgid "Execute the migration transaction"
+#: packages/widgets/src/widgets/SealModuleWidget/components/SealModuleTransactionStatus.tsx
+msgid "Execute Migration"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
@@ -1081,6 +1129,10 @@ msgstr ""
 msgid "How much would you like to unstake?"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
+msgid "I acknowledge the fact that my MKR collateral will be upgraded to SKY and there is no way to retrieve my MKR."
+msgstr ""
+
 #: packages/widgets/src/widgets/SealModuleWidget/components/OpenNewUrn.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigratePosition.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigrateOpenNewUrn.tsx
@@ -1104,6 +1156,8 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
@@ -1146,6 +1200,11 @@ msgstr ""
 
 #: apps/webapp/src/modules/ui/components/TermsModal.tsx
 msgid "Legal Terms"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+msgid "Let's now start the migration process"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
@@ -1222,8 +1281,11 @@ msgid "Manage Position {0}"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 msgid "Manage your position(s)"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+msgid "Manage your staking position(s)"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
@@ -1241,15 +1303,26 @@ msgstr ""
 #: apps/webapp/src/modules/upgrade/components/UpgradeDetails.tsx
 #: apps/webapp/src/modules/stake/components/StakePositionDetails.tsx
 #: apps/webapp/src/modules/stake/components/StakeOverview.tsx
-#: apps/webapp/src/modules/seal/components/SealPositionDetails.tsx
-#: apps/webapp/src/modules/seal/components/SealOverview.tsx
 #: apps/webapp/src/modules/savings/components/SavingsDetails.tsx
 #: apps/webapp/src/modules/rewards/components/RewardsDetailsView.tsx
 msgid "Metrics"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+msgid "Migrate"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
+msgid "Migrate from:"
+msgstr ""
+
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "Migrate position"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
+msgid "Migrate to:"
 msgstr ""
 
 #: packages/widgets/src/widgets/BalancesWidget/components/SealBalanceWarningCard.tsx
@@ -1257,7 +1330,27 @@ msgid "Migrate your position(s) to the Staking Engine"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
-msgid "Migrating your Seal Engine position requires 5 steps"
+msgid "Migrate your positions from the Seal Engine to the Staking Engine—no exit fee applies."
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+msgid "Migrating your old position"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
+msgid "Migration"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+msgid "Migration contract approved"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+msgid "Migration failed"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+msgid "Migration successful"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
@@ -1276,7 +1369,6 @@ msgstr ""
 msgid "MKR"
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/components/DelegateCard.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/DelegateCard.tsx
 msgid "MKR delegated by you"
 msgstr ""
@@ -1292,7 +1384,13 @@ msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/SelectRewardContract.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/SelectRewardContract.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateSelectRewardContract.tsx
 msgid "More rewards coming soon"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+msgid "Multicall failed"
 msgstr ""
 
 #: packages/widgets/src/widgets/RewardsWidget/components/RewardsOverview.tsx
@@ -1329,6 +1427,10 @@ msgstr ""
 msgid "Next, confirm the upgrade transaction."
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+msgid "Next, execute Migration."
+msgstr ""
+
 #: packages/widgets/src/widgets/BalancesWidget/components/BalancesContent.tsx
 msgid "No balances found"
 msgstr ""
@@ -1342,12 +1444,14 @@ msgstr ""
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
 #: packages/widgets/src/widgets/BalancesWidget/lib/getHistoryRightText.ts
 msgid "No delegate"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/SelectDelegate.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/SelectDelegate.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateSelectDelegate.tsx
 msgid "No delegates found"
 msgstr ""
 
@@ -1355,6 +1459,7 @@ msgstr ""
 msgid "No history found"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
 #: packages/widgets/src/widgets/BalancesWidget/lib/getHistoryRightText.ts
 msgid "No reward"
 msgstr ""
@@ -1402,6 +1507,10 @@ msgstr ""
 msgid "Open a position in new engine"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
+msgid "Open new Staking position"
+msgstr ""
+
 #: apps/webapp/src/modules/stake/components/StakeHistory.tsx
 #: apps/webapp/src/modules/seal/components/SealHistory.tsx
 msgid "Open position"
@@ -1414,10 +1523,6 @@ msgstr ""
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigrateHopeOld.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigrateHopeNew.tsx
 msgid "Open Position"
-msgstr ""
-
-#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
-msgid "Open the new position, approving it for the migrator contract"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
@@ -1450,6 +1555,11 @@ msgstr ""
 #. placeholder {0}: token.symbol
 #: packages/widgets/src/widgets/TradeWidget/components/TradeSummary.tsx
 msgid "Output is estimated. You will receive at least {slippageAdjustedQuote} {0} or the transaction will revert."
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+msgid "Please allow the migration contract to access your SKY and/or MKR tokens in order to migrate your position"
 msgstr ""
 
 #: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
@@ -1520,6 +1630,8 @@ msgstr ""
 msgid "Price impact"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/shared/constants.ts
 msgid "Processing transaction"
 msgstr ""
@@ -1555,7 +1667,6 @@ msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
-#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 msgid "Repaying"
 msgstr ""
 
@@ -1620,7 +1731,6 @@ msgid "Rewards"
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeOverview.tsx
-#: apps/webapp/src/modules/seal/components/SealOverview.tsx
 msgid "Rewards overview"
 msgstr ""
 
@@ -1706,16 +1816,13 @@ msgstr ""
 msgid "Seal Engine is deprecated"
 msgstr ""
 
-#: apps/webapp/src/modules/seal/components/SealOverview.tsx
-msgid "Seal Engine Overview"
-msgstr ""
-
-#: apps/webapp/src/modules/seal/components/SealOverview.tsx
-msgid "Seal Positions"
+#. placeholder {0}: activeUrn?.urnIndex !== undefined ? `${activeUrn?.urnIndex + 1n}` : ''
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
+msgid "Seal Position {0}"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
-#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
 msgid "Seal reward"
 msgstr ""
 
@@ -1728,14 +1835,12 @@ msgid "Seal your tokens and continue to collect rewards"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
-#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 msgid "Sealed"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
-#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
-#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
 msgid "Sealing"
 msgstr ""
 
@@ -1754,14 +1859,6 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "Select a delegate"
-msgstr ""
-
-#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
-msgid "Select a delegate for your new position"
-msgstr ""
-
-#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
-msgid "Select a reward contract for your new position"
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
@@ -1816,6 +1913,7 @@ msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/SelectDelegate.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/SelectDelegate.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateSelectDelegate.tsx
 msgid "Skip"
 msgstr ""
 
@@ -1823,6 +1921,10 @@ msgstr ""
 #: packages/widgets/src/widgets/BalancesWidget/lib/getToken.ts
 #: packages/widgets/src/widgets/BalancesWidget/lib/getToken.ts
 msgid "SKY"
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/components/DelegateCard.tsx
+msgid "SKY delegated by you"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/AboutSky.tsx
@@ -1858,6 +1960,10 @@ msgstr ""
 
 #: apps/webapp/src/modules/savings/components/SkySavingsRatePoolCard.tsx
 msgid "Sky Savings Rate Pool"
+msgstr ""
+
+#: packages/widgets/src/widgets/BalancesWidget/components/StakeBalanceCard.tsx
+msgid "SKY supplied to Staking Engine"
 msgstr ""
 
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
@@ -1950,6 +2056,8 @@ msgid "Stake Positions"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
 msgid "Stake reward"
 msgstr ""
 
@@ -1978,6 +2086,11 @@ msgstr ""
 msgid "Staking MKR in the Stake Rewards module"
 msgstr ""
 
+#. placeholder {0}: stakeUrnIndex !== undefined ? `${stakeUrnIndex + 1n}` : ''
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
+msgid "Staking position {0}"
+msgstr ""
+
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 msgid "Staking SKY in the Stake Rewards module"
 msgstr ""
@@ -1999,7 +2112,13 @@ msgstr ""
 msgid "Start saving with your {formattedBalance} {upperSymbol} {0}"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+msgid "Submit"
+msgstr ""
+
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/shared/constants.ts
 msgid "Success"
 msgstr ""
@@ -2007,6 +2126,7 @@ msgstr ""
 #: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
@@ -2185,24 +2305,22 @@ msgstr ""
 msgid "Total {0} rewarded"
 msgstr ""
 
-#. placeholder {0}: userConfig?.sealToken ?? ''
-#: apps/webapp/src/modules/seal/components/SealOverview.tsx
-msgid "Total {0} sealed"
-msgstr ""
-
 #. placeholder {0}: selectedRewardContract?.supplyToken.symbol ?? ''
 #. placeholder {1}: widgetState.flow === RewardsFlow.SUPPLY ? 'Supply' : 'Withdraw'
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 msgid "Total {0} to {1}"
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/components/DelegateCard.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/DelegateCard.tsx
 msgid "Total MKR delegated"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/UsdsSkyTotalsChart.tsx
 msgid "Total SKY"
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/components/DelegateCard.tsx
+msgid "Total SKY delegated"
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeOverview.tsx
@@ -2227,7 +2345,6 @@ msgid "Total USDS"
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeOverview.tsx
-#: apps/webapp/src/modules/seal/components/SealOverview.tsx
 msgid "Total USDS borrowed"
 msgstr ""
 
@@ -2359,7 +2476,6 @@ msgid "Transferring {amount} {symbol}"
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeOverview.tsx
-#: apps/webapp/src/modules/seal/components/SealOverview.tsx
 #: apps/webapp/src/modules/savings/components/SavingsChart.tsx
 #: apps/webapp/src/modules/rewards/components/RewardsTokenInfo.tsx
 #: apps/webapp/src/modules/rewards/components/history/RewardsOverviewCharts.tsx
@@ -2438,7 +2554,6 @@ msgid "Unseal kick"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
-#: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 msgid "Unsealing"
 msgstr ""
 
@@ -2612,6 +2727,8 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
@@ -2629,6 +2746,10 @@ msgstr ""
 
 #: packages/widgets/src/widgets/BalancesWidget/components/BalancesContent.tsx
 msgid "Wallet Funds"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+msgid "We could not approve the migrator contract to migrate your position."
 msgstr ""
 
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
@@ -2650,6 +2771,15 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 msgid "We could not claim your rewards."
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+msgid "We could not complete the transaction."
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+msgid "We could not migrate your position."
 msgstr ""
 
 #: apps/webapp/src/modules/balances/components/BalancesAssets.tsx
@@ -2761,6 +2891,10 @@ msgstr ""
 msgid "You approved SKY"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+msgid "You approved the migrator contract to migrate your position."
+msgstr ""
+
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SavingsWidget/index.tsx
@@ -2782,6 +2916,7 @@ msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/SelectDelegate.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/SelectDelegate.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateSelectDelegate.tsx
 msgid "You can optionally select a delegate or skip this step"
 msgstr ""
 
@@ -2837,6 +2972,10 @@ msgstr ""
 msgid "You successfully cancelled the order"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+msgid "You successfully migrated your position."
+msgstr ""
+
 #. placeholder {0}: originToken.symbol
 #. placeholder {1}: targetToken.symbol
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
@@ -2882,6 +3021,10 @@ msgstr ""
 msgid "You upgraded {0} {1} into {2}"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+msgid "You will migrate your debt and your sealed MKR/SKY from the Seal Engine and stake directly into the Staking Engine"
+msgstr ""
+
 #: packages/widgets/src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
 msgid "You will supply"
@@ -2905,6 +3048,10 @@ msgstr ""
 #. placeholder {0}: formatBigInt(debouncedAmount)
 #: packages/widgets/src/widgets/SavingsWidget/index.tsx
 msgid "You withdrew {0} USDS"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
+msgid "You'll need an open Staking Engine position —"
 msgstr ""
 
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
@@ -2975,6 +3122,10 @@ msgstr ""
 msgid "You've staked {collateralToLock} {0}. Your position is updated."
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+msgid "You've successfully migrated your MKR (automatically upgraded to SKY) and USDS debt from the Seal Engine to the Staking Engine."
+msgstr ""
+
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 msgid "You've supplied {amount} {symbol} to the Sky Savings Rate module"
 msgstr ""
@@ -3031,6 +3182,10 @@ msgstr ""
 msgid "Your funds"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+msgid "Your migration is being processed on the blockchain. Please wait."
+msgstr ""
+
 #: packages/widgets/src/widgets/SealModuleWidget/components/About.tsx
 msgid "Your MKR and SKY tokens, as well as any rewards that you accumulate, are supplied to a non-custodial smart contract, such that no intermediary takes custody of those tokens. With Sky, you always remain in control of your assets."
 msgstr ""
@@ -3069,8 +3224,9 @@ msgstr ""
 msgid "Your Savings transaction history"
 msgstr ""
 
-#: apps/webapp/src/modules/seal/components/SealOverview.tsx
-msgid "Your Seal Engine transaction history"
+#. placeholder {0}: activeUrn?.urnIndex !== undefined ? `${activeUrn?.urnIndex + 1n}` : ''
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
+msgid "Your Seal Position {0}"
 msgstr ""
 
 #: apps/webapp/src/modules/seal/components/SealPositionDetails.tsx
@@ -3083,6 +3239,10 @@ msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeOverview.tsx
 msgid "Your Staking Engine transaction history"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+msgid "Your staking position is now active. Next, start migration."
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakePositionDetails.tsx
@@ -3106,8 +3266,11 @@ msgstr ""
 msgid "Your transaction is being processed on the blockchain to create your position. Please wait."
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+msgid "Your transaction is being processed on the blockchain to update your position in the Staking Engine. Please wait."
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 msgid "Your transaction is being processed on the blockchain to update your position. Please wait."
 msgstr ""
 

@@ -7,8 +7,8 @@ import {
   useSealHistory,
   useSealPosition,
   useStakeUrnAddress,
-  useUrnSelectedRewardContract,
-  useUrnSelectedVoteDelegate,
+  useStakeUrnSelectedRewardContract,
+  useStakeUrnSelectedVoteDelegate,
   useVault,
   SealHistoryKick,
   getIlkName
@@ -41,11 +41,14 @@ export const UrnPosition: React.FC<UrnPositionProps> = ({
   const chainId = useChainId();
   const { data: urnAddress } = useStakeUrnAddress(index);
   // TODO: is this the correct stake hook?
-  const { data: urnSelectedRewardContract } = useUrnSelectedRewardContract({
+  const { data: urnSelectedRewardContract } = useStakeUrnSelectedRewardContract({
     urn: urnAddress || ZERO_ADDRESS
   });
-  // TODO: is this the correct stake hook?
-  const { data: urnSelectedVoteDelegate } = useUrnSelectedVoteDelegate({ urn: urnAddress || ZERO_ADDRESS });
+
+  const { data: urnSelectedVoteDelegate } = useStakeUrnSelectedVoteDelegate({
+    urn: urnAddress || ZERO_ADDRESS
+  });
+
   const { data: vaultData } = useVault(urnAddress || ZERO_ADDRESS, getIlkName(chainId, 2));
 
   console.log('stakurnfind vaultData', vaultData);
@@ -84,12 +87,12 @@ export const UrnPosition: React.FC<UrnPositionProps> = ({
   };
 
   const handleOnClick = useCallback(() => {
-    if (vaultData?.collateralAmount && urnSelectedRewardContract) {
+    if (urnAddress && urnAddress !== ZERO_ADDRESS && urnSelectedRewardContract) {
       setSelectedRewardContract(urnSelectedRewardContract);
     } else {
       setSelectedRewardContract(undefined);
     }
-    if (vaultData?.collateralAmount && urnSelectedVoteDelegate) {
+    if (urnAddress && urnAddress !== ZERO_ADDRESS && urnSelectedVoteDelegate) {
       setSelectedDelegate(urnSelectedVoteDelegate);
     } else {
       setSelectedDelegate(undefined);
