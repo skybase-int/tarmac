@@ -420,7 +420,7 @@ export const PositionSummary = () => {
       <Card>
         <CardContent>
           <MotionVStack gap={2} variants={positionAnimations} className="space-y-3">
-            <motion.div key="overview" variants={positionAnimations}>
+            <motion.div key="overview" variants={positionAnimations} data-testid="position-summary-card">
               <Text variant="medium" className="mb-1 font-medium">
                 Position overview
               </Text>

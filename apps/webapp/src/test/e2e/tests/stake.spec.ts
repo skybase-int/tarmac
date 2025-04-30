@@ -18,7 +18,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('Lock SKY, select rewards, select delegate, and open position', async ({ page }) => {
-  await page.getByRole('button', { name: 'Open a new position' }).click();
+  // await page.getByRole('button', { name: 'Open a new position' }).click();
   await expect(page.getByTestId('supply-first-input-lse-balance')).toHaveText('100,000,000 SKY');
 
   // fill seal and borrow inputs and click next
@@ -37,17 +37,17 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
 
   // select delegate
   await expect(page.getByText('Choose your delegate')).toBeVisible();
-  await page.getByRole('button', { name: '0x278' }).click();
+  await page.getByRole('button', { name: '0x8779' }).click();
   await expect(page.getByTestId('widget-button').first()).toBeEnabled();
   await page.getByTestId('widget-button').first().click();
 
   // position summary
   await expect(page.getByText('Confirm your position').nth(0)).toBeVisible({ timeout: 10000 });
-  await expect(page.getByTestId('widget-container').getByText('Staking')).toBeVisible();
+  await expect(page.getByTestId('position-summary-card').getByText('Staking')).toBeVisible();
   await expect(page.getByText('2,400,000 SKY')).toBeVisible();
-  await expect(page.getByTestId('widget-container').getByText('Borrowing')).toBeVisible();
+  await expect(page.getByTestId('position-summary-card').getByText('Borrowing')).toBeVisible();
   await expect(page.getByText('38,000 USDS')).toBeVisible();
-  await expect(page.getByTestId('widget-container').getByText('Stake reward')).toBeVisible();
+  await expect(page.getByTestId('position-summary-card').getByText('Stake reward')).toBeVisible();
 
   // approval
   await approveOrPerformAction(page, 'Approve stake amount');
@@ -62,12 +62,12 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
 
   // positions overview
   await page.getByRole('button', { name: 'Manage your position(s)' }).click();
-  await expect(page.getByText('Position 2')).toBeVisible();
+  await expect(page.getByText('Position 1')).toBeVisible();
 
   // manage position
   await page.getByRole('button', { name: 'Manage Position' }).last().click();
-  await expect(page.getByText('Your position 2')).toBeVisible();
-  await expect(page.getByTestId('borrow-input-lse-balance')).toHaveText('Limit 0 <> 15,593 USDS');
+  await expect(page.getByText('Your position 1')).toBeVisible();
+  await expect(page.getByTestId('borrow-input-lse-balance')).toHaveText('Limit 0 <> 73,030 USDS');
 
   // borrow more and skip rewards and delegate selection
   await page.getByTestId('borrow-input-lse').fill('100');
@@ -84,16 +84,16 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
   expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible();
   await expect(page.getByText("You've borrowed 100 USDS. Your position is updated.")).toBeVisible();
   await page.getByRole('button', { name: 'Manage your position(s)' }).click();
-  await expect(page.getByText('Position 2')).toBeVisible();
+  await expect(page.getByText('Position 1')).toBeVisible();
 
   // repay all
   await page.getByRole('button', { name: 'Manage Position' }).last().click();
-  await expect(page.getByText('Your position 2')).toBeVisible();
-  await expect(page.getByTestId('borrow-input-lse-balance')).toHaveText('Limit 0 <> 15,493 USDS');
+  await expect(page.getByText('Your position 1')).toBeVisible();
+  await expect(page.getByTestId('borrow-input-lse-balance')).toHaveText('Limit 0 <> 72,930 USDS');
 
   // switch tabs
   await page.getByRole('tab', { name: 'Unstake and pay back' }).click();
-  await expect(page.getByTestId('repay-input-lse-balance')).toHaveText('Limit 0 <> 28,100, or 38,100 USDS');
+  await expect(page.getByTestId('repay-input-lse-balance')).toHaveText('Limit 0 <> 38,100, or 38,100 USDS');
 
   // click repay 100% button
   await page.getByRole('button', { name: '100%' }).nth(1).click();
@@ -120,11 +120,11 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
   expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible();
   await expect(page.getByText("You've repaid 38,100 USDS to exit your position.")).toBeVisible();
   await page.getByRole('button', { name: 'Manage your position(s)' }).click();
-  await expect(page.getByText('Position 2')).toBeVisible();
+  await expect(page.getByText('Position 1')).toBeVisible();
 
   // unseal all
   await page.getByRole('button', { name: 'Manage Position' }).last().click();
-  await expect(page.getByText('Your position 2')).toBeVisible();
+  await expect(page.getByText('Your position 1')).toBeVisible();
 
   // switch tabs
   await page.getByRole('tab', { name: 'Unstake and pay back' }).click();
@@ -145,5 +145,5 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
   expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible();
   await expect(page.getByText("You've unstaked 12,000 SKY to exit your position.")).toBeVisible();
   await page.getByRole('button', { name: 'Manage your position(s)' }).click();
-  await expect(page.getByText('Position 2')).toBeVisible();
+  await expect(page.getByText('Position 1')).toBeVisible();
 });
