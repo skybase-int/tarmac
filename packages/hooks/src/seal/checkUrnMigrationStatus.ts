@@ -1,7 +1,10 @@
 import { SealMigration } from './sealModule';
 
 export function checkUrnMigrationStatus(
+  // TODO: remove the eslint disabling rules once we use the function arguments
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   migrations: SealMigration[] | undefined | null,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   oldUrnIndex: number
 ): { isMigrated: boolean; migrationDetails: SealMigration | undefined } {
   // TODO: Remove this once the migration is complete
