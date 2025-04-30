@@ -97,10 +97,10 @@ export const sealApproveDescription: Record<string, MessageDescriptor> = {
 };
 
 export const hopeLoadingButtonText: TxCardCopyText = {
-  [TxStatus.INITIALIZED]: msg``,
-  [TxStatus.LOADING]: msg``,
-  [TxStatus.SUCCESS]: msg``,
-  [TxStatus.ERROR]: msg``
+  [TxStatus.INITIALIZED]: msg`Waiting for confirmation`,
+  [TxStatus.LOADING]: msg`Processing transaction`,
+  [TxStatus.SUCCESS]: msg`Success`,
+  [TxStatus.ERROR]: msg`Error`
 };
 
 export const hopeTitle: TxCardCopyText = {
@@ -118,10 +118,10 @@ export const hopeSubtitle: TxCardCopyText = {
 };
 
 export const migrateLoadingButtonText: TxCardCopyText = {
-  [TxStatus.INITIALIZED]: msg``,
-  [TxStatus.LOADING]: msg``,
-  [TxStatus.SUCCESS]: msg``,
-  [TxStatus.ERROR]: msg``
+  [TxStatus.INITIALIZED]: msg`Waiting for confirmation`,
+  [TxStatus.LOADING]: msg`Processing transaction`,
+  [TxStatus.SUCCESS]: msg`Success`,
+  [TxStatus.ERROR]: msg`Error`
 };
 
 export const migrateTitle: TxCardCopyText = {
