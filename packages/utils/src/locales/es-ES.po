@@ -1962,6 +1962,10 @@ msgstr ""
 msgid "Sky Savings Rate Pool"
 msgstr ""
 
+#: packages/widgets/src/widgets/BalancesWidget/components/StakeBalanceCard.tsx
+msgid "SKY supplied to Staking Engine"
+msgstr ""
+
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 msgid "Sky Token Rewards"
 msgstr ""
