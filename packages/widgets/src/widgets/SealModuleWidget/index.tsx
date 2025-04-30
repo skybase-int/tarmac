@@ -919,12 +919,12 @@ function SealModuleWidgetWrapped({
       !!externalParamUrnAddress
     ) {
       // Navigate to the Urn
-      if (externalParamVaultData?.collateralAmount && externalUrnRewardContract) {
+      if (!!externalParamVaultData && externalUrnRewardContract) {
         setSelectedRewardContract(externalUrnRewardContract);
       } else {
         setSelectedRewardContract(undefined);
       }
-      if (externalParamVaultData?.collateralAmount && externalUrnVoteDelegate) {
+      if (!!externalParamVaultData && externalUrnVoteDelegate) {
         setSelectedDelegate(externalUrnVoteDelegate);
       } else {
         setSelectedDelegate(undefined);

@@ -248,12 +248,12 @@ const MigrateButton = ({
   const { data: vaultData } = useVault(urnAddress || ZERO_ADDRESS);
 
   const handleOnClick = useCallback(() => {
-    if (vaultData?.collateralAmount && urnSelectedRewardContract) {
+    if (urnAddress && urnAddress !== ZERO_ADDRESS && urnSelectedRewardContract) {
       setSelectedRewardContract(urnSelectedRewardContract);
     } else {
       setSelectedRewardContract(undefined);
     }
-    if (vaultData?.collateralAmount && urnSelectedVoteDelegate) {
+    if (urnAddress && urnAddress !== ZERO_ADDRESS && urnSelectedVoteDelegate) {
       setSelectedDelegate(urnSelectedVoteDelegate);
     } else {
       setSelectedDelegate(undefined);
