@@ -23,10 +23,10 @@ test.beforeAll(async () => {
   // Create a new Seal position in the forked testnet before running the tests. Seal widget has the "Open new position" button disabled for the migration.
   await newSealPosition(
     '100',
-    // '38000',
     // Manually created delegate in the parent forked vnet
     '0x4e4393f93ac7ba34648a82ea2248d9bdbb1ff7e5',
     lsMkrUsdsRewardAddress[TENDERLY_CHAIN_ID]
+    // '38000',
   );
 });
 
