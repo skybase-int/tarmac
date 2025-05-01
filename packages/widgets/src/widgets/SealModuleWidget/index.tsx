@@ -737,6 +737,9 @@ function SealModuleWidgetWrapped({
     setIsDisabled(
       (widgetState.flow === SealFlow.OPEN && !acceptedExitFee) ||
         (widgetState.flow === SealFlow.MIGRATE && !acceptedMkrUpgrade) ||
+        (widgetState.flow === SealFlow.MIGRATE &&
+          currentStep === SealStep.ABOUT &&
+          newStakeUrn?.urnIndex === undefined) ||
         (currentStep === SealStep.OPEN_BORROW && (!isLockCompleted || !isBorrowCompleted)) ||
         (currentStep === SealStep.REWARDS && !isSelectRewardContractCompleted) ||
         (currentStep === SealStep.DELEGATE && !isSelectDelegateCompleted) ||
@@ -761,7 +764,8 @@ function SealModuleWidgetWrapped({
     acceptedExitFee,
     multicallDisabled,
     approveDisabled,
-    txStatus
+    txStatus,
+    newStakeUrn?.urnIndex
   ]);
 
   useEffect(() => {
@@ -900,6 +904,9 @@ function SealModuleWidgetWrapped({
       setMkrToLock(0n);
       setSkyToLock(0n);
       setUsdsToBorrow(0n);
+      setSelectedDelegate(undefined);
+      setSelectedRewardContract(undefined);
+    } else if (widgetState.flow === SealFlow.MIGRATE) {
       setSelectedDelegate(undefined);
       setSelectedRewardContract(undefined);
     }
