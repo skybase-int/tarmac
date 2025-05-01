@@ -9,7 +9,7 @@ import {
   useRewardContractTokens,
   useRewardsChartInfo,
   useSaRewardContracts,
-  useSealHistoricData
+  useStakeHistoricData
 } from '@jetstreamgg/hooks';
 import { formatAddress, formatNumber } from '@jetstreamgg/utils';
 import { t } from '@lingui/core/macro';
@@ -44,16 +44,16 @@ const StakeRewardsOverviewRow = ({ contractAddress }: { contractAddress: `0x${st
   //Get the MKR price from the seal historic data endpoint, since that is used for the total seal TVL
   //and we want the farm TVLs to sum up to the total seal TVL
   const {
-    data: sealHistoricData,
-    isLoading: sealHistoricIsLoading,
-    error: sealHistoricError
-  } = useSealHistoricData();
-  const mostRecentSealData = useMemo(
+    data: stakeHistoricData,
+    isLoading: stakeHistoricIsLoading,
+    error: stakeHistoricError
+  } = useStakeHistoricData();
+  const mostRecentStakeData = useMemo(
     () =>
-      sealHistoricData?.sort((a, b) => new Date(b.datetime).getTime() - new Date(a.datetime).getTime())[0],
-    [sealHistoricData]
+      stakeHistoricData?.sort((a, b) => new Date(b.datetime).getTime() - new Date(a.datetime).getTime())[0],
+    [stakeHistoricData]
   );
-  const mkrPrice = mostRecentSealData?.mkrPrice ? Number(mostRecentSealData.mkrPrice) : 0;
+  const mkrPrice = mostRecentStakeData?.mkrPrice ? Number(mostRecentStakeData.mkrPrice) : 0;
 
   const totalSupplied = mostRecentReward?.totalSupplied ? parseFloat(mostRecentReward.totalSupplied) : 0;
   const totalSuppliedInDollars = !isNaN(totalSupplied) && !isNaN(mkrPrice) ? totalSupplied * mkrPrice : 0;
@@ -84,8 +84,8 @@ const StakeRewardsOverviewRow = ({ contractAddress }: { contractAddress: `0x${st
       /> */}
       <StatsCard
         title={t`TVL (Total Value Locked)`}
-        isLoading={historicRewardsTokenIsLoading || sealHistoricIsLoading}
-        error={historicRewardsTokenError || sealHistoricError}
+        isLoading={historicRewardsTokenIsLoading || stakeHistoricIsLoading}
+        error={historicRewardsTokenError || stakeHistoricError}
         content={<Text className="mt-2">{`$${formatNumber(totalSuppliedInDollars)}`}</Text>}
       />
       <StatsCard

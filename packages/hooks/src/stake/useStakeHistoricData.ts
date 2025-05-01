@@ -68,7 +68,7 @@ export function useStakeHistoricData(): ReadHook & { data?: StakeHistoricData[] 
   let url: URL | undefined;
   if (baseUrl) {
     // TODO: Update this endpoint if lse changes to sth else
-    const endpoint = `${baseUrl}/lse/historic/`;
+    const endpoint = `${baseUrl}/lsev2/historic/`;
     url = formatBaLabsUrl(new URL(endpoint));
   }
 
