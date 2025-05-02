@@ -740,6 +740,16 @@ function SealModuleWidgetWrapped({
         (widgetState.flow === SealFlow.MIGRATE &&
           currentStep === SealStep.ABOUT &&
           newStakeUrn?.urnIndex === undefined) ||
+        // Disable next button if `hope` is not prepared
+        (widgetState.flow === SealFlow.MIGRATE &&
+          currentStep === SealStep.SUMMARY &&
+          txStatus === TxStatus.SUCCESS &&
+          !hope.prepared) ||
+        // Disable next button if `migrate` is not prepared
+        (widgetState.flow === SealFlow.MIGRATE &&
+          currentStep === SealStep.HOPE_OLD &&
+          txStatus === TxStatus.SUCCESS &&
+          !migrate.prepared) ||
         (currentStep === SealStep.OPEN_BORROW && (!isLockCompleted || !isBorrowCompleted)) ||
         (currentStep === SealStep.REWARDS && !isSelectRewardContractCompleted) ||
         (currentStep === SealStep.DELEGATE && !isSelectDelegateCompleted) ||
@@ -765,7 +775,9 @@ function SealModuleWidgetWrapped({
     multicallDisabled,
     approveDisabled,
     txStatus,
-    newStakeUrn?.urnIndex
+    newStakeUrn?.urnIndex,
+    hope.prepared,
+    migrate.prepared
   ]);
 
   useEffect(() => {
