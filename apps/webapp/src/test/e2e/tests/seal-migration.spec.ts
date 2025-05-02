@@ -93,3 +93,70 @@ test('Migrate Seal position to Staking position', async ({ page }) => {
   await expect(page.getByText('2,400,000 SKY')).toBeVisible(); // 100 MKR * 24,000 = 2,400,000
   await expect(page.getByText('38,000 USDS')).toBeVisible();
 });
+
+test('Resume migration flow with a Staking position already created', async ({ page }) => {
+  /*
+   * Set up new Staking position
+   */
+  // Migrate about
+  await page.getByRole('button', { name: 'Migrate Position' }).click();
+  await page.getByRole('checkbox').click();
+  await page.getByTestId('widget-button').first().click();
+
+  // select rewards
+  await expect(page.getByText('Choose your reward token')).toBeVisible();
+  await page.getByRole('button', { name: 'USDS' }).click();
+  await expect(page.getByTestId('widget-button').first()).toBeEnabled();
+  await page.getByTestId('widget-button').first().click();
+
+  // select delegate
+  await expect(page.getByText('Choose your delegate')).toBeVisible();
+  await page.getByRole('button', { name: '0x8779' }).click();
+  await expect(page.getByTestId('widget-button').first()).toBeEnabled();
+  await page.getByTestId('widget-button').first().click();
+
+  // Open staking position
+  await approveOrPerformAction(page, 'Submit');
+  await expect(page.getByText('Your staking position is now active. Next, start migration.')).toBeVisible();
+
+  /*
+   * Now reload page and attempt to resume the migration flow with the already created staking position
+   */
+  await page.goto('/seal-engine');
+  await connectMockWalletAndAcceptTerms(page);
+
+  // Migrate about
+  await page.getByRole('button', { name: 'Migrate Position' }).click();
+
+  await expect(page.getByTestId('migrate-from-card').getByText('Seal Position 1')).toBeVisible();
+  await expect(page.getByTestId('migrate-from-card').getByText('100 MKR')).toBeVisible();
+  await expect(page.getByTestId('migrate-from-card').getByText('38,000 USDS')).toBeVisible();
+  // The data about the previously created staking position is visible
+  await expect(page.getByTestId('migrate-to-card').getByText('Staking Position 1')).toBeVisible();
+  await expect(page.getByTestId('migrate-to-card').getByText('100 MKR')).toBeVisible();
+  await expect(page.getByTestId('migrate-to-card').getByText('2,400,000 SKY')).toBeVisible();
+  await expect(page.getByTestId('migrate-to-card').getByText('38,000 USDS')).toBeVisible();
+
+  await page.getByRole('checkbox').click();
+  await page.getByTestId('widget-button').first().click();
+
+  // Continue
+  // Approve migration contract
+  await expect(page.getByText('In progress')).toBeVisible();
+  await expect(page.getByText('Migration contract approved')).toBeVisible();
+
+  // Execute migration
+  await approveOrPerformAction(page, 'Migrate');
+  await expect(page.getByText('Confirm your migration')).toBeVisible();
+  await expect(page.getByText('In progress')).toBeVisible();
+  await expect(page.getByText('Success!')).toBeVisible();
+
+  // Successful migration, now go to check position
+  await page.goto('/?widget=stake');
+  await connectMockWalletAndAcceptTerms(page);
+
+  // Check that position 1 exists in stake module, and check the balances are the same than in the old seal position
+  await expect(page.getByText('Position 1')).toBeVisible();
+  await expect(page.getByText('2,400,000 SKY')).toBeVisible(); // 100 MKR * 24,000 = 2,400,000
+  await expect(page.getByText('38,000 USDS')).toBeVisible();
+});
