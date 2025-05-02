@@ -666,9 +666,9 @@ function SealModuleWidgetWrapped({
         setButtonText(t`New positions disabled`);
       } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.ABOUT) {
         setButtonText(
-          newStakeUrn?.urnAddress === undefined
+          newStakeUrn === undefined
             ? t`Checking your position status...`
-            : newStakeUrn?.urnAddress === ZERO_ADDRESS
+            : newStakeUrn?.urnAddress === ZERO_ADDRESS || newStakeUrn?.urnAddress === undefined
               ? t`Continue to open Staking position and migrate`
               : t`Continue to migrate`
         );
@@ -686,7 +686,8 @@ function SealModuleWidgetWrapped({
     shouldOpenFromWidgetButton,
     currentStep,
     needsLockAllowance,
-    needsUsdsAllowance
+    needsUsdsAllowance,
+    newStakeUrn
   ]);
 
   // Set isLoading to be consumed by WidgetButton
