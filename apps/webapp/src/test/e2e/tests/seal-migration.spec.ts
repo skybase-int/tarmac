@@ -71,14 +71,25 @@ test('Migrate Seal position to Staking position', async ({ page }) => {
 
   // Open staking position
   await approveOrPerformAction(page, 'Submit');
-  expect(page.getByText('Your staking position is now active. Next, start migration.')).toBeVisible();
+  await expect(page.getByText('Your staking position is now active. Next, start migration.')).toBeVisible();
 
   // Approve migration contract
-  await page.getByTestId('widget-button').first().click();
-  expect(page.getByRole('heading', { name: 'Migration contract approved' })).toBeVisible({ timeout: 10000 });
+  await approveOrPerformAction(page, "Let's now start the migration process");
+  await expect(page.getByText('In progress')).toBeVisible();
+  await expect(page.getByText('Migration contract approved')).toBeVisible();
 
   // Execute migration
   await approveOrPerformAction(page, 'Migrate');
+  await expect(page.getByText('Confirm your migration')).toBeVisible();
+  await expect(page.getByText('In progress')).toBeVisible();
+  await expect(page.getByText('Success!')).toBeVisible();
 
-  await expect(page.getByText('Test string to stop flow')).toBeVisible({ timeout: 15000 });
+  // Successful migration, now go to check position
+  await page.goto('/?widget=stake');
+  await connectMockWalletAndAcceptTerms(page);
+
+  // Check that position 1 exists in stake module, and check the balances are the same than in the old seal position
+  await expect(page.getByText('Position 1')).toBeVisible();
+  await expect(page.getByText('2,400,000 SKY')).toBeVisible(); // 100 MKR * 24,000 = 2,400,000
+  await expect(page.getByText('38,000 USDS')).toBeVisible();
 });
