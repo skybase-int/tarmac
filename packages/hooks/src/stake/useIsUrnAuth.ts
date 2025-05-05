@@ -1,5 +1,5 @@
 import { useAccount, useChainId } from 'wagmi';
-import { lsMigratorAddress, stakeModuleAddress, useReadStakeModuleIsUrnAuth } from '../generated';
+import { lsMigratorAddress, useReadStakeModuleIsUrnAuth } from '../generated';
 import { ReadHook, ReadHookParams } from '../hooks';
 import { ZERO_ADDRESS } from '../constants';
 import { lseDataSource } from '../seal/datasources';
@@ -26,8 +26,6 @@ export function useIsUrnAuth({
     isLoading,
     error
   } = useReadStakeModuleIsUrnAuth({
-    //TODO: remove address property after address is correctly added to  generated file
-    address: stakeModuleAddress[chainId as keyof typeof stakeModuleAddress],
     args: [
       address || ZERO_ADDRESS,
       urnIndex || 0n,

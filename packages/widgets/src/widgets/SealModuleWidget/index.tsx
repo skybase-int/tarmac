@@ -738,6 +738,19 @@ function SealModuleWidgetWrapped({
     setIsDisabled(
       (widgetState.flow === SealFlow.OPEN && !acceptedExitFee) ||
         (widgetState.flow === SealFlow.MIGRATE && !acceptedMkrUpgrade) ||
+        (widgetState.flow === SealFlow.MIGRATE &&
+          currentStep === SealStep.ABOUT &&
+          newStakeUrn?.urnIndex === undefined) ||
+        // Disable next button if `hope` is not prepared
+        (widgetState.flow === SealFlow.MIGRATE &&
+          currentStep === SealStep.SUMMARY &&
+          txStatus === TxStatus.SUCCESS &&
+          !hope.prepared) ||
+        // Disable next button if `migrate` is not prepared
+        (widgetState.flow === SealFlow.MIGRATE &&
+          currentStep === SealStep.HOPE_OLD &&
+          txStatus === TxStatus.SUCCESS &&
+          !migrate.prepared) ||
         (currentStep === SealStep.OPEN_BORROW && (!isLockCompleted || !isBorrowCompleted)) ||
         (currentStep === SealStep.REWARDS && !isSelectRewardContractCompleted) ||
         (currentStep === SealStep.DELEGATE && !isSelectDelegateCompleted) ||
@@ -762,7 +775,10 @@ function SealModuleWidgetWrapped({
     acceptedExitFee,
     multicallDisabled,
     approveDisabled,
-    txStatus
+    txStatus,
+    newStakeUrn?.urnIndex,
+    hope.prepared,
+    migrate.prepared
   ]);
 
   useEffect(() => {
@@ -901,6 +917,9 @@ function SealModuleWidgetWrapped({
       setMkrToLock(0n);
       setSkyToLock(0n);
       setUsdsToBorrow(0n);
+      setSelectedDelegate(undefined);
+      setSelectedRewardContract(undefined);
+    } else if (widgetState.flow === SealFlow.MIGRATE) {
       setSelectedDelegate(undefined);
       setSelectedRewardContract(undefined);
     }

@@ -163,6 +163,7 @@ export const MigrateAbout = () => {
         }
         lineItemsFiltered={sealedPositionItems}
         className="mt-4"
+        dataTestId="migrate-from-card"
       />
       <Text className="mt-4">
         <Trans>Migrate to:</Trans>
@@ -185,6 +186,7 @@ export const MigrateAbout = () => {
             : t`Open new Staking position`
         }
         className={`mt-4 ${isStakeUrnCreated ? '' : 'border-2 border-dashed'}`}
+        dataTestId="migrate-to-card"
       />
       <div className="mt-4">
         <div className="flex gap-2">
@@ -217,14 +219,16 @@ export const MigrateAbout = () => {
 const InfoCard = ({
   lineItemsFiltered,
   title,
-  className
+  className,
+  dataTestId
 }: {
   lineItemsFiltered: Record<string, any>[];
   title: string;
   className?: string;
+  dataTestId?: string;
 }) => {
   return (
-    <Card className={cn(className)}>
+    <Card className={cn(className)} data-testid={dataTestId}>
       <CardContent>
         <MotionVStack gap={2} variants={positionAnimations} className="space-y-3">
           <motion.div key="overview" variants={positionAnimations}>

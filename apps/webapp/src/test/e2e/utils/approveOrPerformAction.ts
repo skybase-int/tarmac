@@ -13,7 +13,10 @@ export type Action =
   | 'Approve stake amount'
   | 'Approve repay amount'
   | 'Continue'
-  | 'Confirm';
+  | 'Confirm'
+  | 'Submit'
+  | "Let's now start the migration process"
+  | 'Migrate';
 
 type approveOrPerformActionOptions = {
   reject?: boolean;
