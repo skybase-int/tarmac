@@ -1,4 +1,4 @@
-import { useChainId } from 'wagmi';
+import { useAccount, useChainId } from 'wagmi';
 import { MutationFunction, useMutation } from '@tanstack/react-query';
 import { SendMessageRequest, SendMessageResponse, ChatIntent } from '../types/Chat';
 import { useChatContext } from '../context/ChatContext';
@@ -70,6 +70,7 @@ const sendMessageMutation: MutationFunction<
 export const useSendMessage = () => {
   const { setChatHistory, sessionId, chatHistory } = useChatContext();
   const chainId = useChainId();
+  const { isConnected } = useAccount();
 
   const { loading: LOADING, error: ERROR, canceled: CANCELED } = MessageType;
   const { mutate } = useMutation<SendMessageResponse, Error, { messagePayload: Partial<SendMessageRequest> }>(
@@ -85,7 +86,7 @@ export const useSendMessage = () => {
       content: record.message,
       role: record.user === UserType.user ? 'user' : 'assistant'
     }));
-  const network = chainIdNameMapping[chainId as keyof typeof chainIdNameMapping];
+  const network = isConnected ? chainIdNameMapping[chainId as keyof typeof chainIdNameMapping] : 'ethereum';
 
   const sendMessage = (message: string) => {
     mutate(
