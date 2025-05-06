@@ -10,7 +10,7 @@ export type Action =
   | 'Approve'
   | 'Approve supply amount'
   | 'Approve seal amount'
-  | 'Approve stake amount'
+  | 'Approve staking amount'
   | 'Approve repay amount'
   | 'Continue'
   | 'Confirm'
