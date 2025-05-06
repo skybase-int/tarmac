@@ -785,7 +785,9 @@ function SealModuleWidgetWrapped({
     txStatus,
     newStakeUrn?.urnIndex,
     hope.prepared,
-    migrate.prepared
+    migrate.prepared,
+    needsNewUrnAuth,
+    needsOldUrnAuth
   ]);
 
   useEffect(() => {
