@@ -50,7 +50,7 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
   await expect(page.getByTestId('position-summary-card').getByText('Stake reward')).toBeVisible();
 
   // approval
-  await approveOrPerformAction(page, 'Approve stake amount');
+  await approveOrPerformAction(page, 'Approve staking amount');
   expect(page.getByRole('heading', { name: 'Token access approved' })).toBeVisible();
 
   // confirm position
