@@ -16,7 +16,8 @@ export type Action =
   | 'Confirm'
   | 'Submit'
   | "Let's now start the migration process"
-  | 'Migrate';
+  | 'Migrate'
+  | 'Continue to migrate';
 
 type approveOrPerformActionOptions = {
   reject?: boolean;

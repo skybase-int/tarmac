@@ -330,7 +330,7 @@ function SealModuleWidgetWrapped({
       console.log(error);
     },
     // TODO: criteria should be old hope, new hope and new index
-    enabled: !!newStakeUrn?.urnIndex
+    enabled: newStakeUrn?.urnIndex !== undefined
   });
 
   const lockMkrApprove = useSaMkrApprove({
@@ -751,6 +751,13 @@ function SealModuleWidgetWrapped({
           currentStep === SealStep.HOPE_OLD &&
           txStatus === TxStatus.SUCCESS &&
           !migrate.prepared) ||
+        // Disable next button if `migrate` is not prepared where resuming migration after approving migration contract
+        (widgetState.flow === SealFlow.MIGRATE &&
+          currentStep === SealStep.ABOUT &&
+          txStatus === TxStatus.IDLE &&
+          !needsNewUrnAuth &&
+          !needsOldUrnAuth &&
+          !migrate.prepared) ||
         (currentStep === SealStep.OPEN_BORROW && (!isLockCompleted || !isBorrowCompleted)) ||
         (currentStep === SealStep.REWARDS && !isSelectRewardContractCompleted) ||
         (currentStep === SealStep.DELEGATE && !isSelectDelegateCompleted) ||
@@ -778,7 +785,9 @@ function SealModuleWidgetWrapped({
     txStatus,
     newStakeUrn?.urnIndex,
     hope.prepared,
-    migrate.prepared
+    migrate.prepared,
+    needsNewUrnAuth,
+    needsOldUrnAuth
   ]);
 
   useEffect(() => {
