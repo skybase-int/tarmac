@@ -72,7 +72,7 @@ export const stakeApproveSubtitle: TxCardCopyText = {
 
 export const stakeApproveDescription: Record<string, MessageDescriptor> = {
   [TOKENS.mkr.symbol]: msg`Staking MKR in the Stake Rewards module`,
-  [TOKENS.sky.symbol]: msg`Staking SKY in the Stake Rewards module`
+  [TOKENS.sky.symbol]: msg`Staking SKY in the Staking Rewards Engine`
 };
 
 export const repayApproveDescription: MessageDescriptor = msg`Repaying USDS in the Stake Rewards module`;

@@ -398,7 +398,7 @@ function StakeModuleWidgetWrapped({
         currentStep === StakeStep.SUMMARY &&
         needsLockAllowance
       ) {
-        setButtonText(t`Approve stake amount`);
+        setButtonText(t`Approve staking amount`);
       } else if (
         widgetState.action === StakeAction.APPROVE &&
         currentStep === StakeStep.SUMMARY &&

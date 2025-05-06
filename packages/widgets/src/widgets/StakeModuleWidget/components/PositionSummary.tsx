@@ -303,7 +303,7 @@ export const PositionSummary = () => {
         hideIfNoDebt: true
       },
       {
-        label: t`Stake reward`,
+        label: t`Staking reward`,
         updated:
           hasPositions &&
           isUpdatedValue(existingRewardContract?.toLowerCase(), selectedRewardContract?.toLowerCase()),
