@@ -8,7 +8,6 @@ import { useAccount, useChainId } from 'wagmi';
 import { DelegateCard } from './DelegateCard';
 import { StakeModuleWidgetContext } from '../context/context';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
-import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { InfoTooltip } from '@widgets/shared/components/ui/tooltip/InfoTooltip';
 import { Button } from '@widgets/components/ui/button';
@@ -84,7 +83,46 @@ export const SelectDelegate = ({
           <Text>
             <Trans>Choose your delegate</Trans>
           </Text>
-          <InfoTooltip content={t`You can optionally select a delegate or skip this step`} />
+          <InfoTooltip
+            content={
+              <>
+                <Text>
+                  <Trans>Choose your delegate</Trans>
+                </Text>
+                <br />
+                <Text>
+                  <Trans>
+                    When you hold SKY tokens, you maintain the right to participate in the process of Sky
+                    Ecosystem Governance voting. That means that you have the ability to contribute to the
+                    community-driven, decentralized ecosystem decision-making process, which occurs through
+                    onchain voting.
+                  </Trans>
+                </Text>
+                <br />
+                <Text>
+                  <Trans>
+                    The voting power delegation feature of the Staking Engine of the Sky Protocol enables you
+                    to entrust your voting power to a delegate of your choosing, who can then vote in the Sky
+                    Ecosystem Governance process on your behalf. You can choose one delegate per SKY position.
+                    If you want to entrust your SKY to two delegates using the Staking Engine, you will need
+                    to create two separate positions.
+                  </Trans>
+                </Text>
+                <br />
+                <Text>
+                  <Trans>
+                    Delegates in receipt of token voting power can never directly access any tokens delegated
+                    to them, including staked tokens. Throughout the delegation process, you always own and
+                    are in control of your staked tokens, and you can change your delegate at any time.
+                    Staking to delegate your voting power may be a useful option for governance token holders
+                    who have limited time to allocate to the process, who want to save on the cost of gas
+                    involved in voting on their own, and who also want to earn Staking Rewards.
+                  </Trans>
+                </Text>
+                <br />
+              </>
+            }
+          />
         </HStack>
         <Button variant="link" className="text-white" onClick={handleSkip}>
           <Trans>Skip</Trans>
