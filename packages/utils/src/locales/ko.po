@@ -38,6 +38,10 @@ msgstr ""
 msgid "/+Z5u4"
 msgstr ""
 
+#: packages/widgets/src/widgets/StakeModuleWidget/components/SelectRewardContract.tsx
+msgid "(More rewards coming soon)"
+msgstr ""
+
 #. placeholder {0}: signStatus === 'signing' ? 'Signing...' : 'Agree and Sign'
 #: apps/webapp/src/modules/ui/components/TermsModal.tsx
 msgid "{0}"
@@ -141,10 +145,6 @@ msgstr ""
 msgid "About Sky Token Rewards"
 msgstr ""
 
-#: apps/webapp/src/modules/layout/components/ConnectCard.tsx
-msgid "About Stake Engine"
-msgstr ""
-
 #: apps/webapp/src/modules/ui/components/AboutStakeModule.tsx
 #: apps/webapp/src/modules/stake/components/StakePositionDetails.tsx
 #: apps/webapp/src/modules/stake/components/StakeOverview.tsx
@@ -157,6 +157,10 @@ msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
 msgid "About the Sky Savings Rate"
+msgstr ""
+
+#: apps/webapp/src/modules/layout/components/ConnectCard.tsx
+msgid "About the Staking Engine"
 msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
@@ -182,6 +186,10 @@ msgstr ""
 
 #: apps/webapp/src/modules/auth/components/UnauthorizedPage.tsx
 msgid "Access via VPN is not permitted. Please disconnect your VPN and refresh the page to continue."
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakePositionRewardsCard.tsx
+msgid "Accrued staking rewards"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/BalanceCards.tsx
@@ -348,7 +356,7 @@ msgid "Approve seal amount"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
-msgid "Approve stake amount"
+msgid "Approve staking amount"
 msgstr ""
 
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
@@ -572,6 +580,7 @@ msgstr ""
 msgid "Choose a token to upgrade, and enter an amount"
 msgstr ""
 
+#: packages/widgets/src/widgets/StakeModuleWidget/components/SelectDelegate.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/SelectDelegate.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/SelectDelegate.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigrateSelectDelegate.tsx
@@ -874,6 +883,10 @@ msgstr ""
 msgid "Delegate"
 msgstr ""
 
+#: packages/widgets/src/widgets/StakeModuleWidget/components/SelectDelegate.tsx
+msgid "Delegates in receipt of token voting power can never directly access any tokens delegated to them, including staked tokens. Throughout the delegation process, you always own and are in control of your staked tokens, and you can change your delegate at any time. Staking to delegate your voting power may be a useful option for governance token holders who have limited time to allocate to the process, who want to save on the cost of gas involved in voting on their own, and who also want to earn Staking Rewards."
+msgstr ""
+
 #: apps/webapp/src/modules/upgrade/components/UpgradeHistory.tsx
 msgid "Details"
 msgstr ""
@@ -1099,6 +1112,14 @@ msgstr ""
 msgid "How much {0} would you like to withdraw?"
 msgstr ""
 
+#: packages/widgets/src/widgets/StakeModuleWidget/components/Lock.tsx
+msgid "How much SKY would you like to stake?"
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/components/Free.tsx
+msgid "How much SKY would you like to unstake?"
+msgstr ""
+
 #: packages/widgets/src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
 msgid "How much USDS would you like to supply?"
 msgstr ""
@@ -1117,16 +1138,8 @@ msgstr ""
 msgid "How much would you like to repay?"
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/components/Lock.tsx
-msgid "How much would you like to stake?"
-msgstr ""
-
 #: packages/widgets/src/widgets/SealModuleWidget/components/Free.tsx
 msgid "How much would you like to unseal?"
-msgstr ""
-
-#: packages/widgets/src/widgets/StakeModuleWidget/components/Free.tsx
-msgid "How much would you like to unstake?"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
@@ -1382,7 +1395,6 @@ msgstr ""
 msgid "MKR supplied to Seal Engine"
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/components/SelectRewardContract.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/SelectRewardContract.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigrateSelectRewardContract.tsx
 msgid "More rewards coming soon"
@@ -1730,10 +1742,6 @@ msgstr ""
 msgid "Rewards"
 msgstr ""
 
-#: apps/webapp/src/modules/stake/components/StakeOverview.tsx
-msgid "Rewards overview"
-msgstr ""
-
 #: apps/webapp/src/modules/rewards/components/RewardsSuppliersCard.tsx
 msgid "Rewards Suppliers"
 msgstr ""
@@ -2051,18 +2059,9 @@ msgstr ""
 msgid "Stake and Borrow"
 msgstr ""
 
-#: apps/webapp/src/modules/stake/components/StakeOverview.tsx
-msgid "Stake Positions"
-msgstr ""
-
-#: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
 msgid "Stake reward"
-msgstr ""
-
-#: apps/webapp/src/modules/ui/components/AboutStakeModule.tsx
-msgid "Stake Rewards can be accessed when you supply SKY to the Stake Engine of the decentralised, non-custodial Sky Protocol. Currently, all Stake Rewards take the form of USDS. Eventually, subject to Sky ecosystem governance approval, Stake Rewards may also be available in the form of Sky Star tokens."
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
@@ -2091,8 +2090,24 @@ msgstr ""
 msgid "Staking position {0}"
 msgstr ""
 
+#: apps/webapp/src/modules/stake/components/StakeOverview.tsx
+msgid "Staking positions"
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
+msgid "Staking reward"
+msgstr ""
+
+#: apps/webapp/src/modules/ui/components/AboutStakeModule.tsx
+msgid "Staking Rewards can be accessed when SKY is supplied to the Staking Engine of the decentralized, non-custodial Sky Protocol. Currently, all Staking Rewards take the form of USDS. Staking Reward rates are determined by Sky Ecosystem Governance through the process of decentralized onchain voting."
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeOverview.tsx
+msgid "Staking Rewards overview"
+msgstr ""
+
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
-msgid "Staking SKY in the Stake Rewards module"
+msgid "Staking SKY in the Staking Rewards Engine"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
@@ -2260,7 +2275,11 @@ msgid "The Seal Engine is a module of the Sky Protocol. The MKR and or SKY token
 msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
-msgid "The Stake Engine is a module of the Sky Protocol. The SKY token provides access to Stake Rewards and encourage a deeper commitment to Sky ecosystem governance. With Sky, you always remain in control of your funds."
+msgid "The Staking Engine is a module of the Sky Protocol. It has replaced the Seal Engine, offering the same features but it has no exit fee and only supports SKY, not MKR. The SKY tokens you supply to the Seal Engine enable you to access Staking Rewards, and more. With Sky, you always remain in control of your assets."
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/components/SelectDelegate.tsx
+msgid "The voting power delegation feature of the Staking Engine of the Sky Protocol enables you to entrust your voting power to a delegate of your choosing, who can then vote in the Sky Ecosystem Governance process on your behalf. You can choose one delegate per SKY position. If you want to entrust your SKY to two delegates using the Staking Engine, you will need to create two separate positions."
 msgstr ""
 
 #: apps/webapp/src/modules/app/hooks/useNotification.tsx
@@ -2794,6 +2813,10 @@ msgstr ""
 msgid "We couldn&t load the Stake module rewards. Please try again later."
 msgstr ""
 
+#: packages/widgets/src/widgets/StakeModuleWidget/components/SelectDelegate.tsx
+msgid "When you hold SKY tokens, you maintain the right to participate in the process of Sky Ecosystem Governance voting. That means that you have the ability to contribute to the community-driven, decentralized ecosystem decision-making process, which occurs through onchain voting."
+msgstr ""
+
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
 msgid "When you supply USDS to the Sky Savings Rate module of the decentralised Sky Protocol, you access the Sky Saving Rate and may accumulate additional USDS over time. No minimum supply amount is required, and you always maintain control of your supplied funds, as this feature is non-custodial."
 msgstr ""
@@ -2914,7 +2937,6 @@ msgstr ""
 msgid "You borrowed"
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/components/SelectDelegate.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/SelectDelegate.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigrateSelectDelegate.tsx
 msgid "You can optionally select a delegate or skip this step"
