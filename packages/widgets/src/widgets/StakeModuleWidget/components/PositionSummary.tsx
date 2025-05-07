@@ -187,15 +187,6 @@ export const PositionSummary = () => {
   const lineItems = useMemo(() => {
     return [
       {
-        label: t`Exit fee`,
-        updated: hasPositions && skyToFree > 0n,
-        value:
-          hasPositions && skyToFree > 0n && typeof exitFee === 'bigint'
-            ? [`${Number(formatUnits(skyToFree * exitFee, WAD_PRECISION * 2)).toFixed(2)} SKY`]
-            : '',
-        icon: <TokenIcon token={TOKENS.sky} className="h-5 w-5" />
-      },
-      {
         label: getStakeLabel(existingVault?.collateralAmount, updatedVault?.collateralAmount),
         updated:
           hasPositions && isUpdatedValue(existingVault?.collateralAmount, updatedVault?.collateralAmount),
