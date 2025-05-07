@@ -203,6 +203,7 @@ export function PositionDetail({
         onNavigateToMigratedUrn={onNavigateToMigratedUrn}
         sealedAmount={sealedAmount}
         onSealUrnChange={onSealUrnChange}
+        borrowedAmount={borrowedAmount}
       />
       <>
         {sealRewardContracts &&
@@ -227,13 +228,15 @@ const MigrateButton = ({
   index,
   // sealedAmount,
   onNavigateToMigratedUrn,
-  onSealUrnChange
+  onSealUrnChange,
+  borrowedAmount
 }: {
   isMigrated?: boolean;
   index: bigint;
   onNavigateToMigratedUrn?: (index?: bigint) => void;
   onSealUrnChange?: OnSealUrnChange;
   sealedAmount?: bigint;
+  borrowedAmount?: bigint;
 }) => {
   const { setWidgetState } = useContext(WidgetContext);
   const { setCurrentStep, setSelectedRewardContract, setSelectedDelegate, setActiveUrn } =
@@ -296,12 +299,20 @@ const MigrateButton = ({
   // }
 
   return (
-    <Button
-      variant="primaryAlt"
-      onClick={handleOnClick}
-      // disabled={!!rewardContractToClaim && indexToClaim !== undefined}
-    >
-      <Text>Migrate Position</Text>
-    </Button>
+    <VStack gap={3}>
+      {!borrowedAmount && (
+        <Text variant="captionSm" className="text-warning text-center">
+          Note: It will be more gas-efficient to manually close this position and open a new one in the
+          Staking Engine.
+        </Text>
+      )}
+      <Button
+        variant="primaryAlt"
+        onClick={handleOnClick}
+        // disabled={!!rewardContractToClaim && indexToClaim !== undefined}
+      >
+        <Text>Migrate Position</Text>
+      </Button>
+    </VStack>
   );
 };
