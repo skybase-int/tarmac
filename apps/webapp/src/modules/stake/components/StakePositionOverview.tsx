@@ -3,7 +3,7 @@ import {
   getIlkName,
   RiskLevel,
   // TOKENS,
-  useSealPosition,
+  useStakePosition,
   useStakeUrnAddress,
   // useUrnAddress,
   useVault,
@@ -41,7 +41,7 @@ export function StakePositionOverview({
   positionIndex: number;
 }): React.ReactElement | null {
   const chainId = useChainId();
-  const { data, isLoading, error } = useSealPosition({ urnIndex: positionIndex });
+  const { data, isLoading, error } = useStakePosition({ urnIndex: positionIndex });
   const { data: urnAddress, isLoading: urnAddressLoading } = useStakeUrnAddress(BigInt(positionIndex));
   const {
     data: vault,
