@@ -46,7 +46,8 @@ import {
   useSaHope,
   useMigrateUrn,
   useIsSealUrnAuth,
-  useIsStakeUrnAuth
+  useIsStakeUrnAuth,
+  useMigrationUrnIndexValid
   // useNextMigrationUrnIndex
   // useRewardsChartInfo
 } from '@jetstreamgg/hooks';
@@ -185,6 +186,8 @@ function SealModuleWidgetWrapped({
     displayToken,
     newStakeUrn
   } = useContext(SealModuleWidgetContext);
+
+  const { isCandidateUrnValid } = useMigrationUrnIndexValid(newStakeUrn?.urnIndex);
 
   // Returns the urn index to use for opening a new urn
   const { data: currentUrnIndex } = useSealCurrentIndex();
@@ -667,10 +670,14 @@ function SealModuleWidgetWrapped({
       } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.ABOUT) {
         setButtonText(
           newStakeUrn === undefined
-            ? t`Checking your position status...`
-            : newStakeUrn?.urnAddress === ZERO_ADDRESS || newStakeUrn?.urnAddress === undefined
-              ? t`Continue to open Staking position and migrate`
-              : t`Continue to migrate`
+            ? 'Select a Staking position'
+            : newStakeUrn?.urnIndex === undefined
+              ? t`Checking your position status...`
+              : !isCandidateUrnValid
+                ? t`This position is not valid for migration`
+                : newStakeUrn?.urnAddress === ZERO_ADDRESS || newStakeUrn?.urnAddress === undefined
+                  ? t`Continue to open Staking position and migrate`
+                  : t`Continue to migrate`
         );
       } else {
         // let's set it to Next for now
@@ -687,7 +694,8 @@ function SealModuleWidgetWrapped({
     currentStep,
     needsLockAllowance,
     needsUsdsAllowance,
-    newStakeUrn
+    newStakeUrn,
+    isCandidateUrnValid
   ]);
 
   // Set isLoading to be consumed by WidgetButton
@@ -741,6 +749,8 @@ function SealModuleWidgetWrapped({
         (widgetState.flow === SealFlow.MIGRATE &&
           currentStep === SealStep.ABOUT &&
           newStakeUrn?.urnIndex === undefined) ||
+        // Disable next button if stake urn is not valid
+        (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.ABOUT && !isCandidateUrnValid) ||
         // Disable next button if `hope` is not prepared
         (widgetState.flow === SealFlow.MIGRATE &&
           currentStep === SealStep.SUMMARY &&
@@ -787,7 +797,8 @@ function SealModuleWidgetWrapped({
     hope.prepared,
     migrate.prepared,
     needsNewUrnAuth,
-    needsOldUrnAuth
+    needsOldUrnAuth,
+    isCandidateUrnValid
   ]);
 
   useEffect(() => {
