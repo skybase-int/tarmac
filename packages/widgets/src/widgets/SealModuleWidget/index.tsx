@@ -594,6 +594,7 @@ function SealModuleWidgetWrapped({
       const cd = generateAllCalldata(
         address,
         urnIndexForTransaction,
+        chainId,
         referralCode,
         newStakeUrn?.urnIndex,
         newStakeUrn?.urnAddress
@@ -607,7 +608,8 @@ function SealModuleWidgetWrapped({
     generateAllCalldata,
     referralCode,
     newStakeUrn?.urnIndex,
-    widgetState?.flow
+    widgetState?.flow,
+    chainId
   ]);
 
   // Update button state according to action and tx
