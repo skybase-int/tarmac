@@ -80,7 +80,14 @@ export default ({ mode }: { mode: modeEnum }) => {
   return defineConfig({
     server: {
       // vite default is 5173
-      port: 3000
+      port: 3000,
+      cors: {
+        origin: [
+          // Default option, allows localhost, 127.0.0.1 and ::1
+          /^https?:\/\/(?:(?:[^:]+\.)?localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/,
+          'https://app.safe.global'
+        ]
+      }
     },
     preview: {
       port: 3000
