@@ -107,9 +107,7 @@ export function needsRewardUpdate(
 
   // For existing URNs: update if normalized reward contract addresses (case-insensitive) differ.
   // Normalization treats undefined and ZERO_ADDRESS as "no reward contract".
-  return (
-    normalizedSelectedRewardContract?.toLowerCase() !== normalizedUrnSelectedRewardContract?.toLowerCase()
-  );
+  return normalizedSelectedRewardContract !== normalizedUrnSelectedRewardContract;
 }
 
 export function needsDelegateUpdate(
@@ -130,9 +128,12 @@ export function needsDelegateUpdate(
 
   // For existing URNs: update if normalized delegate addresses (case-insensitive) differ.
   // Normalization treats undefined and ZERO_ADDRESS as "no delegate".
-  return normalizedSelectedDelegate?.toLowerCase() !== normalizedUrnSelectedVoteDelegate?.toLowerCase();
+  return normalizedSelectedDelegate !== normalizedUrnSelectedVoteDelegate;
 }
 
 const normalizeAddress = (address: `0x${string}` | undefined): `0x${string}` | undefined => {
-  return address === ZERO_ADDRESS ? undefined : address;
+  if (address === ZERO_ADDRESS || address === undefined) {
+    return undefined;
+  }
+  return address.toLowerCase() as `0x${string}`;
 };
