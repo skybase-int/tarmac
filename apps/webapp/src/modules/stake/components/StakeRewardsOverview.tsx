@@ -8,8 +8,8 @@ import { TokenIcon } from '@/modules/ui/components/TokenIcon';
 import {
   useRewardContractTokens,
   useRewardsChartInfo,
-  useSaRewardContracts,
-  useSealHistoricData
+  useStakeRewardContracts,
+  useSealHistoricData // TODO: This is being updated in a separate PR
 } from '@jetstreamgg/hooks';
 import { formatAddress, formatNumber } from '@jetstreamgg/utils';
 import { t } from '@lingui/core/macro';
@@ -99,7 +99,7 @@ const StakeRewardsOverviewRow = ({ contractAddress }: { contractAddress: `0x${st
 };
 
 export function StakeRewardsOverview() {
-  const { data, isLoading, error } = useSaRewardContracts();
+  const { data, isLoading, error } = useStakeRewardContracts();
 
   return (
     <LoadingErrorWrapper
