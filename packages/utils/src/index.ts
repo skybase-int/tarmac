@@ -5,6 +5,7 @@ export { isTestnetId } from './isTestnetId';
 export { isMainnetId } from './isMainnetId';
 export { isBaseChainId, isArbitrumChainId, isL2ChainId } from './isL2ChainId';
 export { formatAddress } from './formatAddress';
+export { normalizeAddress } from './normalizeAddress';
 export { chainId } from './chainId';
 export * as math from './math';
 export * from './formatDate';

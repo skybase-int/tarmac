@@ -1,4 +1,5 @@
-import { RiskLevel, ZERO_ADDRESS } from '@jetstreamgg/hooks';
+import { RiskLevel } from '@jetstreamgg/hooks';
+import { normalizeAddress } from '@jetstreamgg/utils';
 import { SealFlow, SealStep } from './constants';
 
 const openFlowSequence = [
@@ -130,10 +131,3 @@ export function needsDelegateUpdate(
   // Normalization treats undefined and ZERO_ADDRESS as "no delegate".
   return normalizedSelectedDelegate !== normalizedUrnSelectedVoteDelegate;
 }
-
-const normalizeAddress = (address: `0x${string}` | undefined): `0x${string}` | undefined => {
-  if (address === ZERO_ADDRESS || address === undefined) {
-    return undefined;
-  }
-  return address.toLowerCase() as `0x${string}`;
-};
