@@ -148,6 +148,7 @@ export { useStakeSkyAllowance, useStakeUsdsAllowance } from './stake/useStakeAll
 export { useStakeSkyApprove, useStakeUsdsApprove } from './stake/useStakeApprove';
 export { useClaimRewards as useStakeClaimRewards } from './stake/useClaimRewards';
 export { useStakeRewardsData } from './stake/useStakeRewardsData';
+export { useStakePosition } from './stake/useStakePosition';
 export * from './stake/calldata';
 
 //Vaults
