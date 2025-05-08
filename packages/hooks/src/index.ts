@@ -257,6 +257,7 @@ export {
   useReadPsm3L2Pocket,
   useReadPsm3L2PreviewSwapExactIn,
   useReadPsm3L2PreviewSwapExactOut,
-  lsMkrUsdsRewardAddress
+  lsMkrUsdsRewardAddress,
+  lsMigratorAddress
 } from './generated';
 export { contracts, /*tenderlyContracts,*/ sepoliaContracts, l2Contracts } from './contracts';
