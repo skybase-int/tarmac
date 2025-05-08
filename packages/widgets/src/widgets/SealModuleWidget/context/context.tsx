@@ -312,8 +312,11 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
 
       // Select reward
       const selectRewardContractCalldata =
-        needsRewardUpdate(activeUrn?.urnAddress, selectedRewardContract, urnSelectedRewardContract) &&
-        newStakeUrnIndex !== undefined
+        needsRewardUpdate(
+          activeUrn?.urnAddress,
+          selectedRewardContract,
+          widgetState.flow === SealFlow.MIGRATE ? undefined : urnSelectedRewardContract
+        ) && newStakeUrnIndex !== undefined
           ? getSaSelectRewardContractCalldata({
               ownerAddress,
               urnIndex: widgetState.flow === SealFlow.MIGRATE ? newStakeUrnIndex : urnIndex,
@@ -324,7 +327,11 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
 
       // Select delegate
       const selectDelegateCalldata =
-        needsDelegateUpdate(activeUrn?.urnAddress, selectedDelegate, urnSelectedVoteDelegate) && // TODO: should be or?
+        needsDelegateUpdate(
+          activeUrn?.urnAddress,
+          selectedDelegate,
+          widgetState.flow === SealFlow.MIGRATE ? undefined : urnSelectedVoteDelegate
+        ) && // TODO: should be or?
         newStakeUrnIndex !== undefined
           ? getSaSelectDelegateCalldata({
               ownerAddress,
