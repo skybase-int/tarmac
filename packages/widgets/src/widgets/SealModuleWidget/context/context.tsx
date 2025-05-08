@@ -14,7 +14,8 @@ import {
   TOKENS,
   useUrnSelectedRewardContract,
   useUrnSelectedVoteDelegate,
-  ZERO_ADDRESS
+  ZERO_ADDRESS,
+  lsMigratorAddress
 } from '@jetstreamgg/hooks';
 import {
   Dispatch,
@@ -30,11 +31,6 @@ import { SealFlow, SealStep } from '../lib/constants';
 import { OnSealUrnChange } from '../lib/types';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { needsDelegateUpdate, needsRewardUpdate } from '../lib/utils';
-
-// TODO: need to import this from generated file
-const lsMigratorAddress = {
-  314310: '0xf4c5C29b14f0237131F7510A51684c8191f98E06'
-} as const;
 
 export interface SealModuleWidgetContextProps {
   isLockCompleted: boolean;
@@ -94,6 +90,7 @@ export interface SealModuleWidgetContextProps {
   generateAllCalldata: (
     ownerAddress: `0x${string}`,
     urnIndex: bigint,
+    chainId: number,
     referralCode?: number,
     newStakeUrnIndex?: bigint,
     newStakeUrnIndexAddress?: `0x${string}`
@@ -253,6 +250,7 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
     (
       ownerAddress: `0x${string}`,
       urnIndex: bigint,
+      chainId: number,
       referralCode: number = 0,
       newStakeUrnIndex?: bigint,
       newStakeUrnIndexAddress?: `0x${string}`
@@ -314,8 +312,11 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
 
       // Select reward
       const selectRewardContractCalldata =
-        needsRewardUpdate(activeUrn?.urnAddress, selectedRewardContract, urnSelectedRewardContract) &&
-        newStakeUrnIndex !== undefined
+        needsRewardUpdate(
+          activeUrn?.urnAddress,
+          selectedRewardContract,
+          widgetState.flow === SealFlow.MIGRATE ? undefined : urnSelectedRewardContract
+        ) && newStakeUrnIndex !== undefined
           ? getSaSelectRewardContractCalldata({
               ownerAddress,
               urnIndex: widgetState.flow === SealFlow.MIGRATE ? newStakeUrnIndex : urnIndex,
@@ -326,7 +327,11 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
 
       // Select delegate
       const selectDelegateCalldata =
-        needsDelegateUpdate(activeUrn?.urnAddress, selectedDelegate, urnSelectedVoteDelegate) && // TODO: should be or?
+        needsDelegateUpdate(
+          activeUrn?.urnAddress,
+          selectedDelegate,
+          widgetState.flow === SealFlow.MIGRATE ? undefined : urnSelectedVoteDelegate
+        ) && // TODO: should be or?
         newStakeUrnIndex !== undefined
           ? getSaSelectDelegateCalldata({
               ownerAddress,
@@ -341,8 +346,7 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
           ? getSaHopeCalldata({
               ownerAddress,
               urnIndex: newStakeUrnIndex,
-              // TODO: make the address dynamic
-              usrAddress: lsMigratorAddress[314310]
+              usrAddress: lsMigratorAddress[chainId as keyof typeof lsMigratorAddress]
             })
           : undefined;
 
