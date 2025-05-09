@@ -201,6 +201,7 @@ export const MigrateAbout = () => {
         showSelector
         currentStakeUrnIndex={currentStakeUrnIndex}
         setSelectedUrnIndex={setSelectedUrnIndex}
+        selectedUrnIndex={selectedUrnIndex}
       />
       <div className="mt-4">
         <div className="flex gap-2">
@@ -237,7 +238,8 @@ const InfoCard = ({
   dataTestId,
   showSelector = false,
   currentStakeUrnIndex,
-  setSelectedUrnIndex
+  setSelectedUrnIndex,
+  selectedUrnIndex
 }: {
   lineItemsFiltered: Record<string, any>[];
   title: string;
@@ -245,8 +247,11 @@ const InfoCard = ({
   dataTestId?: string;
   showSelector?: boolean;
   currentStakeUrnIndex?: bigint;
+  selectedUrnIndex?: bigint;
   setSelectedUrnIndex?: (index: bigint | undefined) => void;
 }) => {
+  console.log('🚀 ~ selectedUrnIndex:', selectedUrnIndex);
+
   interface UrnOption {
     value: string;
     label: string;
@@ -272,6 +277,15 @@ const InfoCard = ({
     return [createNewOption, ...existingUrnOptions];
   }, [numericUrnIndices]);
 
+  const noStakePositionsOpen = selectedUrnIndex === undefined && currentStakeUrnIndex === 0n;
+
+  useEffect(() => {
+    // Automatically select Open new option if there are no existing positions
+    if (noStakePositionsOpen) {
+      setSelectedUrnIndex?.(currentStakeUrnIndex);
+    }
+  }, []);
+
   return (
     <Card className={cn(className)} data-testid={dataTestId}>
       <CardContent>
@@ -293,6 +307,13 @@ const InfoCard = ({
                       setSelectedUrnIndex?.(BigInt(val) - 1n);
                     }
                   }}
+                  value={
+                    selectedUrnIndex === currentStakeUrnIndex || noStakePositionsOpen
+                      ? 'create_new'
+                      : selectedUrnIndex !== undefined
+                        ? (selectedUrnIndex + 1n).toString()
+                        : undefined
+                  }
                 >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select an option..." />
