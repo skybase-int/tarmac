@@ -878,11 +878,15 @@ function SealModuleWidgetWrapped({
           ...prev,
           action: SealAction.MULTICALL
         }));
-        setCurrentStep(SealStep.ABOUT);
+        if (widgetState.action === SealAction.OVERVIEW) {
+          setCurrentStep(SealStep.ABOUT);
+        }
         // If we already have an urn, but it's not hoped yet
         // TODO: need to update the calldata logic in context to exclude 'open' in this case
       } else if (needsNewUrnAuth) {
-        setCurrentStep(SealStep.ABOUT);
+        if (widgetState.action === SealAction.OVERVIEW) {
+          setCurrentStep(SealStep.ABOUT);
+        }
         // If we already opened & hoped the new urn, jump straight to this step
       } else if (needsOldUrnAuth) {
         // console.log('NEED OLD URN AUTH');
@@ -891,10 +895,11 @@ function SealModuleWidgetWrapped({
           action: SealAction.HOPE
         }));
         // setCurrentStep(SealStep.HOPE_OLD);
-        setCurrentStep(SealStep.ABOUT);
+        if (widgetState.action === SealAction.OVERVIEW) {
+          setCurrentStep(SealStep.ABOUT);
+        }
         // We're ready to migrate
       } else if (currentStep !== SealStep.ABOUT) {
-        // console.log('NEED MIGRATE');
         //TODO: account for state where user has old auth and needs new auth (should be an outlier)
         setWidgetState((prev: WidgetState) => ({
           ...prev,
@@ -1110,6 +1115,11 @@ function SealModuleWidgetWrapped({
         action: prev.action === SealAction.CLAIM ? SealAction.OVERVIEW : prev.action,
         screen: SealScreen.ACTION
       }));
+      if ([SealAction.MIGRATE, SealAction.HOPE].includes(widgetState.action)) {
+        setCurrentStep(SealStep.ABOUT);
+      } else if (widgetState.action === SealAction.MULTICALL) {
+        setCurrentStep(getPreviousStep(currentStep, widgetState.flow));
+      }
     }
     setTxStatus(TxStatus.IDLE);
     // setWidgetState((prev: WidgetState) => ({
@@ -1204,9 +1214,9 @@ function SealModuleWidgetWrapped({
 
   const onClickAction = !isConnectedAndEnabled
     ? onConnect
-    : !needsNewUrnAuth && needsOldUrnAuth && currentStep === SealStep.ABOUT
+    : !needsNewUrnAuth && needsOldUrnAuth && [SealStep.ABOUT, SealStep.HOPE_OLD].includes(currentStep)
       ? hopeOnClick
-      : !needsNewUrnAuth && !needsOldUrnAuth && currentStep === SealStep.ABOUT
+      : !needsNewUrnAuth && !needsOldUrnAuth && [SealStep.ABOUT, SealStep.MIGRATE].includes(currentStep)
         ? migrateOnClick
         : (currentStep === SealStep.SUMMARY &&
               // Just finished a successful approval, no longer need allowance
