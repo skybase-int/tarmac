@@ -75,7 +75,7 @@ export const MigrateAbout = () => {
     if (selectedUrnIndex !== undefined) {
       setNewStakeUrn({ urnAddress: stakeUrnAddress, urnIndex: stakeUrnIndex }, () => {});
     }
-  }, [stakeUrnIndex, selectedUrnIndex]);
+  }, [stakeUrnIndex, selectedUrnIndex, stakeUrnAddress]);
 
   const sealedPositionItems = useMemo(() => {
     return [
@@ -250,7 +250,7 @@ const InfoCard = ({
   selectedUrnIndex?: bigint;
   setSelectedUrnIndex?: (index: bigint | undefined) => void;
 }) => {
-  console.log('🚀 ~ selectedUrnIndex:', selectedUrnIndex);
+  const { newStakeUrn } = useContext(SealModuleWidgetContext);
 
   interface UrnOption {
     value: string;
@@ -281,7 +281,9 @@ const InfoCard = ({
 
   useEffect(() => {
     // Automatically select Open new option if there are no existing positions
-    if (noStakePositionsOpen) {
+    if (newStakeUrn?.urnIndex !== undefined) {
+      setSelectedUrnIndex?.(newStakeUrn.urnIndex);
+    } else if (noStakePositionsOpen) {
       setSelectedUrnIndex?.(currentStakeUrnIndex);
     }
   }, []);

@@ -184,7 +184,8 @@ function SealModuleWidgetWrapped({
     setSelectedToken,
     selectedToken,
     displayToken,
-    newStakeUrn
+    newStakeUrn,
+    setNewStakeUrn
   } = useContext(SealModuleWidgetContext);
 
   const { isCandidateUrnValid } = useMigrationUrnIndexValid(newStakeUrn?.urnIndex);
@@ -1294,6 +1295,7 @@ function SealModuleWidgetWrapped({
     setUsdsToWipe(0n);
     setUsdsToBorrow(0n);
     setTabIndex(0);
+    setNewStakeUrn(undefined, () => {});
   };
 
   const widgetStateLoaded = !!widgetState.flow && !!widgetState.action;
