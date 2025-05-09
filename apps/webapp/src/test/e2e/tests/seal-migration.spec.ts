@@ -131,6 +131,10 @@ test('Resume migration flow with a Staking position already created', async ({ p
   await expect(page.getByTestId('migrate-from-card').getByText('Seal Position 1')).toBeVisible();
   await expect(page.getByTestId('migrate-from-card').getByText('100 MKR')).toBeVisible();
   await expect(page.getByTestId('migrate-from-card').getByText('38,000 USDS')).toBeVisible();
+
+  await page.getByText('Select an option...').click();
+  await page.getByTestId('select-position-dropdown').getByText('Position 1').click();
+
   // The data about the previously created staking position is visible
   await expect(page.getByTestId('migrate-to-card').getByText('Staking Position 1')).toBeVisible();
   await expect(page.getByTestId('migrate-to-card').getByText('100 MKR')).toBeVisible();
@@ -138,7 +142,7 @@ test('Resume migration flow with a Staking position already created', async ({ p
   await expect(page.getByTestId('migrate-to-card').getByText('38,000 USDS')).toBeVisible();
 
   await page.getByRole('checkbox').click();
-  await page.getByTestId('widget-button').first().click();
+  await approveOrPerformAction(page, 'Continue to migrate');
 
   // Continue
   // Approve migration contract
