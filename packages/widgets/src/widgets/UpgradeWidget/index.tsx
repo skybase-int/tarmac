@@ -187,7 +187,13 @@ export function UpgradeWidgetWrapped({
     setWidgetState
   } = useContext(WidgetContext);
 
-  useNotifyWidgetState({ widgetState, txStatus, targetToken: targetToken?.symbol, onWidgetStateChange });
+  useNotifyWidgetState({
+    widgetState,
+    txStatus,
+    originToken: originToken?.symbol,
+    targetToken: targetToken?.symbol,
+    onWidgetStateChange
+  });
 
   // Balance of the tokens to be upgraded/reverted
   const { data: originBalance, refetch: mutateOriginBalance } = useTokenBalance({
