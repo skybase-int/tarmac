@@ -299,7 +299,7 @@ function SealModuleWidgetWrapped({
       console.log(error);
     },
     // Enabled once we have created the new staking urn
-    enabled: !!newStakeUrn?.urnIndex
+    enabled: newStakeUrn?.urnIndex !== undefined
   });
 
   const migrate = useMigrateUrn({
