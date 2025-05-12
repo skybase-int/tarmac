@@ -11,9 +11,11 @@ import {
   useUrnSelectedVoteDelegate,
   useVault,
   ZERO_ADDRESS,
-  useCurrentUrnIndex as useStakeCurrentUrnIndex
+  useCurrentUrnIndex as useStakeCurrentUrnIndex,
+  useStakeUrnSelectedVoteDelegate,
+  useStakeUrnSelectedRewardContract
 } from '@jetstreamgg/hooks';
-import { formatBigInt, math } from '@jetstreamgg/utils';
+import { formatAddress, formatBigInt, math } from '@jetstreamgg/utils';
 import { Checkbox } from '@widgets/components/ui/checkbox';
 import { Card, CardContent } from '@widgets/components/ui/card';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
@@ -42,7 +44,9 @@ export const MigrateAbout = () => {
     acceptedMkrUpgrade,
     setAcceptedMkrUpgrade,
     activeUrn,
-    newStakeUrn
+    newStakeUrn,
+    setSelectedDelegate,
+    setSelectedRewardContract
   } = useContext(SealModuleWidgetContext);
   const [selectedUrnIndex, setSelectedUrnIndex] = useState<bigint | undefined>(undefined);
   const { data: currentStakeUrnIndex } = useStakeCurrentUrnIndex();
@@ -53,11 +57,25 @@ export const MigrateAbout = () => {
   const { data: existingRewardContract } = useUrnSelectedRewardContract({
     urn: activeUrn?.urnAddress || ZERO_ADDRESS
   });
+
+  const { data: existingStakeRewardContract } = useStakeUrnSelectedRewardContract({
+    urn: stakeUrnAddress || ZERO_ADDRESS
+  });
+
   const { data: existingRewardContractTokens, isLoading: isRewardContractTokensLoading } =
     useRewardContractTokens(existingRewardContract);
+
+  const { data: existingStakeRewardContractTokens } = useRewardContractTokens(existingStakeRewardContract);
+
   const { data: existingSelectedVoteDelegate } = useUrnSelectedVoteDelegate({
     urn: activeUrn?.urnAddress || ZERO_ADDRESS
   });
+
+  // Get the delegate from the selected stake urn to show in the UI
+  const { data: existingStakeSelectedVoteDelegate } = useStakeUrnSelectedVoteDelegate({
+    urn: stakeUrnAddress || ZERO_ADDRESS
+  });
+
   const { data: existingDelegateOwner } = useDelegateOwner(existingSelectedVoteDelegate);
 
   const isStakeUrnCreated =
@@ -76,6 +94,14 @@ export const MigrateAbout = () => {
       setNewStakeUrn({ urnAddress: stakeUrnAddress, urnIndex: stakeUrnIndex }, () => {});
     }
   }, [stakeUrnIndex, selectedUrnIndex, stakeUrnAddress]);
+
+  useEffect(() => {
+    setSelectedRewardContract(existingStakeRewardContract);
+  }, [existingStakeRewardContract]);
+
+  useEffect(() => {
+    setSelectedDelegate(existingStakeSelectedVoteDelegate);
+  }, [existingStakeSelectedVoteDelegate]);
 
   const sealedPositionItems = useMemo(() => {
     return [
@@ -105,9 +131,7 @@ export const MigrateAbout = () => {
       {
         label: t`Delegate`,
         updated: false,
-        value: existingDelegateOwner
-          ? existingDelegateOwner?.slice(0, 5) + '...' + existingDelegateOwner?.slice(-3)
-          : t`No delegate`,
+        value: existingDelegateOwner ? formatAddress(existingDelegateOwner, 5, 3) : t`No delegate`,
         icon: <JazziconComponent address={existingDelegateOwner} diameter={20} />
       }
     ];
@@ -142,17 +166,27 @@ export const MigrateAbout = () => {
       {
         label: t`Stake reward`,
         updated: false,
-        value: t`Cannot be migrated`,
+        value: existingStakeRewardContractTokens?.rewardsToken
+          ? existingStakeRewardContractTokens?.rewardsToken.symbol
+          : t`Cannot be migrated`,
         icon: <TokenIcon noChain token={TOKENS.usds} className="h-5 w-5" />
       },
       {
         label: t`Delegate`,
         updated: false,
-        value: t`Cannot be migrated`,
+        value:
+          existingStakeSelectedVoteDelegate && existingStakeSelectedVoteDelegate !== ZERO_ADDRESS
+            ? formatAddress(existingStakeSelectedVoteDelegate, 5, 3)
+            : t`Cannot be migrated`,
         icon: <JazziconComponent address={ZERO_ADDRESS} diameter={20} />
       }
     ];
-  }, [vaultData?.debtValue, vaultData?.collateralAmount]);
+  }, [
+    vaultData?.debtValue,
+    vaultData?.collateralAmount,
+    existingStakeSelectedVoteDelegate,
+    existingStakeRewardContractTokens
+  ]);
 
   return (
     <div className="mb-4">

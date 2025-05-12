@@ -219,11 +219,11 @@ function SealModuleWidgetWrapped({
     wipeAll && usdsToWipe ? (usdsToWipe * WIPE_BUFFER_MULTIPLIER) / WIPE_BUFFER_DIVISOR : usdsToWipe
   );
 
-  const { data: isOldUrnAuth } = useIsSealUrnAuth({
+  const { data: isOldUrnAuth, mutate: refetchOldUrnAuth } = useIsSealUrnAuth({
     urnIndex: activeUrn?.urnIndex || 0n
   });
 
-  const { data: isNewUrnAuth } = useIsStakeUrnAuth({
+  const { data: isNewUrnAuth, mutate: refetchNewUrnAuth } = useIsStakeUrnAuth({
     urnIndex: newStakeUrn?.urnIndex || 0n
   });
 
@@ -284,6 +284,7 @@ function SealModuleWidgetWrapped({
         status: TxStatus.SUCCESS
       });
       setTxStatus(TxStatus.SUCCESS);
+      refetchOldUrnAuth();
       migrate.retryPrepare();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
@@ -321,6 +322,7 @@ function SealModuleWidgetWrapped({
         status: TxStatus.SUCCESS
       });
       setTxStatus(TxStatus.SUCCESS);
+      refetchOldUrnAuth();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
     onError: (error, hash) => {
@@ -508,6 +510,7 @@ function SealModuleWidgetWrapped({
         status: TxStatus.ERROR
       });
       setTxStatus(TxStatus.SUCCESS);
+      refetchNewUrnAuth();
       hope.retryPrepare();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
@@ -1214,9 +1217,15 @@ function SealModuleWidgetWrapped({
 
   const onClickAction = !isConnectedAndEnabled
     ? onConnect
-    : !needsNewUrnAuth && needsOldUrnAuth && [SealStep.ABOUT, SealStep.HOPE_OLD].includes(currentStep)
+    : !needsNewUrnAuth &&
+        needsOldUrnAuth &&
+        (currentStep === SealStep.ABOUT ||
+          (currentStep === SealStep.HOPE_OLD && txStatus !== TxStatus.SUCCESS))
       ? hopeOnClick
-      : !needsNewUrnAuth && !needsOldUrnAuth && [SealStep.ABOUT, SealStep.MIGRATE].includes(currentStep)
+      : !needsNewUrnAuth &&
+          !needsOldUrnAuth &&
+          (currentStep === SealStep.ABOUT ||
+            (currentStep === SealStep.MIGRATE && txStatus !== TxStatus.SUCCESS))
         ? migrateOnClick
         : (currentStep === SealStep.SUMMARY &&
               // Just finished a successful approval, no longer need allowance

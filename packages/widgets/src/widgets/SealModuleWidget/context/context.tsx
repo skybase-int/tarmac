@@ -15,7 +15,9 @@ import {
   useUrnSelectedRewardContract,
   useUrnSelectedVoteDelegate,
   ZERO_ADDRESS,
-  lsMigratorAddress
+  lsMigratorAddress,
+  useStakeUrnSelectedRewardContract,
+  useStakeUrnSelectedVoteDelegate
 } from '@jetstreamgg/hooks';
 import {
   Dispatch,
@@ -239,11 +241,20 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
     // onSealUrnChange?.(urn);
   };
 
+  // Seal
   const { data: urnSelectedRewardContract } = useUrnSelectedRewardContract({
     urn: activeUrn?.urnAddress || ZERO_ADDRESS
   });
   const { data: urnSelectedVoteDelegate } = useUrnSelectedVoteDelegate({
     urn: activeUrn?.urnAddress || ZERO_ADDRESS
+  });
+
+  // Stake
+  const { data: urnStakeSelectedRewardContract } = useStakeUrnSelectedRewardContract({
+    urn: newStakeUrn?.urnAddress || ZERO_ADDRESS
+  });
+  const { data: urnStakeSelectedVoteDelegate } = useStakeUrnSelectedVoteDelegate({
+    urn: newStakeUrn?.urnAddress || ZERO_ADDRESS
   });
 
   const generateAllCalldata = useCallback(
@@ -315,7 +326,7 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
         needsRewardUpdate(
           activeUrn?.urnAddress,
           selectedRewardContract,
-          widgetState.flow === SealFlow.MIGRATE ? undefined : urnSelectedRewardContract
+          widgetState.flow === SealFlow.MIGRATE ? urnStakeSelectedRewardContract : urnSelectedRewardContract
         ) && newStakeUrnIndex !== undefined
           ? getSaSelectRewardContractCalldata({
               ownerAddress,
@@ -330,7 +341,7 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
         needsDelegateUpdate(
           activeUrn?.urnAddress,
           selectedDelegate,
-          widgetState.flow === SealFlow.MIGRATE ? undefined : urnSelectedVoteDelegate
+          widgetState.flow === SealFlow.MIGRATE ? urnStakeSelectedVoteDelegate : urnSelectedVoteDelegate
         ) && // TODO: should be or?
         newStakeUrnIndex !== undefined
           ? getSaSelectDelegateCalldata({
