@@ -46,7 +46,8 @@ import {
   useSaHope,
   useMigrateUrn,
   useIsSealUrnAuth,
-  useIsStakeUrnAuth
+  useIsStakeUrnAuth,
+  useMigrationUrnIndexValid
   // useNextMigrationUrnIndex
   // useRewardsChartInfo
 } from '@jetstreamgg/hooks';
@@ -183,8 +184,11 @@ function SealModuleWidgetWrapped({
     setSelectedToken,
     selectedToken,
     displayToken,
-    newStakeUrn
+    newStakeUrn,
+    setNewStakeUrn
   } = useContext(SealModuleWidgetContext);
+
+  const { isCandidateUrnValid } = useMigrationUrnIndexValid(newStakeUrn?.urnIndex);
 
   // Returns the urn index to use for opening a new urn
   const { data: currentUrnIndex } = useSealCurrentIndex();
@@ -215,11 +219,11 @@ function SealModuleWidgetWrapped({
     wipeAll && usdsToWipe ? (usdsToWipe * WIPE_BUFFER_MULTIPLIER) / WIPE_BUFFER_DIVISOR : usdsToWipe
   );
 
-  const { data: isOldUrnAuth } = useIsSealUrnAuth({
+  const { data: isOldUrnAuth, mutate: refetchOldUrnAuth } = useIsSealUrnAuth({
     urnIndex: activeUrn?.urnIndex || 0n
   });
 
-  const { data: isNewUrnAuth } = useIsStakeUrnAuth({
+  const { data: isNewUrnAuth, mutate: refetchNewUrnAuth } = useIsStakeUrnAuth({
     urnIndex: newStakeUrn?.urnIndex || 0n
   });
 
@@ -280,6 +284,7 @@ function SealModuleWidgetWrapped({
         status: TxStatus.SUCCESS
       });
       setTxStatus(TxStatus.SUCCESS);
+      refetchOldUrnAuth();
       migrate.retryPrepare();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
@@ -294,7 +299,7 @@ function SealModuleWidgetWrapped({
       console.log(error);
     },
     // Enabled once we have created the new staking urn
-    enabled: !!newStakeUrn?.urnIndex
+    enabled: newStakeUrn?.urnIndex !== undefined
   });
 
   const migrate = useMigrateUrn({
@@ -317,6 +322,7 @@ function SealModuleWidgetWrapped({
         status: TxStatus.SUCCESS
       });
       setTxStatus(TxStatus.SUCCESS);
+      refetchOldUrnAuth();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
     onError: (error, hash) => {
@@ -504,6 +510,7 @@ function SealModuleWidgetWrapped({
         status: TxStatus.ERROR
       });
       setTxStatus(TxStatus.SUCCESS);
+      refetchNewUrnAuth();
       hope.retryPrepare();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
@@ -669,10 +676,14 @@ function SealModuleWidgetWrapped({
       } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.ABOUT) {
         setButtonText(
           newStakeUrn === undefined
-            ? t`Checking your position status...`
-            : newStakeUrn?.urnAddress === ZERO_ADDRESS || newStakeUrn?.urnAddress === undefined
-              ? t`Continue to open Staking position and migrate`
-              : t`Continue to migrate`
+            ? 'Select a Staking position'
+            : newStakeUrn?.urnIndex === undefined
+              ? t`Checking your position status...`
+              : !isCandidateUrnValid
+                ? t`This position is not valid for migration`
+                : newStakeUrn?.urnAddress === ZERO_ADDRESS || newStakeUrn?.urnAddress === undefined
+                  ? t`Continue to open Staking position and migrate`
+                  : t`Continue to migrate`
         );
       } else {
         // let's set it to Next for now
@@ -689,7 +700,8 @@ function SealModuleWidgetWrapped({
     currentStep,
     needsLockAllowance,
     needsUsdsAllowance,
-    newStakeUrn
+    newStakeUrn,
+    isCandidateUrnValid
   ]);
 
   // Set isLoading to be consumed by WidgetButton
@@ -743,6 +755,8 @@ function SealModuleWidgetWrapped({
         (widgetState.flow === SealFlow.MIGRATE &&
           currentStep === SealStep.ABOUT &&
           newStakeUrn?.urnIndex === undefined) ||
+        // Disable next button if stake urn is not valid
+        (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.ABOUT && !isCandidateUrnValid) ||
         // Disable next button if `hope` is not prepared
         (widgetState.flow === SealFlow.MIGRATE &&
           currentStep === SealStep.SUMMARY &&
@@ -760,6 +774,13 @@ function SealModuleWidgetWrapped({
           !needsNewUrnAuth &&
           !needsOldUrnAuth &&
           !migrate.prepared) ||
+        // Disable next button if `hope` is not prepared where resuming migration after creating staking position
+        (widgetState.flow === SealFlow.MIGRATE &&
+          currentStep === SealStep.ABOUT &&
+          txStatus === TxStatus.IDLE &&
+          !needsNewUrnAuth &&
+          needsOldUrnAuth &&
+          !hope.prepared) ||
         (currentStep === SealStep.OPEN_BORROW && (!isLockCompleted || !isBorrowCompleted)) ||
         (currentStep === SealStep.REWARDS && !isSelectRewardContractCompleted) ||
         (currentStep === SealStep.DELEGATE && !isSelectDelegateCompleted) ||
@@ -789,7 +810,8 @@ function SealModuleWidgetWrapped({
     hope.prepared,
     migrate.prepared,
     needsNewUrnAuth,
-    needsOldUrnAuth
+    needsOldUrnAuth,
+    isCandidateUrnValid
   ]);
 
   useEffect(() => {
@@ -866,11 +888,15 @@ function SealModuleWidgetWrapped({
           ...prev,
           action: SealAction.MULTICALL
         }));
-        setCurrentStep(SealStep.ABOUT);
+        if (widgetState.action === SealAction.OVERVIEW) {
+          setCurrentStep(SealStep.ABOUT);
+        }
         // If we already have an urn, but it's not hoped yet
         // TODO: need to update the calldata logic in context to exclude 'open' in this case
       } else if (needsNewUrnAuth) {
-        setCurrentStep(SealStep.ABOUT);
+        if (widgetState.action === SealAction.OVERVIEW) {
+          setCurrentStep(SealStep.ABOUT);
+        }
         // If we already opened & hoped the new urn, jump straight to this step
       } else if (needsOldUrnAuth) {
         // console.log('NEED OLD URN AUTH');
@@ -879,10 +905,11 @@ function SealModuleWidgetWrapped({
           action: SealAction.HOPE
         }));
         // setCurrentStep(SealStep.HOPE_OLD);
-        setCurrentStep(SealStep.ABOUT);
+        if (widgetState.action === SealAction.OVERVIEW) {
+          setCurrentStep(SealStep.ABOUT);
+        }
         // We're ready to migrate
       } else if (currentStep !== SealStep.ABOUT) {
-        // console.log('NEED MIGRATE');
         //TODO: account for state where user has old auth and needs new auth (should be an outlier)
         setWidgetState((prev: WidgetState) => ({
           ...prev,
@@ -1098,6 +1125,11 @@ function SealModuleWidgetWrapped({
         action: prev.action === SealAction.CLAIM ? SealAction.OVERVIEW : prev.action,
         screen: SealScreen.ACTION
       }));
+      if ([SealAction.MIGRATE, SealAction.HOPE].includes(widgetState.action)) {
+        setCurrentStep(SealStep.ABOUT);
+      } else if (widgetState.action === SealAction.MULTICALL) {
+        setCurrentStep(getPreviousStep(currentStep, widgetState.flow));
+      }
     }
     setTxStatus(TxStatus.IDLE);
     // setWidgetState((prev: WidgetState) => ({
@@ -1192,9 +1224,15 @@ function SealModuleWidgetWrapped({
 
   const onClickAction = !isConnectedAndEnabled
     ? onConnect
-    : !needsNewUrnAuth && needsOldUrnAuth && currentStep === SealStep.ABOUT
+    : !needsNewUrnAuth &&
+        needsOldUrnAuth &&
+        (currentStep === SealStep.ABOUT ||
+          (currentStep === SealStep.HOPE_OLD && txStatus !== TxStatus.SUCCESS))
       ? hopeOnClick
-      : !needsNewUrnAuth && !needsOldUrnAuth && currentStep === SealStep.ABOUT
+      : !needsNewUrnAuth &&
+          !needsOldUrnAuth &&
+          (currentStep === SealStep.ABOUT ||
+            (currentStep === SealStep.MIGRATE && txStatus !== TxStatus.SUCCESS))
         ? migrateOnClick
         : (currentStep === SealStep.SUMMARY &&
               // Just finished a successful approval, no longer need allowance
@@ -1283,6 +1321,7 @@ function SealModuleWidgetWrapped({
     setUsdsToWipe(0n);
     setUsdsToBorrow(0n);
     setTabIndex(0);
+    setNewStakeUrn(undefined, () => {});
   };
 
   const widgetStateLoaded = !!widgetState.flow && !!widgetState.action;

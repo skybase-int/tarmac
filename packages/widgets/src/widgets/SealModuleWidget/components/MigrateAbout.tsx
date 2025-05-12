@@ -1,22 +1,32 @@
 import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
-import { useContext, useEffect, useMemo } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { SealModuleWidgetContext } from '../context/context';
 import {
   TOKENS,
   useDelegateOwner,
-  useNextMigrationUrnIndex,
   useRewardContractTokens,
   useStakeUrnAddress,
   useUrnSelectedRewardContract,
   useUrnSelectedVoteDelegate,
   useVault,
-  ZERO_ADDRESS
+  ZERO_ADDRESS,
+  useCurrentUrnIndex as useStakeCurrentUrnIndex,
+  useStakeUrnSelectedVoteDelegate,
+  useStakeUrnSelectedRewardContract
 } from '@jetstreamgg/hooks';
-import { formatBigInt, math } from '@jetstreamgg/utils';
+import { formatAddress, formatBigInt, math } from '@jetstreamgg/utils';
 import { Checkbox } from '@widgets/components/ui/checkbox';
 import { Card, CardContent } from '@widgets/components/ui/card';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@widgets/components/ui/select';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { LineItem } from './LineItem';
@@ -24,6 +34,7 @@ import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
 import { t } from '@lingui/core/macro';
 import { cn } from '@widgets/lib/utils';
 import { JazziconComponent } from '@widgets/widgets/StakeModuleWidget/components/Jazzicon';
+import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 
 export const MigrateAbout = () => {
   const {
@@ -32,23 +43,39 @@ export const MigrateAbout = () => {
     setNewStakeUrn,
     acceptedMkrUpgrade,
     setAcceptedMkrUpgrade,
-    activeUrn
+    activeUrn,
+    newStakeUrn,
+    setSelectedDelegate,
+    setSelectedRewardContract
   } = useContext(SealModuleWidgetContext);
-
-  const { data: stakeUrnIndex } = useNextMigrationUrnIndex();
-  const { data: stakeUrnAddress, isLoading: isStakeUrnAddressLoading } = useStakeUrnAddress(
-    stakeUrnIndex || 0n
-  );
+  const [selectedUrnIndex, setSelectedUrnIndex] = useState<bigint | undefined>(undefined);
+  const { data: currentStakeUrnIndex } = useStakeCurrentUrnIndex();
+  const stakeUrnIndex = selectedUrnIndex !== undefined ? selectedUrnIndex : 0n;
+  const { data: stakeUrnAddress, isLoading: isStakeUrnAddressLoading } = useStakeUrnAddress(stakeUrnIndex);
 
   const { data: vaultData } = useVault(activeUrn?.urnAddress || ZERO_ADDRESS);
   const { data: existingRewardContract } = useUrnSelectedRewardContract({
     urn: activeUrn?.urnAddress || ZERO_ADDRESS
   });
+
+  const { data: existingStakeRewardContract } = useStakeUrnSelectedRewardContract({
+    urn: stakeUrnAddress || ZERO_ADDRESS
+  });
+
   const { data: existingRewardContractTokens, isLoading: isRewardContractTokensLoading } =
     useRewardContractTokens(existingRewardContract);
+
+  const { data: existingStakeRewardContractTokens } = useRewardContractTokens(existingStakeRewardContract);
+
   const { data: existingSelectedVoteDelegate } = useUrnSelectedVoteDelegate({
     urn: activeUrn?.urnAddress || ZERO_ADDRESS
   });
+
+  // Get the delegate from the selected stake urn to show in the UI
+  const { data: existingStakeSelectedVoteDelegate } = useStakeUrnSelectedVoteDelegate({
+    urn: stakeUrnAddress || ZERO_ADDRESS
+  });
+
   const { data: existingDelegateOwner } = useDelegateOwner(existingSelectedVoteDelegate);
 
   const isStakeUrnCreated =
@@ -63,8 +90,18 @@ export const MigrateAbout = () => {
   }, []);
 
   useEffect(() => {
-    setNewStakeUrn({ urnAddress: stakeUrnAddress, urnIndex: stakeUrnIndex }, () => {});
-  }, [stakeUrnIndex]);
+    if (selectedUrnIndex !== undefined) {
+      setNewStakeUrn({ urnAddress: stakeUrnAddress, urnIndex: stakeUrnIndex }, () => {});
+    }
+  }, [stakeUrnIndex, selectedUrnIndex, stakeUrnAddress]);
+
+  useEffect(() => {
+    setSelectedRewardContract(existingStakeRewardContract);
+  }, [existingStakeRewardContract]);
+
+  useEffect(() => {
+    setSelectedDelegate(existingStakeSelectedVoteDelegate);
+  }, [existingStakeSelectedVoteDelegate]);
 
   const sealedPositionItems = useMemo(() => {
     return [
@@ -94,9 +131,7 @@ export const MigrateAbout = () => {
       {
         label: t`Delegate`,
         updated: false,
-        value: existingDelegateOwner
-          ? existingDelegateOwner?.slice(0, 5) + '...' + existingDelegateOwner?.slice(-3)
-          : t`No delegate`,
+        value: existingDelegateOwner ? formatAddress(existingDelegateOwner, 5, 3) : t`No delegate`,
         icon: <JazziconComponent address={existingDelegateOwner} diameter={20} />
       }
     ];
@@ -131,17 +166,27 @@ export const MigrateAbout = () => {
       {
         label: t`Stake reward`,
         updated: false,
-        value: t`Cannot be migrated`,
+        value: existingStakeRewardContractTokens?.rewardsToken
+          ? existingStakeRewardContractTokens?.rewardsToken.symbol
+          : t`Cannot be migrated`,
         icon: <TokenIcon noChain token={TOKENS.usds} className="h-5 w-5" />
       },
       {
         label: t`Delegate`,
         updated: false,
-        value: t`Cannot be migrated`,
+        value:
+          existingStakeSelectedVoteDelegate && existingStakeSelectedVoteDelegate !== ZERO_ADDRESS
+            ? formatAddress(existingStakeSelectedVoteDelegate, 5, 3)
+            : t`Cannot be migrated`,
         icon: <JazziconComponent address={ZERO_ADDRESS} diameter={20} />
       }
     ];
-  }, [vaultData?.debtValue, vaultData?.collateralAmount]);
+  }, [
+    vaultData?.debtValue,
+    vaultData?.collateralAmount,
+    existingStakeSelectedVoteDelegate,
+    existingStakeRewardContractTokens
+  ]);
 
   return (
     <div className="mb-4">
@@ -182,11 +227,15 @@ export const MigrateAbout = () => {
         lineItemsFiltered={stakingPositionItems}
         title={
           isStakeUrnCreated
-            ? t`Staking position ${stakeUrnIndex !== undefined ? `${stakeUrnIndex + 1n}` : ''}`
+            ? t`Staking position ${newStakeUrn === undefined ? '' : stakeUrnIndex !== undefined ? `${stakeUrnIndex + 1n}` : ''}`
             : t`Open new Staking position`
         }
         className={`mt-4 ${isStakeUrnCreated ? '' : 'border-2 border-dashed'}`}
         dataTestId="migrate-to-card"
+        showSelector
+        currentStakeUrnIndex={currentStakeUrnIndex}
+        setSelectedUrnIndex={setSelectedUrnIndex}
+        selectedUrnIndex={selectedUrnIndex}
       />
       <div className="mt-4">
         <div className="flex gap-2">
@@ -220,13 +269,59 @@ const InfoCard = ({
   lineItemsFiltered,
   title,
   className,
-  dataTestId
+  dataTestId,
+  showSelector = false,
+  currentStakeUrnIndex,
+  setSelectedUrnIndex,
+  selectedUrnIndex
 }: {
   lineItemsFiltered: Record<string, any>[];
   title: string;
   className?: string;
   dataTestId?: string;
+  showSelector?: boolean;
+  currentStakeUrnIndex?: bigint;
+  selectedUrnIndex?: bigint;
+  setSelectedUrnIndex?: (index: bigint | undefined) => void;
 }) => {
+  const { newStakeUrn } = useContext(SealModuleWidgetContext);
+
+  interface UrnOption {
+    value: string;
+    label: string;
+  }
+
+  const numericUrnIndices = useMemo(() => {
+    const indices: number[] = [];
+    if (currentStakeUrnIndex !== undefined) {
+      const endIdx = Number(currentStakeUrnIndex); // Convert BigInt to Number for loop limit
+      for (let i = 1; i <= endIdx; i++) {
+        indices.push(i); // Store the number itself
+      }
+    }
+    return indices;
+  }, [currentStakeUrnIndex]);
+
+  const urnOptions = useMemo<UrnOption[]>(() => {
+    const createNewOption: UrnOption = { value: 'create_new', label: 'Create new Stake Position' };
+    const existingUrnOptions: UrnOption[] = numericUrnIndices.map(index => ({
+      value: index.toString(),
+      label: `Position ${index.toString()}`
+    }));
+    return [createNewOption, ...existingUrnOptions];
+  }, [numericUrnIndices]);
+
+  const noStakePositionsOpen = selectedUrnIndex === undefined && currentStakeUrnIndex === 0n;
+
+  useEffect(() => {
+    // Automatically select Open new option if there are no existing positions
+    if (newStakeUrn?.urnIndex !== undefined) {
+      setSelectedUrnIndex?.(newStakeUrn.urnIndex);
+    } else if (noStakePositionsOpen) {
+      setSelectedUrnIndex?.(currentStakeUrnIndex);
+    }
+  }, []);
+
   return (
     <Card className={cn(className)} data-testid={dataTestId}>
       <CardContent>
@@ -235,6 +330,46 @@ const InfoCard = ({
             <Text variant="medium" className="mb-1 font-medium">
               {title}
             </Text>
+            {showSelector && currentStakeUrnIndex !== undefined && (
+              <VStack gap={2} className="my-4">
+                <Text variant="small" className="text-textSecondary">
+                  Select an existing Stake position to migrate to, or create a new one:
+                </Text>
+                <Select
+                  onValueChange={val => {
+                    if (val === 'create_new') {
+                      setSelectedUrnIndex?.(currentStakeUrnIndex);
+                    } else {
+                      setSelectedUrnIndex?.(BigInt(val) - 1n);
+                    }
+                  }}
+                  value={
+                    selectedUrnIndex === currentStakeUrnIndex || noStakePositionsOpen
+                      ? 'create_new'
+                      : selectedUrnIndex !== undefined
+                        ? (selectedUrnIndex + 1n).toString()
+                        : undefined
+                  }
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select an option..." />
+                  </SelectTrigger>
+                  <SelectContent className="bg-container text-text backdrop-blur-[50px]">
+                    <SelectGroup data-testid="select-position-dropdown">
+                      {urnOptions.map(option => (
+                        <SelectItem
+                          key={option.value}
+                          value={option.value}
+                          className="cursor-pointer hover:bg-[#FFFFFF0D]"
+                        >
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </VStack>
+            )}
             {lineItemsFiltered
               .filter(item => !!item.value)
               .map(i => {

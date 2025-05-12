@@ -991,15 +991,12 @@ msgstr ""
 msgid "Execute Migration"
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
-#: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigratePositionSummary.tsx
 msgid "Exit fee"
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Borrow.tsx
 msgid "Exit fee percentage"
@@ -2085,7 +2082,7 @@ msgstr ""
 msgid "Staking MKR in the Stake Rewards module"
 msgstr ""
 
-#. placeholder {0}: stakeUrnIndex !== undefined ? `${stakeUrnIndex + 1n}` : ''
+#. placeholder {0}: newStakeUrn === undefined ? '' : stakeUrnIndex !== undefined ? `${stakeUrnIndex + 1n}` : ''
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
 msgid "Staking position {0}"
 msgstr ""
@@ -2288,6 +2285,10 @@ msgstr ""
 
 #: apps/webapp/src/modules/ui/components/historyTable/HistoryTable.tsx
 msgid "There was an error fetching this data"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+msgid "This position is not valid for migration"
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/components/TradeSummary.tsx
