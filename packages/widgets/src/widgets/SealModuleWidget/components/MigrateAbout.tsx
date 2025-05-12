@@ -355,7 +355,7 @@ const InfoCard = ({
                     <SelectValue placeholder="Select an option..." />
                   </SelectTrigger>
                   <SelectContent className="bg-containerDark text-text">
-                    <SelectGroup>
+                    <SelectGroup data-testid="select-position-dropdown">
                       {urnOptions.map(option => (
                         <SelectItem key={option.value} value={option.value}>
                           {option.label}

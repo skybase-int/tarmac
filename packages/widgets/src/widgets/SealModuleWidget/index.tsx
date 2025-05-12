@@ -299,7 +299,7 @@ function SealModuleWidgetWrapped({
       console.log(error);
     },
     // Enabled once we have created the new staking urn
-    enabled: !!newStakeUrn?.urnIndex
+    enabled: newStakeUrn?.urnIndex !== undefined
   });
 
   const migrate = useMigrateUrn({
@@ -774,6 +774,13 @@ function SealModuleWidgetWrapped({
           !needsNewUrnAuth &&
           !needsOldUrnAuth &&
           !migrate.prepared) ||
+        // Disable next button if `hope` is not prepared where resuming migration after creating staking position
+        (widgetState.flow === SealFlow.MIGRATE &&
+          currentStep === SealStep.ABOUT &&
+          txStatus === TxStatus.IDLE &&
+          !needsNewUrnAuth &&
+          needsOldUrnAuth &&
+          !hope.prepared) ||
         (currentStep === SealStep.OPEN_BORROW && (!isLockCompleted || !isBorrowCompleted)) ||
         (currentStep === SealStep.REWARDS && !isSelectRewardContractCompleted) ||
         (currentStep === SealStep.DELEGATE && !isSelectDelegateCompleted) ||
