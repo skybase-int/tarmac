@@ -44,7 +44,9 @@ export const MigrateAbout = () => {
     acceptedMkrUpgrade,
     setAcceptedMkrUpgrade,
     activeUrn,
-    newStakeUrn
+    newStakeUrn,
+    setSelectedDelegate,
+    setSelectedRewardContract
   } = useContext(SealModuleWidgetContext);
   const [selectedUrnIndex, setSelectedUrnIndex] = useState<bigint | undefined>(undefined);
   const { data: currentStakeUrnIndex } = useStakeCurrentUrnIndex();
@@ -92,6 +94,14 @@ export const MigrateAbout = () => {
       setNewStakeUrn({ urnAddress: stakeUrnAddress, urnIndex: stakeUrnIndex }, () => {});
     }
   }, [stakeUrnIndex, selectedUrnIndex, stakeUrnAddress]);
+
+  useEffect(() => {
+    setSelectedRewardContract(existingStakeRewardContract);
+  }, [existingStakeRewardContract]);
+
+  useEffect(() => {
+    setSelectedDelegate(existingStakeSelectedVoteDelegate);
+  }, [existingStakeSelectedVoteDelegate]);
 
   const sealedPositionItems = useMemo(() => {
     return [
