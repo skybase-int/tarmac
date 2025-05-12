@@ -354,10 +354,14 @@ const InfoCard = ({
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select an option..." />
                   </SelectTrigger>
-                  <SelectContent className="bg-containerDark text-text">
+                  <SelectContent className="bg-container text-text backdrop-blur-[50px]">
                     <SelectGroup data-testid="select-position-dropdown">
                       {urnOptions.map(option => (
-                        <SelectItem key={option.value} value={option.value}>
+                        <SelectItem
+                          key={option.value}
+                          value={option.value}
+                          className="cursor-pointer hover:bg-[#FFFFFF0D]"
+                        >
                           {option.label}
                         </SelectItem>
                       ))}
