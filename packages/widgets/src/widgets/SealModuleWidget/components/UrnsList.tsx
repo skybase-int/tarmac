@@ -15,12 +15,14 @@ import { ExternalLink } from '@widgets/shared/components/ExternalLink';
 
 export const UrnsList = ({
   claimPrepared,
+  mkrSkyUpgradeUrl,
   claimExecute,
   onSealUrnChange,
   onNavigateToMigratedUrn,
   onExternalLinkClicked
 }: {
   claimPrepared: boolean;
+  mkrSkyUpgradeUrl?: string;
   claimExecute: () => void;
   onSealUrnChange?: OnSealUrnChange;
   onNavigateToMigratedUrn?: (index?: bigint) => void;
@@ -43,7 +45,7 @@ export const UrnsList = ({
         <Text variant="small" className="text-error">
           <Trans>The Seal Engine is now deprecated. Migrate your positions to the Staking Engine.</Trans>
           <ExternalLink
-            href="https://upgrademkrtosky.sky.money/"
+            href={mkrSkyUpgradeUrl || ''}
             showIcon={false}
             className="text-error ml-1 underline"
             onExternalLinkClicked={onExternalLinkClicked}
