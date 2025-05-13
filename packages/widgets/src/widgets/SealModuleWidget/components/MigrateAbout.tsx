@@ -212,6 +212,7 @@ export const MigrateAbout = () => {
         lineItemsFiltered={sealedPositionItems}
         className="mt-4"
         dataTestId="migrate-from-card"
+        position="top"
       />
       <Text className="mt-4">
         <Trans>Migrate to:</Trans>
@@ -236,6 +237,7 @@ export const MigrateAbout = () => {
         currentStakeUrnIndex={currentStakeUrnIndex}
         setSelectedUrnIndex={setSelectedUrnIndex}
         selectedUrnIndex={selectedUrnIndex}
+        position="bottom"
       />
       <div className="mt-4">
         <div className="flex gap-2">
@@ -273,7 +275,8 @@ const InfoCard = ({
   showSelector = false,
   currentStakeUrnIndex,
   setSelectedUrnIndex,
-  selectedUrnIndex
+  selectedUrnIndex,
+  position
 }: {
   lineItemsFiltered: Record<string, any>[];
   title: string;
@@ -282,6 +285,7 @@ const InfoCard = ({
   showSelector?: boolean;
   currentStakeUrnIndex?: bigint;
   selectedUrnIndex?: bigint;
+  position: 'top' | 'bottom';
   setSelectedUrnIndex?: (index: bigint | undefined) => void;
 }) => {
   const { newStakeUrn } = useContext(SealModuleWidgetContext);
@@ -370,21 +374,27 @@ const InfoCard = ({
                 </Select>
               </VStack>
             )}
-            {lineItemsFiltered
-              .filter(item => !!item.value)
-              .map(i => {
-                const { label, value, icon, className, tooltipText } = i;
-                return (
-                  <LineItem
-                    key={label}
-                    label={label}
-                    value={value}
-                    tooltipText={tooltipText}
-                    icon={icon}
-                    className={className}
-                  />
-                );
-              })}
+            <div className={position === 'bottom' ? 'flex flex-wrap justify-between' : ''}>
+              {lineItemsFiltered
+                .filter(item => !!item.value)
+                .map((i, index) => {
+                  const { label, value, icon, className, tooltipText } = i;
+                  return (
+                    <LineItem
+                      key={label}
+                      label={label}
+                      value={value}
+                      tooltipText={tooltipText}
+                      icon={icon}
+                      className={className}
+                      labelAlignment={position === 'top' ? 'horizontal' : 'vertical'}
+                      containerClassName={
+                        position === 'bottom' ? (index === 0 ? 'w-full' : 'w-1/2') : undefined
+                      }
+                    />
+                  );
+                })}
+            </div>
           </motion.div>
         </MotionVStack>
       </CardContent>
