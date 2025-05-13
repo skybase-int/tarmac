@@ -15,7 +15,7 @@ import { SealModuleWidgetContext } from '../context/context';
 import { getNextStep } from '../lib/utils';
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { WidgetContext } from '@widgets/context/WidgetContext';
-import { SealFlow } from '@widgets/index';
+import { NoResults, SealFlow } from '@widgets/index';
 import { SaRewardsCard } from '@widgets/widgets/StakeModuleWidget/components/SaRewardsCard';
 
 export const MigrateSelectRewardContract = ({
@@ -76,6 +76,13 @@ export const MigrateSelectRewardContract = ({
           <Card>
             <Skeleton />
           </Card>
+        ) : lseRewardContracts.length === 0 ? (
+          <VStack gap={3} className="items-center pb-3 pt-6">
+            <NoResults />
+            <Text className="text-textSecondary text-center">
+              <Trans>No rewards found</Trans>
+            </Text>
+          </VStack>
         ) : (
           lseRewardContracts?.map(({ contractAddress }) => (
             // Note: we use the staking rewards card because we're opening a stake engine position

@@ -25,16 +25,16 @@ async function fetchStakeHistory(
   index?: number
 ): Promise<StakeHistory | undefined> {
   if (!address) return [];
-  const indexQuery = index ? `, index: "${index}"` : '';
+  const indexQuery = index !== undefined ? `, index: "${index}"` : '';
   // TODO: Update this query when the stake module is deployed and subgraph is updated
   const query = gql`
     {
-      sealOpens(where: {owner: "${address}"${indexQuery}}) {
+      stakingOpens(where: {owner: "${address}"${indexQuery}}) {
         index
         blockTimestamp
         transactionHash
       }
-      sealSelectVoteDelegates(where: { urn_: {owner: "${address}"${indexQuery}}}) {
+      stakingSelectVoteDelegates(where: { urn_: {owner: "${address}"${indexQuery}}}) {
         index
         voteDelegate {
           id
@@ -42,7 +42,7 @@ async function fetchStakeHistory(
         blockTimestamp
         transactionHash
       }
-      sealSelectRewards(where: { urn_: {owner: "${address}"${indexQuery}}}) {
+      stakingSelectRewards(where: { urn_: {owner: "${address}"${indexQuery}}}) {
         index
         reward {
           id
@@ -50,50 +50,38 @@ async function fetchStakeHistory(
         blockTimestamp
         transactionHash
       }
-      sealLocks(where: { urn_: {owner: "${address}"${indexQuery}}}) {
+      stakingLocks(where: { urn_: {owner: "${address}"${indexQuery}}}) {
         index
         wad
         blockTimestamp
         transactionHash
       }
-      sealLockSkies(where: { urn_: {owner: "${address}"${indexQuery}}}) {
+      stakingFrees(where: { urn_: {owner: "${address}"${indexQuery}}}) {
         index
         wad
         blockTimestamp
         transactionHash
       }
-      sealFrees(where: { urn_: {owner: "${address}"${indexQuery}}}) {
-        index
-        freed
-        blockTimestamp
-        transactionHash
-      }
-      sealFreeSkies(where: { urn_: {owner: "${address}"${indexQuery}}}) {
-        index
-        skyFreed
-        blockTimestamp
-        transactionHash
-      }
-      sealDraws(where: { urn_: {owner: "${address}"${indexQuery}}}) {
+      stakingDraws(where: { urn_: {owner: "${address}"${indexQuery}}}) {
         index
         wad
         blockTimestamp
         transactionHash
       }
-      sealWipes(where: { urn_: {owner: "${address}"${indexQuery}}}) {
+      stakingWipes(where: { urn_: {owner: "${address}"${indexQuery}}}) {
         index
         wad
         blockTimestamp
         transactionHash
       }
-      sealGetRewards(where: { urn_: {owner: "${address}"${indexQuery}}}) {
+      stakingGetRewards(where: { urn_: {owner: "${address}"${indexQuery}}}) {
         index
         reward
         amt
         blockTimestamp
         transactionHash
       }
-      sealOnKicks(where: { urn_: {owner: "${address}"${indexQuery}}}) {
+      stakingOnKicks(where: { urn_: {owner: "${address}"${indexQuery}}}) {
         id
         wad
         blockTimestamp
@@ -107,7 +95,7 @@ async function fetchStakeHistory(
 
   const response = (await request(urlSubgraph, query)) as any;
 
-  const opens: BaseStakeHistoryItem[] = response.sealOpens.map((e: BaseStakeHistoryItemResponse) => ({
+  const opens: BaseStakeHistoryItem[] = response.stakingOpens.map((e: BaseStakeHistoryItemResponse) => ({
     urnIndex: +e.index,
     blockTimestamp: new Date(parseInt(e.blockTimestamp) * 1000),
     transactionHash: e.transactionHash,
@@ -116,7 +104,7 @@ async function fetchStakeHistory(
     chainId
   }));
 
-  const selectVoteDelegates: StakeSelectDelegate[] = response.sealSelectVoteDelegates.map(
+  const selectVoteDelegates: StakeSelectDelegate[] = response.stakingSelectVoteDelegates.map(
     (e: StakeSelectDelegateResponse) => ({
       urnIndex: +e.index,
       delegate: e.voteDelegate?.id || '',
@@ -128,7 +116,7 @@ async function fetchStakeHistory(
     })
   );
 
-  const selectRewards: StakeSelectReward[] = response.sealSelectRewards.map(
+  const selectRewards: StakeSelectReward[] = response.stakingSelectRewards.map(
     (e: StakeSelectRewardResponse) => ({
       urnIndex: +e.index,
       rewardContract: e.reward?.id || '',
@@ -140,7 +128,7 @@ async function fetchStakeHistory(
     })
   );
 
-  const stakes: StakeHistoryItemWithAmount[] = response.sealLocks.map(
+  const stakes: StakeHistoryItemWithAmount[] = response.stakingLocks.map(
     (e: BaseStakeHistoryItemResponse & { wad: string }) => ({
       urnIndex: +e.index,
       amount: BigInt(e.wad),
@@ -152,10 +140,10 @@ async function fetchStakeHistory(
     })
   );
 
-  const unstakes: StakeHistoryItemWithAmount[] = response.sealFrees.map(
-    (e: BaseStakeHistoryItemResponse & { freed: string }) => ({
+  const unstakes: StakeHistoryItemWithAmount[] = response.stakingFrees.map(
+    (e: BaseStakeHistoryItemResponse & { wad: string }) => ({
       urnIndex: +e.index,
-      amount: BigInt(e.freed),
+      amount: BigInt(e.wad),
       blockTimestamp: new Date(parseInt(e.blockTimestamp) * 1000),
       transactionHash: e.transactionHash,
       module: ModuleEnum.STAKE,
@@ -164,7 +152,7 @@ async function fetchStakeHistory(
     })
   );
 
-  const borrows: StakeHistoryItemWithAmount[] = response.sealDraws.map(
+  const borrows: StakeHistoryItemWithAmount[] = response.stakingDraws.map(
     (e: BaseStakeHistoryItemResponse & { wad: string }) => ({
       urnIndex: +e.index,
       amount: BigInt(e.wad),
@@ -176,7 +164,7 @@ async function fetchStakeHistory(
     })
   );
 
-  const repays: StakeHistoryItemWithAmount[] = response.sealWipes.map(
+  const repays: StakeHistoryItemWithAmount[] = response.stakingWipes.map(
     (e: BaseStakeHistoryItemResponse & { wad: string }) => ({
       urnIndex: +e.index,
       amount: BigInt(e.wad),
@@ -188,7 +176,7 @@ async function fetchStakeHistory(
     })
   );
 
-  const rewards: StakeClaimReward[] = response.sealGetRewards.map(
+  const rewards: StakeClaimReward[] = response.stakingGetRewards.map(
     (e: BaseStakeHistoryItemResponse & { reward: string; amt: string }) => ({
       urnIndex: +e.index,
       rewardContract: e.reward,
@@ -201,7 +189,7 @@ async function fetchStakeHistory(
     })
   );
 
-  const kicks: StakeHistoryKick[] = response.sealOnKicks.map(
+  const kicks: StakeHistoryKick[] = response.stakingOnKicks.map(
     (e: BaseStakeHistoryItemResponse & { wad: string; urn: { id: string } }) => ({
       amount: BigInt(e.wad),
       urnAddress: e.urn.id,

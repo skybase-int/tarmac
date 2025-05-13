@@ -1217,6 +1217,7 @@ msgstr ""
 msgid "Legal Terms"
 msgstr ""
 
+#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Borrow.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
@@ -1470,6 +1471,10 @@ msgstr ""
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
 #: packages/widgets/src/widgets/BalancesWidget/lib/getHistoryRightText.ts
 msgid "No reward"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateSelectRewardContract.tsx
+msgid "No rewards found"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/historyTable/HistoryTable.tsx
@@ -2593,10 +2598,6 @@ msgstr ""
 msgid "Unstake and pay back"
 msgstr ""
 
-#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
-msgid "Unstake kick"
-msgstr ""
-
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 msgid "Unstaking"
 msgstr ""
@@ -2808,16 +2809,16 @@ msgstr ""
 msgid "We could not migrate your position."
 msgstr ""
 
-#: apps/webapp/src/modules/balances/components/BalancesAssets.tsx
-msgid "We couldn't load your funds. Please try again later."
-msgstr ""
-
 #: apps/webapp/src/modules/seal/components/SealRewardsOverview.tsx
-msgid "We couldn&t load the Seal module rewards. Please try again later."
+msgid "We couldn't load the Seal module rewards. Please try again later."
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeRewardsOverview.tsx
-msgid "We couldn&t load the Stake module rewards. Please try again later."
+msgid "We couldn't load the Stake module rewards. Please try again later."
+msgstr ""
+
+#: apps/webapp/src/modules/balances/components/BalancesAssets.tsx
+msgid "We couldn't load your funds. Please try again later."
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/SelectDelegate.tsx
