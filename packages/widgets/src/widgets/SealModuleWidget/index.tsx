@@ -640,7 +640,7 @@ function SealModuleWidgetWrapped({
         currentStep === SealStep.SUMMARY &&
         widgetState.action === SealAction.MULTICALL
       ) {
-        setButtonText(t`Let's now start the migration process`);
+        setButtonText(t`Begin migration`);
       } else if (currentStep === SealStep.HOPE_OLD && txStatus === TxStatus.SUCCESS) {
         setButtonText(t`Migrate`);
       } else if (txStatus === TxStatus.SUCCESS) {
@@ -666,7 +666,7 @@ function SealModuleWidgetWrapped({
       } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.SUMMARY) {
         setButtonText(t`Submit`);
       } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.HOPE_OLD) {
-        setButtonText(t`Let's now start the migration process`);
+        setButtonText(t`Begin migration`);
       } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.MIGRATE) {
         setButtonText(t`Migrate`);
       } else if (shouldOpenFromWidgetButton) {
