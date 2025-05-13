@@ -1474,6 +1474,10 @@ msgstr ""
 msgid "No reward"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/components/MigrateSelectRewardContract.tsx
+msgid "No rewards found"
+msgstr ""
+
 #: apps/webapp/src/modules/ui/components/historyTable/HistoryTable.tsx
 msgid "No transactions found"
 msgstr ""
