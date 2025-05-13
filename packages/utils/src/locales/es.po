@@ -1217,6 +1217,7 @@ msgstr ""
 msgid "Let's now start the migration process"
 msgstr ""
 
+#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Borrow.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
@@ -2585,10 +2586,6 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/components/UnconnectedState.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/OpenNewUrn.tsx
 msgid "Unstake and pay back"
-msgstr ""
-
-#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
-msgid "Unstake kick"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
