@@ -72,6 +72,7 @@ type SealModuleWidgetProps = WidgetProps & {
   onNavigateToMigratedUrn?: (index?: bigint) => void;
   addRecentTransaction: any;
   termsLink?: { url: string; name: string };
+  mkrSkyUpgradeUrl?: string;
 };
 
 export const SealModuleWidget = ({
@@ -86,7 +87,8 @@ export const SealModuleWidget = ({
   onNavigateToMigratedUrn,
   addRecentTransaction,
   termsLink,
-  referralCode
+  referralCode,
+  mkrSkyUpgradeUrl
 }: SealModuleWidgetProps) => {
   return (
     <ErrorBoundary componentName="SealModuleWidget">
@@ -104,6 +106,7 @@ export const SealModuleWidget = ({
             termsLink={termsLink}
             referralCode={referralCode}
             onNavigateToMigratedUrn={onNavigateToMigratedUrn}
+            mkrSkyUpgradeUrl={mkrSkyUpgradeUrl}
           />
         </SealModuleWidgetProvider>
       </WidgetProvider>
@@ -123,7 +126,8 @@ function SealModuleWidgetWrapped({
   addRecentTransaction,
   termsLink,
   referralCode,
-  onNavigateToMigratedUrn
+  onNavigateToMigratedUrn,
+  mkrSkyUpgradeUrl
 }: SealModuleWidgetProps) {
   const validatedExternalState = getValidatedState(externalWidgetState);
   const initialTabIndex = validatedExternalState?.tab === 'right' ? 1 : 0;
@@ -637,7 +641,7 @@ function SealModuleWidgetWrapped({
         currentStep === SealStep.SUMMARY &&
         widgetState.action === SealAction.MULTICALL
       ) {
-        setButtonText(t`Let's now start the migration process`);
+        setButtonText(t`Begin migration`);
       } else if (currentStep === SealStep.HOPE_OLD && txStatus === TxStatus.SUCCESS) {
         setButtonText(t`Migrate`);
       } else if (txStatus === TxStatus.SUCCESS) {
@@ -663,7 +667,7 @@ function SealModuleWidgetWrapped({
       } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.SUMMARY) {
         setButtonText(t`Submit`);
       } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.HOPE_OLD) {
-        setButtonText(t`Let's now start the migration process`);
+        setButtonText(t`Begin migration`);
       } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.MIGRATE) {
         setButtonText(t`Migrate`);
       } else if (shouldOpenFromWidgetButton) {
@@ -1399,6 +1403,7 @@ function SealModuleWidgetWrapped({
                       onSealUrnChange={onSealUrnChange}
                       termsLink={termsLink}
                       onNavigateToMigratedUrn={onNavigateToMigratedUrn}
+                      mkrSkyUpgradeUrl={mkrSkyUpgradeUrl}
                     />
                   )}
                   {widgetState.flow === SealFlow.OPEN && (
@@ -1482,7 +1487,8 @@ const ManagePosition = ({
   claimExecute,
   onSealUrnChange,
   termsLink,
-  onNavigateToMigratedUrn
+  onNavigateToMigratedUrn,
+  mkrSkyUpgradeUrl
 }: {
   isConnectedAndEnabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
@@ -1491,6 +1497,7 @@ const ManagePosition = ({
   onClickTrigger: any;
   tabSide: 'left' | 'right';
   claimPrepared: boolean;
+  mkrSkyUpgradeUrl?: string;
   claimExecute: () => void;
   onSealUrnChange?: OnSealUrnChange;
   termsLink?: { url: string; name: string };
@@ -1502,6 +1509,8 @@ const ManagePosition = ({
       claimExecute={claimExecute}
       onSealUrnChange={onSealUrnChange}
       onNavigateToMigratedUrn={onNavigateToMigratedUrn}
+      onExternalLinkClicked={onExternalLinkClicked}
+      mkrSkyUpgradeUrl={mkrSkyUpgradeUrl}
     />
   ) : (
     <Wizard
