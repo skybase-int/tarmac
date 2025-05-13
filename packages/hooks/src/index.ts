@@ -119,6 +119,7 @@ export { useWipeAll } from './seal/useWipeAll';
 export { useSaUserDelegates } from './seal/useSaUserDelegates';
 export { useSaRewardContracts } from './seal/useSaRewardContracts';
 export { useSealHistory } from './seal/useSealHistory';
+export { useStakeHistory } from './stake/useStakeHistory';
 export { useSealPosition } from './seal/useSealPosition';
 export { useSealExitFee } from './seal/useSealExitFee';
 export { usePositionsAtRisk } from './seal/usePositionsAtRisk';

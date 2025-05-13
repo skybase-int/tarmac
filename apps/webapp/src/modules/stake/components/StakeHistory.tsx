@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { TransactionTypeEnum, useSealHistory } from '@jetstreamgg/hooks';
+import { TransactionTypeEnum, useStakeHistory } from '@jetstreamgg/hooks';
 import { formatBigInt, useFormatDates } from '@jetstreamgg/utils';
 import { t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
@@ -9,26 +9,24 @@ import { HistoryTable } from '@/modules/ui/components/historyTable/HistoryTable'
 // TODO: This needs to be updated once we have the stake history coming from hooks
 const mapTypeEnumToColumn = (type: TransactionTypeEnum) => {
   switch (type) {
-    case TransactionTypeEnum.OPEN:
+    case TransactionTypeEnum.STAKE_OPEN:
       return t`Open position`;
-    case TransactionTypeEnum.SEAL:
-    case TransactionTypeEnum.SEAL_SKY:
+    case TransactionTypeEnum.STAKE:
       return t`Stake`;
-    case TransactionTypeEnum.UNSEAL:
-    case TransactionTypeEnum.UNSEAL_SKY:
+    case TransactionTypeEnum.UNSTAKE:
       return t`Unstake`;
-    case TransactionTypeEnum.SEAL_REWARD:
+    case TransactionTypeEnum.STAKE_REWARD:
       return t`Claim rewards`;
-    case TransactionTypeEnum.BORROW:
+    case TransactionTypeEnum.STAKE_BORROW:
       return t`Borrow`;
-    case TransactionTypeEnum.REPAY:
+    case TransactionTypeEnum.STAKE_REPAY:
       return t`Repay`;
-    case TransactionTypeEnum.SELECT_DELEGATE:
+    case TransactionTypeEnum.STAKE_SELECT_DELEGATE:
       return t`Select delegate`;
-    case TransactionTypeEnum.SELECT_REWARD:
+    case TransactionTypeEnum.STAKE_SELECT_REWARD:
       return t`Select reward`;
-    case TransactionTypeEnum.UNSEAL_KICK:
-      return t`Unstake kick`;
+    case TransactionTypeEnum.UNSTAKE_KICK:
+      return t`Liquidation`;
     default:
       return '';
   }
@@ -38,32 +36,30 @@ const mapTypeEnumToColumn = (type: TransactionTypeEnum) => {
 // so we would need to fetch the reward token dynamically
 const mapTypeEnumToTokenSymbol = (type: TransactionTypeEnum) => {
   switch (type) {
-    case TransactionTypeEnum.SEAL:
-    case TransactionTypeEnum.UNSEAL:
-      return 'MKR';
-    case TransactionTypeEnum.SEAL_SKY:
-    case TransactionTypeEnum.UNSEAL_SKY:
+    case TransactionTypeEnum.STAKE:
+    case TransactionTypeEnum.UNSTAKE:
       return 'SKY';
-    case TransactionTypeEnum.BORROW:
-    case TransactionTypeEnum.REPAY:
-    case TransactionTypeEnum.SEAL_REWARD:
+    case TransactionTypeEnum.STAKE_BORROW:
+    case TransactionTypeEnum.STAKE_REPAY:
+    case TransactionTypeEnum.STAKE_REWARD:
       return 'USDS';
     default:
       return '';
   }
 };
 
-const highlightedEvents = [TransactionTypeEnum.SEAL, TransactionTypeEnum.SEAL_SKY, TransactionTypeEnum.REPAY];
+const highlightedEvents = [TransactionTypeEnum.STAKE, TransactionTypeEnum.STAKE_REPAY];
 
 export function StakeHistory({ index }: { index?: number }) {
-  const { data: sealHistory, isLoading: sealHistoryLoading, error } = useSealHistory({ index });
+  const { data: stakeHistory, isLoading: stakeHistoryLoading, error } = useStakeHistory({ index });
+  console.log('stakeHistory', stakeHistory);
   const { i18n } = useLingui();
 
-  const memoizedDates = useMemo(() => sealHistory?.map(s => s.blockTimestamp), [sealHistory]);
+  const memoizedDates = useMemo(() => stakeHistory?.map(s => s.blockTimestamp), [stakeHistory]);
   const formattedDates = useFormatDates(memoizedDates, i18n.locale, 'MMM d, yyyy, h:mm a');
 
-  // map seal history to rows
-  const history = sealHistory?.map((s, index) => ({
+  // map stake history to rows
+  const history = stakeHistory?.map((s, index) => ({
     id: `${s.transactionHash}-${s.type}`,
     type: mapTypeEnumToColumn(s.type),
     highlightText: highlightedEvents.includes(s.type),
@@ -88,10 +84,10 @@ export function StakeHistory({ index }: { index?: number }) {
 
   return (
     <HistoryTable
-      dataTestId="seal-history"
+      dataTestId="stake-history"
       history={history}
       error={error}
-      isLoading={sealHistoryLoading}
+      isLoading={stakeHistoryLoading}
       transactionHeader={t`Amount`}
       typeColumn
     />
