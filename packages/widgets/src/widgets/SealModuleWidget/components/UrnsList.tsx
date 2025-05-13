@@ -11,17 +11,20 @@ import { Warning } from '@widgets/shared/components/icons/Warning';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { useAccount } from 'wagmi';
 import { ZERO_ADDRESS } from '@jetstreamgg/hooks';
+import { ExternalLink } from '@widgets/shared/components/ExternalLink';
 
 export const UrnsList = ({
   claimPrepared,
   claimExecute,
   onSealUrnChange,
-  onNavigateToMigratedUrn
+  onNavigateToMigratedUrn,
+  onExternalLinkClicked
 }: {
   claimPrepared: boolean;
   claimExecute: () => void;
   onSealUrnChange?: OnSealUrnChange;
   onNavigateToMigratedUrn?: (index?: bigint) => void;
+  onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 }) => {
   const { address } = useAccount();
   const { displayToken, setDisplayToken } = useContext(SealModuleWidgetContext);
@@ -38,10 +41,15 @@ export const UrnsList = ({
       <HStack className="items-start" gap={2}>
         <Warning boxSize={20} viewBox="0 0 16 16" className="mt-1" />
         <Text variant="small" className="text-error">
-          <Trans>
-            The Seal Engine has been deprecated. You can either migrate your positions to the Staking Engine
-            or manually close them below.
-          </Trans>
+          <Trans>The Seal Engine is now deprecated. Migrate your positions to the Staking Engine.</Trans>
+          <ExternalLink
+            href="https://upgrademkrtosky.sky.money/"
+            showIcon={false}
+            className="text-error ml-1 underline"
+            onExternalLinkClicked={onExternalLinkClicked}
+          >
+            <Trans>Learn more</Trans>
+          </ExternalLink>
         </Text>
       </HStack>
       <Heading tag="h3" variant="small" className="leading-6">

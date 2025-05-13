@@ -1501,6 +1501,7 @@ const ManagePosition = ({
       claimExecute={claimExecute}
       onSealUrnChange={onSealUrnChange}
       onNavigateToMigratedUrn={onNavigateToMigratedUrn}
+      onExternalLinkClicked={onExternalLinkClicked}
     />
   ) : (
     <Wizard
