@@ -51,7 +51,7 @@ import {
   // useNextMigrationUrnIndex
   // useRewardsChartInfo
 } from '@jetstreamgg/hooks';
-import { formatBigInt, getEtherscanLink, useDebounce } from '@jetstreamgg/utils';
+import { formatBigInt, getTransactionLink, useDebounce, useIsSafeWallet } from '@jetstreamgg/utils';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
 import { SealModuleTransactionStatus } from './components/SealModuleTransactionStatus';
 import { Button } from '@widgets/components/ui/button';
@@ -149,6 +149,7 @@ function SealModuleWidgetWrapped({
   const { i18n } = useLingui();
   const chainId = useChainId();
   const { isConnected, isConnecting, address } = useAccount();
+  const isSafeWallet = useIsSafeWallet();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
   const {
     acceptedExitFee,
@@ -273,7 +274,7 @@ function SealModuleWidgetWrapped({
         hash,
         description: t`Approving migrator contract`
       });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -311,7 +312,7 @@ function SealModuleWidgetWrapped({
         hash,
         description: t`Migrating your old position`
       });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -346,7 +347,7 @@ function SealModuleWidgetWrapped({
         hash,
         description: t`Approving ${formatBigInt(debouncedMkrAmount)} MKR`
       });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -382,7 +383,7 @@ function SealModuleWidgetWrapped({
         hash,
         description: t`Approving ${formatBigInt(debouncedSkyAmount)} SKY`
       });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -418,7 +419,7 @@ function SealModuleWidgetWrapped({
         hash,
         description: t`Approving ${formatBigInt(debouncedUsdsAmount)} USDS`
       });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -464,7 +465,7 @@ function SealModuleWidgetWrapped({
       !!allStepsComplete,
     onStart: (hash: string) => {
       addRecentTransaction?.({ hash, description: t`Doing multicall` });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -499,7 +500,7 @@ function SealModuleWidgetWrapped({
     enabled: widgetState.action === SealAction.MULTICALL && !!allStepsComplete,
     onStart: (hash: string) => {
       addRecentTransaction?.({ hash, description: t`Doing multicall` });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -540,7 +541,7 @@ function SealModuleWidgetWrapped({
         hash,
         description: 'Claiming rewards'
       });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
