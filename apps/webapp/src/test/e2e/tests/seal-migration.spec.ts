@@ -67,14 +67,16 @@ test('Migrate Seal position to Staking position', async ({ page }) => {
   await expect(page.getByTestId('position-summary-card').getByText('100 MKR')).toBeVisible();
   await expect(page.getByTestId('position-summary-card').getByText('Debt to migrate')).toBeVisible();
   await expect(page.getByTestId('position-summary-card').getByText('38,000 USDS')).toBeVisible();
-  await expect(page.getByTestId('position-summary-card').getByText('Stake reward')).toBeVisible();
+  await expect(page.getByTestId('position-summary-card').getByText('Staking reward')).toBeVisible();
 
   // Open staking position
   await approveOrPerformAction(page, 'Submit');
-  await expect(page.getByText('Your staking position is now active. Next, start migration.')).toBeVisible();
+  await expect(
+    page.getByText('Your staking position is now active. Next, start the migration process.')
+  ).toBeVisible();
 
   // Approve migration contract
-  await approveOrPerformAction(page, "Let's now start the migration process");
+  await approveOrPerformAction(page, 'Begin migration');
   await expect(page.getByText('In progress')).toBeVisible();
   await expect(page.getByText('Migration contract approved')).toBeVisible();
 
@@ -117,7 +119,9 @@ test('Resume migration flow with a Staking position already created', async ({ p
 
   // Open staking position
   await approveOrPerformAction(page, 'Submit');
-  await expect(page.getByText('Your staking position is now active. Next, start migration.')).toBeVisible();
+  await expect(
+    page.getByText('Your staking position is now active. Next, start the migration process.')
+  ).toBeVisible();
 
   /*
    * Now reload page and attempt to resume the migration flow with the already created staking position
@@ -190,10 +194,12 @@ test('Resume migration flow with a Staking position already created and OldEngin
 
   // Open staking position
   await approveOrPerformAction(page, 'Submit');
-  await expect(page.getByText('Your staking position is now active. Next, start migration.')).toBeVisible();
+  await expect(
+    page.getByText('Your staking position is now active. Next, start the migration process.')
+  ).toBeVisible();
 
   // Approve migration contract
-  await approveOrPerformAction(page, "Let's now start the migration process");
+  await approveOrPerformAction(page, 'Begin migration');
   await expect(page.getByText('In progress')).toBeVisible();
   await expect(page.getByText('Migration contract approved')).toBeVisible();
 
