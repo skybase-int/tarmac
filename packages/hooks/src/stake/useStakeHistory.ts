@@ -25,7 +25,7 @@ async function fetchStakeHistory(
   index?: number
 ): Promise<StakeHistory | undefined> {
   if (!address) return [];
-  const indexQuery = index ? `, index: "${index}"` : '';
+  const indexQuery = index !== undefined ? `, index: "${index}"` : '';
   // TODO: Update this query when the stake module is deployed and subgraph is updated
   const query = gql`
     {
