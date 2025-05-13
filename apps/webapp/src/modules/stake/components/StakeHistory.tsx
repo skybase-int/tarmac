@@ -6,7 +6,6 @@ import { useLingui } from '@lingui/react';
 import { SavingsSupply, ArrowDown } from '@/modules/icons';
 import { HistoryTable } from '@/modules/ui/components/historyTable/HistoryTable';
 
-// TODO: This needs to be updated once we have the stake history coming from hooks
 const mapTypeEnumToColumn = (type: TransactionTypeEnum) => {
   switch (type) {
     case TransactionTypeEnum.STAKE_OPEN:
@@ -52,7 +51,6 @@ const highlightedEvents = [TransactionTypeEnum.STAKE, TransactionTypeEnum.STAKE_
 
 export function StakeHistory({ index }: { index?: number }) {
   const { data: stakeHistory, isLoading: stakeHistoryLoading, error } = useStakeHistory({ index });
-  console.log('stakeHistory', stakeHistory);
   const { i18n } = useLingui();
 
   const memoizedDates = useMemo(() => stakeHistory?.map(s => s.blockTimestamp), [stakeHistory]);
