@@ -2799,16 +2799,16 @@ msgstr ""
 msgid "We could not migrate your position."
 msgstr ""
 
-#: apps/webapp/src/modules/balances/components/BalancesAssets.tsx
-msgid "We couldn't load your funds. Please try again later."
-msgstr ""
-
 #: apps/webapp/src/modules/seal/components/SealRewardsOverview.tsx
-msgid "We couldn&t load the Seal module rewards. Please try again later."
+msgid "We couldn't load the Seal module rewards. Please try again later."
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeRewardsOverview.tsx
-msgid "We couldn&t load the Stake module rewards. Please try again later."
+msgid "We couldn't load the Stake module rewards. Please try again later."
+msgstr ""
+
+#: apps/webapp/src/modules/balances/components/BalancesAssets.tsx
+msgid "We couldn't load your funds. Please try again later."
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/SelectDelegate.tsx
