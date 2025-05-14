@@ -1,7 +1,7 @@
 import { isBaseChainId, isArbitrumChainId } from '@jetstreamgg/utils';
 
 export const getTradeFaqItems = (chainId: number) => [
-  ...mainnetFaqItems,
+  ...[...mainnetFaqItems, ...skyLinkFaqItems],
   ...(isBaseChainId(chainId) ? baseFaqItems : []),
   ...(isArbitrumChainId(chainId) ? arbitrumFaqItems : [])
 ];
@@ -78,13 +78,36 @@ SkyLink is the Sky system that provides the rails for Sky Ecosystem projects to 
   }
 ];
 
+const skyLinkFaqItems = [
+  {
+    question: 'What is SkyLink, and how does it work?',
+    answer:
+      'SkyLink is the Sky system that provides the rails for Sky Ecosystem projects, such as Spark, to bridge assets between the Sky Protocol on Ethereum Mainnet and supported L2 networks. This enables end users on L2s, such as Base and Arbitrum for example, to tap into Sky Protocol features via the Sky Ecosystem projects’ rails.'
+  },
+  {
+    question: 'What are Layer 2 networks, and how do they benefit users?',
+    answer: `Layer 2 (L2) networks are blockchain scalability solutions built on top of existing blockchains (Layer 1 or L1 networks). While L2s exist across several blockchains, they are most commonly used with the Ethereum blockchain, where they are designed to solve two major problems: high transaction (gas) fees and slow transaction speeds, which can hinder scalability.
+
+L2 solutions usually work by processing transactions on their own blockchain, and then bundling those transactions and submitting them back to the underlying L1 as a single transaction for final validation, which drastically increases the throughput. 
+
+Moving assets between L1 and L2 networks requires specialized protocols called bridges. While bridges can be designed to connect any two blockchain networks, L2 networks operate on top of L1s, inheriting their security, while delivering improved efficiency. 
+
+L2s used with Ethereum not only offer users much lower fees and much faster speeds (transactions can be near-instant), they can enable users to transact using the wallets and tools they are already familiar with. There is a tradeoff, however, as users bridging their assets between L1 and L2 networks generally must pay a transaction fee. For users making multiple transactions, the savings may outweigh that cost and you must use your own discretion. Also, L1 networks may provide stronger security guarantees compared to L2s, which often rely on centralized components and actors, which could potentially introduce points of failure.
+`
+  },
+  {
+    question: 'What can I do with my assets once they are bridged to an L2 network?',
+    answer:
+      'On many L2s, you can perform the same types of transactions as on Ethereum Mainnet—i.e., trade tokens, use DeFi applications (dApps), etc.— but with reduced fees and faster transaction speeds. Many popular dApps have L2 versions, though not all are available on every L2. Please note that some features of Sky.money or the Sky Protocol will not be available on L2s.'
+  }
+];
+
 const baseFaqItems = [
   {
     question: 'What is Base?',
-    answer: `Base is a Coinbase-developed Layer 2 (L2) network that provides easy access to some L1 networks, including Ethereum, Solana, and other L2s. 
+    answer: `Base is a Coinbase-developed Layer 2 (L2) network that provides easy access to some L1 networks, including Ethereum, Solana, and other L2s.
 
-SkyLink, the Sky system that provides the rails for Sky Ecosystem projects to bridge assets between the Sky Protocol on Ethereum Mainnet and supported L2 networks, seamlessly connects your Ethereum L1-based Sky Protocol tokens and features to the Base network. If you have shied away from the Ethereum blockchain due to the high price of gas, SkyLink introduces reduced fees and faster transaction speeds. 
-`
+SkyLink, the Sky system that provides the rails for Sky Ecosystem projects to bridge assets between the Sky Protocol on Ethereum Mainnet and supported L2 networks, seamlessly connects your Ethereum L1-based Sky Protocol tokens and features to the Base network. If you have shied away from the Ethereum blockchain due to the high price of gas, SkyLink introduces reduced fees and faster transaction speeds.`
   },
   {
     question: 'Which Sky tokens can I trade on Base?',
