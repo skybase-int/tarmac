@@ -434,7 +434,6 @@ export const MigratePositionSummary = () => {
               {lineItemsFiltered
                 .filter(item => /*!item.updated &&*/ !!item.value)
                 .map(i => {
-                  console.log('ixx', i);
                   const { label, value, icon, className, tooltipText } = i;
                   return (
                     <LineItem

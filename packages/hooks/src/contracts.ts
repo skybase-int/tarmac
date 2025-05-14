@@ -108,9 +108,6 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
     address: {
       [mainnet.id]: '0xba3cb449bd2b4adddbc894d8697f5170800eadec',
       [TENDERLY_CHAIN_ID]: '0xba3cb449bd2b4adddbc894d8697f5170800eadec'
-      // TODO: Update the Tenderly address to the mainnet address
-      // if we use a testnet forked after March 28, 2025
-      // [TENDERLY_CHAIN_ID]: '0x40A50cf069e992AA4536211B23F286eF88752187'
     }
   },
   // new Sky contracts
