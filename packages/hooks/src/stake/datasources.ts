@@ -1,6 +1,5 @@
 import { getEtherscanLink } from '@jetstreamgg/utils';
-// TODO: Update this import to the correct address once the contract is deployed
-import { sealModuleAddress as stakeModuleAddress } from '../generated';
+import { stakeModuleAddress } from '../generated';
 import { TRUST_LEVELS, TrustLevelEnum } from '../constants';
 
 export function stakeDataSource(
