@@ -9,7 +9,7 @@ import { Heading } from '@widgets/shared/components/ui/Typography';
 import { UpgradeTransactionStatus } from './components/UpgradeTransactionStatus';
 import { useAccount, useChainId } from 'wagmi';
 import { useContext, useEffect, useMemo, useState } from 'react';
-import { getEtherscanLink, useDebounce } from '@jetstreamgg/utils';
+import { getTransactionLink, useDebounce, useIsSafeWallet } from '@jetstreamgg/utils';
 import { useTokenAllowance } from '@jetstreamgg/hooks';
 import { useUpgraderManager } from './hooks/useUpgraderManager';
 import { TxStatus, notificationTypeMaping } from '@widgets/shared/constants';
@@ -139,6 +139,7 @@ export function UpgradeWidgetWrapped({
 
   const chainId = useChainId();
   const { address, isConnected, isConnecting } = useAccount();
+  const isSafeWallet = useIsSafeWallet();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
 
   // initialUpgradeToken takes first priority, then tab, then default to 0 for tabIndex
@@ -221,7 +222,7 @@ export function UpgradeWidgetWrapped({
             ? t`Upgrade ${originToken.symbol} into ${targetToken.symbol}`
             : t`Revert ${originToken.symbol} into ${targetToken.symbol}`
       });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -264,7 +265,7 @@ export function UpgradeWidgetWrapped({
     enabled: widgetState.action === UpgradeAction.APPROVE && allowance !== undefined,
     onStart: (hash: string) => {
       addRecentTransaction?.({ hash, description: t`Approving ${originToken.symbol} token` });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },

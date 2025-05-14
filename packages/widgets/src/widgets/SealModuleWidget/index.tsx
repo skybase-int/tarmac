@@ -51,7 +51,7 @@ import {
   // useNextMigrationUrnIndex
   // useRewardsChartInfo
 } from '@jetstreamgg/hooks';
-import { formatBigInt, getEtherscanLink, useDebounce } from '@jetstreamgg/utils';
+import { formatBigInt, getTransactionLink, useDebounce, useIsSafeWallet } from '@jetstreamgg/utils';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
 import { SealModuleTransactionStatus } from './components/SealModuleTransactionStatus';
 import { Button } from '@widgets/components/ui/button';
@@ -72,6 +72,7 @@ type SealModuleWidgetProps = WidgetProps & {
   onNavigateToMigratedUrn?: (index?: bigint) => void;
   addRecentTransaction: any;
   termsLink?: { url: string; name: string };
+  mkrSkyUpgradeUrl?: string;
 };
 
 export const SealModuleWidget = ({
@@ -86,7 +87,8 @@ export const SealModuleWidget = ({
   onNavigateToMigratedUrn,
   addRecentTransaction,
   termsLink,
-  referralCode
+  referralCode,
+  mkrSkyUpgradeUrl
 }: SealModuleWidgetProps) => {
   return (
     <ErrorBoundary componentName="SealModuleWidget">
@@ -104,6 +106,7 @@ export const SealModuleWidget = ({
             termsLink={termsLink}
             referralCode={referralCode}
             onNavigateToMigratedUrn={onNavigateToMigratedUrn}
+            mkrSkyUpgradeUrl={mkrSkyUpgradeUrl}
           />
         </SealModuleWidgetProvider>
       </WidgetProvider>
@@ -123,7 +126,8 @@ function SealModuleWidgetWrapped({
   addRecentTransaction,
   termsLink,
   referralCode,
-  onNavigateToMigratedUrn
+  onNavigateToMigratedUrn,
+  mkrSkyUpgradeUrl
 }: SealModuleWidgetProps) {
   const validatedExternalState = getValidatedState(externalWidgetState);
   const initialTabIndex = validatedExternalState?.tab === 'right' ? 1 : 0;
@@ -149,6 +153,7 @@ function SealModuleWidgetWrapped({
   const { i18n } = useLingui();
   const chainId = useChainId();
   const { isConnected, isConnecting, address } = useAccount();
+  const isSafeWallet = useIsSafeWallet();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
   const {
     acceptedExitFee,
@@ -273,7 +278,7 @@ function SealModuleWidgetWrapped({
         hash,
         description: t`Approving migrator contract`
       });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -311,7 +316,7 @@ function SealModuleWidgetWrapped({
         hash,
         description: t`Migrating your old position`
       });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -346,7 +351,7 @@ function SealModuleWidgetWrapped({
         hash,
         description: t`Approving ${formatBigInt(debouncedMkrAmount)} MKR`
       });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -382,7 +387,7 @@ function SealModuleWidgetWrapped({
         hash,
         description: t`Approving ${formatBigInt(debouncedSkyAmount)} SKY`
       });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -418,7 +423,7 @@ function SealModuleWidgetWrapped({
         hash,
         description: t`Approving ${formatBigInt(debouncedUsdsAmount)} USDS`
       });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -464,7 +469,7 @@ function SealModuleWidgetWrapped({
       !!allStepsComplete,
     onStart: (hash: string) => {
       addRecentTransaction?.({ hash, description: t`Doing multicall` });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -499,7 +504,7 @@ function SealModuleWidgetWrapped({
     enabled: widgetState.action === SealAction.MULTICALL && !!allStepsComplete,
     onStart: (hash: string) => {
       addRecentTransaction?.({ hash, description: t`Doing multicall` });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -540,7 +545,7 @@ function SealModuleWidgetWrapped({
         hash,
         description: 'Claiming rewards'
       });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -636,7 +641,7 @@ function SealModuleWidgetWrapped({
         currentStep === SealStep.SUMMARY &&
         widgetState.action === SealAction.MULTICALL
       ) {
-        setButtonText(t`Let's now start the migration process`);
+        setButtonText(t`Begin migration`);
       } else if (currentStep === SealStep.HOPE_OLD && txStatus === TxStatus.SUCCESS) {
         setButtonText(t`Migrate`);
       } else if (txStatus === TxStatus.SUCCESS) {
@@ -662,7 +667,7 @@ function SealModuleWidgetWrapped({
       } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.SUMMARY) {
         setButtonText(t`Submit`);
       } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.HOPE_OLD) {
-        setButtonText(t`Let's now start the migration process`);
+        setButtonText(t`Begin migration`);
       } else if (widgetState.flow === SealFlow.MIGRATE && currentStep === SealStep.MIGRATE) {
         setButtonText(t`Migrate`);
       } else if (shouldOpenFromWidgetButton) {
@@ -1398,6 +1403,7 @@ function SealModuleWidgetWrapped({
                       onSealUrnChange={onSealUrnChange}
                       termsLink={termsLink}
                       onNavigateToMigratedUrn={onNavigateToMigratedUrn}
+                      mkrSkyUpgradeUrl={mkrSkyUpgradeUrl}
                     />
                   )}
                   {widgetState.flow === SealFlow.OPEN && (
@@ -1481,7 +1487,8 @@ const ManagePosition = ({
   claimExecute,
   onSealUrnChange,
   termsLink,
-  onNavigateToMigratedUrn
+  onNavigateToMigratedUrn,
+  mkrSkyUpgradeUrl
 }: {
   isConnectedAndEnabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
@@ -1490,6 +1497,7 @@ const ManagePosition = ({
   onClickTrigger: any;
   tabSide: 'left' | 'right';
   claimPrepared: boolean;
+  mkrSkyUpgradeUrl?: string;
   claimExecute: () => void;
   onSealUrnChange?: OnSealUrnChange;
   termsLink?: { url: string; name: string };
@@ -1501,6 +1509,8 @@ const ManagePosition = ({
       claimExecute={claimExecute}
       onSealUrnChange={onSealUrnChange}
       onNavigateToMigratedUrn={onNavigateToMigratedUrn}
+      onExternalLinkClicked={onExternalLinkClicked}
+      mkrSkyUpgradeUrl={mkrSkyUpgradeUrl}
     />
   ) : (
     <Wizard

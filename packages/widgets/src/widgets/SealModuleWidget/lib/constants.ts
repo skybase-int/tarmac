@@ -111,8 +111,8 @@ export const hopeTitle: TxCardCopyText = {
 };
 
 export const hopeSubtitle: TxCardCopyText = {
-  [TxStatus.INITIALIZED]: msg`Please allow the migration contract to access your SKY and/or MKR tokens in order to migrate your position`,
-  [TxStatus.LOADING]: msg`Please allow the migration contract to access your SKY and/or MKR tokens in order to migrate your position`,
+  [TxStatus.INITIALIZED]: msg`Please allow the migration contract to access your SKY and/or MKR tokens in order to migrate your position.`,
+  [TxStatus.LOADING]: msg`Please allow the migration contract to access your SKY and/or MKR tokens in order to migrate your position.`,
   [TxStatus.SUCCESS]: msg`Next, execute Migration.`,
   [TxStatus.ERROR]: msg`An error occurred when allowing the migration contract to access your SKY and/or MKR tokens.`
 };
@@ -132,7 +132,7 @@ export const migrateTitle: TxCardCopyText = {
 };
 
 export const migrateSubtitle: TxCardCopyText = {
-  [TxStatus.INITIALIZED]: msg`You will migrate your debt and your sealed MKR/SKY from the Seal Engine and stake directly into the Staking Engine`,
+  [TxStatus.INITIALIZED]: msg`You will migrate your debt and your sealed MKR/SKY from the Seal Engine and stake directly into the Staking Engine.`,
   [TxStatus.LOADING]: msg`Your migration is being processed on the blockchain. Please wait.`,
   [TxStatus.SUCCESS]: msg`You've successfully migrated your MKR (automatically upgraded to SKY) and USDS debt from the Seal Engine to the Staking Engine.`,
   [TxStatus.ERROR]: msg`An error occurred when allowing the migration contract to access your SKY and/or MKR tokens.`
@@ -183,10 +183,10 @@ export function getSealSubtitle({
     case TxStatus.LOADING:
       return flow === SealFlow.OPEN
         ? msg`Your transaction is being processed on the blockchain to create your position. Please wait.`
-        : msg`Your transaction is being processed on the blockchain to update your position in the Staking Engine. Please wait.`;
+        : msg`Your transaction is being processed on the blockchain. Please wait.`;
     case TxStatus.SUCCESS:
       return flow === SealFlow.MIGRATE
-        ? msg`Your staking position is now active. Next, start migration.`
+        ? msg`Your staking position is now active. Next, start the migration process.`
         : flow === SealFlow.OPEN
           ? collateralToLock && borrowAmount
             ? msg`You've borrowed ${borrowAmount} USDS by sealing ${collateralToLock} ${selectedToken ?? ''}. Your new position is open.`

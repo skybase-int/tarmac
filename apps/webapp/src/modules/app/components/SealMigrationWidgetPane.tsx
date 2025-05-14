@@ -194,6 +194,7 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
               onWidgetStateChange={onSealWidgetStateChange}
               termsLink={termsLink[0]}
               onNavigateToMigratedUrn={onNavigateToMigratedUrn}
+              mkrSkyUpgradeUrl="https://upgrademkrtosky.sky.money"
             />
           )}
         </>
