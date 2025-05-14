@@ -145,16 +145,14 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
       Seal,
       withErrorBoundary(
         <>
-          {!shouldHideLink && (
-            <Link to="/" className="text-textSecondary">
-              <HStack className="mb-3 space-x-2">
-                <ArrowLeft className="self-center" />
-                <Heading tag="h3" variant="small" className="text-textSecondary">
-                  <Trans>Exit Seal Engine</Trans>
-                </Heading>
-              </HStack>
-            </Link>
-          )}
+          <Link to="/" className={`text-textSecondary ${shouldHideLink ? 'invisible' : 'visible'}`}>
+            <HStack className="mb-3 space-x-2">
+              <ArrowLeft className="self-center" />
+              <Heading tag="h3" variant="small" className="text-textSecondary">
+                <Trans>Exit Seal Engine</Trans>
+              </Heading>
+            </HStack>
+          </Link>
           {!isConnected ? (
             <div className="text-center">
               <Heading variant="large">

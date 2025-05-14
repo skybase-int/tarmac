@@ -90,7 +90,9 @@ export function WidgetNavigation({
     : `${baseTabContentClasses} p-6 pr-3.5 md:p-3 md:pr-0.5 md:pt-2 xl:p-4 xl:pr-1.5`;
   // If it's mobile, use the widget navigation row height + the height of the webiste header
   // as we're using 100vh for the content style, if not, just use the height of the navigation row
-  const headerHeight = (isMobile ? 63 + 56 : 66) + (contentMarginTop + contentPaddingTop) * 4;
+  // If the tab list is hidden, don't count it's height
+  const headerHeight =
+    (isMobile ? (hideTabs ? 56 : 63 + 56) : 66) + (contentMarginTop + contentPaddingTop) * 4;
   const topOffset = headerHeight;
   const style = isMobile
     ? { height: `calc(100dvh - ${topOffset + (showLinkedAction ? laExtraHeight : 0)}px)` }
@@ -113,9 +115,7 @@ export function WidgetNavigation({
   return (
     <Tabs
       ref={containerRef}
-      className={
-        'w-full md:flex md:min-w-[352px] md:max-w-[440px] md:flex-col md:gap-8 lg:min-w-[416px] lg:max-w-[416px] xl:p-1'
-      }
+      className="w-full md:flex md:min-w-[352px] md:max-w-[440px] md:flex-col lg:min-w-[416px] lg:max-w-[416px] xl:p-1"
       defaultValue={Intent.BALANCES_INTENT}
       onValueChange={handleWidgetChange}
       value={intent}
@@ -125,7 +125,7 @@ export function WidgetNavigation({
       <motion.div layout transition={{ layout: { duration: 0 } }}>
         {/* TODO justify-around only when restricted */}
         <TabsList
-          className="sticky top-0 z-20 flex w-full justify-around rounded-none rounded-t-3xl border-b p-3 backdrop-blur-2xl md:border-none md:p-0 md:backdrop-filter-none"
+          className={`sticky top-0 z-20 flex w-full justify-around rounded-none rounded-t-3xl border-b p-3 backdrop-blur-2xl md:border-none md:p-0 md:backdrop-filter-none ${hideTabs ? 'hidden' : ''}`}
           data-testid="widget-navigation"
         >
           {widgetContent.map(([widgetIntent, label, icon, , comingSoon, options]) => (
@@ -134,7 +134,7 @@ export function WidgetNavigation({
                 variant="icons"
                 value={widgetIntent}
                 className={cn(
-                  `text-textSecondary data-[state=active]:text-text ${hideTabs ? 'hidden' : ''} w-full px-1 md:px-2`,
+                  'text-textSecondary data-[state=active]:text-text w-full px-1 md:px-2',
                   'before:opacity-0',
                   'disabled:cursor-not-allowed disabled:text-[rgba(198,194,255,0.4)] disabled:before:opacity-0 disabled:hover:before:opacity-0',
                   tabGlowClasses,
