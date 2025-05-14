@@ -11,9 +11,9 @@ const mainnetFaqItems = [
     question: 'What is a trade?',
     answer: `A trade is the direct exchange of one cryptocurrency token for another. Trading can occur on decentralized exchanges (DEXs) and centralized exchanges (CEXs).
 
-    Eligible Sky.money web app users can trade tokens via an API integration with the third-party decentralized exchange [CoW Swap](https://swap.cow.fi/#/1/swap/WETH). The exact trade route is determined by CoW Swap and is not influenced by Sky.money or the Sky Protocol.
+Eligible Sky.money web app users can trade tokens via an API integration with the third-party decentralized exchange [CoW Swap](https://swap.cow.fi/#/1/swap/WETH). The exact trade route is determined by CoW Swap and is not influenced by Sky.money or the Sky Protocol.
 
-    Note that price slippage—a change in price between the time of the trade order and its execution on the blockchain—can occur due to market volatility. When you trade via the Sky.money web app, you can set your slippage tolerance level.
+Note that price slippage—a change in price between the time of the trade order and its execution on the blockchain—can occur due to market volatility. When you trade via the Sky.money web app, you can set your slippage tolerance level.
 `
   },
   {
@@ -30,7 +30,7 @@ When you trade USDC, USDT, ETH and USDS for SKY,  you can supply your SKY tokens
     question: 'Is trading using Sky.money free?',
     answer: `Accessing the Sky.money web app is free. Trading, however, may involve a fee imposed by the third-party decentralized exchange (i.e., [CoW Swap](https://swap.cow.fi/#/1/swap/WETH)) integrated with the non-custodial Sky Protocol that is used to make the trade. In addition, you will likely pay a blockchain network transaction fee called a gas fee, which is neither controlled, imposed nor received by Sky.money or the Sky Protocol. This fee is calculated based on current Ethereum network demand and the amount of gas required to process your transaction. 
 
-    If you have shied away from the Ethereum blockchain due to the high price of gas, the Sky Protocol’s SkyLink system enables users to move their Ethereum Mainnet-based Sky assets between supported L2 networks, including Base and Arbitrum, with reduced fees and faster transaction speeds. 
+If you have shied away from the Ethereum blockchain due to the high price of gas, the Sky Protocol’s SkyLink system enables users to move their Ethereum Mainnet-based Sky assets between supported L2 networks, including Base and Arbitrum, with reduced fees and faster transaction speeds. 
 `
   },
   {
@@ -73,7 +73,7 @@ SkyLink is the Sky system that provides the rails for Sky Ecosystem projects to 
     question: 'Which Sky tokens can I trade on Base using the Sky.money web app?',
     answer: `Currently, using the Sky.money web app, you can trade between USDS, sUSDS and USDC on Base. You can also access the Sky Savings Rate on Base.
     
-    SkyLink, the Sky system that provides the rails for Sky Ecosystem projects to bridge assets between the Sky Protocol on Ethereum Mainnet and supported L2 networks, seamlessly connects your Ethereum L1-based Sky Protocol tokens and features to the Base network. If you have shied away from the Ethereum blockchain due to the high price of gas, SkyLink introduces reduced fees and faster transaction speeds.
+SkyLink, the Sky system that provides the rails for Sky Ecosystem projects to bridge assets between the Sky Protocol on Ethereum Mainnet and supported L2 networks, seamlessly connects your Ethereum L1-based Sky Protocol tokens and features to the Base network. If you have shied away from the Ethereum blockchain due to the high price of gas, SkyLink introduces reduced fees and faster transaction speeds.
 `
   }
 ];

@@ -45,7 +45,7 @@ For details on the risks associated with soft-pegged stablecoins, review the [Us
     question: 'What happens to the DAI I’ve supplied to the DAI Savings Rate contract?',
     answer: `The DAI Savings Rate (DSR) contract remains unchanged, so you don’t need to immediately do anything to your DAI in the DSR module. You can, however, withdraw your DSR position, and, if you’re an eligible user of the Sky.money web app, upgrade your DAI to USDS, and then use the USDS to access the Sky Savings Rate.  
 
-    When you supply USDS to the Sky Savings Rate module of the decentralized, non-custodial Sky Protocol, you receive sUSDS savings tokens in return. When you choose to redeem your sUSDS for USDS—which you can do at any time—the total USDS you will receive will equal the amount you originally supplied, plus any rewards accumulated. No minimum supply amount is required to access the Sky Savings Rate, and you always maintain full control of your supplied assets.
+When you supply USDS to the Sky Savings Rate module of the decentralized, non-custodial Sky Protocol, you receive sUSDS savings tokens in return. When you choose to redeem your sUSDS for USDS—which you can do at any time—the total USDS you will receive will equal the amount you originally supplied, plus any rewards accumulated. No minimum supply amount is required to access the Sky Savings Rate, and you always maintain full control of your supplied assets.
 `
   }
 ];
