@@ -67,18 +67,20 @@ USDS is also currently available on networks other than Ethereum Mainnet, includ
 
 You can access SKY in several ways:
 
-- By upgrading your MKR tokens to SKY at a rate of 1:24,000 (1 MKR = 24,000 SKY) via the  Sky.money web app.
+• By upgrading your MKR tokens to SKY at a rate of 1:24,000 (1 MKR = 24,000 SKY) via the  Sky.money web app.
 
-- By directly trading  USDC, USDT, ETH and USDS for it via the Sky.money web app.
+• By directly trading  USDC, USDT, ETH and USDS for it via the Sky.money web app.
 
-- By supplying USDS to the Sky Token Rewards module of the Sky Protocol and accessing SKY as a reward
+• By supplying USDS to the Sky Token Rewards module of the Sky Protocol and accessing SKY as a reward
 
-- On cryptocurrency exchanges that support the SKY token. 
+• On cryptocurrency exchanges that support the SKY token. 
 
 
 SKY holders can use the token to:
-- Participate directly in Sky Ecosystem Governance through a system of onchain voting, and/or to entrust their voting power to one or more governance delegates. 
-- Access Staking Rewards by supplying SKY to the Staking Engine of the Protocol. 
+
+• Participate directly in Sky Ecosystem Governance through a system of onchain voting, and/or to entrust their voting power to one or more governance delegates. 
+
+• Access Staking Rewards by supplying SKY to the Staking Engine of the Protocol. 
 `
   },
   {
