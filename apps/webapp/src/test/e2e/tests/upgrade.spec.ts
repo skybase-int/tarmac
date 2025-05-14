@@ -36,7 +36,7 @@ test('Upgrade DAI and revert USDS', async ({ page }) => {
   await page.getByRole('button', { name: 'Back to Upgrade' }).click();
 });
 
-test('Upgrade MKR and revert SKY', async ({ page }) => {
+test('Upgrade MKR but revert SKY isnt allowed', async ({ page }) => {
   await setTestBalance(mcdDaiAddress[TENDERLY_CHAIN_ID], '10');
   await page.goto('/');
   await connectMockWalletAndAcceptTerms(page);
@@ -52,14 +52,8 @@ test('Upgrade MKR and revert SKY', async ({ page }) => {
   await approveOrPerformAction(page, 'Upgrade');
   await page.getByRole('button', { name: 'Back to Upgrade' }).click();
   await page.getByRole('tab', { name: 'Revert' }).click();
-  await page.getByTestId('undefined-menu-button').click();
-  await page.getByRole('button', { name: 'SKY SKY SKY' }).click();
-  await expect(page.getByRole('button', { name: 'Transaction overview' })).not.toBeVisible();
-  await page.getByTestId('upgrade-input-origin').click();
-  await page.getByTestId('upgrade-input-origin').fill((4 * 24000).toString());
-  await expect(page.getByRole('button', { name: 'Transaction overview' })).not.toBeVisible();
-  await approveOrPerformAction(page, 'Revert');
-  await page.getByRole('button', { name: 'Back to Upgrade' }).click();
+  // Sky can't be reverted
+  await expect(page.getByRole('button', { name: 'SKY SKY SKY' })).not.toBeVisible();
 });
 
 test('Upgrade and revert with insufficient balance', async ({ page }) => {
@@ -349,7 +343,7 @@ test('Details pane shows right data', async ({ page }) => {
   await page.pause();
   const totalDaiUpgradedWidget = await page
     .getByTestId('widget-container')
-    .getByRole('heading', { name: 'Total DAI upgraded', exact: true })
+    .getByRole('heading', { name: 'Total USDS upgraded', exact: true })
     .first()
     .locator('xpath=ancestor::div[1]')
     .getByText(/\d+/)
@@ -363,13 +357,13 @@ test('Details pane shows right data', async ({ page }) => {
   //   .innerText();
   const totalDaiUpgradedDetails = await page
     .getByTestId('upgrade-stats-details')
-    .getByRole('heading', { name: 'Total DAI upgraded', exact: true })
+    .getByRole('heading', { name: 'Total USDS upgraded', exact: true })
     .locator('xpath=ancestor::div[1]')
     .getByText(/\d+/)
     .innerText();
   await page
     .getByTestId('upgrade-stats-details')
-    .getByRole('heading', { name: 'Total MKR upgraded', exact: true })
+    .getByRole('heading', { name: 'Total SKY upgraded', exact: true })
     .locator('xpath=ancestor::div[1]')
     .getByText(/\d+/)
     .innerText();

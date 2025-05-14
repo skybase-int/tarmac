@@ -11,7 +11,7 @@ import { RewardContract } from '@jetstreamgg/hooks';
 import { TxStatus, NotificationType } from '../constants';
 
 export type WidgetState = {
-  flow: InitialFlow | SavingsFlow | UpgradeFlow | RewardsFlow | TradeFlow;
+  flow: InitialFlow | SavingsFlow | UpgradeFlow | RewardsFlow | TradeFlow | StakeFlow;
   action: InitialAction | SavingsAction | UpgradeAction | RewardsAction | TradeAction;
   screen: InitialScreen | SavingsScreen | UpgradeScreen | RewardsScreen | TradeScreen;
 };
@@ -20,8 +20,8 @@ type Amount = {
   amount?: string;
 };
 
-type Tab = {
-  tab?: 'left' | 'right';
+type Flow = {
+  flow?: BalancesFlow | SavingsFlow | UpgradeFlow | RewardsFlow | TradeFlow | StakeFlow;
 };
 
 type BalancesWidgetState = Tab;
@@ -44,8 +44,9 @@ type RewardsWidgetState = Amount &
     selectedRewardContract?: RewardContract;
   };
 
-type SealWidgetState = Amount & {
+type StakeWidgetState = Amount & {
   urnIndex?: number;
+  stakeTab?: StakeAction.LOCK | StakeAction.FREE;
 };
 
 export type ExternalWidgetState = BalancesWidgetState &
@@ -53,7 +54,7 @@ export type ExternalWidgetState = BalancesWidgetState &
   TradeWidgetState &
   SavingsWidgetState &
   RewardsWidgetState &
-  SealWidgetState;
+  StakeWidgetState;
 
 type WidgetMessage = {
   title: string;
@@ -71,6 +72,8 @@ export type WidgetStateChangeParams = {
   executedBuyAmount?: string;
   executedSellAmount?: string;
   displayToken?: Token;
+  originAmount?: string;
+  stakeTab?: StakeAction.LOCK | StakeAction.FREE;
 };
 
 export type WidgetProps = {
@@ -86,4 +89,5 @@ export type WidgetProps = {
   customNavigationLabel?: string;
   enabled?: boolean;
   referralCode?: number;
+  shouldReset?: boolean;
 };
