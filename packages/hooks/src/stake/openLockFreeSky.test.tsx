@@ -1,32 +1,34 @@
 import { describe, expect, it } from 'vitest';
 import { GAS, TEST_WALLET_ADDRESS, WagmiWrapper } from '../../test';
 import { renderHook, waitFor } from '@testing-library/react';
-import { useSaNgtApprove, useSaNstApprove } from './useSaApprove';
+import { useStakeSkyApprove, useStakeUsdsApprove } from './useStakeApprove';
 import { parseEther } from 'viem';
 import { useOpenUrn } from './useOpenUrn';
 import { useVault } from '../vaults/useVault';
-import { lsMkrUsdsRewardAddress, skyAddress, usdsAddress } from '../generated';
+import { lsSkyUsdsRewardAddress, skyAddress, usdsAddress } from '../generated';
 import { TENDERLY_CHAIN_ID } from '../constants';
 import { setErc20Balance } from '../../test/utils';
-import { useLockSky } from './useLockSky';
+import { useLockCollateral } from './useLockCollateral';
 import { useTokenBalance } from '../tokens/useTokenBalance';
-import { useFreeSky } from './useFreeSky';
+import { useFreeCollateral } from './useFreeCollateral';
 import { useDrawUsds } from './useDrawUsds';
 import { useWipe } from './useWipe';
 import { useWipeAll } from './useWipeAll';
 import { getUrnAddress, waitForPreparedExecuteAndMine } from '../../test/helpers';
-import { useSelectRewardContract } from './useSelectRewardContract';
-import { useSelectVoteDelegate } from './useSelectVoteDelegate';
+import { useSelectStakeRewardContract } from './useSelectStakeRewardContract';
+import { useSelectStakeVoteDelegate } from './useSelectStakeVoteDelegate';
 import { useUrnSelectedRewardContract } from './useUrnSelectedRewardContract';
 import { useUrnSelectedVoteDelegate } from './useUrnSelectedVoteDelegate';
 import { useCurrentUrnIndex } from './useCurrentUrnIndex';
 import { useUrnAddress } from './useUrnAddress';
+import { getIlkName } from '../vaults/helpers';
 
+// TODO: Update this test once the staking engine contract is deployed
 describe('Open position, lock SKY, withdraw USDS, repay USDS and free SKY', async () => {
   const wrapper = WagmiWrapper;
   const SKY_AMOUNT = '720000';
-  const SKY_AMOUNT_AFTER_EXIT = '684000';
-  const URN_INDEX = 1n; // Test account already has a URN open
+  const URN_INDEX = 0n;
+  const ILK_NAME = getIlkName(TENDERLY_CHAIN_ID, 2);
 
   await Promise.all([
     setErc20Balance(skyAddress[TENDERLY_CHAIN_ID], SKY_AMOUNT),
@@ -53,7 +55,7 @@ describe('Open position, lock SKY, withdraw USDS, repay USDS and free SKY', asyn
     // Approve token to lock
     const { result: resultApproveNgt } = renderHook(
       () =>
-        useSaNgtApprove({
+        useStakeSkyApprove({
           amount: parseEther(SKY_AMOUNT),
           gas: GAS
         }),
@@ -67,7 +69,7 @@ describe('Open position, lock SKY, withdraw USDS, repay USDS and free SKY', asyn
     // Lock SKY into the Seal Module
     const { result: resultLockNgt } = renderHook(
       () =>
-        useLockSky({
+        useLockCollateral({
           index: URN_INDEX,
           amount: parseEther(SKY_AMOUNT),
           gas: GAS
@@ -82,14 +84,14 @@ describe('Open position, lock SKY, withdraw USDS, repay USDS and free SKY', asyn
     const urnAddress = await getUrnAddress(URN_INDEX, useUrnAddress);
 
     // Check Urn locked MKR as that's the token that gets locked in the SA
-    const { result: resultVaultInfo } = renderHook(() => useVault(urnAddress), {
+    const { result: resultVaultInfo } = renderHook(() => useVault(urnAddress, ILK_NAME), {
       wrapper
     });
 
     await waitFor(
       () => {
-        // Urn should have 30 MKR corresponding to 720000 SKY / 24000 SKY per MKR
-        expect(resultVaultInfo.current.data?.collateralAmount).toBe(parseEther('30'));
+        // Urn should have a balance equal to the SKY_AMOUNT locked
+        expect(resultVaultInfo.current.data?.collateralAmount).toBe(parseEther(SKY_AMOUNT));
         return;
       },
       { timeout: 5000 }
@@ -100,7 +102,7 @@ describe('Open position, lock SKY, withdraw USDS, repay USDS and free SKY', asyn
     const urnAddress = await getUrnAddress(URN_INDEX, useUrnAddress);
 
     // Check max available USDS to withdraw
-    const { result: resultVaultInfo } = renderHook(() => useVault(urnAddress), {
+    const { result: resultVaultInfo } = renderHook(() => useVault(urnAddress, ILK_NAME), {
       wrapper
     });
 
@@ -152,15 +154,15 @@ describe('Open position, lock SKY, withdraw USDS, repay USDS and free SKY', asyn
   });
 
   it('Should delegate and select reward contract', async () => {
-    const TEST_DELEGATE = '0x278c4Cbf1726Af5a62f0bCe40B1ddC2ea784aA45';
-    const TEST_REWARD_CONTRACT = lsMkrUsdsRewardAddress[TENDERLY_CHAIN_ID];
+    const TEST_DELEGATE = '0x87792AB6Ce7e8fdA320FeB71624D009d1717A66d';
+    const TEST_REWARD_CONTRACT = lsSkyUsdsRewardAddress[TENDERLY_CHAIN_ID];
 
     const urnAddress = await getUrnAddress(URN_INDEX, useUrnAddress);
 
     // Select delegate
     const { result: resultSelectDelegate } = renderHook(
       () =>
-        useSelectVoteDelegate({
+        useSelectStakeVoteDelegate({
           index: URN_INDEX,
           voteDelegate: TEST_DELEGATE,
           gas: GAS
@@ -185,7 +187,7 @@ describe('Open position, lock SKY, withdraw USDS, repay USDS and free SKY', asyn
     // Select reward contract
     const { result: resultSelectRewardContract } = renderHook(
       () =>
-        useSelectRewardContract({
+        useSelectStakeRewardContract({
           index: URN_INDEX,
           rewardContract: TEST_REWARD_CONTRACT,
           gas: GAS
@@ -214,7 +216,7 @@ describe('Open position, lock SKY, withdraw USDS, repay USDS and free SKY', asyn
     const urnAddress = await getUrnAddress(URN_INDEX, useUrnAddress);
 
     // Get the amount of USDS that needs to be repaid
-    const { result: resultVaultInfo } = renderHook(() => useVault(urnAddress), {
+    const { result: resultVaultInfo } = renderHook(() => useVault(urnAddress, ILK_NAME), {
       wrapper
     });
 
@@ -246,7 +248,7 @@ describe('Open position, lock SKY, withdraw USDS, repay USDS and free SKY', asyn
     // First approve USDS
     const { result: resultApproveNst } = renderHook(
       () =>
-        useSaNstApprove({
+        useStakeUsdsApprove({
           amount: NST_TO_REPAY * 10n,
           gas: GAS
         }),
@@ -342,7 +344,7 @@ describe('Open position, lock SKY, withdraw USDS, repay USDS and free SKY', asyn
     // Free SKY from the Seal Module
     const { result: resultFreeNgt } = renderHook(
       () =>
-        useFreeSky({
+        useFreeCollateral({
           index: URN_INDEX,
           amount: parseEther(SKY_AMOUNT),
           gas: GAS
@@ -367,10 +369,10 @@ describe('Open position, lock SKY, withdraw USDS, repay USDS and free SKY', asyn
       }
     );
 
-    // User should have 684000 SKY after freeing 720000 due to the exit fee
+    // User should have the full SKY amount due to not having an exit fee
     await waitFor(
       () => {
-        expect(resultNgtBalanceAfter.current.data?.formatted).toEqual(SKY_AMOUNT_AFTER_EXIT);
+        expect(resultNgtBalanceAfter.current.data?.formatted).toEqual(SKY_AMOUNT);
         return;
       },
       { timeout: 5000 }
