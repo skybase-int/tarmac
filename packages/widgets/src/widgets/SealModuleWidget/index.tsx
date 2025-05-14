@@ -1334,6 +1334,7 @@ function SealModuleWidgetWrapped({
   return (
     <WidgetContainer
       ref={containerRef}
+      containerClassName="h-[calc(100%-40px)]"
       contentClassname="mt-2"
       header={
         !widgetStateLoaded ||
