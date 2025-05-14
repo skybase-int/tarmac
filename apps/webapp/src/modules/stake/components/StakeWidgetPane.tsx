@@ -13,6 +13,7 @@ import { useSearchParams } from 'react-router-dom';
 import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
 import { Intent } from '@/lib/enums';
 import { useEffect } from 'react';
+import { useStakeHistory } from '@jetstreamgg/hooks';
 
 export function StakeWidgetPane(sharedProps: SharedProps) {
   const {
@@ -22,9 +23,7 @@ export function StakeWidgetPane(sharedProps: SharedProps) {
     selectedStakeUrnIndex,
     setSelectedStakeUrnIndex
   } = useConfigContext();
-  // TODO: Implement `useStakeHistory` hook
-  const refreshStakeHistory = () => {};
-  // const { mutate: refreshStakeHistory } = useStakeHistory(); // Corrected hook name
+  const { mutate: refreshStakeHistory } = useStakeHistory();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const onStakeUrnChange = (urn?: {

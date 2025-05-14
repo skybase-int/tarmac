@@ -20,6 +20,7 @@ import { updateParamsFromTransaction } from '@/modules/utils/updateParamsFromTra
 import { capitalizeFirstLetter } from '@/lib/helpers/string/capitalizeFirstLetter';
 import { useSubgraphUrl } from '@/modules/app/hooks/useSubgraphUrl';
 import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
+import { useEffect, useState } from 'react';
 
 const targetTokenFromSourceToken = (sourceToken?: string) => {
   if (sourceToken === 'DAI') return 'USDS';
@@ -33,16 +34,44 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
   const { mutate: refreshUpgradeHistory } = useUpgradeHistory({ subgraphUrl });
 
   const wagmiConfig = useWagmiConfig();
-  const [, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [currentToken, setCurrentToken] = useState<string | undefined>();
 
   const { onNavigate, setCustomHref, customNavLabel, setCustomNavLabel } = useCustomNavigation();
+
+  // Get source_token from URL params
+  const sourceToken = searchParams.get(QueryParams.SourceToken)?.toUpperCase();
+
+  // Set initial currentToken from sourceToken
+  useEffect(() => {
+    if (sourceToken && !currentToken) {
+      setCurrentToken(sourceToken);
+    }
+  }, []);
+
+  // Update URL when token changes
+  useEffect(() => {
+    if (currentToken && currentToken !== sourceToken) {
+      setSearchParams(prevParams => {
+        const params = new URLSearchParams(prevParams);
+        params.set(QueryParams.SourceToken, currentToken);
+        return params;
+      });
+    }
+  }, [currentToken, sourceToken, setSearchParams]);
 
   const onUpgradeWidgetStateChange = ({
     hash,
     txStatus,
     widgetState,
+    originToken,
     targetToken
   }: WidgetStateChangeParams) => {
+    // Update currentToken if originToken changes and is different from the sourceToken param
+    if (originToken && originToken !== currentToken && originToken !== sourceToken) {
+      setCurrentToken(originToken);
+    }
+
     if (
       widgetState.action === UpgradeAction.UPGRADE &&
       txStatus === TxStatus.SUCCESS &&
@@ -116,11 +145,12 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
       {...sharedProps}
       externalWidgetState={{
         amount: linkedActionConfig?.inputAmount,
-        initialUpgradeToken:
-          linkedActionConfig.sourceToken &&
-          Object.values(upgradeTokens).includes(linkedActionConfig.sourceToken)
+        initialUpgradeToken: (sourceToken && Object.values(upgradeTokens).includes(sourceToken)
+          ? sourceToken
+          : linkedActionConfig.sourceToken &&
+              Object.values(upgradeTokens).includes(linkedActionConfig.sourceToken)
             ? (linkedActionConfig.sourceToken as keyof typeof upgradeTokens)
-            : undefined
+            : undefined) as keyof typeof upgradeTokens | undefined
       }}
       onWidgetStateChange={onUpgradeWidgetStateChange}
       customNavigationLabel={customNavLabel}

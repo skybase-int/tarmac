@@ -47,9 +47,7 @@ type WidgetPaneProps = {
 export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
   const { i18n } = useLingui();
   const onConnect = useCustomConnectModal();
-  // TODO: not sure which engine this should use, but I had to set it to "Seal" to get the seal positions to show up
   const { data: currentUrnIndex } = useSealCurrentIndex();
-  console.log('currentUrnIndex', currentUrnIndex);
   const addRecentTransaction = useAddRecentTransaction();
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
   const onNotification = useNotification();
