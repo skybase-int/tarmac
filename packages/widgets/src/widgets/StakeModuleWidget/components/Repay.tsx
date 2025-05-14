@@ -293,9 +293,17 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
     unit: getTokenDecimals(usds, chainId)
   })}`;
 
-  const formattedDebtValue = `${formatBigInt(existingVault?.debtValue || 0n, {
+  const formattedRoundedDebtValue = formatBigInt(existingVault?.debtValue || 0n, {
     unit: getTokenDecimals(usds, chainId)
-  })} ${usds.symbol}`;
+  });
+  const parsedRoundedDebtValue = parseFloat(formattedRoundedDebtValue);
+  const regex = /\.[0-9]*[1-9]/;
+  const hasDecimalPart = regex.test(formattedRoundedDebtValue);
+  const nearestWholeNumber = hasDecimalPart
+    ? Math.floor(Math.abs(parsedRoundedDebtValue)) + 1
+    : Math.abs(parsedRoundedDebtValue);
+
+  const formattedDebtValueWithSymbol = `${nearestWholeNumber} ${usds.symbol}`;
 
   const errorMsg = minDebtNotMet
     ? t`Debt must be paid off entirely, or left with a minimum of ${formatBigInt(simulatedVault?.dust || 0n)}`
@@ -320,8 +328,8 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
           (existingVault?.debtValue || 0n) <= 0n
             ? t`You have no debt to repay`
             : dustDelta > 0n
-              ? `Limit 0 <> ${formattedMaxRepay}, or ${formattedDebtValue}`
-              : formattedDebtValue
+              ? `Limit 0 <> ${formattedMaxRepay}, or ${formattedDebtValueWithSymbol}`
+              : formattedDebtValueWithSymbol
         }
         value={debouncedUsdsToWipe}
         onChange={val => {
