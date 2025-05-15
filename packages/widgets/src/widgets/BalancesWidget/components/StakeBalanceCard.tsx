@@ -6,8 +6,9 @@ import { InteractiveStatsCard } from '@widgets/shared/components/ui/card/Interac
 import { Skeleton } from '@widgets/components/ui/skeleton';
 import { formatUnits } from 'viem';
 import { CardProps } from './ModulesBalances';
+import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
 
-export const StakeBalanceCard = ({ loading, stakeBalance, url }: CardProps) => {
+export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkClicked }: CardProps) => {
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
 
   const totalStakedValue =
@@ -30,7 +31,18 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url }: CardProps) => {
           <Text>{`${stakeBalance ? formatBigInt(stakeBalance) : '0'}`}</Text>
         )
       }
-      footer={pricesLoading ? <Skeleton className="h-4 w-20" /> : <></>}
+      footer={
+        <div className="z-[99999] flex w-fit items-center gap-1.5">
+          <Text variant="small" className="leading-4">
+            Rate: 0%
+          </Text>
+          <PopoverRateInfo
+            type="srr"
+            onExternalLinkClicked={onExternalLinkClicked}
+            iconClassName="h-[13px] w-[13px]"
+          />
+        </div>
+      }
       footerRightContent={
         loading || pricesLoading ? (
           <Skeleton className="h-[13px] w-20" />

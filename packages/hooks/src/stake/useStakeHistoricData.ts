@@ -8,29 +8,27 @@ import { getBaLabsApiUrl } from '../helpers/getSubgraphUrl';
 type ApiStakeHistoricData = {
   date: string;
   datetime: string;
-  total_mkr: string; // TODO: Check if this is correct in new endpoint
+  total_sky: string;
   total_collateral: string;
   total_debt: string;
   borrow_rate: string;
   tvl: string;
   number_of_urns: number;
   total_rewards: string;
-  total_exit_fees: string;
-  mkr_price: string;
+  sky_price: string;
 };
 
 type StakeHistoricData = {
   date: string;
   datetime: string;
-  totalMkr: number;
+  totalSky: number;
   totalCollateral: number;
   totalDebt: number;
   borrowRate: number;
   tvl: number;
   numberOfUrns: number;
   totalRewards: number;
-  totalExitFees: number;
-  mkrPrice: number;
+  skyPrice: number;
 };
 
 const fetchStakeHistoricData = async (url: URL): Promise<StakeHistoricData[] | undefined> => {
@@ -45,15 +43,14 @@ const fetchStakeHistoricData = async (url: URL): Promise<StakeHistoricData[] | u
     return data.map(item => ({
       date: item.date,
       datetime: item.datetime,
-      totalMkr: parseFloat(item.total_mkr),
+      totalSky: parseFloat(item.total_sky),
       totalCollateral: parseFloat(item.total_collateral),
       totalDebt: parseFloat(item.total_debt),
       borrowRate: parseFloat(item.borrow_rate),
       tvl: parseFloat(item.tvl),
       numberOfUrns: item.number_of_urns,
       totalRewards: parseFloat(item.total_rewards),
-      totalExitFees: parseFloat(item.total_exit_fees),
-      mkrPrice: parseFloat(item.mkr_price)
+      skyPrice: parseFloat(item.sky_price)
     }));
   } catch (error) {
     console.error('Error fetching Stake historic data:', error);
@@ -64,10 +61,10 @@ const fetchStakeHistoricData = async (url: URL): Promise<StakeHistoricData[] | u
 export function useStakeHistoricData(): ReadHook & { data?: StakeHistoricData[] } {
   const chainId = useChainId();
 
+  // Note: Tenderly not supported for this endpoint
   const baseUrl = getBaLabsApiUrl(chainId) || '';
   let url: URL | undefined;
   if (baseUrl) {
-    // TODO: Update this endpoint if lse changes to sth else
     const endpoint = `${baseUrl}/lsev2/historic/`;
     url = formatBaLabsUrl(new URL(endpoint));
   }

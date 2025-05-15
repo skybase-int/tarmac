@@ -1,9 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
 import { HStack } from '@/modules/layout/components/HStack';
-import { Text } from '@/modules/layout/components/Typography';
+import { Heading, Text } from '@/modules/layout/components/Typography';
 import { VStack } from '@/modules/layout/components/VStack';
 import { LoadingErrorWrapper } from '@/modules/ui/components/LoadingErrorWrapper';
 import { LoadingStatCard } from '@/modules/ui/components/LoadingStatCard';
+import { PopoverRateInfo } from '@/modules/ui/components/PopoverRateInfo';
 import { StatsCard } from '@/modules/ui/components/StatsCard';
 import { TokenIcon } from '@/modules/ui/components/TokenIcon';
 import {
@@ -54,10 +55,10 @@ const StakeRewardsOverviewRow = ({ contractAddress }: { contractAddress: `0x${st
       stakeHistoricData?.sort((a, b) => new Date(b.datetime).getTime() - new Date(a.datetime).getTime())[0],
     [stakeHistoricData]
   );
-  const mkrPrice = mostRecentStakeData?.mkrPrice ? Number(mostRecentStakeData.mkrPrice) : 0;
+  const skyPrice = mostRecentStakeData?.skyPrice ? Number(mostRecentStakeData.skyPrice) : 0;
 
   const totalSupplied = mostRecentReward?.totalSupplied ? parseFloat(mostRecentReward.totalSupplied) : 0;
-  const totalSuppliedInDollars = !isNaN(totalSupplied) && !isNaN(mkrPrice) ? totalSupplied * mkrPrice : 0;
+  const totalSuppliedInDollars = !isNaN(totalSupplied) && !isNaN(skyPrice) ? totalSupplied * skyPrice : 0;
 
   return (
     <HStack gap={2} className="scrollbar-thin w-full overflow-auto">
@@ -76,13 +77,19 @@ const StakeRewardsOverviewRow = ({ contractAddress }: { contractAddress: `0x${st
           )
         }
       />
-      {/* Removing this for now, will put back in once we have a way to get the rate */}
-      {/* <StatsCard
-        title={t`Rate`}
-        isLoading={rateLoading}
-        error={rateError}
-        content={<Text className="mt-2">{rewardRate.formatted}</Text>}
-      /> */}
+      <StatsCard
+        title={
+          <HStack gap={1} className="items-center">
+            <Heading tag="h3" className="text-textSecondary text-sm font-normal leading-tight">
+              <Trans>Rate</Trans>
+            </Heading>
+            <PopoverRateInfo type="srr" />
+          </HStack>
+        }
+        isLoading={false}
+        error={null}
+        content={<Text className="mt-2">0%</Text>}
+      />
       <StatsCard
         title={t`TVL (Total Value Locked)`}
         isLoading={historicRewardsTokenIsLoading || stakeHistoricIsLoading}
