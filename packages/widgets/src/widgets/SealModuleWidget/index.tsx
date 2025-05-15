@@ -140,7 +140,8 @@ function SealModuleWidgetWrapped({
     setIsDisabled,
     setTxStatus,
     setExternalLink,
-    setShowStepIndicator
+    setShowStepIndicator,
+    setBackButtonText
   } = useContext(WidgetContext);
 
   const { i18n } = useLingui();
@@ -270,6 +271,7 @@ function SealModuleWidgetWrapped({
         description: t`You approved the migrator contract to migrate your position.`,
         status: TxStatus.SUCCESS
       });
+      setBackButtonText(t`Back to Seal`);
       setTxStatus(TxStatus.SUCCESS);
       refetchOldUrnAuth();
       migrate.retryPrepare();
@@ -300,6 +302,7 @@ function SealModuleWidgetWrapped({
       setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
+      setBackButtonText(t`Back`);
     },
     onSuccess: hash => {
       onNotification?.({
@@ -1070,7 +1073,13 @@ function SealModuleWidgetWrapped({
         action: prev.action === SealAction.CLAIM ? SealAction.OVERVIEW : prev.action,
         screen: SealScreen.ACTION
       }));
-      if ([SealAction.MIGRATE, SealAction.HOPE].includes(widgetState.action)) {
+      if (
+        txStatus === TxStatus.SUCCESS &&
+        widgetState.flow === SealFlow.MIGRATE &&
+        widgetState.action === SealAction.HOPE
+      ) {
+        handleViewAll();
+      } else if ([SealAction.MIGRATE, SealAction.HOPE].includes(widgetState.action)) {
         setCurrentStep(SealStep.ABOUT);
       } else if (widgetState.action === SealAction.MULTICALL) {
         setCurrentStep(getPreviousStep(currentStep, widgetState.flow));
@@ -1234,6 +1243,14 @@ function SealModuleWidgetWrapped({
       return true;
     }
 
+    if (
+      txStatus === TxStatus.SUCCESS &&
+      widgetState.flow === SealFlow.MIGRATE &&
+      widgetState.action === SealAction.HOPE
+    ) {
+      return true;
+    }
+
     if (txStatus === TxStatus.SUCCESS && widgetState.action !== SealAction.APPROVE) {
       return false;
     }
@@ -1264,6 +1281,7 @@ function SealModuleWidgetWrapped({
     setUsdsToBorrow(0n);
     setTabIndex(0);
     setNewStakeUrn(undefined, () => {});
+    setBackButtonText(t`Back`);
   };
 
   const widgetStateLoaded = !!widgetState.flow && !!widgetState.action;
