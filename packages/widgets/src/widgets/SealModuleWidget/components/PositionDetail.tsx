@@ -14,7 +14,8 @@ import {
   ZERO_ADDRESS,
   useUrnAddress,
   useUrnSelectedRewardContract,
-  useUrnSelectedVoteDelegate
+  useUrnSelectedVoteDelegate,
+  useIsSealUrnAuth
 } from '@jetstreamgg/hooks';
 import { captitalizeFirstLetter, formatBigInt, formatPercent, math } from '@jetstreamgg/utils';
 import { positionAnimations } from '@widgets/shared/animation/presets';
@@ -33,6 +34,7 @@ import { SealAction, SealFlow, SealStep } from '../lib/constants';
 import { WidgetState } from '@widgets/index';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { OnSealUrnChange } from '../lib/types';
+import { Success } from '@widgets/shared/components/icons/Success';
 
 type Props = {
   collateralizationRatio?: bigint;
@@ -81,6 +83,10 @@ export function PositionDetail({
   const { data: selectedDelegateOwner } = useDelegateOwner(selectedVoteDelegate);
   const { data: sealRewardContracts } = useSaRewardContracts();
   const { displayToken, setDisplayToken } = useContext(SealModuleWidgetContext);
+  const { data: isOldUrnAuth } = useIsSealUrnAuth({
+    urnIndex: index || 0n
+  });
+  const needsOldUrnAuth = isOldUrnAuth === undefined || !isOldUrnAuth;
 
   const riskTextColor = getRiskTextColor(riskLevel as RiskLevel);
 
@@ -204,6 +210,7 @@ export function PositionDetail({
         sealedAmount={sealedAmount}
         onSealUrnChange={onSealUrnChange}
         borrowedAmount={borrowedAmount}
+        needsOldUrnAuth={needsOldUrnAuth}
       />
       <>
         {sealRewardContracts &&
@@ -229,7 +236,8 @@ const MigrateButton = ({
   // sealedAmount,
   onNavigateToMigratedUrn,
   onSealUrnChange,
-  borrowedAmount
+  borrowedAmount,
+  needsOldUrnAuth
 }: {
   isMigrated?: boolean;
   index: bigint;
@@ -237,6 +245,7 @@ const MigrateButton = ({
   onSealUrnChange?: OnSealUrnChange;
   sealedAmount?: bigint;
   borrowedAmount?: bigint;
+  needsOldUrnAuth?: boolean;
 }) => {
   const { setWidgetState } = useContext(WidgetContext);
   const { setCurrentStep, setSelectedRewardContract, setSelectedDelegate, setActiveUrn } =
@@ -313,6 +322,12 @@ const MigrateButton = ({
       >
         <Text>Migrate Position</Text>
       </Button>
+      {!needsOldUrnAuth && (
+        <HStack className="items-center justify-between">
+          <Text variant="captionSm">This position has been approved for migration</Text>
+          <Success />
+        </HStack>
+      )}
     </VStack>
   );
 };
