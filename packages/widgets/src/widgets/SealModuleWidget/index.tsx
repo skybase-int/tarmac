@@ -490,6 +490,7 @@ function SealModuleWidgetWrapped({
       setTxStatus(TxStatus.SUCCESS);
       refetchNewUrnAuth();
       hope.retryPrepare();
+      migrate.retryPrepare();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
     onError: (error, hash) => {
@@ -1199,11 +1200,13 @@ function SealModuleWidgetWrapped({
               currentStep === SealStep.SUMMARY &&
               widgetState.flow === SealFlow.MIGRATE)
           ? submitOnClick
-          : // After successful open, we now hope the new urn
+          : // After successful open, we now hope the old urn if required, if not we migrate
             txStatus === TxStatus.SUCCESS &&
               currentStep === SealStep.SUMMARY &&
               widgetState.flow === SealFlow.MIGRATE
-            ? hopeOnClick
+            ? needsOldUrnAuth
+              ? hopeOnClick
+              : migrateOnClick
             : txStatus === TxStatus.SUCCESS &&
                 currentStep === SealStep.HOPE_OLD &&
                 widgetState.flow === SealFlow.MIGRATE
