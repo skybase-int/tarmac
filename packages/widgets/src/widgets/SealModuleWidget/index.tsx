@@ -1235,7 +1235,6 @@ function SealModuleWidgetWrapped({
 
   // TODO make sure to show the secondary button after approval, but before continuing to multicall
   const showSecondaryButton = useMemo(() => {
-    console.log('🚀 ~ showSecondaryButton ~ txStatus:', txStatus);
     if (txStatus === TxStatus.INITIALIZED || txStatus === TxStatus.LOADING) {
       return false;
     }
