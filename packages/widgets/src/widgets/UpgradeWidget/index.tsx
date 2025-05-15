@@ -604,7 +604,7 @@ export function UpgradeWidgetWrapped({
                 originTitle={
                   tabIndex === 0
                     ? t`Choose a token to upgrade, and enter an amount`
-                    : t`Choose a token to revert, and enter an amount`
+                    : t`Enter an amount of USDS to revert`
                 }
                 originAmount={originAmount}
                 targetAmount={math.calculateConversion(originToken, debouncedOriginAmount)}
