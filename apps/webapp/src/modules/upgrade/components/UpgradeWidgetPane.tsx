@@ -117,7 +117,12 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
       widgetState.screen === UpgradeScreen.TRANSACTION
     ) {
       setSearchParams(prevParams => {
+        const sourceTokenParam = prevParams.get(QueryParams.SourceToken);
         const params = deleteSearchParams(prevParams);
+        // Keep the source token param, otherwise the revert flow will break after approving
+        if (sourceTokenParam) {
+          params.set(QueryParams.SourceToken, sourceTokenParam);
+        }
         return params;
       });
       exitLinkedActionMode();
