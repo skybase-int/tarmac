@@ -40,7 +40,7 @@ export const Lock = ({
     <div>
       <TokenInput
         className="w-full"
-        label={t`How much would you like to stake?`}
+        label={t`How much SKY would you like to stake?`}
         placeholder={t`Enter amount`}
         token={TOKENS.sky}
         tokenList={[TOKENS.sky]}

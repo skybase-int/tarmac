@@ -13,16 +13,27 @@ export const LineItem = ({
   value,
   icon,
   className,
-  tooltipText
+  tooltipText,
+  labelAlignment = 'horizontal',
+  containerClassName
 }: {
   label: string;
   value?: string | (string | undefined)[] | string[];
   icon?: JSX.Element | JSX.Element[];
   className?: string | string[];
+  containerClassName?: string;
   tooltipText?: string;
+  labelAlignment?: 'vertical' | 'horizontal';
 }) => {
   return (
-    <motion.div key={label} className="flex justify-between py-2" variants={positionAnimations}>
+    <motion.div
+      key={label}
+      className={cn(
+        `flex ${labelAlignment === 'vertical' ? 'flex-col space-y-2' : 'justify-between'} py-2`,
+        containerClassName
+      )}
+      variants={positionAnimations}
+    >
       <HStack className="items-center" gap={1}>
         <Text className={'text-textSecondary flex items-center text-sm'}>
           {label}

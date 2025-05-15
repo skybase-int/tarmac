@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { HStack } from '@/modules/layout/components/HStack';
 import { Text } from '@/modules/layout/components/Typography';
 import { VStack } from '@/modules/layout/components/VStack';
@@ -8,8 +9,8 @@ import { TokenIcon } from '@/modules/ui/components/TokenIcon';
 import {
   useRewardContractTokens,
   useRewardsChartInfo,
-  useSaRewardContracts,
-  useSealHistoricData
+  useStakeRewardContracts,
+  useSealHistoricData // TODO: This is being updated in a separate PR
 } from '@jetstreamgg/hooks';
 import { formatAddress, formatNumber } from '@jetstreamgg/utils';
 import { t } from '@lingui/core/macro';
@@ -99,7 +100,7 @@ const StakeRewardsOverviewRow = ({ contractAddress }: { contractAddress: `0x${st
 };
 
 export function StakeRewardsOverview() {
-  const { data, isLoading, error } = useSaRewardContracts();
+  const { data, isLoading, error } = useStakeRewardContracts();
 
   return (
     <LoadingErrorWrapper
@@ -114,7 +115,7 @@ export function StakeRewardsOverview() {
       error={error}
       errorComponent={
         <Text variant="large" className="text-text text-center">
-          <Trans>We couldn&amp;t load the Stake module rewards. Please try again later.</Trans>
+          <Trans>We couldn't load the Stake module rewards. Please try again later.</Trans>
         </Text>
       }
     >

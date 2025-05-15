@@ -102,7 +102,7 @@ export type Bark = {
 export type StakePosition = {
   owner: string;
   index: number;
-  mkrLocked: bigint;
+  skyLocked: bigint;
   usdsDebt: bigint;
   selectedDelegate: string | undefined;
   selectedReward: string | undefined;

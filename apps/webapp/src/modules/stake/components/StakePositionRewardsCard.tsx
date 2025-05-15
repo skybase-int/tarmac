@@ -1,5 +1,6 @@
 import { RewardsBalanceCard } from '@/modules/ui/components/BalanceCards';
 import { useRewardContractTokens, useRewardsRewardsBalance } from '@jetstreamgg/hooks';
+import { t } from '@lingui/core/macro';
 import { useAccount, useChainId } from 'wagmi';
 
 export function StakePositionRewardsCard({
@@ -30,6 +31,7 @@ export function StakePositionRewardsCard({
       isLoading={rewardsBalanceLoading || tokensLoading}
       error={rewardsBalanceError || tokensError}
       token={rewardContractTokens.rewardsToken}
+      label={t`Accrued staking rewards`}
     />
   );
 }

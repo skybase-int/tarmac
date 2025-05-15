@@ -129,24 +129,6 @@ const PositionManagerOverviewContainer = ({
               : `${formatBigInt(newCollateralAmount)}  SKY`
         },
         {
-          label: t`Exit fee`,
-          value:
-            hasPositions && typeof exitFee === 'bigint'
-              ? [
-                  `${formatBigInt((existingColAmount - newCollateralAmount) * exitFee, {
-                    unit: WAD_PRECISION * 2
-                  })} SKY`
-                ]
-              : ''
-        },
-        {
-          label: t`Exit fee percentage`,
-          value:
-            hasPositions && typeof exitFee === 'bigint'
-              ? [`${Number(formatUnits(exitFee * 100n, WAD_PRECISION)).toFixed(2)}%`]
-              : ''
-        },
-        {
           label: t`You borrowed`,
           value:
             hasPositions && newBorrowAmount !== existingBorrowAmount

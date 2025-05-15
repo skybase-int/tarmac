@@ -26,7 +26,7 @@ export function useFreeCollateral({
     address: stakeModuleAddress[chainId as keyof typeof stakeModuleAddress],
     abi: stakeModuleAbi,
     functionName: 'free',
-    // TODO should enable passing in a valid "to" which could be a different address
+    // Note: this hook only supports freeing collateral to the same address as the owner
     args: [connectedAddress!, index, connectedAddress!, amount!],
     chainId: chainId,
     gas,

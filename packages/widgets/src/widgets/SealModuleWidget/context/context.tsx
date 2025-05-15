@@ -14,7 +14,10 @@ import {
   TOKENS,
   useUrnSelectedRewardContract,
   useUrnSelectedVoteDelegate,
-  ZERO_ADDRESS
+  ZERO_ADDRESS,
+  lsMigratorAddress,
+  useStakeUrnSelectedRewardContract,
+  useStakeUrnSelectedVoteDelegate
 } from '@jetstreamgg/hooks';
 import {
   Dispatch,
@@ -30,11 +33,6 @@ import { SealFlow, SealStep } from '../lib/constants';
 import { OnSealUrnChange } from '../lib/types';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { needsDelegateUpdate, needsRewardUpdate } from '../lib/utils';
-
-// TODO: need to import this from generated file
-const lsMigratorAddress = {
-  314310: '0xf4c5C29b14f0237131F7510A51684c8191f98E06'
-} as const;
 
 export interface SealModuleWidgetContextProps {
   isLockCompleted: boolean;
@@ -94,6 +92,7 @@ export interface SealModuleWidgetContextProps {
   generateAllCalldata: (
     ownerAddress: `0x${string}`,
     urnIndex: bigint,
+    chainId: number,
     referralCode?: number,
     newStakeUrnIndex?: bigint,
     newStakeUrnIndexAddress?: `0x${string}`
@@ -242,6 +241,7 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
     // onSealUrnChange?.(urn);
   };
 
+  // Seal
   const { data: urnSelectedRewardContract } = useUrnSelectedRewardContract({
     urn: activeUrn?.urnAddress || ZERO_ADDRESS
   });
@@ -249,15 +249,23 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
     urn: activeUrn?.urnAddress || ZERO_ADDRESS
   });
 
+  // Stake
+  const { data: urnStakeSelectedRewardContract } = useStakeUrnSelectedRewardContract({
+    urn: newStakeUrn?.urnAddress || ZERO_ADDRESS
+  });
+  const { data: urnStakeSelectedVoteDelegate } = useStakeUrnSelectedVoteDelegate({
+    urn: newStakeUrn?.urnAddress || ZERO_ADDRESS
+  });
+
   const generateAllCalldata = useCallback(
     (
       ownerAddress: `0x${string}`,
       urnIndex: bigint,
+      chainId: number,
       referralCode: number = 0,
       newStakeUrnIndex?: bigint,
       newStakeUrnIndexAddress?: `0x${string}`
     ) => {
-      console.log('*** urnIndex, newStakeUrnIndex, ownerAddress', urnIndex, newStakeUrnIndex, ownerAddress);
       // --- CALLDATA GENERATION ---
       // If we have an activeUrn address, we're not opening a new one, we're managing an existing one
       const openCalldata = !activeUrn?.urnAddress ? getSaOpenCalldata({ urnIndex }) : undefined;
@@ -314,8 +322,11 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
 
       // Select reward
       const selectRewardContractCalldata =
-        needsRewardUpdate(activeUrn?.urnAddress, selectedRewardContract, urnSelectedRewardContract) &&
-        newStakeUrnIndex !== undefined
+        needsRewardUpdate(
+          activeUrn?.urnAddress,
+          selectedRewardContract,
+          widgetState.flow === SealFlow.MIGRATE ? urnStakeSelectedRewardContract : urnSelectedRewardContract
+        ) && newStakeUrnIndex !== undefined
           ? getSaSelectRewardContractCalldata({
               ownerAddress,
               urnIndex: widgetState.flow === SealFlow.MIGRATE ? newStakeUrnIndex : urnIndex,
@@ -326,7 +337,11 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
 
       // Select delegate
       const selectDelegateCalldata =
-        needsDelegateUpdate(activeUrn?.urnAddress, selectedDelegate, urnSelectedVoteDelegate) && // TODO: should be or?
+        needsDelegateUpdate(
+          activeUrn?.urnAddress,
+          selectedDelegate,
+          widgetState.flow === SealFlow.MIGRATE ? urnStakeSelectedVoteDelegate : urnSelectedVoteDelegate
+        ) && // TODO: should be or?
         newStakeUrnIndex !== undefined
           ? getSaSelectDelegateCalldata({
               ownerAddress,
@@ -341,8 +356,7 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
           ? getSaHopeCalldata({
               ownerAddress,
               urnIndex: newStakeUrnIndex,
-              // TODO: make the address dynamic
-              usrAddress: lsMigratorAddress[314310]
+              usrAddress: lsMigratorAddress[chainId as keyof typeof lsMigratorAddress]
             })
           : undefined;
 
@@ -377,8 +391,6 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
 
       // Filter out undefined calldata
       const filteredCalldata = sortedCalldata.filter(calldata => !!calldata) as `0x${string}`[];
-
-      console.log('*** filtered calldata', hopeCalldata);
 
       return filteredCalldata;
     },

@@ -56,7 +56,7 @@ export const SelectRewardContract = ({
               <Trans>Choose your reward token</Trans>
             </Text>
             <Text variant="small" className="leading-4">
-              <Trans>More rewards coming soon</Trans>
+              <Trans>(More rewards coming soon)</Trans>
             </Text>
           </div>
           {widgetState.flow !== StakeFlow.OPEN && (
