@@ -187,15 +187,6 @@ export const PositionSummary = () => {
   const lineItems = useMemo(() => {
     return [
       {
-        label: t`Exit fee`,
-        updated: hasPositions && skyToFree > 0n,
-        value:
-          hasPositions && skyToFree > 0n && typeof exitFee === 'bigint'
-            ? [`${Number(formatUnits(skyToFree * exitFee, WAD_PRECISION * 2)).toFixed(2)} SKY`]
-            : '',
-        icon: <TokenIcon token={TOKENS.sky} className="h-5 w-5" />
-      },
-      {
         label: getStakeLabel(existingVault?.collateralAmount, updatedVault?.collateralAmount),
         updated:
           hasPositions && isUpdatedValue(existingVault?.collateralAmount, updatedVault?.collateralAmount),
@@ -303,7 +294,7 @@ export const PositionSummary = () => {
         hideIfNoDebt: true
       },
       {
-        label: t`Stake reward`,
+        label: t`Staking reward`,
         updated:
           hasPositions &&
           isUpdatedValue(existingRewardContract?.toLowerCase(), selectedRewardContract?.toLowerCase()),
@@ -379,7 +370,7 @@ export const PositionSummary = () => {
                 <JazziconComponent address={selectedDelegateOwner} diameter={20} />
               )
             ]
-          ) : isDelegateLoading || !delegateOwnerToDisplay ? (
+          ) : isDelegateLoading ? (
             <Skeleton className="w-30 h-5" />
           ) : (
             <JazziconComponent address={delegateOwnerToDisplay} diameter={20} />
@@ -420,7 +411,7 @@ export const PositionSummary = () => {
       <Card>
         <CardContent>
           <MotionVStack gap={2} variants={positionAnimations} className="space-y-3">
-            <motion.div key="overview" variants={positionAnimations}>
+            <motion.div key="overview" variants={positionAnimations} data-testid="position-summary-card">
               <Text variant="medium" className="mb-1 font-medium">
                 Position overview
               </Text>

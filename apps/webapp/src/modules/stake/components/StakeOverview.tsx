@@ -109,7 +109,7 @@ export function StakeOverview() {
               content={<Text className="mt-2">{`$${formatNumber(tvl)}`}</Text>}
             />
             <StatsCard
-              title={t`Stake Positions`}
+              title={t`Staking positions`}
               isLoading={isLoading}
               error={error}
               content={<Text className="mt-2">{numberOfUrns}</Text>}
@@ -117,7 +117,7 @@ export function StakeOverview() {
           </HStack>
         </DetailSectionRow>
       </DetailSection>
-      <DetailSection title={t`Rewards overview`}>
+      <DetailSection title={t`Staking Rewards overview`}>
         <DetailSectionRow>
           <StakeRewardsOverview />
         </DetailSectionRow>

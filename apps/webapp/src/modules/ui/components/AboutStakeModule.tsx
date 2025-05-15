@@ -30,10 +30,10 @@ export const AboutStakeModule = () => {
         </Heading>
         <Text variant="small">
           <Trans>
-            Stake Rewards can be accessed when you supply SKY to the Stake Engine of the decentralised,
-            non-custodial Sky Protocol. Currently, all Stake Rewards take the form of USDS. Eventually,
-            subject to Sky ecosystem governance approval, Stake Rewards may also be available in the form of
-            Sky Star tokens.
+            Staking Rewards can be accessed when SKY is supplied to the Staking Engine of the decentralized,
+            non-custodial Sky Protocol. Currently, all Staking Rewards take the form of USDS. Staking Reward
+            rates are determined by Sky Ecosystem Governance through the process of decentralized onchain
+            voting.
           </Trans>
         </Text>
       </div>

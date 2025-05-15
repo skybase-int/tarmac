@@ -109,6 +109,7 @@ export function SealWidgetPane(sharedProps: SharedProps) {
       onWidgetStateChange={onSealWidgetStateChange}
       externalWidgetState={{ amount: linkedActionConfig?.inputAmount, urnIndex: selectedSealUrnIndex }}
       termsLink={Array.isArray(termsLink) && termsLink.length > 0 ? termsLink[0] : undefined}
+      mkrSkyUpgradeUrl="https://upgrademkrtosky.sky.money"
     />
   );
 }

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { GAS, TEST_WALLET_ADDRESS, WagmiWrapper } from '../../test';
 import { renderHook, waitFor } from '@testing-library/react';
-import { useStakeNgtApprove, useStakeNstApprove } from './useStakeApprove';
+import { useStakeSkyApprove, useStakeUsdsApprove } from './useStakeApprove';
 import { parseEther } from 'viem';
 import { useCurrentUrnIndex } from './useCurrentUrnIndex';
 import { useVault } from '../vaults/useVault';
@@ -19,24 +19,28 @@ import {
   getStakeSelectRewardContractCalldata,
   getStakeWipeAllCalldata
 } from './calldata';
-import { skyAddress, lsMkrUsdsRewardAddress } from '../generated';
+import { skyAddress, lsSkyUsdsRewardAddress } from '../generated';
 import { useUrnSelectedRewardContract } from './useUrnSelectedRewardContract';
 import { useUrnSelectedVoteDelegate } from './useUrnSelectedVoteDelegate';
 import { setErc20Balance } from '../../test/utils';
 import { MAX_UINT_256 } from '../../test/constants';
 import { useRewardsSuppliedBalance } from '../rewards/useRewardsBalance';
 import { useUrnAddress } from './useUrnAddress';
+import { getIlkName } from '../vaults/helpers';
 
-describe('Seal Module Multicall tests', async () => {
+describe('Stake Module Multicall tests', async () => {
   const wrapper = WagmiWrapper;
-  const URN_INDEX = 1n; // Test account already has a URN open
-  const MKR_TO_LOCK = parseEther('20');
-  const USDS_TO_DRAW = parseEther('10000');
+  const URN_INDEX = 0n;
   const SKY_TO_LOCK = parseEther('480000');
-  const SELECTED_DELEGATE = '0x278c4Cbf1726Af5a62f0bCe40B1ddC2ea784aA45';
+  const USDS_TO_DRAW = parseEther('10000');
+  const SELECTED_DELEGATE = '0x7f362498964E030F16D8C4D43EdF4ea70Bb4269B';
   const LOADING_TIMEOUT = 15000;
+  const ILK_NAME = getIlkName(TENDERLY_CHAIN_ID, 2);
 
-  it('Should open, lock MKR, draw USDS, select a reward contract and a delegate in a single multicall transaction', async () => {
+  it('Should open, lock SKY, draw USDS, select a reward contract and a delegate in a single multicall transaction', async () => {
+    // Set initial SKY balance
+    await setErc20Balance(skyAddress[TENDERLY_CHAIN_ID], '480000');
+
     // Make sure URN_INDEX is correct
     const { result: resultUrnIndex } = renderHook(() => useCurrentUrnIndex(), { wrapper });
 
@@ -49,9 +53,9 @@ describe('Seal Module Multicall tests', async () => {
     );
 
     // Unlimited approvals for convenience
-    const { result: resultApproveMkr } = renderHook(
+    const { result: resultApproveSky } = renderHook(
       () =>
-        useStakeNgtApprove({
+        useStakeSkyApprove({
           amount: MAX_UINT_256,
           gas: GAS
         }),
@@ -59,11 +63,11 @@ describe('Seal Module Multicall tests', async () => {
         wrapper
       }
     );
-    await waitForPreparedExecuteAndMine(resultApproveMkr, LOADING_TIMEOUT);
+    await waitForPreparedExecuteAndMine(resultApproveSky, LOADING_TIMEOUT);
 
     const { result: resultApproveUsds } = renderHook(
       () =>
-        useStakeNstApprove({
+        useStakeUsdsApprove({
           amount: MAX_UINT_256,
           gas: GAS
         }),
@@ -76,10 +80,10 @@ describe('Seal Module Multicall tests', async () => {
     // Generate calldata for each operation
     const calldataOpen = getStakeOpenCalldata({ urnIndex: URN_INDEX });
 
-    const calldataLockMkr = getStakeLockCalldata({
+    const calldataLockSky = getStakeLockCalldata({
       ownerAddress: TEST_WALLET_ADDRESS,
       urnIndex: URN_INDEX,
-      amount: MKR_TO_LOCK
+      amount: SKY_TO_LOCK
     });
 
     const calldataDrawNst = getStakeDrawCalldata({
@@ -92,7 +96,7 @@ describe('Seal Module Multicall tests', async () => {
     const calldataSelectRewardContract = getStakeSelectRewardContractCalldata({
       ownerAddress: TEST_WALLET_ADDRESS,
       urnIndex: URN_INDEX,
-      rewardContractAddress: lsMkrUsdsRewardAddress[TENDERLY_CHAIN_ID]
+      rewardContractAddress: lsSkyUsdsRewardAddress[TENDERLY_CHAIN_ID]
     });
 
     const calldataSelectDelegate = getStakeSelectDelegateCalldata({
@@ -107,7 +111,7 @@ describe('Seal Module Multicall tests', async () => {
         useStakeMulticall({
           calldata: [
             calldataOpen,
-            calldataLockMkr,
+            calldataLockSky,
             calldataDrawNst,
             calldataSelectRewardContract,
             calldataSelectDelegate
@@ -132,14 +136,14 @@ describe('Seal Module Multicall tests', async () => {
 
     const urnAddress = await getUrnAddress(URN_INDEX, useUrnAddress);
 
-    // Check Urn locked MKR
-    const { result: resultMkrLocked } = renderHook(() => useVault(urnAddress), {
+    // Check Urn locked SKY
+    const { result: resultSkyLocked } = renderHook(() => useVault(urnAddress, ILK_NAME), {
       wrapper
     });
 
     await waitFor(
       () => {
-        expect(resultMkrLocked.current.data?.collateralAmount).toBe(MKR_TO_LOCK);
+        expect(resultSkyLocked.current.data?.collateralAmount).toBe(SKY_TO_LOCK);
         return;
       },
       { timeout: 5000 }
@@ -177,7 +181,7 @@ describe('Seal Module Multicall tests', async () => {
 
     await waitFor(
       () => {
-        expect(resultUrnSelectedRewardContract.current.data).toBe(lsMkrUsdsRewardAddress[TENDERLY_CHAIN_ID]);
+        expect(resultUrnSelectedRewardContract.current.data).toBe(lsSkyUsdsRewardAddress[TENDERLY_CHAIN_ID]);
         return;
       },
       { timeout: 5000 }
@@ -204,7 +208,7 @@ describe('Seal Module Multicall tests', async () => {
       () =>
         useRewardsSuppliedBalance({
           address: urnAddress,
-          contractAddress: lsMkrUsdsRewardAddress[TENDERLY_CHAIN_ID],
+          contractAddress: lsSkyUsdsRewardAddress[TENDERLY_CHAIN_ID],
           chainId: TENDERLY_CHAIN_ID
         }),
       {
@@ -214,7 +218,7 @@ describe('Seal Module Multicall tests', async () => {
 
     await waitFor(
       () => {
-        expect(resultRewardContractBalance.current.data).toBe(MKR_TO_LOCK);
+        expect(resultRewardContractBalance.current.data).toBe(SKY_TO_LOCK);
         return;
       },
       { timeout: 5000 }
@@ -228,7 +232,7 @@ describe('Seal Module Multicall tests', async () => {
     // Approve SKY
     const { result: resultApproveSky } = renderHook(
       () =>
-        useStakeNgtApprove({
+        useStakeSkyApprove({
           amount: MAX_UINT_256,
           gas: GAS
         }),
@@ -240,7 +244,7 @@ describe('Seal Module Multicall tests', async () => {
 
     // First check the current collateral amount before adding SKY
     const urnAddress = await getUrnAddress(URN_INDEX, useUrnAddress);
-    const { result: resultInitialLocked } = renderHook(() => useVault(urnAddress), {
+    const { result: resultInitialLocked } = renderHook(() => useVault(urnAddress, ILK_NAME), {
       wrapper
     });
 
@@ -273,15 +277,15 @@ describe('Seal Module Multicall tests', async () => {
 
     await waitForPreparedExecuteAndMine(resultMulticall, LOADING_TIMEOUT);
 
-    // Check Urn locked MKR equivalent amount
-    const { result: resultMkrLocked } = renderHook(() => useVault(urnAddress), {
+    // Check Urn locked SKY equivalent amount
+    const { result: resultSkyLocked } = renderHook(() => useVault(urnAddress, ILK_NAME), {
       wrapper
     });
 
     await waitFor(
       () => {
-        expect(resultMkrLocked.current.data?.collateralAmount).toBe(
-          (initialCollateralAmount || 0n) + MKR_TO_LOCK
+        expect(resultSkyLocked.current.data?.collateralAmount).toBe(
+          (initialCollateralAmount || 0n) + SKY_TO_LOCK
         );
         return;
       },
@@ -289,11 +293,11 @@ describe('Seal Module Multicall tests', async () => {
     );
   });
 
-  it('Can unseal SKY that was previously locked', async () => {
+  it('Can unstake SKY that was previously locked', async () => {
     // Approve SKY
     const { result: resultApproveSky } = renderHook(
       () =>
-        useStakeNgtApprove({
+        useStakeSkyApprove({
           amount: MAX_UINT_256,
           gas: GAS
         }),
@@ -324,15 +328,15 @@ describe('Seal Module Multicall tests', async () => {
 
     const urnAddress = await getUrnAddress(URN_INDEX, useUrnAddress);
 
-    // Check Urn locked MKR equivalent amount
-    const { result: resultMkrLocked } = renderHook(() => useVault(urnAddress), {
+    // Check Urn locked SKY equivalent amount
+    const { result: resultSkyLocked } = renderHook(() => useVault(urnAddress), {
       wrapper
     });
 
     await waitFor(
       () => {
-        // After freeing SKY, only the original MKR amount should remain
-        expect(resultMkrLocked.current.data?.collateralAmount).toBe(MKR_TO_LOCK);
+        // After freeing SKY, no balance should remain locked
+        expect(resultSkyLocked.current.data?.collateralAmount).toBe(0n);
         return;
       },
       { timeout: 5000 }
@@ -353,131 +357,32 @@ describe('Seal Module Multicall tests', async () => {
 
     await waitFor(
       () => {
-        // SKY balance reflects the 5% exit fee
-        expect(resultSkyBalance.current.data?.value).toBe(parseEther('456000')); // 480000 - 5%
+        // SKY balance is full since no exit fee applies
+        expect(resultSkyBalance.current.data?.value).toBe(SKY_TO_LOCK);
         return;
       },
       { timeout: 5000 }
     );
   });
 
-  it('Can lock both MKR and SKY in a single tx', async () => {
-    // Equivalent of 20 MKR
-    await setErc20Balance(skyAddress[TENDERLY_CHAIN_ID], '480000');
-
-    const calldataLockMkr = getStakeLockCalldata({
-      ownerAddress: TEST_WALLET_ADDRESS,
-      urnIndex: URN_INDEX,
-      amount: MKR_TO_LOCK
-    });
-    const calldataLockSky = getStakeLockCalldata({
-      ownerAddress: TEST_WALLET_ADDRESS,
-      urnIndex: URN_INDEX,
-      amount: SKY_TO_LOCK
-    });
-
-    const { result: resultMulticall } = renderHook(
-      () =>
-        useStakeMulticall({
-          calldata: [calldataLockMkr, calldataLockSky],
-          gas: GAS
-        }),
-      { wrapper }
-    );
-
-    await waitForPreparedExecuteAndMine(resultMulticall, LOADING_TIMEOUT);
-
-    const urnAddress = await getUrnAddress(URN_INDEX, useUrnAddress);
-
-    // Check Urn locked MKR
-    const { result: resultMkrLocked } = renderHook(() => useVault(urnAddress), {
-      wrapper
-    });
-
-    await waitFor(
-      () => {
-        // Collateral amount is denominated in MKR.
-        expect(resultMkrLocked.current.data?.collateralAmount).toBe(MKR_TO_LOCK * 3n);
-        return;
-      },
-      { timeout: 5000 }
-    );
-  });
-
-  it('Should free MKR and SKY in different amounts than originally locked in a single transaction', async () => {
-    const { result: resultApproveSky } = renderHook(
-      () =>
-        useStakeNgtApprove({
-          amount: MAX_UINT_256,
-          gas: GAS
-        }),
-      {
-        wrapper
-      }
-    );
-    await waitForPreparedExecuteAndMine(resultApproveSky, LOADING_TIMEOUT);
-
-    const freeMkrCalldata = getStakeFreeCalldata({
-      ownerAddress: TEST_WALLET_ADDRESS,
-      urnIndex: URN_INDEX,
-      toAddress: TEST_WALLET_ADDRESS,
-      amount: parseEther('10')
-    });
-
-    const freeSkyCalldata = getStakeFreeCalldata({
-      ownerAddress: TEST_WALLET_ADDRESS,
-      urnIndex: URN_INDEX,
-      toAddress: TEST_WALLET_ADDRESS,
-      amount: parseEther('720000')
-    });
-
-    // Call multicall with all the calldata
-    const { result: resultMulticall } = renderHook(
-      () =>
-        useStakeMulticall({
-          calldata: [freeMkrCalldata, freeSkyCalldata],
-          gas: GAS
-        }),
-      { wrapper }
-    );
-
-    await waitForPreparedExecuteAndMine(resultMulticall, LOADING_TIMEOUT);
-
-    const urnAddress = await getUrnAddress(URN_INDEX, useUrnAddress);
-
-    // check balance
-    const { result: resultMkrLocked } = renderHook(() => useVault(urnAddress), {
-      wrapper
-    });
-
-    await waitFor(
-      () => {
-        // Balance is back to original lock amount
-        expect(resultMkrLocked.current.data?.collateralAmount).toBe(MKR_TO_LOCK);
-        return;
-      },
-      { timeout: 5000 }
-    );
-  });
-
-  it('Should repay all debt and withdraw MKR in a single transaction', async () => {
+  it('Should repay all debt and withdraw SKY in a single transaction', async () => {
     // Get calldata for wipe and free
     const calldataWipeAll = getStakeWipeAllCalldata({
       ownerAddress: TEST_WALLET_ADDRESS,
       urnIndex: URN_INDEX
     });
-    const freeMkrCalldata = getStakeFreeCalldata({
+    const freeSkyCalldata = getStakeFreeCalldata({
       ownerAddress: TEST_WALLET_ADDRESS,
       urnIndex: URN_INDEX,
       toAddress: TEST_WALLET_ADDRESS,
-      amount: MKR_TO_LOCK
+      amount: SKY_TO_LOCK
     });
 
     // Call multicall with all the calldata
     const { result: resultMulticall } = renderHook(
       () =>
         useStakeMulticall({
-          calldata: [calldataWipeAll, freeMkrCalldata],
+          calldata: [calldataWipeAll, freeSkyCalldata],
           gas: GAS
         }),
       { wrapper }
@@ -485,7 +390,7 @@ describe('Seal Module Multicall tests', async () => {
 
     await waitForPreparedExecuteAndMine(resultMulticall, LOADING_TIMEOUT);
 
-    // Check users USDS and MKR balances
+    // Check users USDS and SKY balances
     const { result: resultUSDSBalance } = renderHook(
       () =>
         useTokenBalance({
@@ -510,28 +415,7 @@ describe('Seal Module Multicall tests', async () => {
       { timeout: 5000 }
     );
 
-    const { result: resultMKRBalance } = renderHook(
-      () =>
-        useTokenBalance({
-          address: TEST_WALLET_ADDRESS,
-          token: TOKENS.mkr.address[TENDERLY_CHAIN_ID],
-          chainId: TENDERLY_CHAIN_ID
-        }),
-      {
-        wrapper
-      }
-    );
-
-    await waitFor(
-      () => {
-        // MKR balance reflects the 5% exit fee
-        expect(resultMKRBalance.current.data?.value).toBe(parseEther('88.5'));
-        return;
-      },
-      { timeout: 5000 }
-    );
-
-    const { result: resultNGTBalance } = renderHook(
+    const { result: resultSKYBalance } = renderHook(
       () =>
         useTokenBalance({
           address: TEST_WALLET_ADDRESS,
@@ -545,8 +429,29 @@ describe('Seal Module Multicall tests', async () => {
 
     await waitFor(
       () => {
-        // SKY balance reflects the 5% exit fee
-        expect(resultNGTBalance.current.data?.value).toBe(parseEther('684000'));
+        // User should have double the SKY balance since no exit fee applies and locked twice
+        expect(resultSKYBalance.current.data?.value).toBe(SKY_TO_LOCK * 2n);
+        return;
+      },
+      { timeout: 5000 }
+    );
+
+    const { result: resultSkyBalance } = renderHook(
+      () =>
+        useTokenBalance({
+          address: TEST_WALLET_ADDRESS,
+          token: TOKENS.sky.address[TENDERLY_CHAIN_ID],
+          chainId: TENDERLY_CHAIN_ID
+        }),
+      {
+        wrapper
+      }
+    );
+
+    await waitFor(
+      () => {
+        // SKY balance is the full amount locked since there is no exit fee
+        expect(resultSkyBalance.current.data?.value).toBe(SKY_TO_LOCK * 2n);
         return;
       },
       { timeout: 5000 }

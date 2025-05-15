@@ -108,9 +108,6 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
     address: {
       [mainnet.id]: '0xba3cb449bd2b4adddbc894d8697f5170800eadec',
       [TENDERLY_CHAIN_ID]: '0xba3cb449bd2b4adddbc894d8697f5170800eadec'
-      // TODO: Update the Tenderly address to the mainnet address
-      // if we use a testnet forked after March 28, 2025
-      // [TENDERLY_CHAIN_ID]: '0x40A50cf069e992AA4536211B23F286eF88752187'
     }
   },
   // new Sky contracts
@@ -213,39 +210,43 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
       [mainnet.id]: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41',
       [TENDERLY_CHAIN_ID]: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41'
     }
+  },
+  // StakeModule
+  {
+    name: 'stakeModule',
+    address: {
+      [mainnet.id]: '0xCe01C90dE7FD1bcFa39e237FE6D8D9F569e8A6a3',
+      [TENDERLY_CHAIN_ID]: '0xB1fC11F03b084FfF8daE95fA08e8D69ad2547Ec1'
+    }
+  },
+  // LockstakeSky
+  {
+    name: 'lsSky',
+    address: {
+      [mainnet.id]: '0xf9A9cfD3229E985B91F99Bc866d42938044FFa1C',
+      [TENDERLY_CHAIN_ID]: '0x9cC87998ba85D81e017E6B7662aC00eE2Ab8fe13'
+    }
+  },
+  // Rewards Lockstake MKR
+  {
+    name: 'lsSkyUsdsReward',
+    address: {
+      [mainnet.id]: '0x38E4254bD82ED5Ee97CD1C4278FAae748d998865',
+      [TENDERLY_CHAIN_ID]: '0xAf7868a9BB72E16B930D50636519038d7F057470'
+    }
+  },
+  // Seal migrator
+  {
+    name: 'lsMigrator',
+    address: {
+      [mainnet.id]: '0x473d777f608C3C24B441AB6bD4bBcA6b7F9AF90B',
+      [TENDERLY_CHAIN_ID]: '0xf4c5C29b14f0237131F7510A51684c8191f98E06'
+    }
   }
 ];
 
 export const tenderlyContracts: { name: string; address: Record<typeof TENDERLY_CHAIN_ID, `0x${string}`> }[] =
   [
-    // StakeModule
-    {
-      name: 'stakeModule',
-      address: {
-        [TENDERLY_CHAIN_ID]: '0xB1fC11F03b084FfF8daE95fA08e8D69ad2547Ec1'
-      }
-    },
-    // LockstakeSky
-    {
-      name: 'lsSky',
-      address: {
-        [TENDERLY_CHAIN_ID]: '0x9cC87998ba85D81e017E6B7662aC00eE2Ab8fe13'
-      }
-    },
-    // Rewards Lockstake MKR
-    {
-      name: 'lsSkyUsdsReward',
-      address: {
-        [TENDERLY_CHAIN_ID]: '0xAf7868a9BB72E16B930D50636519038d7F057470'
-      }
-    },
-    // Rewards Lockstake MKR
-    {
-      name: 'lsMigrator',
-      address: {
-        [TENDERLY_CHAIN_ID]: '0xf4c5C29b14f0237131F7510A51684c8191f98E06'
-      }
-    }
     // {
     //   name: 'cle',
     //   address: {

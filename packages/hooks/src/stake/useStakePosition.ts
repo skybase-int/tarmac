@@ -8,8 +8,8 @@ import { useAccount, useChainId } from 'wagmi';
 
 type StakePositionResponse = {
   // TODO: Update this to stakeUrns once the subgraph is updated
-  sealUrns: {
-    mkrLocked: string; // Update mkrLocked once the subgraph is updated
+  stakingUrns: {
+    skyLocked: string;
     usdsDebt: string;
     voteDelegate: {
       id: string;
@@ -30,8 +30,8 @@ async function fetchStakePosition(
   // TODO: Update this query once the subgraph is updated
   const query = gql`
     {
-      sealUrns(where: {owner: "${address}", index: "${urnIndex}"}) {
-        mkrLocked
+      stakingUrns(where: {owner: "${address}", index: "${urnIndex}"}) {
+        skyLocked
         usdsDebt
         voteDelegate {
           id
@@ -50,17 +50,17 @@ async function fetchStakePosition(
 
   const response: StakePositionResponse = await request(urlSubgraph, query);
 
-  if (!response.sealUrns || response.sealUrns.length === 0) return;
-  const { mkrLocked, usdsDebt, voteDelegate, reward } = response.sealUrns[0];
+  if (!response.stakingUrns || response.stakingUrns.length === 0) return;
+  const { skyLocked, usdsDebt, voteDelegate, reward } = response.stakingUrns[0];
 
   return {
     owner: address,
     index: urnIndex,
-    mkrLocked: BigInt(mkrLocked),
+    skyLocked: BigInt(skyLocked),
     usdsDebt: BigInt(usdsDebt),
     selectedDelegate: voteDelegate?.id,
     selectedReward: reward?.id,
-    barks: response.sealUrns[0].barks
+    barks: response.stakingUrns[0].barks
   };
 }
 

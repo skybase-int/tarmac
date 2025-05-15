@@ -47,9 +47,7 @@ type WidgetPaneProps = {
 export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
   const { i18n } = useLingui();
   const onConnect = useCustomConnectModal();
-  // TODO: not sure which engine this should use, but I had to set it to "Seal" to get the seal positions to show up
   const { data: currentUrnIndex } = useSealCurrentIndex();
-  console.log('currentUrnIndex', currentUrnIndex);
   const addRecentTransaction = useAddRecentTransaction();
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
   const onNotification = useNotification();
@@ -145,16 +143,14 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
       Seal,
       withErrorBoundary(
         <>
-          {!shouldHideLink && (
-            <Link to="/" className="text-textSecondary">
-              <HStack className="mb-3 space-x-2">
-                <ArrowLeft className="self-center" />
-                <Heading tag="h3" variant="small" className="text-textSecondary">
-                  <Trans>Exit Seal Engine</Trans>
-                </Heading>
-              </HStack>
-            </Link>
-          )}
+          <Link to="/" className={`text-textSecondary ${shouldHideLink ? 'invisible' : 'visible'}`}>
+            <HStack className="mb-3 space-x-2">
+              <ArrowLeft className="self-center" />
+              <Heading tag="h3" variant="small" className="text-textSecondary">
+                <Trans>Exit Seal Engine</Trans>
+              </Heading>
+            </HStack>
+          </Link>
           {!isConnected ? (
             <div className="text-center">
               <Heading variant="large">
@@ -194,6 +190,7 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
               onWidgetStateChange={onSealWidgetStateChange}
               termsLink={termsLink[0]}
               onNavigateToMigratedUrn={onNavigateToMigratedUrn}
+              mkrSkyUpgradeUrl="https://upgrademkrtosky.sky.money"
             />
           )}
         </>

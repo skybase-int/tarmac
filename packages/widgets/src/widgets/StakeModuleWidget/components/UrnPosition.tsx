@@ -4,14 +4,14 @@ import { Text } from '@widgets/shared/components/ui/Typography';
 import {
   TransactionTypeEnum,
   ZERO_ADDRESS,
-  useSealHistory,
   useSealPosition,
   useStakeUrnAddress,
   useStakeUrnSelectedRewardContract,
   useStakeUrnSelectedVoteDelegate,
   useVault,
   SealHistoryKick,
-  getIlkName
+  getIlkName,
+  useStakeHistory
 } from '@jetstreamgg/hooks';
 import { StakeModuleWidgetContext } from '../context/context';
 import { WidgetContext } from '@widgets/context/WidgetContext';
@@ -40,7 +40,6 @@ export const UrnPosition: React.FC<UrnPositionProps> = ({
 }) => {
   const chainId = useChainId();
   const { data: urnAddress } = useStakeUrnAddress(index);
-  // TODO: is this the correct stake hook?
   const { data: urnSelectedRewardContract } = useStakeUrnSelectedRewardContract({
     urn: urnAddress || ZERO_ADDRESS
   });
@@ -51,15 +50,12 @@ export const UrnPosition: React.FC<UrnPositionProps> = ({
 
   const { data: vaultData } = useVault(urnAddress || ZERO_ADDRESS, getIlkName(chainId, 2));
 
-  console.log('stakurnfind vaultData', vaultData);
-
   const { setWidgetState } = useContext(WidgetContext);
 
   const { setSelectedRewardContract, setSelectedDelegate, setActiveUrn, setCurrentStep } =
     useContext(StakeModuleWidgetContext);
 
-  // TODO: This needs to be updated for stake but not important for migration UI
-  const { data: urnHistory } = useSealHistory();
+  const { data: urnHistory } = useStakeHistory();
   const { data: urnPosition } = useSealPosition({ urnIndex: Number(index) });
 
   // TODO might be better to use a separate hook for this type but need to decide if we want it in history

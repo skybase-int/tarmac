@@ -109,7 +109,7 @@ function TransactionDetail() {
       component: rewardContractTokens ? (
         <VStack gap={3} className="mt-2">
           <Text variant="medium" className="text-textSecondary leading-4">
-            Stake reward
+            Staking reward
           </Text>
           <HStack gap={2}>
             <TokenIcon token={rewardContractTokens.rewardsToken} width={24} className="h-6 w-6 text-[18px]" />

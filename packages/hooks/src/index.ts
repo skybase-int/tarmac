@@ -119,6 +119,7 @@ export { useWipeAll } from './seal/useWipeAll';
 export { useSaUserDelegates } from './seal/useSaUserDelegates';
 export { useSaRewardContracts } from './seal/useSaRewardContracts';
 export { useSealHistory } from './seal/useSealHistory';
+export { useStakeHistory } from './stake/useStakeHistory';
 export { useSealPosition } from './seal/useSealPosition';
 export { useSealExitFee } from './seal/useSealExitFee';
 export { usePositionsAtRisk } from './seal/usePositionsAtRisk';
@@ -134,6 +135,7 @@ export { useSaHope } from './seal/useSaHope';
 export { useMigrateUrn } from './seal/useMigrateUrn';
 export { useIsUrnAuth as useIsSealUrnAuth } from './seal/useIsUrnAuth';
 export { useNextMigrationUrnIndex } from './seal/useNextMigrationUrnIndex';
+export { useMigrationUrnIndexValid } from './seal/useMigrationUrnIndexValid';
 export * from './seal/calldata';
 
 // Stake Module
@@ -149,6 +151,7 @@ export { useStakeSkyAllowance, useStakeUsdsAllowance } from './stake/useStakeAll
 export { useStakeSkyApprove, useStakeUsdsApprove } from './stake/useStakeApprove';
 export { useClaimRewards as useStakeClaimRewards } from './stake/useClaimRewards';
 export { useStakeRewardsData } from './stake/useStakeRewardsData';
+export { useStakePosition } from './stake/useStakePosition';
 export * from './stake/calldata';
 
 //Vaults
@@ -257,6 +260,7 @@ export {
   useReadPsm3L2Pocket,
   useReadPsm3L2PreviewSwapExactIn,
   useReadPsm3L2PreviewSwapExactOut,
-  lsMkrUsdsRewardAddress
+  lsMkrUsdsRewardAddress,
+  lsMigratorAddress
 } from './generated';
 export { contracts, /*tenderlyContracts,*/ sepoliaContracts, l2Contracts } from './contracts';
