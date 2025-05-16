@@ -82,9 +82,9 @@ export const validateSearchParams = (
         searchParams.delete(key);
       }
 
-      // if widget is upgrade, only valid source token is MKR or DAI
+      // if widget is upgrade, only valid source tokens are MKR, DAI or USDS
       if (widgetParam?.toLowerCase() === IntentMapping[Intent.UPGRADE_INTENT]) {
-        if (!['mkr', 'dai'].includes(value.toLowerCase())) {
+        if (!['mkr', 'dai', 'usds'].includes(value.toLowerCase())) {
           searchParams.delete(key);
         }
       }
