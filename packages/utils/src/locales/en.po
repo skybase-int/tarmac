@@ -579,10 +579,6 @@ msgstr ""
 msgid "Choose a token to receive"
 msgstr ""
 
-#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
-msgid "Choose a token to revert, and enter an amount"
-msgstr ""
-
 #: packages/widgets/src/widgets/TradeWidget/components/TradeInputs.tsx
 #: packages/widgets/src/widgets/L2TradeWidget/components/L2TradeInputs.tsx
 msgid "Choose a token to trade, and enter an amount"
@@ -931,6 +927,10 @@ msgstr ""
 #: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
 msgid "Enter amount"
+msgstr ""
+
+#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
+msgid "Enter an amount of USDS to revert"
 msgstr ""
 
 #: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts

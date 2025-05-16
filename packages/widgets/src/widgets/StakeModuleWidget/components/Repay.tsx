@@ -18,6 +18,7 @@ import {
   WAD_PRECISION,
   captitalizeFirstLetter,
   formatBigInt,
+  formatBigIntAsCeiledAbsoluteWithSymbol,
   formatPercent,
   useDebounce
 } from '@jetstreamgg/utils';
@@ -293,9 +294,11 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
     unit: getTokenDecimals(usds, chainId)
   })}`;
 
-  const formattedDebtValue = `${formatBigInt(existingVault?.debtValue || 0n, {
-    unit: getTokenDecimals(usds, chainId)
-  })} ${usds.symbol}`;
+  const formattedDebtValueWithSymbol = formatBigIntAsCeiledAbsoluteWithSymbol(
+    existingVault?.debtValue || 0n,
+    getTokenDecimals(usds, chainId),
+    usds.symbol
+  );
 
   const errorMsg = minDebtNotMet
     ? t`Debt must be paid off entirely, or left with a minimum of ${formatBigInt(simulatedVault?.dust || 0n)}`
@@ -320,8 +323,8 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
           (existingVault?.debtValue || 0n) <= 0n
             ? t`You have no debt to repay`
             : dustDelta > 0n
-              ? `Limit 0 <> ${formattedMaxRepay}, or ${formattedDebtValue}`
-              : formattedDebtValue
+              ? `Limit 0 <> ${formattedMaxRepay}, or ${formattedDebtValueWithSymbol}`
+              : formattedDebtValueWithSymbol
         }
         value={debouncedUsdsToWipe}
         onChange={val => {
