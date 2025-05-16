@@ -137,7 +137,7 @@ PSMs are smart contracts that allow users to convert certain stablecoins directl
   },
   {
     question: 'Is the Savings feature experience on Arbitrum the same as on Ethereum Mainnet?',
-    answer: `As an end-user of the Sky.money web app, the experience of using the Savings feature on Arbitrum and Ethereum is very similar. However, given that no native Sky Savings Rate module is deployed to Arbitrum, when using the the Sky.money web app on Arbitrum you always interact with the Peg Stability Module (PSM) for conversions to/from sUSDS, USDS, and USDC.
+    answer: `As an end-user of the Sky.money web app, the experience of using the Savings feature on Arbitrum and Ethereum is very similar. However, given that no native Sky Savings Rate module is deployed to Arbitrum, when using the Sky.money web app on Arbitrum you always interact with the Peg Stability Module (PSM) for conversions to/from sUSDS, USDS, and USDC.
 
 
 PSMs are smart contracts that allow users to convert certain stablecoins directly with the Sky Protocol for USDS or DAI at a fixed rate and with relatively low fees. They are designed to maintain the stability of USDS and DAI. Unlike decentralized exchange (DEX) transactions, PSM operations do not involve trading between users. Instead, they are direct, non-custodial conversions (generate and burn) executed with the decentralized smart contracts of the Sky Protocol.
