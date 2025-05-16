@@ -1,63 +1,102 @@
 export const getStakeFaqItems = () => [
   {
-    question: 'What are Seal Rewards?',
-    answer: `Seal Rewards can be accessed when you supply MKR or SKY to the Seal Engine of the decentralised Sky Protocol. Currently, all Seal Rewards take the form of USDS. Eventually, subject to Sky ecosystem governance approval, Seal Rewards may also be available in the form of Sky Star tokens, including SPK, the governance token of the Spark decentralised community. You can choose the reward that you would like to receive.
+    question: 'What are  Staking Rewards?',
+    answer:
+      'Staking Rewards can be accessed when you supply SKY to the Staking Engine of the decentralized Sky Protocol. Currently, all Staking Rewards take the form of USDS. Your SKY, as well as any Staking Rewards that you accumulate, are supplied to a non-custodial smart contract, such that no intermediary ever takes custody of those tokens. Staking Reward rates are determined by Sky Ecosystem Governance through the process of decentralized onchain voting.'
+  },
+  {
+    question: 'How is the Staking Rewards rate determined?',
+    answer:
+      'The Staking Rewards rate is a parameter determined by Sky Ecosystem Governance through a process of decentralized, community-driven onchain voting.'
+  },
+  {
+    question: 'What is the Staking Engine?',
+    answer: `The Staking Engine is a feature of the decentralized Sky Protocol. It has replaced the Seal Engine, offering the same features but it has no exit fee and it only supports SKY tokens, not MKR. If you currently have one or more positions in the Seal Engine, you can migrate to the Staking Engine. Your sealed MKR will be upgraded to SKY during the Seal to Staking migration process. The process, via the Sky.money web app, makes manually exiting your current Seal positions and creating new positions in the Staking Engine as simple as possible.
 
-Your supplied MKR tokens, as well as any rewards accumulated, automatically enter a non-custodial smart contract, which allows you to always remain in control of your supplied funds.
+**Overview of the Staking Engine**
 
-Seal reward rates are determined by Sky ecosystem decentralised governance.
+When you supply SKY governance tokens to the Staking Engine using the Sky.money web app, you can access Staking Rewards and choose to create one or more positions, including positions that enable you to generate and borrow USDS against your supplied SKY and to delegate the voting power the SKY token provides. Here’s a brief overview:
+
+• Access Rewards. Supply SKY tokens to access Staking Rewards, initially in the form of USDS. Staking Reward rates are determined by Sky Ecosystem Governance through the process of decentralized onchain voting.
+
+• Borrow.  Borrow USDS against your supplied SKY. You can exit your borrow position at any time and withdraw or pay back USDS whenever you would like. The USDS Borrow Rate and debt ceiling are determined by Sky Ecosystem Governance through the process of decentralized onchain voting. Your total debt increases each block according to the Borrow Rate.
+
+• Delegate. Transfer the voting power of your supplied SKY tokens to a recognized delegate or a contract that you own. Your chosen delegate can then participate in the Sky Ecosystem Governance voting process on your behalf. You can choose one delegate per position, meaning if you want to entrust your SKY to two different delegates using the Staking Engine, you will need to create two separate positions.
+
+You may exit your Staking positions at any time; no exit fee applies. The Staking Reward rate and Borrow Rate are determined by Sky Ecosystem Governance through the process of decentralized onchain voting.
+
+Your SKY, as well as any Staking Rewards that you accumulate, are supplied to a non-custodial smart contract, such that no intermediary ever takes custody of those tokens. With Sky, you always remain in control of your assets.`
+  },
+  {
+    question: 'What will happen to the MKR and/or SKY I’ve supplied to the Seal Engine?',
+    answer: `If you currently have one or more positions in the Seal Engine, you can migrate to the Staking Engine. Your sealed MKR will be upgraded to SKY during the Seal to Staking migration process. The process, via the Sky.money web app, makes manually exiting your current Seal positions and creating new positions in the Staking Engine as simple as possible. 
+ 
+For upgrade details and step-by-step upgrade instructions, please visit the [MKR to SKY Upgrade Hub](https://upgrademkrtosky.sky.money).`
+  },
+  {
+    question: 'What do I do with my existing positions in the Seal Engine?',
+    answer: `If you currently have one or more positions in the Seal Engine, you can migrate to the Staking Engine. Your sealed MKR will be upgraded to SKY during the Seal to Staking migration process. The process, via the Sky.money web app, makes manually exiting your current Seal positions and creating new positions in the Staking Engine as simple as possible. 
+ 
+For upgrade details and step-by-step upgrade instructions, please visit the [MKR to SKY Upgrade Hub](https://upgrademkrtosky.sky.money).`
+  },
+  {
+    question: 'How does the Staking Engine enable borrowing?',
+    answer: `The Staking Engine is a feature of the decentralized Sky Protocol. When you supply SKY tokens to the Staking Engine using the Sky.money web app, you can access Staking Rewards and choose to create one or more positions, including a position that enables you to generate and borrow USDS stablecoins against your supplied SKY.
+
+You can exit your borrow position at any time—no exit fee applies—and withdraw or pay back USDS whenever you would like. 
+
+The USDS Borrow Rate and debt ceiling are determined by Sky Ecosystem Governance through the process of decentralized onchain voting. Your total debt increases each block according to the Borrow Rate.
+
+Please note that opening a USDS borrow position subjects you to liquidation risk if at any time the value of your supplied collateral drops below the required threshold (liquidation price) and your position becomes undercollateralized. If this were to occur, the smart contract would automatically liquidate and auction your collateral, and any leftover collateral may be claimed through the [Unified Auctions portal](https://unified-auctions.makerdao.com/).  
+
+For more information, see the [User Risk Documentation](https://docs.sky.money/user-risks).`
+  },
+  {
+    question: 'How is the USDS Borrow Rate determined?',
+    answer:
+      'The USDS Borrow Rate and debt ceiling are parameters determined by Sky Ecosystem Governance through a process of decentralized, community-driven onchain voting.'
+  },
+  {
+    question: 'Can I borrow USDS using ETH?',
+    answer: `Yes, but only via [Spark](http://spark.fi)’s Borrow feature, not via the Sky.money web app. 
+
+[Spark Borrow](https://spark.fi/borrow) enables you to borrow USDS stablecoins using various cryptocurrencies as collateral, including ETH. Spark is the very first Sky Star Agent (Star) and a top DeFi liquidity protocol. Stars are autonomous and independent decentralized projects within the larger Sky Ecosystem. For more information about the Borrow feature, you can review the [Spark Documentation](https://docs.spark.fi/user-guides/using-sparklend/borrow-dai-and-usds). 
 `
   },
   {
-    question: 'How are Seal Rewards rates determined?',
-    answer:
-      'Seal reward rates are determined by Sky ecosystem governance through a process of decentralised onchain voting.'
-  },
-  {
-    question: 'How does the Seal Engine enable borrowing?',
-    answer: `Sealing MKR or SKY into the Seal Engine enables you to access Seal Rewards by creating a position through which you can generate and borrow USDS against those tokens. You can seal and unseal your collateral at any time, and draw or pay back additional USDS whenever you would like. This enables you to always be able to actively manage your position.
-    
-The debt ceiling and borrow rate are determined by Sky ecosystem governance through a process of decentralised, community-driven on-chain voting. Borrow rate fees accumulate automatically per block and are added to the total debt. 
+    question: 'What happens if my USDS borrow position is liquidated?',
+    answer: `When you borrow USDS stablecoins against SKY tokens using the Staking Engine of the Sky Protocol or some other method, your position is subject to liquidation risk in the following scenario: If at any time the value of your supplied collateral drops below the required threshold (liquidation price), your position is undercollateralized and the smart contract will automatically liquidate it and auction your supplied collateral. Any leftover collateral can be claimed through the [Unified Auctions portal](https://unified-auctions.makerdao.com/).
 
-Opening a USDS borrow position is subject to liquidation risk if at any time the value of your sealed collateral drops below the required threshold and your position becomes undercollateralized. If this were to occur, the smart contract would automatically liquidate and auction your collateral. Any leftover collateral may be claimed through the [Unified Auctions portal](https://unified-auctions.makerdao.com/). `
+For more information, see the [User Risk Documentation](https://docs.sky.money/user-risks).`
   },
   {
-    question: 'How is the borrow rate determined?',
-    answer:
-      'The debt ceiling and borrow rate are parameters determined by Sky ecosystem governance through a process of decentralised onchain voting. Borrow rate fees accumulate automatically per block and get added to the total debt.'
-  },
-  {
-    question: 'What happens if my borrow position is liquidated?',
-    answer:
-      'Opening a USDS borrow position is subject to liquidation risk in the following scenario: If at any time the value of your sealed collateral drops below the required threshold and your position becomes undercollateralized, the smart contract automatically liquidates it and auctions your collateral. Any leftover collateral can be claimed through the [Unified Auctions portal](https://unified-auctions.makerdao.com/). '
-  },
-  {
-    question: 'What’s the difference between Sky Token Rewards and Seal Rewards?',
-    answer: `Sky Tokens Rewards are what you can access when you supply USDS to the Sky Token Rewards module of the decentralised Sky Protocol. Sky Token Rewards take the form of SKY governance tokens. 
-      
-Seal Rewards are what you access when you supply and seal MKR or SKY to the Seal Engine of the protocol. Seal Rewards currently take the form of USDS. Eventually, if approved by Sky ecosystem governance, Seal Rewards may also be available in the form of Sky Star tokens.`
-  },
-  {
-    question: 'How does unsealing work?',
-    answer: `When you supply MKR or SKY to the Seal Engine, a position is created and those tokens are sealed behind an exit fee. You can seal and unseal your tokens anytime. 
-      
-Unsealing requires the payment of an exit fee, which is a percentage of the total amount of tokens that you have sealed in that position. The fee is automatically subtracted from that total amount, and then burnt, removing the tokens from circulation. Your accumulated rewards are not affected.
-      
-The exit fee is a risk parameter managed and determined (regardless of position duration) by Sky ecosystem governance. The exit fee applies at unsealing, not at sealing, which means that it is determined the moment you unseal your MKR.
+    question: 'How do Sky liquidation auctions work?',
+    answer: `The liquidation auctions of the Sky Protocol are automated processes that occur when a USDS or DAI borrow position becomes unsafe due to price fluctuations.  
 
-The moment the Seal Engine launched, the exit fee rate was set to 5% of the value of the MKR or SKY tokens that you have sealed, with a planned 1% increase every 6 months thereafter until it reaches the long-term fee rate of 15%.`
+A borrow position is subject to liquidation risk if at any time the value of the supplied collateral drops below the required threshold (liquidation price) and the position becomes undercollateralized. If this were to occur, the system would automatically liquidate and auction the collateral, and any leftover collateral may be claimed through the [Unified Auctions portal](https://unified-auctions.makerdao.com/).`
+  },
+  {
+    question: 'What’s the difference between Sky Token Rewards and Staking Rewards?',
+    answer: `Sky Token Rewards are what you can access when you supply USDS stablecoins to the Sky Token Rewards module of the Sky Protocol. Sky Token Rewards currently take the form of SKY tokens. Both USDS and SKY are native tokens of the Sky Protocol.
+
+Staking Rewards are what you can access when you supply SKY to the Staking Engine of the Sky Protocol. Staking Rewards currently take the form of USDS.`
+  },
+  {
+    question: 'How does exiting a Staking Engine position work?',
+    answer:
+      'You can exit your Staking Engine position(s) at any time—no exit fee applies—and draw or pay back USDS whenever you would like.'
   },
   {
     question: 'What does it mean to delegate my voting power?',
-    answer: `When you hold MKR or SKY tokens, you maintain the right to participate in the process of Sky ecosystem governance voting. That means that you have the ability to contribute to the community-driven, decentralised ecosystem decision-making process, which occurs through onchain voting.
-      
-The voting power delegation feature of the Seal Engine of the Sky Protocol enables you to entrust your voting power to a delegate of your choosing, who can then vote in the Sky ecosystem governance process on your behalf. You can choose one delegate per sealed MKR or SKY position. If you want to entrust your MKR or SKY to two delegates using the Seal Engine, you will need to create two separate positions.
-      
-Delegates in receipt of token voting power can never directly access any tokens delegated to them, including sealed tokens. Throughout the delegation process, you always own and are in control of your sealed tokens, and you can change your delegate at any time.Sealing to delegate your voting power may be a useful option for governance token holders who have limited time to allocate to the process, who want to save on the cost of gas involved in voting on their own, and who also want to earn Seal Rewards.`
+    answer: `When you hold SKY governance tokens, you may choose to participate in the decision-making process of Sky Ecosystem Governance. You can use your SKY to participate directly in governance through a system of decentralized onchain voting and/or to entrust your voting power to one or more delegates via the Sky Governance Voting portal or to a contract that you own. You can also use SKY to delegate your voting power via the Staking Engine of the Sky Protocol.
+
+By supplying SKY to the Staking Engine, you can open a position, earn Staking Rewards, and also entrust your voting power to a delegate of your choosing, who can then participate in the Sky Ecosystem Governance voting process on your behalf. You can choose one delegate per position, meaning if you want to entrust your SKY to two different delegates using the Staking Engine, you will need to create two separate positions. 
+Delegates in receipt of token voting power can never directly access any tokens delegated to them, including the SKY supplied to the Staking Engine. Throughout the delegation process, you always own and are in control of those tokens. You can also change your delegate at any time (subject to the Sky Protocol’s rules that prevent double voting or misuse of delegated voting power).
+`
   },
   {
-    question: 'Where can I learn about Sky ecosystem governance?',
+    question: 'Where can I learn about Sky Ecosystem Governance?',
     answer:
-      'For a deep dive into the facets and checks and balances of Sky ecosystem governance, please refer to the [Sky Forum](https://forum.sky.money/), the [Sky Voting Portal](https://vote.makerdao.com/) and the [Sky Atlas](https://mips.makerdao.com/mips/details/MIP101)—the source of truth behind the Sky project, superseding and overriding all other competing rules or decisions.'
+      'For a deep dive into the facets and checks and balances of Sky Ecosystem Governance, please refer to the [Sky Forum](https://forum.sky.money/), the [Sky Governance Voting Portal](https://vote.makerdao.com/), and the [Sky Atlas](https://sky-atlas.powerhouse.io/). The Sky Atlas is the definitive rulebook of the Sky Ecosystem, as determined by Sky Ecosystem Governance.'
   }
 ];

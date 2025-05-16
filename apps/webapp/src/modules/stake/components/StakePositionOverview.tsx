@@ -1,7 +1,9 @@
 import { HStack } from '@/modules/layout/components/HStack';
 import {
   getIlkName,
+  getTokenDecimals,
   RiskLevel,
+  TOKENS,
   // TOKENS,
   useStakePosition,
   useStakeUrnAddress,
@@ -9,7 +11,7 @@ import {
   useVault,
   ZERO_ADDRESS
 } from '@jetstreamgg/hooks';
-import { formatBigInt, math, WAD_PRECISION } from '@jetstreamgg/utils';
+import { formatBigInt, formatBigIntAsCeiledAbsoluteWithSymbol, WAD_PRECISION } from '@jetstreamgg/utils';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { StakeToken } from '../constants';
@@ -52,6 +54,7 @@ export function StakePositionOverview({
   if (!error && !isLoading && !data) return null;
 
   const riskColor = vault?.riskLevel ? RISK_COLORS[vault?.riskLevel] : undefined;
+  const { usds } = TOKENS;
 
   // const skySealed = useMemo(() => {
   //   return vault?.collateralAmount ? math.calculateConversion(TOKENS.mkr, vault?.collateralAmount || 0n) : 0n;
@@ -88,8 +91,11 @@ export function StakePositionOverview({
             <SealBorrowedCard
               isLoading={vaultLoading}
               error={vaultError}
-              balance={vault?.debtValue || 0n}
-              token={{ name: 'USDS', symbol: 'USDS' }}
+              balance={formatBigIntAsCeiledAbsoluteWithSymbol(
+                vault?.debtValue || 0n,
+                getTokenDecimals(usds, chainId)
+              )}
+              token={usds}
             />
             {data?.selectedReward && (
               <StakePositionRewardsCard rewardContractAddress={data.selectedReward as `0x${string}`} />
@@ -117,21 +123,13 @@ export function StakePositionOverview({
               title={t`SKY Liquidation price`}
               isLoading={urnAddressLoading || vaultLoading}
               error={urnAddressLoading ? null : vaultError}
-              content={
-                <Text className="mt-2">
-                  ${formatBigInt(math.calculateMKRtoSKYPrice(vault?.liquidationPrice || 0n))}
-                </Text>
-              }
+              content={<Text className="mt-2">${formatBigInt(vault?.liquidationPrice || 0n)}</Text>}
             />
             <StatsCard
               title={t`Current SKY price`}
               isLoading={urnAddressLoading || vaultLoading}
               error={urnAddressLoading ? null : vaultError}
-              content={
-                <Text className="mt-2">
-                  ${formatBigInt(math.calculateMKRtoSKYPrice(vault?.delayedPrice || 0n))}
-                </Text>
-              }
+              content={<Text className="mt-2">${formatBigInt(vault?.delayedPrice || 0n)}</Text>}
             />
           </HStack>
         </VStack>
