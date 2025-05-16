@@ -9,8 +9,7 @@ import {
   useVault,
   Vault,
   CollateralRiskParameters,
-  useSealExitFee,
-  SupportedCollateralTypes
+  useSealExitFee
 } from '@jetstreamgg/hooks';
 import { t } from '@lingui/core/macro';
 import { useContext, useEffect, useMemo } from 'react';
@@ -294,7 +293,7 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
   // Calculated total amount user will have locked based on existing collateral locked plus user input
   const newCollateralAmount = skyToLock + (existingVault?.collateralAmount || 0n);
 
-  const { data: collateralData } = useCollateralData(SupportedCollateralTypes.LSEV2_A);
+  const { data: collateralData } = useCollateralData(ilkName);
 
   const {
     data: simulatedVault,
