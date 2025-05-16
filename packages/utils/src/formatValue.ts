@@ -96,7 +96,11 @@ export function formatDecimalPercentage(value: number, decimalPlaces: number = 2
   return `${percentage.toFixed(decimalPlaces)}%`;
 }
 
-export function formatBigIntAsCeiledAbsoluteWithSymbol(amount: bigint, unit: number, symbol: string): string {
+export function formatBigIntAsCeiledAbsoluteWithSymbol(
+  amount: bigint,
+  unit: number,
+  symbol?: string
+): string {
   const formattedRoundedDebtValue = formatBigInt(amount, {
     unit,
     useGrouping: false
