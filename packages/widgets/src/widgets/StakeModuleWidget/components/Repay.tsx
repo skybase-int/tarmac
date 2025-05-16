@@ -18,6 +18,7 @@ import {
   WAD_PRECISION,
   captitalizeFirstLetter,
   formatBigInt,
+  formatBigIntAsCeiledAbsoluteWithSymbol,
   formatPercent,
   useDebounce
 } from '@jetstreamgg/utils';
@@ -293,17 +294,11 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
     unit: getTokenDecimals(usds, chainId)
   })}`;
 
-  const formattedRoundedDebtValue = formatBigInt(existingVault?.debtValue || 0n, {
-    unit: getTokenDecimals(usds, chainId)
-  });
-  const parsedRoundedDebtValue = parseFloat(formattedRoundedDebtValue);
-  const regex = /\.[0-9]*[1-9]/;
-  const hasDecimalPart = regex.test(formattedRoundedDebtValue);
-  const nearestWholeNumber = hasDecimalPart
-    ? Math.floor(Math.abs(parsedRoundedDebtValue)) + 1
-    : Math.abs(parsedRoundedDebtValue);
-
-  const formattedDebtValueWithSymbol = `${nearestWholeNumber} ${usds.symbol}`;
+  const formattedDebtValueWithSymbol = formatBigIntAsCeiledAbsoluteWithSymbol(
+    existingVault?.debtValue || 0n,
+    getTokenDecimals(usds, chainId),
+    usds.symbol
+  );
 
   const errorMsg = minDebtNotMet
     ? t`Debt must be paid off entirely, or left with a minimum of ${formatBigInt(simulatedVault?.dust || 0n)}`
