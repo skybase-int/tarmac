@@ -11,7 +11,7 @@ export const getStakeFaqItems = () => [
   },
   {
     question: 'What is the Staking Engine?',
-    answer: `The Staking Engine is a feature of the decentralized Sky Protocol. It has replaced the Seal Engine, offering the same features but it has no exit fee and it only supports SKY tokens, not MKR. If you currently have one or more positions in the Seal Engine, you can migrate to the Staking Engine. Your sealed MKR will be upgraded to SKY during the Seal to Staking migration process. The process, via the Sky.money web app, makes manually exiting your current Seal positions and creating new positions in the Staking Engine as simple as possible
+    answer: `The Staking Engine is a feature of the decentralized Sky Protocol. It has replaced the Seal Engine, offering the same features but it has no exit fee and it only supports SKY tokens, not MKR. If you currently have one or more positions in the Seal Engine, you can migrate to the Staking Engine. Your sealed MKR will be upgraded to SKY during the Seal to Staking migration process. The process, via the Sky.money web app, makes manually exiting your current Seal positions and creating new positions in the Staking Engine as simple as possible.
 
 **Overview of the Staking Engine**
 
