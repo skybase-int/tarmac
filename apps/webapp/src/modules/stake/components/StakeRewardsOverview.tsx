@@ -88,6 +88,7 @@ const StakeRewardsOverviewRow = ({ contractAddress }: { contractAddress: `0x${st
         }
         isLoading={false}
         error={null}
+        // TODO update once rewards go live
         content={<Text className="mt-2">0%</Text>}
       />
       <StatsCard
