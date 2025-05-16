@@ -34,6 +34,7 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
       footer={
         <div className="z-[99999] flex w-fit items-center gap-1.5">
           <Text variant="small" className="leading-4">
+            {/* TODO update once rewards go live */}
             Rate: 0%
           </Text>
           <PopoverRateInfo
