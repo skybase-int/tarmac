@@ -15,8 +15,7 @@ import {
   useSealExitFee,
   useDelegateName,
   useDelegateOwner,
-  useCollateralData,
-  SupportedCollateralTypes
+  useCollateralData
 } from '@jetstreamgg/hooks';
 import { useChainId } from 'wagmi';
 import { Card, CardContent } from '@widgets/components/ui/card';
@@ -182,7 +181,7 @@ export const PositionSummary = () => {
   const existingLiquidationPrice = existingVault?.liquidationPrice || 0n;
   const updatedLiquidationPrice = updatedVault?.liquidationPrice || 0n;
 
-  const { data: collateralData } = useCollateralData(SupportedCollateralTypes.LSEV2_A);
+  const { data: collateralData } = useCollateralData(ilkName);
 
   const lineItems = useMemo(() => {
     return [

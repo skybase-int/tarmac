@@ -5,8 +5,9 @@ import { useCurrentUrnIndex } from '../stake/useCurrentUrnIndex';
 import { useUrnAddress } from '../stake/useUrnAddress';
 import { useVault } from '../vaults/useVault';
 import { useNextMigrationUrnIndex } from './useNextMigrationUrnIndex';
-import { ZERO_ADDRESS } from '../constants';
+import { TENDERLY_CHAIN_ID, ZERO_ADDRESS } from '../constants';
 import { SupportedCollateralTypes } from '../vaults/vaults.constants';
+import { getIlkName } from '../vaults/helpers';
 
 // Mock wagmi hooks
 vi.mock('wagmi', async () => {
@@ -68,6 +69,7 @@ describe('useNextMigrationUrnIndex - Determining the next URN for migration', ()
   const candidateUrnAddr = '0xCandidateUrnAddress';
   const otherUrnAddr = '0xOtherUrnAddress';
   const chainId = 1;
+  const ilkName = getIlkName(TENDERLY_CHAIN_ID, 2);
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -124,7 +126,7 @@ describe('useNextMigrationUrnIndex - Determining the next URN for migration', ()
       data: {
         debtValue: 0n,
         collateralAmount: 0n,
-        collateralType: SupportedCollateralTypes.LSEV2_A
+        collateralType: ilkName
         // Add other necessary fields from VaultData if the hook uses them
       },
       isLoading: false,
@@ -135,7 +137,7 @@ describe('useNextMigrationUrnIndex - Determining the next URN for migration', ()
     // Default mock for candidateUrnAddr
     mockUseVault.mockImplementation(
       (urnAddress: `0x${string}` | undefined, collateralType: SupportedCollateralTypes) => {
-        if (urnAddress === candidateUrnAddr && collateralType === SupportedCollateralTypes.LSEV2_A) {
+        if (urnAddress === candidateUrnAddr && collateralType === ilkName) {
           return mockVaultReturn;
         }
         // Return default/empty for others
@@ -258,7 +260,7 @@ describe('useNextMigrationUrnIndex - Determining the next URN for migration', ()
     // Arrange
     mockVaultReturn.data = {
       ...mockVaultReturn.data,
-      collateralType: SupportedCollateralTypes.LSEV2_A,
+      collateralType: ilkName,
       debtValue: 100n
     };
 
@@ -274,7 +276,7 @@ describe('useNextMigrationUrnIndex - Determining the next URN for migration', ()
     // Arrange
     mockVaultReturn.data = {
       ...mockVaultReturn.data,
-      collateralType: SupportedCollateralTypes.LSEV2_A,
+      collateralType: ilkName,
       collateralAmount: 50n
     };
 
