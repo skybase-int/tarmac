@@ -10,7 +10,7 @@ import { Text } from '@widgets/shared/components/ui/Typography';
 import { captitalizeFirstLetter, formatBigInt, formatPercent } from '@jetstreamgg/utils';
 import { motion } from 'framer-motion';
 import { getRiskTextColor } from '../lib/utils';
-import { RiskLevel, SupportedCollateralTypes, useCollateralData } from '@jetstreamgg/hooks';
+import { getIlkName, RiskLevel, useCollateralData } from '@jetstreamgg/hooks';
 import { cn } from '@widgets/lib/utils';
 import {
   collateralizationRatioTooltipText,
@@ -18,6 +18,7 @@ import {
   liquidationPriceTooltipText,
   riskLevelTooltipText
 } from '../lib/constants';
+import { useChainId } from 'wagmi';
 
 type Props = {
   collateralizationRatio?: bigint;
@@ -41,8 +42,10 @@ export function PositionDetailAccordion({
   delayedPrice,
   liquidationPrice
 }: Props) {
+  const chainId = useChainId();
+  const ilkName = getIlkName(chainId, 2);
   const riskTextColor = getRiskTextColor(riskLevel as RiskLevel);
-  const { data: collateralData } = useCollateralData(SupportedCollateralTypes.LSEV2_A);
+  const { data: collateralData } = useCollateralData(ilkName);
 
   return (
     <Accordion type="single" collapsible>

@@ -1,4 +1,4 @@
-import { useStakeHistoricData, useCollateralData, SupportedCollateralTypes } from '@jetstreamgg/hooks';
+import { useStakeHistoricData, useCollateralData, getIlkName } from '@jetstreamgg/hooks';
 import { formatDecimalPercentage, formatNumber, formatBigInt } from '@jetstreamgg/utils';
 import { DetailSectionRow } from '@/modules/ui/components/DetailSectionRow';
 import { DetailSectionWrapper } from '@/modules/ui/components/DetailSectionWrapper';
@@ -18,8 +18,10 @@ import { StakeChart } from './StakeChart';
 import { PopoverRateInfo } from '@/modules/ui/components/PopoverRateInfo';
 import { useMemo } from 'react';
 import { StakeToken } from '../constants';
+import { useChainId } from 'wagmi';
 
 export function StakeOverview() {
+  const chainId = useChainId();
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
   const { data, isLoading, error } = useStakeHistoricData();
   const mostRecentData = data?.sort(
@@ -34,11 +36,13 @@ export function StakeOverview() {
   const tvl = mostRecentData?.tvl ?? 0;
   const numberOfUrns = mostRecentData?.numberOfUrns ?? 0;
 
+  const ilkName = getIlkName(chainId, 2);
+
   const {
     data: collateralData,
     isLoading: collateralDataLoading,
     error: collateralDataError
-  } = useCollateralData(SupportedCollateralTypes.LSEV2_A);
+  } = useCollateralData(ilkName);
   const debtCeiling = collateralData?.debtCeiling ?? 0n;
   const totalDebt = collateralData?.totalDaiDebt ?? 0n;
 
