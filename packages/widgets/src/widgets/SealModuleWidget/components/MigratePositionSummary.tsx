@@ -15,8 +15,7 @@ import {
   useSealExitFee,
   useDelegateName,
   useDelegateOwner,
-  useCollateralData,
-  SupportedCollateralTypes
+  useCollateralData
 } from '@jetstreamgg/hooks';
 import { useChainId } from 'wagmi';
 import { Card, CardContent } from '@widgets/components/ui/card';
@@ -52,6 +51,7 @@ const isUpdatedValue = (prev: any, next: any) => prev !== undefined && next !== 
 export const MigratePositionSummary = () => {
   const chainId = useChainId();
   const ilkName = getIlkName(chainId);
+  const stakingEngineIlkName = getIlkName(chainId, 2);
 
   const {
     activeUrn,
@@ -150,7 +150,7 @@ export const MigratePositionSummary = () => {
       : math.calculateMKRtoSKYPrice(updatedVault?.liquidationPrice || 0n);
 
   // collateral data will be for lockstake sky
-  const { data: collateralData } = useCollateralData(SupportedCollateralTypes.LOCKSTAKE_SKY);
+  const { data: collateralData } = useCollateralData(stakingEngineIlkName);
 
   // If the contract is ZERO_ADDRESS, we need to treat it as undefined
   const validatedExistingRewardsContract =
