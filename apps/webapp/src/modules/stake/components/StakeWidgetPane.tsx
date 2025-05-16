@@ -13,6 +13,7 @@ import { useSearchParams } from 'react-router-dom';
 import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
 import { Intent } from '@/lib/enums';
 import { useEffect } from 'react';
+import { useStakeHistory } from '@jetstreamgg/hooks';
 
 export function StakeWidgetPane(sharedProps: SharedProps) {
   const {
@@ -22,9 +23,7 @@ export function StakeWidgetPane(sharedProps: SharedProps) {
     selectedStakeUrnIndex,
     setSelectedStakeUrnIndex
   } = useConfigContext();
-  // TODO: Implement `useStakeHistory` hook
-  const refreshStakeHistory = () => {};
-  // const { mutate: refreshStakeHistory } = useStakeHistory(); // Corrected hook name
+  const { mutate: refreshStakeHistory } = useStakeHistory();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const onStakeUrnChange = (urn?: {
@@ -64,36 +63,44 @@ export function StakeWidgetPane(sharedProps: SharedProps) {
     stakeTab,
     originAmount
   }: WidgetStateChangeParams) => {
-    if (widgetState.flow) {
-      setSearchParams(prev => {
-        prev.set(QueryParams.Flow, widgetState.flow);
-        return prev;
-      });
-    }
+    const currentStakeTabParam = searchParams.get(QueryParams.StakeTab);
 
-    if (stakeTab) {
-      setSearchParams(prev => {
-        prev.set(QueryParams.StakeTab, stakeTab === StakeAction.FREE ? 'free' : 'lock'); // Example mapping
-        return prev;
-      });
-    } else if (stakeTab === '') {
-      setSearchParams(prev => {
-        prev.delete(QueryParams.StakeTab);
-        return prev;
-      });
-    }
+    setSearchParams(prev => {
+      const params = new URLSearchParams(prev);
+      if (widgetState.flow) {
+        params.set(QueryParams.Flow, widgetState.flow);
+      }
 
-    if (originAmount && originAmount !== '0') {
-      setSearchParams(prev => {
-        prev.set(QueryParams.InputAmount, originAmount);
-        return prev;
-      });
-    } else if (originAmount === '') {
-      setSearchParams(prev => {
-        prev.delete(QueryParams.InputAmount);
-        return prev;
-      });
-    }
+      const newStakeTabValue =
+        stakeTab === StakeAction.FREE ? 'free' : stakeTab === StakeAction.LOCK ? 'lock' : undefined;
+      let tabDidChange = false;
+
+      if (newStakeTabValue) {
+        if (currentStakeTabParam !== newStakeTabValue) {
+          params.delete(QueryParams.InputAmount); // Tab changed, remove input amount
+          tabDidChange = true;
+        }
+        params.set(QueryParams.StakeTab, newStakeTabValue);
+      } else if (stakeTab === '') {
+        // Explicitly clearing the tab
+        params.delete(QueryParams.StakeTab);
+        params.delete(QueryParams.InputAmount); // Tab cleared, remove input amount
+        tabDidChange = true; // Treat as a change for amount handling logic
+      }
+
+      // Update InputAmount based on originAmount, only if the tab didn't *just* change in this event
+      if (!tabDidChange) {
+        if (originAmount && originAmount !== '0') {
+          params.set(QueryParams.InputAmount, originAmount);
+        } else if (originAmount === '') {
+          // Explicitly empty string means clear
+          params.delete(QueryParams.InputAmount);
+        }
+        // If originAmount is undefined (not part of this event), InputAmount remains untouched unless tabDidChange was true
+      }
+
+      return params;
+    });
 
     // After a successful linked action open flow, set the final step to "success"
     if (

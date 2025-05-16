@@ -66,6 +66,7 @@ function TransactionDetail() {
     activeUrn,
     selectedToken
   } = useContext(SealModuleWidgetContext);
+  const { widgetState } = useContext(WidgetContext);
   const { data: rewardContractTokens } = useRewardContractTokens(selectedRewardContract);
 
   const { data: selectedDelegateName } = useDelegateName(selectedDelegate);
@@ -121,7 +122,7 @@ function TransactionDetail() {
       component: rewardContractTokens ? (
         <VStack gap={3} className="mt-2">
           <Text variant="medium" className="text-textSecondary leading-4">
-            Seal reward
+            {widgetState.flow === SealFlow.MIGRATE ? 'Staking reward' : 'Seal reward'}
           </Text>
           <HStack gap={2}>
             <TokenIcon token={rewardContractTokens.rewardsToken} width={24} className="h-6 w-6 text-[18px]" />

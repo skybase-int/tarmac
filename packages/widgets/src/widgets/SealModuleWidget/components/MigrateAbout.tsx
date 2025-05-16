@@ -145,7 +145,7 @@ export const MigrateAbout = () => {
   const stakingPositionItems = useMemo(() => {
     return [
       {
-        label: t`Collateral to Migrate`,
+        label: t`Collateral to migrate and upgrade`,
         updated: false,
         value: vaultData?.collateralAmount
           ? [
@@ -156,7 +156,7 @@ export const MigrateAbout = () => {
         icon: <TokenIcon noChain token={TOKENS.mkr} className="h-5 w-5" />
       },
       {
-        label: t`Debt to Migrate`,
+        label: t`Debt to migrate`,
         updated: false,
         value: vaultData?.debtValue
           ? `${formatBigInt(vaultData?.debtValue || 0n)} ${TOKENS.usds.symbol}`
@@ -164,7 +164,7 @@ export const MigrateAbout = () => {
         icon: <TokenIcon noChain token={TOKENS.usds} className="h-5 w-5" />
       },
       {
-        label: t`Stake reward`,
+        label: t`Staking Reward`,
         updated: false,
         value: existingStakeRewardContractTokens?.rewardsToken
           ? existingStakeRewardContractTokens?.rewardsToken.symbol
@@ -195,7 +195,10 @@ export const MigrateAbout = () => {
       </Heading>
       <img className="mt-4" src="/images/banner_migration.png" alt="banner_migration" />
       <Text className="mt-4">
-        <Trans>Migrate your positions from the Seal Engine to the Staking Engine—no exit fee applies.</Trans>
+        <Trans>
+          You are migrating your position from the Seal Engine to the Staking Engine. No exist fee applies.
+          Please check the acknowledgement box below to proceed.
+        </Trans>
       </Text>
       <Text className="mt-4">
         <Trans>Migrate from:</Trans>
@@ -209,6 +212,7 @@ export const MigrateAbout = () => {
         lineItemsFiltered={sealedPositionItems}
         className="mt-4"
         dataTestId="migrate-from-card"
+        position="top"
       />
       <Text className="mt-4">
         <Trans>Migrate to:</Trans>
@@ -216,10 +220,7 @@ export const MigrateAbout = () => {
       {!isStakeUrnCreated && (
         <>
           <Text className="text-textSecondary mt-4">
-            <Trans>You&apos;ll need an open Staking Engine position —</Trans>
-          </Text>
-          <Text className="text-textSecondary">
-            <Trans>create one beforehand or during the migration flow.</Trans>
+            <Trans>To migrate, you&apos;ll need an open staking position.</Trans>
           </Text>
         </>
       )}
@@ -236,6 +237,7 @@ export const MigrateAbout = () => {
         currentStakeUrnIndex={currentStakeUrnIndex}
         setSelectedUrnIndex={setSelectedUrnIndex}
         selectedUrnIndex={selectedUrnIndex}
+        position="bottom"
       />
       <div className="mt-4">
         <div className="flex gap-2">
@@ -254,8 +256,8 @@ export const MigrateAbout = () => {
           >
             <Text variant="medium" className="text-textSecondary">
               <Trans>
-                I acknowledge the fact that my MKR collateral will be upgraded to SKY and there is no way to
-                retrieve my MKR.
+                I acknowledge that my MKR collateral will be upgraded to SKY and that this action is
+                irreversible.
               </Trans>
             </Text>
           </div>
@@ -273,7 +275,8 @@ const InfoCard = ({
   showSelector = false,
   currentStakeUrnIndex,
   setSelectedUrnIndex,
-  selectedUrnIndex
+  selectedUrnIndex,
+  position
 }: {
   lineItemsFiltered: Record<string, any>[];
   title: string;
@@ -282,6 +285,7 @@ const InfoCard = ({
   showSelector?: boolean;
   currentStakeUrnIndex?: bigint;
   selectedUrnIndex?: bigint;
+  position: 'top' | 'bottom';
   setSelectedUrnIndex?: (index: bigint | undefined) => void;
 }) => {
   const { newStakeUrn } = useContext(SealModuleWidgetContext);
@@ -370,21 +374,27 @@ const InfoCard = ({
                 </Select>
               </VStack>
             )}
-            {lineItemsFiltered
-              .filter(item => !!item.value)
-              .map(i => {
-                const { label, value, icon, className, tooltipText } = i;
-                return (
-                  <LineItem
-                    key={label}
-                    label={label}
-                    value={value}
-                    tooltipText={tooltipText}
-                    icon={icon}
-                    className={className}
-                  />
-                );
-              })}
+            <div className={position === 'bottom' ? 'flex flex-wrap justify-between' : ''}>
+              {lineItemsFiltered
+                .filter(item => !!item.value)
+                .map((i, index) => {
+                  const { label, value, icon, className, tooltipText } = i;
+                  return (
+                    <LineItem
+                      key={label}
+                      label={label}
+                      value={value}
+                      tooltipText={tooltipText}
+                      icon={icon}
+                      className={className}
+                      labelAlignment={position === 'top' ? 'horizontal' : 'vertical'}
+                      containerClassName={
+                        position === 'bottom' ? (index === 0 ? 'w-full' : 'w-1/2') : undefined
+                      }
+                    />
+                  );
+                })}
+            </div>
           </motion.div>
         </MotionVStack>
       </CardContent>

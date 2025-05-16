@@ -32,7 +32,7 @@ export const SealBalanceWarningCard = ({
             <CardContent className="flex flex-col items-start">
               <div className="flex w-full justify-between">
                 <Text>
-                  <Trans>MKR supplied to Seal Engine</Trans>
+                  <Trans>MKR supplied to the Seal Engine</Trans>
                 </Text>
                 {isLoading ? (
                   <Skeleton className="w-32" />
@@ -46,7 +46,7 @@ export const SealBalanceWarningCard = ({
                 <HStack className="items-center" gap={1}>
                   <Warning boxSize={14} viewBox="0 0 16 16" />
                   <Text variant="captionSm" className="text-error">
-                    <Trans>Seal Engine is deprecated</Trans>
+                    <Trans>The Seal Engine is deprecated</Trans>
                   </Text>
                 </HStack>
                 {isLoading ? (

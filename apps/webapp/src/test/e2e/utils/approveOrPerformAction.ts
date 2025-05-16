@@ -15,7 +15,7 @@ export type Action =
   | 'Continue'
   | 'Confirm'
   | 'Submit'
-  | "Let's now start the migration process"
+  | 'Begin migration'
   | 'Migrate'
   | 'Continue to migrate';
 

@@ -2,7 +2,7 @@ import { useAccount, useChainId } from 'wagmi';
 import { lsMigratorAddress, useReadStakeModuleIsUrnAuth } from '../generated';
 import { ReadHook, ReadHookParams } from '../hooks';
 import { ZERO_ADDRESS } from '../constants';
-import { lseDataSource } from '../seal/datasources';
+import { stakeDataSource } from './datasources';
 
 export type Response = ReadHook & {
   data?: boolean;
@@ -41,7 +41,6 @@ export function useIsUrnAuth({
     mutate: refetch,
     isLoading,
     error,
-    // TODO: update this for stake datasources
-    dataSources: [lseDataSource(chainId, 'isUrnAuth')]
+    dataSources: [stakeDataSource(chainId, 'isUrnAuth')]
   };
 }

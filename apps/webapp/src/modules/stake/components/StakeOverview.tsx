@@ -1,5 +1,5 @@
-import { useSealHistoricData, useCollateralData, SupportedCollateralTypes } from '@jetstreamgg/hooks';
-import { formatDecimalPercentage, formatNumber, math, formatBigInt } from '@jetstreamgg/utils';
+import { useStakeHistoricData, useCollateralData, SupportedCollateralTypes } from '@jetstreamgg/hooks';
+import { formatDecimalPercentage, formatNumber, formatBigInt } from '@jetstreamgg/utils';
 import { DetailSectionRow } from '@/modules/ui/components/DetailSectionRow';
 import { DetailSectionWrapper } from '@/modules/ui/components/DetailSectionWrapper';
 import { DetailSection } from '@/modules/ui/components/DetailSection';
@@ -21,16 +21,14 @@ import { StakeToken } from '../constants';
 
 export function StakeOverview() {
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
-  const { data, isLoading, error } = useSealHistoricData();
+  const { data, isLoading, error } = useStakeHistoricData();
   const mostRecentData = data?.sort(
     (a, b) => new Date(b.datetime).getTime() - new Date(a.datetime).getTime()
   )[0];
 
   const skySealed = useMemo(() => {
-    return formatNumber(
-      mostRecentData?.totalMkr ? mostRecentData?.totalMkr * Number(math.MKR_TO_SKY_PRICE_RATIO) : 0
-    );
-  }, [mostRecentData?.totalMkr]);
+    return formatNumber(mostRecentData?.totalSky || 0);
+  }, [mostRecentData?.totalSky]);
 
   const borrowRate = mostRecentData?.borrowRate ?? 0;
   const tvl = mostRecentData?.tvl ?? 0;

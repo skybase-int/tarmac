@@ -370,7 +370,7 @@ export const PositionSummary = () => {
                 <JazziconComponent address={selectedDelegateOwner} diameter={20} />
               )
             ]
-          ) : isDelegateLoading || !delegateOwnerToDisplay ? (
+          ) : isDelegateLoading ? (
             <Skeleton className="w-30 h-5" />
           ) : (
             <JazziconComponent address={delegateOwnerToDisplay} diameter={20} />

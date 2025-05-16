@@ -175,7 +175,7 @@ export const MigratePositionSummary = () => {
       },
       {
         // label: getSealLabel(existingVault?.collateralAmount, updatedVault?.collateralAmount),
-        label: 'Collateral to migrate',
+        label: 'Collateral to migrate and upgrade',
         updated:
           hasPositions && isUpdatedValue(existingVault?.collateralAmount, updatedVault?.collateralAmount),
         value:
@@ -283,7 +283,7 @@ export const MigratePositionSummary = () => {
         hideIfNoDebt: true
       },
       {
-        label: t`Stake reward`,
+        label: t`Staking reward`,
         updated:
           hasPositions &&
           isUpdatedValue(
@@ -434,7 +434,6 @@ export const MigratePositionSummary = () => {
               {lineItemsFiltered
                 .filter(item => /*!item.updated &&*/ !!item.value)
                 .map(i => {
-                  console.log('ixx', i);
                   const { label, value, icon, className, tooltipText } = i;
                   return (
                     <LineItem

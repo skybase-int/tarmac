@@ -266,7 +266,6 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
       newStakeUrnIndex?: bigint,
       newStakeUrnIndexAddress?: `0x${string}`
     ) => {
-      console.log('*** urnIndex, newStakeUrnIndex, ownerAddress', urnIndex, newStakeUrnIndex, ownerAddress);
       // --- CALLDATA GENERATION ---
       // If we have an activeUrn address, we're not opening a new one, we're managing an existing one
       const openCalldata = !activeUrn?.urnAddress ? getSaOpenCalldata({ urnIndex }) : undefined;
@@ -392,8 +391,6 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
 
       // Filter out undefined calldata
       const filteredCalldata = sortedCalldata.filter(calldata => !!calldata) as `0x${string}`[];
-
-      console.log('*** filtered calldata', hopeCalldata);
 
       return filteredCalldata;
     },

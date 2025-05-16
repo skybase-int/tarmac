@@ -17,7 +17,7 @@ async function fetchStakeRewardContracts(urlSubgraph: string) {
   const response = await request<{ rewards: { id: `0x${string}` }[] }>(urlSubgraph, query);
   const parsedRewardContracts = response.rewards;
   if (!parsedRewardContracts) {
-    return undefined;
+    return [];
   }
 
   return parsedRewardContracts.map(f => ({
