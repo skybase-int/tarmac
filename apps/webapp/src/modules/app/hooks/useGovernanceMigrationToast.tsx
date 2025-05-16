@@ -23,9 +23,17 @@ export const useGovernanceMigrationToast = () => {
         description: (
           <VStack className="mt-4 gap-4">
             <Text variant="medium">
-              Sky Ecosystem Governance has voted to make SKY the sole governance token of the Sky Protocol.
-              MKR holders are encouraged to upgrade to SKY promptly to maintain access to Staking Rewards,
-              maintain the ability to participate in governance, and avoid the Delayed Upgrade Penalty.
+              Sky Ecosystem Governance has{' '}
+              <ExternalLink
+                showIcon={false}
+                href="https://vote.makerdao.com/polling/QmTVd4iq"
+                className="inline text-blue-500 hover:underline"
+              >
+                voted to make SKY the sole governance token
+              </ExternalLink>{' '}
+              of the Sky Protocol. MKR holders are encouraged to upgrade to SKY promptly to maintain the
+              ability to participate in governance, maintain access to Staking Rewards and avoid the Delayed
+              Upgrade Penalty.
             </Text>
             <Button className="place-self-start" variant="pill" size="xs">
               <ExternalLink href="https://upgrademkrtosky.sky.money" showIcon={false}>
