@@ -11,13 +11,13 @@ export const getStakeFaqItems = () => [
   },
   {
     question: 'What is the Staking Engine?',
-    answer: `The Staking Engine is a feature of the decentralized Sky Protocol. It has replaced the Seal Engine, offering the same features but it has no exit fee and it only supports SKY tokens, not MKR. If you currently have one or more existing positions in the Seal Engine, you can migrate to the Staking Engine. Your sealed MKR will be upgraded to SKY during the Seal to Staking migration process. The process, via the Sky.money web app, makes manually exiting your current Seal positions and creating new positions in the Staking Engine as simple as possible
+    answer: `The Staking Engine is a feature of the decentralized Sky Protocol. It has replaced the Seal Engine, offering the same features but it has no exit fee and it only supports SKY tokens, not MKR. If you currently have one or more positions in the Seal Engine, you can migrate to the Staking Engine. Your sealed MKR will be upgraded to SKY during the Seal to Staking migration process. The process, via the Sky.money web app, makes manually exiting your current Seal positions and creating new positions in the Staking Engine as simple as possible
 
 **Overview of the Staking Engine**
 
 When you supply SKY governance tokens to the Staking Engine using the Sky.money web app, you can access Staking Rewards and choose to create one or more positions, including positions that enable you to generate and borrow USDS against your supplied SKY and to delegate the voting power the SKY token provides. Here’s a brief overview:
 
-• Access Rewards. Supply SKY tokens to collect Staking Rewards currently in the form of USDS. Staking Reward rates are determined by Sky Ecosystem Governance through the process of decentralized onchain voting.
+• Access Rewards. Supply SKY tokens to access Staking Rewards, initially in the form of USDS. Staking Reward rates are determined by Sky Ecosystem Governance through the process of decentralized onchain voting.
 
 • Borrow.  Borrow USDS against your supplied SKY. You can exit your borrow position at any time and withdraw or pay back USDS whenever you would like. The USDS Borrow Rate and debt ceiling are determined by Sky Ecosystem Governance through the process of decentralized onchain voting. Your total debt increases each block according to the Borrow Rate.
 
@@ -29,13 +29,13 @@ Your SKY, as well as any Staking Rewards that you accumulate, are supplied to a 
   },
   {
     question: 'What will happen to the MKR and/or SKY I’ve supplied to the Seal Engine?',
-    answer: `If you currently have one or more existing positions in the Seal Engine, you can migrate to the Staking Engine. Your sealed MKR will be upgraded to SKY during the Seal to Staking migration process. The process, via the Sky.money web app, makes manually exiting your current Seal positions and creating new positions in the Staking Engine as simple as possible. 
+    answer: `If you currently have one or more positions in the Seal Engine, you can migrate to the Staking Engine. Your sealed MKR will be upgraded to SKY during the Seal to Staking migration process. The process, via the Sky.money web app, makes manually exiting your current Seal positions and creating new positions in the Staking Engine as simple as possible. 
  
 For upgrade details and step-by-step upgrade instructions, please visit the [MKR to SKY Upgrade Hub](https://upgrademkrtosky.sky.money).`
   },
   {
     question: 'What do I do with my existing positions in the Seal Engine?',
-    answer: `If you currently have one or more existing positions in the Seal Engine, you can migrate to the Staking Engine. Your sealed MKR will be upgraded to SKY during the Seal to Staking migration process. The process, via the Sky.money web app, makes manually exiting your current Seal positions and creating new positions in the Staking Engine as simple as possible. 
+    answer: `If you currently have one or more positions in the Seal Engine, you can migrate to the Staking Engine. Your sealed MKR will be upgraded to SKY during the Seal to Staking migration process. The process, via the Sky.money web app, makes manually exiting your current Seal positions and creating new positions in the Staking Engine as simple as possible. 
  
 For upgrade details and step-by-step upgrade instructions, please visit the [MKR to SKY Upgrade Hub](https://upgrademkrtosky.sky.money).`
   },
