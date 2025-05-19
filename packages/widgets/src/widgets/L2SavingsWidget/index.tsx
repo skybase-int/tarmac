@@ -10,7 +10,7 @@ import {
   useTokenBalance,
   getTokenDecimals
 } from '@jetstreamgg/hooks';
-import { getEtherscanLink, useDebounce, formatBigInt, math } from '@jetstreamgg/utils';
+import { getTransactionLink, useDebounce, formatBigInt, math, useIsSafeWallet } from '@jetstreamgg/utils';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { WidgetContainer } from '@widgets/shared/components/ui/widget/WidgetContainer';
 import { SavingsFlow, SavingsAction, SavingsScreen } from '../SavingsWidget/lib/constants';
@@ -140,6 +140,7 @@ const SavingsWidgetWrapped = ({
 
   const chainId = useChainId();
   const { address, isConnecting, isConnected } = useAccount();
+  const isSafeWallet = useIsSafeWallet();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
 
   const initialTabIndex = validatedExternalState?.tab === 'right' ? 1 : 0;
@@ -248,7 +249,7 @@ const SavingsWidgetWrapped = ({
           unit: originToken && getTokenDecimals(originToken, chainId)
         })} ${originToken.symbol}`
       });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -308,7 +309,7 @@ const SavingsWidgetWrapped = ({
           unit: originToken && getTokenDecimals(originToken, chainId)
         })} ${originToken.symbol}`
       });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -358,7 +359,7 @@ const SavingsWidgetWrapped = ({
           unit: originToken && getTokenDecimals(originToken, chainId)
         })} ${originToken.symbol}`
       });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -412,7 +413,7 @@ const SavingsWidgetWrapped = ({
           unit: originToken && getTokenDecimals(originToken, chainId)
         })} ${originToken.symbol}`
       });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -614,11 +615,11 @@ const SavingsWidgetWrapped = ({
   // Handle the error onClicks separately to keep it clean
   const errorOnClick = () => {
     return widgetState.action === SavingsAction.SUPPLY
-      ? supplyOnClick
+      ? supplyOnClick()
       : widgetState.action === SavingsAction.WITHDRAW
-        ? withdrawOnClick
+        ? withdrawOnClick()
         : widgetState.action === SavingsAction.APPROVE
-          ? approveOnClick
+          ? approveOnClick()
           : undefined;
   };
 
@@ -631,7 +632,7 @@ const SavingsWidgetWrapped = ({
       : txStatus === TxStatus.SUCCESS
         ? nextOnClick
         : txStatus === TxStatus.ERROR
-          ? errorOnClick()
+          ? errorOnClick
           : (widgetState.flow === SavingsFlow.SUPPLY && widgetState.action === SavingsAction.APPROVE) ||
               (widgetState.flow === SavingsFlow.WITHDRAW && widgetState.action === SavingsAction.APPROVE)
             ? approveOnClick
@@ -742,6 +743,31 @@ const SavingsWidgetWrapped = ({
   }, [debouncedBalanceError]);
 
   const usds = TOKENS.usds;
+
+  // Reset widget state after switching network
+  useEffect(() => {
+    // Reset all state variables
+    setAmount(initialAmount);
+    setMaxWithdraw(false);
+    setTxStatus(TxStatus.IDLE);
+    setExternalLink(undefined);
+    setOriginToken(tokenForSymbol(validatedExternalState?.token || 'USDS'));
+
+    // Reset widget state to initial screen
+    if (tabIndex === 0) {
+      setWidgetState({
+        flow: SavingsFlow.SUPPLY,
+        action: SavingsAction.SUPPLY,
+        screen: SavingsScreen.ACTION
+      });
+    } else {
+      setWidgetState({
+        flow: SavingsFlow.WITHDRAW,
+        action: SavingsAction.WITHDRAW,
+        screen: SavingsScreen.ACTION
+      });
+    }
+  }, [chainId]);
 
   return (
     <WidgetContainer

@@ -6,7 +6,7 @@ import {
   useSavingsSupply,
   useSavingsWithdraw
 } from '@jetstreamgg/hooks';
-import { getEtherscanLink, useDebounce, formatBigInt } from '@jetstreamgg/utils';
+import { getTransactionLink, useDebounce, formatBigInt, useIsSafeWallet } from '@jetstreamgg/utils';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { WidgetContainer } from '@widgets/shared/components/ui/widget/WidgetContainer';
 import { SavingsFlow, SavingsAction, SavingsScreen } from './lib/constants';
@@ -86,6 +86,7 @@ const SavingsWidgetWrapped = ({
 
   const chainId = useChainId();
   const { address, isConnecting, isConnected } = useAccount();
+  const isSafeWallet = useIsSafeWallet();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
   const { mutate: mutateSavings, data: savingsData, isLoading: isSavingsDataLoading } = useSavingsData();
   const { data: allowance, mutate: mutateAllowance, isLoading: allowanceLoading } = useSavingsAllowance();
@@ -122,7 +123,7 @@ const SavingsWidgetWrapped = ({
         hash,
         description: t`Approving ${formatBigInt(debouncedAmount)} USDS`
       });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -158,7 +159,7 @@ const SavingsWidgetWrapped = ({
         hash,
         description: t`Supplying ${formatBigInt(debouncedAmount)} USDS`
       });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -197,7 +198,7 @@ const SavingsWidgetWrapped = ({
         hash,
         description: t`Withdrawing ${formatBigInt(debouncedAmount)} USDS`
       });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -366,11 +367,11 @@ const SavingsWidgetWrapped = ({
   // Handle the error onClicks separately to keep it clean
   const errorOnClick = () => {
     return widgetState.action === SavingsAction.SUPPLY
-      ? supplyOnClick
+      ? supplyOnClick()
       : widgetState.action === SavingsAction.WITHDRAW
-        ? withdrawOnClick
+        ? withdrawOnClick()
         : widgetState.action === SavingsAction.APPROVE
-          ? approveOnClick
+          ? approveOnClick()
           : undefined;
   };
 
@@ -383,7 +384,7 @@ const SavingsWidgetWrapped = ({
       : txStatus === TxStatus.SUCCESS
         ? nextOnClick
         : txStatus === TxStatus.ERROR
-          ? errorOnClick()
+          ? errorOnClick
           : widgetState.flow === SavingsFlow.SUPPLY && widgetState.action === SavingsAction.APPROVE
             ? approveOnClick
             : widgetState.flow === SavingsFlow.SUPPLY && widgetState.action === SavingsAction.SUPPLY
@@ -477,6 +478,34 @@ const SavingsWidgetWrapped = ({
   }, [debouncedBalanceError]);
 
   const usds = TOKENS.usds;
+
+  // Reset widget state after switching network
+  useEffect(() => {
+    // Reset all state variables
+    setAmount(initialAmount);
+    setMax(false);
+    setTxStatus(TxStatus.IDLE);
+    setExternalLink(undefined);
+
+    // Reset widget state to initial screen based on current tab
+    if (tabIndex === 0) {
+      setWidgetState({
+        flow: SavingsFlow.SUPPLY,
+        action: SavingsAction.SUPPLY,
+        screen: SavingsScreen.ACTION
+      });
+    } else {
+      setWidgetState({
+        flow: SavingsFlow.WITHDRAW,
+        action: SavingsAction.WITHDRAW,
+        screen: SavingsScreen.ACTION
+      });
+    }
+
+    // Refresh data
+    mutateSavings();
+    mutateAllowance();
+  }, [chainId]);
 
   return (
     <WidgetContainer
