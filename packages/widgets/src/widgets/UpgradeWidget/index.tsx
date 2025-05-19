@@ -604,7 +604,7 @@ export function UpgradeWidgetWrapped({
                 originTitle={
                   tabIndex === 0
                     ? t`Choose a token to upgrade, and enter an amount`
-                    : t`Choose a token to revert, and enter an amount`
+                    : t`Enter an amount of USDS to revert`
                 }
                 originAmount={originAmount}
                 targetAmount={math.calculateConversion(originToken, debouncedOriginAmount)}
@@ -618,10 +618,13 @@ export function UpgradeWidgetWrapped({
                 targetToken={targetToken}
                 originBalance={originBalance?.value}
                 onToggle={(index: 0 | 1) => {
+                  // Don't perform updates if user clicks in the same tab that is selected
+                  if (index !== tabIndex) {
+                    setOriginToken(index === 0 ? targetToken : TOKENS.usds);
+                    setTargetToken(index === 0 ? originToken : TOKENS.dai);
+                    setOriginAmount(0n);
+                  }
                   setTabIndex(index);
-                  setOriginToken(index === 0 ? targetToken : TOKENS.usds);
-                  setTargetToken(index === 0 ? originToken : TOKENS.dai);
-                  setOriginAmount(0n);
                 }}
                 onOriginInputChange={setOriginAmount}
                 tabIndex={tabIndex}

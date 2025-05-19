@@ -1,8 +1,7 @@
 export enum SupportedCollateralTypes {
-  LOCKSTAKE = 'LOCKSTAKE',
-  LSE_MKR_A = 'LSE-MKR-A',
-  LOCKSTAKE_SKY = 'LockstakeSky', // not sure if this is needed
-  LSEV2_A = 'LSEV2-A'
+  LSE_MKR_A = 'LSE-MKR-A', // Seal Engine ilk name
+  LSEV2_A = 'LSEV2-A', // Staking engine ilk name in Tenderly. TODO: remove it and replace it for `LSEV2_SKY_A` once we have new testnet
+  LSEV2_SKY_A = 'LSEV2-SKY-A' // Staking engine ilk name in Mainnet
 }
 
 export enum RiskLevel {

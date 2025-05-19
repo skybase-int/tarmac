@@ -2,7 +2,7 @@ import { WidgetProps } from '@widgets/shared/types/widgetState';
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
 import { Tabs, TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
-import { getTokenDecimals, Token } from '@jetstreamgg/hooks';
+import { getTokenDecimals, Token, TOKENS } from '@jetstreamgg/hooks';
 import { UpgradeStats } from './UpgradeStats';
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
 import { t } from '@lingui/core/macro';
@@ -10,6 +10,7 @@ import { formatBigInt } from '@jetstreamgg/utils';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { useChainId } from 'wagmi';
+import { Text } from '@widgets/shared/components/ui/Typography';
 
 type Props = WidgetProps & {
   leftTabTitle: string;
@@ -118,7 +119,32 @@ export function UpgradeRevert({
                     value: `${formatBigInt(targetAmount, {
                       unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18
                     })} ${targetToken?.symbol}`
-                  }
+                  },
+                  ...(originToken?.symbol === TOKENS.mkr.symbol
+                    ? [
+                        {
+                          label: t`Delayed Upgrade Penalty`,
+                          // TODO: Fetch this value dynamically
+                          value: '0%',
+                          tooltipText: (
+                            <>
+                              <Text>
+                                The Delayed Upgrade Penalty is a time-based upgrade mechanism, approved by Sky
+                                Ecosystem Governance, which is designed to facilitate a smooth and prompt
+                                upgrade of MKR to SKY.
+                              </Text>
+                              <br />
+                              <Text>
+                                The penalty, which will begin sometime in September 2025, reduces the amount
+                                of SKY received per MKR upgraded at a rate of 1%, and increases by 1% every
+                                three months thereafter until it reaches 100% in 25 years. The penalty will
+                                not apply to anyone upgrading their MKR to SKY before it kicks in.
+                              </Text>
+                            </>
+                          )
+                        }
+                      ]
+                    : [])
                 ]}
               />
             </motion.div>

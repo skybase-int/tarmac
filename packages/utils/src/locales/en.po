@@ -439,6 +439,11 @@ msgstr ""
 msgid "Approving migrator contract"
 msgstr ""
 
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+msgid "Back"
+msgstr ""
+
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 msgid "Back to Rewards"
 msgstr ""
@@ -446,6 +451,10 @@ msgstr ""
 #: packages/widgets/src/widgets/SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
 msgid "Back to Savings"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
+msgid "Back to Seal"
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
@@ -568,10 +577,6 @@ msgstr ""
 #: packages/widgets/src/widgets/TradeWidget/components/TradeInputs.tsx
 #: packages/widgets/src/widgets/L2TradeWidget/components/L2TradeInputs.tsx
 msgid "Choose a token to receive"
-msgstr ""
-
-#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
-msgid "Choose a token to revert, and enter an amount"
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/components/TradeInputs.tsx
@@ -922,6 +927,10 @@ msgstr ""
 #: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
 msgid "Enter amount"
+msgstr ""
+
+#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
+msgid "Enter an amount of USDS to revert"
 msgstr ""
 
 #: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts

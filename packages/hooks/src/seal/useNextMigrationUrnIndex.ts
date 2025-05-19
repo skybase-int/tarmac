@@ -6,7 +6,7 @@ import { useCurrentUrnIndex } from '../stake/useCurrentUrnIndex';
 import { useUrnAddress } from '../stake/useUrnAddress';
 import { ZERO_ADDRESS } from '../constants';
 import { useVault } from '../vaults/useVault';
-import { SupportedCollateralTypes } from '../vaults/vaults.constants';
+import { getIlkName } from '../vaults/helpers';
 
 type UseNextMigrationUrnIndexResponse = ReadHook & {
   data: bigint | undefined;
@@ -54,13 +54,15 @@ export function useNextMigrationUrnIndex(): UseNextMigrationUrnIndexResponse {
   // Check if the currently connected address is the urn owner
   const isCandidateUrnOwner = recordedAddress?.toLocaleLowerCase() === address?.toLocaleLowerCase();
 
+  const ilkName = getIlkName(chainId, 2);
+
   const {
     data: vaultData,
     isLoading: isVaultLoading,
     error: isVaultError,
     mutate: refetchVault,
     dataSources: vaultDataSources
-  } = useVault(candidateUrnAddress, SupportedCollateralTypes.LSEV2_A);
+  } = useVault(candidateUrnAddress, ilkName);
 
   // Check that there is no collateral locked or debt drawn
   const isUrnEmpty = vaultData?.debtValue === 0n && vaultData?.collateralAmount === 0n;
