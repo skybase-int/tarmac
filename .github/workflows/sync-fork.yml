@@ -50,13 +50,30 @@ jobs:
         run: |
           git remote add upstream git@github.com:${{ env.UPSTREAM_REPO }}.git
 
+      - name: Set branches to sync
+        id: set_branches
+        run: |
+          if [[ "${{ github.event_name }}" == "schedule" ]]; then
+            echo "SELECTED_BRANCHES=${{ env.BRANCHES }}" >> $GITHUB_ENV
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            if [[ "${{ github.event.inputs.branch }}" == "all" ]]; then
+              echo "SELECTED_BRANCHES=${{ env.BRANCHES }}" >> $GITHUB_ENV
+            else
+              echo "SELECTED_BRANCHES=${{ github.event.inputs.branch }}" >> $GITHUB_ENV
+            fi
+          elif [[ "${{ github.event_name }}" == "repository_dispatch" ]]; then
+            if [[ "${{ github.event.client_payload.branch }}" == "all" ]]; then
+              echo "SELECTED_BRANCHES=${{ env.BRANCHES }}" >> $GITHUB_ENV
+            else
+              echo "SELECTED_BRANCHES=${{ github.event.client_payload.branch }}" >> $GITHUB_ENV
+            fi
+          fi
+
       - name: Sync fork
         id: sync
         shell: bash
-        env:
-          BRANCHES: ${{ ( github.event_name == 'schedule' || github.event.inputs.branch == 'all' ) && env.BRANCHES || github.event.inputs.branch }}
         run: |
-          for BRANCH in $BRANCHES; do
+          for BRANCH in $SELECTED_BRANCHES; do
             git checkout $BRANCH
             git fetch upstream $BRANCH
             git checkout upstream/$BRANCH
