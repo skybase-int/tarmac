@@ -7,7 +7,7 @@ import { useSearchParams } from 'react-router-dom';
 import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
 import { Intent } from '@/lib/enums';
 import { useEffect } from 'react';
-
+import { Error } from '@/modules/layout/components/Error';
 export function SealWidgetPane(sharedProps: SharedProps) {
   let termsLink: any[] = [];
   try {
@@ -34,9 +34,9 @@ export function SealWidgetPane(sharedProps: SharedProps) {
     setSearchParams(params => {
       if (urn?.urnAddress && urn?.urnIndex !== undefined) {
         params.set(QueryParams.Widget, IntentMapping[Intent.SEAL_INTENT]);
-        params.set(QueryParams.SealUrnIndex, urn.urnIndex.toString());
+        params.set(QueryParams.UrnIndex, urn.urnIndex.toString());
       } else {
-        params.delete(QueryParams.SealUrnIndex);
+        params.delete(QueryParams.UrnIndex);
       }
       return params;
     });
@@ -45,7 +45,7 @@ export function SealWidgetPane(sharedProps: SharedProps) {
 
   // Reset detail pane urn index when widget is mounted
   useEffect(() => {
-    const urnIndexParam = searchParams.get(QueryParams.SealUrnIndex);
+    const urnIndexParam = searchParams.get(QueryParams.UrnIndex);
     setSelectedSealUrnIndex(
       urnIndexParam ? (isNaN(Number(urnIndexParam)) ? undefined : Number(urnIndexParam)) : undefined
     );
@@ -99,7 +99,7 @@ export function SealWidgetPane(sharedProps: SharedProps) {
   const hasTermsLink = Array.isArray(termsLink) && termsLink.length > 0;
   if (!hasTermsLink) {
     console.error('No terms link found');
-    return null;
+    return <Error />;
   }
 
   return (
@@ -108,7 +108,8 @@ export function SealWidgetPane(sharedProps: SharedProps) {
       onSealUrnChange={onSealUrnChange}
       onWidgetStateChange={onSealWidgetStateChange}
       externalWidgetState={{ amount: linkedActionConfig?.inputAmount, urnIndex: selectedSealUrnIndex }}
-      termsLink={termsLink[0]}
+      termsLink={Array.isArray(termsLink) && termsLink.length > 0 ? termsLink[0] : undefined}
+      mkrSkyUpgradeUrl="https://upgrademkrtosky.sky.money"
     />
   );
 }

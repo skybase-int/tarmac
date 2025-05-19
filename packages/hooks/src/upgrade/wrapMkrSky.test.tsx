@@ -7,13 +7,12 @@ import { useTokenBalance } from '../tokens/useTokenBalance';
 import { mkrAddress, skyAddress } from '../generated';
 import { useMkrSkyApprove } from './useMkrSkyApprove';
 import { useMkrToSky } from './useMkrToSky';
-import { useSkyToMkr } from './useSkyToMkr';
 import { TENDERLY_CHAIN_ID } from '../constants';
 import { waitForPreparedExecuteAndMine } from '../../test/helpers';
 
-describe('Upgrade and revert MKR SKY', async () => {
+describe('Upgrade MKR SKY', async () => {
   it(
-    'Should upgrade and revert',
+    'Should upgrade MKR to SKY',
     {
       timeout: 90000
     },
@@ -112,82 +111,6 @@ describe('Upgrade and revert MKR SKY', async () => {
       await waitFor(
         () => {
           expect(resultBalanceNgtAfterUpgrade.current.data?.formatted).toEqual('240000');
-          return;
-        },
-        { timeout: 5000 }
-      );
-
-      // Revert SKY to MKR
-      // Approve token to revert
-      const { result: resultApproveNgt } = renderHook(
-        () =>
-          useMkrSkyApprove({
-            amount: parseEther('240000'),
-            tokenAddress: skyAddress[TENDERLY_CHAIN_ID],
-            gas: GAS
-          }),
-
-        {
-          wrapper
-        }
-      );
-
-      await waitForPreparedExecuteAndMine(resultApproveNgt);
-
-      // Revert SKY to MKR
-      const { result: resultRevert } = renderHook(
-        () =>
-          useSkyToMkr({
-            amount: parseEther('240000'),
-            enabled: true,
-            gas: GAS
-          }),
-        {
-          wrapper
-        }
-      );
-
-      await waitForPreparedExecuteAndMine(resultRevert);
-
-      // Get the balance of MKR for that user
-      const { result: resultBalanceMkrAfterRevert } = renderHook(
-        () =>
-          useTokenBalance({
-            address: TEST_WALLET_ADDRESS,
-            token: mkrAddress[TENDERLY_CHAIN_ID],
-            chainId: TENDERLY_CHAIN_ID
-          }),
-        {
-          wrapper
-        }
-      );
-
-      // The user should have more MKR after revert
-      await waitFor(
-        () => {
-          expect(resultBalanceMkrAfterRevert.current.data?.formatted).toEqual('100');
-          return;
-        },
-        { timeout: 5000 }
-      );
-
-      // Get the balance of SKY for that user
-      const { result: resultBalanceNgtAfterRevert } = renderHook(
-        () =>
-          useTokenBalance({
-            address: TEST_WALLET_ADDRESS,
-            token: skyAddress[TENDERLY_CHAIN_ID],
-            chainId: TENDERLY_CHAIN_ID
-          }),
-        {
-          wrapper
-        }
-      );
-
-      // The user should have less SKY after revert
-      await waitFor(
-        () => {
-          expect(resultBalanceNgtAfterRevert.current.data?.formatted).toEqual('0');
           return;
         },
         { timeout: 5000 }

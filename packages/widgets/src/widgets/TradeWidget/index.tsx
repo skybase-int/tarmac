@@ -27,7 +27,13 @@ import {
   useOnChainCancelOrder
 } from '@jetstreamgg/hooks';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { formatBigInt, getEtherscanLink, useDebounce, useIsSmartContractWallet } from '@jetstreamgg/utils';
+import {
+  formatBigInt,
+  getTransactionLink,
+  useDebounce,
+  useIsSafeWallet,
+  useIsSmartContractWallet
+} from '@jetstreamgg/utils';
 import { useAccount, useChainId } from 'wagmi';
 import { t } from '@lingui/core/macro';
 import { TxStatus, notificationTypeMaping } from '@widgets/shared/constants';
@@ -131,6 +137,7 @@ function TradeWidgetWrapped({
 
   const chainId = useChainId();
   const { address, isConnecting, isConnected } = useAccount();
+  const isSafeWallet = useIsSafeWallet();
   const isSmartContractWallet = useIsSmartContractWallet();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
   const linguiCtx = useLingui();
@@ -339,7 +346,7 @@ function TradeWidgetWrapped({
           unit: originToken ? getTokenDecimals(originToken, chainId) : 18
         })} ${originToken?.symbol ?? ''}`
       });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -517,7 +524,7 @@ function TradeWidgetWrapped({
           unit: originToken ? getTokenDecimals(originToken, chainId) : 18
         })} ${originToken?.symbol ?? ''} to the EthFlow contract`
       });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       setEthFlowTxStatus(EthFlowTxStatus.SENDING_ETH);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
@@ -831,6 +838,15 @@ function TradeWidgetWrapped({
       action: TradeAction.TRADE,
       screen: TradeScreen.ACTION
     });
+
+    // Reset additional state
+    setTradeAnyway(false);
+    setShowAddToken(false);
+    setCancelLoading(false);
+    setOrderId(undefined);
+    setExternalLink(undefined);
+    setFormattedExecutedSellAmount(undefined);
+    setFormattedExecutedBuyAmount(undefined);
   }, [chainId]);
 
   useEffect(() => {
@@ -1027,9 +1043,9 @@ function TradeWidgetWrapped({
   // Handle the error onClicks separately to keep it clean
   const errorOnClick = () => {
     return widgetState.action === TradeAction.TRADE
-      ? tradeOnClick
+      ? tradeOnClick()
       : widgetState.action === TradeAction.APPROVE
-        ? approveOnClick
+        ? approveOnClick()
         : undefined;
   };
 
@@ -1045,7 +1061,7 @@ function TradeWidgetWrapped({
         : txStatus === TxStatus.SUCCESS
           ? nextOnClick
           : txStatus === TxStatus.ERROR
-            ? errorOnClick()
+            ? errorOnClick
             : txStatus === TxStatus.CANCELLED
               ? nextOnClick
               : widgetState.screen === TradeScreen.ACTION
