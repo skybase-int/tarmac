@@ -17,7 +17,7 @@ async function fetchDelegates(
   orderBy?: string,
   orderDirection?: string,
   search?: string,
-  version?: 1 | 2
+  version?: 1 | 2 | 3
 ): Promise<DelegateInfo[] | undefined> {
   const whereConditions = [];
   if (version) whereConditions.push(`{version: "${version}"}`);
@@ -75,7 +75,7 @@ export function useDelegates({
   pageSize?: number;
   random?: boolean;
   search?: string;
-  version?: 1 | 2;
+  version?: 1 | 2 | 3;
   urlMetadata?: string;
   enabled?: boolean;
 }): ReadHook & { data?: DelegateInfo[] } {
