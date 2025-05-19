@@ -14,7 +14,6 @@ export function UpgradeWidgetDisplay({ externalWidgetState }: UpgradeWidgetProps
   // Simulate restricted page
   const mockRestricted = false;
   const upgradeOptions = mockRestricted ? [TOKENS.dai] : [TOKENS.dai, TOKENS.mkr];
-  const revertOptions = mockRestricted ? [TOKENS.usds] : [TOKENS.usds, TOKENS.sky];
 
   return (
     <BaseUpgradeWidget
@@ -24,7 +23,6 @@ export function UpgradeWidgetDisplay({ externalWidgetState }: UpgradeWidgetProps
       rightHeaderComponent={undefined}
       externalWidgetState={externalWidgetState}
       upgradeOptions={upgradeOptions}
-      revertOptions={revertOptions}
     />
   );
 }

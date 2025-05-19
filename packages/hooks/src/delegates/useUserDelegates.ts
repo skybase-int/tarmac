@@ -11,7 +11,7 @@ async function fetchUserDelegates(
   urlSubgraph: string,
   user: `0x${string}`,
   search?: string,
-  version?: 1 | 2
+  version?: 1 | 2 | 3
 ): Promise<DelegateInfo[] | undefined> {
   const whereConditions = [`{delegations_: {delegator_contains_nocase: "${user}", amount_gt: 0}}`];
   if (version) whereConditions.push(`{version: "${version}"}`);
@@ -72,7 +72,7 @@ export function useUserDelegates({
   chainId: number;
   user: `0x${string}`;
   search?: string;
-  version?: 1 | 2;
+  version?: 1 | 2 | 3;
   urlMetadata?: string;
 }): ReadHook & { data?: DelegateInfo[] } {
   const urlSubgraph = subgraphUrl ? subgraphUrl : getMakerSubgraphUrl(chainId) || '';
