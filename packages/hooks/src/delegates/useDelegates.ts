@@ -40,15 +40,23 @@ async function fetchDelegates(
         blockTimestamp
         blockNumber
         ownerAddress
-        totalDelegated
         id
         delegators
+        delegations(
+          first: 1000
+          where: {delegator_not_in: ["0xce01c90de7fd1bcfa39e237fe6d8d9f569e8a6a3", "0xb1fc11f03b084fff8dae95fa08e8d69ad2547ec1"]}
+        ) {
+          amount
+        }
       }
     }
   `;
 
   const response = await request<{ delegates: DelegateRaw[] }>(urlSubgraph, query);
-  const parsedDelegates = response.delegates as DelegateRaw[];
+  const parsedDelegates = response.delegates.map(d => ({
+    ...d,
+    totalDelegated: d.delegations.reduce((acc, curr) => acc + BigInt(curr.amount), BigInt(0)).toString()
+  })) as DelegateRaw[];
   if (!parsedDelegates) {
     return undefined;
   }
