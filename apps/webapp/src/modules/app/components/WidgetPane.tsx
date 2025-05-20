@@ -1,5 +1,5 @@
 import { BalancesWidget } from '@jetstreamgg/widgets';
-import { Balances, Upgrade, Trade, RewardsModule, Savings, Seal } from '../../icons';
+import { Balances, Upgrade, Trade, RewardsModule, Savings, Stake } from '../../icons';
 import { Intent } from '@/lib/enums';
 import { useLingui } from '@lingui/react';
 import { useCustomConnectModal } from '@/modules/ui/hooks/useCustomConnectModal';
@@ -27,7 +27,7 @@ import { getRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParam
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { defaultConfig } from '@/modules/config/default-config';
 import { useChainId } from 'wagmi';
-import { SealWidgetPane } from '@/modules/seal/components/SealWidgetPane';
+import { StakeWidgetPane } from '@/modules/stake/components/StakeWidgetPane';
 import { getSupportedChainIds, getMainnetChainName } from '@/data/wagmi/config/config.default';
 import { useSearchParams } from 'react-router-dom';
 import { useChains } from 'wagmi';
@@ -101,8 +101,9 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
     );
   }
 
-  const sealUrl = getQueryParams(
-    `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.SEAL_INTENT)}`
+  const sealUrl = `/seal-engine${getQueryParams(`/?network=${mainnetName}`)}`;
+  const stakeUrl = getQueryParams(
+    `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.STAKE_INTENT)}`
   );
 
   const widgetContent: WidgetContent = [
@@ -118,6 +119,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
           rewardsCardUrl={rewardsUrl}
           savingsCardUrlMap={savingsUrlMap}
           sealCardUrl={sealUrl}
+          stakeCardUrl={stakeUrl}
           customTokenMap={defaultConfig.balancesTokenList}
           chainIds={getSupportedChainIds(chainId)}
           hideZeroBalances={hideZeroBalances}
@@ -136,7 +138,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
     [Intent.SAVINGS_INTENT, 'Savings', Savings, withErrorBoundary(<SavingsWidgetPane {...sharedProps} />)],
     [Intent.UPGRADE_INTENT, 'Upgrade', Upgrade, withErrorBoundary(<UpgradeWidgetPane {...sharedProps} />)],
     [Intent.TRADE_INTENT, 'Trade', Trade, withErrorBoundary(<TradeWidgetPane {...sharedProps} />)],
-    [Intent.SEAL_INTENT, 'Seal', Seal, withErrorBoundary(<SealWidgetPane {...sharedProps} />)]
+    [Intent.STAKE_INTENT, 'Stake', Stake, withErrorBoundary(<StakeWidgetPane {...sharedProps} />)]
   ].map(([intent, label, icon, component]) => {
     const comingSoon = COMING_SOON_MAP[chainId]?.includes(intent as Intent);
     return [

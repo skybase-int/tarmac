@@ -117,7 +117,12 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
       widgetState.screen === UpgradeScreen.TRANSACTION
     ) {
       setSearchParams(prevParams => {
+        const sourceTokenParam = prevParams.get(QueryParams.SourceToken);
         const params = deleteSearchParams(prevParams);
+        // Keep the source token param, otherwise the revert flow will break after approving
+        if (sourceTokenParam) {
+          params.set(QueryParams.SourceToken, sourceTokenParam);
+        }
         return params;
       });
       exitLinkedActionMode();
@@ -156,7 +161,6 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
       customNavigationLabel={customNavLabel}
       onCustomNavigation={onNavigate}
       upgradeOptions={[TOKENS.dai, TOKENS.mkr]}
-      revertOptions={[TOKENS.usds, TOKENS.sky]}
     />
   );
 }

@@ -94,7 +94,7 @@ const HistoryRowContent = ({
   statusColumn,
   cowExplorerLink = false
 }: HistoryRowProps) => {
-  const explorerName = getExplorerName(chainId);
+  const explorerName = getExplorerName(chainId, false);
 
   const content = useMemo(
     () => [
