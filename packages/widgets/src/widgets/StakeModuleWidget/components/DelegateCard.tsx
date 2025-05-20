@@ -19,12 +19,14 @@ export const DelegateCard = ({
   delegate,
   selectedDelegate,
   setSelectedDelegate,
-  onExternalLinkClicked
+  onExternalLinkClicked,
+  userAddress
 }: {
   delegate: DelegateInfo;
   selectedDelegate?: `0x${string}` | undefined;
   setSelectedDelegate?: Dispatch<SetStateAction<`0x${string}` | undefined>>;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  userAddress?: `0x${string}`;
 }) => {
   const handleSelectDelegate = () => {
     setSelectedDelegate?.(prev => (prev === delegate.id ? undefined : delegate.id));
@@ -55,7 +57,13 @@ export const DelegateCard = ({
           <HStack className="mt-5 w-full justify-between" gap={2}>
             <MotionVStack className="justify-between" gap={2} variants={positionAnimations}>
               <Text className="text-textSecondary text-sm leading-4">{t`SKY delegated by you`}</Text>
-              <Text>{formatBigInt(delegate.delegations?.[0]?.amount || 0n, { maxDecimals: 0 })}</Text>
+              <Text>
+                {formatBigInt(
+                  delegate.delegations?.find(d => d.delegator?.toLowerCase() === userAddress?.toLowerCase())
+                    ?.amount || 0n,
+                  { maxDecimals: 0 }
+                )}
+              </Text>
             </MotionVStack>
             <MotionVStack className="justify-between" gap={2} variants={positionAnimations}>
               <Text className="text-textSecondary text-sm leading-4">{t`Total SKY delegated`}</Text>
