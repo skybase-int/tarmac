@@ -310,14 +310,22 @@ export const PositionSummary = () => {
           isUpdatedValue(existingRewardContract?.toLowerCase(), selectedRewardContract?.toLowerCase()) ? (
             [
               isRewardContractTokensLoading ? (
-                <Skeleton className="w-30 h-5" />
+                <Skeleton key="loading-existing-rewards" className="w-30 h-5" />
               ) : existingRewardContractTokens ? (
-                <TokenIcon token={existingRewardContractTokens?.rewardsToken} className="h-5 w-5" />
+                <TokenIcon
+                  key="existing-rewards-token"
+                  token={existingRewardContractTokens?.rewardsToken}
+                  className="h-5 w-5"
+                />
               ) : null,
               isSelectedContractTokensLoading ? (
-                <Skeleton className="w-30 h-5" />
+                <Skeleton key="loading-selected-rewards" className="w-30 h-5" />
               ) : selectedRewardContractTokens ? (
-                <TokenIcon token={selectedRewardContractTokens?.rewardsToken} className="h-5 w-5" />
+                <TokenIcon
+                  key="selected-rewards-icon"
+                  token={selectedRewardContractTokens?.rewardsToken}
+                  className="h-5 w-5"
+                />
               ) : null
             ]
           ) : isRewardContractTokensLoading ? (
@@ -359,14 +367,22 @@ export const PositionSummary = () => {
           existingSelectedVoteDelegate?.toLowerCase() !== selectedDelegate.toLowerCase() ? (
             [
               loadingExistingDelegateOwner ? (
-                <Skeleton className="w-30 h-5" />
+                <Skeleton key="loading-existing-delegate" className="w-30 h-5" />
               ) : existingDelegateOwner ? (
-                <JazziconComponent address={existingDelegateOwner} diameter={20} />
+                <JazziconComponent
+                  key="existing-delegate-icon"
+                  address={existingDelegateOwner}
+                  diameter={20}
+                />
               ) : null,
               loadingSelectedDelegateOwner ? (
-                <Skeleton className="w-30 h-5" />
+                <Skeleton key="loading-selected-delegate" className="w-30 h-5" />
               ) : selectedDelegateOwner ? (
-                <JazziconComponent address={selectedDelegateOwner} diameter={20} />
+                <JazziconComponent
+                  key="selected-delegate-icon"
+                  address={selectedDelegateOwner}
+                  diameter={20}
+                />
               ) : null
             ]
           ) : isDelegateLoading ? (
