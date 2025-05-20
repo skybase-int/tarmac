@@ -60,7 +60,7 @@ const LineItem = ({
 }: {
   label: string;
   value?: string | (string | undefined)[] | string[];
-  icon?: JSX.Element | JSX.Element[];
+  icon?: JSX.Element | (JSX.Element | null)[] | null;
   className?: string | string[];
   tooltipText?: string;
 }) => {
@@ -300,22 +300,30 @@ export const PositionSummary = () => {
           hasPositions &&
           isUpdatedValue(existingRewardContract?.toLowerCase(), selectedRewardContract?.toLowerCase()) ? (
             [
-              isRewardContractTokensLoading || !existingRewardContractTokens ? (
-                <Skeleton className="w-30 h-5" />
-              ) : (
-                <TokenIcon token={existingRewardContractTokens?.rewardsToken} className="h-5 w-5" />
-              ),
-              isSelectedContractTokensLoading || !selectedRewardContractTokens ? (
-                <Skeleton className="w-30 h-5" />
-              ) : (
-                <TokenIcon token={selectedRewardContractTokens?.rewardsToken} className="h-5 w-5" />
-              )
+              isRewardContractTokensLoading ? (
+                <Skeleton key="loading-existing-rewards" className="w-30 h-5" />
+              ) : existingRewardContractTokens ? (
+                <TokenIcon
+                  key="existing-rewards-token"
+                  token={existingRewardContractTokens?.rewardsToken}
+                  className="h-5 w-5"
+                />
+              ) : null,
+              isSelectedContractTokensLoading ? (
+                <Skeleton key="loading-selected-rewards" className="w-30 h-5" />
+              ) : selectedRewardContractTokens ? (
+                <TokenIcon
+                  key="selected-rewards-icon"
+                  token={selectedRewardContractTokens?.rewardsToken}
+                  className="h-5 w-5"
+                />
+              ) : null
             ]
-          ) : isRewardContractTokensLoading || !rewardsTokensToDisplay ? (
+          ) : isRewardContractTokensLoading ? (
             <Skeleton className="w-30 h-5" />
-          ) : (
+          ) : rewardsTokensToDisplay ? (
             <TokenIcon token={rewardsTokensToDisplay?.rewardsToken} className="h-5 w-5" />
-          )
+          ) : null
       },
       {
         label: t`Delegate`,
@@ -349,22 +357,30 @@ export const PositionSummary = () => {
           hasPositions &&
           existingSelectedVoteDelegate?.toLowerCase() !== selectedDelegate.toLowerCase() ? (
             [
-              loadingExistingDelegateOwner || !existingDelegateOwner ? (
-                <Skeleton className="w-30 h-5" />
-              ) : (
-                <JazziconComponent address={existingDelegateOwner} diameter={20} />
-              ),
-              loadingSelectedDelegateOwner || !selectedDelegateOwner ? (
-                <Skeleton className="w-30 h-5" />
-              ) : (
-                <JazziconComponent address={selectedDelegateOwner} diameter={20} />
-              )
+              loadingExistingDelegateOwner ? (
+                <Skeleton key="loading-existing-delegate" className="w-30 h-5" />
+              ) : existingDelegateOwner ? (
+                <JazziconComponent
+                  key="existing-delegate-icon"
+                  address={existingDelegateOwner}
+                  diameter={20}
+                />
+              ) : null,
+              loadingSelectedDelegateOwner ? (
+                <Skeleton key="loading-selected-delegate" className="w-30 h-5" />
+              ) : selectedDelegateOwner ? (
+                <JazziconComponent
+                  key="selected-delegate-icon"
+                  address={selectedDelegateOwner}
+                  diameter={20}
+                />
+              ) : null
             ]
           ) : isDelegateLoading ? (
             <Skeleton className="w-30 h-5" />
-          ) : (
+          ) : delegateOwnerToDisplay ? (
             <JazziconComponent address={delegateOwnerToDisplay} diameter={20} />
-          )
+          ) : null
       }
     ];
   }, [

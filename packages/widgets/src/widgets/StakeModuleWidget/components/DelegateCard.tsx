@@ -15,27 +15,18 @@ import { getAddress } from 'viem';
 import { JazziconComponent } from './Jazzicon';
 import { cn } from '@widgets/lib/utils';
 
-const getDelegateName = (delegate: DelegateInfo) => {
-  const delegates = [
-    { address: '0x0F23dE72e1581857eacD6308aebb69cF3a49CC86', name: 'cloaky' },
-    { address: '0x173a1c04b79ed9266721c1154daa29addc0b9558', name: 'blue' },
-    { address: '0xfc48fbca739079aab08216c4d5e506b96593753d', name: 'bonapublica' }
-  ];
-
-  const del = delegates.find(d => d.address.toLowerCase() === delegate.id.toLowerCase());
-  return del?.name || '';
-};
-
 export const DelegateCard = ({
   delegate,
   selectedDelegate,
   setSelectedDelegate,
-  onExternalLinkClicked
+  onExternalLinkClicked,
+  userAddress
 }: {
   delegate: DelegateInfo;
   selectedDelegate?: `0x${string}` | undefined;
   setSelectedDelegate?: Dispatch<SetStateAction<`0x${string}` | undefined>>;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  userAddress?: `0x${string}`;
 }) => {
   const handleSelectDelegate = () => {
     setSelectedDelegate?.(prev => (prev === delegate.id ? undefined : delegate.id));
@@ -53,8 +44,7 @@ export const DelegateCard = ({
           <MotionHStack className="w-full items-center" gap={2} variants={positionAnimations}>
             <JazziconComponent address={delegate.ownerAddress} />
             <div className={cn('flex flex-col items-start', delegate.metadata?.name ? '' : 'py-2.5')}>
-              {/* {delegate.metadata?.name && <Text>{delegate.metadata.name}</Text>} */}
-              <Text>{getDelegateName(delegate)}</Text>
+              {delegate.metadata?.name && <Text>{delegate.metadata.name}</Text>}
               <Text className="text-textSecondary text-sm">
                 {delegate.id.slice(0, 6) + '...' + delegate.id.slice(-4)}
               </Text>
@@ -67,7 +57,13 @@ export const DelegateCard = ({
           <HStack className="mt-5 w-full justify-between" gap={2}>
             <MotionVStack className="justify-between" gap={2} variants={positionAnimations}>
               <Text className="text-textSecondary text-sm leading-4">{t`SKY delegated by you`}</Text>
-              <Text>{formatBigInt(delegate.delegations?.[0]?.amount || 0n, { maxDecimals: 0 })}</Text>
+              <Text>
+                {formatBigInt(
+                  delegate.delegations?.find(d => d.delegator?.toLowerCase() === userAddress?.toLowerCase())
+                    ?.amount || 0n,
+                  { maxDecimals: 0 }
+                )}
+              </Text>
             </MotionVStack>
             <MotionVStack className="justify-between" gap={2} variants={positionAnimations}>
               <Text className="text-textSecondary text-sm leading-4">{t`Total SKY delegated`}</Text>
