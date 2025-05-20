@@ -33,8 +33,16 @@ export const getHistoryIconSource = ({
     case ModuleEnum.STAKE:
       return type && [TransactionTypeEnum.STAKE, TransactionTypeEnum.STAKE_REPAY].includes(type)
         ? src + 'savings-supply.svg'
-        : type && [TransactionTypeEnum.UNSTAKE, TransactionTypeEnum.STAKE_BORROW].includes(type)
+        : type && [TransactionTypeEnum.UNSTAKE].includes(type)
           ? src + 'savings-withdraw.svg'
-          : '';
+          : type && [TransactionTypeEnum.STAKE_OPEN].includes(type)
+            ? src + 'open_position.svg'
+            : type && [TransactionTypeEnum.STAKE_SELECT_DELEGATE].includes(type)
+              ? src + 'delegate.svg'
+              : type && [TransactionTypeEnum.STAKE_BORROW].includes(type)
+                ? src + 'borrow.svg'
+                : type && [TransactionTypeEnum.STAKE_REWARD].includes(type)
+                  ? src + 'claim_rewards.svg'
+                  : '';
   }
 };
