@@ -101,12 +101,16 @@ const HistoryRowContent = ({
       <Fragment key="first-content">
         {row?.tokenLeft && <TokenIcon token={{ symbol: row?.tokenLeft }} className="h-6 w-6" />}
         {row?.iconLeft && row?.iconLeft}
-        <Text
-          className={row?.highlightText ? 'text-bullish' : 'text-text'}
-          data-testid={index === 0 ? 'history-transaction-left-text' : undefined}
-        >
-          {row?.textLeft} {row?.tokenLeft}
-        </Text>
+        {typeof row?.textLeft === 'string' ? (
+          <Text
+            className={row?.highlightText ? 'text-bullish' : 'text-text'}
+            data-testid={index === 0 ? 'history-transaction-left-text' : undefined}
+          >
+            {row?.textLeft} {row?.tokenLeft}
+          </Text>
+        ) : (
+          row?.textLeft
+        )}
       </Fragment>,
       <Fragment key="second-content">
         {row?.textLeft && row?.textRight && <ArrowRightLong width={14} height={10} />}

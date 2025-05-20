@@ -3,7 +3,7 @@ import { JSX } from 'react';
 export interface HistoryRow {
   id: string;
   type?: string;
-  textLeft: string;
+  textLeft: string | JSX.Element;
   tokenLeft?: string;
   iconLeft?: JSX.Element;
   textRight?: string;
