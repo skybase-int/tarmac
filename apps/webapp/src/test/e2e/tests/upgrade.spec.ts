@@ -236,8 +236,8 @@ test('An approval error redirects to the error screen', async ({ page }) => {
   await page.getByRole('button', { name: 'Approve' }).click();
 
   expect(page.getByText('An error occurred ')).toBeVisible();
-  expect(page.getByRole('button', { name: 'Back' }).last()).toBeVisible();
-  expect(page.getByRole('button', { name: 'Back' }).last()).toBeEnabled();
+  expect(page.getByRole('button', { name: 'Back', exact: true }).last()).toBeVisible();
+  expect(page.getByRole('button', { name: 'Back', exact: true }).last()).toBeEnabled();
   expect(page.getByRole('button', { name: 'Retry' }).last()).toBeVisible();
   await expect(page.getByRole('button', { name: 'Retry' }).last()).toBeEnabled({ timeout: 15000 });
 
@@ -245,7 +245,7 @@ test('An approval error redirects to the error screen', async ({ page }) => {
 
   await expect(page.getByText('An error occurred while approving access to your DAI.')).toBeVisible();
 
-  page.getByRole('button', { name: 'Back' }).last().click();
+  page.getByRole('button', { name: 'Back', exact: true }).last().click();
   await page.getByRole('tab', { name: 'Revert' }).click();
   await page.getByTestId('upgrade-input-origin').click();
   await page.getByTestId('upgrade-input-origin').fill('100');
@@ -253,8 +253,8 @@ test('An approval error redirects to the error screen', async ({ page }) => {
   await page.getByRole('button', { name: 'Approve' }).click();
 
   expect(page.getByText('An error occurred while approving access to your USDS.')).toBeVisible();
-  expect(page.getByRole('button', { name: 'Back' }).last()).toBeVisible();
-  expect(page.getByRole('button', { name: 'Back' }).last()).toBeEnabled();
+  expect(page.getByRole('button', { name: 'Back', exact: true }).last()).toBeVisible();
+  expect(page.getByRole('button', { name: 'Back', exact: true }).last()).toBeEnabled();
   expect(page.getByRole('button', { name: 'Retry' }).last()).toBeVisible();
   await expect(page.getByRole('button', { name: 'Retry' }).last()).toBeEnabled({ timeout: 15000 });
 
@@ -389,5 +389,5 @@ test('Details pane shows right data', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'About' })).toBeVisible();
 
   // FAQ section is present
-  await expect(page.getByRole('button', { name: 'FAQ' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'FAQs', exact: true })).toBeVisible();
 });

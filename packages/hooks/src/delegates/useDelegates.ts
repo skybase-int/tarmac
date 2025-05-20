@@ -73,7 +73,6 @@ export function useDelegates({
   random,
   search,
   version,
-  urlMetadata,
   enabled = true
 }: {
   chainId: number;
@@ -84,7 +83,6 @@ export function useDelegates({
   random?: boolean;
   search?: string;
   version?: 1 | 2 | 3;
-  urlMetadata?: string;
   enabled?: boolean;
 }): ReadHook & { data?: DelegateInfo[] } {
   const urlSubgraph = subgraphUrl ? subgraphUrl : getMakerSubgraphUrl(chainId) || '';
@@ -116,8 +114,7 @@ export function useDelegates({
       random ? randomOrderBy : undefined,
       random ? randomOrderDirection : undefined,
       search,
-      version,
-      urlMetadata
+      version
     ],
     queryFn: () =>
       fetchDelegates(
@@ -132,7 +129,7 @@ export function useDelegates({
       )
   });
 
-  const { data: metadataMapping } = useDelegateMetadataMapping(urlMetadata);
+  const { data: metadataMapping } = useDelegateMetadataMapping();
   const data = subgraphDelegates?.map(d => ({
     ...d,
     metadata: metadataMapping?.[d.id] || null
