@@ -116,6 +116,7 @@ export const SaRewardsCard = ({
         </HStack>
       }
       onClick={handleSelectRewardContract}
+      dataTestId="stake-reward-card"
     />
   );
 };
