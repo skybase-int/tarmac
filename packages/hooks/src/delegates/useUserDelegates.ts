@@ -72,15 +72,13 @@ export function useUserDelegates({
   chainId,
   user,
   search,
-  version,
-  urlMetadata
+  version
 }: {
   subgraphUrl?: string;
   chainId: number;
   user: `0x${string}`;
   search?: string;
   version?: 1 | 2 | 3;
-  urlMetadata?: string;
 }): ReadHook & { data?: DelegateInfo[] } {
   const urlSubgraph = subgraphUrl ? subgraphUrl : getMakerSubgraphUrl(chainId) || '';
 
@@ -91,11 +89,11 @@ export function useUserDelegates({
     isLoading
   } = useQuery({
     enabled: Boolean(urlSubgraph && user.length > 0 && user !== ZERO_ADDRESS),
-    queryKey: ['user-delegates', urlSubgraph, user, search, version, urlMetadata],
+    queryKey: ['user-delegates', urlSubgraph, user, search, version],
     queryFn: () => fetchUserDelegates(urlSubgraph, user, search, version)
   });
 
-  const { data: metadataMapping } = useDelegateMetadataMapping(urlMetadata);
+  const { data: metadataMapping } = useDelegateMetadataMapping();
   const data = subgraphDelegates?.map(d => ({
     ...d,
     metadata: metadataMapping?.[d.id] || null
