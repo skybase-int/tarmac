@@ -79,6 +79,7 @@ export const SelectRewardContract = ({
               selectedRewardContract={selectedRewardContract}
               setSelectedRewardContract={setSelectedRewardContract}
               onExternalLinkClicked={onExternalLinkClicked}
+              data-testid="stake-reward-card"
             />
           ))
         )}
