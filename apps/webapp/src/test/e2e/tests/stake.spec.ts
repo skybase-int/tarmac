@@ -31,7 +31,7 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
 
   // select rewards
   await expect(page.getByText('Choose your reward token')).toBeVisible();
-  await page.getByTestId('stake-reward-card').getByText('USDS').click();
+  await page.getByTestId('stake-reward-card').first().click();
   await page.getByRole('button', { name: /^USDS$/ }).click();
   await expect(page.getByTestId('widget-button').first()).toBeEnabled();
   await page.getByTestId('widget-button').first().click();
