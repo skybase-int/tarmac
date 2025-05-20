@@ -15,17 +15,6 @@ import { getAddress } from 'viem';
 import { JazziconComponent } from './Jazzicon';
 import { cn } from '@widgets/lib/utils';
 
-const getDelegateName = (delegate: DelegateInfo) => {
-  const delegates = [
-    { address: '0x0F23dE72e1581857eacD6308aebb69cF3a49CC86', name: 'cloaky' },
-    { address: '0x173a1c04b79ed9266721c1154daa29addc0b9558', name: 'blue' },
-    { address: '0xfc48fbca739079aab08216c4d5e506b96593753d', name: 'bonapublica' }
-  ];
-
-  const del = delegates.find(d => d.address.toLowerCase() === delegate.id.toLowerCase());
-  return del?.name || '';
-};
-
 export const DelegateCard = ({
   delegate,
   selectedDelegate,
@@ -53,8 +42,7 @@ export const DelegateCard = ({
           <MotionHStack className="w-full items-center" gap={2} variants={positionAnimations}>
             <JazziconComponent address={delegate.ownerAddress} />
             <div className={cn('flex flex-col items-start', delegate.metadata?.name ? '' : 'py-2.5')}>
-              {/* {delegate.metadata?.name && <Text>{delegate.metadata.name}</Text>} */}
-              <Text>{getDelegateName(delegate)}</Text>
+              {delegate.metadata?.name && <Text>{delegate.metadata.name}</Text>}
               <Text className="text-textSecondary text-sm">
                 {delegate.id.slice(0, 6) + '...' + delegate.id.slice(-4)}
               </Text>
