@@ -2,7 +2,8 @@ import { UseQueryOptions } from '@tanstack/react-query';
 import {
   type SendTransactionReturnType,
   type WriteContractReturnType,
-  type SimulateContractErrorType
+  type SimulateContractErrorType,
+  type SendCallsReturnType
 } from '@wagmi/core';
 
 export type ReadHook = {
@@ -24,6 +25,13 @@ export type WriteHook = {
 
 export type TransactionHook = WriteHook & {
   data: SendTransactionReturnType | undefined;
+};
+
+export type BatchWriteHook = {
+  data: SendCallsReturnType | undefined;
+  error: Error | null;
+  isLoading: boolean;
+  execute: () => void;
 };
 
 export type ReadHookParams<TData = unknown> = Omit<UseQueryOptions<TData>, 'queryKey' | 'queryFn'>;
