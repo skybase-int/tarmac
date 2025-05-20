@@ -64,7 +64,7 @@ export const MigrateSelectRewardContract = ({
               <Trans>More rewards coming soon</Trans>
             </Text>
           </div>
-          {widgetState.flow !== SealFlow.OPEN && (
+          {![SealFlow.OPEN, SealFlow.MIGRATE].includes(widgetState.flow) && (
             <Button variant="link" className="text-white" onClick={handleSkip}>
               Skip
             </Button>
