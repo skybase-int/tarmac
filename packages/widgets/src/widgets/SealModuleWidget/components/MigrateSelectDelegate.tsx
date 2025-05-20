@@ -140,6 +140,7 @@ export const MigrateSelectDelegate = ({
                 selectedDelegate={selectedDelegate}
                 setSelectedDelegate={setSelectedDelegate}
                 onExternalLinkClicked={onExternalLinkClicked}
+                userAddress={address}
               />
             ))}
         </VStack>
