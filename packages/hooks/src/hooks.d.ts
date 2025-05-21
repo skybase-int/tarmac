@@ -28,9 +28,10 @@ export type TransactionHook = WriteHook & {
 };
 
 export type BatchWriteHook = {
-  data: SendCallsReturnType | undefined;
+  data: SendCallsReturnType['id'] | undefined;
   error: Error | null;
   isLoading: boolean;
+  prepared: boolean;
   execute: () => void;
 };
 
