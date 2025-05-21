@@ -142,7 +142,7 @@ export const PROD_URL_SKY_SUBGRAPH_MAINNET =
 export const STAGING_URL_SKY_SUBGRAPH_MAINNET =
   'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/subgraph-mainnet';
 export const STAGING_URL_SKY_SUBGRAPH_TESTNET =
-  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/subgraph-testnet';
+  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-testnet';
 export const PROD_URL_SKY_SUBGRAPH_BASE =
   'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/subgraph-base';
 export const STAGING_URL_SKY_SUBGRAPH_BASE =
