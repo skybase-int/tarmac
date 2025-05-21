@@ -123,10 +123,7 @@ export function StakeHistory({ index }: { index?: number }) {
       highlightColor:
         s.type === TransactionTypeEnum.UNSTAKE_KICK ? HighlightColor.Bearish : HighlightColor.Bullish,
       textLeft: mapStakeRowToLeftText(s),
-      iconLeft: mapTypeEnumToIcon(
-        s.type,
-        'rewardContract' in s ? (s.rewardContract as `0x${string}`) : undefined
-      ),
+      iconLeft: mapTypeEnumToIcon(s.type),
       formattedDate: formattedDates.length > index ? formattedDates[index] : '',
       rawDate: s.blockTimestamp,
       transactionHash: s.transactionHash
