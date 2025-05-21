@@ -31,6 +31,9 @@ import { Stake } from './Stake';
 import { Delegate } from './Delegate';
 import { Borrow } from './Borrow';
 import { ClaimRewards } from './ClaimRewards';
+import { Liquidated } from './Liquidated';
+import { Repaid } from './Repaid';
+import { SelectRewards } from './SelectRewards';
 
 export {
   ArrowDown,
@@ -65,5 +68,8 @@ export {
   Stake,
   Delegate,
   Borrow,
-  ClaimRewards
+  ClaimRewards,
+  Liquidated,
+  Repaid,
+  SelectRewards
 };

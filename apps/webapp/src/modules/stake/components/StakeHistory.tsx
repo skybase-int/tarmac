@@ -8,11 +8,21 @@ import {
 import { formatBigInt, useFormatDates } from '@jetstreamgg/utils';
 import { t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
-import { SavingsSupply, ArrowDown, Stake, Delegate, Borrow, ClaimRewards } from '@/modules/icons';
+import {
+  SavingsSupply,
+  ArrowDown,
+  Stake,
+  Delegate,
+  Borrow,
+  ClaimRewards,
+  Liquidated,
+  Repaid,
+  SelectRewards
+} from '@/modules/icons';
 import { HistoryTable } from '@/modules/ui/components/historyTable/HistoryTable';
-import { TokenIcon } from '@/modules/ui/components/TokenIcon';
 import { Text } from '@/modules/layout/components/Typography';
 import { StakeHistoryItem } from 'node_modules/@jetstreamgg/hooks/src/stake/stakeModule';
+import { HighlightColor } from '@/modules/ui/components/historyTable/types';
 
 const mapTypeEnumToColumn = (type: TransactionTypeEnum) => {
   switch (type) {
@@ -33,14 +43,13 @@ const mapTypeEnumToColumn = (type: TransactionTypeEnum) => {
     case TransactionTypeEnum.STAKE_SELECT_REWARD:
       return t`Select reward`;
     case TransactionTypeEnum.UNSTAKE_KICK:
-      return t`Liquidation`;
+      return t`Liquidated`;
     default:
       return '';
   }
 };
 
-const mapTypeEnumToIcon = (type: TransactionTypeEnum, contractAddress?: `0x${string}`) => {
-  // console.log('🚀 ~ mapTypeEnumToIcon ~ type:', type);
+const mapTypeEnumToIcon = (type: TransactionTypeEnum) => {
   switch (type) {
     case TransactionTypeEnum.STAKE_OPEN:
       return <Stake width={20} height={20} className="-ml-1 mr-1" />;
@@ -53,11 +62,13 @@ const mapTypeEnumToIcon = (type: TransactionTypeEnum, contractAddress?: `0x${str
     case TransactionTypeEnum.STAKE_SELECT_DELEGATE:
       return <Delegate width={20} height={20} className="-ml-1 mr-1" />;
     case TransactionTypeEnum.STAKE_SELECT_REWARD:
-      return <SelectRewardsIcon contractAddress={contractAddress} />;
+      return <SelectRewards width={20} height={20} className="-ml-1 mr-1" />;
     case TransactionTypeEnum.UNSTAKE:
-    case TransactionTypeEnum.STAKE_REPAY:
-    case TransactionTypeEnum.UNSTAKE_KICK:
       return <ArrowDown width={10} height={14} className="mr-1 fill-white" />;
+    case TransactionTypeEnum.STAKE_REPAY:
+      return <Repaid width={20} height={20} className="-ml-1 mr-1" />;
+    case TransactionTypeEnum.UNSTAKE_KICK:
+      return <Liquidated width={20} height={20} className="text-error -ml-1 mr-1" />;
     default:
       return <></>;
   }
@@ -79,7 +90,7 @@ const mapTypeEnumToTokenSymbol = (type: TransactionTypeEnum) => {
   }
 };
 
-const highlightedEvents = [TransactionTypeEnum.STAKE, TransactionTypeEnum.STAKE_REPAY];
+const highlightedEvents = [TransactionTypeEnum.STAKE, TransactionTypeEnum.UNSTAKE_KICK];
 
 const mapStakeRowToLeftText = (s: StakeHistoryItem) => {
   if ('amount' in s) {
@@ -109,6 +120,8 @@ export function StakeHistory({ index }: { index?: number }) {
       id: `${s.transactionHash}-${s.type}`,
       type: mapTypeEnumToColumn(s.type),
       highlightText: highlightedEvents.includes(s.type),
+      highlightColor:
+        s.type === TransactionTypeEnum.UNSTAKE_KICK ? HighlightColor.Bearish : HighlightColor.Bullish,
       textLeft: mapStakeRowToLeftText(s),
       iconLeft: mapTypeEnumToIcon(
         s.type,
@@ -131,14 +144,6 @@ export function StakeHistory({ index }: { index?: number }) {
     />
   );
 }
-
-const SelectRewardsIcon = ({ contractAddress }: { contractAddress?: `0x${string}` }) => {
-  const { data: rewardContractTokens } = useRewardContractTokens(contractAddress);
-
-  return rewardContractTokens?.rewardsToken.symbol ? (
-    <TokenIcon token={{ symbol: rewardContractTokens.rewardsToken.symbol }} className="-ml-1 h-6 w-6" />
-  ) : null;
-};
 
 const SelectRewardsText = ({ contractAddress }: { contractAddress?: `0x${string}` }) => {
   const { data: rewardContractTokens } = useRewardContractTokens(contractAddress);

@@ -103,7 +103,13 @@ const HistoryRowContent = ({
         {row?.iconLeft && row?.iconLeft}
         {typeof row?.textLeft === 'string' ? (
           <Text
-            className={row?.highlightText ? 'text-bullish' : 'text-text'}
+            className={
+              row?.highlightText
+                ? row?.highlightColor === 'bearish'
+                  ? 'text-error'
+                  : 'text-bullish'
+                : 'text-text'
+            }
             data-testid={index === 0 ? 'history-transaction-left-text' : undefined}
           >
             {row?.textLeft} {row?.tokenLeft}
