@@ -7,7 +7,7 @@ import { Trans } from '@lingui/react/macro';
 import { formatAddress, getCowExplorerLink, getEtherscanLink, getExplorerName } from '@jetstreamgg/utils';
 import { ExternalLink } from '@/modules/layout/components/ExternalLink';
 import { CopyToClipboard } from '../CopyToClipboard';
-import { HistoryRow as HistoryRowType } from './types';
+import { HighlightColor, HistoryRow as HistoryRowType } from './types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import { LoadingErrorWrapper } from '../LoadingErrorWrapper';
@@ -105,7 +105,7 @@ const HistoryRowContent = ({
           <Text
             className={
               row?.highlightText
-                ? row?.highlightColor === 'bearish'
+                ? row?.highlightColor === HighlightColor.Bearish
                   ? 'text-error'
                   : 'text-bullish'
                 : 'text-text'
