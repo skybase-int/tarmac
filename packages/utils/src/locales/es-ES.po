@@ -221,7 +221,6 @@ msgstr ""
 msgid "Almost done!"
 msgstr ""
 
-#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
 #: apps/webapp/src/modules/seal/components/SealHistory.tsx
 #: apps/webapp/src/modules/savings/components/SavingsHistory.tsx
 #: apps/webapp/src/modules/rewards/components/RewardsHistory.tsx
@@ -502,7 +501,6 @@ msgstr ""
 msgid "Begin the savings process"
 msgstr ""
 
-#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
 #: apps/webapp/src/modules/seal/components/SealHistory.tsx
 #: packages/widgets/src/widgets/BalancesWidget/lib/getTitle.ts
 msgid "Borrow"
@@ -526,6 +524,7 @@ msgstr ""
 msgid "Borrow USDS against your MKR and SKY"
 msgstr ""
 
+#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
 msgid "Borrowed"
@@ -1231,6 +1230,9 @@ msgid "Legal Terms"
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeHistory.tsx
+msgid "Liquidated"
+msgstr ""
+
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Borrow.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
@@ -1690,6 +1692,9 @@ msgid "Remaining {0} balance"
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeHistory.tsx
+msgid "Repaid"
+msgstr ""
+
 #: apps/webapp/src/modules/seal/components/SealHistory.tsx
 #: packages/widgets/src/widgets/BalancesWidget/lib/getTitle.ts
 msgid "Repay"
@@ -2065,7 +2070,6 @@ msgstr ""
 msgid "stake"
 msgstr ""
 
-#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
 #: packages/widgets/src/widgets/BalancesWidget/lib/getTitle.ts
 msgid "Stake"
 msgstr ""
@@ -2079,6 +2083,7 @@ msgstr ""
 msgid "Stake and Borrow"
 msgstr ""
 
+#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 msgid "Staked"
 msgstr ""
@@ -2621,7 +2626,6 @@ msgstr ""
 msgid "Unsealing"
 msgstr ""
 
-#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
 #: packages/widgets/src/widgets/BalancesWidget/lib/getTitle.ts
 msgid "Unstake"
 msgstr ""
@@ -2630,6 +2634,10 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/components/UnconnectedState.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/OpenNewUrn.tsx
 msgid "Unstake and pay back"
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
+msgid "Unstaked"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
@@ -2742,6 +2750,10 @@ msgstr ""
 
 #: packages/widgets/src/widgets/BalancesWidget/components/RewardsBalanceCard.tsx
 msgid "USDS supplied to Rewards"
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
+msgid "Value"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/AboutCle.tsx
