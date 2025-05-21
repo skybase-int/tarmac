@@ -1,20 +1,10 @@
 import { useAccount, useCapabilities, useChainId, useSendCalls, useWaitForCallsStatus } from 'wagmi';
 import { CapabilitySupportStatus, SAFE_CONNECTOR_ID } from './constants';
-import { BatchWriteHook } from '../hooks';
+import { BatchWriteHook, UseSendBatchTransactionFlowParameters } from '../hooks';
 import { useWaitForSafeTxHash } from './useWaitForSafeTxHash';
 import { useEffect, useMemo } from 'react';
 import { isRevertedError } from '../helpers';
-import { Config, SendCallsParameters } from '@wagmi/core';
-
-type UseSendBatchTransactionFlowParameters<
-  calls extends readonly unknown[],
-  chainId extends config['chains'][number]['id'],
-  config extends Config = Config
-> = SendCallsParameters<config, chainId, calls> & {
-  onStart?: (hash: string) => void;
-  onSuccess?: (hash: string) => void;
-  onError?: (error: Error, hash: string) => void;
-};
+import { Config } from '@wagmi/core';
 
 export function useSendBatchTransactionFlow<
   const calls extends readonly unknown[],
