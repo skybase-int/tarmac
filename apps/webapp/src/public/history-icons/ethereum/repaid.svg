@@ -51,9 +51,8 @@
 <path d="M30.7734 30.3194V33.6672L34.704 27.9014L30.7734 30.3194Z" fill="#010101"/>
 </g>
 </g>
-<g clip-path="url(#clip0_7019_293008)">
 <g style="mix-blend-mode:overlay">
-<path d="M32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32C24.8366 32 32 24.8366 32 16Z" fill="white" fill-opacity="0.25"/>
+<path d="M32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32C24.8366 32 32 24.8366 32 16Z" fill="#9999E3" fill-opacity="0.25"/>
 </g>
 <mask id="mask5_7019_293008" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="8" y="8" width="16" height="16">
 <path d="M24 8H8V24H24V8Z" fill="white"/>
@@ -68,10 +67,4 @@
 <path fill-rule="evenodd" clip-rule="evenodd" d="M18.3572 11.7961C18.4875 11.9124 18.4875 12.1008 18.3572 12.217L15.5956 14.6808C15.533 14.7366 15.4481 14.768 15.3596 14.768C15.2711 14.768 15.1862 14.7366 15.1236 14.6808L13.6583 13.3738C13.528 13.2575 13.528 13.0691 13.6583 12.9529C13.7886 12.8366 13.9998 12.8366 14.1302 12.9529L15.3596 14.0494L17.8853 11.7962C18.0156 11.6799 18.2269 11.6799 18.3572 11.7961Z" fill="white" stroke="white" stroke-width="0.183539" stroke-linecap="round" stroke-linejoin="round"/>
 </g>
 </g>
-</g>
-<defs>
-<clipPath id="clip0_7019_293008">
-<rect width="32" height="32" fill="white"/>
-</clipPath>
-</defs>
 </svg>
