@@ -5,9 +5,10 @@ import { useCurrentUrnIndex } from '../stake/useCurrentUrnIndex';
 import { useUrnAddress } from '../stake/useUrnAddress';
 import { useVault } from '../vaults/useVault';
 import { useNextMigrationUrnIndex } from './useNextMigrationUrnIndex';
-import { TENDERLY_CHAIN_ID, ZERO_ADDRESS } from '../constants';
+import { ZERO_ADDRESS } from '../constants';
 import { SupportedCollateralTypes } from '../vaults/vaults.constants';
 import { getIlkName } from '../vaults/helpers';
+import { mainnet } from 'viem/chains';
 
 // Mock wagmi hooks
 vi.mock('wagmi', async () => {
@@ -69,7 +70,7 @@ describe('useNextMigrationUrnIndex - Determining the next URN for migration', ()
   const candidateUrnAddr = '0xCandidateUrnAddress';
   const otherUrnAddr = '0xOtherUrnAddress';
   const chainId = 1;
-  const ilkName = getIlkName(TENDERLY_CHAIN_ID, 2);
+  const ilkName = getIlkName(mainnet.id, 2);
 
   beforeEach(() => {
     vi.clearAllMocks();
