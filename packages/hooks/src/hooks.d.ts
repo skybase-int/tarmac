@@ -8,6 +8,7 @@ import {
   type SendCallsParameters
 } from '@wagmi/core';
 import { type Abi, type ContractFunctionArgs, type ContractFunctionName } from 'viem';
+import type { UseSimulateContractParameters } from 'wagmi';
 
 export type ReadHook = {
   error: Error | null;
@@ -74,6 +75,7 @@ export type UseSendBatchTransactionFlowParameters<
   chainId extends config['chains'][number]['id'],
   config extends Config = Config
 > = SendCallsParameters<config, chainId, calls> & {
+  enabled?: boolean;
   onStart?: (hash: string) => void;
   onSuccess?: (hash: string) => void;
   onError?: (error: Error, hash: string) => void;

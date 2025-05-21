@@ -12,6 +12,7 @@ export function useSendBatchTransactionFlow<
   chainId extends config['chains'][number]['id']
 >(parameters: UseSendBatchTransactionFlowParameters<calls, chainId, config>): BatchWriteHook {
   const {
+    enabled,
     onSuccess = () => null,
     onError = () => null,
     onStart = () => null,
@@ -98,17 +99,27 @@ export function useSendBatchTransactionFlow<
 
   return {
     execute: () => {
-      if (batchSupported) {
-        sendCalls(sendCallsParameters);
-      } else {
+      // Sanity checks before sending the transaction
+      if (!enabled) {
+        console.log(`ERROR: A batch transaction was triggered before the transaction was enabled.
+          Contract calls: ${JSON.stringify(parameters.calls, (_, value) => (typeof value === 'bigint' ? value.toString() : value))}
+          `);
+      } else if (!batchSupported) {
         console.log(
           'ERROR: A batch transaction was triggered but it looks like the connected wallet does not support it'
         );
+      } else if (parameters.calls.length < 2) {
+        console.log(
+          'ERROR: You are attempting to send a single transaction as a batch transaction. It may be more gas efficient to send the transaction individually'
+        );
+      } else {
+        // Call is legit, proceed to send the transaction
+        sendCalls(sendCallsParameters);
       }
     },
     data: txHash,
     isLoading: isLoadingCapabilities || (isMining && !txReverted),
-    prepared: batchSupported && !isLoadingCapabilities && !capabilitiesError,
+    prepared: batchSupported && !!enabled && !isLoadingCapabilities && !capabilitiesError,
     error: sendError || miningError
   };
 }
