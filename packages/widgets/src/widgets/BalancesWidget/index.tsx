@@ -108,7 +108,9 @@ const BalancesWidgetWrapped = ({
   const { isConnected, isConnecting } = useAccount();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
   const validatedExternalState = getValidatedState(externalWidgetState);
-  useSendBatchTransactionFlow();
+  useSendBatchTransactionFlow({
+    calls: []
+  });
 
   useEffect(() => {
     onStateValidated?.(validatedExternalState);

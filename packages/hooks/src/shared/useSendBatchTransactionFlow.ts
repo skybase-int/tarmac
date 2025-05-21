@@ -4,15 +4,37 @@ import { BatchWriteHook } from '../hooks';
 import { useWaitForSafeTxHash } from './useWaitForSafeTxHash';
 import { useEffect, useMemo } from 'react';
 import { isRevertedError } from '../helpers';
+import { Config, SendCallsParameters } from '@wagmi/core';
 
-export function useSendBatchTransactionFlow(): BatchWriteHook {
+type UseSendBatchTransactionFlowParameters<
+  calls extends readonly unknown[],
+  chainId extends config['chains'][number]['id'],
+  config extends Config = Config
+> = SendCallsParameters<config, chainId, calls> & {
+  onStart?: (hash: string) => void;
+  onSuccess?: (hash: string) => void;
+  onError?: (error: Error, hash: string) => void;
+};
+
+export function useSendBatchTransactionFlow<
+  const calls extends readonly unknown[],
+  config extends Config,
+  chainId extends config['chains'][number]['id']
+>(parameters: UseSendBatchTransactionFlowParameters<calls, chainId, config>): BatchWriteHook {
+  const {
+    onSuccess = () => null,
+    onError = () => null,
+    onStart = () => null,
+    ...sendCallsParameters
+  } = parameters;
+
   const chainId = useChainId();
 
   // Check if wallet supports batch transactions
   const {
-    data: capabilities
-    // isLoading: isLoadingCapabilities,
-    // error: capabilitiesError
+    data: capabilities,
+    isLoading: isLoadingCapabilities,
+    error: capabilitiesError
   } = useCapabilities();
 
   const atomicCapabilityStatus = capabilities?.[chainId]?.atomic?.status;
@@ -69,6 +91,7 @@ export function useSendBatchTransactionFlow(): BatchWriteHook {
   } = useWaitForCallsStatus({
     id: mutationData?.id
   });
+
   const txReverted = isRevertedError(failureReason);
 
   useEffect(() => {
@@ -86,7 +109,7 @@ export function useSendBatchTransactionFlow(): BatchWriteHook {
   return {
     execute: () => {
       if (batchSupported) {
-        sendCalls(simulationData.request);
+        sendCalls(sendCallsParameters);
       } else {
         console.log(
           'ERROR: A batch transaction was triggered but it looks like the connected wallet does not support it'
@@ -94,7 +117,8 @@ export function useSendBatchTransactionFlow(): BatchWriteHook {
       }
     },
     data: txHash,
-    isLoading: isMining && !txReverted,
+    isLoading: isLoadingCapabilities || (isMining && !txReverted),
+    prepared: batchSupported && !isLoadingCapabilities && !capabilitiesError,
     error: sendError || miningError
   };
 }
