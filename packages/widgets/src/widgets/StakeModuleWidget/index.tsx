@@ -660,7 +660,7 @@ function StakeModuleWidgetWrapped({
     externalParamUrnAddress,
     currentUrnIndex,
     activeUrn?.urnIndex,
-    externalParamVaultData,
+    externalParamVaultData?.collateralAmount,
     externalUrnRewardContract,
     externalUrnVoteDelegate
   ]);
