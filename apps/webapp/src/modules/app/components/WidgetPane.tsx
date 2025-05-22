@@ -13,7 +13,7 @@ import { RewardsWidgetPane } from '@/modules/rewards/components/RewardsWidgetPan
 import { TradeWidgetPane } from '@/modules/trade/components/TradeWidgetPane';
 import { SavingsWidgetPane } from '@/modules/savings/components/SavingsWidgetPane';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNotification } from '../hooks/useNotification';
 import { useActionForToken } from '../hooks/useActionForToken';
 import { getRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
@@ -60,7 +60,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
 
   const { Locale, Details } = QueryParams;
   const retainedParams = [Locale, Details];
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const sharedProps = {
     onConnect,
@@ -144,6 +144,18 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
       comingSoon ? { disabled: true } : undefined
     ];
   });
+
+  // Delete reset param after 500ms
+  useEffect(() => {
+    if (searchParams.get(QueryParams.Reset)) {
+      setTimeout(() => {
+        setSearchParams(prev => {
+          prev.delete(QueryParams.Reset);
+          return prev;
+        });
+      }, 500);
+    }
+  }, [searchParams]);
 
   return (
     <WidgetNavigation

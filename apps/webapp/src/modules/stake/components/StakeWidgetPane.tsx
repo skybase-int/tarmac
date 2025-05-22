@@ -63,6 +63,7 @@ export function StakeWidgetPane(sharedProps: SharedProps) {
     };
   }, [urnIndexParam]);
 
+  ////////////////////////////// START CHATBOT //////////////////////////////
   const onStakeWidgetStateChange = ({
     hash,
     txStatus,
@@ -99,12 +100,15 @@ export function StakeWidgetPane(sharedProps: SharedProps) {
     }
 
     // Update amount in URL if provided and not zero
+    console.log('AAA originAmount', originAmount);
     if (originAmount && originAmount !== '0') {
+      console.log('AAABBB originAmount: ', originAmount);
       setSearchParams(prev => {
         prev.set(QueryParams.InputAmount, originAmount);
         return prev;
       });
     } else if (originAmount === '') {
+      console.log('AAADDD originAmount: ', originAmount);
       setSearchParams(prev => {
         prev.delete(QueryParams.InputAmount);
         return prev;
@@ -139,7 +143,9 @@ export function StakeWidgetPane(sharedProps: SharedProps) {
       }, REFRESH_DELAY);
     }
   };
+  ////////////////////////////// END CHATBOT //////////////////////////////
 
+  ////////////////////////////// START DEVELOPMENT //////////////////////////////
   // const onStakeWidgetStateChange = ({
   //   hash,
   //   txStatus,
@@ -214,6 +220,7 @@ export function StakeWidgetPane(sharedProps: SharedProps) {
   //     }, REFRESH_DELAY);
   //   }
   // };
+  ////////////////////////////// END DEVELOPMENT //////////////////////////////
 
   const stakeTabParam = searchParams.get(QueryParams.StakeTab);
   const stakeTab =
