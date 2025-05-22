@@ -28,7 +28,6 @@ export default ({ mode }: { mode: modeEnum }) => {
     default-src 'self';
     script-src 'self'
       'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='
-      https://cdn.markfi.xyz
       https://static.cloudflareinsights.com
       https://challenges.cloudflare.com;
     style-src 'self' 'unsafe-inline';
@@ -69,7 +68,6 @@ export default ({ mode }: { mode: modeEnum }) => {
       wss://www.walletlink.org
       https://explorer-api.walletconnect.com/
       https://enhanced-provider.rainbow.me
-      https://a.markfi.xyz
       cloudflareinsights.com;
     frame-src 'self'
       https://verify.walletconnect.com
