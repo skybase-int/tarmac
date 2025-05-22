@@ -873,7 +873,8 @@ function StakeModuleWidgetWrapped({
       widgetState,
       txStatus,
       stakeTab: StakeAction.LOCK,
-      originAmount: ''
+      originAmount: '',
+      urnIndex: undefined
     });
   };
 

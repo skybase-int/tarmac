@@ -90,6 +90,7 @@ export type WidgetStateChangeParams = {
   originAmount?: string;
   stakeTab?: StakeAction.LOCK | StakeAction.FREE;
   sealTab?: SealAction.LOCK | SealAction.FREE;
+  urnIndex?: number;
 };
 
 export type WidgetProps = {
