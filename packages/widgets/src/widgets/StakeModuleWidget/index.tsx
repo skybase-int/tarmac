@@ -576,7 +576,6 @@ function StakeModuleWidgetWrapped({
 
   const showStep = !!widgetState.action && widgetState.action !== StakeAction.OVERVIEW;
 
-  // AQUI
   useEffect(() => {
     if (currentUrnIndexError) {
       throw new Error('Failed to fetch current urn index');
@@ -661,7 +660,7 @@ function StakeModuleWidgetWrapped({
     externalParamUrnAddress,
     currentUrnIndex,
     activeUrn?.urnIndex,
-    externalParamVaultData?.collateralAmount,
+    externalParamVaultData,
     externalUrnRewardContract,
     externalUrnVoteDelegate
   ]);
