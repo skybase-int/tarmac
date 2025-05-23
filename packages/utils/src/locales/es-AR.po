@@ -61,13 +61,16 @@ msgstr ""
 msgid "{0} {1} to {2}"
 msgstr ""
 
-#. placeholder {0}: StakeToken.SKY
 #. placeholder {0}: SealToken.MKR
 #. placeholder {0}: SealToken.SKY
-#: apps/webapp/src/modules/stake/components/StakePositionOverview.tsx
 #: apps/webapp/src/modules/seal/components/SealPositionOverview.tsx
 #: apps/webapp/src/modules/seal/components/SealPositionOverview.tsx
 msgid "{0} sealed"
+msgstr ""
+
+#. placeholder {0}: StakeToken.SKY
+#: apps/webapp/src/modules/stake/components/StakePositionOverview.tsx
+msgid "{0} staked"
 msgstr ""
 
 #. placeholder {0}: flow === SavingsFlow.SUPPLY ? 'Supplied to' : 'Withdrawn from'
