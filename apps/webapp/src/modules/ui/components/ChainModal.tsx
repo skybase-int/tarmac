@@ -19,6 +19,7 @@ enum ChainModalVariant {
   wrapper = 'wrapper'
 }
 
+//TODO: handle optimism and unichain
 const getChainIcon = (chainId: number, className?: string) =>
   [base.id, tenderlyBase.id].includes(chainId) ? (
     <BaseChain className={className} />

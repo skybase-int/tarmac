@@ -3,6 +3,7 @@ import { BaseChain } from './icons/BaseChain';
 import { EthereumChain } from './icons/EthereumChain';
 import { ArbitrumChain } from './icons/ArbitrumChain';
 
+//TODO: handle optimism and unichain
 export const getChainIcon = (chainId: number, className?: string) =>
   chainId === chainIdMap.base || chainId === chainIdMap.tenderlyBase ? (
     <BaseChain className={className} />
