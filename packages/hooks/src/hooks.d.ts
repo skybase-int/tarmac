@@ -3,7 +3,6 @@ import {
   type SendTransactionReturnType,
   type WriteContractReturnType,
   type SimulateContractErrorType,
-  type SendCallsReturnType,
   type Config,
   type SendCallsParameters
 } from '@wagmi/core';
@@ -63,7 +62,6 @@ export type UseWriteContractFlowParameters<
  * Send batch transaction flow hook
  */
 export type BatchWriteHook = {
-  data: SendCallsReturnType['id'] | undefined;
   error: Error | null;
   isLoading: boolean;
   prepared: boolean;
@@ -76,9 +74,9 @@ export type UseSendBatchTransactionFlowParameters<
   config extends Config = Config
 > = SendCallsParameters<config, chainId, calls> & {
   enabled?: boolean;
-  onStart?: (hash: string) => void;
-  onSuccess?: (hash: string) => void;
-  onError?: (error: Error, hash: string) => void;
+  onStart?: () => void;
+  onSuccess?: (hash: string | undefined) => void;
+  onError?: (error: Error, hash: string | undefined) => void;
 };
 
 export type TransactionHook = WriteHook & {

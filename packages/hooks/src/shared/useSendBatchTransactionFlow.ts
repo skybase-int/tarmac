@@ -1,8 +1,7 @@
-import { useAccount, useCapabilities, useChainId, useSendCalls, useWaitForCallsStatus } from 'wagmi';
-import { CapabilitySupportStatus, SAFE_CONNECTOR_ID } from './constants';
+import { useCapabilities, useChainId, useSendCalls, useWaitForCallsStatus } from 'wagmi';
+import { CapabilitySupportStatus } from './constants';
 import { BatchWriteHook, UseSendBatchTransactionFlowParameters } from '../hooks';
-import { useWaitForSafeTxHash } from './useWaitForSafeTxHash';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { isRevertedError } from '../helpers';
 import { Config } from '@wagmi/core';
 
@@ -41,44 +40,45 @@ export function useSendBatchTransactionFlow<
     data: mutationData
   } = useSendCalls({
     mutation: {
-      onSuccess: ({ id }: { id: string }) => {
+      onSuccess: () => {
         if (onStart) {
-          onStart(id);
+          onStart();
         }
       },
       onError: (err: Error) => {
         if (onError) {
-          onError(err, mutationData?.id || '');
+          onError(err, mutationData?.id);
         }
       }
     }
   });
 
+  // TODO: Check how the implementation for Safe would work
   // Workaround to get `txHash` from Safe connector
-  const { connector } = useAccount();
-  const isSafeConnector = connector?.id === SAFE_CONNECTOR_ID;
+  // const { connector } = useAccount();
+  // const isSafeConnector = connector?.id === SAFE_CONNECTOR_ID;
 
-  // TODO: Check if this is actually compatible with Safe
-  const eventHash = useWaitForSafeTxHash({
-    chainId,
-    safeTxHash: mutationData?.id,
-    isSafeConnector
-  });
+  // const eventHash = useWaitForSafeTxHash({
+  //   chainId,
+  //   safeTxHash: mutationData?.id,
+  //   isSafeConnector
+  // });
 
-  // If the user is currently connected through the Safe connector, the txHash will only
-  // be populated after we get it from the Safe wallet contract event, if they're connected
-  // to any other connector, the txHash will be the one we get from the mutation
-  const txHash = useMemo(
-    () => (isSafeConnector ? eventHash : mutationData?.id),
-    [eventHash, mutationData?.id, isSafeConnector]
-  );
+  // // If the user is currently connected through the Safe connector, the txHash will only
+  // // be populated after we get it from the Safe wallet contract event, if they're connected
+  // // to any other connector, the txHash will be the one we get from the mutation
+  // const txHash = useMemo(
+  //   () => (isSafeConnector ? eventHash : mutationData?.id),
+  //   [eventHash, mutationData?.id, isSafeConnector]
+  // );
 
   // Monitor tx
   const {
     isLoading: isMining,
     isSuccess,
     error: miningError,
-    failureReason
+    failureReason,
+    data
   } = useWaitForCallsStatus({
     id: mutationData?.id
   });
@@ -86,16 +86,16 @@ export function useSendBatchTransactionFlow<
   const txReverted = isRevertedError(failureReason);
 
   useEffect(() => {
-    if (txHash) {
-      if (isSuccess) {
-        onSuccess(txHash);
+    if (mutationData?.id) {
+      if (isSuccess && data.status === 'success') {
+        onSuccess(data.receipts?.[0].transactionHash);
       } else if (miningError) {
-        onError(miningError, txHash);
+        onError(miningError, data?.receipts?.[0].transactionHash);
       } else if (failureReason && txReverted) {
-        onError(failureReason, txHash);
+        onError(failureReason, data?.receipts?.[0].transactionHash);
       }
     }
-  }, [isSuccess, miningError, failureReason, txHash, txReverted]);
+  }, [isSuccess, miningError, failureReason, mutationData?.id, txReverted, data]);
 
   return {
     execute: () => {
@@ -117,7 +117,6 @@ export function useSendBatchTransactionFlow<
         sendCalls(sendCallsParameters);
       }
     },
-    data: txHash,
     isLoading: isLoadingCapabilities || (isMining && !txReverted),
     prepared: batchSupported && !!enabled && !isLoadingCapabilities && !capabilitiesError,
     error: sendError || miningError
