@@ -202,7 +202,15 @@ export {
 
 // Export types
 export type { DsProxyHookResponse } from './dsProxy/useDsProxyData';
-export type { WriteHookParams, ReadHook, WriteHook, TrustLevel, DataSource, ReadHookParams } from './hooks';
+export type {
+  WriteHookParams,
+  ReadHook,
+  WriteHook,
+  TrustLevel,
+  DataSource,
+  ReadHookParams,
+  BatchWriteHookParams
+} from './hooks';
 export type { PaginationOption } from './filters';
 export type { RewardContract, RewardContractInfo, RewardContractChange } from './rewards/rewards';
 export type { SavingsHistory } from './savings/savings';
@@ -265,7 +273,5 @@ export {
 } from './generated';
 export { contracts, /*tenderlyContracts,*/ sepoliaContracts, l2Contracts } from './contracts';
 
-// Temporary export for testing, remove afterwards since this hook will probably be
-// a low level one which will be implemented by other hooks
 export { useSendBatchTransactionFlow } from './shared/useSendBatchTransactionFlow';
 export { getWriteContractCall } from './shared/getWriteContractCall';

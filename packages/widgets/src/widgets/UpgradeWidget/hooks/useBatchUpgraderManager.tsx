@@ -1,4 +1,5 @@
 import {
+  BatchWriteHookParams,
   daiUsdsAbi,
   daiUsdsAddress,
   getWriteContractCall,
@@ -9,7 +10,6 @@ import {
   useSendBatchTransactionFlow,
   useTokenAllowance
 } from '@jetstreamgg/hooks';
-import { WriteHookParams } from '@jetstreamgg/hooks';
 import { Call, erc20Abi } from 'viem';
 import { useAccount, useChainId } from 'wagmi';
 
@@ -18,7 +18,7 @@ export function useBatchUpgraderManager({
   amount,
   enabled: paramEnabled = true,
   ...params
-}: WriteHookParams & {
+}: BatchWriteHookParams & {
   token: Token;
   amount: bigint;
 }) {

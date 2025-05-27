@@ -68,6 +68,14 @@ export type BatchWriteHook = {
   execute: () => void;
 };
 
+export type BatchWriteHookParams = {
+  onStart?: () => void;
+  onSuccess?: (hash: string | undefined) => void;
+  onError?: (error: Error, hash: string | undefined) => void;
+  enabled?: boolean;
+  gas?: bigint;
+};
+
 export type UseSendBatchTransactionFlowParameters<
   calls extends readonly unknown[],
   chainId extends config['chains'][number]['id'],
