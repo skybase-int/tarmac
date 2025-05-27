@@ -1,15 +1,13 @@
-import { useCapabilities, useChainId, useSendCalls, useWaitForCallsStatus } from 'wagmi';
-import { CapabilitySupportStatus } from './constants';
+import { useSendCalls, useWaitForCallsStatus } from 'wagmi';
 import { BatchWriteHook, UseSendBatchTransactionFlowParameters } from '../hooks';
 import { useEffect } from 'react';
 import { isRevertedError } from '../helpers';
 import { Config } from '@wagmi/core';
+import { useIsBatchSupported } from './useIsBatchSupported';
 
-export function useSendBatchTransactionFlow<
-  const calls extends readonly unknown[],
-  config extends Config,
-  chainId extends config['chains'][number]['id']
->(parameters: UseSendBatchTransactionFlowParameters<calls, chainId, config>): BatchWriteHook {
+export function useSendBatchTransactionFlow<const calls extends readonly unknown[], config extends Config>(
+  parameters: UseSendBatchTransactionFlowParameters<calls, config>
+): BatchWriteHook {
   const {
     enabled,
     onSuccess = () => null,
@@ -18,20 +16,12 @@ export function useSendBatchTransactionFlow<
     ...sendCallsParameters
   } = parameters;
 
-  const chainId = useChainId();
-
   // Check if wallet supports batch transactions
   const {
-    data: capabilities,
+    data: batchSupported,
     isLoading: isLoadingCapabilities,
     error: capabilitiesError
-  } = useCapabilities();
-
-  const atomicCapabilityStatus = capabilities?.[chainId]?.atomic?.status;
-
-  const batchSupported =
-    atomicCapabilityStatus === CapabilitySupportStatus.supported ||
-    atomicCapabilityStatus === CapabilitySupportStatus.ready;
+  } = useIsBatchSupported();
 
   // Initiate hook to send the batch transaction
   const {
@@ -118,7 +108,7 @@ export function useSendBatchTransactionFlow<
       }
     },
     isLoading: isLoadingCapabilities || (isMining && !txReverted),
-    prepared: batchSupported && !!enabled && !isLoadingCapabilities && !capabilitiesError,
+    prepared: !!batchSupported && !!enabled && !isLoadingCapabilities && !capabilitiesError,
     error: sendError || miningError
   };
 }

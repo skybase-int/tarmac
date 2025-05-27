@@ -275,3 +275,4 @@ export { contracts, /*tenderlyContracts,*/ sepoliaContracts, l2Contracts } from 
 
 export { useSendBatchTransactionFlow } from './shared/useSendBatchTransactionFlow';
 export { getWriteContractCall } from './shared/getWriteContractCall';
+export { useIsBatchSupported } from './shared/useIsBatchSupported';
