@@ -78,8 +78,18 @@ export const defaultConfig: WidgetsConfig = {
       { ...usds, address: usdsL2Address[TENDERLY_ARBITRUM_CHAIN_ID] },
       { ...susds, address: sUsdsL2Address[TENDERLY_ARBITRUM_CHAIN_ID] }
     ],
-    [unichain.id]: [eth],
-    [optimism.id]: [eth]
+    [unichain.id]: [
+      eth,
+      { ...usdc, address: usdcL2Address[unichain.id] },
+      { ...usds, address: usdsL2Address[unichain.id] },
+      { ...susds, address: sUsdsL2Address[unichain.id] }
+    ],
+    [optimism.id]: [
+      eth,
+      { ...usdc, address: usdcL2Address[optimism.id] },
+      { ...usds, address: usdsL2Address[optimism.id] },
+      { ...susds, address: sUsdsL2Address[optimism.id] }
+    ]
   },
   tradeTokenList: {
     [mainnet.id]: [
