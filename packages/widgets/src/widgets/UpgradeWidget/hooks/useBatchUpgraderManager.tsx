@@ -64,7 +64,7 @@ export function useBatchUpgraderManager({
   if (!hasAllowance) calls.push(approveCall);
   calls.push(upgradeCall);
 
-  const enabled = paramEnabled && !!address;
+  const enabled = paramEnabled && !!address && amount !== 0n;
 
   return useSendBatchTransactionFlow({
     calls,
