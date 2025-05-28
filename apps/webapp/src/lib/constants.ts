@@ -155,3 +155,6 @@ export const STAGING_URL_SKY_SUBGRAPH_ARBITRUM =
   'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/subgraph-arbitrum';
 export const STAGING_URL_SKY_SUBGRAPH_ARBITRUM_TENDERLY =
   'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/subgraph-arbitrumTenderly';
+
+// Feature flag for batch transactions
+export const BATCH_TX_ENABLED = import.meta.env.VITE_BATCH_TX_ENABLED === 'true';

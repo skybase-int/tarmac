@@ -11,7 +11,7 @@ import {
   UpgradeScreen,
   upgradeTokens
 } from '@jetstreamgg/widgets';
-import { QueryParams, REFRESH_DELAY } from '@/lib/constants';
+import { BATCH_TX_ENABLED, QueryParams, REFRESH_DELAY } from '@/lib/constants';
 import { SharedProps } from '@/modules/app/types/Widgets';
 import { LinkedActionSteps } from '@/modules/config/context/ConfigContext';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
@@ -161,6 +161,7 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
       customNavigationLabel={customNavLabel}
       onCustomNavigation={onNavigate}
       upgradeOptions={[TOKENS.dai, TOKENS.mkr]}
+      batchEnabled={BATCH_TX_ENABLED}
     />
   );
 }

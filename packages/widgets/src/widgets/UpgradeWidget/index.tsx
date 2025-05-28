@@ -86,6 +86,7 @@ const targetTokenForSymbol = (symbol: keyof typeof upgradeTokens) => {
 export type UpgradeWidgetProps = WidgetProps & {
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   upgradeOptions?: Token[];
+  batchEnabled: boolean;
 };
 
 export const UpgradeWidget = ({
@@ -100,6 +101,7 @@ export const UpgradeWidget = ({
   onCustomNavigation,
   customNavigationLabel,
   onExternalLinkClicked,
+  batchEnabled,
   upgradeOptions = defaultUpgradeOptions,
   enabled = true
 }: UpgradeWidgetProps) => {
@@ -119,6 +121,7 @@ export const UpgradeWidget = ({
           onExternalLinkClicked={onExternalLinkClicked}
           enabled={enabled}
           upgradeOptions={upgradeOptions}
+          batchEnabled={batchEnabled}
         />
       </WidgetProvider>
     </ErrorBoundary>
@@ -137,6 +140,7 @@ export function UpgradeWidgetWrapped({
   customNavigationLabel,
   onExternalLinkClicked,
   upgradeOptions,
+  batchEnabled,
   enabled = true
 }: UpgradeWidgetProps): React.ReactElement {
   const validatedExternalState = getValidatedState(externalWidgetState);
@@ -313,7 +317,7 @@ export function UpgradeWidgetWrapped({
     token: originToken,
     amount: debouncedOriginAmount,
     // Only enable batch flow when the user needs allowance, otherwise default to individual Upgrade/Revert transaction
-    enabled: !hasAllowance,
+    enabled: !hasAllowance && batchEnabled,
     onStart: () => {
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ widgetState, txStatus: TxStatus.LOADING });
@@ -384,7 +388,7 @@ export function UpgradeWidgetWrapped({
       setWidgetState((prev: WidgetState) => ({
         ...prev,
         action:
-          !hasAllowance && !allowanceLoading && !batchSupported
+          !hasAllowance && !allowanceLoading && (!batchSupported || !batchEnabled)
             ? UpgradeAction.APPROVE
             : UpgradeAction.UPGRADE
       }));
@@ -392,10 +396,12 @@ export function UpgradeWidgetWrapped({
       setWidgetState((prev: WidgetState) => ({
         ...prev,
         action:
-          !hasAllowance && !allowanceLoading && !batchSupported ? UpgradeAction.APPROVE : UpgradeAction.REVERT
+          !hasAllowance && !allowanceLoading && (!batchSupported || !batchEnabled)
+            ? UpgradeAction.APPROVE
+            : UpgradeAction.REVERT
       }));
     }
-  }, [widgetState.flow, widgetState.screen, hasAllowance, allowanceLoading, batchSupported]);
+  }, [widgetState.flow, widgetState.screen, hasAllowance, allowanceLoading, batchSupported, batchEnabled]);
 
   const isBalanceError =
     txStatus === TxStatus.IDLE &&
@@ -441,7 +447,7 @@ export function UpgradeWidgetWrapped({
     isBalanceError ||
     isAmountWaitingForDebounce;
 
-  const batchTransactionDisabled =
+  const batchCallDisabled =
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
     !batchActionManager.prepared ||
     batchActionManager.isLoading ||
@@ -539,7 +545,7 @@ export function UpgradeWidgetWrapped({
         ? nextOnClick
         : txStatus === TxStatus.ERROR
           ? errorOnClick
-          : batchSupported
+          : batchSupported && batchEnabled
             ? batchTransactionOnClick
             : (widgetState.flow === UpgradeFlow.UPGRADE && widgetState.action === UpgradeAction.APPROVE) ||
                 (widgetState.flow === UpgradeFlow.REVERT && widgetState.action === UpgradeAction.APPROVE)
@@ -606,8 +612,8 @@ export function UpgradeWidgetWrapped({
   useEffect(() => {
     setIsDisabled(
       isConnectedAndEnabled &&
-        (batchSupported
-          ? batchTransactionDisabled
+        (batchSupported && batchEnabled
+          ? batchCallDisabled
           : (widgetState.action === UpgradeAction.APPROVE && approveDisabled) ||
             ((widgetState.action === UpgradeAction.UPGRADE || widgetState.action === UpgradeAction.REVERT) &&
               upgradeDisabled))
@@ -618,7 +624,8 @@ export function UpgradeWidgetWrapped({
     widgetState.action,
     isConnectedAndEnabled,
     batchSupported,
-    batchTransactionDisabled
+    batchEnabled,
+    batchCallDisabled
   ]);
 
   // Set isLoading to be consumed by WidgetButton
