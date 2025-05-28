@@ -8,6 +8,7 @@ export const getSavingsFaqItems = (chainId: number, isConnected: boolean) => [
       : baseFaqItems
     : []),
   ...(isArbitrumChainId(chainId) ? arbitrumFaqItems : [])
+  // TODO add optimism and unichain
 ];
 
 const mainnetFaqItems = [

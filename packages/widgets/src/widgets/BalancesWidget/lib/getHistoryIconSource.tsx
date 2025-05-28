@@ -12,6 +12,7 @@ export const getHistoryIconSource = ({
 }) => {
   const isBase = isBaseChainId(chainId);
   const isArbitrum = isArbitrumChainId(chainId);
+  // TODO add optimism and unichain
   const src = 'history-icons/' + (isBase ? 'base/' : isArbitrum ? 'arbitrum/' : 'ethereum/');
   switch (module) {
     case ModuleEnum.SAVINGS:

@@ -4,6 +4,7 @@ export const getTradeFaqItems = (chainId: number) => [
   ...[...mainnetFaqItems, ...skyLinkFaqItems],
   ...(isBaseChainId(chainId) ? baseFaqItems : []),
   ...(isArbitrumChainId(chainId) ? arbitrumFaqItems : [])
+  // TODO add optimism and unichain
 ];
 
 const mainnetFaqItems = [

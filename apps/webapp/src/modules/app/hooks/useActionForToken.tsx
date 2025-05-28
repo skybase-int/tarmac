@@ -38,6 +38,7 @@ export const useActionForToken = () => {
 
       const isBaseChainAction = isBaseChainId(tokenChainId);
       const isArbitrumChainAction = isArbitrumChainId(tokenChainId);
+      // TODO add optimism and unichain
       const isL2ChainAction = isL2ChainId(tokenChainId);
 
       const networkName = chains.find(c => c.id === tokenChainId)?.name || 'ethereum';
