@@ -133,7 +133,9 @@ export const TOKENS: TokenMapping = {
       [sepolia.id]: 18,
       [TENDERLY_CHAIN_ID]: 6,
       [TENDERLY_BASE_CHAIN_ID]: 6,
-      [TENDERLY_ARBITRUM_CHAIN_ID]: 6
+      [TENDERLY_ARBITRUM_CHAIN_ID]: 6,
+      [optimism.id]: 6,
+      [unichain.id]: 6
     }
   },
   usdt: {
