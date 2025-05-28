@@ -86,7 +86,7 @@ const targetTokenForSymbol = (symbol: keyof typeof upgradeTokens) => {
 export type UpgradeWidgetProps = WidgetProps & {
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   upgradeOptions?: Token[];
-  batchEnabled: boolean;
+  batchEnabled?: boolean;
 };
 
 export const UpgradeWidget = ({
@@ -317,7 +317,7 @@ export function UpgradeWidgetWrapped({
     token: originToken,
     amount: debouncedOriginAmount,
     // Only enable batch flow when the user needs allowance, otherwise default to individual Upgrade/Revert transaction
-    enabled: !hasAllowance && batchEnabled,
+    enabled: !hasAllowance && !!batchEnabled,
     onStart: () => {
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ widgetState, txStatus: TxStatus.LOADING });
