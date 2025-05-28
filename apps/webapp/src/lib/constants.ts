@@ -72,13 +72,15 @@ export const CHAIN_WIDGET_MAP: Record<number, Intent[]> = {
     Intent.TRADE_INTENT
   ],
   [sepolia.id]: [Intent.BALANCES_INTENT, Intent.TRADE_INTENT],
-  [unichain.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
-  [optimism.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT]
+  [unichain.id]: [Intent.BALANCES_INTENT, Intent.REWARDS_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
+  [optimism.id]: [Intent.BALANCES_INTENT, Intent.REWARDS_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT]
 };
 
 export const COMING_SOON_MAP: Record<number, Intent[]> = {
   [base.id]: [Intent.REWARDS_INTENT],
   [arbitrum.id]: [Intent.REWARDS_INTENT],
+  [optimism.id]: [Intent.REWARDS_INTENT],
+  [unichain.id]: [Intent.REWARDS_INTENT],
   [tenderlyBase.id]: [Intent.REWARDS_INTENT],
   [tenderlyArbitrum.id]: [Intent.REWARDS_INTENT]
   // [base.id]: [Intent.YOUR_INTENT] // Example of how to add a coming soon intent
