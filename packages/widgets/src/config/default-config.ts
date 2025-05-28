@@ -142,8 +142,16 @@ export const defaultConfig: WidgetsConfig = {
       { ...weth, address: wethSepoliaAddress[sepolia.id] },
       { ...dai, address: mcdDaiSepoliaAddress[sepolia.id] }
     ],
-    [unichain.id]: [],
-    [optimism.id]: []
+    [unichain.id]: [
+      { ...usdc, address: usdcL2Address[unichain.id] },
+      { ...usds, address: usdsL2Address[unichain.id] },
+      { ...susds, address: sUsdsL2Address[unichain.id] }
+    ],
+    [optimism.id]: [
+      { ...usdc, address: usdcL2Address[optimism.id] },
+      { ...usds, address: usdsL2Address[optimism.id] },
+      { ...susds, address: sUsdsL2Address[optimism.id] }
+    ]
   },
   tradeDisallowedPairs: {
     ETH: [weth.symbol as SUPPORTED_TOKEN_SYMBOLS],
