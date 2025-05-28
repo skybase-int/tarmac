@@ -11,7 +11,7 @@ import {
   UpgradeScreen,
   upgradeTokens
 } from '@jetstreamgg/widgets';
-import { BATCH_TX_ENABLED, QueryParams, REFRESH_DELAY } from '@/lib/constants';
+import { QueryParams, REFRESH_DELAY } from '@/lib/constants';
 import { SharedProps } from '@/modules/app/types/Widgets';
 import { LinkedActionSteps } from '@/modules/config/context/ConfigContext';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
@@ -21,6 +21,7 @@ import { capitalizeFirstLetter } from '@/lib/helpers/string/capitalizeFirstLette
 import { useSubgraphUrl } from '@/modules/app/hooks/useSubgraphUrl';
 import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
 import { useEffect, useState } from 'react';
+import { useIsBatchEnabled } from '@/modules/ui/hooks/useIsBatchEnabled';
 
 const targetTokenFromSourceToken = (sourceToken?: string) => {
   if (sourceToken === 'DAI') return 'USDS';
@@ -41,6 +42,8 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
 
   // Get source_token from URL params
   const sourceToken = searchParams.get(QueryParams.SourceToken)?.toUpperCase();
+
+  const batchEnabled = useIsBatchEnabled();
 
   // Set initial currentToken from sourceToken
   useEffect(() => {
@@ -161,7 +164,7 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
       customNavigationLabel={customNavLabel}
       onCustomNavigation={onNavigate}
       upgradeOptions={[TOKENS.dai, TOKENS.mkr]}
-      batchEnabled={BATCH_TX_ENABLED}
+      batchEnabled={batchEnabled}
     />
   );
 }

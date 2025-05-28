@@ -158,3 +158,4 @@ export const STAGING_URL_SKY_SUBGRAPH_ARBITRUM_TENDERLY =
 
 // Feature flag for batch transactions
 export const BATCH_TX_ENABLED = import.meta.env.VITE_BATCH_TX_ENABLED === 'true';
+export const BATCH_TX_KEY = 'batch-transactions-enabled';
