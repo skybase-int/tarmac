@@ -227,6 +227,7 @@ export function UpgradeWidgetWrapped({
         : mkrSkyAddress[chainId as keyof typeof mkrSkyAddress]
   });
   const hasAllowance = !!(allowance && debouncedOriginAmount !== 0n && allowance >= debouncedOriginAmount);
+  const shouldUseBatch = !!batchEnabled && !!batchSupported && !hasAllowance;
 
   const actionManager = useUpgraderManager({
     token: originToken,
@@ -317,7 +318,7 @@ export function UpgradeWidgetWrapped({
     token: originToken,
     amount: debouncedOriginAmount,
     // Only enable batch flow when the user needs allowance, otherwise default to individual Upgrade/Revert transaction
-    enabled: !hasAllowance && !!batchEnabled,
+    enabled: shouldUseBatch,
     onStart: () => {
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ widgetState, txStatus: TxStatus.LOADING });
@@ -388,7 +389,7 @@ export function UpgradeWidgetWrapped({
       setWidgetState((prev: WidgetState) => ({
         ...prev,
         action:
-          !hasAllowance && !allowanceLoading && (!batchSupported || !batchEnabled)
+          !hasAllowance && !allowanceLoading && !shouldUseBatch
             ? UpgradeAction.APPROVE
             : UpgradeAction.UPGRADE
       }));
@@ -396,12 +397,10 @@ export function UpgradeWidgetWrapped({
       setWidgetState((prev: WidgetState) => ({
         ...prev,
         action:
-          !hasAllowance && !allowanceLoading && (!batchSupported || !batchEnabled)
-            ? UpgradeAction.APPROVE
-            : UpgradeAction.REVERT
+          !hasAllowance && !allowanceLoading && !shouldUseBatch ? UpgradeAction.APPROVE : UpgradeAction.REVERT
       }));
     }
-  }, [widgetState.flow, widgetState.screen, hasAllowance, allowanceLoading, batchSupported, batchEnabled]);
+  }, [widgetState.flow, widgetState.screen, hasAllowance, allowanceLoading, shouldUseBatch]);
 
   const isBalanceError =
     txStatus === TxStatus.IDLE &&
@@ -451,6 +450,7 @@ export function UpgradeWidgetWrapped({
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
     !batchActionManager.prepared ||
     batchActionManager.isLoading ||
+    // If the user has allowance, don't send a batch transaction as it's only 1 contract call
     hasAllowance ||
     allowanceLoading ||
     isBalanceError ||
@@ -545,7 +545,7 @@ export function UpgradeWidgetWrapped({
         ? nextOnClick
         : txStatus === TxStatus.ERROR
           ? errorOnClick
-          : batchSupported && batchEnabled
+          : shouldUseBatch
             ? batchTransactionOnClick
             : (widgetState.flow === UpgradeFlow.UPGRADE && widgetState.action === UpgradeAction.APPROVE) ||
                 (widgetState.flow === UpgradeFlow.REVERT && widgetState.action === UpgradeAction.APPROVE)
@@ -612,7 +612,7 @@ export function UpgradeWidgetWrapped({
   useEffect(() => {
     setIsDisabled(
       isConnectedAndEnabled &&
-        (batchSupported && batchEnabled
+        (shouldUseBatch
           ? batchCallDisabled
           : (widgetState.action === UpgradeAction.APPROVE && approveDisabled) ||
             ((widgetState.action === UpgradeAction.UPGRADE || widgetState.action === UpgradeAction.REVERT) &&
@@ -623,8 +623,7 @@ export function UpgradeWidgetWrapped({
     upgradeDisabled,
     widgetState.action,
     isConnectedAndEnabled,
-    batchSupported,
-    batchEnabled,
+    shouldUseBatch,
     batchCallDisabled
   ]);
 
