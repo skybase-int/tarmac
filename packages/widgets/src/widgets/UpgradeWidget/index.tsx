@@ -337,6 +337,7 @@ export function UpgradeWidgetWrapped({
         status: TxStatus.SUCCESS,
         type: notificationTypeMaping[targetToken?.symbol?.toUpperCase() || 'none']
       });
+      setExternalLink(hash && getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.SUCCESS);
       mutateAllowance();
       mutateOriginBalance();
@@ -348,6 +349,7 @@ export function UpgradeWidgetWrapped({
         description: t`Something went wrong with your transaction. Please try again.`,
         status: TxStatus.ERROR
       });
+      setExternalLink(hash && getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.ERROR);
       mutateAllowance();
       mutateOriginBalance();
