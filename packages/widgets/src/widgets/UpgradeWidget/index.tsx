@@ -274,7 +274,7 @@ export function UpgradeWidgetWrapped({
       setTxStatus(TxStatus.ERROR);
       mutateAllowance();
       mutateOriginBalance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
+      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
       console.log(error);
     }
   });
@@ -350,7 +350,7 @@ export function UpgradeWidgetWrapped({
       setTxStatus(TxStatus.ERROR);
       mutateAllowance();
       mutateOriginBalance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
+      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
       console.log(error);
     }
   });

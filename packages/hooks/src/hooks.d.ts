@@ -78,7 +78,8 @@ export type BatchWriteHookParams = {
 
 export type UseSendBatchTransactionFlowParameters<
   calls extends readonly unknown[],
-  config extends Config = Config
+  config extends Config = Config,
+  chainId extends config['chains'][number]['id'] | undefined = undefined
 > = SendCallsParameters<config, chainId, calls> & {
   enabled?: boolean;
   onStart?: () => void;

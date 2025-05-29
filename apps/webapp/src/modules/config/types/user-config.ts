@@ -6,4 +6,5 @@ export type UserConfig = {
   intent: Intent;
   sealToken?: SealToken;
   stakeToken?: StakeToken;
+  batchEnabled: boolean;
 };
