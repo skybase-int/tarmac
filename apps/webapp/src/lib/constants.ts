@@ -138,19 +138,19 @@ export const ALLOWED_EXTERNAL_DOMAINS = [
 ];
 
 export const PROD_URL_SKY_SUBGRAPH_MAINNET =
-  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/subgraph-mainnet';
+  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-mainnet';
 export const STAGING_URL_SKY_SUBGRAPH_MAINNET =
   'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-mainnet';
 export const STAGING_URL_SKY_SUBGRAPH_TESTNET =
   'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-testnet';
 export const PROD_URL_SKY_SUBGRAPH_BASE =
-  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/subgraph-base';
+  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-base';
 export const STAGING_URL_SKY_SUBGRAPH_BASE =
   'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-base';
 export const STAGING_URL_SKY_SUBGRAPH_BASE_TENDERLY =
   'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-baseTenderly';
 export const PROD_URL_SKY_SUBGRAPH_ARBITRUM =
-  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/subgraph-arbitrum';
+  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-arbitrum';
 export const STAGING_URL_SKY_SUBGRAPH_ARBITRUM =
   'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-arbitrum';
 export const STAGING_URL_SKY_SUBGRAPH_ARBITRUM_TENDERLY =
