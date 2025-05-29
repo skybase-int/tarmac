@@ -490,6 +490,10 @@ msgstr ""
 msgid "Balances displays all of your Sky-related funds. When you connect your crypto wallet to Sky.money to access the decentralised Sky Protocol, only the tokens in the wallet that are relevant to the app are listed. With all of your Sky funds visible in one place, you can better self-manage your funds. Sky.money is non-custodial and permissionless."
 msgstr ""
 
+#: apps/webapp/src/modules/layout/components/HeaderMenu.tsx
+msgid "Batch transactions"
+msgstr ""
+
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 msgid "Be sure to check your transaction status on CoW Explorer to verify the cancellation was successful"
@@ -1741,9 +1745,11 @@ msgid "Revert {0} into {1}"
 msgstr ""
 
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
+#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 msgid "Revert failed"
 msgstr ""
 
+#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 msgid "Revert successful"
 msgstr ""
@@ -2044,6 +2050,7 @@ msgstr ""
 msgid "Something went wrong when trying to sign the message. Please try again."
 msgstr ""
 
+#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 #: packages/widgets/src/widgets/SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
@@ -2694,6 +2701,7 @@ msgid "Upgrade DAI to USDS"
 msgstr ""
 
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
+#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 msgid "Upgrade failed"
 msgstr ""
 
@@ -2705,6 +2713,7 @@ msgstr ""
 msgid "Upgrade stats"
 msgstr ""
 
+#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 msgid "Upgrade successful"
 msgstr ""
@@ -3030,6 +3039,7 @@ msgstr ""
 #. placeholder {1}: originToken.symbol
 #. placeholder {2}: targetToken.symbol
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
+#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 msgid "You reverted {0} {1} into {2}"
 msgstr ""
 
@@ -3093,6 +3103,7 @@ msgstr ""
 #. placeholder {0}: formatUnits(debouncedOriginAmount, 18)
 #. placeholder {1}: originToken.symbol
 #. placeholder {2}: targetToken.symbol
+#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 msgid "You upgraded {0} {1} into {2}"
 msgstr ""
