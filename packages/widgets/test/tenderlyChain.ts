@@ -5,10 +5,11 @@ import {
   TENDERLY_BASE_CHAIN_ID,
   TENDERLY_CHAIN_ID
 } from '../src/shared/constants';
+import { optimism, unichain } from 'viem/chains';
 
 export const getTenderlyChains = () => {
   const res = readFileSync('../../tenderlyTestnetData.json', 'utf-8');
-  const [mainnetData, baseData, arbitrumData] = JSON.parse(res);
+  const [mainnetData, baseData, arbitrumData, optimismData, unichainData] = JSON.parse(res);
 
   return [
     defineChain({
@@ -34,6 +35,18 @@ export const getTenderlyChains = () => {
       rpcUrls: {
         default: { http: [arbitrumData.TENDERLY_RPC_URL] }
       }
-    })
-  ] as readonly [Chain, Chain, Chain];
+    }),
+    {
+      ...optimism,
+      rpcUrls: {
+        default: { http: [optimismData.TENDERLY_RPC_URL] }
+      }
+    },
+    {
+      ...unichain,
+      rpcUrls: {
+        default: { http: [unichainData.TENDERLY_RPC_URL] }
+      }
+    }
+  ] as readonly Chain[];
 };
