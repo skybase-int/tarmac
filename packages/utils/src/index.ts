@@ -3,6 +3,7 @@ export { getCowExplorerLink } from './getCowExplorerLink';
 export { getSafeTransactionLink } from './getSafeTransactionLink';
 export { getTransactionLink } from './getTransactionLink';
 export { getExplorerName, ExplorerName } from './getExplorerName';
+export { getChainSpecificText } from './getChainSpecificText';
 export { isTestnetId } from './isTestnetId';
 export { isMainnetId } from './isMainnetId';
 export {
