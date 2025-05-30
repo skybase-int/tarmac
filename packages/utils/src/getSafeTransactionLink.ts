@@ -5,7 +5,6 @@ export function getSafeTransactionLink(chainId: number, safeAddress: string, saf
   return `https://app.safe.global/transactions/tx?safe=${prefix}:${safeAddress}&id=${safeTxHash}`;
 }
 
-//TODO: handle optimism and unichain
 function getSafePrefix(id: number) {
   switch (id) {
     case chainId.sepolia:
@@ -16,6 +15,10 @@ function getSafePrefix(id: number) {
     case chainId.arbitrum:
     case chainId.tenderlyArbitrum:
       return 'arb1';
+    case chainId.optimism:
+      return 'oeth';
+    case chainId.unichain:
+      return 'unichain';
     case chainId.mainnet:
     case chainId.tenderly:
     default:
