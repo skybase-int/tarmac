@@ -31,19 +31,19 @@ export enum TrustLevelEnum {
 }
 
 export const URL_MAKER_SUBGRAPH_MAINNET =
-  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/subgraph-mainnet';
+  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-mainnet';
 export const URL_MAKER_SUBGRAPH_TENDERLY =
-  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/subgraph-testnet';
+  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-testnet';
 
 export const URL_BASE_SUBGRAPH_MAINNET =
-  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/subgraph-base';
+  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-base';
 export const URL_BASE_SUBGRAPH_TENDERLY =
-  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/subgraph-baseTenderly';
+  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-baseTenderly';
 
 export const URL_ARBITRUM_SUBGRAPH_MAINNET =
-  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/subgraph-arbitrum';
+  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-arbitrum';
 export const URL_ARBITRUM_SUBGRAPH_TENDERLY =
-  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/subgraph-arbitrumTenderly';
+  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-arbitrumTenderly';
 
 export const URL_OPTIMISM_SUBGRAPH_MAINNET =
   'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/subgraph-optimism';
