@@ -46,10 +46,10 @@ export const URL_ARBITRUM_SUBGRAPH_TENDERLY =
   'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-arbitrumTenderly';
 
 export const URL_OPTIMISM_SUBGRAPH_MAINNET =
-  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/subgraph-optimism';
+  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-optimism';
 
 export const URL_UNICHAIN_SUBGRAPH_MAINNET =
-  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/subgraph-unichain';
+  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-unichain';
 
 export const URL_BLOCKS_SUBGRAPH_MAINNET =
   'https://gateway-arbitrum.network.thegraph.com/api/937ce273344a610ea828ebe9702f6b65/subgraphs/id/9A6bkprqEG2XsZUYJ5B2XXp6ymz9fNcn4tVPxMWDztYC';
