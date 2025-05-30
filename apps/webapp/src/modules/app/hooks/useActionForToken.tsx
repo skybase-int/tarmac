@@ -260,15 +260,11 @@ export const useActionForToken = () => {
           action = undefined;
       }
 
-      return isBaseChainAction
-        ? action?.[base.id]
-        : isArbitrumChainAction
-          ? action?.[arbitrum.id]
-          : isOptimismChainAction
-            ? action?.[optimism.id]
-            : isUnichainChainAction
-              ? action?.[unichain.id]
-              : action?.[mainnet.id];
+      if (isBaseChainAction) return action?.[base.id];
+      if (isArbitrumChainAction) return action?.[arbitrum.id];
+      if (isOptimismChainAction) return action?.[optimism.id];
+      if (isUnichainChainAction) return action?.[unichain.id];
+      return action?.[mainnet.id];
     },
     [getRewardContracts, searchParams, isRestrictedBuild, isRestrictedMiCa, chainId, chains]
   );
