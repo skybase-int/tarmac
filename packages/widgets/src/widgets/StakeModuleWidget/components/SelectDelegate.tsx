@@ -8,7 +8,7 @@ import {
   DelegateInfo
 } from '@jetstreamgg/hooks';
 import { useDebounce } from '@jetstreamgg/utils';
-import { useContext, useEffect, useState, useRef } from 'react';
+import { useContext, useEffect, useState, useRef, useMemo } from 'react';
 import { useAccount, useChainId } from 'wagmi';
 import { DelegateCard } from './DelegateCard';
 import { StakeModuleWidgetContext } from '../context/context';
@@ -25,6 +25,7 @@ import { Search } from '@widgets/shared/components/icons/Search';
 import { NoResults } from '@widgets/shared/components/icons/NoResults';
 import { Close } from '@widgets/shared/components/icons/Close';
 import { formatEther, getAddress } from 'viem';
+import { t } from '@lingui/core/macro';
 
 type DelegateInfoWithTotal = DelegateInfo & {
   totalDelegatedEther: number;
@@ -125,19 +126,23 @@ export const SelectDelegate = ({
   //    Load more button
   //    Pagination component
 
+  const delegateTitle = useMemo(
+    () =>
+      widgetState.flow === StakeFlow.MANAGE && selectedDelegate && selectedDelegate !== ZERO_ADDRESS
+        ? t`Update your delegate`
+        : t`Choose your delegate`,
+    []
+  );
+
   return (
     <VStack gap={0}>
       <HStack className="items-center justify-between">
         <HStack gap={1} className="items-center">
-          <Text>
-            <Trans>Choose your delegate</Trans>
-          </Text>
+          <Text>{delegateTitle}</Text>
           <InfoTooltip
             content={
               <>
-                <Text>
-                  <Trans>Choose your delegate</Trans>
-                </Text>
+                <Text>{delegateTitle}</Text>
                 <br />
                 <Text>
                   <Trans>
