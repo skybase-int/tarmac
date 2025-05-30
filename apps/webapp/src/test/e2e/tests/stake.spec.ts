@@ -44,9 +44,9 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
   // position summary
   await expect(page.getByText('Confirm your position').nth(0)).toBeVisible({ timeout: 10000 });
   await expect(page.getByTestId('position-summary-card').getByText('Staking').first()).toBeVisible();
-  await expect(page.getByText('2,400,000 SKY')).toBeVisible();
+  await expect(page.getByText('2.4M SKY')).toBeVisible();
   await expect(page.getByTestId('position-summary-card').getByText('Borrowing')).toBeVisible();
-  await expect(page.getByText('38,000 USDS')).toBeVisible();
+  await expect(page.getByText('38K USDS')).toBeVisible();
   await expect(page.getByTestId('position-summary-card').getByText('Staking reward')).toBeVisible();
 
   // approval
@@ -76,8 +76,8 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
 
   await expect(page.getByText('Choose your reward token')).toBeVisible();
   await page.getByRole('button', { name: 'skip' }).click();
-  await expect(page.getByText('Choose your delegate')).toBeVisible();
-  await page.getByRole('button', { name: 'skip' }).click();
+  await expect(page.getByText('Update your delegate')).toBeVisible();
+  await page.getByRole('button', { name: 'skip' }).first().click();
 
   await expect(page.getByText('Confirm your position').nth(0)).toBeVisible();
   await approveOrPerformAction(page, 'Confirm');
@@ -107,8 +107,8 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
   // skip the rewards and delegates and confirm position
   await expect(page.getByText('Choose your reward token')).toBeVisible();
   await page.getByRole('button', { name: 'skip' }).click();
-  await expect(page.getByText('Choose your delegate')).toBeVisible();
-  await page.getByRole('button', { name: 'skip' }).click();
+  await expect(page.getByText('Update your delegate')).toBeVisible();
+  await page.getByRole('button', { name: 'skip' }).first().click();
 
   await expect(page.getByText('Confirm your position').nth(0)).toBeVisible();
 
@@ -136,8 +136,8 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
 
   await expect(page.getByText('Choose your reward token')).toBeVisible();
   await page.getByRole('button', { name: 'skip' }).click();
-  await expect(page.getByText('Choose your delegate')).toBeVisible();
-  await page.getByRole('button', { name: 'skip' }).click();
+  await expect(page.getByText('Update your delegate')).toBeVisible();
+  await page.getByRole('button', { name: 'skip' }).first().click();
 
   await expect(page.getByText('Confirm your position').nth(0)).toBeVisible();
 
