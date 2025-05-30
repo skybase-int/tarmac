@@ -84,6 +84,7 @@ export const SelectDelegate = ({
   };
 
   // One-time setup of delegate list order when data first loads
+  // Runs independently of the selected delegate changing
   useEffect(() => {
     if (!delegates || hasInitiallyOrdered.current) return;
 
@@ -126,6 +127,7 @@ export const SelectDelegate = ({
   //    Load more button
   //    Pagination component
 
+  // Runs only once, when the component mounts
   const delegateTitle = useMemo(
     () =>
       widgetState.flow === StakeFlow.MANAGE && selectedDelegate && selectedDelegate !== ZERO_ADDRESS
