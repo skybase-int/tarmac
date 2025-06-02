@@ -39,7 +39,7 @@ When you trade USDC, USDT, ETH and USDS for SKY, you can supply your SKY tokens 
   {
     question:
       'Why do I see activity in my Trade transaction history in the Sky.money web app if I’ve never used the Trade feature?',
-    answer: `If you’ve accessed the Sky Savings Rate on Base or Arbitrum, a conversion from USDS or USDC to sUSDS would have been automatically triggered via the Peg Stability Module (PSM). Therefore, you will see such activity in your Trade transaction history, despite not having traded.  
+    answer: `If you’ve accessed the Sky Savings Rate on Base or Arbitrum, a conversion from USDS or USDC to sUSDS would have been automatically triggered via the Peg Stability Module [(PSM)](#tooltip-psm). Therefore, you will see such activity in your Trade transaction history, despite not having traded.  
 
 PSMs are smart contracts that allow users to convert certain stablecoins directly with the Sky Protocol for USDS or DAI at a fixed rate and with relatively low fees; however, blockchain (gas) fees may apply. They are designed to maintain the stability of USDS and DAI. Unlike decentralized exchange (DEX) transactions, PSM operations do not involve trading between users. Instead, they are direct, non-custodial conversions (generate and burn) executed with the decentralized smart contracts of the Sky Protocol.
 `
@@ -73,7 +73,7 @@ const L2TradeFaqItems = [
   },
   {
     question: 'Which tokens can I trade on supported L2s?',
-    answer: `Using the Sky.money web app, you can interact with the Peg Stability Module (PSM) for conversions to/from USDS, sUSDS and USDC. The PSM handles conversions programmatically, driven at your direction, between these pairs directly. 
+    answer: `Using the Sky.money web app, you can interact with the Peg Stability Module [(PSM)](#tooltip-psm) for conversions to/from USDS, sUSDS and USDC. The PSM handles conversions programmatically, driven at your direction, between these pairs directly. 
 
 On some supported L2s, you can also access the Sky Savings Rate. Importantly, note that what separates the Base network from other L2s is that it enables free transfers of USDC; however, blockchain (gas) fees may apply. 
 
@@ -82,7 +82,7 @@ SkyLink is the Sky system that provides the rails for Sky Ecosystem projects to 
   },
   {
     question: 'How does trading on supported L2s differ from trading on Ethereum?',
-    answer: `On Ethereum mainnet, the Sky.money web app features a native integration of [CoW Swap](https://swap.cow.fi), a third-party decentralized exchange (DEX) aggregator. On supported L2s, converting between tokens is made possible through a Peg Stability Module (PSM). Please see the [Terms of Use](https://docs.sky.money/legal-terms) for more information on third-party services.
+    answer: `On Ethereum mainnet, the Sky.money web app features a native integration of [CoW Swap](https://swap.cow.fi), a third-party decentralized exchange (DEX) aggregator. On supported L2s, converting between tokens is made possible through a Peg Stability Module [(PSM)](#tooltip-psm). Please see the [Terms of Use](https://docs.sky.money/legal-terms) for more information on third-party services.
 `
   }
 ];
