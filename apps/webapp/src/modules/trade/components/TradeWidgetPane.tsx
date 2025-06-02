@@ -108,18 +108,16 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
       customNavigationLabel={customNavLabel}
       onCustomNavigation={onNavigate}
       externalWidgetState={externalWidgetState}
-      {...(isL2 && {
-        widgetTitle: getChainSpecificText(
-          {
-            base: 'Base Trade',
-            arbitrum: 'Arbitrum Trade',
-            optimism: 'Optimism Trade',
-            unichain: 'Unichain Trade',
-            default: 'Trade'
-          },
-          chainId
-        )
-      })}
+      widgetTitle={getChainSpecificText(
+        {
+          base: 'Base Trade',
+          arbitrum: 'Arbitrum Trade',
+          optimism: 'Optimism Trade',
+          unichain: 'Unichain Trade',
+          default: 'Trade'
+        },
+        chainId
+      )}
     />
   );
 }
