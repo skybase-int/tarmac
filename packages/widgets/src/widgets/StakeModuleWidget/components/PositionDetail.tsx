@@ -21,6 +21,7 @@ import { JazziconComponent } from './Jazzicon';
 import { TextWithTooltip } from '@widgets/shared/components/ui/tooltip/TextWithTooltip';
 import { PositionDetailAccordion } from './PositionDetailsAccordion';
 import { ClaimRewardsButton } from './ClaimRewardsButton';
+import { Address } from 'viem';
 
 type Props = {
   collateralizationRatio?: bigint;
@@ -41,6 +42,9 @@ type Props = {
   claimPrepared: boolean;
   claimExecute: () => void;
 };
+
+// TODO: remove this when subgraph is fixed
+const LS_SKY_REWARD = { contractAddress: '0x38e4254bd82ed5ee97cd1c4278faae748d998865' as Address };
 
 // Copied from TransactionDetail, it could be reusable
 export function PositionDetail({
@@ -172,7 +176,7 @@ export function PositionDetail({
       <>
         {sealRewardContracts &&
           urnAddress &&
-          sealRewardContracts.map(({ contractAddress }) => (
+          [...sealRewardContracts, LS_SKY_REWARD].map(({ contractAddress }) => (
             <ClaimRewardsButton
               key={`${index}-${contractAddress}`}
               rewardContract={contractAddress}
