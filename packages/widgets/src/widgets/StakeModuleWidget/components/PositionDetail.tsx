@@ -8,8 +8,8 @@ import {
   TOKENS,
   useRewardContractTokens,
   useDelegateName,
-  useSaRewardContracts,
-  useDelegateOwner
+  useDelegateOwner,
+  useStakeRewardContracts
 } from '@jetstreamgg/hooks';
 import { captitalizeFirstLetter, formatBigInt, formatPercent } from '@jetstreamgg/utils';
 import { positionAnimations } from '@widgets/shared/animation/presets';
@@ -21,7 +21,6 @@ import { JazziconComponent } from './Jazzicon';
 import { TextWithTooltip } from '@widgets/shared/components/ui/tooltip/TextWithTooltip';
 import { PositionDetailAccordion } from './PositionDetailsAccordion';
 import { ClaimRewardsButton } from './ClaimRewardsButton';
-import { Address } from 'viem';
 
 type Props = {
   collateralizationRatio?: bigint;
@@ -43,9 +42,6 @@ type Props = {
   claimExecute: () => void;
 };
 
-// TODO: remove this when subgraph is fixed
-const LS_SKY_REWARD = { contractAddress: '0x38e4254bd82ed5ee97cd1c4278faae748d998865' as Address };
-
 // Copied from TransactionDetail, it could be reusable
 export function PositionDetail({
   collateralizationRatio,
@@ -65,7 +61,7 @@ export function PositionDetail({
   const { data: rewardContractTokens } = useRewardContractTokens(selectedRewardContract);
   const { data: selectedDelegateName } = useDelegateName(selectedVoteDelegate);
   const { data: selectedDelegateOwner } = useDelegateOwner(selectedVoteDelegate);
-  const { data: sealRewardContracts } = useSaRewardContracts();
+  const { data: stakeRewardContracts } = useStakeRewardContracts();
 
   const riskTextColor = getRiskTextColor(riskLevel as RiskLevel);
 
@@ -174,9 +170,9 @@ export function PositionDetail({
         liquidationPrice={liquidationPrice}
       />
       <>
-        {sealRewardContracts &&
+        {stakeRewardContracts &&
           urnAddress &&
-          [...sealRewardContracts, LS_SKY_REWARD].map(({ contractAddress }) => (
+          stakeRewardContracts.map(({ contractAddress }) => (
             <ClaimRewardsButton
               key={`${index}-${contractAddress}`}
               rewardContract={contractAddress}
