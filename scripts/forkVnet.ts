@@ -8,14 +8,16 @@ const MAINNET_FORK_CONTAINER_ID = '67d03866-3483-455a-a001-7f9f69b1c5d4';
 const BASE_FORK_CONTAINER_ID = 'd382d976-02a4-4fc2-a9ba-db43a1602719';
 // corresponds to https://dashboard.tenderly.co/jetstreamgg/jetstream/testnet/d720e619-0124-4c51-aae9-f32dcba6de2a
 const ARBITRUM_FORK_CONTAINER_ID = 'd720e619-0124-4c51-aae9-f32dcba6de2a';
-// TODO: Add Optimism and Unichain fork blocks once the spell is executed
+
 const OPTIMISM_CONFIG = {
   chainId: 10,
-  forkBlock: 'latest'
+  // Fixed block from after the Optimism PSM was funded
+  forkBlock: '136644925'
 };
 const UNICHAIN_CONFIG = {
   chainId: 130,
-  forkBlock: 'latest'
+  // Fixed block from after the Unichain PSM was funded
+  forkBlock: '18140271'
 };
 
 const forkVnets = async () => {
