@@ -48,12 +48,14 @@ export const getTestTenderlyChains = () => {
     }),
     {
       ...optimism,
+      name: 'Tenderly Optimism',
       rpcUrls: {
         default: { http: [optimismData.TENDERLY_RPC_URL] }
       }
     },
     {
       ...unichain,
+      name: 'Tenderly Unichain',
       rpcUrls: {
         default: { http: [unichainData.TENDERLY_RPC_URL] }
       }
