@@ -4,6 +4,12 @@ import { getMakerSubgraphUrl } from '../helpers/getSubgraphUrl';
 import { useUserDelegates } from '../delegates/useUserDelegates';
 import { useDelegates } from '../delegates/useDelegates';
 import { DelegateInfo } from '../delegates/delegate';
+import { useEffect, useRef, useState } from 'react';
+import { formatEther, getAddress } from 'viem';
+
+type DelegateInfoWithTotal = DelegateInfo & {
+  totalDelegatedEther: number;
+};
 
 export function useStakeUserDelegates({
   subgraphUrl,
@@ -12,7 +18,10 @@ export function useStakeUserDelegates({
   page = 1,
   pageSize = 100,
   random,
-  search
+  search,
+  selectedDelegate,
+  shouldSortDelegates,
+  sortType = 'aligned'
 }: {
   subgraphUrl?: string;
   chainId: number;
@@ -21,7 +30,11 @@ export function useStakeUserDelegates({
   pageSize?: number;
   random?: boolean;
   search?: string;
+  selectedDelegate?: `0x${string}`;
+  shouldSortDelegates?: boolean;
+  sortType?: 'totalDelegated' | 'aligned';
 }): ReadHook & { data?: DelegateInfo[] } {
+  const hasInitiallyOrdered = useRef(false);
   const urlSubgraph = subgraphUrl ? subgraphUrl : getMakerSubgraphUrl(chainId) || '';
 
   const {
@@ -56,9 +69,61 @@ export function useStakeUserDelegates({
   const isLoading = isLoadingUserDelegates || isLoadingRestDelegates;
   const isDataReady = user && user !== ZERO_ADDRESS && !isLoading && (userDelegatesData || restDelegates);
 
+  const delegates = isDataReady ? [...userDelegatesPage, ...(restDelegates || [])] : undefined;
+  const [displayedDelegates, setDisplayedDelegates] = useState<DelegateInfo[]>();
+
+  // One-time setup of delegate list order when data first loads
+  // Runs independently of the selected delegate changing
+  useEffect(() => {
+    if (!delegates || hasInitiallyOrdered.current || !shouldSortDelegates) return;
+
+    const sortDelegatesByTotalDelegatedFn = (a: DelegateInfoWithTotal, b: DelegateInfoWithTotal) =>
+      b.totalDelegatedEther - a.totalDelegatedEther;
+    const sortDelegatesByAlignedFn = (a: DelegateInfoWithTotal, b: DelegateInfoWithTotal) => {
+      // Sort by those with metadata first (aligned delegates)
+      if (a.metadata && !b.metadata) return -1;
+      if (!a.metadata && b.metadata) return 1;
+      // If both have same metadata status, sort by total delegated
+      return sortDelegatesByTotalDelegatedFn(a, b);
+    };
+
+    const sortDelegatesFn =
+      sortType === 'totalDelegated' ? sortDelegatesByTotalDelegatedFn : sortDelegatesByAlignedFn;
+
+    const sortDelegatesWithSelectedFirst = (
+      delegates: DelegateInfoWithTotal[],
+      selectedDelegateAddress: string
+    ) => {
+      const selectedDelegate = delegates.find(
+        delegate => getAddress(delegate.id) === getAddress(selectedDelegateAddress)
+      );
+      const otherDelegates = delegates
+        .filter(delegate => getAddress(delegate.id) !== getAddress(selectedDelegateAddress))
+        .sort(sortDelegatesFn);
+
+      return [...(selectedDelegate ? [selectedDelegate] : []), ...otherDelegates];
+    };
+
+    hasInitiallyOrdered.current = true;
+    const delegatesWithTotals = delegates.map(delegate => ({
+      ...delegate,
+      totalDelegatedEther: delegate.totalDelegated ? Number(formatEther(delegate.totalDelegated)) : 0
+    }));
+
+    if (selectedDelegate && selectedDelegate !== ZERO_ADDRESS) {
+      // If there's a pre-selected delegate, put it first in the list
+      const orderedDelegates = sortDelegatesWithSelectedFirst(delegatesWithTotals, selectedDelegate);
+      setDisplayedDelegates(orderedDelegates);
+    } else {
+      // No pre-selected delegate, just sort by total delegated amount
+      const sortedDelegates = delegatesWithTotals.sort(sortDelegatesFn);
+      setDisplayedDelegates(sortedDelegates);
+    }
+  }, [delegates]);
+
   return {
     isLoading,
-    data: isDataReady ? [...userDelegatesPage, ...(restDelegates || [])] : undefined,
+    data: displayedDelegates || delegates,
     error: errorUserDelegates || errorRestDelegates,
     mutate: () => {
       mutateUserDelegates();
