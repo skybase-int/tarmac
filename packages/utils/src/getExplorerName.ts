@@ -6,7 +6,7 @@ export enum ExplorerName {
   BASESCAN = 'Basescan',
   ARBITRUM_EXPLORER = 'Arbiscan',
   SAFE = 'Safe Wallet',
-  OPTIMISTIC_ETHERSCAN = 'OP Mainnet Explorer',
+  OPTIMISTIC_ETHERSCAN = 'OP Explorer',
   UNISCAN = 'Uniscan'
 }
 
