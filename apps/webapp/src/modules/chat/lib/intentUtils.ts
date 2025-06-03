@@ -1,4 +1,4 @@
-import { arbitrum, base, Chain, mainnet } from 'wagmi/chains';
+import { arbitrum, base, Chain, mainnet, optimism, unichain } from 'wagmi/chains';
 import { CHATBOT_USE_TESTNET_NETWORK_NAME, COMING_SOON_MAP, QueryParams } from '@/lib/constants';
 import { ChatIntent } from '../types/Chat';
 import { Intent } from '@/lib/enums';
@@ -7,20 +7,25 @@ import { tenderly, tenderlyArbitrum, tenderlyBase } from '@/data/wagmi/config/co
 import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
 
 export const networkMapping = {
-  mainnet: 1,
+  [normalizeUrlParam(mainnet.name)]: 1,
   ethereum: 1,
-  base: 8453,
+  [normalizeUrlParam(base.name)]: 8453,
   arbitrum: 42161,
-  arbitrumone: 42161
+  [normalizeUrlParam(arbitrum.name)]: 42161,
+  [normalizeUrlParam(unichain.name)]: 130,
+  [normalizeUrlParam(optimism.name)]: 10,
+  optimism: 10
 } as const;
 
 export const chainIdNameMapping = {
-  1: 'ethereum',
-  8453: 'base',
-  42161: 'arbitrumone',
+  [mainnet.id]: 'ethereum',
+  [base.id]: 'base',
+  [arbitrum.id]: 'arbitrumone',
   [tenderly.id]: 'ethereum',
   [tenderlyBase.id]: 'base',
-  [tenderlyArbitrum.id]: 'arbitrumone'
+  [tenderlyArbitrum.id]: 'arbitrumone',
+  [unichain.id]: 'unichain',
+  [optimism.id]: 'optimism'
 } as const;
 
 export const testnetNameMapping = {
@@ -29,7 +34,9 @@ export const testnetNameMapping = {
   [normalizeUrlParam(arbitrum.name)]: normalizeUrlParam(arbitrum.name),
   [normalizeUrlParam(tenderly.name)]: normalizeUrlParam(mainnet.name),
   [normalizeUrlParam(tenderlyBase.name)]: normalizeUrlParam(base.name),
-  [normalizeUrlParam(tenderlyArbitrum.name)]: normalizeUrlParam(arbitrum.name)
+  [normalizeUrlParam(tenderlyArbitrum.name)]: normalizeUrlParam(arbitrum.name),
+  [normalizeUrlParam(unichain.name)]: normalizeUrlParam(unichain.name),
+  [normalizeUrlParam(optimism.name)]: normalizeUrlParam(optimism.name)
 } as const;
 
 export const intents = {
@@ -109,7 +116,9 @@ export const processNetworkNameInUrl = (url: string): string => {
     const networkMappings = {
       [normalizeUrlParam(mainnet.name)]: tenderly.name,
       [normalizeUrlParam(base.name)]: tenderlyBase.name,
-      [normalizeUrlParam(arbitrum.name)]: tenderlyArbitrum.name
+      [normalizeUrlParam(arbitrum.name)]: tenderlyArbitrum.name,
+      [normalizeUrlParam(unichain.name)]: normalizeUrlParam(unichain.name), // Uni and OP have no testnet
+      [normalizeUrlParam(optimism.name)]: normalizeUrlParam(optimism.name)
     } as const;
 
     return Object.entries(networkMappings).reduce((processedUrl, [mainnet, testnet]) => {
