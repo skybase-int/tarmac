@@ -104,7 +104,11 @@ const StakeRewardsOverviewRow = ({ contractAddress }: { contractAddress: `0x${st
         isLoading={false}
         error={null}
         content={
-          <Text className="mt-2">
+          <Text
+            className={`mt-2 ${
+              parseFloat(mostRecentRewardsChartInfoData?.rate || '0') > 0 ? 'text-bullish' : ''
+            }`}
+          >
             {formatDecimalPercentage(parseFloat(mostRecentRewardsChartInfoData?.rate || '0'))}
           </Text>
         }
