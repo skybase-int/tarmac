@@ -35,6 +35,7 @@ export const SaRewardsCard = ({
     rewardContractAddress: contractAddress,
     chainId
   });
+
   const {
     data: rewardContractTokens,
     isLoading: isRewardContractTokensLoading,
@@ -110,11 +111,11 @@ export const SaRewardsCard = ({
           </MotionVStack>
           <MotionVStack className="items-end justify-between" gap={2} variants={positionAnimations}>
             <Text className="text-textSecondary text-sm leading-4">{t`Suppliers`}</Text>
-            {rewardContractInfo ? (
-              <Text>{rewardContractInfo.suppliers.length}</Text>
-            ) : isRewardContractInfoLoading ? (
+            {mostRecentRewardsChartInfoData ? (
+              <Text>{mostRecentRewardsChartInfoData.suppliers}</Text>
+            ) : isRewardsChartInfoLoading ? (
               <Skeleton className="bg-textSecondary h-5 w-10" />
-            ) : rewardContractInfoError ? (
+            ) : mostRecentRewardsChartInfoData ? (
               <Warning boxSize={16} viewBox="0 0 16 16" />
             ) : null}
           </MotionVStack>
