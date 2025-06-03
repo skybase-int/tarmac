@@ -48,37 +48,37 @@ const test = playwrightTest.extend<TestFixture, WorkerFixture>({
       await setErc20Balance(skyAddress[TENDERLY_CHAIN_ID], '100000000', 18, NetworkName.mainnet, address);
       await setErc20Balance(usdcAddress[TENDERLY_CHAIN_ID], '10', 6, NetworkName.mainnet, address);
 
-      // Base funding
-      await setEthBalance('100', NetworkName.base, address);
-      await setErc20Balance(usdsL2Address[TENDERLY_BASE_CHAIN_ID], '100', 18, NetworkName.base, address);
-      await setErc20Balance(usdcL2Address[TENDERLY_BASE_CHAIN_ID], '100', 6, NetworkName.base, address);
+      // // Base funding
+      // await setEthBalance('100', NetworkName.base, address);
+      // await setErc20Balance(usdsL2Address[TENDERLY_BASE_CHAIN_ID], '100', 18, NetworkName.base, address);
+      // await setErc20Balance(usdcL2Address[TENDERLY_BASE_CHAIN_ID], '100', 6, NetworkName.base, address);
 
-      // Arbitrum funding
-      await setEthBalance('100', NetworkName.arbitrum, address);
-      await setErc20Balance(
-        usdsL2Address[TENDERLY_ARBITRUM_CHAIN_ID],
-        '100',
-        18,
-        NetworkName.arbitrum,
-        address
-      );
-      await setErc20Balance(
-        usdcL2Address[TENDERLY_ARBITRUM_CHAIN_ID],
-        '100',
-        6,
-        NetworkName.arbitrum,
-        address
-      );
+      // // Arbitrum funding
+      // await setEthBalance('100', NetworkName.arbitrum, address);
+      // await setErc20Balance(
+      //   usdsL2Address[TENDERLY_ARBITRUM_CHAIN_ID],
+      //   '100',
+      //   18,
+      //   NetworkName.arbitrum,
+      //   address
+      // );
+      // await setErc20Balance(
+      //   usdcL2Address[TENDERLY_ARBITRUM_CHAIN_ID],
+      //   '100',
+      //   6,
+      //   NetworkName.arbitrum,
+      //   address
+      // );
 
-      // Optimism funding
-      await setEthBalance('100', NetworkName.optimism, address);
-      await setErc20Balance(usdsL2Address[optimism.id], '100', 18, NetworkName.optimism, address);
-      await setErc20Balance(usdcL2Address[optimism.id], '100', 6, NetworkName.optimism, address);
+      // // Optimism funding
+      // await setEthBalance('100', NetworkName.optimism, address);
+      // await setErc20Balance(usdsL2Address[optimism.id], '100', 18, NetworkName.optimism, address);
+      // await setErc20Balance(usdcL2Address[optimism.id], '100', 6, NetworkName.optimism, address);
 
-      // Unichain funding
-      await setEthBalance('100', NetworkName.unichain, address);
-      await setErc20Balance(usdsL2Address[unichain.id], '100', 18, NetworkName.unichain, address);
-      await setErc20Balance(usdcL2Address[unichain.id], '100', 6, NetworkName.unichain, address);
+      // // Unichain funding
+      // await setEthBalance('100', NetworkName.unichain, address);
+      // await setErc20Balance(usdsL2Address[unichain.id], '100', 18, NetworkName.unichain, address);
+      // await setErc20Balance(usdcL2Address[unichain.id], '100', 6, NetworkName.unichain, address);
 
       const snapshotIds = await evmSnapshot();
 
