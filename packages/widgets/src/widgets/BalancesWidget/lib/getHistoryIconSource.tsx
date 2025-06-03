@@ -1,5 +1,5 @@
 import { TransactionTypeEnum, ModuleEnum } from '@jetstreamgg/hooks';
-import { isBaseChainId, isArbitrumChainId } from '@jetstreamgg/utils';
+import { isBaseChainId, isArbitrumChainId, isOptimismChainId, isUnichainChainId } from '@jetstreamgg/utils';
 
 export const getHistoryIconSource = ({
   type,
@@ -12,7 +12,20 @@ export const getHistoryIconSource = ({
 }) => {
   const isBase = isBaseChainId(chainId);
   const isArbitrum = isArbitrumChainId(chainId);
-  const src = 'history-icons/' + (isBase ? 'base/' : isArbitrum ? 'arbitrum/' : 'ethereum/');
+  const isOptimism = isOptimismChainId(chainId);
+  const isUnichain = isUnichainChainId(chainId);
+
+  const src =
+    'history-icons/' +
+    (isBase
+      ? 'base/'
+      : isArbitrum
+        ? 'arbitrum/'
+        : isOptimism
+          ? 'optimism/'
+          : isUnichain
+            ? 'unichain/'
+            : 'ethereum/');
   switch (module) {
     case ModuleEnum.SAVINGS:
       return type === TransactionTypeEnum.SUPPLY ? src + 'savings-supply.svg' : src + 'savings-withdraw.svg';
@@ -31,10 +44,24 @@ export const getHistoryIconSource = ({
     case ModuleEnum.SEAL:
       return src + 'seal.svg';
     case ModuleEnum.STAKE:
-      return type && [TransactionTypeEnum.STAKE, TransactionTypeEnum.STAKE_REPAY].includes(type)
-        ? src + 'savings-supply.svg'
-        : type && [TransactionTypeEnum.UNSTAKE, TransactionTypeEnum.STAKE_BORROW].includes(type)
-          ? src + 'savings-withdraw.svg'
-          : '';
+      return type && [TransactionTypeEnum.STAKE].includes(type)
+        ? src + 'stake.svg'
+        : type && [TransactionTypeEnum.STAKE_REPAY].includes(type)
+          ? src + 'repaid.svg'
+          : type && [TransactionTypeEnum.UNSTAKE].includes(type)
+            ? src + 'unstake.svg'
+            : type && [TransactionTypeEnum.STAKE_OPEN].includes(type)
+              ? src + 'open_position.svg'
+              : type && [TransactionTypeEnum.STAKE_SELECT_DELEGATE].includes(type)
+                ? src + 'delegate.svg'
+                : type && [TransactionTypeEnum.STAKE_BORROW].includes(type)
+                  ? src + 'borrow.svg'
+                  : type && [TransactionTypeEnum.STAKE_REWARD].includes(type)
+                    ? src + 'claim_rewards.svg'
+                    : type && [TransactionTypeEnum.UNSTAKE_KICK].includes(type)
+                      ? src + 'liquidated.svg'
+                      : type && [TransactionTypeEnum.STAKE_SELECT_REWARD].includes(type)
+                        ? src + 'select_reward.svg'
+                        : '';
   }
 };

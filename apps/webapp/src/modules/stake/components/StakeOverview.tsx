@@ -15,7 +15,7 @@ import { StakeHistory } from './StakeHistory';
 import { StakeRewardsOverview } from './StakeRewardsOverview';
 import { StakeFaq } from './StakeFaq';
 import { StakeChart } from './StakeChart';
-import { PopoverRateInfo } from '@/modules/ui/components/PopoverRateInfo';
+import { PopoverInfo } from '@/modules/ui/components/PopoverInfo';
 import { useMemo } from 'react';
 import { StakeToken } from '../constants';
 import { useChainId } from 'wagmi';
@@ -76,7 +76,14 @@ export function StakeOverview() {
               }
             />
             <StatsCard
-              title={t`Debt ceiling`}
+              title={
+                <HStack gap={1} className="items-center">
+                  <Heading tag="h3" className="text-textSecondary text-sm font-normal leading-tight">
+                    <Trans>Debt ceiling</Trans>
+                  </Heading>
+                  <PopoverInfo type="dtc" />
+                </HStack>
+              }
               isLoading={collateralDataLoading}
               error={collateralDataError}
               content={
@@ -97,7 +104,7 @@ export function StakeOverview() {
                   <Heading tag="h3" className="text-textSecondary text-sm font-normal leading-tight">
                     <Trans>Borrow Rate</Trans>
                   </Heading>
-                  <PopoverRateInfo type="sbr" />
+                  <PopoverInfo type="sbr" />
                 </HStack>
               }
               isLoading={isLoading}

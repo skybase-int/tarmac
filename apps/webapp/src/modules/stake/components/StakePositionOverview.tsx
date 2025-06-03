@@ -82,7 +82,7 @@ export function StakePositionOverview({
         <VStack className="gap-8">
           <HStack gap={2} className="scrollbar-thin w-full overflow-auto">
             <SealSealedCard
-              label={t`${StakeToken.SKY} sealed`}
+              label={t`${StakeToken.SKY} staked`}
               token={{ name: 'Sky', symbol: 'SKY' }}
               balance={vault?.collateralAmount || 0n}
               isLoading={vaultLoading}
@@ -98,7 +98,10 @@ export function StakePositionOverview({
               token={usds}
             />
             {data?.selectedReward && (
-              <StakePositionRewardsCard rewardContractAddress={data.selectedReward as `0x${string}`} />
+              <StakePositionRewardsCard
+                rewardContractAddress={data.selectedReward as `0x${string}`}
+                urnAddress={urnAddress || ZERO_ADDRESS}
+              />
             )}
           </HStack>
           {(data?.selectedDelegate || data?.selectedReward) && (

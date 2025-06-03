@@ -35,8 +35,8 @@ import {
   borrowRateTooltipText,
   debtCeilingTooltipText
 } from '../lib/constants';
-import { Warning } from '@widgets/shared/components/icons/Warning';
 import { Text } from '@widgets/shared/components/ui/Typography';
+import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
 
 const { usds } = TOKENS;
 
@@ -118,15 +118,18 @@ const PositionManagerOverviewContainer = ({
   const formattedMinBorrowable = `${formatBigInt(
     (existingVault?.debtValue || 0n) > 0n ? 0n : simulatedVault?.dust || 0n,
     {
-      unit: getTokenDecimals(usds, chainId)
+      unit: getTokenDecimals(usds, chainId),
+      compact: true
     }
   )} ${usds.symbol}`;
 
   const formattedExistingMaxBorrowable = `${formatBigInt(existingVault?.maxSafeBorrowableIntAmount || 0n, {
-    unit: getTokenDecimals(usds, chainId)
+    unit: getTokenDecimals(usds, chainId),
+    compact: true
   })} ${usds.symbol}`;
   const formatterSimulatedMaxBorrowable = `${formatBigInt(simulatedVault?.maxSafeBorrowableIntAmount || 0n, {
-    unit: getTokenDecimals(usds, chainId)
+    unit: getTokenDecimals(usds, chainId),
+    compact: true
   })} ${usds.symbol}`;
 
   const formattedMaxBorrowable =
@@ -143,18 +146,21 @@ const PositionManagerOverviewContainer = ({
           label: t`You staked`,
           value:
             hasPositions && newCollateralAmount !== existingColAmount
-              ? [`${formatBigInt(existingColAmount)} SKY`, `${formatBigInt(newCollateralAmount)} SKY`]
-              : `${formatBigInt(newCollateralAmount)} SKY`
+              ? [
+                  `${formatBigInt(existingColAmount, { compact: true })} SKY`,
+                  `${formatBigInt(newCollateralAmount, { compact: true })} SKY`
+                ]
+              : `${formatBigInt(newCollateralAmount, { compact: true })} SKY`
         },
         {
           label: t`You borrowed`,
           value:
             hasPositions && newBorrowAmount !== existingBorrowAmount
               ? [
-                  `${formatBigInt(existingBorrowAmount)} ${usds.symbol}`,
-                  `${formatBigInt(newBorrowAmount)} ${usds.symbol}`
+                  `${formatBigInt(existingBorrowAmount, { compact: true })} ${usds.symbol}`,
+                  `${formatBigInt(newBorrowAmount, { compact: true })} ${usds.symbol}`
                 ]
-              : `${formatBigInt(newBorrowAmount)} ${usds.symbol}`
+              : `${formatBigInt(newBorrowAmount, { compact: true })} ${usds.symbol}`
         },
         minCollateralNotMet
           ? { label: 'Borrow limit', value: t`Not enough collateral to borrow` }
@@ -199,10 +205,10 @@ const PositionManagerOverviewContainer = ({
         value:
           hasPositions && existingVault?.collateralValue !== simulatedVault?.collateralValue
             ? [
-                `$${formatBigInt(existingVault?.collateralValue || 0n)}`,
-                `$${formatBigInt(simulatedVault?.collateralValue || 0n)}`
+                `$${formatBigInt(existingVault?.collateralValue || 0n, { compact: true })}`,
+                `$${formatBigInt(simulatedVault?.collateralValue || 0n, { compact: true })}`
               ]
-            : `$${formatBigInt(simulatedVault?.collateralValue || 0n)}`
+            : `$${formatBigInt(simulatedVault?.collateralValue || 0n, { compact: true })}`
       },
       {
         label: t`Liquidation price`,
@@ -358,9 +364,12 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
           ? error?.message
           : undefined;
 
-  const inputText = minCollateralNotMet
-    ? `You need to stake at least ${simulatedVault?.formattedMinSkyCollateralForDust} SKY to borrow`
-    : `Limit ${formattedMinBorrowable.slice(0, -5)} <> ${formattedMaxBorrowable}`;
+  const inputText =
+    collateralData?.debtCeilingUtilization === 1
+      ? ''
+      : minCollateralNotMet
+        ? `You need to stake at least ${simulatedVault?.formattedMinSkyCollateralForDust} SKY to borrow`
+        : `Limit ${formattedMinBorrowable.slice(0, -5)} <> ${formattedMaxBorrowable}`;
 
   return (
     <div className="mb-8 space-y-2">
@@ -383,10 +392,10 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
         enabled={isConnectedAndEnabled}
       />
       {collateralData?.debtCeilingUtilization === 1 ? (
-        <div className="ml-3">
-          <Text variant="small" className="text-error flex gap-2">
-            <Warning boxSize={16} viewBox="0 0 16 16" className="mt-1 shrink-0" />
-            Debt ceiling reached. New positions and additional USDS borrowing are temporarily disabled.
+        <div className="ml-3 flex items-start text-amber-400">
+          <PopoverRateInfo type="dtc" iconClassName="mt-1 shrink-0" />
+          <Text variant="small" className="ml-2 flex gap-2">
+            Debt ceiling reached. Borrowing USDS is temporarily unavailable.
           </Text>
         </div>
       ) : (
