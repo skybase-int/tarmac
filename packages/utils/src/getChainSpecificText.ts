@@ -1,17 +1,15 @@
 import { ReactNode } from 'react';
 import { chainId } from './chainId';
 
-type TextElement = string | ReactNode;
-
 export const getChainSpecificText = (
   chainTexts: {
-    ethereum?: TextElement;
-    allL2s?: TextElement;
-    base?: TextElement;
-    arbitrum?: TextElement;
-    optimism?: TextElement;
-    unichain?: TextElement;
-    default: TextElement;
+    ethereum?: ReactNode;
+    allL2s?: ReactNode;
+    base?: ReactNode;
+    arbitrum?: ReactNode;
+    optimism?: ReactNode;
+    unichain?: ReactNode;
+    default: ReactNode;
   },
   id: number
 ) => {
