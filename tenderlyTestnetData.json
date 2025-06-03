@@ -1,27 +1,27 @@
 [
   {
     "NETWORK": "mainnet",
-    "TENDERLY_TESTNET_ID": "94d2ad30-44eb-45b0-9303-45e83f29b200",
-    "TENDERLY_RPC_URL": "https://virtual.mainnet.rpc.tenderly.co/0b90d641-3772-40da-a342-1d66c64bd6df"
+    "TENDERLY_TESTNET_ID": "a9b080f5-76f9-4b0f-bd10-cdf42d7fcb88",
+    "TENDERLY_RPC_URL": "https://virtual.mainnet.rpc.tenderly.co/753b3b1d-4143-4d4f-8cee-af7846740636"
   },
   {
     "NETWORK": "base",
-    "TENDERLY_TESTNET_ID": "744ca2cf-a9bf-4d9a-824f-21ff5b939d13",
-    "TENDERLY_RPC_URL": "https://virtual.base.rpc.tenderly.co/0678974b-83f1-4e1c-97bc-5e337763f934"
+    "TENDERLY_TESTNET_ID": "06549c82-99b3-4094-8413-783635ea5756",
+    "TENDERLY_RPC_URL": "https://virtual.base.rpc.tenderly.co/eab52d86-9585-4630-88ca-d50eebf17bb0"
   },
   {
     "NETWORK": "arbitrum",
-    "TENDERLY_TESTNET_ID": "ccd8aab1-af92-4805-8cd6-6d80a0f28089",
-    "TENDERLY_RPC_URL": "https://virtual.arbitrum.rpc.tenderly.co/ee6e01a5-ca1a-4075-8d0c-ce9e74cf73b8"
+    "TENDERLY_TESTNET_ID": "044e2638-349f-4ba8-b827-a5038dd5314d",
+    "TENDERLY_RPC_URL": "https://virtual.arbitrum.rpc.tenderly.co/e41ec0e5-97c4-49e6-af94-dda47b0be072"
   },
   {
     "NETWORK": "optimism",
-    "TENDERLY_TESTNET_ID": "21d0799f-9c75-4d8b-884e-e0c9c48e6645",
-    "TENDERLY_RPC_URL": "https://virtual.optimism.rpc.tenderly.co/4b0da746-14ed-4cbd-aa0c-37d7415e58d3"
+    "TENDERLY_TESTNET_ID": "68aad14b-4390-496d-8d89-5fa2a210cc80",
+    "TENDERLY_RPC_URL": "https://virtual.optimism.rpc.tenderly.co/2cd13b95-40e2-4955-b21c-7fbb86121cad"
   },
   {
     "NETWORK": "unichain",
-    "TENDERLY_TESTNET_ID": "b827cf89-9e44-43ef-8603-66cf53317275",
-    "TENDERLY_RPC_URL": "https://virtual.unichain.rpc.tenderly.co/b4919b38-b1b3-48b7-ae38-abdb8f4703ff"
+    "TENDERLY_TESTNET_ID": "ef175f9e-2fa3-4646-8efa-978381d53d39",
+    "TENDERLY_RPC_URL": "https://virtual.unichain.rpc.tenderly.co/9fce54c8-785c-4134-a23c-643b03f5e005"
   }
 ]
