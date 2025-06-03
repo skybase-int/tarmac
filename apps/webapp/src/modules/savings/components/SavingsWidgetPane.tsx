@@ -15,6 +15,7 @@ import { useSearchParams } from 'react-router-dom';
 import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
 import { useSubgraphUrl } from '@/modules/app/hooks/useSubgraphUrl';
 import { useChainId } from 'wagmi';
+import { useIsBatchEnabled } from '@/modules/ui/hooks/useIsBatchEnabled';
 
 export function SavingsWidgetPane(sharedProps: SharedProps) {
   const subgraphUrl = useSubgraphUrl();
@@ -27,6 +28,8 @@ export function SavingsWidgetPane(sharedProps: SharedProps) {
   const isRestrictedMiCa = import.meta.env.VITE_RESTRICTED_BUILD_MICA === 'true';
   const disallowedTokens =
     isRestrictedMiCa && isL2 ? { supply: [TOKENS.usdc], withdraw: [TOKENS.usdc] } : undefined;
+
+  const batchEnabled = useIsBatchEnabled();
 
   const onSavingsWidgetStateChange = ({ hash, txStatus, widgetState }: WidgetStateChangeParams) => {
     // After a successful linked action sUPPLY, set the final step to "success"
@@ -69,6 +72,7 @@ export function SavingsWidgetPane(sharedProps: SharedProps) {
         token: isL2 ? linkedActionConfig?.sourceToken : undefined
       }}
       disallowedTokens={disallowedTokens}
+      batchEnabled={batchEnabled}
     />
   );
 }
