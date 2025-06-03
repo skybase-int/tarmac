@@ -1519,7 +1519,7 @@ msgid "Note that reverted transactions may still incur gas fees."
 msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
-msgid "On Layer 2 (L2) scaling solutions for the Ethereum blockchain via Sky.money, you can convert between USDS, sUSDS and USDC through a Peg Stability Module (PSM) deployed to the L2 and powered by Spark. The PSM handles conversions programmatically, driven at your direction, between these pairs directly."
+msgid "On Layer 2 (L2) scaling solutions for the Ethereum blockchain via Sky.money, you can convert between USDS, sUSDS and USDC through a Peg Stability Module (PSM) <0/> deployed to the L2 and powered by Spark. The PSM handles conversions programmatically, driven at your direction, between these pairs directly."
 msgstr ""
 
 #: apps/webapp/src/modules/layout/components/UnsupportedNetworkPage.tsx
@@ -2285,7 +2285,7 @@ msgid "Terms of Use."
 msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
-msgid "The experience of using the Savings feature on Layer 2 (L2) scaling solutions and Ethereum is very similar. However, given that no native Sky Savings Rate module is currently deployed to L2s, when transacting on them, you always interact with the Peg Stability Module (PSM) for conversions to/from USDS, sUSDS and USDC. The PSM handles conversions programmatically, driven at your direction, between these pairs directly."
+msgid "The experience of using the Savings feature on Layer 2 (L2) scaling solutions and Ethereum is very similar. However, given that no native Sky Savings Rate module is currently deployed to L2s, when transacting on them, you always interact with the Peg Stability Module (PSM) <0/> for conversions to/from USDS, sUSDS and USDC. The PSM handles conversions programmatically, driven at your direction, between these pairs directly."
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/About.tsx

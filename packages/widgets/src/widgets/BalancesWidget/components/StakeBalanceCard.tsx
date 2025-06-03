@@ -46,8 +46,8 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
       }
       footer={
         <div className="z-[99999] flex w-fit items-center gap-1.5">
-          <Text variant="small" className="leading-4">
-            {formatDecimalPercentage(parseFloat(mostRecentRewardsChartInfoData?.rate || '0'))}
+          <Text variant="small" className="text-bullish leading-4">
+            {`Rate: ${formatDecimalPercentage(parseFloat(mostRecentRewardsChartInfoData?.rate || '0'))}`}
           </Text>
           <PopoverRateInfo
             type="srr"

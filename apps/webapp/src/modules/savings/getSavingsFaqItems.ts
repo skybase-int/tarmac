@@ -93,16 +93,16 @@ const L2SavingsFaqItems = [
   {
     question: 'Which tokens can I supply to and withdraw from the Savings Rate Module on supported L2s?',
     answer:
-      'Some features of Sky.money or the Sky Protocol are not available on supported Layer 2 (L2) solutions. There is no native Sky Savings Rate module deployed to supported L2s, for example. However, on some L2s, both USDS and USDC token support is made possible through a Peg Stability Module (PSM) deployed to those L2s and [powered by Spark](https://docs.spark.fi/dev/savings/cross-chain-savings-rate-oracle).'
+      'Some features of Sky.money or the Sky Protocol are not available on supported Layer 2 (L2) solutions. There is no native Sky Savings Rate module deployed to supported L2s, for example. However, on some L2s, both USDS and USDC token support is made possible through a Peg Stability Module [(PSM)](#tooltip-psm) deployed to those L2s and [powered by Spark](https://docs.spark.fi/dev/savings/cross-chain-savings-rate-oracle).'
   },
   {
     question: 'Is the Savings feature experience on L2s the same as on Ethereum Mainnet?',
     answer:
-      'Some features of Sky.money or the Sky Protocol are not available on supported Layer 2 (L2) solutions  There is no native Sky Savings Rate module deployed to supported L2s, for example. However, on some L2s, both USDS and USDC token support is made possible through a Peg Stability Module (PSM) deployed to those L2s and powered by Spark. In those cases, the experience of using the Savings feature on supported Layer 2 (L2) networks and Ethereum is very similar.'
+      'Some features of Sky.money or the Sky Protocol are not available on supported Layer 2 (L2) solutions  There is no native Sky Savings Rate module deployed to supported L2s, for example. However, on some L2s, both USDS and USDC token support is made possible through a Peg Stability Module [(PSM)](#tooltip-psm) deployed to those L2s and powered by Spark. In those cases, the experience of using the Savings feature on supported Layer 2 (L2) networks and Ethereum is very similar.'
   },
   {
     question: 'Is the Sky Savings Rate percentage the same on Ethereum Mainnet and supported L2s?',
     answer:
-      'Yes, the Sky Savings Rate percentage noted on supported Layer 2 (L2) solutions tracks the rate on Ethereum Mainnet. This is done programmatically in the Peg Stability Module (PSM) where deployed on supported L2s.'
+      'Yes, the Sky Savings Rate percentage noted on supported Layer 2 (L2) solutions tracks the rate on Ethereum Mainnet. This is done programmatically in the Peg Stability Module [(PSM)](#tooltip-psm) where deployed on supported L2s.'
   }
 ];
