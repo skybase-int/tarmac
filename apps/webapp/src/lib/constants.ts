@@ -159,3 +159,11 @@ export const STAGING_URL_SKY_SUBGRAPH_ARBITRUM =
   'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-arbitrum';
 export const STAGING_URL_SKY_SUBGRAPH_ARBITRUM_TENDERLY =
   'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-arbitrumTenderly';
+export const PROD_URL_SKY_SUBGRAPH_OPTIMISM =
+  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-optimism';
+export const PROD_URL_SKY_SUBGRAPH_UNICHAIN =
+  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-unichain';
+export const STAGING_URL_SKY_SUBGRAPH_OPTIMISM =
+  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-optimism';
+export const STAGING_URL_SKY_SUBGRAPH_UNICHAIN =
+  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-unichain';
