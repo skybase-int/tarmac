@@ -307,11 +307,21 @@ function TradeWidgetWrapped({
   useEffect(() => {
     if (lastUpdated === TradeSide.IN) {
       // stables <-> stables
-      if (originToken?.symbol === 'USDS' && targetToken?.symbol === 'USDC') {
-        setTargetAmount(math.convertWadtoUSDC(debouncedOriginAmount));
+      if (
+        originToken?.symbol === 'USDS' &&
+        targetToken?.symbol === 'USDC' &&
+        maxAmountOutForDeposit !== undefined &&
+        maxAmountOutForDeposit !== 0n
+      ) {
+        setTargetAmount(maxAmountOutForDeposit);
       }
-      if (originToken?.symbol === 'USDC' && targetToken?.symbol === 'USDS') {
-        setTargetAmount(math.convertUSDCtoWad(debouncedOriginAmount));
+      if (
+        originToken?.symbol === 'USDC' &&
+        targetToken?.symbol === 'USDS' &&
+        maxAmountOutForDeposit !== undefined &&
+        maxAmountOutForDeposit !== 0n
+      ) {
+        setTargetAmount(maxAmountOutForDeposit);
       }
 
       // stables -> sUSDS
@@ -346,11 +356,21 @@ function TradeWidgetWrapped({
 
     if (lastUpdated === TradeSide.OUT) {
       // stables <-> stables
-      if (originToken?.symbol === 'USDS' && targetToken?.symbol === 'USDC') {
-        setOriginAmount(math.convertUSDCtoWad(debouncedTargetAmount));
+      if (
+        originToken?.symbol === 'USDS' &&
+        targetToken?.symbol === 'USDC' &&
+        maxAmountInForWithdraw !== undefined &&
+        maxAmountInForWithdraw !== 0n
+      ) {
+        setOriginAmount(maxAmountInForWithdraw);
       }
-      if (originToken?.symbol === 'USDC' && targetToken?.symbol === 'USDS') {
-        setOriginAmount(math.convertWadtoUSDC(debouncedTargetAmount));
+      if (
+        originToken?.symbol === 'USDC' &&
+        targetToken?.symbol === 'USDS' &&
+        maxAmountInForWithdraw !== undefined &&
+        maxAmountInForWithdraw !== 0n
+      ) {
+        setOriginAmount(maxAmountInForWithdraw);
       }
 
       // stables -> sUSDS
