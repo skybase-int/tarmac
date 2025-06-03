@@ -510,13 +510,15 @@ export function UpgradeWidgetWrapped({
 
   // Handle the error onClicks separately to keep it clear
   const errorOnClick = () => {
-    return widgetState.action === UpgradeAction.UPGRADE
-      ? upgradeOnClick()
-      : widgetState.action === UpgradeAction.REVERT
-        ? revertOnClick()
-        : widgetState.action === UpgradeAction.APPROVE
-          ? approveOnClick()
-          : undefined;
+    return shouldUseBatch
+      ? batchTransactionOnClick()
+      : widgetState.action === UpgradeAction.UPGRADE
+        ? upgradeOnClick()
+        : widgetState.action === UpgradeAction.REVERT
+          ? revertOnClick()
+          : widgetState.action === UpgradeAction.APPROVE
+            ? approveOnClick()
+            : undefined;
   };
 
   const batchTransactionOnClick = () => {
