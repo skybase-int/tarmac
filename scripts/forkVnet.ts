@@ -20,48 +20,103 @@ const UNICHAIN_CONFIG = {
   forkBlock: '18140271'
 };
 
-const forkVnets = async () => {
+type ChainType = 'mainnet' | 'base' | 'arbitrum' | 'optimism' | 'unichain';
+
+const forkVnets = async (chainType?: ChainType) => {
   const currentTime = Date.now();
 
-  const responses = await Promise.all([
-    ...[MAINNET_FORK_CONTAINER_ID, BASE_FORK_CONTAINER_ID, ARBITRUM_FORK_CONTAINER_ID].map(containerId =>
-      fetch('https://api.tenderly.co/api/v1/account/jetstreamgg/project/jetstream/vnets/fork', {
-        headers: [
-          ['accept', 'application/json, text/plain, */*'],
-          ['content-type', 'application/json'],
-          ['X-Access-Key', `${process.env.TENDERLY_API_KEY}`]
-        ],
-        method: 'POST',
-        body: JSON.stringify({
-          vnet_id: containerId,
-          display_name: 'ci-tests-testnet'
-        })
-      })
-    ),
-    ...[OPTIMISM_CONFIG, UNICHAIN_CONFIG].map(({ chainId, forkBlock }) =>
-      fetch('https://api.tenderly.co/api/v1/account/jetstreamgg/project/jetstream/vnets', {
-        headers: [
-          ['accept', 'application/json, text/plain, */*'],
-          ['content-type', 'application/json'],
-          ['X-Access-Key', `${process.env.TENDERLY_API_KEY}`]
-        ],
-        method: 'POST',
-        body: JSON.stringify({
-          slug: `ci-tests-testnet-${chainId}-${currentTime}`,
-          display_name: 'ci-tests-testnet',
-          fork_config: {
-            network_id: chainId,
-            block_number: forkBlock
-          },
-          virtual_network_config: {
-            chain_config: {
-              chain_id: chainId
-            }
-          }
-        })
-      })
-    )
-  ]);
+  // If chainType is provided, only fork that specific chain
+  const chainsToFork = chainType ? [chainType] : ['mainnet', 'base', 'arbitrum', 'optimism', 'unichain'];
+
+  const responses = await Promise.all(
+    chainsToFork.map(chain => {
+      switch (chain) {
+        case 'mainnet':
+          return fetch('https://api.tenderly.co/api/v1/account/jetstreamgg/project/jetstream/vnets/fork', {
+            headers: [
+              ['accept', 'application/json, text/plain, */*'],
+              ['content-type', 'application/json'],
+              ['X-Access-Key', `${process.env.TENDERLY_API_KEY}`]
+            ],
+            method: 'POST',
+            body: JSON.stringify({
+              vnet_id: MAINNET_FORK_CONTAINER_ID,
+              display_name: 'ci-tests-testnet'
+            })
+          });
+        case 'base':
+          return fetch('https://api.tenderly.co/api/v1/account/jetstreamgg/project/jetstream/vnets/fork', {
+            headers: [
+              ['accept', 'application/json, text/plain, */*'],
+              ['content-type', 'application/json'],
+              ['X-Access-Key', `${process.env.TENDERLY_API_KEY}`]
+            ],
+            method: 'POST',
+            body: JSON.stringify({
+              vnet_id: BASE_FORK_CONTAINER_ID,
+              display_name: 'ci-tests-testnet'
+            })
+          });
+        case 'arbitrum':
+          return fetch('https://api.tenderly.co/api/v1/account/jetstreamgg/project/jetstream/vnets/fork', {
+            headers: [
+              ['accept', 'application/json, text/plain, */*'],
+              ['content-type', 'application/json'],
+              ['X-Access-Key', `${process.env.TENDERLY_API_KEY}`]
+            ],
+            method: 'POST',
+            body: JSON.stringify({
+              vnet_id: ARBITRUM_FORK_CONTAINER_ID,
+              display_name: 'ci-tests-testnet'
+            })
+          });
+        case 'optimism':
+          return fetch('https://api.tenderly.co/api/v1/account/jetstreamgg/project/jetstream/vnets', {
+            headers: [
+              ['accept', 'application/json, text/plain, */*'],
+              ['content-type', 'application/json'],
+              ['X-Access-Key', `${process.env.TENDERLY_API_KEY}`]
+            ],
+            method: 'POST',
+            body: JSON.stringify({
+              slug: `ci-tests-testnet-${OPTIMISM_CONFIG.chainId}-${currentTime}`,
+              display_name: 'ci-tests-testnet',
+              fork_config: {
+                network_id: OPTIMISM_CONFIG.chainId,
+                block_number: OPTIMISM_CONFIG.forkBlock
+              },
+              virtual_network_config: {
+                chain_config: {
+                  chain_id: OPTIMISM_CONFIG.chainId
+                }
+              }
+            })
+          });
+        case 'unichain':
+          return fetch('https://api.tenderly.co/api/v1/account/jetstreamgg/project/jetstream/vnets', {
+            headers: [
+              ['accept', 'application/json, text/plain, */*'],
+              ['content-type', 'application/json'],
+              ['X-Access-Key', `${process.env.TENDERLY_API_KEY}`]
+            ],
+            method: 'POST',
+            body: JSON.stringify({
+              slug: `ci-tests-testnet-${UNICHAIN_CONFIG.chainId}-${currentTime}`,
+              display_name: 'ci-tests-testnet',
+              fork_config: {
+                network_id: UNICHAIN_CONFIG.chainId,
+                block_number: UNICHAIN_CONFIG.forkBlock
+              },
+              virtual_network_config: {
+                chain_config: {
+                  chain_id: UNICHAIN_CONFIG.chainId
+                }
+              }
+            })
+          });
+      }
+    })
+  );
 
   const testnetsData = await Promise.all(responses.map(response => response.json()));
 
@@ -87,4 +142,6 @@ const forkVnets = async () => {
   await writeFile('./tenderlyTestnetData.json', JSON.stringify(testnetDataToWrite));
 };
 
-forkVnets();
+// Get chain type from command line argument
+const chainType = process.argv[2] as ChainType | undefined;
+forkVnets(chainType);
