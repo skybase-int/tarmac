@@ -79,6 +79,16 @@ const getContent = (
         ). Further, The estimate is for informational purposes only and does not guarantee future results.
       </Text>
     )
+  },
+  dtc: {
+    title: 'Debt Ceiling',
+    description: (
+      <Text className="leading-5 text-white/80" variant="small">
+        The debt ceiling is the maximum amount of debt or tokens that can be issued within the SKY protocol,
+        serving as a risk management tool to ensure stability and limit overexposure. It is a parameter
+        subject to change by the Sky Ecosystem Governance.
+      </Text>
+    )
   }
 });
 
@@ -87,7 +97,7 @@ export const PopoverRateInfo = ({
   onExternalLinkClicked,
   iconClassName
 }: {
-  type: 'str' | 'ssr' | 'srr';
+  type: 'str' | 'ssr' | 'srr' | 'dtc';
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   iconClassName?: string;
 }) => {
@@ -97,7 +107,7 @@ export const PopoverRateInfo = ({
 
   return (
     <Popover>
-      <PopoverTrigger onClick={e => e.stopPropagation()}>
+      <PopoverTrigger onClick={e => e.stopPropagation()} className="z-10">
         <Info className={iconClassName} />
       </PopoverTrigger>
       <PopoverContent
@@ -108,7 +118,7 @@ export const PopoverRateInfo = ({
         <Heading variant="small" className="text-[16px] leading-6">
           {content[type].title}
         </Heading>
-        <PopoverClose onClick={e => e.stopPropagation()} className="absolute right-4 top-4">
+        <PopoverClose onClick={e => e.stopPropagation()} className="absolute right-4 top-4 z-10">
           <Close className="h-5 w-5 cursor-pointer text-white" />
         </PopoverClose>
         <div className="scrollbar-thin mt-2 max-h-[calc(var(--radix-popover-content-available-height)-64px)] overflow-y-auto">

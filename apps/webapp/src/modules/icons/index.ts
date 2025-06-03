@@ -27,7 +27,15 @@ import { Seal } from './Seal';
 import { BaseChain } from './BaseChain';
 import { MainnetChain } from './MainnetChain';
 import { ArbitrumChain } from './ArbitrumChain';
+import { UnichainChain } from './UnichainChain';
+import { OptimismChain } from './OptimismChain';
 import { Stake } from './Stake';
+import { Delegate } from './Delegate';
+import { Borrow } from './Borrow';
+import { ClaimRewards } from './ClaimRewards';
+import { Liquidated } from './Liquidated';
+import { Repaid } from './Repaid';
+import { SelectRewards } from './SelectRewards';
 
 export {
   ArrowDown,
@@ -59,5 +67,13 @@ export {
   BaseChain,
   MainnetChain,
   ArbitrumChain,
-  Stake
+  OptimismChain,
+  UnichainChain,
+  Stake,
+  Delegate,
+  Borrow,
+  ClaimRewards,
+  Liquidated,
+  Repaid,
+  SelectRewards
 };

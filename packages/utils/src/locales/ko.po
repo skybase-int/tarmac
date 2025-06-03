@@ -61,13 +61,16 @@ msgstr ""
 msgid "{0} {1} to {2}"
 msgstr ""
 
-#. placeholder {0}: StakeToken.SKY
 #. placeholder {0}: SealToken.MKR
 #. placeholder {0}: SealToken.SKY
-#: apps/webapp/src/modules/stake/components/StakePositionOverview.tsx
 #: apps/webapp/src/modules/seal/components/SealPositionOverview.tsx
 #: apps/webapp/src/modules/seal/components/SealPositionOverview.tsx
 msgid "{0} sealed"
+msgstr ""
+
+#. placeholder {0}: StakeToken.SKY
+#: apps/webapp/src/modules/stake/components/StakePositionOverview.tsx
+msgid "{0} staked"
 msgstr ""
 
 #. placeholder {0}: flow === SavingsFlow.SUPPLY ? 'Supplied to' : 'Withdrawn from'
@@ -221,7 +224,6 @@ msgstr ""
 msgid "Almost done!"
 msgstr ""
 
-#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
 #: apps/webapp/src/modules/seal/components/SealHistory.tsx
 #: apps/webapp/src/modules/savings/components/SavingsHistory.tsx
 #: apps/webapp/src/modules/rewards/components/RewardsHistory.tsx
@@ -276,7 +278,7 @@ msgid "An error occurred while reverting your tokens."
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/TermsModal.tsx
-msgid "An error occurred while submitting your signature. Please ensure your wallet is connected to either Ethereum mainnet, Base or Arbitrum and try again. If the issue persists, reach out for assistance in the official <0>Sky Discord</0>"
+msgid "An error occurred while submitting your signature. Please ensure your wallet is connected to either Ethereum mainnet, Base, Arbitrum, Optimism or Unichain and try again. If the issue persists, reach out for assistance in the official <0>Sky Discord</0>"
 msgstr ""
 
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
@@ -481,11 +483,11 @@ msgid "Balances"
 msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
-msgid "Balances displays all of your Sky-related funds available on the Base network. When you connect your crypto wallet to Sky.money to access the decentralised Sky Protocol, only the tokens in the wallet that are relevant to the app on Base are listed. With this visibility, you can better self-manage your funds. Sky.money is non-custodial and permissionless."
+msgid "Balances displays all of your Sky-related assets available on Layer 2 (L2) scaling solutions for the Ethereum blockchain. When you connect your crypto wallet to Sky.money, you can view your tokens across supported networks on the decentralized Sky Protocol. This visibility is built in for ease of use. Sky.money is non-custodial and permissionless."
 msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
-msgid "Balances displays all of your Sky-related funds. When you connect your crypto wallet to Sky.money to access the decentralised Sky Protocol, only the tokens in the wallet that are relevant to the app are listed. With all of your Sky funds visible in one place, you can better self-manage your funds. Sky.money is non-custodial and permissionless."
+msgid "Balances displays all of your Sky-related assets. When you connect your crypto wallet to Sky.money to access the decentralised Sky Protocol, only the tokens in the wallet that are relevant to the app are listed. With all of your Sky funds visible in one place, you can better self-manage your funds. Sky.money is non-custodial and permissionless."
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
@@ -502,7 +504,6 @@ msgstr ""
 msgid "Begin the savings process"
 msgstr ""
 
-#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
 #: apps/webapp/src/modules/seal/components/SealHistory.tsx
 #: packages/widgets/src/widgets/BalancesWidget/lib/getTitle.ts
 msgid "Borrow"
@@ -526,6 +527,7 @@ msgstr ""
 msgid "Borrow USDS against your MKR and SKY"
 msgstr ""
 
+#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
 msgid "Borrowed"
@@ -589,7 +591,6 @@ msgstr ""
 msgid "Choose a token to upgrade, and enter an amount"
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/components/SelectDelegate.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/SelectDelegate.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/SelectDelegate.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigrateSelectDelegate.tsx
@@ -691,6 +692,11 @@ msgstr ""
 msgid "Combined actions"
 msgstr ""
 
+#: apps/webapp/src/modules/balances/components/ModuleCard.tsx
+msgid "Coming Soon"
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
@@ -1231,6 +1237,9 @@ msgid "Legal Terms"
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeHistory.tsx
+msgid "Liquidated"
+msgstr ""
+
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Borrow.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
@@ -1510,11 +1519,7 @@ msgid "Note that reverted transactions may still incur gas fees."
 msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
-msgid "On Arbitrum, you can convert between USDS, sUSDS and USDC through a Peg Stability Module (PSM) deployed to Arbitrum and powered by Spark. The PSM on Arbitrum handles conversions programmatically, driven at your direction. PSMs are smart contracts designed to maintain the stability of stablecoins and allow users to convert certain stablecoins directly with the Sky Protocol at a fixed rate and with no fees. However, blockchain (gas) fees may apply."
-msgstr ""
-
-#: apps/webapp/src/modules/layout/components/ConnectCard.tsx
-msgid "On Base, you can convert between USDS, sUSDS and USDC through a Peg Stability Module (PSM) deployed to the Base blockchain and powered by Spark. The PSM on Base handles conversions programmatically, driven at your direction. PSMs are smart contracts designed to maintain the stability of stablecoins and allow users to convert certain stablecoins directly with the Sky Protocol at a fixed rate and with no fees. However, blockchain (gas) fees may apply."
+msgid "On Layer 2 (L2) scaling solutions for the Ethereum blockchain via Sky.money, you can convert between USDS, sUSDS and USDC through a Peg Stability Module (PSM) <0/> deployed to the L2 and powered by Spark. The PSM handles conversions programmatically, driven at your direction, between these pairs directly."
 msgstr ""
 
 #: apps/webapp/src/modules/layout/components/UnsupportedNetworkPage.tsx
@@ -1690,6 +1695,9 @@ msgid "Remaining {0} balance"
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeHistory.tsx
+msgid "Repaid"
+msgstr ""
+
 #: apps/webapp/src/modules/seal/components/SealHistory.tsx
 #: packages/widgets/src/widgets/BalancesWidget/lib/getTitle.ts
 msgid "Repay"
@@ -1938,6 +1946,7 @@ msgstr ""
 msgid "Signing failed"
 msgstr ""
 
+#: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/SelectDelegate.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/SelectDelegate.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigrateSelectDelegate.tsx
@@ -2056,7 +2065,7 @@ msgstr ""
 msgid "Soon"
 msgstr ""
 
-#. placeholder {0}: isBase ? 'Base' : isArbitrum ? 'Arbitrum' : ''
+#. placeholder {0}: soonChain.name
 #: apps/webapp/src/modules/balances/components/ModuleCard.tsx
 msgid "Soon on {0}"
 msgstr ""
@@ -2065,7 +2074,6 @@ msgstr ""
 msgid "stake"
 msgstr ""
 
-#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
 #: packages/widgets/src/widgets/BalancesWidget/lib/getTitle.ts
 msgid "Stake"
 msgstr ""
@@ -2079,6 +2087,7 @@ msgstr ""
 msgid "Stake and Borrow"
 msgstr ""
 
+#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 msgid "Staked"
 msgstr ""
@@ -2140,6 +2149,11 @@ msgstr ""
 
 #. placeholder {0}: isDifferentChain ? 'on Base' : ''
 #. placeholder {0}: isDifferentChain ? 'on Arbitrum' : ''
+#. placeholder {0}: isDifferentChain ? 'on Optimism' : ''
+#: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
+#: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
+#: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
+#: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
 #: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
 #: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
 #: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
@@ -2246,10 +2260,6 @@ msgstr ""
 msgid "Supplying {0} USDS"
 msgstr ""
 
-#: apps/webapp/src/modules/layout/components/ConnectCard.tsx
-msgid "Supplying stablecoins to the Savings feature on either Arbitrum or Ethereum is very similar. However, given that no native Sky Savings Rate module is currently deployed to Arbitrum, when transacting on Arbitrum you always interact with the Peg Stability Module (PSM) for conversions to/from USDS, sUSDS and USDC. The PSM on Arbitrum handles conversions programmatically, driven at your direction, between these pairs directly."
-msgstr ""
-
 #: apps/webapp/src/modules/ui/components/AboutSUsds.tsx
 msgid "sUSDS"
 msgstr ""
@@ -2275,7 +2285,7 @@ msgid "Terms of Use."
 msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
-msgid "The experience of supplying stablecoins to the Savings feature on Base and Ethereum is very similar. However, given that no native Sky Savings Rate module is deployed to Base, when transacting on Base you always interact with the Peg Stability Module (PSM) for conversions to/from USDS, sUSDS and USDC. The PSM on Base handles conversions programmatically, driven at your direction, between these pairs directly."
+msgid "The experience of using the Savings feature on Layer 2 (L2) scaling solutions and Ethereum is very similar. However, given that no native Sky Savings Rate module is currently deployed to L2s, when transacting on them, you always interact with the Peg Stability Module (PSM) <0/> for conversions to/from USDS, sUSDS and USDC. The PSM handles conversions programmatically, driven at your direction, between these pairs directly."
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/About.tsx
@@ -2303,7 +2313,7 @@ msgid "The Seal Engine is now deprecated. Migrate your positions to the Staking 
 msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
-msgid "The Staking Engine is a module of the Sky Protocol. It has replaced the Seal Engine, offering the same features but it has no exit fee and only supports SKY, not MKR. The SKY tokens you supply to the Seal Engine enable you to access Staking Rewards, and more. With Sky, you always remain in control of your assets."
+msgid "The Staking Engine is a module of the Sky Protocol. It has replaced the Seal Engine, offering the same features but it has no exit fee and only supports SKY, not MKR. The SKY tokens you supply to the Staking Engine enable you to access Staking Rewards, and more. With Sky, you always remain in control of your assets."
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
@@ -2479,6 +2489,8 @@ msgstr ""
 #: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
 #: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
 #: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
+#: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
+#: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
 msgid "Trade your {formattedBalance} {upperSymbol} for USDS {0}"
 msgstr ""
 
@@ -2621,7 +2633,6 @@ msgstr ""
 msgid "Unsealing"
 msgstr ""
 
-#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
 #: packages/widgets/src/widgets/BalancesWidget/lib/getTitle.ts
 msgid "Unstake"
 msgstr ""
@@ -2632,6 +2643,10 @@ msgstr ""
 msgid "Unstake and pay back"
 msgstr ""
 
+#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
+msgid "Unstaked"
+msgstr ""
+
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 msgid "Unstaking"
 msgstr ""
@@ -2639,6 +2654,10 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/components/StakeModuleTransactionStatus.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/SealModuleTransactionStatus.tsx
 msgid "Update Position"
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/components/SelectDelegate.tsx
+msgid "Update your delegate"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
@@ -2742,6 +2761,10 @@ msgstr ""
 
 #: packages/widgets/src/widgets/BalancesWidget/components/RewardsBalanceCard.tsx
 msgid "USDS supplied to Rewards"
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHistory.tsx
+msgid "Value"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/AboutCle.tsx
@@ -3232,7 +3255,7 @@ msgid "Your claim is being processed on the blockchain. Please wait."
 msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
-msgid "Your DeFi journey with Sky is just beginning. Connect your wallet to access the decentralised Sky Protocol and upgrade your DAI to USDS, and your MKR to SKY. Unlocking all the Sky Protocol has to offer, without giving up control, is easy. "
+msgid "Your DeFi journey with Sky is just beginning. Connect your wallet to access the decentralised Sky Protocol and upgrade your DAI to USDS, and your MKR to SKY. Unlocking all the Sky Protocol has to offer, without giving up control, is easy."
 msgstr ""
 
 #: apps/webapp/src/modules/balances/components/BalancesDetails.tsx
