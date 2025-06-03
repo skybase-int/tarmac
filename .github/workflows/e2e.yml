@@ -107,7 +107,7 @@ jobs:
       - name: Teardown VNet (if required)
         if: ${{always() && matrix.vnet}}
         run: |
-          pnpm run vnet:delete:ci ${{ matrix.chain }}
+          pnpm run vnet:delete:ci
         env:
           TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
 

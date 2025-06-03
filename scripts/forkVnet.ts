@@ -24,6 +24,8 @@ const UNICHAIN_CONFIG = {
 const forkVnets = async chainType => {
   const currentTime = Date.now();
 
+  console.log('chainType check', chainType);
+
   // If chainType is provided, only fork that specific chain
   const chainsToFork = chainType ? [chainType] : ['mainnet', 'base', 'arbitrum', 'optimism', 'unichain'];
 
@@ -130,6 +132,7 @@ const forkVnets = async chainType => {
   let existingData = [];
   try {
     const existingFile = await readFile('./tenderlyTestnetData.json', 'utf-8');
+    console.log('^^^ existingFile in fork script', existingFile);
     existingData = JSON.parse(existingFile);
   } catch (error) {
     console.warn('There was an error reading the tenderlyTestnetData.json file', error);
@@ -137,28 +140,24 @@ const forkVnets = async chainType => {
     existingData = [];
   }
 
-  // Create a map of existing data by network
-  const existingDataMap = existingData.reduce((acc, item) => {
-    acc[item.NETWORK] = item;
-    return acc;
-  }, {});
+  // Update or add new chain data
+  const updatedData = existingData.filter(item => !chainsToFork.includes(item.NETWORK));
 
-  // Update only the forked chains
+  // Add the newly forked chains
   chainsToFork.forEach((chain, index) => {
     const testnetData = testnetsData[index];
     const adminEndpoint = testnetData.rpcs.find(x => x.name === 'Admin RPC');
 
-    existingDataMap[chain] = {
+    updatedData.push({
       NETWORK: chain,
       TENDERLY_TESTNET_ID: testnetData.id,
       TENDERLY_RPC_URL: adminEndpoint.url
-    };
+    });
   });
 
-  // Convert back to array and sort by network name for consistency
-  const testnetDataToWrite = Object.values(existingDataMap).sort((a, b) =>
-    a.NETWORK.localeCompare(b.NETWORK)
-  );
+  // Sort by network name for consistency
+  const testnetDataToWrite = updatedData.sort((a, b) => a.NETWORK.localeCompare(b.NETWORK));
+  console.log('^^^ testnetDataToWrite to write in fork script', JSON.stringify(testnetDataToWrite));
 
   await writeFile('./tenderlyTestnetData.json', JSON.stringify(testnetDataToWrite));
 };
