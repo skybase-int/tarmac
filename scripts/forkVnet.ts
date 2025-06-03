@@ -20,9 +20,8 @@ const UNICHAIN_CONFIG = {
   forkBlock: '18140271'
 };
 
-type ChainType = 'mainnet' | 'base' | 'arbitrum' | 'optimism' | 'unichain';
-
-const forkVnets = async (chainType?: ChainType) => {
+//@ts-expect-error script doesn't work with TS
+const forkVnets = async chainType => {
   const currentTime = Date.now();
 
   // If chainType is provided, only fork that specific chain
@@ -143,5 +142,5 @@ const forkVnets = async (chainType?: ChainType) => {
 };
 
 // Get chain type from command line argument
-const chainType = process.argv[2] as ChainType | undefined;
+const chainType = process.argv[2];
 forkVnets(chainType);
