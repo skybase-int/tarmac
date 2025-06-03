@@ -20,7 +20,6 @@ import { tenderly, tenderlyArbitrum, tenderlyBase } from '@/data/wagmi/config/co
 
 export function useSubgraphUrl(overrideChainId?: number) {
   const connectedChainId = useChainId();
-  console.log('connectedChainId', connectedChainId);
   const [subgraphUrl, setSubgraphUrl] = useState('');
   const chainId = overrideChainId ?? connectedChainId;
 
