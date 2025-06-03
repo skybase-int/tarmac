@@ -18,7 +18,7 @@ import {
   usePreviewSwapExactOut,
   ZERO_ADDRESS
 } from '@jetstreamgg/hooks';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState, ReactNode } from 'react';
 import {
   formatBigInt,
   math,
@@ -89,7 +89,7 @@ export type TradeWidgetProps = WidgetProps & {
   customTokenList?: TokenForChain[];
   disallowedPairs?: Record<string, SUPPORTED_TOKEN_SYMBOLS[]>;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-  widgetTitle?: string;
+  widgetTitle?: ReactNode;
 };
 
 export const L2TradeWidget = ({

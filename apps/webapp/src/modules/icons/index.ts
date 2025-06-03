@@ -30,6 +30,8 @@ import { Chat } from './Chat';
 import { ChatError } from './ChatError';
 import { ChatbotSend } from './ChatbotSend';
 import { ArbitrumChain } from './ArbitrumChain';
+import { UnichainChain } from './UnichainChain';
+import { OptimismChain } from './OptimismChain';
 import { Stake } from './Stake';
 import { Delegate } from './Delegate';
 import { Borrow } from './Borrow';
@@ -71,6 +73,8 @@ export {
   ChatError,
   ChatbotSend,
   ArbitrumChain,
+  OptimismChain,
+  UnichainChain,
   Stake,
   Delegate,
   Borrow,

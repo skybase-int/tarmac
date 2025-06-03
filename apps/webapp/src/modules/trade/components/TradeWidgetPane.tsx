@@ -17,7 +17,7 @@ import { useSearchParams } from 'react-router-dom';
 import { updateParamsFromTransaction } from '@/modules/utils/updateParamsFromTransaction';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import { isBaseChainId, isArbitrumChainId, isL2ChainId } from '@jetstreamgg/utils';
+import { getChainSpecificText, isL2ChainId } from '@jetstreamgg/utils';
 import { useChatContext } from '@/modules/chat/context/ChatContext';
 import { Intent } from '@/lib/enums';
 
@@ -31,9 +31,6 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const { onNavigate, setCustomHref, customNavLabel, setCustomNavLabel } = useCustomNavigation();
-
-  const isBase = isBaseChainId(chainId);
-  const isArbitrum = isArbitrumChainId(chainId);
   const isL2 = isL2ChainId(chainId);
   const { setShouldDisableActionButtons } = useChatContext();
 
@@ -161,7 +158,16 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
       customNavigationLabel={customNavLabel}
       onCustomNavigation={onNavigate}
       externalWidgetState={externalWidgetState}
-      widgetTitle={isBase ? 'Base Trade' : isArbitrum ? 'Arbitrum Trade' : 'Trade'}
+      widgetTitle={getChainSpecificText(
+        {
+          base: 'Base Trade',
+          arbitrum: 'Arbitrum Trade',
+          optimism: 'Optimism Trade',
+          unichain: 'Unichain Trade',
+          default: 'Trade'
+        },
+        chainId
+      )}
     />
   );
 }

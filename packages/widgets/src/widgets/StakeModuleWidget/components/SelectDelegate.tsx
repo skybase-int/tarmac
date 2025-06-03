@@ -3,7 +3,7 @@ import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { ZERO_ADDRESS, useStakeUserDelegates, useStakeUrnSelectedVoteDelegate } from '@jetstreamgg/hooks';
 import { useDebounce } from '@jetstreamgg/utils';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useMemo } from 'react';
 import { useAccount, useChainId } from 'wagmi';
 import { DelegateCard } from './DelegateCard';
 import { StakeModuleWidgetContext } from '../context/context';
@@ -19,7 +19,7 @@ import { StakeFlow } from '../lib/constants';
 import { Search } from '@widgets/shared/components/icons/Search';
 import { NoResults } from '@widgets/shared/components/icons/NoResults';
 import { Close } from '@widgets/shared/components/icons/Close';
-import { formatEther } from 'viem';
+import { t } from '@lingui/core/macro';
 
 export const SelectDelegate = ({
   onExternalLinkClicked
@@ -46,7 +46,9 @@ export const SelectDelegate = ({
     page: 1,
     pageSize: 100, //TODO: add pagination
     random: true,
-    search: debouncedSearch
+    search: debouncedSearch,
+    selectedDelegate,
+    shouldSortDelegates: true
   });
   const { data: urnSelectedVoteDelegate } = useStakeUrnSelectedVoteDelegate({
     urn: activeUrn?.urnAddress || ZERO_ADDRESS
@@ -71,24 +73,24 @@ export const SelectDelegate = ({
     setCurrentStep(getNextStep(currentStep));
   };
 
-  // TODO: How to handle pagination? Pending design
-  //    Infinite scroll
-  //    Load more button
-  //    Pagination component
+  // Runs only once, when the component mounts
+  const delegateTitle = useMemo(
+    () =>
+      widgetState.flow === StakeFlow.MANAGE && selectedDelegate && selectedDelegate !== ZERO_ADDRESS
+        ? t`Update your delegate`
+        : t`Choose your delegate`,
+    []
+  );
 
   return (
     <VStack gap={0}>
       <HStack className="items-center justify-between">
         <HStack gap={1} className="items-center">
-          <Text>
-            <Trans>Choose your delegate</Trans>
-          </Text>
+          <Text>{delegateTitle}</Text>
           <InfoTooltip
             content={
               <>
-                <Text>
-                  <Trans>Choose your delegate</Trans>
-                </Text>
+                <Text>{delegateTitle}</Text>
                 <br />
                 <Text>
                   <Trans>
@@ -160,31 +162,16 @@ export const SelectDelegate = ({
         </VStack>
       ) : (
         <VStack className="py-3">
-          {delegates
-            // Sort the user's selected delegate first
-            // .sort((a, b) =>
-            //   getAddress(a.id) === (selectedDelegate ? getAddress(selectedDelegate) : '')
-            //     ? -1
-            //     : getAddress(b.id) === (selectedDelegate ? getAddress(selectedDelegate) : '')
-            //       ? 1
-            //       : 0
-            // )
-            // Sort delegates by total delegated SKY descending
-            ?.map(delegate => ({
-              ...delegate,
-              totalDelegatedEther: delegate.totalDelegated ? Number(formatEther(delegate.totalDelegated)) : 0
-            }))
-            .sort((a, b) => b.totalDelegatedEther - a.totalDelegatedEther)
-            .map((delegate, index) => (
-              <DelegateCard
-                key={`${delegate.id}-${index}`}
-                delegate={delegate}
-                selectedDelegate={selectedDelegate}
-                setSelectedDelegate={setSelectedDelegate}
-                onExternalLinkClicked={onExternalLinkClicked}
-                userAddress={address}
-              />
-            ))}
+          {delegates?.map((delegate, index) => (
+            <DelegateCard
+              key={`${delegate.id}-${index}`}
+              delegate={delegate}
+              selectedDelegate={selectedDelegate}
+              setSelectedDelegate={setSelectedDelegate}
+              onExternalLinkClicked={onExternalLinkClicked}
+              userAddress={address}
+            />
+          ))}
         </VStack>
       )}
     </VStack>
