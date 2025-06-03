@@ -126,18 +126,39 @@ const forkVnets = async chainType => {
     }
   }
 
-  // Create an object with network names as keys
-  const testnetDataToWrite = chainsToFork.reduce((acc, chain, index) => {
+  // Read existing data if file exists
+  let existingData = [];
+  try {
+    const existingFile = await readFile('./tenderlyTestnetData.json', 'utf-8');
+    existingData = JSON.parse(existingFile);
+  } catch (error) {
+    console.warn('There was an error reading the tenderlyTestnetData.json file', error);
+    // File doesn't exist or is invalid JSON, start with empty array
+    existingData = [];
+  }
+
+  // Create a map of existing data by network
+  const existingDataMap = existingData.reduce((acc, item) => {
+    acc[item.NETWORK] = item;
+    return acc;
+  }, {});
+
+  // Update only the forked chains
+  chainsToFork.forEach((chain, index) => {
     const testnetData = testnetsData[index];
     const adminEndpoint = testnetData.rpcs.find(x => x.name === 'Admin RPC');
 
-    acc[chain] = {
+    existingDataMap[chain] = {
+      NETWORK: chain,
       TENDERLY_TESTNET_ID: testnetData.id,
       TENDERLY_RPC_URL: adminEndpoint.url
     };
+  });
 
-    return acc;
-  }, {});
+  // Convert back to array and sort by network name for consistency
+  const testnetDataToWrite = Object.values(existingDataMap).sort((a, b) =>
+    a.NETWORK.localeCompare(b.NETWORK)
+  );
 
   await writeFile('./tenderlyTestnetData.json', JSON.stringify(testnetDataToWrite));
 };
