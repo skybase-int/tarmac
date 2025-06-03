@@ -126,17 +126,18 @@ const forkVnets = async chainType => {
     }
   }
 
-  const testnetDataToWrite = testnetsData.map(testnetData => {
-    const adminEndpoint = testnetData.rpcs.find(
-      //@ts-expect-error TypeScript syntax is not supported when running this script
-      x => x.name === 'Admin RPC'
-    );
+  // Create an object with network names as keys
+  const testnetDataToWrite = chainsToFork.reduce((acc, chain, index) => {
+    const testnetData = testnetsData[index];
+    const adminEndpoint = testnetData.rpcs.find(x => x.name === 'Admin RPC');
 
-    return {
+    acc[chain] = {
       TENDERLY_TESTNET_ID: testnetData.id,
       TENDERLY_RPC_URL: adminEndpoint.url
     };
-  });
+
+    return acc;
+  }, {});
 
   await writeFile('./tenderlyTestnetData.json', JSON.stringify(testnetDataToWrite));
 };
