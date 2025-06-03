@@ -7,8 +7,6 @@ export const getRpcUrlFromFile = async (network: NetworkName): Promise<string> =
   const file = await readFile('../../tenderlyTestnetData.json', 'utf-8');
   const data = JSON.parse(file);
 
-  data.map((item, i) => console.log('Index and Item', i, item));
-
   // Convert NetworkName to the corresponding chain name
   const chainName = {
     [NetworkName.mainnet]: 'mainnet',

@@ -14,38 +14,36 @@ const waitForVnetsReadyRequest = async () => {
 
     // We send an `eth_blockNumber` request to the RPC endpoints to "ping" them
     const responses = await Promise.all(
-      testnetsData
-        .filter(x => x.NETWORK !== 'mainnet')
-        .map(async ({ TENDERLY_RPC_URL }: { TENDERLY_RPC_URL: string }, index: number) => {
-          console.log(`Checking network ${index + 1}/${testnetsData.length}: ${TENDERLY_RPC_URL}`);
-          try {
-            const response = await fetch(TENDERLY_RPC_URL, {
-              method: 'POST',
-              headers: {
-                accept: '*/*',
-                'content-type': 'application/json'
-              },
-              body: JSON.stringify({
-                method: 'eth_blockNumber',
-                params: [],
-                id: 42,
-                jsonrpc: '2.0'
-              })
-            });
+      testnetsData.map(async ({ TENDERLY_RPC_URL }: { TENDERLY_RPC_URL: string }, index: number) => {
+        console.log(`Checking network ${index + 1}/${testnetsData.length}: ${TENDERLY_RPC_URL}`);
+        try {
+          const response = await fetch(TENDERLY_RPC_URL, {
+            method: 'POST',
+            headers: {
+              accept: '*/*',
+              'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+              method: 'eth_blockNumber',
+              params: [],
+              id: 42,
+              jsonrpc: '2.0'
+            })
+          });
 
-            const responseBody = await response.text();
-            console.log(`Network ${index + 1} response:`, {
-              status: response.status,
-              statusText: response.statusText,
-              body: responseBody
-            });
+          const responseBody = await response.text();
+          console.log(`Network ${index + 1} response:`, {
+            status: response.status,
+            statusText: response.statusText,
+            body: responseBody
+          });
 
-            return response;
-          } catch (error) {
-            console.error(`Failed to check network ${index + 1}:`, error);
-            throw error;
-          }
-        })
+          return response;
+        } catch (error) {
+          console.error(`Failed to check network ${index + 1}:`, error);
+          throw error;
+        }
+      })
     );
 
     // If all of the RPC endpoints respond with status 200, it means they are ready
