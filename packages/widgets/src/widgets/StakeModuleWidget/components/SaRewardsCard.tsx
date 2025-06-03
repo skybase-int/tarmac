@@ -7,10 +7,10 @@ import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { MotionHStack } from '@widgets/shared/components/ui/layout/MotionHStack';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
 import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
-import { useRewardContractInfo, useRewardContractTokens, useStakeRewardsData } from '@jetstreamgg/hooks';
-import { formatBigInt } from '@jetstreamgg/utils';
+import { useRewardContractInfo, useRewardContractTokens, useRewardsChartInfo } from '@jetstreamgg/hooks';
+import { formatBigInt, formatDecimalPercentage } from '@jetstreamgg/utils';
 import { t } from '@lingui/core/macro';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useMemo } from 'react';
 import { useChainId } from 'wagmi';
 import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
 import { getAddress } from 'viem';
@@ -41,10 +41,13 @@ export const SaRewardsCard = ({
     error: rewardContractTokensError
   } = useRewardContractTokens(contractAddress);
 
-  const { data: stakeRewardsData, isLoading: isStakeRewardsDataLoading } = useStakeRewardsData();
+  const { data: rewardsChartInfoData, isLoading: isRewardsChartInfoLoading } = useRewardsChartInfo({
+    rewardContractAddress: contractAddress
+  });
 
-  const contractRewardsData = stakeRewardsData?.find(
-    data => getAddress(data.address) === getAddress(contractAddress)
+  const mostRecentRewardsChartInfoData = useMemo(
+    () => rewardsChartInfoData?.slice().sort((a, b) => b.blockTimestamp - a.blockTimestamp)[0],
+    [rewardsChartInfoData]
   );
 
   const handleSelectRewardContract = () => {
@@ -79,12 +82,14 @@ export const SaRewardsCard = ({
       }
       headerRightContent={
         <MotionHStack className="items-center" gap={2} variants={positionAnimations}>
-          {contractRewardsData && contractRewardsData.rate > 0 ? (
+          {mostRecentRewardsChartInfoData && parseFloat(mostRecentRewardsChartInfoData.rate) > 0 ? (
             <div className="flex items-center gap-2">
-              <Text className="text-bullish">{contractRewardsData.rate}% Rate</Text>
+              <Text className="text-bullish">
+                {formatDecimalPercentage(parseFloat(mostRecentRewardsChartInfoData.rate))} Rate
+              </Text>
               <PopoverRateInfo type="str" onExternalLinkClicked={onExternalLinkClicked} />
             </div>
-          ) : isStakeRewardsDataLoading ? (
+          ) : isRewardsChartInfoLoading ? (
             <Skeleton className="bg-textSecondary h-6 w-10" />
           ) : (
             ''
