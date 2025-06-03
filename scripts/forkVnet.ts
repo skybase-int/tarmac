@@ -1,6 +1,6 @@
 require('dotenv').config();
-
-const { writeFile } = require('fs/promises');
+//@ts-expect-error readFile is already declared
+const { writeFile, readFile } = require('fs/promises');
 
 // corresponds to https://dashboard.tenderly.co/jetstreamgg/jetstream/testnet/67d03866-3483-455a-a001-7f9f69b1c5d4
 const MAINNET_FORK_CONTAINER_ID = '67d03866-3483-455a-a001-7f9f69b1c5d4';
