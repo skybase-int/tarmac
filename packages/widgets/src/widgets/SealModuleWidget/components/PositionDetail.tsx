@@ -55,7 +55,7 @@ type Props = {
   claimPrepared: boolean;
   claimExecute: () => void;
   isMigrated?: boolean;
-  onNavigateToMigratedUrn?: (index?: bigint) => void;
+  onNavigateToStakeWidget?: () => void;
   onSealUrnChange?: OnSealUrnChange;
 };
 
@@ -75,7 +75,7 @@ export function PositionDetail({
   claimPrepared,
   claimExecute,
   isMigrated,
-  onNavigateToMigratedUrn,
+  onNavigateToStakeWidget,
   onSealUrnChange
 }: Props) {
   const { data: rewardContractTokens } = useRewardContractTokens(selectedRewardContract);
@@ -206,7 +206,7 @@ export function PositionDetail({
       <MigrateButton
         isMigrated={isMigrated}
         index={index}
-        onNavigateToMigratedUrn={onNavigateToMigratedUrn}
+        onNavigateToStakeWidget={onNavigateToStakeWidget}
         sealedAmount={sealedAmount}
         onSealUrnChange={onSealUrnChange}
         borrowedAmount={borrowedAmount}
@@ -234,14 +234,14 @@ const MigrateButton = ({
   isMigrated,
   index,
   sealedAmount,
-  onNavigateToMigratedUrn,
+  onNavigateToStakeWidget,
   onSealUrnChange,
   borrowedAmount,
   needsOldUrnAuth
 }: {
   isMigrated?: boolean;
   index: bigint;
-  onNavigateToMigratedUrn?: (index?: bigint) => void;
+  onNavigateToStakeWidget?: () => void;
   onSealUrnChange?: OnSealUrnChange;
   sealedAmount?: bigint;
   borrowedAmount?: bigint;
@@ -289,9 +289,9 @@ const MigrateButton = ({
         <Text variant="small" className="text-warning text-center">
           This position has been migrated to the new Staking Engine.
         </Text>
-        {onNavigateToMigratedUrn && (
-          <Button variant="primaryAlt" className="mt-2 w-full" onClick={() => onNavigateToMigratedUrn(index)}>
-            <Text>Manage position in Staking Engine</Text>
+        {onNavigateToStakeWidget && (
+          <Button variant="primaryAlt" className="mt-2 w-full" onClick={() => onNavigateToStakeWidget()}>
+            <Text>Go to Staking Engine</Text>
           </Button>
         )}
       </>

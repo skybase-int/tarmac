@@ -29,7 +29,7 @@ interface UrnPositionProps {
   claimExecute: () => void;
   onSealUrnChange?: OnSealUrnChange;
   isMigrated?: boolean;
-  onNavigateToMigratedUrn?: (index?: bigint) => void;
+  onNavigateToStakeWidget?: () => void;
 }
 
 export const UrnPosition: React.FC<UrnPositionProps> = ({
@@ -38,7 +38,7 @@ export const UrnPosition: React.FC<UrnPositionProps> = ({
   claimExecute,
   onSealUrnChange,
   isMigrated,
-  onNavigateToMigratedUrn
+  onNavigateToStakeWidget
 }) => {
   const { data: urnAddress } = useUrnAddress(index);
   const { data: urnSelectedRewardContract } = useUrnSelectedRewardContract({
@@ -132,7 +132,7 @@ export const UrnPosition: React.FC<UrnPositionProps> = ({
         claimPrepared={claimPrepared}
         claimExecute={claimExecute}
         isMigrated={isMigrated}
-        onNavigateToMigratedUrn={onNavigateToMigratedUrn}
+        onNavigateToStakeWidget={onNavigateToStakeWidget}
         onSealUrnChange={onSealUrnChange}
       />
     </Card>

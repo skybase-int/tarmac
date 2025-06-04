@@ -89,12 +89,8 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
     setSelectedSealUrnIndex(urn?.urnIndex !== undefined ? Number(urn.urnIndex) : undefined);
   };
 
-  const onNavigateToMigratedUrn = (index?: bigint) => {
-    if (index) {
-      navigate(`/?widget=stake&urn_index=${index}`);
-    } else {
-      navigate('/?widget=stake');
-    }
+  const onNavigateToStakeWidget = () => {
+    navigate('/?widget=stake');
   };
 
   // Reset detail pane urn index when widget is mounted
@@ -189,7 +185,7 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
               {...sharedProps}
               onWidgetStateChange={onSealWidgetStateChange}
               termsLink={termsLink[0]}
-              onNavigateToMigratedUrn={onNavigateToMigratedUrn}
+              onNavigateToStakeWidget={onNavigateToStakeWidget}
               mkrSkyUpgradeUrl="https://upgrademkrtosky.sky.money"
             />
           )}
