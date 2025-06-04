@@ -100,6 +100,7 @@ jobs:
       - name: Run E2E Test
         run: pnpm run e2e:no-vnet ${{ matrix.test }}
         env:
+          TEST_CHAIN: ${{ matrix.chain }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           VITE_ENV_NAME: development
           VITE_TERMS_LINK: '[{"url":"https://legal-terms","name":"Terms of Use"}]'
