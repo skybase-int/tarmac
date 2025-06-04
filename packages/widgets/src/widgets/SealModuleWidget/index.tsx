@@ -126,7 +126,7 @@ function SealModuleWidgetWrapped({
   mkrSkyUpgradeUrl
 }: SealModuleWidgetProps) {
   const validatedExternalState = getValidatedState(externalWidgetState);
-  const initialTabIndex = validatedExternalState?.tab === 'right' ? 1 : 0;
+  const initialTabIndex = validatedExternalState?.sealTab === SealAction.LOCK ? 1 : 0;
   const [tabIndex, setTabIndex] = useState<0 | 1>(initialTabIndex);
   const tabSide = tabIndex === 0 ? 'left' : 'right';
   const containerRef = useRef<HTMLDivElement>(null);

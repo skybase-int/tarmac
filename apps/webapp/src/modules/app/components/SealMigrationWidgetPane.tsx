@@ -65,6 +65,11 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
   const rightHeaderComponent = <DetailsSwitcher />;
 
   const onSealWidgetStateChange = ({ widgetState, txStatus }: WidgetStateChangeParams) => {
+    // Prevent race conditions
+    if (searchParams.get(QueryParams.Widget) !== IntentMapping[Intent.SEAL_INTENT]) {
+      return;
+    }
+
     const shouldHide =
       txStatus !== TxStatus.IDLE ||
       widgetState.flow === SealFlow.MIGRATE ||
@@ -77,6 +82,11 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
   };
 
   const onSealUrnChange = (urn?: { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined }) => {
+    // Prevent race conditions
+    if (searchParams.get(QueryParams.Widget) !== IntentMapping[Intent.SEAL_INTENT]) {
+      return;
+    }
+
     setSearchParams(params => {
       if (urn?.urnAddress && urn?.urnIndex !== undefined) {
         params.set(QueryParams.Widget, IntentMapping[Intent.SEAL_INTENT]);
