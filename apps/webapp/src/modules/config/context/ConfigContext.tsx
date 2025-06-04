@@ -55,8 +55,7 @@ const defaultUserConfig: UserConfig = {
   locale: undefined,
   intent: Intent.BALANCES_INTENT,
   sealToken: SealToken.MKR,
-  stakeToken: StakeToken.SKY,
-  batchEnabled: true
+  stakeToken: StakeToken.SKY
 };
 
 const defaultLinkedActionConfig = {
