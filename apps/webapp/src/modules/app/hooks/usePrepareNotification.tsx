@@ -77,17 +77,19 @@ export const usePrepareNotification = () => {
   // After a trade, the user should be redirected to Upgrade and Get Rewards LA
   const tradeAction = useMemo(() => {
     if (isTradeModule) {
-      return data?.linkedActions.find(
-        action =>
-          action.intent === IntentMapping[Intent.UPGRADE_INTENT] &&
-          action.la === IntentMapping[Intent.REWARDS_INTENT]
+      return (
+        data?.linkedActions.find(
+          action =>
+            action.intent === IntentMapping[Intent.UPGRADE_INTENT] &&
+            action.la === IntentMapping[Intent.REWARDS_INTENT]
+        ) || data?.suggestedActions.find(action => action.intent === IntentMapping[Intent.REWARDS_INTENT])
       );
     }
   }, [data, isTradeModule]);
 
   // We don't send them to a single reward contract but to the overview page
   let tradeUrlValue = '';
-  if (isTradeModule && (tradeAction || isL2)) {
+  if (isTradeModule) {
     if (isL2) {
       tradeUrlValue = `/?widget=${IntentMapping[Intent.SAVINGS_INTENT]}`;
     } else {
