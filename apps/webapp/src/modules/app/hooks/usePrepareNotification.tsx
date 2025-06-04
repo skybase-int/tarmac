@@ -7,7 +7,7 @@ import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParam
 import { useCallback, useMemo } from 'react';
 import { useAvailableTokenRewardContracts } from '@jetstreamgg/hooks';
 import { useChainId } from 'wagmi';
-import { formatDecimalPercentage } from '@jetstreamgg/utils';
+import { formatDecimalPercentage, isL2ChainId } from '@jetstreamgg/utils';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { useOverallSkyData } from '@jetstreamgg/hooks';
 
@@ -21,6 +21,7 @@ export const usePrepareNotification = () => {
   const isRewardsModule = widgetParam === IntentMapping[Intent.REWARDS_INTENT];
   const isUpgradeModule = widgetParam === IntentMapping[Intent.UPGRADE_INTENT];
   const isTradeModule = widgetParam === IntentMapping[Intent.TRADE_INTENT];
+  const isL2 = isL2ChainId(chainId);
   const { dismiss } = useToast();
   const navigate = useNavigate();
 
@@ -85,9 +86,18 @@ export const usePrepareNotification = () => {
   }, [data, isTradeModule]);
 
   // We don't send them to a single reward contract but to the overview page
-  const tradeUrl = useRetainedQueryParams(
-    isTradeModule && tradeAction ? tradeAction?.url?.replace(/&reward=0x[a-fA-F0-9]+/, '') : action?.url || ''
-  );
+  let tradeUrlValue = '';
+  if (isTradeModule && (tradeAction || isL2)) {
+    if (isL2) {
+      tradeUrlValue = `/?widget=${IntentMapping[Intent.SAVINGS_INTENT]}`;
+    } else {
+      tradeUrlValue = `/?widget=${IntentMapping[Intent.REWARDS_INTENT]}`;
+    }
+  } else {
+    tradeUrlValue = action?.url || '';
+  }
+
+  const tradeUrl = useRetainedQueryParams(tradeUrlValue);
 
   const navigateCallback = useCallback(() => {
     const targetUrl = isUpgradeModule ? upgradeUrl : isTradeModule ? tradeUrl : url;
