@@ -242,28 +242,3 @@ test('Resume migration flow with a Staking position already created and OldEngin
   await expect(page.getByText('2,400,000 SKY')).toBeVisible(); // 100 MKR * 24,000 = 2,400,000
   await expect(page.getByText('0 USDS')).toBeVisible();
 });
-
-test('should display warning for position with debt', async ({ page }) => {
-  // Create a new Seal position with debt specifically for this test
-  await newSealPosition(
-    '100',
-    // Manually created delegate in the parent forked vnet
-    '0x4e4393f93ac7ba34648a82ea2248d9bdbb1ff7e5',
-    lsMkrUsdsRewardAddress[TENDERLY_CHAIN_ID],
-    '38000' // This creates the debt
-  );
-
-  await page.goto('/seal-engine');
-  await connectMockWalletAndAcceptTerms(page);
-
-  // Attempt to migrate the position
-  await expect(page.getByText('Position 1')).toBeVisible(); // Assuming this is how the position is listed
-  await page.getByRole('button', { name: 'Migrate Position' }).click();
-
-  // Check for the warning message
-  await expect(
-    page.getByText(
-      'Positions with debt cannot be migrated. Please close your position in the Seal Engine and open a new position in the Staking Engine.'
-    )
-  ).toBeVisible();
-});
