@@ -371,6 +371,9 @@ const SavingsWidgetWrapped = ({
         description: t`Something went wrong with your transaction. Please try again.`,
         status: TxStatus.ERROR
       });
+      if (hash) {
+        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
+      }
       setTxStatus(TxStatus.ERROR);
       mutateAllowance();
       mutateOriginBalance();
@@ -436,6 +439,9 @@ const SavingsWidgetWrapped = ({
         description: t`Something went wrong with your withdraw. Please try again.`,
         status: TxStatus.ERROR
       });
+      if (hash) {
+        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
+      }
       setTxStatus(TxStatus.ERROR);
       mutateAllowance();
       mutateOriginBalance();
@@ -506,6 +512,9 @@ const SavingsWidgetWrapped = ({
         description: t`Something went wrong with your withdraw. Please try again.`,
         status: TxStatus.ERROR
       });
+      if (hash) {
+        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
+      }
       setTxStatus(TxStatus.ERROR);
       mutateAllowance();
       mutateOriginBalance();
