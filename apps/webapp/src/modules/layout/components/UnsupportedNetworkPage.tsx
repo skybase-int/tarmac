@@ -6,6 +6,7 @@ import { useSwitchChain } from 'wagmi';
 import { Button } from '@/components/ui/button';
 import { useSearchParams } from 'react-router-dom';
 import { QueryParams } from '@/lib/constants';
+import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
 
 export const UnsupportedNetworkPage = ({ children }: { children: React.ReactNode }) => {
   const { chains, switchChain } = useSwitchChain();
@@ -13,7 +14,7 @@ export const UnsupportedNetworkPage = ({ children }: { children: React.ReactNode
 
   const handleSwitchChain = (chainId: number, name: string) => {
     setSearchParams(params => {
-      params.set(QueryParams.Network, name.toLowerCase());
+      params.set(QueryParams.Network, normalizeUrlParam(name));
       return params;
     });
     switchChain({ chainId });
@@ -40,8 +41,7 @@ export const UnsupportedNetworkPage = ({ children }: { children: React.ReactNode
                 </Trans>
               </Text>
               <div className="flex flex-wrap gap-2">
-                {/* This will display buttons for all supported networks for the current Wagmi config.
-                 * For production this would only use Mainnet and Base */}
+                {/* This will display buttons for all supported networks for the current Wagmi config. */}
                 {chains.map(({ name, id }) => (
                   <Button
                     variant="connectPrimary"

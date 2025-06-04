@@ -271,7 +271,8 @@ export {
   useReadPsm3L2PreviewSwapExactIn,
   useReadPsm3L2PreviewSwapExactOut,
   lsMkrUsdsRewardAddress,
-  lsMigratorAddress
+  lsMigratorAddress,
+  lsSkyUsdsRewardAddress
 } from './generated';
 export { contracts, /*tenderlyContracts,*/ sepoliaContracts, l2Contracts } from './contracts';
 
