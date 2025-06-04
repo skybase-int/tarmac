@@ -88,19 +88,25 @@ const test = playwrightTest.extend<TestFixture, WorkerFixture>({
           throw new Error(`Unsupported chain: ${requiredChain}`);
       }
 
-      const snapshotIds = await evmSnapshot();
-      await use(snapshotIds);
+      const snapshotId = await evmSnapshot(requiredChain);
+      await use([snapshotId]);
     },
     { scope: 'worker', auto: true }
   ],
   // Auto fixture that will run for each test. By adding its code after the `use` call, we ensure that the fixture runs after the test
   autoTestFixture: [
     async ({ snapshotIds }, use) => {
+      const requiredChain = process.env.TEST_CHAIN;
+      if (!requiredChain) {
+        throw new Error('TEST_CHAIN environment variable not set');
+      }
+
       await use();
 
-      // Restore the EVM snapshot after each test
-      const allRevertsSuccessful = await evmRevert(snapshotIds);
-      expect(allRevertsSuccessful).toBe(true);
+      // Restore the EVM snapshot for the current test's chain
+      const snapshotId = snapshotIds[0]; // We only have one snapshot per worker
+      const revertSuccessful = await evmRevert(requiredChain, snapshotId);
+      expect(revertSuccessful).toBe(true);
     },
     { scope: 'test', auto: true }
   ],
