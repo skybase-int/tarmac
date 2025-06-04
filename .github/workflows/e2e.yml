@@ -105,12 +105,12 @@ jobs:
           VITE_ENV_NAME: development
           VITE_TERMS_LINK: '[{"url":"https://legal-terms","name":"Terms of Use"}]'
 
-      - name: Teardown VNet (if required)
-        if: ${{always() && matrix.vnet}}
-        run: |
-          pnpm run vnet:delete:ci
-        env:
-          TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
+      # - name: Teardown VNet (if required)
+      #   if: ${{always() && matrix.vnet}}
+      #   run: |
+      #     pnpm run vnet:delete:ci
+      #   env:
+      #     TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
 
       - uses: actions/upload-artifact@v4
         if: always()
