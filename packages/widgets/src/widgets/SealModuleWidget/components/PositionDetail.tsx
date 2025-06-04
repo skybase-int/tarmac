@@ -298,12 +298,22 @@ const MigrateButton = ({
     );
   }
 
-  // TODO: turn this back on after testing is done
   if (sealedAmount === undefined || sealedAmount === 0n) {
     return (
       <Text variant="small" className="text-warning text-center">
         Only positions with collateral can be migrated.
       </Text>
+    );
+  }
+
+  if (borrowedAmount && borrowedAmount > 0n) {
+    return (
+      <VStack gap={3}>
+        <Text variant="small" className="text-warning text-center">
+          Positions with debt cannot be migrated. Please close your position in the Seal Engine and open a new
+          position in the Staking Engine.
+        </Text>
+      </VStack>
     );
   }
 
