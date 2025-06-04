@@ -307,6 +307,17 @@ const MigrateButton = ({
     );
   }
 
+  if (borrowedAmount && borrowedAmount > 0n) {
+    return (
+      <VStack gap={3}>
+        <Text variant="small" className="text-warning text-center">
+          Positions with debt cannot be migrated. Please close your position in the Seal Engine and open a new
+          position in the Staking Engine.
+        </Text>
+      </VStack>
+    );
+  }
+
   return (
     <VStack gap={3}>
       {!borrowedAmount && (
