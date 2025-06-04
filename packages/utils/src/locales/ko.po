@@ -441,6 +441,14 @@ msgstr ""
 msgid "Approving migrator contract"
 msgstr ""
 
+#: apps/webapp/src/modules/chat/components/ChatInput.tsx
+msgid "Ask another question"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/ChatInput.tsx
+msgid "Ask me anything"
+msgstr ""
+
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 msgid "Back"
@@ -1099,6 +1107,18 @@ msgstr ""
 msgid "Go to {0} {module}"
 msgstr ""
 
+#: apps/webapp/src/modules/app/hooks/useChatNotification.tsx
+msgid "Hi, {CHATBOT_NAME} here!"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/context/ChatContext.tsx
+msgid "Hi, {CHATBOT_NAME} here! How can I help you today?"
+msgstr ""
+
+#: apps/webapp/src/components/ChatSwitcher.tsx
+msgid "Hide chat"
+msgstr ""
+
 #: apps/webapp/src/components/DetailsSwitcher.tsx
 msgid "Hide details"
 msgstr ""
@@ -1108,6 +1128,10 @@ msgstr ""
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Borrow.tsx
 msgid "High risk"
+msgstr ""
+
+#: apps/webapp/src/modules/app/hooks/useChatNotification.tsx
+msgid "How can I help you today?"
 msgstr ""
 
 #. placeholder {0}: selectedToken.symbol
@@ -1236,6 +1260,10 @@ msgstr ""
 msgid "Legal Terms"
 msgstr ""
 
+#: apps/webapp/src/modules/chat/components/ChatBubble.tsx
+msgid "Let me think"
+msgstr ""
+
 #: apps/webapp/src/modules/stake/components/StakeHistory.tsx
 msgid "Liquidated"
 msgstr ""
@@ -1286,6 +1314,10 @@ msgstr ""
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "Loading"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/ResponseModifierRow.tsx
+msgid "Longer"
 msgstr ""
 
 #. placeholder {0}: rewardContract?.supplyToken.symbol?.toUpperCase() ?? 'tokens'
@@ -1616,6 +1648,10 @@ msgstr ""
 msgid "Please confirm that you want to claim your rewards directly to your wallet."
 msgstr ""
 
+#: apps/webapp/src/modules/chat/components/ChatInput.tsx
+msgid "Please confirm you're at least 18"
+msgstr ""
+
 #: apps/webapp/src/modules/app/components/SealMigrationWidgetPane.tsx
 msgid "Please connect your wallet to Ethereum Mainnet to start the migration of your positions."
 msgstr ""
@@ -1636,6 +1672,14 @@ msgstr ""
 #: apps/webapp/src/modules/ui/components/TermsModal.tsx
 #: apps/webapp/src/modules/auth/components/UnauthorizedPage.tsx
 msgid "Please wait..."
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/ResponseModifierRow.tsx
+msgid "Please, extend your answer"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/ResponseModifierRow.tsx
+msgid "Please, simplify your answer"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
@@ -1918,6 +1962,10 @@ msgstr ""
 msgid "Select token"
 msgstr ""
 
+#: apps/webapp/src/modules/chat/components/ChatIntentsRow.tsx
+msgid "Selecting a suggested action will prefill transaction details, but execution still requires user review and confirmation."
+msgstr ""
+
 #. placeholder {0}: formatBigInt(debouncedOriginAmount, { locale, unit: originToken ? getTokenDecimals(originToken, chainId) : 18 })
 #. placeholder {1}: originToken?.symbol ?? ''
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
@@ -1944,6 +1992,10 @@ msgstr ""
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
 msgid "Signing failed"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/ResponseModifierRow.tsx
+msgid "Simpler"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
@@ -2070,6 +2122,10 @@ msgstr ""
 msgid "Soon on {0}"
 msgstr ""
 
+#: apps/webapp/src/modules/chat/hooks/useSendMessage.tsx
+msgid "Sorry, something went wrong. Can you repeat your question?"
+msgstr ""
+
 #: apps/webapp/src/lib/constants.ts
 msgid "stake"
 msgstr ""
@@ -2139,6 +2195,10 @@ msgstr ""
 msgid "Staking SKY in the Staking Rewards Engine"
 msgstr ""
 
+#: apps/webapp/src/modules/app/hooks/useChatNotification.tsx
+msgid "Start Chatting"
+msgstr ""
+
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 msgid "Start getting rewards"
 msgstr ""
@@ -2159,6 +2219,10 @@ msgstr ""
 #: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
 #: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
 msgid "Start saving with your {formattedBalance} {upperSymbol} {0}"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/StopGeneratingButton.tsx
+msgid "Stop generating"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
@@ -2551,6 +2615,10 @@ msgstr ""
 msgid "Transferring {amount} {symbol}"
 msgstr ""
 
+#: apps/webapp/src/modules/chat/components/ChatIntentsRow.tsx
+msgid "Try a suggested action"
+msgstr ""
+
 #: apps/webapp/src/modules/stake/components/StakeOverview.tsx
 #: apps/webapp/src/modules/savings/components/SavingsChart.tsx
 #: apps/webapp/src/modules/rewards/components/RewardsTokenInfo.tsx
@@ -2584,6 +2652,14 @@ msgstr ""
 
 #: apps/webapp/src/modules/ui/components/historyTable/HistoryTable.tsx
 msgid "Type"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/ChatBubble.tsx
+msgid "Typing"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/hooks/useSendMessage.tsx
+msgid "typing..."
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/BalanceCards.tsx
@@ -2765,6 +2841,10 @@ msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeHistory.tsx
 msgid "Value"
+msgstr ""
+
+#: apps/webapp/src/components/ChatSwitcher.tsx
+msgid "View chat"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/AboutCle.tsx
