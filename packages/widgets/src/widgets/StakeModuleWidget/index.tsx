@@ -144,8 +144,8 @@ function StakeModuleWidgetWrapped({
     setSkyToLock,
     setUsdsToBorrow,
     setSelectedDelegate,
+    selectedDelegate,
     setSelectedRewardContract,
-
     setSkyToFree,
     setUsdsToWipe,
     activeUrn,
@@ -175,6 +175,9 @@ function StakeModuleWidgetWrapped({
   });
   const { data: externalUrnVoteDelegate } = useStakeUrnSelectedVoteDelegate({
     urn: externalParamUrnAddress || ZERO_ADDRESS
+  });
+  const { data: activeUrnVoteDelegate } = useStakeUrnSelectedVoteDelegate({
+    urn: activeUrn?.urnAddress || ZERO_ADDRESS
   });
 
   const urnIndexForTransaction = activeUrn?.urnIndex ?? currentUrnIndex;
@@ -379,6 +382,8 @@ function StakeModuleWidgetWrapped({
     }
   }, [allStepsComplete, address, urnIndexForTransaction, generateAllCalldata, referralCode]);
 
+  const isDelegateSkippable = selectedDelegate?.toLowerCase() === activeUrnVoteDelegate?.toLowerCase();
+
   // Update button state according to action and tx
   // Ref: https://lingui.dev/tutorials/react-patterns#memoization-pitfall
   useEffect(() => {
@@ -412,8 +417,14 @@ function StakeModuleWidgetWrapped({
         setButtonText(t`Confirm`);
       } else if (shouldOpenFromWidgetButton) {
         setButtonText(t`Open a new position`);
-      } else if ([StakeStep.REWARDS, StakeStep.DELEGATE].includes(currentStep)) {
+      } else if (currentStep === StakeStep.REWARDS) {
         setButtonText(t`Confirm`);
+      } else if (currentStep === StakeStep.DELEGATE) {
+        if (widgetState.flow === StakeFlow.MANAGE && isDelegateSkippable) {
+          setButtonText(t`Skip`);
+        } else {
+          setButtonText(t`Confirm`);
+        }
       } else if (currentStep === StakeStep.OPEN_BORROW) {
         setButtonText(t`Confirm position`);
       } else {
@@ -430,7 +441,8 @@ function StakeModuleWidgetWrapped({
     shouldOpenFromWidgetButton,
     currentStep,
     needsLockAllowance,
-    needsUsdsAllowance
+    needsUsdsAllowance,
+    isDelegateSkippable
   ]);
 
   // Set isLoading to be consumed by WidgetButton
@@ -576,7 +588,6 @@ function StakeModuleWidgetWrapped({
 
   const showStep = !!widgetState.action && widgetState.action !== StakeAction.OVERVIEW;
 
-  // AQUI
   useEffect(() => {
     if (currentUrnIndexError) {
       throw new Error('Failed to fetch current urn index');
@@ -857,7 +868,6 @@ function StakeModuleWidgetWrapped({
 
   const resetToOverviewState = () => {
     setActiveUrn(undefined, onStakeUrnChange ?? (() => {}));
-    onStakeUrnChange?.(undefined);
     setWidgetState((prev: WidgetState) => ({
       ...prev,
       flow: StakeFlow.MANAGE,
@@ -874,7 +884,8 @@ function StakeModuleWidgetWrapped({
       widgetState,
       txStatus,
       stakeTab: StakeAction.LOCK,
-      originAmount: ''
+      originAmount: '',
+      urnIndex: undefined
     });
   };
 

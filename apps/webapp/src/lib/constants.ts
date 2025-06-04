@@ -2,7 +2,7 @@ import { RewardsModule, Savings, Trade, Upgrade, Seal } from '@/modules/icons';
 import { Intent } from './enums';
 import { msg } from '@lingui/core/macro';
 import { MessageDescriptor } from '@lingui/core';
-import { base, mainnet, sepolia, arbitrum } from 'viem/chains';
+import { base, mainnet, sepolia, arbitrum, unichain, optimism } from 'viem/chains';
 import { tenderly, tenderlyBase, tenderlyArbitrum } from '@/data/wagmi/config/config.default';
 
 export enum QueryParams {
@@ -17,6 +17,8 @@ export enum QueryParams {
   InputAmount = 'input_amount',
   Timestamp = 'timestamp',
   Network = 'network',
+  Chat = 'chat',
+  Reset = 'reset',
   Flow = 'flow',
   StakeTab = 'stake_tab',
   SealTab = 'seal_tab'
@@ -71,12 +73,16 @@ export const CHAIN_WIDGET_MAP: Record<number, Intent[]> = {
     Intent.SAVINGS_INTENT,
     Intent.TRADE_INTENT
   ],
-  [sepolia.id]: [Intent.BALANCES_INTENT, Intent.TRADE_INTENT]
+  [sepolia.id]: [Intent.BALANCES_INTENT, Intent.TRADE_INTENT],
+  [unichain.id]: [Intent.BALANCES_INTENT, Intent.REWARDS_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
+  [optimism.id]: [Intent.BALANCES_INTENT, Intent.REWARDS_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT]
 };
 
 export const COMING_SOON_MAP: Record<number, Intent[]> = {
   [base.id]: [Intent.REWARDS_INTENT],
   [arbitrum.id]: [Intent.REWARDS_INTENT],
+  [optimism.id]: [Intent.REWARDS_INTENT],
+  [unichain.id]: [Intent.REWARDS_INTENT],
   [tenderlyBase.id]: [Intent.REWARDS_INTENT],
   [tenderlyArbitrum.id]: [Intent.REWARDS_INTENT]
   // [base.id]: [Intent.YOUR_INTENT] // Example of how to add a coming soon intent
@@ -138,23 +144,41 @@ export const ALLOWED_EXTERNAL_DOMAINS = [
 ];
 
 export const PROD_URL_SKY_SUBGRAPH_MAINNET =
-  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/subgraph-mainnet';
+  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-mainnet';
 export const STAGING_URL_SKY_SUBGRAPH_MAINNET =
-  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/subgraph-mainnet';
+  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-mainnet';
 export const STAGING_URL_SKY_SUBGRAPH_TESTNET =
-  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/subgraph-testnet';
+  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-testnet';
 export const PROD_URL_SKY_SUBGRAPH_BASE =
-  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/subgraph-base';
+  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-base';
 export const STAGING_URL_SKY_SUBGRAPH_BASE =
-  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/subgraph-base';
+  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-base';
 export const STAGING_URL_SKY_SUBGRAPH_BASE_TENDERLY =
-  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/subgraph-baseTenderly';
+  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-baseTenderly';
 export const PROD_URL_SKY_SUBGRAPH_ARBITRUM =
-  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/subgraph-arbitrum';
+  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-arbitrum';
 export const STAGING_URL_SKY_SUBGRAPH_ARBITRUM =
-  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/subgraph-arbitrum';
+  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-arbitrum';
 export const STAGING_URL_SKY_SUBGRAPH_ARBITRUM_TENDERLY =
-  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/subgraph-arbitrumTenderly';
+  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-arbitrumTenderly';
+export const PROD_URL_SKY_SUBGRAPH_OPTIMISM =
+  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-optimism';
+export const PROD_URL_SKY_SUBGRAPH_UNICHAIN =
+  'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-unichain';
+export const STAGING_URL_SKY_SUBGRAPH_OPTIMISM =
+  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-optimism';
+export const STAGING_URL_SKY_SUBGRAPH_UNICHAIN =
+  'https://query-subgraph-staging.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-unichain';
+
+export const MAX_HISTORY_LENGTH = parseInt(import.meta.env.VITE_CHATBOT_MAX_HISTORY || 8) - 1;
+export const MAX_MESSAGE_LENGTH = parseInt(import.meta.env.VITE_CHATBOT_MAX_MESSAGE_LENGTH || '500');
+export const CHAT_SUGGESTIONS_ENABLED = import.meta.env.VITE_CHAT_SUGGESTIONS_ENABLED === 'true';
+export const ADVANCED_CHAT_ENABLED = import.meta.env.VITE_ADVANCED_CHAT_ENABLED === 'true';
+export const CHATBOT_ENABLED = import.meta.env.VITE_CHATBOT_ENABLED === 'true';
+export const CHATBOT_DOMAIN = import.meta.env.VITE_CHATBOT_DOMAIN || 'https://staging-api.sky.money';
+export const CHATBOT_USE_TESTNET_NETWORK_NAME =
+  import.meta.env.VITE_CHATBOT_USE_TESTNET_NETWORK_NAME === 'true' &&
+  (import.meta.env.VITE_ENV_NAME === 'staging' || import.meta.env.VITE_ENV_NAME === 'development');
 
 // Feature flag for batch transactions
 export const BATCH_TX_ENABLED = import.meta.env.VITE_BATCH_TX_ENABLED === 'true';

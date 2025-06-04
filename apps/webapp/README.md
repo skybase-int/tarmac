@@ -36,6 +36,8 @@ Create a `.env` file in the root directory of the project. You can use the `.env
 - `VITE_RPC_PROVIDER_TENDERLY_BASE`: URL for the Tenderly Base RPC provider (used for testing and development)
 - `VITE_RPC_PROVIDER_ARBITRUM`: URL for the Arbitrum RPC provider
 - `VITE_RPC_PROVIDER_TENDERLY_ARBITRUM`: URL for the Tenderly Arbitrum RPC provider (used for testing and development)
+- `VITE_RPC_PROVIDER_OPTIMISM`: URL for the Optimism RPC provider
+- `VITE_RPC_PROVIDER_UNICHAIN`: URL for the Unichain provider
 - `VITE_TESTNET_CONFIG`: Boolean flag to determine network config to use, should be `false` in production
 - `VITE_AUTH_URL`: Base URL for the authentication service
 - `VITE_RESTRICTED_BUILD`: Boolean flag to enable certain restrictions
@@ -54,6 +56,14 @@ Create a `.env` file in the root directory of the project. You can use the `.env
 - `VITE_ENV_NAME`: (Optional) Environment name (e.g., 'development', 'staging', 'production')
 - `VITE_CF_PAGES_COMMIT_SHA`: (Optional) Git commit hash of the current build
 - `VITE_REFERRAL_CODE`: (Optional) Referral code for the app
+- `VITE_CHATBOT_ENABLED`: If set to `'true`, enables the chatbot functionality
+- `VITE_CHATBOT_USE_TESTNET_NETWORK_NAME`: If set to `'true'` replaces network names for their testnet counterpart. Only in development or staging.
+- `VITE_ADVANCED_CHAT_ENABLED`: If set to `'true`, enables advanced chat features
+- `VITE_CHAT_SUGGESTIONS_ENABLED`: If set to `'true`, enables chat suggestions functionality, set to 'true' to enable
+- `VITE_CHATBOT_NAME`: The name of the chatbot
+- `VITE_CHATBOT_DOMAIN`: The base URL for the chatbot backend API
+- `VITE_CHATBOT_MAX_HISTORY`: Maximum number of previous messages to include in chat context.
+- `VITE_CHATBOT_MAX_MESSAGE_LENGTH`: Maximum character length for user input messages.
 
 ## Running the App
 
