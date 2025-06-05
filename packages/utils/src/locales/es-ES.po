@@ -1080,10 +1080,6 @@ msgid "Funds"
 msgstr ""
 
 #: apps/webapp/src/modules/app/hooks/useNotification.tsx
-msgid "Get rewards"
-msgstr ""
-
-#: apps/webapp/src/modules/app/hooks/useNotification.tsx
 msgid "Get rewards with USDS"
 msgstr ""
 
@@ -1092,19 +1088,27 @@ msgstr ""
 msgid "Get rewards with your {formattedBalance} {upperSymbol} {0}"
 msgstr ""
 
-#: apps/webapp/src/modules/app/hooks/useNotification.tsx
-msgid "Get rewards with your USDS"
-msgstr ""
-
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 msgid "Get SKY rewards with USDS"
 msgstr ""
 
+#: apps/webapp/src/modules/app/hooks/useNotification.tsx
+msgid "Get the Sky Savings Rate"
+msgstr ""
+
 #. placeholder {0}: isBase ? 'Base' : isArbitrum ? 'Arbitrum' : ''
 #: apps/webapp/src/modules/balances/components/ModuleCard.tsx
 msgid "Go to {0} {module}"
+msgstr ""
+
+#: apps/webapp/src/modules/app/hooks/useNotification.tsx
+msgid "Go to Rewards"
+msgstr ""
+
+#: apps/webapp/src/modules/app/hooks/useNotification.tsx
+msgid "Go to Savings"
 msgstr ""
 
 #: apps/webapp/src/modules/app/hooks/useChatNotification.tsx
@@ -1725,6 +1729,14 @@ msgstr ""
 msgid "Rate: {0}"
 msgstr ""
 
+#: apps/webapp/src/modules/app/hooks/useNotification.tsx
+msgid "Rate: {rate}"
+msgstr ""
+
+#: apps/webapp/src/modules/app/hooks/useNotification.tsx
+msgid "Rate: {savingsRate}"
+msgstr ""
+
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
 msgid "Ready to upgrade and explore?"
 msgstr ""
@@ -1927,10 +1939,6 @@ msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "Sealing SKY in the Seal Rewards module"
-msgstr ""
-
-#: apps/webapp/src/modules/app/hooks/useNotification.tsx
-msgid "See all rewards"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
@@ -2962,6 +2970,14 @@ msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
 msgid "When you supply USDS to the Sky Savings Rate module of the decentralised Sky Protocol, you access the Sky Saving Rate and may accumulate additional USDS over time. No minimum supply amount is required, and you always maintain control of your supplied funds, as this feature is non-custodial."
+msgstr ""
+
+#: apps/webapp/src/modules/app/hooks/useNotification.tsx
+msgid "With: USDS Get: SKY"
+msgstr ""
+
+#: apps/webapp/src/modules/app/hooks/useNotification.tsx
+msgid "With: USDS Get: USDS"
 msgstr ""
 
 #: apps/webapp/src/modules/rewards/components/RewardsHistory.tsx
