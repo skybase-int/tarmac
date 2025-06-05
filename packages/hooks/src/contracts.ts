@@ -236,14 +236,6 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
       [mainnet.id]: '0x38E4254bD82ED5Ee97CD1C4278FAae748d998865',
       [TENDERLY_CHAIN_ID]: '0xAf7868a9BB72E16B930D50636519038d7F057470'
     }
-  },
-  // Seal migrator
-  {
-    name: 'lsMigrator',
-    address: {
-      [mainnet.id]: '0x473d777f608C3C24B441AB6bD4bBcA6b7F9AF90B',
-      [TENDERLY_CHAIN_ID]: '0xf4c5C29b14f0237131F7510A51684c8191f98E06'
-    }
   }
 ];
 
