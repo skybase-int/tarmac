@@ -240,7 +240,6 @@ export {
   usdcL2Address,
   usdsL2Address,
   sUsdsL2Address,
-  skyL2Address,
   psm3L2Address,
   useReadPsm3L2ConvertToShares,
   useReadPsm3L2ConvertToAssetValue,
