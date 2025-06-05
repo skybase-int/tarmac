@@ -34,7 +34,7 @@ export const UrnsList = ({
   return (
     <VStack gap={6}>
       <HStack className="items-start" gap={2}>
-        <Warning boxSize={20} viewBox="0 0 16 16" className="mt-1" />
+        <Warning boxSize={32} viewBox="0 0 16 16" className="mt-1" />
         <Text variant="small" className="text-error">
           <Trans>
             The Seal Engine is now deprecated. Please close your positions and open new positions in the
@@ -43,7 +43,7 @@ export const UrnsList = ({
           <ExternalLink
             href={mkrSkyUpgradeUrl || ''}
             showIcon={false}
-            className="text-error ml-1 underline"
+            className="ml-1 text-blue-500 underline"
             onExternalLinkClicked={onExternalLinkClicked}
           >
             <Trans>Learn more</Trans>

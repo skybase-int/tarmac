@@ -158,8 +158,8 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
               </Heading>
               <Text className="text-text mt-8">
                 <Trans>
-                  The Seal Engine has been deprecated. Please close your positions and open new positions in
-                  the Staking Engine.
+                  The Seal Engine is deprecated. Please close your positions and open new positions in the
+                  Staking Engine.
                 </Trans>
               </Text>
               <Text className="text-text mb-8 mt-8">
