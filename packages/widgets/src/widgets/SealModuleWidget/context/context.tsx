@@ -5,8 +5,6 @@ import {
   getSaLockMkrCalldata,
   getSaLockSkyCalldata,
   getSaOpenCalldata,
-  getSaSelectDelegateCalldata,
-  getSaSelectRewardContractCalldata,
   getSaWipeAllCalldata,
   getSaWipeCalldata,
   Token,
@@ -28,7 +26,6 @@ import {
 import { SealFlow, SealStep } from '../lib/constants';
 import { OnSealUrnChange } from '../lib/types';
 import { WidgetContext } from '@widgets/context/WidgetContext';
-import { needsDelegateUpdate, needsRewardUpdate } from '../lib/utils';
 
 export interface SealModuleWidgetContextProps {
   isLockCompleted: boolean;
@@ -293,31 +290,10 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
           : undefined;
 
       // Select reward
-      const selectRewardContractCalldata = needsRewardUpdate(
-        activeUrn?.urnAddress,
-        selectedRewardContract,
-        urnSelectedRewardContract
-      )
-        ? getSaSelectRewardContractCalldata({
-            ownerAddress,
-            urnIndex: urnIndex,
-            rewardContractAddress: selectedRewardContract || ZERO_ADDRESS,
-            refCode: referralCode
-          })
-        : undefined;
+      const selectRewardContractCalldata = undefined;
 
       // Select delegate
-      const selectDelegateCalldata = needsDelegateUpdate(
-        activeUrn?.urnAddress,
-        selectedDelegate,
-        urnSelectedVoteDelegate
-      )
-        ? getSaSelectDelegateCalldata({
-            ownerAddress,
-            urnIndex: urnIndex,
-            delegateAddress: selectedDelegate || ZERO_ADDRESS
-          })
-        : undefined;
+      const selectDelegateCalldata = undefined;
 
       // Order calldata based on the flow
       const sortedCalldata =
