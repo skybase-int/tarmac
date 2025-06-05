@@ -43,7 +43,10 @@ export const UrnsList = ({
       <HStack className="items-start" gap={2}>
         <Warning boxSize={20} viewBox="0 0 16 16" className="mt-1" />
         <Text variant="small" className="text-error">
-          <Trans>The Seal Engine is now deprecated. Migrate your positions to the Staking Engine.</Trans>
+          <Trans>
+            The Seal Engine is now deprecated. Please close your positions and open new positions in the
+            Staking Engine.
+          </Trans>
           <ExternalLink
             href={mkrSkyUpgradeUrl || ''}
             showIcon={false}

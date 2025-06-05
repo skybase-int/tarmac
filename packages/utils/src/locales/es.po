@@ -314,7 +314,6 @@ msgstr ""
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 #: packages/widgets/src/widgets/L2TradeWidget/index.tsx
@@ -333,18 +332,6 @@ msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "Approve Migration contract"
-msgstr ""
-
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-msgid "Approve migrator contract successful"
-msgstr ""
-
-#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
-msgid "Approve migrator for new position"
-msgstr ""
-
-#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
-msgid "Approve migrator for old position"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
@@ -437,10 +424,6 @@ msgstr ""
 msgid "Approving {0} USDS"
 msgstr ""
 
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-msgid "Approving migrator contract"
-msgstr ""
-
 #: apps/webapp/src/modules/chat/components/ChatInput.tsx
 msgid "Ask another question"
 msgstr ""
@@ -449,7 +432,6 @@ msgstr ""
 msgid "Ask me anything"
 msgstr ""
 
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 msgid "Back"
 msgstr ""
@@ -461,10 +443,6 @@ msgstr ""
 #: packages/widgets/src/widgets/SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
 msgid "Back to Savings"
-msgstr ""
-
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-msgid "Back to Seal"
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
@@ -501,11 +479,6 @@ msgstr ""
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 msgid "Be sure to check your transaction status on CoW Explorer to verify the cancellation was successful"
-msgstr ""
-
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-msgid "Begin migration"
 msgstr ""
 
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
@@ -579,10 +552,6 @@ msgstr ""
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
 msgid "Cannot be migrated"
-msgstr ""
-
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-msgid "Checking your position status..."
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/components/TradeInputs.tsx
@@ -814,14 +783,6 @@ msgstr ""
 msgid "Continue"
 msgstr ""
 
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-msgid "Continue to migrate"
-msgstr ""
-
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-msgid "Continue to open Staking position and migrate"
-msgstr ""
-
 #: apps/webapp/src/modules/ui/components/CopyToClipboard.tsx
 msgid "Copied"
 msgstr ""
@@ -920,7 +881,6 @@ msgid "Directly trade eligible tokens for Sky ecosystem tokens using permissionl
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 msgid "Doing multicall"
 msgstr ""
@@ -1354,10 +1314,6 @@ msgstr ""
 msgid "Manage your position(s)"
 msgstr ""
 
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-msgid "Manage your staking position(s)"
-msgstr ""
-
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Borrow.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
@@ -1378,17 +1334,8 @@ msgstr ""
 msgid "Metrics"
 msgstr ""
 
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-msgid "Migrate"
-msgstr ""
-
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
 msgid "Migrate from:"
-msgstr ""
-
-#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
-msgid "Migrate position"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
@@ -1399,24 +1346,12 @@ msgstr ""
 msgid "Migrate your position(s) to the Staking Engine"
 msgstr ""
 
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-msgid "Migrating your old position"
-msgstr ""
-
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
 msgid "Migration"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "Migration contract approved"
-msgstr ""
-
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-msgid "Migration failed"
-msgstr ""
-
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-msgid "Migration successful"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
@@ -1453,12 +1388,7 @@ msgid "More rewards coming soon"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 msgid "Multicall failed"
-msgstr ""
-
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-msgid "Multicall successful"
 msgstr ""
 
 #: packages/widgets/src/widgets/RewardsWidget/components/RewardsOverview.tsx
@@ -1569,10 +1499,6 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/components/StakeModuleTransactionStatus.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/SealModuleTransactionStatus.tsx
 msgid "Open a position"
-msgstr ""
-
-#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
-msgid "Open a position in new engine"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/MigrateAbout.tsx
@@ -2233,10 +2159,6 @@ msgstr ""
 msgid "Stop generating"
 msgstr ""
 
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-msgid "Submit"
-msgstr ""
-
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
@@ -2369,7 +2291,7 @@ msgid "The multicall transaction was successful"
 msgstr ""
 
 #: apps/webapp/src/modules/app/components/SealMigrationWidgetPane.tsx
-msgid "The Seal Engine has been deprecated. You can either migrate your positions to the Staking Engine or manually close them."
+msgid "The Seal Engine has been deprecated. Please close your positions and open new positions in the Staking Engine."
 msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
@@ -2381,18 +2303,13 @@ msgid "The Seal Engine is deprecated"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/UrnsList.tsx
-msgid "The Seal Engine is now deprecated. Migrate your positions to the Staking Engine."
+msgid "The Seal Engine is now deprecated. Please close your positions and open new positions in the Staking Engine."
 msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
 msgid "The Staking Engine is a module of the Sky Protocol. It has replaced the Seal Engine, offering the same features but it has no exit fee and only supports SKY, not MKR. The SKY tokens you supply to the Staking Engine enable you to access Staking Rewards, and more. With Sky, you always remain in control of your assets."
 msgstr ""
 
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-msgid "The transaction was not successful."
-msgstr ""
-
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 msgid "The transaction was successful."
 msgstr ""
@@ -2407,10 +2324,6 @@ msgstr ""
 
 #: apps/webapp/src/modules/ui/components/historyTable/HistoryTable.tsx
 msgid "There was an error fetching this data"
-msgstr ""
-
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-msgid "This position is not valid for migration"
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/components/TradeSummary.tsx
@@ -2920,10 +2833,6 @@ msgstr ""
 msgid "Wallet Funds"
 msgstr ""
 
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-msgid "We could not approve the migrator contract to migrate your position."
-msgstr ""
-
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
@@ -2946,10 +2855,6 @@ msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 msgid "We could not complete the transaction."
-msgstr ""
-
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-msgid "We could not migrate your position."
 msgstr ""
 
 #: apps/webapp/src/modules/seal/components/SealRewardsOverview.tsx
@@ -3068,10 +2973,6 @@ msgstr ""
 msgid "You approved SKY"
 msgstr ""
 
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-msgid "You approved the migrator contract to migrate your position."
-msgstr ""
-
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SavingsWidget/index.tsx
@@ -3150,10 +3051,6 @@ msgstr ""
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
 msgid "You successfully cancelled the order"
-msgstr ""
-
-#: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-msgid "You successfully migrated your position."
 msgstr ""
 
 #. placeholder {0}: originToken.symbol
@@ -3308,12 +3205,12 @@ msgstr ""
 
 #. placeholder {0}: selectedToken ?? ''
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
-msgid "You've unsealed {collateralToFree} {0} and repaid {borrowToRepay} USDS to exit your position. An exit fee may have been applied."
+msgid "You've unsealed {collateralToFree} {0} and repaid {borrowToRepay} USDS to exit your position."
 msgstr ""
 
 #. placeholder {0}: selectedToken ?? ''
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
-msgid "You've unsealed {collateralToFree} {0} to exit your position. An exit fee may have been applied."
+msgid "You've unsealed {collateralToFree} {0} to exit your position."
 msgstr ""
 
 #. placeholder {0}: selectedToken ?? ''

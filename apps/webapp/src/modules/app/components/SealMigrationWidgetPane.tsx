@@ -14,7 +14,7 @@ import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { Heading, Text } from '@/modules/layout/components/Typography';
 import { ArrowLeft } from 'lucide-react';
 import { HStack } from '@/modules/layout/components/HStack';
-import { Link, useSearchParams, useNavigate } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import {
   SealAction,
   SealFlow,
@@ -59,7 +59,6 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { switchChain } = useSwitchChain();
   const { isConnected } = useAccount();
-  const navigate = useNavigate();
   const referralCode = Number(import.meta.env.VITE_REFERRAL_CODE) || 0; // fallback to 0 if invalid
 
   const rightHeaderComponent = <DetailsSwitcher />;
@@ -72,7 +71,6 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
 
     const shouldHide =
       txStatus !== TxStatus.IDLE ||
-      widgetState.flow === SealFlow.MIGRATE ||
       (widgetState.action === SealAction.MULTICALL &&
         currentUrnIndex !== undefined &&
         currentUrnIndex > 0n &&
@@ -97,14 +95,6 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
       return params;
     });
     setSelectedSealUrnIndex(urn?.urnIndex !== undefined ? Number(urn.urnIndex) : undefined);
-  };
-
-  const onNavigateToMigratedUrn = (index?: bigint) => {
-    if (index) {
-      navigate(`/?widget=stake&urn_index=${index}`);
-    } else {
-      navigate('/?widget=stake');
-    }
   };
 
   // Reset detail pane urn index when widget is mounted
@@ -168,8 +158,8 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
               </Heading>
               <Text className="text-text mt-8">
                 <Trans>
-                  The Seal Engine has been deprecated. You can either migrate your positions to the Staking
-                  Engine or manually close them.
+                  The Seal Engine has been deprecated. Please close your positions and open new positions in
+                  the Staking Engine.
                 </Trans>
               </Text>
               <Text className="text-text mb-8 mt-8">
@@ -199,7 +189,6 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
               {...sharedProps}
               onWidgetStateChange={onSealWidgetStateChange}
               termsLink={termsLink[0]}
-              onNavigateToMigratedUrn={onNavigateToMigratedUrn}
               mkrSkyUpgradeUrl="https://upgrademkrtosky.sky.money"
             />
           )}

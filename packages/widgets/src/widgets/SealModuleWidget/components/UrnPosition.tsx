@@ -28,17 +28,13 @@ interface UrnPositionProps {
   claimPrepared: boolean;
   claimExecute: () => void;
   onSealUrnChange?: OnSealUrnChange;
-  isMigrated?: boolean;
-  onNavigateToMigratedUrn?: (index?: bigint) => void;
 }
 
 export const UrnPosition: React.FC<UrnPositionProps> = ({
   index,
   claimPrepared,
   claimExecute,
-  onSealUrnChange,
-  isMigrated,
-  onNavigateToMigratedUrn
+  onSealUrnChange
 }) => {
   const { data: urnAddress } = useUrnAddress(index);
   const { data: urnSelectedRewardContract } = useUrnSelectedRewardContract({
@@ -131,9 +127,6 @@ export const UrnPosition: React.FC<UrnPositionProps> = ({
         index={index}
         claimPrepared={claimPrepared}
         claimExecute={claimExecute}
-        isMigrated={isMigrated}
-        onNavigateToMigratedUrn={onNavigateToMigratedUrn}
-        onSealUrnChange={onSealUrnChange}
       />
     </Card>
   );
