@@ -1,5 +1,5 @@
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
-import { useSealCurrentIndex, TOKENS, useSealMigrations, checkUrnMigrationStatus } from '@jetstreamgg/hooks';
+import { useSealCurrentIndex, TOKENS } from '@jetstreamgg/hooks';
 import { UrnPosition } from './UrnPosition';
 import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
@@ -9,8 +9,6 @@ import { SealModuleWidgetContext } from '../context/context';
 import { ViewSkyMkrButton } from './ViewSkyMkrButton';
 import { Warning } from '@widgets/shared/components/icons/Warning';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
-import { useAccount } from 'wagmi';
-import { ZERO_ADDRESS } from '@jetstreamgg/hooks';
 import { ExternalLink } from '@widgets/shared/components/ExternalLink';
 
 export const UrnsList = ({
@@ -18,7 +16,6 @@ export const UrnsList = ({
   mkrSkyUpgradeUrl,
   claimExecute,
   onSealUrnChange,
-  onNavigateToMigratedUrn,
   onExternalLinkClicked
 }: {
   claimPrepared: boolean;
@@ -28,13 +25,9 @@ export const UrnsList = ({
   onNavigateToMigratedUrn?: (index?: bigint) => void;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 }) => {
-  const { address } = useAccount();
   const { displayToken, setDisplayToken } = useContext(SealModuleWidgetContext);
   const { data: currentIndex } = useSealCurrentIndex();
   const amountOfUrns = Array.from(Array(Number(currentIndex || 0n)).keys());
-  const { data: migrations, isLoading: isMigrationsLoading } = useSealMigrations({
-    owner: address || ZERO_ADDRESS
-  });
 
   if (!currentIndex) return null;
 
@@ -71,10 +64,6 @@ export const UrnsList = ({
       <div className="h-1/2 overflow-auto">
         <div className="flex flex-col gap-6">
           {amountOfUrns.map(index => {
-            // TEMPORARY: Remove this once the migration is complete
-
-            const { isMigrated } = checkUrnMigrationStatus(migrations, index);
-
             return (
               <UrnPosition
                 key={index}
@@ -82,8 +71,6 @@ export const UrnsList = ({
                 claimPrepared={claimPrepared}
                 claimExecute={claimExecute}
                 onSealUrnChange={onSealUrnChange}
-                isMigrated={isMigrationsLoading ? undefined : isMigrated}
-                onNavigateToMigratedUrn={onNavigateToMigratedUrn}
               />
             );
           })}

@@ -339,9 +339,6 @@ function SealModuleWidgetWrapped({
     enabled: widgetState.action === SealAction.APPROVE && sealUsdsAllowance !== undefined
   });
 
-  console.log('widgetState.action', widgetState.action);
-  console.log('allStepsComplete', allStepsComplete);
-  console.log('calldata', calldata);
   const multicall = useSaMulticall({
     calldata,
     enabled: widgetState.action === SealAction.MULTICALL && !!allStepsComplete,
@@ -432,6 +429,10 @@ function SealModuleWidgetWrapped({
   // Generate calldata when all steps are complete
   useEffect(() => {
     if (allStepsComplete && address && urnIndexForTransaction !== undefined) {
+      console.log('generating calldata');
+      console.log('address', address);
+      console.log('urnIndexForTransaction', urnIndexForTransaction);
+      console.log('referralCode', referralCode);
       const cd = generateAllCalldata(address, urnIndexForTransaction, referralCode);
       setCalldata(cd);
     }
@@ -496,10 +497,6 @@ function SealModuleWidgetWrapped({
     setIsLoading(isConnecting || txStatus === TxStatus.LOADING || txStatus === TxStatus.INITIALIZED);
   }, [isConnecting, txStatus]);
 
-  console.log('multicall.prepared', multicall.prepared);
-  console.log('multicall.isLoading', multicall.isLoading);
-  console.log('multicall.prepareError', multicall.prepareError);
-  console.log('txStatus', txStatus);
   const multicallDisabled =
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) || !multicall.prepared || multicall.isLoading;
 
