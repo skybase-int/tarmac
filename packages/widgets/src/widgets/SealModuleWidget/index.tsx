@@ -54,7 +54,7 @@ import { OnSealUrnChange } from './lib/types';
 type SealModuleWidgetProps = WidgetProps & {
   onSealUrnChange?: OnSealUrnChange;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-  onNavigateToMigratedUrn?: (index?: bigint) => void;
+  onNavigateToStakeWidget?: () => void;
   addRecentTransaction: any;
   termsLink?: { url: string; name: string };
   mkrSkyUpgradeUrl?: string;
@@ -69,7 +69,7 @@ export const SealModuleWidget = ({
   onNotification,
   onWidgetStateChange,
   onExternalLinkClicked,
-  onNavigateToMigratedUrn,
+  onNavigateToStakeWidget,
   addRecentTransaction,
   termsLink,
   referralCode,
@@ -90,7 +90,7 @@ export const SealModuleWidget = ({
             addRecentTransaction={addRecentTransaction}
             termsLink={termsLink}
             referralCode={referralCode}
-            onNavigateToMigratedUrn={onNavigateToMigratedUrn}
+            onNavigateToStakeWidget={onNavigateToStakeWidget}
             mkrSkyUpgradeUrl={mkrSkyUpgradeUrl}
           />
         </SealModuleWidgetProvider>
@@ -111,7 +111,7 @@ function SealModuleWidgetWrapped({
   addRecentTransaction,
   termsLink,
   referralCode,
-  onNavigateToMigratedUrn,
+  onNavigateToStakeWidget,
   mkrSkyUpgradeUrl
 }: SealModuleWidgetProps) {
   const validatedExternalState = getValidatedState(externalWidgetState);
@@ -999,7 +999,7 @@ function SealModuleWidgetWrapped({
                       claimExecute={claimRewards.execute}
                       onSealUrnChange={onSealUrnChange}
                       termsLink={termsLink}
-                      onNavigateToMigratedUrn={onNavigateToMigratedUrn}
+                      onNavigateToStakeWidget={onNavigateToStakeWidget}
                       mkrSkyUpgradeUrl={mkrSkyUpgradeUrl}
                     />
                   )}
@@ -1074,7 +1074,7 @@ const ManagePosition = ({
   claimExecute,
   onSealUrnChange,
   termsLink,
-  onNavigateToMigratedUrn,
+  onNavigateToStakeWidget,
   mkrSkyUpgradeUrl
 }: {
   isConnectedAndEnabled: boolean;
@@ -1088,14 +1088,14 @@ const ManagePosition = ({
   claimExecute: () => void;
   onSealUrnChange?: OnSealUrnChange;
   termsLink?: { url: string; name: string };
-  onNavigateToMigratedUrn?: (index?: bigint) => void;
+  onNavigateToStakeWidget?: () => void;
 }) => {
   return currentAction === SealAction.OVERVIEW ? (
     <UrnsList
       claimPrepared={claimPrepared}
       claimExecute={claimExecute}
       onSealUrnChange={onSealUrnChange}
-      onNavigateToMigratedUrn={onNavigateToMigratedUrn}
+      onNavigateToStakeWidget={onNavigateToStakeWidget}
       onExternalLinkClicked={onExternalLinkClicked}
       mkrSkyUpgradeUrl={mkrSkyUpgradeUrl}
     />

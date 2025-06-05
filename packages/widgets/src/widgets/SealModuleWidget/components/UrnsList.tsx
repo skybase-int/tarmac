@@ -22,7 +22,7 @@ export const UrnsList = ({
   mkrSkyUpgradeUrl?: string;
   claimExecute: () => void;
   onSealUrnChange?: OnSealUrnChange;
-  onNavigateToMigratedUrn?: (index?: bigint) => void;
+  onNavigateToStakeWidget?: () => void;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 }) => {
   const { displayToken, setDisplayToken } = useContext(SealModuleWidgetContext);
