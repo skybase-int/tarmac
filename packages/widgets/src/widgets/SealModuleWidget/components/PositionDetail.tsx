@@ -298,7 +298,6 @@ const MigrateButton = ({
     );
   }
 
-  // TODO: turn this back on after testing is done
   if (sealedAmount === undefined || sealedAmount === 0n) {
     return (
       <Text variant="small" className="text-warning text-center">
