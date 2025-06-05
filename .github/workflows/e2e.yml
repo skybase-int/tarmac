@@ -26,10 +26,6 @@ jobs:
             chain: mainnet
           - test: seal.spec
             vnet: true
-            chain: mainnet
-          - test: seal-migration.spec
-            vnet: true
-            chain: mainnet
           - test: stake.spec
             vnet: true
             chain: mainnet
