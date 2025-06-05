@@ -7,7 +7,7 @@ export const waitForVnetReady = async (chain: string) => {
   const file = await readFile(filePath, 'utf-8');
   const data = JSON.parse(file);
 
-  const networkData = data.find(item => item.NETWORK === chain);
+  const networkData = data.find((item: any) => item.NETWORK === chain);
   if (!networkData) {
     throw new Error(`No data found for network ${chain}`);
   }
