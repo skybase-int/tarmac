@@ -325,17 +325,6 @@ export const l2Contracts: { name: string; address: Record<L2ChainId, `0x${string
     }
   },
   {
-    name: 'skyL2',
-    address: {
-      [base.id]: '0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a',
-      [TENDERLY_BASE_CHAIN_ID]: '0x60e3c701e65DEE30c23c9Fb78c3866479cc0944a',
-      [TENDERLY_ARBITRUM_CHAIN_ID]: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831',
-      [arbitrum.id]: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831', //TODO: placeholder address
-      [optimism.id]: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831', //TODO: placeholder address
-      [unichain.id]: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831' //TODO: placeholder address
-    }
-  },
-  {
     name: 'psm3L2',
     address: {
       [base.id]: '0x1601843c5E9bC251A3272907010AFa41Fa18347E',
