@@ -953,10 +953,6 @@ msgstr ""
 msgid "Exchange rate"
 msgstr ""
 
-#: packages/widgets/src/widgets/SealModuleWidget/components/SealModuleTransactionStatus.tsx
-msgid "Execute Migration"
-msgstr ""
-
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
 msgid "Exit fee"
@@ -3198,10 +3194,6 @@ msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeOverview.tsx
 msgid "Your Staking Engine transaction history"
-msgstr ""
-
-#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
-msgid "Your staking position is now active. Next, start the migration process."
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakePositionDetails.tsx
