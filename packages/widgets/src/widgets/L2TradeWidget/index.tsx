@@ -769,7 +769,7 @@ function TradeWidgetWrapped({
     isAmountWaitingForDebounce ||
     !originAmount ||
     !targetAmount ||
-    (batchEnabled && isBatchSupportLoading);
+    (!!batchEnabled && isBatchSupportLoading);
 
   const tradeDisabled =
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||

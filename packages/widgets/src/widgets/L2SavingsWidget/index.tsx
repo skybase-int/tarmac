@@ -188,7 +188,7 @@ const SavingsWidgetWrapped = ({
   const [amount, setAmount] = useState(initialAmount);
   const debouncedAmount = useDebounce(amount);
 
-  const { data: batchSupported } = useIsBatchSupported();
+  const { data: batchSupported, isLoading: isBatchSupportLoading } = useIsBatchSupported();
 
   const {
     data: allowance,
@@ -578,7 +578,7 @@ const SavingsWidgetWrapped = ({
       setWidgetState((prev: WidgetState) => ({
         ...prev,
         action:
-          needsAllowance && !allowanceLoading && !shouldUseBatch
+          needsAllowance && !allowanceLoading && !shouldUseBatch && !isBatchSupportLoading
             ? SavingsAction.APPROVE
             : SavingsAction.SUPPLY
       }));
@@ -588,12 +588,19 @@ const SavingsWidgetWrapped = ({
       setWidgetState((prev: WidgetState) => ({
         ...prev,
         action:
-          needsAllowance && !allowanceLoading && !shouldUseBatch
+          needsAllowance && !allowanceLoading && !shouldUseBatch && !isBatchSupportLoading
             ? SavingsAction.APPROVE
             : SavingsAction.WITHDRAW
       }));
     }
-  }, [widgetState.flow, widgetState.screen, needsAllowance, allowanceLoading, shouldUseBatch]);
+  }, [
+    widgetState.flow,
+    widgetState.screen,
+    needsAllowance,
+    allowanceLoading,
+    shouldUseBatch,
+    isBatchSupportLoading
+  ]);
 
   useEffect(() => {
     setShowStepIndicator(true);
@@ -675,7 +682,8 @@ const SavingsWidgetWrapped = ({
           ? !savingsWithdrawAll.prepared
           : !savingsWithdraw.prepared)) || // disable next button if the following action (supply or withdraw) is not prepared
     allowance === undefined ||
-    isAmountWaitingForDebounce;
+    isAmountWaitingForDebounce ||
+    (!!batchEnabled && isBatchSupportLoading);
 
   const approveOnClick = () => {
     setWidgetState((prev: WidgetState) => ({ ...prev, screen: SavingsScreen.TRANSACTION }));
