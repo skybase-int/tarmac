@@ -155,14 +155,9 @@ const forkVnets = async chainType => {
     });
   });
 
-  // Sort by network name for consistency
-  const testnetDataToWrite = updatedData.sort((a, b) => {
-    const order = ['mainnet', 'base', 'arbitrum', 'optimism', 'unichain'];
-    return order.indexOf(a.NETWORK) - order.indexOf(b.NETWORK);
-  });
-  console.log('^^^ testnetDataToWrite to write in fork script', JSON.stringify(testnetDataToWrite));
+  console.log('^^^ testnetDataToWrite to write in fork script', JSON.stringify(updatedData));
 
-  await writeFile('./tenderlyTestnetData.json', JSON.stringify(testnetDataToWrite));
+  await writeFile('./tenderlyTestnetData.json', JSON.stringify(updatedData));
 };
 
 // Get chain type from command line argument

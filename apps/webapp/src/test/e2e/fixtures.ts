@@ -23,7 +23,7 @@ import { getTestWalletAddress } from './utils/testWallets';
 import { optimism, unichain } from 'viem/chains';
 
 type WorkerFixture = {
-  snapshotIds: string[];
+  snapshotId: string;
 };
 
 type TestFixture = {
@@ -32,7 +32,7 @@ type TestFixture = {
 
 const test = playwrightTest.extend<TestFixture, WorkerFixture>({
   // One-time setup fixture. This will run once at the beginning of the worker and provide the EVM snapshotIds to the tests or to other fixtures
-  snapshotIds: [
+  snapshotId: [
     // eslint-disable-next-line no-empty-pattern
     async ({}, use, workerInfo) => {
       const requiredChain = process.env.TEST_CHAIN;
@@ -90,13 +90,13 @@ const test = playwrightTest.extend<TestFixture, WorkerFixture>({
       }
 
       const snapshotId = await evmSnapshot(requiredChain);
-      await use([snapshotId]);
+      await use(snapshotId);
     },
     { scope: 'worker', auto: true }
   ],
   // Auto fixture that will run for each test. By adding its code after the `use` call, we ensure that the fixture runs after the test
   autoTestFixture: [
-    async ({ snapshotIds }, use) => {
+    async ({ snapshotId }, use) => {
       const requiredChain = process.env.TEST_CHAIN;
       if (!requiredChain) {
         throw new Error('TEST_CHAIN environment variable not set');
@@ -105,7 +105,6 @@ const test = playwrightTest.extend<TestFixture, WorkerFixture>({
       await use();
 
       // Restore the EVM snapshot for the current test's chain
-      const snapshotId = snapshotIds[0]; // We only have one snapshot per worker
       const revertSuccessful = await evmRevert(requiredChain, snapshotId);
       expect(revertSuccessful).toBe(true);
     },

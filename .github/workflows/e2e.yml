@@ -32,6 +32,10 @@ jobs:
             chain: mainnet
           - test: stake.spec
             vnet: true
+          # - test: trade-1.spec
+          #   vnet: true
+          # - test: trade-2.spec
+          #   vnet: true
             chain: mainnet
           - test: landing.spec
             vnet: true
@@ -42,6 +46,10 @@ jobs:
           - test: la-u-s.spec
             vnet: true
             chain: mainnet
+          # - test: la-s-r.spec
+          #   vnet: true
+          # - test: la-s-s.spec
+          #   vnet: true
           - test: base-savings.spec
             vnet: true
             chain: base
@@ -90,12 +98,6 @@ jobs:
 
       - run: pnpm -F webapp exec playwright install --with-deps chromium
 
-      - name: Debug Matrix Values
-        run: |
-          echo "Matrix test: ${{ matrix.test }}"
-          echo "Matrix vnet: ${{ matrix.vnet }}"
-          echo "Matrix chain: ${{ matrix.chain }}"
-
       - name: Setup VNet (if required)
         if: ${{ matrix.vnet }}
         run: |
@@ -111,12 +113,12 @@ jobs:
           VITE_ENV_NAME: development
           VITE_TERMS_LINK: '[{"url":"https://legal-terms","name":"Terms of Use"}]'
 
-      # - name: Teardown VNet (if required)
-      #   if: ${{always() && matrix.vnet}}
-      #   run: |
-      #     pnpm run vnet:delete:ci
-      #   env:
-      #     TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
+      - name: Teardown VNet (if required)
+        if: ${{always() && matrix.vnet}}
+        run: |
+          pnpm run vnet:delete:ci
+        env:
+          TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
 
       - uses: actions/upload-artifact@v4
         if: always()

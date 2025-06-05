@@ -19,7 +19,6 @@ type EvmRevertResponse = {
 };
 
 export const evmSnapshot = async (chain: string): Promise<string> => {
-  console.log('taking snapshot for chain', chain);
   const file = await readFile('../../tenderlyTestnetData.json', 'utf-8');
   const testnetsData: TenderlyTestnetDataFile = JSON.parse(file);
 
