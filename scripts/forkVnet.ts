@@ -157,9 +157,8 @@ const forkVnets = async chainType => {
 
   // Sort by network name for consistency
   const testnetDataToWrite = updatedData.sort((a, b) => {
-    if (a.NETWORK === 'mainnet') return -1;
-    if (b.NETWORK === 'mainnet') return 1;
-    return a.NETWORK.localeCompare(b.NETWORK);
+    const order = ['mainnet', 'base', 'arbitrum', 'optimism', 'unichain'];
+    return order.indexOf(a.NETWORK) - order.indexOf(b.NETWORK);
   });
   console.log('^^^ testnetDataToWrite to write in fork script', JSON.stringify(testnetDataToWrite));
 

@@ -90,6 +90,12 @@ jobs:
 
       - run: pnpm -F webapp exec playwright install --with-deps chromium
 
+      - name: Debug Matrix Values
+        run: |
+          echo "Matrix test: ${{ matrix.test }}"
+          echo "Matrix vnet: ${{ matrix.vnet }}"
+          echo "Matrix chain: ${{ matrix.chain }}"
+
       - name: Setup VNet (if required)
         if: ${{ matrix.vnet }}
         run: |
