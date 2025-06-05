@@ -18,14 +18,14 @@ export const UrnsList = ({
   mkrSkyUpgradeUrl,
   claimExecute,
   onSealUrnChange,
-  onNavigateToMigratedUrn,
+  onNavigateToStakeWidget,
   onExternalLinkClicked
 }: {
   claimPrepared: boolean;
   mkrSkyUpgradeUrl?: string;
   claimExecute: () => void;
   onSealUrnChange?: OnSealUrnChange;
-  onNavigateToMigratedUrn?: (index?: bigint) => void;
+  onNavigateToStakeWidget?: () => void;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 }) => {
   const { address } = useAccount();
@@ -80,7 +80,7 @@ export const UrnsList = ({
                 claimExecute={claimExecute}
                 onSealUrnChange={onSealUrnChange}
                 isMigrated={isMigrationsLoading ? undefined : isMigrated}
-                onNavigateToMigratedUrn={onNavigateToMigratedUrn}
+                onNavigateToStakeWidget={onNavigateToStakeWidget}
               />
             );
           })}
