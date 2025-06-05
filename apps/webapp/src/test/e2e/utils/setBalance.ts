@@ -44,7 +44,7 @@ const setEthBalanceRequest = async (
 ) => {
   const rpcUrl = await getRpcUrlFromFile(network);
 
-  console.log(`Setting ETH balance for address ${address} on network ${network} to ${amount}`);
+  // console.log(`Setting ETH balance for address ${address} on network ${network} to ${amount}`);
 
   const response = await fetch(rpcUrl, {
     method: 'POST',
@@ -68,11 +68,11 @@ const setEthBalanceRequest = async (
   const newBalance = await checkBalanceRequest(address, network);
   const expectedBalance = toHex(parseEther(amount));
 
-  console.log(`Balance verification for ${address}:`, {
-    expected: expectedBalance,
-    actual: newBalance,
-    network
-  });
+  // console.log(`Balance verification for ${address}:`, {
+  //   expected: expectedBalance,
+  //   actual: newBalance,
+  //   network
+  // });
 
   if (newBalance !== expectedBalance) {
     throw new Error(`Balance verification failed. Expected: ${expectedBalance}, Got: ${newBalance}`);
@@ -133,9 +133,9 @@ const setErc20BalanceRequest = async (
 ) => {
   const rpcUrl = await getRpcUrlFromFile(network);
 
-  console.log(
-    `Setting ERC20 balance for token ${tokenAddress} address ${address} on network ${network} to ${amount}`
-  );
+  // console.log(
+  //   `Setting ERC20 balance for token ${tokenAddress} address ${address} on network ${network} to ${amount}`
+  // );
 
   const response = await fetch(rpcUrl, {
     method: 'POST',
@@ -159,12 +159,12 @@ const setErc20BalanceRequest = async (
   const newBalance = await checkErc20BalanceRequest(tokenAddress, address, network);
   const expectedBalance = toHex(parseUnits(amount, decimals));
 
-  console.log(`ERC20 balance verification for ${address}:`, {
-    token: tokenAddress,
-    expected: expectedBalance,
-    actual: newBalance,
-    network
-  });
+  // console.log(`ERC20 balance verification for ${address}:`, {
+  //   token: tokenAddress,
+  //   expected: expectedBalance,
+  //   actual: newBalance,
+  //   network
+  // });
 
   if (newBalance !== expectedBalance && newBalance !== '0x') {
     throw new Error(
