@@ -8,17 +8,18 @@ export const getRpcUrlFromFile = async (network: NetworkName): Promise<string> =
   const data = JSON.parse(file);
 
   // Convert NetworkName to the corresponding chain name
-  const chainName = {
-    [NetworkName.mainnet]: 'mainnet',
-    [NetworkName.base]: 'base',
-    [NetworkName.arbitrum]: 'arbitrum',
-    [NetworkName.optimism]: 'optimism',
-    [NetworkName.unichain]: 'unichain'
-  }[network];
+  // const chainName = {
+  //   [NetworkName.mainnet]: 'mainnet',
+  //   [NetworkName.base]: 'base',
+  //   [NetworkName.arbitrum]: 'arbitrum',
+  //   [NetworkName.optimism]: 'optimism',
+  //   [NetworkName.unichain]: 'unichain'
+  // }[network];
 
-  const networkData = data.find((item: TestnetData) => item.NETWORK === chainName);
+  const networkData = data.find((item: TestnetData) => item.NETWORK === network);
+  console.log('looking for network', network);
   if (!networkData) {
-    console.error(`ChainName: ${chainName}. Data to review: ${data}`);
+    console.error(`ChainName: ${network}. Data to review: ${data}`);
     throw new Error(`No RPC URL found for network ${network}`);
   }
 
