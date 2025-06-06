@@ -40,11 +40,17 @@ const test = playwrightTest.extend<TestFixture, WorkerFixture>({
         throw new Error('TEST_CHAIN environment variable not set');
       }
 
-      await waitForVnetReady(requiredChain);
+      // Split the chain string and use the first chain as primary
+      const [primaryChain] = requiredChain.split(',').map(chain => chain.trim());
+      if (!primaryChain) {
+        throw new Error('No valid chain specified in TEST_CHAIN');
+      }
+
+      await waitForVnetReady(primaryChain);
       const address = getTestWalletAddress(workerInfo.workerIndex);
 
       // Fund only the required chain
-      switch (requiredChain) {
+      switch (primaryChain) {
         case 'mainnet':
           await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '100', 18, NetworkName.mainnet, address);
           await setErc20Balance(mcdDaiAddress[TENDERLY_CHAIN_ID], '100', 18, NetworkName.mainnet, address);
@@ -85,10 +91,10 @@ const test = playwrightTest.extend<TestFixture, WorkerFixture>({
           await setErc20Balance(usdcL2Address[unichain.id], '100', 6, NetworkName.unichain, address);
           break;
         default:
-          throw new Error(`Unsupported chain: ${requiredChain}`);
+          throw new Error(`Unsupported chain: ${primaryChain}`);
       }
 
-      const snapshotId = await evmSnapshot(requiredChain);
+      const snapshotId = await evmSnapshot(primaryChain);
       await use(snapshotId);
     },
     { scope: 'worker', auto: true }
@@ -101,10 +107,16 @@ const test = playwrightTest.extend<TestFixture, WorkerFixture>({
         throw new Error('TEST_CHAIN environment variable not set');
       }
 
+      // Split the chain string and use the first chain as primary
+      const [primaryChain] = requiredChain.split(',').map(chain => chain.trim());
+      if (!primaryChain) {
+        throw new Error('No valid chain specified in TEST_CHAIN');
+      }
+
       await use();
 
       // Restore the EVM snapshot for the current test's chain
-      const revertSuccessful = await evmRevert(requiredChain, snapshotId);
+      const revertSuccessful = await evmRevert(primaryChain, snapshotId);
       expect(revertSuccessful).toBe(true);
     },
     { scope: 'test', auto: true }

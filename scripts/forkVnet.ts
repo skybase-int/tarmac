@@ -24,10 +24,14 @@ const UNICHAIN_CONFIG = {
 const forkVnets = async chainType => {
   const currentTime = Date.now();
 
-  // If chainType is provided, only fork that specific chain
-  const chainsToFork = chainType ? [chainType] : ['mainnet', 'base', 'arbitrum', 'optimism', 'unichain'];
+  const chainsToFork = chainType ?? ['mainnet', 'base', 'arbitrum', 'optimism', 'unichain'];
+  // const chainsToFork = chainType
+  //   ? //@ts-expect-error script doesn't work with TS
+  //     chainType.split(',').map(chain => chain.trim())
+  //   : ['mainnet', 'base', 'arbitrum', 'optimism', 'unichain'];
 
   const responses = await Promise.all(
+    //@ts-expect-error script doesn't work with TS
     chainsToFork.map(chain => {
       switch (chain) {
         case 'mainnet':
@@ -157,4 +161,7 @@ const forkVnets = async chainType => {
 
 // Get chain type from command line argument
 const chainType = process.argv[2];
-forkVnets(chainType);
+const chainsToFork = chainType
+  ? chainType.split(',').map(chain => chain.trim())
+  : ['mainnet', 'base', 'arbitrum', 'optimism', 'unichain'];
+forkVnets(chainsToFork);
