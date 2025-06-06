@@ -36,7 +36,6 @@ const test = playwrightTest.extend<TestFixture, WorkerFixture>({
     // eslint-disable-next-line no-empty-pattern
     async ({}, use, workerInfo) => {
       const requiredChain = process.env.TEST_CHAIN;
-      console.log('required chain in snapshotIds fixture', requiredChain);
       if (!requiredChain) {
         throw new Error('TEST_CHAIN environment variable not set');
       }

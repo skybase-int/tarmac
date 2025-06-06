@@ -10,7 +10,6 @@ export const getRpcUrlFromFile = async (network: NetworkName): Promise<string> =
   const networkData = data.find((item: TestnetData) => item.NETWORK === network);
 
   if (!networkData) {
-    console.error(`ChainName: ${network}. Data to review: ${data}`);
     throw new Error(`No RPC URL found for network ${network}`);
   }
 

@@ -24,8 +24,6 @@ const UNICHAIN_CONFIG = {
 const forkVnets = async chainType => {
   const currentTime = Date.now();
 
-  console.log('chainType check', chainType);
-
   // If chainType is provided, only fork that specific chain
   const chainsToFork = chainType ? [chainType] : ['mainnet', 'base', 'arbitrum', 'optimism', 'unichain'];
 
@@ -132,7 +130,6 @@ const forkVnets = async chainType => {
   let existingData = [];
   try {
     const existingFile = await readFile('./tenderlyTestnetData.json', 'utf-8');
-    console.log('^^^ existingFile in fork script', existingFile);
     existingData = JSON.parse(existingFile);
   } catch (error) {
     console.warn('There was an error reading the tenderlyTestnetData.json file', error);
@@ -154,8 +151,6 @@ const forkVnets = async chainType => {
       TENDERLY_RPC_URL: adminEndpoint.url
     });
   });
-
-  console.log('^^^ testnetDataToWrite to write in fork script', JSON.stringify(updatedData));
 
   await writeFile('./tenderlyTestnetData.json', JSON.stringify(updatedData));
 };
