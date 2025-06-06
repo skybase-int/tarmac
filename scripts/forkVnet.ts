@@ -24,10 +24,14 @@ const UNICHAIN_CONFIG = {
 const forkVnets = async chainType => {
   const currentTime = Date.now();
 
-  // If chainType is provided, only fork that specific chain
-  const chainsToFork = chainType ? [chainType] : ['mainnet', 'base', 'arbitrum', 'optimism', 'unichain'];
+  const chainsToFork = chainType ?? ['mainnet', 'base', 'arbitrum', 'optimism', 'unichain'];
+  // const chainsToFork = chainType
+  //   ? //@ts-expect-error script doesn't work with TS
+  //     chainType.split(',').map(chain => chain.trim())
+  //   : ['mainnet', 'base', 'arbitrum', 'optimism', 'unichain'];
 
   const responses = await Promise.all(
+    //@ts-expect-error script doesn't work with TS
     chainsToFork.map(chain => {
       switch (chain) {
         case 'mainnet':
@@ -138,12 +142,14 @@ const forkVnets = async chainType => {
   }
 
   // Update or add new chain data
-  const updatedData = existingData.filter(item => !chainsToFork.includes(item.NETWORK));
+  const updatedData = existingData.filter(
+    (item: { NETWORK: string }) => !chainsToFork.includes(item.NETWORK)
+  );
 
   // Add the newly forked chains
-  chainsToFork.forEach((chain, index) => {
+  chainsToFork.forEach((chain: string, index: number) => {
     const testnetData = testnetsData[index];
-    const adminEndpoint = testnetData.rpcs.find(x => x.name === 'Admin RPC');
+    const adminEndpoint = testnetData.rpcs.find((x: { name: string }) => x.name === 'Admin RPC');
 
     updatedData.push({
       NETWORK: chain,
@@ -157,4 +163,7 @@ const forkVnets = async chainType => {
 
 // Get chain type from command line argument
 const chainType = process.argv[2];
-forkVnets(chainType);
+const chainsToFork = chainType
+  ? chainType.split(',').map(chain => chain.trim())
+  : ['mainnet', 'base', 'arbitrum', 'optimism', 'unichain'];
+forkVnets(chainsToFork);
