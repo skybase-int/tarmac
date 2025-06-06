@@ -142,14 +142,12 @@ const forkVnets = async chainType => {
   }
 
   // Update or add new chain data
-  const updatedData = existingData.filter(
-    (item: { NETWORK: string }) => !chainsToFork.includes(item.NETWORK)
-  );
+  const updatedData = existingData.filter(item => !chainsToFork.includes(item.NETWORK));
 
   // Add the newly forked chains
-  chainsToFork.forEach((chain: string, index: number) => {
+  chainsToFork.forEach((chain, index) => {
     const testnetData = testnetsData[index];
-    const adminEndpoint = testnetData.rpcs.find((x: { name: string }) => x.name === 'Admin RPC');
+    const adminEndpoint = testnetData.rpcs.find(x => x.name === 'Admin RPC');
 
     updatedData.push({
       NETWORK: chain,
