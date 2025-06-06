@@ -14,8 +14,6 @@ jobs:
         include:
           - test: reward-1.spec
             vnet: true
-          - test: reward-2.spec
-            vnet: true
             chain: mainnet
           - test: upgrade.spec
             vnet: true
@@ -62,6 +60,9 @@ jobs:
           - test: unichain-trade.spec
             vnet: true
             chain: unichain
+          - test: reward-2.spec
+            vnet: true
+            chain: mainnet
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
