@@ -61,7 +61,7 @@ const LineItem = ({
 }: {
   label: string;
   value?: string | (string | undefined)[] | string[];
-  icon?: JSX.Element | JSX.Element[];
+  icon?: JSX.Element | (JSX.Element | null)[] | null;
   className?: string | string[];
   tooltipText?: string;
 }) => {
