@@ -24,7 +24,7 @@ const UNICHAIN_CONFIG = {
 const forkVnets = async chainType => {
   const currentTime = Date.now();
 
-  const chainsToFork = chainType ?? ['mainnet', 'base', 'arbitrum', 'optimism', 'unichain'];
+  const chainsToFork = chainType ?? ['mainnet', 'base', 'arbitrum' /*'optimism', 'unichain'*/]; // Re-enable when we add tests for these chains
 
   const responses = await Promise.all(
     //@ts-expect-error script doesn't work with TS
