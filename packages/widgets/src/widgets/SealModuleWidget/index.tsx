@@ -429,10 +429,6 @@ function SealModuleWidgetWrapped({
   // Generate calldata when all steps are complete
   useEffect(() => {
     if (allStepsComplete && address && urnIndexForTransaction !== undefined) {
-      console.log('generating calldata');
-      console.log('address', address);
-      console.log('urnIndexForTransaction', urnIndexForTransaction);
-      console.log('referralCode', referralCode);
       const cd = generateAllCalldata(address, urnIndexForTransaction, referralCode);
       setCalldata(cd);
     }
