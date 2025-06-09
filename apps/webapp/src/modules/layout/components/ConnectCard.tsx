@@ -35,7 +35,7 @@ export function ConnectCard({ intent }: { intent: Intent }) {
     [Intent.SAVINGS_INTENT]: getChainSpecificText(
       {
         default: (
-          <Text>
+          <Text variant="small" className="leading-[18px]">
             <Trans>
               When you supply USDS to the Sky Savings Rate module of the decentralized Sky Protocol, you
               access the Sky Savings Rate <PopoverInfo type="ssr" /> and may accumulate additional USDS over
@@ -51,7 +51,7 @@ export function ConnectCard({ intent }: { intent: Intent }) {
     [Intent.TRADE_INTENT]: getChainSpecificText(
       {
         allL2s: (
-          <Text>
+          <Text variant="small" className="leading-[18px]">
             <Trans>
               On Layer 2 (L2) scaling solutions for the Ethereum blockchain via Sky.money, you can convert
               between USDS, sUSDS and USDC through a Peg Stability Module (PSM) <PopoverInfo type="psm" />{' '}
