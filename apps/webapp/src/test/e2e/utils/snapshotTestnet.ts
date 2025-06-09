@@ -46,7 +46,6 @@ export const evmSnapshot = async (chain: string): Promise<string> => {
 };
 
 export const evmRevert = async (chain: string, snapshotId: string): Promise<boolean> => {
-  console.log('reverting snapshot for chain with ID', chain, snapshotId);
   const file = await readFile('../../tenderlyTestnetData.json', 'utf-8');
   const testnetsData: TenderlyTestnetDataFile = JSON.parse(file);
 

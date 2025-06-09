@@ -25,10 +25,6 @@ const forkVnets = async chainType => {
   const currentTime = Date.now();
 
   const chainsToFork = chainType ?? ['mainnet', 'base', 'arbitrum', 'optimism', 'unichain'];
-  // const chainsToFork = chainType
-  //   ? //@ts-expect-error script doesn't work with TS
-  //     chainType.split(',').map(chain => chain.trim())
-  //   : ['mainnet', 'base', 'arbitrum', 'optimism', 'unichain'];
 
   const responses = await Promise.all(
     //@ts-expect-error script doesn't work with TS
