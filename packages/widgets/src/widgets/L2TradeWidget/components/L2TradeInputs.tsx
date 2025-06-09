@@ -8,6 +8,7 @@ import { TokenForChain, Token, tokenArrayFiltered } from '@jetstreamgg/hooks';
 import { t } from '@lingui/core/macro';
 import { motion } from 'framer-motion';
 import { useState, useRef, useMemo, useEffect } from 'react';
+import { TradeSide } from '@widgets/widgets/TradeWidget/lib/constants';
 
 type TokenBalanceData = Omit<GetBalanceData, 'symbol'> & {
   symbol?: string;
@@ -29,12 +30,15 @@ type TradeInputsProps = {
   isBalanceError: boolean;
   canSwitchTokens: boolean;
   isConnectedAndEnabled: boolean;
+  lastUpdated: TradeSide;
   onUserSwitchTokens?: (originToken?: string, targetToken?: string) => void;
-  onOriginInputChange: (val: bigint) => void;
+  onOriginInputChange?: (val: bigint, userTriggered?: boolean) => void;
   onTargetInputChange: (val: bigint) => void;
   onOriginInputInput?: () => void;
   onTargetInputInput?: () => void;
   setMaxWithdraw?: (val: boolean) => void;
+  onOriginTokenChange?: (token: TokenForChain) => void;
+  onTargetTokenChange?: (token: TokenForChain) => void;
 };
 
 export function L2TradeInputs({
@@ -53,11 +57,14 @@ export function L2TradeInputs({
   isBalanceError,
   canSwitchTokens,
   isConnectedAndEnabled = true,
+  lastUpdated,
   onUserSwitchTokens,
   onOriginInputChange,
   onTargetInputChange,
   onOriginInputInput,
-  onTargetInputInput
+  onTargetInputInput,
+  onOriginTokenChange,
+  onTargetTokenChange
   // setMaxWithdraw
 }: TradeInputsProps) {
   const separationPx = 12;
@@ -134,13 +141,16 @@ export function L2TradeInputs({
           label={t`Choose a token to trade, and enter an amount`}
           token={originToken as Token}
           balance={originBalance?.value}
-          onChange={onOriginInputChange}
+          onChange={(newValue, event) => {
+            onOriginInputChange?.(BigInt(newValue), !!event);
+          }}
           onInput={onOriginInputInput}
           value={originAmount}
           dataTestId="trade-input-origin"
           tokenList={originList as Token[]}
           onTokenSelected={option => {
             setOriginToken(option as TokenForChain);
+            onOriginTokenChange?.(option as TokenForChain);
           }}
           error={isBalanceError ? t`Insufficient funds` : undefined}
           variant="top"
@@ -175,9 +185,14 @@ export function L2TradeInputs({
               setOriginToken(targetToken);
               setTargetToken(tempToken);
               setTimeout(() => {
-                setOriginAmount(prevTargetAmount);
-                setTargetAmount(prevOriginAmount);
-                onUserSwitchTokens?.();
+                if (lastUpdated === TradeSide.IN) {
+                  setTargetAmount(prevOriginAmount);
+                  setOriginAmount(0n);
+                } else {
+                  setOriginAmount(prevTargetAmount);
+                  setTargetAmount(0n);
+                }
+                onUserSwitchTokens?.(targetToken?.symbol, originToken?.symbol);
               }, 500);
             }, 500);
           }}
@@ -200,6 +215,7 @@ export function L2TradeInputs({
           tokenList={targetList as Token[]}
           onTokenSelected={option => {
             setTargetToken(option as TokenForChain);
+            onTargetTokenChange?.(option as TokenForChain);
           }}
           showPercentageButtons={false}
           enabled={isConnectedAndEnabled}
