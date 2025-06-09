@@ -9,9 +9,10 @@ import { base, arbitrum, optimism, unichain } from 'viem/chains';
 import { ChevronDown } from 'lucide-react';
 import { tenderlyBase, tenderlyArbitrum } from '@/data/wagmi/config/config.default';
 import { useState } from 'react';
+import { Intent } from '@/lib/enums';
+import { useChainModalContext } from '@/modules/ui/context/ChainModalContext';
 import { useSearchParams } from 'react-router-dom';
 import { mapIntentToQueryParam, QueryParams } from '@/lib/constants';
-import { Intent } from '@/lib/enums';
 import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
 
 enum ChainModalVariant {
@@ -53,30 +54,9 @@ export function ChainModal({
   const chainId = useChainId();
   const client = useClient();
   const chains = useChains();
-  const { switchChain, variables: switchChainVariables, isPending: isSwitchChainPending } = useSwitchChain();
+  const { variables: switchChainVariables, isPending: isSwitchChainPending } = useSwitchChain();
   const [, setSearchParams] = useSearchParams();
-  const handleSwitchChain = (chainId: number) => {
-    switchChain(
-      { chainId },
-      {
-        onSuccess: (_, { chainId: newChainId }) => {
-          const newChainName = chains.find(c => c.id === newChainId)?.name;
-          if (newChainName) {
-            setSearchParams(params => {
-              params.set(QueryParams.Network, normalizeUrlParam(newChainName));
-              if (nextIntent) {
-                params.set(QueryParams.Widget, mapIntentToQueryParam(nextIntent));
-              }
-              return params;
-            });
-          }
-        },
-        onSettled: () => {
-          setOpen(false);
-        }
-      }
-    );
-  };
+  const { handleSwitchChain } = useChainModalContext();
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -111,7 +91,25 @@ export function ChainModal({
           {chains.map(chain => (
             <Button
               key={chain.id}
-              onClick={() => handleSwitchChain(chain.id)}
+              onClick={() =>
+                handleSwitchChain({
+                  chainId: chain.id,
+                  nextIntent,
+                  onSuccess: (_, { chainId: newChainId }) => {
+                    const newChainName = chains.find(c => c.id === newChainId)?.name;
+                    if (newChainName) {
+                      setSearchParams((params: URLSearchParams) => {
+                        params.set(QueryParams.Network, normalizeUrlParam(newChainName));
+                        if (nextIntent) {
+                          params.set(QueryParams.Widget, mapIntentToQueryParam(nextIntent));
+                        }
+                        return params;
+                      });
+                    }
+                  },
+                  onSettled: () => setOpen(false)
+                })
+              }
               className={cn(
                 'flex w-full justify-between p-1.5',
                 chainId === chain.id &&
