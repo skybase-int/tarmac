@@ -1,12 +1,46 @@
-import { http } from 'viem';
-import { createConfig, createStorage, noopStorage } from 'wagmi';
-import { getTestTenderlyChains } from './testTenderlyChain';
-import { mock } from 'wagmi/connectors';
+import { http, WalletRpcSchema, EIP1193Parameters } from 'viem';
+import { createConfig, createConnector, createStorage, noopStorage } from 'wagmi';
+import { getTestTenderlyChains, TENDERLY_BASE_CHAIN_ID } from './testTenderlyChain';
+import { mock, MockParameters } from 'wagmi/connectors';
 import { TEST_WALLET_ADDRESSES } from '@/test/e2e/utils/testWallets';
 import { optimism, unichain } from 'viem/chains';
 
 const [tenderlyMainnet, tenderlyBase, tenderlyArbitrum, tenderlyOptimism, tenderlyUnichain] =
   getTestTenderlyChains();
+
+function extendedMock(params: MockParameters) {
+  return createConnector(config => {
+    const base = mock(params)(config);
+
+    return {
+      ...base,
+      async getProvider({ chainId } = {}) {
+        const provider = await base.getProvider({ chainId });
+
+        // Create a proxy to intercept requests
+        return new Proxy(provider, {
+          get(target, prop) {
+            if (prop === 'request') {
+              return async (args: EIP1193Parameters<WalletRpcSchema>) => {
+                // Handle wallet_getCapabilities method
+                if (args.method === 'wallet_getCapabilities') {
+                  return {
+                    // Add capabilities for different chains
+                    [TENDERLY_BASE_CHAIN_ID]: { atomic: { status: 'supported' } }
+                  };
+                }
+
+                // For all other methods, use the original implementation
+                return target.request(args);
+              };
+            }
+            return target[prop as keyof typeof target];
+          }
+        });
+      }
+    };
+  });
+}
 
 // Get worker index from environment variable or default to 0
 const workerIndex = Number(import.meta.env.VITE_TEST_WORKER_INDEX || 0);
@@ -17,7 +51,7 @@ const accounts = TEST_WALLET_ADDRESSES as [`0x${string}`, ...`0x${string}`[]];
 export const mockWagmiConfig = createConfig({
   chains: [tenderlyMainnet, tenderlyBase, tenderlyArbitrum, tenderlyOptimism, tenderlyUnichain],
   connectors: [
-    mock({
+    extendedMock({
       accounts,
       features: {
         reconnect: true
