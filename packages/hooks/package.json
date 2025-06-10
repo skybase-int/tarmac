@@ -7,11 +7,11 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/jetstream-gg-hooks.js",
+  "main": "./dist/jetstream-gg-sky-hooks.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "default": "./dist/jetstream-gg-hooks.js"
+      "default": "./dist/jetstream-gg-sky-hooks.js"
     }
   },
   "scripts": {

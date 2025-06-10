@@ -3,12 +3,12 @@
   "version": "2.3.2",
   "description": "",
   "type": "module",
-  "main": "./dist/jetstream-gg-utils.js",
+  "main": "./dist/jetstream-gg-sky-utils.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "default": "./dist/jetstream-gg-utils.js"
+      "default": "./dist/jetstream-gg-sky-utils.js"
     }
   },
   "scripts": {
