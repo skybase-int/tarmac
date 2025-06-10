@@ -2,16 +2,17 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Text } from '@/modules/layout/components/Typography';
 import { t } from '@lingui/core/macro';
-import { useChainId, useChains, useClient, useSwitchChain } from 'wagmi';
+import { useChainId, useChains, useClient } from 'wagmi';
 import { MainnetChain, BaseChain, ArbitrumChain, Close, OptimismChain, UnichainChain } from '@/modules/icons';
 import { cn } from '@/lib/utils';
 import { base, arbitrum, optimism, unichain } from 'viem/chains';
 import { ChevronDown } from 'lucide-react';
 import { tenderlyBase, tenderlyArbitrum } from '@/data/wagmi/config/config.default';
 import { useState } from 'react';
+import { Intent } from '@/lib/enums';
+import { useChainModalContext } from '@/modules/ui/context/ChainModalContext';
 import { useSearchParams } from 'react-router-dom';
 import { mapIntentToQueryParam, QueryParams } from '@/lib/constants';
-import { Intent } from '@/lib/enums';
 import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
 
 enum ChainModalVariant {
@@ -53,30 +54,12 @@ export function ChainModal({
   const chainId = useChainId();
   const client = useClient();
   const chains = useChains();
-  const { switchChain, variables: switchChainVariables, isPending: isSwitchChainPending } = useSwitchChain();
   const [, setSearchParams] = useSearchParams();
-  const handleSwitchChain = (chainId: number) => {
-    switchChain(
-      { chainId },
-      {
-        onSuccess: (_, { chainId: newChainId }) => {
-          const newChainName = chains.find(c => c.id === newChainId)?.name;
-          if (newChainName) {
-            setSearchParams(params => {
-              params.set(QueryParams.Network, normalizeUrlParam(newChainName));
-              if (nextIntent) {
-                params.set(QueryParams.Widget, mapIntentToQueryParam(nextIntent));
-              }
-              return params;
-            });
-          }
-        },
-        onSettled: () => {
-          setOpen(false);
-        }
-      }
-    );
-  };
+  const {
+    handleSwitchChain,
+    isPending: isSwitchChainPending,
+    variables: switchChainVariables
+  } = useChainModalContext();
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -111,7 +94,27 @@ export function ChainModal({
           {chains.map(chain => (
             <Button
               key={chain.id}
-              onClick={() => handleSwitchChain(chain.id)}
+              onClick={() => {
+                // Skip if chain is already selected
+                if (chain.id === chainId) return;
+
+                handleSwitchChain({
+                  chainId: chain.id,
+                  onSuccess: (_, { chainId: newChainId }) => {
+                    const newChainName = chains.find(c => c.id === newChainId)?.name;
+                    if (newChainName) {
+                      setSearchParams((params: URLSearchParams) => {
+                        params.set(QueryParams.Network, normalizeUrlParam(newChainName));
+                        if (nextIntent) {
+                          params.set(QueryParams.Widget, mapIntentToQueryParam(nextIntent));
+                        }
+                        return params;
+                      });
+                    }
+                  },
+                  onSettled: () => setOpen(false)
+                });
+              }}
               className={cn(
                 'flex w-full justify-between p-1.5',
                 chainId === chain.id &&
@@ -129,7 +132,7 @@ export function ChainModal({
                   <div className="bg-bullish h-2 w-2 rounded-full" />
                 </div>
               )}
-              {isSwitchChainPending && switchChainVariables.chainId === chain.id && (
+              {isSwitchChainPending && switchChainVariables?.chainId === chain.id && (
                 <div className="mr-1.5 flex items-center gap-2">
                   <Text variant="medium">Confirm in your wallet</Text>
                   <div className="h-2 w-2 rounded-full bg-yellow-500" />
