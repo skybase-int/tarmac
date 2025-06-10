@@ -1,8 +1,7 @@
 {
   "name": "@jetstreamgg/webapp",
   "type": "module",
-  "version": "1.0.3",
-  "private": true,
+  "version": "1.1.0",
   "scripts": {
     "dev": "vite --host --config vite.config.ts",
     "dev:restricted": "VITE_RESTRICTED_BUILD=true vite --host --config vite.config.ts",
