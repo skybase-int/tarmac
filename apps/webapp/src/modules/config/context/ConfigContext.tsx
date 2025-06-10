@@ -8,7 +8,7 @@ import { i18n } from '@lingui/core';
 import { dynamicActivate } from '@jetstreamgg/sky-utils';
 import { Intent } from '@/lib/enums';
 // import { z } from 'zod';
-import { RewardContract } from '@jetstreamgg/hooks';
+import { RewardContract } from '@jetstreamgg/sky-hooks';
 import { ALLOWED_EXTERNAL_DOMAINS } from '@/lib/constants';
 import { SealToken } from '@/modules/seal/constants';
 import { StakeToken } from '@/modules/stake/constants';

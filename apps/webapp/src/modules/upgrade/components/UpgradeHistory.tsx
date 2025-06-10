@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useUpgradeHistory, UpgradeHistoryRow } from '@jetstreamgg/hooks';
+import { useUpgradeHistory, UpgradeHistoryRow } from '@jetstreamgg/sky-hooks';
 import { formatBigInt, useFormatDates } from '@jetstreamgg/sky-utils';
 import { t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';

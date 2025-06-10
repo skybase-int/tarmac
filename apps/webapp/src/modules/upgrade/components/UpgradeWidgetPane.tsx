@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 
 import { useConfig as useWagmiConfig } from 'wagmi';
-import { TOKENS, useUpgradeHistory } from '@jetstreamgg/hooks';
+import { TOKENS, useUpgradeHistory } from '@jetstreamgg/sky-hooks';
 import {
   TxStatus,
   UpgradeAction,

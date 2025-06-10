@@ -119,7 +119,7 @@ export default ({ mode }: { mode: modeEnum }) => {
         // If we're in dev mode, alias the packages to their local TypeScript source code for faster HMR
         ...(mode === modeEnum.development
           ? {
-              '@jetstreamgg/hooks': path.resolve(__dirname, '../../packages/hooks/src'),
+              '@jetstreamgg/sky-hooks': path.resolve(__dirname, '../../packages/hooks/src'),
               '@jetstreamgg/sky-utils': path.resolve(__dirname, '../../packages/utils/src'),
               '@jetstreamgg/widgets': path.resolve(__dirname, '../../packages/widgets/src'),
               '@widgets': path.resolve(__dirname, '../../packages/widgets/src')

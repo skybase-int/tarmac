@@ -1,4 +1,4 @@
-import { useUpgradeTotals } from '@jetstreamgg/hooks';
+import { useUpgradeTotals } from '@jetstreamgg/sky-hooks';
 import { formatBigInt } from '@jetstreamgg/sky-utils';
 import { t } from '@lingui/core/macro';
 import { StatsCard } from '@/modules/ui/components/StatsCard';

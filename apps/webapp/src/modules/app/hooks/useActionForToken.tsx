@@ -7,7 +7,7 @@ import {
   isL2ChainId
 } from '@jetstreamgg/sky-utils';
 import { useCallback } from 'react';
-import { RewardContract, useAvailableTokenRewardContractsForChains } from '@jetstreamgg/hooks';
+import { RewardContract, useAvailableTokenRewardContractsForChains } from '@jetstreamgg/sky-hooks';
 import { getRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
 import { useSearchParams } from 'react-router-dom';
 import { IntentMapping, QueryParams } from '@/lib/constants';

@@ -13,7 +13,7 @@ import { useSearchParams } from 'react-router-dom';
 import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
 import { Intent } from '@/lib/enums';
 import { useEffect } from 'react';
-import { useStakeHistory } from '@jetstreamgg/hooks';
+import { useStakeHistory } from '@jetstreamgg/sky-hooks';
 import { useChatContext } from '@/modules/chat/context/ChatContext';
 
 export function StakeWidgetPane(sharedProps: SharedProps) {

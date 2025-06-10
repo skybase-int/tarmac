@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { RewardContract, useRewardsUserHistory, TransactionTypeEnum } from '@jetstreamgg/hooks';
+import { RewardContract, useRewardsUserHistory, TransactionTypeEnum } from '@jetstreamgg/sky-hooks';
 import { formatBigInt, useFormatDates } from '@jetstreamgg/sky-utils';
 import { t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';

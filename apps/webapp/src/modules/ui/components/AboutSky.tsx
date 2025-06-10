@@ -5,7 +5,7 @@ import { ExternalLink } from '@/modules/layout/components/ExternalLink';
 import { Heading, Text } from '@/modules/layout/components/Typography';
 import { getEtherscanLink } from '@jetstreamgg/sky-utils';
 import { useChainId } from 'wagmi';
-import { skyAddress } from '@jetstreamgg/hooks';
+import { skyAddress } from '@jetstreamgg/sky-hooks';
 import { GradientShapeCard } from './GradientShapeCard';
 
 export const AboutSky = () => {

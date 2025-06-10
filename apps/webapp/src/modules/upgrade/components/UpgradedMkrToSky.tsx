@@ -1,7 +1,7 @@
 import { useSubgraphUrl } from '@/modules/app/hooks/useSubgraphUrl';
 import { StatsCard } from '@/modules/ui/components/StatsCard';
 import { TokenIconWithBalance } from '@/modules/ui/components/TokenIconWithBalance';
-import { useUpgradeTotals } from '@jetstreamgg/hooks';
+import { useUpgradeTotals } from '@jetstreamgg/sky-hooks';
 import { formatBigInt, isL2ChainId, math } from '@jetstreamgg/sky-utils';
 import { t } from '@lingui/core/macro';
 import { useChainId } from 'wagmi';

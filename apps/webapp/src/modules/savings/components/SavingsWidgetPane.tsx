@@ -6,7 +6,7 @@ import {
   WidgetStateChangeParams,
   SavingsFlow
 } from '@jetstreamgg/widgets';
-import { TOKENS, useSavingsHistory } from '@jetstreamgg/hooks';
+import { TOKENS, useSavingsHistory } from '@jetstreamgg/sky-hooks';
 import { IntentMapping, QueryParams, REFRESH_DELAY } from '@/lib/constants';
 import { isL2ChainId } from '@jetstreamgg/sky-utils';
 import { SharedProps } from '@/modules/app/types/Widgets';

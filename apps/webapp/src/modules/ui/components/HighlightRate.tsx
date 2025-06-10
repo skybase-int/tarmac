@@ -1,11 +1,11 @@
 import { VStack } from '@/modules/layout/components/VStack';
-import { useAvailableTokenRewardContracts } from '@jetstreamgg/hooks';
+import { useAvailableTokenRewardContracts } from '@jetstreamgg/sky-hooks';
 import { Heading, Text } from '@/modules/layout/components/Typography';
 import { useChainId } from 'wagmi';
 import { LoadingErrorWrapper } from './LoadingErrorWrapper';
 import { PopoverInfo } from './PopoverInfo';
-import { TOKENS } from '@jetstreamgg/hooks';
-import { useOverallSkyData } from '@jetstreamgg/hooks';
+import { TOKENS } from '@jetstreamgg/sky-hooks';
+import { useOverallSkyData } from '@jetstreamgg/sky-hooks';
 import { formatDecimalPercentage } from '@jetstreamgg/sky-utils';
 
 export function SavingsRate() {
