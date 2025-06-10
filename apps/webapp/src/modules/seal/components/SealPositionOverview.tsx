@@ -7,7 +7,7 @@ import {
   useVault,
   ZERO_ADDRESS
 } from '@jetstreamgg/hooks';
-import { formatBigInt, formatPercent, math } from '@jetstreamgg/utils';
+import { formatBigInt, formatPercent, math } from '@jetstreamgg/sky-utils';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { SealToken } from '../constants';

@@ -1,5 +1,5 @@
 import { RiskLevel } from '@jetstreamgg/hooks';
-import { normalizeAddress } from '@jetstreamgg/utils';
+import { normalizeAddress } from '@jetstreamgg/sky-utils';
 import { SealFlow, SealStep } from './constants';
 
 const openFlowSequence = [

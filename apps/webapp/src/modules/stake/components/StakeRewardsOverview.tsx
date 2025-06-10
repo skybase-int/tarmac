@@ -14,7 +14,7 @@ import {
   useStakeHistoricData,
   useStakeRewardContracts
 } from '@jetstreamgg/hooks';
-import { formatAddress, formatDecimalPercentage, formatNumber } from '@jetstreamgg/utils';
+import { formatAddress, formatDecimalPercentage, formatNumber } from '@jetstreamgg/sky-utils';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { useMemo } from 'react';

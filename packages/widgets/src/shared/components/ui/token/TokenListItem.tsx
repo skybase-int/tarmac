@@ -7,7 +7,7 @@ import { VStack } from '../layout/VStack';
 import { TokenIcon } from './TokenIcon';
 import { PopoverClose } from '@widgets/components/ui/popover';
 import { TOKENS, Token, getTokenDecimals, usePrices, useTokenBalance } from '@jetstreamgg/hooks';
-import { formatBigInt, formatNumber } from '@jetstreamgg/utils';
+import { formatBigInt, formatNumber } from '@jetstreamgg/sky-utils';
 import { motion } from 'framer-motion';
 import { useMemo } from 'react';
 import { useAccount, useBalance, useChainId } from 'wagmi';

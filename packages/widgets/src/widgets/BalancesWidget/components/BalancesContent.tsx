@@ -26,7 +26,7 @@ import { defaultConfig } from '@widgets/config/default-config';
 import { useAccount, useChainId } from 'wagmi';
 import { useAvailableTokenRewardContracts } from '@jetstreamgg/hooks';
 import { useRewardsSuppliedBalance } from '@jetstreamgg/hooks';
-import { isTestnetId, isMainnetId } from '@jetstreamgg/utils';
+import { isTestnetId, isMainnetId } from '@jetstreamgg/sky-utils';
 import { TOKENS } from '@jetstreamgg/hooks';
 import { NoResults } from '@widgets/shared/components/icons/NoResults';
 

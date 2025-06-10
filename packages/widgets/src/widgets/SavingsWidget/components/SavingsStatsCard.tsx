@@ -1,5 +1,5 @@
 import { useChainId } from 'wagmi';
-import { formatBigInt, formatNumber } from '@jetstreamgg/utils';
+import { formatBigInt, formatNumber } from '@jetstreamgg/sky-utils';
 import { t } from '@lingui/core/macro';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';

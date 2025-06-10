@@ -12,7 +12,7 @@ import {
   ZERO_ADDRESS,
   TOKENS
 } from '@jetstreamgg/hooks';
-import { formatNumber } from '@jetstreamgg/utils';
+import { formatNumber } from '@jetstreamgg/sky-utils';
 import { t } from '@lingui/core/macro';
 import { useAccount, useChainId } from 'wagmi';
 

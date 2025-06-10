@@ -21,7 +21,7 @@ import {
   formatBigIntAsCeiledAbsoluteWithSymbol,
   formatPercent,
   useDebounce
-} from '@jetstreamgg/utils';
+} from '@jetstreamgg/sky-utils';
 import { formatUnits } from 'viem';
 import { RiskSlider } from '@widgets/shared/components/ui/RiskSlider';
 import { getRiskTextColor } from '../lib/utils';

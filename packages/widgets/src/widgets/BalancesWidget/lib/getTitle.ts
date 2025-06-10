@@ -1,5 +1,5 @@
 import { TransactionTypeEnum, ModuleEnum } from '@jetstreamgg/hooks';
-import { captitalizeFirstLetter } from '@jetstreamgg/utils';
+import { captitalizeFirstLetter } from '@jetstreamgg/sky-utils';
 import { t } from '@lingui/core/macro';
 
 export const getTitle = ({ type, module }: { type: TransactionTypeEnum; module: ModuleEnum }) => {

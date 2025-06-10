@@ -7,7 +7,7 @@ import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParam
 import { useCallback, useMemo } from 'react';
 import { useAvailableTokenRewardContracts } from '@jetstreamgg/hooks';
 import { useChainId } from 'wagmi';
-import { formatDecimalPercentage, isL2ChainId } from '@jetstreamgg/utils';
+import { formatDecimalPercentage, isL2ChainId } from '@jetstreamgg/sky-utils';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { useOverallSkyData } from '@jetstreamgg/hooks';
 

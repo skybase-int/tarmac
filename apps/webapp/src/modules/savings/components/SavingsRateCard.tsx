@@ -2,7 +2,7 @@ import { StatsCard } from '@/modules/ui/components/StatsCard';
 import { t } from '@lingui/core/macro';
 import { Text } from '@/modules/layout/components/Typography';
 import { useOverallSkyData } from '@jetstreamgg/hooks';
-import { formatDecimalPercentage } from '@jetstreamgg/utils';
+import { formatDecimalPercentage } from '@jetstreamgg/sky-utils';
 import { PopoverInfo } from '@/modules/ui/components/PopoverInfo';
 
 export function SavingsRateCard(): React.ReactElement {

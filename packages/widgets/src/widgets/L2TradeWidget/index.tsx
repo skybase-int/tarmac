@@ -26,7 +26,7 @@ import {
   useDebounce,
   getTransactionLink,
   useIsSafeWallet
-} from '@jetstreamgg/utils';
+} from '@jetstreamgg/sky-utils';
 import { useAccount, useChainId } from 'wagmi';
 import { t } from '@lingui/core/macro';
 import { notificationTypeMaping, TxStatus, EPOCH_LENGTH } from '@widgets/shared/constants';

@@ -10,7 +10,7 @@ import {
 } from '@/lib/constants';
 import { Intent } from '@/lib/enums';
 import { defaultConfig } from '../config/default-config';
-import { isL2ChainId } from '@jetstreamgg/utils';
+import { isL2ChainId } from '@jetstreamgg/sky-utils';
 import { Chain } from 'viem';
 import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
 

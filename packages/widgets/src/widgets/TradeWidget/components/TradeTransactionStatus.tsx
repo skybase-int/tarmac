@@ -9,7 +9,7 @@ import {
   getExplorerName,
   isL2ChainId,
   useIsSafeWallet
-} from '@jetstreamgg/utils';
+} from '@jetstreamgg/sky-utils';
 import { TxCardCopyText } from '@widgets/shared/types/txCardCopyText';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { TransactionStatus } from '@widgets/shared/components/ui/transaction/TransactionStatus';

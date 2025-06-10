@@ -16,7 +16,7 @@ import { Heading } from '@widgets/shared/components/ui/Typography';
 import { UpgradeTransactionStatus } from './components/UpgradeTransactionStatus';
 import { useAccount, useChainId } from 'wagmi';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { useDebounce, getTransactionLink, useIsSafeWallet } from '@jetstreamgg/utils';
+import { useDebounce, getTransactionLink, useIsSafeWallet } from '@jetstreamgg/sky-utils';
 import { useTokenAllowance } from '@jetstreamgg/hooks';
 import { useUpgraderManager } from './hooks/useUpgraderManager';
 import { TxStatus, notificationTypeMaping } from '@widgets/shared/constants';
@@ -31,7 +31,7 @@ import { ErrorBoundary } from '@widgets/shared/components/ErrorBoundary';
 import { AnimatePresence } from 'framer-motion';
 import { CardAnimationWrapper } from '@widgets/shared/animation/Wrappers';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
-import { math } from '@jetstreamgg/utils';
+import { math } from '@jetstreamgg/sky-utils';
 
 const defaultUpgradeOptions = [TOKENS.dai, TOKENS.mkr];
 const defaultRevertOptions = [TOKENS.usds];

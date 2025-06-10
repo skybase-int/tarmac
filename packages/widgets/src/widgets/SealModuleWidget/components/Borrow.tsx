@@ -23,7 +23,7 @@ import {
   formatPercent,
   useDebounce,
   math
-} from '@jetstreamgg/utils';
+} from '@jetstreamgg/sky-utils';
 import { formatUnits } from 'viem';
 import { RiskSlider } from '@widgets/shared/components/ui/RiskSlider';
 import { getRiskTextColor, getCeilingTextColor } from '../lib/utils';

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { getEtherscanLink, formatAddress, getCowExplorerLink, getExplorerName } from '@jetstreamgg/utils';
+import { getEtherscanLink, formatAddress, getCowExplorerLink, getExplorerName } from '@jetstreamgg/sky-utils';
 import { Card } from '@widgets/components/ui/card';
 import { LinkExternal } from '@widgets/shared/components/icons/LinkExternal';
 import { Text } from '@widgets/shared/components/ui/Typography';
@@ -9,7 +9,7 @@ import { getHistoryIconSource } from '../lib/getHistoryIconSource';
 import { getTitle } from '../lib/getTitle';
 import { ExternalLink } from '@widgets/shared/components/ExternalLink';
 import { getHistoryRightText } from '../lib/getHistoryRightText';
-import { isL2ChainId } from '@jetstreamgg/utils';
+import { isL2ChainId } from '@jetstreamgg/sky-utils';
 import { Avatar, AvatarImage } from '@widgets/components/ui/avatar';
 
 interface BalancesHistoryItemProps {

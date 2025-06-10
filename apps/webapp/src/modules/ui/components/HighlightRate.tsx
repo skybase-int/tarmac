@@ -6,7 +6,7 @@ import { LoadingErrorWrapper } from './LoadingErrorWrapper';
 import { PopoverInfo } from './PopoverInfo';
 import { TOKENS } from '@jetstreamgg/hooks';
 import { useOverallSkyData } from '@jetstreamgg/hooks';
-import { formatDecimalPercentage } from '@jetstreamgg/utils';
+import { formatDecimalPercentage } from '@jetstreamgg/sky-utils';
 
 export function SavingsRate() {
   const { data, isLoading, error } = useOverallSkyData();

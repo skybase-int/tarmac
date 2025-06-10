@@ -1,5 +1,10 @@
 import { TransactionTypeEnum, ModuleEnum } from '@jetstreamgg/hooks';
-import { isBaseChainId, isArbitrumChainId, isOptimismChainId, isUnichainChainId } from '@jetstreamgg/utils';
+import {
+  isBaseChainId,
+  isArbitrumChainId,
+  isOptimismChainId,
+  isUnichainChainId
+} from '@jetstreamgg/sky-utils';
 
 export const getHistoryIconSource = ({
   type,

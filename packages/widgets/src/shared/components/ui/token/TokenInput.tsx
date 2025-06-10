@@ -6,7 +6,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Button } from '@widgets/components/ui/button';
 import { cn } from '@widgets/lib/utils';
 import { formatUnits, parseUnits } from 'viem';
-import { formatBigInt, truncateStringToFourDecimals } from '@jetstreamgg/utils';
+import { formatBigInt, truncateStringToFourDecimals } from '@jetstreamgg/sky-utils';
 import { HStack } from '../layout/HStack';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { VStack } from '../layout/VStack';

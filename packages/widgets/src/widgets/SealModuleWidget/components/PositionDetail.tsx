@@ -11,7 +11,7 @@ import {
   useSaRewardContracts,
   useDelegateOwner
 } from '@jetstreamgg/hooks';
-import { captitalizeFirstLetter, formatBigInt, formatPercent, math } from '@jetstreamgg/utils';
+import { captitalizeFirstLetter, formatBigInt, formatPercent, math } from '@jetstreamgg/sky-utils';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { getRiskTextColor } from '../lib/utils';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';

@@ -6,7 +6,7 @@ import { getTokenDecimals, Token, TOKENS } from '@jetstreamgg/hooks';
 import { UpgradeStats } from './UpgradeStats';
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
 import { t } from '@lingui/core/macro';
-import { formatBigInt } from '@jetstreamgg/utils';
+import { formatBigInt } from '@jetstreamgg/sky-utils';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { useChainId } from 'wagmi';

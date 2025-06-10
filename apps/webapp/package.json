@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@jetstreamgg/hooks": "workspace:^",
-    "@jetstreamgg/utils": "workspace:^",
+    "@jetstreamgg/sky-utils": "workspace:^",
     "@jetstreamgg/widgets": "workspace:^",
     "@lingui/detect-locale": "^5.3.1",
     "@lingui/macro": "^5.3.1",

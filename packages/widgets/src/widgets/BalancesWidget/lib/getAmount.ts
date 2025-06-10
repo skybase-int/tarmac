@@ -1,5 +1,5 @@
 import { CombinedHistoryItem, ModuleEnum, Token, TransactionTypeEnum } from '@jetstreamgg/hooks';
-import { formatBigInt } from '@jetstreamgg/utils';
+import { formatBigInt } from '@jetstreamgg/sky-utils';
 import { absBigInt } from './absBigInt';
 import { getTokenDecimals } from '@jetstreamgg/hooks';
 

@@ -12,7 +12,7 @@ import {
   useStakeUrnSelectedVoteDelegate,
   ZERO_ADDRESS
 } from '@jetstreamgg/hooks';
-import { formatBigInt } from '@jetstreamgg/utils';
+import { formatBigInt } from '@jetstreamgg/sky-utils';
 import { approveLoadingButtonText } from '@widgets/shared/constants';
 import {
   claimLoadingButtonText,

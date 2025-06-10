@@ -6,7 +6,7 @@ import { VStack } from '../layout/VStack';
 import { Heading, Text } from '../Typography';
 import { Clock, FailedX, InProgress, SuccessCheck, Cancel } from '../../icons/Icons';
 import { Card, CardContent, CardFooter, CardHeader } from '@widgets/components/ui/card';
-import { formatBigInt, ExplorerName, getExplorerName, useIsSafeWallet } from '@jetstreamgg/utils';
+import { formatBigInt, ExplorerName, getExplorerName, useIsSafeWallet } from '@jetstreamgg/sky-utils';
 import { TokenIconWithBalance } from '../token/TokenIconWithBalance';
 import { StepIndicator } from './StepIndicator';
 import { t } from '@lingui/core/macro';

@@ -8,7 +8,7 @@ import { MotionHStack } from '@widgets/shared/components/ui/layout/MotionHStack'
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
 import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
 import { useRewardContractInfo, useRewardContractTokens, useSealRewardsData } from '@jetstreamgg/hooks';
-import { formatBigInt } from '@jetstreamgg/utils';
+import { formatBigInt } from '@jetstreamgg/sky-utils';
 import { t } from '@lingui/core/macro';
 import { Dispatch, SetStateAction } from 'react';
 import { useChainId } from 'wagmi';

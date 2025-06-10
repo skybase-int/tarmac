@@ -9,7 +9,7 @@ import { t } from '@lingui/core/macro';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { L2SavingsStatsCard } from './L2SavingsStatsCard';
-import { formatBigInt, formatDecimalPercentage } from '@jetstreamgg/utils';
+import { formatBigInt, formatDecimalPercentage } from '@jetstreamgg/sky-utils';
 import { useChainId } from 'wagmi';
 
 type Props = WidgetProps & {

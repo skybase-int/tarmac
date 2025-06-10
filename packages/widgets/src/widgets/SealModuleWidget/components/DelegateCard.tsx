@@ -6,7 +6,7 @@ import { MotionHStack } from '@widgets/shared/components/ui/layout/MotionHStack'
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { DelegateInfo } from '@jetstreamgg/hooks';
-import { formatBigInt } from '@jetstreamgg/utils';
+import { formatBigInt } from '@jetstreamgg/sky-utils';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { Dispatch, SetStateAction } from 'react';

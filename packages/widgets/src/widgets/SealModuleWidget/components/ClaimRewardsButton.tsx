@@ -2,7 +2,7 @@ import { Button } from '@widgets/components/ui/button';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { useRewardContractTokens, useRewardsRewardsBalance } from '@jetstreamgg/hooks';
-import { formatBigInt } from '@jetstreamgg/utils';
+import { formatBigInt } from '@jetstreamgg/sky-utils';
 import { useContext, useEffect } from 'react';
 import { useChainId } from 'wagmi';
 import { TxStatus } from '@widgets/shared/constants';

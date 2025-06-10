@@ -8,7 +8,7 @@ import { MotionHStack } from '@widgets/shared/components/ui/layout/MotionHStack'
 import { PairTokenIcons } from '@widgets/shared/components/ui/token/PairTokenIcon';
 import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
 import { RewardContract, TOKENS, WriteHook, useRewardsChartInfo } from '@jetstreamgg/hooks';
-import { formatBigInt, formatDecimalPercentage } from '@jetstreamgg/utils';
+import { formatBigInt, formatDecimalPercentage } from '@jetstreamgg/sky-utils';
 import { Trans } from '@lingui/react/macro';
 import { motion } from 'framer-motion';
 import { JSX } from 'react';

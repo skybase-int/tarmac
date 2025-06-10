@@ -7,7 +7,7 @@ import {
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { TextWithTooltip } from '@widgets/shared/components/ui/tooltip/TextWithTooltip';
 import { Text } from '@widgets/shared/components/ui/Typography';
-import { captitalizeFirstLetter, formatBigInt, formatPercent, math } from '@jetstreamgg/utils';
+import { captitalizeFirstLetter, formatBigInt, formatPercent, math } from '@jetstreamgg/sky-utils';
 import { motion } from 'framer-motion';
 import { getRiskTextColor } from '../lib/utils';
 import { RiskLevel, Token, TOKENS, useCollateralData } from '@jetstreamgg/hooks';

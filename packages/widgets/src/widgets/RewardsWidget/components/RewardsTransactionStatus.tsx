@@ -24,7 +24,7 @@ import { useLingui } from '@lingui/react';
 import { t } from '@lingui/core/macro';
 import { approveLoadingButtonText } from '@widgets/shared/constants';
 import { getTokenDecimals, RewardContract, Token } from '@jetstreamgg/hooks';
-import { formatBigInt } from '@jetstreamgg/utils';
+import { formatBigInt } from '@jetstreamgg/sky-utils';
 import { useChainId } from 'wagmi';
 
 // TX Status wrapper to update copy

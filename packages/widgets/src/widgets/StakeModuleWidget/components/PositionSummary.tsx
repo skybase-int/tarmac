@@ -24,7 +24,7 @@ import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack'
 import { motion } from 'framer-motion';
 import { Skeleton } from '@widgets/components/ui/skeleton';
 import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
-import { WAD_PRECISION, captitalizeFirstLetter, formatBigInt, formatPercent } from '@jetstreamgg/utils';
+import { WAD_PRECISION, captitalizeFirstLetter, formatBigInt, formatPercent } from '@jetstreamgg/sky-utils';
 import { cn } from '@widgets/lib/utils';
 import { getRiskTextColor } from '../lib/utils';
 import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
