@@ -5,7 +5,7 @@ import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { StatsOverviewCardCore } from '@widgets/shared/components/ui/card/StatsOverviewCardCore';
 import { positionAnimations } from '@widgets/shared/animation/presets';
-import { useOverallSkyData } from '@jetstreamgg/hooks';
+import { useOverallSkyData } from '@jetstreamgg/sky-hooks';
 import { formatDecimalPercentage } from '@jetstreamgg/sky-utils';
 import { JSX } from 'react';
 

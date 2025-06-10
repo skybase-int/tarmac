@@ -8,7 +8,7 @@ import { Skeleton } from '@widgets/components/ui/skeleton';
 import { SavingsStatsCardCore } from './SavingsStatsCardCore';
 import { StatsAccordionCard } from '@widgets/shared/components/ui/card/StatsAccordionCard'; // Import StatsAccordionCard
 import { positionAnimations } from '@widgets/shared/animation/presets';
-import { useOverallSkyData } from '@jetstreamgg/hooks';
+import { useOverallSkyData } from '@jetstreamgg/sky-hooks';
 
 export type SavingsStats = {
   savingsTvl: bigint;

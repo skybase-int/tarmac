@@ -6,7 +6,7 @@ import { HStack } from '../layout/HStack';
 import { VStack } from '../layout/VStack';
 import { TokenIcon } from './TokenIcon';
 import { PopoverClose } from '@widgets/components/ui/popover';
-import { TOKENS, Token, getTokenDecimals, usePrices, useTokenBalance } from '@jetstreamgg/hooks';
+import { TOKENS, Token, getTokenDecimals, usePrices, useTokenBalance } from '@jetstreamgg/sky-hooks';
 import { formatBigInt, formatNumber } from '@jetstreamgg/sky-utils';
 import { motion } from 'framer-motion';
 import { useMemo } from 'react';

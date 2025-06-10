@@ -1,4 +1,4 @@
-import { useOverallSkyData, usePrices } from '@jetstreamgg/hooks';
+import { useOverallSkyData, usePrices } from '@jetstreamgg/sky-hooks';
 import { formatBigInt, formatDecimalPercentage, formatNumber } from '@jetstreamgg/sky-utils';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';

@@ -25,7 +25,7 @@ import {
   getTokenDecimals,
   useCreatePreSignTradeOrder,
   useOnChainCancelOrder
-} from '@jetstreamgg/hooks';
+} from '@jetstreamgg/sky-hooks';
 import { ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
   formatBigInt,

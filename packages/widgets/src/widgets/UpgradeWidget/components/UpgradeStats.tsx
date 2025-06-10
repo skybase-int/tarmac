@@ -1,6 +1,6 @@
 import { StatsCard } from '@widgets/shared/components/ui/card/StatsCard';
 import { TokenIconWithBalance } from '@widgets/shared/components/ui/token/TokenIconWithBalance';
-import { useUpgradeTotals } from '@jetstreamgg/hooks';
+import { useUpgradeTotals } from '@jetstreamgg/sky-hooks';
 import { formatBigInt } from '@jetstreamgg/sky-utils';
 import { t } from '@lingui/core/macro';
 import { useRef } from 'react';

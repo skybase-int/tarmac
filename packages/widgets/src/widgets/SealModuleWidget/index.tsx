@@ -39,7 +39,7 @@ import {
   useUrnSelectedRewardContract,
   useUrnSelectedVoteDelegate,
   TOKENS
-} from '@jetstreamgg/hooks';
+} from '@jetstreamgg/sky-hooks';
 import { formatBigInt, getTransactionLink, useDebounce, useIsSafeWallet } from '@jetstreamgg/sky-utils';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
 import { SealModuleTransactionStatus } from './components/SealModuleTransactionStatus';

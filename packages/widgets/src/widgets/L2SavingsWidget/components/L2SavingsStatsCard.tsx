@@ -9,7 +9,13 @@ import { StatsOverviewCardCore } from '@widgets/shared/components/ui/card/StatsO
 import { MotionHStack } from '@widgets/shared/components/ui/layout/MotionHStack';
 import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
 import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
-import { sUsdsL2Address, useTokenBalance, useOverallSkyData, Token, psm3L2Address } from '@jetstreamgg/hooks';
+import {
+  sUsdsL2Address,
+  useTokenBalance,
+  useOverallSkyData,
+  Token,
+  psm3L2Address
+} from '@jetstreamgg/sky-hooks';
 import { formatBigInt, formatDecimalPercentage, formatNumber } from '@jetstreamgg/sky-utils';
 
 type L2SavingsStatsCardProps = {

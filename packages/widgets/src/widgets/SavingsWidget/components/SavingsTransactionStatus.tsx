@@ -18,10 +18,10 @@ import { WidgetContext } from '@widgets/context/WidgetContext';
 import { TransactionStatus } from '@widgets/shared/components/ui/transaction/TransactionStatus';
 import { useLingui } from '@lingui/react';
 import { t } from '@lingui/core/macro';
-import { Token } from '@jetstreamgg/hooks';
+import { Token } from '@jetstreamgg/sky-hooks';
 import { formatBigInt } from '@jetstreamgg/sky-utils';
 import { approveLoadingButtonText } from '@widgets/shared/constants';
-import { getTokenDecimals } from '@jetstreamgg/hooks';
+import { getTokenDecimals } from '@jetstreamgg/sky-hooks';
 import { useChainId } from 'wagmi';
 import { isL2ChainId } from '@jetstreamgg/sky-utils';
 

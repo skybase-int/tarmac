@@ -17,7 +17,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { IconAnimationWrapper, PositionAnimationWithExitWrapper } from '@widgets/shared/animation/Wrappers';
 import { useChainId } from 'wagmi';
-import { getTokenDecimals } from '@jetstreamgg/hooks';
+import { getTokenDecimals } from '@jetstreamgg/sky-hooks';
 
 function TransactionDetail() {
   const { txDescription, originToken, originAmount, targetToken, targetAmount } = useContext(WidgetContext);

@@ -9,7 +9,7 @@ import {
   useTokenBalance,
   useVault,
   Vault
-} from '@jetstreamgg/hooks';
+} from '@jetstreamgg/sky-hooks';
 import { t } from '@lingui/core/macro';
 import { useContext, useEffect, useMemo } from 'react';
 import { StakeModuleWidgetContext } from '../context/context';
@@ -26,7 +26,7 @@ import { formatUnits } from 'viem';
 import { RiskSlider } from '@widgets/shared/components/ui/RiskSlider';
 import { getRiskTextColor } from '../lib/utils';
 import { useAccount, useChainId } from 'wagmi';
-import { useSealExitFee } from '@jetstreamgg/hooks';
+import { useSealExitFee } from '@jetstreamgg/sky-hooks';
 import { useRiskSlider } from '../hooks/useRiskSlider';
 import {
   collateralizationRatioTooltipText,

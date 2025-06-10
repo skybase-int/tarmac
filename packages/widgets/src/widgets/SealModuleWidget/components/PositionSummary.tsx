@@ -16,7 +16,7 @@ import {
   useDelegateName,
   useDelegateOwner,
   useCollateralData
-} from '@jetstreamgg/hooks';
+} from '@jetstreamgg/sky-hooks';
 import { useChainId } from 'wagmi';
 import { Card, CardContent } from '@widgets/components/ui/card';
 import { positionAnimations } from '@widgets/shared/animation/presets';

@@ -11,7 +11,7 @@ import {
   Vault,
   CollateralRiskParameters,
   useSealExitFee
-} from '@jetstreamgg/hooks';
+} from '@jetstreamgg/sky-hooks';
 import { t } from '@lingui/core/macro';
 import { useContext, useEffect, useMemo } from 'react';
 import { SealModuleWidgetContext } from '../context/context';

@@ -10,7 +10,7 @@ import { Text } from '@widgets/shared/components/ui/Typography';
 import { captitalizeFirstLetter, formatBigInt, formatPercent, math } from '@jetstreamgg/sky-utils';
 import { motion } from 'framer-motion';
 import { getRiskTextColor } from '../lib/utils';
-import { RiskLevel, Token, TOKENS, useCollateralData } from '@jetstreamgg/hooks';
+import { RiskLevel, Token, TOKENS, useCollateralData } from '@jetstreamgg/sky-hooks';
 import { cn } from '@widgets/lib/utils';
 import {
   collateralizationRatioTooltipText,

@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { useLingui } from '@lingui/react';
 import { t } from '@lingui/core/macro';
-import { getTokenDecimals, OrderQuoteResponse, Token } from '@jetstreamgg/hooks';
+import { getTokenDecimals, OrderQuoteResponse, Token } from '@jetstreamgg/sky-hooks';
 import {
   WAD_PRECISION,
   formatBigInt,

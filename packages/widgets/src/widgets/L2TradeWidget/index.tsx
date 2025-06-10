@@ -17,7 +17,7 @@ import {
   usePreviewSwapExactIn,
   usePreviewSwapExactOut,
   ZERO_ADDRESS
-} from '@jetstreamgg/hooks';
+} from '@jetstreamgg/sky-hooks';
 import { useContext, useEffect, useMemo, useState, ReactNode } from 'react';
 import {
   formatBigInt,

@@ -1,4 +1,4 @@
-import { NotificationType, TxStatus } from '@jetstreamgg/widgets';
+import { NotificationType, TxStatus } from '@jetstreamgg/sky-widgets';
 import { Toast, toast } from '@/components/ui/use-toast';
 import { LinkedAction } from '@/modules/ui/hooks/useUserSuggestedActions';
 import { HStack } from '@/modules/layout/components/HStack';

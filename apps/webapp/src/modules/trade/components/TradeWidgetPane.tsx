@@ -4,7 +4,7 @@ import {
   TradeAction,
   WidgetStateChangeParams,
   L2TradeWidget
-} from '@jetstreamgg/widgets';
+} from '@jetstreamgg/sky-widgets';
 import { defaultConfig } from '../../config/default-config';
 import { useChainId, useConfig as useWagmiConfig } from 'wagmi';
 import { IntentMapping, QueryParams, REFRESH_DELAY } from '@/lib/constants';

@@ -10,7 +10,7 @@ import {
   useDelegateName,
   useDelegateOwner,
   useStakeRewardContracts
-} from '@jetstreamgg/hooks';
+} from '@jetstreamgg/sky-hooks';
 import { captitalizeFirstLetter, formatBigInt, formatPercent } from '@jetstreamgg/sky-utils';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { getRiskTextColor } from '../lib/utils';

@@ -1,5 +1,5 @@
 import { RewardContract } from '@jetstreamgg/sky-hooks';
-import { RewardsFlow, StakeFlow, SUPPORTED_TOKEN_SYMBOLS } from '@jetstreamgg/widgets';
+import { RewardsFlow, StakeFlow, SUPPORTED_TOKEN_SYMBOLS } from '@jetstreamgg/sky-widgets';
 import {
   QueryParams,
   IntentMapping,

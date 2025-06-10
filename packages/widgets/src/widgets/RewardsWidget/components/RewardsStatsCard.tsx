@@ -1,7 +1,7 @@
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
 import { Text } from '@widgets/shared/components/ui/Typography';
-import { RewardContract, useRewardContractInfo, useRewardsChartInfo } from '@jetstreamgg/hooks';
+import { RewardContract, useRewardContractInfo, useRewardsChartInfo } from '@jetstreamgg/sky-hooks';
 import { t } from '@lingui/core/macro';
 import { Skeleton } from '@widgets/components/ui/skeleton';
 import { formatBigInt } from '@jetstreamgg/sky-utils';

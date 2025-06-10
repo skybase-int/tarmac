@@ -1,4 +1,4 @@
-import { TransactionTypeEnum, ModuleEnum } from '@jetstreamgg/hooks';
+import { TransactionTypeEnum, ModuleEnum } from '@jetstreamgg/sky-hooks';
 import {
   isBaseChainId,
   isArbitrumChainId,

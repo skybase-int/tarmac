@@ -1,4 +1,4 @@
-import { TransactionTypeEnum, ModuleEnum } from '@jetstreamgg/hooks';
+import { TransactionTypeEnum, ModuleEnum } from '@jetstreamgg/sky-hooks';
 import { captitalizeFirstLetter } from '@jetstreamgg/sky-utils';
 import { t } from '@lingui/core/macro';
 

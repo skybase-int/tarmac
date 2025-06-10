@@ -2,7 +2,7 @@ import { WidgetProps } from '@widgets/shared/types/widgetState';
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
 import { Tabs, TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
-import { getTokenDecimals, Token, TOKENS } from '@jetstreamgg/hooks';
+import { getTokenDecimals, Token, TOKENS } from '@jetstreamgg/sky-hooks';
 import { UpgradeStats } from './UpgradeStats';
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
 import { t } from '@lingui/core/macro';

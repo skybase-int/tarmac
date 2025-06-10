@@ -1,4 +1,4 @@
-import { CombinedHistoryItem, TransactionTypeEnum } from '@jetstreamgg/hooks';
+import { CombinedHistoryItem, TransactionTypeEnum } from '@jetstreamgg/sky-hooks';
 import { getAmount } from './getAmount';
 import { getToken } from './getToken';
 import { formatAddress } from '@jetstreamgg/sky-utils';

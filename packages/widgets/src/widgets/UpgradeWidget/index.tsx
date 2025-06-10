@@ -5,7 +5,7 @@ import {
   getTokenDecimals,
   mkrSkyAddress,
   useTokenBalance
-} from '@jetstreamgg/hooks';
+} from '@jetstreamgg/sky-hooks';
 import { UpgradeRevert } from './components/UpgradeRevert';
 import { WidgetContext, WidgetProvider } from '@widgets/context/WidgetContext';
 import { WidgetProps, WidgetState } from '@widgets/shared/types/widgetState';
@@ -17,7 +17,7 @@ import { UpgradeTransactionStatus } from './components/UpgradeTransactionStatus'
 import { useAccount, useChainId } from 'wagmi';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useDebounce, getTransactionLink, useIsSafeWallet } from '@jetstreamgg/sky-utils';
-import { useTokenAllowance } from '@jetstreamgg/hooks';
+import { useTokenAllowance } from '@jetstreamgg/sky-hooks';
 import { useUpgraderManager } from './hooks/useUpgraderManager';
 import { TxStatus, notificationTypeMaping } from '@widgets/shared/constants';
 import { formatUnits, parseUnits } from 'viem';

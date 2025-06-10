@@ -1,5 +1,5 @@
 {
-  "name": "@jetstreamgg/widgets",
+  "name": "@jetstreamgg/sky-widgets",
   "version": "4.0.0",
   "description": "",
   "type": "module",
@@ -27,7 +27,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@jetstreamgg/hooks": "workspace:^",
+    "@jetstreamgg/sky-hooks": "workspace:^",
     "@jetstreamgg/sky-utils": "workspace:^",
     "@radix-ui/react-accordion": "^1.2.8",
     "@radix-ui/react-avatar": "^1.1.7",

@@ -6,7 +6,7 @@ import {
   useSavingsData,
   useSavingsSupply,
   useSavingsWithdraw
-} from '@jetstreamgg/hooks';
+} from '@jetstreamgg/sky-hooks';
 import { getTransactionLink, useDebounce, formatBigInt, useIsSafeWallet } from '@jetstreamgg/sky-utils';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { WidgetContainer } from '@widgets/shared/components/ui/widget/WidgetContainer';

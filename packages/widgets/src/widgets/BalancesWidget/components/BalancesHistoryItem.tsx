@@ -4,7 +4,7 @@ import { Card } from '@widgets/components/ui/card';
 import { LinkExternal } from '@widgets/shared/components/icons/LinkExternal';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { getPositive } from '../lib/getPositive';
-import { ModuleEnum, TransactionTypeEnum, CombinedHistoryItem } from '@jetstreamgg/hooks';
+import { ModuleEnum, TransactionTypeEnum, CombinedHistoryItem } from '@jetstreamgg/sky-hooks';
 import { getHistoryIconSource } from '../lib/getHistoryIconSource';
 import { getTitle } from '../lib/getTitle';
 import { ExternalLink } from '@widgets/shared/components/ExternalLink';

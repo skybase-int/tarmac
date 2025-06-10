@@ -13,7 +13,7 @@ import {
   RewardsWidget,
   TxStatus,
   WidgetStateChangeParams
-} from '@jetstreamgg/widgets';
+} from '@jetstreamgg/sky-widgets';
 import { useSearchParams } from 'react-router-dom';
 
 export function RewardsWidgetPane(sharedProps: SharedProps) {
