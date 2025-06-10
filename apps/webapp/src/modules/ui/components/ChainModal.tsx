@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Text } from '@/modules/layout/components/Typography';
 import { t } from '@lingui/core/macro';
-import { useChainId, useChains, useClient, useSwitchChain } from 'wagmi';
+import { useChainId, useChains, useClient } from 'wagmi';
 import { MainnetChain, BaseChain, ArbitrumChain, Close, OptimismChain, UnichainChain } from '@/modules/icons';
 import { cn } from '@/lib/utils';
 import { base, arbitrum, optimism, unichain } from 'viem/chains';
@@ -54,9 +54,12 @@ export function ChainModal({
   const chainId = useChainId();
   const client = useClient();
   const chains = useChains();
-  const { variables: switchChainVariables, isPending: isSwitchChainPending } = useSwitchChain();
   const [, setSearchParams] = useSearchParams();
-  const { handleSwitchChain } = useChainModalContext();
+  const {
+    handleSwitchChain,
+    isPending: isSwitchChainPending,
+    variables: switchChainVariables
+  } = useChainModalContext();
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -91,10 +94,12 @@ export function ChainModal({
           {chains.map(chain => (
             <Button
               key={chain.id}
-              onClick={() =>
+              onClick={() => {
+                // Skip if chain is already selected
+                if (chain.id === chainId) return;
+
                 handleSwitchChain({
                   chainId: chain.id,
-                  nextIntent,
                   onSuccess: (_, { chainId: newChainId }) => {
                     const newChainName = chains.find(c => c.id === newChainId)?.name;
                     if (newChainName) {
@@ -108,8 +113,8 @@ export function ChainModal({
                     }
                   },
                   onSettled: () => setOpen(false)
-                })
-              }
+                });
+              }}
               className={cn(
                 'flex w-full justify-between p-1.5',
                 chainId === chain.id &&
@@ -127,7 +132,7 @@ export function ChainModal({
                   <div className="bg-bullish h-2 w-2 rounded-full" />
                 </div>
               )}
-              {isSwitchChainPending && switchChainVariables.chainId === chain.id && (
+              {isSwitchChainPending && switchChainVariables?.chainId === chain.id && (
                 <div className="mr-1.5 flex items-center gap-2">
                   <Text variant="medium">Confirm in your wallet</Text>
                   <div className="h-2 w-2 rounded-full bg-yellow-500" />

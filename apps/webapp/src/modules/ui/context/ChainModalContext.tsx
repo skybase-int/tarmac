@@ -1,28 +1,28 @@
 import React, { createContext, useContext, useCallback } from 'react';
-import { useChains, useSwitchChain } from 'wagmi';
-import { Intent } from '@/lib/enums';
+import { useSwitchChain } from 'wagmi';
 
 type ChainModalContextType = {
   handleSwitchChain: ({
     chainId,
-    nextIntent,
     onSuccess,
     onSettled
   }: {
     chainId: number;
-    nextIntent?: Intent;
     onSuccess?: (data: any, variables: { chainId: number }) => void;
     onSettled?: () => void;
   }) => void;
+  isPending: boolean;
+  variables: { chainId: number } | undefined;
 };
 
 const ChainModalContext = createContext<ChainModalContextType>({
-  handleSwitchChain: () => {}
+  handleSwitchChain: () => {},
+  isPending: false,
+  variables: undefined
 });
 
 export const ChainModalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const chains = useChains();
-  const { switchChain } = useSwitchChain();
+  const { switchChain, isPending, variables } = useSwitchChain();
 
   const handleSwitchChain = useCallback(
     ({
@@ -38,17 +38,22 @@ export const ChainModalProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         { chainId },
         {
           onSuccess,
-          onSettled
+          onSettled,
+          onError: error => {
+            console.error('[ChainModalContext] switchChain failed:', error);
+          }
         }
       );
     },
-    [switchChain, chains]
+    [switchChain]
   );
 
   return (
     <ChainModalContext.Provider
       value={{
-        handleSwitchChain
+        handleSwitchChain,
+        isPending,
+        variables
       }}
     >
       {children}
