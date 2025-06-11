@@ -1,6 +1,11 @@
 import { http, WalletRpcSchema, EIP1193Parameters } from 'viem';
 import { createConfig, createConnector, createStorage, noopStorage } from 'wagmi';
-import { getTestTenderlyChains, TENDERLY_BASE_CHAIN_ID } from './testTenderlyChain';
+import {
+  getTestTenderlyChains,
+  TENDERLY_ARBITRUM_CHAIN_ID,
+  TENDERLY_BASE_CHAIN_ID,
+  TENDERLY_CHAIN_ID
+} from './testTenderlyChain';
 import { mock, MockParameters } from 'wagmi/connectors';
 import { TEST_WALLET_ADDRESSES } from '@/test/e2e/utils/testWallets';
 import { optimism, unichain } from 'viem/chains';
@@ -26,7 +31,11 @@ function extendedMock(params: MockParameters) {
                 if (args.method === 'wallet_getCapabilities') {
                   return {
                     // Add capabilities for different chains
-                    [TENDERLY_BASE_CHAIN_ID]: { atomic: { status: 'supported' } }
+                    [TENDERLY_CHAIN_ID]: { atomic: { status: 'supported' } },
+                    [TENDERLY_BASE_CHAIN_ID]: { atomic: { status: 'supported' } },
+                    [TENDERLY_ARBITRUM_CHAIN_ID]: { atomic: { status: 'supported' } },
+                    [optimism.id]: { atomic: { status: 'supported' } },
+                    [unichain.id]: { atomic: { status: 'supported' } }
                   };
                 }
 
@@ -51,6 +60,13 @@ const accounts = TEST_WALLET_ADDRESSES as [`0x${string}`, ...`0x${string}`[]];
 export const mockWagmiConfig = createConfig({
   chains: [tenderlyMainnet, tenderlyBase, tenderlyArbitrum, tenderlyOptimism, tenderlyUnichain],
   connectors: [
+    mock({
+      accounts,
+      features: {
+        reconnect: true
+      }
+    }),
+    // Mock connector that adds suport for batch transactions
     extendedMock({
       accounts,
       features: {
