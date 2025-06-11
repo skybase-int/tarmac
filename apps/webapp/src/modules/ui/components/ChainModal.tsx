@@ -15,6 +15,7 @@ import { useSearchParams } from 'react-router-dom';
 import { mapIntentToQueryParam, QueryParams } from '@/lib/constants';
 import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
 import { useIsSafeWallet } from '@jetstreamgg/utils';
+import { Trans } from '@lingui/react/macro';
 
 enum ChainModalVariant {
   default = 'default',
@@ -96,8 +97,10 @@ export function ChainModal({
           {isSafeWallet && (
             <div className="my-4 rounded-lg border border-blue-500/20 bg-blue-500/10 p-3">
               <Text className="text-text text-sm">
-                Network switching is managed by your Safe app. Switch networks there, then visit this app
-                again from the Safe apps menu.
+                <Trans>
+                  Network switching is managed by your Safe app. Switch networks there, then visit this app
+                  again from the Safe apps menu.
+                </Trans>
               </Text>
             </div>
           )}
