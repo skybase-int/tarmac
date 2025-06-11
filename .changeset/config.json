@@ -7,5 +7,5 @@
   "access": "public",
   "baseBranch": "development",
   "updateInternalDependencies": "patch",
-  "ignore": []
+  "ignore": ["@jetstreamgg/webapp"]
 }
