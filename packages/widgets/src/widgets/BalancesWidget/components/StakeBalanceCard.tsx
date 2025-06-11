@@ -28,10 +28,6 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
     [rewardsChartInfoData]
   );
 
-  if (totalStakedValue === 0) {
-    return null;
-  }
-
   return (
     <InteractiveStatsCard
       title={t`SKY supplied to Staking Engine`}
