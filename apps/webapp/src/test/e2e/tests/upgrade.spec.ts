@@ -405,6 +405,7 @@ test('Batch - Upgrade DAI and revert USDS', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Transaction overview' })).toBeVisible();
   await performAction(page, 'Upgrade');
   await page.getByRole('button', { name: 'Back to Upgrade' }).click();
+  await expect(page.getByTestId('upgrade-input-origin-balance')).toHaveText('6 DAI');
   await page.getByRole('tab', { name: 'Revert' }).click();
   await expect(page.getByRole('button', { name: 'Transaction overview' })).not.toBeVisible();
   await page.getByTestId('upgrade-input-origin').click();
