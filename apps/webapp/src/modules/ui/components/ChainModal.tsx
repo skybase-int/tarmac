@@ -14,6 +14,7 @@ import { useChainModalContext } from '@/modules/ui/context/ChainModalContext';
 import { useSearchParams } from 'react-router-dom';
 import { mapIntentToQueryParam, QueryParams } from '@/lib/constants';
 import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
+import { useIsSafeWallet } from '@jetstreamgg/utils';
 
 enum ChainModalVariant {
   default = 'default',
@@ -54,6 +55,7 @@ export function ChainModal({
   const chainId = useChainId();
   const client = useClient();
   const chains = useChains();
+  const isSafeWallet = useIsSafeWallet();
   const [, setSearchParams] = useSearchParams();
   const {
     handleSwitchChain,
@@ -83,7 +85,7 @@ export function ChainModal({
         )}
       </DialogTrigger>
       <DialogContent
-        className="bg-containerDark p-4 sm:min-w-[400px] sm:p-4"
+        className={cn('bg-containerDark p-4 sm:min-w-[400px] sm:p-4', isSafeWallet && 'sm:max-w-[400px]')}
         onOpenAutoFocus={e => e.preventDefault()}
         onCloseAutoFocus={e => e.preventDefault()}
       >
@@ -91,55 +93,65 @@ export function ChainModal({
           <Text className="text-text pl-2 text-[28px] md:text-[32px]">{t`Switch chain`}</Text>
         </DialogTitle>
         <div className="flex flex-col items-start gap-1">
-          {chains.map(chain => (
-            <Button
-              key={chain.id}
-              onClick={() => {
-                // Skip if chain is already selected
-                if (chain.id === chainId) return;
+          {isSafeWallet && (
+            <div className="my-4 rounded-lg border border-blue-500/20 bg-blue-500/10 p-3">
+              <Text className="text-text text-sm">
+                Network switching is managed by your Safe app. Switch networks there, then visit this app
+                again from the Safe apps menu.
+              </Text>
+            </div>
+          )}
+          {chains
+            .filter(chain => (isSafeWallet ? chain.id === chainId : true))
+            .map(chain => (
+              <Button
+                key={chain.id}
+                onClick={() => {
+                  // Skip if chain is already selected
+                  if (chain.id === chainId) return;
 
-                handleSwitchChain({
-                  chainId: chain.id,
-                  onSuccess: (_, { chainId: newChainId }) => {
-                    const newChainName = chains.find(c => c.id === newChainId)?.name;
-                    if (newChainName) {
-                      setSearchParams((params: URLSearchParams) => {
-                        params.set(QueryParams.Network, normalizeUrlParam(newChainName));
-                        if (nextIntent) {
-                          params.set(QueryParams.Widget, mapIntentToQueryParam(nextIntent));
-                        }
-                        return params;
-                      });
-                    }
-                  },
-                  onSettled: () => setOpen(false)
-                });
-              }}
-              className={cn(
-                'flex w-full justify-between p-1.5',
-                chainId === chain.id &&
-                  'bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100'
-              )}
-              variant={chainId === chain.id ? 'default' : 'ghost'}
-            >
-              <div className="flex items-center gap-3">
-                {getChainIcon(chain.id)}
-                <Text className={cn('text-text text-left')}>{chain.name}</Text>
-              </div>
-              {chainId === chain.id && (
-                <div className="mr-1.5 flex items-center gap-2">
-                  <Text variant="medium">Connected</Text>
-                  <div className="bg-bullish h-2 w-2 rounded-full" />
+                  handleSwitchChain({
+                    chainId: chain.id,
+                    onSuccess: (_, { chainId: newChainId }) => {
+                      const newChainName = chains.find(c => c.id === newChainId)?.name;
+                      if (newChainName) {
+                        setSearchParams((params: URLSearchParams) => {
+                          params.set(QueryParams.Network, normalizeUrlParam(newChainName));
+                          if (nextIntent) {
+                            params.set(QueryParams.Widget, mapIntentToQueryParam(nextIntent));
+                          }
+                          return params;
+                        });
+                      }
+                    },
+                    onSettled: () => setOpen(false)
+                  });
+                }}
+                className={cn(
+                  'flex w-full justify-between p-1.5',
+                  chainId === chain.id &&
+                    'bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100'
+                )}
+                variant={chainId === chain.id ? 'default' : 'ghost'}
+              >
+                <div className="flex items-center gap-3">
+                  {getChainIcon(chain.id)}
+                  <Text className={cn('text-text text-left')}>{chain.name}</Text>
                 </div>
-              )}
-              {isSwitchChainPending && switchChainVariables?.chainId === chain.id && (
-                <div className="mr-1.5 flex items-center gap-2">
-                  <Text variant="medium">Confirm in your wallet</Text>
-                  <div className="h-2 w-2 rounded-full bg-yellow-500" />
-                </div>
-              )}
-            </Button>
-          ))}
+                {chainId === chain.id && (
+                  <div className="mr-1.5 flex items-center gap-2">
+                    <Text variant="medium">Connected</Text>
+                    <div className="bg-bullish h-2 w-2 rounded-full" />
+                  </div>
+                )}
+                {isSwitchChainPending && switchChainVariables?.chainId === chain.id && (
+                  <div className="mr-1.5 flex items-center gap-2">
+                    <Text variant="medium">Confirm in your wallet</Text>
+                    <div className="h-2 w-2 rounded-full bg-yellow-500" />
+                  </div>
+                )}
+              </Button>
+            ))}
         </div>
         <DialogClose asChild>
           <Button
