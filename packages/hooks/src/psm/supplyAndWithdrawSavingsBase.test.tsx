@@ -1,5 +1,5 @@
 import { cleanup, renderHook, waitFor } from '@testing-library/react';
-import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { useApproveToken } from '../tokens/useApproveToken';
 import { parseEther } from 'viem';
 import { config, GAS, TEST_WALLET_ADDRESS, WagmiWrapper } from '../../test';
@@ -7,28 +7,17 @@ import { TOKENS } from '../tokens/tokens.constants';
 import { TENDERLY_BASE_CHAIN_ID, TENDERLY_CHAIN_ID } from '../constants';
 import { psm3L2Address } from '../generated';
 import { useTokenBalance } from '../tokens/useTokenBalance';
-import { getUseCapabilitiesMockedResponse, waitForPreparedExecuteAndMine } from '../../test/helpers';
+import { waitForPreparedExecuteAndMine } from '../../test/helpers';
 import { usePsmSwapExactIn } from './usePsmSwapExactIn';
 import { switchChain } from '@wagmi/core';
 import { usePsmSwapExactOut } from './usePsmSwapExactOut';
 import { useBatchPsmSwapExactIn } from './useBatchPsmSwapExactIn';
 import { useBatchPsmSwapExactOut } from './useBatchPsmSwapExactOut';
 import { useTokenAllowance } from '../tokens/useTokenAllowance';
-import { useCapabilities } from 'wagmi';
-
-vi.mock('wagmi', async () => {
-  const actual = await vi.importActual('wagmi');
-  return {
-    ...actual,
-    useCapabilities: vi.fn()
-  };
-});
 
 describe('Savings Base - Supply and withdraw', () => {
   beforeAll(async () => {
     await switchChain(config, { chainId: TENDERLY_BASE_CHAIN_ID });
-
-    vi.mocked(useCapabilities).mockReturnValue(getUseCapabilitiesMockedResponse(TENDERLY_BASE_CHAIN_ID));
   });
 
   it('Should supply and withdraw', { timeout: 90000 }, async () => {
