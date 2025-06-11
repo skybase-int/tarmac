@@ -109,6 +109,7 @@ export function ChainModal({
             .map(chain => (
               <Button
                 key={chain.id}
+                disabled={isSafeWallet}
                 onClick={() => {
                   // Skip if chain is already selected
                   if (chain.id === chainId) return;
