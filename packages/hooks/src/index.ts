@@ -247,6 +247,7 @@ export {
   usdtSepoliaAddress,
   mcdDaiSepoliaAddress,
   sealModuleAddress,
+  stakeModuleAddress,
   usdcL2Address,
   usdsL2Address,
   sUsdsL2Address,
