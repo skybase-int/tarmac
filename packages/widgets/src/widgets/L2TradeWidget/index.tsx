@@ -20,7 +20,7 @@ import {
   usePreviewSwapExactOut,
   ZERO_ADDRESS,
   useIsBatchSupported
-} from '@jetstreamgg/hooks';
+} from '@jetstreamgg/sky-hooks';
 import { useContext, useEffect, useMemo, useState, ReactNode } from 'react';
 import {
   formatBigInt,
@@ -29,7 +29,7 @@ import {
   useDebounce,
   getTransactionLink,
   useIsSafeWallet
-} from '@jetstreamgg/utils';
+} from '@jetstreamgg/sky-utils';
 import { useAccount, useChainId } from 'wagmi';
 import { t } from '@lingui/core/macro';
 import { notificationTypeMaping, TxStatus, EPOCH_LENGTH } from '@widgets/shared/constants';
