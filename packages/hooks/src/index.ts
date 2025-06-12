@@ -145,6 +145,7 @@ export { useStakeSkyApprove, useStakeUsdsApprove } from './stake/useStakeApprove
 export { useClaimRewards as useStakeClaimRewards } from './stake/useClaimRewards';
 export { useStakeRewardsData } from './stake/useStakeRewardsData';
 export { useStakePosition } from './stake/useStakePosition';
+export { useBatchStakeMulticall } from './stake/useBatchStakeMulticall';
 export * from './stake/calldata';
 
 //Vaults
