@@ -34,7 +34,7 @@ export function useBatchRewardsSupply({
     owner: address
   });
 
-  const hasAllowance = !!allowance && allowance >= amount;
+  const hasAllowance = allowance !== undefined && allowance >= amount;
 
   // Calls for the batch transaction
   const calls: Call[] = [];

@@ -22,7 +22,7 @@ export function useBatchSavingsSupply({
   const chainId = useChainId();
   const { data: allowance, error: allowanceError } = useSavingsAllowance();
 
-  const hasAllowance = !!allowance && allowance >= amount;
+  const hasAllowance = allowance !== undefined && allowance >= amount;
 
   // Calls for the batch transaction
   const approveCall = getWriteContractCall({
