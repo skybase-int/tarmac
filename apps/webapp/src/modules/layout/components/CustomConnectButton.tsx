@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { t } from '@lingui/core/macro';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 import { UnauthorizedPage } from '../../auth/components/UnauthorizedPage';
-import { useIsSafeWallet } from '@jetstreamgg/utils';
+import { useIsSafeWallet } from '@jetstreamgg/sky-utils';
 import { CustomAvatar } from '@/modules/ui/components/Avatar';
 
 export function CustomConnectButton(props: any) {

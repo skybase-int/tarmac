@@ -14,7 +14,7 @@ import { useChainModalContext } from '@/modules/ui/context/ChainModalContext';
 import { useSearchParams } from 'react-router-dom';
 import { mapIntentToQueryParam, QueryParams } from '@/lib/constants';
 import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
-import { useIsSafeWallet } from '@jetstreamgg/utils';
+import { useIsSafeWallet } from '@jetstreamgg/sky-utils';
 import { Trans } from '@lingui/react/macro';
 
 enum ChainModalVariant {
