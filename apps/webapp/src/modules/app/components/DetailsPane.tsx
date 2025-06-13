@@ -39,7 +39,7 @@ const MotionDetailsWrapper = forwardRef<
 export const DetailsPane = ({ intent }: DetailsPaneProps) => {
   const defaultDetail = Intent.BALANCES_INTENT;
   const [intentState, setIntentState] = useState<Intent>(intent || defaultDetail);
-  const [keys, setKeys] = useState([0, 1, 2, 3, 4]);
+  const [keys, setKeys] = useState([0, 1, 2, 3, 4, 5, 6]);
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
   const { bpi } = useBreakpointIndex();
 
@@ -48,7 +48,7 @@ export const DetailsPane = ({ intent }: DetailsPaneProps) => {
       if (prevIntentState !== intent) {
         // By giving the keys a new value, we force the motion component to animate the new component in, even if it's
         // the same component as before. This prevents the component from being re-added before being removed
-        setKeys(prevKeys => prevKeys.map(key => key + 5));
+        setKeys(prevKeys => prevKeys.map(key => key + 7));
       }
 
       return intent || defaultDetail;
@@ -96,20 +96,20 @@ export const DetailsPane = ({ intent }: DetailsPaneProps) => {
               );
             case Intent.SEAL_INTENT:
               return (
-                <MotionDetailsWrapper key={keys[3]}>
+                <MotionDetailsWrapper key={keys[4]}>
                   <SealDetailsPane />
                 </MotionDetailsWrapper>
               );
             case Intent.STAKE_INTENT:
               return (
-                <MotionDetailsWrapper key={keys[3]}>
+                <MotionDetailsWrapper key={keys[5]}>
                   <StakeDetailsPane />
                 </MotionDetailsWrapper>
               );
             case Intent.BALANCES_INTENT:
             default:
               return (
-                <MotionDetailsWrapper key={keys[4]}>
+                <MotionDetailsWrapper key={keys[6]}>
                   <BalancesDetails />
                 </MotionDetailsWrapper>
               );
