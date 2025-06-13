@@ -30,7 +30,7 @@ export default ({ mode }: { mode: modeEnum }) => {
     default-src 'self';
     script-src 'self'
       'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='
-      https://cdn.markfi.xyz
+      'sha384-ihnQ09PGDbDPthGB3QoQ2Heg2RwQIDyWkHkqxMzq91RPeP8OmydAZbQLgAakAOfI'
       https://static.cloudflareinsights.com
       https://challenges.cloudflare.com;
     style-src 'self' 'unsafe-inline';
@@ -79,6 +79,7 @@ export default ({ mode }: { mode: modeEnum }) => {
       https://enhanced-provider.rainbow.me
       https://mainnet.unichain.org/
       https://mainnet.optimism.io/
+      https://a.markfi.xyz
       cloudflareinsights.com;
     frame-src 'self'
       https://verify.walletconnect.com
