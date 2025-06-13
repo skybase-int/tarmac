@@ -212,7 +212,7 @@ export function MainApp() {
   return (
     <AppContainer>
       {(bpi > BP.sm || !chatParam) && (
-        <WidgetPane intent={intent}>
+        <WidgetPane key={`widget-pane-${bpi}`} intent={intent}>
           {bpi === BP.sm && detailsParam && <DetailsPane intent={intent} />}
         </WidgetPane>
       )}
