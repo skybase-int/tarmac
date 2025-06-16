@@ -9,7 +9,7 @@ import {
   TOKENS,
   useSendBatchTransactionFlow,
   useTokenAllowance
-} from '@jetstreamgg/hooks';
+} from '@jetstreamgg/sky-hooks';
 import { Call, erc20Abi } from 'viem';
 import { useAccount, useChainId } from 'wagmi';
 

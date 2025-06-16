@@ -374,7 +374,7 @@ export function UpgradeWidgetWrapped({
       mutateOriginBalance();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
-    onError: (error, hash) => {
+    onError: (error: Error, hash: string | undefined) => {
       onNotification?.({
         title: tabIndex === 0 ? t`Upgrade failed` : t`Revert failed`,
         description: t`Something went wrong with your transaction. Please try again.`,
