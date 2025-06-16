@@ -167,6 +167,13 @@ export const TOKENS: TokenMapping = {
     symbol: 'sUSDS',
     color: '#1AAB9B',
     decimals: 18
+  },
+  spk: {
+    address: sUsdsConfig.address,
+    name: 'Spark',
+    symbol: 'SPK',
+    color: '#FF6B6B', // TODO: update with correct color code
+    decimals: 18
   }
 };
 
