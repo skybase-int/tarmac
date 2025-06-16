@@ -5,15 +5,12 @@ import { Heading } from './Typography';
 import { HStack } from './HStack';
 import { Popover, PopoverArrow, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Switch } from '@/components/ui/switch';
-import { useState } from 'react';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 
 export const HeaderMenu = (): React.ReactElement => {
   const { userConfig, updateUserConfig } = useConfigContext();
-  const [batchEnabled, setBatchEnabled] = useState<boolean>(userConfig.batchEnabled);
 
   const handleCheckedChange = (checked: boolean) => {
-    setBatchEnabled(checked);
     updateUserConfig({ ...userConfig, batchEnabled: checked });
   };
 
@@ -34,7 +31,7 @@ export const HeaderMenu = (): React.ReactElement => {
               <Trans>Batch transactions</Trans>
             </Heading>
             <Switch
-              checked={batchEnabled}
+              checked={userConfig.batchEnabled}
               onCheckedChange={handleCheckedChange}
               data-testid="batch-transactions-switch"
             />
