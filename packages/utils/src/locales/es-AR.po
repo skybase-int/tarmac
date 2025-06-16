@@ -114,6 +114,22 @@ msgstr ""
 msgid "1 {0} = {executionPrice} {1}"
 msgstr ""
 
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "1 Stake:"
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "2 Choose Reward:"
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "3 Delegate: (optional)"
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "4 Open Staking Position:"
+msgstr ""
+
 #: packages/widgets/src/widgets/TradeWidget/components/TradeInputs.tsx
 msgid "A minimum 0.01 ETH is needed to cover transaction costs. Actual gas fees may be lower."
 msgstr ""
@@ -496,6 +512,10 @@ msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/About.tsx
 msgid "Borrow USDS against your MKR and SKY"
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "Borrow: (optional)"
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeHistory.tsx
@@ -1059,6 +1079,11 @@ msgstr ""
 msgid "How can I help you today?"
 msgstr ""
 
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+#: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
+msgid "How does the Staking Engine work?"
+msgstr ""
+
 #. placeholder {0}: selectedToken.symbol
 #: packages/widgets/src/widgets/SealModuleWidget/components/Lock.tsx
 msgid "How much {0} would you like to seal?"
@@ -1240,6 +1265,26 @@ msgstr ""
 
 #: apps/webapp/src/modules/app/hooks/useNotification.tsx
 msgid "Looks like you need USDS"
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "Lorem ipsum dolor sit amet -borrow-, consectetur <0/> adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "Lorem ipsum dolor sit amet -choose-reward-, consectetur <0/> adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "Lorem ipsum dolor sit amet -delegate-, consectetur <0/> adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "Lorem ipsum dolor sit amet -open-position-, consectetur <0/> adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "Lorem ipsum dolor sit amet -stake-, consectetur <0/> adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
@@ -2737,6 +2782,10 @@ msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
 msgid "When you supply USDS to the Sky Savings Rate module of the decentralized Sky Protocol, you access the Sky Savings Rate <0/> and may accumulate additional USDS over time. No minimum supply amount is required, and you always maintain control of your supplied assets, as this feature is non-custodial."
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "With SKY you always remain in control of your assets."
 msgstr ""
 
 #: apps/webapp/src/modules/app/hooks/useNotification.tsx
