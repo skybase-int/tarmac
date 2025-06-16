@@ -15,7 +15,7 @@ import {
 } from '../lib/constants';
 import { TxCardCopyText } from '@widgets/shared/types/txCardCopyText';
 import { WidgetContext } from '@widgets/context/WidgetContext';
-import { TransactionStatus } from '@widgets/shared/components/ui/transaction/TransactionStatus';
+import { BatchTransactionStatus } from '@widgets/shared/components/ui/transaction/BatchTransactionStatus';
 import { useLingui } from '@lingui/react';
 import { t } from '@lingui/core/macro';
 import { Token } from '@jetstreamgg/sky-hooks';
@@ -29,11 +29,13 @@ import { isL2ChainId } from '@jetstreamgg/sky-utils';
 export const SavingsTransactionStatus = ({
   originToken,
   originAmount,
-  onExternalLinkClicked
+  onExternalLinkClicked,
+  isBatchTransaction
 }: {
   originAmount: bigint;
   originToken: Token;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  isBatchTransaction?: boolean;
 }) => {
   const { i18n } = useLingui();
   const chainId = useChainId();
@@ -127,5 +129,10 @@ export const SavingsTransactionStatus = ({
       );
     }
   }, [txStatus, flow, action, screen, i18n.locale]);
-  return <TransactionStatus onExternalLinkClicked={onExternalLinkClicked} />;
+  return (
+    <BatchTransactionStatus
+      onExternalLinkClicked={onExternalLinkClicked}
+      isBatchTransaction={isBatchTransaction}
+    />
+  );
 };

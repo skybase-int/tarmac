@@ -990,6 +990,7 @@ const SavingsWidgetWrapped = ({
               originToken={originToken}
               originAmount={debouncedAmount}
               onExternalLinkClicked={onExternalLinkClicked}
+              isBatchTransaction={shouldUseBatch}
             />
           </CardAnimationWrapper>
         ) : widgetState.screen === SavingsScreen.REVIEW ? (
