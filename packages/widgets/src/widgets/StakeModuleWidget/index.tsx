@@ -959,6 +959,7 @@ function StakeModuleWidgetWrapped({
                 });
               }
             }}
+            onShowHelpModal={onShowHelpModal}
           />
         )}
         {txStatus !== TxStatus.IDLE ? (
@@ -974,7 +975,7 @@ function StakeModuleWidgetWrapped({
                   totalSteps={totalSteps}
                   title={i18n._(getStepTitle(currentStep, tabSide))}
                 />
-                {onShowHelpModal && (
+                {onShowHelpModal && widgetState.flow === StakeFlow.OPEN && (
                   <HStack className="text-textSecondary mt-4 items-center">
                     <Text variant="small" className="mr-2">
                       <Trans>How does the Staking Engine work?</Trans>

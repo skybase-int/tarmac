@@ -1081,6 +1081,7 @@ msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
+#: packages/widgets/src/widgets/StakeModuleWidget/components/UnconnectedState.tsx
 msgid "How does the Staking Engine work?"
 msgstr ""
 
