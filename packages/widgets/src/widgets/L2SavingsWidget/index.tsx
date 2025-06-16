@@ -40,6 +40,7 @@ import {
   useReadSsrAuthOracleGetRho,
   useReadSsrAuthOracleGetSsr
 } from '@jetstreamgg/sky-hooks';
+import { L2SavingsTransactionReview } from './components/L2SavingsTransactionReview';
 
 const defaultDepositOptions = [TOKENS.usds, TOKENS.usdc];
 const defaultWithdrawOptions = [TOKENS.usds, TOKENS.usdc];
@@ -751,6 +752,12 @@ const SavingsWidgetWrapped = ({
       return widgetState.flow === SavingsFlow.SUPPLY ? supplyOnClick() : withdrawOnClick();
     }
   };
+  const reviewOnClick = () => {
+    setWidgetState((prev: WidgetState) => ({
+      ...prev,
+      screen: SavingsScreen.REVIEW
+    }));
+  };
 
   const onClickBack = () => {
     setTxStatus(TxStatus.IDLE);
@@ -781,25 +788,28 @@ const SavingsWidgetWrapped = ({
       ? nextOnClick
       : txStatus === TxStatus.ERROR
         ? errorOnClick
-        : shouldUseBatch
-          ? widgetState.flow === SavingsFlow.SUPPLY
-            ? batchSupplyOnClick
-            : batchWithdrawOnClick
-          : (widgetState.flow === SavingsFlow.SUPPLY && widgetState.action === SavingsAction.APPROVE) ||
-              (widgetState.flow === SavingsFlow.WITHDRAW && widgetState.action === SavingsAction.APPROVE)
-            ? approveOnClick
-            : widgetState.flow === SavingsFlow.SUPPLY && widgetState.action === SavingsAction.SUPPLY
-              ? supplyOnClick
-              : widgetState.flow === SavingsFlow.WITHDRAW && widgetState.action === SavingsAction.WITHDRAW
-                ? withdrawOnClick
-                : undefined;
+        : widgetState.screen === SavingsScreen.ACTION
+          ? reviewOnClick
+          : shouldUseBatch
+            ? widgetState.flow === SavingsFlow.SUPPLY
+              ? batchSupplyOnClick
+              : batchWithdrawOnClick
+            : (widgetState.flow === SavingsFlow.SUPPLY && widgetState.action === SavingsAction.APPROVE) ||
+                (widgetState.flow === SavingsFlow.WITHDRAW && widgetState.action === SavingsAction.APPROVE)
+              ? approveOnClick
+              : widgetState.flow === SavingsFlow.SUPPLY && widgetState.action === SavingsAction.SUPPLY
+                ? supplyOnClick
+                : widgetState.flow === SavingsFlow.WITHDRAW && widgetState.action === SavingsAction.WITHDRAW
+                  ? withdrawOnClick
+                  : undefined;
 
   const showSecondaryButton =
     txStatus === TxStatus.ERROR ||
     // After a successful approve transaction, show the back button
     (txStatus === TxStatus.SUCCESS &&
       widgetState.action === SavingsAction.APPROVE &&
-      widgetState.screen === SavingsScreen.TRANSACTION);
+      widgetState.screen === SavingsScreen.TRANSACTION) ||
+    widgetState.screen === SavingsScreen.REVIEW;
 
   useEffect(() => {
     if (savingsSupply.prepareError) {
@@ -844,6 +854,8 @@ const SavingsWidgetWrapped = ({
         setButtonText(t`Retry`);
       } else if (widgetState.screen === SavingsScreen.ACTION && amount === 0n) {
         setButtonText(t`Enter amount`);
+      } else if (widgetState.screen === SavingsScreen.ACTION) {
+        setButtonText(t`Review`);
       } else if (widgetState.flow === SavingsFlow.SUPPLY && widgetState.action === SavingsAction.APPROVE) {
         setButtonText(t`Approve supply amount`);
       } else if (widgetState.flow === SavingsFlow.WITHDRAW && widgetState.action === SavingsAction.APPROVE) {
@@ -979,6 +991,10 @@ const SavingsWidgetWrapped = ({
               originAmount={debouncedAmount}
               onExternalLinkClicked={onExternalLinkClicked}
             />
+          </CardAnimationWrapper>
+        ) : widgetState.screen === SavingsScreen.REVIEW ? (
+          <CardAnimationWrapper key="widget-transaction-review">
+            <L2SavingsTransactionReview />
           </CardAnimationWrapper>
         ) : (
           <CardAnimationWrapper key="widget-inputs">

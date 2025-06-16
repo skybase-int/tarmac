@@ -16,6 +16,7 @@ export enum SavingsAction {
 
 export enum SavingsScreen {
   ACTION = 'action',
+  REVIEW = 'review',
   TRANSACTION = 'transaction'
 }
 
