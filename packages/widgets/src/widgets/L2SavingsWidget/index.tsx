@@ -777,26 +777,22 @@ const SavingsWidgetWrapped = ({
 
   const onClickAction = !isConnectedAndEnabled
     ? onConnect
-    : widgetState.flow === SavingsFlow.SUPPLY &&
-        widgetState.action === SavingsAction.APPROVE &&
-        txStatus === TxStatus.SUCCESS
+    : txStatus === TxStatus.SUCCESS
       ? nextOnClick
-      : txStatus === TxStatus.SUCCESS
-        ? nextOnClick
-        : txStatus === TxStatus.ERROR
-          ? errorOnClick
-          : shouldUseBatch
-            ? widgetState.flow === SavingsFlow.SUPPLY
-              ? batchSupplyOnClick
-              : batchWithdrawOnClick
-            : (widgetState.flow === SavingsFlow.SUPPLY && widgetState.action === SavingsAction.APPROVE) ||
-                (widgetState.flow === SavingsFlow.WITHDRAW && widgetState.action === SavingsAction.APPROVE)
-              ? approveOnClick
-              : widgetState.flow === SavingsFlow.SUPPLY && widgetState.action === SavingsAction.SUPPLY
-                ? supplyOnClick
-                : widgetState.flow === SavingsFlow.WITHDRAW && widgetState.action === SavingsAction.WITHDRAW
-                  ? withdrawOnClick
-                  : undefined;
+      : txStatus === TxStatus.ERROR
+        ? errorOnClick
+        : shouldUseBatch
+          ? widgetState.flow === SavingsFlow.SUPPLY
+            ? batchSupplyOnClick
+            : batchWithdrawOnClick
+          : (widgetState.flow === SavingsFlow.SUPPLY && widgetState.action === SavingsAction.APPROVE) ||
+              (widgetState.flow === SavingsFlow.WITHDRAW && widgetState.action === SavingsAction.APPROVE)
+            ? approveOnClick
+            : widgetState.flow === SavingsFlow.SUPPLY && widgetState.action === SavingsAction.SUPPLY
+              ? supplyOnClick
+              : widgetState.flow === SavingsFlow.WITHDRAW && widgetState.action === SavingsAction.WITHDRAW
+                ? withdrawOnClick
+                : undefined;
 
   const showSecondaryButton =
     txStatus === TxStatus.ERROR ||
@@ -842,16 +838,7 @@ const SavingsWidgetWrapped = ({
   // Ref: https://lingui.dev/tutorials/react-patterns#memoization-pitfall
   useEffect(() => {
     if (isConnectedAndEnabled) {
-      if (
-        (widgetState.flow === SavingsFlow.SUPPLY &&
-          widgetState.action === SavingsAction.APPROVE &&
-          txStatus === TxStatus.SUCCESS) ||
-        (widgetState.flow === SavingsFlow.WITHDRAW &&
-          widgetState.action === SavingsAction.APPROVE &&
-          txStatus === TxStatus.SUCCESS)
-      ) {
-        setButtonText(t`Continue`);
-      } else if (txStatus === TxStatus.SUCCESS) {
+      if (txStatus === TxStatus.SUCCESS) {
         setButtonText(t`Back to Savings`);
       } else if (txStatus === TxStatus.ERROR) {
         setButtonText(t`Retry`);
@@ -890,6 +877,36 @@ const SavingsWidgetWrapped = ({
     shouldUseBatch,
     batchSupplyDisabled,
     batchWithdrawDisabled
+  ]);
+
+  // After a successful approval, wait for the next hook (supply, withdraw) to be prepared and send the transaction
+  useEffect(() => {
+    const nextAction =
+      widgetState.flow === SavingsFlow.SUPPLY
+        ? savingsSupply
+        : isMaxWithdraw
+          ? savingsWithdrawAll
+          : savingsWithdraw;
+    const nextActionOnClick = widgetState.flow === SavingsFlow.SUPPLY ? supplyOnClick : withdrawOnClick;
+
+    if (
+      widgetState.action === SavingsAction.APPROVE &&
+      txStatus === TxStatus.SUCCESS &&
+      nextAction.prepared
+    ) {
+      setWidgetState((prev: WidgetState) => ({
+        ...prev,
+        action: widgetState.flow === SavingsFlow.SUPPLY ? SavingsAction.SUPPLY : SavingsAction.WITHDRAW
+      }));
+      nextActionOnClick();
+    }
+  }, [
+    widgetState.flow,
+    widgetState.action,
+    txStatus,
+    savingsSupply.prepared,
+    savingsWithdrawAll.prepared,
+    savingsWithdraw.prepared
   ]);
 
   // Set isLoading to be consumed by WidgetButton
