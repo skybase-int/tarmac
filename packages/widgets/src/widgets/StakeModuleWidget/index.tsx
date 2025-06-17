@@ -514,11 +514,11 @@ function StakeModuleWidgetWrapped({
           screen: StakeScreen.ACTION
         });
       } else if (currentUrnIndex && currentUrnIndex > 0n) {
-        setWidgetState({
-          flow: widgetState.flow || StakeFlow.MANAGE,
+        setWidgetState(prev => ({
+          flow: prev.flow || StakeFlow.MANAGE,
           action: StakeAction.OVERVIEW,
           screen: StakeScreen.ACTION
-        });
+        }));
       }
     } else {
       // Reset widget state when we are not connected
@@ -529,7 +529,7 @@ function StakeModuleWidgetWrapped({
       });
       setCurrentStep(StakeStep.OPEN_BORROW);
     }
-  }, [currentUrnIndex, isConnectedAndEnabled, widgetState.flow]);
+  }, [currentUrnIndex, isConnectedAndEnabled]);
 
   // If we need allowance, set the action to approve,
   useEffect(() => {
