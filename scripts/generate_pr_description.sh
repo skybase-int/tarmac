@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Usage: `./generate_pr_prompt.sh [base-branch]`
-# Example: `./generate_pr_prompt.sh origin/dev`
+# Usage: `./generate_pr_description.sh [base-branch]`
+# Example: `./generate_pr_description.sh origin/devevelopmetn`
 
-# Note: You may need to run `chmod +x generate_pr_prompt.sh` to make it executable
+# Note: You may need to run `chmod +x generate_pr_description.sh` to make it executable
 
 # Default base branch is origin/main if none provided
 BASE_BRANCH=${1:-origin/main}
