@@ -40,7 +40,7 @@ import {
   useReadSsrAuthOracleGetRho,
   useReadSsrAuthOracleGetSsr
 } from '@jetstreamgg/sky-hooks';
-import { L2SavingsTransactionReview } from './components/L2SavingsTransactionReview';
+import { TransactionReview } from '@widgets/shared/components/ui/transaction/TransactionReview';
 
 const defaultDepositOptions = [TOKENS.usds, TOKENS.usdc];
 const defaultWithdrawOptions = [TOKENS.usds, TOKENS.usdc];
@@ -575,7 +575,10 @@ const SavingsWidgetWrapped = ({
 
   // If we're in the supply or withdraw flow and we need allowance and  batch transactions are not supported, set the action to approve
   useEffect(() => {
-    if (widgetState.flow === SavingsFlow.SUPPLY && widgetState.screen === SavingsScreen.ACTION) {
+    if (
+      widgetState.flow === SavingsFlow.SUPPLY &&
+      (widgetState.screen === SavingsScreen.ACTION || widgetState.screen === SavingsScreen.REVIEW)
+    ) {
       setWidgetState((prev: WidgetState) => ({
         ...prev,
         action:
@@ -585,7 +588,10 @@ const SavingsWidgetWrapped = ({
       }));
     }
 
-    if (widgetState.flow === SavingsFlow.WITHDRAW && widgetState.screen === SavingsScreen.ACTION) {
+    if (
+      widgetState.flow === SavingsFlow.WITHDRAW &&
+      (widgetState.screen === SavingsScreen.ACTION || widgetState.screen === SavingsScreen.REVIEW)
+    ) {
       setWidgetState((prev: WidgetState) => ({
         ...prev,
         action:
@@ -857,13 +863,13 @@ const SavingsWidgetWrapped = ({
       } else if (widgetState.screen === SavingsScreen.ACTION) {
         setButtonText(t`Review`);
       } else if (widgetState.flow === SavingsFlow.SUPPLY && widgetState.action === SavingsAction.APPROVE) {
-        setButtonText(t`Approve supply amount`);
+        setButtonText(t`Confirm 2 transactions`);
       } else if (widgetState.flow === SavingsFlow.WITHDRAW && widgetState.action === SavingsAction.APPROVE) {
-        setButtonText(t`Approve withdraw amount`);
+        setButtonText(t`Confirm 2 transactions`);
       } else if (widgetState.flow === SavingsFlow.SUPPLY && widgetState.action === SavingsAction.SUPPLY) {
-        setButtonText(t`Supply`);
+        setButtonText(t`Confirm bundled transaction`);
       } else if (widgetState.flow === SavingsFlow.WITHDRAW && widgetState.action === SavingsAction.WITHDRAW) {
-        setButtonText(t`Withdraw`);
+        setButtonText(t`Confirm bundled transaction`);
       }
     } else {
       setButtonText(t`Connect Wallet`);
@@ -995,7 +1001,7 @@ const SavingsWidgetWrapped = ({
           </CardAnimationWrapper>
         ) : widgetState.screen === SavingsScreen.REVIEW ? (
           <CardAnimationWrapper key="widget-transaction-review">
-            <L2SavingsTransactionReview />
+            <TransactionReview onExternalLinkClicked={onExternalLinkClicked} />
           </CardAnimationWrapper>
         ) : (
           <CardAnimationWrapper key="widget-inputs">

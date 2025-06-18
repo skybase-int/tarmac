@@ -19,7 +19,7 @@ import { IconAnimationWrapper, PositionAnimationWithExitWrapper } from '@widgets
 import { useChainId } from 'wagmi';
 import { getTokenDecimals } from '@jetstreamgg/sky-hooks';
 
-function TransactionDetail() {
+export function TransactionDetail() {
   const { txDescription, originToken, originAmount, targetToken, targetAmount } = useContext(WidgetContext);
   const chainId = useChainId();
 
