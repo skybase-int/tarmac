@@ -2232,7 +2232,7 @@ export const lsSkyConfig = { address: lsSkyAddress, abi: lsSkyAbi } as const;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const lsSkySpkRewardAbi = [
   {
@@ -2545,15 +2545,15 @@ export const lsSkySpkRewardAbi = [
 ] as const;
 
 /**
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const lsSkySpkRewardAddress = {
-  1: '0x38E4254bD82ED5Ee97CD1C4278FAae748d998865',
-  314310: '0xAf7868a9BB72E16B930D50636519038d7F057470'
+  1: '0x99cBC0e4E6427F6939536eD24d1275B95ff77404',
+  314310: '0x99cBC0e4E6427F6939536eD24d1275B95ff77404'
 } as const;
 
 /**
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const lsSkySpkRewardConfig = { address: lsSkySpkRewardAddress, abi: lsSkySpkRewardAbi } as const;
 
@@ -7419,66 +7419,14 @@ export const skyConfig = { address: skyAddress, abi: skyAbi } as const;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdC035D45d973E3EC169d2276DDab16f1e407384F)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
 export const spkAbi = [
   {
     type: 'constructor',
     inputs: [
-      { name: 'implementation', internalType: 'address', type: 'address' },
-      { name: '_data', internalType: 'bytes', type: 'bytes' }
-    ],
-    stateMutability: 'payable'
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
-    name: 'AddressEmptyCode'
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'implementation', internalType: 'address', type: 'address' }],
-    name: 'ERC1967InvalidImplementation'
-  },
-  { type: 'error', inputs: [], name: 'ERC1967NonPayable' },
-  { type: 'error', inputs: [], name: 'FailedInnerCall' },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
-    name: 'Upgraded'
-  },
-  { type: 'fallback', stateMutability: 'payable' }
-] as const;
-
-/**
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdC035D45d973E3EC169d2276DDab16f1e407384F)
- */
-export const spkAddress = {
-  1: '0xdC035D45d973E3EC169d2276DDab16f1e407384F',
-  314310: '0xdC035D45d973E3EC169d2276DDab16f1e407384F'
-} as const;
-
-/**
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdC035D45d973E3EC169d2276DDab16f1e407384F)
- */
-export const spkConfig = { address: spkAddress, abi: spkAbi } as const;
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// spkSkyReward
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/**
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const spkSkyRewardAbi = [
-  {
-    type: 'constructor',
-    inputs: [
-      { name: '_owner', internalType: 'address', type: 'address' },
-      { name: '_rewardsDistribution', internalType: 'address', type: 'address' },
-      { name: '_rewardsToken', internalType: 'address', type: 'address' },
-      { name: '_stakingToken', internalType: 'address', type: 'address' }
+      { name: '_name', internalType: 'string', type: 'string' },
+      { name: '_symbol', internalType: 'string', type: 'string' }
     ],
     stateMutability: 'nonpayable'
   },
@@ -7486,276 +7434,189 @@ export const spkSkyRewardAbi = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'oldOwner', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newOwner', internalType: 'address', type: 'address', indexed: false }
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'spender', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false }
     ],
-    name: 'OwnerChanged'
+    name: 'Approval'
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address', indexed: false }],
-    name: 'OwnerNominated'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'isPaused', internalType: 'bool', type: 'bool', indexed: false }],
-    name: 'PauseChanged'
+    inputs: [{ name: 'usr', internalType: 'address', type: 'address', indexed: true }],
+    name: 'Deny'
   },
   {
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'token', internalType: 'address', type: 'address', indexed: false },
-      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }
+      { name: 'what', internalType: 'bytes32', type: 'bytes32', indexed: true },
+      { name: 'data', internalType: 'string', type: 'string', indexed: false }
     ],
-    name: 'Recovered'
+    name: 'File'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'usr', internalType: 'address', type: 'address', indexed: true }],
+    name: 'Rely'
   },
   {
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'referral', internalType: 'uint16', type: 'uint16', indexed: true },
-      { name: 'user', internalType: 'address', type: 'address', indexed: true },
-      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false }
     ],
-    name: 'Referral'
+    name: 'Transfer'
   },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'reward', internalType: 'uint256', type: 'uint256', indexed: false }],
-    name: 'RewardAdded'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'user', internalType: 'address', type: 'address', indexed: true },
-      { name: 'reward', internalType: 'uint256', type: 'uint256', indexed: false }
-    ],
-    name: 'RewardPaid'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'newRewardsDistribution', internalType: 'address', type: 'address', indexed: false }],
-    name: 'RewardsDistributionUpdated'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'newDuration', internalType: 'uint256', type: 'uint256', indexed: false }],
-    name: 'RewardsDurationUpdated'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'user', internalType: 'address', type: 'address', indexed: true },
-      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }
-    ],
-    name: 'Staked'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'user', internalType: 'address', type: 'address', indexed: true },
-      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }
-    ],
-    name: 'Withdrawn'
-  },
-  { type: 'function', inputs: [], name: 'acceptOwnership', outputs: [], stateMutability: 'nonpayable' },
   {
     type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    inputs: [],
+    name: 'DOMAIN_SEPARATOR',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'PERMIT_TYPEHASH',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '', internalType: 'address', type: 'address' },
+      { name: '', internalType: 'address', type: 'address' }
+    ],
+    name: 'allowance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'approve',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'address', type: 'address' }],
     name: 'balanceOf',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view'
   },
   {
     type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'earned',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view'
-  },
-  { type: 'function', inputs: [], name: 'exit', outputs: [], stateMutability: 'nonpayable' },
-  { type: 'function', inputs: [], name: 'getReward', outputs: [], stateMutability: 'nonpayable' },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'getRewardForDuration',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view'
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'lastPauseTime',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view'
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'lastTimeRewardApplicable',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view'
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'lastUpdateTime',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view'
-  },
-  {
-    type: 'function',
-    inputs: [{ name: '_owner', internalType: 'address', type: 'address' }],
-    name: 'nominateNewOwner',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'burn',
     outputs: [],
     stateMutability: 'nonpayable'
   },
   {
     type: 'function',
     inputs: [],
-    name: 'nominatedOwner',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: 'decimals',
+    outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
     stateMutability: 'view'
   },
   {
     type: 'function',
-    inputs: [{ name: 'reward', internalType: 'uint256', type: 'uint256' }],
-    name: 'notifyRewardAmount',
+    inputs: [{ name: 'usr', internalType: 'address', type: 'address' }],
+    name: 'deny',
     outputs: [],
     stateMutability: 'nonpayable'
   },
   {
     type: 'function',
     inputs: [],
-    name: 'owner',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-    stateMutability: 'view'
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'paused',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-    stateMutability: 'view'
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'periodFinish',
+    name: 'deploymentChainId',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view'
   },
   {
     type: 'function',
     inputs: [
-      { name: 'tokenAddress', internalType: 'address', type: 'address' },
-      { name: 'tokenAmount', internalType: 'uint256', type: 'uint256' }
+      { name: 'what', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'data', internalType: 'string', type: 'string' }
     ],
-    name: 'recoverERC20',
+    name: 'file',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'mint',
     outputs: [],
     stateMutability: 'nonpayable'
   },
   {
     type: 'function',
     inputs: [],
-    name: 'rewardPerToken',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view'
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'rewardPerTokenStored',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view'
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'rewardRate',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: 'name',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
     stateMutability: 'view'
   },
   {
     type: 'function',
     inputs: [{ name: '', internalType: 'address', type: 'address' }],
-    name: 'rewards',
+    name: 'nonces',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view'
   },
   {
     type: 'function',
-    inputs: [],
-    name: 'rewardsDistribution',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-    stateMutability: 'view'
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'rewardsDuration',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view'
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'rewardsToken',
-    outputs: [{ name: '', internalType: 'contract IERC20', type: 'address' }],
-    stateMutability: 'view'
-  },
-  {
-    type: 'function',
-    inputs: [{ name: '_paused', internalType: 'bool', type: 'bool' }],
-    name: 'setPaused',
-    outputs: [],
-    stateMutability: 'nonpayable'
-  },
-  {
-    type: 'function',
-    inputs: [{ name: '_rewardsDistribution', internalType: 'address', type: 'address' }],
-    name: 'setRewardsDistribution',
-    outputs: [],
-    stateMutability: 'nonpayable'
-  },
-  {
-    type: 'function',
-    inputs: [{ name: '_rewardsDuration', internalType: 'uint256', type: 'uint256' }],
-    name: 'setRewardsDuration',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+      { name: 'signature', internalType: 'bytes', type: 'bytes' }
+    ],
+    name: 'permit',
     outputs: [],
     stateMutability: 'nonpayable'
   },
   {
     type: 'function',
     inputs: [
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
-      { name: 'referral', internalType: 'uint16', type: 'uint16' }
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+      { name: 'v', internalType: 'uint8', type: 'uint8' },
+      { name: 'r', internalType: 'bytes32', type: 'bytes32' },
+      { name: 's', internalType: 'bytes32', type: 'bytes32' }
     ],
-    name: 'stake',
+    name: 'permit',
     outputs: [],
     stateMutability: 'nonpayable'
   },
   {
     type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
-    name: 'stake',
+    inputs: [{ name: 'usr', internalType: 'address', type: 'address' }],
+    name: 'rely',
     outputs: [],
     stateMutability: 'nonpayable'
   },
   {
     type: 'function',
     inputs: [],
-    name: 'stakingToken',
-    outputs: [{ name: '', internalType: 'contract IERC20', type: 'address' }],
+    name: 'symbol',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
     stateMutability: 'view'
   },
   {
@@ -7767,32 +7628,53 @@ export const spkSkyRewardAbi = [
   },
   {
     type: 'function',
-    inputs: [{ name: '', internalType: 'address', type: 'address' }],
-    name: 'userRewardPerTokenPaid',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'transfer',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'transferFrom',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'version',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
     stateMutability: 'view'
   },
   {
     type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
-    name: 'withdraw',
-    outputs: [],
-    stateMutability: 'nonpayable'
+    inputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: 'wards',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
   }
 ] as const;
 
 /**
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const spkSkyRewardAddress = {
-  1: '0x0650CAF159C5A49f711e8169D4336ECB9b950275',
-  314310: '0x0650CAF159C5A49f711e8169D4336ECB9b950275'
+export const spkAddress = {
+  1: '0xc20059e0317DE91738d13af027DfC4a50781b066',
+  314310: '0xc20059e0317DE91738d13af027DfC4a50781b066'
 } as const;
 
 /**
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const spkSkyRewardConfig = { address: spkSkyRewardAddress, abi: spkSkyRewardAbi } as const;
+export const spkConfig = { address: spkAddress, abi: spkAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ssrAuthOracle
@@ -9583,6 +9465,336 @@ export const usdsSkyRewardAddress = {
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
  */
 export const usdsSkyRewardConfig = { address: usdsSkyRewardAddress, abi: usdsSkyRewardAbi } as const;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// usdsSpkReward
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const usdsSpkRewardAbi = [
+  {
+    type: 'constructor',
+    inputs: [
+      { name: '_owner', internalType: 'address', type: 'address' },
+      { name: '_rewardsDistribution', internalType: 'address', type: 'address' },
+      { name: '_rewardsToken', internalType: 'address', type: 'address' },
+      { name: '_stakingToken', internalType: 'address', type: 'address' }
+    ],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'oldOwner', internalType: 'address', type: 'address', indexed: false },
+      { name: 'newOwner', internalType: 'address', type: 'address', indexed: false }
+    ],
+    name: 'OwnerChanged'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address', indexed: false }],
+    name: 'OwnerNominated'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'isPaused', internalType: 'bool', type: 'bool', indexed: false }],
+    name: 'PauseChanged'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'token', internalType: 'address', type: 'address', indexed: false },
+      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Recovered'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'referral', internalType: 'uint16', type: 'uint16', indexed: true },
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Referral'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'reward', internalType: 'uint256', type: 'uint256', indexed: false }],
+    name: 'RewardAdded'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+      { name: 'reward', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'RewardPaid'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'newRewardsDistribution', internalType: 'address', type: 'address', indexed: false }],
+    name: 'RewardsDistributionUpdated'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'newDuration', internalType: 'uint256', type: 'uint256', indexed: false }],
+    name: 'RewardsDurationUpdated'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Staked'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Withdrawn'
+  },
+  { type: 'function', inputs: [], name: 'acceptOwnership', outputs: [], stateMutability: 'nonpayable' },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'earned',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  { type: 'function', inputs: [], name: 'exit', outputs: [], stateMutability: 'nonpayable' },
+  { type: 'function', inputs: [], name: 'getReward', outputs: [], stateMutability: 'nonpayable' },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getRewardForDuration',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'lastPauseTime',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'lastTimeRewardApplicable',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'lastUpdateTime',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_owner', internalType: 'address', type: 'address' }],
+    name: 'nominateNewOwner',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'nominatedOwner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'reward', internalType: 'uint256', type: 'uint256' }],
+    name: 'notifyRewardAmount',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'owner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'paused',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'periodFinish',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'tokenAddress', internalType: 'address', type: 'address' },
+      { name: 'tokenAmount', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'recoverERC20',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'rewardPerToken',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'rewardPerTokenStored',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'rewardRate',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: 'rewards',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'rewardsDistribution',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'rewardsDuration',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'rewardsToken',
+    outputs: [{ name: '', internalType: 'contract IERC20', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_paused', internalType: 'bool', type: 'bool' }],
+    name: 'setPaused',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_rewardsDistribution', internalType: 'address', type: 'address' }],
+    name: 'setRewardsDistribution',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_rewardsDuration', internalType: 'uint256', type: 'uint256' }],
+    name: 'setRewardsDuration',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: 'referral', internalType: 'uint16', type: 'uint16' }
+    ],
+    name: 'stake',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    name: 'stake',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'stakingToken',
+    outputs: [{ name: '', internalType: 'contract IERC20', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: 'userRewardPerTokenPaid',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    name: 'withdraw',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  }
+] as const;
+
+/**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const usdsSpkRewardAddress = {
+  1: '0x173e314C7635B45322cd8Cb14f44b312e079F3af',
+  314310: '0x173e314C7635B45322cd8Cb14f44b312e079F3af'
+} as const;
+
+/**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const usdsSpkRewardConfig = { address: usdsSpkRewardAddress, abi: usdsSpkRewardAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // usdt
@@ -14189,7 +14401,7 @@ export const useWatchLsSkyTransfer = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useReadLsSkySpkReward = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
@@ -14199,7 +14411,7 @@ export const useReadLsSkySpkReward = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"balanceOf"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useReadLsSkySpkRewardBalanceOf = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
@@ -14210,7 +14422,7 @@ export const useReadLsSkySpkRewardBalanceOf = /*#__PURE__*/ createUseReadContrac
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"earned"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useReadLsSkySpkRewardEarned = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
@@ -14221,7 +14433,7 @@ export const useReadLsSkySpkRewardEarned = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"getRewardForDuration"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useReadLsSkySpkRewardGetRewardForDuration = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
@@ -14232,7 +14444,7 @@ export const useReadLsSkySpkRewardGetRewardForDuration = /*#__PURE__*/ createUse
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"lastPauseTime"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useReadLsSkySpkRewardLastPauseTime = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
@@ -14243,7 +14455,7 @@ export const useReadLsSkySpkRewardLastPauseTime = /*#__PURE__*/ createUseReadCon
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"lastTimeRewardApplicable"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useReadLsSkySpkRewardLastTimeRewardApplicable = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
@@ -14254,7 +14466,7 @@ export const useReadLsSkySpkRewardLastTimeRewardApplicable = /*#__PURE__*/ creat
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"lastUpdateTime"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useReadLsSkySpkRewardLastUpdateTime = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
@@ -14265,7 +14477,7 @@ export const useReadLsSkySpkRewardLastUpdateTime = /*#__PURE__*/ createUseReadCo
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"nominatedOwner"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useReadLsSkySpkRewardNominatedOwner = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
@@ -14276,7 +14488,7 @@ export const useReadLsSkySpkRewardNominatedOwner = /*#__PURE__*/ createUseReadCo
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"owner"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useReadLsSkySpkRewardOwner = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
@@ -14287,7 +14499,7 @@ export const useReadLsSkySpkRewardOwner = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"paused"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useReadLsSkySpkRewardPaused = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
@@ -14298,7 +14510,7 @@ export const useReadLsSkySpkRewardPaused = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"periodFinish"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useReadLsSkySpkRewardPeriodFinish = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
@@ -14309,7 +14521,7 @@ export const useReadLsSkySpkRewardPeriodFinish = /*#__PURE__*/ createUseReadCont
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"rewardPerToken"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useReadLsSkySpkRewardRewardPerToken = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
@@ -14320,7 +14532,7 @@ export const useReadLsSkySpkRewardRewardPerToken = /*#__PURE__*/ createUseReadCo
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"rewardPerTokenStored"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useReadLsSkySpkRewardRewardPerTokenStored = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
@@ -14331,7 +14543,7 @@ export const useReadLsSkySpkRewardRewardPerTokenStored = /*#__PURE__*/ createUse
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"rewardRate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useReadLsSkySpkRewardRewardRate = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
@@ -14342,7 +14554,7 @@ export const useReadLsSkySpkRewardRewardRate = /*#__PURE__*/ createUseReadContra
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"rewards"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useReadLsSkySpkRewardRewards = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
@@ -14353,7 +14565,7 @@ export const useReadLsSkySpkRewardRewards = /*#__PURE__*/ createUseReadContract(
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"rewardsDistribution"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useReadLsSkySpkRewardRewardsDistribution = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
@@ -14364,7 +14576,7 @@ export const useReadLsSkySpkRewardRewardsDistribution = /*#__PURE__*/ createUseR
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"rewardsDuration"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useReadLsSkySpkRewardRewardsDuration = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
@@ -14375,7 +14587,7 @@ export const useReadLsSkySpkRewardRewardsDuration = /*#__PURE__*/ createUseReadC
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"rewardsToken"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useReadLsSkySpkRewardRewardsToken = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
@@ -14386,7 +14598,7 @@ export const useReadLsSkySpkRewardRewardsToken = /*#__PURE__*/ createUseReadCont
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"stakingToken"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useReadLsSkySpkRewardStakingToken = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
@@ -14397,7 +14609,7 @@ export const useReadLsSkySpkRewardStakingToken = /*#__PURE__*/ createUseReadCont
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"totalSupply"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useReadLsSkySpkRewardTotalSupply = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
@@ -14408,7 +14620,7 @@ export const useReadLsSkySpkRewardTotalSupply = /*#__PURE__*/ createUseReadContr
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"userRewardPerTokenPaid"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useReadLsSkySpkRewardUserRewardPerTokenPaid = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
@@ -14419,7 +14631,7 @@ export const useReadLsSkySpkRewardUserRewardPerTokenPaid = /*#__PURE__*/ createU
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useWriteLsSkySpkReward = /*#__PURE__*/ createUseWriteContract({
   abi: lsSkySpkRewardAbi,
@@ -14429,7 +14641,7 @@ export const useWriteLsSkySpkReward = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"acceptOwnership"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useWriteLsSkySpkRewardAcceptOwnership = /*#__PURE__*/ createUseWriteContract({
   abi: lsSkySpkRewardAbi,
@@ -14440,7 +14652,7 @@ export const useWriteLsSkySpkRewardAcceptOwnership = /*#__PURE__*/ createUseWrit
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"exit"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useWriteLsSkySpkRewardExit = /*#__PURE__*/ createUseWriteContract({
   abi: lsSkySpkRewardAbi,
@@ -14451,7 +14663,7 @@ export const useWriteLsSkySpkRewardExit = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"getReward"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useWriteLsSkySpkRewardGetReward = /*#__PURE__*/ createUseWriteContract({
   abi: lsSkySpkRewardAbi,
@@ -14462,7 +14674,7 @@ export const useWriteLsSkySpkRewardGetReward = /*#__PURE__*/ createUseWriteContr
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"nominateNewOwner"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useWriteLsSkySpkRewardNominateNewOwner = /*#__PURE__*/ createUseWriteContract({
   abi: lsSkySpkRewardAbi,
@@ -14473,7 +14685,7 @@ export const useWriteLsSkySpkRewardNominateNewOwner = /*#__PURE__*/ createUseWri
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"notifyRewardAmount"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useWriteLsSkySpkRewardNotifyRewardAmount = /*#__PURE__*/ createUseWriteContract({
   abi: lsSkySpkRewardAbi,
@@ -14484,7 +14696,7 @@ export const useWriteLsSkySpkRewardNotifyRewardAmount = /*#__PURE__*/ createUseW
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"recoverERC20"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useWriteLsSkySpkRewardRecoverErc20 = /*#__PURE__*/ createUseWriteContract({
   abi: lsSkySpkRewardAbi,
@@ -14495,7 +14707,7 @@ export const useWriteLsSkySpkRewardRecoverErc20 = /*#__PURE__*/ createUseWriteCo
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"setPaused"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useWriteLsSkySpkRewardSetPaused = /*#__PURE__*/ createUseWriteContract({
   abi: lsSkySpkRewardAbi,
@@ -14506,7 +14718,7 @@ export const useWriteLsSkySpkRewardSetPaused = /*#__PURE__*/ createUseWriteContr
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"setRewardsDistribution"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useWriteLsSkySpkRewardSetRewardsDistribution = /*#__PURE__*/ createUseWriteContract({
   abi: lsSkySpkRewardAbi,
@@ -14517,7 +14729,7 @@ export const useWriteLsSkySpkRewardSetRewardsDistribution = /*#__PURE__*/ create
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"setRewardsDuration"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useWriteLsSkySpkRewardSetRewardsDuration = /*#__PURE__*/ createUseWriteContract({
   abi: lsSkySpkRewardAbi,
@@ -14528,7 +14740,7 @@ export const useWriteLsSkySpkRewardSetRewardsDuration = /*#__PURE__*/ createUseW
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"stake"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useWriteLsSkySpkRewardStake = /*#__PURE__*/ createUseWriteContract({
   abi: lsSkySpkRewardAbi,
@@ -14539,7 +14751,7 @@ export const useWriteLsSkySpkRewardStake = /*#__PURE__*/ createUseWriteContract(
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"withdraw"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useWriteLsSkySpkRewardWithdraw = /*#__PURE__*/ createUseWriteContract({
   abi: lsSkySpkRewardAbi,
@@ -14550,7 +14762,7 @@ export const useWriteLsSkySpkRewardWithdraw = /*#__PURE__*/ createUseWriteContra
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useSimulateLsSkySpkReward = /*#__PURE__*/ createUseSimulateContract({
   abi: lsSkySpkRewardAbi,
@@ -14560,7 +14772,7 @@ export const useSimulateLsSkySpkReward = /*#__PURE__*/ createUseSimulateContract
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"acceptOwnership"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useSimulateLsSkySpkRewardAcceptOwnership = /*#__PURE__*/ createUseSimulateContract({
   abi: lsSkySpkRewardAbi,
@@ -14571,7 +14783,7 @@ export const useSimulateLsSkySpkRewardAcceptOwnership = /*#__PURE__*/ createUseS
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"exit"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useSimulateLsSkySpkRewardExit = /*#__PURE__*/ createUseSimulateContract({
   abi: lsSkySpkRewardAbi,
@@ -14582,7 +14794,7 @@ export const useSimulateLsSkySpkRewardExit = /*#__PURE__*/ createUseSimulateCont
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"getReward"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useSimulateLsSkySpkRewardGetReward = /*#__PURE__*/ createUseSimulateContract({
   abi: lsSkySpkRewardAbi,
@@ -14593,7 +14805,7 @@ export const useSimulateLsSkySpkRewardGetReward = /*#__PURE__*/ createUseSimulat
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"nominateNewOwner"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useSimulateLsSkySpkRewardNominateNewOwner = /*#__PURE__*/ createUseSimulateContract({
   abi: lsSkySpkRewardAbi,
@@ -14604,7 +14816,7 @@ export const useSimulateLsSkySpkRewardNominateNewOwner = /*#__PURE__*/ createUse
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"notifyRewardAmount"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useSimulateLsSkySpkRewardNotifyRewardAmount = /*#__PURE__*/ createUseSimulateContract({
   abi: lsSkySpkRewardAbi,
@@ -14615,7 +14827,7 @@ export const useSimulateLsSkySpkRewardNotifyRewardAmount = /*#__PURE__*/ createU
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"recoverERC20"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useSimulateLsSkySpkRewardRecoverErc20 = /*#__PURE__*/ createUseSimulateContract({
   abi: lsSkySpkRewardAbi,
@@ -14626,7 +14838,7 @@ export const useSimulateLsSkySpkRewardRecoverErc20 = /*#__PURE__*/ createUseSimu
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"setPaused"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useSimulateLsSkySpkRewardSetPaused = /*#__PURE__*/ createUseSimulateContract({
   abi: lsSkySpkRewardAbi,
@@ -14637,7 +14849,7 @@ export const useSimulateLsSkySpkRewardSetPaused = /*#__PURE__*/ createUseSimulat
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"setRewardsDistribution"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useSimulateLsSkySpkRewardSetRewardsDistribution = /*#__PURE__*/ createUseSimulateContract({
   abi: lsSkySpkRewardAbi,
@@ -14648,7 +14860,7 @@ export const useSimulateLsSkySpkRewardSetRewardsDistribution = /*#__PURE__*/ cre
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"setRewardsDuration"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useSimulateLsSkySpkRewardSetRewardsDuration = /*#__PURE__*/ createUseSimulateContract({
   abi: lsSkySpkRewardAbi,
@@ -14659,7 +14871,7 @@ export const useSimulateLsSkySpkRewardSetRewardsDuration = /*#__PURE__*/ createU
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"stake"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useSimulateLsSkySpkRewardStake = /*#__PURE__*/ createUseSimulateContract({
   abi: lsSkySpkRewardAbi,
@@ -14670,7 +14882,7 @@ export const useSimulateLsSkySpkRewardStake = /*#__PURE__*/ createUseSimulateCon
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"withdraw"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useSimulateLsSkySpkRewardWithdraw = /*#__PURE__*/ createUseSimulateContract({
   abi: lsSkySpkRewardAbi,
@@ -14681,7 +14893,7 @@ export const useSimulateLsSkySpkRewardWithdraw = /*#__PURE__*/ createUseSimulate
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySpkRewardAbi}__
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useWatchLsSkySpkReward = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsSkySpkRewardAbi,
@@ -14691,7 +14903,7 @@ export const useWatchLsSkySpkReward = /*#__PURE__*/ createUseWatchContractEvent(
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `eventName` set to `"OwnerChanged"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useWatchLsSkySpkRewardOwnerChanged = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsSkySpkRewardAbi,
@@ -14702,7 +14914,7 @@ export const useWatchLsSkySpkRewardOwnerChanged = /*#__PURE__*/ createUseWatchCo
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `eventName` set to `"OwnerNominated"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useWatchLsSkySpkRewardOwnerNominated = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsSkySpkRewardAbi,
@@ -14713,7 +14925,7 @@ export const useWatchLsSkySpkRewardOwnerNominated = /*#__PURE__*/ createUseWatch
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `eventName` set to `"PauseChanged"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useWatchLsSkySpkRewardPauseChanged = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsSkySpkRewardAbi,
@@ -14724,7 +14936,7 @@ export const useWatchLsSkySpkRewardPauseChanged = /*#__PURE__*/ createUseWatchCo
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `eventName` set to `"Recovered"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useWatchLsSkySpkRewardRecovered = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsSkySpkRewardAbi,
@@ -14735,7 +14947,7 @@ export const useWatchLsSkySpkRewardRecovered = /*#__PURE__*/ createUseWatchContr
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `eventName` set to `"Referral"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useWatchLsSkySpkRewardReferral = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsSkySpkRewardAbi,
@@ -14746,7 +14958,7 @@ export const useWatchLsSkySpkRewardReferral = /*#__PURE__*/ createUseWatchContra
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `eventName` set to `"RewardAdded"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useWatchLsSkySpkRewardRewardAdded = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsSkySpkRewardAbi,
@@ -14757,7 +14969,7 @@ export const useWatchLsSkySpkRewardRewardAdded = /*#__PURE__*/ createUseWatchCon
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `eventName` set to `"RewardPaid"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useWatchLsSkySpkRewardRewardPaid = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsSkySpkRewardAbi,
@@ -14768,7 +14980,7 @@ export const useWatchLsSkySpkRewardRewardPaid = /*#__PURE__*/ createUseWatchCont
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `eventName` set to `"RewardsDistributionUpdated"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useWatchLsSkySpkRewardRewardsDistributionUpdated = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsSkySpkRewardAbi,
@@ -14779,7 +14991,7 @@ export const useWatchLsSkySpkRewardRewardsDistributionUpdated = /*#__PURE__*/ cr
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `eventName` set to `"RewardsDurationUpdated"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useWatchLsSkySpkRewardRewardsDurationUpdated = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsSkySpkRewardAbi,
@@ -14790,7 +15002,7 @@ export const useWatchLsSkySpkRewardRewardsDurationUpdated = /*#__PURE__*/ create
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `eventName` set to `"Staked"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useWatchLsSkySpkRewardStaked = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsSkySpkRewardAbi,
@@ -14801,7 +15013,7 @@ export const useWatchLsSkySpkRewardStaked = /*#__PURE__*/ createUseWatchContract
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `eventName` set to `"Withdrawn"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
 export const useWatchLsSkySpkRewardWithdrawn = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsSkySpkRewardAbi,
@@ -22132,644 +22344,416 @@ export const useWatchSkyTransfer = /*#__PURE__*/ createUseWatchContractEvent({
 });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkAbi}__
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdC035D45d973E3EC169d2276DDab16f1e407384F)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useWatchSpk = /*#__PURE__*/ createUseWatchContractEvent({ abi: spkAbi, address: spkAddress });
+export const useReadSpk = /*#__PURE__*/ createUseReadContract({ abi: spkAbi, address: spkAddress });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkAbi}__ and `eventName` set to `"Upgraded"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"DOMAIN_SEPARATOR"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdC035D45d973E3EC169d2276DDab16f1e407384F)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useWatchSpkUpgraded = /*#__PURE__*/ createUseWatchContractEvent({
+export const useReadSpkDomainSeparator = /*#__PURE__*/ createUseReadContract({
   abi: spkAbi,
   address: spkAddress,
-  eventName: 'Upgraded'
+  functionName: 'DOMAIN_SEPARATOR'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkSkyRewardAbi}__
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"PERMIT_TYPEHASH"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useReadSpkSkyReward = /*#__PURE__*/ createUseReadContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress
+export const useReadSpkPermitTypehash = /*#__PURE__*/ createUseReadContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'PERMIT_TYPEHASH'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"balanceOf"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"allowance"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useReadSpkSkyRewardBalanceOf = /*#__PURE__*/ createUseReadContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
+export const useReadSpkAllowance = /*#__PURE__*/ createUseReadContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'allowance'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"balanceOf"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
+ */
+export const useReadSpkBalanceOf = /*#__PURE__*/ createUseReadContract({
+  abi: spkAbi,
+  address: spkAddress,
   functionName: 'balanceOf'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"earned"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"decimals"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useReadSpkSkyRewardEarned = /*#__PURE__*/ createUseReadContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'earned'
+export const useReadSpkDecimals = /*#__PURE__*/ createUseReadContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'decimals'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"getRewardForDuration"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"deploymentChainId"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useReadSpkSkyRewardGetRewardForDuration = /*#__PURE__*/ createUseReadContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'getRewardForDuration'
+export const useReadSpkDeploymentChainId = /*#__PURE__*/ createUseReadContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'deploymentChainId'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"lastPauseTime"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"name"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useReadSpkSkyRewardLastPauseTime = /*#__PURE__*/ createUseReadContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'lastPauseTime'
+export const useReadSpkName = /*#__PURE__*/ createUseReadContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'name'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"lastTimeRewardApplicable"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"nonces"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useReadSpkSkyRewardLastTimeRewardApplicable = /*#__PURE__*/ createUseReadContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'lastTimeRewardApplicable'
+export const useReadSpkNonces = /*#__PURE__*/ createUseReadContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'nonces'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"lastUpdateTime"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"symbol"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useReadSpkSkyRewardLastUpdateTime = /*#__PURE__*/ createUseReadContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'lastUpdateTime'
+export const useReadSpkSymbol = /*#__PURE__*/ createUseReadContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'symbol'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"nominatedOwner"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"totalSupply"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useReadSpkSkyRewardNominatedOwner = /*#__PURE__*/ createUseReadContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'nominatedOwner'
-});
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"owner"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const useReadSpkSkyRewardOwner = /*#__PURE__*/ createUseReadContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'owner'
-});
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"paused"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const useReadSpkSkyRewardPaused = /*#__PURE__*/ createUseReadContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'paused'
-});
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"periodFinish"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const useReadSpkSkyRewardPeriodFinish = /*#__PURE__*/ createUseReadContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'periodFinish'
-});
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"rewardPerToken"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const useReadSpkSkyRewardRewardPerToken = /*#__PURE__*/ createUseReadContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'rewardPerToken'
-});
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"rewardPerTokenStored"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const useReadSpkSkyRewardRewardPerTokenStored = /*#__PURE__*/ createUseReadContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'rewardPerTokenStored'
-});
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"rewardRate"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const useReadSpkSkyRewardRewardRate = /*#__PURE__*/ createUseReadContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'rewardRate'
-});
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"rewards"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const useReadSpkSkyRewardRewards = /*#__PURE__*/ createUseReadContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'rewards'
-});
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"rewardsDistribution"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const useReadSpkSkyRewardRewardsDistribution = /*#__PURE__*/ createUseReadContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'rewardsDistribution'
-});
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"rewardsDuration"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const useReadSpkSkyRewardRewardsDuration = /*#__PURE__*/ createUseReadContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'rewardsDuration'
-});
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"rewardsToken"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const useReadSpkSkyRewardRewardsToken = /*#__PURE__*/ createUseReadContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'rewardsToken'
-});
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"stakingToken"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const useReadSpkSkyRewardStakingToken = /*#__PURE__*/ createUseReadContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'stakingToken'
-});
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"totalSupply"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const useReadSpkSkyRewardTotalSupply = /*#__PURE__*/ createUseReadContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
+export const useReadSpkTotalSupply = /*#__PURE__*/ createUseReadContract({
+  abi: spkAbi,
+  address: spkAddress,
   functionName: 'totalSupply'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"userRewardPerTokenPaid"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"version"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useReadSpkSkyRewardUserRewardPerTokenPaid = /*#__PURE__*/ createUseReadContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'userRewardPerTokenPaid'
+export const useReadSpkVersion = /*#__PURE__*/ createUseReadContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'version'
 });
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkSkyRewardAbi}__
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"wards"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useWriteSpkSkyReward = /*#__PURE__*/ createUseWriteContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress
+export const useReadSpkWards = /*#__PURE__*/ createUseReadContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'wards'
 });
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"acceptOwnership"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkAbi}__
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useWriteSpkSkyRewardAcceptOwnership = /*#__PURE__*/ createUseWriteContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'acceptOwnership'
+export const useWriteSpk = /*#__PURE__*/ createUseWriteContract({ abi: spkAbi, address: spkAddress });
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"approve"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
+ */
+export const useWriteSpkApprove = /*#__PURE__*/ createUseWriteContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'approve'
 });
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"exit"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"burn"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useWriteSpkSkyRewardExit = /*#__PURE__*/ createUseWriteContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'exit'
+export const useWriteSpkBurn = /*#__PURE__*/ createUseWriteContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'burn'
 });
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"getReward"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"deny"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useWriteSpkSkyRewardGetReward = /*#__PURE__*/ createUseWriteContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'getReward'
+export const useWriteSpkDeny = /*#__PURE__*/ createUseWriteContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'deny'
 });
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"nominateNewOwner"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"file"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useWriteSpkSkyRewardNominateNewOwner = /*#__PURE__*/ createUseWriteContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'nominateNewOwner'
+export const useWriteSpkFile = /*#__PURE__*/ createUseWriteContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'file'
 });
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"notifyRewardAmount"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"mint"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useWriteSpkSkyRewardNotifyRewardAmount = /*#__PURE__*/ createUseWriteContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'notifyRewardAmount'
+export const useWriteSpkMint = /*#__PURE__*/ createUseWriteContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'mint'
 });
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"recoverERC20"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"permit"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useWriteSpkSkyRewardRecoverErc20 = /*#__PURE__*/ createUseWriteContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'recoverERC20'
+export const useWriteSpkPermit = /*#__PURE__*/ createUseWriteContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'permit'
 });
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"setPaused"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"rely"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useWriteSpkSkyRewardSetPaused = /*#__PURE__*/ createUseWriteContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'setPaused'
+export const useWriteSpkRely = /*#__PURE__*/ createUseWriteContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'rely'
 });
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"setRewardsDistribution"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"transfer"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useWriteSpkSkyRewardSetRewardsDistribution = /*#__PURE__*/ createUseWriteContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'setRewardsDistribution'
+export const useWriteSpkTransfer = /*#__PURE__*/ createUseWriteContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'transfer'
 });
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"setRewardsDuration"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"transferFrom"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useWriteSpkSkyRewardSetRewardsDuration = /*#__PURE__*/ createUseWriteContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'setRewardsDuration'
+export const useWriteSpkTransferFrom = /*#__PURE__*/ createUseWriteContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'transferFrom'
 });
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"stake"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkAbi}__
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useWriteSpkSkyRewardStake = /*#__PURE__*/ createUseWriteContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'stake'
+export const useSimulateSpk = /*#__PURE__*/ createUseSimulateContract({ abi: spkAbi, address: spkAddress });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"approve"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
+ */
+export const useSimulateSpkApprove = /*#__PURE__*/ createUseSimulateContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'approve'
 });
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"withdraw"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"burn"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useWriteSpkSkyRewardWithdraw = /*#__PURE__*/ createUseWriteContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'withdraw'
+export const useSimulateSpkBurn = /*#__PURE__*/ createUseSimulateContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'burn'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkSkyRewardAbi}__
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"deny"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useSimulateSpkSkyReward = /*#__PURE__*/ createUseSimulateContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress
+export const useSimulateSpkDeny = /*#__PURE__*/ createUseSimulateContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'deny'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"acceptOwnership"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"file"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useSimulateSpkSkyRewardAcceptOwnership = /*#__PURE__*/ createUseSimulateContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'acceptOwnership'
+export const useSimulateSpkFile = /*#__PURE__*/ createUseSimulateContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'file'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"exit"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"mint"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useSimulateSpkSkyRewardExit = /*#__PURE__*/ createUseSimulateContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'exit'
+export const useSimulateSpkMint = /*#__PURE__*/ createUseSimulateContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'mint'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"getReward"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"permit"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useSimulateSpkSkyRewardGetReward = /*#__PURE__*/ createUseSimulateContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'getReward'
+export const useSimulateSpkPermit = /*#__PURE__*/ createUseSimulateContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'permit'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"nominateNewOwner"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"rely"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useSimulateSpkSkyRewardNominateNewOwner = /*#__PURE__*/ createUseSimulateContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'nominateNewOwner'
+export const useSimulateSpkRely = /*#__PURE__*/ createUseSimulateContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'rely'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"notifyRewardAmount"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"transfer"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useSimulateSpkSkyRewardNotifyRewardAmount = /*#__PURE__*/ createUseSimulateContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'notifyRewardAmount'
+export const useSimulateSpkTransfer = /*#__PURE__*/ createUseSimulateContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'transfer'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"recoverERC20"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"transferFrom"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useSimulateSpkSkyRewardRecoverErc20 = /*#__PURE__*/ createUseSimulateContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'recoverERC20'
+export const useSimulateSpkTransferFrom = /*#__PURE__*/ createUseSimulateContract({
+  abi: spkAbi,
+  address: spkAddress,
+  functionName: 'transferFrom'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"setPaused"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkAbi}__
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useSimulateSpkSkyRewardSetPaused = /*#__PURE__*/ createUseSimulateContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'setPaused'
+export const useWatchSpk = /*#__PURE__*/ createUseWatchContractEvent({ abi: spkAbi, address: spkAddress });
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkAbi}__ and `eventName` set to `"Approval"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
+ */
+export const useWatchSpkApproval = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: spkAbi,
+  address: spkAddress,
+  eventName: 'Approval'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"setRewardsDistribution"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkAbi}__ and `eventName` set to `"Deny"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useSimulateSpkSkyRewardSetRewardsDistribution = /*#__PURE__*/ createUseSimulateContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'setRewardsDistribution'
+export const useWatchSpkDeny = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: spkAbi,
+  address: spkAddress,
+  eventName: 'Deny'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"setRewardsDuration"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkAbi}__ and `eventName` set to `"File"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useSimulateSpkSkyRewardSetRewardsDuration = /*#__PURE__*/ createUseSimulateContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'setRewardsDuration'
+export const useWatchSpkFile = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: spkAbi,
+  address: spkAddress,
+  eventName: 'File'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"stake"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkAbi}__ and `eventName` set to `"Rely"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useSimulateSpkSkyRewardStake = /*#__PURE__*/ createUseSimulateContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'stake'
+export const useWatchSpkRely = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: spkAbi,
+  address: spkAddress,
+  eventName: 'Rely'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `functionName` set to `"withdraw"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkAbi}__ and `eventName` set to `"Transfer"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useSimulateSpkSkyRewardWithdraw = /*#__PURE__*/ createUseSimulateContract({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  functionName: 'withdraw'
-});
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkSkyRewardAbi}__
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const useWatchSpkSkyReward = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress
-});
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `eventName` set to `"OwnerChanged"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const useWatchSpkSkyRewardOwnerChanged = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  eventName: 'OwnerChanged'
-});
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `eventName` set to `"OwnerNominated"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const useWatchSpkSkyRewardOwnerNominated = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  eventName: 'OwnerNominated'
-});
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `eventName` set to `"PauseChanged"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const useWatchSpkSkyRewardPauseChanged = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  eventName: 'PauseChanged'
-});
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `eventName` set to `"Recovered"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const useWatchSpkSkyRewardRecovered = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  eventName: 'Recovered'
-});
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `eventName` set to `"Referral"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const useWatchSpkSkyRewardReferral = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  eventName: 'Referral'
-});
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `eventName` set to `"RewardAdded"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const useWatchSpkSkyRewardRewardAdded = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  eventName: 'RewardAdded'
-});
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `eventName` set to `"RewardPaid"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const useWatchSpkSkyRewardRewardPaid = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  eventName: 'RewardPaid'
-});
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `eventName` set to `"RewardsDistributionUpdated"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const useWatchSpkSkyRewardRewardsDistributionUpdated = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  eventName: 'RewardsDistributionUpdated'
-});
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `eventName` set to `"RewardsDurationUpdated"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const useWatchSpkSkyRewardRewardsDurationUpdated = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  eventName: 'RewardsDurationUpdated'
-});
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `eventName` set to `"Staked"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const useWatchSpkSkyRewardStaked = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  eventName: 'Staked'
-});
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkSkyRewardAbi}__ and `eventName` set to `"Withdrawn"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
- */
-export const useWatchSpkSkyRewardWithdrawn = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: spkSkyRewardAbi,
-  address: spkSkyRewardAddress,
-  eventName: 'Withdrawn'
+export const useWatchSpkTransfer = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: spkAbi,
+  address: spkAddress,
+  eventName: 'Transfer'
 });
 
 /**
@@ -25636,6 +25620,629 @@ export const useWatchUsdsSkyRewardStaked = /*#__PURE__*/ createUseWatchContractE
 export const useWatchUsdsSkyRewardWithdrawn = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
+  eventName: 'Withdrawn'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useReadUsdsSpkReward = /*#__PURE__*/ createUseReadContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"balanceOf"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useReadUsdsSpkRewardBalanceOf = /*#__PURE__*/ createUseReadContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'balanceOf'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"earned"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useReadUsdsSpkRewardEarned = /*#__PURE__*/ createUseReadContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'earned'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"getRewardForDuration"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useReadUsdsSpkRewardGetRewardForDuration = /*#__PURE__*/ createUseReadContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'getRewardForDuration'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"lastPauseTime"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useReadUsdsSpkRewardLastPauseTime = /*#__PURE__*/ createUseReadContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'lastPauseTime'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"lastTimeRewardApplicable"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useReadUsdsSpkRewardLastTimeRewardApplicable = /*#__PURE__*/ createUseReadContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'lastTimeRewardApplicable'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"lastUpdateTime"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useReadUsdsSpkRewardLastUpdateTime = /*#__PURE__*/ createUseReadContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'lastUpdateTime'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"nominatedOwner"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useReadUsdsSpkRewardNominatedOwner = /*#__PURE__*/ createUseReadContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'nominatedOwner'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"owner"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useReadUsdsSpkRewardOwner = /*#__PURE__*/ createUseReadContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'owner'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"paused"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useReadUsdsSpkRewardPaused = /*#__PURE__*/ createUseReadContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'paused'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"periodFinish"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useReadUsdsSpkRewardPeriodFinish = /*#__PURE__*/ createUseReadContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'periodFinish'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"rewardPerToken"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useReadUsdsSpkRewardRewardPerToken = /*#__PURE__*/ createUseReadContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'rewardPerToken'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"rewardPerTokenStored"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useReadUsdsSpkRewardRewardPerTokenStored = /*#__PURE__*/ createUseReadContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'rewardPerTokenStored'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"rewardRate"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useReadUsdsSpkRewardRewardRate = /*#__PURE__*/ createUseReadContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'rewardRate'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"rewards"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useReadUsdsSpkRewardRewards = /*#__PURE__*/ createUseReadContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'rewards'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"rewardsDistribution"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useReadUsdsSpkRewardRewardsDistribution = /*#__PURE__*/ createUseReadContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'rewardsDistribution'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"rewardsDuration"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useReadUsdsSpkRewardRewardsDuration = /*#__PURE__*/ createUseReadContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'rewardsDuration'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"rewardsToken"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useReadUsdsSpkRewardRewardsToken = /*#__PURE__*/ createUseReadContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'rewardsToken'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"stakingToken"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useReadUsdsSpkRewardStakingToken = /*#__PURE__*/ createUseReadContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'stakingToken'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"totalSupply"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useReadUsdsSpkRewardTotalSupply = /*#__PURE__*/ createUseReadContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'totalSupply'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"userRewardPerTokenPaid"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useReadUsdsSpkRewardUserRewardPerTokenPaid = /*#__PURE__*/ createUseReadContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'userRewardPerTokenPaid'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useWriteUsdsSpkReward = /*#__PURE__*/ createUseWriteContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"acceptOwnership"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useWriteUsdsSpkRewardAcceptOwnership = /*#__PURE__*/ createUseWriteContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'acceptOwnership'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"exit"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useWriteUsdsSpkRewardExit = /*#__PURE__*/ createUseWriteContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'exit'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"getReward"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useWriteUsdsSpkRewardGetReward = /*#__PURE__*/ createUseWriteContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'getReward'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"nominateNewOwner"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useWriteUsdsSpkRewardNominateNewOwner = /*#__PURE__*/ createUseWriteContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'nominateNewOwner'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"notifyRewardAmount"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useWriteUsdsSpkRewardNotifyRewardAmount = /*#__PURE__*/ createUseWriteContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'notifyRewardAmount'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"recoverERC20"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useWriteUsdsSpkRewardRecoverErc20 = /*#__PURE__*/ createUseWriteContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'recoverERC20'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"setPaused"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useWriteUsdsSpkRewardSetPaused = /*#__PURE__*/ createUseWriteContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'setPaused'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"setRewardsDistribution"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useWriteUsdsSpkRewardSetRewardsDistribution = /*#__PURE__*/ createUseWriteContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'setRewardsDistribution'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"setRewardsDuration"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useWriteUsdsSpkRewardSetRewardsDuration = /*#__PURE__*/ createUseWriteContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'setRewardsDuration'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"stake"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useWriteUsdsSpkRewardStake = /*#__PURE__*/ createUseWriteContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'stake'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"withdraw"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useWriteUsdsSpkRewardWithdraw = /*#__PURE__*/ createUseWriteContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'withdraw'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useSimulateUsdsSpkReward = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"acceptOwnership"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useSimulateUsdsSpkRewardAcceptOwnership = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'acceptOwnership'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"exit"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useSimulateUsdsSpkRewardExit = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'exit'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"getReward"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useSimulateUsdsSpkRewardGetReward = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'getReward'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"nominateNewOwner"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useSimulateUsdsSpkRewardNominateNewOwner = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'nominateNewOwner'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"notifyRewardAmount"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useSimulateUsdsSpkRewardNotifyRewardAmount = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'notifyRewardAmount'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"recoverERC20"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useSimulateUsdsSpkRewardRecoverErc20 = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'recoverERC20'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"setPaused"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useSimulateUsdsSpkRewardSetPaused = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'setPaused'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"setRewardsDistribution"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useSimulateUsdsSpkRewardSetRewardsDistribution = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'setRewardsDistribution'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"setRewardsDuration"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useSimulateUsdsSpkRewardSetRewardsDuration = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'setRewardsDuration'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"stake"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useSimulateUsdsSpkRewardStake = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'stake'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"withdraw"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useSimulateUsdsSpkRewardWithdraw = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  functionName: 'withdraw'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSpkRewardAbi}__
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useWatchUsdsSpkReward = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `eventName` set to `"OwnerChanged"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useWatchUsdsSpkRewardOwnerChanged = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  eventName: 'OwnerChanged'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `eventName` set to `"OwnerNominated"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useWatchUsdsSpkRewardOwnerNominated = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  eventName: 'OwnerNominated'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `eventName` set to `"PauseChanged"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useWatchUsdsSpkRewardPauseChanged = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  eventName: 'PauseChanged'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `eventName` set to `"Recovered"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useWatchUsdsSpkRewardRecovered = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  eventName: 'Recovered'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `eventName` set to `"Referral"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useWatchUsdsSpkRewardReferral = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  eventName: 'Referral'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `eventName` set to `"RewardAdded"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useWatchUsdsSpkRewardRewardAdded = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  eventName: 'RewardAdded'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `eventName` set to `"RewardPaid"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useWatchUsdsSpkRewardRewardPaid = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  eventName: 'RewardPaid'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `eventName` set to `"RewardsDistributionUpdated"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useWatchUsdsSpkRewardRewardsDistributionUpdated = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  eventName: 'RewardsDistributionUpdated'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `eventName` set to `"RewardsDurationUpdated"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useWatchUsdsSpkRewardRewardsDurationUpdated = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  eventName: 'RewardsDurationUpdated'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `eventName` set to `"Staked"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useWatchUsdsSpkRewardStaked = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
+  eventName: 'Staked'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `eventName` set to `"Withdrawn"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
+ */
+export const useWatchUsdsSpkRewardWithdrawn = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdsSpkRewardAbi,
+  address: usdsSpkRewardAddress,
   eventName: 'Withdrawn'
 });
 

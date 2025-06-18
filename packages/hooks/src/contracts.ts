@@ -152,10 +152,10 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
     }
   },
   {
-    name: 'spkSkyReward',
+    name: 'usdsSpkReward',
     address: {
-      [mainnet.id]: '0x0650CAF159C5A49f711e8169D4336ECB9b950275',
-      [TENDERLY_CHAIN_ID]: '0x0650CAF159C5A49f711e8169D4336ECB9b950275'
+      [mainnet.id]: '0x173e314C7635B45322cd8Cb14f44b312e079F3af',
+      [TENDERLY_CHAIN_ID]: '0x173e314C7635B45322cd8Cb14f44b312e079F3af'
     }
   },
   {
@@ -183,8 +183,8 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
   {
     name: 'spk',
     address: {
-      [mainnet.id]: '0xdC035D45d973E3EC169d2276DDab16f1e407384F',
-      [TENDERLY_CHAIN_ID]: '0xdC035D45d973E3EC169d2276DDab16f1e407384F'
+      [mainnet.id]: '0xc20059e0317DE91738d13af027DfC4a50781b066',
+      [TENDERLY_CHAIN_ID]: '0xc20059e0317DE91738d13af027DfC4a50781b066'
     }
   },
   // SealModule
@@ -255,8 +255,8 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
   {
     name: 'lsSkySpkReward',
     address: {
-      [mainnet.id]: '0x38E4254bD82ED5Ee97CD1C4278FAae748d998865',
-      [TENDERLY_CHAIN_ID]: '0xAf7868a9BB72E16B930D50636519038d7F057470'
+      [mainnet.id]: '0x99cBC0e4E6427F6939536eD24d1275B95ff77404',
+      [TENDERLY_CHAIN_ID]: '0x99cBC0e4E6427F6939536eD24d1275B95ff77404'
     }
   }
 ];
