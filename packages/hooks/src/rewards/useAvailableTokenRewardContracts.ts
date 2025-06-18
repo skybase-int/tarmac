@@ -1,6 +1,6 @@
 import { useMemo, useCallback } from 'react';
 import { RewardContract } from './rewards';
-import { cleRewardAddress, spkSkyRewardAddress, usdsSkyRewardAddress } from '../generated';
+import { cleRewardAddress, usdsSpkRewardAddress, usdsSkyRewardAddress } from '../generated';
 import { TOKENS } from '../tokens/tokens.constants';
 
 const REWARD_CONTRACT_CONFIGS = [
@@ -17,7 +17,7 @@ const REWARD_CONTRACT_CONFIGS = [
   {
     supplyToken: TOKENS.usds,
     rewardToken: TOKENS.spk,
-    getAddress: (chainId: number) => spkSkyRewardAddress[chainId as keyof typeof spkSkyRewardAddress],
+    getAddress: (chainId: number) => usdsSpkRewardAddress[chainId as keyof typeof usdsSpkRewardAddress],
     name: 'With: USDS Get: SPK',
     description: 'Supply USDS, get SPK',
     externalLink: 'http://spark.fi/',
