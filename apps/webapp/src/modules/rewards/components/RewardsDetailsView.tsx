@@ -20,7 +20,7 @@ import { filterActionsByIntent } from '@/lib/utils';
 export function RewardsDetailsView({ rewardContract }: { rewardContract?: RewardContract }) {
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
   const { linkedActionConfig } = useConfigContext();
-  const { data: actionData } = useUserSuggestedActions();
+  const { data: actionData } = useUserSuggestedActions(rewardContract);
   if (!rewardContract) {
     return null;
   }
@@ -43,7 +43,7 @@ export function RewardsDetailsView({ rewardContract }: { rewardContract?: Reward
         (filterActionsByIntent(actionData?.linkedActions || [], widget).length ?? 0) > 0 && (
           <DetailSection title={t`Combined actions`}>
             <DetailSectionRow>
-              <ActionsShowcase widget={widget} />
+              <ActionsShowcase widget={widget} currentRewardContract={rewardContract} />
             </DetailSectionRow>
           </DetailSection>
         )}
