@@ -21,7 +21,6 @@ export function RewardsDetailsView({ rewardContract }: { rewardContract?: Reward
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
   const { linkedActionConfig } = useConfigContext();
   const { data: actionData } = useUserSuggestedActions(rewardContract);
-  console.log('actionData', actionData);
   if (!rewardContract) {
     return null;
   }

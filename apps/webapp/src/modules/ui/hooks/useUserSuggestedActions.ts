@@ -47,7 +47,6 @@ const fetchUserSuggestedActions = (
   suggestedActions: SuggestedAction[];
   linkedActions: LinkedAction[];
 } => {
-  console.log('currentRewardContract', currentRewardContract);
   const suggestedActions: SuggestedAction[] = [];
   const linkedActions: LinkedAction[] = [];
   const { LinkedAction, InputAmount, SourceToken, TargetToken, Widget } = QueryParams;

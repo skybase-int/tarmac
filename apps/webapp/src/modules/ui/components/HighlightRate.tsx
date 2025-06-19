@@ -88,7 +88,6 @@ export function RewardsRate({
     );
   }
 
-  console.log('selectedRewardContract', selectedRewardContract);
   // if no reward contract, don't show anything
   if (!selectedRewardContract) {
     return <></>;

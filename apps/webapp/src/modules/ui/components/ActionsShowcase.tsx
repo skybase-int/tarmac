@@ -20,9 +20,7 @@ export function ActionsShowcase({
   // for now, just sorting by weight
   // but in future, may want to consider the module the action is related to and create a mix
   const linkedActions = (data?.linkedActions || []).sort((a, b) => b.weight - a.weight).slice(0, 6);
-  console.log('linkedActions', linkedActions);
   const filteredActions = filterActionsByIntent(linkedActions, widget);
-  console.log('filteredActions', filteredActions);
   if (isLoading) {
     return (
       <HStack gap={0} className="scrollbar-thin w-full flex-col gap-4 overflow-auto xl:flex-row">
