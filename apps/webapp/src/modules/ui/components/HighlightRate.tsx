@@ -1,11 +1,12 @@
 import { VStack } from '@/modules/layout/components/VStack';
-import { useAvailableTokenRewardContracts } from '@jetstreamgg/sky-hooks';
+import { useAvailableTokenRewardContracts, RewardContract } from '@jetstreamgg/sky-hooks';
 import { Heading, Text } from '@/modules/layout/components/Typography';
 import { useChainId } from 'wagmi';
 import { LoadingErrorWrapper } from './LoadingErrorWrapper';
 import { PopoverInfo } from './PopoverInfo';
 import { TOKENS } from '@jetstreamgg/sky-hooks';
 import { useOverallSkyData } from '@jetstreamgg/sky-hooks';
+import { useRewardsRate } from '@jetstreamgg/sky-hooks';
 import { formatDecimalPercentage } from '@jetstreamgg/sky-utils';
 
 export function SavingsRate() {
@@ -33,38 +34,64 @@ export function SavingsRate() {
   );
 }
 
-export function RewardsRate({ token }: any) {
+export function RewardsRate({
+  token,
+  currentRewardContract
+}: {
+  token?: string;
+  currentRewardContract?: RewardContract;
+}) {
   const chainId = useChainId();
-
   const rewardContracts = useAvailableTokenRewardContracts(chainId);
-  // TODO: if there are multiple reward contracts with same supply token we'll need a way to choose one
-  const rewardContractsWithTokenMatch = rewardContracts.filter(
-    rewardContract => rewardContract.supplyToken.name === token
-  );
-  //TODO update this once we have multiple linked actions with the same reward supply token
-  const rewardContract = rewardContractsWithTokenMatch.filter(
-    rewardContract => rewardContract.rewardToken === TOKENS.sky
-  )[0];
+
+  // Determine which reward contract to use
+  let selectedRewardContract: RewardContract | undefined;
+
+  if (currentRewardContract) {
+    // Use the provided reward contract (from context)
+    selectedRewardContract = currentRewardContract;
+  } else if (token) {
+    // Legacy behavior: filter by token and default to SKY
+    const rewardContractsWithTokenMatch = rewardContracts.filter(
+      rewardContract => rewardContract.supplyToken.name === token
+    );
+    selectedRewardContract = rewardContractsWithTokenMatch.filter(
+      rewardContract => rewardContract.rewardToken === TOKENS.sky
+    )[0];
+  } else {
+    // Default to SKY reward contract if no context provided
+    selectedRewardContract = rewardContracts.find(
+      rewardContract => rewardContract.rewardToken === TOKENS.sky
+    );
+  }
+
+  console.log('selectedRewardContract', selectedRewardContract);
   // if no reward contract, don't show anything
-  // this should be updated when we have a way to choose which reward contract to show when there are duplicates
-  if (!rewardContract) {
+  if (!selectedRewardContract) {
     return <></>;
   }
 
-  const { data, isLoading, error } = useOverallSkyData();
-  const rate = formatDecimalPercentage(parseFloat(data?.usdsSkyCRate || '0')); //TODO update once we have multiple farms with linked actions
+  // Use dynamic rate calculation instead of hardcoded API field
+  const {
+    data: rateData,
+    isLoading,
+    error
+  } = useRewardsRate({
+    contractAddress: selectedRewardContract.contractAddress as `0x${string}`,
+    chainId
+  });
 
   return (
     <LoadingErrorWrapper isLoading={isLoading} error={error}>
-      {rewardContract && rate ? (
+      {selectedRewardContract /*&& rateData?.formatted */ ? (
         <VStack>
           <div className="flex items-center gap-2">
             <Text variant="medium" className="text-white/80">
-              {rewardContract.name}
+              {selectedRewardContract.name}
             </Text>
           </div>
           <div className="flex items-center gap-2">
-            <Heading className="text-[32px]">Rate {rate}</Heading>
+            <Heading className="text-[32px]">Rate {rateData.formatted}</Heading>
             <PopoverInfo type="str" />
           </div>
         </VStack>

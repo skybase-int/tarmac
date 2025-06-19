@@ -1,5 +1,5 @@
 import { Card, CardContent } from '@/components/ui/card';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Heading } from '@/modules/layout/components/Typography';
 import { capitalizeFirstLetter } from '@/lib/helpers/string/capitalizeFirstLetter';
 import { IntentMapping, QueryParams, intentTxt } from '@/lib/constants';
@@ -14,6 +14,8 @@ import { LinkedActionSteps } from '@/modules/config/context/ConfigContext';
 import { Trans } from '@lingui/react/macro';
 import { formatNumber } from '@jetstreamgg/sky-utils';
 import { useEffect, useState } from 'react';
+import { useAvailableTokenRewardContracts } from '@jetstreamgg/sky-hooks';
+import { useChainId } from 'wagmi';
 
 const secondaryTagline = {
   [IntentMapping.SAVINGS_INTENT]: 'to get the Sky Savings Rate',
@@ -44,6 +46,15 @@ export const LinkedActionCard = ({
   const { linkedActionConfig, updateLinkedActionConfig } = useConfigContext();
   const navigate = useNavigate();
   const [isLastStep, setIsLastStep] = useState<boolean>();
+  const [searchParams] = useSearchParams();
+  const chainId = useChainId();
+  const rewardContracts = useAvailableTokenRewardContracts(chainId);
+
+  // Extract reward contract address from URL and find corresponding contract
+  const rewardContractAddress = searchParams.get(QueryParams.Reward);
+  const selectedRewardContract = rewardContracts.find(
+    contract => contract.contractAddress?.toLowerCase() === rewardContractAddress?.toLowerCase()
+  );
 
   const handleClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     event.preventDefault();
@@ -71,7 +82,11 @@ export const LinkedActionCard = ({
               {secondaryTagline[la]}
             </Trans>
           </Heading>
-          {la === IntentMapping.REWARDS_INTENT ? <RewardsRate token={secondaryToken} /> : <SavingsRate />}
+          {la === IntentMapping.REWARDS_INTENT ? (
+            <RewardsRate token={secondaryToken} currentRewardContract={selectedRewardContract} />
+          ) : (
+            <SavingsRate />
+          )}
           <Link to={urlWithRetainedParams} onClick={handleClick}>
             <Button variant="light" className="w-fit px-5">
               {buttonText}
