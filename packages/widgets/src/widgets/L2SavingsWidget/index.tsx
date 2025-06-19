@@ -82,6 +82,7 @@ export type SavingsWidgetProps = WidgetProps & {
   disallowedTokens?: { [key in SavingsFlow]: Token[] };
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   batchEnabled?: boolean;
+  setBatchEnabled?: (enabled: boolean) => void;
 };
 
 export const L2SavingsWidget = ({
@@ -98,7 +99,8 @@ export const L2SavingsWidget = ({
   referralCode,
   disallowedTokens,
   shouldReset = false,
-  batchEnabled
+  batchEnabled,
+  setBatchEnabled
 }: SavingsWidgetProps) => {
   const key = shouldReset ? 'reset' : undefined;
   return (
@@ -119,6 +121,7 @@ export const L2SavingsWidget = ({
           referralCode={referralCode}
           disallowedTokens={disallowedTokens}
           batchEnabled={batchEnabled}
+          setBatchEnabled={setBatchEnabled}
         />
       </WidgetProvider>
     </ErrorBoundary>
@@ -139,7 +142,8 @@ const SavingsWidgetWrapped = ({
   enabled = true,
   referralCode,
   disallowedTokens,
-  batchEnabled
+  batchEnabled,
+  setBatchEnabled
 }: SavingsWidgetProps) => {
   const {
     setButtonText,
@@ -1001,7 +1005,11 @@ const SavingsWidgetWrapped = ({
           </CardAnimationWrapper>
         ) : widgetState.screen === SavingsScreen.REVIEW ? (
           <CardAnimationWrapper key="widget-transaction-review">
-            <TransactionReview onExternalLinkClicked={onExternalLinkClicked} />
+            <TransactionReview
+              onExternalLinkClicked={onExternalLinkClicked}
+              batchEnabled={batchEnabled}
+              setBatchEnabled={setBatchEnabled}
+            />
           </CardAnimationWrapper>
         ) : (
           <CardAnimationWrapper key="widget-inputs">

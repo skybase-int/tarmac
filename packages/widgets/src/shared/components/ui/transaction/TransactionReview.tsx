@@ -6,11 +6,16 @@ import { Zap } from '@widgets/shared/components/icons/Icons';
 import { TransactionDetail } from '@widgets/shared/components/ui/transaction/BatchTransactionStatus';
 import { ExternalLink } from '@widgets/shared/components/ExternalLink';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
+import { BatchTransactionsToggle } from './BatchTransactionsToggle';
 
 export function TransactionReview({
-  onExternalLinkClicked
+  onExternalLinkClicked,
+  batchEnabled,
+  setBatchEnabled
 }: {
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  batchEnabled?: boolean;
+  setBatchEnabled?: (enabled: boolean) => void;
 }) {
   // TODO: Import these dynamically
   const txTitle = 'Begin the supply process';
@@ -33,6 +38,14 @@ export function TransactionReview({
           <motion.div variants={positionAnimations} className="min-h-12">
             <Text className="mt-2">{txSubtitle}</Text>
           </motion.div>
+          {batchEnabled !== undefined && !!setBatchEnabled && (
+            <motion.div variants={positionAnimations} className="mt-4 min-h-12">
+              <HStack>
+                <BatchTransactionsToggle batchEnabled={batchEnabled} setBatchEnabled={setBatchEnabled} />
+                <Text className="mt-2">Batch transactions {batchEnabled ? 'enabled' : 'disabled'}</Text>
+              </HStack>
+            </motion.div>
+          )}
           {transactionDetail && <TransactionDetail />}
         </CardContent>
         <motion.div variants={positionAnimations}>

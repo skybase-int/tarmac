@@ -5,13 +5,13 @@ import { Heading } from './Typography';
 import { HStack } from './HStack';
 import { Popover, PopoverArrow, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Switch } from '@/components/ui/switch';
-import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
+import { useBatchToggle } from '@/modules/ui/hooks/useBatchToggle';
 
 export const HeaderMenu = (): React.ReactElement => {
-  const { userConfig, updateUserConfig } = useConfigContext();
+  const [batchEnabled, setBatchEnabled] = useBatchToggle();
 
   const handleCheckedChange = (checked: boolean) => {
-    updateUserConfig({ ...userConfig, batchEnabled: checked });
+    setBatchEnabled(checked);
   };
 
   // we can't use a Button inside PopoverTrigger because PopoverTrigger is already a button
@@ -31,7 +31,7 @@ export const HeaderMenu = (): React.ReactElement => {
               <Trans>Batch transactions</Trans>
             </Heading>
             <Switch
-              checked={userConfig.batchEnabled}
+              checked={batchEnabled}
               onCheckedChange={handleCheckedChange}
               data-testid="batch-transactions-switch"
             />
