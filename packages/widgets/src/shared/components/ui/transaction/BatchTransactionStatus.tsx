@@ -112,13 +112,14 @@ export function BatchTransactionStatus({
               </AnimatePresence>
             </motion.div>
             {showStepIndicator && (
-              <motion.div variants={positionAnimations} className="flex w-full flex-col">
+              <motion.div variants={positionAnimations} className="flex w-full flex-col pt-4">
                 <StepIndicator
                   stepNumber={1}
                   currentStep={isBatchTransaction || step === 1}
                   txStatus={isBatchTransaction ? txStatus : step === 2 ? TxStatus.SUCCESS : txStatus}
                   text={t`Approve`}
                   className="flex-1"
+                  circleIndicator
                 />
                 <StepIndicator
                   stepNumber={2}
@@ -126,6 +127,7 @@ export function BatchTransactionStatus({
                   txStatus={isBatchTransaction ? txStatus : step === 1 ? TxStatus.IDLE : txStatus}
                   text={stepTwoTitle}
                   className="flex-1"
+                  circleIndicator
                 />
               </motion.div>
             )}
