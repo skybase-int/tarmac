@@ -27,6 +27,8 @@ msgstr ""
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
@@ -73,8 +75,10 @@ msgstr ""
 msgid "{0} staked"
 msgstr ""
 
-#. placeholder {0}: flow === SavingsFlow.SUPPLY ? 'Supplied to' : 'Withdrawn from'
+#. placeholder {0}: flow === SavingsFlow.SUPPLY ? 'Approved and supplied to' : 'Approved and withdrawn from'
+#. placeholder {0}: flow === SavingsFlow.SUPPLY ? 'Approving and supplying to' : 'Approving and withdrawing from'
 #. placeholder {0}: flow === SavingsFlow.SUPPLY ? 'Supplying to' : 'Withdrawing from'
+#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 msgid "{0} the Sky Savings Rate module"
@@ -317,6 +321,7 @@ msgid "Approval failed"
 msgstr ""
 
 #: packages/widgets/src/shared/components/ui/transaction/TransactionStatus.tsx
+#: packages/widgets/src/shared/components/ui/transaction/BatchTransactionStatus.tsx
 msgid "Approve"
 msgstr ""
 
@@ -355,7 +360,6 @@ msgstr ""
 
 #: packages/widgets/src/widgets/SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
-#: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
 msgid "Approve supply amount"
 msgstr ""
 
@@ -371,10 +375,6 @@ msgstr ""
 
 #: packages/widgets/src/widgets/L2TradeWidget/index.tsx
 msgid "Approve trade amount"
-msgstr ""
-
-#: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
-msgid "Approve withdraw amount"
 msgstr ""
 
 #. placeholder {0}: formatBigInt(debouncedOriginAmount, { locale, unit: originToken ? getTokenDecimals(originToken, chainId) : 18 })
@@ -467,6 +467,11 @@ msgstr ""
 msgid "Balances displays all of your Sky-related assets. When you connect your crypto wallet to Sky.money to access the decentralised Sky Protocol, only the tokens in the wallet that are relevant to the app are listed. With all of your Sky funds visible in one place, you can better self-manage your funds. Sky.money is non-custodial and permissionless."
 msgstr ""
 
+#. placeholder {0}: batchEnabled ? 'enabled' : 'disabled'
+#: apps/webapp/src/components/BatchTransactionsToggle.tsx
+msgid "Batch transactions {0}"
+msgstr ""
+
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 msgid "Be sure to check your transaction status on CoW Explorer to verify the cancellation was successful"
@@ -474,6 +479,16 @@ msgstr ""
 
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 msgid "Begin the savings process"
+msgstr ""
+
+#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
+msgid "Begin the supply process"
+msgstr ""
+
+#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
+msgid "Begin the withdraw process"
 msgstr ""
 
 #: apps/webapp/src/modules/seal/components/SealHistory.tsx
@@ -662,9 +677,23 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
+#: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
+#: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
+msgid "Confirm 2 transactions"
+msgstr ""
+
+#: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
+#: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
+msgid "Confirm bundled transaction"
+msgstr ""
+
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 msgid "Confirm position"
+msgstr ""
+
+#: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
+msgid "Confirm supply"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
@@ -673,11 +702,16 @@ msgid "Confirm the change in your position"
 msgstr ""
 
 #: packages/widgets/src/shared/components/ui/transaction/TransactionStatus.tsx
+#: packages/widgets/src/shared/components/ui/transaction/BatchTransactionStatus.tsx
 msgid "Confirm this transaction in your wallet."
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
 msgid "Confirm trade details"
+msgstr ""
+
+#: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
+msgid "Confirm withdrawal"
 msgstr ""
 
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
@@ -705,8 +739,6 @@ msgstr ""
 msgid "Confirm your transaction"
 msgstr ""
 
-#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
-#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 msgid "Confirm your transfer"
@@ -756,7 +788,6 @@ msgstr ""
 #: packages/widgets/src/widgets/SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 #: packages/widgets/src/widgets/L2TradeWidget/index.tsx
-#: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
 msgid "Continue"
 msgstr ""
 
@@ -1492,6 +1523,7 @@ msgid "Please connect your wallet to view your history"
 msgstr ""
 
 #: packages/widgets/src/shared/components/ui/transaction/TransactionStatus.tsx
+#: packages/widgets/src/shared/components/ui/transaction/BatchTransactionStatus.tsx
 msgid "Please try again"
 msgstr ""
 
@@ -1629,6 +1661,10 @@ msgstr ""
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 msgid "Revert successful"
+msgstr ""
+
+#: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
+msgid "Review"
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
@@ -2099,7 +2135,6 @@ msgstr ""
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 #: packages/widgets/src/widgets/RewardsWidget/components/RewardsTransactionStatus.tsx
 #: packages/widgets/src/widgets/RewardsWidget/components/ManagePosition.tsx
-#: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/BalancesWidget/lib/getTitle.ts
 msgid "Supply"
@@ -2760,7 +2795,6 @@ msgstr ""
 #: packages/widgets/src/widgets/RewardsWidget/components/RewardsTransactionStatus.tsx
 #: packages/widgets/src/widgets/RewardsWidget/components/ManagePosition.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
-#: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/BalancesWidget/lib/getTitle.ts
 msgid "Withdraw"
 msgstr ""
@@ -2967,9 +3001,17 @@ msgstr ""
 msgid "You will supply"
 msgstr ""
 
+#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
+msgid "You will supply your {symbol} to the Sky Savings Rate module."
+msgstr ""
+
 #: packages/widgets/src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
 msgid "You will withdraw"
+msgstr ""
+
+#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
+msgid "You will withdraw your {symbol} from the Sky Savings Rate module."
 msgstr ""
 
 #. placeholder {0}: formatBigInt(debouncedAmount, { locale })
@@ -2985,6 +3027,22 @@ msgstr ""
 #. placeholder {0}: formatBigInt(debouncedAmount)
 #: packages/widgets/src/widgets/SavingsWidget/index.tsx
 msgid "You withdrew {0} USDS"
+msgstr ""
+
+#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
+msgid "You're allowing this app to access the {symbol} in your wallet and supply it to the Sky Savings Rate module in multiple transactions."
+msgstr ""
+
+#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
+msgid "You're allowing this app to access the {symbol} in your wallet and supply it to the Sky Savings Rate module in one go."
+msgstr ""
+
+#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
+msgid "You're allowing this app to access the {symbol} in your wallet and withdraw from the Sky Savings Rate module in multiple transactions."
+msgstr ""
+
+#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
+msgid "You're allowing this app to access the {symbol} in your wallet and withdraw from the Sky Savings Rate module in one go."
 msgstr ""
 
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
