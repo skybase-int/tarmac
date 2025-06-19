@@ -30,12 +30,14 @@ export const SavingsTransactionStatus = ({
   originToken,
   originAmount,
   onExternalLinkClicked,
-  isBatchTransaction
+  isBatchTransaction,
+  needsAllowance
 }: {
   originAmount: bigint;
   originToken: Token;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   isBatchTransaction?: boolean;
+  needsAllowance: boolean;
 }) => {
   const { i18n } = useLingui();
   const chainId = useChainId();
@@ -73,7 +75,7 @@ export const SavingsTransactionStatus = ({
           )
         )
       );
-      setTxDescription(i18n._(savingsActionDescription({ flow, action, txStatus })));
+      setTxDescription(i18n._(savingsActionDescription({ flow, action, txStatus, needsAllowance })));
       setLoadingText(i18n._(approveLoadingButtonText[txStatus as keyof TxCardCopyText]));
     } else if (
       flow === SavingsFlow.SUPPLY &&
@@ -91,7 +93,7 @@ export const SavingsTransactionStatus = ({
           })
         )
       );
-      setTxDescription(i18n._(savingsActionDescription({ flow, action, txStatus })));
+      setTxDescription(i18n._(savingsActionDescription({ flow, action, txStatus, needsAllowance })));
       setLoadingText(
         i18n._(
           supplyLoadingButtonText({
@@ -117,7 +119,7 @@ export const SavingsTransactionStatus = ({
           })
         )
       );
-      setTxDescription(i18n._(savingsActionDescription({ flow, action, txStatus })));
+      setTxDescription(i18n._(savingsActionDescription({ flow, action, txStatus, needsAllowance })));
       setLoadingText(
         i18n._(
           withdrawLoadingButtonText({
