@@ -9,6 +9,29 @@ import { useOverallSkyData } from '@jetstreamgg/sky-hooks';
 import { useRewardsRate } from '@jetstreamgg/sky-hooks';
 import { formatDecimalPercentage } from '@jetstreamgg/sky-utils';
 
+// TODO export PairTokenIcons from widgets?
+// import { PairTokenIcons } from '@widgets/shared/components/ui/token/PairTokenIcon';
+import { TokenIcon } from './TokenIcon';
+
+function PairTokenIcons({
+  leftToken,
+  rightToken
+}: {
+  leftToken: string;
+  rightToken: string;
+}): React.ReactElement {
+  return (
+    <div className="relative h-6 w-[44px]">
+      <div className="absolute left-0 z-10">
+        <TokenIcon token={{ symbol: leftToken }} className="h-6 w-6" />
+      </div>
+      <div className="absolute right-0 z-0">
+        <TokenIcon token={{ symbol: rightToken }} className="h-6 w-6" />
+      </div>
+    </div>
+  );
+}
+
 export function SavingsRate() {
   const { data, isLoading, error } = useOverallSkyData();
   const rate = formatDecimalPercentage(parseFloat(data?.skySavingsRatecRate || '0'));
@@ -83,17 +106,25 @@ export function RewardsRate({
 
   return (
     <LoadingErrorWrapper isLoading={isLoading} error={error}>
-      {selectedRewardContract /*&& rateData?.formatted */ ? (
+      {selectedRewardContract ? (
         <VStack>
           <div className="flex items-center gap-2">
+            <PairTokenIcons
+              leftToken={selectedRewardContract.supplyToken.symbol}
+              rightToken={selectedRewardContract.rewardToken.symbol}
+            />
             <Text variant="medium" className="text-white/80">
               {selectedRewardContract.name}
             </Text>
           </div>
-          <div className="flex items-center gap-2">
-            <Heading className="text-[32px]">Rate {rateData.formatted}</Heading>
-            <PopoverInfo type="str" />
-          </div>
+          {rateData?.formatted ? (
+            <div className="flex items-center gap-2">
+              <Heading className="text-[32px]">Rate {rateData.formatted}</Heading>
+              <PopoverInfo type="str" />
+            </div>
+          ) : (
+            <></>
+          )}
         </VStack>
       ) : (
         <></>
