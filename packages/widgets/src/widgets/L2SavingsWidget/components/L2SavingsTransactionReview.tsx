@@ -19,7 +19,8 @@ export const L2SavingsTransactionReview = ({
   setBatchEnabled,
   isBatchTransaction,
   originToken,
-  originAmount
+  originAmount,
+  needsAllowance
 }: {
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   batchEnabled?: boolean;
@@ -27,6 +28,7 @@ export const L2SavingsTransactionReview = ({
   isBatchTransaction: boolean;
   originToken: Token;
   originAmount: bigint;
+  needsAllowance: boolean;
 }) => {
   const { i18n } = useLingui();
   const {
@@ -53,7 +55,8 @@ export const L2SavingsTransactionReview = ({
         i18n._(
           getSavingsSupplyReviewSubtitle({
             batchStatus: batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
-            symbol: originToken.symbol
+            symbol: originToken.symbol,
+            needsAllowance
           })
         )
       );
@@ -63,12 +66,13 @@ export const L2SavingsTransactionReview = ({
         i18n._(
           getSavingsWithdrawReviewSubtitle({
             batchStatus: batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
-            symbol: 'sUSDS'
+            symbol: 'sUSDS',
+            needsAllowance
           })
         )
       );
     }
-    setTxDescription(i18n._(savingsActionDescription({ flow, action, txStatus })));
+    setTxDescription(i18n._(savingsActionDescription({ flow, action, txStatus, needsAllowance })));
   }, [flow, action, screen, i18n.locale, isBatchTransaction]);
 
   return (

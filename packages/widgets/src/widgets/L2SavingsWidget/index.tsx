@@ -870,10 +870,22 @@ const SavingsWidgetWrapped = ({
         setButtonText(t`Confirm 2 transactions`);
       } else if (widgetState.flow === SavingsFlow.WITHDRAW && widgetState.action === SavingsAction.APPROVE) {
         setButtonText(t`Confirm 2 transactions`);
+      } else if (
+        widgetState.flow === SavingsFlow.SUPPLY &&
+        widgetState.action === SavingsAction.SUPPLY &&
+        shouldUseBatch
+      ) {
+        setButtonText(t`Confirm bundled transaction`);
       } else if (widgetState.flow === SavingsFlow.SUPPLY && widgetState.action === SavingsAction.SUPPLY) {
+        setButtonText(t`Confirm supply`);
+      } else if (
+        widgetState.flow === SavingsFlow.WITHDRAW &&
+        widgetState.action === SavingsAction.WITHDRAW &&
+        shouldUseBatch
+      ) {
         setButtonText(t`Confirm bundled transaction`);
       } else if (widgetState.flow === SavingsFlow.WITHDRAW && widgetState.action === SavingsAction.WITHDRAW) {
-        setButtonText(t`Confirm bundled transaction`);
+        setButtonText(t`Confirm withdrawal`);
       }
     } else {
       setButtonText(t`Connect Wallet`);
@@ -1012,6 +1024,7 @@ const SavingsWidgetWrapped = ({
               isBatchTransaction={shouldUseBatch}
               originToken={originToken}
               originAmount={debouncedAmount}
+              needsAllowance={needsAllowance}
             />
           </CardAnimationWrapper>
         ) : (

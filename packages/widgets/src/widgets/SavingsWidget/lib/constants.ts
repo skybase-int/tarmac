@@ -28,14 +28,14 @@ export const savingsApproveTitle: TxCardCopyText = {
 };
 
 export const savingsSupplyTitle: TxCardCopyText = {
-  [TxStatus.INITIALIZED]: msg`Confirm your transfer`,
+  [TxStatus.INITIALIZED]: msg`Begin the supply process`,
   [TxStatus.LOADING]: msg`In progress`,
   [TxStatus.SUCCESS]: msg`Success!`,
   [TxStatus.ERROR]: msg`Error`
 };
 
 export const savingsWithdrawTitle: TxCardCopyText = {
-  [TxStatus.INITIALIZED]: msg`Confirm your transfer`,
+  [TxStatus.INITIALIZED]: msg`Begin the withdraw process`,
   [TxStatus.LOADING]: msg`In progress`,
   [TxStatus.SUCCESS]: msg`Success!`,
   [TxStatus.ERROR]: msg`Error`
@@ -45,32 +45,44 @@ export const savingsSupplyReviewTitle = msg`Begin the supply process`;
 export const savingsWithdrawReviewTitle = msg`Begin the withdraw process`;
 export function getSavingsSupplyReviewSubtitle({
   batchStatus,
-  symbol
+  symbol,
+  needsAllowance
 }: {
   batchStatus: BatchStatus;
   symbol: string;
+  needsAllowance: boolean;
 }): MessageDescriptor {
+  if (!needsAllowance) {
+    return msg`You will supply your ${symbol} to the Sky Savings Rate module.`;
+  }
+
   switch (batchStatus) {
     case BatchStatus.ENABLED:
-      return msg`You're allowing this app to access the ${symbol} in your wallet and supply it to savings in one go.`;
+      return msg`You're allowing this app to access the ${symbol} in your wallet and supply it to the Sky Savings Rate module in one go.`;
     case BatchStatus.DISABLED:
-      return msg`You're allowing this app to access the ${symbol} in your wallet and supply it to savings in multiple transactions.`;
+      return msg`You're allowing this app to access the ${symbol} in your wallet and supply it to the Sky Savings Rate module in multiple transactions.`;
     default:
       return msg``;
   }
 }
 export function getSavingsWithdrawReviewSubtitle({
   batchStatus,
-  symbol
+  symbol,
+  needsAllowance
 }: {
   batchStatus: BatchStatus;
   symbol: string;
+  needsAllowance: boolean;
 }): MessageDescriptor {
+  if (!needsAllowance) {
+    return msg`You will withdraw your ${symbol} from the Sky Savings Rate module.`;
+  }
+
   switch (batchStatus) {
     case BatchStatus.ENABLED:
-      return msg`You're allowing this app to access the ${symbol} in your wallet and withdraw from savings in one go.`;
+      return msg`You're allowing this app to access the ${symbol} in your wallet and withdraw from the Sky Savings Rate module in one go.`;
     case BatchStatus.DISABLED:
-      return msg`You're allowing this app to access the ${symbol} in your wallet and withdraw from savings in multiple transactions.`;
+      return msg`You're allowing this app to access the ${symbol} in your wallet and withdraw from the Sky Savings Rate module in multiple transactions.`;
     default:
       return msg``;
   }
@@ -177,15 +189,19 @@ export function withdrawLoadingButtonText({
 export function savingsActionDescription({
   flow,
   action,
-  txStatus
+  txStatus,
+  needsAllowance
 }: {
   flow: SavingsFlow;
   action: SavingsAction;
   txStatus: TxStatus;
+  needsAllowance: boolean;
 }): MessageDescriptor {
   if ((action === SavingsAction.SUPPLY || action === SavingsAction.WITHDRAW) && txStatus === TxStatus.SUCCESS)
     return msg`${flow === SavingsFlow.SUPPLY ? 'Approved and supplied to' : 'Approved and withdrawn from'} the Sky Savings Rate module`;
-  return msg`${
-    flow === SavingsFlow.SUPPLY ? 'Approving and supplying to' : 'Approving and withdrawing from'
-  } the Sky Savings Rate module`;
+  return needsAllowance
+    ? msg`${
+        flow === SavingsFlow.SUPPLY ? 'Approving and supplying to' : 'Approving and withdrawing from'
+      } the Sky Savings Rate module`
+    : msg`${flow === SavingsFlow.SUPPLY ? 'Supplying to' : 'Withdrawing from'} the Sky Savings Rate module`;
 }
