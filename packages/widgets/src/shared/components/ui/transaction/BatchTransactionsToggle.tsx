@@ -15,12 +15,12 @@ export function BatchTransactionsToggle({
   return (
     <Toggle
       variant="singleSwitcher"
-      className="hidden h-10 w-10 rounded-xl md:flex"
+      className="hidden h-10 w-10 rounded-xl p-0 md:flex"
       pressed={batchEnabled}
       onPressedChange={handleToggle}
       aria-label="Toggle details"
     >
-      <Zap width={24} height={24} background={false} />
+      <Zap width={28} height={28} background={false} />
     </Toggle>
   );
 }
