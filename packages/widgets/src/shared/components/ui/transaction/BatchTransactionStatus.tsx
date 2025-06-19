@@ -76,11 +76,14 @@ export function BatchTransactionStatus({
   const isSafeWallet = useIsSafeWallet();
   const explorerName = paramExplorerName ?? getExplorerName(chainId, isSafeWallet);
 
+  const approvalSuccess = txStatus === TxStatus.SUCCESS && step === 1;
+  const flowSuccess = txStatus === TxStatus.SUCCESS && step === 2;
+
   return (
     <VStack className="w-full items-center justify-center" color="primary">
       <motion.div variants={positionAnimations} className="my-3 w-full">
         <Card
-          data-status={txStatus === TxStatus.SUCCESS && 'success'}
+          data-status={flowSuccess && 'success'}
           className="ease-out-expo from-primary-start/0 to-primary-end/0 data-[status=success]:from-primary-start/100 data-[status=success]:to-primary-end/100 w-full transition duration-500"
         >
           <CardHeader>
@@ -88,8 +91,8 @@ export function BatchTransactionStatus({
               <AnimatePresence mode="popLayout" initial={false}>
                 <IconAnimationWrapper key={txStatus}>
                   {txStatus === TxStatus.INITIALIZED && <Clock />}
-                  {txStatus === TxStatus.LOADING && <InProgress />}
-                  {txStatus === TxStatus.SUCCESS && <SuccessCheck />}
+                  {(txStatus === TxStatus.LOADING || approvalSuccess) && <InProgress />}
+                  {flowSuccess && <SuccessCheck />}
                   {txStatus === TxStatus.ERROR && <FailedX />}
                   {txStatus === TxStatus.CANCELLED && <Cancel />}
                 </IconAnimationWrapper>
