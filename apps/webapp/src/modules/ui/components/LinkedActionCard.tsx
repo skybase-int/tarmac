@@ -1,5 +1,5 @@
 import { Card, CardContent } from '@/components/ui/card';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Heading } from '@/modules/layout/components/Typography';
 import { capitalizeFirstLetter } from '@/lib/helpers/string/capitalizeFirstLetter';
 import { IntentMapping, QueryParams, intentTxt } from '@/lib/constants';
@@ -46,12 +46,12 @@ export const LinkedActionCard = ({
   const { linkedActionConfig, updateLinkedActionConfig } = useConfigContext();
   const navigate = useNavigate();
   const [isLastStep, setIsLastStep] = useState<boolean>();
-  const [searchParams] = useSearchParams();
   const chainId = useChainId();
   const rewardContracts = useAvailableTokenRewardContracts(chainId);
 
-  // Extract reward contract address from URL and find corresponding contract
-  const rewardContractAddress = searchParams.get(QueryParams.Reward);
+  // Extract reward contract address
+  const urlObj = new URL(urlWithRetainedParams, window.location.origin);
+  const rewardContractAddress = urlObj.searchParams.get(QueryParams.Reward);
   const selectedRewardContract = rewardContracts.find(
     contract => contract.contractAddress?.toLowerCase() === rewardContractAddress?.toLowerCase()
   );
