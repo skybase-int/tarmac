@@ -1,5 +1,5 @@
 import { msg } from '@lingui/core/macro';
-import { TxStatus } from '@widgets/shared/constants';
+import { BatchStatus, TxStatus } from '@widgets/shared/constants';
 import { TxCardCopyText } from '@widgets/shared/types/txCardCopyText';
 import { MessageDescriptor } from '@lingui/core';
 
@@ -40,6 +40,41 @@ export const savingsWithdrawTitle: TxCardCopyText = {
   [TxStatus.SUCCESS]: msg`Success!`,
   [TxStatus.ERROR]: msg`Error`
 };
+
+export const savingsSupplyReviewTitle = msg`Begin the supply process`;
+export const savingsWithdrawReviewTitle = msg`Begin the withdraw process`;
+export function getSavingsSupplyReviewSubtitle({
+  batchStatus,
+  symbol
+}: {
+  batchStatus: BatchStatus;
+  symbol: string;
+}): MessageDescriptor {
+  switch (batchStatus) {
+    case BatchStatus.ENABLED:
+      return msg`You're allowing this app to access the ${symbol} in your wallet and supply it to savings in one go.`;
+    case BatchStatus.DISABLED:
+      return msg`You're allowing this app to access the ${symbol} in your wallet and supply it to savings in multiple transactions.`;
+    default:
+      return msg``;
+  }
+}
+export function getSavingsWithdrawReviewSubtitle({
+  batchStatus,
+  symbol
+}: {
+  batchStatus: BatchStatus;
+  symbol: string;
+}): MessageDescriptor {
+  switch (batchStatus) {
+    case BatchStatus.ENABLED:
+      return msg`You're allowing this app to access the ${symbol} in your wallet and withdraw from savings in one go.`;
+    case BatchStatus.DISABLED:
+      return msg`You're allowing this app to access the ${symbol} in your wallet and withdraw from savings in multiple transactions.`;
+    default:
+      return msg``;
+  }
+}
 
 export function getSavingsApproveSubtitle(txStatus: TxStatus, symbol: string): MessageDescriptor {
   switch (txStatus) {
@@ -149,8 +184,8 @@ export function savingsActionDescription({
   txStatus: TxStatus;
 }): MessageDescriptor {
   if ((action === SavingsAction.SUPPLY || action === SavingsAction.WITHDRAW) && txStatus === TxStatus.SUCCESS)
-    return msg`${flow === SavingsFlow.SUPPLY ? 'Supplied to' : 'Withdrawn from'} the Sky Savings Rate module`;
+    return msg`${flow === SavingsFlow.SUPPLY ? 'Approved and supplied to' : 'Approved and withdrawn from'} the Sky Savings Rate module`;
   return msg`${
-    flow === SavingsFlow.SUPPLY ? 'Supplying to' : 'Withdrawing from'
+    flow === SavingsFlow.SUPPLY ? 'Approving and supplying to' : 'Approving and withdrawing from'
   } the Sky Savings Rate module`;
 }

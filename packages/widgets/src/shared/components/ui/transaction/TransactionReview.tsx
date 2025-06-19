@@ -7,21 +7,21 @@ import { TransactionDetail } from '@widgets/shared/components/ui/transaction/Bat
 import { ExternalLink } from '@widgets/shared/components/ExternalLink';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { BatchTransactionsToggle } from './BatchTransactionsToggle';
+import { useContext } from 'react';
+import { WidgetContext } from '@widgets/context/WidgetContext';
 
 export function TransactionReview({
   onExternalLinkClicked,
   batchEnabled,
-  setBatchEnabled
+  setBatchEnabled,
+  transactionDetail
 }: {
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
+  transactionDetail?: React.ReactElement;
 }) {
-  // TODO: Import these dynamically
-  const txTitle = 'Begin the supply process';
-  const txSubtitle =
-    "You're allowing this app to access the USDS in your wallet and supply it to savings in one go.";
-  const transactionDetail = undefined;
+  const { txTitle, txSubtitle } = useContext(WidgetContext);
 
   return (
     <motion.div variants={positionAnimations} className="my-3 w-full">
@@ -46,7 +46,7 @@ export function TransactionReview({
               </HStack>
             </motion.div>
           )}
-          {transactionDetail && <TransactionDetail />}
+          {transactionDetail ?? <TransactionDetail />}
         </CardContent>
         <motion.div variants={positionAnimations}>
           <CardFooter className="border-selectActive border-t pt-5">
