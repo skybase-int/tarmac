@@ -556,11 +556,11 @@ function StakeModuleWidgetWrapped({
           screen: StakeScreen.ACTION
         });
       } else if (currentUrnIndex && currentUrnIndex > 0n) {
-        setWidgetState({
-          flow: StakeFlow.MANAGE,
+        setWidgetState(prev => ({
+          flow: prev.flow || StakeFlow.MANAGE,
           action: StakeAction.OVERVIEW,
           screen: StakeScreen.ACTION
-        });
+        }));
       }
     } else {
       // Reset widget state when we are not connected
@@ -971,6 +971,7 @@ function StakeModuleWidgetWrapped({
       ref={containerRef}
       contentClassname="mt-2"
       header={
+        !isConnectedAndEnabled ||
         !widgetStateLoaded ||
         (widgetState.flow === StakeFlow.OPEN && currentUrnIndex === 0n) ||
         (widgetState.flow === StakeFlow.MANAGE && widgetState.action === StakeAction.OVERVIEW) ||
@@ -1006,7 +1007,7 @@ function StakeModuleWidgetWrapped({
       }
     >
       <AnimatePresence mode="popLayout" initial={false}>
-        {!isConnectedAndEnabled && (
+        {!isConnectedAndEnabled ? (
           <UnconnectedState
             onInputAmountChange={(val: bigint, userTriggered?: boolean) => {
               if (userTriggered) {
@@ -1021,8 +1022,7 @@ function StakeModuleWidgetWrapped({
               }
             }}
           />
-        )}
-        {txStatus !== TxStatus.IDLE ? (
+        ) : txStatus !== TxStatus.IDLE ? (
           <CardAnimationWrapper key="widget-transaction-status">
             <StakeModuleTransactionStatus onExternalLinkClicked={onExternalLinkClicked} />
           </CardAnimationWrapper>
