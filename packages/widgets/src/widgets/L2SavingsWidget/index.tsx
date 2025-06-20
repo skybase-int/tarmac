@@ -813,13 +813,7 @@ const SavingsWidgetWrapped = ({
                   ? withdrawOnClick
                   : undefined;
 
-  const showSecondaryButton =
-    txStatus === TxStatus.ERROR ||
-    // After a successful approve transaction, show the back button
-    (txStatus === TxStatus.SUCCESS &&
-      widgetState.action === SavingsAction.APPROVE &&
-      widgetState.screen === SavingsScreen.TRANSACTION) ||
-    widgetState.screen === SavingsScreen.REVIEW;
+  const showSecondaryButton = txStatus === TxStatus.ERROR || widgetState.screen === SavingsScreen.REVIEW;
 
   useEffect(() => {
     if (savingsSupply.prepareError) {
@@ -858,7 +852,7 @@ const SavingsWidgetWrapped = ({
   // Ref: https://lingui.dev/tutorials/react-patterns#memoization-pitfall
   useEffect(() => {
     if (isConnectedAndEnabled) {
-      if (txStatus === TxStatus.SUCCESS) {
+      if (txStatus === TxStatus.SUCCESS && widgetState.action !== SavingsAction.APPROVE) {
         setButtonText(t`Back to Savings`);
       } else if (txStatus === TxStatus.ERROR) {
         setButtonText(t`Retry`);
@@ -866,26 +860,16 @@ const SavingsWidgetWrapped = ({
         setButtonText(t`Enter amount`);
       } else if (widgetState.screen === SavingsScreen.ACTION) {
         setButtonText(t`Review`);
-      } else if (widgetState.flow === SavingsFlow.SUPPLY && widgetState.action === SavingsAction.APPROVE) {
-        setButtonText(t`Confirm 2 transactions`);
-      } else if (widgetState.flow === SavingsFlow.WITHDRAW && widgetState.action === SavingsAction.APPROVE) {
-        setButtonText(t`Confirm 2 transactions`);
-      } else if (
-        widgetState.flow === SavingsFlow.SUPPLY &&
-        widgetState.action === SavingsAction.SUPPLY &&
-        shouldUseBatch
-      ) {
-        setButtonText(t`Confirm bundled transaction`);
-      } else if (widgetState.flow === SavingsFlow.SUPPLY && widgetState.action === SavingsAction.SUPPLY) {
-        setButtonText(t`Confirm supply`);
-      } else if (
-        widgetState.flow === SavingsFlow.WITHDRAW &&
-        widgetState.action === SavingsAction.WITHDRAW &&
-        shouldUseBatch
-      ) {
-        setButtonText(t`Confirm bundled transaction`);
-      } else if (widgetState.flow === SavingsFlow.WITHDRAW && widgetState.action === SavingsAction.WITHDRAW) {
-        setButtonText(t`Confirm withdrawal`);
+      } else if (widgetState.screen === SavingsScreen.REVIEW) {
+        if (shouldUseBatch) {
+          setButtonText(t`Confirm bundled transaction`);
+        } else if (widgetState.action === SavingsAction.APPROVE) {
+          setButtonText(t`Confirm 2 transactions`);
+        } else if (widgetState.flow === SavingsFlow.SUPPLY) {
+          setButtonText(t`Confirm supply`);
+        } else if (widgetState.flow === SavingsFlow.WITHDRAW) {
+          setButtonText(t`Confirm withdrawal`);
+        }
       }
     } else {
       setButtonText(t`Connect Wallet`);
@@ -945,8 +929,14 @@ const SavingsWidgetWrapped = ({
 
   // Set isLoading to be consumed by WidgetButton
   useEffect(() => {
-    setIsLoading(isConnecting || txStatus === TxStatus.LOADING || txStatus === TxStatus.INITIALIZED);
-  }, [isConnecting, txStatus]);
+    setIsLoading(
+      isConnecting ||
+        txStatus === TxStatus.LOADING ||
+        txStatus === TxStatus.INITIALIZED ||
+        // Keep the loading state after a successful approval as a new transaction will automatically pop up
+        (widgetState.action === SavingsAction.APPROVE && txStatus === TxStatus.SUCCESS)
+    );
+  }, [isConnecting, txStatus, widgetState.action]);
 
   const debouncedBalanceError = useDebounce(isSupplyBalanceError, 2000);
   useEffect(() => {
