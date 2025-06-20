@@ -9,7 +9,6 @@ import {
 import { Trans } from '@lingui/react/macro';
 import { Button } from '@/components/ui/button';
 import { Close } from '@/modules/icons/Close';
-import { PopoverInfo } from '@/modules/ui/components/PopoverInfo';
 import { HStack } from '@/modules/layout/components/HStack';
 import { StakeColor } from '@/modules/icons/StakeColor';
 import { Text } from '@/modules/layout/components/Typography';
@@ -17,51 +16,41 @@ import { Text } from '@/modules/layout/components/Typography';
 const STAKING_STEPS = [
   {
     id: 'stake',
-    title: <Trans>1 Stake:</Trans>,
+    title: <Trans>1. Supply SKY:</Trans>,
     content: (
       <Trans>
-        Lorem ipsum dolor sit amet -stake-, consectetur <PopoverInfo type="sbr" /> adipiscing elit. Sed do
-        eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      </Trans>
-    )
-  },
-  {
-    id: 'borrow',
-    title: <Trans>Borrow: (optional)</Trans>,
-    content: (
-      <Trans>
-        Lorem ipsum dolor sit amet -borrow-, consectetur <PopoverInfo type="sbr" /> adipiscing elit. Sed do
-        eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        Supply SKY to the Staking Engine to create one or more positions through which you access Staking
+        Rewards and more.
+        <br />
+        <br />
+        At this step, you can also choose to Borrow USDS against your SKY (optional). There is a minimum
+        borrow amount set as a risk parameter by Sky Ecosystem Governance. Borrowing carries risk of
+        liquidation.
       </Trans>
     )
   },
   {
     id: 'choose-reward',
-    title: <Trans>2 Choose Reward:</Trans>,
-    content: (
-      <Trans>
-        Lorem ipsum dolor sit amet -choose-reward-, consectetur <PopoverInfo type="sbr" /> adipiscing elit.
-        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      </Trans>
-    )
+    title: <Trans>2. Choose Reward.</Trans>,
+    content: <Trans>Staking Rewards are in the form of USDS.</Trans>
   },
   {
     id: 'delegate',
-    title: <Trans>3 Delegate: (optional)</Trans>,
+    title: <Trans>3. Delegate (optional).</Trans>,
     content: (
       <Trans>
-        Lorem ipsum dolor sit amet -delegate-, consectetur <PopoverInfo type="sbr" /> adipiscing elit. Sed do
-        eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        You may choose to transfer the voting power your staked SKY provides to a recognized delegate or a
+        contract you own.
       </Trans>
     )
   },
   {
     id: 'open-position',
-    title: <Trans>4 Open Staking Position:</Trans>,
+    title: <Trans>4. Confirm Staking Position:</Trans>,
     content: (
       <Trans>
-        Lorem ipsum dolor sit amet -open-position-, consectetur <PopoverInfo type="sbr" /> adipiscing elit.
-        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        Your SKY tokens, as well as any rewards that you accumulate, are supplied to a non-custodial smart
+        contract such that no intermediary takes custody of those tokens.
       </Trans>
     )
   }
@@ -70,12 +59,12 @@ const STAKING_STEPS = [
 export const StakeHelpModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-containerDark flex w-full flex-col items-center rounded-none p-5 md:w-[780px] md:rounded-2xl md:p-10">
+      <DialogContent className="bg-containerDark/60 flex w-full flex-col items-center rounded-none p-5 md:w-[780px] md:rounded-2xl md:p-10">
         <DialogHeader className="w-full">
           <HStack>
             <StakeColor width={46} height={46} />
             <DialogTitle className="text-text text-[28px] md:text-[32px]">
-              <Trans>How does the Staking Engine work?</Trans>
+              <Trans>How to Stake in 4 steps:</Trans>
             </DialogTitle>
           </HStack>
         </DialogHeader>
@@ -86,7 +75,7 @@ export const StakeHelpModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: 
               <StakingStep key={step.id} title={step.title} content={step.content} isFirst={index === 0} />
             ))}
             <Text className="text-text mt-8 text-[16px]">
-              <Trans>With SKY you always remain in control of your assets.</Trans>
+              <Trans>With Sky, you always remain in control of your assets.</Trans>
             </Text>
           </DialogDescription>
         </div>

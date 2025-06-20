@@ -3,7 +3,7 @@ import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { WidgetProps, WidgetState, WidgetStateChangeParams } from '@widgets/shared/types/widgetState';
 import { WidgetContext, WidgetProvider } from '@widgets/context/WidgetContext';
 import { WidgetContainer } from '@widgets/shared/components/ui/widget/WidgetContainer';
-import { Heading, Text } from '@widgets/shared/components/ui/Typography';
+import { Heading } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { WidgetButtons } from '@widgets/shared/components/ui/widget/WidgetButtons';
@@ -50,7 +50,6 @@ import { UnconnectedState } from './components/UnconnectedState';
 import { useLingui } from '@lingui/react';
 import { formatUnits, parseUnits } from 'viem';
 import { StakeModuleTransactionStatus } from './components/StakeModuleTransactionStatus';
-import { Info } from '@widgets/shared/components/icons/Info';
 
 export type OnStakeUrnChange = (
   urn: { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined } | undefined
@@ -960,7 +959,6 @@ function StakeModuleWidgetWrapped({
                 });
               }
             }}
-            onShowHelpModal={onShowHelpModal}
           />
         ) : txStatus !== TxStatus.IDLE ? (
           <CardAnimationWrapper key="widget-transaction-status">
@@ -974,17 +972,8 @@ function StakeModuleWidgetWrapped({
                   step={stepIndex}
                   totalSteps={totalSteps}
                   title={i18n._(getStepTitle(currentStep, tabSide))}
+                  onShowHelpModal={onShowHelpModal}
                 />
-                {onShowHelpModal && widgetState.flow === StakeFlow.OPEN && (
-                  <HStack className="text-textSecondary mt-4 items-center">
-                    <Text variant="small" className="mr-2">
-                      <Trans>How does the Staking Engine work?</Trans>
-                    </Text>
-                    <Button className="text-textSecondary p-0" onClick={onShowHelpModal}>
-                      <Info />
-                    </Button>
-                  </HStack>
-                )}
               </motion.div>
             )}
             <CardAnimationWrapper key="widget-inputs" className="w-full">
