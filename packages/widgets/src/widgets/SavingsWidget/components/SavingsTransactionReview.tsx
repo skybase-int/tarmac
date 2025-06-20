@@ -15,7 +15,7 @@ import {
 import { useContext, useEffect } from 'react';
 import { useChainId } from 'wagmi';
 
-export const L2SavingsTransactionReview = ({
+export const SavingsTransactionReview = ({
   onExternalLinkClicked,
   batchEnabled,
   setBatchEnabled,
@@ -70,14 +70,15 @@ export const L2SavingsTransactionReview = ({
         i18n._(
           getSavingsWithdrawReviewSubtitle({
             batchStatus: batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
-            symbol: 'sUSDS',
-            needsAllowance
+            symbol: isL2Chain ? 'sUSDS' : 'USDS',
+            needsAllowance,
+            isL2Chain
           })
         )
       );
     }
     setTxDescription(i18n._(savingsActionDescription({ flow, action, txStatus, needsAllowance, isL2Chain })));
-  }, [flow, action, screen, i18n.locale, isBatchTransaction, batchEnabled]);
+  }, [flow, action, screen, i18n.locale, isBatchTransaction]);
 
   return (
     <TransactionReview

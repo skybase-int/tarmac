@@ -361,7 +361,6 @@ msgstr ""
 msgid "Approve successful"
 msgstr ""
 
-#: packages/widgets/src/widgets/SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 msgid "Approve supply amount"
 msgstr ""
@@ -677,14 +676,14 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
+#: packages/widgets/src/widgets/SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/L2TradeWidget/index.tsx
-#: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
 msgid "Confirm 2 transactions"
 msgstr ""
 
+#: packages/widgets/src/widgets/SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/L2TradeWidget/index.tsx
-#: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
 msgid "Confirm bundled transaction"
 msgstr ""
@@ -694,6 +693,7 @@ msgstr ""
 msgid "Confirm position"
 msgstr ""
 
+#: packages/widgets/src/widgets/SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
 msgid "Confirm supply"
 msgstr ""
@@ -716,6 +716,7 @@ msgstr ""
 msgid "Confirm trade details"
 msgstr ""
 
+#: packages/widgets/src/widgets/SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
 msgid "Confirm withdrawal"
 msgstr ""
@@ -791,7 +792,6 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
-#: packages/widgets/src/widgets/SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 msgid "Continue"
 msgstr ""
@@ -1681,6 +1681,7 @@ msgstr ""
 msgid "Revert successful"
 msgstr ""
 
+#: packages/widgets/src/widgets/SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/L2TradeWidget/index.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
 msgid "Review"
@@ -2147,7 +2148,6 @@ msgstr ""
 
 #: apps/webapp/src/modules/savings/components/SavingsHistory.tsx
 #: apps/webapp/src/modules/rewards/components/RewardsHistory.tsx
-#: packages/widgets/src/widgets/SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
 #: packages/widgets/src/widgets/SavingsWidget/components/SavingsTransactionStatus.tsx
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
@@ -2810,7 +2810,6 @@ msgid "With: USDS Get: USDS"
 msgstr ""
 
 #: apps/webapp/src/modules/rewards/components/RewardsHistory.tsx
-#: packages/widgets/src/widgets/SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
 #: packages/widgets/src/widgets/SavingsWidget/components/SavingsTransactionStatus.tsx
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
