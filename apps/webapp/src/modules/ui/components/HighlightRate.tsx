@@ -104,7 +104,11 @@ export function RewardsRate({
   });
 
   return (
-    <LoadingErrorWrapper isLoading={isLoading} error={error}>
+    <LoadingErrorWrapper
+      isLoading={isLoading}
+      error={error}
+      errorComponent={<Text variant="medium">There was an error fetching the rewards rate</Text>}
+    >
       {selectedRewardContract ? (
         <VStack>
           <div className="flex items-center gap-2">
