@@ -3,13 +3,11 @@ import {
   SavingsFlow,
   SavingsAction,
   SavingsScreen,
-  getSavingsApproveSubtitle,
   supplySubtitle,
   withdrawSubtitle,
   savingsActionDescription,
   supplyLoadingButtonText,
   withdrawLoadingButtonText,
-  savingsApproveTitle,
   savingsSupplyTitle,
   savingsWithdrawTitle
 } from '../lib/constants';
@@ -19,11 +17,9 @@ import { BatchTransactionStatus } from '@widgets/shared/components/ui/transactio
 import { useLingui } from '@lingui/react';
 import { t } from '@lingui/core/macro';
 import { Token } from '@jetstreamgg/sky-hooks';
-import { formatBigInt } from '@jetstreamgg/sky-utils';
-import { approveLoadingButtonText } from '@widgets/shared/constants';
+import { formatBigInt, isL2ChainId } from '@jetstreamgg/sky-utils';
 import { getTokenDecimals } from '@jetstreamgg/sky-hooks';
 import { useChainId } from 'wagmi';
-import { isL2ChainId } from '@jetstreamgg/sky-utils';
 
 // TX Status wrapper to update copy
 export const SavingsTransactionStatus = ({
@@ -41,6 +37,7 @@ export const SavingsTransactionStatus = ({
 }) => {
   const { i18n } = useLingui();
   const chainId = useChainId();
+  const isL2Chain = isL2ChainId(chainId);
   const {
     setLoadingText,
     setTxTitle,
@@ -62,73 +59,69 @@ export const SavingsTransactionStatus = ({
 
   // Sets the title and subtitle of the card
   useEffect(() => {
-    if (flow === SavingsFlow.SUPPLY) setStepTwoTitle(t`Supply`);
-    if (flow === SavingsFlow.WITHDRAW) setStepTwoTitle(t`Withdraw`);
-    if (action === SavingsAction.APPROVE && screen === SavingsScreen.TRANSACTION) {
-      setStep(1);
-      setTxTitle(i18n._(savingsApproveTitle[txStatus as keyof TxCardCopyText]));
-      setTxSubtitle(
-        i18n._(
-          getSavingsApproveSubtitle(
-            txStatus,
-            isL2ChainId(chainId) ? (flow === SavingsFlow.WITHDRAW ? 'sUSDS' : originToken.symbol) : 'USDS'
+    if (flow === SavingsFlow.SUPPLY) {
+      setStepTwoTitle(t`Supply`);
+
+      if (screen === SavingsScreen.TRANSACTION) {
+        setTxTitle(i18n._(savingsSupplyTitle[txStatus as keyof TxCardCopyText]));
+        setTxSubtitle(
+          i18n._(
+            supplySubtitle({
+              txStatus,
+              amount: formatBigInt(originAmount, { unit: getTokenDecimals(originToken, chainId) }),
+              symbol: originToken.symbol,
+              needsAllowance
+            })
           )
-        )
-      );
-      setTxDescription(i18n._(savingsActionDescription({ flow, action, txStatus, needsAllowance })));
-      setLoadingText(i18n._(approveLoadingButtonText[txStatus as keyof TxCardCopyText]));
-    } else if (
-      flow === SavingsFlow.SUPPLY &&
-      action === SavingsAction.SUPPLY &&
-      screen === SavingsScreen.TRANSACTION
-    ) {
-      setStep(2);
-      setTxTitle(i18n._(savingsSupplyTitle[txStatus as keyof TxCardCopyText]));
-      setTxSubtitle(
-        i18n._(
-          supplySubtitle({
-            txStatus,
-            amount: formatBigInt(originAmount, { unit: getTokenDecimals(originToken, chainId) }),
-            symbol: originToken.symbol
-          })
-        )
-      );
-      setTxDescription(i18n._(savingsActionDescription({ flow, action, txStatus, needsAllowance })));
-      setLoadingText(
-        i18n._(
-          supplyLoadingButtonText({
-            txStatus,
-            amount: formatBigInt(originAmount, { unit: getTokenDecimals(originToken, chainId) }),
-            symbol: originToken.symbol
-          })
-        )
-      );
-    } else if (
-      flow === SavingsFlow.WITHDRAW &&
-      action === SavingsAction.WITHDRAW &&
-      screen === SavingsScreen.TRANSACTION
-    ) {
-      setStep(2);
-      setTxTitle(i18n._(savingsWithdrawTitle[txStatus as keyof TxCardCopyText]));
-      setTxSubtitle(
-        i18n._(
-          withdrawSubtitle({
-            txStatus,
-            amount: formatBigInt(originAmount, { unit: getTokenDecimals(originToken, chainId) }),
-            symbol: originToken.symbol
-          })
-        )
-      );
-      setTxDescription(i18n._(savingsActionDescription({ flow, action, txStatus, needsAllowance })));
-      setLoadingText(
-        i18n._(
-          withdrawLoadingButtonText({
-            txStatus,
-            amount: formatBigInt(originAmount, { unit: getTokenDecimals(originToken, chainId) }),
-            symbol: originToken.symbol
-          })
-        )
-      );
+        );
+        setTxDescription(
+          i18n._(savingsActionDescription({ flow, action, txStatus, needsAllowance, isL2Chain }))
+        );
+        setLoadingText(
+          i18n._(
+            supplyLoadingButtonText({
+              txStatus,
+              amount: formatBigInt(originAmount, { unit: getTokenDecimals(originToken, chainId) }),
+              symbol: originToken.symbol
+            })
+          )
+        );
+
+        if (action === SavingsAction.APPROVE) setStep(1);
+        else if (action === SavingsAction.SUPPLY) setStep(2);
+      }
+    } else if (flow === SavingsFlow.WITHDRAW) {
+      setStepTwoTitle(t`Withdraw`);
+
+      if (screen === SavingsScreen.TRANSACTION) {
+        setTxTitle(i18n._(savingsWithdrawTitle[txStatus as keyof TxCardCopyText]));
+        setTxSubtitle(
+          i18n._(
+            withdrawSubtitle({
+              txStatus,
+              amount: formatBigInt(originAmount, { unit: getTokenDecimals(originToken, chainId) }),
+              symbol: 'sUSDS',
+              needsAllowance,
+              isL2Chain
+            })
+          )
+        );
+        setTxDescription(
+          i18n._(savingsActionDescription({ flow, action, txStatus, needsAllowance, isL2Chain }))
+        );
+        setLoadingText(
+          i18n._(
+            withdrawLoadingButtonText({
+              txStatus,
+              amount: formatBigInt(originAmount, { unit: getTokenDecimals(originToken, chainId) }),
+              symbol: originToken.symbol
+            })
+          )
+        );
+
+        if (action === SavingsAction.APPROVE) setStep(1);
+        else if (action === SavingsAction.WITHDRAW) setStep(2);
+      }
     }
   }, [txStatus, flow, action, screen, i18n.locale]);
   return (

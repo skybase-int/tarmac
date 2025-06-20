@@ -1,4 +1,5 @@
 import { Token } from '@jetstreamgg/sky-hooks';
+import { isL2ChainId } from '@jetstreamgg/sky-utils';
 import { useLingui } from '@lingui/react/macro';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { TransactionReview } from '@widgets/shared/components/ui/transaction/TransactionReview';
@@ -12,6 +13,7 @@ import {
   savingsWithdrawReviewTitle
 } from '@widgets/widgets/SavingsWidget/lib/constants';
 import { useContext, useEffect } from 'react';
+import { useChainId } from 'wagmi';
 
 export const L2SavingsTransactionReview = ({
   onExternalLinkClicked,
@@ -31,6 +33,8 @@ export const L2SavingsTransactionReview = ({
   needsAllowance: boolean;
 }) => {
   const { i18n } = useLingui();
+  const chainId = useChainId();
+  const isL2Chain = isL2ChainId(chainId);
   const {
     setTxTitle,
     setTxSubtitle,
@@ -72,7 +76,7 @@ export const L2SavingsTransactionReview = ({
         )
       );
     }
-    setTxDescription(i18n._(savingsActionDescription({ flow, action, txStatus, needsAllowance })));
+    setTxDescription(i18n._(savingsActionDescription({ flow, action, txStatus, needsAllowance, isL2Chain })));
   }, [flow, action, screen, i18n.locale, isBatchTransaction]);
 
   return (

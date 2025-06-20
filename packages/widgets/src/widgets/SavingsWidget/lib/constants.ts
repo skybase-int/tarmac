@@ -20,13 +20,6 @@ export enum SavingsScreen {
   TRANSACTION = 'transaction'
 }
 
-export const savingsApproveTitle: TxCardCopyText = {
-  [TxStatus.INITIALIZED]: msg`Begin the savings process`,
-  [TxStatus.LOADING]: msg`In progress`,
-  [TxStatus.SUCCESS]: msg`Token access approved`,
-  [TxStatus.ERROR]: msg`Error`
-};
-
 export const savingsSupplyTitle: TxCardCopyText = {
   [TxStatus.INITIALIZED]: msg`Begin the supply process`,
   [TxStatus.LOADING]: msg`In progress`,
@@ -88,39 +81,30 @@ export function getSavingsWithdrawReviewSubtitle({
   }
 }
 
-export function getSavingsApproveSubtitle(txStatus: TxStatus, symbol: string): MessageDescriptor {
-  switch (txStatus) {
-    case TxStatus.INITIALIZED:
-      return msg`Please allow this app to access the ${symbol} in your wallet.`;
-    case TxStatus.LOADING:
-      return msg`Token access approval in progress.`;
-    case TxStatus.SUCCESS:
-      return msg`Next, confirm the transaction in your wallet.`;
-    case TxStatus.ERROR:
-      return msg`An error occurred when allowing this app to access the ${symbol} in your wallet.`;
-    default:
-      return msg``;
-  }
-}
-
 export function supplySubtitle({
   txStatus,
   amount,
-  symbol
+  symbol,
+  needsAllowance
 }: {
   txStatus: TxStatus;
   amount: string;
   symbol: string;
+  needsAllowance: boolean;
 }): MessageDescriptor {
   switch (txStatus) {
     case TxStatus.INITIALIZED:
-      return msg`Almost done!`;
+      return needsAllowance
+        ? msg`Please allow this app to access the ${symbol} in your wallet and supply it to the Sky Savings Rate module.`
+        : msg`Almost done!`;
     case TxStatus.LOADING:
-      return msg`Your supply is being processed on the blockchain. Please wait.`;
+      return needsAllowance
+        ? msg`Your token approval and supply are being processed on the blockchain. Please wait.`
+        : msg`Your supply is being processed on the blockchain. Please wait.`;
     case TxStatus.SUCCESS:
       return msg`You've supplied ${amount} ${symbol} to the Sky Savings Rate module`;
     case TxStatus.ERROR:
-      return msg`An error occurred while supplying your ${symbol}.`;
+      return msg`An error occurred during the supply flow.`;
     default:
       return msg``;
   }
@@ -128,21 +112,29 @@ export function supplySubtitle({
 export function withdrawSubtitle({
   txStatus,
   amount,
-  symbol
+  symbol,
+  needsAllowance,
+  isL2Chain
 }: {
   txStatus: TxStatus;
   amount: string;
   symbol: string;
+  needsAllowance: boolean;
+  isL2Chain: boolean;
 }): MessageDescriptor {
   switch (txStatus) {
     case TxStatus.INITIALIZED:
-      return msg`Almost done!`;
+      return isL2Chain && needsAllowance
+        ? msg`Please allow this app to access the ${symbol} in your wallet and withdraw it from the Sky Savings Rate module.`
+        : msg`Almost done!`;
     case TxStatus.LOADING:
-      return msg`Your withdrawal is being processed on the blockchain. Please wait.`;
+      return isL2Chain && needsAllowance
+        ? msg`Your token approval and withdrawal are being processed on the blockchain. Please wait.`
+        : msg`Your withdrawal is being processed on the blockchain. Please wait.`;
     case TxStatus.SUCCESS:
       return msg`You've withdrawn ${amount} ${symbol} from the Sky Savings Rate module.`;
     case TxStatus.ERROR:
-      return msg`An error occurred while withdrawing your ${symbol}.`;
+      return msg`An error occurred during the withdraw flow.`;
     default:
       return msg``;
   }
@@ -190,18 +182,24 @@ export function savingsActionDescription({
   flow,
   action,
   txStatus,
-  needsAllowance
+  needsAllowance,
+  isL2Chain
 }: {
   flow: SavingsFlow;
   action: SavingsAction;
   txStatus: TxStatus;
   needsAllowance: boolean;
+  isL2Chain: boolean;
 }): MessageDescriptor {
   if ((action === SavingsAction.SUPPLY || action === SavingsAction.WITHDRAW) && txStatus === TxStatus.SUCCESS)
-    return msg`${flow === SavingsFlow.SUPPLY ? 'Approved and supplied to' : 'Approved and withdrawn from'} the Sky Savings Rate module`;
+    return msg`${flow === SavingsFlow.SUPPLY ? 'Approved and supplied to' : isL2Chain ? 'Approved and withdrawn from' : 'Withdrawn from'} the Sky Savings Rate module`;
   return needsAllowance
     ? msg`${
-        flow === SavingsFlow.SUPPLY ? 'Approving and supplying to' : 'Approving and withdrawing from'
+        flow === SavingsFlow.SUPPLY
+          ? 'Approving and supplying to'
+          : isL2Chain
+            ? 'Approving and withdrawing from'
+            : 'Withdrawing from'
       } the Sky Savings Rate module`
     : msg`${flow === SavingsFlow.SUPPLY ? 'Supplying to' : 'Withdrawing from'} the Sky Savings Rate module`;
 }

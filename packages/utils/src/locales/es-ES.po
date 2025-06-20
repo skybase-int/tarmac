@@ -28,7 +28,6 @@ msgstr ""
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
-#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
@@ -240,7 +239,11 @@ msgid "Amount exceeds debt"
 msgstr ""
 
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
-msgid "An error occurred when allowing this app to access the {symbol} in your wallet."
+msgid "An error occurred during the supply flow."
+msgstr ""
+
+#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
+msgid "An error occurred during the withdraw flow."
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
@@ -284,10 +287,6 @@ msgstr ""
 msgid "An error occurred while supplying {symbol}"
 msgstr ""
 
-#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
-msgid "An error occurred while supplying your {symbol}."
-msgstr ""
-
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 msgid "An error occurred while trading your tokens"
@@ -299,10 +298,6 @@ msgstr ""
 
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 msgid "An error occurred while withdrawing {symbol}"
-msgstr ""
-
-#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
-msgid "An error occurred while withdrawing your {symbol}."
 msgstr ""
 
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
@@ -475,10 +470,6 @@ msgstr ""
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 msgid "Be sure to check your transaction status on CoW Explorer to verify the cancellation was successful"
-msgstr ""
-
-#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
-msgid "Begin the savings process"
 msgstr ""
 
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
@@ -929,7 +920,6 @@ msgstr ""
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
-#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
@@ -1163,7 +1153,6 @@ msgstr ""
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
-#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
@@ -1376,7 +1365,6 @@ msgstr ""
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
-#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 msgid "Next, confirm the transaction in your wallet."
 msgstr ""
 
@@ -1489,10 +1477,17 @@ msgstr ""
 msgid "Output is estimated. You will receive at least {slippageAdjustedQuote} {0} or the transaction will revert."
 msgstr ""
 
+#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
+msgid "Please allow this app to access the {symbol} in your wallet and supply it to the Sky Savings Rate module."
+msgstr ""
+
+#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
+msgid "Please allow this app to access the {symbol} in your wallet and withdraw it from the Sky Savings Rate module."
+msgstr ""
+
 #: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
-#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 msgid "Please allow this app to access the {symbol} in your wallet."
 msgstr ""
 
@@ -2244,13 +2239,11 @@ msgstr ""
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
-#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 msgid "Token access approval in progress."
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
-#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 msgid "Token access approved"
 msgstr ""
@@ -3225,6 +3218,14 @@ msgstr ""
 
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 msgid "Your supply is being processed on the blockchain. Please wait."
+msgstr ""
+
+#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
+msgid "Your token approval and supply are being processed on the blockchain. Please wait."
+msgstr ""
+
+#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
+msgid "Your token approval and withdrawal are being processed on the blockchain. Please wait."
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
