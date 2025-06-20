@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   SavingsFlow,
   SavingsAction,
@@ -20,6 +20,7 @@ import { Token } from '@jetstreamgg/sky-hooks';
 import { formatBigInt, isL2ChainId } from '@jetstreamgg/sky-utils';
 import { getTokenDecimals } from '@jetstreamgg/sky-hooks';
 import { useChainId } from 'wagmi';
+import { TxStatus } from '@widgets/shared/constants';
 
 // TX Status wrapper to update copy
 export const SavingsTransactionStatus = ({
@@ -35,6 +36,8 @@ export const SavingsTransactionStatus = ({
   isBatchTransaction?: boolean;
   needsAllowance: boolean;
 }) => {
+  const [flowNeedsAllowance] = useState(needsAllowance);
+
   const { i18n } = useLingui();
   const chainId = useChainId();
   const isL2Chain = isL2ChainId(chainId);
@@ -59,28 +62,42 @@ export const SavingsTransactionStatus = ({
 
   // Sets the title and subtitle of the card
   useEffect(() => {
+    const isApprovalSuccess = txStatus === TxStatus.SUCCESS && action === SavingsAction.APPROVE;
+    const isWaitingForSecondTransaction =
+      txStatus === TxStatus.INITIALIZED && action !== SavingsAction.APPROVE && flowNeedsAllowance;
+    const flowTxStatus: TxStatus =
+      isApprovalSuccess || isWaitingForSecondTransaction ? TxStatus.LOADING : txStatus;
+
     if (flow === SavingsFlow.SUPPLY) {
       setStepTwoTitle(t`Supply`);
 
       if (screen === SavingsScreen.TRANSACTION) {
-        setTxTitle(i18n._(savingsSupplyTitle[txStatus as keyof TxCardCopyText]));
+        setTxTitle(i18n._(savingsSupplyTitle[flowTxStatus as keyof TxCardCopyText]));
         setTxSubtitle(
           i18n._(
             supplySubtitle({
-              txStatus,
+              txStatus: flowTxStatus,
               amount: formatBigInt(originAmount, { unit: getTokenDecimals(originToken, chainId) }),
               symbol: originToken.symbol,
-              needsAllowance
+              needsAllowance: flowNeedsAllowance
             })
           )
         );
         setTxDescription(
-          i18n._(savingsActionDescription({ flow, action, txStatus, needsAllowance, isL2Chain }))
+          i18n._(
+            savingsActionDescription({
+              flow,
+              action,
+              txStatus: flowTxStatus,
+              needsAllowance: flowNeedsAllowance,
+              isL2Chain
+            })
+          )
         );
         setLoadingText(
           i18n._(
             supplyLoadingButtonText({
-              txStatus,
+              txStatus: flowTxStatus,
               amount: formatBigInt(originAmount, { unit: getTokenDecimals(originToken, chainId) }),
               symbol: originToken.symbol
             })
@@ -94,25 +111,33 @@ export const SavingsTransactionStatus = ({
       setStepTwoTitle(t`Withdraw`);
 
       if (screen === SavingsScreen.TRANSACTION) {
-        setTxTitle(i18n._(savingsWithdrawTitle[txStatus as keyof TxCardCopyText]));
+        setTxTitle(i18n._(savingsWithdrawTitle[flowTxStatus as keyof TxCardCopyText]));
         setTxSubtitle(
           i18n._(
             withdrawSubtitle({
-              txStatus,
+              txStatus: flowTxStatus,
               amount: formatBigInt(originAmount, { unit: getTokenDecimals(originToken, chainId) }),
               symbol: 'sUSDS',
-              needsAllowance,
+              needsAllowance: flowNeedsAllowance,
               isL2Chain
             })
           )
         );
         setTxDescription(
-          i18n._(savingsActionDescription({ flow, action, txStatus, needsAllowance, isL2Chain }))
+          i18n._(
+            savingsActionDescription({
+              flow,
+              action,
+              txStatus: flowTxStatus,
+              needsAllowance: flowNeedsAllowance,
+              isL2Chain
+            })
+          )
         );
         setLoadingText(
           i18n._(
             withdrawLoadingButtonText({
-              txStatus,
+              txStatus: flowTxStatus,
               amount: formatBigInt(originAmount, { unit: getTokenDecimals(originToken, chainId) }),
               symbol: originToken.symbol
             })

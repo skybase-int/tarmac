@@ -77,7 +77,7 @@ export const L2SavingsTransactionReview = ({
       );
     }
     setTxDescription(i18n._(savingsActionDescription({ flow, action, txStatus, needsAllowance, isL2Chain })));
-  }, [flow, action, screen, i18n.locale, isBatchTransaction]);
+  }, [flow, action, screen, i18n.locale, isBatchTransaction, batchEnabled]);
 
   return (
     <TransactionReview
