@@ -9,6 +9,17 @@
 BASE_BRANCH=${1:-origin/main}
 PR_TEMPLATE_PATH="./.github/pull_request_template.md"
 
+# Files and directories to ignore in the diff
+IGNORE_PATTERNS=(
+  "pnpm-lock.yaml"
+  "*.po"
+  "locales/"
+  "package-lock.json"
+  "yarn.lock"
+  "*.log"
+  ".DS_Store"
+)
+
 # Check if PR template exists
 if [[ ! -f "$PR_TEMPLATE_PATH" ]]; then
   echo "❌ PR template not found at $PR_TEMPLATE_PATH"
@@ -21,8 +32,17 @@ if ! git rev-parse --verify "$BASE_BRANCH" &> /dev/null; then
   exit 1
 fi
 
-# Get git diff against the specified base branch
-GIT_DIFF=$(git diff "$BASE_BRANCH"...HEAD)
+# Build git diff command with ignore patterns
+DIFF_CMD="git diff $BASE_BRANCH...HEAD"
+
+# Add exclusions for each ignore pattern
+for pattern in "${IGNORE_PATTERNS[@]}"; do
+  DIFF_CMD="$DIFF_CMD -- ':!$pattern'"
+done
+
+# Get git diff against the specified base branch (excluding ignored patterns)
+echo "🔍 Generating diff against $BASE_BRANCH (ignoring: ${IGNORE_PATTERNS[*]})"
+GIT_DIFF=$(eval "$DIFF_CMD")
 
 # Read PR template
 PR_TEMPLATE_CONTENT=$(cat "$PR_TEMPLATE_PATH")
