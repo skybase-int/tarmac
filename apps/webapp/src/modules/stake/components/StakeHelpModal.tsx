@@ -12,6 +12,7 @@ import { Close } from '@/modules/icons/Close';
 import { HStack } from '@/modules/layout/components/HStack';
 import { StakeColor } from '@/modules/icons/StakeColor';
 import { Text } from '@/modules/layout/components/Typography';
+import { PopoverInfo } from '@/modules/ui/components/PopoverInfo';
 
 const STAKING_STEPS = [
   {
@@ -20,12 +21,12 @@ const STAKING_STEPS = [
     content: (
       <Trans>
         Supply SKY to the Staking Engine to create one or more positions through which you access Staking
-        Rewards and more.
+        Rewards <PopoverInfo type="stakingRewards" /> and more.
         <br />
         <br />
-        At this step, you can also choose to Borrow USDS against your SKY (optional). There is a minimum
-        borrow amount set as a risk parameter by Sky Ecosystem Governance. Borrowing carries risk of
-        liquidation.
+        At this step, you can also choose to Borrow <PopoverInfo type="borrow" /> USDS against your SKY
+        (optional). There is a minimum borrow amount set as a risk parameter by Sky Ecosystem Governance.
+        Borrowing carries risk of liquidation <PopoverInfo type="liquidation" />.
       </Trans>
     )
   },
@@ -39,8 +40,8 @@ const STAKING_STEPS = [
     title: <Trans>3. Delegate (optional).</Trans>,
     content: (
       <Trans>
-        You may choose to transfer the voting power your staked SKY provides to a recognized delegate or a
-        contract you own.
+        You may choose to transfer the voting power your staked SKY provides to a recognized delegate{' '}
+        <PopoverInfo type="delegate" /> or a contract you own.
       </Trans>
     )
   },
