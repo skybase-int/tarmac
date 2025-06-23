@@ -14,10 +14,23 @@ import { StakeColor } from '@/modules/icons/StakeColor';
 import { Text } from '@/modules/layout/components/Typography';
 import { PopoverInfo } from '@/modules/ui/components/PopoverInfo';
 
+const circledNumber = (number: number) => {
+  return (
+    <Text
+      className={
+        'inline-flex h-[18px] w-[18px] items-center justify-center rounded-full border-2 border-white text-center text-xs text-white'
+      }
+    >
+      {number}
+    </Text>
+  );
+};
+
 const STAKING_STEPS = [
   {
     id: 'stake',
-    title: <Trans>1. Supply SKY</Trans>,
+    number: 1,
+    title: <Trans>Supply SKY</Trans>,
     content: (
       <Trans>
         Supply SKY to the Staking Engine to create one or more positions through which you access Staking
@@ -32,12 +45,14 @@ const STAKING_STEPS = [
   },
   {
     id: 'choose-reward',
-    title: <Trans>2. Choose Reward</Trans>,
+    number: 2,
+    title: <Trans>Choose Reward</Trans>,
     content: <Trans>Staking Rewards are in the form of USDS.</Trans>
   },
   {
     id: 'delegate',
-    title: <Trans>3. Delegate (optional)</Trans>,
+    number: 3,
+    title: <Trans>Delegate (optional)</Trans>,
     content: (
       <Trans>
         You may choose to transfer the voting power your staked SKY provides to a recognized delegate{' '}
@@ -47,7 +62,8 @@ const STAKING_STEPS = [
   },
   {
     id: 'open-position',
-    title: <Trans>4. Confirm Staking Position</Trans>,
+    number: 4,
+    title: <Trans>Confirm Staking Position</Trans>,
     content: (
       <Trans>
         Your SKY tokens, as well as any rewards that you accumulate, are supplied to a non-custodial smart
@@ -73,7 +89,13 @@ export const StakeHelpModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: 
         <div className="flex w-full flex-col items-center justify-between md:pl-16">
           <DialogDescription className="text-text text-left">
             {STAKING_STEPS.map((step, index) => (
-              <StakingStep key={step.id} title={step.title} content={step.content} isFirst={index === 0} />
+              <StakingStep
+                key={step.id}
+                title={step.title}
+                content={step.content}
+                isFirst={index === 0}
+                number={step.number}
+              />
             ))}
             <Text className="text-text mt-8 text-[16px]">
               <Trans>With Sky, you always remain in control of your assets.</Trans>
@@ -94,14 +116,19 @@ export const StakeHelpModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: 
 const StakingStep = ({
   title,
   content,
+  number,
   isFirst = false
 }: {
   title: React.ReactNode;
   content: React.ReactNode;
+  number: number;
   isFirst?: boolean;
 }) => (
   <div className={isFirst ? undefined : 'mt-4'}>
-    <Text className="text-text text-[18px] font-bold">{title}</Text>
+    <div className="flex items-center">
+      {circledNumber(number)}
+      <Text className="text-text ml-2 text-[18px] font-bold">{title}</Text>
+    </div>
     <Text className="mt-1 text-[14px] text-white/80">{content}</Text>
   </div>
 );
