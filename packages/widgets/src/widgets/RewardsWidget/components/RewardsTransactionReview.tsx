@@ -1,0 +1,81 @@
+import { RewardContract, Token } from '@jetstreamgg/sky-hooks';
+import { useLingui } from '@lingui/react/macro';
+import { WidgetContext } from '@widgets/context/WidgetContext';
+import { TransactionReview } from '@widgets/shared/components/ui/transaction/TransactionReview';
+import { BatchStatus } from '@widgets/shared/constants';
+import {
+  getRewardsSupplyReviewSubtitle,
+  getRewardsWithdrawReviewSubtitle,
+  rewardsActionDescription,
+  RewardsFlow,
+  rewardsSupplyReviewTitle,
+  rewardsWithdrawReviewTitle
+} from '@widgets/widgets/RewardsWidget/lib/constants';
+import { useContext, useEffect } from 'react';
+
+export const RewardsTransactionReview = ({
+  onExternalLinkClicked,
+  batchEnabled,
+  setBatchEnabled,
+  isBatchTransaction,
+  rewardToken,
+  rewardAmount,
+  needsAllowance,
+  selectedRewardContract
+}: {
+  onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  batchEnabled?: boolean;
+  setBatchEnabled?: (enabled: boolean) => void;
+  isBatchTransaction: boolean;
+  rewardToken: Token;
+  rewardAmount: bigint;
+  needsAllowance: boolean;
+  selectedRewardContract: RewardContract;
+}) => {
+  const { i18n } = useLingui();
+  const {
+    setTxTitle,
+    setTxSubtitle,
+    setOriginToken,
+    setOriginAmount,
+    setTxDescription,
+    txStatus,
+    widgetState
+  } = useContext(WidgetContext);
+  const { flow, action, screen } = widgetState;
+
+  useEffect(() => {
+    setOriginToken(rewardToken);
+    setOriginAmount(rewardAmount);
+  }, [rewardToken, rewardAmount]);
+
+  // Sets the title and subtitle of the card
+  useEffect(() => {
+    if (flow === RewardsFlow.SUPPLY) {
+      setTxTitle(i18n._(rewardsSupplyReviewTitle));
+      setTxSubtitle(
+        i18n._(
+          getRewardsSupplyReviewSubtitle({
+            batchStatus: batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
+            symbol: rewardToken.symbol,
+            needsAllowance
+          })
+        )
+      );
+    } else if (flow === RewardsFlow.WITHDRAW) {
+      setTxTitle(i18n._(rewardsWithdrawReviewTitle));
+      setTxSubtitle(i18n._(getRewardsWithdrawReviewSubtitle({ symbol: rewardToken.symbol })));
+    }
+    setTxDescription(
+      i18n._(rewardsActionDescription({ flow, action, txStatus, needsAllowance, selectedRewardContract }))
+    );
+  }, [flow, action, screen, i18n.locale, isBatchTransaction, batchEnabled, selectedRewardContract]);
+
+  return (
+    <TransactionReview
+      onExternalLinkClicked={onExternalLinkClicked}
+      batchEnabled={batchEnabled}
+      setBatchEnabled={setBatchEnabled}
+    />
+  );
+};
