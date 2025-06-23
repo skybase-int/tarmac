@@ -10,6 +10,8 @@ BASE_BRANCH=${1:-origin/main}
 PR_TEMPLATE_PATH="./.github/pull_request_template.md"
 
 # Files and directories to ignore in the diff
+# Add patterns here to exclude files/directories from PR description generation
+# Supports glob patterns (e.g., "*.po") and directory paths (e.g., "locales/")
 IGNORE_PATTERNS=(
   "pnpm-lock.yaml"
   "*.po"
@@ -33,16 +35,18 @@ if ! git rev-parse --verify "$BASE_BRANCH" &> /dev/null; then
 fi
 
 # Build git diff command with ignore patterns
-DIFF_CMD="git diff $BASE_BRANCH...HEAD"
-
-# Add exclusions for each ignore pattern
+PATHSPEC_EXCLUDES=()
 for pattern in "${IGNORE_PATTERNS[@]}"; do
-  DIFF_CMD="$DIFF_CMD -- ':!$pattern'"
+  PATHSPEC_EXCLUDES+=(":(exclude)$pattern")
 done
 
 # Get git diff against the specified base branch (excluding ignored patterns)
 echo "🔍 Generating diff against $BASE_BRANCH (ignoring: ${IGNORE_PATTERNS[*]})"
-GIT_DIFF=$(eval "$DIFF_CMD")
+if [ ${#PATHSPEC_EXCLUDES[@]} -gt 0 ]; then
+  GIT_DIFF=$(git diff "$BASE_BRANCH"...HEAD -- "${PATHSPEC_EXCLUDES[@]}")
+else
+  GIT_DIFF=$(git diff "$BASE_BRANCH"...HEAD)
+fi
 
 # Read PR template
 PR_TEMPLATE_CONTENT=$(cat "$PR_TEMPLATE_PATH")
