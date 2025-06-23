@@ -15,7 +15,7 @@ import { Intent } from '@/lib/enums';
 import { useEffect } from 'react';
 import { useStakeHistory } from '@jetstreamgg/sky-hooks';
 import { useChatContext } from '@/modules/chat/context/ChatContext';
-import { useIsBatchEnabled } from '@/modules/ui/hooks/useIsBatchEnabled';
+import { useBatchToggle } from '@/modules/ui/hooks/useBatchToggle';
 
 export function StakeWidgetPane(sharedProps: SharedProps) {
   const {
@@ -30,7 +30,7 @@ export function StakeWidgetPane(sharedProps: SharedProps) {
   const { setShouldDisableActionButtons } = useChatContext();
   const urnIndexParam = searchParams.get(QueryParams.UrnIndex);
   const isReset = searchParams.get(QueryParams.Reset) === 'true';
-  const batchEnabled = useIsBatchEnabled();
+  const [batchEnabled, setBatchEnabled] = useBatchToggle();
 
   const onStakeUrnChange = (urn?: {
     urnAddress: `0x${string}` | undefined;
@@ -165,6 +165,7 @@ export function StakeWidgetPane(sharedProps: SharedProps) {
         flow
       }}
       batchEnabled={batchEnabled}
+      setBatchEnabled={setBatchEnabled}
     />
   );
 }
