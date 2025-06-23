@@ -713,7 +713,7 @@ const RewardsWidgetWrapped = ({
         // Keep the loading state after a successful approval as a new transaction will automatically pop up
         (widgetState.action === RewardsAction.APPROVE && txStatus === TxStatus.SUCCESS)
     );
-  }, [isConnecting, txStatus]);
+  }, [isConnecting, txStatus, widgetState.action]);
 
   const onSelectRewardContract = (rewardContract: RewardContract) => {
     setSelectedRewardContract(rewardContract);
