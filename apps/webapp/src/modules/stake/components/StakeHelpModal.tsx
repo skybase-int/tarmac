@@ -17,7 +17,7 @@ import { PopoverInfo } from '@/modules/ui/components/PopoverInfo';
 const STAKING_STEPS = [
   {
     id: 'stake',
-    title: <Trans>1. Supply SKY:</Trans>,
+    title: <Trans>1. Supply SKY</Trans>,
     content: (
       <Trans>
         Supply SKY to the Staking Engine to create one or more positions through which you access Staking
@@ -32,12 +32,12 @@ const STAKING_STEPS = [
   },
   {
     id: 'choose-reward',
-    title: <Trans>2. Choose Reward.</Trans>,
+    title: <Trans>2. Choose Reward</Trans>,
     content: <Trans>Staking Rewards are in the form of USDS.</Trans>
   },
   {
     id: 'delegate',
-    title: <Trans>3. Delegate (optional).</Trans>,
+    title: <Trans>3. Delegate (optional)</Trans>,
     content: (
       <Trans>
         You may choose to transfer the voting power your staked SKY provides to a recognized delegate{' '}
@@ -47,7 +47,7 @@ const STAKING_STEPS = [
   },
   {
     id: 'open-position',
-    title: <Trans>4. Confirm Staking Position:</Trans>,
+    title: <Trans>4. Confirm Staking Position</Trans>,
     content: (
       <Trans>
         Your SKY tokens, as well as any rewards that you accumulate, are supplied to a non-custodial smart
@@ -101,11 +101,7 @@ const StakingStep = ({
   isFirst?: boolean;
 }) => (
   <div className={isFirst ? undefined : 'mt-4'}>
-    <Text tag="span" className="text-text font-custom-450 text-[18px]">
-      {title}
-    </Text>
-    <Text tag="span" className="text-text ml-1 text-[16px]">
-      {content}
-    </Text>
+    <Text className="text-text text-[18px] font-bold">{title}</Text>
+    <Text className="mt-1 text-[14px] text-white/80">{content}</Text>
   </div>
 );
