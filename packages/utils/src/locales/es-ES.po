@@ -114,22 +114,6 @@ msgstr ""
 msgid "1 {0} = {executionPrice} {1}"
 msgstr ""
 
-#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
-msgid "1. Supply SKY:"
-msgstr ""
-
-#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
-msgid "2. Choose Reward."
-msgstr ""
-
-#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
-msgid "3. Delegate (optional)."
-msgstr ""
-
-#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
-msgid "4. Confirm Staking Position:"
-msgstr ""
-
 #: packages/widgets/src/widgets/TradeWidget/components/TradeInputs.tsx
 msgid "A minimum 0.01 ETH is needed to cover transaction costs. Actual gas fees may be lower."
 msgstr ""
@@ -568,6 +552,10 @@ msgstr ""
 msgid "Choose a token to upgrade, and enter an amount"
 msgstr ""
 
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "Choose Reward"
+msgstr ""
+
 #: packages/widgets/src/widgets/StakeModuleWidget/components/SelectDelegate.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/SelectDelegate.tsx
 msgid "Choose your delegate"
@@ -681,6 +669,10 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 msgid "Confirm position"
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "Confirm Staking Position"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
@@ -851,6 +843,10 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
 msgid "Delegate"
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "Delegate (optional)"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/SelectDelegate.tsx
@@ -2132,7 +2128,11 @@ msgid "Supply failed"
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
-msgid "Supply SKY to the Staking Engine to create one or more positions through which you access Staking Rewards and more.<0/><1/>At this step, you can also choose to Borrow USDS against your SKY (optional). There is a minimum borrow amount set as a risk parameter by Sky Ecosystem Governance. Borrowing carries risk of liquidation."
+msgid "Supply SKY"
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "Supply SKY to the Staking Engine to create one or more positions through which you access Staking Rewards <0/> and more.<1/><2/>At this step, you can also choose to Borrow <3/> USDS against your SKY (optional). There is a minimum borrow amount set as a risk parameter by Sky Ecosystem Governance. Borrowing carries risk of liquidation <4/>."
 msgstr ""
 
 #: packages/widgets/src/widgets/SavingsWidget/index.tsx
@@ -2915,7 +2915,7 @@ msgid "You just updated your position"
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
-msgid "You may choose to transfer the voting power your staked SKY provides to a recognized delegate or a contract you own."
+msgid "You may choose to transfer the voting power your staked SKY provides to a recognized delegate <0/> or a contract you own."
 msgstr ""
 
 #. placeholder {0}: targetToken.symbol
