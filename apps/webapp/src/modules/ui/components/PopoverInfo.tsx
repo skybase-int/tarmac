@@ -161,7 +161,9 @@ const content = {
 };
 
 export const PopoverInfo = ({
-  type
+  type,
+  width = 16,
+  height = 15
 }: {
   type:
     | 'str'
@@ -174,13 +176,15 @@ export const PopoverInfo = ({
     | 'borrow'
     | 'delegate'
     | 'liquidation';
+  width?: number;
+  height?: number;
 }) => {
   if (!(type in content)) return null;
 
   return (
     <Popover>
       <PopoverTrigger>
-        <Info />
+        <Info width={width} height={height} />
       </PopoverTrigger>
       <PopoverContent align="center" side="top" className="backdrop-blur-lg">
         <Heading variant="small" className="text-[16px] leading-6">
