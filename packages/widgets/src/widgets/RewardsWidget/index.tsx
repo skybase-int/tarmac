@@ -370,7 +370,8 @@ const RewardsWidgetWrapped = ({
   });
 
   const needsAllowance = !!(!allowance || allowance < amount);
-  const shouldUseBatch = !!batchEnabled && !!batchSupported && needsAllowance;
+  const shouldUseBatch =
+    !!batchEnabled && !!batchSupported && needsAllowance && widgetState.flow === RewardsFlow.SUPPLY;
 
   useEffect(() => {
     if (widgetState.action === RewardsAction.CLAIM) {

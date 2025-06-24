@@ -271,7 +271,8 @@ const SavingsWidgetWrapped = ({
   });
 
   const needsAllowance = !!(!allowance || allowance < debouncedAmount);
-  const shouldUseBatch = !!batchEnabled && !!batchSupported && needsAllowance;
+  const shouldUseBatch =
+    !!batchEnabled && !!batchSupported && needsAllowance && widgetState.flow === SavingsFlow.SUPPLY;
 
   useEffect(() => {
     //Initialize the supply flow only when we are connected
