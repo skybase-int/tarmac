@@ -6,9 +6,10 @@ import { Zap } from '@widgets/shared/components/icons/Icons';
 import { TransactionDetail } from '@widgets/shared/components/ui/transaction/BatchTransactionStatus';
 import { ExternalLink } from '@widgets/shared/components/ExternalLink';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
-import { BatchTransactionsToggle } from './BatchTransactionsToggle';
+import { Switch } from '@widgets/components/ui/switch';
 import { useContext } from 'react';
 import { WidgetContext } from '@widgets/context/WidgetContext';
+import { InfoTooltip } from '../tooltip/InfoTooltip';
 
 export function TransactionReview({
   onExternalLinkClicked,
@@ -25,27 +26,18 @@ export function TransactionReview({
 
   return (
     <motion.div variants={positionAnimations} className="my-3 w-full">
-      <Card className="ease-out-expo from-primary-start/0 to-primary-end/0 data-[status=success]:from-primary-start/100 data-[status=success]:to-primary-end/100 w-full transition duration-500">
+      <Card>
         <CardHeader>
-          <motion.div variants={positionAnimations}>
+          <motion.div variants={positionAnimations} className="flex gap-4">
             <Zap />
+            <Heading variant="medium">{txTitle}</Heading>
           </motion.div>
         </CardHeader>
         <CardContent className="my-5">
-          <motion.div variants={positionAnimations}>
-            <Heading variant="medium">{txTitle}</Heading>
-          </motion.div>
+          <motion.div variants={positionAnimations}></motion.div>
           <motion.div variants={positionAnimations} className="min-h-12">
             <Text className="mt-2">{txSubtitle}</Text>
           </motion.div>
-          {batchEnabled !== undefined && !!setBatchEnabled && (
-            <motion.div variants={positionAnimations} className="mt-4 min-h-12">
-              <HStack>
-                <BatchTransactionsToggle batchEnabled={batchEnabled} setBatchEnabled={setBatchEnabled} />
-                <Text className="mt-2">Batch transactions {batchEnabled ? 'enabled' : 'disabled'}</Text>
-              </HStack>
-            </motion.div>
-          )}
           {transactionDetail ?? <TransactionDetail />}
         </CardContent>
         <motion.div variants={positionAnimations}>
@@ -64,6 +56,29 @@ export function TransactionReview({
           </CardFooter>
         </motion.div>
       </Card>
+      {batchEnabled !== undefined && !!setBatchEnabled && (
+        <motion.div variants={positionAnimations} className="mt-4 px-4">
+          <HStack className="items-center justify-between">
+            <HStack className="gap-1 space-x-0">
+              <Text className="text-textSecondary">1-click transactions</Text>
+              <InfoTooltip
+                contentClassname="max-w-[300px]"
+                iconClassName="text-textSecondary"
+                content={
+                  <>
+                    <Text className="text-sm">
+                      {batchEnabled
+                        ? 'Your transactions will be completed in a single step, combining actions to save time and reduce gas fees.'
+                        : 'Your transactions will be completed in multiple steps'}
+                    </Text>
+                  </>
+                }
+              />
+            </HStack>
+            <Switch checked={batchEnabled} onCheckedChange={setBatchEnabled} />
+          </HStack>
+        </motion.div>
+      )}
     </motion.div>
   );
 }

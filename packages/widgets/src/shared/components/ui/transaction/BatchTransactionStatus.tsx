@@ -87,7 +87,7 @@ export function BatchTransactionStatus({
           className="ease-out-expo from-primary-start/0 to-primary-end/0 data-[status=success]:from-primary-start/100 data-[status=success]:to-primary-end/100 w-full transition duration-500"
         >
           <CardHeader>
-            <motion.div variants={positionAnimations}>
+            <motion.div variants={positionAnimations} className="flex gap-4">
               <AnimatePresence mode="popLayout" initial={false}>
                 <IconAnimationWrapper key={txStatus}>
                   {txStatus === TxStatus.INITIALIZED && <Clock />}
@@ -97,16 +97,14 @@ export function BatchTransactionStatus({
                   {txStatus === TxStatus.CANCELLED && <Cancel />}
                 </IconAnimationWrapper>
               </AnimatePresence>
-            </motion.div>
-          </CardHeader>
-          <CardContent className="my-5">
-            <motion.div variants={positionAnimations}>
               <AnimatePresence mode="popLayout" initial={false}>
-                <PositionAnimationWithExitWrapper key={txTitle}>
+                <PositionAnimationWithExitWrapper key={txTitle} className="flex items-center">
                   <Heading variant="medium">{txTitle}</Heading>
                 </PositionAnimationWithExitWrapper>
               </AnimatePresence>
             </motion.div>
+          </CardHeader>
+          <CardContent className="my-5">
             <motion.div variants={positionAnimations} className="min-h-12">
               <AnimatePresence mode="popLayout" initial={false}>
                 <PositionAnimationWithExitWrapper key={txSubtitle}>
