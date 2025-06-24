@@ -10,6 +10,7 @@ import { Switch } from '@widgets/components/ui/switch';
 import { useContext } from 'react';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { InfoTooltip } from '../tooltip/InfoTooltip';
+import { useIsBatchSupported } from '@jetstreamgg/sky-hooks';
 
 export function TransactionReview({
   onExternalLinkClicked,
@@ -23,6 +24,7 @@ export function TransactionReview({
   transactionDetail?: React.ReactElement;
 }) {
   const { txTitle, txSubtitle } = useContext(WidgetContext);
+  const { data: batchSupported } = useIsBatchSupported();
 
   return (
     <motion.div variants={positionAnimations} className="my-3 w-full">
@@ -56,7 +58,7 @@ export function TransactionReview({
           </CardFooter>
         </motion.div>
       </Card>
-      {batchEnabled !== undefined && !!setBatchEnabled && (
+      {batchEnabled !== undefined && !!setBatchEnabled && !!batchSupported && (
         <motion.div variants={positionAnimations} className="mt-4 px-4">
           <HStack className="items-center justify-between">
             <HStack className="gap-1 space-x-0">
