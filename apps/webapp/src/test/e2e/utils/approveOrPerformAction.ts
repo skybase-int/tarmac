@@ -22,7 +22,6 @@ export type Action =
 
 type approveOrPerformActionOptions = {
   reject?: boolean;
-  buttonName?: 'Retry' | 'Continue';
   buttonPosition?: number;
 };
 
@@ -31,36 +30,28 @@ export const approveOrPerformAction = async (
   action: Action,
   options?: approveOrPerformActionOptions
 ) => {
-  const { reject = false, buttonName = 'Continue', buttonPosition = 0 } = options || {};
+  const { reject = false, buttonPosition = 0 } = options || {};
 
+  await page.getByTestId('widget-button').getByText('Review').click();
+
+  const actionText = `Confirm ${action.toLowerCase()}`;
   const actionButton = page
-    .locator(`role=button >> text=/^(${action}|Approve ${action.toLowerCase()} amount)$/`)
+    .locator(`role=button >> text=/^(${actionText}|Confirm 2 transactions)$/`)
     .nth(buttonPosition);
   await actionButton.waitFor({ state: 'attached' }); // Ensure the button is in the DOM
   await expect(actionButton).toBeEnabled(); // Wait for the button to be enabled
-  const buttonText = await actionButton.innerText(); // Get the text of the button
 
-  if (buttonText === action) {
-    //already have allowance
-    if (reject) {
-      await interceptAndRejectTransactions(page, 200, true);
-    }
-    await actionButton.click();
-  } else {
-    //need allowance
-    await page.getByRole('button', { name: 'Approve' }).click();
-
-    if (reject) {
-      await expect(page.locator('role=button[name="Continue"]').first()).toBeEnabled();
-      await interceptAndRejectTransactions(page, 200, true);
-    }
-    await page.locator(`role=button[name="${buttonName}"]`).first().click(); //for some reason there's another button named Next
+  if (reject) {
+    await interceptAndRejectTransactions(page, 200, true);
   }
+  await actionButton.click();
 };
 
 export const performAction = async (page: Page, action: Action) => {
-  const actionButton = page.locator(`role=button >> text=/^${action}$/`).nth(0);
+  await page.getByTestId('widget-button').getByText('Review').click();
+  const actionButton = page.locator('role=button >> text=/^Confirm bundled transaction$/').nth(0);
   await actionButton.waitFor({ state: 'attached' }); // Ensure the button is in the DOM
   await expect(actionButton).toBeEnabled(); // Wait for the button to be enabled
   await actionButton.click();
+  await expect(page.getByTestId('step-indicator').last()).toHaveText(action);
 };

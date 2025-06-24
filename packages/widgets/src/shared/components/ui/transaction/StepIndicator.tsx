@@ -109,7 +109,12 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
             {txStatus === TxStatus.SUCCESS ? <SuccessCheckSolidColor /> : stepNumber}
           </Text>
         </div>
-        <Text className={`ml-3 inline-flex ${currentStep ? 'text-white' : 'text-white/60'}`}>{text}</Text>
+        <Text
+          className={`ml-3 inline-flex ${currentStep ? 'text-white' : 'text-white/60'}`}
+          dataTestId="step-indicator"
+        >
+          {text}
+        </Text>
       </div>
       {!circleIndicator && <ProgressBar txStatus={txStatus} currentStep={currentStep} />}
     </div>
