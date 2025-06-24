@@ -1,4 +1,4 @@
-import { RewardContract, Token } from '@jetstreamgg/sky-hooks';
+import { RewardContract, Token, useIsBatchSupported } from '@jetstreamgg/sky-hooks';
 import { useLingui } from '@lingui/react/macro';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { TransactionReview } from '@widgets/shared/components/ui/transaction/TransactionReview';
@@ -33,6 +33,7 @@ export const RewardsTransactionReview = ({
   selectedRewardContract: RewardContract;
 }) => {
   const { i18n } = useLingui();
+  const { data: batchSupported } = useIsBatchSupported();
   const {
     setTxTitle,
     setTxSubtitle,
@@ -56,7 +57,7 @@ export const RewardsTransactionReview = ({
       setTxSubtitle(
         i18n._(
           getRewardsSupplyReviewSubtitle({
-            batchStatus: batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
+            batchStatus: !!batchSupported && batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
             symbol: rewardToken.symbol,
             needsAllowance
           })
@@ -69,7 +70,16 @@ export const RewardsTransactionReview = ({
     setTxDescription(
       i18n._(rewardsActionDescription({ flow, action, txStatus, needsAllowance, selectedRewardContract }))
     );
-  }, [flow, action, screen, i18n.locale, isBatchTransaction, batchEnabled, selectedRewardContract]);
+  }, [
+    flow,
+    action,
+    screen,
+    i18n.locale,
+    isBatchTransaction,
+    batchEnabled,
+    batchSupported,
+    selectedRewardContract
+  ]);
 
   return (
     <TransactionReview

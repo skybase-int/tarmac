@@ -1,4 +1,4 @@
-import { Token } from '@jetstreamgg/sky-hooks';
+import { Token, useIsBatchSupported } from '@jetstreamgg/sky-hooks';
 import { isL2ChainId } from '@jetstreamgg/sky-utils';
 import { useLingui } from '@lingui/react/macro';
 import { WidgetContext } from '@widgets/context/WidgetContext';
@@ -33,6 +33,7 @@ export const SavingsTransactionReview = ({
   needsAllowance: boolean;
 }) => {
   const { i18n } = useLingui();
+  const { data: batchSupported } = useIsBatchSupported();
   const chainId = useChainId();
   const isL2Chain = isL2ChainId(chainId);
   const {
@@ -58,7 +59,7 @@ export const SavingsTransactionReview = ({
       setTxSubtitle(
         i18n._(
           getSavingsSupplyReviewSubtitle({
-            batchStatus: batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
+            batchStatus: !!batchSupported && batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
             symbol: originToken.symbol,
             needsAllowance
           })
@@ -69,7 +70,7 @@ export const SavingsTransactionReview = ({
       setTxSubtitle(
         i18n._(
           getSavingsWithdrawReviewSubtitle({
-            batchStatus: batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
+            batchStatus: !!batchSupported && batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
             symbol: isL2Chain ? 'sUSDS' : 'USDS',
             needsAllowance,
             isL2Chain
@@ -78,7 +79,7 @@ export const SavingsTransactionReview = ({
       );
     }
     setTxDescription(i18n._(savingsActionDescription({ flow, action, txStatus, needsAllowance, isL2Chain })));
-  }, [flow, action, screen, i18n.locale, isBatchTransaction]);
+  }, [flow, action, screen, i18n.locale, isBatchTransaction, batchSupported, batchEnabled]);
 
   return (
     <TransactionReview

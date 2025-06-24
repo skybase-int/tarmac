@@ -15,7 +15,8 @@ import {
   useDelegateName,
   useDelegateOwner,
   useCollateralData,
-  Token
+  Token,
+  useIsBatchSupported
 } from '@jetstreamgg/sky-hooks';
 import { useChainId } from 'wagmi';
 import { positionAnimations } from '@widgets/shared/animation/presets';
@@ -138,6 +139,7 @@ export const PositionSummary = ({
   const chainId = useChainId();
   const ilkName = getIlkName(chainId, 2);
   const { i18n } = useLingui();
+  const { data: batchSupported } = useIsBatchSupported();
 
   const {
     activeUrn,
@@ -158,7 +160,7 @@ export const PositionSummary = ({
       setTxSubtitle(
         i18n._(
           getStakeOpenReviewSubtitle({
-            batchStatus: batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
+            batchStatus: !!batchSupported && batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
             symbol: allowanceToken?.symbol,
             needsAllowance
           })
@@ -169,14 +171,14 @@ export const PositionSummary = ({
       setTxSubtitle(
         i18n._(
           getStakeManageReviewSubtitle({
-            batchStatus: batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
+            batchStatus: !!batchSupported && batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
             symbol: allowanceToken?.symbol,
             needsAllowance
           })
         )
       );
     }
-  }, [flow, action, screen, i18n.locale, isBatchTransaction, batchEnabled]);
+  }, [flow, action, screen, i18n.locale, isBatchTransaction, batchEnabled, batchSupported]);
 
   const { data: existingRewardContract } = useStakeUrnSelectedRewardContract({
     urn: activeUrn?.urnAddress || ZERO_ADDRESS

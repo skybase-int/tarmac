@@ -1,4 +1,4 @@
-import { Token } from '@jetstreamgg/sky-hooks';
+import { Token, useIsBatchSupported } from '@jetstreamgg/sky-hooks';
 import { useLingui } from '@lingui/react/macro';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { TransactionReview } from '@widgets/shared/components/ui/transaction/TransactionReview';
@@ -35,6 +35,7 @@ export const UpgradeTransactionReview = ({
   needsAllowance: boolean;
 }) => {
   const { i18n } = useLingui();
+  const { data: batchSupported } = useIsBatchSupported();
   const {
     setTxTitle,
     setTxSubtitle,
@@ -62,7 +63,7 @@ export const UpgradeTransactionReview = ({
       setTxSubtitle(
         i18n._(
           getUpgradeReviewSubtitle({
-            batchStatus: batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
+            batchStatus: !!batchSupported && batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
             originToken,
             targetToken,
             needsAllowance
@@ -74,7 +75,7 @@ export const UpgradeTransactionReview = ({
       setTxSubtitle(
         i18n._(
           getRevertReviewSubtitle({
-            batchStatus: batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
+            batchStatus: !!batchSupported && batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
             originToken,
             targetToken,
             needsAllowance
@@ -85,7 +86,7 @@ export const UpgradeTransactionReview = ({
     setTxDescription(
       i18n._(upgradeActionDescription({ flow, action, txStatus, needsAllowance, originToken, targetToken }))
     );
-  }, [flow, action, screen, i18n.locale, isBatchTransaction, batchEnabled]);
+  }, [flow, action, screen, i18n.locale, isBatchTransaction, batchEnabled, batchSupported]);
 
   return (
     <TransactionReview

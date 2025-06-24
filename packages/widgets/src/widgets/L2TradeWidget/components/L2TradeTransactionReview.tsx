@@ -1,4 +1,4 @@
-import { Token } from '@jetstreamgg/sky-hooks';
+import { Token, useIsBatchSupported } from '@jetstreamgg/sky-hooks';
 import { useLingui } from '@lingui/react/macro';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { TransactionReview } from '@widgets/shared/components/ui/transaction/TransactionReview';
@@ -29,6 +29,7 @@ export const L2TradeTransactionReview = ({
   needsAllowance: boolean;
 }) => {
   const { i18n } = useLingui();
+  const { data: batchSupported } = useIsBatchSupported();
   const {
     setTxTitle,
     setTxSubtitle,
@@ -55,7 +56,7 @@ export const L2TradeTransactionReview = ({
       setTxSubtitle(
         i18n._(
           getL2TradeReviewSubtitle({
-            batchStatus: batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
+            batchStatus: !!batchSupported && batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
             originToken,
             targetToken,
             needsAllowance
@@ -64,7 +65,7 @@ export const L2TradeTransactionReview = ({
       );
     }
     setTxDescription(i18n._(l2TradeDescription({ originToken, targetToken })));
-  }, [flow, action, screen, i18n.locale, isBatchTransaction, batchEnabled]);
+  }, [flow, action, screen, i18n.locale, isBatchTransaction, batchEnabled, batchSupported]);
 
   return (
     <TransactionReview
