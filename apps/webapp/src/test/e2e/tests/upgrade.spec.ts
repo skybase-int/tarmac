@@ -293,7 +293,7 @@ test('A revert error redirects to the error screen', async ({ page }) => {
 
   await interceptAndRejectTransactions(page, 200, true);
 
-  await approveOrPerformAction(page, 'Revert', { buttonName: 'Retry' });
+  await approveOrPerformAction(page, 'Revert', { reject: true });
   expect(page.getByText('An error occurred while approving access to your USDS.')).toBeVisible();
   expect(page.getByRole('button', { name: 'Back' }).last()).toBeVisible();
   expect(page.getByRole('button', { name: 'Back' }).last()).toBeEnabled();
