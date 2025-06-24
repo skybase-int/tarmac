@@ -16,6 +16,8 @@ IGNORE_PATTERNS=(
   "pnpm-lock.yaml"
   "*.po"
   "locales/"
+  "**/locales/*.ts"
+  "packages/utils/src/locales/*.ts"
   "package-lock.json"
   "yarn.lock"
   "*.log"
