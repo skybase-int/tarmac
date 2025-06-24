@@ -8,7 +8,7 @@ import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { getTenderlyChains } from './tenderlyChain';
 import { TEST_WALLET_ADDRESS } from './constants';
 import { createTestClient, EIP1193Parameters, WalletRpcSchema } from 'viem';
-import { TENDERLY_BASE_CHAIN_ID } from '../src/constants';
+import { optimism, unichain } from 'viem/chains';
 
 const [tenderlyMainnet, tenderlyBase, tenderlyArbitrum] = getTenderlyChains();
 
@@ -30,7 +30,11 @@ function extendedMock(params: MockParameters) {
                 if (args.method === 'wallet_getCapabilities') {
                   return {
                     // Add capabilities for different chains
-                    [TENDERLY_BASE_CHAIN_ID]: { atomic: { status: 'supported' } }
+                    [tenderlyMainnet.id]: { atomic: { status: 'supported' } },
+                    [tenderlyBase.id]: { atomic: { status: 'supported' } },
+                    [tenderlyArbitrum.id]: { atomic: { status: 'supported' } },
+                    [optimism.id]: { atomic: { status: 'supported' } },
+                    [unichain.id]: { atomic: { status: 'supported' } }
                   };
                 }
 
