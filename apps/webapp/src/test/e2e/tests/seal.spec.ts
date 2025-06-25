@@ -1,5 +1,4 @@
 import { expect, test } from '../fixtures.ts';
-import { approveOrPerformAction } from '../utils/approveOrPerformAction.ts';
 import { setErc20Balance } from '../utils/setBalance.ts';
 import { mkrAddress, usdsAddress } from '@jetstreamgg/sky-hooks';
 import { TENDERLY_CHAIN_ID } from '@/data/wagmi/config/testTenderlyChain.ts';
@@ -58,7 +57,7 @@ test('Free all MKR', async ({ page }) => {
 
   await expect(page.getByText('Confirm your position').nth(0)).toBeVisible();
 
-  await approveOrPerformAction(page, 'Confirm');
+  await page.getByRole('button', { name: 'Confirm' }).click();
   expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible();
   await expect(page.getByText("You've unsealed 100 MKR to exit your position.")).toBeVisible();
 });
