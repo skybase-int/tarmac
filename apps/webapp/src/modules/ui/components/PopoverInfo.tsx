@@ -64,9 +64,9 @@ const content = {
       <Text className="leading-5 text-white/80" variant="small">
         The Staking Rewards Rate (SRR) is variable and may fluctuate. It is determined by: (1) the current
         issuance rate of the rewards set through onchain governance processes and (2) the market price of the
-        stakedSKY at the time of each calculation. Rewards are accrued in USDS for the time being, subject to
-        future adjustment by onchain governance. The SRR provided is an estimated annual rate, updated using
-        data from a third party provider (i.e.,
+        staked SKY at the time of each calculation. Rewards are accrued in USDS for the time being, subject to
+        any future adjustment by onchain governance. The SRR shown here is an estimated annual rate, updated
+        using data from a third party provider (i.e.,{' '}
         <ExternalLink
           href="https://blockanalitica.com/"
           className="hover:text-white hover:underline"
@@ -74,7 +74,7 @@ const content = {
         >
           BlockAnalitica
         </ExternalLink>
-        ). Further, The estimate is for informational purposes only and does not guarantee future results.
+        ). Further, the estimate is for informational purposes only and does not guarantee future results.
       </Text>
     )
   },
@@ -100,16 +100,91 @@ const content = {
         Sky Protocol.
       </Text>
     )
+  },
+  stakingRewards: {
+    title: 'Staking Rewards',
+    description: (
+      <Text className="leading-5 text-white/80" variant="small">
+        Staking Rewards can be accessed when SKY is supplied to the Staking Engine of the decentralized,
+        non-custodial Sky Protocol. Currently, all Staking Rewards take the form of USDS. Staking Reward rates
+        are determined by Sky Ecosystem Governance through the process of decentralized onchain voting.
+      </Text>
+    )
+  },
+  borrow: {
+    title: 'Borrow',
+    description: (
+      <Text className="leading-5 text-white/80" variant="small">
+        Borrowing against your staked collateral carries the risk of automatic liquidation without any
+        possibility of recourse if at any time the value of your staked collateral drops below the required
+        threshold and your position becomes undercollateralized. Please ensure you fully understand these
+        risks before proceeding.
+      </Text>
+    )
+  },
+  delegate: {
+    title: 'Delegate',
+    description: (
+      <Text className="leading-5 text-white/80" variant="small">
+        When you hold SKY tokens, you maintain the right to participate in the process of Sky Ecosystem
+        Governance voting. That means that you have the ability to contribute to the community-driven,
+        decentralized ecosystem decision-making process, which occurs through onchain voting.
+        <br />
+        <br />
+        The voting power delegation feature of the Staking Engine of the Sky Protocol enables you to entrust
+        your voting power to a delegate of your choosing, who can then vote in the Sky Ecosystem Governance
+        process on your behalf. You can choose one delegate per SKY position. If you want to entrust your SKY
+        to two delegates using the Staking Engine, you will need to create two separate positions.
+        <br />
+        <br />
+        Delegates in receipt of token voting power can never directly access any tokens delegated to them,
+        including staked tokens. Throughout the delegation process, you always own and are in control of your
+        staked tokens, and you can change your delegate at any time. Staking to delegate your voting power may
+        be a useful option for governance token holders who have limited time to allocate to the process, who
+        want to save on the cost of gas involved in voting on their own, and who also want to earn Staking
+        Rewards.
+      </Text>
+    )
+  },
+  liquidation: {
+    title: 'Liquidation',
+    description: (
+      <Text className="leading-5 text-white/80" variant="small">
+        If the value of your collateral (SKY) drops below the liquidation price noted here, some or all of
+        your collateral may be auctioned to repay the amount of USDS that you borrowed. Note that a one-hour
+        price update delay applies. In other words, when SKY drops below a user&apos;s liquidation price it
+        will only start applying one hour later. This is called the OSM delay in technical terms, and it also
+        applies to any legacy Maker MCD vault.
+      </Text>
+    )
   }
 };
 
-export const PopoverInfo = ({ type }: { type: 'str' | 'ssr' | 'sbr' | 'srr' | 'dtc' | 'psm' }) => {
+export const PopoverInfo = ({
+  type,
+  width = 16,
+  height = 15
+}: {
+  type:
+    | 'str'
+    | 'ssr'
+    | 'sbr'
+    | 'srr'
+    | 'dtc'
+    | 'psm'
+    | 'stakingRewards'
+    | 'borrow'
+    | 'delegate'
+    | 'liquidation';
+  width?: number;
+  height?: number;
+}) => {
   if (!(type in content)) return null;
 
   return (
     <Popover>
       <PopoverTrigger>
-        <Info />
+        <Info width={width} height={height} />
       </PopoverTrigger>
       <PopoverContent align="center" side="top" className="backdrop-blur-lg">
         <Heading variant="small" className="text-[16px] leading-6">
