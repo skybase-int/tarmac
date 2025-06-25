@@ -64,7 +64,7 @@ export function getRewardsSupplyReviewSubtitle({
 
   switch (batchStatus) {
     case BatchStatus.ENABLED:
-      return msg`You're allowing this app to access the ${symbol} in your wallet and supply it to the Sky Token Rewards module in one go.`;
+      return msg`You're allowing this app to access the ${symbol} in your wallet and supply it to the Sky Token Rewards module in one bundled transaction.`;
     case BatchStatus.DISABLED:
       return msg`You're allowing this app to access the ${symbol} in your wallet and supply it to the Sky Token Rewards module in multiple transactions.`;
     default:

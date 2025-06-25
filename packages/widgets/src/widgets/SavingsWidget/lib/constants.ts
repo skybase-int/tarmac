@@ -51,7 +51,7 @@ export function getSavingsSupplyReviewSubtitle({
 
   switch (batchStatus) {
     case BatchStatus.ENABLED:
-      return msg`You're allowing this app to access the ${symbol} in your wallet and supply it to the Sky Savings Rate module in one go.`;
+      return msg`You're allowing this app to access the ${symbol} in your wallet and supply it to the Sky Savings Rate module in one bundled transaction.`;
     case BatchStatus.DISABLED:
       return msg`You're allowing this app to access the ${symbol} in your wallet and supply it to the Sky Savings Rate module in multiple transactions.`;
     default:
@@ -75,7 +75,7 @@ export function getSavingsWithdrawReviewSubtitle({
 
   switch (batchStatus) {
     case BatchStatus.ENABLED:
-      return msg`You're allowing this app to access the ${symbol} in your wallet and withdraw from the Sky Savings Rate module in one go.`;
+      return msg`You're allowing this app to access the ${symbol} in your wallet and withdraw from the Sky Savings Rate module in one bundled transaction.`;
     case BatchStatus.DISABLED:
       return msg`You're allowing this app to access the ${symbol} in your wallet and withdraw from the Sky Savings Rate module in multiple transactions.`;
     default:

@@ -94,7 +94,7 @@ export function getStakeOpenReviewSubtitle({
 
   switch (batchStatus) {
     case BatchStatus.ENABLED:
-      return msg`You're allowing this app to access the ${symbol} in your wallet and open a new Staking Rewards Engine position in one go.`;
+      return msg`You're allowing this app to access the ${symbol} in your wallet and open a new Staking Rewards Engine position in one bundled transaction.`;
     case BatchStatus.DISABLED:
       return msg`You're allowing this app to access the ${symbol} in your wallet and open a new Staking Rewards Engine position in multiple transactions.`;
     default:
@@ -117,7 +117,7 @@ export function getStakeManageReviewSubtitle({
 
   switch (batchStatus) {
     case BatchStatus.ENABLED:
-      return msg`You're allowing this app to access the ${symbol} in your wallet and update your Staking Rewards Engine position in one go.`;
+      return msg`You're allowing this app to access the ${symbol} in your wallet and update your Staking Rewards Engine position in one bundled transaction.`;
     case BatchStatus.DISABLED:
       return msg`You're allowing this app to access the ${symbol} in your wallet and update your Staking Rewards Engine position in multiple transactions.`;
     default:

@@ -29,7 +29,7 @@ export function BatchTransactionsToggle() {
       </TooltipTrigger>
       <TooltipPortal>
         <TooltipContent arrowPadding={10}>
-          <Text variant="small">{t`Batch transactions ${batchEnabled ? 'enabled' : 'disabled'}`}</Text>
+          <Text variant="small">{t`Bundled transactions ${batchEnabled ? 'enabled' : 'disabled'}`}</Text>
           <TooltipArrow width={12} height={8} />
         </TooltipContent>
       </TooltipPortal>

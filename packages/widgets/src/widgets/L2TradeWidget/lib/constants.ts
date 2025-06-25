@@ -23,7 +23,7 @@ export function getL2TradeReviewSubtitle({
 
   switch (batchStatus) {
     case BatchStatus.ENABLED:
-      return msg`You're allowing this app to access the ${originToken.symbol} in your wallet and trade it for ${targetToken.symbol} in one go.`;
+      return msg`You're allowing this app to access the ${originToken.symbol} in your wallet and trade it for ${targetToken.symbol} in one bundled transaction.`;
     case BatchStatus.DISABLED:
       return msg`You're allowing this app to access the ${originToken.symbol} in your wallet and trade it for ${targetToken.symbol} in multiple transactions.`;
     default:
