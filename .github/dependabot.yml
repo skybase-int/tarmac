@@ -5,9 +5,10 @@
 
 version: 2
 updates:
-  # Security updates — always allowed
+  # Security updates — always allowed and prioritized
   - package-ecosystem: "npm"
     directory: "/"
+    target-branch: "development"  # Set the target branch to development
     schedule:
       interval: "daily"
       time: "09:00"
@@ -19,6 +20,7 @@ updates:
   # Regular updates — limited to 10 open PRs
   - package-ecosystem: "npm"
     directory: "/"
+    target-branch: "development"  # Set the target branch to development
     schedule:
       interval: "daily"
       time: "09:00"
