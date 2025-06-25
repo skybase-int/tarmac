@@ -6,6 +6,7 @@ import { BatchStatus } from '@widgets/shared/constants';
 import { getL2TradeReviewSubtitle, l2TradeDescription, l2TradeReviewTitle } from '../lib/constants';
 import { TradeFlow } from '@widgets/widgets/TradeWidget/lib/constants';
 import { useContext, useEffect } from 'react';
+import { t } from '@lingui/core/macro';
 
 export const L2TradeTransactionReview = ({
   batchEnabled,
@@ -31,6 +32,7 @@ export const L2TradeTransactionReview = ({
   const {
     setTxTitle,
     setTxSubtitle,
+    setStepTwoTitle,
     setOriginToken,
     setOriginAmount,
     setTargetToken,
@@ -50,6 +52,7 @@ export const L2TradeTransactionReview = ({
   // Sets the title and subtitle of the card
   useEffect(() => {
     if (flow === TradeFlow.TRADE) {
+      setStepTwoTitle(t`Trade`);
       setTxTitle(i18n._(l2TradeReviewTitle));
       setTxSubtitle(
         i18n._(

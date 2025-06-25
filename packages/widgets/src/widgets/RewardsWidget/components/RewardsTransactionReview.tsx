@@ -1,4 +1,5 @@
 import { RewardContract, Token, useIsBatchSupported } from '@jetstreamgg/sky-hooks';
+import { t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { TransactionReview } from '@widgets/shared/components/ui/transaction/TransactionReview';
@@ -35,6 +36,7 @@ export const RewardsTransactionReview = ({
   const {
     setTxTitle,
     setTxSubtitle,
+    setStepTwoTitle,
     setOriginToken,
     setOriginAmount,
     setTxDescription,
@@ -51,6 +53,7 @@ export const RewardsTransactionReview = ({
   // Sets the title and subtitle of the card
   useEffect(() => {
     if (flow === RewardsFlow.SUPPLY) {
+      setStepTwoTitle(t`Supply`);
       setTxTitle(i18n._(rewardsSupplyReviewTitle));
       setTxSubtitle(
         i18n._(
@@ -62,6 +65,7 @@ export const RewardsTransactionReview = ({
         )
       );
     } else if (flow === RewardsFlow.WITHDRAW) {
+      setStepTwoTitle(t`Withdraw`);
       setTxTitle(i18n._(rewardsWithdrawReviewTitle));
       setTxSubtitle(i18n._(getRewardsWithdrawReviewSubtitle({ symbol: rewardToken.symbol })));
     }

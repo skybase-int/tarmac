@@ -10,6 +10,9 @@ import { useContext } from 'react';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { InfoTooltip } from '../tooltip/InfoTooltip';
 import { useIsBatchSupported } from '@jetstreamgg/sky-hooks';
+import { StepIndicator } from './StepIndicator';
+import { TxStatus } from '@widgets/shared/constants';
+import { t } from '@lingui/core/macro';
 
 export function TransactionReview({
   batchEnabled,
@@ -20,7 +23,7 @@ export function TransactionReview({
   setBatchEnabled?: (enabled: boolean) => void;
   transactionDetail?: React.ReactElement;
 }) {
-  const { txTitle, txSubtitle } = useContext(WidgetContext);
+  const { txTitle, txSubtitle, stepTwoTitle, showStepIndicator } = useContext(WidgetContext);
   const { data: batchSupported } = useIsBatchSupported();
 
   return (
@@ -37,6 +40,26 @@ export function TransactionReview({
           <motion.div variants={positionAnimations} className="min-h-12">
             <Text className="mt-2">{txSubtitle}</Text>
           </motion.div>
+          {showStepIndicator && (
+            <motion.div variants={positionAnimations} className="flex w-full flex-col pt-4">
+              <StepIndicator
+                stepNumber={1}
+                currentStep={false}
+                txStatus={TxStatus.IDLE}
+                text={t`Approve`}
+                className="flex-1"
+                circleIndicator
+              />
+              <StepIndicator
+                stepNumber={2}
+                currentStep={false}
+                txStatus={TxStatus.IDLE}
+                text={stepTwoTitle}
+                className="flex-1"
+                circleIndicator
+              />
+            </motion.div>
+          )}
           {transactionDetail ?? <TransactionDetail />}
         </CardContent>
         {batchEnabled !== undefined && !!setBatchEnabled && !!batchSupported && (

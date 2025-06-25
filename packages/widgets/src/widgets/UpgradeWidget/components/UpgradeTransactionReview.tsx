@@ -1,4 +1,5 @@
 import { Token, useIsBatchSupported } from '@jetstreamgg/sky-hooks';
+import { t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { TransactionReview } from '@widgets/shared/components/ui/transaction/TransactionReview';
@@ -37,6 +38,7 @@ export const UpgradeTransactionReview = ({
   const {
     setTxTitle,
     setTxSubtitle,
+    setStepTwoTitle,
     setOriginToken,
     setOriginAmount,
     setTargetToken,
@@ -57,6 +59,7 @@ export const UpgradeTransactionReview = ({
   // Sets the title and subtitle of the card
   useEffect(() => {
     if (flow === UpgradeFlow.UPGRADE) {
+      setStepTwoTitle(t`Upgrade`);
       setTxTitle(i18n._(upgradeReviewTitle));
       setTxSubtitle(
         i18n._(
@@ -69,6 +72,7 @@ export const UpgradeTransactionReview = ({
         )
       );
     } else if (flow === UpgradeFlow.REVERT) {
+      setStepTwoTitle(t`Revert`);
       setTxTitle(i18n._(revertReviewTitle));
       setTxSubtitle(
         i18n._(

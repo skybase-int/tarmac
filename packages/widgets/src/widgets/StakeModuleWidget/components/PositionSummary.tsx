@@ -148,12 +148,13 @@ export const PositionSummary = ({
     selectedDelegate,
     selectedRewardContract
   } = useContext(StakeModuleWidgetContext);
-  const { setTxTitle, setTxSubtitle, widgetState } = useContext(WidgetContext);
+  const { setTxTitle, setTxSubtitle, setStepTwoTitle, widgetState } = useContext(WidgetContext);
   const { flow, action, screen } = widgetState;
 
   // Sets the title and subtitle of the card
   useEffect(() => {
     if (flow === StakeFlow.OPEN) {
+      setStepTwoTitle(t`Open a position`);
       setTxTitle(i18n._(stakeOpenReviewTitle));
       setTxSubtitle(
         i18n._(
@@ -165,6 +166,7 @@ export const PositionSummary = ({
         )
       );
     } else if (flow === StakeFlow.MANAGE) {
+      setStepTwoTitle(t`Change Position`);
       setTxTitle(i18n._(stakeManageReviewTitle));
       setTxSubtitle(
         i18n._(

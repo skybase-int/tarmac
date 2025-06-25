@@ -1,5 +1,6 @@
 import { Token, useIsBatchSupported } from '@jetstreamgg/sky-hooks';
 import { isL2ChainId } from '@jetstreamgg/sky-utils';
+import { t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { TransactionReview } from '@widgets/shared/components/ui/transaction/TransactionReview';
@@ -37,6 +38,7 @@ export const SavingsTransactionReview = ({
   const {
     setTxTitle,
     setTxSubtitle,
+    setStepTwoTitle,
     setOriginToken,
     setOriginAmount,
     setTxDescription,
@@ -53,6 +55,7 @@ export const SavingsTransactionReview = ({
   // Sets the title and subtitle of the card
   useEffect(() => {
     if (flow === SavingsFlow.SUPPLY) {
+      setStepTwoTitle(t`Supply`);
       setTxTitle(i18n._(savingsSupplyReviewTitle));
       setTxSubtitle(
         i18n._(
@@ -64,6 +67,7 @@ export const SavingsTransactionReview = ({
         )
       );
     } else if (flow === SavingsFlow.WITHDRAW) {
+      setStepTwoTitle(t`Withdraw`);
       setTxTitle(i18n._(savingsWithdrawReviewTitle));
       setTxSubtitle(
         i18n._(
