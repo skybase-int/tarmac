@@ -77,7 +77,7 @@ export function getStakeTitle(
 }
 
 export const stakeOpenReviewTitle = msg`Begin the open position process`;
-export const stakeManageReviewTitle = msg`Begin the update position process`;
+export const stakeManageReviewTitle = msg`Begin the change position process`;
 
 export function getStakeOpenReviewSubtitle({
   batchStatus,

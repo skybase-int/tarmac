@@ -209,7 +209,7 @@ export const StakeModuleTransactionStatus = ({
       isApprovalSuccess || isWaitingForSecondTransaction ? TxStatus.LOADING : txStatus;
 
     if (flow === StakeFlow.OPEN) setStepTwoTitle(t`Open a position`);
-    if (flow === StakeFlow.MANAGE) setStepTwoTitle(t`Update Position`);
+    if (flow === StakeFlow.MANAGE) setStepTwoTitle(t`Change Position`);
 
     if (
       (action === StakeAction.APPROVE || action === StakeAction.MULTICALL) &&

@@ -14,7 +14,7 @@ export type Action =
   | 'Migrate'
   | 'Continue to migrate'
   | 'Open a position'
-  | 'Update Position'
+  | 'Change Position'
   | 'Confirm your position';
 
 type approveOrPerformActionOptions = {

@@ -77,7 +77,7 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
   await page.getByRole('button', { name: 'skip' }).first().click();
 
   await expect(page.getByText('Confirm your position').nth(0)).toBeVisible();
-  await approveOrPerformAction(page, 'Update Position', { review: false });
+  await approveOrPerformAction(page, 'Change Position', { review: false });
   await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible();
   await expect(page.getByText("You've borrowed 100 USDS. Your position is updated.")).toBeVisible();
   await page.getByRole('button', { name: 'Manage your position(s)' }).click();
@@ -109,7 +109,7 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
 
   await expect(page.getByText('Confirm your position').nth(0)).toBeVisible();
 
-  await approveOrPerformAction(page, 'Update Position', { review: false });
+  await approveOrPerformAction(page, 'Change Position', { review: false });
   await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible();
   await expect(page.getByText("You've repaid 38,100 USDS to exit your position.")).toBeVisible();
   await page.getByRole('button', { name: 'Manage your position(s)' }).click();
@@ -134,7 +134,7 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
 
   await expect(page.getByText('Confirm your position').nth(0)).toBeVisible();
 
-  await approveOrPerformAction(page, 'Update Position', { review: false });
+  await approveOrPerformAction(page, 'Change Position', { review: false });
   await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible();
   await expect(page.getByText("You've unstaked 12,000 SKY to exit your position.")).toBeVisible();
   await page.getByRole('button', { name: 'Manage your position(s)' }).click();
