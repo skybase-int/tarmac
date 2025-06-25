@@ -577,6 +577,10 @@ msgstr ""
 msgid "Choose a token to upgrade, and enter an amount"
 msgstr ""
 
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "Choose Reward"
+msgstr ""
+
 #: packages/widgets/src/widgets/StakeModuleWidget/components/SelectDelegate.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/SelectDelegate.tsx
 msgid "Choose your delegate"
@@ -712,6 +716,10 @@ msgstr ""
 
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 msgid "Confirm revert"
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "Confirm Staking Position"
 msgstr ""
 
 #: packages/widgets/src/widgets/SavingsWidget/index.tsx
@@ -886,6 +894,10 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/PositionSummary.tsx
 msgid "Delegate"
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "Delegate (optional)"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/SelectDelegate.tsx
@@ -1155,6 +1167,10 @@ msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/Free.tsx
 msgid "How much would you like to unseal?"
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "How to Stake in 4 steps:"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/OpenNewUrn.tsx
@@ -2066,6 +2082,10 @@ msgstr ""
 msgid "Staking reward"
 msgstr ""
 
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "Staking Rewards are in the form of USDS."
+msgstr ""
+
 #: apps/webapp/src/modules/ui/components/AboutStakeModule.tsx
 msgid "Staking Rewards can be accessed when SKY is supplied to the Staking Engine of the decentralized, non-custodial Sky Protocol. Currently, all Staking Rewards take the form of USDS. Staking Reward rates are determined by Sky Ecosystem Governance through the process of decentralized onchain voting."
 msgstr ""
@@ -2163,6 +2183,14 @@ msgstr ""
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
 msgid "Supply failed"
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "Supply SKY"
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "Supply SKY to the Staking Engine to create one or more positions through which you access Staking Rewards <0/> and more.<1/><2/>At this step, you can also choose to Borrow <3/> USDS against your SKY (optional). There is a minimum borrow amount set as a risk parameter by Sky Ecosystem Governance. Borrowing carries risk of liquidation <4/>."
 msgstr ""
 
 #: packages/widgets/src/widgets/SavingsWidget/index.tsx
@@ -2788,6 +2816,10 @@ msgstr ""
 msgid "When you supply USDS to the Sky Savings Rate module of the decentralized Sky Protocol, you access the Sky Savings Rate <0/> and may accumulate additional USDS over time. No minimum supply amount is required, and you always maintain control of your supplied assets, as this feature is non-custodial."
 msgstr ""
 
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "With Sky, you always remain in control of your assets."
+msgstr ""
+
 #: apps/webapp/src/modules/app/hooks/useNotification.tsx
 msgid "With: USDS Get: SKY"
 msgstr ""
@@ -2928,6 +2960,10 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "You just updated your position"
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "You may choose to transfer the voting power your staked SKY provides to a recognized delegate <0/> or a contract you own."
 msgstr ""
 
 #. placeholder {0}: targetToken.symbol
@@ -3318,6 +3354,10 @@ msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/About.tsx
 msgid "Your sealed tokens enable you to create one or more positions through which you access rewards. You can:"
+msgstr ""
+
+#: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
+msgid "Your SKY tokens, as well as any rewards that you accumulate, are supplied to a non-custodial smart contract such that no intermediary takes custody of those tokens."
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeOverview.tsx

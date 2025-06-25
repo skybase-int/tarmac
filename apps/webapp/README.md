@@ -64,6 +64,8 @@ Create a `.env` file in the root directory of the project. You can use the `.env
 - `VITE_CHATBOT_DOMAIN`: The base URL for the chatbot backend API
 - `VITE_CHATBOT_MAX_HISTORY`: Maximum number of previous messages to include in chat context.
 - `VITE_CHATBOT_MAX_MESSAGE_LENGTH`: Maximum character length for user input messages.
+- `VITE_CHATBOT_CF_ACCESS_CLIENT_ID`: (Optional) Cloudflare Access client ID for authentication headers in development/staging environments
+- `VITE_CHATBOT_CF_ACCESS_CLIENT_SECRET`: (Optional) Cloudflare Access client secret for authentication headers in development/staging environments
 
 ## Running the App
 
