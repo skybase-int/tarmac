@@ -60,6 +60,7 @@ export type OnStakeUrnChange = (
 type StakeModuleWidgetProps = WidgetProps & {
   onStakeUrnChange?: OnStakeUrnChange;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  onShowHelpModal?: () => void;
   addRecentTransaction: any;
   batchEnabled?: boolean;
 };
@@ -73,6 +74,7 @@ export const StakeModuleWidget = ({
   onNotification,
   onWidgetStateChange,
   onExternalLinkClicked,
+  onShowHelpModal,
   addRecentTransaction,
   referralCode,
   shouldReset = false,
@@ -92,6 +94,7 @@ export const StakeModuleWidget = ({
             onNotification={onNotification}
             onWidgetStateChange={shouldReset ? undefined : onWidgetStateChange}
             onExternalLinkClicked={onExternalLinkClicked}
+            onShowHelpModal={onShowHelpModal}
             addRecentTransaction={addRecentTransaction}
             referralCode={referralCode}
             batchEnabled={batchEnabled}
@@ -111,6 +114,7 @@ function StakeModuleWidgetWrapped({
   onNotification,
   onWidgetStateChange,
   onExternalLinkClicked,
+  onShowHelpModal,
   addRecentTransaction,
   referralCode,
   batchEnabled
@@ -1029,11 +1033,12 @@ function StakeModuleWidgetWrapped({
         ) : (
           <div>
             {showStep && (
-              <motion.div className="py-6" exit={{ opacity: 0, transition: { duration: 0 } }}>
+              <motion.div className="py-6 pr-3" exit={{ opacity: 0, transition: { duration: 0 } }}>
                 <StepperBar
                   step={stepIndex}
                   totalSteps={totalSteps}
                   title={i18n._(getStepTitle(currentStep, tabSide))}
+                  onShowHelpModal={onShowHelpModal}
                 />
               </motion.div>
             )}
