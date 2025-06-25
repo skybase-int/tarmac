@@ -16,7 +16,6 @@ import { useContext, useEffect } from 'react';
 import { useChainId } from 'wagmi';
 
 export const SavingsTransactionReview = ({
-  onExternalLinkClicked,
   batchEnabled,
   setBatchEnabled,
   isBatchTransaction,
@@ -24,7 +23,6 @@ export const SavingsTransactionReview = ({
   originAmount,
   needsAllowance
 }: {
-  onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
   isBatchTransaction: boolean;
@@ -81,11 +79,5 @@ export const SavingsTransactionReview = ({
     setTxDescription(i18n._(savingsActionDescription({ flow, action, txStatus, needsAllowance, isL2Chain })));
   }, [flow, action, screen, i18n.locale, isBatchTransaction, batchSupported, batchEnabled]);
 
-  return (
-    <TransactionReview
-      onExternalLinkClicked={onExternalLinkClicked}
-      batchEnabled={batchEnabled}
-      setBatchEnabled={setBatchEnabled}
-    />
-  );
+  return <TransactionReview batchEnabled={batchEnabled} setBatchEnabled={setBatchEnabled} />;
 };

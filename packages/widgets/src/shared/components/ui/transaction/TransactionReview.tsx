@@ -4,7 +4,6 @@ import { positionAnimations } from '@widgets/shared/animation/presets';
 import { Card, CardContent, CardFooter, CardHeader } from '@widgets/components/ui/card';
 import { Zap } from '@widgets/shared/components/icons/Icons';
 import { TransactionDetail } from '@widgets/shared/components/ui/transaction/BatchTransactionStatus';
-import { ExternalLink } from '@widgets/shared/components/ExternalLink';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { Switch } from '@widgets/components/ui/switch';
 import { useContext } from 'react';
@@ -13,12 +12,10 @@ import { InfoTooltip } from '../tooltip/InfoTooltip';
 import { useIsBatchSupported } from '@jetstreamgg/sky-hooks';
 
 export function TransactionReview({
-  onExternalLinkClicked,
   batchEnabled,
   setBatchEnabled,
   transactionDetail
 }: {
-  onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
   transactionDetail?: React.ReactElement;
@@ -42,45 +39,32 @@ export function TransactionReview({
           </motion.div>
           {transactionDetail ?? <TransactionDetail />}
         </CardContent>
-        <motion.div variants={positionAnimations}>
-          <CardFooter className="border-selectActive border-t pt-5">
-            <HStack className="w-full justify-center">
-              <ExternalLink
-                // TODO: Add this link
-                href=""
-                iconSize={14}
-                className="text-text"
-                onExternalLinkClicked={onExternalLinkClicked}
-              >
-                Read more about Batch Transactions
-              </ExternalLink>
-            </HStack>
-          </CardFooter>
-        </motion.div>
+        {batchEnabled !== undefined && !!setBatchEnabled && !!batchSupported && (
+          <motion.div variants={positionAnimations}>
+            <CardFooter className="border-selectActive border-t pt-5">
+              <HStack className="w-full items-center justify-between">
+                <HStack className="gap-1 space-x-0">
+                  <Text className="text-textSecondary">Bundle transctions</Text>
+                  <InfoTooltip
+                    contentClassname="max-w-[300px]"
+                    iconClassName="text-textSecondary"
+                    content={
+                      <>
+                        <Text className="text-sm">
+                          {batchEnabled
+                            ? 'Your transactions will be completed in a single step, combining actions to save time and reduce gas fees.'
+                            : 'Your transactions will be completed in multiple steps'}
+                        </Text>
+                      </>
+                    }
+                  />
+                </HStack>
+                <Switch checked={batchEnabled} onCheckedChange={setBatchEnabled} />
+              </HStack>
+            </CardFooter>
+          </motion.div>
+        )}
       </Card>
-      {batchEnabled !== undefined && !!setBatchEnabled && !!batchSupported && (
-        <motion.div variants={positionAnimations} className="mt-4 px-4">
-          <HStack className="items-center justify-between">
-            <HStack className="gap-1 space-x-0">
-              <Text className="text-textSecondary">1-click transactions</Text>
-              <InfoTooltip
-                contentClassname="max-w-[300px]"
-                iconClassName="text-textSecondary"
-                content={
-                  <>
-                    <Text className="text-sm">
-                      {batchEnabled
-                        ? 'Your transactions will be completed in a single step, combining actions to save time and reduce gas fees.'
-                        : 'Your transactions will be completed in multiple steps'}
-                    </Text>
-                  </>
-                }
-              />
-            </HStack>
-            <Switch checked={batchEnabled} onCheckedChange={setBatchEnabled} />
-          </HStack>
-        </motion.div>
-      )}
     </motion.div>
   );
 }

@@ -813,7 +813,6 @@ export function UpgradeWidgetWrapped({
         ) : widgetState.screen === UpgradeScreen.REVIEW ? (
           <CardAnimationWrapper key="widget-transaction-review">
             <UpgradeTransactionReview
-              onExternalLinkClicked={onExternalLinkClicked}
               batchEnabled={batchEnabled}
               setBatchEnabled={setBatchEnabled}
               isBatchTransaction={shouldUseBatch}

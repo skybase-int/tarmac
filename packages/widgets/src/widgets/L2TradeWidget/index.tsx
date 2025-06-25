@@ -1191,7 +1191,6 @@ function TradeWidgetWrapped({
         ) : widgetState.screen === TradeScreen.REVIEW ? (
           <CardAnimationWrapper key="widget-transaction-review">
             <L2TradeTransactionReview
-              onExternalLinkClicked={onExternalLinkClicked}
               batchEnabled={batchEnabled}
               setBatchEnabled={setBatchEnabled}
               isBatchTransaction={shouldUseBatch}

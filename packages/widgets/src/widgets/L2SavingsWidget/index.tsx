@@ -1009,7 +1009,6 @@ const SavingsWidgetWrapped = ({
         ) : widgetState.screen === SavingsScreen.REVIEW ? (
           <CardAnimationWrapper key="widget-transaction-review">
             <SavingsTransactionReview
-              onExternalLinkClicked={onExternalLinkClicked}
               batchEnabled={batchEnabled}
               setBatchEnabled={setBatchEnabled}
               isBatchTransaction={shouldUseBatch}

@@ -14,7 +14,6 @@ import {
 import { useContext, useEffect } from 'react';
 
 export const RewardsTransactionReview = ({
-  onExternalLinkClicked,
   batchEnabled,
   setBatchEnabled,
   isBatchTransaction,
@@ -23,7 +22,6 @@ export const RewardsTransactionReview = ({
   needsAllowance,
   selectedRewardContract
 }: {
-  onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
   isBatchTransaction: boolean;
@@ -81,11 +79,5 @@ export const RewardsTransactionReview = ({
     selectedRewardContract
   ]);
 
-  return (
-    <TransactionReview
-      onExternalLinkClicked={onExternalLinkClicked}
-      batchEnabled={batchEnabled}
-      setBatchEnabled={setBatchEnabled}
-    />
-  );
+  return <TransactionReview batchEnabled={batchEnabled} setBatchEnabled={setBatchEnabled} />;
 };

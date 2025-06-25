@@ -14,7 +14,6 @@ import {
 import { useContext, useEffect } from 'react';
 
 export const UpgradeTransactionReview = ({
-  onExternalLinkClicked,
   batchEnabled,
   setBatchEnabled,
   isBatchTransaction,
@@ -24,7 +23,6 @@ export const UpgradeTransactionReview = ({
   targetAmount,
   needsAllowance
 }: {
-  onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
   isBatchTransaction: boolean;
@@ -88,11 +86,5 @@ export const UpgradeTransactionReview = ({
     );
   }, [flow, action, screen, i18n.locale, isBatchTransaction, batchEnabled, batchSupported]);
 
-  return (
-    <TransactionReview
-      onExternalLinkClicked={onExternalLinkClicked}
-      batchEnabled={batchEnabled}
-      setBatchEnabled={setBatchEnabled}
-    />
-  );
+  return <TransactionReview batchEnabled={batchEnabled} setBatchEnabled={setBatchEnabled} />;
 };

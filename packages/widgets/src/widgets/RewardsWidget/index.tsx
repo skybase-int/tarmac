@@ -826,7 +826,6 @@ const RewardsWidgetWrapped = ({
         ) : widgetState.screen === RewardsScreen.REVIEW && selectedRewardContract ? (
           <CardAnimationWrapper key="widget-transaction-review">
             <RewardsTransactionReview
-              onExternalLinkClicked={onExternalLinkClicked}
               batchEnabled={batchEnabled}
               setBatchEnabled={setBatchEnabled}
               isBatchTransaction={shouldUseBatch}

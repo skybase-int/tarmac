@@ -1146,7 +1146,6 @@ const Wizard = ({
       {currentStep === StakeStep.DELEGATE && <SelectDelegate onExternalLinkClicked={onExternalLinkClicked} />}
       {currentStep === StakeStep.SUMMARY && (
         <PositionSummary
-          onExternalLinkClicked={onExternalLinkClicked}
           needsAllowance={needsAllowance}
           allowanceToken={allowanceToken}
           batchEnabled={batchEnabled}

@@ -122,14 +122,12 @@ const LineItem = ({
 };
 
 export const PositionSummary = ({
-  onExternalLinkClicked,
   needsAllowance,
   allowanceToken,
   batchEnabled,
   setBatchEnabled,
   isBatchTransaction
 }: {
-  onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   needsAllowance: boolean;
   allowanceToken?: Token;
   batchEnabled?: boolean;
@@ -465,7 +463,6 @@ export const PositionSummary = ({
 
   return (
     <TransactionReview
-      onExternalLinkClicked={onExternalLinkClicked}
       batchEnabled={batchEnabled}
       setBatchEnabled={setBatchEnabled}
       transactionDetail={
