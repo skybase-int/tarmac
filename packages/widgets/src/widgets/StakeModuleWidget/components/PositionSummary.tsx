@@ -469,7 +469,12 @@ export const PositionSummary = ({
       setBatchEnabled={setBatchEnabled}
       transactionDetail={
         <MotionVStack gap={2} variants={positionAnimations} className="mt-6 space-y-3">
-          <motion.div key="overview" variants={positionAnimations} data-testid="position-summary-card">
+          <motion.div
+            key="overview"
+            variants={positionAnimations}
+            data-testid="position-summary-card"
+            className="border-selectActive mt-2 border-t pt-7"
+          >
             <Text variant="medium" className="mb-1 font-medium">
               Position overview
             </Text>
@@ -489,7 +494,11 @@ export const PositionSummary = ({
               })}
           </motion.div>
           {hasPositions && lineItemsUpdated.length > 0 && (
-            <motion.div key="updates" variants={positionAnimations}>
+            <motion.div
+              key="updates"
+              variants={positionAnimations}
+              className="border-selectActive mt-3 border-t pt-7"
+            >
               <Text variant="medium" className="mb-1 font-medium">
                 Position changes
               </Text>
