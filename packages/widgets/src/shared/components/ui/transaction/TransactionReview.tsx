@@ -67,7 +67,7 @@ export function TransactionReview({
             <CardFooter className="border-selectActive border-t pt-5">
               <HStack className="w-full items-center justify-between">
                 <HStack className="gap-1 space-x-0">
-                  <Text className="text-textSecondary">Bundle transctions</Text>
+                  <Text className="text-textSecondary">Bundle transactions</Text>
                   <InfoTooltip
                     contentClassname="max-w-[300px]"
                     iconClassName="text-textSecondary"

@@ -896,7 +896,8 @@ function TradeWidgetWrapped({
     widgetState,
     chainId,
     targetToken,
-    showAddToken
+    showAddToken,
+    shouldUseBatch
   ]);
 
   // set widget button to be disabled depending on which action we're performing
