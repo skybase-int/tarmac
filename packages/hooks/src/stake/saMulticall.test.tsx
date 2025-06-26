@@ -28,6 +28,7 @@ import { useRewardsSuppliedBalance } from '../rewards/useRewardsBalance';
 import { useUrnAddress } from './useUrnAddress';
 import { getIlkName } from '../vaults/helpers';
 import { useStakeSkyAllowance } from './useStakeAllowance';
+import { useBatchStakeMulticall } from './useBatchStakeMulticall';
 
 describe('Stake Module Multicall tests', async () => {
   const wrapper = WagmiWrapper;
@@ -496,12 +497,14 @@ describe('Stake Module Multicall tests', async () => {
     const { result: resultInitialLocked } = renderHook(() => useVault(urnAddress, ILK_NAME), {
       wrapper
     });
+    resultInitialLocked.current.mutate();
 
     let initialCollateralAmount: bigint | undefined;
     await waitFor(
       () => {
         initialCollateralAmount = resultInitialLocked.current.data?.collateralAmount;
-        expect(initialCollateralAmount).toBeDefined();
+        expect(resultInitialLocked.current.isLoading).toBe(false);
+        expect(initialCollateralAmount).toBe(0n);
         return;
       },
       { timeout: 5000 }
@@ -517,8 +520,10 @@ describe('Stake Module Multicall tests', async () => {
     // Call multicall with the lock SKY calldata
     const { result: resultMulticall } = renderHook(
       () =>
-        useStakeMulticall({
+        useBatchStakeMulticall({
           calldata: [calldataLockSky],
+          skyAmount: SKY_TO_LOCK,
+          usdsAmount: 0n,
           gas: GAS
         }),
       { wrapper }
@@ -530,6 +535,7 @@ describe('Stake Module Multicall tests', async () => {
     const { result: resultSkyLocked } = renderHook(() => useVault(urnAddress, ILK_NAME), {
       wrapper
     });
+    resultSkyLocked.current.mutate();
 
     await waitFor(
       () => {

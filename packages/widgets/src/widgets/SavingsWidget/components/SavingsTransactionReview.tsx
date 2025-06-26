@@ -1,5 +1,6 @@
-import { Token } from '@jetstreamgg/sky-hooks';
+import { Token, useIsBatchSupported } from '@jetstreamgg/sky-hooks';
 import { isL2ChainId } from '@jetstreamgg/sky-utils';
+import { t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { TransactionReview } from '@widgets/shared/components/ui/transaction/TransactionReview';
@@ -15,8 +16,7 @@ import {
 import { useContext, useEffect } from 'react';
 import { useChainId } from 'wagmi';
 
-export const L2SavingsTransactionReview = ({
-  onExternalLinkClicked,
+export const SavingsTransactionReview = ({
   batchEnabled,
   setBatchEnabled,
   isBatchTransaction,
@@ -24,7 +24,6 @@ export const L2SavingsTransactionReview = ({
   originAmount,
   needsAllowance
 }: {
-  onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
   isBatchTransaction: boolean;
@@ -33,11 +32,13 @@ export const L2SavingsTransactionReview = ({
   needsAllowance: boolean;
 }) => {
   const { i18n } = useLingui();
+  const { data: batchSupported } = useIsBatchSupported();
   const chainId = useChainId();
   const isL2Chain = isL2ChainId(chainId);
   const {
     setTxTitle,
     setTxSubtitle,
+    setStepTwoTitle,
     setOriginToken,
     setOriginAmount,
     setTxDescription,
@@ -54,36 +55,33 @@ export const L2SavingsTransactionReview = ({
   // Sets the title and subtitle of the card
   useEffect(() => {
     if (flow === SavingsFlow.SUPPLY) {
+      setStepTwoTitle(t`Supply`);
       setTxTitle(i18n._(savingsSupplyReviewTitle));
       setTxSubtitle(
         i18n._(
           getSavingsSupplyReviewSubtitle({
-            batchStatus: batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
+            batchStatus: !!batchSupported && batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
             symbol: originToken.symbol,
             needsAllowance
           })
         )
       );
     } else if (flow === SavingsFlow.WITHDRAW) {
+      setStepTwoTitle(t`Withdraw`);
       setTxTitle(i18n._(savingsWithdrawReviewTitle));
       setTxSubtitle(
         i18n._(
           getSavingsWithdrawReviewSubtitle({
-            batchStatus: batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
-            symbol: 'sUSDS',
-            needsAllowance
+            batchStatus: !!batchSupported && batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
+            symbol: isL2Chain ? 'sUSDS' : 'USDS',
+            needsAllowance,
+            isL2Chain
           })
         )
       );
     }
     setTxDescription(i18n._(savingsActionDescription({ flow, action, txStatus, needsAllowance, isL2Chain })));
-  }, [flow, action, screen, i18n.locale, isBatchTransaction, batchEnabled]);
+  }, [flow, action, screen, i18n.locale, isBatchTransaction, batchSupported, batchEnabled]);
 
-  return (
-    <TransactionReview
-      onExternalLinkClicked={onExternalLinkClicked}
-      batchEnabled={batchEnabled}
-      setBatchEnabled={setBatchEnabled}
-    />
-  );
+  return <TransactionReview batchEnabled={batchEnabled} setBatchEnabled={setBatchEnabled} />;
 };

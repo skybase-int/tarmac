@@ -21,7 +21,7 @@ export function BatchTransactionsToggle() {
             className="hidden h-10 w-10 rounded-xl p-0 md:flex"
             pressed={batchEnabled}
             onPressedChange={handleToggle}
-            aria-label="Toggle details"
+            aria-label="Toggle bundled transactions"
           >
             <Zap width={28} height={28} />
           </Toggle>
@@ -29,7 +29,7 @@ export function BatchTransactionsToggle() {
       </TooltipTrigger>
       <TooltipPortal>
         <TooltipContent arrowPadding={10}>
-          <Text variant="small">{t`Batch transactions ${batchEnabled ? 'enabled' : 'disabled'}`}</Text>
+          <Text variant="small">{t`Bundled transactions ${batchEnabled ? 'enabled' : 'disabled'}`}</Text>
           <TooltipArrow width={12} height={8} />
         </TooltipContent>
       </TooltipPortal>
