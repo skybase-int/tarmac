@@ -145,7 +145,9 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
         ...parsed,
         // locale: localeFromUrl || localeFromConfig || backupLocale
         locale: 'en',
-        batchEnabled: import.meta.env.VITE_BATCH_TX_ENABLED === 'true' ? parsed.batchEnabled : undefined
+        batchEnabled:
+          // If the feature flag is enabled, but the local storage item is not set, default to enabled
+          import.meta.env.VITE_BATCH_TX_ENABLED === 'true' ? (parsed.batchEnabled ?? true) : undefined
       });
     } catch (e) {
       console.log('Error parsing user settings', e);
