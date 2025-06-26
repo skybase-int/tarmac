@@ -86,8 +86,10 @@ export function WidgetNavigation({
   const laExtraHeight = isMobile ? 61 : 100; // LA Wrapper and action button height
   const baseTabContentClasses = 'md:h-full md:flex-1';
   const tabContentClasses = isRewardsOverview
-    ? `${baseTabContentClasses} p-6 pr-3.5 pb-0 md:p-3 md:pb-3 md:pr-0.5 md:pt-2 xl:p-4 xl:pb-4 xl:pr-1.5`
-    : `${baseTabContentClasses} p-6 pr-3.5 md:p-3 md:pr-0.5 md:pt-2 xl:p-4 xl:pr-1.5`;
+    ? `${baseTabContentClasses} p-6 pr-0 pb-0 md:p-3 md:pb-3 md:pr-0 md:pt-2 xl:p-4 xl:pb-4 xl:pr-0`
+    : intent === Intent.BALANCES_INTENT
+      ? `${baseTabContentClasses} p-6 pr-0 pb-0 md:p-3 md:pb-0 md:pr-0 md:pt-2 xl:p-4 xl:pb-0 xl:pr-0`
+      : `${baseTabContentClasses} p-6 pr-0 md:p-3 md:pr-0 md:pt-2 xl:p-4 xl:pr-0`;
   // If it's mobile, use the widget navigation row height + the height of the webiste header
   // as we're using 100vh for the content style, if not, just use the height of the navigation row
   // If the tab list is hidden, don't count it's height
@@ -115,41 +117,50 @@ export function WidgetNavigation({
   return (
     <Tabs
       ref={containerRef}
-      className="w-full md:flex md:min-w-[352px] md:max-w-[440px] md:flex-col lg:min-w-[416px] lg:max-w-[416px] xl:p-1"
+      className="w-full md:flex md:min-w-[424px] md:max-w-[512px] md:flex-row lg:min-w-[488px] lg:max-w-[488px]"
       defaultValue={Intent.BALANCES_INTENT}
       onValueChange={handleWidgetChange}
       value={intent}
       asChild
       activationMode="manual"
     >
-      <motion.div layout transition={{ layout: { duration: 0 } }}>
-        {/* TODO justify-around only when restricted */}
+      <motion.div layout transition={{ layout: { duration: 0 } }} className="md:flex md:w-full md:flex-row">
+        {/* Vertical tabs on desktop, horizontal on mobile */}
         <TabsList
-          className={`sticky top-0 z-20 flex w-full justify-around rounded-none rounded-t-3xl border-b p-3 backdrop-blur-2xl md:border-none md:p-0 md:backdrop-filter-none ${hideTabs ? 'hidden' : ''}`}
+          className={`sticky top-0 z-20 flex w-full justify-around rounded-none rounded-t-3xl border-b p-3 backdrop-blur-2xl md:static md:mt-3 md:h-fit md:w-auto md:flex-col md:justify-start md:gap-2 md:self-start md:rounded-none md:border-0 md:bg-transparent md:p-0 md:pr-2 md:backdrop-filter-none ${hideTabs ? 'hidden' : ''}`}
           data-testid="widget-navigation"
         >
           {widgetContent.map(([widgetIntent, label, icon, , comingSoon, options]) => (
-            <div key={widgetIntent} className="flex grow basis-[15%] justify-center">
+            <div
+              key={widgetIntent}
+              className="flex grow basis-[15%] justify-center md:w-full md:basis-auto md:justify-start"
+            >
               <TabsTrigger
                 variant="icons"
                 value={widgetIntent}
                 className={cn(
-                  'text-textSecondary data-[state=active]:text-text w-full px-1 md:px-2',
-                  'before:opacity-0',
-                  'disabled:cursor-not-allowed disabled:text-[rgba(198,194,255,0.4)] disabled:before:opacity-0 disabled:hover:before:opacity-0',
-                  tabGlowClasses,
-                  intent === widgetIntent && 'before:opacity-100 hover:before:opacity-100'
+                  'text-textSecondary data-[state=active]:text-text w-full px-1',
+                  // Desktop vertical tabs - minimal styling
+                  'md:justify-start md:gap-3 md:bg-transparent md:px-4 md:py-2 md:hover:bg-transparent',
+                  'md:data-[state=active]:text-text md:data-[state=active]:bg-transparent',
+                  'md:before:hidden', // Hide the glow effect on desktop vertical tabs
+                  'disabled:cursor-not-allowed disabled:text-[rgba(198,194,255,0.4)]',
+                  // Keep the existing mobile styling
+                  'max-md:before:opacity-0',
+                  'max-md:disabled:before:opacity-0 max-md:disabled:hover:before:opacity-0',
+                  isMobile && tabGlowClasses,
+                  isMobile && intent === widgetIntent && 'before:opacity-100 hover:before:opacity-100'
                 )}
                 disabled={options?.disabled || false}
               >
-                {!isMobile && icon({ color: 'inherit' })}
+                {icon({ color: 'inherit' })}
                 <Text variant="small" className="leading-4 text-inherit">
                   <Trans>{label}</Trans>
                 </Text>
                 {comingSoon && (
                   <Text
                     variant="small"
-                    className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 text-textSecondary absolute left-1/2 top-0 rounded-full px-1.5 py-0 md:px-2 md:py-1"
+                    className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 text-textSecondary absolute left-1/2 top-0 rounded-full px-1.5 py-0 md:static md:ml-auto md:px-1.5 md:py-0.5 md:text-[10px]"
                   >
                     <Trans>Soon</Trans>
                   </Text>
@@ -158,33 +169,35 @@ export function WidgetNavigation({
             </div>
           ))}
         </TabsList>
-        <LinkedActionWrapper />
-        <AnimatePresence initial={false} mode="popLayout">
-          {widgetContent.map(
-            ([int, , , content]) =>
-              intent === int && (
-                <TabsContent key={int} value={int} className={tabContentClasses} style={style} asChild>
-                  <motion.div
-                    variants={cardAnimations}
-                    initial={AnimationLabels.initial}
-                    animate={AnimationLabels.animate}
-                    exit={AnimationLabels.exit}
-                    ref={widgetRef}
-                    className={
-                      isMobile
-                        ? showLinkedAction
-                          ? 'scroll-mt-[148px]'
-                          : 'scroll-mt-[87px]'
-                        : 'scroll-mt-[0px]'
-                    }
-                  >
-                    {content}
-                  </motion.div>
-                </TabsContent>
-              )
-          )}
-          {children}
-        </AnimatePresence>
+        <div className="md:flex md:min-w-[352px] md:max-w-[440px] md:flex-1 md:flex-col lg:min-w-[416px] lg:max-w-[416px]">
+          <LinkedActionWrapper />
+          <AnimatePresence initial={false} mode="popLayout">
+            {widgetContent.map(
+              ([int, , , content]) =>
+                intent === int && (
+                  <TabsContent key={int} value={int} className={tabContentClasses} style={style} asChild>
+                    <motion.div
+                      variants={cardAnimations}
+                      initial={AnimationLabels.initial}
+                      animate={AnimationLabels.animate}
+                      exit={AnimationLabels.exit}
+                      ref={widgetRef}
+                      className={
+                        isMobile
+                          ? showLinkedAction
+                            ? 'scroll-mt-[148px]'
+                            : 'scroll-mt-[87px]'
+                          : 'scroll-mt-[0px]'
+                      }
+                    >
+                      {content}
+                    </motion.div>
+                  </TabsContent>
+                )
+            )}
+            {children}
+          </AnimatePresence>
+        </div>
       </motion.div>
     </Tabs>
   );
