@@ -924,7 +924,8 @@ const SavingsWidgetWrapped = ({
     txStatus,
     savingsSupply.prepared,
     savingsWithdrawAll.prepared,
-    savingsWithdraw.prepared
+    savingsWithdraw.prepared,
+    isMaxWithdraw
   ]);
 
   // Set isLoading to be consumed by WidgetButton
