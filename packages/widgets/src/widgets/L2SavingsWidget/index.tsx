@@ -874,7 +874,7 @@ const SavingsWidgetWrapped = ({
     } else {
       setButtonText(t`Connect Wallet`);
     }
-  }, [widgetState, txStatus, linguiCtx, amount, isConnectedAndEnabled]);
+  }, [widgetState, txStatus, linguiCtx, amount, isConnectedAndEnabled, shouldUseBatch]);
 
   // Set widget button to be disabled depending on which action we're in
   useEffect(() => {
@@ -924,7 +924,8 @@ const SavingsWidgetWrapped = ({
     txStatus,
     savingsSupply.prepared,
     savingsWithdrawAll.prepared,
-    savingsWithdraw.prepared
+    savingsWithdraw.prepared,
+    isMaxWithdraw
   ]);
 
   // Set isLoading to be consumed by WidgetButton
