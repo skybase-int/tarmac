@@ -2,7 +2,7 @@ import { useRef, useEffect, useState, useCallback, JSX } from 'react';
 import { Intent } from '../../../lib/enums';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../../components/ui/tabs';
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
-import { Text } from '@/modules/layout/components/Typography';
+import { Heading, Text } from '@/modules/layout/components/Typography';
 import { Trans } from '@lingui/react/macro';
 import { WidgetContent } from './WidgetPane';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -14,6 +14,8 @@ import { LinkedActionWrapper } from '@/modules/ui/components/LinkedActionWrapper
 import { useSearchParams } from 'react-router-dom';
 import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
 import { cn } from '@/lib/utils';
+import { Menu } from 'lucide-react';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 interface WidgetNavigationProps {
   widgetContent: WidgetContent;
@@ -33,6 +35,7 @@ export function WidgetNavigation({
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState<number>(0);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const {
     selectedRewardContract,
     linkedActionConfig: { showLinkedAction }
@@ -115,90 +118,151 @@ export function WidgetNavigation({
   }, [intent, scrollToTop]);
 
   return (
-    <Tabs
-      ref={containerRef}
-      className="w-full md:flex md:min-w-[424px] md:max-w-[512px] md:flex-row lg:min-w-[488px] lg:max-w-[488px]"
-      defaultValue={Intent.BALANCES_INTENT}
-      onValueChange={handleWidgetChange}
-      value={intent}
-      asChild
-      activationMode="manual"
-    >
-      <motion.div layout transition={{ layout: { duration: 0 } }} className="md:flex md:w-full md:flex-row">
-        {/* Vertical tabs on desktop, horizontal on mobile */}
-        <TabsList
-          className={`sticky top-0 z-20 flex w-full justify-around rounded-none rounded-t-3xl border-b p-3 backdrop-blur-2xl md:static md:mt-3 md:h-fit md:w-auto md:flex-col md:justify-start md:gap-2 md:self-start md:rounded-none md:border-0 md:bg-transparent md:p-0 md:pr-2 md:backdrop-filter-none ${hideTabs ? 'hidden' : ''}`}
-          data-testid="widget-navigation"
-        >
-          {widgetContent.map(([widgetIntent, label, icon, , comingSoon, options]) => (
-            <div
-              key={widgetIntent}
-              className="flex grow basis-[15%] justify-center md:w-full md:basis-auto md:justify-start"
-            >
-              <TabsTrigger
-                variant="icons"
-                value={widgetIntent}
-                className={cn(
-                  'text-textSecondary data-[state=active]:text-text w-full px-1',
-                  // Desktop vertical tabs - minimal styling
-                  'md:justify-start md:gap-3 md:bg-transparent md:px-4 md:py-2 md:hover:bg-transparent',
-                  'md:data-[state=active]:text-text md:data-[state=active]:bg-transparent',
-                  'md:before:hidden', // Hide the glow effect on desktop vertical tabs
-                  'disabled:cursor-not-allowed disabled:text-[rgba(198,194,255,0.4)]',
-                  // Keep the existing mobile styling
-                  'max-md:before:opacity-0',
-                  'max-md:disabled:before:opacity-0 max-md:disabled:hover:before:opacity-0',
-                  isMobile && tabGlowClasses,
-                  isMobile && intent === widgetIntent && 'before:opacity-100 hover:before:opacity-100'
-                )}
-                disabled={options?.disabled || false}
+    <div className="w-full">
+      {/* Mobile hamburger menu - placed at the top on mobile */}
+      {isMobile && !hideTabs && (
+        <div className="flex items-center p-4 pb-2 md:hidden">
+          <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <button
+                className="bg-bgPrimary border-borderPrimary rounded-xl border p-2"
+                aria-label="Toggle menu"
               >
-                {icon({ color: 'inherit' })}
-                <Text variant="small" className="leading-4 text-inherit">
-                  <Trans>{label}</Trans>
-                </Text>
-                {comingSoon && (
-                  <Text
-                    variant="small"
-                    className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 text-textSecondary absolute left-1/2 top-0 rounded-full px-1.5 py-0 md:static md:ml-auto md:px-1.5 md:py-0.5 md:text-[10px]"
-                  >
-                    <Trans>Soon</Trans>
-                  </Text>
-                )}
-              </TabsTrigger>
-            </div>
-          ))}
-        </TabsList>
-        <div className="md:flex md:min-w-[352px] md:max-w-[440px] md:flex-1 md:flex-col lg:min-w-[416px] lg:max-w-[416px]">
-          <LinkedActionWrapper />
-          <AnimatePresence initial={false} mode="popLayout">
-            {widgetContent.map(
-              ([int, , , content]) =>
-                intent === int && (
-                  <TabsContent key={int} value={int} className={tabContentClasses} style={style} asChild>
-                    <motion.div
-                      variants={cardAnimations}
-                      initial={AnimationLabels.initial}
-                      animate={AnimationLabels.animate}
-                      exit={AnimationLabels.exit}
-                      ref={widgetRef}
-                      className={
-                        isMobile
-                          ? showLinkedAction
-                            ? 'scroll-mt-[148px]'
-                            : 'scroll-mt-[87px]'
-                          : 'scroll-mt-[0px]'
-                      }
+                <Menu size={24} className="text-text" />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="left" className="border-borderPrimary w-[280px] bg-black/90 p-0">
+              <div className="flex h-full flex-col">
+                <div className="p-6 pb-4">
+                  <Heading>Menu</Heading>
+                </div>
+                <div className="mt-10 flex-1 overflow-y-auto px-3 pb-6">
+                  {widgetContent.map(([widgetIntent, label, icon, , comingSoon, options]) => (
+                    <button
+                      key={widgetIntent}
+                      onClick={() => {
+                        handleWidgetChange(widgetIntent);
+                        setIsMobileMenuOpen(false);
+                      }}
+                      disabled={options?.disabled || false}
+                      className={cn(
+                        'text-textSecondary mb-2 flex w-full items-center gap-3 rounded-xl px-3 py-3 transition-colors',
+                        'hover:bg-bgHover disabled:cursor-not-allowed disabled:text-[rgba(198,194,255,0.4)]',
+                        intent === widgetIntent && 'bg-bgActive text-text'
+                      )}
                     >
-                      {content}
-                    </motion.div>
-                  </TabsContent>
-                )
-            )}
-            {children}
-          </AnimatePresence>
+                      {icon({ color: 'inherit' })}
+                      <Text variant="large" className="flex-1 text-left leading-4 text-inherit">
+                        <Trans>{label}</Trans>
+                      </Text>
+                      {comingSoon && (
+                        <Text
+                          variant="small"
+                          className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 text-textSecondary rounded-full px-1.5 py-0.5 text-[10px]"
+                        >
+                          <Trans>Soon</Trans>
+                        </Text>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
-      </motion.div>
-    </Tabs>
+      )}
+
+      {/* Main content with tabs */}
+      <Tabs
+        ref={containerRef}
+        className="w-full md:flex md:min-w-[424px] md:max-w-[512px] md:flex-row lg:min-w-[488px] lg:max-w-[488px]"
+        defaultValue={Intent.BALANCES_INTENT}
+        onValueChange={handleWidgetChange}
+        value={intent}
+        asChild
+        activationMode="manual"
+      >
+        <motion.div layout transition={{ layout: { duration: 0 } }} className="md:flex md:w-full md:flex-row">
+          {/* Desktop vertical tabs, hidden on mobile */}
+          <TabsList
+            className={cn(
+              'sticky top-0 z-20 flex w-full justify-around rounded-none rounded-t-3xl border-b p-3 backdrop-blur-2xl',
+              'md:static md:mt-3 md:h-fit md:w-auto md:flex-col md:justify-start md:gap-2 md:self-start md:rounded-none md:border-0 md:bg-transparent md:p-0 md:pr-2 md:backdrop-filter-none',
+              hideTabs && 'hidden',
+              isMobile && 'hidden' // Hide the horizontal tabs on mobile when using Sheet
+            )}
+            data-testid="widget-navigation"
+          >
+            {widgetContent.map(([widgetIntent, label, icon, , comingSoon, options]) => (
+              <div
+                key={widgetIntent}
+                className="flex grow basis-[15%] justify-center md:w-full md:basis-auto md:justify-start"
+              >
+                <TabsTrigger
+                  variant="icons"
+                  value={widgetIntent}
+                  className={cn(
+                    'text-textSecondary data-[state=active]:text-text w-full px-1',
+                    // Desktop vertical tabs - minimal styling
+                    'md:justify-start md:gap-3 md:bg-transparent md:px-4 md:py-2 md:hover:bg-transparent',
+                    'md:data-[state=active]:text-text md:data-[state=active]:bg-transparent',
+                    'md:before:hidden', // Hide the glow effect on desktop vertical tabs
+                    'disabled:cursor-not-allowed disabled:text-[rgba(198,194,255,0.4)]',
+                    // Keep the existing mobile styling
+                    'max-md:before:opacity-0',
+                    'max-md:disabled:before:opacity-0 max-md:disabled:hover:before:opacity-0',
+                    isMobile && tabGlowClasses,
+                    isMobile && intent === widgetIntent && 'before:opacity-100 hover:before:opacity-100'
+                  )}
+                  disabled={options?.disabled || false}
+                >
+                  {icon({ color: 'inherit' })}
+                  <Text variant="small" className="leading-4 text-inherit">
+                    <Trans>{label}</Trans>
+                  </Text>
+                  {comingSoon && (
+                    <Text
+                      variant="small"
+                      className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 text-textSecondary absolute left-1/2 top-0 rounded-full px-1.5 py-0 md:static md:ml-auto md:px-1.5 md:py-0.5 md:text-[10px]"
+                    >
+                      <Trans>Soon</Trans>
+                    </Text>
+                  )}
+                </TabsTrigger>
+              </div>
+            ))}
+          </TabsList>
+          <div className="md:flex md:min-w-[352px] md:max-w-[440px] md:flex-1 md:flex-col lg:min-w-[416px] lg:max-w-[416px]">
+            <LinkedActionWrapper />
+            <AnimatePresence initial={false} mode="popLayout">
+              {widgetContent.map(
+                ([int, , , content]) =>
+                  intent === int && (
+                    <TabsContent key={int} value={int} className={tabContentClasses} style={style} asChild>
+                      <motion.div
+                        variants={cardAnimations}
+                        initial={AnimationLabels.initial}
+                        animate={AnimationLabels.animate}
+                        exit={AnimationLabels.exit}
+                        ref={widgetRef}
+                        className={
+                          isMobile
+                            ? showLinkedAction
+                              ? 'scroll-mt-[148px]'
+                              : 'scroll-mt-[87px]'
+                            : 'scroll-mt-[0px]'
+                        }
+                      >
+                        {content}
+                      </motion.div>
+                    </TabsContent>
+                  )
+              )}
+              {children}
+            </AnimatePresence>
+          </div>
+        </motion.div>
+      </Tabs>
+    </div>
   );
 }
