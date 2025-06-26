@@ -16,6 +16,7 @@ import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
 import { cn } from '@/lib/utils';
 import { Menu } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Button } from '@/components/ui/button';
 
 interface WidgetNavigationProps {
   widgetContent: WidgetContent;
@@ -124,31 +125,36 @@ export function WidgetNavigation({
         <div className="flex items-center p-4 pb-2 md:hidden">
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
-              <button
-                className="bg-bgPrimary border-borderPrimary rounded-xl border p-2"
+              <Button
+                variant="outline"
+                size="icon"
+                className="bg-bgPrimary border-borderPrimary rounded-xl"
                 aria-label="Toggle menu"
               >
                 <Menu size={24} className="text-text" />
-              </button>
+              </Button>
             </SheetTrigger>
             <SheetContent side="left" className="border-borderPrimary w-[280px] bg-black/90 p-0">
               <div className="flex h-full flex-col">
                 <div className="p-6 pb-4">
-                  <Heading>Menu</Heading>
+                  <Heading>
+                    <Trans>Menu</Trans>
+                  </Heading>
                 </div>
                 <div className="mt-10 flex-1 overflow-y-auto px-3 pb-6">
                   {widgetContent.map(([widgetIntent, label, icon, , comingSoon, options]) => (
-                    <button
+                    <Button
                       key={widgetIntent}
                       onClick={() => {
                         handleWidgetChange(widgetIntent);
                         setIsMobileMenuOpen(false);
                       }}
                       disabled={options?.disabled || false}
+                      variant="ghost"
                       className={cn(
-                        'text-textSecondary mb-2 flex w-full items-center gap-3 rounded-xl px-3 py-3 transition-colors',
+                        'text-textSecondary mb-2 h-auto w-full justify-start gap-3 px-3 py-3 transition-colors',
                         'hover:bg-bgHover disabled:cursor-not-allowed disabled:text-[rgba(198,194,255,0.4)]',
-                        intent === widgetIntent && 'bg-bgActive text-text'
+                        intent === widgetIntent && 'bg-bgActive text-text hover:bg-bgActive'
                       )}
                     >
                       {icon({ color: 'inherit' })}
@@ -163,7 +169,7 @@ export function WidgetNavigation({
                           <Trans>Soon</Trans>
                         </Text>
                       )}
-                    </button>
+                    </Button>
                   ))}
                 </div>
               </div>
