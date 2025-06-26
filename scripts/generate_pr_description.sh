@@ -22,6 +22,7 @@ IGNORE_PATTERNS=(
   "yarn.lock"
   "*.log"
   ".DS_Store"
+  "packages/hooks/src/generated.ts"
 )
 
 # Check if PR template exists
