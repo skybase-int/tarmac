@@ -692,7 +692,8 @@ export function UpgradeWidgetWrapped({
     debouncedOriginAmount,
     linguiCtx,
     isConnectedAndEnabled,
-    customNavigationLabel
+    customNavigationLabel,
+    shouldUseBatch
   ]);
 
   // Set widget button to be disabled depending on which flow we're in

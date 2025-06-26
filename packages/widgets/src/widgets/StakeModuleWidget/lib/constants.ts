@@ -112,14 +112,14 @@ export function getStakeManageReviewSubtitle({
   needsAllowance: boolean;
 }): MessageDescriptor {
   if (!needsAllowance || !symbol) {
-    return msg`You will update your Staking Rewards Engine position.`;
+    return msg`You will change your Staking Rewards Engine position.`;
   }
 
   switch (batchStatus) {
     case BatchStatus.ENABLED:
-      return msg`You're allowing this app to access the ${symbol} in your wallet and update your Staking Rewards Engine position in one bundled transaction.`;
+      return msg`You're allowing this app to access the ${symbol} in your wallet and change your Staking Rewards Engine position in one bundled transaction.`;
     case BatchStatus.DISABLED:
-      return msg`You're allowing this app to access the ${symbol} in your wallet and update your Staking Rewards Engine position in multiple transactions.`;
+      return msg`You're allowing this app to access the ${symbol} in your wallet and change your Staking Rewards Engine position in multiple transactions.`;
     default:
       return msg``;
   }
@@ -148,7 +148,7 @@ export function getStakeSubtitle({
     case TxStatus.LOADING:
       return flow === StakeFlow.OPEN
         ? msg`Your transaction is being processed on the blockchain to create your position. Please wait.`
-        : msg`Your transaction is being processed on the blockchain to update your position. Please wait.`;
+        : msg`Your transaction is being processed on the blockchain to change your position. Please wait.`;
     case TxStatus.SUCCESS:
       return flow === StakeFlow.OPEN
         ? collateralToLock && borrowAmount
@@ -189,7 +189,7 @@ export function stakeLoadingButtonText({
       return flow === StakeFlow.OPEN
         ? msg`Opening position`
         : flow === StakeFlow.MANAGE
-          ? msg`Updating position`
+          ? msg`Changing position`
           : msg`Loading`;
   }
 }

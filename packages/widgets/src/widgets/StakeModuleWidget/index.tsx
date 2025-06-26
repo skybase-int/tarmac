@@ -467,7 +467,8 @@ function StakeModuleWidgetWrapped({
     currentStep,
     needsLockAllowance,
     needsUsdsAllowance,
-    isDelegateSkippable
+    isDelegateSkippable,
+    shouldUseBatch
   ]);
 
   // After a successful approval, wait for the next hook (multicall) to be prepared and send the transaction

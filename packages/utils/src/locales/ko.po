@@ -563,6 +563,15 @@ msgstr ""
 msgid "Change Position"
 msgstr ""
 
+#: packages/widgets/src/widgets/StakeModuleWidget/components/SelectDelegate.tsx
+msgid "Change your delegate"
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+msgid "Changing position"
+msgstr ""
+
 #: packages/widgets/src/widgets/TradeWidget/components/TradeInputs.tsx
 #: packages/widgets/src/widgets/L2TradeWidget/components/L2TradeInputs.tsx
 msgid "Choose a token to receive"
@@ -2590,15 +2599,6 @@ msgstr ""
 msgid "Unstaking"
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/components/SelectDelegate.tsx
-msgid "Update your delegate"
-msgstr ""
-
-#: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
-#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
-msgid "Updating position"
-msgstr ""
-
 #: apps/webapp/src/lib/constants.ts
 msgid "upgrade"
 msgstr ""
@@ -3043,6 +3043,10 @@ msgid "You upgraded {0} {1} into {2}"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
+msgid "You will change your Staking Rewards Engine position."
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 msgid "You will open a new Staking Rewards Engine position."
 msgstr ""
 
@@ -3069,10 +3073,6 @@ msgstr ""
 #. placeholder {1}: targetToken.symbol
 #: packages/widgets/src/widgets/L2TradeWidget/lib/constants.ts
 msgid "You will trade your {0} for {1}."
-msgstr ""
-
-#: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
-msgid "You will update your Staking Rewards Engine position."
 msgstr ""
 
 #. placeholder {0}: originToken.symbol
@@ -3146,6 +3146,14 @@ msgid "You're allowing this app to access the {0} in your wallet and upgrade it 
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
+msgid "You're allowing this app to access the {symbol} in your wallet and change your Staking Rewards Engine position in multiple transactions."
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
+msgid "You're allowing this app to access the {symbol} in your wallet and change your Staking Rewards Engine position in one bundled transaction."
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 msgid "You're allowing this app to access the {symbol} in your wallet and open a new Staking Rewards Engine position in multiple transactions."
 msgstr ""
 
@@ -3167,14 +3175,6 @@ msgstr ""
 
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 msgid "You're allowing this app to access the {symbol} in your wallet and supply it to the Sky Token Rewards module in one bundled transaction."
-msgstr ""
-
-#: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
-msgid "You're allowing this app to access the {symbol} in your wallet and update your Staking Rewards Engine position in multiple transactions."
-msgstr ""
-
-#: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
-msgid "You're allowing this app to access the {symbol} in your wallet and update your Staking Rewards Engine position in one bundled transaction."
 msgstr ""
 
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
@@ -3403,12 +3403,12 @@ msgid "Your Trade transaction history"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
-#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
-msgid "Your transaction is being processed on the blockchain to create your position. Please wait."
+msgid "Your transaction is being processed on the blockchain to change your position. Please wait."
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
-msgid "Your transaction is being processed on the blockchain to update your position. Please wait."
+#: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+msgid "Your transaction is being processed on the blockchain to create your position. Please wait."
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
