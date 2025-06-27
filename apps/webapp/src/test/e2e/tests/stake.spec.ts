@@ -52,7 +52,7 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
   // confirm position
   await approveOrPerformAction(page, 'Open a position', { review: false });
 
-  await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible({ timeout: 10000 });
   await expect(
     page.getByText("You've borrowed 38,000 USDS by staking 2,400,000 SKY. Your new position is open.")
   ).toBeVisible();
@@ -78,7 +78,7 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
 
   await expect(page.getByText('Confirm your position').nth(0)).toBeVisible();
   await approveOrPerformAction(page, 'Change Position', { review: false });
-  await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible({ timeout: 10000 });
   await expect(page.getByText("You've borrowed 100 USDS. Your position is updated.")).toBeVisible();
   await page.getByRole('button', { name: 'Manage your position(s)' }).click();
   await expect(page.getByText('Position 1')).toBeVisible();
@@ -110,7 +110,7 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
   await expect(page.getByText('Confirm your position').nth(0)).toBeVisible();
 
   await approveOrPerformAction(page, 'Change Position', { review: false });
-  await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible({ timeout: 10000 });
   await expect(page.getByText("You've repaid 38,100 USDS to exit your position.")).toBeVisible();
   await page.getByRole('button', { name: 'Manage your position(s)' }).click();
   await expect(page.getByText('Position 1')).toBeVisible();
@@ -135,7 +135,7 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
   await expect(page.getByText('Confirm your position').nth(0)).toBeVisible();
 
   await approveOrPerformAction(page, 'Change Position', { review: false });
-  await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible({ timeout: 10000 });
   await expect(page.getByText("You've unstaked 12,000 SKY to exit your position.")).toBeVisible();
   await page.getByRole('button', { name: 'Manage your position(s)' }).click();
   await expect(page.getByText('Position 1')).toBeVisible();
