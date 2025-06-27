@@ -90,10 +90,10 @@ export function WidgetNavigation({
   const laExtraHeight = isMobile ? 61 : 100; // LA Wrapper and action button height
   const baseTabContentClasses = 'md:h-full md:flex-1';
   const tabContentClasses = isRewardsOverview
-    ? `${baseTabContentClasses} p-6 pr-0 pb-0 md:p-3 md:pb-3 md:pr-0 md:pt-2 xl:p-4 xl:pb-4 xl:pr-0`
+    ? `${baseTabContentClasses} pl-6 pt-2 pr-0 pb-0 md:p-3 md:pb-3 md:pr-0 md:pt-2 xl:p-4 xl:pb-4 xl:pr-0`
     : intent === Intent.BALANCES_INTENT
-      ? `${baseTabContentClasses} p-6 pr-0 pb-0 md:p-3 md:pb-0 md:pr-0 md:pt-2 xl:p-4 xl:pb-0 xl:pr-0`
-      : `${baseTabContentClasses} p-6 pr-0 md:p-3 md:pr-0 md:pt-2 xl:p-4 xl:pr-0`;
+      ? `${baseTabContentClasses} pl-6 pt-2 pr-0 pb-0 md:p-3 md:pb-0 md:pr-0 md:pt-2 xl:p-4 xl:pb-0 xl:pr-0`
+      : `${baseTabContentClasses} pl-6 pt-2 pr-0 md:p-3 md:pr-0 md:pt-2 xl:p-4 xl:pr-0`;
   // If it's mobile, use the widget navigation row height + the height of the webiste header
   // as we're using 100vh for the content style, if not, just use the height of the navigation row
   // If the tab list is hidden, don't count it's height
@@ -119,7 +119,7 @@ export function WidgetNavigation({
   }, [intent, scrollToTop]);
 
   return (
-    <div className="w-full">
+    <div className={`${isMobile ? 'w-full' : ''}`}>
       {/* Mobile hamburger menu - placed at the top on mobile */}
       {isMobile && !hideTabs && (
         <div className="flex items-center p-4 pb-2 md:hidden">
