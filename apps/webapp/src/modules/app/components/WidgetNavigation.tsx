@@ -238,7 +238,7 @@ export function WidgetNavigation({
                         exit={AnimationLabels.exit}
                         ref={widgetRef}
                         className={cn(
-                          'scrollbar-thin flex-1 overflow-y-auto',
+                          'flex-1 overflow-y-auto pr-4 md:pr-0',
                           isMobile
                             ? showLinkedAction
                               ? 'scroll-mt-[148px]'
