@@ -175,7 +175,7 @@ export function WidgetNavigation({
           <div className="border-r-1 h-full">
             <TabsList
               className={cn(
-                'sticky top-0 z-20 flex w-full justify-around rounded-none rounded-t-3xl border-b border-r-2 p-3 backdrop-blur-2xl',
+                'sticky top-0 z-20 flex w-full justify-around rounded-none rounded-t-3xl border-b p-3 backdrop-blur-2xl',
                 'md:scrollbar-thin md:static md:mt-3 md:h-fit md:max-h-[calc(100vh-120px)] md:w-auto md:flex-col md:justify-start md:gap-2 md:self-start md:overflow-y-auto md:rounded-none md:border-0 md:bg-transparent md:p-0 md:pr-2 md:backdrop-filter-none',
                 hideTabs && 'hidden',
                 isMobile && 'hidden' // Hide the horizontal tabs on mobile when using Sheet
