@@ -245,6 +245,7 @@ export {
   wethAddress,
   usdcAddress,
   usdtAddress,
+  spkAddress,
   wethSepoliaAddress,
   usdcSepoliaAddress,
   usdtSepoliaAddress,

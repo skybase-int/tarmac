@@ -76,7 +76,10 @@ export const L2TradeTransactionStatus = ({
   useEffect(() => {
     const isApprovalSuccess = txStatus === TxStatus.SUCCESS && action === TradeAction.APPROVE;
     const isWaitingForSecondTransaction =
-      txStatus === TxStatus.INITIALIZED && action !== TradeAction.APPROVE && flowNeedsAllowance;
+      txStatus === TxStatus.INITIALIZED &&
+      action !== TradeAction.APPROVE &&
+      flowNeedsAllowance &&
+      !isBatchTransaction;
     const flowTxStatus: TxStatus =
       isApprovalSuccess || isWaitingForSecondTransaction ? TxStatus.LOADING : txStatus;
 

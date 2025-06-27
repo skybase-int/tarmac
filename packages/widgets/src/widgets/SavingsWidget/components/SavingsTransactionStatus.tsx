@@ -64,7 +64,10 @@ export const SavingsTransactionStatus = ({
   useEffect(() => {
     const isApprovalSuccess = txStatus === TxStatus.SUCCESS && action === SavingsAction.APPROVE;
     const isWaitingForSecondTransaction =
-      txStatus === TxStatus.INITIALIZED && action !== SavingsAction.APPROVE && flowNeedsAllowance;
+      txStatus === TxStatus.INITIALIZED &&
+      action !== SavingsAction.APPROVE &&
+      flowNeedsAllowance &&
+      !isBatchTransaction;
     const flowTxStatus: TxStatus =
       isApprovalSuccess || isWaitingForSecondTransaction ? TxStatus.LOADING : txStatus;
 
