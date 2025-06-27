@@ -35,7 +35,6 @@ export function WidgetNavigation({
   const isMobile = bpi < BP.md;
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetRef = useRef<HTMLDivElement>(null);
-  const [height, setHeight] = useState<number>(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const {
     selectedRewardContract,
@@ -66,25 +65,6 @@ export function WidgetNavigation({
     });
   };
 
-  useEffect(() => {
-    const containerElement = containerRef.current;
-    if (!containerElement) return;
-
-    const updateSize = () => {
-      setHeight(containerElement.offsetHeight);
-    };
-    updateSize();
-
-    // Create observer to watch for changes in card size
-    const observer = new ResizeObserver(updateSize);
-    observer.observe(containerElement);
-
-    // Cleanup observer on unmount
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
   const contentMarginTop = isMobile ? 0 : 8;
   const contentPaddingTop = isMobile ? 0 : 2;
   const laExtraHeight = isMobile ? 61 : 100; // LA Wrapper and action button height
@@ -102,7 +82,7 @@ export function WidgetNavigation({
   const topOffset = headerHeight;
   const style = isMobile
     ? { height: `calc(100dvh - ${topOffset + (showLinkedAction ? laExtraHeight : 0)}px)` }
-    : { height: `${height - topOffset - (showLinkedAction ? laExtraHeight : 0)}px` };
+    : undefined;
   const tabGlowClasses =
     'before:top-[-13px] xl:before:top-[-17px] before:absolute before:left-1/2 before:-translate-x-1/2 before:w-[120%] before:h-px before:bg-nav-light';
 
@@ -119,7 +99,7 @@ export function WidgetNavigation({
   }, [intent, scrollToTop]);
 
   return (
-    <div className={`${isMobile ? 'w-full' : ''}`}>
+    <div className={`${isMobile ? 'w-full' : 'md:flex md:h-full'}`}>
       {/* Mobile hamburger menu - placed at the top on mobile */}
       {isMobile && !hideTabs && (
         <div className="flex items-center p-4 pb-2 md:hidden">
@@ -238,26 +218,33 @@ export function WidgetNavigation({
               </div>
             ))}
           </TabsList>
-          <div className="md:flex md:min-w-[352px] md:max-w-[440px] md:flex-1 md:flex-col lg:min-w-[416px] lg:max-w-[416px]">
+          <div className="md:flex md:min-w-[352px] md:max-w-[440px] md:flex-1 md:flex-col md:overflow-hidden lg:min-w-[416px] lg:max-w-[416px]">
             <LinkedActionWrapper />
             <AnimatePresence initial={false} mode="popLayout">
               {widgetContent.map(
                 ([int, , , content]) =>
                   intent === int && (
-                    <TabsContent key={int} value={int} className={tabContentClasses} style={style} asChild>
+                    <TabsContent
+                      key={int}
+                      value={int}
+                      className={cn(tabContentClasses, 'flex flex-col')}
+                      style={style}
+                      asChild
+                    >
                       <motion.div
                         variants={cardAnimations}
                         initial={AnimationLabels.initial}
                         animate={AnimationLabels.animate}
                         exit={AnimationLabels.exit}
                         ref={widgetRef}
-                        className={
+                        className={cn(
+                          'scrollbar-thin flex-1 overflow-y-auto',
                           isMobile
                             ? showLinkedAction
                               ? 'scroll-mt-[148px]'
                               : 'scroll-mt-[87px]'
                             : 'scroll-mt-[0px]'
-                        }
+                        )}
                       >
                         {content}
                       </motion.div>
