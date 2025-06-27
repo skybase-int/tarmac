@@ -204,7 +204,10 @@ export const StakeModuleTransactionStatus = ({
   useEffect(() => {
     const isApprovalSuccess = txStatus === TxStatus.SUCCESS && action === StakeAction.APPROVE;
     const isWaitingForSecondTransaction =
-      txStatus === TxStatus.INITIALIZED && action !== StakeAction.APPROVE && flowNeedsAllowance;
+      txStatus === TxStatus.INITIALIZED &&
+      action !== StakeAction.APPROVE &&
+      flowNeedsAllowance &&
+      !isBatchTransaction;
     const flowTxStatus: TxStatus =
       isApprovalSuccess || isWaitingForSecondTransaction ? TxStatus.LOADING : txStatus;
 

@@ -68,7 +68,10 @@ export const RewardsTransactionStatus = ({
   useEffect(() => {
     const isApprovalSuccess = txStatus === TxStatus.SUCCESS && action === RewardsAction.APPROVE;
     const isWaitingForSecondTransaction =
-      txStatus === TxStatus.INITIALIZED && action !== RewardsAction.APPROVE && flowNeedsAllowance;
+      txStatus === TxStatus.INITIALIZED &&
+      action !== RewardsAction.APPROVE &&
+      flowNeedsAllowance &&
+      !isBatchTransaction;
     const flowTxStatus: TxStatus =
       isApprovalSuccess || isWaitingForSecondTransaction ? TxStatus.LOADING : txStatus;
 
