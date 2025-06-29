@@ -16,11 +16,23 @@ interface ChatbotResponse {
 }
 
 const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json'
+  };
+
+  // Add auth-related headers if environment variables are present
+  // Should not exist in production, values would be visible in client
+  const cfAccessClientId = import.meta.env.VITE_CHATBOT_CF_ACCESS_CLIENT_ID;
+  const cfAccessClientSecret = import.meta.env.VITE_CHATBOT_CF_ACCESS_CLIENT_SECRET;
+
+  if (cfAccessClientId && cfAccessClientSecret) {
+    headers['CF-Access-Client-Id'] = cfAccessClientId;
+    headers['CF-Access-Client-Secret'] = cfAccessClientSecret;
+  }
+
   const response = await fetch(`${CHATBOT_DOMAIN}/chat`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers,
     body: JSON.stringify(messagePayload)
   });
 
