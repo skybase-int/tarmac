@@ -4,7 +4,7 @@ import { Text } from '@widgets/shared/components/ui/Typography';
 import { RewardContract, useRewardContractInfo, useRewardsChartInfo } from '@jetstreamgg/sky-hooks';
 import { t } from '@lingui/core/macro';
 import { Skeleton } from '@widgets/components/ui/skeleton';
-import { formatBigInt } from '@jetstreamgg/sky-utils';
+import { formatBigInt, formatNumber } from '@jetstreamgg/sky-utils';
 import { RewardsStatsCardCore } from './RewardsStatsCardCore';
 import { Warning } from '@widgets/shared/components/icons/Warning';
 import { positionAnimations } from '@widgets/shared/animation/presets';
@@ -57,12 +57,14 @@ export const RewardsStatsCard = ({
           <MotionVStack className="items-end justify-between" gap={2} variants={positionAnimations}>
             <Text className="text-textSecondary text-sm leading-4">{t`Suppliers`}</Text>
             {mostRecentData ? (
-              <Text>{mostRecentData?.suppliers}</Text>
+              <Text>{formatNumber(mostRecentData?.suppliers, { maxDecimals: 0 })}</Text>
             ) : isLoadingChart ? (
               <Skeleton className="bg-textSecondary h-5 w-10" />
             ) : errorChart ? (
               <Warning boxSize={16} viewBox="0 0 16 16" />
-            ) : null}
+            ) : (
+              <Text>0</Text>
+            )}
           </MotionVStack>
         </HStack>
       }
