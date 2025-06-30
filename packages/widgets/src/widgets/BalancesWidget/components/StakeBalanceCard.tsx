@@ -1,5 +1,5 @@
-import { lsSkyUsdsRewardAddress, usePrices, useRewardsChartInfo } from '@jetstreamgg/hooks';
-import { formatBigInt, formatDecimalPercentage, formatNumber } from '@jetstreamgg/utils';
+import { lsSkyUsdsRewardAddress, usePrices, useRewardsChartInfo } from '@jetstreamgg/sky-hooks';
+import { formatBigInt, formatDecimalPercentage, formatNumber } from '@jetstreamgg/sky-utils';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
 import { InteractiveStatsCard } from '@widgets/shared/components/ui/card/InteractiveStatsCard';
@@ -7,11 +7,10 @@ import { Skeleton } from '@widgets/components/ui/skeleton';
 import { formatUnits } from 'viem';
 import { CardProps } from './ModulesBalances';
 import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
-import { useChainId } from 'wagmi';
 import { useMemo } from 'react';
+import { mainnet } from 'viem/chains';
 
 export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkClicked }: CardProps) => {
-  const chainId = useChainId();
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
 
   const totalStakedValue =
@@ -21,17 +20,13 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
 
   // Fetch from this BA labs endpoint to get the rate
   const { data: rewardsChartInfoData } = useRewardsChartInfo({
-    rewardContractAddress: lsSkyUsdsRewardAddress[chainId as keyof typeof lsSkyUsdsRewardAddress]
+    rewardContractAddress: lsSkyUsdsRewardAddress[mainnet.id as keyof typeof lsSkyUsdsRewardAddress]
   });
 
   const mostRecentRewardsChartInfoData = useMemo(
     () => rewardsChartInfoData?.slice().sort((a, b) => b.blockTimestamp - a.blockTimestamp)[0],
     [rewardsChartInfoData]
   );
-
-  if (totalStakedValue === 0) {
-    return null;
-  }
 
   return (
     <InteractiveStatsCard

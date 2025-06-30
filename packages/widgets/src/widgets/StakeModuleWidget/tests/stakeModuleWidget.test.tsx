@@ -4,8 +4,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import { WagmiWrapper } from '../../../../test/WagmiWrapper';
 import { StakeModuleWidget } from '..';
-import { StakeAction, StakeFlow, StakeStep } from '../lib/constants';
-import { TxStatus } from '@widgets/shared/constants';
+import { StakeAction, StakeFlow } from '../lib/constants';
 
 const renderWithWagmiWrapper = (ui: any, options?: any) => render(ui, { wrapper: WagmiWrapper, ...options });
 
@@ -32,7 +31,7 @@ vi.mock('wagmi', async importOriginal => {
   };
 });
 
-vi.mock('@jetstreamgg/hooks', async importOriginal => {
+vi.mock('@jetstreamgg/sky-hooks', async importOriginal => {
   const actual = await importOriginal();
 
   // Mock the token addresses
@@ -197,7 +196,7 @@ describe('StakeModuleWidget tests', () => {
 
   it('shows the open position flow when urnIndex is 0', async () => {
     // Mock the useCurrentUrnIndex hook to return 0n
-    const useCurrentUrnIndexMock = vi.spyOn(await import('@jetstreamgg/hooks'), 'useCurrentUrnIndex');
+    const useCurrentUrnIndexMock = vi.spyOn(await import('@jetstreamgg/sky-hooks'), 'useCurrentUrnIndex');
     useCurrentUrnIndexMock.mockReturnValue({
       data: 0n,
       isLoading: false,
@@ -224,7 +223,7 @@ describe('StakeModuleWidget tests', () => {
 
   it('shows the manage position flow with external state', async () => {
     // Mock the useCurrentUrnIndex hook to return 1n to simulate having an existing position
-    const useCurrentUrnIndexMock = vi.spyOn(await import('@jetstreamgg/hooks'), 'useCurrentUrnIndex');
+    const useCurrentUrnIndexMock = vi.spyOn(await import('@jetstreamgg/sky-hooks'), 'useCurrentUrnIndex');
     useCurrentUrnIndexMock.mockReturnValue({
       data: 1n,
       isLoading: false,
@@ -253,7 +252,7 @@ describe('StakeModuleWidget tests', () => {
 
   it('handles approval flow correctly', async () => {
     // Mock the useCurrentUrnIndex hook to return 0n
-    const useCurrentUrnIndexMock = vi.spyOn(await import('@jetstreamgg/hooks'), 'useCurrentUrnIndex');
+    const useCurrentUrnIndexMock = vi.spyOn(await import('@jetstreamgg/sky-hooks'), 'useCurrentUrnIndex');
     useCurrentUrnIndexMock.mockReturnValue({
       data: 0n,
       isLoading: false,
@@ -263,7 +262,7 @@ describe('StakeModuleWidget tests', () => {
     });
 
     // Mock the useStakeSkyAllowance hook to return 0n (needs approval)
-    const useStakeSkyAllowanceMock = vi.spyOn(await import('@jetstreamgg/hooks'), 'useStakeSkyAllowance');
+    const useStakeSkyAllowanceMock = vi.spyOn(await import('@jetstreamgg/sky-hooks'), 'useStakeSkyAllowance');
     useStakeSkyAllowanceMock.mockReturnValue({
       data: 0n,
       mutate: vi.fn(),
@@ -280,7 +279,7 @@ describe('StakeModuleWidget tests', () => {
       });
     });
 
-    const useStakeSkyApproveMock = vi.spyOn(await import('@jetstreamgg/hooks'), 'useStakeSkyApprove');
+    const useStakeSkyApproveMock = vi.spyOn(await import('@jetstreamgg/sky-hooks'), 'useStakeSkyApprove');
     useStakeSkyApproveMock.mockReturnValue({
       prepared: true,
       execute: mockExecute,
@@ -296,9 +295,7 @@ describe('StakeModuleWidget tests', () => {
         addRecentTransaction={addRecentTransactionMock}
         onWidgetStateChange={onWidgetStateChangeMock}
         externalWidgetState={{
-          flow: StakeFlow.OPEN,
-          action: StakeAction.APPROVE,
-          screen: StakeStep.SUMMARY
+          flow: StakeFlow.OPEN
         }}
       />
     );
@@ -315,7 +312,7 @@ describe('StakeModuleWidget tests', () => {
 
   it('handles transaction status changes correctly', async () => {
     // Mock the useCurrentUrnIndex hook
-    const useCurrentUrnIndexMock = vi.spyOn(await import('@jetstreamgg/hooks'), 'useCurrentUrnIndex');
+    const useCurrentUrnIndexMock = vi.spyOn(await import('@jetstreamgg/sky-hooks'), 'useCurrentUrnIndex');
     useCurrentUrnIndexMock.mockReturnValue({
       data: 0n,
       isLoading: false,
@@ -331,7 +328,7 @@ describe('StakeModuleWidget tests', () => {
       });
     });
 
-    const useStakeMulticallMock = vi.spyOn(await import('@jetstreamgg/hooks'), 'useStakeMulticall');
+    const useStakeMulticallMock = vi.spyOn(await import('@jetstreamgg/sky-hooks'), 'useStakeMulticall');
     useStakeMulticallMock.mockReturnValue({
       prepared: true,
       execute: mockExecute,
@@ -349,10 +346,7 @@ describe('StakeModuleWidget tests', () => {
         onNotification={onNotificationMock}
         onWidgetStateChange={onWidgetStateChangeMock}
         externalWidgetState={{
-          flow: StakeFlow.OPEN,
-          action: StakeAction.MULTICALL,
-          screen: StakeStep.OPEN_BORROW,
-          txStatus: TxStatus.INITIALIZED
+          flow: StakeFlow.OPEN
         }}
       />
     );
@@ -371,10 +365,7 @@ describe('StakeModuleWidget tests', () => {
           onNotification={onNotificationMock}
           onWidgetStateChange={onWidgetStateChangeMock}
           externalWidgetState={{
-            flow: StakeFlow.OPEN,
-            action: StakeAction.MULTICALL,
-            screen: StakeStep.OPEN_BORROW,
-            txStatus: TxStatus.LOADING
+            flow: StakeFlow.OPEN
           }}
         />
       </WagmiWrapper>
@@ -389,10 +380,7 @@ describe('StakeModuleWidget tests', () => {
           onNotification={onNotificationMock}
           onWidgetStateChange={onWidgetStateChangeMock}
           externalWidgetState={{
-            flow: StakeFlow.OPEN,
-            action: StakeAction.MULTICALL,
-            screen: StakeStep.OPEN_BORROW,
-            txStatus: TxStatus.SUCCESS
+            flow: StakeFlow.OPEN
           }}
         />
       </WagmiWrapper>
@@ -404,7 +392,7 @@ describe('StakeModuleWidget tests', () => {
   });
 
   it('handles URN change callback correctly', async () => {
-    const useCurrentUrnIndexMock = vi.spyOn(await import('@jetstreamgg/hooks'), 'useCurrentUrnIndex');
+    const useCurrentUrnIndexMock = vi.spyOn(await import('@jetstreamgg/sky-hooks'), 'useCurrentUrnIndex');
     useCurrentUrnIndexMock.mockReturnValue({
       data: 1n,
       isLoading: false,
@@ -414,7 +402,7 @@ describe('StakeModuleWidget tests', () => {
     });
 
     // Mock the useStakeUrnAddress hook
-    const useStakeUrnAddressMock = vi.spyOn(await import('@jetstreamgg/hooks'), 'useStakeUrnAddress');
+    const useStakeUrnAddressMock = vi.spyOn(await import('@jetstreamgg/sky-hooks'), 'useStakeUrnAddress');
     useStakeUrnAddressMock.mockReturnValue({
       data: '0x1234567890123456789012345678901234567890',
       isLoading: false,
@@ -431,8 +419,7 @@ describe('StakeModuleWidget tests', () => {
         addRecentTransaction={() => {}}
         onStakeUrnChange={onStakeUrnChangeMock}
         externalWidgetState={{
-          flow: StakeFlow.MANAGE,
-          action: StakeAction.OVERVIEW
+          flow: StakeFlow.MANAGE
         }}
       />
     );

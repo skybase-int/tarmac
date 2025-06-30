@@ -17,7 +17,7 @@ For upgrade details and step-by-step upgrade instructions, visit the [MKR to SKY
     question: 'Why should I upgrade my MKR to SKY?',
     answer: `The governance-aligned vote to upgrade MKR to SKY, establishing SKY as the sole governance token of the Sky Protocol, reflects the community’s desire to streamline governance, increase voter participation, and support the ecosystem’s long-term growth and scalability. Simply put, SKY is the technical and functional evolution of MKR, inheriting the governance functionalities previously held by MKR. 
 
-SKY holders can use the token to vote directly on Sky Ecosystem Governance proposals and/or to transfer the voting power of their SKY tokens to a recognized delegate or a contract that they own, just as they once could with MKR. SKY also enables users to access Staking Rewards via the Sky.money web app. When users supply SKY to the Staking Engine of the Sky Protocol, they can access those rewards and choose to create one or more positions, including positions that enable them to generate and borrow USDS against their supplied SKY, and to delegate the voting power their supplied SKY tokens provide.
+SKY holders can use the token to vote directly on Sky Ecosystem Governance proposals and/or to transfer the voting power of their SKY tokens to a recognized delegate or a contract that they own, just as they once could with MKR. SKY also enables users to access Staking Rewards via the Sky.money web app. When users supply SKY to the Staking Engine of the Sky Protocol, they can access those rewards and may also choose to create one or more positions, including positions that enable them to generate and borrow USDS against their supplied SKY, and to delegate the voting power their supplied SKY tokens provide.
 
 For upgrade details and step-by-step upgrade instructions, please visit the [MKR to SKY Upgrade Hub](https://upgrademkrtosky.sky.money).
 `
@@ -26,7 +26,7 @@ For upgrade details and step-by-step upgrade instructions, please visit the [MKR
     question: 'Is there a deadline to upgrade MKR to SKY?',
     answer: `No, but all MKR holders are encouraged to upgrade to SKY promptly to maintain the ability to participate in key decisions shaping the Sky Protocol. Upgrading in a timely fashion ensures reduced governance complexity and a more effective, efficient and resilient ecosystem for all. Please note that while MKR will continue to exist, users will not be able to revert back to MKR from SKY via the Sky Protocol.
 
-To facilitate a smooth and prompt transition, Sky Ecosystem Governance [voted to introduce a Delayed Upgrade Penalty](https://vote.makerdao.com/polling/QmTVd4iq). The penalty, which will [begin sometime in September 2025](https://upgrademkrtosky.sky.money) reduces the amount of SKY received per MKR upgraded at a rate of 1%, and increases by 1% every three months thereafter until it reaches 100% in 25 years. The penalty will not apply to anyone upgrading their MKR to SKY before it kicks in.
+To facilitate a smooth and prompt transition, Sky Ecosystem Governance [voted to introduce a Delayed Upgrade Penalty](https://vote.makerdao.com/polling/QmTVd4iq). The penalty, which will [begin September 18, 2025](https://upgrademkrtosky.sky.money) reduces the amount of SKY received per MKR upgraded at a rate of 1%, and increases by 1% every three months thereafter until it reaches 100% in 25 years. The penalty will not apply to anyone upgrading their MKR to SKY before it kicks in.
 
 For upgrade details and step-by-step upgrade instructions, please visit the [MKR to SKY Upgrade Hub](https://upgrademkrtosky.sky.money).`
   },
@@ -34,7 +34,7 @@ For upgrade details and step-by-step upgrade instructions, please visit the [MKR
     question: 'What is the Delayed Upgrade Penalty?',
     answer: `The Delayed Upgrade Penalty is a time-based upgrade mechanism, approved by Sky Ecosystem Governance, which is designed to facilitate a smooth and prompt upgrade of MKR to SKY.
 
-The penalty, which will [begin sometime in September 2025](https://upgrademkrtosky.sky.money), reduces the amount of SKY received per MKR upgraded at a rate of 1%, and increases by 1% every three months thereafter until it reaches 100% in 25 years. The penalty will not apply to anyone upgrading their MKR to SKY before it kicks in.
+The penalty, which will [begin September 18, 2025](https://upgrademkrtosky.sky.money), reduces the amount of SKY received per MKR upgraded at a rate of 1%, and increases by 1% every three months thereafter until it reaches 100% in 25 years. The penalty will not apply to anyone upgrading their MKR to SKY before it kicks in.
 
 # How the Delayed Upgrade Penalty works
 Here are some examples:
@@ -57,7 +57,7 @@ For upgrade details and step-by-step upgrade instructions, please visit the [MKR
  
 The upgrade of MKR to SKY establishes SKY as the technical and functional evolution of MKR, with SKY inheriting the governance functionalities previously held by MKR. The upgrade is at the rate of 1:24,000 (1 MKR = 24,000 SKY). 
 SKY holders can use the token to vote directly on Sky Ecosystem Governance proposals and/or to transfer their voting power to a recognized delegate or a contract that they own, just as they once could with MKR. 
-SKY also enables users to access Staking Rewards via the Sky.money web app. When users supply SKY to the Staking Engine of the Sky Protocol, they can access those rewards and choose to create one or more positions, including positions that enable them to generate and borrow USDS against their supplied SKY, and to delegate the voting power their supplied SKY tokens provide.
+SKY also enables users to access Staking Rewards via the Sky.money web app. When users supply SKY to the Staking Engine of the Sky Protocol, they can access those rewards and may also choose to create one or more positions, including positions that enable them to generate and borrow USDS against their supplied SKY, and to delegate the voting power their supplied SKY tokens provide.
 
 For upgrade details and step-by-step upgrade instructions, please visit the [MKR to SKY Upgrade Hub](https://upgrademkrtosky.sky.money).`
   },
@@ -67,7 +67,7 @@ For upgrade details and step-by-step upgrade instructions, please visit the [MKR
 
 Eligible users of the Sky.money web app can upgrade their MKR to SKY using the Upgrade feature of the app. Some users may also choose to upgrade their MKR using [one of the frontends that support the upgrade](https://upgrademkrtosky.sky.money/). Please see the [Terms of Use](https://docs.sky.money/legal-terms) for more information on third-party services.
 
-If you currently have one or more positions in the Seal Engine, you can migrate to the Staking Engine. Your sealed MKR will be upgraded to SKY during the Seal to Staking migration process. The process, via the Sky.money web app, makes manually exiting your current Seal positions and creating new positions in the Staking Engine as simple as possible. 
+If you currently have one or more positions in the Seal Engine, you will need to manually exit and, if you choose, upgrade your MKR to SKY, and then supply your SKY to the Staking Engine.  The process, via the Sky.money web app, makes manually exiting your current Seal positions and creating new positions in the Staking Engine as simple as possible.
  
 For upgrade details and step-by-step upgrade instructions, please visit the [MKR to SKY Upgrade Hub](https://upgrademkrtosky.sky.money).`
   },
@@ -93,7 +93,7 @@ SKY is the sole governance token of the Sky Ecosystem and the upgrade of MKR. SK
     question: 'What happens if I never upgrade my MKR?',
     answer: `All MKR holders are encouraged to upgrade to SKY promptly to maintain the ability to participate in key decisions shaping the Sky Protocol. Upgrading in a timely fashion ensures reduced governance complexity and a more effective, efficient and resilient ecosystem for all. Please note that while MKR will continue to exist, users will not be able to revert back to MKR from SKY via the Sky Protocol.
 
-To facilitate a smooth and prompt transition, Sky Ecosystem Governance [voted to introduce a Delayed Upgrade Penalty](https://vote.makerdao.com/polling/QmTVd4iq). The penalty, which will [begin sometime in September 2025](https://upgrademkrtosky.sky.money) reduces the amount of SKY received per MKR upgraded at a rate of 1%, and increases by 1% every three months thereafter until it reaches 100% in 25 years. The penalty will not apply to anyone upgrading their MKR to SKY before it kicks in.
+To facilitate a smooth and prompt transition, Sky Ecosystem Governance [voted to introduce a Delayed Upgrade Penalty](https://vote.makerdao.com/polling/QmTVd4iq). The penalty, which will [begin September 18, 2025](https://upgrademkrtosky.sky.money), reduces the amount of SKY received per MKR upgraded at a rate of 1%, and increases by 1% every three months thereafter until it reaches 100% in 25 years. The penalty will not apply to anyone upgrading their MKR to SKY before it kicks in.
 
 For upgrade details and step-by-step upgrade instructions, please visit the [MKR to SKY Upgrade Hub](https://upgrademkrtosky.sky.money).`
   },
@@ -101,7 +101,7 @@ For upgrade details and step-by-step upgrade instructions, please visit the [MKR
     question: 'Will the MKR I hold lose its value if I never upgrade to SKY?',
     answer: `All MKR holders are encouraged to upgrade to SKY promptly to maintain the ability to participate in key decisions shaping the Sky Protocol. Upgrading in a timely fashion ensures reduced governance complexity and a more effective, efficient and resilient ecosystem for all. Please note that while MKR will continue to exist, users will not be able to revert back to MKR from SKY via the Sky Protocol.
 
-To facilitate a smooth and prompt transition, Sky Ecosystem Governance [voted to introduce a Delayed Upgrade Penalty](https://vote.makerdao.com/polling/QmTVd4iq). The penalty, which will [begin sometime in September 2025](https://upgrademkrtosky.sky.money) reduces the amount of SKY received per MKR upgraded at a rate of 1%, and increases by 1% every three months thereafter until it reaches 100% in 25 years. The penalty will not apply to anyone upgrading their MKR to SKY before it kicks in.
+To facilitate a smooth and prompt transition, Sky Ecosystem Governance [voted to introduce a Delayed Upgrade Penalty](https://vote.makerdao.com/polling/QmTVd4iq). The penalty, which will [begin September 18, 2025](https://upgrademkrtosky.sky.money) reduces the amount of SKY received per MKR upgraded at a rate of 1%, and increases by 1% every three months thereafter until it reaches 100% in 25 years. The penalty will not apply to anyone upgrading their MKR to SKY before it kicks in.
 
 For upgrade details and step-by-step upgrade instructions, please visit the [MKR to SKY Upgrade Hub](https://upgrademkrtosky.sky.money). `
   },
@@ -135,10 +135,9 @@ SKY is the technical and functional evolution of MKR, inheriting and extending t
 MKR holders can upgrade their tokens to SKY at the rate of 1:24,000 (1 MKR = 24,000 SKY). For upgrade details, see the [MKR to SKY Upgrade Hub](https://upgrademkrtosky.sky.money). For the most current information on all things Sky, join the community conversations in the [Sky Forum](https://forum.sky.money/), [Sky Discord](https://discord.com/invite/skyecosystem), and [Sky Builder Discord](https://discord.gg/skybuilder), where the Sky community dives deep into Sky Stars, the Star Agent Framework and Sky Ecosystem Governance.`
   },
   {
-    question: 'Will the MKR I have locked in Staking Positions be automatically upgraded to SKY?',
-    answer: `No, but your sealed MKR will be upgraded to SKY during the Seal to Staking migration process. The process, via the Sky.money web app, makes manually exiting your current Seal positions and creating new positions in the Staking Engine as simple as possible The Staking Engine offers all of the same features as the Seal Engine, but it has no exit fee and only supports SKY, not MKR. 
-
-For upgrade details and step-by-step upgrade instructions, please visit the [MKR to SKY Upgrade Hub](https://upgrademkrtosky.sky.money).`
+    question: 'Will the MKR I have locked in the Seal Engine be automatically upgraded to SKY?',
+    answer:
+      'No, If you currently have one or more positions in the Seal Engine, you will need to manually exit and, if you choose, upgrade your MKR to SKY, and then supply your SKY to the Staking Engine. The process, via the Sky.money web app, makes manually exiting your current Seal positions and creating new positions in the Staking Engine as simple as possible.'
   },
   {
     question: 'Will the exchange I use automatically upgrade all of my MKR to SKY?',
@@ -190,11 +189,6 @@ For details on the risks associated with soft-pegged stablecoins, review the [Us
   {
     question: 'Do I have to upgrade my DAI to USDS?',
     answer: 'No, upgrading your DAI is optional. You can continue to hold DAI tokens as you have in the past.'
-  },
-  {
-    question: 'How much does it cost to upgrade DAI to USDS?',
-    answer:
-      'Upgrading DAI to USDS is free and instant using the Sky.money web app; however, you will likely pay a transaction—or gas—fee for using the Ethereum blockchain network. That fee is neither controlled, imposed nor received by Sky.money or the Sky Protocol. It is calculated based on current Ethereum network demand and the amount of gas required to process the upgrade transaction. Be sure to have ETH in your wallet anytime you transact using the Sky Protocol.'
   },
   {
     question: 'What happens to the DAI I’ve supplied to the DAI Savings Rate contract?',

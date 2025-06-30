@@ -2,7 +2,7 @@ import { Card, CardContent, CardFooter } from '@widgets/components/ui/card';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
 import { Skeleton } from '@widgets/components/ui/skeleton';
-import { formatBigInt, formatNumber } from '@jetstreamgg/utils';
+import { formatBigInt, formatNumber } from '@jetstreamgg/sky-utils';
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { Warning } from '@widgets/shared/components/icons/Warning';
@@ -72,7 +72,7 @@ export const SealBalanceWarningCard = ({
             <div className="flex w-full justify-start pt-4">
               <div className="flex grow items-center gap-2">
                 <Text variant="captionSm">
-                  <Trans>Migrate your position(s) to the Staking Engine</Trans>
+                  <Trans>Close your position(s)</Trans>
                 </Text>
                 <div className="mt-1 h-4 w-4">
                   <ArrowRight

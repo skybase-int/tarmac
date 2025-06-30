@@ -9,7 +9,7 @@ import { useAccount, useAccountEffect, useChainId, useChains, useSwitchChain } f
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
 import { useSafeAppNotification } from '../hooks/useSafeAppNotification';
 import { SealMigrationWidgetPane } from './SealMigrationWidgetPane';
-import { isL2ChainId } from '@jetstreamgg/utils';
+import { isL2ChainId } from '@jetstreamgg/sky-utils';
 
 export function SealMigrationApp() {
   const { bpi } = useBreakpointIndex();
@@ -61,7 +61,7 @@ export function SealMigrationApp() {
     setSearchParams(
       params => {
         // Runs initial validation for globally allowed params
-        const validatedParams = validateSearchParams(params, [], 'seal', () => {}, newChainId);
+        const validatedParams = validateSearchParams(params, [], 'seal', () => {}, newChainId, chains);
         // Runs second validation for linked-action-specific criteria
         const validatedLinkedActionParams = validateLinkedActionSearchParams(validatedParams);
         return validatedLinkedActionParams;

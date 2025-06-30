@@ -55,6 +55,16 @@ Create a `.env` file in the root directory of the project. You can use the `.env
 - `VITE_ENV_NAME`: (Optional) Environment name (e.g., 'development', 'staging', 'production')
 - `VITE_CF_PAGES_COMMIT_SHA`: (Optional) Git commit hash of the current build
 - `VITE_REFERRAL_CODE`: (Optional) Referral code for the app
+- `VITE_CHATBOT_ENABLED`: If set to `'true`, enables the chatbot functionality
+- `VITE_CHATBOT_USE_TESTNET_NETWORK_NAME`: If set to `'true'` replaces network names for their testnet counterpart. Only in development or staging.
+- `VITE_ADVANCED_CHAT_ENABLED`: If set to `'true`, enables advanced chat features
+- `VITE_CHAT_SUGGESTIONS_ENABLED`: If set to `'true`, enables chat suggestions functionality, set to 'true' to enable
+- `VITE_CHATBOT_NAME`: The name of the chatbot
+- `VITE_CHATBOT_DOMAIN`: The base URL for the chatbot backend API
+- `VITE_CHATBOT_MAX_HISTORY`: Maximum number of previous messages to include in chat context.
+- `VITE_CHATBOT_MAX_MESSAGE_LENGTH`: Maximum character length for user input messages.
+- `VITE_CHATBOT_CF_ACCESS_CLIENT_ID`: (Optional) Cloudflare Access client ID for authentication headers in development/staging environments
+- `VITE_CHATBOT_CF_ACCESS_CLIENT_SECRET`: (Optional) Cloudflare Access client secret for authentication headers in development/staging environments
 
 ## Running the App
 
@@ -75,6 +85,14 @@ You can download the [Playwright VS Code](https://playwright.dev/docs/getting-st
 The VS code extension can also help with [generating tests](https://playwright.dev/docs/codegen).
 
 Note that when you try to initiate a transaction using this feature, the transaction will fail because the RPC interception has not been setup to add the gas parameter. You'll run into the same issue if you run `pnpm dev:mock`.
+
+### Running a single test
+
+In addition to the above, you can also run only a single e2e test by passing along an argument for the test file:
+
+`pnpm e2e upgrade.spec.ts`
+
+You will need to have the `TEST_CHAIN` env var set. You can set it locally by entering this command: `export TEST_CHAIN=mainnet`
 
 ## Building the App
 

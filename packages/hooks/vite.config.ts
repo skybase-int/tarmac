@@ -21,8 +21,8 @@ export default defineConfig({
     emptyOutDir: false,
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'jetstream-gg-hooks',
-      fileName: 'jetstream-gg-hooks',
+      name: 'jetstream-gg-sky-hooks',
+      fileName: 'jetstream-gg-sky-hooks',
       formats: ['es']
     },
     rollupOptions: {
@@ -38,7 +38,7 @@ export default defineConfig({
     exclude: [...configDefaults.exclude],
     globals: true,
     environment: 'happy-dom',
-    testTimeout: 60000,
+    testTimeout: 90000,
     setupFiles: ['./test/setup.ts'],
     globalSetup: ['./test/globalSetup.ts'],
     pool: 'forks',

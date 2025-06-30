@@ -7,9 +7,10 @@ import {
   useRewardsWithdraw,
   useRewardsClaim,
   useTokenAllowance,
-  useTokenBalance
-} from '@jetstreamgg/hooks';
-import { getTransactionLink, useDebounce, formatBigInt, useIsSafeWallet } from '@jetstreamgg/utils';
+  useTokenBalance,
+  getTokenDecimals
+} from '@jetstreamgg/sky-hooks';
+import { getTransactionLink, useDebounce, formatBigInt, useIsSafeWallet } from '@jetstreamgg/sky-utils';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { WidgetContainer } from '../../shared/components/ui/widget/WidgetContainer';
 import { RewardsFlow, RewardsAction, RewardsScreen } from './lib/constants';
@@ -26,7 +27,7 @@ import { Heading } from '@widgets/shared/components/ui/Typography';
 import { RewardsOverview } from './components/RewardsOverview';
 import { Button } from '@widgets/components/ui/button';
 import { getValidatedState } from '../../lib/utils';
-import { parseUnits } from 'viem';
+import { formatUnits, parseUnits } from 'viem';
 import { WidgetButtons } from '@widgets/shared/components/ui/widget/WidgetButtons';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { ArrowLeft } from 'lucide-react';
@@ -54,12 +55,15 @@ export const RewardsWidget = ({
   onWidgetStateChange,
   onExternalLinkClicked,
   enabled = true,
-  referralCode
+  referralCode,
+  shouldReset = false
 }: RewardsWidgetProps) => {
+  const key = shouldReset ? 'reset' : undefined;
   return (
     <ErrorBoundary componentName="RewardsWidget">
-      <WidgetProvider locale={locale}>
+      <WidgetProvider key={key} locale={locale}>
         <RewardsWidgetWrapped
+          key={key}
           addRecentTransaction={addRecentTransaction}
           onConnect={onConnect}
           locale={locale}
@@ -68,7 +72,7 @@ export const RewardsWidget = ({
           externalWidgetState={externalWidgetState}
           onStateValidated={onStateValidated}
           onNotification={onNotification}
-          onWidgetStateChange={onWidgetStateChange}
+          onWidgetStateChange={shouldReset ? undefined : onWidgetStateChange}
           onExternalLinkClicked={onExternalLinkClicked}
           enabled={enabled}
           referralCode={referralCode}
@@ -143,9 +147,13 @@ const RewardsWidgetWrapped = ({
   });
 
   const debouncedAmount = useDebounce(amount);
-  const initialTabIndex = validatedExternalState?.tab === 'right' ? 1 : 0;
+  const initialTabIndex = validatedExternalState?.flow === RewardsFlow.WITHDRAW ? 1 : 0;
   const [tabIndex, setTabIndex] = useState<0 | 1>(initialTabIndex);
   const linguiCtx = useLingui();
+
+  useEffect(() => {
+    setTabIndex(initialTabIndex);
+  }, [initialTabIndex]);
 
   const {
     setButtonText,
@@ -624,7 +632,7 @@ const RewardsWidgetWrapped = ({
     setWidgetState({
       ...widgetState,
       action: RewardsAction.OVERVIEW,
-      flow: null
+      flow: RewardsFlow.SUPPLY
     });
     setTxStatus(TxStatus.IDLE);
     setAmount(0n);
@@ -730,10 +738,32 @@ const RewardsWidgetWrapped = ({
                   rewardsBalance={rewardsBalance}
                   claim={claim}
                   error={currentError}
-                  onChange={setAmount}
+                  onChange={(newValue: bigint, userTriggered?: boolean) => {
+                    setAmount(newValue);
+                    if (userTriggered && selectedRewardContract?.supplyToken) {
+                      // If newValue is 0n and it was triggered by user, it means they're clearing the input
+                      const formattedValue =
+                        newValue === 0n
+                          ? ''
+                          : formatUnits(
+                              newValue,
+                              getTokenDecimals(selectedRewardContract.supplyToken, chainId)
+                            );
+                      onWidgetStateChange?.({
+                        originAmount: formattedValue,
+                        txStatus,
+                        widgetState
+                      });
+                    }
+                  }}
                   onToggle={index => {
                     setTabIndex(index);
                     setAmount(0n);
+                    onWidgetStateChange?.({
+                      originAmount: '',
+                      txStatus,
+                      widgetState
+                    });
                   }}
                   onClaimClick={onClaimClick}
                   isConnectedAndEnabled={isConnectedAndEnabled}

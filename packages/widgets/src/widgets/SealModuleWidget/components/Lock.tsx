@@ -1,5 +1,5 @@
 import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
-import { Token, TOKENS, useTokenBalance } from '@jetstreamgg/hooks';
+import { Token, TOKENS, useTokenBalance } from '@jetstreamgg/sky-hooks';
 import { t } from '@lingui/core/macro';
 import { useContext, useEffect } from 'react';
 import { useAccount, useChainId } from 'wagmi';
@@ -7,7 +7,13 @@ import { SealModuleWidgetContext } from '../context/context';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { SealFlow } from '../lib/constants';
 
-export const Lock = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolean }) => {
+export const Lock = ({
+  isConnectedAndEnabled,
+  onChange
+}: {
+  isConnectedAndEnabled: boolean;
+  onChange?: (val: bigint, userTriggered?: boolean) => void;
+}) => {
   const { address } = useAccount();
   const chainId = useChainId();
   const { widgetState } = useContext(WidgetContext);
@@ -70,7 +76,10 @@ export const Lock = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolean
         tokenList={[TOKENS.mkr, TOKENS.sky]}
         balance={balance}
         value={amountToLock}
-        onChange={setAmountToLock}
+        onChange={(val, event) => {
+          setAmountToLock(val);
+          onChange?.(val, !!event);
+        }}
         onTokenSelected={option => {
           if (option.symbol !== selectedToken?.symbol) {
             setSelectedToken(option as Token);

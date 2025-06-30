@@ -4,7 +4,7 @@ import {
   StakeFlow,
   StakeModuleWidget,
   StakeAction
-} from '@jetstreamgg/widgets';
+} from '@jetstreamgg/sky-widgets';
 import { IntentMapping, QueryParams, REFRESH_DELAY } from '@/lib/constants';
 import { SharedProps } from '@/modules/app/types/Widgets';
 import { LinkedActionSteps } from '@/modules/config/context/ConfigContext';
@@ -12,8 +12,10 @@ import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { useSearchParams } from 'react-router-dom';
 import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
 import { Intent } from '@/lib/enums';
-import { useEffect } from 'react';
-import { useStakeHistory } from '@jetstreamgg/hooks';
+import { useEffect, useState } from 'react';
+import { useStakeHistory } from '@jetstreamgg/sky-hooks';
+import { useChatContext } from '@/modules/chat/context/ChatContext';
+import { StakeHelpModal } from './StakeHelpModal';
 
 export function StakeWidgetPane(sharedProps: SharedProps) {
   const {
@@ -25,11 +27,25 @@ export function StakeWidgetPane(sharedProps: SharedProps) {
   } = useConfigContext();
   const { mutate: refreshStakeHistory } = useStakeHistory();
   const [searchParams, setSearchParams] = useSearchParams();
+  const { setShouldDisableActionButtons } = useChatContext();
+  const urnIndexParam = searchParams.get(QueryParams.UrnIndex);
+  const isReset = searchParams.get(QueryParams.Reset) === 'true';
+  const [showHelpModal, setShowHelpModal] = useState(false);
 
   const onStakeUrnChange = (urn?: {
     urnAddress: `0x${string}` | undefined;
     urnIndex: bigint | undefined;
   }) => {
+    // Prevent race conditions
+    if (searchParams.get(QueryParams.Widget) !== IntentMapping[Intent.STAKE_INTENT]) {
+      return;
+    }
+
+    // Don't run while resetting
+    if (isReset) {
+      return;
+    }
+
     setSearchParams(params => {
       if (urn?.urnAddress && urn?.urnIndex !== undefined) {
         params.set(QueryParams.Widget, IntentMapping[Intent.STAKE_INTENT]);
@@ -41,8 +57,6 @@ export function StakeWidgetPane(sharedProps: SharedProps) {
     });
     setSelectedStakeUrnIndex(urn?.urnIndex !== undefined ? Number(urn.urnIndex) : undefined);
   };
-
-  const urnIndexParam = searchParams.get(QueryParams.UrnIndex);
 
   // Reset detail pane urn index when widget is mounted
   useEffect(() => {
@@ -63,44 +77,46 @@ export function StakeWidgetPane(sharedProps: SharedProps) {
     stakeTab,
     originAmount
   }: WidgetStateChangeParams) => {
-    const currentStakeTabParam = searchParams.get(QueryParams.StakeTab);
+    // Prevent race conditions
+    if (searchParams.get(QueryParams.Widget) !== IntentMapping[Intent.STAKE_INTENT]) {
+      return;
+    }
 
-    setSearchParams(prev => {
-      const params = new URLSearchParams(prev);
-      if (widgetState.flow) {
-        params.set(QueryParams.Flow, widgetState.flow);
-      }
+    setShouldDisableActionButtons(txStatus === TxStatus.INITIALIZED);
 
-      const newStakeTabValue =
-        stakeTab === StakeAction.FREE ? 'free' : stakeTab === StakeAction.LOCK ? 'lock' : undefined;
-      let tabDidChange = false;
+    // Set flow search param based on widgetState.flow
+    if (widgetState.flow) {
+      setSearchParams(prev => {
+        prev.set(QueryParams.Flow, widgetState.flow);
+        return prev;
+      });
+    }
 
-      if (newStakeTabValue) {
-        if (currentStakeTabParam !== newStakeTabValue) {
-          params.delete(QueryParams.InputAmount); // Tab changed, remove input amount
-          tabDidChange = true;
-        }
-        params.set(QueryParams.StakeTab, newStakeTabValue);
-      } else if (stakeTab === '') {
-        // Explicitly clearing the tab
-        params.delete(QueryParams.StakeTab);
-        params.delete(QueryParams.InputAmount); // Tab cleared, remove input amount
-        tabDidChange = true; // Treat as a change for amount handling logic
-      }
+    // Set flow search param based on widgetState.flow
+    if (stakeTab) {
+      setSearchParams(prev => {
+        prev.set(QueryParams.StakeTab, stakeTab === StakeAction.FREE ? 'free' : 'lock');
+        return prev;
+      });
+    } else if (stakeTab === '') {
+      setSearchParams(prev => {
+        prev.delete(QueryParams.StakeTab);
+        return prev;
+      });
+    }
 
-      // Update InputAmount based on originAmount, only if the tab didn't *just* change in this event
-      if (!tabDidChange) {
-        if (originAmount && originAmount !== '0') {
-          params.set(QueryParams.InputAmount, originAmount);
-        } else if (originAmount === '') {
-          // Explicitly empty string means clear
-          params.delete(QueryParams.InputAmount);
-        }
-        // If originAmount is undefined (not part of this event), InputAmount remains untouched unless tabDidChange was true
-      }
-
-      return params;
-    });
+    // Update amount in URL if provided and not zero
+    if (originAmount && originAmount !== '0') {
+      setSearchParams(prev => {
+        prev.set(QueryParams.InputAmount, originAmount);
+        return prev;
+      });
+    } else if (originAmount === '') {
+      setSearchParams(prev => {
+        prev.delete(QueryParams.InputAmount);
+        return prev;
+      });
+    }
 
     // After a successful linked action open flow, set the final step to "success"
     if (
@@ -138,16 +154,22 @@ export function StakeWidgetPane(sharedProps: SharedProps) {
   const flow = flowParam === 'open' ? StakeFlow.OPEN : undefined;
 
   return (
-    <StakeModuleWidget
-      {...sharedProps}
-      onStakeUrnChange={onStakeUrnChange}
-      onWidgetStateChange={onStakeWidgetStateChange}
-      externalWidgetState={{
-        amount: linkedActionConfig?.inputAmount,
-        urnIndex: selectedStakeUrnIndex,
-        stakeTab,
-        flow
-      }}
-    />
+    <>
+      <StakeModuleWidget
+        {...sharedProps}
+        onStakeUrnChange={onStakeUrnChange}
+        onWidgetStateChange={onStakeWidgetStateChange}
+        onShowHelpModal={() => {
+          setShowHelpModal(true);
+        }}
+        externalWidgetState={{
+          amount: linkedActionConfig?.inputAmount,
+          urnIndex: selectedStakeUrnIndex,
+          stakeTab,
+          flow
+        }}
+      />
+      <StakeHelpModal isOpen={showHelpModal} onClose={() => setShowHelpModal(false)} />
+    </>
   );
 }
