@@ -41,6 +41,7 @@ export const defaultConfig: WidgetsConfig = {
       { ...usdt, address: usdtAddress[mainnet.id] },
       { ...dai, address: mcdDaiAddress[mainnet.id] },
       { ...usds, address: usdsAddress[mainnet.id] },
+      { ...susds, address: sUsdsAddress[mainnet.id] },
       { ...mkr, address: mkrAddress[mainnet.id] },
       { ...sky, address: skyAddress[mainnet.id] },
       { ...spk, address: spkAddress[mainnet.id] }
@@ -52,6 +53,7 @@ export const defaultConfig: WidgetsConfig = {
       { ...usdt, address: usdtAddress[TENDERLY_CHAIN_ID] },
       { ...dai, address: mcdDaiAddress[TENDERLY_CHAIN_ID] },
       { ...usds, address: usdsAddress[TENDERLY_CHAIN_ID] },
+      { ...susds, address: sUsdsAddress[TENDERLY_CHAIN_ID] },
       { ...mkr, address: mkrAddress[TENDERLY_CHAIN_ID] },
       { ...sky, address: skyAddress[TENDERLY_CHAIN_ID] },
       { ...spk, address: spkAddress[TENDERLY_CHAIN_ID] }
