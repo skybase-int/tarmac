@@ -70,7 +70,9 @@ export const RewardsStatsCardCore = ({
       }
       headerRightContent={
         <MotionHStack className="items-center" gap={2} variants={positionAnimations}>
-          {rewardContract.rewardToken.symbol !== TOKENS.cle.symbol && mostRecentRate ? (
+          {rewardContract.rewardToken.symbol !== TOKENS.cle.symbol &&
+          mostRecentRate &&
+          parseFloat(mostRecentRate) > 0 ? (
             <>
               <Text className="text-bullish">
                 <Trans>Rate: {formatDecimalPercentage(parseFloat(mostRecentRate))}</Trans>

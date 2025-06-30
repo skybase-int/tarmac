@@ -11,7 +11,7 @@ import { GradientShapeCard } from './GradientShapeCard';
 export const AboutSpk = () => {
   const chainId = useChainId();
 
-  const skyEtherscanLink = getEtherscanLink(
+  const spkEtherscanLink = getEtherscanLink(
     chainId,
     spkAddress[chainId as keyof typeof spkAddress],
     'address'
@@ -25,13 +25,17 @@ export const AboutSpk = () => {
     >
       <div className="w-[80%] space-y-2 lg:w-2/3">
         <Heading>
-          <Trans>Spark</Trans>
+          <Trans>SPK</Trans>
         </Heading>
         <Text variant="small">
-          <Trans>SPK is a token. Yup it sure is.</Trans>
+          <Trans>
+            SPK is the native governance and staking token of Spark. Designed with a long-term vision for
+            sustainability, decentralization, and ecosystem alignment, SPK enables protocol governance,
+            protocol security via staking, and reward distribution to participants.
+          </Trans>
         </Text>
       </div>
-      <ExternalLink href={skyEtherscanLink} showIcon={false} className="mt-3 w-fit lg:mt-0">
+      <ExternalLink href={spkEtherscanLink} showIcon={false} className="mt-3 w-fit lg:mt-0">
         <Button variant="outline" className="border-border gap-2">
           <Trans>View contract</Trans>
           <ExternalLinkIcon size={16} />
