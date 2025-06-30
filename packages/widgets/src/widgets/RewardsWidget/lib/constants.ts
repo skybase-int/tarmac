@@ -2,11 +2,12 @@ import { msg } from '@lingui/core/macro';
 import { TxStatus } from '@widgets/shared/constants';
 import { TxCardCopyText } from '@widgets/shared/types/txCardCopyText';
 import { MessageDescriptor } from '@lingui/core';
-import { RewardContract } from '@jetstreamgg/hooks';
+import { RewardContract } from '@jetstreamgg/sky-hooks';
 
 export enum RewardsFlow {
   SUPPLY = 'supply',
-  WITHDRAW = 'withdraw'
+  WITHDRAW = 'withdraw',
+  CLAIM = 'claim'
 }
 
 export enum RewardsAction {

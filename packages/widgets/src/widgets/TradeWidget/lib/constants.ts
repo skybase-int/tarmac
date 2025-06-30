@@ -2,7 +2,7 @@ import { TxCardCopyTextWithCancel } from '@widgets/shared/types/txCardCopyText';
 import { TxStatus } from '@widgets/shared/constants';
 import { msg } from '@lingui/core/macro';
 import { MessageDescriptor } from '@lingui/core';
-import { Token } from '@jetstreamgg/hooks';
+import { Token } from '@jetstreamgg/sky-hooks';
 import { EthTxCardCopyText } from './types';
 
 export enum TradeFlow {
@@ -39,7 +39,7 @@ export enum EthFlowTxStatus {
 export const tradeApproveTitle: TxCardCopyTextWithCancel = {
   [TxStatus.INITIALIZED]: msg`Approve token access`,
   [TxStatus.LOADING]: msg`In progress`,
-  [TxStatus.SUCCESS]: msg`Success`,
+  [TxStatus.SUCCESS]: msg`Token access approved`,
   [TxStatus.ERROR]: msg`Error`,
   [TxStatus.CANCELLED]: msg`Cancelled`
 };

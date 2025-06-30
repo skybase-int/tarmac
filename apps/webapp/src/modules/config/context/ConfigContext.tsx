@@ -5,10 +5,10 @@ import { defaultConfig as siteConfig } from '../default-config';
 // import { detect, fromUrl, fromNavigator } from '@lingui/detect-locale';
 // import { QueryParams } from '@/lib/constants';
 import { i18n } from '@lingui/core';
-import { dynamicActivate } from '@jetstreamgg/utils';
+import { dynamicActivate } from '@jetstreamgg/sky-utils';
 import { Intent } from '@/lib/enums';
 // import { z } from 'zod';
-import { RewardContract } from '@jetstreamgg/hooks';
+import { RewardContract } from '@jetstreamgg/sky-hooks';
 import { ALLOWED_EXTERNAL_DOMAINS } from '@/lib/constants';
 import { SealToken } from '@/modules/seal/constants';
 import { StakeToken } from '@/modules/stake/constants';
@@ -55,6 +55,7 @@ const defaultUserConfig: UserConfig = {
   locale: undefined,
   intent: Intent.BALANCES_INTENT,
   sealToken: SealToken.MKR,
+  chatSuggested: false,
   stakeToken: StakeToken.SKY
 };
 

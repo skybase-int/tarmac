@@ -39,8 +39,8 @@ import {
   TOKENS,
   getTokenDecimals,
   getIlkName
-} from '@jetstreamgg/hooks';
-import { formatBigInt, getTransactionLink, useDebounce, useIsSafeWallet } from '@jetstreamgg/utils';
+} from '@jetstreamgg/sky-hooks';
+import { formatBigInt, getTransactionLink, useDebounce, useIsSafeWallet } from '@jetstreamgg/sky-utils';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
 import { Button } from '@widgets/components/ui/button';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
@@ -58,6 +58,7 @@ export type OnStakeUrnChange = (
 type StakeModuleWidgetProps = WidgetProps & {
   onStakeUrnChange?: OnStakeUrnChange;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  onShowHelpModal?: () => void;
   addRecentTransaction: any;
 };
 
@@ -70,6 +71,7 @@ export const StakeModuleWidget = ({
   onNotification,
   onWidgetStateChange,
   onExternalLinkClicked,
+  onShowHelpModal,
   addRecentTransaction,
   referralCode,
   shouldReset = false
@@ -88,6 +90,7 @@ export const StakeModuleWidget = ({
             onNotification={onNotification}
             onWidgetStateChange={shouldReset ? undefined : onWidgetStateChange}
             onExternalLinkClicked={onExternalLinkClicked}
+            onShowHelpModal={onShowHelpModal}
             addRecentTransaction={addRecentTransaction}
             referralCode={referralCode}
           />
@@ -106,6 +109,7 @@ function StakeModuleWidgetWrapped({
   onNotification,
   onWidgetStateChange,
   onExternalLinkClicked,
+  onShowHelpModal,
   addRecentTransaction,
   referralCode
 }: StakeModuleWidgetProps) {
@@ -514,11 +518,11 @@ function StakeModuleWidgetWrapped({
           screen: StakeScreen.ACTION
         });
       } else if (currentUrnIndex && currentUrnIndex > 0n) {
-        setWidgetState({
-          flow: StakeFlow.MANAGE,
+        setWidgetState(prev => ({
+          flow: prev.flow || StakeFlow.MANAGE,
           action: StakeAction.OVERVIEW,
           screen: StakeScreen.ACTION
-        });
+        }));
       }
     } else {
       // Reset widget state when we are not connected
@@ -588,7 +592,6 @@ function StakeModuleWidgetWrapped({
 
   const showStep = !!widgetState.action && widgetState.action !== StakeAction.OVERVIEW;
 
-  // AQUI
   useEffect(() => {
     if (currentUrnIndexError) {
       throw new Error('Failed to fetch current urn index');
@@ -869,7 +872,6 @@ function StakeModuleWidgetWrapped({
 
   const resetToOverviewState = () => {
     setActiveUrn(undefined, onStakeUrnChange ?? (() => {}));
-    onStakeUrnChange?.(undefined);
     setWidgetState((prev: WidgetState) => ({
       ...prev,
       flow: StakeFlow.MANAGE,
@@ -886,7 +888,8 @@ function StakeModuleWidgetWrapped({
       widgetState,
       txStatus,
       stakeTab: StakeAction.LOCK,
-      originAmount: ''
+      originAmount: '',
+      urnIndex: undefined
     });
   };
 
@@ -906,6 +909,7 @@ function StakeModuleWidgetWrapped({
       ref={containerRef}
       contentClassname="mt-2"
       header={
+        !isConnectedAndEnabled ||
         !widgetStateLoaded ||
         (widgetState.flow === StakeFlow.OPEN && currentUrnIndex === 0n) ||
         (widgetState.flow === StakeFlow.MANAGE && widgetState.action === StakeAction.OVERVIEW) ||
@@ -941,7 +945,7 @@ function StakeModuleWidgetWrapped({
       }
     >
       <AnimatePresence mode="popLayout" initial={false}>
-        {!isConnectedAndEnabled && (
+        {!isConnectedAndEnabled ? (
           <UnconnectedState
             onInputAmountChange={(val: bigint, userTriggered?: boolean) => {
               if (userTriggered) {
@@ -956,19 +960,19 @@ function StakeModuleWidgetWrapped({
               }
             }}
           />
-        )}
-        {txStatus !== TxStatus.IDLE ? (
+        ) : txStatus !== TxStatus.IDLE ? (
           <CardAnimationWrapper key="widget-transaction-status">
             <StakeModuleTransactionStatus onExternalLinkClicked={onExternalLinkClicked} />
           </CardAnimationWrapper>
         ) : (
           <div>
             {showStep && (
-              <motion.div className="py-6" exit={{ opacity: 0, transition: { duration: 0 } }}>
+              <motion.div className="py-6 pr-3" exit={{ opacity: 0, transition: { duration: 0 } }}>
                 <StepperBar
                   step={stepIndex}
                   totalSteps={totalSteps}
                   title={i18n._(getStepTitle(currentStep, tabSide))}
+                  onShowHelpModal={onShowHelpModal}
                 />
               </motion.div>
             )}

@@ -2,14 +2,15 @@ import { WidgetProps } from '@widgets/shared/types/widgetState';
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
 import { Tabs, TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
-import { getTokenDecimals, Token, TOKENS } from '@jetstreamgg/hooks';
+import { getTokenDecimals, Token, TOKENS } from '@jetstreamgg/sky-hooks';
 import { UpgradeStats } from './UpgradeStats';
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
 import { t } from '@lingui/core/macro';
-import { formatBigInt } from '@jetstreamgg/utils';
+import { formatBigInt } from '@jetstreamgg/sky-utils';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { useChainId } from 'wagmi';
+import { UpgradeFlow } from '../lib/constants';
 import { Text } from '@widgets/shared/components/ui/Typography';
 
 type Props = WidgetProps & {
@@ -26,7 +27,7 @@ type Props = WidgetProps & {
   tabIndex: 0 | 1;
   error?: Error;
   onToggle: (number: 0 | 1) => void;
-  onOriginInputChange: (val: bigint) => void;
+  onOriginInputChange: (val: bigint, userTriggered?: boolean) => void;
   onMenuItemChange?: (token: Token) => void;
   isConnectedAndEnabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
@@ -53,13 +54,13 @@ export function UpgradeRevert({
 
   return (
     <VStack className="w-full items-center justify-center">
-      <Tabs defaultValue={tabIndex === 0 ? 'left' : 'right'} className="w-full">
+      <Tabs value={tabIndex === 0 ? UpgradeFlow.UPGRADE : UpgradeFlow.REVERT} className="w-full">
         <motion.div variants={positionAnimations}>
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger
               position="left"
               data-testid="upgrade-toggle-left"
-              value="left"
+              value={UpgradeFlow.UPGRADE}
               onClick={() => onToggle(0)}
             >
               {leftTabTitle}
@@ -67,7 +68,7 @@ export function UpgradeRevert({
             <TabsTrigger
               position="right"
               data-testid="upgrade-toggle-right"
-              value="right"
+              value={UpgradeFlow.REVERT}
               onClick={() => onToggle(1)}
             >
               {rightTabTitle}
@@ -85,7 +86,7 @@ export function UpgradeRevert({
               className="w-full"
               token={originToken}
               balance={originBalance}
-              onChange={onOriginInputChange}
+              onChange={(val, event) => onOriginInputChange(val, !!event)}
               value={originAmount}
               dataTestId="upgrade-input-origin"
               label={originTitle}

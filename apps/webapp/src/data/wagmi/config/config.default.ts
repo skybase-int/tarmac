@@ -6,7 +6,8 @@ import {
   rainbowWallet,
   walletConnectWallet,
   metaMaskWallet,
-  coinbaseWallet
+  coinbaseWallet,
+  binanceWallet
 } from '@rainbow-me/rainbowkit/wallets';
 import {
   TENDERLY_CHAIN_ID,
@@ -16,7 +17,7 @@ import {
   TENDERLY_ARBITRUM_RPC_URL,
   TENDERLY_ARBITRUM_CHAIN_ID
 } from './testTenderlyChain';
-import { isTestnetId } from '@jetstreamgg/utils';
+import { isTestnetId } from '@jetstreamgg/sky-utils';
 
 export const tenderly = {
   id: TENDERLY_CHAIN_ID,
@@ -82,7 +83,7 @@ const connectors = connectorsForWallets(
   [
     {
       groupName: 'Suggested',
-      wallets: [metaMaskWallet, coinbaseWallet, walletConnectWallet, rainbowWallet, safeWallet]
+      wallets: [metaMaskWallet, coinbaseWallet, walletConnectWallet, rainbowWallet, safeWallet, binanceWallet]
     }
   ],
   {

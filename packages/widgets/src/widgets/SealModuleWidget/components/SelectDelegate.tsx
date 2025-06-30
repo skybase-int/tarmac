@@ -1,8 +1,8 @@
 import { Input } from '@widgets/components/ui/input';
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { Text } from '@widgets/shared/components/ui/Typography';
-import { ZERO_ADDRESS, useSaUserDelegates, useUrnSelectedVoteDelegate } from '@jetstreamgg/hooks';
-import { useDebounce } from '@jetstreamgg/utils';
+import { ZERO_ADDRESS, useSaUserDelegates, useUrnSelectedVoteDelegate } from '@jetstreamgg/sky-hooks';
+import { useDebounce } from '@jetstreamgg/sky-utils';
 import { useContext, useEffect, useState } from 'react';
 import { useAccount, useChainId } from 'wagmi';
 import { DelegateCard } from './DelegateCard';
@@ -58,11 +58,10 @@ export const SelectDelegate = ({
     !!selectedDelegate &&
     selectedDelegate.toLowerCase() !== ZERO_ADDRESS.toLowerCase();
   const hasCompletedManageFlow = widgetState.flow === SealFlow.MANAGE;
-  const hasCompletedMigrateFlow = widgetState.flow === SealFlow.MIGRATE;
 
   useEffect(() => {
-    setIsSelectDelegateCompleted(hasCompletedOpenFlow || hasCompletedManageFlow || hasCompletedMigrateFlow);
-  }, [hasCompletedOpenFlow, hasCompletedManageFlow, hasCompletedMigrateFlow]);
+    setIsSelectDelegateCompleted(hasCompletedOpenFlow || hasCompletedManageFlow);
+  }, [hasCompletedOpenFlow, hasCompletedManageFlow]);
 
   const handleSkip = () => {
     // If this is an open flow, `urnSelectedVoteDelegate` would be undefined,
