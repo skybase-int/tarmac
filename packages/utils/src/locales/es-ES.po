@@ -1994,11 +1994,11 @@ msgid "Sorry, something went wrong. Can you repeat your question?"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/AboutSpk.tsx
-msgid "Spark"
+msgid "SPK"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/AboutSpk.tsx
-msgid "SPK is a token. Yup it sure is."
+msgid "SPK is the native governance and staking token of Spark. Designed with a long-term vision for sustainability, decentralization, and ecosystem alignment, SPK enables protocol governance, protocol security via staking, and reward distribution to participants."
 msgstr ""
 
 #: apps/webapp/src/lib/constants.ts

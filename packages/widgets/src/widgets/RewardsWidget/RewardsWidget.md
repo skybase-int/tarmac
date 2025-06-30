@@ -39,7 +39,6 @@ function RewardsPage() {
 In addition to `WidgetProps`, `RewardsWidget` component also accepts the following props:
 
 - `onRewardContractChange?: (rewardContract?: RewardContract) => void;`
-
   - A callback function that is called when the selected reward contract changes. It receives the new reward contract as an argument.
 
 - `onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;`
