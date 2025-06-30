@@ -123,7 +123,9 @@ const StakeRewardsOverviewRow = ({ contractAddress }: { contractAddress: `0x${st
         title={t`Suppliers`}
         isLoading={historicRewardsTokenIsLoading}
         error={historicRewardsTokenError}
-        content={<Text className="mt-2">{mostRecentReward?.suppliers || 0}</Text>}
+        content={
+          <Text className="mt-2">{formatNumber(mostRecentReward?.suppliers || 0, { maxDecimals: 0 })}</Text>
+        }
       />
     </HStack>
   );

@@ -179,6 +179,10 @@ msgstr ""
 msgid "About the Sky Savings Rate"
 msgstr ""
 
+#: apps/webapp/src/modules/rewards/components/RewardsDetailsView.tsx
+msgid "About the Spark Token"
+msgstr ""
+
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
 msgid "About the Staking Engine"
 msgstr ""
@@ -1070,6 +1074,15 @@ msgstr ""
 msgid "Funds"
 msgstr ""
 
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+msgid "Get Chronicle Points with USDS"
+msgstr ""
+
 #: apps/webapp/src/modules/app/hooks/useNotification.tsx
 msgid "Get rewards with USDS"
 msgstr ""
@@ -1082,7 +1095,19 @@ msgstr ""
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 msgid "Get SKY rewards with USDS"
+msgstr ""
+
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+msgid "Get SPK rewards with USDS"
 msgstr ""
 
 #: apps/webapp/src/modules/app/hooks/useNotification.tsx
@@ -2043,6 +2068,14 @@ msgstr ""
 msgid "Sorry, something went wrong. Can you repeat your question?"
 msgstr ""
 
+#: apps/webapp/src/modules/ui/components/AboutSpk.tsx
+msgid "SPK"
+msgstr ""
+
+#: apps/webapp/src/modules/ui/components/AboutSpk.tsx
+msgid "SPK is the native governance and staking token of Spark. Designed with a long-term vision for sustainability, decentralization, and ecosystem alignment, SPK enables protocol governance, protocol security via staking, and reward distribution to participants."
+msgstr ""
+
 #: apps/webapp/src/lib/constants.ts
 msgid "stake"
 msgstr ""
@@ -2107,6 +2140,12 @@ msgstr ""
 msgid "Start Chatting"
 msgstr ""
 
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+msgid "Start earning Chronicle Points"
+msgstr ""
+
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 msgid "Start getting rewards"
 msgstr ""
@@ -2377,6 +2416,8 @@ msgstr ""
 
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 msgid "Trade and get rewards"
 msgstr ""
 
@@ -2411,9 +2452,11 @@ msgstr ""
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 msgid "Trade USDC for USDS"
 msgstr ""
 
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
@@ -2619,6 +2662,7 @@ msgid "Upgrade {0} into {1}"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 #: apps/webapp/src/modules/app/hooks/useNotification.tsx
 #: apps/webapp/src/modules/app/hooks/useNotification.tsx
 msgid "Upgrade and get rewards"
@@ -2628,6 +2672,7 @@ msgstr ""
 msgid "Upgrade and Save"
 msgstr ""
 
+#: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
@@ -2713,6 +2758,7 @@ msgstr ""
 
 #: apps/webapp/src/modules/ui/components/AboutUsds.tsx
 #: apps/webapp/src/modules/ui/components/AboutStakeModule.tsx
+#: apps/webapp/src/modules/ui/components/AboutSpk.tsx
 #: apps/webapp/src/modules/ui/components/AboutSky.tsx
 #: apps/webapp/src/modules/ui/components/AboutSealModule.tsx
 #: apps/webapp/src/modules/ui/components/AboutSUsds.tsx
@@ -3436,6 +3482,10 @@ msgstr ""
 
 #: apps/webapp/src/modules/layout/components/UnsupportedNetworkPage.tsx
 msgid "Your wallet is connected to an unsupported network"
+msgstr ""
+
+#: apps/webapp/src/components/BatchTransactionsToggle.tsx
+msgid "Your wallet or the chain you are connected to currently does not support bundled transactions"
 msgstr ""
 
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
