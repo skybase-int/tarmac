@@ -1,4 +1,5 @@
-import { lsSkyUsdsRewardAddress, lsSkySpkRewardAddress, useRewardsChartInfo } from '@jetstreamgg/sky-hooks';
+import { lsSkyUsdsRewardAddress, lsSkySpkRewardAddress } from '../generated';
+import { useRewardsChartInfo } from '../rewards/useRewardsChartInfo';
 import { useMemo } from 'react';
 import { mainnet } from 'viem/chains';
 

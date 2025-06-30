@@ -1,5 +1,5 @@
 import { useAccount, useChainId } from 'wagmi';
-import { StakeWriteHookParams } from './stakeModule';
+import { StakeWriteHookParams, StakeWriteHookReturnType } from './stakeModule';
 import { stakeModuleAbi, stakeModuleAddress } from '../generated';
 import { ZERO_ADDRESS } from '../constants';
 import { getStakeDrawCalldata } from './calldata';
@@ -18,7 +18,7 @@ export function useDrawUsds({
   index: bigint;
   to: `0x${string}`;
   amount: bigint | undefined;
-}) {
+}): StakeWriteHookReturnType {
   const chainId = useChainId();
   const { isConnected, address } = useAccount();
 
