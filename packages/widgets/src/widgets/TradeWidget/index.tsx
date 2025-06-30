@@ -1174,16 +1174,20 @@ function TradeWidgetWrapped({
     txStatus === TxStatus.ERROR ||
     (widgetState.action === TradeAction.TRADE && widgetState.screen === TradeScreen.REVIEW) ||
     (widgetState.action === TradeAction.APPROVE && widgetState.screen === TradeScreen.REVIEW) ||
-    (widgetState.action === TradeAction.TRADE && txStatus === TxStatus.SUCCESS) ||
+    // After a successful trade, show the back button, as long as target token is not ETH
+    (targetToken?.symbol !== 'ETH' &&
+      widgetState.action === TradeAction.TRADE &&
+      txStatus === TxStatus.SUCCESS) ||
     // After a successful approve transaction, show the back button
     (txStatus === TxStatus.SUCCESS &&
       widgetState.action === TradeAction.APPROVE &&
       widgetState.screen === TradeScreen.TRANSACTION);
 
   const showCancelOrderButton =
-    (txStatus === TxStatus.LOADING || txStatus === TxStatus.SUCCESS || txStatus === TxStatus.ERROR) &&
+    (txStatus === TxStatus.LOADING || txStatus === TxStatus.ERROR) &&
     widgetState.flow === TradeFlow.TRADE &&
     widgetState.action === TradeAction.TRADE &&
+    widgetState.screen === TradeScreen.TRANSACTION &&
     !originToken?.isNative;
 
   return (
