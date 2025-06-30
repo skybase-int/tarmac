@@ -121,7 +121,7 @@ export function StakeOverview() {
               title={t`Staking positions`}
               isLoading={isLoading}
               error={error}
-              content={<Text className="mt-2">{numberOfUrns}</Text>}
+              content={<Text className="mt-2">{formatNumber(numberOfUrns, { maxDecimals: 0 })}</Text>}
             />
           </HStack>
         </DetailSectionRow>
