@@ -1,5 +1,5 @@
 import { useAccount, useChainId } from 'wagmi';
-import { StakeWriteHookParams } from './stakeModule';
+import { StakeWriteHookParams, StakeWriteHookReturnType } from './stakeModule';
 import { stakeModuleAbi, stakeModuleAddress } from '../generated';
 import { getStakeWipeAllCalldata } from './calldata';
 import { useWriteContractFlow } from '../shared/useWriteContractFlow';
@@ -13,7 +13,7 @@ export function useWipeAll({
   onSuccess = () => null
 }: StakeWriteHookParams & {
   index: bigint;
-}) {
+}): StakeWriteHookReturnType {
   const chainId = useChainId();
   const { isConnected, address } = useAccount();
 
