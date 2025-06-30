@@ -17,14 +17,25 @@ export const useTokenImage = (symbol: string, chainId?: number, noChain?: boolea
   const chainIdToUse = noChain ? undefined : chainId || connectedChainId;
 
   useEffect(() => {
-    if (!symbol) return;
+    if (!symbol) {
+      setImageSrc(undefined);
+      return;
+    }
+
+    // Clear old icon immediately when token changes
+    setImageSrc(undefined);
 
     const symbolLower = symbol.toLowerCase();
     let currentIndex = 0;
+    let isCancelled = false; // Flag to prevent stale callbacks
 
     const checkNextExtension = () => {
+      if (isCancelled) return;
+
       if (currentIndex >= EXTENSIONS.length) {
-        setImageSrc(NOT_FOUND);
+        if (!isCancelled) {
+          setImageSrc(NOT_FOUND);
+        }
         return;
       }
 
@@ -33,16 +44,26 @@ export const useTokenImage = (symbol: string, chainId?: number, noChain?: boolea
 
       const img = new Image();
       img.onload = () => {
-        setImageSrc(path);
+        // Only update if this effect hasn't been cancelled
+        if (!isCancelled) {
+          setImageSrc(path);
+        }
       };
       img.onerror = () => {
-        currentIndex++;
-        checkNextExtension();
+        if (!isCancelled) {
+          currentIndex++;
+          checkNextExtension();
+        }
       };
       img.src = path;
     };
 
     checkNextExtension();
+
+    // Cancel pending loads when token changes
+    return () => {
+      isCancelled = true;
+    };
   }, [symbol, chainIdToUse]);
 
   return imageSrc;
