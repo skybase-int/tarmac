@@ -1184,9 +1184,10 @@ function TradeWidgetWrapped({
       widgetState.screen === TradeScreen.TRANSACTION);
 
   const showCancelOrderButton =
-    (txStatus === TxStatus.LOADING || txStatus === TxStatus.SUCCESS || txStatus === TxStatus.ERROR) &&
+    (txStatus === TxStatus.LOADING || txStatus === TxStatus.ERROR) &&
     widgetState.flow === TradeFlow.TRADE &&
     widgetState.action === TradeAction.TRADE &&
+    widgetState.screen === TradeScreen.TRANSACTION &&
     !originToken?.isNative;
 
   return (
