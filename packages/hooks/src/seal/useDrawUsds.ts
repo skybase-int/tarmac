@@ -1,5 +1,5 @@
 import { useAccount, useChainId } from 'wagmi';
-import { SaWriteHookParams } from './sealModule';
+import { SaWriteHookParams, SaWriteHookReturnType } from './sealModule';
 import { sealModuleAbi, sealModuleAddress } from '../generated';
 import { ZERO_ADDRESS } from '../constants';
 import { getSaDrawCalldata } from './calldata';
@@ -18,7 +18,7 @@ export function useDrawUsds({
   index: bigint;
   to: `0x${string}`;
   amount: bigint | undefined;
-}) {
+}): SaWriteHookReturnType {
   const chainId = useChainId();
   const { isConnected, address } = useAccount();
 
