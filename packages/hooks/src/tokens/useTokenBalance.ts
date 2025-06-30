@@ -146,81 +146,95 @@ async function fetchTokenBalances({
   address: `0x${string}`;
   tokenMap: ChainTokenMap;
 }): Promise<TokenBalanceRequiredSymbol[]> {
-  const results: TokenBalanceRequiredSymbol[] = [];
-
-  // Process each chain
-  for (const [chainId, tokens] of Object.entries(tokenMap)) {
+  // Process all chains in parallel
+  const chainPromises = Object.entries(tokenMap).map(async ([chainId, tokens]) => {
     const numericChainId = Number(chainId);
     const nonNativeTokens = tokens.filter(token => !token.isNative);
     const nativeToken = tokens.find(token => token.isNative);
+    const results: TokenBalanceRequiredSymbol[] = [];
+
+    // Create promises for both native and ERC20 token fetching
+    const promises: Promise<void>[] = [];
 
     // Fetch native token balance
     if (nativeToken) {
-      try {
-        const balance = await getBalance(config, {
-          address,
-          chainId: numericChainId
+      const nativePromise = getBalance(config, {
+        address,
+        chainId: numericChainId
+      })
+        .then(balance => {
+          results.push({
+            value: balance.value,
+            decimals: 18, // Native tokens always have 18 decimals
+            formatted: formatUnits(balance.value, 18),
+            symbol: nativeToken.symbol,
+            chainId: numericChainId
+          });
+        })
+        .catch(error => {
+          console.error(`Failed to fetch native balance for chain ${numericChainId}:`, error);
         });
 
-        results.push({
-          value: balance.value,
-          decimals: 18, // Native tokens always have 18 decimals
-          formatted: formatUnits(balance.value, 18),
-          symbol: nativeToken.symbol,
-          chainId: numericChainId
-        });
-      } catch (error) {
-        console.error(`Failed to fetch native balance for chain ${numericChainId}:`, error);
-      }
+      promises.push(nativePromise);
     }
 
     // Fetch ERC20 token balances
     if (nonNativeTokens.length > 0) {
-      try {
-        // Batch all ERC20 calls for this chain
-        const contracts = nonNativeTokens.flatMap(token => [
-          {
-            address: token.address!,
-            abi: erc20Abi,
-            functionName: 'balanceOf',
-            args: [address]
-          },
-          {
-            address: token.address!,
-            abi: erc20Abi,
-            functionName: 'decimals'
+      const erc20Promise = (async () => {
+        try {
+          // Batch all ERC20 calls for this chain
+          const contracts = nonNativeTokens.flatMap(token => [
+            {
+              address: token.address!,
+              abi: erc20Abi,
+              functionName: 'balanceOf',
+              args: [address]
+            },
+            {
+              address: token.address!,
+              abi: erc20Abi,
+              functionName: 'decimals'
+            }
+          ]);
+
+          const multicallResults = await multicall(config, {
+            contracts,
+            chainId: numericChainId
+          });
+
+          // Process results
+          for (let i = 0; i < multicallResults.length; i += 2) {
+            const tokenIndex = i / 2;
+            const token = nonNativeTokens[tokenIndex];
+            const balance = multicallResults[i].result as bigint;
+            const decimals = multicallResults[i + 1].result as number;
+
+            if (balance !== undefined && decimals !== undefined) {
+              results.push({
+                value: balance,
+                decimals,
+                formatted: formatUnits(balance, decimals),
+                symbol: token.symbol,
+                chainId: numericChainId
+              });
+            }
           }
-        ]);
-
-        const multicallResults = await multicall(config, {
-          contracts,
-          chainId: numericChainId
-        });
-
-        // Process results
-        for (let i = 0; i < multicallResults.length; i += 2) {
-          const tokenIndex = i / 2;
-          const token = nonNativeTokens[tokenIndex];
-          const balance = multicallResults[i].result as bigint;
-          const decimals = multicallResults[i + 1].result as number;
-
-          if (balance !== undefined && decimals !== undefined) {
-            results.push({
-              value: balance,
-              decimals,
-              formatted: formatUnits(balance, decimals),
-              symbol: token.symbol,
-              chainId: numericChainId
-            });
-          }
+        } catch (error) {
+          console.error(`Failed to fetch ERC20 balances for chain ${numericChainId}:`, error);
         }
-      } catch (error) {
-        console.error(`Failed to fetch ERC20 balances for chain ${numericChainId}:`, error);
-      }
-    }
-  }
+      })();
 
-  return results;
+      promises.push(erc20Promise);
+    }
+
+    // Wait for both native and ERC20 operations to complete
+    await Promise.all(promises);
+    return results;
+  });
+
+  // Wait for all chains to complete and flatten the results
+  const allResults = await Promise.all(chainPromises);
+  return allResults.flat();
 }
 
 //takes in either a chainTokenMap, or a tokens array and chainId
