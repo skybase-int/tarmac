@@ -8,7 +8,6 @@ import { PopoverInfo } from '@/modules/ui/components/PopoverInfo';
 import { StatsCard } from '@/modules/ui/components/StatsCard';
 import { TokenIcon } from '@/modules/ui/components/TokenIcon';
 import {
-  lsSkyUsdsRewardAddress,
   useRewardContractTokens,
   useRewardsChartInfo,
   useStakeHistoricData,
@@ -18,7 +17,6 @@ import { formatAddress, formatDecimalPercentage, formatNumber } from '@jetstream
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { useMemo } from 'react';
-import { useChainId } from 'wagmi';
 
 const StakeRewardsOverviewRow = ({ contractAddress }: { contractAddress: `0x${string}` }) => {
   const {
@@ -26,8 +24,6 @@ const StakeRewardsOverviewRow = ({ contractAddress }: { contractAddress: `0x${st
     isLoading: tokensLoading,
     error: tokensError
   } = useRewardContractTokens(contractAddress);
-
-  const chainId = useChainId();
 
   // const {
   //   data: rewardRate,
@@ -62,7 +58,7 @@ const StakeRewardsOverviewRow = ({ contractAddress }: { contractAddress: `0x${st
 
   // Fetch from this BA labs endpoint to get the rate
   const { data: rewardsChartInfoData } = useRewardsChartInfo({
-    rewardContractAddress: lsSkyUsdsRewardAddress[chainId as keyof typeof lsSkyUsdsRewardAddress]
+    rewardContractAddress: contractAddress
   });
 
   const mostRecentRewardsChartInfoData = useMemo(
