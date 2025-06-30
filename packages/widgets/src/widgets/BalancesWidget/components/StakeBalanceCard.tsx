@@ -1,4 +1,10 @@
-import { usePrices, useHighestRateRewardsChartInfoData } from '@jetstreamgg/sky-hooks';
+import {
+  usePrices,
+  useHighestRateFromChartData,
+  useRewardsChartInfo,
+  lsSkyUsdsRewardAddress,
+  lsSkySpkRewardAddress
+} from '@jetstreamgg/sky-hooks';
 import { formatBigInt, formatDecimalPercentage, formatNumber } from '@jetstreamgg/sky-utils';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
@@ -7,10 +13,22 @@ import { Skeleton } from '@widgets/components/ui/skeleton';
 import { formatUnits } from 'viem';
 import { CardProps } from './ModulesBalances';
 import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
+import { mainnet } from 'viem/chains';
 
 export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkClicked }: CardProps) => {
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
-  const highestRateRewardsChartInfoData = useHighestRateRewardsChartInfoData();
+
+  // Fetch chart data for both reward contracts
+  const { data: lsSkyRewardsChartInfoData } = useRewardsChartInfo({
+    rewardContractAddress: lsSkyUsdsRewardAddress[mainnet.id as keyof typeof lsSkyUsdsRewardAddress]
+  });
+
+  const { data: lsSpkRewardsChartInfoData } = useRewardsChartInfo({
+    rewardContractAddress: lsSkySpkRewardAddress[mainnet.id as keyof typeof lsSkySpkRewardAddress]
+  });
+
+  // Find the highest rate
+  const highestRateData = useHighestRateFromChartData([lsSkyRewardsChartInfoData, lsSpkRewardsChartInfoData]);
 
   const totalStakedValue =
     stakeBalance && pricesData?.SKY
@@ -31,7 +49,7 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
       footer={
         <div className="z-[99999] flex w-fit items-center gap-1.5">
           <Text variant="small" className="text-bullish leading-4">
-            {`Rate: ${formatDecimalPercentage(parseFloat(highestRateRewardsChartInfoData?.rate || '0'))}`}
+            {`Rates up to: ${formatDecimalPercentage(parseFloat(highestRateData?.rate || '0'))}`}
           </Text>
           <PopoverRateInfo
             type="srr"
