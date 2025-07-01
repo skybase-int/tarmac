@@ -74,19 +74,21 @@ const mapTypeEnumToIcon = (type: TransactionTypeEnum) => {
   }
 };
 
-// TODO: Eventually rewards will be claimed for different tokens as well,
-// so we would need to fetch the reward token dynamically
-const mapTypeEnumToTokenSymbol = (type: TransactionTypeEnum) => {
-  switch (type) {
+const MapTypeEnumToTokenSymbol = ({ item }: { item: StakeHistoryItem }) => {
+  const rewardContract = 'rewardContract' in item ? (item.rewardContract as `0x${string}`) : undefined;
+  const { data: rewardContractTokens } = useRewardContractTokens(rewardContract);
+
+  switch (item.type) {
     case TransactionTypeEnum.STAKE:
     case TransactionTypeEnum.UNSTAKE:
-      return 'SKY';
+      return <>SKY</>;
     case TransactionTypeEnum.STAKE_BORROW:
     case TransactionTypeEnum.STAKE_REPAY:
+      return <>USDS</>;
     case TransactionTypeEnum.STAKE_REWARD:
-      return 'USDS';
+      return <>{rewardContractTokens?.rewardsToken.symbol || 'USDS'}</>;
     default:
-      return '';
+      return <></>;
   }
 };
 
@@ -94,7 +96,11 @@ const highlightedEvents = [TransactionTypeEnum.STAKE, TransactionTypeEnum.UNSTAK
 
 const mapStakeRowToLeftText = (s: StakeHistoryItem) => {
   if ('amount' in s) {
-    return `${formatBigInt(s.amount || 0n, { compact: true })} ${mapTypeEnumToTokenSymbol(s.type)}`;
+    return (
+      <>
+        {formatBigInt(s.amount || 0n, { compact: true })} <MapTypeEnumToTokenSymbol item={s} />
+      </>
+    );
   }
   if ('rewardContract' in s) {
     return <SelectRewardsText contractAddress={s.rewardContract as `0x${string}`} />;
