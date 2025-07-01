@@ -115,9 +115,14 @@ export function TokenInput({
     }
 
     // Prevent overflow by limiting integer part length
-    // Default max is calculated based on token decimals to prevent overflow
-    // Using a conservative limit of 38 total significant digits to prevent FixedNumber overflow
-    const maxDigits = maxIntegerDigits ?? Math.max(38 - decimals, 1);
+    // ethers.js FixedNumber uses internal 128-bit precision for calculations.
+    // When multiplying two FixedNumbers (like in collateralValue = ink * price),
+    // we need to ensure the result doesn't overflow. Since both operands can have
+    // up to N digits, the result can have up to 2N digits internally.
+    // Using 38 total digits ensures safe multiplication: 38/2 = 19 digits per operand,
+    // which when squared (19^2 ≈ 10^38) stays well within 128-bit bounds (≈ 10^39).
+    const DEFAULT_MAX_TOTAL_DIGITS = 38;
+    const maxDigits = maxIntegerDigits ?? Math.max(DEFAULT_MAX_TOTAL_DIGITS - decimals, 1);
     const integerPart = val.split(/[.,]/)[0];
     if (integerPart.length > maxDigits) {
       return; // Don't update if too many digits
