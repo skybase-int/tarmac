@@ -108,7 +108,7 @@ export const ChatBubble = ({
         </Text>
       </HStack>
       <VStack
-        className={`gap-2 ${user === UserType.user ? 'xl:bg-primary xl:w-fit xl:self-end xl:rounded-2xl xl:rounded-tr-[2px] xl:py-3 xl:pl-5 xl:pr-7' : '@2xl/chat:ml-10'}`}
+        className={`gap-2 ${user === UserType.user ? 'xl:bg-radial-(--gradient-position) xl:from-primary-start/100 xl:to-primary-end/100 xl:w-fit xl:self-end xl:rounded-2xl xl:rounded-tr-[2px] xl:py-3 xl:pb-0 xl:pl-5 xl:pr-7' : '@2xl/chat:ml-10'}`}
       >
         <Text
           variant="medium"
