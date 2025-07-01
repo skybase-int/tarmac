@@ -124,7 +124,7 @@ export const ChatBubble = ({
         ) : (
           <div className="space-y-5">
             <HStack className="items-center space-x-[6px]">
-              {isError && <ChatError boxSize={16} />}
+              {isError && <ChatError boxSize={16} className="mb-3" />}
               <div className="text-white/75">
                 <ChatMarkdownRenderer markdown={message} />
               </div>
