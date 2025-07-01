@@ -48,6 +48,7 @@ export interface TokenInputProps {
   extraPadding?: boolean;
   enabled?: boolean;
   gasBufferAmount?: bigint;
+  maxIntegerDigits?: number;
   borrowLimitText?: string | undefined;
 }
 
@@ -74,7 +75,8 @@ export function TokenInput({
   extraPadding = false,
   enabled = true,
   gasBufferAmount = 0n,
-  borrowLimitText
+  borrowLimitText,
+  maxIntegerDigits
 }: TokenInputProps): React.ReactElement {
   const cardRef = React.useRef<HTMLDivElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -110,6 +112,15 @@ export function TokenInput({
     const partsComma = val.split(',');
     if (partsComma.length === 2 && partsComma[1].length > decimals) {
       val = (partsComma[0] + ',' + partsComma[1].substring(0, decimals)) as `${number}`;
+    }
+
+    // Prevent overflow by limiting integer part length
+    // Default max is calculated based on token decimals to prevent overflow
+    // Using a conservative limit of 38 total significant digits to prevent FixedNumber overflow
+    const maxDigits = maxIntegerDigits ?? Math.max(38 - decimals, 1);
+    const integerPart = val.split(/[.,]/)[0];
+    if (integerPart.length > maxDigits) {
+      return; // Don't update if too many digits
     }
 
     setInputValue(val);
