@@ -6,7 +6,7 @@ import { LoadingErrorWrapper } from './LoadingErrorWrapper';
 import { PopoverInfo } from './PopoverInfo';
 import { TOKENS } from '@jetstreamgg/sky-hooks';
 import { useOverallSkyData } from '@jetstreamgg/sky-hooks';
-import { useRewardsRate } from '@jetstreamgg/sky-hooks';
+import { useRewardsChartInfo } from '@jetstreamgg/sky-hooks';
 import { formatDecimalPercentage } from '@jetstreamgg/sky-utils';
 
 // TODO export PairTokenIcons from widgets?
@@ -95,18 +95,21 @@ export function RewardsRate({
 
   // Use dynamic rate calculation instead of hardcoded API field
   const {
-    data: rateData,
-    isLoading,
-    error
-  } = useRewardsRate({
-    contractAddress: selectedRewardContract.contractAddress as `0x${string}`,
-    chainId
+    data: chartData,
+    isLoading: isLoadingChart,
+    error: errorChart
+  } = useRewardsChartInfo({
+    rewardContractAddress: selectedRewardContract.contractAddress
   });
+
+  const mostRecentData = chartData
+    ? [...chartData].sort((a, b) => b.blockTimestamp - a.blockTimestamp)[0]
+    : null;
 
   return (
     <LoadingErrorWrapper
-      isLoading={isLoading}
-      error={error}
+      isLoading={isLoadingChart}
+      error={errorChart}
       errorComponent={<Text variant="medium">There was an error fetching the rewards rate</Text>}
     >
       {selectedRewardContract ? (
@@ -120,9 +123,11 @@ export function RewardsRate({
               {selectedRewardContract.name}
             </Text>
           </div>
-          {rateData?.formatted ? (
+          {mostRecentData?.rate ? (
             <div className="flex items-center gap-2">
-              <Heading className="text-[32px]">Rate {rateData.formatted}</Heading>
+              <Heading className="text-[32px]">
+                Rate {formatDecimalPercentage(parseFloat(mostRecentData.rate))}
+              </Heading>
               <PopoverInfo type="str" />
             </div>
           ) : (
