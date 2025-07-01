@@ -1,5 +1,5 @@
 import { useAccount, useChainId } from 'wagmi';
-import { SaWriteHookParams } from './sealModule';
+import { SaWriteHookParams, SaWriteHookReturnType } from './sealModule';
 import { encodeFunctionData } from 'viem';
 import { sealModuleAbi, sealModuleAddress } from '../generated';
 import { useWriteContractFlow } from '../shared/useWriteContractFlow';
@@ -15,7 +15,7 @@ export function useWipe({
 }: SaWriteHookParams & {
   amount: bigint | undefined;
   index: bigint;
-}) {
+}): SaWriteHookReturnType {
   const chainId = useChainId();
   const { isConnected, address } = useAccount();
 
