@@ -146,6 +146,7 @@ export { useClaimRewards as useStakeClaimRewards } from './stake/useClaimRewards
 export { useStakeRewardsData } from './stake/useStakeRewardsData';
 export { useStakePosition } from './stake/useStakePosition';
 export { useBatchStakeMulticall } from './stake/useBatchStakeMulticall';
+export { useHighestRateFromChartData } from './stake/useHighestRateFromChartData';
 export * from './stake/calldata';
 
 //Vaults
@@ -266,7 +267,8 @@ export {
   useReadPsm3L2PreviewSwapExactIn,
   useReadPsm3L2PreviewSwapExactOut,
   lsMkrUsdsRewardAddress,
-  lsSkyUsdsRewardAddress
+  lsSkyUsdsRewardAddress,
+  lsSkySpkRewardAddress
 } from './generated';
 export { contracts, /*tenderlyContracts,*/ sepoliaContracts, l2Contracts } from './contracts';
 

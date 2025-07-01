@@ -1,5 +1,5 @@
 import { useAccount, useChainId } from 'wagmi';
-import { StakeWriteHookParams } from './stakeModule';
+import { StakeWriteHookParams, StakeWriteHookReturnType } from './stakeModule';
 import { stakeModuleAbi, stakeModuleAddress } from '../generated';
 import { ZERO_ADDRESS } from '../constants';
 import { getStakeGetRewardCalldata } from './calldata';
@@ -18,7 +18,7 @@ export function useClaimRewards({
   index: bigint | undefined;
   rewardContract: `0x${string}` | undefined;
   to: `0x${string}` | undefined;
-}) {
+}): StakeWriteHookReturnType {
   const chainId = useChainId();
   const { isConnected, address } = useAccount();
 
