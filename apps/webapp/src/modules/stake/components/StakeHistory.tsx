@@ -86,7 +86,7 @@ const MapTypeEnumToTokenSymbol = ({ item }: { item: StakeHistoryItem }) => {
     case TransactionTypeEnum.STAKE_REPAY:
       return <>USDS</>;
     case TransactionTypeEnum.STAKE_REWARD:
-      return <>{rewardContractTokens?.rewardsToken.symbol || 'USDS'}</>;
+      return <>{rewardContractTokens?.rewardsToken.symbol || ''}</>;
     default:
       return <></>;
   }
