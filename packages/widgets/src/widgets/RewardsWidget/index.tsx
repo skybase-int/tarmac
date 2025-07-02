@@ -915,7 +915,7 @@ const RewardsWidgetWrapped = ({
                       {
                         label:
                           widgetState.flow === RewardsFlow.SUPPLY ? t`You will supply` : t`You will withdraw`,
-                        value: `${formatBigInt(amount, { maxDecimals: 2 })} ${selectedRewardContract?.supplyToken.symbol ?? ''}`
+                        value: `${formatBigInt(amount, { maxDecimals: 2, compact: true })} ${selectedRewardContract?.supplyToken.symbol ?? ''}`
                       },
                       ...(mostRecentRate && parseFloat(mostRecentRate) > 0
                         ? [
@@ -932,12 +932,12 @@ const RewardsWidgetWrapped = ({
                               value:
                                 tokenBalance?.value !== undefined
                                   ? [
-                                      formatBigInt(tokenBalance.value, { maxDecimals: 2 }),
+                                      formatBigInt(tokenBalance.value, { maxDecimals: 2, compact: true }),
                                       formatBigInt(
                                         widgetState.flow === RewardsFlow.SUPPLY
                                           ? tokenBalance.value - amount
                                           : tokenBalance.value + amount,
-                                        { maxDecimals: 2 }
+                                        { maxDecimals: 2, compact: true }
                                       )
                                     ]
                                   : '--'
@@ -947,12 +947,12 @@ const RewardsWidgetWrapped = ({
                               value:
                                 suppliedBalance !== undefined
                                   ? [
-                                      formatBigInt(suppliedBalance, { maxDecimals: 2 }),
+                                      formatBigInt(suppliedBalance, { maxDecimals: 2, compact: true }),
                                       formatBigInt(
                                         widgetState.flow === RewardsFlow.SUPPLY
                                           ? suppliedBalance + amount
                                           : suppliedBalance - amount,
-                                        { maxDecimals: 2 }
+                                        { maxDecimals: 2, compact: true }
                                       )
                                     ]
                                   : '--'
