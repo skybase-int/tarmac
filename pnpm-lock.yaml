@@ -199,7 +199,7 @@ importers:
         version: 6.0.0
       tailwind-variants:
         specifier: ^0.3.1
-        version: 0.3.1(tailwindcss@4.1.6)
+        version: 0.3.1(tailwindcss@4.1.11)
       viem:
         specifier: 2.30.0
         version: 2.30.0(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.24.4)
@@ -238,11 +238,11 @@ importers:
         specifier: ^2.6.0
         version: 2.6.0
       tailwindcss:
-        specifier: ^4.1.5
-        version: 4.1.6
+        specifier: ^4.1.11
+        version: 4.1.11
       tailwindcss-animate:
         specifier: ^1.0.7
-        version: 1.0.7(tailwindcss@4.1.6)
+        version: 1.0.7(tailwindcss@4.1.11)
       typescript:
         specifier: 5.8.3
         version: 5.8.3
@@ -445,7 +445,7 @@ importers:
         version: 2.6.0
       tailwind-variants:
         specifier: ^0.3.1
-        version: 0.3.1(tailwindcss@4.1.6)
+        version: 0.3.1(tailwindcss@4.1.11)
       zod:
         specifier: ^3.24.4
         version: 3.24.4
@@ -487,11 +487,11 @@ importers:
         specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
       tailwindcss:
-        specifier: ^4.1.5
-        version: 4.1.6
+        specifier: ^4.1.11
+        version: 4.1.11
       tailwindcss-animate:
         specifier: ^1.0.7
-        version: 1.0.7(tailwindcss@4.1.6)
+        version: 1.0.7(tailwindcss@4.1.11)
       typescript:
         specifier: 5.8.3
         version: 5.8.3
@@ -6140,6 +6140,9 @@ packages:
     resolution: {integrity: sha512-bl6mpH3T7I3UFxuvDEXLxy/VuFxBk5bbzplh7tXI68mwMokNYd1t9qPBHlnyTwfa4JGC4zP516I1hYYtQ/vspA==}
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders'
+
+  tailwindcss@4.1.11:
+    resolution: {integrity: sha512-2E9TBm6MDD/xKYe+dvJZAmg3yxIEDNRc0jwlNyDg/4Fil2QcSLjFKGVff0lAf1jjeaArlG/M75Ey/EYr/OJtBA==}
 
   tailwindcss@4.1.6:
     resolution: {integrity: sha512-j0cGLTreM6u4OWzBeLBpycK0WIh8w7kSwcUsQZoGLHZ7xDTdM69lN64AgoIEEwFi0tnhs4wSykUa5YWxAzgFYg==}
@@ -13849,14 +13852,16 @@ snapshots:
 
   tailwind-merge@2.6.0: {}
 
-  tailwind-variants@0.3.1(tailwindcss@4.1.6):
+  tailwind-variants@0.3.1(tailwindcss@4.1.11):
     dependencies:
       tailwind-merge: 2.5.4
-      tailwindcss: 4.1.6
+      tailwindcss: 4.1.11
 
-  tailwindcss-animate@1.0.7(tailwindcss@4.1.6):
+  tailwindcss-animate@1.0.7(tailwindcss@4.1.11):
     dependencies:
-      tailwindcss: 4.1.6
+      tailwindcss: 4.1.11
+
+  tailwindcss@4.1.11: {}
 
   tailwindcss@4.1.6: {}
 
