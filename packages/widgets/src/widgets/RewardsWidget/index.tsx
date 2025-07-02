@@ -10,9 +10,16 @@ import {
   useTokenAllowance,
   useTokenBalance,
   getTokenDecimals,
-  useIsBatchSupported
+  useIsBatchSupported,
+  useRewardsChartInfo
 } from '@jetstreamgg/sky-hooks';
-import { getTransactionLink, useDebounce, formatBigInt, useIsSafeWallet } from '@jetstreamgg/sky-utils';
+import {
+  getTransactionLink,
+  useDebounce,
+  formatBigInt,
+  useIsSafeWallet,
+  formatDecimalPercentage
+} from '@jetstreamgg/sky-utils';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { WidgetContainer } from '../../shared/components/ui/widget/WidgetContainer';
 import { RewardsFlow, RewardsAction, RewardsScreen } from './lib/constants';
@@ -146,6 +153,18 @@ const RewardsWidgetWrapped = ({
     address: address,
     contractAddress: selectedRewardContract?.contractAddress as `0x${string}`
   });
+
+  // Rewards chart info for rate
+  const { data: chartData } = useRewardsChartInfo({
+    rewardContractAddress: selectedRewardContract?.contractAddress || ''
+  });
+
+  // Get the most recent rate from chart data
+  const mostRecentRate = useMemo(() => {
+    if (!chartData || chartData.length === 0) return null;
+    const sortedData = [...chartData].sort((a, b) => b.blockTimestamp - a.blockTimestamp);
+    return sortedData[0].rate;
+  }, [chartData]);
 
   const {
     data: allowance,
@@ -890,13 +909,56 @@ const RewardsWidgetWrapped = ({
                     title={t`Transaction overview`}
                     isFetching={false}
                     fetchingMessage={t`Fetching transaction details`}
+                    rateType="str"
+                    onExternalLinkClicked={onExternalLinkClicked}
                     transactionData={[
                       {
-                        label: t`Total ${selectedRewardContract?.supplyToken.symbol ?? ''} to ${
-                          widgetState.flow === RewardsFlow.SUPPLY ? 'Supply' : 'Withdraw'
-                        }`,
-                        value: `${formatBigInt(amount, { maxDecimals: 2 })}`
-                      }
+                        label:
+                          widgetState.flow === RewardsFlow.SUPPLY ? t`You will supply` : t`You will withdraw`,
+                        value: `${formatBigInt(amount, { maxDecimals: 2 })} ${selectedRewardContract?.supplyToken.symbol ?? ''}`
+                      },
+                      ...(mostRecentRate && parseFloat(mostRecentRate) > 0
+                        ? [
+                            {
+                              label: t`Rate`,
+                              value: formatDecimalPercentage(parseFloat(mostRecentRate))
+                            }
+                          ]
+                        : []),
+                      ...(isConnectedAndEnabled
+                        ? [
+                            {
+                              label: t`Your wallet ${selectedRewardContract?.supplyToken.symbol ?? ''} balance will be`,
+                              value:
+                                tokenBalance?.value !== undefined
+                                  ? [
+                                      formatBigInt(tokenBalance.value, { maxDecimals: 2 }),
+                                      formatBigInt(
+                                        widgetState.flow === RewardsFlow.SUPPLY
+                                          ? tokenBalance.value - amount
+                                          : tokenBalance.value + amount,
+                                        { maxDecimals: 2 }
+                                      )
+                                    ]
+                                  : '--'
+                            },
+                            {
+                              label: t`Your ${selectedRewardContract?.rewardToken.symbol ?? ''} rewards ${selectedRewardContract?.supplyToken.symbol ?? ''} balance will be`,
+                              value:
+                                suppliedBalance !== undefined
+                                  ? [
+                                      formatBigInt(suppliedBalance, { maxDecimals: 2 }),
+                                      formatBigInt(
+                                        widgetState.flow === RewardsFlow.SUPPLY
+                                          ? suppliedBalance + amount
+                                          : suppliedBalance - amount,
+                                        { maxDecimals: 2 }
+                                      )
+                                    ]
+                                  : '--'
+                            }
+                          ]
+                        : [])
                     ]}
                   />
                 </motion.div>
