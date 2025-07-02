@@ -9,7 +9,7 @@ import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
 import { QueryParams } from '@/lib/constants';
 import { motion } from 'framer-motion';
 import { ResponseModifierRow } from './ResponseModifierRow';
-import { t } from '@lingui/macro';
+import { t } from '@lingui/core/macro';
 import { ChatIntent } from '../types/Chat';
 import { ChatIntentsRow } from './ChatIntentsRow';
 import { StopGeneratingButton } from './StopGeneratingButton';
@@ -89,7 +89,7 @@ export const ChatBubble = ({
       className={`@2xl/chat:items-start flex flex-col gap-3 xl:gap-2 ${user === UserType.user ? '@2xl/chat:flex-row-reverse' : 'xl:@2xl/chat:gap-0'}`}
     >
       <HStack
-        className={`items-center space-x-2 ${user === UserType.user ? 'xl:@2xl/chat:self-start xl:self-end' : '@2xl/chat:items-start'}`}
+        className={`items-center gap-x-2 space-x-0 ${user === UserType.user ? 'xl:@2xl/chat:self-start xl:self-end' : '@2xl/chat:items-start'}`}
       >
         {user === UserType.bot ? (
           <img
@@ -123,8 +123,8 @@ export const ChatBubble = ({
           </div>
         ) : (
           <div className="space-y-5">
-            <HStack className="items-center space-x-[6px]">
-              {isError && <ChatError boxSize={16} className="mb-3" />}
+            <HStack className="items-center gap-x-[6px] space-x-0">
+              {isError && <ChatError className="mb-3 h-4 w-4 shrink-0" />}
               <div className="text-white/75">
                 <ChatMarkdownRenderer markdown={message} />
               </div>
