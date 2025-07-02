@@ -163,7 +163,7 @@ export const SupplyWithdraw = ({
             ...(address
               ? [
                   {
-                    label: t`Your wallet ${inputToken?.symbol} balance will be`,
+                    label: t`Your wallet ${inputToken?.symbol} balance`,
                     value:
                       nstBalance !== undefined
                         ? [
@@ -173,7 +173,7 @@ export const SupplyWithdraw = ({
                         : '--'
                   },
                   {
-                    label: t`Your Savings USDS balance will be`,
+                    label: t`Your Savings USDS balance`,
                     value:
                       savingsBalance !== undefined
                         ? [

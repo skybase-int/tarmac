@@ -928,7 +928,7 @@ const RewardsWidgetWrapped = ({
                       ...(isConnectedAndEnabled
                         ? [
                             {
-                              label: t`Your wallet ${selectedRewardContract?.supplyToken.symbol ?? ''} balance will be`,
+                              label: t`Your wallet ${selectedRewardContract?.supplyToken.symbol ?? ''} balance`,
                               value:
                                 tokenBalance?.value !== undefined
                                   ? [
@@ -943,7 +943,7 @@ const RewardsWidgetWrapped = ({
                                   : '--'
                             },
                             {
-                              label: t`Your ${selectedRewardContract?.rewardToken.symbol ?? ''} rewards ${selectedRewardContract?.supplyToken.symbol ?? ''} balance will be`,
+                              label: t`Your ${selectedRewardContract?.rewardToken.symbol ?? ''} rewards ${selectedRewardContract?.supplyToken.symbol ?? ''} balance`,
                               value:
                                 suppliedBalance !== undefined
                                   ? [

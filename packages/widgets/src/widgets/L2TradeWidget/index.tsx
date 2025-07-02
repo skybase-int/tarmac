@@ -1298,7 +1298,7 @@ function TradeWidgetWrapped({
                     })} ${targetToken?.symbol}`
                   },
                   {
-                    label: t`Your wallet ${originToken?.symbol || ''} balance will be`,
+                    label: t`Your wallet ${originToken?.symbol || ''} balance`,
                     value:
                       originBalance?.value !== undefined && originAmount > 0n
                         ? [
@@ -1314,7 +1314,7 @@ function TradeWidgetWrapped({
                         : '--'
                   },
                   {
-                    label: t`Your wallet ${targetToken?.symbol || ''} balance will be`,
+                    label: t`Your wallet ${targetToken?.symbol || ''} balance`,
                     value:
                       targetBalance?.value !== undefined && targetAmount > 0n
                         ? [

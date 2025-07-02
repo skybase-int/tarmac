@@ -139,7 +139,7 @@ export function UpgradeRevert({
                     })} ${targetToken?.symbol}`
                   },
                   {
-                    label: t`Your wallet ${originToken?.symbol || ''} balance will be`,
+                    label: t`Your wallet ${originToken?.symbol || ''} balance`,
                     value:
                       originBalance !== undefined && originAmount > 0n
                         ? [
@@ -155,7 +155,7 @@ export function UpgradeRevert({
                         : '--'
                   },
                   {
-                    label: t`Your wallet ${targetToken?.symbol || ''} balance will be`,
+                    label: t`Your wallet ${targetToken?.symbol || ''} balance`,
                     value:
                       targetBalance !== undefined && targetAmount > 0n
                         ? [

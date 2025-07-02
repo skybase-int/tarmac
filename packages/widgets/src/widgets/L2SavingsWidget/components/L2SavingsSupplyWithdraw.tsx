@@ -163,7 +163,7 @@ export function L2SavingsSupplyWithdraw({
                   ...(isConnectedAndEnabled
                     ? [
                         {
-                          label: t`Your wallet ${originToken?.symbol} balance will be`,
+                          label: t`Your wallet ${originToken?.symbol} balance`,
                           value:
                             originBalance !== undefined
                               ? [
@@ -181,7 +181,7 @@ export function L2SavingsSupplyWithdraw({
                               : '--'
                         },
                         {
-                          label: t`Your Savings USDS balance will be`,
+                          label: t`Your Savings USDS balance`,
                           value:
                             convertedBalance?.value !== undefined
                               ? [
