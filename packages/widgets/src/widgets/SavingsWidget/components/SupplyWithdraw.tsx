@@ -173,12 +173,12 @@ export const SupplyWithdraw = ({
                         : '--'
                   },
                   {
-                    label: t`Your Savings balance will be`,
+                    label: t`Your Savings USDS balance will be`,
                     value:
                       savingsBalance !== undefined
                         ? [
-                            `${formatBigInt(savingsBalance, { maxDecimals: 2, compact: true })} ${inputToken?.symbol}`,
-                            `${formatBigInt(finalSavingsBalance, { maxDecimals: 2, compact: true })} ${inputToken?.symbol}`
+                            formatBigInt(savingsBalance, { maxDecimals: 2, compact: true }),
+                            formatBigInt(finalSavingsBalance, { maxDecimals: 2, compact: true })
                           ]
                         : '--'
                   }
