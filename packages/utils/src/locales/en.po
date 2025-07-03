@@ -1205,6 +1205,10 @@ msgstr ""
 msgid "How much would you like to unseal?"
 msgstr ""
 
+#: packages/widgets/src/widgets/StakeModuleWidget/components/UnconnectedState.tsx
+msgid "How to stake"
+msgstr ""
+
 #: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
 msgid "How to Stake in 4 steps:"
 msgstr ""
@@ -1511,6 +1515,7 @@ msgstr ""
 msgid "Open position"
 msgstr ""
 
+#: packages/widgets/src/widgets/StakeModuleWidget/components/UnconnectedState.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/OpenNewUrn.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/OpenNewUrn.tsx
 msgid "Open Position"
@@ -2087,7 +2092,6 @@ msgstr ""
 msgid "Stake"
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/components/UnconnectedState.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/OpenNewUrn.tsx
 msgid "Stake and borrow"
 msgstr ""
@@ -2625,7 +2629,6 @@ msgid "Unstake"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
-#: packages/widgets/src/widgets/StakeModuleWidget/components/UnconnectedState.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/OpenNewUrn.tsx
 msgid "Unstake and pay back"
 msgstr ""
