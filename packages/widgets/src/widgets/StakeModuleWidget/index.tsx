@@ -1028,6 +1028,7 @@ function StakeModuleWidgetWrapped({
                 });
               }
             }}
+            onShowHelpModal={onShowHelpModal}
           />
         ) : txStatus !== TxStatus.IDLE ? (
           <CardAnimationWrapper key="widget-transaction-status">
