@@ -247,6 +247,13 @@ export function UpgradeWidgetWrapped({
     token: originToken.address[chainId]
   });
 
+  // Balance of the target token
+  const { data: targetBalance, refetch: mutateTargetBalance } = useTokenBalance({
+    chainId,
+    address: address,
+    token: targetToken.address[chainId]
+  });
+
   const { data: batchSupported, isLoading: isBatchSupportLoading } = useIsBatchSupported();
 
   const {
@@ -300,6 +307,7 @@ export function UpgradeWidgetWrapped({
       setTxStatus(TxStatus.SUCCESS);
       mutateAllowance();
       mutateOriginBalance();
+      mutateTargetBalance();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
     onError: (error, hash) => {
@@ -311,6 +319,7 @@ export function UpgradeWidgetWrapped({
       setTxStatus(TxStatus.ERROR);
       mutateAllowance();
       mutateOriginBalance();
+      mutateTargetBalance();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
       console.log(error);
     }
@@ -377,6 +386,7 @@ export function UpgradeWidgetWrapped({
       setTxStatus(TxStatus.SUCCESS);
       mutateAllowance();
       mutateOriginBalance();
+      mutateTargetBalance();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
     onError: (error: Error, hash: string | undefined) => {
@@ -389,6 +399,7 @@ export function UpgradeWidgetWrapped({
       setTxStatus(TxStatus.ERROR);
       mutateAllowance();
       mutateOriginBalance();
+      mutateTargetBalance();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
       console.log(error);
     }
@@ -778,6 +789,7 @@ export function UpgradeWidgetWrapped({
     // Refresh data
     mutateAllowance();
     mutateOriginBalance();
+    mutateTargetBalance();
   }, [chainId]);
 
   return (
@@ -846,6 +858,7 @@ export function UpgradeWidgetWrapped({
                 originToken={originToken}
                 targetToken={targetToken}
                 originBalance={originBalance?.value}
+                targetBalance={targetBalance?.value}
                 onToggle={(index: 0 | 1) => {
                   if (tabIndex === index) {
                     return;
