@@ -1,12 +1,7 @@
 import {
   RewardContract,
-  useApproveToken,
   useRewardsRewardsBalance,
-  useRewardsSupply,
   useRewardsSuppliedBalance,
-  useRewardsWithdraw,
-  useBatchRewardsSupply,
-  useRewardsClaim,
   useTokenAllowance,
   useTokenBalance,
   getTokenDecimals,
@@ -41,7 +36,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { CardAnimationWrapper } from '@widgets/shared/animation/Wrappers';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { RewardsTransactionReview } from './components/RewardsTransactionReview';
-import { useTransactionHandlers } from '@widgets/shared/hooks/useTransactionHandlers';
+import { useRewardsTransactions } from './hooks/useRewardsTransactions';
 
 export type RewardsWidgetProps = WidgetProps & {
   onRewardContractChange?: (rewardContract?: RewardContract) => void;
@@ -75,7 +70,6 @@ export const RewardsWidget = ({
           key={key}
           addRecentTransaction={addRecentTransaction}
           onConnect={onConnect}
-          locale={locale}
           rightHeaderComponent={rightHeaderComponent}
           onRewardContractChange={onRewardContractChange}
           externalWidgetState={externalWidgetState}
@@ -96,7 +90,6 @@ export const RewardsWidget = ({
 // HOC Widget
 const RewardsWidgetWrapped = ({
   onConnect,
-  locale,
   addRecentTransaction,
   rightHeaderComponent,
   onRewardContractChange,
@@ -175,11 +168,6 @@ const RewardsWidgetWrapped = ({
   const initialTabIndex = validatedExternalState?.flow === RewardsFlow.WITHDRAW ? 1 : 0;
   const [tabIndex, setTabIndex] = useState<0 | 1>(initialTabIndex);
   const linguiCtx = useLingui();
-  const { handleOnStart, handleOnSuccess, handleOnError } = useTransactionHandlers({
-    addRecentTransaction,
-    onWidgetStateChange,
-    onNotification
-  });
 
   useEffect(() => {
     setTabIndex(initialTabIndex);
@@ -199,155 +187,18 @@ const RewardsWidgetWrapped = ({
 
   useNotifyWidgetState({ widgetState, txStatus, onWidgetStateChange });
 
-  const supplyParams = {
-    contractAddress: selectedRewardContract?.contractAddress as `0x${string}`,
-    supplyTokenAddress: selectedRewardContract?.supplyToken.address[chainId],
-    ref: referralCode,
-    amount: debouncedAmount,
-    onStart: (hash?: string) => {
-      handleOnStart({
-        hash,
-        recentTransactionDescription: t`Supplying ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name ?? ''
-        }`
-      });
-    },
-    onSuccess: (hash: string | undefined) => {
-      handleOnSuccess({
-        hash,
-        notificationTitle: t`Supply successful`,
-        notificationDescription: t`You supplied ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name ?? ''
-        }`
-      });
-      mutateAllowance();
-      mutateTokenBalance();
-      mutateRewardsBalance();
-      mutateUserSuppliedBalance();
-    },
-    onError: (error: Error, hash: string | undefined) => {
-      handleOnError({
-        error,
-        hash,
-        notificationTitle: t`Supply failed`,
-        notificationDescription: t`Something went wrong with your transaction. Please try again.`
-      });
-      mutateTokenBalance();
-    }
-  };
-
-  // Supply call
-  const supply = useRewardsSupply({
-    ...supplyParams,
-    enabled: widgetState.action === RewardsAction.SUPPLY && allowance !== undefined
-  });
-
-  const batchSupply = useBatchRewardsSupply({
-    ...supplyParams,
-    enabled:
-      (widgetState.action === RewardsAction.SUPPLY || widgetState.action === RewardsAction.APPROVE) &&
-      allowance !== undefined
-  });
-
-  // Approve
-  const approve = useApproveToken({
-    spender: selectedRewardContract?.contractAddress as `0x${string}`,
-    enabled: widgetState.action === RewardsAction.APPROVE && allowance !== undefined,
-    amount: debouncedAmount,
-    contractAddress: selectedRewardContract?.supplyToken.address[chainId],
-    onStart: (hash: string) => {
-      handleOnStart({
-        hash,
-        recentTransactionDescription: t`Approving ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name ?? ''
-        }`
-      });
-    },
-    onSuccess: hash => {
-      handleOnSuccess({
-        hash,
-        notificationTitle: t`Approve successful`,
-        notificationDescription: t`You approved ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name ?? ''
-        }`
-      });
-      mutateAllowance();
-      supply.retryPrepare();
-    },
-    onError: (error, hash) => {
-      handleOnError({
-        error,
-        hash,
-        notificationTitle: t`Approval failed`,
-        notificationDescription: t`We could not approve your token allowance.`
-      });
-      mutateAllowance();
-    }
-  });
-
-  // Withdraw
-  const withdraw = useRewardsWithdraw({
-    contractAddress: selectedRewardContract?.contractAddress as `0x${string}`,
-    enabled: widgetState.action === RewardsAction.WITHDRAW,
-    amount: debouncedAmount,
-    onStart: (hash: string) => {
-      handleOnStart({
-        hash,
-        recentTransactionDescription: t`Withdrawing ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name ?? ''
-        }`
-      });
-    },
-    onSuccess: hash => {
-      handleOnSuccess({
-        hash,
-        notificationTitle: t`Withdraw successful`,
-        notificationDescription: t`You withdrew ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name ?? ''
-        }`
-      });
-      mutateTokenBalance();
-      mutateRewardsBalance();
-      mutateAllowance();
-      mutateUserSuppliedBalance();
-    },
-    onError: (error, hash) => {
-      handleOnError({
-        error,
-        hash,
-        notificationTitle: t`Withdraw failed`,
-        notificationDescription: t`Something went wrong with your withdraw. Please try again.`
-      });
-      mutateTokenBalance();
-      mutateAllowance();
-    }
-  });
-
-  // Harvest
-  const claim = useRewardsClaim({
-    contractAddress: selectedRewardContract?.contractAddress as `0x${string}`,
-    onStart: (hash: string) => {
-      handleOnStart({ hash, recentTransactionDescription: 'Claiming tokens' });
-    },
-    onSuccess: hash => {
-      handleOnSuccess({
-        hash,
-        notificationTitle: 'Rewards claim successful',
-        notificationDescription: 'You claimed your rewards!'
-      });
-      mutateRewardsBalance();
-      mutateRewardsBalance();
-      mutateTokenBalance();
-    },
-    onError: (error, hash) => {
-      handleOnError({
-        error,
-        hash,
-        notificationTitle: 'Claim failed',
-        notificationDescription: 'Something went wrong with claiming your rewards. Please try again.'
-      });
-      mutateTokenBalance();
-    }
+  const { approve, supply, batchSupply, withdraw, claim } = useRewardsTransactions({
+    selectedRewardContract,
+    amount,
+    referralCode,
+    allowance,
+    addRecentTransaction,
+    onWidgetStateChange,
+    onNotification,
+    mutateAllowance,
+    mutateTokenBalance,
+    mutateRewardsBalance,
+    mutateUserSuppliedBalance
   });
 
   const needsAllowance = !!(!allowance || allowance < amount);
