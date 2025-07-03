@@ -1,7 +1,6 @@
-import { ErrorBoundary } from '@widgets/shared/components/ErrorBoundary';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { WidgetProps, WidgetState, WidgetStateChangeParams } from '@widgets/shared/types/widgetState';
-import { WidgetContext, WidgetProvider } from '@widgets/context/WidgetContext';
+import { WidgetContext } from '@widgets/context/WidgetContext';
 import { WidgetContainer } from '@widgets/shared/components/ui/widget/WidgetContainer';
 import { Heading } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
@@ -20,7 +19,7 @@ import { StepperBar } from './components/StepperBar';
 import { UrnsList } from './components/UrnsList';
 import { OpenNewUrn } from './components/OpenNewUrn';
 import { SelectRewardContract } from './components/SelectRewardContract';
-import { StakeModuleWidgetContext, StakeModuleWidgetProvider } from './context/context';
+import { StakeModuleWidgetContext } from './context/context';
 import { SelectDelegate } from './components/SelectDelegate';
 import { PositionSummary } from './components/PositionSummary';
 import {
@@ -53,6 +52,7 @@ import { UnconnectedState } from './components/UnconnectedState';
 import { useLingui } from '@lingui/react';
 import { formatUnits, parseUnits } from 'viem';
 import { StakeModuleTransactionStatus } from './components/StakeModuleTransactionStatus';
+import { withWidgetProvider } from '@widgets/shared/hocs/withWidgetProvider';
 
 export type OnStakeUrnChange = (
   urn: { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined } | undefined
@@ -65,48 +65,6 @@ type StakeModuleWidgetProps = WidgetProps & {
   addRecentTransaction: any;
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
-};
-
-export const StakeModuleWidget = ({
-  locale,
-  rightHeaderComponent,
-  onStakeUrnChange,
-  externalWidgetState,
-  onConnect,
-  onNotification,
-  onWidgetStateChange,
-  onExternalLinkClicked,
-  onShowHelpModal,
-  addRecentTransaction,
-  referralCode,
-  shouldReset = false,
-  batchEnabled,
-  setBatchEnabled
-}: StakeModuleWidgetProps) => {
-  const key = shouldReset ? 'reset' : undefined;
-  return (
-    <ErrorBoundary componentName="StakeModuleWidget">
-      <WidgetProvider key={key} locale={locale}>
-        <StakeModuleWidgetProvider>
-          <StakeModuleWidgetWrapped
-            key={key}
-            rightHeaderComponent={rightHeaderComponent}
-            onStakeUrnChange={onStakeUrnChange}
-            externalWidgetState={externalWidgetState}
-            onConnect={onConnect}
-            onNotification={onNotification}
-            onWidgetStateChange={shouldReset ? undefined : onWidgetStateChange}
-            onExternalLinkClicked={onExternalLinkClicked}
-            onShowHelpModal={onShowHelpModal}
-            addRecentTransaction={addRecentTransaction}
-            referralCode={referralCode}
-            batchEnabled={batchEnabled}
-            setBatchEnabled={setBatchEnabled}
-          />
-        </StakeModuleWidgetProvider>
-      </WidgetProvider>
-    </ErrorBoundary>
-  );
 };
 
 function StakeModuleWidgetWrapped({
@@ -1215,3 +1173,5 @@ const ManagePosition = ({
     />
   );
 };
+
+export const StakeModuleWidget = withWidgetProvider(StakeModuleWidgetWrapped, 'StakeModuleWidget');

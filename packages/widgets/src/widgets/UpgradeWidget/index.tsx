@@ -8,7 +8,7 @@ import {
   useTokenBalance
 } from '@jetstreamgg/sky-hooks';
 import { UpgradeRevert } from './components/UpgradeRevert';
-import { WidgetContext, WidgetProvider } from '@widgets/context/WidgetContext';
+import { WidgetContext } from '@widgets/context/WidgetContext';
 import { WidgetProps, WidgetState } from '@widgets/shared/types/widgetState';
 import { WidgetContainer } from '@widgets/shared/components/ui/widget/WidgetContainer';
 import { t } from '@lingui/core/macro';
@@ -28,12 +28,12 @@ import { useLingui } from '@lingui/react';
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { getValidatedState } from '@widgets/lib/utils';
 import { WidgetButtons } from '@widgets/shared/components/ui/widget/WidgetButtons';
-import { ErrorBoundary } from '@widgets/shared/components/ErrorBoundary';
 import { AnimatePresence } from 'framer-motion';
 import { CardAnimationWrapper } from '@widgets/shared/animation/Wrappers';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
 import { useBatchUpgraderManager } from './hooks/useBatchUpgraderManager';
 import { UpgradeTransactionReview } from './components/UpgradeTransactionReview';
+import { withWidgetProvider } from '@widgets/shared/hocs/withWidgetProvider';
 
 const defaultUpgradeOptions = [TOKENS.dai, TOKENS.mkr];
 const defaultRevertOptions = [TOKENS.usds];
@@ -87,50 +87,6 @@ export type UpgradeWidgetProps = WidgetProps & {
   setBatchEnabled?: (enabled: boolean) => void;
 };
 
-export const UpgradeWidget = ({
-  onConnect,
-  addRecentTransaction,
-  locale,
-  rightHeaderComponent,
-  externalWidgetState,
-  onStateValidated,
-  onNotification,
-  onWidgetStateChange,
-  onCustomNavigation,
-  customNavigationLabel,
-  onExternalLinkClicked,
-  batchEnabled,
-  setBatchEnabled,
-  upgradeOptions = defaultUpgradeOptions,
-  enabled = true,
-  shouldReset = false
-}: UpgradeWidgetProps) => {
-  const key = shouldReset ? 'reset' : undefined;
-  return (
-    <ErrorBoundary componentName="UpgradeWidget">
-      <WidgetProvider key={key} locale={locale}>
-        <UpgradeWidgetWrapped
-          key={key}
-          onConnect={onConnect}
-          addRecentTransaction={addRecentTransaction}
-          rightHeaderComponent={rightHeaderComponent}
-          externalWidgetState={externalWidgetState}
-          onStateValidated={onStateValidated}
-          onNotification={onNotification}
-          onWidgetStateChange={shouldReset ? undefined : onWidgetStateChange}
-          customNavigationLabel={customNavigationLabel}
-          onCustomNavigation={onCustomNavigation}
-          onExternalLinkClicked={onExternalLinkClicked}
-          enabled={enabled}
-          upgradeOptions={upgradeOptions}
-          batchEnabled={batchEnabled}
-          setBatchEnabled={setBatchEnabled}
-        />
-      </WidgetProvider>
-    </ErrorBoundary>
-  );
-};
-
 export function UpgradeWidgetWrapped({
   addRecentTransaction,
   onConnect,
@@ -142,7 +98,7 @@ export function UpgradeWidgetWrapped({
   onCustomNavigation,
   customNavigationLabel,
   onExternalLinkClicked,
-  upgradeOptions,
+  upgradeOptions = defaultUpgradeOptions,
   batchEnabled,
   setBatchEnabled,
   enabled = true
@@ -942,3 +898,5 @@ export function UpgradeWidgetWrapped({
     </WidgetContainer>
   );
 }
+
+export const UpgradeWidget = withWidgetProvider(UpgradeWidgetWrapped, 'UpgradeWidget');
