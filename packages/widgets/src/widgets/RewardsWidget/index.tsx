@@ -13,13 +13,7 @@ import {
   useIsBatchSupported,
   useRewardsChartInfo
 } from '@jetstreamgg/sky-hooks';
-import {
-  getTransactionLink,
-  useDebounce,
-  formatBigInt,
-  useIsSafeWallet,
-  formatDecimalPercentage
-} from '@jetstreamgg/sky-utils';
+import { useDebounce, formatBigInt, formatDecimalPercentage } from '@jetstreamgg/sky-utils';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { WidgetContainer } from '../../shared/components/ui/widget/WidgetContainer';
 import { RewardsFlow, RewardsAction, RewardsScreen } from './lib/constants';
@@ -47,6 +41,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { CardAnimationWrapper } from '@widgets/shared/animation/Wrappers';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { RewardsTransactionReview } from './components/RewardsTransactionReview';
+import { useTransactionHandlers } from '@widgets/shared/hooks/useTransactionHandlers';
 
 export type RewardsWidgetProps = WidgetProps & {
   onRewardContractChange?: (rewardContract?: RewardContract) => void;
@@ -118,7 +113,6 @@ const RewardsWidgetWrapped = ({
   const validatedExternalState = getValidatedState(externalWidgetState);
   const chainId = useChainId();
   const { address, isConnecting, isConnected } = useAccount();
-  const isSafeWallet = useIsSafeWallet();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
   const [selectedRewardContract, setSelectedRewardContract] = useState<RewardContract | undefined>(undefined);
   const [amount, setAmount] = useState(parseUnits(validatedExternalState?.amount || '0', 18));
@@ -181,6 +175,11 @@ const RewardsWidgetWrapped = ({
   const initialTabIndex = validatedExternalState?.flow === RewardsFlow.WITHDRAW ? 1 : 0;
   const [tabIndex, setTabIndex] = useState<0 | 1>(initialTabIndex);
   const linguiCtx = useLingui();
+  const { handleOnStart, handleOnSuccess, handleOnError } = useTransactionHandlers({
+    addRecentTransaction,
+    onWidgetStateChange,
+    onNotification
+  });
 
   useEffect(() => {
     setTabIndex(initialTabIndex);
@@ -206,49 +205,34 @@ const RewardsWidgetWrapped = ({
     ref: referralCode,
     amount: debouncedAmount,
     onStart: (hash?: string) => {
-      if (hash) {
-        addRecentTransaction?.({
-          hash,
-          description: t`Supplying ${formatBigInt(debouncedAmount, { locale })} ${
-            selectedRewardContract?.supplyToken.name ?? ''
-          }`
-        });
-        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      }
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
+      handleOnStart({
+        hash,
+        recentTransactionDescription: t`Supplying ${formatBigInt(debouncedAmount, { locale })} ${
+          selectedRewardContract?.supplyToken.name ?? ''
+        }`
+      });
     },
     onSuccess: (hash: string | undefined) => {
-      onNotification?.({
-        title: t`Supply successful`,
-        description: t`You supplied ${formatBigInt(debouncedAmount, { locale })} ${
+      handleOnSuccess({
+        hash,
+        notificationTitle: t`Supply successful`,
+        notificationDescription: t`You supplied ${formatBigInt(debouncedAmount, { locale })} ${
           selectedRewardContract?.supplyToken.name ?? ''
-        }`,
-        status: TxStatus.SUCCESS
+        }`
       });
-      setTxStatus(TxStatus.SUCCESS);
-      if (hash) {
-        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      }
       mutateAllowance();
       mutateTokenBalance();
       mutateRewardsBalance();
       mutateUserSuppliedBalance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
     onError: (error: Error, hash: string | undefined) => {
-      onNotification?.({
-        title: t`Supply failed`,
-        description: t`Something went wrong with your transaction. Please try again.`,
-        status: TxStatus.ERROR
+      handleOnError({
+        error,
+        hash,
+        notificationTitle: t`Supply failed`,
+        notificationDescription: t`Something went wrong with your transaction. Please try again.`
       });
       mutateTokenBalance();
-      setTxStatus(TxStatus.ERROR);
-      if (hash) {
-        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      }
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
     }
   };
 
@@ -272,39 +256,32 @@ const RewardsWidgetWrapped = ({
     amount: debouncedAmount,
     contractAddress: selectedRewardContract?.supplyToken.address[chainId],
     onStart: (hash: string) => {
-      addRecentTransaction?.({
+      handleOnStart({
         hash,
-        description: t`Approving ${formatBigInt(debouncedAmount, { locale })} ${
+        recentTransactionDescription: t`Approving ${formatBigInt(debouncedAmount, { locale })} ${
           selectedRewardContract?.supplyToken.name ?? ''
         }`
       });
-      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
     onSuccess: hash => {
-      onNotification?.({
-        title: t`Approve successful`,
-        description: t`You approved ${formatBigInt(debouncedAmount, { locale })} ${
+      handleOnSuccess({
+        hash,
+        notificationTitle: t`Approve successful`,
+        notificationDescription: t`You approved ${formatBigInt(debouncedAmount, { locale })} ${
           selectedRewardContract?.supplyToken.name ?? ''
-        }`,
-        status: TxStatus.SUCCESS
+        }`
       });
-      setTxStatus(TxStatus.SUCCESS);
       mutateAllowance();
       supply.retryPrepare();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
     onError: (error, hash) => {
-      onNotification?.({
-        title: t`Approval failed`,
-        description: t`We could not approve your token allowance.`,
-        status: TxStatus.ERROR
+      handleOnError({
+        error,
+        hash,
+        notificationTitle: t`Approval failed`,
+        notificationDescription: t`We could not approve your token allowance.`
       });
-      setTxStatus(TxStatus.ERROR);
       mutateAllowance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
     }
   });
 
@@ -314,43 +291,35 @@ const RewardsWidgetWrapped = ({
     enabled: widgetState.action === RewardsAction.WITHDRAW,
     amount: debouncedAmount,
     onStart: (hash: string) => {
-      addRecentTransaction?.({
+      handleOnStart({
         hash,
-        description: t`Withdrawing ${formatBigInt(debouncedAmount, { locale })} ${
+        recentTransactionDescription: t`Withdrawing ${formatBigInt(debouncedAmount, { locale })} ${
           selectedRewardContract?.supplyToken.name ?? ''
         }`
       });
-      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
     onSuccess: hash => {
-      onNotification?.({
-        title: t`Withdraw successful`,
-        description: t`You withdrew ${formatBigInt(debouncedAmount, { locale })} ${
+      handleOnSuccess({
+        hash,
+        notificationTitle: t`Withdraw successful`,
+        notificationDescription: t`You withdrew ${formatBigInt(debouncedAmount, { locale })} ${
           selectedRewardContract?.supplyToken.name ?? ''
-        }`,
-        status: TxStatus.SUCCESS
+        }`
       });
-
-      setTxStatus(TxStatus.SUCCESS);
       mutateTokenBalance();
       mutateRewardsBalance();
       mutateAllowance();
       mutateUserSuppliedBalance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
     onError: (error, hash) => {
-      onNotification?.({
-        title: t`Withdraw failed`,
-        description: t`Something went wrong with your withdraw. Please try again.`,
-        status: TxStatus.ERROR
+      handleOnError({
+        error,
+        hash,
+        notificationTitle: t`Withdraw failed`,
+        notificationDescription: t`Something went wrong with your withdraw. Please try again.`
       });
-      setTxStatus(TxStatus.ERROR);
       mutateTokenBalance();
       mutateAllowance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
     }
   });
 
@@ -358,33 +327,26 @@ const RewardsWidgetWrapped = ({
   const claim = useRewardsClaim({
     contractAddress: selectedRewardContract?.contractAddress as `0x${string}`,
     onStart: (hash: string) => {
-      addRecentTransaction?.({ hash, description: 'Claiming tokens' });
-      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
+      handleOnStart({ hash, recentTransactionDescription: 'Claiming tokens' });
     },
     onSuccess: hash => {
-      onNotification?.({
-        title: 'Rewards claim successful',
-        description: 'You claimed your rewards!',
-        status: TxStatus.SUCCESS
+      handleOnSuccess({
+        hash,
+        notificationTitle: 'Rewards claim successful',
+        notificationDescription: 'You claimed your rewards!'
       });
-      setTxStatus(TxStatus.SUCCESS);
       mutateRewardsBalance();
       mutateRewardsBalance();
       mutateTokenBalance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
     onError: (error, hash) => {
-      onNotification?.({
-        title: 'Claim failed',
-        description: 'Something went wrong with claiming your rewards. Please try again.',
-        status: TxStatus.ERROR
+      handleOnError({
+        error,
+        hash,
+        notificationTitle: 'Claim failed',
+        notificationDescription: 'Something went wrong with claiming your rewards. Please try again.'
       });
-      setTxStatus(TxStatus.ERROR);
       mutateTokenBalance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
     }
   });
 
