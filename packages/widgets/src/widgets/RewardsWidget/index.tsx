@@ -12,7 +12,7 @@ import { useDebounce, formatBigInt, formatDecimalPercentage } from '@jetstreamgg
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { WidgetContainer } from '../../shared/components/ui/widget/WidgetContainer';
 import { RewardsFlow, RewardsAction, RewardsScreen } from './lib/constants';
-import { WidgetContext, WidgetProvider } from '../../context/WidgetContext';
+import { WidgetContext } from '../../context/WidgetContext';
 import { NotificationType, TxStatus } from '../../shared/constants';
 import { WidgetProps, WidgetState } from '../../shared/types/widgetState';
 import { Trans } from '@lingui/react/macro';
@@ -30,61 +30,19 @@ import { WidgetButtons } from '@widgets/shared/components/ui/widget/WidgetButton
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { ArrowLeft } from 'lucide-react';
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
-import { ErrorBoundary } from '@widgets/shared/components/ErrorBoundary';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CardAnimationWrapper } from '@widgets/shared/animation/Wrappers';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { RewardsTransactionReview } from './components/RewardsTransactionReview';
 import { useRewardsTransactions } from './hooks/useRewardsTransactions';
+import { withWidgetProvider } from '@widgets/shared/hocs/withWidgetProvider';
 
 export type RewardsWidgetProps = WidgetProps & {
   onRewardContractChange?: (rewardContract?: RewardContract) => void;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
-};
-
-export const RewardsWidget = ({
-  addRecentTransaction,
-  onConnect,
-  locale,
-  rightHeaderComponent,
-  onRewardContractChange,
-  externalWidgetState,
-  onStateValidated,
-  onNotification,
-  onWidgetStateChange,
-  onExternalLinkClicked,
-  enabled = true,
-  referralCode,
-  shouldReset = false,
-  batchEnabled,
-  setBatchEnabled
-}: RewardsWidgetProps) => {
-  const key = shouldReset ? 'reset' : undefined;
-  return (
-    <ErrorBoundary componentName="RewardsWidget">
-      <WidgetProvider key={key} locale={locale}>
-        <RewardsWidgetWrapped
-          key={key}
-          addRecentTransaction={addRecentTransaction}
-          onConnect={onConnect}
-          rightHeaderComponent={rightHeaderComponent}
-          onRewardContractChange={onRewardContractChange}
-          externalWidgetState={externalWidgetState}
-          onStateValidated={onStateValidated}
-          onNotification={onNotification}
-          onWidgetStateChange={shouldReset ? undefined : onWidgetStateChange}
-          onExternalLinkClicked={onExternalLinkClicked}
-          enabled={enabled}
-          referralCode={referralCode}
-          batchEnabled={batchEnabled}
-          setBatchEnabled={setBatchEnabled}
-        />
-      </WidgetProvider>
-    </ErrorBoundary>
-  );
 };
 
 // HOC Widget
@@ -783,3 +741,5 @@ const RewardsWidgetWrapped = ({
     </WidgetContainer>
   );
 };
+
+export const RewardsWidget = withWidgetProvider(RewardsWidgetWrapped, 'RewardsWidget');
