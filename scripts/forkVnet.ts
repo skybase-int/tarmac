@@ -11,10 +11,7 @@ const BASE_FORK_CONTAINER_ID = 'd382d976-02a4-4fc2-a9ba-db43a1602719';
 
 const ARBITRUM_CONFIG = {
   chainId: 42161,
-  // Fixed block from after ArbOS v11 upgrade (supports PUSH0) and USDS deployment
-  // ArbOS v11 was deployed around March 2024 (blocks ~190M+), USDS deployed later
-  // Using block 270000000 (late 2024) to ensure both PUSH0 support and USDS availability
-  forkBlock: '270000000'
+  forkBlock: '343221023'
 };
 const OPTIMISM_CONFIG = {
   chainId: 10,
