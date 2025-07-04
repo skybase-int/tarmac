@@ -21,7 +21,14 @@ import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useDebounce, math } from '@jetstreamgg/sky-utils';
 import { TxStatus } from '@widgets/shared/constants';
 import { formatUnits, parseUnits } from 'viem';
-import { UpgradeAction, UpgradeFlow, UpgradeScreen, upgradeTokens } from './lib/constants';
+import {
+  defaultRevertOptions,
+  defaultUpgradeOptions,
+  UpgradeAction,
+  UpgradeFlow,
+  UpgradeScreen,
+  upgradeTokens
+} from './lib/constants';
 import { useLingui } from '@lingui/react';
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { getValidatedState } from '@widgets/lib/utils';
@@ -32,51 +39,12 @@ import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState
 import { UpgradeTransactionReview } from './components/UpgradeTransactionReview';
 import { withWidgetProvider } from '@widgets/shared/hocs/withWidgetProvider';
 import { useUpgradeTransactions } from './hooks/useUpgradeTransactions';
-
-const defaultUpgradeOptions = [TOKENS.dai, TOKENS.mkr];
-const defaultRevertOptions = [TOKENS.usds];
-
-function calculateOriginOptions(
-  token: Token,
-  action: string,
-  upgradeOptions: Token[] = [],
-  revertOptions: Token[] = []
-) {
-  const options = action === 'upgrade' ? [...upgradeOptions] : [...revertOptions];
-
-  // Sort the array so that the selected token is first
-  options.sort((a, b) => {
-    if (a.symbol === token.symbol) {
-      return -1;
-    }
-    if (b.symbol === token.symbol) {
-      return 1;
-    }
-    return 0;
-  });
-
-  return options;
-}
-
-const calculateTargetOptions = (
-  originToken: Token,
-  upgradeOptions: Token[] = [],
-  revertOptions: Token[] = []
-) =>
-  ({
-    DAI: [revertOptions[0]],
-    MKR: [revertOptions[1]],
-    USDS: [upgradeOptions[0]],
-    SKY: [upgradeOptions[1]]
-  })[originToken.symbol];
-
-const tokenForSymbol = (symbol: keyof typeof upgradeTokens) => {
-  return TOKENS[symbol.toLowerCase()];
-};
-
-const targetTokenForSymbol = (symbol: keyof typeof upgradeTokens) => {
-  return { DAI: TOKENS.usds, USDS: TOKENS.dai, MKR: TOKENS.sky, SKY: TOKENS.mkr }[symbol];
-};
+import {
+  calculateOriginOptions,
+  calculateTargetOptions,
+  targetTokenForSymbol,
+  tokenForSymbol
+} from './lib/helpers';
 
 export type UpgradeWidgetProps = WidgetProps & {
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
