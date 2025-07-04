@@ -2,14 +2,10 @@ import {
   getTokenDecimals,
   TOKENS,
   useSavingsAllowance,
-  useSavingsApprove,
   useSavingsData,
-  useSavingsSupply,
-  useSavingsWithdraw,
-  useBatchSavingsSupply,
   useIsBatchSupported
 } from '@jetstreamgg/sky-hooks';
-import { getTransactionLink, useDebounce, formatBigInt, useIsSafeWallet } from '@jetstreamgg/sky-utils';
+import { useDebounce } from '@jetstreamgg/sky-utils';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { WidgetContainer } from '@widgets/shared/components/ui/widget/WidgetContainer';
 import { SavingsFlow, SavingsAction, SavingsScreen } from './lib/constants';
@@ -31,6 +27,7 @@ import { CardAnimationWrapper } from '@widgets/shared/animation/Wrappers';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
 import { SavingsTransactionReview } from './components/SavingsTransactionReview';
 import { withWidgetProvider } from '@widgets/shared/hocs/withWidgetProvider';
+import { useSavingsTransactions } from './hooks/useSavingsTransactions';
 
 export type SavingsWidgetProps = WidgetProps & {
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
@@ -61,7 +58,6 @@ const SavingsWidgetWrapped = ({
 
   const chainId = useChainId();
   const { address, isConnecting, isConnected } = useAccount();
-  const isSafeWallet = useIsSafeWallet();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
   const { mutate: mutateSavings, data: savingsData, isLoading: isSavingsDataLoading } = useSavingsData();
   const { data: allowance, mutate: mutateAllowance, isLoading: allowanceLoading } = useSavingsAllowance();
@@ -100,134 +96,16 @@ const SavingsWidgetWrapped = ({
 
   useNotifyWidgetState({ widgetState, txStatus, onWidgetStateChange });
 
-  const savingsApprove = useSavingsApprove({
-    amount: debouncedAmount,
-    onStart: (hash: string) => {
-      addRecentTransaction?.({
-        hash,
-        description: t`Approving ${formatBigInt(debouncedAmount)} USDS`
-      });
-      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
-    },
-    onSuccess: hash => {
-      onNotification?.({
-        title: t`Approve successful`,
-        description: t`You approved USDS`,
-        status: TxStatus.SUCCESS
-      });
-      setTxStatus(TxStatus.SUCCESS);
-      mutateAllowance();
-      savingsSupply.retryPrepare();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
-    },
-    onError: (error, hash) => {
-      onNotification?.({
-        title: t`Approval failed`,
-        description: t`We could not approve your token allowance.`,
-        status: TxStatus.ERROR
-      });
-      setTxStatus(TxStatus.ERROR);
-      mutateAllowance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
-    },
-    enabled: widgetState.action === SavingsAction.APPROVE && allowance !== undefined
-  });
-
-  const savingsSupplyParams = {
-    amount: debouncedAmount,
-    onStart: (hash?: string) => {
-      if (hash) {
-        addRecentTransaction?.({
-          hash,
-          description: t`Supplying ${formatBigInt(debouncedAmount)} USDS`
-        });
-        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      }
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
-    },
-    onSuccess: (hash: string | undefined) => {
-      onNotification?.({
-        title: t`Supply successful`,
-        description: t`You supplied ${formatBigInt(debouncedAmount)} USDS`,
-        status: TxStatus.SUCCESS
-      });
-      setTxStatus(TxStatus.SUCCESS);
-      if (hash) {
-        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      }
-      mutateAllowance();
-      mutateSavings();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
-    },
-    onError: (error: Error, hash: string | undefined) => {
-      onNotification?.({
-        title: t`Supply failed`,
-        description: t`Something went wrong with your transaction. Please try again.`,
-        status: TxStatus.ERROR
-      });
-      setTxStatus(TxStatus.ERROR);
-      if (hash) {
-        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      }
-      mutateAllowance();
-      mutateSavings();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
-    },
-    ref: referralCode
-  };
-
-  const savingsSupply = useSavingsSupply({
-    ...savingsSupplyParams,
-    enabled: widgetState.action === SavingsAction.SUPPLY && allowance !== undefined
-  });
-
-  const batchSavingsSupply = useBatchSavingsSupply({
-    ...savingsSupplyParams,
-    enabled:
-      (widgetState.action === SavingsAction.SUPPLY || widgetState.action === SavingsAction.APPROVE) &&
-      allowance !== undefined
-  });
-
-  const savingsWithdraw = useSavingsWithdraw({
+  const { savingsApprove, savingsSupply, batchSavingsSupply, savingsWithdraw } = useSavingsTransactions({
     amount: debouncedAmount,
     max,
-    onStart: (hash: string) => {
-      addRecentTransaction?.({
-        hash,
-        description: t`Withdrawing ${formatBigInt(debouncedAmount)} USDS`
-      });
-      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
-    },
-    onSuccess: hash => {
-      onNotification?.({
-        title: t`Withdraw successful`,
-        description: t`You withdrew ${formatBigInt(debouncedAmount)} USDS`,
-        status: TxStatus.SUCCESS
-      });
-      setTxStatus(TxStatus.SUCCESS);
-      mutateSavings();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
-    },
-    onError: (error, hash) => {
-      onNotification?.({
-        title: t`Withdraw failed`,
-        description: t`Something went wrong with your withdraw. Please try again.`,
-        status: TxStatus.ERROR
-      });
-      setTxStatus(TxStatus.ERROR);
-      mutateAllowance();
-      mutateSavings();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
-    },
-    enabled: widgetState.action === SavingsAction.WITHDRAW
+    referralCode,
+    allowance,
+    mutateAllowance,
+    mutateSavings,
+    addRecentTransaction,
+    onWidgetStateChange,
+    onNotification
   });
 
   const needsAllowance = !!(!allowance || allowance < debouncedAmount);

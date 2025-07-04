@@ -10,13 +10,13 @@ import { formatBigInt } from '@jetstreamgg/sky-utils';
 import { t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { WidgetContext } from '@widgets/context/WidgetContext';
-import { useTransactionHandlers } from '@widgets/shared/hooks/useTransactionHandlers';
+import { useTransactionCallbacks } from '@widgets/shared/hooks/useTransactionCallbacks';
 import { WidgetProps } from '@widgets/shared/types/widgetState';
 import { useContext } from 'react';
 import { useChainId } from 'wagmi';
 import { RewardsAction } from '../lib/constants';
 
-interface UseRewardsTransactionsParams
+interface UseRewardsTransactionsParameters
   extends Pick<WidgetProps, 'addRecentTransaction' | 'onWidgetStateChange' | 'onNotification'> {
   selectedRewardContract: RewardContract | undefined;
   referralCode: number | undefined;
@@ -40,9 +40,9 @@ export const useRewardsTransactions = ({
   mutateTokenBalance,
   mutateRewardsBalance,
   mutateUserSuppliedBalance
-}: UseRewardsTransactionsParams) => {
+}: UseRewardsTransactionsParameters) => {
   const chainId = useChainId();
-  const { handleOnStart, handleOnSuccess, handleOnError } = useTransactionHandlers({
+  const { handleOnStart, handleOnSuccess, handleOnError } = useTransactionCallbacks({
     addRecentTransaction,
     onWidgetStateChange,
     onNotification

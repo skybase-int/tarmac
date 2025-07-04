@@ -5,34 +5,34 @@ import { getTransactionLink, useIsSafeWallet } from '@jetstreamgg/sky-utils';
 import { useAccount, useChainId } from 'wagmi';
 import { TxStatus } from '../constants';
 
-type UseTransactionHandlersParams = Pick<
+type UseTransactionCallbacksParameters = Pick<
   WidgetProps,
   'addRecentTransaction' | 'onWidgetStateChange' | 'onNotification'
 >;
 
-interface TransactionStartParams {
+interface TransactionStartParameters {
   hash?: string;
   recentTransactionDescription: string;
 }
 
-interface TransactionSuccessParams {
+interface TransactionSuccessParameters {
   hash: string | undefined;
   notificationTitle: string;
   notificationDescription: string;
 }
 
-interface TransactionErrorParams {
+interface TransactionErrorParameters {
   error: Error;
   hash: string | undefined;
   notificationTitle: string;
   notificationDescription: string;
 }
 
-export const useTransactionHandlers = ({
+export const useTransactionCallbacks = ({
   addRecentTransaction,
   onWidgetStateChange,
   onNotification
-}: UseTransactionHandlersParams) => {
+}: UseTransactionCallbacksParameters) => {
   const { widgetState, setExternalLink, setTxStatus } = useContext(WidgetContext);
 
   const chainId = useChainId();
@@ -40,7 +40,7 @@ export const useTransactionHandlers = ({
   const isSafeWallet = useIsSafeWallet();
 
   const handleOnStart = useCallback(
-    ({ hash, recentTransactionDescription }: TransactionStartParams) => {
+    ({ hash, recentTransactionDescription }: TransactionStartParameters) => {
       if (hash) {
         addRecentTransaction?.({
           hash,
@@ -64,7 +64,7 @@ export const useTransactionHandlers = ({
   );
 
   const handleOnSuccess = useCallback(
-    ({ hash, notificationTitle, notificationDescription }: TransactionSuccessParams) => {
+    ({ hash, notificationTitle, notificationDescription }: TransactionSuccessParameters) => {
       onNotification?.({
         title: notificationTitle,
         description: notificationDescription,
@@ -89,7 +89,7 @@ export const useTransactionHandlers = ({
   );
 
   const handleOnError = useCallback(
-    ({ error, hash, notificationTitle, notificationDescription }: TransactionErrorParams) => {
+    ({ error, hash, notificationTitle, notificationDescription }: TransactionErrorParameters) => {
       onNotification?.({
         title: notificationTitle,
         description: notificationDescription,
