@@ -5,7 +5,8 @@ import {
   getTokenDecimals,
   mkrSkyAddress,
   useIsBatchSupported,
-  useTokenBalance
+  useTokenBalance,
+  useTokenAllowance
 } from '@jetstreamgg/sky-hooks';
 import { UpgradeRevert } from './components/UpgradeRevert';
 import { WidgetContext } from '@widgets/context/WidgetContext';
@@ -17,12 +18,9 @@ import { Heading } from '@widgets/shared/components/ui/Typography';
 import { UpgradeTransactionStatus } from './components/UpgradeTransactionStatus';
 import { useAccount, useChainId } from 'wagmi';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { useDebounce, getTransactionLink, useIsSafeWallet, math } from '@jetstreamgg/sky-utils';
-import { useTokenAllowance } from '@jetstreamgg/sky-hooks';
-import { useUpgraderManager } from './hooks/useUpgraderManager';
-import { TxStatus, notificationTypeMaping } from '@widgets/shared/constants';
+import { useDebounce, math } from '@jetstreamgg/sky-utils';
+import { TxStatus } from '@widgets/shared/constants';
 import { formatUnits, parseUnits } from 'viem';
-import { useApproveManager } from './hooks/useApproveManager';
 import { UpgradeAction, UpgradeFlow, UpgradeScreen, upgradeTokens } from './lib/constants';
 import { useLingui } from '@lingui/react';
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
@@ -31,9 +29,9 @@ import { WidgetButtons } from '@widgets/shared/components/ui/widget/WidgetButton
 import { AnimatePresence } from 'framer-motion';
 import { CardAnimationWrapper } from '@widgets/shared/animation/Wrappers';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
-import { useBatchUpgraderManager } from './hooks/useBatchUpgraderManager';
 import { UpgradeTransactionReview } from './components/UpgradeTransactionReview';
 import { withWidgetProvider } from '@widgets/shared/hocs/withWidgetProvider';
+import { useUpgradeTransactions } from './hooks/useUpgradeTransactions';
 
 const defaultUpgradeOptions = [TOKENS.dai, TOKENS.mkr];
 const defaultRevertOptions = [TOKENS.usds];
@@ -112,7 +110,6 @@ export function UpgradeWidgetWrapped({
 
   const chainId = useChainId();
   const { address, isConnected, isConnecting } = useAccount();
-  const isSafeWallet = useIsSafeWallet();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
 
   const initialTabIndex = validatedExternalState?.flow === UpgradeFlow.REVERT ? 1 : 0;
@@ -228,137 +225,19 @@ export function UpgradeWidgetWrapped({
   const hasAllowance = !!(allowance && debouncedOriginAmount !== 0n && allowance >= debouncedOriginAmount);
   const shouldUseBatch = !!batchEnabled && !!batchSupported && !hasAllowance;
 
-  const actionManager = useUpgraderManager({
-    token: originToken,
-    amount: debouncedOriginAmount,
-    enabled:
-      (widgetState.action === UpgradeAction.UPGRADE || widgetState.action === UpgradeAction.REVERT) &&
-      allowance !== undefined,
-    onStart: (hash: string) => {
-      addRecentTransaction?.({
-        hash,
-        description:
-          tabIndex === 0
-            ? t`Upgrade ${originToken.symbol} into ${targetToken.symbol}`
-            : t`Revert ${originToken.symbol} into ${targetToken.symbol}`
-      });
-      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
-    },
-    onSuccess: hash => {
-      onNotification?.({
-        title: tabIndex === 0 ? t`Upgrade successful` : t`Revert successful`,
-        description:
-          tabIndex === 0
-            ? t`You upgraded ${formatUnits(debouncedOriginAmount, 18)} ${originToken.symbol} into ${
-                targetToken.symbol
-              }`
-            : t`You reverted ${formatUnits(debouncedOriginAmount, 18)} ${originToken.symbol} into ${
-                targetToken.symbol
-              }`,
-        status: TxStatus.SUCCESS,
-        type: notificationTypeMaping[targetToken?.symbol?.toUpperCase() || 'none']
-      });
-      setTxStatus(TxStatus.SUCCESS);
-      mutateAllowance();
-      mutateOriginBalance();
-      mutateTargetBalance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
-    },
-    onError: (error, hash) => {
-      onNotification?.({
-        title: tabIndex === 0 ? t`Upgrade failed` : t`Revert failed`,
-        description: t`Something went wrong with your transaction. Please try again.`,
-        status: TxStatus.ERROR
-      });
-      setTxStatus(TxStatus.ERROR);
-      mutateAllowance();
-      mutateOriginBalance();
-      mutateTargetBalance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
-    }
-  });
-
-  const approve = useApproveManager({
-    amount: debouncedOriginAmount,
-    token: originToken,
-    enabled: widgetState.action === UpgradeAction.APPROVE && allowance !== undefined,
-    onStart: (hash: string) => {
-      addRecentTransaction?.({ hash, description: t`Approving ${originToken.symbol} token` });
-      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
-    },
-    onSuccess: hash => {
-      onNotification?.({
-        title: t`Approve successful`,
-        description: t`You approved ${formatUnits(debouncedOriginAmount, 18)} ${originToken.symbol}`,
-        status: TxStatus.SUCCESS
-      });
-      setTxStatus(TxStatus.SUCCESS);
-      mutateAllowance();
-      actionManager.retryPrepare();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
-    },
-    onError: (error, hash) => {
-      onNotification?.({
-        title: t`Approval failed`,
-        description: t`We could not approve your token allowance.`,
-        status: TxStatus.ERROR
-      });
-      setTxStatus(TxStatus.ERROR);
-      mutateAllowance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
-    }
-  });
-
-  const batchActionManager = useBatchUpgraderManager({
-    token: originToken,
-    amount: debouncedOriginAmount,
-    // Only enable batch flow when the user needs allowance, otherwise default to individual Upgrade/Revert transaction
-    enabled: shouldUseBatch,
-    onStart: () => {
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ widgetState, txStatus: TxStatus.LOADING });
-    },
-    onSuccess: (hash: string | undefined) => {
-      onNotification?.({
-        title: tabIndex === 0 ? t`Upgrade successful` : t`Revert successful`,
-        description:
-          tabIndex === 0
-            ? t`You upgraded ${formatUnits(debouncedOriginAmount, 18)} ${originToken.symbol} into ${
-                targetToken.symbol
-              }`
-            : t`You reverted ${formatUnits(debouncedOriginAmount, 18)} ${originToken.symbol} into ${
-                targetToken.symbol
-              }`,
-        status: TxStatus.SUCCESS,
-        type: notificationTypeMaping[targetToken?.symbol?.toUpperCase() || 'none']
-      });
-      setExternalLink(hash && getTransactionLink(chainId, address, hash, isSafeWallet));
-      setTxStatus(TxStatus.SUCCESS);
-      mutateAllowance();
-      mutateOriginBalance();
-      mutateTargetBalance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
-    },
-    onError: (error: Error, hash: string | undefined) => {
-      onNotification?.({
-        title: tabIndex === 0 ? t`Upgrade failed` : t`Revert failed`,
-        description: t`Something went wrong with your transaction. Please try again.`,
-        status: TxStatus.ERROR
-      });
-      setExternalLink(hash && getTransactionLink(chainId, address, hash, isSafeWallet));
-      setTxStatus(TxStatus.ERROR);
-      mutateAllowance();
-      mutateOriginBalance();
-      mutateTargetBalance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
-    }
+  const { approve, actionManager, batchActionManager } = useUpgradeTransactions({
+    originToken,
+    targetToken,
+    originAmount,
+    allowance,
+    shouldUseBatch,
+    tabIndex,
+    mutateAllowance,
+    mutateOriginBalance,
+    mutateTargetBalance,
+    addRecentTransaction,
+    onWidgetStateChange,
+    onNotification
   });
 
   useEffect(() => {
