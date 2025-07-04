@@ -81,7 +81,7 @@
     "dotenv": "^16.5.0",
     "eslint": "^9.26.0",
     "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-testing-library": "^7.1.1",
+    "eslint-plugin-testing-library": "^7.5.3",
     "globals": "^15.15.0",
     "happy-dom": "^15.11.7",
     "husky": "^9.0.11",
