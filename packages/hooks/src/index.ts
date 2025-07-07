@@ -69,7 +69,6 @@ export { MakerHooksProvider, useMakerHooks } from './context/context';
 export { useUsdsToDai } from './upgrade/useUsdsToDai';
 export { useDaiToUsds } from './upgrade/useDaiToUsds';
 export { useMkrToSky } from './upgrade/useMkrToSky';
-export { useSkyToMkr } from './upgrade/useSkyToMkr';
 export { useDaiUsdsApprove } from './upgrade/useDaiUsdsApprove';
 export { useMkrSkyApprove } from './upgrade/useMkrSkyApprove';
 export { useUpgradeHistory } from './upgrade/useUpgradeHistory';
