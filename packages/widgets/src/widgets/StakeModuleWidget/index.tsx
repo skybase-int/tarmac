@@ -21,11 +21,6 @@ import {
   useCurrentUrnIndex,
   useStakeSkyAllowance,
   useStakeUsdsAllowance,
-  useStakeSkyApprove,
-  useStakeUsdsApprove,
-  useStakeMulticall,
-  useBatchStakeMulticall,
-  useStakeClaimRewards,
   useStakeUrnAddress,
   useVault,
   ZERO_ADDRESS,
@@ -36,7 +31,7 @@ import {
   getIlkName,
   useIsBatchSupported
 } from '@jetstreamgg/sky-hooks';
-import { formatBigInt, getTransactionLink, useDebounce, useIsSafeWallet } from '@jetstreamgg/sky-utils';
+import { useDebounce } from '@jetstreamgg/sky-utils';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
 import { Button } from '@widgets/components/ui/button';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
@@ -49,6 +44,7 @@ import { StakeModuleTransactionStatus } from './components/StakeModuleTransactio
 import { withWidgetProvider } from '@widgets/shared/hocs/withWidgetProvider';
 import { Wizard } from './components/Wizard';
 import { ManagePosition } from './components/ManagePosition';
+import { useStakeTransactions } from './hooks/useStakeTransactions';
 
 export type OnStakeUrnChange = (
   urn: { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined } | undefined
@@ -95,7 +91,6 @@ function StakeModuleWidgetWrapped({
   const { i18n } = useLingui();
   const chainId = useChainId();
   const { isConnected, isConnecting, address } = useAccount();
-  const isSafeWallet = useIsSafeWallet();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
   const { data: batchSupported, isLoading: isBatchSupportLoading } = useIsBatchSupported();
   const {
@@ -181,175 +176,22 @@ function StakeModuleWidgetWrapped({
   const allStepsComplete =
     isLockCompleted && isBorrowCompleted && isSelectRewardContractCompleted && isSelectDelegateCompleted;
 
-  const lockSkyApprove = useStakeSkyApprove({
-    amount: debouncedLockAmount,
-    onStart: (hash: string) => {
-      addRecentTransaction?.({
-        hash,
-        description: t`Approving ${formatBigInt(debouncedLockAmount)} SKY`
-      });
-      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
-    },
-    onSuccess: hash => {
-      onNotification?.({
-        title: t`Approve successful`,
-        description: t`You approved SKY`,
-        status: TxStatus.SUCCESS
-      });
-      setTxStatus(TxStatus.SUCCESS);
-      mutateStakeSkyAllowance();
-      multicall.retryPrepare();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
-    },
-    onError: (error, hash) => {
-      onNotification?.({
-        title: t`Approval failed`,
-        description: t`We could not approve your token allowance.`,
-        status: TxStatus.ERROR
-      });
-      setTxStatus(TxStatus.ERROR);
-      mutateStakeSkyAllowance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
-    },
-    enabled: widgetState.action === StakeAction.APPROVE && stakeSkyAllowance !== undefined
-  });
-
-  const repayUsdsApprove = useStakeUsdsApprove({
-    amount: debouncedUsdsAmount,
-    onStart: (hash: string) => {
-      addRecentTransaction?.({
-        hash,
-        description: t`Approving ${formatBigInt(debouncedUsdsAmount)} USDS`
-      });
-      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
-    },
-    onSuccess: hash => {
-      onNotification?.({
-        title: t`Approve successful`,
-        description: t`You approved USDS`,
-        status: TxStatus.SUCCESS
-      });
-      setTxStatus(TxStatus.SUCCESS);
-      mutateStakeUsdsAllowance();
-      multicall.retryPrepare();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
-    },
-    onError: (error, hash) => {
-      onNotification?.({
-        title: t`Approval failed`,
-        description: t`We could not approve your token allowance.`,
-        status: TxStatus.ERROR
-      });
-      setTxStatus(TxStatus.ERROR);
-      mutateStakeUsdsAllowance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
-    },
-    enabled: widgetState.action === StakeAction.APPROVE && stakeUsdsAllowance !== undefined
-  });
-
-  const multicallParams = {
-    calldata,
-    onStart: (hash?: string) => {
-      if (hash) {
-        addRecentTransaction?.({ hash, description: t`Doing multicall` });
-        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      }
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
-    },
-    onSuccess: (hash: string | undefined) => {
-      //TODO: fix all this copy
-      onNotification?.({
-        title: t`Approve successful`,
-        description: t`You approved ${formatBigInt(debouncedLockAmount)} SKY`, // TODO fix copy
-        status: TxStatus.SUCCESS
-      });
-      if (hash) {
-        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      }
-      setTxStatus(TxStatus.SUCCESS);
-      mutateStakeSkyAllowance();
-      // TODO Mutate balances here
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
-    },
-    onError: (error: Error, hash: string | undefined) => {
-      console.log('error', error, hash);
-      //TODO: fix all this copy
-      onNotification?.({
-        title: t`Approval failed`,
-        description: t`We could not approve your token allowance.`,
-        status: TxStatus.ERROR
-      });
-      setTxStatus(TxStatus.ERROR);
-      if (hash) {
-        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      }
-      mutateStakeSkyAllowance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
-    }
-  };
-
-  const multicall = useStakeMulticall({
-    ...multicallParams,
-    enabled: widgetState.action === StakeAction.MULTICALL && !!allStepsComplete
-  });
-
-  const batchMulticall = useBatchStakeMulticall({
-    ...multicallParams,
-    skyAmount: debouncedLockAmount,
+  const { lockSkyApprove, repayUsdsApprove, multicall, batchMulticall, claimRewards } = useStakeTransactions({
+    lockAmount: debouncedLockAmount,
     usdsAmount: debouncedUsdsAmount,
-    enabled:
-      (widgetState.action === StakeAction.MULTICALL || widgetState.action === StakeAction.APPROVE) &&
-      !!allStepsComplete
-  });
-
-  const claimRewards = useStakeClaimRewards({
-    index: indexToClaim,
-    rewardContract: rewardContractToClaim,
-    to: address,
-    enabled: indexToClaim !== undefined && !!rewardContractToClaim && !!address,
-    onStart: (hash: string) => {
-      addRecentTransaction?.({
-        hash,
-        description: 'Claiming rewards'
-      });
-      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
-    },
-    onSuccess: (hash: string) => {
-      //TODO: Update copy
-      onNotification?.({
-        title: t`Claim successful`,
-        description: t`You claimed your rewards`,
-        status: TxStatus.SUCCESS
-      });
-      setTxStatus(TxStatus.SUCCESS);
-      // TODO: `useRewardsRewardsBalance` invalidates the query after every block,
-      // do we need to invalidate it again here?
-      // mutateRewardsBalance();
-      setIndexToClaim(undefined);
-      setRewardContractToClaim(undefined);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
-    },
-    onError: (error: Error, hash: string) => {
-      //TODO: Update copy
-      onNotification?.({
-        title: t`Claim failed`,
-        description: t`We could not claim your rewards.`,
-        status: TxStatus.ERROR
-      });
-      setTxStatus(TxStatus.ERROR);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
-    }
+    stakeSkyAllowance,
+    stakeUsdsAllowance,
+    calldata,
+    allStepsComplete,
+    indexToClaim,
+    setIndexToClaim,
+    rewardContractToClaim,
+    setRewardContractToClaim,
+    mutateStakeSkyAllowance,
+    mutateStakeUsdsAllowance,
+    addRecentTransaction,
+    onWidgetStateChange,
+    onNotification
   });
 
   const shouldOpenFromWidgetButton =
