@@ -124,7 +124,7 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
   {
     name: 'mkrSky',
     address: {
-      [mainnet.id]: '0xBDcFCA946b6CDd965f99a839e4435Bcdc1bc470B',
+      [mainnet.id]: '0xA1Ea1bA18E88C381C724a75F23a130420C403f9a',
       [TENDERLY_CHAIN_ID]: '0x831C6C334f8DDeE62246a5c81B82c8e18008b38f'
     }
   },

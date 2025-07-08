@@ -187,7 +187,6 @@ A `WriteHook` is used for writing or mutating data. It typically includes the fo
 - useUsdsToDai
 - useDaiToUsds
 - useMkrToSky
-- useSkyToMkr
 - useMkrToSkyApprove
 - useDaiUsdsApprove
 - useUpgradeHistory

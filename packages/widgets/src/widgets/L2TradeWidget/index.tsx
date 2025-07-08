@@ -24,6 +24,7 @@ import {
 import { useContext, useEffect, useMemo, useState, ReactNode } from 'react';
 import {
   formatBigInt,
+  formatNumber,
   math,
   truncateStringToFourDecimals,
   useDebounce,
@@ -50,6 +51,7 @@ import { Heading } from '@widgets/shared/components/ui/Typography';
 import { L2TradeTransactionStatus } from './components/L2TradeTransactionStatus';
 import { useTokenImage } from '@widgets/shared/hooks/useTokenImage';
 import { L2TradeTransactionReview } from './components/L2TradeTransactionReview';
+import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
 
 const useMaxInForWithdraw = (
   targetAmount: bigint,
@@ -1258,6 +1260,78 @@ function TradeWidgetWrapped({
               canSwitchTokens={true}
               isConnectedAndEnabled={isConnectedAndEnabled}
             />
+            {!!originAmount && !!targetAmount && !isBalanceError && (
+              <TransactionOverview
+                title={t`Transaction overview`}
+                isFetching={false}
+                fetchingMessage={t`Fetching transaction details`}
+                transactionData={[
+                  {
+                    label: t`Exchange rate`,
+                    value: (() => {
+                      if (!originAmount || originAmount === 0n || !targetAmount) return '1:1';
+
+                      const originDecimals = getTokenDecimals(originToken as Token, chainId);
+                      const targetDecimals = getTokenDecimals(targetToken as Token, chainId);
+
+                      // Convert to decimal values
+                      const originValue = Number(formatUnits(originAmount, originDecimals));
+                      const targetValue = Number(formatUnits(targetAmount, targetDecimals));
+
+                      // Calculate ratio (how much target you get for 1 origin)
+                      const ratio = targetValue / originValue;
+
+                      // Format the ratio - always show as 1:X
+                      const formattedRatio = formatNumber(ratio, {
+                        maxDecimals: ratio < 0.01 ? 6 : ratio < 1 ? 4 : 2,
+                        useGrouping: false
+                      });
+
+                      return `1:${formattedRatio}`;
+                    })()
+                  },
+                  {
+                    label: t`Tokens to receive`,
+                    value: `${formatBigInt(targetAmount, {
+                      unit: getTokenDecimals(targetToken as Token, chainId),
+                      compact: true
+                    })} ${targetToken?.symbol}`
+                  },
+                  {
+                    label: t`Your wallet ${originToken?.symbol || ''} balance`,
+                    value:
+                      originBalance?.value !== undefined && originAmount > 0n
+                        ? [
+                            formatBigInt(originBalance.value, {
+                              unit: getTokenDecimals(originToken as Token, chainId),
+                              compact: true
+                            }),
+                            formatBigInt(originBalance.value - originAmount, {
+                              unit: getTokenDecimals(originToken as Token, chainId),
+                              compact: true
+                            })
+                          ]
+                        : '--'
+                  },
+                  {
+                    label: t`Your wallet ${targetToken?.symbol || ''} balance`,
+                    value:
+                      targetBalance?.value !== undefined && targetAmount > 0n
+                        ? [
+                            formatBigInt(targetBalance.value, {
+                              unit: getTokenDecimals(targetToken as Token, chainId),
+                              compact: true
+                            }),
+                            formatBigInt(targetBalance.value + targetAmount, {
+                              unit: getTokenDecimals(targetToken as Token, chainId),
+                              compact: true
+                            })
+                          ]
+                        : '--'
+                  }
+                ]}
+              />
+            )}
           </CardAnimationWrapper>
         )}
       </AnimatePresence>

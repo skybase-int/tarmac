@@ -1012,6 +1012,7 @@ msgid "Estimated price impact"
 msgstr ""
 
 #: packages/widgets/src/widgets/UpgradeWidget/components/UpgradeRevert.tsx
+#: packages/widgets/src/widgets/L2TradeWidget/index.tsx
 msgid "Exchange rate"
 msgstr ""
 
@@ -1066,6 +1067,7 @@ msgstr ""
 #: packages/widgets/src/widgets/UpgradeWidget/components/UpgradeRevert.tsx
 #: packages/widgets/src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
+#: packages/widgets/src/widgets/L2TradeWidget/index.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
 msgid "Fetching transaction details"
 msgstr ""
@@ -1201,6 +1203,10 @@ msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/Free.tsx
 msgid "How much would you like to unseal?"
+msgstr ""
+
+#: packages/widgets/src/widgets/StakeModuleWidget/components/UnconnectedState.tsx
+msgid "How to stake"
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeHelpModal.tsx
@@ -1509,6 +1515,7 @@ msgstr ""
 msgid "Open position"
 msgstr ""
 
+#: packages/widgets/src/widgets/StakeModuleWidget/components/UnconnectedState.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/OpenNewUrn.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/OpenNewUrn.tsx
 msgid "Open Position"
@@ -1660,6 +1667,7 @@ msgstr ""
 #: apps/webapp/src/modules/stake/components/StakeRewardsOverview.tsx
 #: apps/webapp/src/modules/rewards/components/RewardsTokenInfo.tsx
 #: packages/widgets/src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
+#: packages/widgets/src/widgets/RewardsWidget/index.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
 msgid "Rate"
 msgstr ""
@@ -2084,7 +2092,6 @@ msgstr ""
 msgid "Stake"
 msgstr ""
 
-#: packages/widgets/src/widgets/StakeModuleWidget/components/UnconnectedState.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/OpenNewUrn.tsx
 msgid "Stake and borrow"
 msgstr ""
@@ -2340,6 +2347,7 @@ msgid "Token access approved"
 msgstr ""
 
 #: packages/widgets/src/widgets/UpgradeWidget/components/UpgradeRevert.tsx
+#: packages/widgets/src/widgets/L2TradeWidget/index.tsx
 msgid "Tokens to receive"
 msgstr ""
 
@@ -2351,12 +2359,6 @@ msgstr ""
 #. placeholder {0}: rewardContract.rewardToken.symbol
 #: apps/webapp/src/modules/rewards/components/RewardsTokenInfo.tsx
 msgid "Total {0} rewarded"
-msgstr ""
-
-#. placeholder {0}: selectedRewardContract?.supplyToken.symbol ?? ''
-#. placeholder {1}: widgetState.flow === RewardsFlow.SUPPLY ? 'Supply' : 'Withdraw'
-#: packages/widgets/src/widgets/RewardsWidget/index.tsx
-msgid "Total {0} to {1}"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/DelegateCard.tsx
@@ -2430,10 +2432,6 @@ msgstr ""
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/L2TradeWidget/lib/constants.ts
 msgid "Trade completed"
-msgstr ""
-
-#: packages/widgets/src/widgets/TradeWidget/components/TradeDetails.tsx
-msgid "Trade details"
 msgstr ""
 
 #: packages/widgets/src/widgets/L2TradeWidget/index.tsx
@@ -2514,8 +2512,10 @@ msgid "Transaction history"
 msgstr ""
 
 #: packages/widgets/src/widgets/UpgradeWidget/components/UpgradeRevert.tsx
+#: packages/widgets/src/widgets/TradeWidget/components/TradeDetails.tsx
 #: packages/widgets/src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
+#: packages/widgets/src/widgets/L2TradeWidget/index.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
 msgid "Transaction overview"
 msgstr ""
@@ -2629,7 +2629,6 @@ msgid "Unstake"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
-#: packages/widgets/src/widgets/StakeModuleWidget/components/UnconnectedState.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/OpenNewUrn.tsx
 msgid "Unstake and pay back"
 msgstr ""
@@ -3103,6 +3102,7 @@ msgid "You will revert your {0} to {1}."
 msgstr ""
 
 #: packages/widgets/src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
+#: packages/widgets/src/widgets/RewardsWidget/index.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
 msgid "You will supply"
 msgstr ""
@@ -3128,6 +3128,7 @@ msgid "You will upgrade your {0} to {1}."
 msgstr ""
 
 #: packages/widgets/src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
+#: packages/widgets/src/widgets/RewardsWidget/index.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
 msgid "You will withdraw"
 msgstr ""
@@ -3328,6 +3329,12 @@ msgstr ""
 msgid "You've withdrawn {amount} {symbol} from the Sky Savings Rate module."
 msgstr ""
 
+#. placeholder {0}: selectedRewardContract?.rewardToken.symbol ?? ''
+#. placeholder {1}: selectedRewardContract?.supplyToken.symbol ?? ''
+#: packages/widgets/src/widgets/RewardsWidget/index.tsx
+msgid "Your {0} rewards {1} balance"
+msgstr ""
+
 #. placeholder {0}: Array.isArray(termsLink) && termsLink.length > 0 ? ( <ExternalLink skipConfirm className="text-textEmphasis" showIcon={false} href={sanitizeUrl(termsLink[0].url)} > {termsLink[0].name} </ExternalLink> ) : ( 'Terms of Use' )
 #: apps/webapp/src/modules/auth/components/UnauthorizedPage.tsx
 msgid "Your access is restricted. For more information, please refer to our {0}."
@@ -3383,15 +3390,13 @@ msgstr ""
 msgid "Your Rewards transaction history"
 msgstr ""
 
-#. placeholder {0}: inputToken?.symbol
-#. placeholder {0}: originToken?.symbol
-#: packages/widgets/src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
-#: packages/widgets/src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
-msgid "Your Savings {0} balance will be"
-msgstr ""
-
 #: apps/webapp/src/modules/savings/components/SavingsDetails.tsx
 msgid "Your Savings transaction history"
+msgstr ""
+
+#: packages/widgets/src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
+#: packages/widgets/src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
+msgid "Your Savings USDS balance"
 msgstr ""
 
 #: apps/webapp/src/modules/seal/components/SealPositionDetails.tsx
@@ -3473,11 +3478,17 @@ msgstr ""
 msgid "Your Upgrade/Revert transaction history"
 msgstr ""
 
+#. placeholder {0}: originToken?.symbol || ''
+#. placeholder {0}: targetToken?.symbol || ''
 #. placeholder {0}: inputToken?.symbol
-#. placeholder {0}: originToken?.symbol
+#: packages/widgets/src/widgets/UpgradeWidget/components/UpgradeRevert.tsx
+#: packages/widgets/src/widgets/UpgradeWidget/components/UpgradeRevert.tsx
 #: packages/widgets/src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
+#: packages/widgets/src/widgets/RewardsWidget/index.tsx
+#: packages/widgets/src/widgets/L2TradeWidget/index.tsx
+#: packages/widgets/src/widgets/L2TradeWidget/index.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/components/L2SavingsSupplyWithdraw.tsx
-msgid "Your wallet {0} balance will be"
+msgid "Your wallet {0} balance"
 msgstr ""
 
 #: apps/webapp/src/modules/layout/components/UnsupportedNetworkPage.tsx
