@@ -16,7 +16,7 @@ import { useAccount, useChainId } from 'wagmi';
 import { getStepTitle, StakeAction, StakeFlow, StakeScreen, StakeStep } from './lib/constants';
 import { getNextStep, getPreviousStep, getStepIndex, getTotalSteps } from './lib/utils';
 import { StepperBar } from './components/StepperBar';
-import { StakeModuleWidgetContext } from './context/context';
+import { StakeModuleWidgetContext, StakeModuleWidgetProvider } from './context/context';
 import {
   useCurrentUrnIndex,
   useStakeSkyAllowance,
@@ -895,4 +895,10 @@ function StakeModuleWidgetWrapped({
   );
 }
 
-export const StakeModuleWidget = withWidgetProvider(StakeModuleWidgetWrapped, 'StakeModuleWidget');
+const StakeModuleWidgetWithProvider = (props: StakeModuleWidgetProps) => (
+  <StakeModuleWidgetProvider>
+    <StakeModuleWidgetWrapped {...props} />
+  </StakeModuleWidgetProvider>
+);
+
+export const StakeModuleWidget = withWidgetProvider(StakeModuleWidgetWithProvider, 'StakeModuleWidget');
