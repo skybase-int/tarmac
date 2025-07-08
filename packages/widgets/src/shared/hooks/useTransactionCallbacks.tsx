@@ -3,7 +3,7 @@ import { WidgetProps } from '../types/widgetState';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { getTransactionLink, useIsSafeWallet } from '@jetstreamgg/sky-utils';
 import { useAccount, useChainId } from 'wagmi';
-import { TxStatus } from '../constants';
+import { NotificationType, TxStatus } from '../constants';
 
 type UseTransactionCallbacksParameters = Pick<
   WidgetProps,
@@ -19,6 +19,7 @@ interface TransactionSuccessParameters {
   hash: string | undefined;
   notificationTitle: string;
   notificationDescription: string;
+  notificationType?: NotificationType;
 }
 
 interface TransactionErrorParameters {
@@ -64,11 +65,17 @@ export const useTransactionCallbacks = ({
   );
 
   const handleOnSuccess = useCallback(
-    ({ hash, notificationTitle, notificationDescription }: TransactionSuccessParameters) => {
+    ({
+      hash,
+      notificationTitle,
+      notificationDescription,
+      notificationType
+    }: TransactionSuccessParameters) => {
       onNotification?.({
         title: notificationTitle,
         description: notificationDescription,
-        status: TxStatus.SUCCESS
+        status: TxStatus.SUCCESS,
+        type: notificationType
       });
       setTxStatus(TxStatus.SUCCESS);
       if (hash) {
