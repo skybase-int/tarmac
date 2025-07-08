@@ -10,10 +10,6 @@ import {
   useReadSsrAuthOracleGetChi,
   useReadSsrAuthOracleGetRho,
   useReadSsrAuthOracleGetSsr,
-  tokenForChainToToken,
-  usePreviewSwapExactIn,
-  usePreviewSwapExactOut,
-  ZERO_ADDRESS,
   useIsBatchSupported
 } from '@jetstreamgg/sky-hooks';
 import { useContext, useEffect, useMemo, useState, ReactNode } from 'react';
@@ -46,43 +42,8 @@ import { L2TradeTransactionReview } from './components/L2TradeTransactionReview'
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
 import { withWidgetProvider } from '@widgets/shared/hocs/withWidgetProvider';
 import { useL2TradeTransactions } from './hooks/useL2TradeTransactions';
-
-const useMaxInForWithdraw = (
-  targetAmount: bigint,
-  originToken?: TokenForChain,
-  targetToken?: TokenForChain
-) => {
-  const chainId = useChainId();
-
-  //used to calculate regular withdraw maxIn amount
-  const { value } = usePreviewSwapExactOut(
-    targetAmount,
-    originToken
-      ? tokenForChainToToken(originToken, originToken?.address || ZERO_ADDRESS, chainId)
-      : undefined,
-    targetToken ? tokenForChainToToken(targetToken, targetToken?.address || ZERO_ADDRESS, chainId) : undefined
-  );
-
-  return { value };
-};
-
-const useMaxOutForDeposit = (
-  originAmount: bigint,
-  originToken?: TokenForChain,
-  targetToken?: TokenForChain
-) => {
-  const chainId = useChainId();
-
-  const { value } = usePreviewSwapExactIn(
-    originAmount,
-    originToken
-      ? tokenForChainToToken(originToken, originToken?.address || ZERO_ADDRESS, chainId)
-      : undefined,
-    targetToken ? tokenForChainToToken(targetToken, targetToken?.address || ZERO_ADDRESS, chainId) : undefined
-  );
-
-  return { value };
-};
+import { useMaxInForWithdraw } from './hooks/useMaxInForWithdraw';
+import { useMaxOutForDeposit } from './hooks/useMaxOutForDeposit';
 
 export type TradeWidgetProps = WidgetProps & {
   customTokenList?: TokenForChain[];

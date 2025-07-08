@@ -37,42 +37,8 @@ import {
 import { SavingsTransactionReview } from '../SavingsWidget/components/SavingsTransactionReview';
 import { withWidgetProvider } from '@widgets/shared/hocs/withWidgetProvider';
 import { useL2SavingsTransactions } from './hooks/useL2SavingsTransactions';
-
-const defaultDepositOptions = [TOKENS.usds, TOKENS.usdc];
-const defaultWithdrawOptions = [TOKENS.usds, TOKENS.usdc];
-
-function calculateOriginOptions(
-  token: Token,
-  action: string,
-  flow: SavingsFlow,
-  depositOptions: Token[] = [],
-  withdrawOptions: Token[] = [],
-  disallowedTokens: { [key in SavingsFlow]: Token[] } = {
-    [SavingsFlow.SUPPLY]: [],
-    [SavingsFlow.WITHDRAW]: []
-  }
-) {
-  const options = action === 'deposit' ? [...depositOptions] : [...withdrawOptions];
-  const disallowed = disallowedTokens[flow];
-  const allowedOptions = options.filter(option => !disallowed.includes(option));
-
-  // Sort the array so that the selected token is first
-  allowedOptions.sort((a, b) => {
-    if (a.symbol === token.symbol) {
-      return -1;
-    }
-    if (b.symbol === token.symbol) {
-      return 1;
-    }
-    return 0;
-  });
-
-  return allowedOptions;
-}
-
-const tokenForSymbol = (symbol: keyof typeof TOKENS) => {
-  return TOKENS[(symbol as string).toLowerCase()];
-};
+import { defaultDepositOptions, defaultWithdrawOptions } from './lib/constants';
+import { calculateOriginOptions, tokenForSymbol } from './lib/helpers';
 
 export type SavingsWidgetProps = WidgetProps & {
   disallowedTokens?: { [key in SavingsFlow]: Token[] };
