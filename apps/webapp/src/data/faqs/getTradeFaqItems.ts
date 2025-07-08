@@ -12,7 +12,7 @@ import {
   arbitrumFaqItems,
   optimismFaqItems,
   unichainFaqItems
-} from '../ui/constants/sharedFaqItems';
+} from './sharedFaqItems';
 
 export const getTradeFaqItems = (chainId: number) => [
   ...(isMainnetId(chainId) ? mainnetFaqItems : []),

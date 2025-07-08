@@ -11,7 +11,7 @@ import {
   arbitrumFaqItems,
   optimismFaqItems,
   unichainFaqItems
-} from '../ui/constants/sharedFaqItems';
+} from './sharedFaqItems';
 
 export const getSavingsFaqItems = (chainId: number) => [
   ...[...generalFaqItems, ...L2GeneralFaqItems],
