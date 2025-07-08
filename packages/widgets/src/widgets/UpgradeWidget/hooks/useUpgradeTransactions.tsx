@@ -19,8 +19,6 @@ interface UseUpgradeTransactionsParameters
   mutateOriginBalance: () => void;
   mutateTargetBalance: () => void;
   tabIndex: 0 | 1;
-  onWidgetStateChange?: (data: any) => void;
-  onNotification?: (data: any) => void;
 }
 
 export const useUpgradeTransactions = ({

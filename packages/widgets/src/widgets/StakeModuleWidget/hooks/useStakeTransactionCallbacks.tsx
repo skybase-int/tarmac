@@ -5,7 +5,7 @@ import { TransactionCallbacks } from '@widgets/shared/types/transactionCallbacks
 import { WidgetProps } from '@widgets/shared/types/widgetState';
 import { useMemo } from 'react';
 
-interface UseStakeTrasactionCallbacksParameters
+interface UseStakeTransactionCallbacksParameters
   extends Pick<WidgetProps, 'addRecentTransaction' | 'onWidgetStateChange' | 'onNotification'> {
   lockAmount: bigint;
   usdsAmount: bigint;
@@ -27,7 +27,7 @@ export const useStakeTransactionCallbacks = ({
   addRecentTransaction,
   onWidgetStateChange,
   onNotification
-}: UseStakeTrasactionCallbacksParameters) => {
+}: UseStakeTransactionCallbacksParameters) => {
   const { handleOnStart, handleOnSuccess, handleOnError } = useTransactionCallbacks({
     addRecentTransaction,
     onWidgetStateChange,
