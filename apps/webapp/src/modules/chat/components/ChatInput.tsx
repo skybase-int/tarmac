@@ -43,28 +43,38 @@ export const ChatInput = ({ sendMessage }: { sendMessage: (message: string) => v
         <input
           ref={inputRef}
           placeholder={placeholder}
-          className="ring-offset-background grow bg-transparent text-sm leading-4 text-white placeholder:text-violet-200/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:placeholder:text-violet-200/20"
+          className="ring-offset-background min-w-0 grow bg-transparent text-sm leading-4 text-white placeholder:text-violet-200/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:placeholder:text-violet-200/20"
           value={inputText}
           maxLength={MAX_MESSAGE_LENGTH}
           onChange={e => setInputText(e.target.value.slice(0, MAX_MESSAGE_LENGTH))}
           onKeyUp={handleKeyPress}
         />
-        <HStack className="gap-2">
+        <HStack className="@sm/chat:gap-2 shrink-0 gap-1">
           <Tooltip delayDuration={400}>
             <TooltipTrigger asChild>
               <Button
                 variant="ghost"
-                className="h-6 rounded-lg border border-violet-200/30 bg-transparent px-2 text-xs text-violet-200/70 hover:border-violet-200/50 hover:bg-transparent hover:text-white active:bg-transparent"
+                className="@sm/chat:px-2 h-6 rounded-lg border border-violet-200/30 bg-transparent px-1 text-xs text-violet-200/70 hover:border-violet-200/50 hover:bg-transparent hover:text-white active:bg-transparent"
                 onClick={handleFeedbackClick}
               >
-                <Trans>Feedback</Trans>
+                <Text variant="small" className="@sm/chat:inline hidden">
+                  <Trans>Feedback</Trans>
+                </Text>
+                <Text variant="small" className="@sm/chat:hidden">
+                  <Trans>FB</Trans>
+                </Text>
               </Button>
             </TooltipTrigger>
-            <TooltipContent className="max-w-xs">
-              <Trans>
-                Share your feedback about this chat experience. Click this button to start a feedback message,
-                then type your thoughts and send.
-              </Trans>
+            <TooltipContent className="@sm/chat:max-w-xs max-w-[180px]">
+              <Text variant="small" className="@sm/chat:hidden">
+                <Trans>Click to share feedback about this chat</Trans>
+              </Text>
+              <Text variant="small" className="@sm/chat:inline hidden">
+                <Trans>
+                  Share your feedback about this chat experience. Click this button to start a feedback
+                  message, then type your thoughts and send.
+                </Trans>
+              </Text>
             </TooltipContent>
           </Tooltip>
           <Button

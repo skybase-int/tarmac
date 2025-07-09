@@ -660,6 +660,10 @@ msgstr ""
 msgid "Claiming rewards"
 msgstr ""
 
+#: apps/webapp/src/modules/chat/components/ChatInput.tsx
+msgid "Click to share feedback about this chat"
+msgstr ""
+
 #: packages/widgets/src/widgets/BalancesWidget/components/SealBalanceWarningCard.tsx
 msgid "Close your position(s)"
 msgstr ""
@@ -1051,6 +1055,10 @@ msgstr ""
 #: apps/webapp/src/modules/rewards/components/RewardsDetailsView.tsx
 #: apps/webapp/src/modules/balances/components/BalancesDetails.tsx
 msgid "FAQs"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/ChatInput.tsx
+msgid "FB"
 msgstr ""
 
 #: apps/webapp/src/modules/chat/components/ChatInput.tsx
