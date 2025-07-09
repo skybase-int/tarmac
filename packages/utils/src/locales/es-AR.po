@@ -401,14 +401,6 @@ msgstr ""
 msgid "Approving {0} USDS"
 msgstr ""
 
-#: apps/webapp/src/modules/chat/components/ChatInput.tsx
-msgid "Ask another question"
-msgstr ""
-
-#: apps/webapp/src/modules/chat/components/ChatInput.tsx
-msgid "Ask me anything"
-msgstr ""
-
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 msgid "Back"
 msgstr ""
@@ -1053,6 +1045,10 @@ msgstr ""
 msgid "FAQs"
 msgstr ""
 
+#: apps/webapp/src/modules/chat/components/ChatInput.tsx
+msgid "Feedback"
+msgstr ""
+
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Borrow.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
@@ -1601,10 +1597,6 @@ msgstr ""
 msgid "Please confirm that you want to claim your rewards directly to your wallet."
 msgstr ""
 
-#: apps/webapp/src/modules/chat/components/ChatInput.tsx
-msgid "Please confirm you're at least 18"
-msgstr ""
-
 #: apps/webapp/src/modules/app/components/SealMigrationWidgetPane.tsx
 msgid "Please connect your wallet to Ethereum Mainnet to start the migration of your positions."
 msgstr ""
@@ -1929,6 +1921,10 @@ msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 msgid "Sending ETH"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/ChatInput.tsx
+msgid "Share your feedback about this chat experience. Click this button to start a feedback message, then type your thoughts and send."
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/ViewSkyMkrButton.tsx
