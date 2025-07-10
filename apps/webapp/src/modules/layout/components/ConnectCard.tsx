@@ -65,7 +65,7 @@ export function ConnectCard({ intent }: { intent: Intent }) {
       chainId
     ),
     [Intent.SEAL_INTENT]: t`The Seal Engine is a module of the Sky Protocol. The MKR and or SKY tokens you supply to the Seal Engine are sealed behind an exit fee in order to provide access to Seal Rewards and encourage a deeper commitment to Sky ecosystem governance. With Sky, you always remain in control of your funds.`,
-    [Intent.STAKE_INTENT]: t`The Staking Engine is a module of the Sky Protocol. It has replaced the Seal Engine, offering the same features but it has no exit fee and only supports SKY, not MKR. The SKY tokens you supply to the Staking Engine enable you to access Staking Rewards, and more. With Sky, you always remain in control of your assets.`
+    [Intent.STAKE_INTENT]: t`The Staking Engine is a module of the Sky Protocol. When you stake SKY tokens to the Staking Engine, you can access Staking Rewards and may also choose to create one or more positions, including positions that enable you to generate and borrow USDS against your supplied SKY and to delegate the voting power the SKY token provides. With Sky, you always remain in control of your assets.`
   };
 
   return (
