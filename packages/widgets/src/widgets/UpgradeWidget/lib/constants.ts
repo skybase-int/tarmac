@@ -135,7 +135,7 @@ export function upgradeSubtitle({
   switch (txStatus) {
     case TxStatus.INITIALIZED:
       return needsAllowance
-        ? msg`Please allow this app to access you ${originToken.symbol} and upgrade it to ${targetToken.symbol}.`
+        ? msg`Please allow this app to access your ${originToken.symbol} and upgrade it to ${targetToken.symbol}.`
         : msg`Almost done!`;
     case TxStatus.LOADING:
       return needsAllowance
