@@ -100,12 +100,11 @@ export function MainApp() {
   // Show batch tx notification with priority (when batch is disabled and the feature is enabled)
   useBatchTxNotification({ isAuthorized: BATCH_TX_ENABLED });
 
-  // Show chat notification if:
+  // Show chat notification only if:
   // 1. Batch feature is not enabled (BATCH_TX_ENABLED is false), OR
-  // 2. User has already enabled batch transactions, OR
-  // 3. Batch notification has already been shown
-  const showChatNotification =
-    !BATCH_TX_ENABLED || userConfig.batchEnabled || userConfig.batchTxNotificationShown;
+  // 2. Batch notification has already been shown (from a previous session)
+  // This prevents showing both notifications in the same session
+  const showChatNotification = !BATCH_TX_ENABLED || userConfig.batchTxNotificationShown;
   useChatNotification({ isAuthorized: CHATBOT_ENABLED && showChatNotification });
 
   // If the user is connected to a Safe Wallet using WalletConnect, notify they can use the Safe App
