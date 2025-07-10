@@ -31,7 +31,7 @@ export function ConnectCard({ intent }: { intent: Intent }) {
       },
       chainId
     ),
-    [Intent.REWARDS_INTENT]: t`Sky Tokens Rewards are what you access when you supply USDS to the Sky Token Rewards module of the decentralised Sky Protocol. Sky Token Rewards are in the form of SKY governance tokens. No minimum USDS supply amount is required. With the Sky Protocol, you can access rewards without giving up control of your supplied funds.`,
+    [Intent.REWARDS_INTENT]: t`When you supply USDS to the Sky Token Rewards module of the Sky Protocol, you receive Sky Token Rewards over time. The USDS, as well as the rewards received, are supplied to a non-custodial smart contract that represents the USDS pool of assets. That means no intermediary has custody of your supplied assets.`,
     [Intent.SAVINGS_INTENT]: getChainSpecificText(
       {
         default: (
