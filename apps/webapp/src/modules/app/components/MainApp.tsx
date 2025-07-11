@@ -104,8 +104,10 @@ export function MainApp() {
   // 1. Batch feature is not enabled (BATCH_TX_ENABLED is false), OR
   // 2. Batch notification has already been shown (from a previous session)
   // This prevents showing both notifications in the same session
-  const showChatNotification = !BATCH_TX_ENABLED || userConfig.batchTxNotificationShown;
-  useChatNotification({ isAuthorized: CHATBOT_ENABLED && showChatNotification });
+  // const showChatNotification = !BATCH_TX_ENABLED || userConfig.batchTxNotificationShown;
+  // useChatNotification({ isAuthorized: CHATBOT_ENABLED && showChatNotification });
+  // TODO: Disabling chat notification for now until we have a better onboarding flow
+  useChatNotification({ isAuthorized: false });
 
   // If the user is connected to a Safe Wallet using WalletConnect, notify they can use the Safe App
   useSafeAppNotification();
