@@ -314,6 +314,10 @@ msgstr ""
 msgid "An error occurred while withdrawing {symbol}"
 msgstr ""
 
+#: apps/webapp/src/modules/chat/components/FeedbackModal.tsx
+msgid "Any feedback not matching above topics"
+msgstr ""
+
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
@@ -536,6 +540,10 @@ msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/components/TradeConfigMenu.tsx
 msgid "By setting your slippage tolerance level, you control the degree of token price fluctuation that you will accept between the time you initiate a trade transaction and its execution on the blockchain."
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/FeedbackModal.tsx
+msgid "Cancel"
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
@@ -829,6 +837,7 @@ msgstr ""
 msgid "Connect Wallet"
 msgstr ""
 
+#: apps/webapp/src/modules/chat/components/FeedbackModal.tsx
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
@@ -1406,6 +1415,14 @@ msgstr ""
 msgid "Minimum output"
 msgstr ""
 
+#: apps/webapp/src/modules/chat/components/FeedbackModal.tsx
+msgid "Missing activation/button for trade, etc."
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/FeedbackModal.tsx
+msgid "Missing or unnecessary disclaimer"
+msgstr ""
+
 #: packages/widgets/src/widgets/BalancesWidget/lib/getToken.ts
 msgid "MKR"
 msgstr ""
@@ -1621,6 +1638,10 @@ msgstr ""
 msgid "Please connect your wallet to view your history"
 msgstr ""
 
+#: apps/webapp/src/modules/chat/components/FeedbackModal.tsx
+msgid "Please select one or more topics that describe your feedback:"
+msgstr ""
+
 #: packages/widgets/src/shared/components/ui/transaction/TransactionStatus.tsx
 #: packages/widgets/src/shared/components/ui/transaction/BatchTransactionStatus.tsx
 msgid "Please try again"
@@ -1722,6 +1743,22 @@ msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "Repaying USDS in the Seal Rewards module"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/FeedbackModal.tsx
+msgid "Response contains wrong information"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/FeedbackModal.tsx
+msgid "Response is correct and sufficient"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/FeedbackModal.tsx
+msgid "Response may be perceived as financial, investment, or legal advice"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/FeedbackModal.tsx
+msgid "Response omits key information"
 msgstr ""
 
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
@@ -1905,6 +1942,10 @@ msgstr ""
 #: apps/webapp/src/modules/seal/components/SealHistory.tsx
 #: packages/widgets/src/widgets/BalancesWidget/lib/getTitle.ts
 msgid "Select delegate"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/FeedbackModal.tsx
+msgid "Select Feedback Topics"
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeHistory.tsx
@@ -2606,6 +2647,10 @@ msgstr ""
 
 #: apps/webapp/src/modules/ui/components/Chart.tsx
 msgid "Unable to load chart data, please try again later."
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/FeedbackModal.tsx
+msgid "Unexpected issue with the response"
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
