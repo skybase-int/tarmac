@@ -318,6 +318,7 @@ const RewardsWidgetWrapped = ({
 
   const nextOnClick = () => {
     setTxStatus(TxStatus.IDLE);
+    setAmount(0n);
 
     setWidgetState((prev: WidgetState) => ({
       ...prev,
@@ -329,16 +330,6 @@ const RewardsWidgetWrapped = ({
             : RewardsAction.SUPPLY,
       screen: RewardsScreen.ACTION
     }));
-
-    // if successful supply/wWITHDRAW, reset amount
-    if (widgetState.action !== RewardsAction.APPROVE) {
-      setAmount(0n);
-    }
-
-    // if successfully approved, go to supply/withdraw
-    if (widgetState.action === RewardsAction.APPROVE && !needsAllowance) {
-      return widgetState.flow === RewardsFlow.SUPPLY ? supply.execute() : withdraw.execute();
-    }
   };
 
   const reviewOnClick = () => {

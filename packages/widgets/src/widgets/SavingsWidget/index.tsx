@@ -244,6 +244,7 @@ const SavingsWidgetWrapped = ({
 
   const nextOnClick = () => {
     setTxStatus(TxStatus.IDLE);
+    setAmount(0n);
 
     setWidgetState((prev: WidgetState) => ({
       ...prev,
@@ -255,16 +256,6 @@ const SavingsWidgetWrapped = ({
             : SavingsAction.SUPPLY,
       screen: SavingsScreen.ACTION
     }));
-
-    // if successful supply/withdraw, reset amount
-    if (widgetState.action !== SavingsAction.APPROVE) {
-      setAmount(0n);
-    }
-
-    // if successfully approved, go to supply/withdraw
-    if (widgetState.action === SavingsAction.APPROVE && !needsAllowance) {
-      return widgetState.flow === SavingsFlow.SUPPLY ? savingsSupply.execute() : savingsWithdraw.execute();
-    }
   };
 
   const reviewOnClick = () => {

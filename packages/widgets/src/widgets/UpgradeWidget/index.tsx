@@ -331,16 +331,7 @@ export function UpgradeWidgetWrapped({
   const nextOnClick = () => {
     shouldAllowExternalUpdate.current = true;
     setTxStatus(TxStatus.IDLE);
-
-    // After a successful upgrade/revert, we reset the origin amount
-    if (widgetState.action !== UpgradeAction.APPROVE) {
-      setOriginAmount(0n);
-    }
-
-    if (widgetState.action === UpgradeAction.APPROVE && hasAllowance) {
-      // If we just finished approving, we want to go directly to the next action
-      actionManager.execute();
-    }
+    setOriginAmount(0n);
 
     setWidgetState((prev: WidgetState) => ({
       ...prev,

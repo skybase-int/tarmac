@@ -730,34 +730,26 @@ function TradeWidgetWrapped({
   const nextOnClick = () => {
     setTxStatus(TxStatus.IDLE);
 
-    // After a successful trade, reset the origin amount
-    if (widgetState.action !== TradeAction.APPROVE) {
-      setTimeout(() => {
-        setOriginAmount(0n);
-        setTargetAmount(0n);
-        setOriginToken(initialOriginToken);
-        setTargetToken(undefined);
-      }, 500);
+    setTimeout(() => {
+      setOriginAmount(0n);
+      setTargetAmount(0n);
+      setOriginToken(initialOriginToken);
+      setTargetToken(undefined);
+    }, 500);
 
-      // Notify widget state change to clear URL params and force a reset
-      onWidgetStateChange?.({
-        originToken: initialOriginToken?.symbol || '',
-        targetToken: '',
-        originAmount: '',
-        txStatus: TxStatus.IDLE,
-        widgetState: {
-          flow: TradeFlow.TRADE,
-          action: TradeAction.TRADE,
-          screen: TradeScreen.ACTION
-        },
-        hash: undefined // Clear any existing hash
-      });
-    }
-
-    if (widgetState.action === TradeAction.APPROVE && !needsAllowance) {
-      // If we just finished approving, we want to go directly to the next action
-      return tradeOnClick();
-    }
+    // Notify widget state change to clear URL params and force a reset
+    onWidgetStateChange?.({
+      originToken: initialOriginToken?.symbol || '',
+      targetToken: '',
+      originAmount: '',
+      txStatus: TxStatus.IDLE,
+      widgetState: {
+        flow: TradeFlow.TRADE,
+        action: TradeAction.TRADE,
+        screen: TradeScreen.ACTION
+      },
+      hash: undefined // Clear any existing hash
+    });
 
     setWidgetState((prev: WidgetState) => ({
       ...prev,
