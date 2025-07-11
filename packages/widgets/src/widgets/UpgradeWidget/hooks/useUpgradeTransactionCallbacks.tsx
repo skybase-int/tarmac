@@ -12,6 +12,7 @@ interface UseUpgradeTransactionCallbacksParameters
   originToken: Token;
   targetToken: Token;
   tabIndex: 0 | 1;
+  shouldAllowExternalUpdate: React.RefObject<boolean>;
   mutateAllowance: () => void;
   mutateOriginBalance: () => void;
   mutateTargetBalance: () => void;
@@ -23,6 +24,7 @@ export const useUpgradeTransactionCallbacks = ({
   originToken,
   targetToken,
   tabIndex,
+  shouldAllowExternalUpdate,
   mutateAllowance,
   mutateOriginBalance,
   mutateTargetBalance,
@@ -40,7 +42,10 @@ export const useUpgradeTransactionCallbacks = ({
   // Upgrade approve
   const approveTransactionCallbacks = useMemo<TransactionCallbacks>(
     () => ({
-      onMutate: handleOnMutate,
+      onMutate: () => {
+        shouldAllowExternalUpdate.current = false;
+        handleOnMutate();
+      },
       onStart: hash => {
         handleOnStart({ hash, recentTransactionDescription: t`Approving ${originToken.symbol} token` });
       },
@@ -71,14 +76,18 @@ export const useUpgradeTransactionCallbacks = ({
       mutateAllowance,
       originAmount,
       originToken.symbol,
-      retryPrepareAction
+      retryPrepareAction,
+      shouldAllowExternalUpdate
     ]
   );
 
   // Upgrade action manager
   const upgradeManagerTransactionCallbacks = useMemo<TransactionCallbacks>(
     () => ({
-      onMutate: handleOnMutate,
+      onMutate: () => {
+        shouldAllowExternalUpdate.current = false;
+        handleOnMutate();
+      },
       onStart: hash => {
         handleOnStart({
           hash,
@@ -128,7 +137,8 @@ export const useUpgradeTransactionCallbacks = ({
       originAmount,
       originToken.symbol,
       tabIndex,
-      targetToken.symbol
+      targetToken.symbol,
+      shouldAllowExternalUpdate
     ]
   );
 

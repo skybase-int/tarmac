@@ -195,32 +195,25 @@ const SavingsWidgetWrapped = ({
   const shares = math.calculateSharesFromAssets(debouncedWadAmount, updatedChiForDeposit);
   const supplyMinAmountOut = originToken.symbol === 'USDC' ? math.roundDownLastTwelveDigits(shares) : shares;
 
-  const {
-    savingsApprove,
-    savingsSupply,
-    batchSavingsSupply,
-    savingsWithdraw,
-    batchSavingsWithdraw,
-    savingsWithdrawAll,
-    batchSavingsWithdrawAll
-  } = useL2SavingsTransactions({
-    amountToApprove,
-    allowance,
-    originToken,
-    amount: debouncedAmount,
-    isMaxWithdraw,
-    supplyMinAmountOut,
-    referralCode,
-    sUsdsBalance: sUsdsBalance?.value,
-    minAmountOutForWithdrawAll,
-    maxAmountInForWithdraw,
-    mutateAllowance,
-    mutateOriginBalance,
-    mutateSUsdsBalance,
-    addRecentTransaction,
-    onWidgetStateChange,
-    onNotification
-  });
+  const { savingsApprove, savingsSupply, batchSavingsSupply, savingsWithdraw, batchSavingsWithdraw } =
+    useL2SavingsTransactions({
+      amountToApprove,
+      allowance,
+      originToken,
+      amount: debouncedAmount,
+      isMaxWithdraw,
+      supplyMinAmountOut,
+      referralCode,
+      sUsdsBalance: sUsdsBalance?.value,
+      minAmountOutForWithdrawAll,
+      maxAmountInForWithdraw,
+      mutateAllowance,
+      mutateOriginBalance,
+      mutateSUsdsBalance,
+      addRecentTransaction,
+      onWidgetStateChange,
+      onNotification
+    });
 
   const needsAllowance = !!(!allowance || allowance < (amountToApprove || 0n));
 
@@ -322,14 +315,14 @@ const SavingsWidgetWrapped = ({
       ? false
       : [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
         isWithdrawBalanceError ||
-        (isMaxWithdraw ? !savingsWithdrawAll.prepared : !savingsWithdraw.prepared) ||
+        !savingsWithdraw.prepared ||
         isAmountWaitingForDebounce;
 
   const batchWithdrawDisabled = isSuccessfulWithdraw
     ? false
     : [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
       isWithdrawBalanceError ||
-      (isMaxWithdraw ? !batchSavingsWithdrawAll.prepared : !batchSavingsWithdraw.prepared) ||
+      !batchSavingsWithdraw.prepared ||
       isAmountWaitingForDebounce ||
       // If the user has allowance, don't send a batch transaction as it's only 1 contract call
       hasAllowance ||
@@ -362,57 +355,11 @@ const SavingsWidgetWrapped = ({
     !savingsApprove.prepared ||
     savingsApprove.isLoading ||
     (txStatus === TxStatus.SUCCESS &&
-      (widgetState.flow === SavingsFlow.SUPPLY
-        ? !savingsSupply.prepared
-        : isMaxWithdraw
-          ? !savingsWithdrawAll.prepared
-          : !savingsWithdraw.prepared)) || // disable next button if the following action (supply or withdraw) is not prepared
+      (widgetState.flow === SavingsFlow.SUPPLY ? !savingsSupply.prepared : !savingsWithdraw.prepared)) || // disable next button if the following action (supply or withdraw) is not prepared
     allowance === undefined ||
     isAmountWaitingForDebounce ||
     (!!batchEnabled && isBatchSupportLoading);
 
-  const approveOnClick = () => {
-    setWidgetState((prev: WidgetState) => ({ ...prev, screen: SavingsScreen.TRANSACTION }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    savingsApprove.execute();
-  };
-  const supplyOnClick = () => {
-    setWidgetState((prev: WidgetState) => ({ ...prev, screen: SavingsScreen.TRANSACTION }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    savingsSupply.execute();
-  };
-  const batchSupplyOnClick = () => {
-    if (hasAllowance) {
-      // If the user has allowance, just send the individual transaction as it will be more gas efficient
-      supplyOnClick();
-      return;
-    }
-    setWidgetState((prev: WidgetState) => ({ ...prev, screen: SavingsScreen.TRANSACTION }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    batchSavingsSupply.execute();
-  };
-  const withdrawOnClick = () => {
-    setWidgetState((prev: WidgetState) => ({ ...prev, screen: SavingsScreen.TRANSACTION }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    const executeFunction = isMaxWithdraw ? savingsWithdrawAll.execute : savingsWithdraw.execute;
-    executeFunction();
-  };
-  const batchWithdrawOnClick = () => {
-    if (hasAllowance) {
-      // If the user has allowance, just send the individual transaction as it will be more gas efficient
-      withdrawOnClick();
-      return;
-    }
-    setWidgetState((prev: WidgetState) => ({ ...prev, screen: SavingsScreen.TRANSACTION }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    const executeFunction = isMaxWithdraw ? batchSavingsWithdrawAll.execute : batchSavingsWithdraw.execute;
-    executeFunction();
-  };
   const nextOnClick = () => {
     setTxStatus(TxStatus.IDLE);
 
@@ -434,7 +381,7 @@ const SavingsWidgetWrapped = ({
 
     // if successfully approved, go to supply/withdraw
     if (widgetState.action === SavingsAction.APPROVE && !needsAllowance) {
-      return widgetState.flow === SavingsFlow.SUPPLY ? supplyOnClick() : withdrawOnClick();
+      return widgetState.flow === SavingsFlow.SUPPLY ? savingsSupply.execute() : savingsWithdraw.execute();
     }
   };
   const reviewOnClick = () => {
@@ -456,14 +403,14 @@ const SavingsWidgetWrapped = ({
   const errorOnClick = () => {
     return widgetState.action === SavingsAction.SUPPLY
       ? shouldUseBatch
-        ? batchSupplyOnClick()
-        : supplyOnClick()
+        ? batchSavingsSupply.execute()
+        : savingsSupply.execute()
       : widgetState.action === SavingsAction.WITHDRAW
         ? shouldUseBatch
-          ? batchWithdrawOnClick()
-          : withdrawOnClick()
+          ? batchSavingsWithdraw.execute()
+          : savingsWithdraw.execute()
         : widgetState.action === SavingsAction.APPROVE
-          ? approveOnClick()
+          ? savingsApprove.execute()
           : undefined;
   };
 
@@ -477,15 +424,15 @@ const SavingsWidgetWrapped = ({
           ? reviewOnClick
           : shouldUseBatch
             ? widgetState.flow === SavingsFlow.SUPPLY
-              ? batchSupplyOnClick
-              : batchWithdrawOnClick
+              ? batchSavingsSupply.execute
+              : batchSavingsWithdraw.execute
             : (widgetState.flow === SavingsFlow.SUPPLY && widgetState.action === SavingsAction.APPROVE) ||
                 (widgetState.flow === SavingsFlow.WITHDRAW && widgetState.action === SavingsAction.APPROVE)
-              ? approveOnClick
+              ? savingsApprove.execute
               : widgetState.flow === SavingsFlow.SUPPLY && widgetState.action === SavingsAction.SUPPLY
-                ? supplyOnClick
+                ? savingsSupply.execute
                 : widgetState.flow === SavingsFlow.WITHDRAW && widgetState.action === SavingsAction.WITHDRAW
-                  ? withdrawOnClick
+                  ? savingsWithdraw.execute
                   : undefined;
 
   const showSecondaryButton = txStatus === TxStatus.ERROR || widgetState.screen === SavingsScreen.REVIEW;
@@ -511,17 +458,6 @@ const SavingsWidgetWrapped = ({
       });
     }
   }, [savingsWithdraw.prepareError]);
-
-  useEffect(() => {
-    if (savingsWithdrawAll.prepareError) {
-      console.log(savingsWithdrawAll.prepareError);
-      onNotification?.({
-        title: t`Error preparing transaction`,
-        description: savingsWithdrawAll.prepareError.message,
-        status: TxStatus.ERROR
-      });
-    }
-  }, [savingsWithdrawAll.prepareError]);
 
   // Update button state according to action and tx
   // Ref: https://lingui.dev/tutorials/react-patterns#memoization-pitfall
@@ -574,13 +510,9 @@ const SavingsWidgetWrapped = ({
 
   // After a successful approval, wait for the next hook (supply, withdraw) to be prepared and send the transaction
   useEffect(() => {
-    const nextAction =
-      widgetState.flow === SavingsFlow.SUPPLY
-        ? savingsSupply
-        : isMaxWithdraw
-          ? savingsWithdrawAll
-          : savingsWithdraw;
-    const nextActionOnClick = widgetState.flow === SavingsFlow.SUPPLY ? supplyOnClick : withdrawOnClick;
+    const nextAction = widgetState.flow === SavingsFlow.SUPPLY ? savingsSupply : savingsWithdraw;
+    const nextActionOnClick =
+      widgetState.flow === SavingsFlow.SUPPLY ? savingsSupply.execute : savingsWithdraw.execute;
 
     if (
       widgetState.action === SavingsAction.APPROVE &&
@@ -598,7 +530,6 @@ const SavingsWidgetWrapped = ({
     widgetState.action,
     txStatus,
     savingsSupply.prepared,
-    savingsWithdrawAll.prepared,
     savingsWithdraw.prepared,
     isMaxWithdraw
   ]);

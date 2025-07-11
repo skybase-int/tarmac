@@ -200,6 +200,7 @@ export function UpgradeWidgetWrapped({
     allowance,
     shouldUseBatch,
     tabIndex,
+    shouldAllowExternalUpdate,
     mutateAllowance,
     mutateOriginBalance,
     mutateTargetBalance,
@@ -327,39 +328,6 @@ export function UpgradeWidgetWrapped({
     isAmountWaitingForDebounce ||
     !batchSupported;
 
-  const approveOnClick = () => {
-    shouldAllowExternalUpdate.current = false;
-    setWidgetState((prev: WidgetState) => ({
-      ...prev,
-      screen: UpgradeScreen.TRANSACTION
-    }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    approve.execute();
-  };
-
-  const upgradeOnClick = () => {
-    shouldAllowExternalUpdate.current = false;
-    setWidgetState((prev: WidgetState) => ({
-      ...prev,
-      screen: UpgradeScreen.TRANSACTION
-    }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    actionManager.execute();
-  };
-
-  const revertOnClick = () => {
-    shouldAllowExternalUpdate.current = false;
-    setWidgetState((prev: WidgetState) => ({
-      ...prev,
-      screen: UpgradeScreen.TRANSACTION
-    }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    actionManager.execute();
-  };
-
   const nextOnClick = () => {
     shouldAllowExternalUpdate.current = true;
     setTxStatus(TxStatus.IDLE);
@@ -371,7 +339,7 @@ export function UpgradeWidgetWrapped({
 
     if (widgetState.action === UpgradeAction.APPROVE && hasAllowance) {
       // If we just finished approving, we want to go directly to the next action
-      return widgetState.flow === UpgradeFlow.UPGRADE ? upgradeOnClick() : revertOnClick();
+      actionManager.execute();
     }
 
     setWidgetState((prev: WidgetState) => ({
@@ -395,34 +363,12 @@ export function UpgradeWidgetWrapped({
   // Handle the error onClicks separately to keep it clear
   const errorOnClick = () => {
     return shouldUseBatch
-      ? batchTransactionOnClick()
-      : widgetState.action === UpgradeAction.UPGRADE
-        ? upgradeOnClick()
-        : widgetState.action === UpgradeAction.REVERT
-          ? revertOnClick()
-          : widgetState.action === UpgradeAction.APPROVE
-            ? approveOnClick()
-            : undefined;
-  };
-
-  const batchTransactionOnClick = () => {
-    if (hasAllowance) {
-      // If the user has allowance, just send the individual transaction as it will be more gas efficient
-      if (widgetState.flow === UpgradeFlow.UPGRADE) {
-        upgradeOnClick();
-      } else {
-        revertOnClick();
-      }
-    } else {
-      setWidgetState((prev: WidgetState) => ({
-        ...prev,
-        action: prev.flow === UpgradeFlow.UPGRADE ? UpgradeAction.UPGRADE : UpgradeAction.REVERT,
-        screen: UpgradeScreen.TRANSACTION
-      }));
-      setTxStatus(TxStatus.INITIALIZED);
-      setExternalLink(undefined);
-      batchActionManager.execute();
-    }
+      ? batchActionManager.execute()
+      : widgetState.action === UpgradeAction.UPGRADE || widgetState.action === UpgradeAction.REVERT
+        ? actionManager.execute()
+        : widgetState.action === UpgradeAction.APPROVE
+          ? approve.execute()
+          : undefined;
   };
 
   const reviewOnClick = () => {
@@ -443,15 +389,12 @@ export function UpgradeWidgetWrapped({
           : widgetState.screen === UpgradeScreen.ACTION
             ? reviewOnClick
             : shouldUseBatch
-              ? batchTransactionOnClick
-              : (widgetState.flow === UpgradeFlow.UPGRADE && widgetState.action === UpgradeAction.APPROVE) ||
-                  (widgetState.flow === UpgradeFlow.REVERT && widgetState.action === UpgradeAction.APPROVE)
-                ? approveOnClick
-                : widgetState.flow === UpgradeFlow.UPGRADE && widgetState.action === UpgradeAction.UPGRADE
-                  ? upgradeOnClick
-                  : widgetState.flow === UpgradeFlow.REVERT && widgetState.action === UpgradeAction.REVERT
-                    ? revertOnClick
-                    : undefined;
+              ? batchActionManager.execute
+              : widgetState.action === UpgradeAction.APPROVE
+                ? approve.execute
+                : widgetState.action === UpgradeAction.UPGRADE || widgetState.action === UpgradeAction.REVERT
+                  ? actionManager.execute
+                  : undefined;
 
   const onClickBack = () => {
     shouldAllowExternalUpdate.current = true;
@@ -528,8 +471,6 @@ export function UpgradeWidgetWrapped({
 
   // After a successful approval, wait for the next hook (upgrade, revert) to be prepared and send the transaction
   useEffect(() => {
-    const nextActionOnClick = widgetState.flow === UpgradeFlow.UPGRADE ? upgradeOnClick : revertOnClick;
-
     if (
       widgetState.action === UpgradeAction.APPROVE &&
       txStatus === TxStatus.SUCCESS &&
@@ -539,7 +480,7 @@ export function UpgradeWidgetWrapped({
         ...prev,
         action: widgetState.flow === UpgradeFlow.UPGRADE ? UpgradeAction.UPGRADE : UpgradeAction.REVERT
       }));
-      nextActionOnClick();
+      actionManager.execute();
     }
   }, [widgetState.flow, widgetState.action, txStatus, actionManager.prepared]);
 

@@ -720,24 +720,7 @@ function TradeWidgetWrapped({
     });
   }, [chainId]);
 
-  const approveOnClick = () => {
-    setWidgetState((prev: WidgetState) => ({
-      ...prev,
-      screen: TradeScreen.TRANSACTION
-    }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    approve.execute();
-  };
-
   const tradeOnClick = () => {
-    setWidgetState((prev: WidgetState) => ({
-      ...prev,
-      screen: TradeScreen.TRANSACTION,
-      action: TradeAction.TRADE
-    }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
     const tradeExecuteFunction = shouldUseBatch ? batchTrade.execute : trade.execute;
     const tradeOutExecuteFunction = shouldUseBatch ? batchTradeOut.execute : tradeOut.execute;
     const executeFunction = lastUpdated === TradeSide.OUT ? tradeOutExecuteFunction : tradeExecuteFunction;
@@ -858,7 +841,7 @@ function TradeWidgetWrapped({
     return widgetState.action === TradeAction.TRADE
       ? tradeOnClick()
       : widgetState.action === TradeAction.APPROVE
-        ? approveOnClick()
+        ? approve.execute()
         : undefined;
   };
 
@@ -875,7 +858,7 @@ function TradeWidgetWrapped({
             : widgetState.screen === TradeScreen.ACTION
               ? reviewOnClick
               : widgetState.action === TradeAction.APPROVE
-                ? approveOnClick
+                ? approve.execute
                 : widgetState.action === TradeAction.TRADE
                   ? tradeOnClick
                   : undefined;
