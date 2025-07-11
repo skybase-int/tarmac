@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { WidgetPane } from './WidgetPane';
 import { DetailsPane } from './DetailsPane';
 import { AppContainer } from './AppContainer';
@@ -23,6 +23,7 @@ import { ChatPane } from './ChatPane';
 import { useChatNotification } from '../hooks/useChatNotification';
 import { useBatchTxNotification } from '../hooks/useBatchTxNotification';
 import { useSafeAppNotification } from '../hooks/useSafeAppNotification';
+import { useGovernanceMigrationToast } from '../hooks/useGovernanceMigrationToast';
 import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
 
 export function MainApp() {
@@ -97,7 +98,14 @@ export function MainApp() {
   // step is initialized as 0 and will evaluate to false, setting the first step to 1
   const step = linkedAction ? linkedActionConfig.step || 1 : 0;
 
-  // Show batch tx notification with priority (when batch is disabled and the feature is enabled)
+  // Track if we're showing the batch notification in this session
+  // Use useMemo without deps to lock in the initial value and prevent re-evaluation
+  const isShowingBatchNotification = useMemo(
+    () => BATCH_TX_ENABLED && !userConfig.batchTxNotificationShown,
+    []
+  );
+
+  // Show batch tx notification with priority (when batch is enabled and not shown before)
   useBatchTxNotification({ isAuthorized: BATCH_TX_ENABLED });
 
   // Show chat notification only if:
@@ -111,6 +119,12 @@ export function MainApp() {
 
   // If the user is connected to a Safe Wallet using WalletConnect, notify they can use the Safe App
   useSafeAppNotification();
+
+  // Only show governance migration toast if:
+  // 1. We're NOT showing the batch notification in this session, AND
+  // 2. Either batch feature is disabled OR user has seen batch notification before
+  const showGovMigrationNotification = !isShowingBatchNotification;
+  useGovernanceMigrationToast({ isAuthorized: showGovMigrationNotification });
 
   // Run validation on search params whenever search params change
   useEffect(() => {
