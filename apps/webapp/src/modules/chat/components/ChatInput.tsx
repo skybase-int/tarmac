@@ -22,8 +22,9 @@ export const ChatInput = ({ sendMessage }: { sendMessage: (message: string) => v
   };
 
   const handleFeedbackSubmit = (topics: string[]) => {
-    const formattedTopics = topics.join(', ');
-    setInputText(`/feedback ${formattedTopics} - [elaborate your feedback]`);
+    const formattedTopics = topics.join(',');
+    const fullText = `/feedback ${formattedTopics} - [elaborate your feedback]`;
+    setInputText(fullText);
     inputRef.current?.focus();
   };
 
