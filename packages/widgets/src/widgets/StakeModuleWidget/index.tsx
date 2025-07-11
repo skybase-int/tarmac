@@ -625,7 +625,6 @@ function StakeModuleWidgetWrapped({
     setShowStepIndicator(true);
     setWidgetState((prev: WidgetState) => ({
       ...prev,
-      action: StakeAction.MULTICALL,
       screen: StakeScreen.TRANSACTION
     }));
     setTxStatus(TxStatus.INITIALIZED);
@@ -637,7 +636,6 @@ function StakeModuleWidgetWrapped({
     setShowStepIndicator(true);
     setWidgetState((prev: WidgetState) => ({
       ...prev,
-      action: StakeAction.MULTICALL,
       screen: StakeScreen.TRANSACTION
     }));
     setTxStatus(TxStatus.INITIALIZED);
@@ -649,7 +647,6 @@ function StakeModuleWidgetWrapped({
     setShowStepIndicator(false);
     setWidgetState((prev: WidgetState) => ({
       ...prev,
-      action: StakeAction.CLAIM,
       screen: StakeScreen.TRANSACTION
     }));
     setTxStatus(TxStatus.INITIALIZED);

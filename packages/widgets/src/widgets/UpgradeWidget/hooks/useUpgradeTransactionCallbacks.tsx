@@ -31,7 +31,7 @@ export const useUpgradeTransactionCallbacks = ({
   onWidgetStateChange,
   onNotification
 }: UseUpgradeTransactionCallbacksParameters) => {
-  const { handleOnStart, handleOnSuccess, handleOnError } = useTransactionCallbacks({
+  const { handleOnMutate, handleOnStart, handleOnSuccess, handleOnError } = useTransactionCallbacks({
     addRecentTransaction,
     onWidgetStateChange,
     onNotification
@@ -40,6 +40,7 @@ export const useUpgradeTransactionCallbacks = ({
   // Upgrade approve
   const approveTransactionCallbacks = useMemo<TransactionCallbacks>(
     () => ({
+      onMutate: handleOnMutate,
       onStart: hash => {
         handleOnStart({ hash, recentTransactionDescription: t`Approving ${originToken.symbol} token` });
       },
@@ -64,6 +65,7 @@ export const useUpgradeTransactionCallbacks = ({
     }),
     [
       handleOnError,
+      handleOnMutate,
       handleOnStart,
       handleOnSuccess,
       mutateAllowance,
@@ -76,6 +78,7 @@ export const useUpgradeTransactionCallbacks = ({
   // Upgrade action manager
   const upgradeManagerTransactionCallbacks = useMemo<TransactionCallbacks>(
     () => ({
+      onMutate: handleOnMutate,
       onStart: hash => {
         handleOnStart({
           hash,
@@ -116,6 +119,7 @@ export const useUpgradeTransactionCallbacks = ({
     }),
     [
       handleOnError,
+      handleOnMutate,
       handleOnStart,
       handleOnSuccess,
       mutateAllowance,

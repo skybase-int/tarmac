@@ -331,7 +331,6 @@ export function UpgradeWidgetWrapped({
     shouldAllowExternalUpdate.current = false;
     setWidgetState((prev: WidgetState) => ({
       ...prev,
-      action: UpgradeAction.APPROVE,
       screen: UpgradeScreen.TRANSACTION
     }));
     setTxStatus(TxStatus.INITIALIZED);
@@ -343,7 +342,6 @@ export function UpgradeWidgetWrapped({
     shouldAllowExternalUpdate.current = false;
     setWidgetState((prev: WidgetState) => ({
       ...prev,
-      action: UpgradeAction.UPGRADE,
       screen: UpgradeScreen.TRANSACTION
     }));
     setTxStatus(TxStatus.INITIALIZED);
@@ -355,7 +353,6 @@ export function UpgradeWidgetWrapped({
     shouldAllowExternalUpdate.current = false;
     setWidgetState((prev: WidgetState) => ({
       ...prev,
-      action: UpgradeAction.REVERT,
       screen: UpgradeScreen.TRANSACTION
     }));
     setTxStatus(TxStatus.INITIALIZED);

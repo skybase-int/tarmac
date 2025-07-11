@@ -150,13 +150,15 @@ const RewardsWidgetWrapped = ({
     amount,
     referralCode,
     allowance,
+    rewardsBalance,
     addRecentTransaction,
     onWidgetStateChange,
     onNotification,
     mutateAllowance,
     mutateTokenBalance,
     mutateRewardsBalance,
-    mutateUserSuppliedBalance
+    mutateUserSuppliedBalance,
+    setClaimAmount
   });
 
   const needsAllowance = !!(!allowance || allowance < amount);
