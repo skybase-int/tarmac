@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { WidgetPane } from './WidgetPane';
 import { DetailsPane } from './DetailsPane';
 import { AppContainer } from './AppContainer';
@@ -6,7 +6,6 @@ import { useSearchParams } from 'react-router-dom';
 import {
   CHAIN_WIDGET_MAP,
   CHATBOT_ENABLED,
-  BATCH_TX_ENABLED,
   COMING_SOON_MAP,
   QueryParams,
   mapQueryParamToIntent
@@ -14,8 +13,7 @@ import {
 import { Intent } from '@/lib/enums';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { validateLinkedActionSearchParams, validateSearchParams } from '@/modules/utils/validateSearchParams';
-import { useAvailableTokenRewardContracts, useTokenBalance, TOKENS } from '@jetstreamgg/sky-hooks';
-import { parseEther } from 'viem';
+import { useAvailableTokenRewardContracts } from '@jetstreamgg/sky-hooks';
 import { useAccount, useAccountEffect, useChainId, useChains, useSwitchChain } from 'wagmi';
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
 import { LinkedActionSteps } from '@/modules/config/context/ConfigContext';
@@ -24,8 +22,9 @@ import { ChatPane } from './ChatPane';
 import { useChatNotification } from '../hooks/useChatNotification';
 import { useBatchTxNotification } from '../hooks/useBatchTxNotification';
 import { useSafeAppNotification } from '../hooks/useSafeAppNotification';
-import { TOAST_STORAGE_KEY, useGovernanceMigrationToast } from '../hooks/useGovernanceMigrationToast';
-import { useNotificationQueue, NotificationConfig } from '../hooks/useNotificationQueue';
+import { useGovernanceMigrationToast } from '../hooks/useGovernanceMigrationToast';
+import { useNotificationQueue } from '../hooks/useNotificationQueue';
+import { usePageLoadNotifications } from '../hooks/usePageLoadNotifications';
 import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
 
 export function MainApp() {
@@ -43,7 +42,7 @@ export function MainApp() {
   const chainId = useChainId();
   const chains = useChains();
 
-  const { connector, address, isConnected } = useAccount();
+  const { connector } = useAccount();
   useAccountEffect({
     // Once the user connects their wallet, check if the network param is set and switch chains if necessary
     onConnect() {
@@ -100,52 +99,9 @@ export function MainApp() {
   // step is initialized as 0 and will evaluate to false, setting the first step to 1
   const step = linkedAction ? linkedActionConfig.step || 1 : 0;
 
-  // Get MKR balance to determine if governance notification will actually show
-  const { data: mkrBalance, isLoading: mkrBalanceLoading } = useTokenBalance({
-    address,
-    token: TOKENS.mkr.address[chainId],
-    chainId: chainId,
-    enabled: isConnected && !!address
-  });
-
-  // Check if user is eligible for governance migration notification
-  const minimumMkrBalance = parseEther('0.05');
-  const mkrBalanceLoaded = isConnected ? mkrBalance !== undefined && !mkrBalanceLoading : true;
-  const hasEnoughMkr = !!(mkrBalance && mkrBalance.value >= minimumMkrBalance);
-
-  // Define notification configurations with priority order
-  const notificationConfigs: NotificationConfig[] = useMemo(
-    () => [
-      {
-        id: 'batch-tx',
-        priority: 1,
-        checkConditions: () => BATCH_TX_ENABLED,
-        hasBeenShown: () => userConfig.batchTxNotificationShown
-      },
-      {
-        id: 'governance-migration',
-        priority: 2,
-        isReady: () => mkrBalanceLoaded, // Wait for MKR balance to load
-        checkConditions: () => isConnected && hasEnoughMkr,
-        hasBeenShown: () => localStorage.getItem(TOAST_STORAGE_KEY) === 'true'
-      },
-      {
-        id: 'chat',
-        priority: 3,
-        checkConditions: () => CHATBOT_ENABLED,
-        hasBeenShown: () => userConfig.chatSuggested
-      }
-    ],
-    [
-      isConnected,
-      mkrBalanceLoaded,
-      hasEnoughMkr,
-      userConfig.batchTxNotificationShown,
-      userConfig.chatSuggested,
-      BATCH_TX_ENABLED,
-      CHATBOT_ENABLED
-    ]
-  );
+  // Page Load Notifications - Only one notification shows per page load
+  // Get configurations for all page load notifications
+  const notificationConfigs = usePageLoadNotifications();
 
   // Use the notification queue to determine which notification to show
   const { shouldShowNotification } = useNotificationQueue(notificationConfigs);
