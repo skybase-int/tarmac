@@ -4,33 +4,18 @@ import { Text } from '@/modules/layout/components/Typography';
 import { VStack } from '@/modules/layout/components/VStack';
 import { Button } from '@/components/ui/button';
 import { ExternalLink } from '@/modules/layout/components/ExternalLink';
-import { useAccount, useChainId } from 'wagmi';
-import { useTokenBalance, TOKENS } from '@jetstreamgg/sky-hooks';
-import { parseEther } from 'viem';
 
-const TOAST_STORAGE_KEY = 'governance-migration-notice-shown';
+export const TOAST_STORAGE_KEY = 'governance-migration-notice-shown';
 
 export const useGovernanceMigrationToast = ({ isAuthorized }: { isAuthorized: boolean }) => {
-  const { address } = useAccount();
-  const chainId = useChainId();
-  const { data: mkrBalance } = useTokenBalance({
-    address,
-    token: TOKENS.mkr.address[chainId],
-    chainId: chainId,
-    enabled: !!address
-  });
-
   useEffect(() => {
-    if (!isAuthorized || !address) return;
+    // Only show if authorized by the notification queue
+    if (!isAuthorized) {
+      return;
+    }
 
-    // Check if MKR balance is at least 0.05
-    const minimumMkrBalance = parseEther('0.05');
-    const hasSufficientMkr = mkrBalance && mkrBalance.value >= minimumMkrBalance;
-    if (!hasSufficientMkr) return;
-
-    const hasSeenToast = localStorage.getItem(TOAST_STORAGE_KEY);
-
-    if (hasSeenToast !== 'true') {
+    // Add a small delay to ensure smooth UX
+    const timer = setTimeout(() => {
       localStorage.setItem(TOAST_STORAGE_KEY, 'true');
       toast({
         title: (
@@ -63,6 +48,10 @@ export const useGovernanceMigrationToast = ({ isAuthorized }: { isAuthorized: bo
         variant: 'info',
         duration: 15000
       });
-    }
-  }, [isAuthorized, address, mkrBalance]);
+    }, 1000); // 1 second delay
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [isAuthorized]);
 };
