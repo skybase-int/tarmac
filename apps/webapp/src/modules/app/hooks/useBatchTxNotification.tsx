@@ -5,9 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Trans } from '@lingui/react/macro';
 import { Text } from '@/modules/layout/components/Typography';
 import { VStack } from '@/modules/layout/components/VStack';
-import { HStack } from '@/modules/layout/components/HStack';
 import { useBatchToggle } from '@/modules/ui/hooks/useBatchToggle';
 import { ExternalLink } from '@/modules/layout/components/ExternalLink';
+import { Zap } from '@/modules/icons/Zap';
 
 export const useBatchTxNotification = ({ isAuthorized }: { isAuthorized: boolean }) => {
   const { userConfig, updateUserConfig } = useConfigContext();
@@ -30,12 +30,11 @@ export const useBatchTxNotification = ({ isAuthorized }: { isAuthorized: boolean
     if (isAuthorized && !userConfig.batchTxNotificationShown) {
       timerRef.current = setTimeout(() => {
         toast({
+          icon: <Zap width={22} height={22} />,
           title: (
-            <HStack>
-              <Text variant="medium" className="text-text">
-                <Trans>EIP-7702 Bundled transactions now supported</Trans>
-              </Text>
-            </HStack>
+            <Text variant="medium" className="text-text">
+              <Trans>EIP-7702 Bundled transactions now supported</Trans>
+            </Text>
           ),
           description: (
             <VStack className="mt-3 w-full gap-3">
