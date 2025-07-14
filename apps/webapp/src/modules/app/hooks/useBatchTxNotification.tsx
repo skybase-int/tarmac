@@ -66,7 +66,16 @@ export const useBatchTxNotification = ({ isAuthorized }: { isAuthorized: boolean
                   </Trans>
                 </Text>
               </div>
-              {!batchEnabled && (
+              {batchEnabled ? (
+                <Text variant="medium" className="text-muted-foreground">
+                  <Trans>
+                    Bundled transactions:{' '}
+                    <Text tag="span" variant="medium" className="text-bullish">
+                      Active
+                    </Text>
+                  </Trans>
+                </Text>
+              ) : (
                 <Button className="self-start" variant="pill" size="xs" onClick={onActivate}>
                   <Trans>Activate smart account</Trans>
                 </Button>

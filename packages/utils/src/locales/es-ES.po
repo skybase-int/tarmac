@@ -534,6 +534,10 @@ msgstr ""
 msgid "Bundled transactions enable a one-click, gas-optimized user experience that aligns with the best practices of the broader Ethereum ecosystem."
 msgstr ""
 
+#: apps/webapp/src/modules/app/hooks/useBatchTxNotification.tsx
+msgid "Bundled transactions: <0>Active</0>"
+msgstr ""
+
 #: packages/widgets/src/widgets/TradeWidget/components/TradeConfigMenu.tsx
 msgid "By setting your slippage tolerance level, you control the degree of token price fluctuation that you will accept between the time you initiate a trade transaction and its execution on the blockchain."
 msgstr ""
