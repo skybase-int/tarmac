@@ -23,7 +23,7 @@ import { Trans } from '@lingui/react/macro';
 import { useLingui } from '@lingui/react';
 import { useAccount, useChainId } from 'wagmi';
 import { formatUnits, parseUnits } from 'viem';
-import { Heading } from '@widgets/shared/components/ui/Typography';
+import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { getValidatedState } from '@widgets/lib/utils';
 import { WidgetButtons } from '@widgets/shared/components/ui/widget/WidgetButtons';
 import { ErrorBoundary } from '@widgets/shared/components/ErrorBoundary';
@@ -103,6 +103,13 @@ const StUSDSWidgetWrapped = ({
   const { address, isConnecting, isConnected } = useAccount();
   const isSafeWallet = useIsSafeWallet();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
+
+  // TODO: Replace these hooks with stUSDS-specific hooks when available:
+  // - useStUSDSData() instead of useSavingsData()
+  // - useStUSDSAllowance() instead of useSavingsAllowance()
+  // - useStUSDSSupply() instead of useSavingsSupply()
+  // - useStUSDSWithdraw() instead of useSavingsWithdraw()
+  // - useBatchStUSDSSupply() instead of useBatchSavingsSupply()
   const { mutate: mutateSavings, data: savingsData, isLoading: isSavingsDataLoading } = useSavingsData();
   const { data: allowance, mutate: mutateAllowance, isLoading: allowanceLoading } = useSavingsAllowance();
   const initialAmount =
@@ -648,9 +655,14 @@ const StUSDSWidgetWrapped = ({
   return (
     <WidgetContainer
       header={
-        <Heading variant="x-large">
-          <Trans>stUSDS Savings Rate</Trans>
-        </Heading>
+        <div className="space-y-1">
+          <Heading variant="x-large">
+            <Trans>stUSDS Module</Trans>
+          </Heading>
+          <Text className="text-textSecondary" variant="small">
+            <Trans>Earn variable yield on USDS by participating in SKY-backed borrowing</Trans>
+          </Text>
+        </div>
       }
       rightHeader={rightHeaderComponent}
       footer={

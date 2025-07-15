@@ -46,14 +46,14 @@ export function getStUSDSSupplyReviewSubtitle({
   needsAllowance: boolean;
 }): MessageDescriptor {
   if (!needsAllowance) {
-    return msg`You will supply your ${symbol} to the stUSDS Savings Rate module.`;
+    return msg`You will supply your ${symbol} to the stUSDS module to earn variable yield through SKY-backed borrowing.`;
   }
 
   switch (batchStatus) {
     case BatchStatus.ENABLED:
-      return msg`You're allowing this app to access your ${symbol} and supply it to the stUSDS Savings Rate module in one bundled transaction.`;
+      return msg`You're allowing this app to access your ${symbol} and supply it to the stUSDS module in one bundled transaction.`;
     case BatchStatus.DISABLED:
-      return msg`You're allowing this app to access your ${symbol} and supply it to the stUSDS Savings Rate module in multiple transactions.`;
+      return msg`You're allowing this app to access your ${symbol} and supply it to the stUSDS module in multiple transactions.`;
     default:
       return msg``;
   }
@@ -68,14 +68,14 @@ export function getStUSDSWithdrawReviewSubtitle({
   needsAllowance: boolean;
 }): MessageDescriptor {
   if (!needsAllowance) {
-    return msg`You will withdraw your ${symbol} from the stUSDS Savings Rate module.`;
+    return msg`You will withdraw your ${symbol} from the stUSDS module. Withdrawals may be delayed during periods of high utilization.`;
   }
 
   switch (batchStatus) {
     case BatchStatus.ENABLED:
-      return msg`You're allowing this app to access your ${symbol} and withdraw from the stUSDS Savings Rate module in one bundled transaction.`;
+      return msg`You're allowing this app to access your ${symbol} and withdraw from the stUSDS module in one bundled transaction.`;
     case BatchStatus.DISABLED:
-      return msg`You're allowing this app to access your ${symbol} and withdraw from the stUSDS Savings Rate module in multiple transactions.`;
+      return msg`You're allowing this app to access your ${symbol} and withdraw from the stUSDS module in multiple transactions.`;
     default:
       return msg``;
   }
@@ -95,14 +95,14 @@ export function stusdsSupplySubtitle({
   switch (txStatus) {
     case TxStatus.INITIALIZED:
       return needsAllowance
-        ? msg`Please allow this app to access your ${symbol} and supply it to the stUSDS Savings Rate module.`
+        ? msg`Please allow this app to access your ${symbol} and supply it to the stUSDS module.`
         : msg`Almost done!`;
     case TxStatus.LOADING:
       return needsAllowance
         ? msg`Your token approval and supply are being processed on the blockchain. Please wait.`
         : msg`Your supply is being processed on the blockchain. Please wait.`;
     case TxStatus.SUCCESS:
-      return msg`You've supplied ${amount} ${symbol} to the stUSDS Savings Rate module`;
+      return msg`You've supplied ${amount} ${symbol} to the stUSDS module`;
     case TxStatus.ERROR:
       return msg`An error occurred during the supply flow.`;
     default:
@@ -123,14 +123,14 @@ export function stusdsWithdrawSubtitle({
   switch (txStatus) {
     case TxStatus.INITIALIZED:
       return needsAllowance
-        ? msg`Please allow this app to access your ${symbol} and withdraw it from the stUSDS Savings Rate module.`
+        ? msg`Please allow this app to access your ${symbol} and withdraw it from the stUSDS module.`
         : msg`Almost done!`;
     case TxStatus.LOADING:
       return needsAllowance
         ? msg`Your token approval and withdrawal are being processed on the blockchain. Please wait.`
         : msg`Your withdrawal is being processed on the blockchain. Please wait.`;
     case TxStatus.SUCCESS:
-      return msg`You've withdrawn ${amount} ${symbol} from the stUSDS Savings Rate module.`;
+      return msg`You've withdrawn ${amount} ${symbol} from the stUSDS module.`;
     case TxStatus.ERROR:
       return msg`An error occurred during the withdraw flow.`;
     default:
@@ -188,8 +188,8 @@ export function stusdsActionDescription({
   needsAllowance: boolean;
 }): MessageDescriptor {
   if ((action === StUSDSAction.SUPPLY || action === StUSDSAction.WITHDRAW) && txStatus === TxStatus.SUCCESS)
-    return msg`${flow === StUSDSFlow.SUPPLY ? 'Approved and supplied to' : needsAllowance ? 'Approved and withdrawn from' : 'Withdrawn from'} the stUSDS Savings Rate module`;
+    return msg`${flow === StUSDSFlow.SUPPLY ? 'Approved and supplied to' : needsAllowance ? 'Approved and withdrawn from' : 'Withdrawn from'} the stUSDS module`;
   return needsAllowance
-    ? msg`${flow === StUSDSFlow.SUPPLY ? 'Approving and supplying to' : 'Approving and withdrawing from'} the stUSDS Savings Rate module`
-    : msg`${flow === StUSDSFlow.SUPPLY ? 'Supplying to' : 'Withdrawing from'} the stUSDS Savings Rate module`;
+    ? msg`${flow === StUSDSFlow.SUPPLY ? 'Approving and supplying to' : 'Approving and withdrawing from'} the stUSDS module`
+    : msg`${flow === StUSDSFlow.SUPPLY ? 'Supplying to' : 'Withdrawing from'} the stUSDS module`;
 }

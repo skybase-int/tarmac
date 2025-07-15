@@ -1,92 +1,109 @@
-import { useChainId } from 'wagmi';
-import { formatBigInt, formatNumber } from '@jetstreamgg/sky-utils';
-import { t } from '@lingui/core/macro';
-import { HStack } from '@widgets/shared/components/ui/layout/HStack';
-import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
-import { Text } from '@widgets/shared/components/ui/Typography';
+import { Card } from '@widgets/components/ui/card';
 import { Skeleton } from '@widgets/components/ui/skeleton';
-import { StUSDSStatsCardCore } from './StUSDSStatsCardCore';
-import { StatsAccordionCard } from '@widgets/shared/components/ui/card/StatsAccordionCard'; // Import StatsAccordionCard
-import { positionAnimations } from '@widgets/shared/animation/presets';
-import { useOverallSkyData } from '@jetstreamgg/sky-hooks';
+import { InfoTooltip } from '@widgets/shared/components/ui/tooltip/InfoTooltip';
+import { formatBigInt } from '@jetstreamgg/sky-utils';
+import { Text } from '@widgets/shared/components/ui/Typography';
+import { Trans } from '@lingui/react/macro';
 
-export type StUSDSStats = {
-  savingsTvl: bigint;
-  savingsBalance: bigint;
-};
+interface StUSDSStatsCardProps {
+  tvl?: bigint;
+  utilization?: number;
+  yieldRangeMin?: number;
+  yieldRangeMax?: number;
+  isLoading?: boolean;
+}
 
-type SavingsStatsProps = {
-  isLoading: boolean;
-  address?: string;
-  stats: StUSDSStats;
-  isConnectedAndEnabled: boolean;
-  onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-};
-
-export const StUSDSStatsCard = ({
-  isLoading,
-  address,
-  stats,
-  isConnectedAndEnabled = true,
-  onExternalLinkClicked
-}: SavingsStatsProps) => {
-  const chainId = useChainId();
-  const { data: overallData, isLoading: isOverallDataLoading } = useOverallSkyData();
-
-  const accordionContent = (
-    <HStack className="mt-5 justify-between" gap={2}>
-      <MotionVStack
-        className="justify-between"
-        gap={2}
-        variants={positionAnimations}
-        data-testid="supplied-balance-container"
-      >
-        <Text className="text-textSecondary text-sm leading-4">{t`Savings balance`}</Text>
-        {isLoading ? (
-          <Skeleton className="bg-textSecondary h-6 w-10" />
-        ) : isConnectedAndEnabled && stats?.savingsBalance !== undefined ? (
-          <Text dataTestId="supplied-balance">
-            {formatBigInt(stats.savingsBalance, { compact: true })} USDS
-          </Text>
-        ) : (
-          <Text>--</Text>
-        )}
-      </MotionVStack>
-      <MotionVStack
-        className="items-stretch justify-between text-right"
-        gap={2}
-        variants={positionAnimations}
-        data-testid="savings-tvl-container"
-      >
-        <Text className="text-textSecondary text-sm leading-4">{t`TVL`}</Text>
-        {isOverallDataLoading ? (
-          <div className="flex justify-end">
-            <Skeleton className="bg-textSecondary h-6 w-10" />
-          </div>
-        ) : overallData?.totalSavingsTvl ? (
-          <Text dataTestId="savings-tvl">
-            {formatNumber(parseFloat(overallData.totalSavingsTvl), { compact: true })} USDS
-          </Text>
-        ) : (
-          <Text>--</Text>
-        )}
-      </MotionVStack>
-    </HStack>
-  );
+export function StUSDSStatsCard({
+  tvl,
+  utilization = 0,
+  yieldRangeMin = 5.2,
+  yieldRangeMax = 6.7,
+  isLoading
+}: StUSDSStatsCardProps) {
+  const utilizationColor =
+    utilization > 90 ? 'text-error' : utilization > 75 ? 'text-orange-400' : 'text-muted-foreground';
 
   return (
-    <StUSDSStatsCardCore
-      isLoading={isLoading}
-      content={
-        <StatsAccordionCard
-          chainId={chainId}
-          address={address}
-          accordionTitle="Savings info"
-          accordionContent={accordionContent}
-          onExternalLinkClicked={onExternalLinkClicked}
-        />
-      }
-      onExternalLinkClicked={onExternalLinkClicked}
-    />
+    <Card className="p-4">
+      <div className="space-y-3">
+        {/* Variable Yield Rate */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Text className="text-textSecondary" variant="small">
+              <Trans>Variable Yield</Trans>
+            </Text>
+            <InfoTooltip
+              content={
+                <Text variant="small">
+                  <Trans>Yield fluctuates based on borrowing demand. Returns are not guaranteed.</Trans>
+                </Text>
+              }
+            />
+          </div>
+          {isLoading ? (
+            <Skeleton className="h-5 w-24" />
+          ) : (
+            <Text variant="medium">
+              {yieldRangeMin}% – {yieldRangeMax}%
+              <Text tag="span" className="text-textSecondary ml-1" variant="captionSm">
+                (variable)
+              </Text>
+            </Text>
+          )}
+        </div>
+
+        {/* TVL */}
+        <div className="flex items-center justify-between">
+          <Text className="text-textSecondary" variant="small">
+            <Trans>Total Value Locked</Trans>
+          </Text>
+          {isLoading ? (
+            <Skeleton className="h-5 w-20" />
+          ) : (
+            <Text variant="medium">{tvl ? formatBigInt(tvl, { unit: 18, compact: true }) : '0'} USDS</Text>
+          )}
+        </div>
+
+        {/* Utilization */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Text className="text-textSecondary" variant="small">
+              <Trans>Utilization</Trans>
+            </Text>
+            <InfoTooltip
+              content={
+                <Text variant="small">
+                  <Trans>
+                    Percentage of supplied USDS currently being borrowed. High utilization may delay
+                    withdrawals.
+                  </Trans>
+                </Text>
+              }
+            />
+          </div>
+          {isLoading ? (
+            <Skeleton className="h-5 w-16" />
+          ) : (
+            <div className="flex items-center gap-1">
+              <Text className={utilizationColor} variant="medium">
+                {utilization.toFixed(1)}%
+              </Text>
+            </div>
+          )}
+        </div>
+
+        {/* Utilization Meter */}
+        <div className="pt-1">
+          <div className="bg-secondary h-2 overflow-hidden rounded-full">
+            <div
+              className={`h-full transition-all duration-300 ${
+                utilization > 90 ? 'bg-error' : utilization > 75 ? 'bg-orange-400' : 'bg-text'
+              }`}
+              style={{ width: `${Math.min(utilization, 100)}%` }}
+            />
+          </div>
+        </div>
+      </div>
+    </Card>
   );
-};
+}

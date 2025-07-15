@@ -1,7 +1,7 @@
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { getTokenDecimals, sUsdsAddress, TOKENS, useOverallSkyData } from '@jetstreamgg/sky-hooks';
-import { formatBigInt, formatDecimalPercentage } from '@jetstreamgg/sky-utils';
+import { getTokenDecimals, TOKENS } from '@jetstreamgg/sky-hooks';
+import { formatBigInt } from '@jetstreamgg/sky-utils';
 import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
@@ -10,10 +10,13 @@ import { WidgetContext } from '@widgets/context/WidgetContext';
 import { StUSDSFlow } from '../lib/constants';
 import { StUSDSStatsCard } from './StUSDSStatsCard';
 import { useAccount, useChainId } from 'wagmi';
+import { Card } from '@widgets/components/ui/card';
+import { AlertTriangle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
 import { formatUnits } from 'viem';
+import { Text } from '@widgets/shared/components/ui/Typography';
 
 type StUSDSSupplyWithdrawProps = {
   address?: string;
@@ -35,7 +38,7 @@ export const StUSDSSupplyWithdraw = ({
   address,
   nstBalance,
   savingsBalance,
-  savingsTvl,
+  // savingsTvl, // Unused, will be replaced with stUSDS TVL data
   isSavingsDataLoading,
   onChange,
   amount,
@@ -48,17 +51,15 @@ export const StUSDSSupplyWithdraw = ({
 }: StUSDSSupplyWithdrawProps) => {
   const inputToken = TOKENS.usds;
   const chainId = useChainId();
-  const contractAddress = sUsdsAddress[chainId as keyof typeof sUsdsAddress];
 
-  const { data: overallSkyData } = useOverallSkyData();
+  // TODO: Replace with real stUSDS data when hooks are available
+  const mockUtilization = 97; // Mock 87% utilization
+  const mockYieldMin = 5.2;
+  const mockYieldMax = 6.7;
+  const mockTvl = 1800000000n * 10n ** 18n; // 1.8B USDS
 
-  const stats = {
-    savingsTvl: savingsTvl || 0n,
-    savingsBalance: savingsBalance || 0n,
-    skySavingsRatecRate: overallSkyData?.skySavingsRatecRate
-      ? formatDecimalPercentage(parseFloat(overallSkyData.skySavingsRatecRate))
-      : '0%'
-  };
+  const isHighUtilization = mockUtilization > 90;
+  const isLiquidityConstrained = mockUtilization > 95;
 
   const { widgetState } = useContext(WidgetContext);
   const { isConnected } = useAccount();
@@ -85,13 +86,15 @@ export const StUSDSSupplyWithdraw = ({
           </TabsList>
         </motion.div>
 
-        <StUSDSStatsCard
-          isLoading={isSavingsDataLoading}
-          stats={stats}
-          address={contractAddress}
-          isConnectedAndEnabled={isConnectedAndEnabled}
-          onExternalLinkClicked={onExternalLinkClicked}
-        />
+        <motion.div variants={positionAnimations} className="mt-4">
+          <StUSDSStatsCard
+            tvl={mockTvl}
+            utilization={mockUtilization}
+            yieldRangeMin={mockYieldMin}
+            yieldRangeMax={mockYieldMax}
+            isLoading={isSavingsDataLoading}
+          />
+        </motion.div>
         <TabsContent value="left">
           <motion.div className="flex w-full flex-col" variants={positionAnimations}>
             <TokenInput
@@ -114,6 +117,22 @@ export const StUSDSSupplyWithdraw = ({
         </TabsContent>
         <TabsContent value="right">
           <motion.div className="flex w-full flex-col" variants={positionAnimations}>
+            {isHighUtilization && (
+              <Card
+                className={`mb-4 border p-3 ${isLiquidityConstrained ? 'border-destructive bg-destructive/10' : 'border-warning bg-warning/10'}`}
+              >
+                <div className="flex items-start gap-2 text-orange-400">
+                  <AlertTriangle
+                    className={`mt-0.5 h-4 w-4 ${isLiquidityConstrained ? 'text-destructive' : 'text-warning'}`}
+                  />
+                  <Text variant="small">
+                    {isLiquidityConstrained
+                      ? t`Liquidity is extremely limited. Withdrawals may be delayed or unavailable.`
+                      : t`High utilization (${mockUtilization}%). Withdrawals may be delayed during periods of high demand.`}
+                  </Text>
+                </div>
+              </Card>
+            )}
             <TokenInput
               className="w-full"
               label={t`How much USDS would you like to withdraw?`}
@@ -136,7 +155,7 @@ export const StUSDSSupplyWithdraw = ({
               onSetMax={onSetMax}
               dataTestId="withdraw-input-savings"
               showPercentageButtons={isConnectedAndEnabled}
-              enabled={isConnectedAndEnabled}
+              enabled={isConnectedAndEnabled && !isLiquidityConstrained}
             />
           </motion.div>
         </TabsContent>
@@ -158,7 +177,7 @@ export const StUSDSSupplyWithdraw = ({
             },
             {
               label: t`Rate`,
-              value: stats.skySavingsRatecRate
+              value: `${mockYieldMin}% – ${mockYieldMax}% (variable)`
             },
             ...(address
               ? [

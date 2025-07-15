@@ -1,14 +1,13 @@
-import { SavingsRateCard } from '@/modules/savings/components/SavingsRateCard';
-import { SkySavingsRatePoolCard } from '@/modules/savings/components/SkySavingsRatePoolCard';
-import { SavingsSuppliersCard } from '@/modules/savings/components/SavingsSuppliersCard';
+import { StUSDSVariableRateCard } from './StUSDSVariableRateCard';
+import { StUSDSUtilizationCard } from './StUSDSUtilizationCard';
+import { StUSDSTvlCard } from './StUSDSTvlCard';
 
 export function StUSDSInfoDetails() {
-  // TODO: Replace with stUSDS-specific cards when available
   return (
     <div className="flex w-full flex-wrap justify-between gap-3 xl:flex-nowrap">
-      <SavingsRateCard />
-      <SkySavingsRatePoolCard />
-      <SavingsSuppliersCard />
+      <StUSDSVariableRateCard />
+      <StUSDSUtilizationCard />
+      <StUSDSTvlCard />
     </div>
   );
 }

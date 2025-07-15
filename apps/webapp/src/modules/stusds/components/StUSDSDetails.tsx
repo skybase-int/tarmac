@@ -31,7 +31,7 @@ export function StUSDSDetails(): React.ReactElement {
           </DetailSectionRow>
         </DetailSection>
       )}
-      <DetailSection title={t`stUSDS Savings Rate info`}>
+      <DetailSection title={t`stUSDS Module info`}>
         <DetailSectionRow>
           <StUSDSInfoDetails />
         </DetailSectionRow>
