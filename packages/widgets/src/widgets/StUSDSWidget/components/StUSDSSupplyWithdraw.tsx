@@ -53,7 +53,7 @@ export const StUSDSSupplyWithdraw = ({
   const chainId = useChainId();
 
   // TODO: Replace with real stUSDS data when hooks are available
-  const mockUtilization = 97; // Mock 87% utilization
+  const mockUtilization = 87; // Mock 87% utilization
   const mockYieldMin = 5.2;
   const mockYieldMax = 6.7;
   const mockTvl = 1800000000n * 10n ** 18n; // 1.8B USDS
@@ -88,11 +88,14 @@ export const StUSDSSupplyWithdraw = ({
 
         <motion.div variants={positionAnimations} className="mt-4">
           <StUSDSStatsCard
-            tvl={mockTvl}
-            utilization={mockUtilization}
-            yieldRangeMin={mockYieldMin}
-            yieldRangeMax={mockYieldMax}
             isLoading={isSavingsDataLoading}
+            stats={{
+              savingsTvl: mockTvl,
+              savingsBalance: savingsBalance || 0n
+            }}
+            address={address}
+            isConnectedAndEnabled={isConnectedAndEnabled}
+            onExternalLinkClicked={onExternalLinkClicked}
           />
         </motion.div>
         <TabsContent value="left">
@@ -177,7 +180,7 @@ export const StUSDSSupplyWithdraw = ({
             },
             {
               label: t`Rate`,
-              value: `${mockYieldMin}% – ${mockYieldMax}% (variable)`
+              value: `${mockYieldMin}% – ${mockYieldMax}%`
             },
             ...(address
               ? [

@@ -26,7 +26,11 @@ export function StUSDSUtilizationCard() {
             <div className="bg-secondary h-[5px] overflow-hidden rounded-full">
               <div
                 className={`h-full transition-all duration-300 ${
-                  mockUtilization > 90 ? 'bg-error' : mockUtilization > 75 ? 'bg-orange-400' : 'bg-text'
+                  mockUtilization > 90
+                    ? 'bg-error'
+                    : mockUtilization > 75
+                      ? 'bg-orange-400'
+                      : 'bg-textSecondary'
                 }`}
                 style={{ width: `${Math.min(mockUtilization, 100)}%` }}
               />
