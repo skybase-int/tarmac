@@ -9,30 +9,7 @@ import { isRevertedError } from '../helpers';
 import { useEffect, useMemo, useState, useRef, useCallback } from 'react';
 import { SAFE_CONNECTOR_ID } from './constants';
 import { useWaitForSafeTxHash } from './useWaitForSafeTxHash';
-import type { Call } from 'viem';
-
-export type UseSequentialTransactionFlowParameters = {
-  transactions: Call[];
-  enabled?: boolean;
-  onMutate?: () => void;
-  onStart?: (hash: string) => void;
-  onSuccess?: (hash: string) => void;
-  onError?: (error: Error, hash: string) => void;
-  gcTime?: number;
-  chainId?: number;
-};
-
-export type SequentialTransactionHook = {
-  data: string[] | undefined;
-  error: Error | null;
-  isLoading: boolean;
-  execute: () => void;
-  retryPrepare: () => void;
-  prepareError: Error | null;
-  prepared: boolean;
-  currentIndex: number;
-  totalTransactions: number;
-};
+import { SequentialTransactionHook, UseSequentialTransactionFlowParameters } from '../hooks';
 
 export function useSequentialTransactionFlow(
   parameters: UseSequentialTransactionFlowParameters

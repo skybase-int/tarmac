@@ -100,7 +100,7 @@ export function useWriteContractFlow<
         onError(failureReason, txHash);
       }
     }
-  }, [isSuccess, miningError, failureReason, txHash, txReverted]);
+  }, [isSuccess, miningError, failureReason, txHash, txReverted, onSuccess, onError]);
 
   return {
     execute: () => {
