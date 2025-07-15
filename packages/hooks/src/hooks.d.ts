@@ -124,7 +124,7 @@ export type UseTransactionFlowParameters = {
 };
 
 export type UseSequentialTransactionFlowParameters = {
-  transactions: Call[];
+  calls: Call[];
   enabled?: boolean;
   onMutate?: () => void;
   onStart?: (hash: string) => void;
@@ -135,13 +135,8 @@ export type UseSequentialTransactionFlowParameters = {
 };
 
 export type SequentialTransactionHook = {
-  data: string[] | undefined;
   error: Error | null;
   isLoading: boolean;
   execute: () => void;
-  retryPrepare: () => void;
-  prepareError: Error | null;
   prepared: boolean;
-  currentIndex: number;
-  totalTransactions: number;
 };
