@@ -85,6 +85,8 @@ export function WidgetNavigation({
     : undefined;
   const tabGlowClasses =
     'before:top-[-13px] xl:before:top-[-17px] before:absolute before:left-1/2 before:-translate-x-1/2 before:w-[120%] before:h-px before:bg-nav-light';
+  const verticalTabGlowClasses =
+    'before:-left-[11px] before:absolute before:top-1/2 before:-translate-y-1/2 before:h-[120%] before:w-px before:bg-nav-light-vertical';
 
   // Memoized scroll function
   const scrollToTop = useCallback(() => {
@@ -176,9 +178,10 @@ export function WidgetNavigation({
             <TabsList
               className={cn(
                 'sticky top-0 z-20 flex w-full justify-around rounded-none rounded-t-3xl border-b backdrop-blur-2xl',
-                'md:scrollbar-thin md:static md:mt-3 md:h-fit md:max-h-[calc(100vh-120px)] md:w-auto md:flex-col md:justify-start md:gap-2 md:self-start md:overflow-y-auto md:rounded-none md:border-0 md:bg-transparent md:p-0 md:backdrop-filter-none',
+                'md:scrollbar-thin md:static md:mt-3 md:h-fit md:max-h-[calc(100vh-120px)] md:w-auto md:flex-col md:justify-start md:gap-2 md:self-start md:overflow-y-auto md:rounded-none md:border-0 md:bg-transparent md:p-0 md:pr-[10px] md:backdrop-filter-none',
                 hideTabs && 'hidden',
-                isMobile && 'hidden' // Hide the horizontal tabs on mobile when using Sheet
+                isMobile && 'hidden', // Hide the horizontal tabs on mobile when using Sheet
+                'md:overflow-visible'
               )}
               data-testid="widget-navigation"
             >
@@ -197,12 +200,13 @@ export function WidgetNavigation({
                           // Desktop vertical tabs - minimal styling
                           'md:justify-start md:gap-3 md:bg-transparent md:px-4 md:py-2 md:hover:bg-transparent',
                           'md:data-[state=active]:text-text md:data-[state=active]:bg-transparent',
-                          'md:before:hidden', // Hide the glow effect on desktop vertical tabs
+                          // 'md:before:hidden', // Hide the glow effect on desktop vertical tabs
                           'disabled:cursor-not-allowed disabled:text-[rgba(198,194,255,0.4)]',
                           // Keep the existing mobile styling
                           'max-md:before:opacity-0',
                           'max-md:disabled:before:opacity-0 max-md:disabled:hover:before:opacity-0',
                           isMobile && tabGlowClasses,
+                          !isMobile && intent === widgetIntent && verticalTabGlowClasses,
                           isMobile && intent === widgetIntent && 'before:opacity-100 hover:before:opacity-100'
                         )}
                         disabled={options?.disabled || false}
