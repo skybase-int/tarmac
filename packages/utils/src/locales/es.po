@@ -1632,10 +1632,6 @@ msgstr ""
 msgid "Output is estimated. You will receive at least {slippageAdjustedQuote} {0} or the transaction will revert."
 msgstr ""
 
-#: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
-msgid "Percentage of supplied USDS currently being borrowed. High utilization may delay withdrawals."
-msgstr ""
-
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "Please allow this app to access the tokens in your wallet."
 msgstr ""
@@ -1903,6 +1899,7 @@ msgid "Savings"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/BalanceCards.tsx
+#: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
 #: packages/widgets/src/widgets/SavingsWidget/components/SavingsStatsCard.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/components/L2SavingsStatsCard.tsx
 #: packages/widgets/src/widgets/BalancesWidget/components/SavingsBalanceCard.tsx
@@ -2291,6 +2288,10 @@ msgstr ""
 msgid "stUSDS Module info"
 msgstr ""
 
+#: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCardCore.tsx
+msgid "stUSDS yield fluctuates based on borrowing demand. Returns are not guaranteed."
+msgstr ""
+
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/shared/constants.ts
 msgid "Success"
@@ -2525,7 +2526,6 @@ msgid "Total USDS upgraded"
 msgstr ""
 
 #: apps/webapp/src/modules/stusds/components/StUSDSTvlCard.tsx
-#: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
 msgid "Total Value Locked"
 msgstr ""
 
@@ -2671,6 +2671,7 @@ msgstr ""
 #: apps/webapp/src/modules/rewards/components/RewardsTokenInfo.tsx
 #: apps/webapp/src/modules/rewards/components/history/RewardsOverviewCharts.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/SaRewardsCard.tsx
+#: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/SaRewardsCard.tsx
 #: packages/widgets/src/widgets/SavingsWidget/components/SavingsStatsCard.tsx
 #: packages/widgets/src/widgets/RewardsWidget/components/SelectedRewardsCard.tsx
@@ -2882,7 +2883,6 @@ msgid "Value"
 msgstr ""
 
 #: apps/webapp/src/modules/stusds/components/StUSDSVariableRateCard.tsx
-#: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
 msgid "Variable Yield"
 msgstr ""
 
@@ -3082,10 +3082,6 @@ msgstr ""
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 msgid "Withdrawing {amount} {symbol}"
-msgstr ""
-
-#: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
-msgid "Yield fluctuates based on borrowing demand. Returns are not guaranteed."
 msgstr ""
 
 #. placeholder {0}: originToken?.symbol ?? ''
