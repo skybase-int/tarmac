@@ -6,20 +6,13 @@ import {
   useWriteContract
 } from 'wagmi';
 import { isRevertedError } from '../helpers';
-import { useEffect, useMemo, useState, useRef } from 'react';
+import { useEffect, useMemo, useState, useRef, useCallback } from 'react';
 import { SAFE_CONNECTOR_ID } from './constants';
 import { useWaitForSafeTxHash } from './useWaitForSafeTxHash';
-import type { Abi } from 'viem';
-
-export type SequentialTransaction = {
-  address: `0x${string}`;
-  abi: Abi;
-  functionName: string;
-  args: readonly unknown[];
-};
+import type { Call } from 'viem';
 
 export type UseSequentialTransactionFlowParameters = {
-  transactions: SequentialTransaction[];
+  transactions: Call[];
   enabled?: boolean;
   onMutate?: () => void;
   onStart?: (index: number, hash: string) => void;
@@ -59,8 +52,27 @@ export function useSequentialTransactionFlow(
   const [transactionHashes, setTransactionHashes] = useState<string[]>([]);
   const [isExecuting, setIsExecuting] = useState(false);
 
-  // Get current transaction
-  const currentTransaction = transactions[currentIndex];
+  // Get current transaction with memoization
+  const currentTransaction = useMemo(() => transactions[currentIndex], [transactions, currentIndex]);
+
+  // Memoize simulation parameters to prevent unnecessary re-renders
+  const simulationParams = useMemo(
+    () => ({
+      address: currentTransaction?.to,
+      abi: currentTransaction?.abi,
+      functionName: currentTransaction?.functionName,
+      args: currentTransaction?.args,
+      query: {
+        // Only enable simulation for the first transaction initially, or for subsequent transactions after previous success
+        enabled:
+          enabled &&
+          currentIndex < transactions.length &&
+          (currentIndex === 0 || (currentIndex > 0 && transactionHashes.length >= currentIndex)),
+        gcTime
+      }
+    }),
+    [currentTransaction, enabled, currentIndex, transactions.length, transactionHashes.length, gcTime]
+  );
 
   // Prepare current transaction
   const {
@@ -68,20 +80,7 @@ export function useSequentialTransactionFlow(
     refetch,
     isLoading: isSimulationLoading,
     error: simulationError
-  } = useSimulateContract({
-    address: currentTransaction?.address,
-    abi: currentTransaction?.abi,
-    functionName: currentTransaction?.functionName as any,
-    args: currentTransaction?.args as any,
-    query: {
-      // Only enable simulation for the first transaction initially, or for subsequent transactions after previous success
-      enabled:
-        enabled &&
-        currentIndex < transactions.length &&
-        (currentIndex === 0 || (currentIndex > 0 && transactionHashes.length >= currentIndex)),
-      gcTime
-    }
-  } as UseSimulateContractParameters);
+  } = useSimulateContract(simulationParams as UseSimulateContractParameters);
 
   const {
     writeContract,
@@ -149,17 +148,16 @@ export function useSequentialTransactionFlow(
     ) {
       writeContract(simulationData.request);
     }
-  }, [
-    prepared,
-    simulationData?.request,
-    currentIndex,
-    transactions.length,
-    writeContract,
-    simulationData,
-    transactionHashes
-  ]);
+  }, [currentIndex, prepared, simulationData, transactions.length, transactionHashes, writeContract]);
 
   const lastProcessedTxHash = useRef<string | undefined>(undefined);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      lastProcessedTxHash.current = undefined;
+    };
+  }, []);
 
   // Handle transaction completion
   useEffect(() => {
@@ -178,6 +176,7 @@ export function useSequentialTransactionFlow(
         onSuccess(newHashes);
         setIsExecuting(false);
         setCurrentIndex(0);
+        lastProcessedTxHash.current = undefined; // Reset ref on completion
       } else {
         // Move to next transaction - it will auto-execute once prepared
         setCurrentIndex(currentIndex + 1);
@@ -207,36 +206,49 @@ export function useSequentialTransactionFlow(
     onError
   ]);
 
+  // Memoize execute function to prevent recreation on every render
+  const execute = useCallback(() => {
+    if (!enabled || isExecuting) return;
+
+    if (currentIndex >= transactions.length) {
+      console.log('ERROR: All transactions have been executed');
+      return;
+    }
+
+    if (!currentTransaction) {
+      console.log('ERROR: No current transaction to execute');
+      return;
+    }
+
+    if (simulationData?.request) {
+      setIsExecuting(true);
+      writeContract(simulationData.request);
+    } else {
+      console.log(`ERROR: Transaction ${currentIndex} is not ready to execute.
+      contract address: ${currentTransaction.to}
+      function name: ${currentTransaction.functionName}
+      function arguments: ${currentTransaction.args}
+      isSimulationLoading: ${isSimulationLoading}
+      simulationError: ${simulationError}
+      enabled: ${enabled}`);
+    }
+  }, [
+    enabled,
+    isExecuting,
+    currentIndex,
+    transactions.length,
+    currentTransaction,
+    simulationData,
+    writeContract,
+    isSimulationLoading,
+    simulationError
+  ]);
+
   return {
     data: transactionHashes.length > 0 ? transactionHashes : undefined,
     error: writeError || miningError || simulationError,
     isLoading: isSimulationLoading || (isMining && !txReverted) || isExecuting,
-    execute: () => {
-      if (!enabled || isExecuting) return;
-
-      if (currentIndex >= transactions.length) {
-        console.log('ERROR: All transactions have been executed');
-        return;
-      }
-
-      if (!currentTransaction) {
-        console.log('ERROR: No current transaction to execute');
-        return;
-      }
-
-      if (simulationData?.request) {
-        setIsExecuting(true);
-        writeContract(simulationData.request);
-      } else {
-        console.log(`ERROR: Transaction ${currentIndex} is not ready to execute.
-        contract address: ${currentTransaction.address}
-        function name: ${currentTransaction.functionName}
-        function arguments: ${currentTransaction.args}
-        isSimulationLoading: ${isSimulationLoading}
-        simulationError: ${simulationError}
-        enabled: ${enabled}`);
-      }
-    },
+    execute,
     retryPrepare: refetch,
     prepareError: simulationError,
     prepared,
