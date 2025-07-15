@@ -27,46 +27,30 @@ export function useTransactionFlow(parameters: UseTransactionFlowParameters): Ba
   const { data: batchSupported, isLoading: isLoadingCapabilities } = useIsBatchSupported();
 
   // Determine if we should actually use batch based on user preference, wallet support, and number of calls
-  const useActualBatch = shouldUseBatch && batchSupported && calls.length > 1;
+  const useBatch = shouldUseBatch && batchSupported && calls.length > 1;
 
-  // Normalize callbacks for sequential flow
-  const sequentialOnStart = onStart ? () => onStart() : undefined;
-  const sequentialOnSuccess = onSuccess ? (hash: string) => onSuccess(hash) : undefined;
-  const sequentialOnError = onError ? (error: Error, hash: string) => onError(error, hash) : undefined;
-
-  // Use sequential flow
-  const sequentialResults = useSequentialTransactionFlow({
-    transactions: calls,
-    enabled: enabled && !useActualBatch && !isLoadingCapabilities,
-    onMutate,
-    onStart: sequentialOnStart,
-    onSuccess: sequentialOnSuccess,
-    onError: sequentialOnError,
-    gcTime,
-    chainId
-  });
-
-  // Use batch flow
-  const batchResults = useSendBatchTransactionFlow({
+  const commonTransactionParameters = {
     calls,
-    enabled: enabled && useActualBatch && !isLoadingCapabilities,
     onMutate,
     onStart,
     onSuccess,
     onError,
     chainId
+  };
+
+  // Use sequential flow
+  const sequentialResults = useSequentialTransactionFlow({
+    ...commonTransactionParameters,
+    enabled: enabled && !useBatch && !isLoadingCapabilities,
+    gcTime
   });
 
-  // Return the appropriate results based on useActualBatch
-  if (useActualBatch) {
-    return batchResults;
-  }
+  // Use batch flow
+  const batchResults = useSendBatchTransactionFlow({
+    ...commonTransactionParameters,
+    enabled: enabled && useBatch && !isLoadingCapabilities
+  });
 
-  // Map sequential results to BatchWriteHook interface
-  return {
-    execute: sequentialResults.execute,
-    isLoading: sequentialResults.isLoading || isLoadingCapabilities,
-    prepared: sequentialResults.prepared && !isLoadingCapabilities,
-    error: sequentialResults.error
-  };
+  // Return the appropriate results based on useBatch
+  return useBatch ? batchResults : sequentialResults;
 }

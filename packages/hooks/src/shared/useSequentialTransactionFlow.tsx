@@ -15,7 +15,7 @@ export function useSequentialTransactionFlow(
   parameters: UseSequentialTransactionFlowParameters
 ): SequentialTransactionHook {
   const {
-    transactions,
+    calls,
     enabled = true,
     onMutate = () => null,
     onStart = () => null,
@@ -29,8 +29,24 @@ export function useSequentialTransactionFlow(
   const [transactionHashes, setTransactionHashes] = useState<string[]>([]);
   const [isExecuting, setIsExecuting] = useState(false);
 
+  // Store initial transactions to prevent issues with changing array references
+  const transactionsRef = useRef(calls);
+
+  // Only update the ref when execution starts
+  useEffect(() => {
+    if (isExecuting && currentIndex === 0) {
+      transactionsRef.current = calls;
+    }
+  }, [isExecuting, currentIndex, calls]);
+
+  // Use the stored transactions during execution
+  const stableTransactions = isExecuting ? transactionsRef.current : calls;
+
   // Get current transaction with memoization
-  const currentTransaction = useMemo(() => transactions[currentIndex], [transactions, currentIndex]);
+  const currentTransaction = useMemo(
+    () => stableTransactions[currentIndex],
+    [stableTransactions, currentIndex]
+  );
 
   // Memoize simulation parameters to prevent unnecessary re-renders
   const simulationParams = useMemo(
@@ -43,18 +59,17 @@ export function useSequentialTransactionFlow(
         // Only enable simulation for the first transaction initially, or for subsequent transactions after previous success
         enabled:
           enabled &&
-          currentIndex < transactions.length &&
+          currentIndex < stableTransactions.length &&
           (currentIndex === 0 || (currentIndex > 0 && transactionHashes.length >= currentIndex)),
         gcTime
       }
     }),
-    [currentTransaction, enabled, currentIndex, transactions.length, transactionHashes.length, gcTime]
+    [currentTransaction, enabled, currentIndex, stableTransactions.length, transactionHashes.length, gcTime]
   );
 
   // Prepare current transaction
   const {
     data: simulationData,
-    refetch,
     isLoading: isSimulationLoading,
     error: simulationError
   } = useSimulateContract(simulationParams as UseSimulateContractParameters);
@@ -65,11 +80,7 @@ export function useSequentialTransactionFlow(
     data: mutationHash
   } = useWriteContract({
     mutation: {
-      onMutate: () => {
-        if (currentIndex === 0) {
-          onMutate();
-        }
-      },
+      onMutate,
       onSuccess: (hash: `0x${string}`) => {
         if (currentIndex === 0) {
           onStart(hash);
@@ -110,9 +121,9 @@ export function useSequentialTransactionFlow(
 
   // Check if current transaction is prepared
   const prepared = useMemo(() => {
-    if (transactions.length === 0) return false;
-    return currentIndex < transactions.length && !!simulationData?.request;
-  }, [currentIndex, transactions.length, simulationData?.request]);
+    if (stableTransactions.length === 0) return false;
+    return currentIndex < stableTransactions.length && !!simulationData?.request;
+  }, [currentIndex, stableTransactions.length, simulationData?.request]);
 
   // Auto-execute next transaction when it's prepared (for subsequent transactions after first)
   useEffect(() => {
@@ -120,12 +131,12 @@ export function useSequentialTransactionFlow(
       currentIndex > 0 &&
       prepared &&
       simulationData?.request &&
-      currentIndex < transactions.length &&
+      currentIndex < stableTransactions.length &&
       !transactionHashes[currentIndex] // Only execute if not already executed
     ) {
       writeContract(simulationData.request);
     }
-  }, [currentIndex, prepared, simulationData, transactions.length, transactionHashes, writeContract]);
+  }, [currentIndex, prepared, simulationData, stableTransactions.length, transactionHashes, writeContract]);
 
   const lastProcessedTxHash = useRef<string | undefined>(undefined);
 
@@ -138,6 +149,9 @@ export function useSequentialTransactionFlow(
 
   // Handle transaction completion
   useEffect(() => {
+    // Only process if we're executing
+    if (!isExecuting) return;
+
     if (txHash && isSuccess && !txReverted && lastProcessedTxHash.current !== txHash) {
       lastProcessedTxHash.current = txHash;
 
@@ -148,11 +162,12 @@ export function useSequentialTransactionFlow(
       // Check if this was the last transaction
       const nextIndex = currentIndex + 1;
 
-      if (nextIndex >= transactions.length) {
+      if (nextIndex >= stableTransactions.length) {
         // All transactions completed
         onSuccess(txHash);
         setIsExecuting(false);
         setCurrentIndex(0);
+        setTransactionHashes([]);
         lastProcessedTxHash.current = undefined; // Reset ref on completion
       } else {
         // Move to next transaction - it will auto-execute once prepared
@@ -170,22 +185,20 @@ export function useSequentialTransactionFlow(
       setIsExecuting(false);
     }
   }, [
+    isExecuting,
     isSuccess,
     miningError,
     failureReason,
     txHash,
     txReverted,
     currentIndex,
-    transactions.length,
-    transactionHashes,
-    currentTransaction
+    stableTransactions.length,
+    transactionHashes
   ]);
 
   // Memoize execute function to prevent recreation on every render
   const execute = useCallback(() => {
-    if (!enabled || isExecuting) return;
-
-    if (currentIndex >= transactions.length) {
+    if (currentIndex >= stableTransactions.length) {
       console.log('ERROR: All transactions have been executed');
       return;
     }
@@ -209,9 +222,8 @@ export function useSequentialTransactionFlow(
     }
   }, [
     enabled,
-    isExecuting,
     currentIndex,
-    transactions.length,
+    stableTransactions.length,
     currentTransaction,
     simulationData,
     writeContract,
@@ -220,14 +232,9 @@ export function useSequentialTransactionFlow(
   ]);
 
   return {
-    data: transactionHashes.length > 0 ? transactionHashes : undefined,
-    error: writeError || miningError || simulationError,
-    isLoading: isSimulationLoading || (isMining && !txReverted) || isExecuting,
     execute,
-    retryPrepare: refetch,
-    prepareError: simulationError,
+    isLoading: isSimulationLoading || (isMining && !txReverted) || isExecuting,
     prepared,
-    currentIndex,
-    totalTransactions: transactions.length
+    error: writeError || miningError || simulationError
   };
 }
