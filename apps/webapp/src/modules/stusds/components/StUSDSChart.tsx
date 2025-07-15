@@ -6,17 +6,14 @@ import { Trans } from '@lingui/react/macro';
 import { useParseSavingsChartData } from '@/modules/savings/hooks/useParseSavingsChartData';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useChainId } from 'wagmi';
-import { isL2ChainId } from '@jetstreamgg/sky-utils';
 
 export function StUSDSChart() {
   const [activeChart, setActiveChart] = useState('tvl');
   const [timeFrame, setTimeFrame] = useState<TimeFrame>('w');
   const chainId = useChainId();
-  const isL2Chain = isL2ChainId(chainId);
-  const chartChainId = isL2Chain ? 1 : chainId; // use mainnet for L2s
 
   // TODO: Replace with useStUSDSChartInfo when available
-  const { data: stUsdsChartInfo, isLoading, error } = useSavingsChartInfo(chartChainId);
+  const { data: stUsdsChartInfo, isLoading, error } = useSavingsChartInfo(chainId);
   const chartData = useParseSavingsChartData(timeFrame, stUsdsChartInfo || []);
 
   return (

@@ -1,21 +1,18 @@
 import {
   StUSDSWidget,
-  L2SavingsWidget,
   TxStatus,
-  SavingsAction,
+  StUSDSAction,
   WidgetStateChangeParams,
-  SavingsFlow
+  StUSDSFlow
 } from '@jetstreamgg/sky-widgets';
-import { TOKENS, useSavingsHistory } from '@jetstreamgg/sky-hooks';
+import { useSavingsHistory } from '@jetstreamgg/sky-hooks';
 import { IntentMapping, QueryParams, REFRESH_DELAY } from '@/lib/constants';
-import { isL2ChainId } from '@jetstreamgg/sky-utils';
 import { SharedProps } from '@/modules/app/types/Widgets';
 import { LinkedActionSteps } from '@/modules/config/context/ConfigContext';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { useSearchParams } from 'react-router-dom';
 import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
 import { useSubgraphUrl } from '@/modules/app/hooks/useSubgraphUrl';
-import { useChainId } from 'wagmi';
 import { useChatContext } from '@/modules/chat/context/ChatContext';
 import { Intent } from '@/lib/enums';
 import { useBatchToggle } from '@/modules/ui/hooks/useBatchToggle';
@@ -25,18 +22,11 @@ export function StUSDSWidgetPane(sharedProps: SharedProps) {
   const { linkedActionConfig, updateLinkedActionConfig, exitLinkedActionMode } = useConfigContext();
   const { mutate: refreshSavingsHistory } = useSavingsHistory(subgraphUrl);
   const [searchParams, setSearchParams] = useSearchParams();
-  const chainId = useChainId();
   const { setShouldDisableActionButtons } = useChatContext();
 
   const [batchEnabled, setBatchEnabled] = useBatchToggle();
 
-  const isL2 = isL2ChainId(chainId);
-  const isRestrictedMiCa = import.meta.env.VITE_RESTRICTED_BUILD_MICA === 'true';
-
-  const disallowedTokens =
-    isRestrictedMiCa && isL2 ? { supply: [TOKENS.usdc], withdraw: [TOKENS.usdc] } : undefined;
-
-  const flow = (searchParams.get(QueryParams.Flow) || undefined) as SavingsFlow | undefined;
+  const flow = (searchParams.get(QueryParams.Flow) || undefined) as StUSDSFlow | undefined;
 
   const onStUSDSWidgetStateChange = ({
     hash,
@@ -88,7 +78,7 @@ export function StUSDSWidgetPane(sharedProps: SharedProps) {
 
     // After a successful linked action SUPPLY, set the final step to "success"
     if (
-      widgetState.action === SavingsAction.SUPPLY &&
+      widgetState.action === StUSDSAction.SUPPLY &&
       txStatus === TxStatus.SUCCESS &&
       linkedActionConfig.step === LinkedActionSteps.COMPLETED_CURRENT
     ) {
@@ -107,7 +97,7 @@ export function StUSDSWidgetPane(sharedProps: SharedProps) {
     if (
       hash &&
       txStatus === TxStatus.SUCCESS &&
-      [SavingsAction.SUPPLY, SavingsAction.WITHDRAW].includes(widgetState.action)
+      [StUSDSAction.SUPPLY, StUSDSAction.WITHDRAW].includes(widgetState.action)
     ) {
       setTimeout(() => {
         refreshSavingsHistory();
@@ -115,20 +105,14 @@ export function StUSDSWidgetPane(sharedProps: SharedProps) {
     }
   };
 
-  // TODO: Maybe we don't need L2 version of the widget?
-  // using L2SavingsWidget for now to avoid breaking changes
-  const Widget = isL2 ? L2SavingsWidget : StUSDSWidget;
-
   return (
-    <Widget
+    <StUSDSWidget
       {...sharedProps}
       onWidgetStateChange={onStUSDSWidgetStateChange}
       externalWidgetState={{
         amount: linkedActionConfig?.inputAmount,
-        token: isL2 ? linkedActionConfig?.sourceToken : undefined,
         flow
       }}
-      disallowedTokens={disallowedTokens}
       batchEnabled={batchEnabled}
       setBatchEnabled={setBatchEnabled}
     />

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { formatBigInt, useFormatDates, isL2ChainId } from '@jetstreamgg/sky-utils';
+import { formatBigInt, useFormatDates } from '@jetstreamgg/sky-utils';
 import { t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { absBigInt } from '../../utils/math';
@@ -7,15 +7,13 @@ import { SavingsSupply, ArrowDown } from '@/modules/icons';
 import { HistoryTable } from '@/modules/ui/components/historyTable/HistoryTable';
 import { useSubgraphUrl } from '@/modules/app/hooks/useSubgraphUrl';
 import { useSavingsHistory } from '@jetstreamgg/sky-hooks';
-import { getTokenDecimals, TransactionTypeEnum } from '@jetstreamgg/sky-hooks';
-import { useChainId } from 'wagmi';
+import { TransactionTypeEnum } from '@jetstreamgg/sky-hooks';
 
 export function StUSDSHistory() {
   const subgraphUrl = useSubgraphUrl();
   // TODO: Replace with useStUSDSHistory when available
   const { data: stUsdsHistory, isLoading: stUsdsHistoryLoading, error } = useSavingsHistory(subgraphUrl);
 
-  const chainId = useChainId();
   const { i18n } = useLingui();
 
   const memoizedDates = useMemo(() => stUsdsHistory?.map(s => s.blockTimestamp), [stUsdsHistory]);
@@ -26,7 +24,7 @@ export function StUSDSHistory() {
     id: s.transactionHash,
     type: s.type === TransactionTypeEnum.SUPPLY ? t`Supply` : t`Withdrawal`,
     highlightText: s.type === TransactionTypeEnum.SUPPLY,
-    textLeft: `${formatBigInt(absBigInt(s.assets), { compact: true, unit: isL2ChainId(chainId) ? getTokenDecimals(s.token, chainId) : 18 })} ${isL2ChainId(chainId) ? s.token.symbol : 'USDS'}`,
+    textLeft: `${formatBigInt(absBigInt(s.assets), { compact: true, unit: 18 })} USDS`,
     iconLeft:
       s.type === TransactionTypeEnum.SUPPLY ? (
         <SavingsSupply width={14} height={13} className="mr-1" />
