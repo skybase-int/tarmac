@@ -417,6 +417,10 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
+#: apps/webapp/src/pages/BatchTransactionsLegal.tsx
+msgid "Back to Home Page"
+msgstr ""
+
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 msgid "Back to Rewards"
 msgstr ""
@@ -1290,6 +1294,12 @@ msgstr ""
 msgid "Learn more"
 msgstr ""
 
+#: apps/webapp/src/pages/BatchTransactionsLegal.tsx
+#: apps/webapp/src/modules/app/hooks/useBatchTxNotification.tsx
+#: apps/webapp/src/components/BatchTransactionsToggle.tsx
+msgid "Legal disclaimer"
+msgstr ""
+
 #: apps/webapp/src/modules/ui/components/TermsModal.tsx
 msgid "Legal Terms"
 msgstr ""
@@ -1633,7 +1643,7 @@ msgstr ""
 msgid "Please connect your wallet to view your history"
 msgstr ""
 
-#: apps/webapp/src/modules/app/hooks/useBatchTxNotification.tsx
+#: apps/webapp/src/pages/BatchTransactionsLegal.tsx
 msgid "Please note however that all security checks, user confirmations, and error handling are managed by your chosen wallet's delegate contract. As outlined in our <0>Terms of Use</0>, your use of a non-custodial digital wallet—including wallets supporting EIP-7702 and smart account functionality—is governed by the terms of service of your third-party wallet provider. We do not control or take responsibility for the security, functionality, or behavior of third-party wallets, including their handling of bundled transactions or delegate contracts. To ensure a secure and transparent experience, please ensure you are using a trusted and up-to-date wallet before proceeding."
 msgstr ""
 

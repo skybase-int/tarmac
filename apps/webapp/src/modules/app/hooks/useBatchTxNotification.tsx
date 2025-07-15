@@ -6,7 +6,6 @@ import { Trans } from '@lingui/react/macro';
 import { Text } from '@/modules/layout/components/Typography';
 import { VStack } from '@/modules/layout/components/VStack';
 import { useBatchToggle } from '@/modules/ui/hooks/useBatchToggle';
-import { ExternalLink } from '@/modules/layout/components/ExternalLink';
 import { Zap } from '@/modules/icons/Zap';
 
 export const useBatchTxNotification = ({ isAuthorized }: { isAuthorized: boolean }) => {
@@ -44,27 +43,14 @@ export const useBatchTxNotification = ({ isAuthorized }: { isAuthorized: boolean
                   best practices of the broader Ethereum ecosystem.
                 </Trans>
               </Text>
-              <div className="scrollbar-thin max-h-24 overflow-y-auto rounded-md border p-3">
-                <Text variant="captionSm" className="text-muted-foreground">
-                  <Trans>
-                    Please note however that all security checks, user confirmations, and error handling are
-                    managed by your chosen wallet&apos;s delegate contract. As outlined in our{' '}
-                    <ExternalLink
-                      showIcon={false}
-                      href="https://docs.sky.money/legal-terms"
-                      className="text-textEmphasis"
-                    >
-                      Terms of Use
-                    </ExternalLink>
-                    , your use of a non-custodial digital wallet—including wallets supporting EIP-7702 and
-                    smart account functionality—is governed by the terms of service of your third-party wallet
-                    provider. We do not control or take responsibility for the security, functionality, or
-                    behavior of third-party wallets, including their handling of bundled transactions or
-                    delegate contracts. To ensure a secure and transparent experience, please ensure you are
-                    using a trusted and up-to-date wallet before proceeding.
-                  </Trans>
-                </Text>
-              </div>
+              <a
+                href="/batch-transactions-legal-disclaimer"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-textEmphasis hover:text-textEmphasis self-start text-sm hover:underline"
+              >
+                <Trans>Legal disclaimer</Trans>
+              </a>
               {batchEnabled ? (
                 <Text variant="medium" className="text-muted-foreground">
                   <Trans>
