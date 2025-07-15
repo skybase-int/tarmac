@@ -27,9 +27,9 @@ export const L2TradeTransactionStatus = ({
   isBatchTransaction,
   needsAllowance
 }: {
-  originToken?: Token;
+  originToken: Token;
   originAmount: bigint;
-  targetToken?: Token;
+  targetToken: Token;
   targetAmount: bigint;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   isBatchTransaction?: boolean;
@@ -53,7 +53,6 @@ export const L2TradeTransactionStatus = ({
     setTargetToken,
     setTargetAmount
   } = useContext(WidgetContext);
-  if (!originToken || !targetToken) return null;
 
   const { flow, action, screen } = widgetState;
 
