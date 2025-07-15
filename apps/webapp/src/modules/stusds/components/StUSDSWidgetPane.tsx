@@ -1,5 +1,5 @@
 import {
-  SavingsWidget,
+  StUSDSWidget,
   L2SavingsWidget,
   TxStatus,
   SavingsAction,
@@ -115,7 +115,9 @@ export function StUSDSWidgetPane(sharedProps: SharedProps) {
     }
   };
 
-  const Widget = isL2 ? L2SavingsWidget : SavingsWidget;
+  // TODO: Maybe we don't need L2 version of the widget?
+  // using L2SavingsWidget for now to avoid breaking changes
+  const Widget = isL2 ? L2SavingsWidget : StUSDSWidget;
 
   return (
     <Widget

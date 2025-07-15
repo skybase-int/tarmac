@@ -3,7 +3,7 @@ import { Intent } from '@/lib/enums';
 import { TradeDetails } from '@/modules/trade/components/TradeDetails';
 import { UpgradeDetails } from '@/modules/upgrade/components/UpgradeDetails';
 import { SavingsDetails } from '@/modules/savings/components/SavingsDetails';
-import { StUSDSDetails } from '@/modules/savings/components/StUSDSDetails';
+import { StUSDSDetails } from '@/modules/stusds/components/StUSDSDetails';
 import { RewardsDetailsPane } from '@/modules/rewards/components/RewardsDetailsPane';
 import { BalancesDetails } from '@/modules/balances/components/BalancesDetails';
 import { ConnectCard } from '@/modules/layout/components/ConnectCard';

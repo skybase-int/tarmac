@@ -12,7 +12,7 @@ import { UpgradeWidgetPane } from '@/modules/upgrade/components/UpgradeWidgetPan
 import { RewardsWidgetPane } from '@/modules/rewards/components/RewardsWidgetPane';
 import { TradeWidgetPane } from '@/modules/trade/components/TradeWidgetPane';
 import { SavingsWidgetPane } from '@/modules/savings/components/SavingsWidgetPane';
-import { StUSDSWidgetPane } from '@/modules/savings/components/StUSDSWidgetPane';
+import { StUSDSWidgetPane } from '@/modules/stusds/components/StUSDSWidgetPane';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 import React, { useEffect } from 'react';
 import { useNotification } from '../hooks/useNotification';
