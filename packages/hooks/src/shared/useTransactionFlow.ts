@@ -13,7 +13,7 @@ import { useIsBatchSupported } from './useIsBatchSupported';
 export function useTransactionFlow(parameters: UseTransactionFlowParameters): BatchWriteHook {
   const {
     calls,
-    shouldUseBatch = false,
+    shouldUseBatch = true,
     enabled = true,
     onMutate,
     onStart,

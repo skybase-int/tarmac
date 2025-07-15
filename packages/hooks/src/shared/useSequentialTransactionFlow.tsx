@@ -178,9 +178,7 @@ export function useSequentialTransactionFlow(
     currentIndex,
     transactions.length,
     transactionHashes,
-    currentTransaction,
-    onSuccess,
-    onError
+    currentTransaction
   ]);
 
   // Memoize execute function to prevent recreation on every render

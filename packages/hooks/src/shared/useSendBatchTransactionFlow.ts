@@ -70,7 +70,7 @@ export function useSendBatchTransactionFlow<const calls extends readonly unknown
         onError(failureReason, data?.receipts?.[0].transactionHash);
       }
     }
-  }, [isSuccess, miningError, failureReason, mutationData?.id, txReverted, data, onSuccess, onError]);
+  }, [isSuccess, miningError, failureReason, mutationData?.id, txReverted, data]);
 
   return {
     execute: () => {
