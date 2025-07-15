@@ -2,7 +2,8 @@ import {
   useAvailableTokenRewardContracts,
   useRewardsChartInfo,
   TOKENS,
-  usePrices
+  usePrices,
+  useHighestRateFromChartData
 } from '@jetstreamgg/sky-hooks';
 import { formatBigInt, formatDecimalPercentage, formatNumber } from '@jetstreamgg/sky-utils';
 import { Text } from '@widgets/shared/components/ui/Typography';
@@ -29,15 +30,26 @@ export const RewardsBalanceCard = ({
     f => f.supplyToken.symbol === TOKENS.usds.symbol && f.rewardToken.symbol === TOKENS.sky.symbol
   );
 
-  const { data: chartData, isLoading: chartDataLoading } = useRewardsChartInfo({
+  const usdsSpkRewardContract = rewardContracts.find(
+    f => f.supplyToken.symbol === TOKENS.usds.symbol && f.rewardToken.symbol === TOKENS.spk.symbol
+  );
+
+  // Fetch chart data for both reward contracts
+  const { data: usdsSkyChartData, isLoading: usdsSkyChartDataLoading } = useRewardsChartInfo({
     rewardContractAddress: usdsSkyRewardContract?.contractAddress as string
   });
 
+  const { data: usdsSpkChartData, isLoading: usdsSpkChartDataLoading } = useRewardsChartInfo({
+    rewardContractAddress: usdsSpkRewardContract?.contractAddress as string
+  });
+
+  // Find the highest rate from both contracts
+  const highestRateData = useHighestRateFromChartData([usdsSkyChartData, usdsSpkChartData]);
+
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
 
-  const sortedChartData = chartData ? [...chartData].sort((a, b) => b.blockTimestamp - a.blockTimestamp) : [];
-  const mostRecentRate = sortedChartData.length > 0 ? sortedChartData[0].rate : null;
-  const mostRecentRateNumber = mostRecentRate ? parseFloat(mostRecentRate) : null;
+  const chartDataLoading = usdsSkyChartDataLoading || usdsSpkChartDataLoading;
+  const mostRecentRateNumber = highestRateData ? parseFloat(highestRateData.rate) : null;
 
   return (
     <InteractiveStatsCard

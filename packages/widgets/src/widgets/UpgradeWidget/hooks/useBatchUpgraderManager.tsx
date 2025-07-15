@@ -46,25 +46,37 @@ export function useBatchUpgraderManager({
     args: [upgraderConfig.address, amount]
   });
 
-  const upgradeCall = getWriteContractCall({
-    to: upgraderConfig.address,
-    abi: upgraderConfig.abi,
-    functionName:
-      token.symbol === TOKENS.dai.symbol
-        ? 'daiToUsds'
-        : token.symbol === TOKENS.usds.symbol
-          ? 'usdsToDai'
-          : token.symbol === TOKENS.mkr.symbol
-            ? 'mkrToSky'
-            : 'skyToMkr',
-    args: [address!, amount]
-  });
-
   const calls: Call[] = [];
   if (!hasAllowance) calls.push(approveCall);
-  calls.push(upgradeCall);
 
-  const enabled = paramEnabled && !!address && amount !== 0n;
+  // Only create upgrade call if we have a valid token symbol
+  if (token.symbol) {
+    // Determine the function name based on token symbol and available functions
+    let functionName: 'daiToUsds' | 'usdsToDai' | 'mkrToSky';
+    if (token.symbol === TOKENS.dai.symbol) {
+      functionName = 'daiToUsds';
+    } else if (token.symbol === TOKENS.usds.symbol) {
+      functionName = 'usdsToDai';
+    } else if (token.symbol === TOKENS.mkr.symbol) {
+      functionName = 'mkrToSky';
+    } else if (token.symbol === TOKENS.sky.symbol) {
+      // SKY to MKR conversion is not supported in the current contract
+      throw new Error('SKY to MKR conversion is not supported');
+    } else {
+      throw new Error(`Unsupported token symbol: ${token.symbol}`);
+    }
+
+    const upgradeCall = getWriteContractCall({
+      to: upgraderConfig.address,
+      abi: upgraderConfig.abi,
+      functionName,
+      args: [address!, amount]
+    });
+
+    calls.push(upgradeCall);
+  }
+
+  const enabled = paramEnabled && !!address && amount !== 0n && !!token.symbol;
 
   return useSendBatchTransactionFlow({
     calls,

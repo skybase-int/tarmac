@@ -71,7 +71,6 @@ export { MakerHooksProvider, useMakerHooks } from './context/context';
 export { useUsdsToDai } from './upgrade/useUsdsToDai';
 export { useDaiToUsds } from './upgrade/useDaiToUsds';
 export { useMkrToSky } from './upgrade/useMkrToSky';
-export { useSkyToMkr } from './upgrade/useSkyToMkr';
 export { useDaiUsdsApprove } from './upgrade/useDaiUsdsApprove';
 export { useMkrSkyApprove } from './upgrade/useMkrSkyApprove';
 export { useUpgradeHistory } from './upgrade/useUpgradeHistory';
@@ -146,6 +145,7 @@ export { useClaimRewards as useStakeClaimRewards } from './stake/useClaimRewards
 export { useStakeRewardsData } from './stake/useStakeRewardsData';
 export { useStakePosition } from './stake/useStakePosition';
 export { useBatchStakeMulticall } from './stake/useBatchStakeMulticall';
+export { useHighestRateFromChartData } from './stake/useHighestRateFromChartData';
 export * from './stake/calldata';
 
 //Vaults
@@ -266,7 +266,8 @@ export {
   useReadPsm3L2PreviewSwapExactIn,
   useReadPsm3L2PreviewSwapExactOut,
   lsMkrUsdsRewardAddress,
-  lsSkyUsdsRewardAddress
+  lsSkyUsdsRewardAddress,
+  lsSkySpkRewardAddress
 } from './generated';
 export { contracts, /*tenderlyContracts,*/ sepoliaContracts, l2Contracts } from './contracts';
 
