@@ -15,9 +15,9 @@ export type UseSequentialTransactionFlowParameters = {
   transactions: Call[];
   enabled?: boolean;
   onMutate?: () => void;
-  onStart?: (index: number, hash: string) => void;
-  onSuccess?: (hashes: string[]) => void;
-  onError?: (error: Error, index: number, hash: string) => void;
+  onStart?: (hash: string) => void;
+  onSuccess?: (hash: string) => void;
+  onError?: (error: Error, hash: string) => void;
   gcTime?: number;
   chainId?: number;
 };
@@ -95,11 +95,11 @@ export function useSequentialTransactionFlow(
       },
       onSuccess: (hash: `0x${string}`) => {
         if (currentIndex === 0) {
-          onStart(currentIndex, hash);
+          onStart(hash);
         }
       },
       onError: (err: Error) => {
-        onError(err, currentIndex, mutationHash || '');
+        onError(err, mutationHash || '');
       }
     }
   });
@@ -173,7 +173,7 @@ export function useSequentialTransactionFlow(
 
       if (nextIndex >= transactions.length) {
         // All transactions completed
-        onSuccess(newHashes);
+        onSuccess(txHash);
         setIsExecuting(false);
         setCurrentIndex(0);
         lastProcessedTxHash.current = undefined; // Reset ref on completion
@@ -189,7 +189,7 @@ export function useSequentialTransactionFlow(
       lastProcessedTxHash.current = txHash;
       // Transaction failed
       const error = miningError || failureReason;
-      onError(error as Error, currentIndex, txHash);
+      onError(error as Error, txHash);
       setIsExecuting(false);
     }
   }, [
