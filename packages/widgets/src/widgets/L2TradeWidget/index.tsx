@@ -635,18 +635,18 @@ function TradeWidgetWrapped({
     );
   }, [isConnectedAndEnabled, approveDisabled, tradeDisabled, widgetState.action]);
 
-  // After a successful approval, wait for the next hook to be prepared and send the transaction
-  useEffect(() => {
-    const nextActionPrepared = lastUpdated === TradeSide.IN ? trade.prepared : tradeOut.prepared;
+  // // After a successful approval, wait for the next hook to be prepared and send the transaction
+  // useEffect(() => {
+  //   const nextActionPrepared = lastUpdated === TradeSide.IN ? trade.prepared : tradeOut.prepared;
 
-    if (widgetState.action === TradeAction.APPROVE && txStatus === TxStatus.SUCCESS && nextActionPrepared) {
-      setWidgetState((prev: WidgetState) => ({
-        ...prev,
-        action: TradeAction.TRADE
-      }));
-      tradeOnClick();
-    }
-  }, [widgetState.action, txStatus, trade.prepared, tradeOut.prepared, lastUpdated]);
+  //   if (widgetState.action === TradeAction.APPROVE && txStatus === TxStatus.SUCCESS && nextActionPrepared) {
+  //     setWidgetState((prev: WidgetState) => ({
+  //       ...prev,
+  //       action: TradeAction.TRADE
+  //     }));
+  //     tradeOnClick();
+  //   }
+  // }, [widgetState.action, txStatus, trade.prepared, tradeOut.prepared, lastUpdated]);
 
   // set isLoading to be consumed by WidgetButton
   useEffect(() => {

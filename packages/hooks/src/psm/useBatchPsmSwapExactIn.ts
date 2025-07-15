@@ -2,9 +2,10 @@ import { useAccount, useChainId } from 'wagmi';
 import { BatchWriteHook, BatchWriteHookParams } from '../hooks';
 import { psm3L2Abi, psm3L2Address } from '../generated';
 import { useTokenAllowance } from '../tokens/useTokenAllowance';
-import { useSendBatchTransactionFlow } from '../shared/useSendBatchTransactionFlow';
+// import { useSendBatchTransactionFlow } from '../shared/useSendBatchTransactionFlow';
 import { getWriteContractCall } from '../shared/getWriteContractCall';
-import { Call, erc20Abi } from 'viem';
+import { Abi, Call, erc20Abi } from 'viem';
+import { useSequentialTransactionFlow } from '../shared/useSequentialTransactionFlow';
 
 export function useBatchPsmSwapExactIn({
   assetIn,
@@ -59,8 +60,13 @@ export function useBatchPsmSwapExactIn({
 
   const enabled = paramEnabled && isConnected && allowance !== undefined && amountIn !== 0n && !!address;
 
-  const sendBatchTransactionFlowResults = useSendBatchTransactionFlow({
-    calls,
+  const sequentialTransactionFlowResults = useSequentialTransactionFlow({
+    transactions: calls.map(c => ({
+      address: c.to,
+      abi: c.abi as Abi,
+      functionName: c.functionName as string,
+      args: c.args as readonly unknown[]
+    })),
     chainId,
     enabled,
     onMutate,
@@ -68,9 +74,23 @@ export function useBatchPsmSwapExactIn({
     onError,
     onStart
   });
+  // const sendBatchTransactionFlowResults = useSendBatchTransactionFlow({
+  //   calls,
+  //   chainId,
+  //   enabled,
+  //   onMutate,
+  //   onSuccess,
+  //   onError,
+  //   onStart
+  // });
 
   return {
-    ...sendBatchTransactionFlowResults,
-    error: sendBatchTransactionFlowResults.error || allowanceError
+    ...sequentialTransactionFlowResults,
+    error: sequentialTransactionFlowResults.error || allowanceError
   };
+
+  // return {
+  //   ...sendBatchTransactionFlowResults,
+  //   error: sendBatchTransactionFlowResults.error || allowanceError
+  // };
 }
