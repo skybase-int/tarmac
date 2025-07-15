@@ -2,10 +2,9 @@ import { useAccount, useChainId } from 'wagmi';
 import { BatchWriteHook, BatchWriteHookParams } from '../hooks';
 import { psm3L2Abi, psm3L2Address } from '../generated';
 import { useTokenAllowance } from '../tokens/useTokenAllowance';
-// import { useSendBatchTransactionFlow } from '../shared/useSendBatchTransactionFlow';
+import { useTransactionFlow } from '../shared/useTransactionFlow';
 import { getWriteContractCall } from '../shared/getWriteContractCall';
-import { Abi, Call, erc20Abi } from 'viem';
-import { useSequentialTransactionFlow } from '../shared/useSequentialTransactionFlow';
+import { Call, erc20Abi } from 'viem';
 
 export function useBatchPsmSwapExactIn({
   assetIn,
@@ -14,6 +13,7 @@ export function useBatchPsmSwapExactIn({
   minAmountOut,
   referralCode = 0n,
   enabled: paramEnabled = true,
+  shouldUseBatch = true,
   onMutate = () => null,
   onSuccess = () => null,
   onError = () => null,
@@ -60,13 +60,9 @@ export function useBatchPsmSwapExactIn({
 
   const enabled = paramEnabled && isConnected && allowance !== undefined && amountIn !== 0n && !!address;
 
-  const sequentialTransactionFlowResults = useSequentialTransactionFlow({
-    transactions: calls.map(c => ({
-      address: c.to,
-      abi: c.abi as Abi,
-      functionName: c.functionName as string,
-      args: c.args as readonly unknown[]
-    })),
+  const transactionFlowResults = useTransactionFlow({
+    calls,
+    shouldUseBatch,
     chainId,
     enabled,
     onMutate,
@@ -74,23 +70,9 @@ export function useBatchPsmSwapExactIn({
     onError,
     onStart
   });
-  // const sendBatchTransactionFlowResults = useSendBatchTransactionFlow({
-  //   calls,
-  //   chainId,
-  //   enabled,
-  //   onMutate,
-  //   onSuccess,
-  //   onError,
-  //   onStart
-  // });
 
   return {
-    ...sequentialTransactionFlowResults,
-    error: sequentialTransactionFlowResults.error || allowanceError
+    ...transactionFlowResults,
+    error: transactionFlowResults.error || allowanceError
   };
-
-  // return {
-  //   ...sendBatchTransactionFlowResults,
-  //   error: sendBatchTransactionFlowResults.error || allowanceError
-  // };
 }
