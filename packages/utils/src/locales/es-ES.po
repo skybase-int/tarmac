@@ -413,6 +413,7 @@ msgstr ""
 msgid "Ask me anything"
 msgstr ""
 
+#: apps/webapp/src/modules/chat/components/FeedbackModal.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 msgid "Back"
 msgstr ""
@@ -1074,6 +1075,10 @@ msgstr ""
 msgid "Feedback"
 msgstr ""
 
+#: apps/webapp/src/modules/chat/components/ChatBubble.tsx
+msgid "Feedback sent"
+msgstr ""
+
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Borrow.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
@@ -1639,6 +1644,10 @@ msgid "Please connect your wallet to view your history"
 msgstr ""
 
 #: apps/webapp/src/modules/chat/components/FeedbackModal.tsx
+msgid "Please describe your feedback in detail:"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/FeedbackModal.tsx
 msgid "Please select one or more topics that describe your feedback:"
 msgstr ""
 
@@ -1961,8 +1970,17 @@ msgstr ""
 msgid "Select token"
 msgstr ""
 
+#. placeholder {0}: selectedTopics.join(', ')
+#: apps/webapp/src/modules/chat/components/FeedbackModal.tsx
+msgid "Selected topics: {0}"
+msgstr ""
+
 #: apps/webapp/src/modules/chat/components/ChatIntentsRow.tsx
 msgid "Selecting a suggested action will prefill transaction details, but execution still requires user review and confirmation."
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/FeedbackModal.tsx
+msgid "Send"
 msgstr ""
 
 #. placeholder {0}: formatBigInt(debouncedOriginAmount, { locale, unit: originToken ? getTokenDecimals(originToken, chainId) : 18 })
@@ -2625,6 +2643,10 @@ msgstr ""
 msgid "Type"
 msgstr ""
 
+#: apps/webapp/src/modules/chat/components/FeedbackModal.tsx
+msgid "Type your feedback here..."
+msgstr ""
+
 #: apps/webapp/src/modules/chat/components/ChatBubble.tsx
 msgid "Typing"
 msgstr ""
@@ -2984,6 +3006,10 @@ msgstr ""
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
 msgid "Withdrawing {amount} {symbol}"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/FeedbackModal.tsx
+msgid "Write Your Feedback"
 msgstr ""
 
 #. placeholder {0}: originToken?.symbol ?? ''

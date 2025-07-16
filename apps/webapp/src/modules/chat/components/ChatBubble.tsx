@@ -10,6 +10,7 @@ import { QueryParams } from '@/lib/constants';
 import { motion } from 'framer-motion';
 import { ResponseModifierRow } from './ResponseModifierRow';
 import { t } from '@lingui/core/macro';
+import { Trans } from '@lingui/react/macro';
 import { ChatIntent } from '../types/Chat';
 import { ChatIntentsRow } from './ChatIntentsRow';
 import { StopGeneratingButton } from './StopGeneratingButton';
@@ -78,6 +79,7 @@ export const ChatBubble = ({
   const isLoading = type === MessageType.loading;
   const isInternal = type === MessageType.internal;
   const isCanceled = type === MessageType.canceled;
+  const isFeedback = message.startsWith('/feedback');
 
   return (
     <div
@@ -122,7 +124,13 @@ export const ChatBubble = ({
             <HStack className="items-center gap-x-[6px] space-x-0">
               {isError && <ChatError className="mb-3 h-4 w-4 shrink-0" />}
               <div className="text-white/75">
-                <ChatMarkdownRenderer markdown={message} />
+                {isFeedback && user === UserType.user ? (
+                  <Text className="mb-2 italic">
+                    <Trans>Feedback sent</Trans>
+                  </Text>
+                ) : (
+                  <ChatMarkdownRenderer markdown={message} />
+                )}
               </div>
             </HStack>
             {user === UserType.bot && !isError && !isInternal && !isCanceled && (

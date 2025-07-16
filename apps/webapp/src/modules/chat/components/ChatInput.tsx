@@ -21,11 +21,10 @@ export const ChatInput = ({ sendMessage }: { sendMessage: (message: string) => v
     setShowFeedbackModal(true);
   };
 
-  const handleFeedbackSubmit = (topics: string[]) => {
+  const handleFeedbackSubmit = (topics: string[], message: string) => {
     const formattedTopics = topics.join(',');
-    const fullText = `/feedback ${formattedTopics} - [elaborate your feedback]`;
-    setInputText(fullText);
-    inputRef.current?.focus();
+    const fullText = `/feedback ${formattedTopics} - ${message}`;
+    sendMessage(fullText);
   };
 
   // Auto-resize textarea based on content
