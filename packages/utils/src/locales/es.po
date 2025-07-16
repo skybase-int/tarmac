@@ -1294,12 +1294,9 @@ msgstr ""
 msgid "Learn more"
 msgstr ""
 
-#: apps/webapp/src/components/BatchTransactionsToggle.tsx
-msgid "Legal disclaimer"
-msgstr ""
-
 #: apps/webapp/src/pages/BatchTransactionsLegal.tsx
 #: apps/webapp/src/modules/app/hooks/useBatchTxNotification.tsx
+#: apps/webapp/src/components/BatchTransactionsToggle.tsx
 msgid "Legal Notice"
 msgstr ""
 

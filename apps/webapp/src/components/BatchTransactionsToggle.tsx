@@ -45,7 +45,7 @@ export function BatchTransactionsToggle() {
           </Text>
           <Link to="/batch-transactions-legal-disclaimer" className="mt-4">
             <Text variant="small" className="text-textEmphasis">
-              <Trans>Legal disclaimer</Trans>
+              <Trans>Legal Notice</Trans>
             </Text>
           </Link>
           <TooltipArrow width={12} height={8} />
