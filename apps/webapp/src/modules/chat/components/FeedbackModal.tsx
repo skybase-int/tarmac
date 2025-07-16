@@ -133,7 +133,7 @@ export const FeedbackModal = ({ isOpen, onClose, onSubmit }: FeedbackModalProps)
           ) : (
             <>
               <Text variant="large" className="text-text text-sm sm:text-base">
-                <Trans>Selected topics: {selectedTopics.join(', ')}</Trans>
+                <Trans>Selected topics: {selectedTopics.map(topic => topic.toUpperCase()).join(', ')}</Trans>
               </Text>
               <Text variant="medium" className="text-xs text-violet-200 sm:text-sm">
                 <Trans>Please describe your feedback in detail:</Trans>
