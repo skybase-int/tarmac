@@ -71,7 +71,8 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
     enabled: isConnectedAndAcceptedTerms,
     onExternalLinkClicked,
     referralCode,
-    shouldReset: searchParams.get(QueryParams.Reset) === 'true'
+    shouldReset: searchParams.get(QueryParams.Reset) === 'true',
+    legalBatchTxUrl: '/batch-transactions-legal-disclaimer'
   };
 
   const getQueryParams = (url: string) => getRetainedQueryParams(url, retainedParams, searchParams);
