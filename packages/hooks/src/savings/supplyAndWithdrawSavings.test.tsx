@@ -47,7 +47,7 @@ describe('Savings - Supply and withdraw', async () => {
       );
 
       // The user should have some tokens
-      let initialBalance: string;
+      let initialBalance: string = '0';
       await waitFor(
         () => {
           expect(resultBalance.current.data?.formatted).toBeDefined();
@@ -150,7 +150,7 @@ describe('Savings - Supply and withdraw', async () => {
       }
     );
 
-    let initialBalance: string;
+    let initialBalance: string = '0';
     await waitFor(
       () => {
         expect(resultInitialBalance.current.data?.formatted).toBeDefined();
