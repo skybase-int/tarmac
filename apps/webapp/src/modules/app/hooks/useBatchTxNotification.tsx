@@ -49,7 +49,7 @@ export const useBatchTxNotification = ({ isAuthorized }: { isAuthorized: boolean
                 rel="noopener noreferrer"
                 className="text-textEmphasis hover:text-textEmphasis self-start text-sm hover:underline"
               >
-                <Trans>Legal disclaimer</Trans>
+                <Trans>Legal Notice</Trans>
               </a>
               {batchEnabled ? (
                 <Text variant="medium" className="text-muted-foreground">

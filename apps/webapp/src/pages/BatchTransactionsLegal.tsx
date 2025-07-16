@@ -27,12 +27,12 @@ export function BatchTransactionsLegal() {
             </Link>
           )}
           <Heading tag="h2" className="text-text">
-            <Trans>Legal disclaimer</Trans>
+            <Trans>Legal Notice</Trans>
           </Heading>
           <Text variant="medium" className="text-text">
             <Trans>
-              Please note however that all security checks, user confirmations, and error handling are managed
-              by your chosen wallet&apos;s delegate contract. As outlined in our{' '}
+              Please note that all security checks, user confirmations, and error handling are managed by your
+              chosen wallet&apos;s delegate contract. As outlined in our{' '}
               <ExternalLink
                 showIcon={false}
                 href="https://docs.sky.money/legal-terms"
