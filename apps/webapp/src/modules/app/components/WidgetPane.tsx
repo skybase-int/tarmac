@@ -12,6 +12,7 @@ import { UpgradeWidgetPane } from '@/modules/upgrade/components/UpgradeWidgetPan
 import { RewardsWidgetPane } from '@/modules/rewards/components/RewardsWidgetPane';
 import { TradeWidgetPane } from '@/modules/trade/components/TradeWidgetPane';
 import { SavingsWidgetPane } from '@/modules/savings/components/SavingsWidgetPane';
+import { StUSDSWidgetPane } from '@/modules/stusds/components/StUSDSWidgetPane';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 import React, { useEffect } from 'react';
 import { useNotification } from '../hooks/useNotification';
@@ -122,6 +123,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
       withErrorBoundary(<RewardsWidgetPane {...sharedProps} />)
     ],
     [Intent.SAVINGS_INTENT, 'Savings', Savings, withErrorBoundary(<SavingsWidgetPane {...sharedProps} />)],
+    [Intent.STUSDS_INTENT, 'stUSDS', Savings, withErrorBoundary(<StUSDSWidgetPane {...sharedProps} />)],
     [Intent.UPGRADE_INTENT, 'Upgrade', Upgrade, withErrorBoundary(<UpgradeWidgetPane {...sharedProps} />)],
     [Intent.TRADE_INTENT, 'Trade', Trade, withErrorBoundary(<TradeWidgetPane {...sharedProps} />)],
     [Intent.STAKE_INTENT, 'Stake', Stake, withErrorBoundary(<StakeWidgetPane {...sharedProps} />)]
@@ -149,6 +151,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
         ([intent]) =>
           intent === Intent.REWARDS_INTENT ||
           intent === Intent.SAVINGS_INTENT ||
+          intent === Intent.STUSDS_INTENT ||
           intent === Intent.STAKE_INTENT
       )
     },
