@@ -28,6 +28,7 @@ export function useSequentialTransactionFlow(
   const [currentIndex, setCurrentIndex] = useState(0);
   const [transactionHashes, setTransactionHashes] = useState<string[]>([]);
   const [isExecuting, setIsExecuting] = useState(false);
+  const [hasWriteError, setHasWriteError] = useState(false);
 
   // Store initial transactions to prevent issues with changing array references
   const transactionsRef = useRef(calls);
@@ -81,8 +82,12 @@ export function useSequentialTransactionFlow(
   } = useWriteContract({
     mutation: {
       onMutate,
-      onSuccess: onStart,
+      onSuccess: (hash: `0x${string}`) => {
+        setHasWriteError(false);
+        onStart(hash);
+      },
       onError: (err: Error) => {
+        setHasWriteError(true);
         onError(err, mutationHash || '');
       }
     }
@@ -229,7 +234,7 @@ export function useSequentialTransactionFlow(
 
   return {
     execute,
-    isLoading: isSimulationLoading || (isMining && !txReverted) || isExecuting,
+    isLoading: isSimulationLoading || (isMining && !txReverted) || (isExecuting && !hasWriteError),
     prepared,
     error: writeError || miningError || simulationError
   };
