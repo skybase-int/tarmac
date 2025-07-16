@@ -6,7 +6,7 @@ import { Trans } from '@lingui/react/macro';
 import { t } from '@lingui/core/macro';
 import { useChatContext } from '../context/ChatContext';
 import { Text } from '@/modules/layout/components/Typography';
-import { MAX_MESSAGE_LENGTH } from '@/lib/constants';
+import { MAX_MESSAGE_LENGTH, CHATBOT_FEEDBACK_ENABLED } from '@/lib/constants';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { FeedbackModal } from './FeedbackModal';
 
@@ -59,11 +59,13 @@ export const ChatInput = ({ sendMessage }: { sendMessage: (message: string) => v
 
   return (
     <>
-      <FeedbackModal
-        isOpen={showFeedbackModal}
-        onClose={() => setShowFeedbackModal(false)}
-        onSubmit={handleFeedbackSubmit}
-      />
+      {CHATBOT_FEEDBACK_ENABLED && (
+        <FeedbackModal
+          isOpen={showFeedbackModal}
+          onClose={() => setShowFeedbackModal(false)}
+          onSubmit={handleFeedbackSubmit}
+        />
+      )}
       <div>
         <HStack className="bg-card items-end justify-between rounded-xl p-4 hover:brightness-125">
           <textarea
@@ -77,33 +79,35 @@ export const ChatInput = ({ sendMessage }: { sendMessage: (message: string) => v
             rows={1}
           />
           <HStack className="@sm/chat:gap-2 shrink-0 gap-1">
-            <Tooltip delayDuration={400}>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="@sm/chat:px-2 h-6 rounded-lg border border-violet-200/30 bg-transparent px-1 text-xs text-violet-200/70 hover:border-violet-200/50 hover:bg-transparent hover:text-white active:bg-transparent"
-                  onClick={handleFeedbackClick}
-                >
-                  <Text variant="small" className="@sm/chat:inline hidden">
-                    <Trans>Feedback</Trans>
-                  </Text>
+            {CHATBOT_FEEDBACK_ENABLED && (
+              <Tooltip delayDuration={400}>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="@sm/chat:px-2 h-6 rounded-lg border border-violet-200/30 bg-transparent px-1 text-xs text-violet-200/70 hover:border-violet-200/50 hover:bg-transparent hover:text-white active:bg-transparent"
+                    onClick={handleFeedbackClick}
+                  >
+                    <Text variant="small" className="@sm/chat:inline hidden">
+                      <Trans>Feedback</Trans>
+                    </Text>
+                    <Text variant="small" className="@sm/chat:hidden">
+                      <Trans>FB</Trans>
+                    </Text>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent className="@sm/chat:max-w-xs max-w-[180px]">
                   <Text variant="small" className="@sm/chat:hidden">
-                    <Trans>FB</Trans>
+                    <Trans>Click to share feedback about this chat</Trans>
                   </Text>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent className="@sm/chat:max-w-xs max-w-[180px]">
-                <Text variant="small" className="@sm/chat:hidden">
-                  <Trans>Click to share feedback about this chat</Trans>
-                </Text>
-                <Text variant="small" className="@sm/chat:inline hidden">
-                  <Trans>
-                    Share your feedback about this chat experience. Click this button to start a feedback
-                    message, then type your thoughts and send.
-                  </Trans>
-                </Text>
-              </TooltipContent>
-            </Tooltip>
+                  <Text variant="small" className="@sm/chat:inline hidden">
+                    <Trans>
+                      Share your feedback about this chat experience. Click this button to start a feedback
+                      message, then type your thoughts and send.
+                    </Trans>
+                  </Text>
+                </TooltipContent>
+              </Tooltip>
+            )}
             <Button
               variant="ghost"
               className="h-6 bg-transparent p-0 text-white hover:bg-transparent active:bg-transparent disabled:bg-transparent disabled:text-violet-200/50"
