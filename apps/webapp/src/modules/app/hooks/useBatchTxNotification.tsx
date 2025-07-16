@@ -7,6 +7,7 @@ import { Text } from '@/modules/layout/components/Typography';
 import { VStack } from '@/modules/layout/components/VStack';
 import { useBatchToggle } from '@/modules/ui/hooks/useBatchToggle';
 import { Zap } from '@/modules/icons/Zap';
+import { BATCH_TX_LEGAL_NOTICE_URL } from '@/lib/constants';
 
 export const useBatchTxNotification = ({ isAuthorized }: { isAuthorized: boolean }) => {
   const { userConfig, updateUserConfig } = useConfigContext();
@@ -44,7 +45,7 @@ export const useBatchTxNotification = ({ isAuthorized }: { isAuthorized: boolean
                 </Trans>
               </Text>
               <a
-                href="/batch-transactions-legal-disclaimer"
+                href={BATCH_TX_LEGAL_NOTICE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-textEmphasis hover:text-textEmphasis self-start text-sm hover:underline"

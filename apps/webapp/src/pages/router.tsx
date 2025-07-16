@@ -20,7 +20,7 @@ const commonRoutes = [
     errorElement: <ErrorPage />
   } as RouteObject,
   {
-    path: '/batch-transactions-legal-disclaimer',
+    path: '/batch-transactions-legal-notice',
     element: <BatchTransactionsLegal />,
     errorElement: <ErrorPage />
   } as RouteObject,

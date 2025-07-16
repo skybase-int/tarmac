@@ -3,7 +3,12 @@ import { Intent } from '@/lib/enums';
 import { useLingui } from '@lingui/react';
 import { useCustomConnectModal } from '@/modules/ui/hooks/useCustomConnectModal';
 import { useAddRecentTransaction } from '@rainbow-me/rainbowkit';
-import { COMING_SOON_MAP, mapIntentToQueryParam, QueryParams } from '@/lib/constants';
+import {
+  BATCH_TX_LEGAL_NOTICE_URL,
+  COMING_SOON_MAP,
+  mapIntentToQueryParam,
+  QueryParams
+} from '@/lib/constants';
 import { WidgetNavigation } from '@/modules/app/components/WidgetNavigation';
 import { withErrorBoundary } from '@/modules/utils/withErrorBoundary';
 import { DualSwitcher } from '@/components/DualSwitcher';
@@ -72,7 +77,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
     onExternalLinkClicked,
     referralCode,
     shouldReset: searchParams.get(QueryParams.Reset) === 'true',
-    legalBatchTxUrl: '/batch-transactions-legal-disclaimer'
+    legalBatchTxUrl: BATCH_TX_LEGAL_NOTICE_URL
   };
 
   const getQueryParams = (url: string) => getRetainedQueryParams(url, retainedParams, searchParams);
