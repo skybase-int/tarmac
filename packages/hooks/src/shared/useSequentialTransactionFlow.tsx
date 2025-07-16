@@ -81,11 +81,7 @@ export function useSequentialTransactionFlow(
   } = useWriteContract({
     mutation: {
       onMutate,
-      onSuccess: (hash: `0x${string}`) => {
-        if (currentIndex === 0) {
-          onStart(hash);
-        }
-      },
+      onSuccess: onStart,
       onError: (err: Error) => {
         onError(err, mutationHash || '');
       }

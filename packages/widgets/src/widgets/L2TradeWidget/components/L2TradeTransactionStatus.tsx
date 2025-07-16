@@ -73,14 +73,12 @@ export const L2TradeTransactionStatus = ({
 
   // Sets the title and subtitle of the card
   useEffect(() => {
-    const isApprovalSuccess = txStatus === TxStatus.SUCCESS && action === TradeAction.APPROVE;
     const isWaitingForSecondTransaction =
       txStatus === TxStatus.INITIALIZED &&
       action !== TradeAction.APPROVE &&
       flowNeedsAllowance &&
       !isBatchTransaction;
-    const flowTxStatus: TxStatus =
-      isApprovalSuccess || isWaitingForSecondTransaction ? TxStatus.LOADING : txStatus;
+    const flowTxStatus: TxStatus = isWaitingForSecondTransaction ? TxStatus.LOADING : txStatus;
 
     if (flow === TradeFlow.TRADE) {
       setStepTwoTitle(t`Trade`);
@@ -106,17 +104,14 @@ export const L2TradeTransactionStatus = ({
         setTxDescription(i18n._(l2TradeDescription({ originToken, targetToken, executionPrice })));
         setLoadingText(i18n._(l2TradeLoadingButtonText({ txStatus: flowTxStatus })));
 
-        if (action === TradeAction.APPROVE) setStep(1);
-        else if (action === TradeAction.TRADE) setStep(2);
+        if (isBatchTransaction) setStep(2);
+        else if (flowTxStatus !== TxStatus.SUCCESS) {
+          if (needsAllowance) setStep(1);
+          else setStep(2);
+        }
       }
     }
-
-    if (action === TradeAction.APPROVE) {
-      setStep(1);
-    } else if (action === TradeAction.TRADE) {
-      setStep(2);
-    }
-  }, [txStatus, flow, action, screen, i18n.locale]);
+  }, [txStatus, flow, action, screen, i18n.locale, needsAllowance]);
 
   return (
     <BatchTransactionStatus

@@ -47,7 +47,10 @@ export const useL2TradeTransactionCallbacks = ({
 
   const tradeTransactionCallbacks = useMemo<TransactionCallbacks>(
     () => ({
-      onMutate: handleOnMutate,
+      onMutate: () => {
+        mutateAllowance();
+        handleOnMutate();
+      },
       onStart: hash => {
         handleOnStart({
           hash,
@@ -106,7 +109,10 @@ export const useL2TradeTransactionCallbacks = ({
 
   const tradeOutTransactionCallbacks = useMemo<TransactionCallbacks>(
     () => ({
-      onMutate: handleOnMutate,
+      onMutate: () => {
+        mutateAllowance();
+        handleOnMutate();
+      },
       onStart: hash => {
         handleOnStart({
           hash,
