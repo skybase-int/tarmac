@@ -7,8 +7,6 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 
 export function BatchTransactionsLegal() {
-  // Check if page was opened in new tab (no history) or navigated to (has history)
-  const hasNavigationHistory = window.history.length > 1;
   return (
     <Layout>
       <main
@@ -16,16 +14,14 @@ export function BatchTransactionsLegal() {
         style={{ borderRadius: '1.5rem' }}
       >
         <div className="flex flex-col gap-4 p-8">
-          {hasNavigationHistory && (
-            <Link to="/" className={'text-textSecondary'}>
-              <HStack className="mb-3 space-x-2">
-                <ArrowLeft className="self-center" />
-                <Heading tag="h3" variant="small" className="text-textSecondary">
-                  <Trans>Back to Home Page</Trans>
-                </Heading>
-              </HStack>
-            </Link>
-          )}
+          <Link to="/" className={'text-textSecondary'}>
+            <HStack className="mb-3 space-x-2">
+              <ArrowLeft className="self-center" />
+              <Heading tag="h3" variant="small" className="text-textSecondary">
+                <Trans>Back to Home Page</Trans>
+              </Heading>
+            </HStack>
+          </Link>
           <Heading tag="h2" className="text-text">
             <Trans>Legal Notice</Trans>
           </Heading>
