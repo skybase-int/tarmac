@@ -71,7 +71,7 @@ export const ChatInput = ({ sendMessage }: { sendMessage: (message: string) => v
           <textarea
             ref={inputRef}
             placeholder={placeholder}
-            className="ring-offset-background max-h-[120px] min-h-[20px] min-w-0 grow resize-none overflow-hidden bg-transparent text-sm leading-5 text-white placeholder:text-violet-200/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:placeholder:text-violet-200/20"
+            className="ring-offset-background scrollbar-thin max-h-[120px] min-h-[20px] min-w-0 grow resize-none overflow-y-auto bg-transparent text-sm leading-5 text-white placeholder:text-violet-200/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:placeholder:text-violet-200/20"
             value={inputText}
             maxLength={MAX_MESSAGE_LENGTH}
             onChange={e => setInputText(e.target.value.slice(0, MAX_MESSAGE_LENGTH))}
