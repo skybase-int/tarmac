@@ -85,12 +85,22 @@ export function l2TradeDescription({
   return msg`1 ${targetToken.symbol} = ${executionPrice} ${originToken.symbol}`;
 }
 
-export function l2TradeLoadingButtonText({ txStatus }: { txStatus: TxStatus }): MessageDescriptor {
+export function l2TradeLoadingButtonText({
+  txStatus,
+  action,
+  amount,
+  symbol
+}: {
+  txStatus: TxStatus;
+  action?: string;
+  amount?: string;
+  symbol?: string;
+}): MessageDescriptor {
   switch (txStatus) {
     case TxStatus.INITIALIZED:
       return msg`Waiting for confirmation`;
     case TxStatus.LOADING:
-      return msg`Trading`;
+      return action === 'approve' && amount && symbol ? msg`Approving ${amount} ${symbol}` : msg`Trading`;
     default:
       return msg``;
   }
