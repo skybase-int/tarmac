@@ -14,6 +14,7 @@ import { StepIndicator } from './StepIndicator';
 import { TxStatus } from '@widgets/shared/constants';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
+import { ExternalLink } from '@widgets/shared/components/ExternalLink';
 
 export function TransactionReview({
   batchEnabled,
@@ -82,16 +83,19 @@ export function TransactionReview({
                             Bundled transactions are set &apos;on&apos; by default to complete transactions in
                             a single step. Combining actions improves the user experience and reduces gas
                             fees. Manually toggle off to cancel this feature.
-                            <br />
-                            <br />
-                            <a
-                              href={legalBatchTxUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-textEmphasis hover:text-textEmphasis self-start text-sm hover:underline"
-                            >
-                              <Trans>Legal Notice</Trans>
-                            </a>
+                            {legalBatchTxUrl && (
+                              <>
+                                <br />
+                                <br />
+                                <ExternalLink
+                                  href={legalBatchTxUrl}
+                                  className="text-textEmphasis hover:text-textEmphasis self-start text-sm hover:underline"
+                                  showIcon={false}
+                                >
+                                  <Trans>Legal Notice</Trans>
+                                </ExternalLink>
+                              </>
+                            )}
                           </Text>
                         </>
                       }

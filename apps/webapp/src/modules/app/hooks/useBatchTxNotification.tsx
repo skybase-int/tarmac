@@ -8,6 +8,7 @@ import { VStack } from '@/modules/layout/components/VStack';
 import { useBatchToggle } from '@/modules/ui/hooks/useBatchToggle';
 import { Zap } from '@/modules/icons/Zap';
 import { BATCH_TX_LEGAL_NOTICE_URL } from '@/lib/constants';
+import { ExternalLink } from '@/modules/layout/components/ExternalLink';
 
 export const useBatchTxNotification = ({ isAuthorized }: { isAuthorized: boolean }) => {
   const { userConfig, updateUserConfig } = useConfigContext();
@@ -44,14 +45,13 @@ export const useBatchTxNotification = ({ isAuthorized }: { isAuthorized: boolean
                   best practices of the broader Ethereum ecosystem.
                 </Trans>
               </Text>
-              <a
+              <ExternalLink
                 href={BATCH_TX_LEGAL_NOTICE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="text-textEmphasis hover:text-textEmphasis self-start text-sm hover:underline"
+                showIcon={false}
               >
                 <Trans>Legal Notice</Trans>
-              </a>
+              </ExternalLink>
               {batchEnabled ? (
                 <Text variant="medium" className="text-muted-foreground">
                   <Trans>
