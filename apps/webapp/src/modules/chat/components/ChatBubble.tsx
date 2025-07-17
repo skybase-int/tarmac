@@ -139,41 +139,41 @@ export const ChatBubble = ({
           <div className="space-y-5">
             <HStack className="items-center gap-x-[6px] space-x-0">
               {isError && <ChatError className="mb-3 h-4 w-4 shrink-0" />}
-              <div className="text-white/75">
+              <div className="min-w-0 text-white/75">
                 {isFeedback && user === UserType.user ? (
-                  <Accordion type="single" collapsible className="w-full">
+                  <Accordion type="single" collapsible className="w-full overflow-hidden">
                     <AccordionItem value="feedback" className="border-none p-0">
-                      <AccordionTrigger className="p-0 py-2 hover:no-underline">
+                      <AccordionTrigger className="p-0 py-2 text-left hover:no-underline">
                         <Text className="italic">
                           <Trans>Feedback sent</Trans>
                         </Text>
                       </AccordionTrigger>
-                      <AccordionContent className="pb-2 pt-2 text-white">
+                      <AccordionContent className="overflow-hidden pb-2 pt-2 text-white">
                         {(() => {
                           const feedbackContent = getFeedbackContent();
                           if (!feedbackContent) {
                             // Show the raw message if parsing fails
                             return (
-                              <Text variant="small" className="text-white/75">
+                              <Text variant="small" className="break-words text-white/75">
                                 {message}
                               </Text>
                             );
                           }
                           return (
                             <VStack className="gap-3">
-                              <div>
+                              <div className="min-w-0">
                                 <Text variant="small" className="text-white/50">
                                   <Trans>Topics:</Trans>
                                 </Text>
-                                <Text variant="small" className="mt-1 text-white/75">
+                                <Text variant="small" className="mt-1 break-words text-white/75">
                                   {feedbackContent.topics.join(', ')}
                                 </Text>
                               </div>
-                              <div>
+                              <div className="min-w-0">
                                 <Text variant="small" className="text-white/50">
                                   <Trans>Message:</Trans>
                                 </Text>
-                                <Text variant="small" className="mt-1 text-white/75">
+                                <Text variant="small" className="mt-1 break-words text-white/75">
                                   {feedbackContent.message}
                                 </Text>
                               </div>
