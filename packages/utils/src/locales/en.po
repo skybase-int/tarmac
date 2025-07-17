@@ -1400,6 +1400,10 @@ msgstr ""
 msgid "Maximum input"
 msgstr ""
 
+#: apps/webapp/src/modules/chat/components/ChatBubble.tsx
+msgid "Message:"
+msgstr ""
+
 #: apps/webapp/src/modules/upgrade/components/UpgradeDetails.tsx
 #: apps/webapp/src/modules/stake/components/StakePositionDetails.tsx
 #: apps/webapp/src/modules/stake/components/StakeOverview.tsx
@@ -1970,7 +1974,7 @@ msgstr ""
 msgid "Select token"
 msgstr ""
 
-#. placeholder {0}: selectedTopics.join(', ')
+#. placeholder {0}: selectedTopics.map(topic => topic.toUpperCase()).join(', ')
 #: apps/webapp/src/modules/chat/components/FeedbackModal.tsx
 msgid "Selected topics: {0}"
 msgstr ""
@@ -2420,6 +2424,10 @@ msgstr ""
 #: packages/widgets/src/widgets/UpgradeWidget/components/UpgradeRevert.tsx
 #: packages/widgets/src/widgets/L2TradeWidget/index.tsx
 msgid "Tokens to receive"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/ChatBubble.tsx
+msgid "Topics:"
 msgstr ""
 
 #. placeholder {0}: rewardContract.rewardToken.symbol
