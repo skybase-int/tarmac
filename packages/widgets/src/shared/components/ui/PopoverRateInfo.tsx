@@ -58,14 +58,13 @@ const getContent = (
     )
   },
   srr: {
-    title: 'Staking Rewards Rate (SRR)',
+    title: 'Staking Rewards Rates (SRR)',
     description: (
       <Text variant="small" className="leading-5 text-white/80">
-        The Staking Rewards Rate (SRR) is variable and may fluctuate. It is determined by: (1) the current
-        issuance rate of the rewards set through onchain governance processes and (2) the market price of the
-        staked SKY at the time of each calculation. Rewards are accrued in USDS for the time being, subject to
-        any future adjustment by onchain governance. The SRR shown here is an estimated annual rate, updated
-        using data from a third party provider (i.e.,{' '}
+        Staking Rewards Rates are variable and may fluctuate. They are determined by: (1) the current issuance
+        rate of the rewards set through onchain governance processes, and (2) the market price of the staked
+        SKY at the time of each calculation. The SRRs shown are estimated annual rates, updated using data
+        from a third-party provider (i.e.,{' '}
         <ExternalLink
           href="https://blockanalitica.com/"
           className="hover:text-white hover:underline"
@@ -74,7 +73,7 @@ const getContent = (
         >
           BlockAnalitica
         </ExternalLink>
-        ). Further, the estimate is for informational purposes only and does not guarantee future results.
+        ). Further, the estimates are for informational purposes only and do not guarantee future results.
       </Text>
     )
   },
