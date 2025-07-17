@@ -3,6 +3,7 @@ import { BatchStatus, TxStatus } from '@widgets/shared/constants';
 import { msg } from '@lingui/core/macro';
 import { MessageDescriptor } from '@lingui/core';
 import { Token } from '@jetstreamgg/sky-hooks';
+import { TradeAction } from '@widgets/widgets/TradeWidget/lib/constants';
 
 export const l2TradeReviewTitle = msg`Begin the trade process`;
 
@@ -100,7 +101,9 @@ export function l2TradeLoadingButtonText({
     case TxStatus.INITIALIZED:
       return msg`Waiting for confirmation`;
     case TxStatus.LOADING:
-      return action === 'approve' && amount && symbol ? msg`Approving ${amount} ${symbol}` : msg`Trading`;
+      return action === TradeAction.APPROVE && amount && symbol
+        ? msg`Approving ${amount} ${symbol}`
+        : msg`Trading`;
     default:
       return msg``;
   }
