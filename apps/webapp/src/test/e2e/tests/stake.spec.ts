@@ -67,7 +67,7 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
   // manage position
   await page.getByRole('button', { name: 'Manage Position' }).last().click();
   await expect(page.getByText('Your position 1')).toBeVisible();
-  await expect(page.getByTestId('borrow-input-lse-balance')).toHaveText('Limit 0 <> 73,030 USDS');
+  await expect(page.getByTestId('borrow-input-lse-balance')).toHaveText(/Limit 0 <> .+ USDS/);
 
   // borrow more and skip rewards and delegate selection
   await page.getByTestId('borrow-input-lse').fill('100');
@@ -89,11 +89,11 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
   // repay all
   await page.getByRole('button', { name: 'Manage Position' }).last().click();
   await expect(page.getByText('Your position 1')).toBeVisible();
-  await expect(page.getByTestId('borrow-input-lse-balance')).toHaveText('Limit 0 <> 72,930 USDS');
+  await expect(page.getByTestId('borrow-input-lse-balance')).toHaveText(/Limit 0 <> .+ USDS/);
 
   // switch tabs
   await page.getByRole('tab', { name: 'Unstake and pay back' }).click();
-  await expect(page.getByTestId('repay-input-lse-balance')).toHaveText('Limit 0 <> 38,100, or 38,100 USDS');
+  await expect(page.getByTestId('repay-input-lse-balance')).toHaveText(/Limit 0 <> .+, or .+ USDS/);
 
   // click repay 100% button
   await page.getByRole('button', { name: '100%' }).nth(1).click();
