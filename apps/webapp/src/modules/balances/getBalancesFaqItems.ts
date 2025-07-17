@@ -109,8 +109,8 @@ SKY holders can use the token to:
 const batchTxFaqItems = BATCH_TX_ENABLED
   ? [
       {
-        question: 'What are EIP-7702 batch transactions, and how do they work?',
-        answer: `EIP-7702 is a formal Ethereum Improvement Proposal that introduces native batch transactions. Batch transactions enable users to bundle multiple on-chain calls (e.g., token approval and upgrade, token approval and savings supply, etc.) into one atomic operation. 
+        question: 'What are EIP-7702 bundled transactions, and how do they work?',
+        answer: `EIP-7702 is a formal Ethereum Improvement Proposal that introduces native bundled transactions. Bundled transactions enable users to bundle multiple on-chain calls (e.g., token approval and upgrade, token approval and savings supply, etc.) into one atomic operation. 
 
 Wallets implement EIP-7702 via delegate contracts that handle bundling, validation, gas estimation, and signature flow on behalf of dApps. Please note, however, that all security checks, user confirmations, and error handling are managed by your chosen wallet’s delegate contract. As outlined in our [Terms of Use](https://docs.sky.money/legal-terms), your use of a non-custodial digital wallet—including wallets supporting EIP-7702 and smart account functionality—is governed by the terms of service of your third-party wallet provider. We do not control or take responsibility for the security, functionality, or behavior of third-party wallets, including their handling of bundled transactions or delegate contracts. To ensure a secure and transparent experience, please ensure you are using a trusted and up-to-date wallet before proceeding.
 
