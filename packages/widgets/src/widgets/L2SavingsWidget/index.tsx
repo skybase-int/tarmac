@@ -755,6 +755,12 @@ const SavingsWidgetWrapped = ({
     // if successful supply/withdraw, reset amount
     if (widgetState.action !== SavingsAction.APPROVE) {
       setAmount(0n);
+      // Notify external state about the cleared amount
+      onWidgetStateChange?.({
+        originAmount: '',
+        txStatus,
+        widgetState
+      });
     }
 
     // if successfully approved, go to supply/withdraw
