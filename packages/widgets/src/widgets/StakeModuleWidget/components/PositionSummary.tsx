@@ -18,7 +18,6 @@ import {
   Token,
   useIsBatchSupported
 } from '@jetstreamgg/sky-hooks';
-import { useChainId } from 'wagmi';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
 import { motion } from 'framer-motion';
@@ -134,8 +133,7 @@ export const PositionSummary = ({
   setBatchEnabled?: (enabled: boolean) => void;
   isBatchTransaction: boolean;
 }) => {
-  const chainId = useChainId();
-  const ilkName = getIlkName(chainId, 2);
+  const ilkName = getIlkName(2);
   const { i18n } = useLingui();
   const { data: batchSupported } = useIsBatchSupported();
 
