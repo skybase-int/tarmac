@@ -45,14 +45,7 @@ export const useBatchTxNotification = ({ isAuthorized }: { isAuthorized: boolean
                   best practices of the broader Ethereum ecosystem.
                 </Trans>
               </Text>
-              <ExternalLink
-                href={BATCH_TX_LEGAL_NOTICE_URL}
-                className="text-textEmphasis hover:text-textEmphasis self-start text-sm hover:underline"
-                showIcon={false}
-              >
-                <Trans>Legal Notice</Trans>
-              </ExternalLink>
-              {batchEnabled ? (
+              {batchEnabled && (
                 <Text variant="medium" className="text-muted-foreground">
                   <Trans>
                     Bundled transactions:{' '}
@@ -61,7 +54,15 @@ export const useBatchTxNotification = ({ isAuthorized }: { isAuthorized: boolean
                     </Text>
                   </Trans>
                 </Text>
-              ) : (
+              )}
+              <ExternalLink
+                href={BATCH_TX_LEGAL_NOTICE_URL}
+                className="text-textEmphasis hover:text-textEmphasis self-start text-sm hover:underline"
+                showIcon={false}
+              >
+                <Trans>Legal Notice</Trans>
+              </ExternalLink>
+              {!batchEnabled && (
                 <Button className="self-start" variant="pill" size="xs" onClick={onActivate}>
                   <Trans>Activate smart account</Trans>
                 </Button>
