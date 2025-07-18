@@ -145,17 +145,21 @@ export function withdrawSubtitle({
 export function supplyLoadingButtonText({
   txStatus,
   amount,
-  symbol
+  symbol,
+  action
 }: {
   txStatus: TxStatus;
   amount: string;
   symbol: string;
+  action?: SavingsAction;
 }): MessageDescriptor {
   switch (txStatus) {
     case TxStatus.INITIALIZED:
       return msg`Waiting for confirmation`;
     case TxStatus.LOADING:
-      return msg`Transferring ${amount} ${symbol}`;
+      return action === SavingsAction.APPROVE
+        ? msg`Approving ${amount} ${symbol}`
+        : msg`Transferring ${amount} ${symbol}`;
     default:
       return msg``;
   }
@@ -164,17 +168,21 @@ export function supplyLoadingButtonText({
 export function withdrawLoadingButtonText({
   txStatus,
   amount,
-  symbol
+  symbol,
+  action
 }: {
   txStatus: TxStatus;
   amount: string;
   symbol: string;
+  action?: SavingsAction;
 }): MessageDescriptor {
   switch (txStatus) {
     case TxStatus.INITIALIZED:
       return msg`Waiting for confirmation`;
     case TxStatus.LOADING:
-      return msg`Withdrawing ${amount} ${symbol}`;
+      return action === SavingsAction.APPROVE
+        ? msg`Approving ${amount} ${symbol}`
+        : msg`Withdrawing ${amount} ${symbol}`;
     default:
       return msg``;
   }

@@ -20,6 +20,7 @@ msgstr ""
 #: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
+#: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
@@ -367,12 +368,13 @@ msgstr ""
 msgid "Approve token access"
 msgstr ""
 
+#. placeholder {0}: formatBigInt(debouncedOriginAmount, { unit: getTokenDecimals(originToken, chainId) })
 #. placeholder {0}: formatBigInt(debouncedOriginAmount, { locale, unit: originToken ? getTokenDecimals(originToken, chainId) : 18 })
 #. placeholder {0}: formatBigInt(debouncedAmount, { locale })
-#. placeholder {0}: formatBigInt(debouncedOriginAmount, { locale, unit: originToken && getTokenDecimals(originToken, chainId) })
+#. placeholder {1}: originToken.symbol
 #. placeholder {1}: originToken?.symbol ?? ''
 #. placeholder {1}: selectedRewardContract?.supplyToken.name ?? ''
-#. placeholder {1}: originToken.symbol
+#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 #: packages/widgets/src/widgets/L2TradeWidget/index.tsx
@@ -392,17 +394,25 @@ msgstr ""
 msgid "Approving {0} SKY"
 msgstr ""
 
-#. placeholder {0}: originToken.symbol
-#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
-msgid "Approving {0} token"
-msgstr ""
-
 #. placeholder {0}: formatBigInt(debouncedUsdsAmount)
 #. placeholder {0}: formatBigInt(debouncedAmount)
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SavingsWidget/index.tsx
 msgid "Approving {0} USDS"
+msgstr ""
+
+#: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
+#: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
+#: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
+#: packages/widgets/src/widgets/L2TradeWidget/lib/constants.ts
+msgid "Approving {amount} {symbol}"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/components/SealModuleTransactionStatus.tsx
+msgid "Approving {approvalAmount} {approvalSymbol}"
 msgstr ""
 
 #: apps/webapp/src/modules/chat/components/ChatInput.tsx
@@ -1297,6 +1307,7 @@ msgstr ""
 #: apps/webapp/src/pages/BatchTransactionsLegal.tsx
 #: apps/webapp/src/modules/app/hooks/useBatchTxNotification.tsx
 #: apps/webapp/src/components/BatchTransactionsToggle.tsx
+#: packages/widgets/src/shared/components/ui/transaction/TransactionReview.tsx
 msgid "Legal Notice"
 msgstr ""
 
@@ -1351,6 +1362,7 @@ msgid "Liquidation risk too high"
 msgstr ""
 
 #: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
+#: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
@@ -1694,6 +1706,7 @@ msgid "Price impact"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/components/SealModuleTransactionStatus.tsx
 #: packages/widgets/src/shared/constants.ts
 msgid "Processing transaction"
 msgstr ""
@@ -2818,11 +2831,13 @@ msgstr ""
 #: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
+#: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/components/SealModuleTransactionStatus.tsx
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts

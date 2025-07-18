@@ -2,10 +2,14 @@ import { useMemo } from 'react';
 import { useAccount, useChainId } from 'wagmi';
 import { useTokenBalance, TOKENS } from '@jetstreamgg/sky-hooks';
 import { parseEther } from 'viem';
-import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
-import { BATCH_TX_ENABLED, CHATBOT_ENABLED } from '@/lib/constants';
+import {
+  BATCH_TX_ENABLED,
+  CHATBOT_ENABLED,
+  BATCH_TX_NOTIFICATION_KEY,
+  CHAT_NOTIFICATION_KEY,
+  GOVERNANCE_MIGRATION_NOTIFICATION_KEY
+} from '@/lib/constants';
 import { NotificationConfig } from './useNotificationQueue';
-import { TOAST_STORAGE_KEY } from './useGovernanceMigrationToast';
 
 /**
  * Hook to manage page load notifications configuration.
@@ -17,7 +21,6 @@ import { TOAST_STORAGE_KEY } from './useGovernanceMigrationToast';
  * 3. Chat Notification
  */
 export const usePageLoadNotifications = (): NotificationConfig[] => {
-  const { userConfig } = useConfigContext();
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
 
@@ -41,31 +44,23 @@ export const usePageLoadNotifications = (): NotificationConfig[] => {
         id: 'batch-tx',
         priority: 1,
         checkConditions: () => BATCH_TX_ENABLED,
-        hasBeenShown: () => userConfig.batchTxNotificationShown
+        hasBeenShown: () => localStorage.getItem(BATCH_TX_NOTIFICATION_KEY) === 'true'
       },
       {
         id: 'governance-migration',
         priority: 2,
         isReady: () => mkrBalanceLoaded, // Wait for MKR balance to load
         checkConditions: () => isConnected && hasEnoughMkr,
-        hasBeenShown: () => localStorage.getItem(TOAST_STORAGE_KEY) === 'true'
+        hasBeenShown: () => localStorage.getItem(GOVERNANCE_MIGRATION_NOTIFICATION_KEY) === 'true'
       },
       {
         id: 'chat',
         priority: 3,
         checkConditions: () => CHATBOT_ENABLED,
-        hasBeenShown: () => userConfig.chatSuggested
+        hasBeenShown: () => localStorage.getItem(CHAT_NOTIFICATION_KEY) === 'true'
       }
     ],
-    [
-      isConnected,
-      mkrBalanceLoaded,
-      hasEnoughMkr,
-      userConfig.batchTxNotificationShown,
-      userConfig.chatSuggested,
-      BATCH_TX_ENABLED,
-      CHATBOT_ENABLED
-    ]
+    [isConnected, mkrBalanceLoaded, hasEnoughMkr, BATCH_TX_ENABLED, CHATBOT_ENABLED]
   );
 
   return notificationConfigs;
