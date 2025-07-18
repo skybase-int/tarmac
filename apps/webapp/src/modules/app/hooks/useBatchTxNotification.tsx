@@ -11,7 +11,7 @@ import { BATCH_TX_LEGAL_NOTICE_URL, BATCH_TX_NOTIFICATION_KEY } from '@/lib/cons
 import { ExternalLink } from '@/modules/layout/components/ExternalLink';
 
 export const useBatchTxNotification = ({ isAuthorized }: { isAuthorized: boolean }) => {
-  const { userConfig, updateUserConfig } = useConfigContext();
+  const { updateUserConfig } = useConfigContext();
   const { dismiss } = useToast();
   const [batchEnabled] = useBatchToggle();
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -27,11 +27,13 @@ export const useBatchTxNotification = ({ isAuthorized }: { isAuthorized: boolean
   }, []);
 
   const onActivate = useCallback(() => {
-    updateUserConfig({ ...userConfig, batchEnabled: true });
+    // Get fresh config from localStorage to avoid stale closures
+    const currentConfig = JSON.parse(localStorage.getItem('user-settings') || '{}');
+    updateUserConfig({ ...currentConfig, batchEnabled: true });
     localStorage.setItem(BATCH_TX_NOTIFICATION_KEY, 'true');
     setNotificationShown(true);
     dismiss();
-  }, [dismiss, updateUserConfig, userConfig]);
+  }, [dismiss, updateUserConfig]);
 
   useEffect(() => {
     // Show notification if feature is enabled and hasn't been shown yet
