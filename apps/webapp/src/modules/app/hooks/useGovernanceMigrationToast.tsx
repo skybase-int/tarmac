@@ -4,8 +4,7 @@ import { Text } from '@/modules/layout/components/Typography';
 import { VStack } from '@/modules/layout/components/VStack';
 import { Button } from '@/components/ui/button';
 import { ExternalLink } from '@/modules/layout/components/ExternalLink';
-
-export const TOAST_STORAGE_KEY = 'governance-migration-notice-shown';
+import { GOVERNANCE_MIGRATION_NOTIFICATION_KEY } from '@/lib/constants';
 
 export const useGovernanceMigrationToast = ({ isAuthorized }: { isAuthorized: boolean }) => {
   useEffect(() => {
@@ -16,7 +15,7 @@ export const useGovernanceMigrationToast = ({ isAuthorized }: { isAuthorized: bo
 
     // Add a small delay to ensure smooth UX
     const timer = setTimeout(() => {
-      localStorage.setItem(TOAST_STORAGE_KEY, 'true');
+      localStorage.setItem(GOVERNANCE_MIGRATION_NOTIFICATION_KEY, 'true');
       toast({
         title: (
           <Text variant="medium" className="text-selectActive">
