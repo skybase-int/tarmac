@@ -694,6 +694,7 @@ const StUSDSWidgetWrapped = ({
               address={address}
               nstBalance={stUsdsData?.userUsdsBalance}
               savingsBalance={stUsdsData?.userMaxWithdraw}
+              withdrawableBalance={stUsdsData?.userMaxWithdraw}
               savingsTvl={stUsdsData?.totalAssets}
               isSavingsDataLoading={isStUsdsDataLoading}
               onChange={(newValue: bigint, userTriggered?: boolean) => {
