@@ -34,7 +34,7 @@ export function WidgetNavigation({
   const { bpi } = useBreakpointIndex();
   const isMobile = bpi < BP.md;
   const containerRef = useRef<HTMLDivElement>(null);
-  const widgetRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const {
     selectedRewardContract,
@@ -89,7 +89,7 @@ export function WidgetNavigation({
   // Memoized scroll function
   const scrollToTop = useCallback(() => {
     if (isMobile) {
-      widgetRef.current?.scrollIntoView(true);
+      menuRef.current?.scrollIntoView();
     }
   }, [isMobile]);
 
@@ -102,7 +102,7 @@ export function WidgetNavigation({
     <div className={`${isMobile ? 'w-full' : 'md:flex md:h-full'}`}>
       {/* Mobile hamburger menu - placed at the top on mobile */}
       {isMobile && !hideTabs && (
-        <div className="flex items-center p-4 pb-2 md:hidden">
+        <div className="flex items-center p-4 pb-2 md:hidden" ref={menuRef}>
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button
@@ -249,7 +249,6 @@ export function WidgetNavigation({
                           initial={AnimationLabels.initial}
                           animate={AnimationLabels.animate}
                           exit={AnimationLabels.exit}
-                          ref={widgetRef}
                           className={cn(
                             'md:scrollbar-thin flex-1 overflow-y-auto pr-4 md:pr-0',
                             isMobile
