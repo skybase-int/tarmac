@@ -177,20 +177,31 @@ export function getStakeSubtitle({
 
 export function stakeLoadingButtonText({
   txStatus,
-  flow
+  flow,
+  action,
+  amount,
+  symbol
 }: {
   flow: StakeFlow;
   txStatus: TxStatus;
+  action?: StakeAction;
+  amount?: string;
+  symbol?: string;
 }): MessageDescriptor {
   switch (txStatus) {
     case TxStatus.INITIALIZED:
       return msg`Waiting for confirmation`;
-    default:
+    case TxStatus.LOADING:
+      if (action === StakeAction.APPROVE && amount && symbol) {
+        return msg`Approving ${amount} ${symbol}`;
+      }
       return flow === StakeFlow.OPEN
         ? msg`Opening position`
         : flow === StakeFlow.MANAGE
           ? msg`Changing position`
           : msg`Loading`;
+    default:
+      return msg`Loading`;
   }
 }
 

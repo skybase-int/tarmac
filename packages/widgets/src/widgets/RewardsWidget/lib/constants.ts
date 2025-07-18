@@ -79,17 +79,21 @@ export function getRewardsWithdrawReviewSubtitle({ symbol }: { symbol: string })
 export function rewardsSupplyLoadingButtonText({
   txStatus,
   amount,
-  symbol
+  symbol,
+  action
 }: {
   txStatus: TxStatus;
   amount: string;
   symbol: string;
+  action?: RewardsAction;
 }): MessageDescriptor {
   switch (txStatus) {
     case TxStatus.INITIALIZED:
       return msg`Waiting for confirmation`;
     case TxStatus.LOADING:
-      return msg`Transferring ${amount} ${symbol}`;
+      return action === RewardsAction.APPROVE
+        ? msg`Approving ${amount} ${symbol}`
+        : msg`Transferring ${amount} ${symbol}`;
     default:
       return msg``;
   }
