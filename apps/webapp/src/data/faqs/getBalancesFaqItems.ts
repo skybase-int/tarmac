@@ -13,14 +13,17 @@ import {
   unichainFaqItems
 } from './sharedFaqItems';
 
-export const getBalancesFaqItems = (chainId: number) => [
-  ...generalFaqItems,
-  ...L2GeneralFaqItems,
-  ...(isBaseChainId(chainId) ? baseFaqItems : []),
-  ...(isArbitrumChainId(chainId) ? arbitrumFaqItems : []),
-  ...(isOptimismChainId(chainId) ? optimismFaqItems : []),
-  ...(isUnichainChainId(chainId) ? unichainFaqItems : [])
-];
+export const getBalancesFaqItems = (chainId: number) => {
+  const items = [
+    ...generalFaqItems,
+    ...L2GeneralFaqItems,
+    ...(isBaseChainId(chainId) ? baseFaqItems : []),
+    ...(isArbitrumChainId(chainId) ? arbitrumFaqItems : []),
+    ...(isOptimismChainId(chainId) ? optimismFaqItems : []),
+    ...(isUnichainChainId(chainId) ? unichainFaqItems : [])
+  ];
+  return items.sort((a, b) => a.index - b.index);
+};
 
 const generalFaqItems = [
   {
@@ -31,7 +34,8 @@ Your non-custodial wallet holds the private keys needed to sign crypto transacti
 
 Non-custodial wallets can be software-based, like mobile apps, or hardware devices designed for enhanced security. There are several types of crypto wallets and no limit to the number of wallets you can own. Two popular software-based wallets are Metamask and Rainbow.
 
-Sky Balances is not a crypto wallet, but rather a non-custodial tool that displays your Sky-related asset balances by receiving information from the non-custodial crypto wallet that you connect to Sky.money to access the Sky Protocol.`
+Sky Balances is not a crypto wallet, but rather a non-custodial tool that displays your Sky-related asset balances by receiving information from the non-custodial crypto wallet that you connect to Sky.money to access the Sky Protocol.`,
+    index: 0
   },
   {
     question: 'How do crypto wallets work?',
@@ -41,18 +45,21 @@ Typically, when setting up a new non-custodial digital wallet, the wallet softwa
 
 A private key is a randomly generated string of letters and numbers which acts as a sort of password that gives anyone that knows it the capability to control the wallet assets. It is known only to the user and should be kept secure and confidential to ensure that only the user has access to and can control any associated assets. The private key is used to sign transactions. For example, when a user wants to send crypto or access their assets on the blockchain, they would use the private key to authorize the transaction. 
 
-A public key is usually derived from the private key using a mathematical algorithm. It is a string of characters that can be shared openly without compromising a wallet's inherent security. The public key is used to generate wallet addresses and to encrypt data. For example, when someone wants to send digital assets to a user, they would use the user's public key or the associated wallet address.`
+A public key is usually derived from the private key using a mathematical algorithm. It is a string of characters that can be shared openly without compromising a wallet's inherent security. The public key is used to generate wallet addresses and to encrypt data. For example, when someone wants to send digital assets to a user, they would use the user's public key or the associated wallet address.`,
+    index: 1
   },
   {
     question: 'How do I use a non-custodial digital wallet to make a transaction?',
     answer: `Once you've set up your non-custodial digital wallet, and have your public and private keys, you can use it to manage (send and receive) your digital assets on the blockchain. Every time you transact, your wallet requires you to digitally sign the transaction with your private key. Signing when prompted is a simple but critical part of the process, demonstrating that you acknowledge your action, and ensuring that only you have control of your crypto.
 
-Some onchain actions might require multiple wallet signatures to authorize them. For example, to complete a trade on the decentralized, non-custodial Sky Protocol using the Sky.money web app, you would first need to confirm that you allow the app to access the token you want to trade in your wallet (one signature), and then authorize the actual trade (another signature).`
+Some onchain actions might require multiple wallet signatures to authorize them. For example, to complete a trade on the decentralized, non-custodial Sky Protocol using the Sky.money web app, you would first need to confirm that you allow the app to access the token you want to trade in your wallet (one signature), and then authorize the actual trade (another signature).`,
+    index: 2
   },
   {
     question: 'What is a blockchain transaction fee?',
     answer:
-      'Every time you engage in transactions with your digital assets (e.g., buy, sell, trade or transfer them) you will likely pay a transaction fee—called a gas fee—for using the blockchain network. That fee is neither controlled, imposed nor received by the Sky.money web app or the Sky Protocol; it is calculated based on current network demand and the amount of gas (i.e., units of compute resources) required to process your transaction. On the Ethereum blockchain, gas fees are paid in ETH, the native currency of the blockchain. So, be sure to have ETH in your wallet anytime you transact using the Sky Protocol.'
+      'Every time you engage in transactions with your digital assets (e.g., buy, sell, trade or transfer them) you will likely pay a transaction fee—called a gas fee—for using the blockchain network. That fee is neither controlled, imposed nor received by the Sky.money web app or the Sky Protocol; it is calculated based on current network demand and the amount of gas (i.e., units of compute resources) required to process your transaction. On the Ethereum blockchain, gas fees are paid in ETH, the native currency of the blockchain. So, be sure to have ETH in your wallet anytime you transact using the Sky Protocol.',
+    index: 3
   },
   {
     question: 'What is USDS?',
@@ -62,17 +69,20 @@ USDS is freely transferable and can be used in connection with any software prot
 
 The Sky Protocol is governed by a community of broad and diversified individuals and entities from around the world, who hold Sky governance tokens and support the Sky Ecosystem by participating in a system of decentralized onchain voting. USDS powers the open Sky Ecosystem.
 
-USDS is also currently available on networks other than Ethereum Mainnet, including Solana, Base and Arbitrum. You can follow the health of USDS and all Sky Protocol tokens using the [Sky Ecosystem Dashboard](https://info.sky.money/).`
+USDS is also currently available on networks other than Ethereum Mainnet, including Solana, Base and Arbitrum. You can follow the health of USDS and all Sky Protocol tokens using the [Sky Ecosystem Dashboard](https://info.sky.money/).`,
+    index: 4
   },
   {
     question: 'How do I get USDS?',
     answer:
-      'You can use the Sky.money web app, a non-custodial gateway to the decentralized Sky Protocol, to trade USDC, USDT, ETH or SKY for USDS (or vice versa). You can also upgrade your DAI to USDS, subject to any applicable blockchain transaction, or gas, fees. Gas fees are neither controlled, imposed nor received by Sky.money or the Sky Protocol. You can also obtain USDS on various crypto exchanges that decide to make it available on their platforms.'
+      'You can use the Sky.money web app, a non-custodial gateway to the decentralized Sky Protocol, to trade USDC, USDT, ETH or SKY for USDS (or vice versa). You can also upgrade your DAI to USDS, subject to any applicable blockchain transaction, or gas, fees. Gas fees are neither controlled, imposed nor received by Sky.money or the Sky Protocol. You can also obtain USDS on various crypto exchanges that decide to make it available on their platforms.',
+    index: 5
   },
   {
     question: 'How can I use USDS?',
     answer:
-      'Like other decentralized stablecoins, USDS is freely transferable and can be used in connection with any software protocol or platform that supports it. Unlike other stablecoins, you can use USDS to participate in the Sky Savings Rate to accumulate additional USDS over time, and to access Sky Token Rewards to accumulate SKY, the governance token of the Sky Protocol, without giving up control of your digital assets. With Sky Token Rewards, you can participate—if you choose to do so—in the governance of the Sky Ecosystem.'
+      'Like other decentralized stablecoins, USDS is freely transferable and can be used in connection with any software protocol or platform that supports it. Unlike other stablecoins, you can use USDS to participate in the Sky Savings Rate to accumulate additional USDS over time, and to access Sky Token Rewards to accumulate SKY, the governance token of the Sky Protocol, without giving up control of your digital assets. With Sky Token Rewards, you can participate—if you choose to do so—in the governance of the Sky Ecosystem.',
+    index: 6
   },
   {
     question: 'What is SKY, and how can I get it and use it?',
@@ -93,11 +103,13 @@ SKY holders can use the token to:
 
 • Participate directly in Sky Ecosystem Governance through a system of onchain voting, and/or to entrust their voting power to one or more governance delegates. 
 
-• Access Staking Rewards by supplying SKY to the Staking Engine of the Protocol.`
+• Access Staking Rewards by supplying SKY to the Staking Engine of the Protocol.`,
+    index: 7
   },
   {
     question: 'Are there risks involved with using the Sky.money web app?',
     answer:
-      'For details regarding potential risks using Sky.money web app, please see the [User Risk Documentation](https://docs.sky.money/user-risks).'
+      'For details regarding potential risks using Sky.money web app, please see the [User Risk Documentation](https://docs.sky.money/user-risks).',
+    index: 8
   }
 ];
