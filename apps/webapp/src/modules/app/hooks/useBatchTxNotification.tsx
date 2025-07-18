@@ -7,7 +7,7 @@ import { Text } from '@/modules/layout/components/Typography';
 import { VStack } from '@/modules/layout/components/VStack';
 import { useBatchToggle } from '@/modules/ui/hooks/useBatchToggle';
 import { Zap } from '@/modules/icons/Zap';
-import { BATCH_TX_LEGAL_NOTICE_URL, BATCH_TX_NOTIFICATION_KEY } from '@/lib/constants';
+import { BATCH_TX_LEGAL_NOTICE_URL, BATCH_TX_NOTIFICATION_KEY, USER_SETTINGS_KEY } from '@/lib/constants';
 import { ExternalLink } from '@/modules/layout/components/ExternalLink';
 
 export const useBatchTxNotification = ({ isAuthorized }: { isAuthorized: boolean }) => {
@@ -28,7 +28,7 @@ export const useBatchTxNotification = ({ isAuthorized }: { isAuthorized: boolean
 
   const onActivate = useCallback(() => {
     // Get fresh config from localStorage to avoid stale closures
-    const currentConfig = JSON.parse(localStorage.getItem('user-settings') || '{}');
+    const currentConfig = JSON.parse(localStorage.getItem(USER_SETTINGS_KEY) || '{}');
     updateUserConfig({ ...currentConfig, batchEnabled: true });
     localStorage.setItem(BATCH_TX_NOTIFICATION_KEY, 'true');
     setNotificationShown(true);
