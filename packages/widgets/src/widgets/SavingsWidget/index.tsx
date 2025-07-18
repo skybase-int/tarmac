@@ -30,7 +30,7 @@ import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState
 import { SavingsTransactionReview } from './components/SavingsTransactionReview';
 import { withWidgetProvider } from '@widgets/shared/hocs/withWidgetProvider';
 import { useSavingsTransactions } from './hooks/useSavingsTransactions';
-import { tokenForSymbol } from '../UpgradeWidget/lib/helpers';
+import { tokenForSymbol } from '../L2SavingsWidget/lib/helpers';
 
 export type SavingsWidgetProps = WidgetProps & {
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
@@ -53,7 +53,7 @@ const SavingsWidgetWrapped = ({
   batchEnabled,
   setBatchEnabled
 }: SavingsWidgetProps) => {
-  const validatedExternalState = getValidatedState(externalWidgetState);
+  const validatedExternalState = getValidatedState(externalWidgetState, ['USDS', 'DAI']);
 
   useEffect(() => {
     onStateValidated?.(validatedExternalState);
@@ -73,7 +73,7 @@ const SavingsWidgetWrapped = ({
   const initialTabIndex = validatedExternalState?.flow === SavingsFlow.WITHDRAW ? 1 : 0;
   const [tabIndex, setTabIndex] = useState<0 | 1>(initialTabIndex);
   const [originToken, setOriginToken] = useState<Token>(
-    tokenForSymbol((validatedExternalState?.token as 'DAI' | 'USDS') || 'USDS')
+    tokenForSymbol(validatedExternalState?.token || 'USDS')
   );
   const [max, setMax] = useState<boolean>(false);
   const linguiCtx = useLingui();
@@ -90,6 +90,10 @@ const SavingsWidgetWrapped = ({
   useEffect(() => {
     setAmount(initialAmount);
   }, [initialAmount]);
+
+  useEffect(() => {
+    setOriginToken(tokenForSymbol(validatedExternalState?.token || 'USDS'));
+  }, [validatedExternalState?.token]);
 
   useEffect(() => {
     setTabIndex(initialTabIndex);
