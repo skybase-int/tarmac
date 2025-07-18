@@ -162,7 +162,8 @@ export enum SUPPORTED_TOKEN_SYMBOLS {
   USDS = 'USDS',
   sUSDS = 'sUSDS',
   MKR = 'MKR',
-  SKY = 'SKY'
+  SKY = 'SKY',
+  SPK = 'SPK'
 }
 
 export const ETH_SLIPPAGE_STORAGE_KEY = 'eth-trade-slippage';
