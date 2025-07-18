@@ -7,7 +7,7 @@ import { GradientShapeCard } from '@/modules/ui/components/GradientShapeCard';
 import { Intent } from '@/lib/enums';
 import { useChainId } from 'wagmi';
 import { getChainSpecificText } from '@jetstreamgg/sky-utils';
-import { PopoverInfo } from '@/modules/ui/components/PopoverInfo';
+import { PopoverRateInfo as PopoverInfo } from '@jetstreamgg/sky-widgets';
 
 export function ConnectCard({ intent }: { intent: Intent }) {
   const connect = useCustomConnectModal();
