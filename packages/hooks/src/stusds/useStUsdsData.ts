@@ -243,7 +243,11 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     // If we have valid vault data, calculate withdrawable amount
     if (totalAssets && totalSupply && totalSupply > 0n) {
       // Calculate: (userStUsdsBalance * totalAssets) / totalSupply
-      return (stUsdsBalance * totalAssets) / totalSupply;
+      const calculated = (stUsdsBalance * totalAssets) / totalSupply;
+
+      // Add a small buffer (1 wei) to account for precision issues in ERC-4626 calculations
+      // This prevents "insufficient funds" errors when trying to withdraw the exact deposited amount
+      return calculated > 0n ? calculated + 1n : calculated;
     }
 
     // Fallback: assume 1:1 ratio if vault data is not available
@@ -253,8 +257,10 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
   // Aggregate data - always return an object with at least the USDS balance
   const data = useMemo<StUsdsHookData | undefined>(() => {
     // Use the calculated withdrawable amount if userMaxWithdraw is 0 or undefined
-    const withdrawableAmount =
+    // Add a small buffer (1 wei) to userMaxWithdraw to account for precision issues
+    const rawWithdrawable =
       userMaxWithdraw && userMaxWithdraw > 0n ? userMaxWithdraw : calculatedWithdrawable;
+    const withdrawableAmount = rawWithdrawable > 0n ? rawWithdrawable + 1n : rawWithdrawable;
 
     // Always return basic data structure with USDS balance, even if contract calls fail
     return {

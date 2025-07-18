@@ -338,7 +338,7 @@ const StUSDSWidgetWrapped = ({
   const isWithdrawBalanceError =
     txStatus === TxStatus.IDLE &&
     address &&
-    (stUsdsData?.userMaxWithdraw === 0n || !!stUsdsData?.userMaxWithdraw) &&
+    stUsdsData?.userMaxWithdraw !== undefined &&
     debouncedAmount > stUsdsData.userMaxWithdraw &&
     amount !== 0n //don't wait for debouncing on default state
       ? true
