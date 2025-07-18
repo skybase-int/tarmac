@@ -55,10 +55,8 @@ const defaultUserConfig: UserConfig = {
   locale: undefined,
   intent: Intent.BALANCES_INTENT,
   sealToken: SealToken.MKR,
-  chatSuggested: false,
   stakeToken: StakeToken.SKY,
-  batchEnabled: false, // Default to false to show activation prompt
-  batchTxNotificationShown: false
+  batchEnabled: false // Default to false to show activation prompt
 };
 
 const defaultLinkedActionConfig = {

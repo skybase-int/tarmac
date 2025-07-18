@@ -183,3 +183,8 @@ export const CHATBOT_USE_TESTNET_NETWORK_NAME =
 // Feature flag for batch transactions
 export const BATCH_TX_ENABLED = import.meta.env.VITE_BATCH_TX_ENABLED === 'true';
 export const BATCH_TX_LEGAL_NOTICE_URL = '/batch-transactions-legal-notice';
+
+// LocalStorage keys for notification states
+export const BATCH_TX_NOTIFICATION_KEY = 'batch-tx-notification-shown';
+export const CHAT_NOTIFICATION_KEY = 'chat-notification-suggested';
+export const GOVERNANCE_MIGRATION_NOTIFICATION_KEY = 'governance-migration-notice-shown';

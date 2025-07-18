@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { toast, useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
@@ -7,7 +7,7 @@ import { Text } from '@/modules/layout/components/Typography';
 import { VStack } from '@/modules/layout/components/VStack';
 import { useBatchToggle } from '@/modules/ui/hooks/useBatchToggle';
 import { Zap } from '@/modules/icons/Zap';
-import { BATCH_TX_LEGAL_NOTICE_URL } from '@/lib/constants';
+import { BATCH_TX_LEGAL_NOTICE_URL, BATCH_TX_NOTIFICATION_KEY } from '@/lib/constants';
 import { ExternalLink } from '@/modules/layout/components/ExternalLink';
 
 export const useBatchTxNotification = ({ isAuthorized }: { isAuthorized: boolean }) => {
@@ -16,19 +16,27 @@ export const useBatchTxNotification = ({ isAuthorized }: { isAuthorized: boolean
   const [batchEnabled] = useBatchToggle();
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Use localStorage directly for notification state
+  const [notificationShown, setNotificationShown] = useState(() => {
+    return localStorage.getItem(BATCH_TX_NOTIFICATION_KEY) === 'true';
+  });
+
   const onClose = useCallback(() => {
-    updateUserConfig({ ...userConfig, batchTxNotificationShown: true });
-  }, [updateUserConfig, userConfig]);
+    localStorage.setItem(BATCH_TX_NOTIFICATION_KEY, 'true');
+    setNotificationShown(true);
+  }, []);
 
   const onActivate = useCallback(() => {
-    updateUserConfig({ ...userConfig, batchEnabled: true, batchTxNotificationShown: true });
+    updateUserConfig({ ...userConfig, batchEnabled: true });
+    localStorage.setItem(BATCH_TX_NOTIFICATION_KEY, 'true');
+    setNotificationShown(true);
     dismiss();
   }, [dismiss, updateUserConfig, userConfig]);
 
   useEffect(() => {
     // Show notification if feature is enabled and hasn't been shown yet
     // (regardless of whether batch is already enabled)
-    if (isAuthorized && !userConfig.batchTxNotificationShown) {
+    if (isAuthorized && !notificationShown) {
       timerRef.current = setTimeout(() => {
         toast({
           icon: <Zap width={22} height={22} />,
@@ -81,5 +89,5 @@ export const useBatchTxNotification = ({ isAuthorized }: { isAuthorized: boolean
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [isAuthorized, userConfig.batchTxNotificationShown, batchEnabled]);
+  }, [isAuthorized, notificationShown, batchEnabled]);
 };
