@@ -2,7 +2,6 @@ import { useAccount, useChainId } from 'wagmi';
 import { WriteHook, WriteHookParams } from '../hooks';
 import { stUsdsAddress, stUsdsAbi } from '../generated';
 import { useWriteContractFlow } from '../shared/useWriteContractFlow';
-import { useStUsdsAllowance } from './useStUsdsAllowance';
 
 export function useStUsdsDeposit({
   amount,
@@ -18,32 +17,36 @@ export function useStUsdsDeposit({
 }): WriteHook {
   const { address: connectedAddress, isConnected } = useAccount();
   const chainId = useChainId();
-  const { data: allowance } = useStUsdsAllowance();
 
-  // Only enabled if users allowance is GTE their deposit amount
-  const enabled =
-    isConnected &&
-    !!amount &&
-    amount !== 0n &&
-    !!allowance &&
-    allowance >= amount &&
-    activeTabEnabled &&
-    !!connectedAddress;
+  // Only enabled if basic conditions are met (allowance check handled by widget)
+  const enabled = isConnected && !!amount && amount !== 0n && activeTabEnabled && !!connectedAddress;
 
-  // Use deposit with referral if referral is provided, otherwise use standard deposit
-  const functionName = referral && referral > 0 ? 'deposit' : 'deposit';
-  const args = referral && referral > 0 ? [amount, connectedAddress!, referral] : [amount, connectedAddress!];
-
-  return useWriteContractFlow({
-    address: stUsdsAddress[chainId as keyof typeof stUsdsAddress],
-    abi: stUsdsAbi,
-    functionName,
-    args,
-    chainId,
-    gas,
-    enabled,
-    onSuccess,
-    onError,
-    onStart
-  });
+  // Use separate calls for deposit with and without referral due to TypeScript overload issues
+  if (referral && referral > 0) {
+    return useWriteContractFlow({
+      address: stUsdsAddress[chainId as keyof typeof stUsdsAddress],
+      abi: stUsdsAbi,
+      functionName: 'deposit',
+      args: [amount, connectedAddress!, referral] as const,
+      chainId,
+      gas,
+      enabled,
+      onSuccess,
+      onError,
+      onStart
+    });
+  } else {
+    return useWriteContractFlow({
+      address: stUsdsAddress[chainId as keyof typeof stUsdsAddress],
+      abi: stUsdsAbi,
+      functionName: 'deposit',
+      args: [amount, connectedAddress!] as const,
+      chainId,
+      gas,
+      enabled,
+      onSuccess,
+      onError,
+      onStart
+    });
+  }
 }

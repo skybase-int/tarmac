@@ -235,31 +235,21 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     refetchUserUsdsBalance();
   };
 
-  // Aggregate data
+  // Aggregate data - always return an object with at least the USDS balance
   const data = useMemo<StUsdsHookData | undefined>(() => {
-    if (
-      totalAssets === undefined ||
-      totalSupply === undefined ||
-      cap === undefined ||
-      line === undefined ||
-      ysr === undefined ||
-      chi === undefined
-    ) {
-      return undefined;
-    }
-
+    // Always return basic data structure with USDS balance, even if contract calls fail
     return {
-      totalAssets,
-      totalSupply,
+      totalAssets: totalAssets || 0n,
+      totalSupply: totalSupply || 0n,
       assetPerShare,
       userStUsdsBalance: userStUsdsBalance || 0n,
       userUsdsBalance: userUsdsBalance?.value || 0n,
       userMaxDeposit: userMaxDeposit || 0n,
       userMaxWithdraw: userMaxWithdraw || 0n,
-      savingsRate: ysr,
-      chi,
-      cap,
-      line
+      savingsRate: ysr || 0n,
+      chi: chi || 0n,
+      cap: cap || 0n,
+      line: line || 0n
     };
   }, [
     totalAssets,

@@ -28848,7 +28848,8 @@ export const stUsdsAbi = [
  * Note: This is a placeholder address - update with actual deployment address
  */
 export const stUsdsAddress = {
-  1: '0x0000000000000000000000000000000000000000' // Placeholder - replace with actual mainnet address
+  1: '0x6c7Df3575f1d69eb3B245A082937794794C2b82E',
+  314310: '0x6c7Df3575f1d69eb3B245A082937794794C2b82E'
 } as const;
 
 /**
