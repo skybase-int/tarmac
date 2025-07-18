@@ -86,5 +86,5 @@ export const useChatNotification = ({ isAuthorized }: { isAuthorized: boolean })
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [showChat, chatSuggested, searchParams, onClickChat, onClose]);
+  }, [showChat, chatSuggested, searchParams]);
 };
