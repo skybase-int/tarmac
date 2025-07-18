@@ -16,6 +16,7 @@ import {
 import { useContext, useEffect } from 'react';
 import { useChainId } from 'wagmi';
 import { UpgradeAndSupplySteps } from './UpgradeAndSupplySteps';
+import { BundledTransactionWarning } from '@widgets/shared/components/ui/BundledTransactionWarning';
 
 export const SavingsTransactionReview = ({
   batchEnabled,
@@ -24,7 +25,8 @@ export const SavingsTransactionReview = ({
   originToken,
   originAmount,
   needsAllowance,
-  isUpgradeSupplyFlow
+  isUpgradeSupplyFlow,
+  shouldUseBatch
 }: {
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
@@ -33,6 +35,7 @@ export const SavingsTransactionReview = ({
   originAmount: bigint;
   needsAllowance: boolean;
   isUpgradeSupplyFlow?: boolean;
+  shouldUseBatch: boolean;
 }) => {
   const { i18n } = useLingui();
   const { data: batchSupported } = useIsBatchSupported();
@@ -87,10 +90,15 @@ export const SavingsTransactionReview = ({
   }, [flow, action, screen, i18n.locale, isBatchTransaction, batchSupported, batchEnabled]);
 
   return (
-    <TransactionReview
-      batchEnabled={batchEnabled}
-      setBatchEnabled={setBatchEnabled}
-      customSteps={isUpgradeSupplyFlow ? <UpgradeAndSupplySteps /> : undefined}
-    />
+    <>
+      <TransactionReview
+        batchEnabled={batchEnabled}
+        setBatchEnabled={setBatchEnabled}
+        customSteps={isUpgradeSupplyFlow ? <UpgradeAndSupplySteps /> : undefined}
+      />
+      {isUpgradeSupplyFlow && !shouldUseBatch && (
+        <BundledTransactionWarning flowTitle="Supplying DAI to the Sky Savings Rate" />
+      )}
+    </>
   );
 };

@@ -14,6 +14,7 @@ import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
 import { formatUnits } from 'viem';
+import { BundledTransactionWarning } from '@widgets/shared/components/ui/BundledTransactionWarning';
 
 type SupplyWithdrawProps = {
   address?: string;
@@ -31,6 +32,8 @@ type SupplyWithdrawProps = {
   tabIndex: 0 | 1;
   enabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  isUpgradeSupplyFlow: boolean;
+  shouldUseBatch: boolean;
 };
 
 export const SupplyWithdraw = ({
@@ -48,7 +51,9 @@ export const SupplyWithdraw = ({
   onSetMax,
   tabIndex,
   enabled = true,
-  onExternalLinkClicked
+  onExternalLinkClicked,
+  isUpgradeSupplyFlow,
+  shouldUseBatch
 }: SupplyWithdrawProps) => {
   const dai = TOKENS.dai;
   const usds = TOKENS.usds;
@@ -150,6 +155,9 @@ export const SupplyWithdraw = ({
           </motion.div>
         </TabsContent>
       </Tabs>
+      {isUpgradeSupplyFlow && !shouldUseBatch && (
+        <BundledTransactionWarning flowTitle="Supplying DAI to the Sky Savings Rate" />
+      )}
       {!!amount && !error && (
         <TransactionOverview
           title={t`Transaction overview`}

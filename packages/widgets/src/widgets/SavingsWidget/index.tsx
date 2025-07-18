@@ -406,6 +406,7 @@ const SavingsWidgetWrapped = ({
               originAmount={debouncedAmount}
               needsAllowance={needsAllowance}
               isUpgradeSupplyFlow={isUpgradeSupplyFlow}
+              shouldUseBatch={shouldUseBatch}
             />
           </CardAnimationWrapper>
         ) : (
@@ -443,6 +444,8 @@ const SavingsWidgetWrapped = ({
               tabIndex={tabIndex}
               enabled={enabled}
               onExternalLinkClicked={onExternalLinkClicked}
+              isUpgradeSupplyFlow={isUpgradeSupplyFlow}
+              shouldUseBatch={shouldUseBatch}
             />
           </CardAnimationWrapper>
         )}
