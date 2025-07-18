@@ -2,12 +2,17 @@ import { motion } from 'framer-motion';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { InfoTooltip } from '@widgets/shared/components/ui/tooltip/InfoTooltip';
 import { positionAnimations } from '@widgets/shared/animation/presets';
+import { useIsBatchSupported } from '@jetstreamgg/sky-hooks';
 
 /**
  * A reusable warning component for bundled transaction requirements
  * Used across widgets to inform users when features require bundled transaction support
  */
 export function BundledTransactionWarning({ flowTitle }: { flowTitle: string }) {
+  const { isLoading } = useIsBatchSupported();
+
+  if (isLoading) return null;
+
   return (
     <motion.div variants={positionAnimations}>
       <Text variant="medium" className="text-error px-4 pt-4">

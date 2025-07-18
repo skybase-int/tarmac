@@ -35,7 +35,7 @@ export const SavingsTransactionReview = ({
   originAmount: bigint;
   needsAllowance: boolean;
   isUpgradeSupplyFlow?: boolean;
-  shouldUseBatch: boolean;
+  shouldUseBatch?: boolean;
 }) => {
   const { i18n } = useLingui();
   const { data: batchSupported } = useIsBatchSupported();
