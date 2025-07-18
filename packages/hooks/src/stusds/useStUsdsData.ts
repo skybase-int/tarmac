@@ -1,0 +1,285 @@
+import { useMemo } from 'react';
+import { useAccount, useChainId } from 'wagmi';
+import { useTokenBalance } from '../tokens/useTokenBalance';
+import { usdsAddress, useReadStUsds, stUsdsAddress } from '../generated';
+import { TRUST_LEVELS, TrustLevelEnum } from '../constants';
+import { DataSource, ReadHook } from '../hooks';
+import { getEtherscanLink } from '@jetstreamgg/sky-utils';
+
+export type StUsdsHookData = {
+  // Vault metrics
+  totalAssets: bigint; // Total USDS in vault
+  totalSupply: bigint; // Total stUSDS supply
+  assetPerShare: bigint; // Current conversion rate
+
+  // User balances
+  userStUsdsBalance: bigint; // User's stUSDS balance
+  userUsdsBalance: bigint; // User's USDS balance
+  userMaxDeposit: bigint; // Max USDS user can deposit
+  userMaxWithdraw: bigint; // Max USDS user can withdraw
+
+  // Rate metrics
+  savingsRate: bigint; // Current savings rate (ysr)
+  chi: bigint; // Interest accumulator
+
+  // Capacity limits
+  cap: bigint; // Vault capacity limit
+  line: bigint; // Debt ceiling limit
+};
+
+export type StUsdsHook = ReadHook & {
+  data?: StUsdsHookData;
+};
+
+export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
+  const chainId = useChainId();
+  const { address: connectedAddress } = useAccount();
+  const acct = address || connectedAddress;
+
+  // Read vault metrics
+  const {
+    data: totalAssets,
+    isLoading: totalAssetsLoading,
+    error: totalAssetsError,
+    refetch: refetchTotalAssets
+  } = useReadStUsds({
+    functionName: 'totalAssets',
+    chainId: chainId as keyof typeof useReadStUsds
+  });
+
+  const {
+    data: totalSupply,
+    isLoading: totalSupplyLoading,
+    error: totalSupplyError,
+    refetch: refetchTotalSupply
+  } = useReadStUsds({
+    functionName: 'totalSupply',
+    chainId: chainId as keyof typeof useReadStUsds
+  });
+
+  const {
+    data: cap,
+    isLoading: capLoading,
+    error: capError,
+    refetch: refetchCap
+  } = useReadStUsds({
+    functionName: 'cap',
+    chainId: chainId as keyof typeof useReadStUsds
+  });
+
+  const {
+    data: line,
+    isLoading: lineLoading,
+    error: lineError,
+    refetch: refetchLine
+  } = useReadStUsds({
+    functionName: 'line',
+    chainId: chainId as keyof typeof useReadStUsds
+  });
+
+  const {
+    data: ysr,
+    isLoading: ysrLoading,
+    error: ysrError,
+    refetch: refetchYsr
+  } = useReadStUsds({
+    functionName: 'ysr',
+    chainId: chainId as keyof typeof useReadStUsds
+  });
+
+  const {
+    data: chi,
+    isLoading: chiLoading,
+    error: chiError,
+    refetch: refetchChi
+  } = useReadStUsds({
+    functionName: 'chi',
+    chainId: chainId as keyof typeof useReadStUsds
+  });
+
+  // Read user-specific data
+  const {
+    data: userStUsdsBalance,
+    isLoading: userStUsdsBalanceLoading,
+    error: userStUsdsBalanceError,
+    refetch: refetchUserStUsdsBalance
+  } = useReadStUsds({
+    functionName: 'balanceOf',
+    args: [acct || '0x0'],
+    chainId: chainId as keyof typeof useReadStUsds,
+    query: {
+      enabled: !!acct
+    }
+  });
+
+  const {
+    data: userMaxDeposit,
+    isLoading: userMaxDepositLoading,
+    error: userMaxDepositError,
+    refetch: refetchUserMaxDeposit
+  } = useReadStUsds({
+    functionName: 'maxDeposit',
+    args: [acct || '0x0'],
+    chainId: chainId as keyof typeof useReadStUsds,
+    query: {
+      enabled: !!acct
+    }
+  });
+
+  const {
+    data: userMaxWithdraw,
+    isLoading: userMaxWithdrawLoading,
+    error: userMaxWithdrawError,
+    refetch: refetchUserMaxWithdraw
+  } = useReadStUsds({
+    functionName: 'maxWithdraw',
+    args: [acct || '0x0'],
+    chainId: chainId as keyof typeof useReadStUsds,
+    query: {
+      enabled: !!acct
+    }
+  });
+
+  // Get user's USDS balance
+  const {
+    data: userUsdsBalance,
+    isLoading: userUsdsBalanceLoading,
+    error: userUsdsBalanceError,
+    refetch: refetchUserUsdsBalance
+  } = useTokenBalance({
+    address: acct,
+    chainId: chainId,
+    token: usdsAddress[chainId as keyof typeof usdsAddress]
+  });
+
+  // Calculate asset per share ratio
+  const assetPerShare = useMemo(() => {
+    if (!totalAssets || !totalSupply || totalSupply === 0n) return 0n;
+    // Calculate with 18 decimal precision: (totalAssets * 1e18) / totalSupply
+    return (totalAssets * 10n ** 18n) / totalSupply;
+  }, [totalAssets, totalSupply]);
+
+  // Data sources for transparency
+  const dataSourcesVault: DataSource = {
+    title: 'stUSDS Contract',
+    onChain: true,
+    href: getEtherscanLink(chainId, stUsdsAddress[chainId as keyof typeof stUsdsAddress], 'address'),
+    trustLevel: TRUST_LEVELS[TrustLevelEnum.ZERO]
+  };
+
+  // Loading state
+  const isLoading = useMemo(() => {
+    return (
+      totalAssetsLoading ||
+      totalSupplyLoading ||
+      capLoading ||
+      lineLoading ||
+      ysrLoading ||
+      chiLoading ||
+      userStUsdsBalanceLoading ||
+      userMaxDepositLoading ||
+      userMaxWithdrawLoading ||
+      userUsdsBalanceLoading
+    );
+  }, [
+    totalAssetsLoading,
+    totalSupplyLoading,
+    capLoading,
+    lineLoading,
+    ysrLoading,
+    chiLoading,
+    userStUsdsBalanceLoading,
+    userMaxDepositLoading,
+    userMaxWithdrawLoading,
+    userUsdsBalanceLoading
+  ]);
+
+  // Error state
+  const error = useMemo(() => {
+    return (
+      totalAssetsError ||
+      totalSupplyError ||
+      capError ||
+      lineError ||
+      ysrError ||
+      chiError ||
+      userStUsdsBalanceError ||
+      userMaxDepositError ||
+      userMaxWithdrawError ||
+      userUsdsBalanceError
+    );
+  }, [
+    totalAssetsError,
+    totalSupplyError,
+    capError,
+    lineError,
+    ysrError,
+    chiError,
+    userStUsdsBalanceError,
+    userMaxDepositError,
+    userMaxWithdrawError,
+    userUsdsBalanceError
+  ]);
+
+  // Refetch function
+  const mutate = () => {
+    refetchTotalAssets();
+    refetchTotalSupply();
+    refetchCap();
+    refetchLine();
+    refetchYsr();
+    refetchChi();
+    refetchUserStUsdsBalance();
+    refetchUserMaxDeposit();
+    refetchUserMaxWithdraw();
+    refetchUserUsdsBalance();
+  };
+
+  // Aggregate data
+  const data = useMemo<StUsdsHookData | undefined>(() => {
+    if (
+      totalAssets === undefined ||
+      totalSupply === undefined ||
+      cap === undefined ||
+      line === undefined ||
+      ysr === undefined ||
+      chi === undefined
+    ) {
+      return undefined;
+    }
+
+    return {
+      totalAssets,
+      totalSupply,
+      assetPerShare,
+      userStUsdsBalance: userStUsdsBalance || 0n,
+      userUsdsBalance: userUsdsBalance?.value || 0n,
+      userMaxDeposit: userMaxDeposit || 0n,
+      userMaxWithdraw: userMaxWithdraw || 0n,
+      savingsRate: ysr,
+      chi,
+      cap,
+      line
+    };
+  }, [
+    totalAssets,
+    totalSupply,
+    assetPerShare,
+    userStUsdsBalance,
+    userUsdsBalance,
+    userMaxDeposit,
+    userMaxWithdraw,
+    ysr,
+    chi,
+    cap,
+    line
+  ]);
+
+  return {
+    isLoading,
+    data,
+    error,
+    mutate,
+    dataSources: [dataSourcesVault]
+  };
+}
