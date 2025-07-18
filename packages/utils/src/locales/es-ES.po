@@ -241,6 +241,10 @@ msgstr ""
 msgid "Accumulated Rewards"
 msgstr ""
 
+#: apps/webapp/src/modules/app/hooks/useBatchTxNotification.tsx
+msgid "Activate smart account"
+msgstr ""
+
 #. placeholder {0}: targetToken?.symbol || ''
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
 #: packages/widgets/src/widgets/L2TradeWidget/index.tsx
@@ -443,6 +447,10 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
+#: apps/webapp/src/pages/BatchTransactionsLegal.tsx
+msgid "Back to Home Page"
+msgstr ""
+
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 msgid "Back to Rewards"
 msgstr ""
@@ -559,6 +567,14 @@ msgstr ""
 #. placeholder {0}: batchEnabled ? 'enabled' : 'disabled'
 #: apps/webapp/src/components/BatchTransactionsToggle.tsx
 msgid "Bundled transactions {0}"
+msgstr ""
+
+#: apps/webapp/src/modules/app/hooks/useBatchTxNotification.tsx
+msgid "Bundled transactions enable a one-click, gas-optimized user experience that aligns with the best practices of the broader Ethereum ecosystem."
+msgstr ""
+
+#: apps/webapp/src/modules/app/hooks/useBatchTxNotification.tsx
+msgid "Bundled transactions: <0>Active</0>"
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/components/TradeConfigMenu.tsx
@@ -979,6 +995,10 @@ msgstr ""
 msgid "Earn with USDS"
 msgstr ""
 
+#: apps/webapp/src/modules/app/hooks/useBatchTxNotification.tsx
+msgid "EIP-7702 Bundled transactions now supported"
+msgstr ""
+
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
@@ -1339,6 +1359,13 @@ msgstr ""
 msgid "Learn more"
 msgstr ""
 
+#: apps/webapp/src/pages/BatchTransactionsLegal.tsx
+#: apps/webapp/src/modules/app/hooks/useBatchTxNotification.tsx
+#: apps/webapp/src/components/BatchTransactionsToggle.tsx
+#: packages/widgets/src/shared/components/ui/transaction/TransactionReview.tsx
+msgid "Legal Notice"
+msgstr ""
+
 #: apps/webapp/src/modules/ui/components/TermsModal.tsx
 msgid "Legal Terms"
 msgstr ""
@@ -1697,6 +1724,10 @@ msgstr ""
 
 #: apps/webapp/src/modules/ui/components/historyTable/HistoryTable.tsx
 msgid "Please connect your wallet to view your history"
+msgstr ""
+
+#: apps/webapp/src/pages/BatchTransactionsLegal.tsx
+msgid "Please note that all security checks, user confirmations, and error handling are managed by your chosen wallet's delegate contract. As outlined in our <0>Terms of Use</0>, your use of a non-custodial digital wallet—including wallets supporting EIP-7702 and smart account functionality—is governed by the terms of service of your third-party wallet provider. We do not control or take responsibility for the security, functionality, or behavior of third-party wallets, including their handling of bundled transactions or delegate contracts. To ensure a secure and transparent experience, please ensure you are using a trusted and up-to-date wallet before proceeding."
 msgstr ""
 
 #: packages/widgets/src/shared/components/ui/transaction/TransactionStatus.tsx

@@ -78,6 +78,7 @@ export const StakeModuleWidget = ({
   onExternalLinkClicked,
   onShowHelpModal,
   addRecentTransaction,
+  legalBatchTxUrl,
   referralCode,
   shouldReset = false,
   batchEnabled,
@@ -102,6 +103,7 @@ export const StakeModuleWidget = ({
             referralCode={referralCode}
             batchEnabled={batchEnabled}
             setBatchEnabled={setBatchEnabled}
+            legalBatchTxUrl={legalBatchTxUrl}
           />
         </StakeModuleWidgetProvider>
       </WidgetProvider>
@@ -120,6 +122,7 @@ function StakeModuleWidgetWrapped({
   onExternalLinkClicked,
   onShowHelpModal,
   addRecentTransaction,
+  legalBatchTxUrl,
   referralCode,
   batchEnabled,
   setBatchEnabled
@@ -1069,6 +1072,7 @@ function StakeModuleWidgetWrapped({
                       batchEnabled={batchEnabled}
                       setBatchEnabled={setBatchEnabled}
                       isBatchTransaction={shouldUseBatch}
+                      legalBatchTxUrl={legalBatchTxUrl}
                     />
                   )}
                   {widgetState.flow === StakeFlow.OPEN && (
@@ -1084,6 +1088,7 @@ function StakeModuleWidgetWrapped({
                       batchEnabled={batchEnabled}
                       setBatchEnabled={setBatchEnabled}
                       isBatchTransaction={shouldUseBatch}
+                      legalBatchTxUrl={legalBatchTxUrl}
                     />
                   )}
                 </MotionVStack>
@@ -1107,7 +1112,8 @@ const Wizard = ({
   allowanceToken,
   batchEnabled,
   setBatchEnabled,
-  isBatchTransaction
+  isBatchTransaction,
+  legalBatchTxUrl
 }: {
   isConnectedAndEnabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
@@ -1120,6 +1126,7 @@ const Wizard = ({
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
   isBatchTransaction: boolean;
+  legalBatchTxUrl?: string;
 }) => {
   const chainId = useChainId();
   const { widgetState, txStatus } = useContext(WidgetContext);
@@ -1155,6 +1162,7 @@ const Wizard = ({
           batchEnabled={batchEnabled}
           setBatchEnabled={setBatchEnabled}
           isBatchTransaction={isBatchTransaction}
+          legalBatchTxUrl={legalBatchTxUrl}
         />
       )}
     </div>
@@ -1176,7 +1184,8 @@ const ManagePosition = ({
   allowanceToken,
   batchEnabled,
   setBatchEnabled,
-  isBatchTransaction
+  isBatchTransaction,
+  legalBatchTxUrl
 }: {
   isConnectedAndEnabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
@@ -1193,6 +1202,7 @@ const ManagePosition = ({
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
   isBatchTransaction: boolean;
+  legalBatchTxUrl?: string;
 }) => {
   return currentAction === StakeAction.OVERVIEW ? (
     <UrnsList claimPrepared={claimPrepared} claimExecute={claimExecute} onStakeUrnChange={onStakeUrnChange} />
@@ -1209,6 +1219,7 @@ const ManagePosition = ({
       batchEnabled={batchEnabled}
       setBatchEnabled={setBatchEnabled}
       isBatchTransaction={isBatchTransaction}
+      legalBatchTxUrl={legalBatchTxUrl}
     />
   );
 };
