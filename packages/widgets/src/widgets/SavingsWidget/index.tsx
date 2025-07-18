@@ -7,7 +7,7 @@ import {
   Token,
   useTokenBalance
 } from '@jetstreamgg/sky-hooks';
-import { useDebounce } from '@jetstreamgg/sky-utils';
+import { isTestnetId, useDebounce } from '@jetstreamgg/sky-utils';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { WidgetContainer } from '@widgets/shared/components/ui/widget/WidgetContainer';
 import { SavingsFlow, SavingsAction, SavingsScreen } from './lib/constants';
@@ -196,8 +196,10 @@ const SavingsWidgetWrapped = ({
     isSupplyBalanceError ||
     isAmountWaitingForDebounce ||
     (isUpgradeSupplyFlow
-      ? // Disable supply for Upgrade + Supply flows if batch txs are not enabled
-        !batchUpgradeAndSupply.prepared || batchUpgradeAndSupply.isLoading || !batchEnabled || !batchSupported
+      ? // Disable Upgrade + Supply flows if batch txs are not enabled and it's not a testnet
+        !batchUpgradeAndSupply.prepared ||
+        batchUpgradeAndSupply.isLoading ||
+        ((!batchEnabled || !batchSupported) && !isTestnetId(chainId))
       : !batchSavingsSupply.prepared || batchSavingsSupply.isLoading);
 
   // Handle external state changes

@@ -3,15 +3,18 @@ import { Text } from '@widgets/shared/components/ui/Typography';
 import { InfoTooltip } from '@widgets/shared/components/ui/tooltip/InfoTooltip';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { useIsBatchSupported } from '@jetstreamgg/sky-hooks';
+import { useChainId } from 'wagmi';
+import { isTestnetId } from '@jetstreamgg/sky-utils';
 
 /**
  * A reusable warning component for bundled transaction requirements
  * Used across widgets to inform users when features require bundled transaction support
  */
 export function BundledTransactionWarning({ flowTitle }: { flowTitle: string }) {
+  const chainId = useChainId();
   const { isLoading } = useIsBatchSupported();
 
-  if (isLoading) return null;
+  if (isLoading || isTestnetId(chainId)) return null;
 
   return (
     <motion.div variants={positionAnimations}>
