@@ -28,9 +28,13 @@ export const useBatchTxNotification = ({ isAuthorized }: { isAuthorized: boolean
 
   const onActivate = useCallback(() => {
     // Get fresh config from localStorage to avoid stale closures
-    const currentConfig = JSON.parse(localStorage.getItem(USER_SETTINGS_KEY) || '{}');
-    updateUserConfig({ ...currentConfig, batchEnabled: true });
-    localStorage.setItem(BATCH_TX_NOTIFICATION_KEY, 'true');
+    try {
+      const currentConfig = JSON.parse(localStorage.getItem(USER_SETTINGS_KEY) || '{}');
+      updateUserConfig({ ...currentConfig, batchEnabled: true });
+      localStorage.setItem(BATCH_TX_NOTIFICATION_KEY, 'true');
+    } catch (error) {
+      console.error('Error parsing user settings', error);
+    }
     setNotificationShown(true);
     dismiss();
   }, [dismiss, updateUserConfig]);
