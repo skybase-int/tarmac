@@ -1,7 +1,9 @@
 import { useAccount, useChainId } from 'wagmi';
 import { WriteHook, WriteHookParams } from '../hooks';
-import { stUsdsAddress, stUsdsAbi } from '../generated';
+import { stUsdsAddress } from '../generated';
+import { stUsdsImplementationAbi } from './useReadStUsdsImplementation';
 import { useWriteContractFlow } from '../shared/useWriteContractFlow';
+import { Abi } from 'viem';
 
 export function useStUsdsDeposit({
   amount,
@@ -25,7 +27,7 @@ export function useStUsdsDeposit({
   if (referral && referral > 0) {
     return useWriteContractFlow({
       address: stUsdsAddress[chainId as keyof typeof stUsdsAddress],
-      abi: stUsdsAbi,
+      abi: stUsdsImplementationAbi as Abi,
       functionName: 'deposit',
       args: [amount, connectedAddress!, referral] as const,
       chainId,
@@ -38,7 +40,7 @@ export function useStUsdsDeposit({
   } else {
     return useWriteContractFlow({
       address: stUsdsAddress[chainId as keyof typeof stUsdsAddress],
-      abi: stUsdsAbi,
+      abi: stUsdsImplementationAbi as Abi,
       functionName: 'deposit',
       args: [amount, connectedAddress!] as const,
       chainId,

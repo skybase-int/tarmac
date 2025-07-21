@@ -331,20 +331,18 @@ const StUSDSWidgetWrapped = ({
   const isSupplyBalanceError =
     txStatus === TxStatus.IDLE &&
     address &&
-    (stUsdsData?.userUsdsBalance || stUsdsData?.userUsdsBalance === 0n) &&
-    debouncedAmount > stUsdsData.userUsdsBalance &&
-    amount !== 0n //don't wait for debouncing on default state
+    amount !== 0n && //don't wait for debouncing on default state
+    ((stUsdsData?.userUsdsBalance !== undefined && debouncedAmount > stUsdsData.userUsdsBalance) ||
+      (stUsdsData?.userMaxDeposit !== undefined && debouncedAmount > stUsdsData.userMaxDeposit))
       ? true
       : false;
 
-  const isWithdrawBalanceError =
-    txStatus === TxStatus.IDLE &&
-    address &&
-    stUsdsData?.userMaxWithdraw !== undefined &&
-    debouncedAmount > stUsdsData.userMaxWithdraw &&
-    amount !== 0n //don't wait for debouncing on default state
-      ? true
-      : false;
+  const isWithdrawBalanceError = false;
+  // stUsdsData?.userMaxWithdraw !== undefined &&
+  // debouncedAmount > stUsdsData.userMaxWithdraw &&
+  // amount !== 0n //don't wait for debouncing on default state
+  //   ? true
+  //   : false;
 
   const isAmountWaitingForDebounce = debouncedAmount !== amount;
 
@@ -548,7 +546,7 @@ const StUSDSWidgetWrapped = ({
   useEffect(() => {
     if (isConnectedAndEnabled) {
       if (txStatus === TxStatus.SUCCESS && widgetState.action !== StUSDSAction.APPROVE) {
-        setButtonText(t`Back to Savings`);
+        setButtonText(t`Back to stUSDS`);
       } else if (txStatus === TxStatus.ERROR) {
         setButtonText(t`Retry`);
       } else if (widgetState.screen === StUSDSScreen.ACTION && amount === 0n) {
@@ -706,8 +704,9 @@ const StUSDSWidgetWrapped = ({
             <StUSDSSupplyWithdraw
               address={address}
               nstBalance={stUsdsData?.userUsdsBalance}
-              userUsdsBalance={stUsdsData?.userUsdsBalance}
+              userUsdsBalance={stUsdsData?.userSuppliedUsds}
               withdrawableBalance={stUsdsData?.userMaxWithdraw}
+              maxDeposit={stUsdsData?.userMaxDeposit}
               totalAssets={stUsdsData?.totalAssets}
               availableLiquidity={stUsdsData?.availableLiquidity}
               utilizationRate={capacityData?.utilizationRate}

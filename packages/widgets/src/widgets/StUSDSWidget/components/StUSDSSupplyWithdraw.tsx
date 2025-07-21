@@ -23,6 +23,7 @@ type StUSDSSupplyWithdrawProps = {
   nstBalance?: bigint;
   userUsdsBalance?: bigint;
   withdrawableBalance?: bigint; // User's withdrawable USDS balance (for withdraw functionality)
+  maxDeposit?: bigint; // Max USDS user can deposit
   totalAssets?: bigint;
   availableLiquidity?: bigint; // Available USDS in vault for withdrawals
   utilizationRate?: number; // Vault utilization percentage
@@ -43,6 +44,7 @@ export const StUSDSSupplyWithdraw = ({
   nstBalance,
   userUsdsBalance,
   withdrawableBalance,
+  maxDeposit,
   totalAssets,
   availableLiquidity,
   utilizationRate = 0,
@@ -60,6 +62,29 @@ export const StUSDSSupplyWithdraw = ({
   const inputToken = TOKENS.usds;
   const chainId = useChainId();
   const contractAddress = stUsdsAddress[chainId as keyof typeof stUsdsAddress];
+
+  // Determine specific error message for supply
+  const getSupplyErrorMessage = () => {
+    if (!error || !amount) return undefined;
+
+    // Check if exceeds wallet balance
+    if (nstBalance !== undefined && amount > nstBalance) {
+      return t`Insufficient funds. Your balance is ${formatUnits(
+        nstBalance,
+        inputToken ? getTokenDecimals(inputToken, chainId) : 18
+      )} ${inputToken?.symbol}.`;
+    }
+
+    // Check if exceeds max deposit
+    if (maxDeposit !== undefined && amount > maxDeposit) {
+      return t`Exceeds max deposit. Maximum allowed is ${formatUnits(
+        maxDeposit,
+        inputToken ? getTokenDecimals(inputToken, chainId) : 18
+      )} ${inputToken?.symbol}.`;
+    }
+
+    return t`Insufficient funds`;
+  };
 
   const isHighUtilization = (utilizationRate || 0) > 90;
   const isLiquidityConstrained = (utilizationRate || 0) > 95;
@@ -96,7 +121,8 @@ export const StUSDSSupplyWithdraw = ({
               totalAssets: totalAssets || 0n,
               userUsdsBalance: userUsdsBalance || 0n,
               availableLiquidity: availableLiquidity,
-              maxWithdraw: withdrawableBalance
+              maxWithdraw: withdrawableBalance,
+              maxDeposit: maxDeposit
             }}
             utilizationRate={utilizationRate}
             address={contractAddress}
@@ -118,7 +144,7 @@ export const StUSDSSupplyWithdraw = ({
               }}
               value={amount}
               dataTestId="supply-input-savings"
-              error={error ? t`Insufficient funds` : undefined}
+              error={getSupplyErrorMessage()}
               showPercentageButtons={isConnectedAndEnabled}
               enabled={isConnectedAndEnabled}
             />

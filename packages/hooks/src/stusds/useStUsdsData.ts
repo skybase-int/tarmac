@@ -1,32 +1,25 @@
 import { useMemo } from 'react';
 import { useAccount, useChainId } from 'wagmi';
 import { useTokenBalance } from '../tokens/useTokenBalance';
-import { usdsAddress, useReadStUsds, stUsdsAddress } from '../generated';
+import { usdsAddress, stUsdsAddress, useReadStUsds } from '../generated';
 import { TRUST_LEVELS, TrustLevelEnum } from '../constants';
 import { DataSource, ReadHook } from '../hooks';
 import { getEtherscanLink } from '@jetstreamgg/sky-utils';
 
 export type StUsdsHookData = {
-  // Vault metrics
-  totalAssets: bigint; // Total USDS in vault
-  totalSupply: bigint; // Total stUSDS supply
-  assetPerShare: bigint; // Current conversion rate
-  availableLiquidity: bigint; // Available USDS for withdrawals
-
-  // User balances
-  userStUsdsBalance: bigint; // User's stUSDS balance (shares)
-  userUsdsBalance: bigint; // User's USDS balance (wallet)
-  userSuppliedUsds: bigint; // User's supplied USDS value (convertToAssets)
-  userMaxDeposit: bigint; // Max USDS user can deposit
-  userMaxWithdraw: bigint; // Max USDS user can withdraw
-
-  // Rate metrics
-  moduleRate: bigint; // Current module rate (ysr)
-  chi: bigint; // Interest accumulator
-
-  // Capacity limits
-  cap: bigint; // Vault capacity limit
-  line: bigint; // Debt ceiling limit
+  totalAssets: bigint;
+  totalSupply: bigint;
+  assetPerShare: bigint;
+  availableLiquidity: bigint;
+  userStUsdsBalance: bigint;
+  userUsdsBalance: bigint;
+  userSuppliedUsds: bigint;
+  userMaxDeposit: bigint;
+  userMaxWithdraw: bigint;
+  moduleRate: bigint;
+  chi: bigint;
+  cap: bigint;
+  line: bigint;
 };
 
 export type StUsdsHook = ReadHook & {
@@ -38,278 +31,119 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
   const { address: connectedAddress } = useAccount();
   const acct = address || connectedAddress;
 
-  // Read vault metrics
-  const {
-    data: totalAssets,
-    isLoading: totalAssetsLoading,
-    error: totalAssetsError,
-    refetch: refetchTotalAssets
-  } = useReadStUsds({
+  const { data: totalAssets } = useReadStUsds({
     functionName: 'totalAssets',
     chainId: chainId as keyof typeof useReadStUsds
   });
 
-  const {
-    data: totalSupply,
-    isLoading: totalSupplyLoading,
-    error: totalSupplyError,
-    refetch: refetchTotalSupply
-  } = useReadStUsds({
+  const { data: totalSupply } = useReadStUsds({
     functionName: 'totalSupply',
     chainId: chainId as keyof typeof useReadStUsds
   });
 
-  const {
-    data: cap,
-    isLoading: capLoading,
-    error: capError,
-    refetch: refetchCap
-  } = useReadStUsds({
+  const { data: cap } = useReadStUsds({
     functionName: 'cap',
     chainId: chainId as keyof typeof useReadStUsds
   });
 
-  const {
-    data: line,
-    isLoading: lineLoading,
-    error: lineError,
-    refetch: refetchLine
-  } = useReadStUsds({
+  const { data: line } = useReadStUsds({
     functionName: 'line',
     chainId: chainId as keyof typeof useReadStUsds
   });
 
-  const {
-    data: ysr,
-    isLoading: ysrLoading,
-    error: ysrError,
-    refetch: refetchYsr
-  } = useReadStUsds({
+  const { data: ysr } = useReadStUsds({
     functionName: 'ysr',
     chainId: chainId as keyof typeof useReadStUsds
   });
 
-  const {
-    data: chi,
-    isLoading: chiLoading,
-    error: chiError,
-    refetch: refetchChi
-  } = useReadStUsds({
+  const { data: chi } = useReadStUsds({
     functionName: 'chi',
     chainId: chainId as keyof typeof useReadStUsds
   });
 
-  // Read user-specific data
-  const {
-    data: userStUsdsBalance,
-    isLoading: userStUsdsBalanceLoading,
-    error: userStUsdsBalanceError,
-    refetch: refetchUserStUsdsBalance
-  } = useReadStUsds({
+  const { data: userStUsdsBalance } = useReadStUsds({
     functionName: 'balanceOf',
     args: [acct || '0x0'],
     chainId: chainId as keyof typeof useReadStUsds,
-    query: {
-      enabled: !!acct
-    }
+    query: { enabled: !!acct }
   });
 
-  const {
-    data: userMaxDeposit,
-    isLoading: userMaxDepositLoading,
-    error: userMaxDepositError,
-    refetch: refetchUserMaxDeposit
-  } = useReadStUsds({
+  const { data: userMaxDeposit } = useReadStUsds({
     functionName: 'maxDeposit',
     args: [acct || '0x0'],
     chainId: chainId as keyof typeof useReadStUsds,
-    query: {
-      enabled: !!acct
-    }
+    query: { enabled: !!acct }
   });
 
-  const {
-    data: userMaxWithdraw,
-    isLoading: userMaxWithdrawLoading,
-    error: userMaxWithdrawError,
-    refetch: refetchUserMaxWithdraw
-  } = useReadStUsds({
+  const { data: userMaxWithdraw } = useReadStUsds({
     functionName: 'maxWithdraw',
     args: [acct || '0x0'],
     chainId: chainId as keyof typeof useReadStUsds,
-    query: {
-      enabled: !!acct
-    }
+    query: { enabled: !!acct }
   });
 
-  // Get user's USDS balance
-  const {
-    data: userUsdsBalance,
-    isLoading: userUsdsBalanceLoading,
-    error: userUsdsBalanceError,
-    refetch: refetchUserUsdsBalance
-  } = useTokenBalance({
+  const { data: userUsdsBalance } = useTokenBalance({
     address: acct,
-    chainId: chainId,
+    chainId: chainId as keyof typeof useReadStUsds,
     token: usdsAddress[chainId as keyof typeof usdsAddress]
   });
 
   // Get vault's USDS balance (available liquidity)
   const stUsdsContractAddress = stUsdsAddress[chainId as keyof typeof stUsdsAddress];
-  const {
-    data: vaultUsdsBalance,
-    isLoading: vaultUsdsBalanceLoading,
-    error: vaultUsdsBalanceError,
-    refetch: refetchVaultUsdsBalance
-  } = useTokenBalance({
+  const { data: vaultUsdsBalance } = useTokenBalance({
     address: stUsdsContractAddress,
     chainId: chainId,
     token: usdsAddress[chainId as keyof typeof usdsAddress]
   });
 
-  // Calculate asset per share ratio
   const assetPerShare = useMemo(() => {
-    if (!totalAssets || !totalSupply || totalSupply === 0n) return 0n;
-    // Calculate with 18 decimal precision: (totalAssets * 1e18) / totalSupply
-    return (totalAssets * 10n ** 18n) / totalSupply;
+    const assets = totalAssets as bigint;
+    const supply = totalSupply as bigint;
+    if (!assets || !supply || supply === 0n) return 0n;
+    return (assets * 10n ** 18n) / supply;
   }, [totalAssets, totalSupply]);
 
-  // Data sources for transparency
-  const dataSourcesVault: DataSource = {
-    title: 'stUSDS Contract',
-    onChain: true,
-    href: getEtherscanLink(chainId, stUsdsAddress[chainId as keyof typeof stUsdsAddress], 'address'),
-    trustLevel: TRUST_LEVELS[TrustLevelEnum.ZERO]
-  };
-
-  // Loading state
-  const isLoading = useMemo(() => {
-    return (
-      totalAssetsLoading ||
-      totalSupplyLoading ||
-      capLoading ||
-      lineLoading ||
-      ysrLoading ||
-      chiLoading ||
-      userStUsdsBalanceLoading ||
-      userMaxDepositLoading ||
-      userMaxWithdrawLoading ||
-      userUsdsBalanceLoading ||
-      vaultUsdsBalanceLoading
-    );
-  }, [
-    totalAssetsLoading,
-    totalSupplyLoading,
-    capLoading,
-    lineLoading,
-    ysrLoading,
-    chiLoading,
-    userStUsdsBalanceLoading,
-    userMaxDepositLoading,
-    userMaxWithdrawLoading,
-    userUsdsBalanceLoading,
-    vaultUsdsBalanceLoading
-  ]);
-
-  // Error state
-  const error = useMemo(() => {
-    return (
-      totalAssetsError ||
-      totalSupplyError ||
-      capError ||
-      lineError ||
-      ysrError ||
-      chiError ||
-      userStUsdsBalanceError ||
-      userMaxDepositError ||
-      userMaxWithdrawError ||
-      userUsdsBalanceError ||
-      vaultUsdsBalanceError
-    );
-  }, [
-    totalAssetsError,
-    totalSupplyError,
-    capError,
-    lineError,
-    ysrError,
-    chiError,
-    userStUsdsBalanceError,
-    userMaxDepositError,
-    userMaxWithdrawError,
-    userUsdsBalanceError,
-    vaultUsdsBalanceError
-  ]);
-
-  // Refetch function
-  const mutate = () => {
-    refetchTotalAssets();
-    refetchTotalSupply();
-    refetchCap();
-    refetchLine();
-    refetchYsr();
-    refetchChi();
-    refetchUserStUsdsBalance();
-    refetchUserMaxDeposit();
-    refetchUserMaxWithdraw();
-    refetchUserUsdsBalance();
-    refetchVaultUsdsBalance();
-  };
-
-  // Calculate user's supplied USDS amount from stUSDS balance
   const userSuppliedUsds = useMemo(() => {
-    const stUsdsBalance = userStUsdsBalance || 0n;
-    if (!stUsdsBalance || stUsdsBalance === 0n) return 0n;
-
-    // If we have valid vault data, calculate USDS value
-    if (totalAssets && totalSupply && totalSupply > 0n) {
-      // Calculate: (userStUsdsBalance * totalAssets) / totalSupply
-      // This is equivalent to convertToAssets(userStUsdsBalance)
-      return (stUsdsBalance * totalAssets) / totalSupply;
+    const balance = userStUsdsBalance as bigint;
+    const assets = totalAssets as bigint;
+    const supply = totalSupply as bigint;
+    if (!balance || balance === 0n) return 0n;
+    if (assets && supply && supply > 0n) {
+      return (balance * assets) / supply;
     }
-
-    // Fallback: assume 1:1 ratio if vault data is not available
-    return stUsdsBalance;
+    return balance;
   }, [userStUsdsBalance, totalAssets, totalSupply]);
 
-  // Aggregate data - always return an object with at least the USDS balance
-  const data = useMemo<StUsdsHookData | undefined>(() => {
-    // Always return basic data structure with USDS balance, even if contract calls fail
-    return {
-      totalAssets: totalAssets || 0n,
-      totalSupply: totalSupply || 0n,
-      assetPerShare,
-      availableLiquidity: vaultUsdsBalance?.value || 0n,
-      userStUsdsBalance: userStUsdsBalance || 0n,
-      userUsdsBalance: userUsdsBalance?.value || 0n,
-      userSuppliedUsds,
-      userMaxDeposit: userMaxDeposit || 0n,
-      userMaxWithdraw: userMaxWithdraw || 0n,
-      moduleRate: ysr || 0n,
-      chi: chi || 0n,
-      cap: cap || 0n,
-      line: line || 0n
-    };
-  }, [
-    totalAssets,
-    totalSupply,
+  const data: StUsdsHookData = {
+    totalAssets: (totalAssets as bigint) || 0n,
+    totalSupply: (totalSupply as bigint) || 0n,
     assetPerShare,
-    userStUsdsBalance,
-    userUsdsBalance,
-    userMaxDeposit,
-    userMaxWithdraw,
+    availableLiquidity: vaultUsdsBalance?.value || 0n,
+    userStUsdsBalance: (userStUsdsBalance as bigint) || 0n,
+    userUsdsBalance: userUsdsBalance?.value || 0n,
     userSuppliedUsds,
-    ysr,
-    chi,
-    cap,
-    line,
-    vaultUsdsBalance
-  ]);
+    userMaxDeposit: (userMaxDeposit as bigint) || 0n,
+    userMaxWithdraw: (userMaxWithdraw as bigint) || 0n,
+    moduleRate: (ysr as bigint) || 0n,
+    chi: (chi as bigint) || 0n,
+    cap: (cap as bigint) || 0n,
+    line: (line as bigint) || 0n
+  };
+
+  const dataSources: DataSource[] = [
+    {
+      title: 'stUSDS Contract',
+      onChain: true,
+      href: getEtherscanLink(chainId, stUsdsAddress[chainId as keyof typeof stUsdsAddress], 'address'),
+      trustLevel: TRUST_LEVELS[TrustLevelEnum.ZERO]
+    }
+  ];
 
   return {
-    isLoading,
+    isLoading: false, // update with actual loading conditions
+    error: null, // update with actual error conditions
     data,
-    error,
-    mutate,
-    dataSources: [dataSourcesVault]
+    mutate: () => {}, // implement if needed
+    dataSources
   };
 }

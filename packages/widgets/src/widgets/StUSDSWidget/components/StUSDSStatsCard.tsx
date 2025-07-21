@@ -15,6 +15,7 @@ export type StUSDSStats = {
   userUsdsBalance: bigint;
   availableLiquidity?: bigint;
   maxWithdraw?: bigint;
+  maxDeposit?: bigint;
 };
 
 type StUSDSStatsProps = {
@@ -107,6 +108,23 @@ export const StUSDSStatsCard = ({
           </div>
         </div>
       </MotionVStack>
+      {isConnectedAndEnabled && stats.maxDeposit !== undefined && (
+        <MotionVStack gap={2} variants={positionAnimations} data-testid="max-deposit-container">
+          <HStack className="justify-between">
+            <Text className="text-textSecondary text-sm leading-4">{t`Max deposit`}</Text>
+            {isLoading ? (
+              <Skeleton className="bg-textSecondary h-6 w-10" />
+            ) : (
+              <Text dataTestId="max-deposit" className={stats.maxDeposit === 0n ? 'text-warning' : ''}>
+                {formatBigInt(stats.maxDeposit, { unit: 18, maxDecimals: 2, compact: true })} USDS
+              </Text>
+            )}
+          </HStack>
+          {stats.maxDeposit === 0n && (
+            <Text className="text-warning text-xs">{t`Vault has reached its capacity limit`}</Text>
+          )}
+        </MotionVStack>
+      )}
       {isConnectedAndEnabled && stats.maxWithdraw !== undefined && (
         <MotionVStack gap={2} variants={positionAnimations} data-testid="max-withdraw-container">
           <HStack className="justify-between">
@@ -122,11 +140,6 @@ export const StUSDSStatsCard = ({
           {stats.maxWithdraw === 0n && (
             <Text className="text-warning text-xs">
               {t`Vault has insufficient liquidity for withdrawals`}
-            </Text>
-          )}
-          {stats.availableLiquidity !== undefined && (
-            <Text className="text-textSecondary text-xs">
-              {t`Available liquidity: ${formatBigInt(stats.availableLiquidity, { unit: 18, maxDecimals: 2, compact: true })} USDS`}
             </Text>
           )}
         </MotionVStack>

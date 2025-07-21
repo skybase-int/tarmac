@@ -455,10 +455,13 @@ msgstr ""
 msgid "Back to Rewards"
 msgstr ""
 
-#: packages/widgets/src/widgets/StUSDSWidget/index.tsx
 #: packages/widgets/src/widgets/SavingsWidget/index.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
 msgid "Back to Savings"
+msgstr ""
+
+#: packages/widgets/src/widgets/StUSDSWidget/index.tsx
+msgid "Back to stUSDS"
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
@@ -1084,6 +1087,12 @@ msgstr ""
 msgid "Estimated price impact"
 msgstr ""
 
+#. placeholder {0}: formatUnits( maxDeposit, inputToken ? getTokenDecimals(inputToken, chainId) : 18 )
+#. placeholder {1}: inputToken?.symbol
+#: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSSupplyWithdraw.tsx
+msgid "Exceeds max deposit. Maximum allowed is {0} {1}."
+msgstr ""
+
 #: packages/widgets/src/widgets/UpgradeWidget/components/UpgradeRevert.tsx
 #: packages/widgets/src/widgets/L2TradeWidget/index.tsx
 msgid "Exchange rate"
@@ -1227,8 +1236,9 @@ msgstr ""
 msgid "High risk"
 msgstr ""
 
+#. placeholder {0}: utilizationRate || 0
 #: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSSupplyWithdraw.tsx
-msgid "High utilization ({mockUtilization}%). Withdrawals may be delayed during periods of high demand."
+msgid "High utilization ({0}%). Withdrawals may be delayed during periods of high demand."
 msgstr ""
 
 #: apps/webapp/src/modules/app/hooks/useChatNotification.tsx
@@ -1348,12 +1358,18 @@ msgstr ""
 msgid "Insufficient funds"
 msgstr ""
 
+#. placeholder {0}: formatUnits( nstBalance, inputToken ? getTokenDecimals(inputToken, chainId) : 18 )
 #. placeholder {0}: formatUnits( withdrawableBalance || 0n, inputToken ? getTokenDecimals(inputToken, chainId) : 18 )
 #. placeholder {0}: formatUnits( savingsBalance || 0n, inputToken ? getTokenDecimals(inputToken, chainId) : 18 )
 #. placeholder {1}: inputToken?.symbol
 #: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSSupplyWithdraw.tsx
+#: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSSupplyWithdraw.tsx
 #: packages/widgets/src/widgets/SavingsWidget/components/SupplyWithdraw.tsx
 msgid "Insufficient funds. Your balance is {0} {1}."
+msgstr ""
+
+#: packages/widgets/src/widgets/StUSDSWidget/index.tsx
+msgid "Insufficient liquidity"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/UrnsList.tsx
@@ -1464,6 +1480,14 @@ msgstr ""
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Borrow.tsx
 msgid "Max borrowable amount"
+msgstr ""
+
+#: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
+msgid "Max deposit"
+msgstr ""
+
+#: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
+msgid "Max withdrawable"
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/components/TradeSummary.tsx
@@ -2477,6 +2501,10 @@ msgstr ""
 msgid "The transaction was successful."
 msgstr ""
 
+#: packages/widgets/src/widgets/StUSDSWidget/index.tsx
+msgid "The vault does not have enough available USDS for withdrawal. Please try a smaller amount or wait for liquidity to become available."
+msgstr ""
+
 #: packages/widgets/src/widgets/StakeModuleWidget/components/SelectDelegate.tsx
 msgid "The voting power delegation feature of the Staking Engine of the Sky Protocol enables you to entrust your voting power to a delegate of your choosing, who can then vote in the Sky Ecosystem Governance process on your behalf. You can choose one delegate per SKY position. If you want to entrust your SKY to two delegates using the Staking Engine, you will need to create two separate positions."
 msgstr ""
@@ -2919,6 +2947,14 @@ msgstr ""
 
 #: apps/webapp/src/modules/stusds/components/StUSDSVariableRateCard.tsx
 msgid "Variable Rate"
+msgstr ""
+
+#: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
+msgid "Vault has insufficient liquidity for withdrawals"
+msgstr ""
+
+#: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
+msgid "Vault has reached its capacity limit"
 msgstr ""
 
 #: apps/webapp/src/components/ChatSwitcher.tsx
