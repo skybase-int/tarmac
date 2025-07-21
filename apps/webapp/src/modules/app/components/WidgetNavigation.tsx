@@ -194,7 +194,7 @@ export function WidgetNavigation({
 
       {/* Main content with tabs */}
       <Tabs
-        className="w-full md:min-w-[352px] md:max-w-[440px] lg:flex lg:min-w-[500px] lg:max-w-[500px] lg:flex-row"
+        className="w-full lg:flex lg:flex-row"
         defaultValue={Intent.BALANCES_INTENT}
         onValueChange={handleWidgetChange}
         value={intent}
@@ -283,7 +283,7 @@ export function WidgetNavigation({
                           animate={AnimationLabels.animate}
                           exit={AnimationLabels.exit}
                           className={cn(
-                            'lg:scrollbar-thin flex-1 overflow-y-auto pr-4 md:pr-0',
+                            'flex-1 overflow-y-auto pr-4 md:pr-0 lg:overflow-hidden',
                             isMobile
                               ? showLinkedAction
                                 ? 'scroll-mt-[148px]'
