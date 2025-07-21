@@ -28,10 +28,19 @@ const logoMetadata = [
     alt: 'Rewards logo',
     position: '-bottom-5 -right-12',
     size: 'w-56'
+  },
+  {
+    name: 'staking',
+    src: '/images/staking_engine_icon_large.svg',
+    alt: 'Staking Engine logo',
+    position: '-bottom-5 -right-5',
+    size: 'w-56'
   }
-];
+] as const;
 
-export function Logo({ logoName }: { logoName: string }) {
+export type LogoName = (typeof logoMetadata)[number]['name'];
+
+export function Logo({ logoName }: { logoName: LogoName }) {
   const logo = logoMetadata.find(({ name }) => name === logoName);
   return logo ? (
     <div className={cn('absolute z-0 overflow-hidden', logo.position)}>
