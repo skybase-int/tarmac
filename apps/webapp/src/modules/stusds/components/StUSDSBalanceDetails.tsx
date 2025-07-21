@@ -1,16 +1,17 @@
-import { useSavingsData } from '@jetstreamgg/sky-hooks';
+import { useSavingsData, useStUsdsData } from '@jetstreamgg/sky-hooks';
 import { SuppliedBalanceCard, UnsuppliedBalanceCard } from '@/modules/ui/components/BalanceCards';
 
 export function StUSDSBalanceDetails() {
-  // TODO: Replace with useStUSDSData when available
-  const { data, isLoading, error } = useSavingsData();
+  const { data, isLoading, error } = useStUsdsData();
+  const { data: savingsData, isLoading: savingsIsLoading, error: savingsError } = useSavingsData();
 
   const usdsToken = { name: 'USDS', symbol: 'USDS' };
 
   const SuppliedStUSDSBalanceCard = () => {
     return (
       <SuppliedBalanceCard
-        balance={data?.userSavingsBalance || 0n}
+        // TODO convert from stUSDS to USDS
+        balance={data?.userStUsdsBalance || 0n}
         isLoading={isLoading}
         token={usdsToken}
         error={error}
@@ -22,10 +23,10 @@ export function StUSDSBalanceDetails() {
   const UsdsBalanceCard = () => {
     return (
       <UnsuppliedBalanceCard
-        balance={data?.userNstBalance || 0n}
-        isLoading={isLoading}
+        balance={savingsData?.userNstBalance || 0n}
+        isLoading={savingsIsLoading}
         token={usdsToken}
-        error={error}
+        error={savingsError}
         dataTestId="stusds-remaining-balance-details"
       />
     );

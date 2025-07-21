@@ -6,6 +6,7 @@ import {
   useStUsdsData,
   useStUsdsDeposit,
   useStUsdsWithdraw,
+  useStUsdsCapacityData,
   useIsBatchSupported
 } from '@jetstreamgg/sky-hooks';
 import { getTransactionLink, useDebounce, formatBigInt, useIsSafeWallet } from '@jetstreamgg/sky-utils';
@@ -104,6 +105,7 @@ const StUSDSWidgetWrapped = ({
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
 
   const { mutate: mutateStUsds, data: stUsdsData, isLoading: isStUsdsDataLoading } = useStUsdsData();
+  const { data: capacityData } = useStUsdsCapacityData();
   const { data: allowance, mutate: mutateAllowance, isLoading: allowanceLoading } = useStUsdsAllowance();
   const initialAmount =
     validatedExternalState?.amount && validatedExternalState.amount !== '0'
@@ -352,20 +354,6 @@ const StUSDSWidgetWrapped = ({
     !stUsdsWithdraw.prepared ||
     isAmountWaitingForDebounce;
 
-  // Debug logging for withdraw issues
-  if (tabIndex === 1 && amount > 0n) {
-    console.log('Withdraw Debug:', {
-      amount,
-      debouncedAmount,
-      userMaxWithdraw: stUsdsData?.userMaxWithdraw,
-      isWithdrawBalanceError,
-      stUsdsWithdrawPrepared: stUsdsWithdraw.prepared,
-      isAmountWaitingForDebounce,
-      withdrawDisabled,
-      txStatus
-    });
-  }
-
   const supplyDisabled =
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
     isSupplyBalanceError ||
@@ -536,9 +524,20 @@ const StUSDSWidgetWrapped = ({
   useEffect(() => {
     if (stUsdsWithdraw.prepareError) {
       console.log(stUsdsWithdraw.prepareError);
+
+      // Check for specific error types
+      const errorMessage = stUsdsWithdraw.prepareError.message;
+      let title = t`Error preparing transaction`;
+      let description = stUsdsWithdraw.prepareError.message;
+
+      if (errorMessage.includes('YUsds/insufficient-unused-funds')) {
+        title = t`Insufficient liquidity`;
+        description = t`The vault does not have enough available USDS for withdrawal. Please try a smaller amount or wait for liquidity to become available.`;
+      }
+
       onNotification?.({
-        title: t`Error preparing transaction`,
-        description: stUsdsWithdraw.prepareError.message,
+        title,
+        description,
         status: TxStatus.ERROR
       });
     }
@@ -707,10 +706,13 @@ const StUSDSWidgetWrapped = ({
             <StUSDSSupplyWithdraw
               address={address}
               nstBalance={stUsdsData?.userUsdsBalance}
-              savingsBalance={stUsdsData?.userMaxWithdraw}
+              userUsdsBalance={stUsdsData?.userUsdsBalance}
               withdrawableBalance={stUsdsData?.userMaxWithdraw}
-              savingsTvl={stUsdsData?.totalAssets}
-              isSavingsDataLoading={isStUsdsDataLoading}
+              totalAssets={stUsdsData?.totalAssets}
+              availableLiquidity={stUsdsData?.availableLiquidity}
+              utilizationRate={capacityData?.utilizationRate}
+              moduleRate={stUsdsData?.moduleRate}
+              isStUsdsDataLoading={isStUsdsDataLoading}
               onChange={(newValue: bigint, userTriggered?: boolean) => {
                 setAmount(newValue);
                 if (userTriggered) {

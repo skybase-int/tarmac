@@ -11,14 +11,17 @@ import { positionAnimations } from '@widgets/shared/animation/presets';
 import { AlertCircle } from 'lucide-react';
 
 export type StUSDSStats = {
-  savingsTvl: bigint;
-  savingsBalance: bigint;
+  totalAssets: bigint;
+  userUsdsBalance: bigint;
+  availableLiquidity?: bigint;
+  maxWithdraw?: bigint;
 };
 
 type StUSDSStatsProps = {
   isLoading: boolean;
   address?: string;
   stats: StUSDSStats;
+  utilizationRate?: number;
   isConnectedAndEnabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 };
@@ -27,17 +30,15 @@ export const StUSDSStatsCard = ({
   isLoading,
   address,
   stats,
+  utilizationRate = 0,
   isConnectedAndEnabled = true,
   onExternalLinkClicked
 }: StUSDSStatsProps) => {
   const chainId = useChainId();
 
-  // TODO: Replace with real stUSDS data when hooks are available
-  const mockUtilization = 87;
-  const mockTvl = 1800000000n * 10n ** 18n; // 1.8B USDS
-  const isHighUtilization = mockUtilization > 90;
+  const isHighUtilization = utilizationRate > 90;
   const utilizationColor =
-    mockUtilization > 90 ? 'text-error' : mockUtilization > 75 ? 'text-orange-400' : 'text-textSecondary';
+    utilizationRate > 90 ? 'text-error' : utilizationRate > 75 ? 'text-orange-400' : 'text-textSecondary';
 
   const accordionContent = (
     <div className="mt-5 space-y-4">
@@ -51,9 +52,9 @@ export const StUSDSStatsCard = ({
           <Text className="text-textSecondary text-sm leading-4">{t`Supplied to stUSDS`}</Text>
           {isLoading ? (
             <Skeleton className="bg-textSecondary h-6 w-10" />
-          ) : isConnectedAndEnabled && stats?.savingsBalance !== undefined ? (
+          ) : isConnectedAndEnabled && stats?.userUsdsBalance !== undefined ? (
             <Text dataTestId="supplied-balance">
-              {formatBigInt(stats.savingsBalance, { compact: true })} USDS
+              {formatBigInt(stats.userUsdsBalance, { compact: true })} USDS
             </Text>
           ) : (
             <Text>--</Text>
@@ -71,7 +72,9 @@ export const StUSDSStatsCard = ({
               <Skeleton className="bg-textSecondary h-6 w-10" />
             </div>
           ) : (
-            <Text dataTestId="stusds-tvl">{formatBigInt(mockTvl, { unit: 18, compact: true })} USDS</Text>
+            <Text dataTestId="stusds-tvl">
+              {formatBigInt(stats.totalAssets, { unit: 18, compact: true })} USDS
+            </Text>
           )}
         </MotionVStack>
       </HStack>
@@ -104,6 +107,30 @@ export const StUSDSStatsCard = ({
           </div>
         </div>
       </MotionVStack>
+      {isConnectedAndEnabled && stats.maxWithdraw !== undefined && (
+        <MotionVStack gap={2} variants={positionAnimations} data-testid="max-withdraw-container">
+          <HStack className="justify-between">
+            <Text className="text-textSecondary text-sm leading-4">{t`Max withdrawable`}</Text>
+            {isLoading ? (
+              <Skeleton className="bg-textSecondary h-6 w-10" />
+            ) : (
+              <Text dataTestId="max-withdrawable" className={stats.maxWithdraw === 0n ? 'text-warning' : ''}>
+                {formatBigInt(stats.maxWithdraw, { unit: 18, maxDecimals: 2, compact: true })} USDS
+              </Text>
+            )}
+          </HStack>
+          {stats.maxWithdraw === 0n && (
+            <Text className="text-warning text-xs">
+              {t`Vault has insufficient liquidity for withdrawals`}
+            </Text>
+          )}
+          {stats.availableLiquidity !== undefined && (
+            <Text className="text-textSecondary text-xs">
+              {t`Available liquidity: ${formatBigInt(stats.availableLiquidity, { unit: 18, maxDecimals: 2, compact: true })} USDS`}
+            </Text>
+          )}
+        </MotionVStack>
+      )}
     </div>
   );
 

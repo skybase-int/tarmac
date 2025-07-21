@@ -291,6 +291,7 @@ export {
   stakeModuleAddress,
   usdcL2Address,
   usdsL2Address,
+  stUsdsAddress,
   sUsdsL2Address,
   psm3L2Address,
   useReadPsm3L2ConvertToShares,

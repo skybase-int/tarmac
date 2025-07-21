@@ -43,17 +43,12 @@ export function useStUsdsWithdraw({
   const withdrawAmount = max ? (maxWithdraw ?? amount) : amount;
 
   // Only enabled if user has a balance in stUSDS which is GTE the amount to withdraw
-  // Account for precision buffer - subtract 1 wei for comparison
-  const userMaxWithdrawForComparison =
-    (stUsdsData?.userMaxWithdraw || 0n) > 1n
-      ? (stUsdsData?.userMaxWithdraw || 0n) - 1n
-      : stUsdsData?.userMaxWithdraw || 0n;
-
   const enabled =
     isConnected &&
     !!stUsdsData &&
-    stUsdsData?.userMaxWithdraw > 0n &&
-    userMaxWithdrawForComparison >= withdrawAmount &&
+    stUsdsData?.userMaxWithdraw &&
+    stUsdsData.userMaxWithdraw > 0n &&
+    stUsdsData.userMaxWithdraw >= withdrawAmount &&
     withdrawAmount > 0n &&
     activeTabEnabled &&
     !!connectedAddress;

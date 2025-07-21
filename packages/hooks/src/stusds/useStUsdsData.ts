@@ -11,15 +11,17 @@ export type StUsdsHookData = {
   totalAssets: bigint; // Total USDS in vault
   totalSupply: bigint; // Total stUSDS supply
   assetPerShare: bigint; // Current conversion rate
+  availableLiquidity: bigint; // Available USDS for withdrawals
 
   // User balances
-  userStUsdsBalance: bigint; // User's stUSDS balance
-  userUsdsBalance: bigint; // User's USDS balance
+  userStUsdsBalance: bigint; // User's stUSDS balance (shares)
+  userUsdsBalance: bigint; // User's USDS balance (wallet)
+  userSuppliedUsds: bigint; // User's supplied USDS value (convertToAssets)
   userMaxDeposit: bigint; // Max USDS user can deposit
   userMaxWithdraw: bigint; // Max USDS user can withdraw
 
   // Rate metrics
-  savingsRate: bigint; // Current savings rate (ysr)
+  moduleRate: bigint; // Current module rate (ysr)
   chi: bigint; // Interest accumulator
 
   // Capacity limits
@@ -152,6 +154,19 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     token: usdsAddress[chainId as keyof typeof usdsAddress]
   });
 
+  // Get vault's USDS balance (available liquidity)
+  const stUsdsContractAddress = stUsdsAddress[chainId as keyof typeof stUsdsAddress];
+  const {
+    data: vaultUsdsBalance,
+    isLoading: vaultUsdsBalanceLoading,
+    error: vaultUsdsBalanceError,
+    refetch: refetchVaultUsdsBalance
+  } = useTokenBalance({
+    address: stUsdsContractAddress,
+    chainId: chainId,
+    token: usdsAddress[chainId as keyof typeof usdsAddress]
+  });
+
   // Calculate asset per share ratio
   const assetPerShare = useMemo(() => {
     if (!totalAssets || !totalSupply || totalSupply === 0n) return 0n;
@@ -179,7 +194,8 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
       userStUsdsBalanceLoading ||
       userMaxDepositLoading ||
       userMaxWithdrawLoading ||
-      userUsdsBalanceLoading
+      userUsdsBalanceLoading ||
+      vaultUsdsBalanceLoading
     );
   }, [
     totalAssetsLoading,
@@ -191,7 +207,8 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     userStUsdsBalanceLoading,
     userMaxDepositLoading,
     userMaxWithdrawLoading,
-    userUsdsBalanceLoading
+    userUsdsBalanceLoading,
+    vaultUsdsBalanceLoading
   ]);
 
   // Error state
@@ -206,7 +223,8 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
       userStUsdsBalanceError ||
       userMaxDepositError ||
       userMaxWithdrawError ||
-      userUsdsBalanceError
+      userUsdsBalanceError ||
+      vaultUsdsBalanceError
     );
   }, [
     totalAssetsError,
@@ -218,7 +236,8 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     userStUsdsBalanceError,
     userMaxDepositError,
     userMaxWithdrawError,
-    userUsdsBalanceError
+    userUsdsBalanceError,
+    vaultUsdsBalanceError
   ]);
 
   // Refetch function
@@ -233,21 +252,19 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     refetchUserMaxDeposit();
     refetchUserMaxWithdraw();
     refetchUserUsdsBalance();
+    refetchVaultUsdsBalance();
   };
 
-  // Calculate user's withdrawable USDS amount from stUSDS balance
-  const calculatedWithdrawable = useMemo(() => {
+  // Calculate user's supplied USDS amount from stUSDS balance
+  const userSuppliedUsds = useMemo(() => {
     const stUsdsBalance = userStUsdsBalance || 0n;
     if (!stUsdsBalance || stUsdsBalance === 0n) return 0n;
 
-    // If we have valid vault data, calculate withdrawable amount
+    // If we have valid vault data, calculate USDS value
     if (totalAssets && totalSupply && totalSupply > 0n) {
       // Calculate: (userStUsdsBalance * totalAssets) / totalSupply
-      const calculated = (stUsdsBalance * totalAssets) / totalSupply;
-
-      // Add a small buffer (1 wei) to account for precision issues in ERC-4626 calculations
-      // This prevents "insufficient funds" errors when trying to withdraw the exact deposited amount
-      return calculated > 0n ? calculated + 1n : calculated;
+      // This is equivalent to convertToAssets(userStUsdsBalance)
+      return (stUsdsBalance * totalAssets) / totalSupply;
     }
 
     // Fallback: assume 1:1 ratio if vault data is not available
@@ -256,22 +273,18 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
 
   // Aggregate data - always return an object with at least the USDS balance
   const data = useMemo<StUsdsHookData | undefined>(() => {
-    // Use the calculated withdrawable amount if userMaxWithdraw is 0 or undefined
-    // Add a small buffer (1 wei) to userMaxWithdraw to account for precision issues
-    const rawWithdrawable =
-      userMaxWithdraw && userMaxWithdraw > 0n ? userMaxWithdraw : calculatedWithdrawable;
-    const withdrawableAmount = rawWithdrawable > 0n ? rawWithdrawable + 1n : rawWithdrawable;
-
     // Always return basic data structure with USDS balance, even if contract calls fail
     return {
       totalAssets: totalAssets || 0n,
       totalSupply: totalSupply || 0n,
       assetPerShare,
+      availableLiquidity: vaultUsdsBalance?.value || 0n,
       userStUsdsBalance: userStUsdsBalance || 0n,
       userUsdsBalance: userUsdsBalance?.value || 0n,
+      userSuppliedUsds,
       userMaxDeposit: userMaxDeposit || 0n,
-      userMaxWithdraw: withdrawableAmount,
-      savingsRate: ysr || 0n,
+      userMaxWithdraw: userMaxWithdraw || 0n,
+      moduleRate: ysr || 0n,
       chi: chi || 0n,
       cap: cap || 0n,
       line: line || 0n
@@ -284,11 +297,12 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     userUsdsBalance,
     userMaxDeposit,
     userMaxWithdraw,
-    calculatedWithdrawable,
+    userSuppliedUsds,
     ysr,
     chi,
     cap,
-    line
+    line,
+    vaultUsdsBalance
   ]);
 
   return {

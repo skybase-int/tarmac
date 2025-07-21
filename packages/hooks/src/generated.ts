@@ -28845,11 +28845,11 @@ export const stUsdsAbi = [
 
 /**
  * stUSDS Contract Address
- * Note: This is a placeholder address - update with actual deployment address
+ * Using proxy address for contract interactions
  */
 export const stUsdsAddress = {
-  1: '0x6c7Df3575f1d69eb3B245A082937794794C2b82E',
-  314310: '0x6c7Df3575f1d69eb3B245A082937794794C2b82E'
+  1: '0x6c7df3575f1d69eb3b245a082937794794c2b82e',
+  314310: '0x6c7df3575f1d69eb3b245a082937794794c2b82e'
 } as const;
 
 /**

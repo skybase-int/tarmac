@@ -1,6 +1,6 @@
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { getTokenDecimals, TOKENS } from '@jetstreamgg/sky-hooks';
+import { getTokenDecimals, TOKENS, stUsdsAddress } from '@jetstreamgg/sky-hooks';
 import { formatBigInt } from '@jetstreamgg/sky-utils';
 import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
@@ -21,10 +21,13 @@ import { Text } from '@widgets/shared/components/ui/Typography';
 type StUSDSSupplyWithdrawProps = {
   address?: string;
   nstBalance?: bigint;
-  savingsBalance?: bigint; // User's stUSDS token balance (for display)
+  userUsdsBalance?: bigint;
   withdrawableBalance?: bigint; // User's withdrawable USDS balance (for withdraw functionality)
-  savingsTvl?: bigint;
-  isSavingsDataLoading: boolean;
+  totalAssets?: bigint;
+  availableLiquidity?: bigint; // Available USDS in vault for withdrawals
+  utilizationRate?: number; // Vault utilization percentage
+  moduleRate?: bigint; // Current module rate
+  isStUsdsDataLoading: boolean;
   onChange: (val: bigint, userTriggered?: boolean) => void;
   amount: bigint;
   error: boolean;
@@ -38,10 +41,13 @@ type StUSDSSupplyWithdrawProps = {
 export const StUSDSSupplyWithdraw = ({
   address,
   nstBalance,
-  savingsBalance,
+  userUsdsBalance,
   withdrawableBalance,
-  // savingsTvl, // Unused, will be replaced with stUSDS TVL data
-  isSavingsDataLoading,
+  totalAssets,
+  availableLiquidity,
+  utilizationRate = 0,
+  moduleRate,
+  isStUsdsDataLoading,
   onChange,
   amount,
   error,
@@ -53,15 +59,10 @@ export const StUSDSSupplyWithdraw = ({
 }: StUSDSSupplyWithdrawProps) => {
   const inputToken = TOKENS.usds;
   const chainId = useChainId();
+  const contractAddress = stUsdsAddress[chainId as keyof typeof stUsdsAddress];
 
-  // TODO: Replace with real stUSDS data when hooks are available
-  const mockUtilization = 87; // Mock 87% utilization
-  const mockYieldMin = 5.2;
-  const mockYieldMax = 6.7;
-  const mockTvl = 1800000000n * 10n ** 18n; // 1.8B USDS
-
-  const isHighUtilization = mockUtilization > 90;
-  const isLiquidityConstrained = mockUtilization > 95;
+  const isHighUtilization = (utilizationRate || 0) > 90;
+  const isLiquidityConstrained = (utilizationRate || 0) > 95;
 
   const { widgetState } = useContext(WidgetContext);
   const { isConnected } = useAccount();
@@ -71,8 +72,8 @@ export const StUSDSSupplyWithdraw = ({
     widgetState.flow === StUSDSFlow.SUPPLY ? (nstBalance || 0n) - amount : (nstBalance || 0n) + amount;
   const finalSavingsBalance =
     widgetState.flow === StUSDSFlow.SUPPLY
-      ? (savingsBalance || 0n) + amount
-      : (savingsBalance || 0n) - amount;
+      ? (userUsdsBalance || 0n) + amount
+      : (userUsdsBalance || 0n) - amount;
 
   return (
     <MotionVStack gap={0} className="w-full" variants={positionAnimations}>
@@ -90,12 +91,15 @@ export const StUSDSSupplyWithdraw = ({
 
         <motion.div variants={positionAnimations} className="mt-4">
           <StUSDSStatsCard
-            isLoading={isSavingsDataLoading}
+            isLoading={isStUsdsDataLoading}
             stats={{
-              savingsTvl: mockTvl,
-              savingsBalance: savingsBalance || 0n
+              totalAssets: totalAssets || 0n,
+              userUsdsBalance: userUsdsBalance || 0n,
+              availableLiquidity: availableLiquidity,
+              maxWithdraw: withdrawableBalance
             }}
-            address={address}
+            utilizationRate={utilizationRate}
+            address={contractAddress}
             isConnectedAndEnabled={isConnectedAndEnabled}
             onExternalLinkClicked={onExternalLinkClicked}
           />
@@ -133,7 +137,7 @@ export const StUSDSSupplyWithdraw = ({
                   <Text variant="small">
                     {isLiquidityConstrained
                       ? t`Liquidity is extremely limited. Withdrawals may be delayed or unavailable.`
-                      : t`High utilization (${mockUtilization}%). Withdrawals may be delayed during periods of high demand.`}
+                      : t`High utilization (${utilizationRate || 0}%). Withdrawals may be delayed during periods of high demand.`}
                   </Text>
                 </div>
               </Card>
@@ -182,7 +186,8 @@ export const StUSDSSupplyWithdraw = ({
             },
             {
               label: t`Rate`,
-              value: `${mockYieldMin}% – ${mockYieldMax}%`
+              value:
+                moduleRate !== undefined ? `${formatBigInt(moduleRate, { maxDecimals: 2, unit: 16 })}%` : '--'
             },
             ...(address
               ? [
@@ -199,9 +204,9 @@ export const StUSDSSupplyWithdraw = ({
                   {
                     label: t`Your Savings USDS balance`,
                     value:
-                      savingsBalance !== undefined
+                      userUsdsBalance !== undefined
                         ? [
-                            formatBigInt(savingsBalance, { maxDecimals: 2, compact: true }),
+                            formatBigInt(userUsdsBalance, { maxDecimals: 2, compact: true }),
                             formatBigInt(finalSavingsBalance, { maxDecimals: 2, compact: true })
                           ]
                         : '--'
