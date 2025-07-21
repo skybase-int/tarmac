@@ -17,6 +17,7 @@ import { cn } from '@/lib/utils';
 import { Menu } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
+import { DualSwitcher } from '@/components/DualSwitcher';
 
 interface WidgetNavigationProps {
   widgetContent: WidgetContent;
@@ -125,7 +126,10 @@ export function WidgetNavigation({
     <div ref={containerRef} className={`${showDrawerMenu ? 'w-full' : 'lg:flex lg:h-full'}`}>
       {/* Mobile and tablet hamburger menu */}
       {showDrawerMenu && !hideTabs && (
-        <div className="flex items-center p-4 pb-2 md:pl-1.5 md:pt-1 lg:hidden" ref={menuRef}>
+        <div
+          className="flex items-center justify-between p-4 pb-2 md:pl-1.5 md:pr-1 md:pt-1 lg:hidden"
+          ref={menuRef}
+        >
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button
@@ -179,6 +183,8 @@ export function WidgetNavigation({
                 </div>
               </div>
             </SheetContent>
+            {/* Only show the dual switcher in this row for mobile and tablet in portrait mode */}
+            <DualSwitcher className="flex lg:hidden" />
           </Sheet>
         </div>
       )}
