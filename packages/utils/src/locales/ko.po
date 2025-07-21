@@ -988,7 +988,7 @@ msgid "Doing multicall"
 msgstr ""
 
 #: packages/widgets/src/widgets/StUSDSWidget/index.tsx
-msgid "Earn variable yield on USDS by participating in SKY-backed borrowing"
+msgid "Earn a variable rate on USDS by participating in SKY-backed borrowing"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/hooks/useUserSuggestedActions.ts
@@ -1348,6 +1348,7 @@ msgstr ""
 msgid "Insufficient funds"
 msgstr ""
 
+#. placeholder {0}: formatUnits( withdrawableBalance || 0n, inputToken ? getTokenDecimals(inputToken, chainId) : 18 )
 #. placeholder {0}: formatUnits( savingsBalance || 0n, inputToken ? getTokenDecimals(inputToken, chainId) : 18 )
 #. placeholder {1}: inputToken?.symbol
 #: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSSupplyWithdraw.tsx
@@ -1930,7 +1931,6 @@ msgid "Savings"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/BalanceCards.tsx
-#: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
 #: packages/widgets/src/widgets/SavingsWidget/components/SavingsStatsCard.tsx
 #: packages/widgets/src/widgets/L2SavingsWidget/components/L2SavingsStatsCard.tsx
 #: packages/widgets/src/widgets/BalancesWidget/components/SavingsBalanceCard.tsx
@@ -2304,7 +2304,7 @@ msgid "stUSDS"
 msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
-msgid "stUSDS allows you to earn variable yield on your USDS by participating in SKY-backed borrowing. The yield fluctuates based on borrowing demand, offering higher returns than the standard Sky Savings Rate. Note that withdrawals may be delayed during periods of high utilization. stUSDS is only available on Ethereum mainnet."
+msgid "stUSDS allows you to earn a variable rate on your USDS by participating in SKY-backed borrowing. The rate fluctuates based on borrowing demand, offering higher returns than the standard Sky Savings Rate. Note that withdrawals may be delayed during periods of high utilization. stUSDS is only available on Ethereum mainnet."
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/AboutStUsds.tsx
@@ -2320,7 +2320,7 @@ msgid "stUSDS Module info"
 msgstr ""
 
 #: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCardCore.tsx
-msgid "stUSDS yield fluctuates based on borrowing demand. Returns are not guaranteed."
+msgid "stUSDS rate fluctuates based on borrowing demand. Returns are not guaranteed."
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
@@ -2356,6 +2356,10 @@ msgstr ""
 
 #: packages/widgets/src/widgets/BalancesWidget/components/BalancesContent.tsx
 msgid "Supplied Funds"
+msgstr ""
+
+#: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
+msgid "Supplied to stUSDS"
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeRewardsOverview.tsx
@@ -2914,7 +2918,7 @@ msgid "Value"
 msgstr ""
 
 #: apps/webapp/src/modules/stusds/components/StUSDSVariableRateCard.tsx
-msgid "Variable Yield"
+msgid "Variable Rate"
 msgstr ""
 
 #: apps/webapp/src/components/ChatSwitcher.tsx
@@ -3305,7 +3309,7 @@ msgid "You will supply your {symbol} to the Sky Token Rewards module."
 msgstr ""
 
 #: packages/widgets/src/widgets/StUSDSWidget/lib/constants.ts
-msgid "You will supply your {symbol} to the stUSDS module to earn variable yield through SKY-backed borrowing."
+msgid "You will supply your {symbol} to the stUSDS module to earn a variable rate through SKY-backed borrowing."
 msgstr ""
 
 #. placeholder {0}: originToken.symbol

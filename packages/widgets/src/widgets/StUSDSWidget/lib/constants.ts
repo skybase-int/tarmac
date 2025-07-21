@@ -46,7 +46,7 @@ export function getStUSDSSupplyReviewSubtitle({
   needsAllowance: boolean;
 }): MessageDescriptor {
   if (!needsAllowance) {
-    return msg`You will supply your ${symbol} to the stUSDS module to earn variable yield through SKY-backed borrowing.`;
+    return msg`You will supply your ${symbol} to the stUSDS module to earn a variable rate through SKY-backed borrowing.`;
   }
 
   switch (batchStatus) {

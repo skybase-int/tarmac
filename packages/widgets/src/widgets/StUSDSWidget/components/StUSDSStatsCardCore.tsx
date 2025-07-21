@@ -46,7 +46,7 @@ export const StUSDSStatsCardCore = ({
                 content={
                   <Text variant="small">
                     {i18n._(
-                      msg`stUSDS yield fluctuates based on borrowing demand. Returns are not guaranteed.`
+                      msg`stUSDS rate fluctuates based on borrowing demand. Returns are not guaranteed.`
                     )}
                   </Text>
                 }

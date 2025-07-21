@@ -14,7 +14,7 @@ export function StUSDSVariableRateCard() {
   return (
     <StatsCard
       isLoading={isLoading}
-      title={i18n._(msg`Variable Yield`)}
+      title={i18n._(msg`Variable Rate`)}
       content={
         <div className="mt-2">
           <Text variant="large">{`${mockYieldMin}% – ${mockYieldMax}%`}</Text>

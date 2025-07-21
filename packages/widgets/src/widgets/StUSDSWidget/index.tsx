@@ -352,6 +352,20 @@ const StUSDSWidgetWrapped = ({
     !stUsdsWithdraw.prepared ||
     isAmountWaitingForDebounce;
 
+  // Debug logging for withdraw issues
+  if (tabIndex === 1 && amount > 0n) {
+    console.log('Withdraw Debug:', {
+      amount,
+      debouncedAmount,
+      userMaxWithdraw: stUsdsData?.userMaxWithdraw,
+      isWithdrawBalanceError,
+      stUsdsWithdrawPrepared: stUsdsWithdraw.prepared,
+      isAmountWaitingForDebounce,
+      withdrawDisabled,
+      txStatus
+    });
+  }
+
   const supplyDisabled =
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
     isSupplyBalanceError ||
@@ -651,7 +665,7 @@ const StUSDSWidgetWrapped = ({
             <Trans>stUSDS Module</Trans>
           </Heading>
           <Text className="text-textSecondary" variant="small">
-            <Trans>Earn variable yield on USDS by participating in SKY-backed borrowing</Trans>
+            <Trans>Earn a variable rate on USDS by participating in SKY-backed borrowing</Trans>
           </Text>
         </div>
       }

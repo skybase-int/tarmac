@@ -83,7 +83,7 @@ export const StUSDSStatsCard = ({
           ) : (
             <HStack className="items-center" gap={1}>
               <Text className={utilizationColor} dataTestId="stusds-utilization">
-                {mockUtilization}%
+                {utilizationRate.toFixed(1)}%
               </Text>
               {isHighUtilization && <AlertCircle className="text-error h-4 w-4" />}
             </HStack>
@@ -93,13 +93,13 @@ export const StUSDSStatsCard = ({
           <div className="bg-secondary h-[5px] overflow-hidden rounded-full">
             <div
               className={`h-full transition-all duration-300 ${
-                mockUtilization > 90
+                utilizationRate > 90
                   ? 'bg-error'
-                  : mockUtilization > 75
+                  : utilizationRate > 75
                     ? 'bg-orange-400'
                     : 'bg-textSecondary'
               }`}
-              style={{ width: `${Math.min(mockUtilization, 100)}%` }}
+              style={{ width: `${Math.min(utilizationRate, 100)}%` }}
             />
           </div>
         </div>

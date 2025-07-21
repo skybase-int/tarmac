@@ -40,7 +40,7 @@ describe('StUSDS widget tests', () => {
 
     const header = await screen.findByText('stUSDS Module');
     const description = await screen.findByText(
-      'Earn variable yield on USDS by participating in SKY-backed borrowing'
+      'Earn a variable rate on USDS by participating in SKY-backed borrowing'
     );
 
     expect(header).toBeTruthy();
