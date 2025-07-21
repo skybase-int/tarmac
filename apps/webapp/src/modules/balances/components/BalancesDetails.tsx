@@ -21,12 +21,9 @@ export function BalancesDetails() {
 
   return (
     <DetailSectionWrapper>
-      {isConnectedAndAcceptedTerms && (
-        <DetailSectionRow>
-          <BalancesModuleShowcase />
-        </DetailSectionRow>
-      )}
-      {/* only render this section on desktop */}
+      <DetailSectionRow>
+        <BalancesModuleShowcase />
+      </DetailSectionRow>
       {isConnectedAndAcceptedTerms && isDesktop && (
         <DetailSection title={t`Your funds`}>
           <DetailSectionRow>
