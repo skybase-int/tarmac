@@ -141,7 +141,10 @@ export function WidgetNavigation({
                 <Menu size={24} className="text-text" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="border-borderPrimary w-[280px] bg-black/90 p-0">
+            <SheetContent
+              side="left"
+              className="border-borderPrimary w-[280px] bg-black/10 p-0 backdrop-blur-xl"
+            >
               <div className="flex h-full flex-col">
                 <div className="p-6 pb-4">
                   <Heading>
