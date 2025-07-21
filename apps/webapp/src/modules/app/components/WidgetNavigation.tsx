@@ -204,7 +204,7 @@ export function WidgetNavigation({
             <TabsList
               className={cn(
                 'sticky top-0 z-20 flex w-full justify-around rounded-none rounded-t-3xl border-b backdrop-blur-2xl',
-                'lg:scrollbar-thin lg:static lg:mt-3 lg:h-fit lg:max-h-[calc(100vh-120px)] lg:w-auto lg:flex-col lg:justify-start lg:gap-2 lg:self-start lg:overflow-y-auto lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:pr-[10px] lg:backdrop-filter-none',
+                'lg:scrollbar-thin lg:static lg:h-fit lg:max-h-[calc(100vh-120px)] lg:w-auto lg:flex-col lg:justify-start lg:gap-2 lg:self-start lg:overflow-y-auto lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:pr-[10px] lg:backdrop-filter-none',
                 hideTabs && 'hidden',
                 showDrawerMenu && 'hidden', // Hide the tabs on mobile and tablet when using Sheet
                 'lg:overflow-visible'
@@ -224,7 +224,7 @@ export function WidgetNavigation({
                         className={cn(
                           'text-textSecondary data-[state=active]:text-text w-full px-1',
                           // Desktop vertical tabs - minimal styling
-                          'lg:justify-start lg:gap-3 lg:bg-transparent lg:px-4 lg:py-2 lg:hover:bg-transparent',
+                          'lg:justify-start lg:gap-1.5 lg:bg-transparent lg:px-4 lg:py-2 lg:hover:bg-transparent',
                           'lg:data-[state=active]:text-text lg:data-[state=active]:bg-transparent',
                           'disabled:cursor-not-allowed disabled:text-[rgba(198,194,255,0.4)]',
                           // Keep the existing mobile/tablet styling
