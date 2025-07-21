@@ -42,7 +42,7 @@ export function useStUsdsWithdraw({
     queryClient.invalidateQueries({ queryKey });
   }, [blockNumber, queryClient, queryKey]);
 
-  const withdrawAmount = max ? (maxWithdraw ?? amount) : amount;
+  const withdrawAmount = max ? ((maxWithdraw as bigint) ?? amount) : amount;
 
   // Only enabled if user has a balance in stUSDS which is GTE the amount to withdraw
   const enabled =
