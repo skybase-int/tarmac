@@ -27,11 +27,11 @@ export const ChatInput = ({ sendMessage }: { sendMessage: (message: string) => v
   };
 
   const isFirstMessage = chatHistory.length === 1;
-  const placeholder = hasAcceptedAgeRestriction
-    ? isFirstMessage
+  const placeholder = !hasAcceptedAgeRestriction
+    ? t`Please confirm you're at least 18`
+    : isFirstMessage
       ? t`Ask me anything`
-      : t`Ask another question`
-    : t`Please confirm you're at least 18`;
+      : t`Ask another question`;
 
   return (
     <div>

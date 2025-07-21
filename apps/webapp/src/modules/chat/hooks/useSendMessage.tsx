@@ -33,10 +33,17 @@ const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
   const response = await fetch(`${CHATBOT_DOMAIN}/chat`, {
     method: 'POST',
     headers,
+    credentials: 'include',
     body: JSON.stringify(messagePayload)
   });
 
   if (!response.ok) {
+    if (response.status === 400) {
+      const error: any = new Error('Terms acceptance required');
+      error.code = 'TERMS_NOT_ACCEPTED';
+      error.status = 400;
+      throw error;
+    }
     throw new Error('Advanced chat response was not ok');
   }
 
@@ -102,7 +109,6 @@ export const useSendMessage = () => {
       {
         messagePayload: {
           session_id: sessionId,
-          accepted_terms_hash: 'aaaaaaaa11111111bbbbbbbb22222222cccccccc33333333dddddddd44444444', // TODO, this is hardcoded for now
           network,
           messages: [...history.slice(-MAX_HISTORY_LENGTH), { role: 'user', content: message }]
         }
@@ -127,21 +133,29 @@ export const useSendMessage = () => {
                 ];
           });
         },
-        onError: error => {
+        onError: async (error: any) => {
           console.error('Failed to send message:', error);
-          setChatHistory(prevHistory => {
-            return prevHistory[prevHistory.length - 1].type === CANCELED
-              ? prevHistory
-              : [
-                  ...prevHistory.filter(item => item.type !== LOADING),
-                  {
-                    id: generateUUID(),
-                    user: UserType.bot,
-                    message: t`Sorry, something went wrong. Can you repeat your question?`,
-                    type: ERROR
-                  }
-                ];
-          });
+
+          // Check if it's a terms acceptance error
+          if (error.status === 400 || error.code === 'TERMS_NOT_ACCEPTED') {
+            // Remove loading message without adding error message
+            // The ChatWithTerms component will handle showing the dialog
+            setChatHistory(prevHistory => prevHistory.filter(item => item.type !== LOADING));
+          } else {
+            setChatHistory(prevHistory => {
+              return prevHistory[prevHistory.length - 1].type === CANCELED
+                ? prevHistory
+                : [
+                    ...prevHistory.filter(item => item.type !== LOADING),
+                    {
+                      id: generateUUID(),
+                      user: UserType.bot,
+                      message: t`Sorry, something went wrong. Can you repeat your question?`,
+                      type: ERROR
+                    }
+                  ];
+            });
+          }
         }
       }
     );

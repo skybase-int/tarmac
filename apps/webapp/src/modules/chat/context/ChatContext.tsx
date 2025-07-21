@@ -18,6 +18,7 @@ interface ChatContextType {
   shouldShowConfirmationWarning: boolean;
   shouldDisableActionButtons: boolean;
   hasAcceptedAgeRestriction: boolean;
+  termsAccepted: boolean;
   setChatHistory: React.Dispatch<React.SetStateAction<ChatHistory[]>>;
   setConfirmationWarningOpened: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedIntent: React.Dispatch<React.SetStateAction<ChatIntent | undefined>>;
@@ -25,6 +26,7 @@ interface ChatContextType {
   hasShownIntent: (intent?: ChatIntent) => boolean;
   setShouldDisableActionButtons: React.Dispatch<React.SetStateAction<boolean>>;
   setHasAcceptedAgeRestriction: (accepted: boolean) => void;
+  setTermsAccepted: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ChatContext = createContext<ChatContextType>({
@@ -43,7 +45,9 @@ const ChatContext = createContext<ChatContextType>({
   shouldDisableActionButtons: false,
   setShouldDisableActionButtons: () => {},
   hasAcceptedAgeRestriction: false,
-  setHasAcceptedAgeRestriction: () => {}
+  setHasAcceptedAgeRestriction: () => {},
+  termsAccepted: false,
+  setTermsAccepted: () => {}
 });
 
 export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -64,6 +68,9 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [shouldDisableActionButtons, setShouldDisableActionButtons] = useState<boolean>(false);
   const [hasAcceptedAgeRestriction, setHasAcceptedAgeRestrictionState] = useState<boolean>(false);
   const isLoading = chatHistory[chatHistory.length - 1]?.type === MessageType.loading;
+
+  // Terms acceptance state - managed by ChatWithTerms component
+  const [termsAcceptedState, setTermsAccepted] = useState(false);
 
   // Load age restriction acceptance from localStorage on initial render
   useEffect(() => {
@@ -110,7 +117,9 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
         shouldDisableActionButtons,
         setShouldDisableActionButtons,
         hasAcceptedAgeRestriction,
-        setHasAcceptedAgeRestriction
+        setHasAcceptedAgeRestriction,
+        termsAccepted: termsAcceptedState,
+        setTermsAccepted
       }}
     >
       {children}
