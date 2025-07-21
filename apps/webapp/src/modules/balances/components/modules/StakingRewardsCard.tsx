@@ -63,7 +63,6 @@ export function StakingRewardsCard() {
       }
       className="from-[#3b2795] to-[#7231e3]"
       notAvailable={isL2}
-      soon={isL2}
       logoName="staking"
     />
   );

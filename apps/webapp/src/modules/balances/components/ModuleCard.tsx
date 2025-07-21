@@ -75,7 +75,7 @@ export const ModuleCard = ({
       )}
       <Card
         className={cn(
-          'relative flex h-full flex-col justify-between overflow-hidden bg-gradient-to-b p-3 lg:p-6',
+          'relative flex h-full flex-col justify-between overflow-hidden bg-gradient-to-b p-3 pb-8 lg:p-6',
           className
         )}
       >

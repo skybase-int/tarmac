@@ -1,5 +1,6 @@
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem, CarouselDots } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
+import Fade from 'embla-carousel-fade';
 import { RewardsCard } from './modules/RewardsCard';
 import { SavingsCard } from './modules/SavingsCard';
 import { TradeCard } from './modules/TradeCard';
@@ -13,7 +14,8 @@ export function BalancesModuleShowcase() {
   return (
     <Carousel
       opts={{ loop: true }}
-      plugins={[Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: true })]}
+      plugins={[Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: true }), Fade()]}
+      className="relative"
     >
       <CarouselContent>
         {!isRestrictedBuild && (
@@ -38,6 +40,7 @@ export function BalancesModuleShowcase() {
           <StakingRewardsCard />
         </CarouselItem>
       </CarouselContent>
+      <CarouselDots className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2" />
     </Carousel>
   );
 }
