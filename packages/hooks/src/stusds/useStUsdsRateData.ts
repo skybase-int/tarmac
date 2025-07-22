@@ -20,7 +20,7 @@ export function useStUsdsRateData(): StUsdsRateDataHook {
     if (!stUsdsData) return undefined;
 
     // Calculate current savings rate from ysr (yield savings rate)
-    const currentSavingsRate = stUsdsData.savingsRate;
+    const currentSavingsRate = stUsdsData.moduleRate;
 
     // Calculate total rate earned in the vault
     // This would be the difference between current assets and what was originally deposited

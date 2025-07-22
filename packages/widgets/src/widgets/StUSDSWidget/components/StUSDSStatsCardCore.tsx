@@ -8,6 +8,8 @@ import { JSX } from 'react';
 import { InfoTooltip } from '@widgets/shared/components/ui/tooltip/InfoTooltip';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
+import { useStUsdsData } from '@jetstreamgg/sky-hooks';
+import { formatYsrAsApy } from '@jetstreamgg/sky-utils';
 
 export const StUSDSStatsCardCore = ({
   content,
@@ -18,10 +20,10 @@ export const StUSDSStatsCardCore = ({
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 }) => {
   const { i18n } = useLingui();
+  const { data: stUsdsData, isLoading: stUsdsLoading } = useStUsdsData();
 
-  // TODO: Replace with real stUSDS data when hooks are available
-  const mockYieldMin = 5.2;
-  const mockYieldMax = 6.7;
+  const moduleRate = stUsdsData?.moduleRate || 0n;
+  const formattedRate = moduleRate > 0n ? formatYsrAsApy(moduleRate) : '0.00%';
 
   return (
     <StatsOverviewCardCore
@@ -33,13 +35,13 @@ export const StUSDSStatsCardCore = ({
       }
       headerRightContent={
         <MotionHStack className="items-center" gap={2} variants={positionAnimations}>
-          {isLoading ? (
+          {isLoading || stUsdsLoading ? (
             <Skeleton className="bg-textSecondary h-5 w-16" />
           ) : (
             <>
               <Text className="text-primary">
                 <Text tag="span" className="text-bullish ml-1">
-                  {`${mockYieldMin}% – ${mockYieldMax}%`}
+                  {formattedRate}
                 </Text>
               </Text>
               <InfoTooltip

@@ -1,7 +1,7 @@
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { getTokenDecimals, TOKENS, stUsdsAddress } from '@jetstreamgg/sky-hooks';
-import { formatBigInt } from '@jetstreamgg/sky-utils';
+import { formatBigInt, formatYsrAsApy } from '@jetstreamgg/sky-utils';
 import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
@@ -212,8 +212,7 @@ export const StUSDSSupplyWithdraw = ({
             },
             {
               label: t`Rate`,
-              value:
-                moduleRate !== undefined ? `${formatBigInt(moduleRate, { maxDecimals: 2, unit: 16 })}%` : '--'
+              value: moduleRate !== undefined && moduleRate > 0n ? formatYsrAsApy(moduleRate) : '--'
             },
             ...(address
               ? [

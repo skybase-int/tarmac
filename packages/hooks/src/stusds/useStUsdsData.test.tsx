@@ -35,7 +35,7 @@ describe('useStUsdsData', () => {
     expect(result.current.data?.userMaxWithdraw).toBeGreaterThanOrEqual(0n);
 
     // Verify rate metrics are present
-    expect(result.current.data?.savingsRate).toBeGreaterThanOrEqual(0n);
+    expect(result.current.data?.moduleRate).toBeGreaterThanOrEqual(0n);
     expect(result.current.data?.chi).toBeGreaterThanOrEqual(0n);
 
     // Verify capacity limits are present

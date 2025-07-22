@@ -1,5 +1,5 @@
 import { useStUsdsData, usePrices } from '@jetstreamgg/sky-hooks';
-import { formatBigInt, formatDecimalPercentage, formatNumber } from '@jetstreamgg/sky-utils';
+import { formatBigInt, formatNumber, formatYsrAsApy } from '@jetstreamgg/sky-utils';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
 import { InteractiveStatsCard } from '@widgets/shared/components/ui/card/InteractiveStatsCard';
@@ -15,8 +15,11 @@ export const StUSDSBalanceCard = ({ url, onExternalLinkClicked, loading }: CardP
   const userSuppliedUsds = stUsdsData?.userSuppliedUsds || 0n;
   const moduleRate = stUsdsData?.moduleRate || 0n;
 
-  // Convert module rate from ray (1e16) to percentage
-  const ratePercentage = moduleRate > 0n ? parseFloat(formatUnits(moduleRate, 16)) : 0;
+  // Debug logging
+  if (moduleRate > 0n) {
+    console.log('stUSDS moduleRate (ysr):', moduleRate.toString());
+    console.log('stUSDS APY:', formatYsrAsApy(moduleRate));
+  }
 
   return (
     <InteractiveStatsCard
@@ -32,10 +35,10 @@ export const StUSDSBalanceCard = ({ url, onExternalLinkClicked, loading }: CardP
       footer={
         stUsdsLoading ? (
           <Skeleton className="h-4 w-20" />
-        ) : ratePercentage > 0 ? (
+        ) : moduleRate > 0n ? (
           <div className="flex w-fit items-center gap-1.5">
             <Text variant="small" className="text-bullish leading-4">
-              {`Rate: ${formatDecimalPercentage(ratePercentage)}`}
+              {`Rate: ${formatYsrAsApy(moduleRate)}`}
             </Text>
             <PopoverRateInfo
               type="stusds"
