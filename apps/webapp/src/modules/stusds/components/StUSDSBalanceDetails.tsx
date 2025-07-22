@@ -1,5 +1,6 @@
 import { useSavingsData, useStUsdsData } from '@jetstreamgg/sky-hooks';
 import { SuppliedBalanceCard, UnsuppliedBalanceCard } from '@/modules/ui/components/BalanceCards';
+import { t } from '@lingui/core/macro';
 
 export function StUSDSBalanceDetails() {
   const { data, isLoading, error } = useStUsdsData();
@@ -10,11 +11,11 @@ export function StUSDSBalanceDetails() {
   const SuppliedStUSDSBalanceCard = () => {
     return (
       <SuppliedBalanceCard
-        // TODO convert from stUSDS to USDS
-        balance={data?.userStUsdsBalance || 0n}
+        balance={data?.userSuppliedUsds || 0n}
         isLoading={isLoading}
         token={usdsToken}
         error={error}
+        label={t`stUSDS module balance`}
         dataTestId="stusds-supplied-balance-details"
       />
     );

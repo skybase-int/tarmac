@@ -8,7 +8,7 @@ import { Skeleton } from '@widgets/components/ui/skeleton';
 import { StUSDSStatsCardCore } from './StUSDSStatsCardCore';
 import { StatsAccordionCard } from '@widgets/shared/components/ui/card/StatsAccordionCard';
 import { positionAnimations } from '@widgets/shared/animation/presets';
-import { AlertCircle } from 'lucide-react';
+import { UtilizationBar } from '@widgets/shared/components/ui/UtilizationBar';
 
 export type StUSDSStats = {
   totalAssets: bigint;
@@ -37,10 +37,6 @@ export const StUSDSStatsCard = ({
 }: StUSDSStatsProps) => {
   const chainId = useChainId();
 
-  const isHighUtilization = utilizationRate > 90;
-  const utilizationColor =
-    utilizationRate > 90 ? 'text-error' : utilizationRate > 75 ? 'text-orange-400' : 'text-textSecondary';
-
   const accordionContent = (
     <div className="mt-5 space-y-4">
       <HStack className="justify-between" gap={2}>
@@ -55,7 +51,7 @@ export const StUSDSStatsCard = ({
             <Skeleton className="bg-textSecondary h-6 w-10" />
           ) : isConnectedAndEnabled && stats?.userUsdsBalance !== undefined ? (
             <Text dataTestId="supplied-balance">
-              {formatBigInt(stats.userUsdsBalance, { compact: true })} USDS
+              {formatBigInt(stats.userUsdsBalance, { unit: 18, maxDecimals: 0 })} USDS
             </Text>
           ) : (
             <Text>--</Text>
@@ -80,33 +76,12 @@ export const StUSDSStatsCard = ({
         </MotionVStack>
       </HStack>
       <MotionVStack gap={2} variants={positionAnimations} data-testid="utilization-container">
-        <HStack className="justify-between">
-          <Text className="text-textSecondary text-sm leading-4">{t`Utilization`}</Text>
-          {isLoading ? (
-            <Skeleton className="bg-textSecondary h-6 w-10" />
-          ) : (
-            <HStack className="items-center" gap={1}>
-              <Text className={utilizationColor} dataTestId="stusds-utilization">
-                {utilizationRate.toFixed(1)}%
-              </Text>
-              {isHighUtilization && <AlertCircle className="text-error h-4 w-4" />}
-            </HStack>
-          )}
-        </HStack>
-        <div className="w-full">
-          <div className="bg-secondary h-[5px] overflow-hidden rounded-full">
-            <div
-              className={`h-full transition-all duration-300 ${
-                utilizationRate > 90
-                  ? 'bg-error'
-                  : utilizationRate > 75
-                    ? 'bg-orange-400'
-                    : 'bg-textSecondary'
-              }`}
-              style={{ width: `${Math.min(utilizationRate, 100)}%` }}
-            />
-          </div>
-        </div>
+        <UtilizationBar
+          utilizationRate={utilizationRate}
+          isLoading={isLoading}
+          label={t`Utilization`}
+          dataTestId="stusds-utilization"
+        />
       </MotionVStack>
       {isConnectedAndEnabled && stats.maxDeposit !== undefined && (
         <MotionVStack gap={2} variants={positionAnimations} data-testid="max-deposit-container">

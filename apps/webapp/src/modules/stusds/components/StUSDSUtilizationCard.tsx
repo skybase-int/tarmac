@@ -1,15 +1,18 @@
 import { StatsCard } from '@/modules/ui/components/StatsCard';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
+import { UtilizationBar } from '@jetstreamgg/sky-widgets';
+import { useStUsdsCapacityData } from '@jetstreamgg/sky-hooks';
 import { Text } from '@/modules/layout/components/Typography';
 
 export function StUSDSUtilizationCard() {
   const { i18n } = useLingui();
+  const { data: capacityData, isLoading } = useStUsdsCapacityData();
 
-  // TODO: Replace with real stUSDS data when hooks are available
-  const mockUtilization = 87;
-  const isLoading = false;
-  const isHighUtilization = mockUtilization > 90;
+  const utilizationRate = capacityData?.utilizationRate ?? 0;
+
+  const utilizationColor =
+    utilizationRate > 90 ? 'text-error' : utilizationRate > 75 ? 'text-orange-400' : '';
 
   return (
     <StatsCard
@@ -17,25 +20,17 @@ export function StUSDSUtilizationCard() {
       title={i18n._(msg`Utilization`)}
       content={
         <div className="mt-2">
-          <div className="flex items-center gap-2">
-            <Text className={isHighUtilization ? 'text-error' : ''} variant="large">
-              {mockUtilization}%
+          <div className="mb-2 flex items-center gap-2">
+            <Text className={utilizationColor} variant="large">
+              {utilizationRate.toFixed(1)}%
             </Text>
           </div>
-          <div className="mt-2 w-full">
-            <div className="bg-secondary h-[5px] overflow-hidden rounded-full">
-              <div
-                className={`h-full transition-all duration-300 ${
-                  mockUtilization > 90
-                    ? 'bg-error'
-                    : mockUtilization > 75
-                      ? 'bg-orange-400'
-                      : 'bg-textSecondary'
-                }`}
-                style={{ width: `${Math.min(mockUtilization, 100)}%` }}
-              />
-            </div>
-          </div>
+          <UtilizationBar
+            utilizationRate={utilizationRate}
+            isLoading={isLoading}
+            showLabel={false}
+            barHeight="h-2"
+          />
         </div>
       }
     />
