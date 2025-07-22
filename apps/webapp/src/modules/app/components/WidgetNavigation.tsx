@@ -17,6 +17,7 @@ import { cn } from '@/lib/utils';
 import { Menu } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
+import { DualSwitcher } from '@/components/DualSwitcher';
 
 interface WidgetNavigationProps {
   widgetContent: WidgetContent;
@@ -33,8 +34,10 @@ export function WidgetNavigation({
 }: WidgetNavigationProps): JSX.Element {
   const { bpi } = useBreakpointIndex();
   const isMobile = bpi < BP.md;
+  const showDrawerMenu = bpi < BP.lg; // Show drawer menu on mobile and tablet
   const containerRef = useRef<HTMLDivElement>(null);
-  const widgetRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const [height, setHeight] = useState<number>(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const {
     selectedRewardContract,
@@ -65,15 +68,34 @@ export function WidgetNavigation({
     });
   };
 
+  useEffect(() => {
+    const containerElement = containerRef.current;
+    if (!containerElement) return;
+
+    const updateSize = () => {
+      setHeight(containerElement.offsetHeight);
+    };
+    updateSize();
+
+    // Create observer to watch for changes in card size
+    const observer = new ResizeObserver(updateSize);
+    observer.observe(containerElement);
+
+    // Cleanup observer on unmount
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   const contentMarginTop = isMobile ? 0 : 8;
   const contentPaddingTop = isMobile ? 0 : 2;
   const laExtraHeight = isMobile ? 61 : 100; // LA Wrapper and action button height
-  const baseTabContentClasses = 'md:h-full md:flex-1';
+  const baseTabContentClasses = 'lg:h-full md:flex-1';
   const tabContentClasses = isRewardsOverview
     ? `${baseTabContentClasses} pl-6 pt-2 pr-0 pb-0 md:p-3 md:pb-3 md:pr-0 md:pt-2 xl:p-4 xl:pb-4 xl:pr-0`
     : intent === Intent.BALANCES_INTENT
-      ? `${baseTabContentClasses} pl-6 pt-2 pr-0 pb-0 md:p-3 md:pb-0 md:pr-0 md:pt-2 xl:p-4 xl:pb-0 xl:pr-0`
-      : `${baseTabContentClasses} pl-6 pt-2 pr-0 md:p-3 md:pr-0 md:pt-2 xl:p-4 xl:pr-0`;
+      ? `${baseTabContentClasses} pl-6 pt-2 pb-4 pr-0 md:p-3 md:pb-0 md:pr-0 md:pt-2 xl:p-4 xl:pb-0 xl:pr-0`
+      : `${baseTabContentClasses} pl-6 pt-2 pb-4 pr-0 md:pb-0 md:p-3 md:pr-0 md:pt-2 xl:p-4 xl:pr-0`;
   // If it's mobile, use the widget navigation row height + the height of the webiste header
   // as we're using 100vh for the content style, if not, just use the height of the navigation row
   // If the tab list is hidden, don't count it's height
@@ -82,14 +104,16 @@ export function WidgetNavigation({
   const topOffset = headerHeight;
   const style = isMobile
     ? { height: `calc(100dvh - ${topOffset + (showLinkedAction ? laExtraHeight : 0)}px)` }
-    : undefined;
+    : showDrawerMenu
+      ? { height: `${height - 52}px` }
+      : undefined;
   const verticalTabGlowClasses =
     'before:-left-[11px] before:absolute before:top-1/2 before:-translate-y-1/2 before:h-[120%] before:w-px before:bg-nav-light-vertical';
 
   // Memoized scroll function
   const scrollToTop = useCallback(() => {
     if (isMobile) {
-      widgetRef.current?.scrollIntoView(true);
+      menuRef.current?.scrollIntoView();
     }
   }, [isMobile]);
 
@@ -99,10 +123,13 @@ export function WidgetNavigation({
   }, [intent, scrollToTop]);
 
   return (
-    <div className={`${isMobile ? 'w-full' : 'md:flex md:h-full'}`}>
-      {/* Mobile hamburger menu - placed at the top on mobile */}
-      {isMobile && !hideTabs && (
-        <div className="flex items-center p-4 pb-2 md:hidden">
+    <div ref={containerRef} className={`${showDrawerMenu ? 'w-full' : 'lg:flex lg:h-full'}`}>
+      {/* Mobile and tablet hamburger menu */}
+      {showDrawerMenu && !hideTabs && (
+        <div
+          className="flex items-center justify-between p-4 pb-2 md:pl-1.5 md:pr-1 md:pt-1 lg:hidden"
+          ref={menuRef}
+        >
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button
@@ -114,7 +141,10 @@ export function WidgetNavigation({
                 <Menu size={24} className="text-text" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="border-borderPrimary w-[280px] bg-black/90 p-0">
+            <SheetContent
+              side="left"
+              className="border-borderPrimary w-[280px] bg-black/10 p-0 backdrop-blur-xl"
+            >
               <div className="flex h-full flex-col">
                 <div className="p-6 pb-4">
                   <Heading>
@@ -156,30 +186,31 @@ export function WidgetNavigation({
                 </div>
               </div>
             </SheetContent>
+            {/* Only show the dual switcher in this row for mobile and tablet in portrait mode */}
+            <DualSwitcher className="flex lg:hidden" />
           </Sheet>
         </div>
       )}
 
       {/* Main content with tabs */}
       <Tabs
-        ref={containerRef}
-        className="w-full md:flex md:min-w-[424px] md:max-w-[512px] md:flex-row lg:min-w-[500px] lg:max-w-[500px]"
+        className="w-full lg:flex lg:flex-row"
         defaultValue={Intent.BALANCES_INTENT}
         onValueChange={handleWidgetChange}
         value={intent}
         asChild
         activationMode="manual"
       >
-        <motion.div layout transition={{ layout: { duration: 0 } }} className="md:flex md:w-full md:flex-row">
-          {/* Desktop vertical tabs, hidden on mobile */}
+        <motion.div layout transition={{ layout: { duration: 0 } }} className="lg:flex lg:w-full lg:flex-row">
+          {/* Desktop vertical tabs, hidden on mobile and tablet */}
           <div className="border-r-1 h-full justify-center">
             <TabsList
               className={cn(
                 'sticky top-0 z-20 flex w-full justify-around rounded-none rounded-t-3xl border-b backdrop-blur-2xl',
-                'md:scrollbar-thin md:static md:mt-3 md:h-fit md:max-h-[calc(100vh-120px)] md:w-auto md:flex-col md:justify-start md:gap-2 md:self-start md:overflow-y-auto md:rounded-none md:border-0 md:bg-transparent md:p-0 md:pr-[10px] md:backdrop-filter-none',
+                'lg:scrollbar-thin lg:static lg:h-fit lg:max-h-[calc(100vh-120px)] lg:w-auto lg:flex-col lg:justify-start lg:gap-2 lg:self-start lg:overflow-y-auto lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:pr-[10px] lg:backdrop-filter-none',
                 hideTabs && 'hidden',
-                isMobile && 'hidden', // Hide the horizontal tabs on mobile when using Sheet
-                'md:overflow-visible'
+                showDrawerMenu && 'hidden', // Hide the tabs on mobile and tablet when using Sheet
+                'lg:overflow-visible'
               )}
               data-testid="widget-navigation"
             >
@@ -196,14 +227,16 @@ export function WidgetNavigation({
                         className={cn(
                           'text-textSecondary data-[state=active]:text-text w-full px-1',
                           // Desktop vertical tabs - minimal styling
-                          'md:justify-start md:gap-3 md:bg-transparent md:px-4 md:py-2 md:hover:bg-transparent',
-                          'md:data-[state=active]:text-text md:data-[state=active]:bg-transparent',
+                          'lg:justify-start lg:gap-1.5 lg:bg-transparent lg:px-4 lg:py-2 lg:hover:bg-transparent',
+                          'lg:data-[state=active]:text-text lg:data-[state=active]:bg-transparent',
                           'disabled:cursor-not-allowed disabled:text-[rgba(198,194,255,0.4)]',
-                          // Keep the existing mobile styling
-                          'max-md:before:opacity-0',
-                          'max-md:disabled:before:opacity-0 max-md:disabled:hover:before:opacity-0',
-                          !isMobile && intent === widgetIntent && verticalTabGlowClasses,
-                          isMobile && intent === widgetIntent && 'before:opacity-100 hover:before:opacity-100'
+                          // Keep the existing mobile/tablet styling
+                          'max-lg:before:opacity-0',
+                          'max-lg:disabled:before:opacity-0 max-lg:disabled:hover:before:opacity-0',
+                          !showDrawerMenu && intent === widgetIntent && verticalTabGlowClasses,
+                          showDrawerMenu &&
+                            intent === widgetIntent &&
+                            'before:opacity-100 hover:before:opacity-100'
                         )}
                         disabled={options?.disabled || false}
                       >
@@ -214,7 +247,7 @@ export function WidgetNavigation({
                         {comingSoon && (
                           <Text
                             variant="small"
-                            className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 text-textSecondary absolute left-1/2 top-0 -mt-2 rounded-full px-1.5 py-0 md:static md:px-1.5 md:py-0.5 md:text-[10px]"
+                            className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 text-textSecondary absolute left-1/2 top-0 -mt-2 rounded-full px-1.5 py-0 lg:static lg:px-1.5 lg:py-0.5 lg:text-[10px]"
                           >
                             <Trans>Soon</Trans>
                           </Text>
@@ -223,14 +256,14 @@ export function WidgetNavigation({
                     </div>
                   ))}
                   {/* Add separator between groups (not after last group) */}
-                  {groupIndex < widgetContent.length - 1 && !isMobile && (
-                    <div className="md:border-b-1 hidden md:my-2 md:block md:h-px md:w-full" />
+                  {groupIndex < widgetContent.length - 1 && !showDrawerMenu && (
+                    <div className="lg:border-b-1 hidden lg:my-2 lg:block lg:h-px lg:w-full" />
                   )}
                 </React.Fragment>
               ))}
             </TabsList>
           </div>
-          <div className="md:flex md:min-w-[352px] md:max-w-[440px] md:flex-1 md:flex-col md:overflow-hidden lg:min-w-[416px] lg:max-w-[416px]">
+          <div className="md:min-w-[352px] md:max-w-[440px] lg:flex lg:min-w-[416px] lg:max-w-[416px] lg:flex-1 lg:flex-col lg:overflow-hidden">
             <LinkedActionWrapper />
             <AnimatePresence initial={false} mode="popLayout">
               {widgetContent.map(group =>
@@ -249,9 +282,8 @@ export function WidgetNavigation({
                           initial={AnimationLabels.initial}
                           animate={AnimationLabels.animate}
                           exit={AnimationLabels.exit}
-                          ref={widgetRef}
                           className={cn(
-                            'md:scrollbar-thin flex-1 overflow-y-auto pr-4 md:pr-0',
+                            'flex-1 overflow-y-auto pr-4 md:pr-0 lg:overflow-hidden',
                             isMobile
                               ? showLinkedAction
                                 ? 'scroll-mt-[148px]'
