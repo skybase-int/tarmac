@@ -1,6 +1,6 @@
 import * as React from 'react';
 import useEmblaCarousel, { type UseEmblaCarouselType } from 'embla-carousel-react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -258,6 +258,84 @@ function CarouselDots({ className, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
+function CarouselControls({ className, ...props }: React.ComponentProps<'div'>) {
+  const { api, selectedIndex, scrollTo, scrollPrev, scrollNext, canScrollPrev, canScrollNext } =
+    useCarousel();
+  const [count, setCount] = React.useState(0);
+
+  React.useEffect(() => {
+    if (!api) return;
+    setCount(api.scrollSnapList().length);
+  }, [api]);
+
+  const handleMouseEnter = () => {
+    if (!api) return;
+    const autoplay = api.plugins()?.autoplay;
+    if (autoplay && 'stop' in autoplay) {
+      (autoplay as any).stop();
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!api) return;
+    const autoplay = api.plugins()?.autoplay;
+    if (autoplay && 'reset' in autoplay) {
+      (autoplay as any).reset();
+    }
+  };
+
+  return (
+    <div
+      className={cn('flex items-center gap-2', className)}
+      data-slot="carousel-controls"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      {...props}
+    >
+      <button
+        type="button"
+        onClick={scrollPrev}
+        disabled={!canScrollPrev}
+        className={cn(
+          'text-white/60 transition-colors hover:text-white',
+          !canScrollPrev && 'cursor-not-allowed opacity-30'
+        )}
+        aria-label="Previous slide"
+      >
+        <ChevronLeft className="h-6 w-6" />
+      </button>
+
+      <div className="flex gap-2">
+        {Array.from({ length: count }).map((_, index) => (
+          <button
+            key={index}
+            type="button"
+            onClick={() => scrollTo(index)}
+            className={cn(
+              'h-2 w-2 rounded-full transition-all',
+              selectedIndex === index ? 'w-6 bg-white' : 'bg-white/30 hover:bg-white/60'
+            )}
+            aria-label={`Go to slide ${index + 1}`}
+          />
+        ))}
+      </div>
+
+      <button
+        type="button"
+        onClick={scrollNext}
+        disabled={!canScrollNext}
+        className={cn(
+          'text-white/60 transition-colors hover:text-white',
+          !canScrollNext && 'cursor-not-allowed opacity-30'
+        )}
+        aria-label="Next slide"
+      >
+        <ChevronRight className="h-6 w-6" />
+      </button>
+    </div>
+  );
+}
+
 export {
   type CarouselApi,
   Carousel,
@@ -265,5 +343,6 @@ export {
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
-  CarouselDots
+  CarouselDots,
+  CarouselControls
 };
