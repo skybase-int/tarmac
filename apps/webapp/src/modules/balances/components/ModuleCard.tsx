@@ -64,33 +64,31 @@ export const ModuleCard = ({
   const l2Chain = l2Chains.find(chain => chain.check);
 
   return (
-    <>
+    <Card
+      className={cn(
+        'relative flex h-full flex-col justify-between overflow-hidden bg-gradient-to-b p-3 pb-8 2xl:p-6',
+        className
+      )}
+    >
+      <CardTitle className="mb-5 text-left font-normal leading-8">{t`${title}`}</CardTitle>
+      <CardContent className="z-10 flex grow flex-col items-start justify-between p-0">
+        <div>
+          {subHeading}
+          {emphasisText}
+        </div>
+        <Button variant="light" className="mt-5" onClick={() => navigate(url)}>
+          {notAvailable ? t`View on Mainnet` : t`Go to ${l2Chain?.name || ''} ${module}`}
+        </Button>
+      </CardContent>
       {soon && (
         <Text
           variant="small"
-          className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 text-text absolute -top-3 right-2 z-10 rounded-full px-1.5 py-0 md:px-2 md:py-1"
+          className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 text-text 3xl:block top-6.5 absolute right-6 z-10 hidden rounded-full px-1.5 py-0 md:px-2 md:py-1"
         >
           {l2Chain ? <Trans>Soon on {l2Chain.name}</Trans> : <Trans>Coming Soon</Trans>}
         </Text>
       )}
-      <Card
-        className={cn(
-          'relative flex h-full flex-col justify-between overflow-hidden bg-gradient-to-b p-3 pb-8 lg:p-6',
-          className
-        )}
-      >
-        <CardTitle className="mb-5 text-left font-normal leading-8">{t`${title}`}</CardTitle>
-        <CardContent className="relative z-10 flex grow flex-col items-start justify-between p-0">
-          <div>
-            {subHeading}
-            {emphasisText}
-          </div>
-          <Button variant="light" className="mt-5" onClick={() => navigate(url)}>
-            {notAvailable ? t`View on Mainnet` : t`Go to ${l2Chain?.name || ''} ${module}`}
-          </Button>
-        </CardContent>
-        <Logo logoName={logoName} />
-      </Card>
-    </>
+      <Logo logoName={logoName} />
+    </Card>
   );
 };
