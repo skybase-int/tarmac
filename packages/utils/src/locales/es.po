@@ -49,8 +49,8 @@ msgstr ""
 msgid "(More rewards coming soon)"
 msgstr ""
 
-#. placeholder {0}: signStatus === 'signing' ? 'Signing...' : 'Agree and Sign'
-#: apps/webapp/src/modules/ui/components/TermsModal.tsx
+#. placeholder {0}: isLoading ? 'Processing...' : acceptButtonText
+#: apps/webapp/src/modules/ui/components/TermsDialog.tsx
 msgid "{0}"
 msgstr ""
 
@@ -114,6 +114,10 @@ msgstr ""
 
 #: apps/webapp/src/modules/rewards/components/history/RewardsCharts.tsx
 msgid "{chart}"
+msgstr ""
+
+#: apps/webapp/src/modules/ui/components/TermsDialog.tsx
+msgid "{declineButtonText}"
 msgstr ""
 
 #: apps/webapp/src/modules/app/components/WidgetNavigation.tsx
@@ -190,6 +194,14 @@ msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
 msgid "About Trade"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/ChatbotTermsModal.tsx
+msgid "Accept"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/ChatbotTermsModal.tsx
+msgid "Accepting..."
 msgstr ""
 
 #: apps/webapp/src/modules/auth/components/UnauthorizedPage.tsx
@@ -552,6 +564,10 @@ msgstr ""
 msgid "Bundled transactions: <0>Active</0>"
 msgstr ""
 
+#: apps/webapp/src/modules/chat/components/ChatbotTermsModal.tsx
+msgid "By clicking accept, you confirm agreement to the Chatbot Terms of Use."
+msgstr ""
+
 #: packages/widgets/src/widgets/TradeWidget/components/TradeConfigMenu.tsx
 msgid "By setting your slippage tolerance level, you control the degree of token price fluctuation that you will accept between the time you initiate a trade transaction and its execution on the blockchain."
 msgstr ""
@@ -596,6 +612,10 @@ msgstr ""
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "Changing position"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/ChatbotTermsModal.tsx
+msgid "Chatbot Terms of Service"
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/components/TradeInputs.tsx
@@ -1383,6 +1403,19 @@ msgstr ""
 msgid "Looks like you need USDS"
 msgstr ""
 
+#: apps/webapp/src/modules/chat/components/ChatWithTerms.tsx
+msgid ""
+"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n"
+"\n"
+"Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.\n"
+"\n"
+"Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.\n"
+"\n"
+"Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.\n"
+"\n"
+"At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga."
+msgstr ""
+
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Borrow.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
@@ -1659,6 +1692,14 @@ msgstr ""
 msgid "Please note that all security checks, user confirmations, and error handling are managed by your chosen wallet's delegate contract. As outlined in our <0>Terms of Use</0>, your use of a non-custodial digital wallet—including wallets supporting EIP-7702 and smart account functionality—is governed by the terms of service of your third-party wallet provider. We do not control or take responsibility for the security, functionality, or behavior of third-party wallets, including their handling of bundled transactions or delegate contracts. To ensure a secure and transparent experience, please ensure you are using a trusted and up-to-date wallet before proceeding."
 msgstr ""
 
+#: apps/webapp/src/modules/ui/components/TermsDialog.tsx
+msgid "Please scroll to the bottom and read the entire terms; the accept button will become enabled afterward."
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/ChatbotTermsModal.tsx
+msgid "Please scroll to the bottom and read the entire terms; the checkbox will become enabled afterward."
+msgstr ""
+
 #: packages/widgets/src/shared/components/ui/transaction/TransactionStatus.tsx
 #: packages/widgets/src/shared/components/ui/transaction/BatchTransactionStatus.tsx
 msgid "Please try again"
@@ -1669,7 +1710,7 @@ msgstr ""
 msgid "Please try the action again or reach out on Discord for assistance if the problem persists."
 msgstr ""
 
-#: apps/webapp/src/modules/ui/components/TermsModal.tsx
+#: apps/webapp/src/modules/ui/components/TermsDialog.tsx
 #: apps/webapp/src/modules/auth/components/UnauthorizedPage.tsx
 msgid "Please wait..."
 msgstr ""
@@ -1734,10 +1775,6 @@ msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
 msgid "Ready to upgrade and explore?"
-msgstr ""
-
-#: apps/webapp/src/modules/ui/components/TermsModal.tsx
-msgid "Reject"
 msgstr ""
 
 #. placeholder {0}: token.symbol
@@ -2325,6 +2362,10 @@ msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/OpenNewUrn.tsx
 msgid "Terms of Use."
+msgstr ""
+
+#: apps/webapp/src/modules/ui/components/TermsDialog.tsx
+msgid "Terms version: {termsVersion}"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/About.tsx
