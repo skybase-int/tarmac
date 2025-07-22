@@ -1483,9 +1483,11 @@ msgid "Max borrowable amount"
 msgstr ""
 
 #: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
+#: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
 msgid "Max deposit"
 msgstr ""
 
+#: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
 #: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
 msgid "Max withdrawable"
 msgstr ""
@@ -2332,7 +2334,7 @@ msgid "stUSDS allows you to earn a variable rate on your USDS by participating i
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/AboutStUsds.tsx
-msgid "stUSDS is a savings token for eligible users. When you supply USDS to the stUSDS module, you access the stUSDS Savings Rate and may receive stUSDS tokens. These stUSDS tokens serve as a digital record of your USDS interaction with the stUSDS module and any value accrued to your position."
+msgid "stUSDS is an ERC-4626 vault token that enables USDS holders to earn yield through Sky-backed lending activities. When you deposit USDS into the stUSDS vault, you receive stUSDS tokens representing your share of the vault. The value of your stUSDS increases over time as the vault earns yield from borrowers who use USDS liquidity, providing a variable rate return on your deposited USDS."
 msgstr ""
 
 #: packages/widgets/src/widgets/StUSDSWidget/index.tsx
@@ -2467,12 +2469,25 @@ msgstr ""
 msgid "Terms of Use."
 msgstr ""
 
+#: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
+msgid "The maximum amount of USDS you can deposit into the stUSDS vault. This limit is set by Sky Ecosystem Governance to manage risk and ensure protocol stability."
+msgstr ""
+
+#: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
+msgid "The maximum amount of USDS you can withdraw from your stUSDS position. This is limited by your current balance and the available liquidity in the vault."
+msgstr ""
+
 #: packages/widgets/src/widgets/SealModuleWidget/components/About.tsx
 msgid "The MKR and or SKY tokens you supply to the Seal Engine are sealed behind an exit fee"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 msgid "The multicall transaction was successful"
+msgstr ""
+
+#: apps/webapp/src/modules/stusds/components/StUSDSUtilizationCard.tsx
+#: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
+msgid "The percentage of vault capacity currently in use. High utilization may limit deposits and withdrawals. When utilization exceeds 90%, the vault approaches its operational limits."
 msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
@@ -2953,6 +2968,11 @@ msgstr ""
 
 #: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
 msgid "Vault has reached its capacity limit"
+msgstr ""
+
+#: apps/webapp/src/modules/stusds/components/StUSDSUtilizationCard.tsx
+#: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
+msgid "Vault Utilization"
 msgstr ""
 
 #: apps/webapp/src/components/ChatSwitcher.tsx
