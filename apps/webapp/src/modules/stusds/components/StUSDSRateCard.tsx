@@ -3,7 +3,7 @@ import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Text } from '@/modules/layout/components/Typography';
 
-export function StUSDSVariableRateCard() {
+export function StUSDSRateCard() {
   const { i18n } = useLingui();
 
   // TODO: Replace with real stUSDS data when hooks are available
@@ -14,13 +14,10 @@ export function StUSDSVariableRateCard() {
   return (
     <StatsCard
       isLoading={isLoading}
-      title={i18n._(msg`Variable Rate`)}
+      title={i18n._(msg`Rate`)}
       content={
         <div className="mt-2">
           <Text variant="large">{`${mockYieldMin}% – ${mockYieldMax}%`}</Text>
-          <Text className="text-muted-foreground" variant="small">
-            (variable)
-          </Text>
         </div>
       }
     />
