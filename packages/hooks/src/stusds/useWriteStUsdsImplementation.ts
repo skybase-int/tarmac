@@ -1,5 +1,5 @@
 import { createUseWriteContract } from 'wagmi/codegen';
-import stUsdsImplementationAbi from '../abis/stUsdsImplementationAbi.json';
+import stUsdsImplementationAbi from '../abis/stUsdsImplementationAbi';
 import { stUsdsAddress } from '../generated';
 import { Abi } from 'viem';
 
