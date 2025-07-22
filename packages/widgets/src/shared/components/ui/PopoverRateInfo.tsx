@@ -212,7 +212,17 @@ export const PopoverRateInfo = ({
         <PopoverClose onClick={e => e.stopPropagation()} className="absolute right-4 top-4 z-10">
           <Close className="h-5 w-5 cursor-pointer text-white" />
         </PopoverClose>
-        <div className="scrollbar-thin mt-2 max-h-[calc(var(--radix-popover-content-available-height)-64px)] overflow-y-auto">
+        <div
+          className="scrollbar-thin mt-2 max-h-[calc(var(--radix-popover-content-available-height)-64px)] overflow-y-auto"
+          // The `onWheel` and `onTouchMove` stopPropagation handlers allow to scroll through the popover
+          // content when rendered on top of another focus capturing elements, like modals.
+          onWheel={e => {
+            e.stopPropagation();
+          }}
+          onTouchMove={e => {
+            e.stopPropagation();
+          }}
+        >
           {content[type].description}
         </div>
         <PopoverArrow />
