@@ -3,6 +3,8 @@ import { HStack } from './layout/HStack';
 import { Text } from './Typography';
 import { Skeleton } from '@widgets/components/ui/skeleton';
 import { cn } from '@widgets/lib/utils';
+import { PopoverInfo } from './PopoverInfo';
+import { ReactNode } from 'react';
 
 export interface UtilizationBarProps {
   utilizationRate: number;
@@ -13,6 +15,8 @@ export interface UtilizationBarProps {
   className?: string;
   barHeight?: string;
   dataTestId?: string;
+  popoverTitle?: string;
+  popoverDescription?: ReactNode;
 }
 
 export const UtilizationBar = ({
@@ -23,7 +27,9 @@ export const UtilizationBar = ({
   label,
   className,
   barHeight = 'h-[5px]',
-  dataTestId = 'utilization-bar'
+  dataTestId = 'utilization-bar',
+  popoverTitle,
+  popoverDescription
 }: UtilizationBarProps) => {
   const isHighUtilization = utilizationRate > 90;
   const utilizationColor =
@@ -36,7 +42,18 @@ export const UtilizationBar = ({
     <div className={cn('w-full', className)} data-testid={dataTestId}>
       {showLabel && (
         <HStack className="mb-2 justify-between">
-          {label && <Text className="text-textSecondary text-sm leading-4">{label}</Text>}
+          <HStack gap={1} className="items-center">
+            {label && <Text className="text-textSecondary text-sm leading-4">{label}</Text>}
+            {popoverTitle && popoverDescription && (
+              <PopoverInfo
+                title={popoverTitle}
+                description={popoverDescription}
+                iconClassName="text-textSecondary hover:text-white transition-colors"
+                width={14}
+                height={14}
+              />
+            )}
+          </HStack>
           {isLoading ? (
             <Skeleton className="bg-textSecondary h-6 w-10" />
           ) : (

@@ -15,7 +15,7 @@ export function StUSDSBalanceDetails() {
         isLoading={isLoading}
         token={usdsToken}
         error={error}
-        label={t`stUSDS module balance`}
+        label={t`Supplied balance`}
         dataTestId="stusds-supplied-balance-details"
       />
     );

@@ -71,10 +71,10 @@ describe('StUSDS widget tests', () => {
     expect(connectButton).toBeTruthy();
   });
 
-  it('shows "Supplied to stUSDS" balance label', async () => {
+  it('shows "Supplied balance" balance label', async () => {
     renderWithWagmiWrapper(<StUSDSWidget onConnect={() => true} />);
 
-    const balanceLabel = await screen.findByText('Supplied to stUSDS');
+    const balanceLabel = await screen.findByText('Supplied balance');
     expect(balanceLabel).toBeTruthy();
   });
 

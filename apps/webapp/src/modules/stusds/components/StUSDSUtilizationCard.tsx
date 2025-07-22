@@ -1,7 +1,7 @@
 import { StatsCard } from '@/modules/ui/components/StatsCard';
-import { msg } from '@lingui/core/macro';
+import { msg, t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
-import { UtilizationBar } from '@jetstreamgg/sky-widgets';
+import { UtilizationBar, PopoverInfo } from '@jetstreamgg/sky-widgets';
 import { useStUsdsCapacityData } from '@jetstreamgg/sky-hooks';
 import { Text } from '@/modules/layout/components/Typography';
 
@@ -17,7 +17,18 @@ export function StUSDSUtilizationCard() {
   return (
     <StatsCard
       isLoading={isLoading}
-      title={i18n._(msg`Utilization`)}
+      title={
+        <div className="flex items-center gap-1">
+          <span>{i18n._(msg`Utilization`)}</span>
+          <PopoverInfo
+            title={t`Vault Utilization`}
+            description={t`The percentage of vault capacity currently in use. High utilization may limit deposits and withdrawals. When utilization exceeds 90%, the vault approaches its operational limits.`}
+            iconClassName="text-textSecondary hover:text-white transition-colors"
+            width={14}
+            height={14}
+          />
+        </div>
+      }
       content={
         <div className="mt-2">
           <div className="mb-2 flex items-center gap-2">

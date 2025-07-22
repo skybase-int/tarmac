@@ -2340,7 +2340,7 @@ msgid "stUSDS Module"
 msgstr ""
 
 #: apps/webapp/src/modules/stusds/components/StUSDSDetails.tsx
-msgid "stUSDS Module info"
+msgid "stUSDS module info"
 msgstr ""
 
 #: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCardCore.tsx
@@ -2374,16 +2374,14 @@ msgstr ""
 msgid "Successfully withdrawn"
 msgstr ""
 
+#: apps/webapp/src/modules/stusds/components/StUSDSBalanceDetails.tsx
+#: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
 #: packages/widgets/src/widgets/RewardsWidget/components/SelectedRewardsCard.tsx
 msgid "Supplied balance"
 msgstr ""
 
 #: packages/widgets/src/widgets/BalancesWidget/components/BalancesContent.tsx
 msgid "Supplied Funds"
-msgstr ""
-
-#: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
-msgid "Supplied to stUSDS"
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeRewardsOverview.tsx

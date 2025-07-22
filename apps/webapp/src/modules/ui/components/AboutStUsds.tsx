@@ -3,20 +3,17 @@ import { Trans } from '@lingui/react/macro';
 import { ExternalLinkIcon } from 'lucide-react';
 import { ExternalLink } from '@/modules/layout/components/ExternalLink';
 import { Heading, Text } from '@/modules/layout/components/Typography';
-import { getEtherscanLink, isL2ChainId } from '@jetstreamgg/sky-utils';
+import { getEtherscanLink } from '@jetstreamgg/sky-utils';
 import { useChainId } from 'wagmi';
-import { sUsdsAddress, sUsdsL2Address } from '@jetstreamgg/sky-hooks';
+import { stUsdsAddress } from '@jetstreamgg/sky-hooks';
 import { GradientShapeCard } from './GradientShapeCard';
 
 export const AboutStUsds = () => {
   const chainId = useChainId();
 
-  // TODO: Replace with stUsdsAddress and stUsdsL2Address when available
   const stUsdsEtherscanLink = getEtherscanLink(
     chainId,
-    isL2ChainId(chainId)
-      ? sUsdsL2Address[chainId as keyof typeof sUsdsL2Address]
-      : sUsdsAddress[chainId as keyof typeof sUsdsAddress],
+    stUsdsAddress[chainId as keyof typeof stUsdsAddress],
     'address'
   );
 
@@ -33,10 +30,11 @@ export const AboutStUsds = () => {
         </Heading>
         <Text variant="small">
           <Trans>
-            stUSDS is a savings token for eligible users. When you supply USDS to the stUSDS module, you
-            access the stUSDS Savings Rate and may receive stUSDS tokens. These stUSDS tokens serve as a
-            digital record of your USDS interaction with the stUSDS module and any value accrued to your
-            position.
+            stUSDS is an ERC-4626 vault token that enables USDS holders to earn yield through Sky-backed
+            lending activities. When you deposit USDS into the stUSDS vault, you receive stUSDS tokens
+            representing your share of the vault. The value of your stUSDS increases over time as the vault
+            earns yield from borrowers who use USDS liquidity, providing a variable rate return on your
+            deposited USDS.
           </Trans>
         </Text>
       </div>
