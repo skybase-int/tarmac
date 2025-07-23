@@ -35,7 +35,7 @@ describe('Stake Module Multicall tests', async () => {
   const URN_INDEX = 0n;
   const SKY_TO_LOCK = parseEther('480000');
   const USDS_TO_DRAW = parseEther('10000');
-  const SELECTED_DELEGATE = '0x7f362498964E030F16D8C4D43EdF4ea70Bb4269B';
+  const SELECTED_DELEGATE = '0x173a1c04b79ed9266721c1154daa29addc0b9558'; // BLUE
   const LOADING_TIMEOUT = 15000;
   const ILK_NAME = getIlkName(2);
 
@@ -199,7 +199,7 @@ describe('Stake Module Multicall tests', async () => {
 
     await waitFor(
       () => {
-        expect(resultUrnSelectedDelegate.current.data).toBe(SELECTED_DELEGATE);
+        expect(resultUrnSelectedDelegate.current.data?.toLowerCase()).toBe(SELECTED_DELEGATE.toLowerCase());
         return;
       },
       { timeout: 5000 }
