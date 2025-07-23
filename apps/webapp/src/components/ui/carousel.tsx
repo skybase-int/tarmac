@@ -108,6 +108,7 @@ function Carousel({
 
     return () => {
       api?.off('select', onSelect);
+      api?.off('reInit', onSelect);
     };
   }, [api, onSelect]);
 
@@ -271,16 +272,16 @@ function CarouselControls({ className, ...props }: React.ComponentProps<'div'>) 
   const handleMouseEnter = () => {
     if (!api) return;
     const autoplay = api.plugins()?.autoplay;
-    if (autoplay && 'stop' in autoplay) {
-      (autoplay as any).stop();
+    if (autoplay) {
+      autoplay.stop();
     }
   };
 
   const handleMouseLeave = () => {
     if (!api) return;
     const autoplay = api.plugins()?.autoplay;
-    if (autoplay && 'reset' in autoplay) {
-      (autoplay as any).reset();
+    if (autoplay) {
+      autoplay.reset();
     }
   };
 
