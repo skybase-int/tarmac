@@ -74,7 +74,7 @@ export const ModuleCard = ({
       <CardContent className="z-10 flex grow flex-col items-start justify-between p-0">
         <div>
           {subHeading}
-          {emphasisText}
+          <div className="mt-2">{emphasisText}</div>
         </div>
         <Button variant="light" className="mt-5" onClick={() => navigate(url)}>
           {notAvailable ? t`View on Mainnet` : t`Go to ${l2Chain?.name || ''} ${module}`}
