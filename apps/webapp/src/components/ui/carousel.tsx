@@ -40,106 +40,103 @@ function useCarousel() {
   return context;
 }
 
-function Carousel({
-  orientation = 'horizontal',
-  opts,
-  setApi,
-  plugins,
-  className,
-  children,
-  ...props
-}: React.ComponentProps<'div'> & CarouselProps) {
-  const [carouselRef, api] = useEmblaCarousel(
-    {
-      ...opts,
-      axis: orientation === 'horizontal' ? 'x' : 'y'
-    },
-    plugins
-  );
-  const [canScrollPrev, setCanScrollPrev] = React.useState(false);
-  const [canScrollNext, setCanScrollNext] = React.useState(false);
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
+const Carousel = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'> & CarouselProps>(
+  ({ orientation = 'horizontal', opts, setApi, plugins, className, children, ...props }, ref) => {
+    const [carouselRef, api] = useEmblaCarousel(
+      {
+        ...opts,
+        axis: orientation === 'horizontal' ? 'x' : 'y'
+      },
+      plugins
+    );
+    const [canScrollPrev, setCanScrollPrev] = React.useState(false);
+    const [canScrollNext, setCanScrollNext] = React.useState(false);
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
 
-  const onSelect = React.useCallback((api: CarouselApi) => {
-    if (!api) return;
-    setCanScrollPrev(api.canScrollPrev());
-    setCanScrollNext(api.canScrollNext());
-    setSelectedIndex(api.selectedScrollSnap());
-  }, []);
+    const onSelect = React.useCallback((api: CarouselApi) => {
+      if (!api) return;
+      setCanScrollPrev(api.canScrollPrev());
+      setCanScrollNext(api.canScrollNext());
+      setSelectedIndex(api.selectedScrollSnap());
+    }, []);
 
-  const scrollPrev = React.useCallback(() => {
-    api?.scrollPrev();
-  }, [api]);
+    const scrollPrev = React.useCallback(() => {
+      api?.scrollPrev();
+    }, [api]);
 
-  const scrollNext = React.useCallback(() => {
-    api?.scrollNext();
-  }, [api]);
+    const scrollNext = React.useCallback(() => {
+      api?.scrollNext();
+    }, [api]);
 
-  const scrollTo = React.useCallback(
-    (index: number) => {
-      api?.scrollTo(index);
-    },
-    [api]
-  );
+    const scrollTo = React.useCallback(
+      (index: number) => {
+        api?.scrollTo(index);
+      },
+      [api]
+    );
 
-  const handleKeyDown = React.useCallback(
-    (event: React.KeyboardEvent<HTMLDivElement>) => {
-      if (event.key === 'ArrowLeft') {
-        event.preventDefault();
-        scrollPrev();
-      } else if (event.key === 'ArrowRight') {
-        event.preventDefault();
-        scrollNext();
-      }
-    },
-    [scrollPrev, scrollNext]
-  );
+    const handleKeyDown = React.useCallback(
+      (event: React.KeyboardEvent<HTMLDivElement>) => {
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          scrollPrev();
+        } else if (event.key === 'ArrowRight') {
+          event.preventDefault();
+          scrollNext();
+        }
+      },
+      [scrollPrev, scrollNext]
+    );
 
-  React.useEffect(() => {
-    if (!api || !setApi) return;
-    setApi(api);
-  }, [api, setApi]);
+    React.useEffect(() => {
+      if (!api || !setApi) return;
+      setApi(api);
+    }, [api, setApi]);
 
-  React.useEffect(() => {
-    if (!api) return;
-    onSelect(api);
-    api.on('reInit', onSelect);
-    api.on('select', onSelect);
+    React.useEffect(() => {
+      if (!api) return;
+      onSelect(api);
+      api.on('reInit', onSelect);
+      api.on('select', onSelect);
 
-    return () => {
-      api?.off('select', onSelect);
-      api?.off('reInit', onSelect);
-    };
-  }, [api, onSelect]);
+      return () => {
+        api?.off('select', onSelect);
+        api?.off('reInit', onSelect);
+      };
+    }, [api, onSelect]);
 
-  return (
-    <CarouselContext.Provider
-      value={{
-        carouselRef,
-        api: api,
-        opts,
-        orientation: orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal'),
-        scrollPrev,
-        scrollNext,
-        canScrollPrev,
-        canScrollNext,
-        selectedIndex,
-        scrollTo
-      }}
-    >
-      <div
-        onKeyDownCapture={handleKeyDown}
-        className={cn('relative', className)}
-        role="region"
-        aria-roledescription="carousel"
-        data-slot="carousel"
-        {...props}
+    return (
+      <CarouselContext.Provider
+        value={{
+          carouselRef,
+          api: api,
+          opts,
+          orientation: orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal'),
+          scrollPrev,
+          scrollNext,
+          canScrollPrev,
+          canScrollNext,
+          selectedIndex,
+          scrollTo
+        }}
       >
-        {children}
-      </div>
-    </CarouselContext.Provider>
-  );
-}
+        <div
+          ref={ref}
+          onKeyDownCapture={handleKeyDown}
+          className={cn('relative', className)}
+          role="region"
+          aria-roledescription="carousel"
+          data-slot="carousel"
+          {...props}
+        >
+          {children}
+        </div>
+      </CarouselContext.Provider>
+    );
+  }
+);
+
+Carousel.displayName = 'Carousel';
 
 function CarouselContent({ className, ...props }: React.ComponentProps<'div'>) {
   const { carouselRef, orientation } = useCarousel();
@@ -269,30 +266,8 @@ function CarouselControls({ className, ...props }: React.ComponentProps<'div'>) 
     setCount(api.scrollSnapList().length);
   }, [api]);
 
-  const handleMouseEnter = () => {
-    if (!api) return;
-    const autoplay = api.plugins()?.autoplay;
-    if (autoplay) {
-      autoplay.stop();
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (!api) return;
-    const autoplay = api.plugins()?.autoplay;
-    if (autoplay) {
-      autoplay.reset();
-    }
-  };
-
   return (
-    <div
-      className={cn('flex items-center gap-2', className)}
-      data-slot="carousel-controls"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      {...props}
-    >
+    <div className={cn('flex items-center gap-2', className)} data-slot="carousel-controls" {...props}>
       <button
         type="button"
         onClick={scrollPrev}

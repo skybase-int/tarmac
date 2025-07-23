@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { Carousel, CarouselContent, CarouselItem, CarouselControls } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import Fade from 'embla-carousel-fade';
@@ -14,11 +15,22 @@ export function BalancesModuleShowcase() {
 
   const { bpi } = useBreakpointIndex();
   const isMobileOrTablet = bpi < BP['2xl'];
+  // Use a ref to tell the carousel what will be the root of the mouse events
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   return (
     <Carousel
+      ref={carouselRef}
       opts={{ loop: true, watchDrag: isMobileOrTablet }}
-      plugins={[Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: true }), Fade()]}
+      plugins={[
+        Autoplay({
+          delay: 5000,
+          stopOnInteraction: false,
+          stopOnMouseEnter: true,
+          rootNode: emblaRoot => carouselRef.current || emblaRoot
+        }),
+        Fade()
+      ]}
       className="relative"
     >
       <CarouselContent>
@@ -33,6 +45,9 @@ export function BalancesModuleShowcase() {
           </CarouselItem>
         )}
         <CarouselItem>
+          <StakingRewardsCard />
+        </CarouselItem>
+        <CarouselItem>
           <UpgradeCard />
         </CarouselItem>
         {!isRestrictedMiCa && (
@@ -40,9 +55,6 @@ export function BalancesModuleShowcase() {
             <TradeCard />
           </CarouselItem>
         )}
-        <CarouselItem>
-          <StakingRewardsCard />
-        </CarouselItem>
       </CarouselContent>
       <CarouselControls className="absolute bottom-1 left-1/2 z-10 -translate-x-1/2 2xl:bottom-4" />
     </Carousel>
