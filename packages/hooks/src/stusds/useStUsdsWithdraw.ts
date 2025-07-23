@@ -59,7 +59,7 @@ export function useStUsdsWithdraw({
     address: stUsdsAddress[chainId as keyof typeof stUsdsAddress],
     abi: stUsdsImplementationAbi as Abi,
     functionName: 'withdraw',
-    args: [withdrawAmount, connectedAddress!, connectedAddress!],
+    args: [withdrawAmount, connectedAddress!, connectedAddress!] as const,
     chainId,
     gas,
     enabled,

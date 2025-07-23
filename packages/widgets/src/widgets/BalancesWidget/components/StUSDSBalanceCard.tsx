@@ -15,12 +15,6 @@ export const StUSDSBalanceCard = ({ url, onExternalLinkClicked, loading }: CardP
   const userSuppliedUsds = stUsdsData?.userSuppliedUsds || 0n;
   const moduleRate = stUsdsData?.moduleRate || 0n;
 
-  // Debug logging
-  if (moduleRate > 0n) {
-    console.log('stUSDS moduleRate (ysr):', moduleRate.toString());
-    console.log('stUSDS APY:', formatYsrAsApy(moduleRate));
-  }
-
   return (
     <InteractiveStatsCard
       title={t`USDS supplied to stUSDS`}

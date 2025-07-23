@@ -26,7 +26,7 @@ export function calculateApyFromYsr(ysr: bigint): number {
   try {
     const apy = (Math.pow(1 + ratePerSecond, secondsInYear) - 1) * 100;
     // Safeguard against unrealistic values
-    if (!isFinite(apy) || apy > 1000) {
+    if (!Number.isFinite(apy) || apy > 1000) {
       // Fallback to linear approximation for extreme values
       return ratePerSecond * secondsInYear * 100;
     }

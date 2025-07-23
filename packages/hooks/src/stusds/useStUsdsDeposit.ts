@@ -23,32 +23,18 @@ export function useStUsdsDeposit({
   // Only enabled if basic conditions are met (allowance check handled by widget)
   const enabled = isConnected && !!amount && amount !== 0n && activeTabEnabled && !!connectedAddress;
 
-  // Use separate calls for deposit with and without referral due to TypeScript overload issues
-  if (referral && referral > 0) {
-    return useWriteContractFlow({
-      address: stUsdsAddress[chainId as keyof typeof stUsdsAddress],
-      abi: stUsdsImplementationAbi as Abi,
-      functionName: 'deposit',
-      args: [amount, connectedAddress!, referral] as const,
-      chainId,
-      gas,
-      enabled,
-      onSuccess,
-      onError,
-      onStart
-    });
-  } else {
-    return useWriteContractFlow({
-      address: stUsdsAddress[chainId as keyof typeof stUsdsAddress],
-      abi: stUsdsImplementationAbi as Abi,
-      functionName: 'deposit',
-      args: [amount, connectedAddress!] as const,
-      chainId,
-      gas,
-      enabled,
-      onSuccess,
-      onError,
-      onStart
-    });
-  }
+  return useWriteContractFlow({
+    address: stUsdsAddress[chainId as keyof typeof stUsdsAddress],
+    abi: stUsdsImplementationAbi as Abi,
+    functionName: 'deposit',
+    args: connectedAddress
+      ? ([amount, connectedAddress, ...(referral > 0 ? [referral] : [])] as const)
+      : undefined,
+    chainId,
+    gas,
+    enabled,
+    onSuccess,
+    onError,
+    onStart
+  });
 }
