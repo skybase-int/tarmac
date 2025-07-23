@@ -1820,6 +1820,7 @@ msgstr ""
 msgid "Processing transaction"
 msgstr ""
 
+#: apps/webapp/src/modules/stusds/components/StUSDSRateCard.tsx
 #: apps/webapp/src/modules/stake/components/StakeRewardsOverview.tsx
 #: apps/webapp/src/modules/rewards/components/RewardsTokenInfo.tsx
 #: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSSupplyWithdraw.tsx
@@ -2342,7 +2343,7 @@ msgid "stUSDS"
 msgstr ""
 
 #: apps/webapp/src/modules/layout/components/ConnectCard.tsx
-msgid "stUSDS allows you to earn a variable rate on your USDS by participating in SKY-backed borrowing. The rate fluctuates based on borrowing demand, offering higher returns than the standard Sky Savings Rate. Note that withdrawals may be delayed during periods of high utilization. stUSDS is only available on Ethereum mainnet."
+msgid "stUSDS allows you to earn a rate on your USDS by participating in SKY-backed borrowing. The rate fluctuates based on borrowing demand, offering higher returns than the standard Sky Savings Rate. Note that withdrawals may be delayed during periods of high utilization. stUSDS is only available on Ethereum mainnet."
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/AboutStUsds.tsx
@@ -2961,6 +2962,10 @@ msgstr ""
 msgid "USDS supplied to Rewards"
 msgstr ""
 
+#: packages/widgets/src/widgets/BalancesWidget/components/StUSDSBalanceCard.tsx
+msgid "USDS supplied to stUSDS"
+msgstr ""
+
 #: apps/webapp/src/modules/stusds/components/StUSDSUtilizationCard.tsx
 #: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
 msgid "Utilization"
@@ -2968,10 +2973,6 @@ msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeHistory.tsx
 msgid "Value"
-msgstr ""
-
-#: apps/webapp/src/modules/stusds/components/StUSDSVariableRateCard.tsx
-msgid "Variable Rate"
 msgstr ""
 
 #: packages/widgets/src/widgets/StUSDSWidget/components/StUSDSStatsCard.tsx
@@ -3381,7 +3382,7 @@ msgid "You will supply your {symbol} to the Sky Token Rewards module."
 msgstr ""
 
 #: packages/widgets/src/widgets/StUSDSWidget/lib/constants.ts
-msgid "You will supply your {symbol} to the stUSDS module to earn a variable rate through SKY-backed borrowing."
+msgid "You will supply your {symbol} to the stUSDS module to earn a rate through SKY-backed borrowing."
 msgstr ""
 
 #. placeholder {0}: originToken.symbol
