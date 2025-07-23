@@ -154,7 +154,7 @@ describe('Savings - Supply and withdraw', async () => {
     await waitFor(
       () => {
         expect(resultInitialBalance.current.data?.formatted).toBeDefined();
-        expect(Number(resultInitialBalance.current.data?.formatted)).toBeGreaterThanOrEqual(10);
+        expect(Number(resultInitialBalance.current.data?.formatted)).toBeGreaterThanOrEqual(20);
         initialBalance = resultInitialBalance.current.data?.formatted ?? '0';
         return;
       },
@@ -188,7 +188,7 @@ describe('Savings - Supply and withdraw', async () => {
     const { result: resultBatchSupply } = renderHook(
       () =>
         useBatchSavingsSupply({
-          amount: parseEther('10'),
+          amount: parseEther('20'),
           enabled: true,
           gas: GAS
         }),
@@ -212,7 +212,7 @@ describe('Savings - Supply and withdraw', async () => {
     );
 
     // The user should have less tokens after supply
-    const expectedBalanceAfterSupply = (Number(initialBalance) - 10).toString();
+    const expectedBalanceAfterSupply = (Number(initialBalance) - 20).toString();
     await waitFor(
       () => {
         expect(resultBalanceAfterSupply.current.data?.formatted).toEqual(expectedBalanceAfterSupply);
