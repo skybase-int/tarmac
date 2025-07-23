@@ -26,11 +26,13 @@ export const ChatbotTermsModal: React.FC<ChatbotTermsModalProps> = ({
   error = null
 }) => {
   const [isChecked, setIsChecked] = useState(false);
+  const [hasScrolledToEnd, setHasScrolledToEnd] = useState(false);
 
   // Reset checkbox when modal opens
   useEffect(() => {
     if (isOpen) {
       setIsChecked(false);
+      setHasScrolledToEnd(false);
     }
   }, [isOpen]);
 
@@ -44,21 +46,39 @@ export const ChatbotTermsModal: React.FC<ChatbotTermsModalProps> = ({
     setIsChecked(checkedState === true);
   };
 
+  // Compute button text based on state
+  const getButtonText = () => {
+    if (isLoading) return t`Accepting...`;
+    if (!hasScrolledToEnd) return t`Scroll down ↓`;
+    if (!isChecked) return t`Check to continue`;
+    return t`Accept`;
+  };
+
   // TODO: Tbd if we need this checkbox and what the label should be
-  const checkboxContent = (hasScrolledToEnd: boolean) => (
-    <div className="flex items-center sm:my-4">
-      <Checkbox
-        id="chatbotTermsCheckbox"
-        disabled={!hasScrolledToEnd}
-        checked={isChecked}
-        onCheckedChange={handleCheckboxChange}
-        className="mr-2"
-      />
-      <label htmlFor="chatbotTermsCheckbox" className="text-text ml-2 text-sm leading-none md:leading-tight">
-        <Trans>By clicking accept, you confirm agreement to the Chatbot Terms of Use.</Trans>
-      </label>
-    </div>
-  );
+  const checkboxContent = (scrolledToEnd: boolean) => {
+    // Update local state when scroll status changes
+    if (scrolledToEnd !== hasScrolledToEnd) {
+      setHasScrolledToEnd(scrolledToEnd);
+    }
+
+    return (
+      <div className="flex items-center sm:my-4">
+        <Checkbox
+          id="chatbotTermsCheckbox"
+          disabled={!scrolledToEnd}
+          checked={isChecked}
+          onCheckedChange={handleCheckboxChange}
+          className="mr-2"
+        />
+        <label
+          htmlFor="chatbotTermsCheckbox"
+          className="text-text ml-2 text-sm leading-none md:leading-tight"
+        >
+          <Trans>By clicking accept, you confirm agreement to the Chatbot Terms of Use.</Trans>
+        </label>
+      </div>
+    );
+  };
 
   return (
     <TermsDialog
@@ -71,7 +91,7 @@ export const ChatbotTermsModal: React.FC<ChatbotTermsModalProps> = ({
       isLoading={isLoading}
       onAccept={onAccept}
       onDecline={onDecline}
-      acceptButtonText={isLoading ? t`Accepting...` : t`Accept`}
+      acceptButtonText={getButtonText()}
       acceptButtonDisabled={!isChecked}
       additionalContent={checkboxContent}
       showScrollInstruction={true}

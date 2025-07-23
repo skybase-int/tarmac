@@ -18,6 +18,7 @@ export function TermsModal() {
   const { isCheckingTerms, setHasAcceptedTerms } = useConnectedContext();
   const [isChecked, setIsChecked] = useState(false);
   const [signStatus, setSignStatus] = useState<'idle' | 'loading' | 'signing' | 'error'>('idle');
+  const [hasScrolledToEnd, setHasScrolledToEnd] = useState(false);
   const { address, chainId } = useAccount();
   const { disconnect } = useDisconnect();
 
@@ -77,6 +78,7 @@ export function TermsModal() {
     if (!open) {
       setSignStatus('idle');
       setIsChecked(false);
+      setHasScrolledToEnd(false);
       closeModal();
     }
   };
@@ -97,20 +99,35 @@ export function TermsModal() {
 
   const termsContent = <TermsMarkdownRenderer markdown={termsMarkdown} />;
 
-  const checkboxContent = (hasScrolledToEnd: boolean) => (
-    <div className="flex items-center sm:my-4">
-      <Checkbox
-        id="termsCheckbox"
-        disabled={!hasScrolledToEnd}
-        checked={isChecked}
-        onCheckedChange={handleCheckboxChange}
-        className="mr-2"
-      />
-      <label htmlFor="termsCheckbox" className="text-text ml-2 text-sm leading-none md:leading-tight">
-        {import.meta.env.VITE_TERMS_CHECKBOX_TEXT}
-      </label>
-    </div>
-  );
+  // Compute button text based on state
+  const getButtonText = () => {
+    if (signStatus === 'signing') return 'Signing...';
+    if (!hasScrolledToEnd) return 'Scroll down ↓';
+    if (!isChecked) return 'Check to continue';
+    return 'Agree and Sign';
+  };
+
+  const checkboxContent = (scrolledToEnd: boolean) => {
+    // Update local state when scroll status changes
+    if (scrolledToEnd !== hasScrolledToEnd) {
+      setHasScrolledToEnd(scrolledToEnd);
+    }
+
+    return (
+      <div className="flex items-center sm:my-4">
+        <Checkbox
+          id="termsCheckbox"
+          disabled={!scrolledToEnd}
+          checked={isChecked}
+          onCheckedChange={handleCheckboxChange}
+          className="mr-2"
+        />
+        <label htmlFor="termsCheckbox" className="text-text ml-2 text-sm leading-none md:leading-tight">
+          {import.meta.env.VITE_TERMS_CHECKBOX_TEXT}
+        </label>
+      </div>
+    );
+  };
 
   const errorContent = signStatus === 'error' && (
     <Text className="text-error mb-4 text-center text-sm leading-none md:leading-tight">
@@ -149,7 +166,7 @@ export function TermsModal() {
       isLoading={signStatus === 'signing'}
       onAccept={handleAgreeAndSign}
       onDecline={handleReject}
-      acceptButtonText={signStatus === 'signing' ? 'Signing...' : 'Agree and Sign'}
+      acceptButtonText={getButtonText()}
       declineButtonText="Reject"
       acceptButtonDisabled={!isChecked}
       showScrollInstruction={true}

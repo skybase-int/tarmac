@@ -17,7 +17,7 @@ interface TermsDialogProps {
   isLoading?: boolean;
   onAccept: () => void;
   onDecline: () => void;
-  acceptButtonText?: string;
+  acceptButtonText?: string | ((hasScrolledToEnd: boolean) => string);
   declineButtonText?: string;
   acceptButtonDisabled?: boolean;
   additionalContent?: React.ReactNode | ((hasScrolledToEnd: boolean) => React.ReactNode);
@@ -128,7 +128,13 @@ export const TermsDialog: React.FC<TermsDialogProps> = ({
           disabled={isLoading || !scrollConditionMet || acceptButtonDisabled}
         >
           <Text>
-            <Trans>{isLoading ? 'Processing...' : acceptButtonText}</Trans>
+            <Trans>
+              {isLoading
+                ? 'Processing...'
+                : typeof acceptButtonText === 'function'
+                  ? acceptButtonText(hasScrolledToEnd)
+                  : acceptButtonText}
+            </Trans>
           </Text>
         </Button>
       </div>
