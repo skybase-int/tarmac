@@ -98,6 +98,9 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
   const stakeUrl = getQueryParams(
     `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.STAKE_INTENT)}`
   );
+  const stusdsUrl = getQueryParams(
+    `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.STUSDS_INTENT)}`
+  );
 
   const widgetItems: WidgetItem[] = [
     [
@@ -113,6 +116,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
           savingsCardUrlMap={savingsUrlMap}
           sealCardUrl={sealUrl}
           stakeCardUrl={stakeUrl}
+          stusdsCardUrl={stusdsUrl}
           customTokenMap={defaultConfig.balancesTokenList}
           chainIds={getSupportedChainIds(chainId)}
           hideZeroBalances={hideZeroBalances}

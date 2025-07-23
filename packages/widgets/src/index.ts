@@ -34,3 +34,7 @@ export { defaultConfig } from './config/default-config';
 export type { WidgetsConfig } from './config/types/widgets-config';
 export { NoResults } from './shared/components/icons/NoResults';
 export { PopoverRateInfo } from './shared/components/ui/PopoverRateInfo';
+export { PopoverInfo } from './shared/components/ui/PopoverInfo';
+export type { PopoverInfoProps } from './shared/components/ui/PopoverInfo';
+export { UtilizationBar } from './shared/components/ui/UtilizationBar';
+export type { UtilizationBarProps } from './shared/components/ui/UtilizationBar';
