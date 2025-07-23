@@ -20,6 +20,7 @@ msgstr ""
 #: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
+#: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
@@ -396,12 +397,13 @@ msgstr ""
 msgid "Approve token access"
 msgstr ""
 
+#. placeholder {0}: formatBigInt(debouncedOriginAmount, { unit: getTokenDecimals(originToken, chainId) })
 #. placeholder {0}: formatBigInt(debouncedOriginAmount, { locale, unit: originToken ? getTokenDecimals(originToken, chainId) : 18 })
 #. placeholder {0}: formatBigInt(debouncedAmount, { locale })
-#. placeholder {0}: formatBigInt(debouncedOriginAmount, { locale, unit: originToken && getTokenDecimals(originToken, chainId) })
+#. placeholder {1}: originToken.symbol
 #. placeholder {1}: originToken?.symbol ?? ''
 #. placeholder {1}: selectedRewardContract?.supplyToken.name ?? ''
-#. placeholder {1}: originToken.symbol
+#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
 #: packages/widgets/src/widgets/RewardsWidget/index.tsx
 #: packages/widgets/src/widgets/L2TradeWidget/index.tsx
@@ -421,11 +423,6 @@ msgstr ""
 msgid "Approving {0} SKY"
 msgstr ""
 
-#. placeholder {0}: originToken.symbol
-#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
-msgid "Approving {0} token"
-msgstr ""
-
 #. placeholder {0}: formatBigInt(debouncedUsdsAmount)
 #. placeholder {0}: formatBigInt(debouncedAmount)
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
@@ -433,6 +430,19 @@ msgstr ""
 #: packages/widgets/src/widgets/SealModuleWidget/index.tsx
 #: packages/widgets/src/widgets/SavingsWidget/index.tsx
 msgid "Approving {0} USDS"
+msgstr ""
+
+#: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
+#: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
+#: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
+#: packages/widgets/src/widgets/L2TradeWidget/lib/constants.ts
+msgid "Approving {amount} {symbol}"
+msgstr ""
+
+#: packages/widgets/src/widgets/SealModuleWidget/components/SealModuleTransactionStatus.tsx
+msgid "Approving {approvalAmount} {approvalSymbol}"
 msgstr ""
 
 #: apps/webapp/src/modules/chat/components/ChatInput.tsx
@@ -1440,6 +1450,7 @@ msgstr ""
 #: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "Loading"
@@ -1804,6 +1815,7 @@ msgid "Price impact"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/components/SealModuleTransactionStatus.tsx
 #: packages/widgets/src/shared/constants.ts
 msgid "Processing transaction"
 msgstr ""
@@ -3006,6 +3018,10 @@ msgstr ""
 msgid "View on Mainnet"
 msgstr ""
 
+#: apps/webapp/src/components/BatchTransactionsToggle.tsx
+msgid "View supporting wallets"
+msgstr ""
+
 #: apps/webapp/src/modules/ui/components/historyTable/HistoryRow.tsx
 msgid "View transaction on {explorerName}"
 msgstr ""
@@ -3021,6 +3037,7 @@ msgstr ""
 #: packages/widgets/src/widgets/UpgradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
+#: packages/widgets/src/widgets/TradeWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StakeModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/StUSDSWidget/lib/constants.ts
@@ -3028,6 +3045,7 @@ msgstr ""
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
+#: packages/widgets/src/widgets/SealModuleWidget/components/SealModuleTransactionStatus.tsx
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
 #: packages/widgets/src/widgets/RewardsWidget/lib/constants.ts
@@ -3779,12 +3797,12 @@ msgstr ""
 msgid "Your wallet {0} balance"
 msgstr ""
 
-#: apps/webapp/src/modules/layout/components/UnsupportedNetworkPage.tsx
-msgid "Your wallet is connected to an unsupported network"
+#: apps/webapp/src/components/BatchTransactionsToggle.tsx
+msgid "Your wallet does not currently support bundled transactions"
 msgstr ""
 
-#: apps/webapp/src/components/BatchTransactionsToggle.tsx
-msgid "Your wallet or the chain you are connected to currently does not support bundled transactions"
+#: apps/webapp/src/modules/layout/components/UnsupportedNetworkPage.tsx
+msgid "Your wallet is connected to an unsupported network"
 msgstr ""
 
 #: packages/widgets/src/widgets/StUSDSWidget/lib/constants.ts

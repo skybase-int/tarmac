@@ -226,7 +226,7 @@ describe('Supply and withdraw in rewards', async () => {
     await waitFor(
       () => {
         expect(resultInitialBalance.current.data?.formatted).toBeDefined();
-        expect(Number(resultInitialBalance.current.data?.formatted)).toBeGreaterThanOrEqual(1);
+        expect(Number(resultInitialBalance.current.data?.formatted)).toBeGreaterThanOrEqual(2);
         initialBalance = resultInitialBalance.current.data?.formatted ?? '0';
         return;
       },
@@ -261,7 +261,7 @@ describe('Supply and withdraw in rewards', async () => {
         useBatchRewardsSupply({
           contractAddress: rewardContractAddress,
           supplyTokenAddress: supplyTokenAddres,
-          amount: parseEther('1'),
+          amount: parseEther('2'),
           enabled: true,
           gas: GAS
         }),
@@ -286,7 +286,7 @@ describe('Supply and withdraw in rewards', async () => {
     );
 
     // The user should have less USDS tokens after supplying
-    const expectedBalanceAfterSupply = (Number(initialBalance) - 1).toString();
+    const expectedBalanceAfterSupply = (Number(initialBalance) - 2).toString();
     await waitFor(
       () => {
         expect(resultBalance.current.data?.formatted).toEqual(expectedBalanceAfterSupply);

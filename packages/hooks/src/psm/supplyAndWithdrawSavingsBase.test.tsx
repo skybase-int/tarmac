@@ -177,7 +177,7 @@ describe('Savings Base - Supply and withdraw', () => {
     await waitFor(
       () => {
         expect(resultInitialBalance.current.data?.formatted).toBeDefined();
-        expect(Number(resultInitialBalance.current.data?.formatted)).toBeGreaterThanOrEqual(10);
+        expect(Number(resultInitialBalance.current.data?.formatted)).toBeGreaterThanOrEqual(20);
         initialBalance = resultInitialBalance.current.data?.formatted ?? '0';
         return;
       },
@@ -211,7 +211,7 @@ describe('Savings Base - Supply and withdraw', () => {
     const { result: resultBatchSupply } = renderHook(
       () =>
         useBatchPsmSwapExactIn({
-          amountIn: parseEther('10'),
+          amountIn: parseEther('20'),
           assetIn: TOKENS.usds.address[TENDERLY_BASE_CHAIN_ID],
           assetOut: TOKENS.susds.address[TENDERLY_BASE_CHAIN_ID],
           minAmountOut: 0n,
@@ -238,7 +238,7 @@ describe('Savings Base - Supply and withdraw', () => {
     );
 
     // The user should have less tokens after supply
-    const expectedBalanceAfterSupply = (Number(initialBalance) - 10).toString();
+    const expectedBalanceAfterSupply = (Number(initialBalance) - 20).toString();
     await waitFor(
       () => {
         expect(resultBalanceAfterSupply.current.data?.formatted).toEqual(expectedBalanceAfterSupply);
@@ -274,10 +274,10 @@ describe('Savings Base - Supply and withdraw', () => {
     const { result: resultBatchWithdraw } = renderHook(
       () =>
         useBatchPsmSwapExactOut({
-          amountOut: parseEther('5'),
+          amountOut: parseEther('10'),
           assetOut: TOKENS.usds.address[TENDERLY_BASE_CHAIN_ID],
           assetIn: TOKENS.susds.address[TENDERLY_BASE_CHAIN_ID],
-          maxAmountIn: parseEther('5'),
+          maxAmountIn: parseEther('10'),
           enabled: true,
           gas: GAS
         }),
@@ -303,7 +303,7 @@ describe('Savings Base - Supply and withdraw', () => {
     // The user should have more tokens after withdrawing
     await waitFor(
       () => {
-        expect(resultBalanceAfterWithdraw.current.data?.formatted).toEqual('190');
+        expect(resultBalanceAfterWithdraw.current.data?.formatted).toEqual('185');
         return;
       },
       { timeout: 5000 }
