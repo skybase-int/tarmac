@@ -24,7 +24,7 @@ export interface StUsdsReferralEvent {
   owner: string;
   assets: bigint;
   shares: bigint;
-  blockNumber: number;
+  blockTimestamp: Date;
   transactionHash: string;
   timestamp: number;
 }
@@ -33,7 +33,7 @@ export interface StUsdsHistoryItem {
   type: 'deposit' | 'withdraw' | 'referral';
   assets: bigint;
   shares: bigint;
-  blockNumber: number;
+  blockTimestamp: Date;
   transactionHash: string;
   timestamp: number;
   referral?: number;

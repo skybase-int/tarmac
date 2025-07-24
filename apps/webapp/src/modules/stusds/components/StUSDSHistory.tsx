@@ -6,13 +6,12 @@ import { absBigInt } from '../../utils/math';
 import { SavingsSupply, ArrowDown } from '@/modules/icons';
 import { HistoryTable } from '@/modules/ui/components/historyTable/HistoryTable';
 import { useSubgraphUrl } from '@/modules/app/hooks/useSubgraphUrl';
-import { useSavingsHistory } from '@jetstreamgg/sky-hooks';
+import { useStUsdsHistory } from '@jetstreamgg/sky-hooks';
 import { TransactionTypeEnum } from '@jetstreamgg/sky-hooks';
 
 export function StUSDSHistory() {
   const subgraphUrl = useSubgraphUrl();
-  // TODO: Replace with useStUSDSHistory when available
-  const { data: stUsdsHistory, isLoading: stUsdsHistoryLoading, error } = useSavingsHistory(subgraphUrl);
+  const { data: stUsdsHistory, isLoading: stUsdsHistoryLoading, error } = useStUsdsHistory(subgraphUrl);
 
   const { i18n } = useLingui();
 

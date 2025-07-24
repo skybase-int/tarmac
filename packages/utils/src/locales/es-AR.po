@@ -2362,6 +2362,14 @@ msgstr ""
 msgid "stUSDS rate fluctuates based on borrowing demand. Returns are not guaranteed."
 msgstr ""
 
+#: packages/widgets/src/widgets/BalancesWidget/lib/getTitle.ts
+msgid "stUSDS Supply"
+msgstr ""
+
+#: packages/widgets/src/widgets/BalancesWidget/lib/getTitle.ts
+msgid "stUSDS Withdraw"
+msgstr ""
+
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 #: packages/widgets/src/shared/constants.ts
 msgid "Success"
@@ -3691,7 +3699,6 @@ msgstr ""
 msgid "Your Rewards transaction history"
 msgstr ""
 
-#: apps/webapp/src/modules/stusds/components/StUSDSDetails.tsx
 #: apps/webapp/src/modules/savings/components/SavingsDetails.tsx
 msgid "Your Savings transaction history"
 msgstr ""
@@ -3720,6 +3727,10 @@ msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakePositionDetails.tsx
 msgid "Your Staking position transaction history"
+msgstr ""
+
+#: apps/webapp/src/modules/stusds/components/StUSDSDetails.tsx
+msgid "Your stUSDS transaction history"
 msgstr ""
 
 #: packages/widgets/src/widgets/StUSDSWidget/lib/constants.ts
