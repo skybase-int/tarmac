@@ -2,9 +2,10 @@ import { useAccount, useChainId } from 'wagmi';
 import { MutationFunction, useMutation } from '@tanstack/react-query';
 import { SendMessageRequest, SendMessageResponse, ChatIntent } from '../types/Chat';
 import { useChatContext } from '../context/ChatContext';
-import { CHATBOT_NAME, MessageType, UserType } from '../constants';
+import { CHATBOT_NAME, MessageType, UserType, TERMS_ACCEPTANCE_MESSAGE } from '../constants';
 import { generateUUID } from '../lib/generateUUID';
 import { t } from '@lingui/core/macro';
+import { useLingui } from '@lingui/react';
 import { chainIdNameMapping, isChatIntentAllowed, processNetworkNameInUrl } from '../lib/intentUtils';
 import { CHATBOT_DOMAIN, CHATBOT_ENABLED, MAX_HISTORY_LENGTH } from '@/lib/constants';
 
@@ -88,6 +89,7 @@ export const useSendMessage = () => {
   const { setChatHistory, sessionId, chatHistory, setTermsAccepted } = useChatContext();
   const chainId = useChainId();
   const { isConnected } = useAccount();
+  const { i18n } = useLingui();
 
   const { loading: LOADING, error: ERROR, canceled: CANCELED, authError: AUTH_ERROR } = MessageType;
   const { mutate } = useMutation<SendMessageResponse, Error, { messagePayload: Partial<SendMessageRequest> }>(
@@ -148,7 +150,7 @@ export const useSendMessage = () => {
                     user: UserType.bot,
                     message:
                       error.status === 401
-                        ? t`Please accept the chatbot terms of service to continue.`
+                        ? i18n._(TERMS_ACCEPTANCE_MESSAGE)
                         : t`Sorry, something went wrong. Can you repeat your question?`,
                     type: error.status === 401 ? AUTH_ERROR : ERROR
                   }

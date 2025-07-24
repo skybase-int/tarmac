@@ -1,3 +1,5 @@
+import { msg } from '@lingui/core/macro';
+
 export const CHATBOT_NAME = import.meta.env.VITE_CHATBOT_NAME || 'SkyWing';
 
 export enum UserType {
@@ -13,3 +15,5 @@ export enum MessageType {
   canceled = 'canceled',
   authError = 'authError'
 }
+
+export const TERMS_ACCEPTANCE_MESSAGE = msg`Please accept the chatbot terms of service to continue.`;

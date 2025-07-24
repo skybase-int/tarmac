@@ -1675,7 +1675,7 @@ msgstr ""
 msgid "Output is estimated. You will receive at least {slippageAdjustedQuote} {0} or the transaction will revert."
 msgstr ""
 
-#: apps/webapp/src/modules/chat/hooks/useSendMessage.tsx
+#: apps/webapp/src/modules/chat/constants.ts
 msgid "Please accept the chatbot terms of service to continue."
 msgstr ""
 

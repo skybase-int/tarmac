@@ -3,9 +3,10 @@ import { ChatPane } from '@/modules/app/components/ChatPane';
 import { ChatbotTermsModal } from './ChatbotTermsModal';
 import { useChatContext } from '../context/ChatContext';
 import { t } from '@lingui/core/macro';
+import { useLingui } from '@lingui/react';
 import { useTermsAcceptance } from '../hooks/useTermsAcceptance';
 import { generateUUID } from '../lib/generateUUID';
-import { MessageType, UserType } from '../constants';
+import { MessageType, UserType, TERMS_ACCEPTANCE_MESSAGE } from '../constants';
 
 interface ChatWithTermsProps {
   sendMessage: (message: string) => void;
@@ -14,6 +15,7 @@ interface ChatWithTermsProps {
 export const ChatWithTerms: React.FC<ChatWithTermsProps> = ({ sendMessage }) => {
   // TODO: This may come from a url
   const TERMS_VERSION = '2025-07-15';
+  const { i18n } = useLingui();
   const baseTerms = t`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
 Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.
@@ -120,7 +122,7 @@ At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praese
         {
           id: generateUUID(),
           user: UserType.bot,
-          message: t`Please accept the chatbot terms of service to continue.`,
+          message: i18n._(TERMS_ACCEPTANCE_MESSAGE),
           type: MessageType.authError
         }
       ]);
