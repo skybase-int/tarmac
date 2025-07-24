@@ -47,9 +47,6 @@ export type {
   StUsdsCapacityData,
   StUsdsCapacityDataHook,
   StUsdsHistoryHook,
-  StUsdsDepositEvent,
-  StUsdsWithdrawEvent,
-  StUsdsReferralEvent,
   StUsdsHistoryItem,
   StUsdsVaultMetrics,
   StUsdsUserMetrics

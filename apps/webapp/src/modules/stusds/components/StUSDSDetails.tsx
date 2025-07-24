@@ -46,7 +46,7 @@ export function StUSDSDetails(): React.ReactElement {
           </DetailSection>
         )}
       {isConnectedAndAcceptedTerms && (
-        <DetailSection title={t`Your Savings transaction history`}>
+        <DetailSection title={t`Your stUSDS transaction history`}>
           <DetailSectionRow>
             <StUSDSHistory />
           </DetailSectionRow>

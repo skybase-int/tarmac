@@ -30,11 +30,4 @@ export { useStUsdsHistory } from './useStUsdsHistory';
 export type { StUsdsHistoryHook } from './useStUsdsHistory';
 
 // Types
-export type {
-  StUsdsDepositEvent,
-  StUsdsWithdrawEvent,
-  StUsdsReferralEvent,
-  StUsdsHistoryItem,
-  StUsdsVaultMetrics,
-  StUsdsUserMetrics
-} from './stusds.d';
+export type { StUsdsHistoryItem, StUsdsVaultMetrics, StUsdsUserMetrics } from './stusds.d';
