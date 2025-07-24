@@ -94,7 +94,7 @@ export const ChatInput = ({ sendMessage }: { sendMessage: (message: string) => v
                       variant="ghost"
                       className="@sm/chat:px-2 h-6 rounded-lg border border-violet-200/30 bg-transparent px-1 text-xs text-violet-200/70 transition-opacity duration-200 hover:border-violet-200/50 hover:bg-transparent hover:text-white active:bg-transparent disabled:border-violet-200/20 disabled:text-violet-200/40 disabled:hover:border-violet-200/20 disabled:hover:text-violet-200/40"
                       onClick={handleFeedbackClick}
-                      disabled={isLoading}
+                      disabled={isLoading || isAuthError}
                     >
                       <Text variant="small" className="@sm/chat:inline hidden">
                         <Trans>Feedback</Trans>

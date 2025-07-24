@@ -205,7 +205,7 @@ export const ChatBubble = ({
                 {t`Accept Terms`}
               </Button>
             )}
-            {user === UserType.bot && !isError && !isInternal && !isCanceled && (
+            {user === UserType.bot && !isError && !isInternal && !isCanceled && !isAuthError && (
               <div className="space-y-5">
                 {intents && intents?.length > 0 && isLastMessage && <ChatIntentsRow intents={intents} />}
                 {showModifierRow && <ResponseModifierRow sendMessage={sendMessage} />}
