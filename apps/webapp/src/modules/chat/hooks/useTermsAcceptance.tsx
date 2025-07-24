@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { checkChatbotTerms, signChatbotTerms } from '../services/termsApi';
+import { useChatContext } from '../context/ChatContext';
 
 interface UseTermsAcceptanceReturn {
   termsAccepted: boolean;
@@ -12,18 +13,19 @@ interface UseTermsAcceptanceReturn {
 }
 
 export const useTermsAcceptance = (): UseTermsAcceptanceReturn => {
-  const [termsAccepted, setTermsAccepted] = useState(false);
-  const [isCheckingTerms, setIsCheckingTerms] = useState(false);
-  const [showTermsDialog, setShowTermsDialog] = useState(false);
+  const { termsAccepted, setTermsAccepted, showTermsModal, setShowTermsModal, isCheckingTerms, termsError } =
+    useChatContext();
+
+  const [isCheckingTermsLocal, setIsCheckingTermsLocal] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hasCheckedOnce, setHasCheckedOnce] = useState(false);
 
   // Clear error when dialog visibility changes
   useEffect(() => {
-    if (showTermsDialog) {
+    if (showTermsModal) {
       setError(null);
     }
-  }, [showTermsDialog]);
+  }, [showTermsModal]);
 
   const checkTermsStatus = useCallback(async () => {
     // Only check if we haven't checked yet
@@ -31,7 +33,7 @@ export const useTermsAcceptance = (): UseTermsAcceptanceReturn => {
       return;
     }
 
-    setIsCheckingTerms(true);
+    setIsCheckingTermsLocal(true);
     setError(null);
 
     try {
@@ -40,39 +42,42 @@ export const useTermsAcceptance = (): UseTermsAcceptanceReturn => {
       setHasCheckedOnce(true);
 
       if (!response.accepted) {
-        setShowTermsDialog(true);
+        setShowTermsModal(true);
       }
     } catch (err) {
       console.error('Failed to check terms status:', err);
       setTermsAccepted(false);
-      setShowTermsDialog(true);
+      setShowTermsModal(true);
       setHasCheckedOnce(true);
     } finally {
-      setIsCheckingTerms(false);
+      setIsCheckingTermsLocal(false);
     }
-  }, [hasCheckedOnce, termsAccepted]);
+  }, [hasCheckedOnce, termsAccepted, setTermsAccepted, setShowTermsModal]);
 
-  const acceptTerms = useCallback(async (termsVersion: string) => {
-    setError(null);
+  const acceptTerms = useCallback(
+    async (termsVersion: string) => {
+      setError(null);
 
-    try {
-      await signChatbotTerms(termsVersion);
-      setTermsAccepted(true);
-      setShowTermsDialog(false);
-    } catch (err) {
-      console.error('Failed to accept terms:', err);
-      setError('Failed to accept terms. Please try again.');
-      throw err;
-    }
-  }, []);
+      try {
+        await signChatbotTerms(termsVersion);
+        setTermsAccepted(true);
+        setShowTermsModal(false);
+      } catch (err) {
+        console.error('Failed to accept terms:', err);
+        setError('Failed to accept terms. Please try again.');
+        throw err;
+      }
+    },
+    [setTermsAccepted, setShowTermsModal]
+  );
 
   return {
     termsAccepted,
-    isCheckingTerms,
-    showTermsDialog,
+    isCheckingTerms: isCheckingTermsLocal || isCheckingTerms,
+    showTermsDialog: showTermsModal,
     acceptTerms,
     checkTermsStatus,
-    setShowTermsDialog,
-    error
+    setShowTermsDialog: setShowTermsModal,
+    error: error || termsError
   };
 };

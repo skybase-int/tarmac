@@ -6,11 +6,13 @@ import { t } from '@lingui/core/macro';
 import { useChatContext } from '../context/ChatContext';
 import { Text } from '@/modules/layout/components/Typography';
 import { MAX_MESSAGE_LENGTH } from '@/lib/constants';
+import { MessageType } from '../constants';
 
 export const ChatInput = ({ sendMessage }: { sendMessage: (message: string) => void }) => {
   const [inputText, setInputText] = useState('');
-  const { isLoading, hasAcceptedAgeRestriction, chatHistory } = useChatContext();
-  const isMessageSendingBlocked = !inputText || isLoading || !hasAcceptedAgeRestriction;
+  const { isLoading, hasAcceptedAgeRestriction, chatHistory, termsAccepted } = useChatContext();
+  const isAuthError = chatHistory[chatHistory.length - 1].type === MessageType.authError && !termsAccepted;
+  const isMessageSendingBlocked = !inputText || isLoading || !hasAcceptedAgeRestriction || isAuthError;
 
   const handleSubmit = () => {
     if (isMessageSendingBlocked) return;
@@ -29,9 +31,11 @@ export const ChatInput = ({ sendMessage }: { sendMessage: (message: string) => v
   const isFirstMessage = chatHistory.length === 1;
   const placeholder = !hasAcceptedAgeRestriction
     ? t`Please confirm you're at least 18`
-    : isFirstMessage
-      ? t`Ask me anything`
-      : t`Ask another question`;
+    : isAuthError
+      ? t`Please accept the terms of service to continue`
+      : isFirstMessage
+        ? t`Ask me anything`
+        : t`Ask another question`;
 
   return (
     <div>
@@ -43,7 +47,7 @@ export const ChatInput = ({ sendMessage }: { sendMessage: (message: string) => v
           maxLength={MAX_MESSAGE_LENGTH}
           onChange={e => setInputText(e.target.value.slice(0, MAX_MESSAGE_LENGTH))}
           onKeyUp={handleKeyPress}
-          disabled={!hasAcceptedAgeRestriction}
+          disabled={!hasAcceptedAgeRestriction || isAuthError}
         />
         <Button
           variant="ghost"

@@ -19,6 +19,10 @@ interface ChatContextType {
   shouldDisableActionButtons: boolean;
   hasAcceptedAgeRestriction: boolean;
   termsAccepted: boolean;
+  showTermsModal: boolean;
+  isCheckingTerms: boolean;
+  termsError: string | null;
+  setTermsError: React.Dispatch<React.SetStateAction<string | null>>;
   setChatHistory: React.Dispatch<React.SetStateAction<ChatHistory[]>>;
   setConfirmationWarningOpened: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedIntent: React.Dispatch<React.SetStateAction<ChatIntent | undefined>>;
@@ -27,6 +31,8 @@ interface ChatContextType {
   setShouldDisableActionButtons: React.Dispatch<React.SetStateAction<boolean>>;
   setHasAcceptedAgeRestriction: (accepted: boolean) => void;
   setTermsAccepted: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowTermsModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsCheckingTerms: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ChatContext = createContext<ChatContextType>({
@@ -47,7 +53,13 @@ const ChatContext = createContext<ChatContextType>({
   hasAcceptedAgeRestriction: false,
   setHasAcceptedAgeRestriction: () => {},
   termsAccepted: false,
-  setTermsAccepted: () => {}
+  setTermsAccepted: () => {},
+  showTermsModal: false,
+  setShowTermsModal: () => {},
+  isCheckingTerms: false,
+  setIsCheckingTerms: () => {},
+  termsError: null,
+  setTermsError: () => {}
 });
 
 export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -71,6 +83,9 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Terms acceptance state - managed by ChatWithTerms component
   const [termsAcceptedState, setTermsAccepted] = useState(false);
+  const [showTermsModal, setShowTermsModal] = useState(false);
+  const [isCheckingTerms, setIsCheckingTerms] = useState(false);
+  const [termsError, setTermsError] = useState<string | null>(null);
 
   // Load age restriction acceptance from localStorage on initial render
   useEffect(() => {
@@ -119,7 +134,13 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
         hasAcceptedAgeRestriction,
         setHasAcceptedAgeRestriction,
         termsAccepted: termsAcceptedState,
-        setTermsAccepted
+        setTermsAccepted,
+        showTermsModal,
+        setShowTermsModal,
+        isCheckingTerms,
+        setIsCheckingTerms,
+        termsError,
+        setTermsError
       }}
     >
       {children}

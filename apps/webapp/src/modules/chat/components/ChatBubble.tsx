@@ -17,6 +17,7 @@ import { ChatError } from '@/modules/icons';
 import { ChatMarkdownRenderer } from '@/modules/ui/components/markdown/ChatMarkdownRenderer';
 import { AgeWarningRow } from './AgeWarningRow';
 import { useChatContext } from '../context/ChatContext';
+import { Button } from '@/components/ui/button';
 
 type ChatBubbleProps = {
   user: UserType;
@@ -76,12 +77,13 @@ export const ChatBubble = ({
   const { address } = useAccount();
   const [searchParams] = useSearchParams();
   const { bpi } = useBreakpointIndex();
-  const { hasAcceptedAgeRestriction } = useChatContext();
+  const { hasAcceptedAgeRestriction, setShowTermsModal, termsAccepted } = useChatContext();
   const shouldUseLargeAvatar = bpi >= BP.xl && searchParams.get(QueryParams.Details) !== 'true';
   const isError = type === MessageType.error;
   const isLoading = type === MessageType.loading;
   const isInternal = type === MessageType.internal;
   const isCanceled = type === MessageType.canceled;
+  const isAuthError = type === MessageType.authError;
 
   return (
     <div
@@ -124,13 +126,26 @@ export const ChatBubble = ({
         ) : (
           <div className="space-y-5">
             <HStack className="items-center gap-x-[6px] space-x-0">
-              {isError && <ChatError className="mb-3 h-4 w-4 shrink-0" />}
+              {(isError || (isAuthError && !termsAccepted)) && (
+                <ChatError className="mb-3 h-4 w-4 shrink-0" />
+              )}
               <div className="text-white/75">
-                <ChatMarkdownRenderer markdown={message} />
+                <ChatMarkdownRenderer
+                  markdown={
+                    isAuthError && termsAccepted
+                      ? t`Thank you for accepting the terms of service. You can now ask me anything.`
+                      : message
+                  }
+                />
               </div>
             </HStack>
             {isFirstMessage && !hasAcceptedAgeRestriction && <AgeWarningRow />}
-            {user === UserType.bot && !isError && !isInternal && !isCanceled && (
+            {isAuthError && !termsAccepted && (
+              <Button variant="pill" onClick={() => setShowTermsModal(true)} size="xs" className="px-4">
+                {t`Accept Terms`}
+              </Button>
+            )}
+            {user === UserType.bot && !isError && !isInternal && !isCanceled && !isAuthError && (
               <div className="space-y-5">
                 {intents && intents?.length > 0 && isLastMessage && <ChatIntentsRow intents={intents} />}
                 {showModifierRow && <ResponseModifierRow sendMessage={sendMessage} />}

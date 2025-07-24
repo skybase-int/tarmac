@@ -49,7 +49,7 @@ msgstr ""
 msgid "(More rewards coming soon)"
 msgstr ""
 
-#. placeholder {0}: isLoading ? 'Processing...' : acceptButtonText
+#. placeholder {0}: isLoading ? 'Processing...' : typeof acceptButtonText === 'function' ? acceptButtonText(hasScrolledToEnd) : acceptButtonText
 #: apps/webapp/src/modules/ui/components/TermsDialog.tsx
 msgid "{0}"
 msgstr ""
@@ -198,6 +198,10 @@ msgstr ""
 
 #: apps/webapp/src/modules/chat/components/ChatbotTermsModal.tsx
 msgid "Accept"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/ChatBubble.tsx
+msgid "Accept Terms"
 msgstr ""
 
 #: apps/webapp/src/modules/chat/components/ChatbotTermsModal.tsx
@@ -616,6 +620,10 @@ msgstr ""
 
 #: apps/webapp/src/modules/chat/components/ChatbotTermsModal.tsx
 msgid "Chatbot Terms of Service"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/ChatbotTermsModal.tsx
+msgid "Check to continue"
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/components/TradeInputs.tsx
@@ -1629,6 +1637,14 @@ msgstr ""
 msgid "Output is estimated. You will receive at least {slippageAdjustedQuote} {0} or the transaction will revert."
 msgstr ""
 
+#: apps/webapp/src/modules/chat/hooks/useSendMessage.tsx
+msgid "Please accept the chatbot terms of service to continue."
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/ChatInput.tsx
+msgid "Please accept the terms of service to continue"
+msgstr ""
+
 #: packages/widgets/src/widgets/SealModuleWidget/lib/constants.ts
 msgid "Please allow this app to access the tokens in your wallet."
 msgstr ""
@@ -1910,6 +1926,10 @@ msgstr ""
 
 #: packages/widgets/src/widgets/BalancesWidget/lib/getTitle.ts
 msgid "Savings Withdraw"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/ChatbotTermsModal.tsx
+msgid "Scroll down ↓"
 msgstr ""
 
 #: apps/webapp/src/lib/constants.ts
@@ -2366,6 +2386,10 @@ msgstr ""
 
 #: apps/webapp/src/modules/ui/components/TermsDialog.tsx
 msgid "Terms version: {termsVersion}"
+msgstr ""
+
+#: apps/webapp/src/modules/chat/components/ChatBubble.tsx
+msgid "Thank you for accepting the terms of service. You can now ask me anything."
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/About.tsx

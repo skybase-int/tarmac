@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { ChatPane } from '@/modules/app/components/ChatPane';
 import { ChatbotTermsModal } from './ChatbotTermsModal';
-import { useTermsAcceptance } from '../hooks/useTermsAcceptance';
 import { useChatContext } from '../context/ChatContext';
 import { t } from '@lingui/core/macro';
+import { useTermsAcceptance } from '../hooks/useTermsAcceptance';
 
 interface ChatWithTermsProps {
   sendMessage: (message: string) => void;
@@ -24,19 +24,12 @@ At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praese
   // TODO: Remove the Array.fill repetition once we have real terms from URL
   const TERMS_CONTENT = baseTerms ? Array(3).fill(baseTerms).join('\n\n') : undefined;
 
-  const { termsAccepted, showTermsDialog, acceptTerms, setShowTermsDialog, error, checkTermsStatus } =
-    useTermsAcceptance();
-
-  const { setTermsAccepted } = useChatContext();
+  const { termsAccepted, showTermsModal, setShowTermsModal, termsError, isCheckingTerms } = useChatContext();
+  const { acceptTerms, checkTermsStatus } = useTermsAcceptance();
 
   const [isAccepting, setIsAccepting] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [pendingMessage, setPendingMessage] = useState<string | null>(null);
-
-  // Update context when terms acceptance state changes
-  useEffect(() => {
-    setTermsAccepted(termsAccepted);
-  }, [termsAccepted, setTermsAccepted]);
 
   // Send pending message after terms are accepted
   useEffect(() => {
@@ -66,7 +59,7 @@ At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praese
     } else {
       // Save message and show dialog if terms not accepted
       setPendingMessage(message);
-      setShowTermsDialog(true);
+      setShowTermsModal(true);
     }
   };
 
@@ -82,20 +75,20 @@ At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praese
   };
 
   const handleDeclineTerms = () => {
-    setShowTermsDialog(false);
+    setShowTermsModal(false);
   };
 
   return (
     <>
       <ChatPane sendMessage={wrappedSendMessage} />
       <ChatbotTermsModal
-        isOpen={showTermsDialog}
+        isOpen={showTermsModal}
         onAccept={handleAcceptTerms}
         onDecline={handleDeclineTerms}
         termsVersion={TERMS_VERSION}
         termsContent={TERMS_CONTENT}
-        isLoading={isAccepting}
-        error={error}
+        isLoading={isAccepting || isCheckingTerms}
+        error={termsError}
       />
     </>
   );

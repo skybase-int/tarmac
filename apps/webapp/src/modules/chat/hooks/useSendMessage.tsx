@@ -38,10 +38,10 @@ const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
   });
 
   if (!response.ok) {
-    if (response.status === 400) {
+    if (response.status === 400 || response.status === 401) {
       const error: any = new Error('Terms acceptance required');
       error.code = 'TERMS_NOT_ACCEPTED';
-      error.status = 400;
+      error.status = response.status;
       throw error;
     }
     throw new Error('Advanced chat response was not ok');
@@ -85,11 +85,11 @@ const sendMessageMutation: MutationFunction<
 };
 
 export const useSendMessage = () => {
-  const { setChatHistory, sessionId, chatHistory } = useChatContext();
+  const { setChatHistory, sessionId, chatHistory, setTermsAccepted } = useChatContext();
   const chainId = useChainId();
   const { isConnected } = useAccount();
 
-  const { loading: LOADING, error: ERROR, canceled: CANCELED } = MessageType;
+  const { loading: LOADING, error: ERROR, canceled: CANCELED, authError: AUTH_ERROR } = MessageType;
   const { mutate } = useMutation<SendMessageResponse, Error, { messagePayload: Partial<SendMessageRequest> }>(
     {
       mutationFn: sendMessageMutation
@@ -134,28 +134,27 @@ export const useSendMessage = () => {
           });
         },
         onError: async (error: any) => {
-          console.error('Failed to send message:', error);
-
-          // Check if it's a terms acceptance error
-          if (error.status === 400 || error.code === 'TERMS_NOT_ACCEPTED') {
-            // Remove loading message without adding error message
-            // The ChatWithTerms component will handle showing the dialog
-            setChatHistory(prevHistory => prevHistory.filter(item => item.type !== LOADING));
-          } else {
-            setChatHistory(prevHistory => {
-              return prevHistory[prevHistory.length - 1].type === CANCELED
-                ? prevHistory
-                : [
-                    ...prevHistory.filter(item => item.type !== LOADING),
-                    {
-                      id: generateUUID(),
-                      user: UserType.bot,
-                      message: t`Sorry, something went wrong. Can you repeat your question?`,
-                      type: ERROR
-                    }
-                  ];
-            });
+          console.error('Failed to send message:', JSON.stringify(error));
+          if (error.status === 401) {
+            setTermsAccepted(false);
           }
+          setChatHistory(prevHistory => {
+            return prevHistory[prevHistory.length - 1].type === CANCELED
+              ? prevHistory
+              : [
+                  ...prevHistory.filter(item => item.type !== LOADING),
+                  {
+                    id: generateUUID(),
+                    user: UserType.bot,
+                    message:
+                      error.status === 401
+                        ? t`Please accept the chatbot terms of service to continue.`
+                        : t`Sorry, something went wrong. Can you repeat your question?`,
+                    type: error.status === 401 ? AUTH_ERROR : ERROR
+                  }
+                ];
+          });
+          // TODO: Set in context that we had an auth error
         }
       }
     );
