@@ -10,7 +10,7 @@
     "preinstall": "pnpm dlx only-allow pnpm",
     "prettier": "prettier --write --cache .",
     "lint": "eslint --cache",
-    "build": "pnpm -r run build",
+    "build": "pnpm messages && pnpm -r run build",
     "build:packages": "pnpm -r --filter='./packages/**' build",
     "build:restricted": "VITE_PUBLIC_RESTRICTED_BUILD=true pnpm -r run build",
     "dev": "pnpm messages:compile && pnpm -F webapp dev",
