@@ -4,6 +4,8 @@ import { ChatbotTermsModal } from './ChatbotTermsModal';
 import { useChatContext } from '../context/ChatContext';
 import { t } from '@lingui/core/macro';
 import { useTermsAcceptance } from '../hooks/useTermsAcceptance';
+import { generateUUID } from '../lib/generateUUID';
+import { MessageType, UserType } from '../constants';
 
 interface ChatWithTermsProps {
   sendMessage: (message: string) => void;
@@ -24,23 +26,52 @@ At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praese
   // TODO: Remove the Array.fill repetition once we have real terms from URL
   const TERMS_CONTENT = baseTerms ? Array(3).fill(baseTerms).join('\n\n') : undefined;
 
-  const { termsAccepted, showTermsModal, setShowTermsModal, termsError, isCheckingTerms } = useChatContext();
+  const {
+    termsAccepted,
+    showTermsModal,
+    setShowTermsModal,
+    termsError,
+    isCheckingTerms,
+    chatHistory,
+    setChatHistory
+  } = useChatContext();
   const { acceptTerms, checkTermsStatus } = useTermsAcceptance();
 
   const [isAccepting, setIsAccepting] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [pendingMessage, setPendingMessage] = useState<string | null>(null);
+  const [hasProcessedAuthError, setHasProcessedAuthError] = useState(false);
 
   // Send pending message after terms are accepted
   useEffect(() => {
-    if (termsAccepted && pendingMessage) {
-      sendMessage(pendingMessage);
-      setPendingMessage(null);
+    if (termsAccepted && !hasProcessedAuthError) {
+      // Check if last bot message is an auth error
+      const lastBotMessage = [...chatHistory].reverse().find(msg => msg.user === UserType.bot);
+      const lastUserMessage = [...chatHistory].reverse().find(msg => msg.user === UserType.user);
+
+      if (lastBotMessage?.type === MessageType.authError && lastUserMessage) {
+        // Remove the last user message and auth error from history
+        const filteredHistory = chatHistory.filter(
+          msg => msg.id !== lastUserMessage.id && msg.id !== lastBotMessage.id
+        );
+        setChatHistory(filteredHistory);
+
+        // Resend the user's message
+        sendMessage(lastUserMessage.message);
+        setHasProcessedAuthError(true);
+      } else if (pendingMessage) {
+        // Normal pending message flow
+        sendMessage(pendingMessage);
+        setPendingMessage(null);
+      }
     }
-  }, [termsAccepted, pendingMessage, sendMessage]);
+  }, [termsAccepted, pendingMessage, sendMessage, chatHistory, setChatHistory, hasProcessedAuthError]);
 
   // Intercept sendMessage to check terms on first interaction
   const wrappedSendMessage = async (message: string) => {
+    // Reset the auth error processed flag when user sends a new message
+    setHasProcessedAuthError(false);
+
     if (!hasInteracted) {
       setHasInteracted(true);
 
@@ -76,6 +107,25 @@ At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praese
 
   const handleDeclineTerms = () => {
     setShowTermsModal(false);
+
+    // If user had a pending message, add it to chat history and show auth error
+    if (pendingMessage) {
+      setChatHistory(prevHistory => [
+        ...prevHistory,
+        {
+          id: generateUUID(),
+          user: UserType.user,
+          message: pendingMessage
+        },
+        {
+          id: generateUUID(),
+          user: UserType.bot,
+          message: t`Please accept the chatbot terms of service to continue.`,
+          type: MessageType.authError
+        }
+      ]);
+      setPendingMessage(null);
+    }
   };
 
   return (
