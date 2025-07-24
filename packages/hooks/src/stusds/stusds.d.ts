@@ -1,36 +1,5 @@
-export interface StUsdsDepositEvent {
-  sender: string;
-  owner: string;
-  assets: bigint;
-  shares: bigint;
-  blockNumber: number;
-  transactionHash: string;
-  timestamp: number;
-}
-
-export interface StUsdsWithdrawEvent {
-  sender: string;
-  receiver: string;
-  owner: string;
-  assets: bigint;
-  shares: bigint;
-  blockNumber: number;
-  transactionHash: string;
-  timestamp: number;
-}
-
-export interface StUsdsReferralEvent {
-  referral: number;
-  owner: string;
-  assets: bigint;
-  shares: bigint;
-  blockTimestamp: Date;
-  transactionHash: string;
-  timestamp: number;
-}
-
 export interface StUsdsHistoryItem {
-  type: 'deposit' | 'withdraw' | 'referral';
+  type: TransactionTypeEnum;
   assets: bigint;
   shares: bigint;
   blockTimestamp: Date;

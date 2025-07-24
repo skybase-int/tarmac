@@ -11,7 +11,7 @@ import { TransactionTypeEnum } from '@jetstreamgg/sky-hooks';
 
 export function StUSDSHistory() {
   const subgraphUrl = useSubgraphUrl();
-  const { data: stUsdsHistory, isLoading: stUsdsHistoryLoading, error } = useStUsdsHistory(subgraphUrl);
+  const { data: stUsdsHistory, isLoading: stUsdsHistoryLoading, error } = useStUsdsHistory({ subgraphUrl });
 
   const { i18n } = useLingui();
 
