@@ -807,7 +807,7 @@ export function UpgradeWidgetWrapped({
       }
       subHeader={
         <Text className="text-textSecondary" variant="small">
-          <Trans>Instanly upgrade your DAI and MKR</Trans>
+          <Trans>Upgrade your DAI to USDS and MKR to SKY</Trans>
         </Text>
       }
       rightHeader={rightHeaderComponent}

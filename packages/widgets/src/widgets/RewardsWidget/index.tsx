@@ -805,7 +805,7 @@ const RewardsWidgetWrapped = ({
       subHeader={
         widgetState.action === RewardsAction.OVERVIEW ? (
           <Text className="text-textSecondary" variant="small">
-            <Trans>Supply tokens to access SKY rewards</Trans>
+            <Trans>Use USDS to access Sky Token Rewards</Trans>
           </Text>
         ) : undefined
       }

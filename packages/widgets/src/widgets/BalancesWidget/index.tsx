@@ -144,7 +144,7 @@ const BalancesWidgetWrapped = ({
       }
       subHeader={
         <Text className="text-textSecondary" variant="small">
-          <Trans>View and manage your Sky Ecosystem funds</Trans>
+          <Trans>Manage your Sky Ecosystem funds across supported networks</Trans>
         </Text>
       }
       rightHeader={rightHeaderComponent}

@@ -1012,7 +1012,7 @@ function StakeModuleWidgetWrapped({
         (widgetState.flow === StakeFlow.MANAGE && widgetState.action === StakeAction.OVERVIEW) ||
         widgetState.screen === StakeScreen.TRANSACTION ? (
           <Text className="text-textSecondary" variant="small">
-            <Trans>Stake SKY tokens to delegate votes and earn USDS rewards</Trans>
+            <Trans>Stake SKY to earn rewards, delegate votes, and borrow USDS</Trans>
           </Text>
         ) : undefined
       }

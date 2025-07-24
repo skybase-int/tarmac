@@ -46,7 +46,7 @@ export const TradeHeader = ({
 
 export const TradeSubHeader = () => (
   <Text className="text-textSecondary" variant="small">
-    <Trans>Swap tokens instantly with optimal rates across decentralized exchanges</Trans>
+    <Trans>Trade popular tokens for Sky Ecosystem tokens</Trans>
   </Text>
 );
 

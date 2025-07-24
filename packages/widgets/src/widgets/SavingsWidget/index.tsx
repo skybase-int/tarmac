@@ -663,7 +663,7 @@ const SavingsWidgetWrapped = ({
       }
       subHeader={
         <Text className="text-textSecondary" variant="small">
-          <Trans>Use USDS to access the Sky Savings Rate and accumulate additional USDS over time</Trans>
+          <Trans>Use USDS to access the Sky Savings Rate</Trans>
         </Text>
       }
       rightHeader={rightHeaderComponent}
