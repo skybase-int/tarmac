@@ -2881,6 +2881,10 @@ msgstr ""
 msgid "View on Mainnet"
 msgstr ""
 
+#: apps/webapp/src/components/BatchTransactionsToggle.tsx
+msgid "View supporting wallets"
+msgstr ""
+
 #: apps/webapp/src/modules/ui/components/historyTable/HistoryRow.tsx
 msgid "View transaction on {explorerName}"
 msgstr ""
@@ -3601,12 +3605,12 @@ msgstr ""
 msgid "Your wallet {0} balance"
 msgstr ""
 
-#: apps/webapp/src/modules/layout/components/UnsupportedNetworkPage.tsx
-msgid "Your wallet is connected to an unsupported network"
+#: apps/webapp/src/components/BatchTransactionsToggle.tsx
+msgid "Your wallet does not currently support bundled transactions"
 msgstr ""
 
-#: apps/webapp/src/components/BatchTransactionsToggle.tsx
-msgid "Your wallet or the chain you are connected to currently does not support bundled transactions"
+#: apps/webapp/src/modules/layout/components/UnsupportedNetworkPage.tsx
+msgid "Your wallet is connected to an unsupported network"
 msgstr ""
 
 #: packages/widgets/src/widgets/SavingsWidget/lib/constants.ts
