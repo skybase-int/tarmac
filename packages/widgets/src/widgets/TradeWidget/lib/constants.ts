@@ -134,6 +134,25 @@ export function tradeLoadingButtonText({ txStatus }: { txStatus: TxStatus }): Me
   }
 }
 
+export function tradeApproveLoadingButtonText({
+  txStatus,
+  amount,
+  symbol
+}: {
+  txStatus: TxStatus;
+  amount: string;
+  symbol: string;
+}): MessageDescriptor {
+  switch (txStatus) {
+    case TxStatus.INITIALIZED:
+      return msg`Waiting for confirmation`;
+    case TxStatus.LOADING:
+      return msg`Approving ${amount} ${symbol}`;
+    default:
+      return msg``;
+  }
+}
+
 export enum SUPPORTED_TOKEN_SYMBOLS {
   ETH = 'ETH',
   WETH = 'WETH',
@@ -143,7 +162,8 @@ export enum SUPPORTED_TOKEN_SYMBOLS {
   USDS = 'USDS',
   sUSDS = 'sUSDS',
   MKR = 'MKR',
-  SKY = 'SKY'
+  SKY = 'SKY',
+  SPK = 'SPK'
 }
 
 export const ETH_SLIPPAGE_STORAGE_KEY = 'eth-trade-slippage';

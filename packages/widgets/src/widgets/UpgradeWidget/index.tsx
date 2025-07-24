@@ -17,7 +17,7 @@ import { Heading } from '@widgets/shared/components/ui/Typography';
 import { UpgradeTransactionStatus } from './components/UpgradeTransactionStatus';
 import { useAccount, useChainId } from 'wagmi';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { useDebounce, getTransactionLink, useIsSafeWallet, math } from '@jetstreamgg/sky-utils';
+import { useDebounce, getTransactionLink, useIsSafeWallet, math, formatBigInt } from '@jetstreamgg/sky-utils';
 import { useTokenAllowance } from '@jetstreamgg/sky-hooks';
 import { useUpgraderManager } from './hooks/useUpgraderManager';
 import { TxStatus, notificationTypeMaping } from '@widgets/shared/constants';
@@ -101,6 +101,7 @@ export const UpgradeWidget = ({
   onExternalLinkClicked,
   batchEnabled,
   setBatchEnabled,
+  legalBatchTxUrl,
   upgradeOptions = defaultUpgradeOptions,
   enabled = true,
   shouldReset = false
@@ -125,6 +126,7 @@ export const UpgradeWidget = ({
           upgradeOptions={upgradeOptions}
           batchEnabled={batchEnabled}
           setBatchEnabled={setBatchEnabled}
+          legalBatchTxUrl={legalBatchTxUrl}
         />
       </WidgetProvider>
     </ErrorBoundary>
@@ -145,6 +147,7 @@ export function UpgradeWidgetWrapped({
   upgradeOptions,
   batchEnabled,
   setBatchEnabled,
+  legalBatchTxUrl,
   enabled = true
 }: UpgradeWidgetProps): React.ReactElement {
   const validatedExternalState = getValidatedState(externalWidgetState);
@@ -330,7 +333,10 @@ export function UpgradeWidgetWrapped({
     token: originToken,
     enabled: widgetState.action === UpgradeAction.APPROVE && allowance !== undefined,
     onStart: (hash: string) => {
-      addRecentTransaction?.({ hash, description: t`Approving ${originToken.symbol} token` });
+      addRecentTransaction?.({
+        hash,
+        description: t`Approving ${formatBigInt(debouncedOriginAmount, { unit: getTokenDecimals(originToken, chainId) })} ${originToken.symbol}`
+      });
       setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
@@ -834,6 +840,7 @@ export function UpgradeWidgetWrapped({
               targetToken={targetToken}
               targetAmount={math.calculateConversion(originToken, debouncedOriginAmount)}
               needsAllowance={!hasAllowance}
+              legalBatchTxUrl={legalBatchTxUrl}
             />
           </CardAnimationWrapper>
         ) : (
