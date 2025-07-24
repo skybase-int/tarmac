@@ -14,12 +14,20 @@ interface ChatContextType {
   sessionId: string;
   shouldShowConfirmationWarning: boolean;
   shouldDisableActionButtons: boolean;
+  termsAccepted: boolean;
+  showTermsModal: boolean;
+  isCheckingTerms: boolean;
+  termsError: string | null;
+  setTermsError: React.Dispatch<React.SetStateAction<string | null>>;
   setChatHistory: React.Dispatch<React.SetStateAction<ChatHistory[]>>;
   setConfirmationWarningOpened: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedIntent: React.Dispatch<React.SetStateAction<ChatIntent | undefined>>;
   setWarningShown: React.Dispatch<React.SetStateAction<ChatIntent[]>>;
   hasShownIntent: (intent?: ChatIntent) => boolean;
   setShouldDisableActionButtons: React.Dispatch<React.SetStateAction<boolean>>;
+  setTermsAccepted: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowTermsModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsCheckingTerms: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ChatContext = createContext<ChatContextType>({
@@ -36,7 +44,15 @@ const ChatContext = createContext<ChatContextType>({
   hasShownIntent: () => false,
   shouldShowConfirmationWarning: false,
   shouldDisableActionButtons: false,
-  setShouldDisableActionButtons: () => {}
+  setShouldDisableActionButtons: () => {},
+  termsAccepted: false,
+  setTermsAccepted: () => {},
+  showTermsModal: false,
+  setShowTermsModal: () => {},
+  isCheckingTerms: false,
+  setIsCheckingTerms: () => {},
+  termsError: null,
+  setTermsError: () => {}
 });
 
 export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -56,6 +72,12 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [warningShown, setWarningShown] = useState<ChatIntent[]>([]);
   const [shouldDisableActionButtons, setShouldDisableActionButtons] = useState<boolean>(false);
   const isLoading = chatHistory[chatHistory.length - 1]?.type === MessageType.loading;
+
+  // Terms acceptance state - managed by ChatWithTerms component
+  const [termsAcceptedState, setTermsAccepted] = useState(false);
+  const [showTermsModal, setShowTermsModal] = useState(false);
+  const [isCheckingTerms, setIsCheckingTerms] = useState(false);
+  const [termsError, setTermsError] = useState<string | null>(null);
 
   const hasShownIntent = useCallback(
     (intent?: ChatIntent) => {
@@ -86,7 +108,15 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
         hasShownIntent,
         shouldShowConfirmationWarning,
         shouldDisableActionButtons,
-        setShouldDisableActionButtons
+        setShouldDisableActionButtons,
+        termsAccepted: termsAcceptedState,
+        setTermsAccepted,
+        showTermsModal,
+        setShowTermsModal,
+        isCheckingTerms,
+        setIsCheckingTerms,
+        termsError,
+        setTermsError
       }}
     >
       {children}

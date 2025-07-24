@@ -7,14 +7,16 @@ import { t } from '@lingui/core/macro';
 import { useChatContext } from '../context/ChatContext';
 import { Text } from '@/modules/layout/components/Typography';
 import { MAX_MESSAGE_LENGTH, CHATBOT_FEEDBACK_ENABLED } from '@/lib/constants';
+import { MessageType } from '../constants';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { FeedbackModal } from './FeedbackModal';
 
 export const ChatInput = ({ sendMessage }: { sendMessage: (message: string) => void }) => {
   const [inputText, setInputText] = useState('');
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
-  const { isLoading, chatHistory } = useChatContext();
-  const isMessageSendingBlocked = !inputText || isLoading;
+  const { isLoading, chatHistory, termsAccepted } = useChatContext();
+  const isAuthError = chatHistory[chatHistory.length - 1].type === MessageType.authError && !termsAccepted;
+  const isMessageSendingBlocked = !inputText || isLoading || isAuthError;
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const handleFeedbackClick = () => {
@@ -55,7 +57,11 @@ export const ChatInput = ({ sendMessage }: { sendMessage: (message: string) => v
   };
 
   const isFirstMessage = chatHistory.length === 1;
-  const placeholder = isFirstMessage ? t`Ask me anything` : t`Ask another question`;
+  const placeholder = isAuthError
+    ? t`Please accept the terms of service to continue`
+    : isFirstMessage
+      ? t`Ask me anything`
+      : t`Ask another question`;
 
   return (
     <>
@@ -77,6 +83,7 @@ export const ChatInput = ({ sendMessage }: { sendMessage: (message: string) => v
             onChange={e => setInputText(e.target.value.slice(0, MAX_MESSAGE_LENGTH))}
             onKeyDown={handleKeyPress}
             rows={1}
+            disabled={isAuthError}
           />
           <HStack className="@sm/chat:gap-2 shrink-0 gap-1">
             {CHATBOT_FEEDBACK_ENABLED && (
@@ -87,7 +94,7 @@ export const ChatInput = ({ sendMessage }: { sendMessage: (message: string) => v
                       variant="ghost"
                       className="@sm/chat:px-2 h-6 rounded-lg border border-violet-200/30 bg-transparent px-1 text-xs text-violet-200/70 transition-opacity duration-200 hover:border-violet-200/50 hover:bg-transparent hover:text-white active:bg-transparent disabled:border-violet-200/20 disabled:text-violet-200/40 disabled:hover:border-violet-200/20 disabled:hover:text-violet-200/40"
                       onClick={handleFeedbackClick}
-                      disabled={isLoading}
+                      disabled={isLoading || isAuthError}
                     >
                       <Text variant="small" className="@sm/chat:inline hidden">
                         <Trans>Feedback</Trans>

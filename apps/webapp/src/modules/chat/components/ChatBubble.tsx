@@ -16,6 +16,8 @@ import { ChatIntentsRow } from './ChatIntentsRow';
 import { StopGeneratingButton } from './StopGeneratingButton';
 import { ChatError } from '@/modules/icons';
 import { ChatMarkdownRenderer } from '@/modules/ui/components/markdown/ChatMarkdownRenderer';
+import { useChatContext } from '../context/ChatContext';
+import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 type ChatBubbleProps = {
@@ -75,11 +77,13 @@ export const ChatBubble = ({
   const { address } = useAccount();
   const [searchParams] = useSearchParams();
   const { bpi } = useBreakpointIndex();
+  const { setShowTermsModal, termsAccepted } = useChatContext();
   const shouldUseLargeAvatar = bpi >= BP.xl && searchParams.get(QueryParams.Details) !== 'true';
   const isError = type === MessageType.error;
   const isLoading = type === MessageType.loading;
   const isInternal = type === MessageType.internal;
   const isCanceled = type === MessageType.canceled;
+  const isAuthError = type === MessageType.authError;
   const isFeedback = message.startsWith('/feedback');
 
   // Parse feedback message to extract the actual feedback content
@@ -96,6 +100,10 @@ export const ChatBubble = ({
     }
     return null;
   };
+
+  if (user === UserType.user && isCanceled) {
+    return null;
+  }
 
   return (
     <div
@@ -138,7 +146,9 @@ export const ChatBubble = ({
         ) : (
           <div className="space-y-5">
             <HStack className="items-center gap-x-[6px] space-x-0">
-              {isError && <ChatError className="mb-3 h-4 w-4 shrink-0" />}
+              {(isError || (isAuthError && !termsAccepted)) && (
+                <ChatError className="mb-3 h-4 w-4 shrink-0" />
+              )}
               <div className="min-w-0 text-white/75">
                 {isFeedback && user === UserType.user ? (
                   <Accordion type="single" collapsible className="w-full overflow-hidden">
@@ -184,11 +194,24 @@ export const ChatBubble = ({
                     </AccordionItem>
                   </Accordion>
                 ) : (
-                  <ChatMarkdownRenderer markdown={message} />
+                  <ChatMarkdownRenderer
+                    markdown={
+                      isAuthError && termsAccepted
+                        ? t`Thank you for accepting the terms of service. You can now ask me anything.`
+                        : isCanceled
+                          ? t`User cancelled message`
+                          : message
+                    }
+                  />
                 )}
               </div>
             </HStack>
-            {user === UserType.bot && !isError && !isInternal && !isCanceled && (
+            {isAuthError && !termsAccepted && (
+              <Button variant="pill" onClick={() => setShowTermsModal(true)} size="xs" className="px-4">
+                {t`Accept Terms`}
+              </Button>
+            )}
+            {user === UserType.bot && !isError && !isInternal && !isCanceled && !isAuthError && (
               <div className="space-y-5">
                 {intents && intents?.length > 0 && isLastMessage && <ChatIntentsRow intents={intents} />}
                 {showModifierRow && <ResponseModifierRow sendMessage={sendMessage} />}
