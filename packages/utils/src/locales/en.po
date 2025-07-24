@@ -2934,6 +2934,10 @@ msgstr ""
 msgid "USDS supplied to Rewards"
 msgstr ""
 
+#: apps/webapp/src/modules/chat/components/ChatBubble.tsx
+msgid "User cancelled message"
+msgstr ""
+
 #: apps/webapp/src/modules/stake/components/StakeHistory.tsx
 msgid "Value"
 msgstr ""
