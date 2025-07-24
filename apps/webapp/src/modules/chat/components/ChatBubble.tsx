@@ -101,6 +101,10 @@ export const ChatBubble = ({
     return null;
   };
 
+  if (user === UserType.user && isCanceled) {
+    return null;
+  }
+
   return (
     <div
       // The `@2xl/chat` class is used to style elements based on the width of the `@container/chat` container
@@ -194,7 +198,9 @@ export const ChatBubble = ({
                     markdown={
                       isAuthError && termsAccepted
                         ? t`Thank you for accepting the terms of service. You can now ask me anything.`
-                        : message
+                        : isCanceled
+                          ? t`User cancelled message`
+                          : message
                     }
                   />
                 )}
