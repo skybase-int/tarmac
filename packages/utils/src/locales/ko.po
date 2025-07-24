@@ -196,7 +196,7 @@ msgstr ""
 msgid "Access Restricted"
 msgstr ""
 
-#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
+#: apps/webapp/src/modules/balances/components/modules/RewardsCard.tsx
 msgid "Access rewards without giving up control"
 msgstr ""
 
@@ -205,7 +205,11 @@ msgstr ""
 msgid "Access Sky Savings Rate with USDS"
 msgstr ""
 
-#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
+#: apps/webapp/src/modules/balances/components/modules/StakingRewardsCard.tsx
+msgid "Access Staking rewards (or Borrow) with SKY"
+msgstr ""
+
+#: apps/webapp/src/modules/balances/components/modules/SavingsCard.tsx
 msgid "Access the Sky Savings Rate"
 msgstr ""
 
@@ -1146,7 +1150,7 @@ msgstr ""
 msgid "Get the Sky Savings Rate"
 msgstr ""
 
-#. placeholder {0}: isBase ? 'Base' : isArbitrum ? 'Arbitrum' : ''
+#. placeholder {0}: l2Chain?.name || ''
 #: apps/webapp/src/modules/balances/components/ModuleCard.tsx
 msgid "Go to {0} {module}"
 msgstr ""
@@ -1825,7 +1829,7 @@ msgstr ""
 msgid "rewards"
 msgstr ""
 
-#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
+#: apps/webapp/src/modules/balances/components/modules/RewardsCard.tsx
 msgid "Rewards"
 msgstr ""
 
@@ -1856,7 +1860,7 @@ msgstr ""
 msgid "savings"
 msgstr ""
 
-#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
+#: apps/webapp/src/modules/balances/components/modules/SavingsCard.tsx
 msgid "Savings"
 msgstr ""
 
@@ -2114,7 +2118,7 @@ msgstr ""
 msgid "Soon"
 msgstr ""
 
-#. placeholder {0}: soonChain.name
+#. placeholder {0}: l2Chain.name
 #: apps/webapp/src/modules/balances/components/ModuleCard.tsx
 msgid "Soon on {0}"
 msgstr ""
@@ -2161,6 +2165,7 @@ msgstr ""
 msgid "Staked"
 msgstr ""
 
+#: apps/webapp/src/modules/balances/components/modules/StakingRewardsCard.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 msgid "Staking"
@@ -2454,7 +2459,7 @@ msgstr ""
 msgid "trade"
 msgstr ""
 
-#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
+#: apps/webapp/src/modules/balances/components/modules/TradeCard.tsx
 #: packages/widgets/src/widgets/TradeWidget/components/TradeTransactionStatus.tsx
 #: packages/widgets/src/widgets/TradeWidget/components/TradeHeader.tsx
 #: packages/widgets/src/widgets/L2TradeWidget/components/L2TradeTransactionStatus.tsx
@@ -2528,7 +2533,7 @@ msgstr ""
 msgid "Trade your {formattedBalance} {upperSymbol} for USDS to get rewards {0}"
 msgstr ""
 
-#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
+#: apps/webapp/src/modules/balances/components/modules/TradeCard.tsx
 msgid "Trade your crypto tokens"
 msgstr ""
 
@@ -2696,7 +2701,7 @@ msgstr ""
 msgid "upgrade"
 msgstr ""
 
-#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
+#: apps/webapp/src/modules/balances/components/modules/UpgradeCard.tsx
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 #: packages/widgets/src/widgets/UpgradeWidget/components/UpgradeTransactionStatus.tsx
@@ -2763,7 +2768,7 @@ msgstr ""
 msgid "Upgrade your {formattedBalance} {upperSymbol} to USDS to get rewards {0}"
 msgstr ""
 
-#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
+#: apps/webapp/src/modules/balances/components/modules/UpgradeCard.tsx
 msgid "Upgrade your DAI and MKR"
 msgstr ""
 
