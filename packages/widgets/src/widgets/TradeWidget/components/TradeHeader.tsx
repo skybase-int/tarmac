@@ -34,9 +34,14 @@ export const TradeHeader = ({
   return (
     <div>
       <div ref={ref} className="flex items-baseline justify-between gap-2">
-        <Heading variant="x-large">
-          <Trans>Trade</Trans>
-        </Heading>
+        <div className="space-y-1">
+          <Heading variant="x-large">
+            <Trans>Trade</Trans>
+          </Heading>
+          <Text className="text-textSecondary" variant="small">
+            <Trans>Swap tokens instantly with optimal rates across decentralized exchanges</Trans>
+          </Text>
+        </div>
         <TradeConfigMenu
           boundary={collisionBoundary}
           slippage={slippage}
