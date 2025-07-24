@@ -54,7 +54,6 @@ export const ChatbotTermsModal: React.FC<ChatbotTermsModalProps> = ({
     return t`Accept`;
   };
 
-  // TODO: Tbd if we need this checkbox and what the label should be
   const checkboxContent = (scrolledToEnd: boolean) => {
     // Update local state when scroll status changes
     if (scrolledToEnd !== hasScrolledToEnd) {

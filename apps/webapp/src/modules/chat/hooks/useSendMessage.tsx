@@ -154,7 +154,6 @@ export const useSendMessage = () => {
                   }
                 ];
           });
-          // TODO: Set in context that we had an auth error
         }
       }
     );
