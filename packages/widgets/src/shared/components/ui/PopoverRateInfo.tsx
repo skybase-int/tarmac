@@ -166,6 +166,23 @@ const getContent = (
         applies to any legacy Maker MCD vault.
       </Text>
     )
+  },
+  delayedUpgradePenalty: {
+    title: 'Delayed Upgrade Penalty',
+    description: (
+      <>
+        <Text className="leading-5 text-white/80" variant="small">
+          The Delayed Upgrade Penalty is a time-based upgrade mechanism, approved by Sky Ecosystem Governance,
+          which is designed to facilitate a smooth and prompt upgrade of MKR to SKY.
+        </Text>
+        <br />
+        <Text className="leading-5 text-white/80" variant="small">
+          The penalty, which will begin sometime in September 2025, reduces the amount of SKY received per MKR
+          upgraded at a rate of 1%, and increases by 1% every three months thereafter until it reaches 100% in
+          25 years. The penalty will not apply to anyone upgrading their MKR to SKY before it kicks in.
+        </Text>
+      </>
+    )
   }
 });
 
@@ -186,7 +203,8 @@ export const PopoverRateInfo = ({
     | 'stakingRewards'
     | 'borrow'
     | 'delegate'
-    | 'liquidation';
+    | 'liquidation'
+    | 'delayedUpgradePenalty';
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   iconClassName?: string;
   width?: number;
