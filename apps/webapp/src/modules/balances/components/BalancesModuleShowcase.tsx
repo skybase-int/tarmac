@@ -31,7 +31,7 @@ export function BalancesModuleShowcase() {
         }),
         Fade()
       ]}
-      className="relative"
+      className="relative mb-8"
     >
       <CarouselContent>
         {!isRestrictedBuild && (
