@@ -3,7 +3,7 @@ import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { WidgetProps, WidgetState, WidgetStateChangeParams } from '@widgets/shared/types/widgetState';
 import { WidgetContext, WidgetProvider } from '@widgets/context/WidgetContext';
 import { WidgetContainer } from '@widgets/shared/components/ui/widget/WidgetContainer';
-import { Heading } from '@widgets/shared/components/ui/Typography';
+import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { WidgetButtons } from '@widgets/shared/components/ui/widget/WidgetButtons';
@@ -1001,6 +1001,17 @@ function StakeModuleWidgetWrapped({
             </Button>
           </VStack>
         )
+      }
+      subHeader={
+        !isConnectedAndEnabled ||
+        !widgetStateLoaded ||
+        (widgetState.flow === StakeFlow.OPEN && currentUrnIndex === 0n) ||
+        (widgetState.flow === StakeFlow.MANAGE && widgetState.action === StakeAction.OVERVIEW) ||
+        widgetState.screen === StakeScreen.TRANSACTION ? (
+          <Text className="text-textSecondary" variant="small">
+            <Trans>Stake SKY to earn rewards, delegate votes, and borrow USDS</Trans>
+          </Text>
+        ) : undefined
       }
       rightHeader={rightHeaderComponent}
       footer={
