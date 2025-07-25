@@ -329,7 +329,9 @@ test('Details pane shows right data', async ({ page }) => {
   expect(
     page.getByTestId('widget-container').getByRole('button', { name: 'Connect Wallet' }).last()
   ).toBeEnabled();
-  expect(page.getByTestId('connect-wallet-card').getByRole('heading')).toBeVisible();
+  expect(
+    page.getByTestId('connect-wallet-card').getByRole('heading', { name: 'Ready to upgrade and explore?' })
+  ).toBeVisible();
   // expect(
   //   page.getByTestId('connect-wallet-card').getByRole('heading', { name: 'Set up access to explore' })
   // ).toBeVisible();
