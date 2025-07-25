@@ -1404,6 +1404,10 @@ msgstr ""
 msgid "Manage your position(s)"
 msgstr ""
 
+#: packages/widgets/src/widgets/BalancesWidget/index.tsx
+msgid "Manage your Sky Ecosystem funds across supported networks"
+msgstr ""
+
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Borrow.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
@@ -2147,6 +2151,10 @@ msgstr ""
 msgid "Stake and Borrow"
 msgstr ""
 
+#: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
+msgid "Stake SKY to earn rewards, delegate votes, and borrow USDS"
+msgstr ""
+
 #. placeholder {0}: isDifferentChain ? 'on Mainnet' : ''
 #: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
 msgid "Stake your {formattedBalance} {upperSymbol} in the Staking Engine {0}"
@@ -2483,6 +2491,10 @@ msgstr ""
 msgid "Trade failed"
 msgstr ""
 
+#: packages/widgets/src/widgets/TradeWidget/components/TradeHeader.tsx
+msgid "Trade popular tokens for Sky Ecosystem tokens"
+msgstr ""
+
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
@@ -2760,6 +2772,10 @@ msgstr ""
 msgid "Upgrade your DAI and MKR"
 msgstr ""
 
+#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
+msgid "Upgrade your DAI to USDS and MKR to SKY"
+msgstr ""
+
 #: apps/webapp/src/modules/ui/components/AboutUsds.tsx
 #: packages/widgets/src/widgets/BalancesWidget/lib/getToken.ts
 #: packages/widgets/src/widgets/BalancesWidget/lib/getToken.ts
@@ -2785,6 +2801,14 @@ msgstr ""
 
 #: packages/widgets/src/widgets/BalancesWidget/components/RewardsBalanceCard.tsx
 msgid "USDS supplied to Rewards"
+msgstr ""
+
+#: packages/widgets/src/widgets/RewardsWidget/index.tsx
+msgid "Use USDS to access Sky Token Rewards"
+msgstr ""
+
+#: packages/widgets/src/widgets/SavingsWidget/index.tsx
+msgid "Use USDS to access the Sky Savings Rate"
 msgstr ""
 
 #: apps/webapp/src/modules/stake/components/StakeHistory.tsx
