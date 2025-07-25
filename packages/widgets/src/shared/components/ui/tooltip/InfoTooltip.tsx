@@ -33,7 +33,11 @@ export function InfoTooltip({
 
   return isTouchDevice ? (
     <Popover>
-      <PopoverTrigger onClick={e => e.stopPropagation()} className="z-10">
+      <PopoverTrigger
+        onClick={e => e.stopPropagation()}
+        className="z-10"
+        aria-label="Show additional information"
+      >
         <Info size={iconSize} className={iconClassName} />
       </PopoverTrigger>
       <PopoverContent
@@ -58,7 +62,7 @@ export function InfoTooltip({
     </Popover>
   ) : (
     <Tooltip>
-      <TooltipTrigger>
+      <TooltipTrigger aria-label="Show additional information">
         <Info size={iconSize} className={iconClassName} />
       </TooltipTrigger>
       <TooltipPortal>
