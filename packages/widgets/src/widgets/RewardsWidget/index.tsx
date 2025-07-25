@@ -397,8 +397,10 @@ const RewardsWidgetWrapped = ({
 
   useEffect(() => {
     // Only the supply flow requires token allowance
-    setShowStepIndicator(widgetState.flow === RewardsFlow.SUPPLY);
-  }, [widgetState.flow]);
+    setShowStepIndicator(
+      widgetState.flow === RewardsFlow.SUPPLY && widgetState.action !== RewardsAction.CLAIM
+    );
+  }, [widgetState.flow, widgetState.action]);
 
   useEffect(() => {
     if (widgetState.action === RewardsAction.CLAIM) {
