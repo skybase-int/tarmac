@@ -138,7 +138,7 @@ export function WidgetNavigation({
           <TooltipProvider>
             {widgetContent.map(([widgetIntent, label, icon, , comingSoon, options, description]) => (
               <div key={widgetIntent} className="flex grow basis-[15%] justify-center">
-                <Tooltip delayDuration={50}>
+                <Tooltip delayDuration={150}>
                   <TooltipTrigger asChild>
                     <TabsTrigger
                       variant="icons"
