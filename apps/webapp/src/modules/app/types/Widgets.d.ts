@@ -19,7 +19,8 @@ export type WidgetItem = [
   (props: IconProps) => React.ReactNode,
   React.ReactNode | null,
   boolean,
-  { disabled?: boolean }?
+  { disabled?: boolean }?,
+  string? // description for tooltip
 ];
 
 export type WidgetGroup = {

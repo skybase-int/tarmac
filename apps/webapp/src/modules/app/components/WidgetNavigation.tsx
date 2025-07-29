@@ -18,6 +18,13 @@ import { Menu } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { DualSwitcher } from '@/components/DualSwitcher';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+  TooltipPortal
+} from '@/components/ui/tooltip';
 
 interface WidgetNavigationProps {
   widgetContent: WidgetContent;
@@ -204,64 +211,74 @@ export function WidgetNavigation({
         <motion.div layout transition={{ layout: { duration: 0 } }} className="lg:flex lg:w-full lg:flex-row">
           {/* Desktop vertical tabs, hidden on mobile and tablet */}
           <div className="border-r-1 h-full justify-center">
-            <TabsList
-              className={cn(
-                'sticky top-0 z-20 flex w-full justify-around rounded-none rounded-t-3xl border-b backdrop-blur-2xl',
-                'lg:scrollbar-thin lg:static lg:h-fit lg:max-h-[calc(100vh-120px)] lg:w-auto lg:flex-col lg:justify-start lg:gap-2 lg:self-start lg:overflow-y-auto lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:pr-[10px] lg:backdrop-filter-none',
-                hideTabs && 'hidden',
-                showDrawerMenu && 'hidden', // Hide the tabs on mobile and tablet when using Sheet
-                'lg:overflow-visible'
-              )}
-              data-testid="widget-navigation"
-            >
-              {widgetContent.map((group, groupIndex) => (
-                <React.Fragment key={group.id}>
-                  {group.items.map(([widgetIntent, label, icon, , comingSoon, options]) => (
-                    <div
-                      key={widgetIntent}
-                      className="flex grow basis-[15%] justify-center md:w-full md:basis-auto md:justify-start"
-                    >
-                      <TabsTrigger
-                        variant="icons"
-                        value={widgetIntent}
-                        className={cn(
-                          'text-textSecondary data-[state=active]:text-text w-full px-1',
-                          // Desktop vertical tabs - minimal styling
-                          'lg:justify-start lg:gap-1.5 lg:bg-transparent lg:px-4 lg:py-2 lg:hover:bg-transparent',
-                          'lg:data-[state=active]:text-text lg:data-[state=active]:bg-transparent',
-                          'disabled:cursor-not-allowed disabled:text-[rgba(198,194,255,0.4)]',
-                          // Keep the existing mobile/tablet styling
-                          'max-lg:before:opacity-0',
-                          'max-lg:disabled:before:opacity-0 max-lg:disabled:hover:before:opacity-0',
-                          !showDrawerMenu && intent === widgetIntent && verticalTabGlowClasses,
-                          showDrawerMenu &&
-                            intent === widgetIntent &&
-                            'before:opacity-100 hover:before:opacity-100'
-                        )}
-                        disabled={options?.disabled || false}
+            <TooltipProvider>
+              <TabsList
+                className={cn(
+                  'sticky top-0 z-20 flex w-full justify-around rounded-none rounded-t-3xl border-b backdrop-blur-2xl',
+                  'lg:scrollbar-thin lg:static lg:h-fit lg:max-h-[calc(100vh-120px)] lg:w-auto lg:flex-col lg:justify-start lg:gap-2 lg:self-start lg:overflow-y-auto lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:pr-[10px] lg:backdrop-filter-none',
+                  hideTabs && 'hidden',
+                  showDrawerMenu && 'hidden',
+                  'lg:overflow-visible'
+                )}
+                data-testid="widget-navigation"
+              >
+                {widgetContent.map((group, groupIndex) => (
+                  <React.Fragment key={group.id}>
+                    {group.items.map(([widgetIntent, label, icon, , comingSoon, options, description]) => (
+                      <div
+                        key={widgetIntent}
+                        className="flex grow basis-[15%] justify-center md:w-full md:basis-auto md:justify-start"
                       >
-                        {icon({ color: 'inherit' })}
-                        <Text variant="small" className="leading-4 text-inherit">
-                          <Trans>{label}</Trans>
-                        </Text>
-                        {comingSoon && (
-                          <Text
-                            variant="small"
-                            className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 text-textSecondary absolute left-1/2 top-0 -mt-2 rounded-full px-1.5 py-0 lg:static lg:px-1.5 lg:py-0.5 lg:text-[10px]"
-                          >
-                            <Trans>Soon</Trans>
-                          </Text>
-                        )}
-                      </TabsTrigger>
-                    </div>
-                  ))}
-                  {/* Add separator between groups (not after last group) */}
-                  {groupIndex < widgetContent.length - 1 && !showDrawerMenu && (
-                    <div className="lg:border-b-1 hidden lg:my-2 lg:block lg:h-px lg:w-full" />
-                  )}
-                </React.Fragment>
-              ))}
-            </TabsList>
+                        <Tooltip delayDuration={150}>
+                          <TooltipTrigger asChild>
+                            <TabsTrigger
+                              variant="icons"
+                              value={widgetIntent}
+                              className={cn(
+                                'text-textSecondary data-[state=active]:text-text w-full px-1',
+                                'lg:justify-start lg:gap-1.5 lg:bg-transparent lg:px-4 lg:py-2 lg:hover:bg-transparent',
+                                'lg:data-[state=active]:text-text lg:data-[state=active]:bg-transparent',
+                                'disabled:cursor-not-allowed disabled:text-[rgba(198,194,255,0.4)]',
+                                'max-lg:before:opacity-0',
+                                'max-lg:disabled:before:opacity-0 max-lg:disabled:hover:before:opacity-0',
+                                !showDrawerMenu && intent === widgetIntent && verticalTabGlowClasses,
+                                showDrawerMenu &&
+                                  intent === widgetIntent &&
+                                  'before:opacity-100 hover:before:opacity-100'
+                              )}
+                              disabled={options?.disabled || false}
+                            >
+                              {icon({ color: 'inherit' })}
+                              <Text variant="small" className="leading-4 text-inherit">
+                                <Trans>{label}</Trans>
+                              </Text>
+                              {comingSoon && (
+                                <Text
+                                  variant="small"
+                                  className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 text-textSecondary absolute left-1/2 top-0 -mt-2 rounded-full px-1.5 py-0 lg:static lg:px-1.5 lg:py-0.5 lg:text-[10px]"
+                                >
+                                  <Trans>Soon</Trans>
+                                </Text>
+                              )}
+                            </TabsTrigger>
+                          </TooltipTrigger>
+                          {description && !isMobile && (
+                            <TooltipPortal>
+                              <TooltipContent>
+                                <p className="max-w-xs text-sm">{description}</p>
+                              </TooltipContent>
+                            </TooltipPortal>
+                          )}
+                        </Tooltip>
+                      </div>
+                    ))}
+                    {groupIndex < widgetContent.length - 1 && !showDrawerMenu && (
+                      <div className="lg:border-b-1 hidden lg:my-2 lg:block lg:h-px lg:w-full" />
+                    )}
+                  </React.Fragment>
+                ))}
+              </TabsList>
+            </TooltipProvider>
           </div>
           <div className="md:min-w-[352px] md:max-w-[440px] lg:flex lg:min-w-[416px] lg:max-w-[416px] lg:flex-1 lg:flex-col lg:overflow-hidden">
             <LinkedActionWrapper />

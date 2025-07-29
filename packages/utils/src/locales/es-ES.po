@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2025-02-06 13:31-0300\n"
+"POT-Creation-Date: 2025-07-29 16:06-0700\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -217,7 +217,7 @@ msgstr ""
 msgid "Access Restricted"
 msgstr ""
 
-#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
+#: apps/webapp/src/modules/balances/components/modules/RewardsCard.tsx
 msgid "Access rewards without giving up control"
 msgstr ""
 
@@ -226,7 +226,11 @@ msgstr ""
 msgid "Access Sky Savings Rate with USDS"
 msgstr ""
 
-#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
+#: apps/webapp/src/modules/balances/components/modules/StakingRewardsCard.tsx
+msgid "Access Staking rewards (or Borrow) with SKY"
+msgstr ""
+
+#: apps/webapp/src/modules/balances/components/modules/SavingsCard.tsx
 msgid "Access the Sky Savings Rate"
 msgstr ""
 
@@ -1210,7 +1214,7 @@ msgstr ""
 msgid "Get the Sky Savings Rate"
 msgstr ""
 
-#. placeholder {0}: isBase ? 'Base' : isArbitrum ? 'Arbitrum' : ''
+#. placeholder {0}: l2Chain?.name || ''
 #: apps/webapp/src/modules/balances/components/ModuleCard.tsx
 msgid "Go to {0} {module}"
 msgstr ""
@@ -1484,6 +1488,10 @@ msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
 msgid "Manage your position(s)"
+msgstr ""
+
+#: packages/widgets/src/widgets/BalancesWidget/index.tsx
+msgid "Manage your Sky Ecosystem funds across supported networks"
 msgstr ""
 
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
@@ -1934,7 +1942,7 @@ msgstr ""
 msgid "rewards"
 msgstr ""
 
-#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
+#: apps/webapp/src/modules/balances/components/modules/RewardsCard.tsx
 msgid "Rewards"
 msgstr ""
 
@@ -1965,7 +1973,7 @@ msgstr ""
 msgid "savings"
 msgstr ""
 
-#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
+#: apps/webapp/src/modules/balances/components/modules/SavingsCard.tsx
 msgid "Savings"
 msgstr ""
 
@@ -2226,7 +2234,7 @@ msgstr ""
 msgid "Soon"
 msgstr ""
 
-#. placeholder {0}: soonChain.name
+#. placeholder {0}: l2Chain.name
 #: apps/webapp/src/modules/balances/components/ModuleCard.tsx
 msgid "Soon on {0}"
 msgstr ""
@@ -2259,6 +2267,10 @@ msgstr ""
 msgid "Stake and Borrow"
 msgstr ""
 
+#: packages/widgets/src/widgets/StakeModuleWidget/index.tsx
+msgid "Stake SKY to earn rewards, delegate votes, and borrow USDS"
+msgstr ""
+
 #. placeholder {0}: isDifferentChain ? 'on Mainnet' : ''
 #: apps/webapp/src/modules/app/hooks/useActionForToken.tsx
 msgid "Stake your {formattedBalance} {upperSymbol} in the Staking Engine {0}"
@@ -2269,6 +2281,7 @@ msgstr ""
 msgid "Staked"
 msgstr ""
 
+#: apps/webapp/src/modules/balances/components/modules/StakingRewardsCard.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/PositionSummary.tsx
 msgid "Staking"
@@ -2630,7 +2643,7 @@ msgstr ""
 msgid "trade"
 msgstr ""
 
-#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
+#: apps/webapp/src/modules/balances/components/modules/TradeCard.tsx
 #: packages/widgets/src/widgets/TradeWidget/components/TradeTransactionStatus.tsx
 #: packages/widgets/src/widgets/TradeWidget/components/TradeHeader.tsx
 #: packages/widgets/src/widgets/L2TradeWidget/components/L2TradeTransactionStatus.tsx
@@ -2660,6 +2673,11 @@ msgstr ""
 #: packages/widgets/src/widgets/L2TradeWidget/index.tsx
 #: packages/widgets/src/widgets/L2TradeWidget/index.tsx
 msgid "Trade failed"
+msgstr ""
+
+#: packages/widgets/src/widgets/TradeWidget/components/TradeHeader.tsx
+#: packages/widgets/src/widgets/L2TradeWidget/index.tsx
+msgid "Trade popular tokens for Sky Ecosystem tokens"
 msgstr ""
 
 #: packages/widgets/src/widgets/TradeWidget/index.tsx
@@ -2700,7 +2718,7 @@ msgstr ""
 msgid "Trade your {formattedBalance} {upperSymbol} for USDS to get rewards {0}"
 msgstr ""
 
-#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
+#: apps/webapp/src/modules/balances/components/modules/TradeCard.tsx
 msgid "Trade your crypto tokens"
 msgstr ""
 
@@ -2872,7 +2890,7 @@ msgstr ""
 msgid "upgrade"
 msgstr ""
 
-#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
+#: apps/webapp/src/modules/balances/components/modules/UpgradeCard.tsx
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 #: packages/widgets/src/widgets/UpgradeWidget/index.tsx
 #: packages/widgets/src/widgets/UpgradeWidget/components/UpgradeTransactionStatus.tsx
@@ -2939,8 +2957,12 @@ msgstr ""
 msgid "Upgrade your {formattedBalance} {upperSymbol} to USDS to get rewards {0}"
 msgstr ""
 
-#: apps/webapp/src/modules/balances/components/BalancesModuleShowcase.tsx
+#: apps/webapp/src/modules/balances/components/modules/UpgradeCard.tsx
 msgid "Upgrade your DAI and MKR"
+msgstr ""
+
+#: packages/widgets/src/widgets/UpgradeWidget/index.tsx
+msgid "Upgrade your DAI to USDS and MKR to SKY"
 msgstr ""
 
 #: apps/webapp/src/modules/ui/components/AboutUsds.tsx
@@ -2972,6 +2994,18 @@ msgstr ""
 
 #: packages/widgets/src/widgets/BalancesWidget/components/StUSDSBalanceCard.tsx
 msgid "USDS supplied to stUSDS"
+msgstr ""
+
+#: packages/widgets/src/widgets/L2SavingsWidget/index.tsx
+msgid "Use USDS or USDC to access the Sky Savings Rate"
+msgstr ""
+
+#: packages/widgets/src/widgets/RewardsWidget/index.tsx
+msgid "Use USDS to access Sky Token Rewards"
+msgstr ""
+
+#: packages/widgets/src/widgets/SavingsWidget/index.tsx
+msgid "Use USDS to access the Sky Savings Rate"
 msgstr ""
 
 #: apps/webapp/src/modules/stusds/components/StUSDSUtilizationCard.tsx
