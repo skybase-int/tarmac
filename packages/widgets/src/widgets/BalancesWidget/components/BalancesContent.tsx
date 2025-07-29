@@ -15,7 +15,8 @@ import {
   TokenItem,
   useTotalUserSealed,
   useMultiChainSavingsBalances,
-  useTotalUserStaked
+  useTotalUserStaked,
+  useStUsdsData
 } from '@jetstreamgg/sky-hooks';
 import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
@@ -209,6 +210,7 @@ export const BalancesContent = ({
     isLoading: stakeLoading,
     error: totalUserStakedError
   } = useTotalUserStaked();
+  const { data: stUsdsData, isLoading: stUsdsLoading, error: stUsdsError } = useStUsdsData();
 
   const hideSeal = Boolean(
     totalUserSealedError ||
@@ -219,6 +221,12 @@ export const BalancesContent = ({
   const hideStake = Boolean(
     totalUserStakedError ||
       (totalUserStaked === 0n && hideZeroBalances) ||
+      (!showAllNetworks && !isMainnetId(currentChainId))
+  );
+
+  const hideStUSDS = Boolean(
+    stUsdsError ||
+      stUsdsData?.userSuppliedUsds === 0n || //always hide zero balances for advanced modules
       (!showAllNetworks && !isMainnetId(currentChainId))
   );
 
@@ -289,6 +297,8 @@ export const BalancesContent = ({
               sealLoading={sealLoading}
               sealBalance={totalUserSealed}
               hideStake={hideStake}
+              hideStUSDS={hideStUSDS}
+              stusdsLoading={stUsdsLoading}
               stakeLoading={stakeLoading}
               stakeBalance={totalUserStaked}
               totalUserRewardsSupplied={totalUserRewardsSupplied}
