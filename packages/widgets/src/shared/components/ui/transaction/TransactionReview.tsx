@@ -104,7 +104,7 @@ export function TransactionReview({
                         }
                       />
                     </HStack>
-                    <Text className="text-textSecondary text-[13px]">(toggled on by default).</Text>
+                    <Text className="text-textSecondary text-[13px]">(toggled on by default)</Text>
                   </HStack>
                   <Switch
                     checked={batchEnabled}
