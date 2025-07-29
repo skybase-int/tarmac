@@ -848,7 +848,7 @@ export function UpgradeWidgetWrapped({
         ) : widgetState.screen === UpgradeScreen.REVIEW ? (
           <CardAnimationWrapper key="widget-transaction-review">
             <UpgradeTransactionReview
-              batchEnabled={batchEnabled}
+              batchEnabled={batchEnabled && !shouldAvoidBundledFlow}
               setBatchEnabled={setBatchEnabled}
               isBatchTransaction={shouldUseBatch}
               originToken={originToken}
@@ -857,6 +857,7 @@ export function UpgradeWidgetWrapped({
               targetAmount={math.calculateConversion(originToken, debouncedOriginAmount)}
               needsAllowance={!hasAllowance}
               legalBatchTxUrl={legalBatchTxUrl}
+              isBatchFlowSupported={!shouldAvoidBundledFlow}
             />
           </CardAnimationWrapper>
         ) : (
