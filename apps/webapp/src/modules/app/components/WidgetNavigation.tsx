@@ -264,7 +264,7 @@ export function WidgetNavigation({
                           </TooltipTrigger>
                           {description && !isMobile && (
                             <TooltipPortal>
-                              <TooltipContent>
+                              <TooltipContent side="right">
                                 <p className="max-w-xs text-sm">{description}</p>
                               </TooltipContent>
                             </TooltipPortal>
