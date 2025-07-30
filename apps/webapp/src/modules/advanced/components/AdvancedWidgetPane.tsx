@@ -7,10 +7,20 @@ import { Trans } from '@lingui/react/macro';
 import { AnimatePresence } from 'framer-motion';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { StUSDSWidgetPane } from '@/modules/stusds/components/StUSDSWidgetPane';
-import { ADVANCED_WIDGET_OPTIONS } from '@/lib/constants';
+import { ADVANCED_WIDGET_OPTIONS, AdvancedIntentMapping, QueryParams } from '@/lib/constants';
+import { useSearchParams } from 'react-router-dom';
 
 export function AdvancedWidgetPane(sharedProps: SharedProps) {
   const { selectedAdvancedOption, setSelectedAdvancedOption } = useConfigContext();
+  const [, setSearchParams] = useSearchParams();
+
+  const handleSelectAdvancedOption = (advancedIntent: AdvancedIntent) => {
+    setSearchParams(params => {
+      params.set(QueryParams.AdvancedModule, AdvancedIntentMapping[advancedIntent]);
+      return params;
+    });
+    setSelectedAdvancedOption(advancedIntent);
+  };
 
   return (
     <AnimatePresence mode="popLayout" initial={false}>
@@ -36,7 +46,7 @@ export function AdvancedWidgetPane(sharedProps: SharedProps) {
                 <Card
                   key={widget.id}
                   className="cursor-pointer"
-                  onClick={() => setSelectedAdvancedOption(widget.id)}
+                  onClick={() => handleSelectAdvancedOption(widget.id)}
                 >
                   <CardHeader>
                     <CardTitle>{widget.name}</CardTitle>

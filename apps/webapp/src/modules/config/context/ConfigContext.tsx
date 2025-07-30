@@ -85,8 +85,8 @@ export interface ConfigContextProps {
   externalLinkModalUrl: string;
   setExternalLinkModalUrl: (val: string) => void;
   onExternalLinkClicked: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-  selectedAdvancedOption: AdvancedIntent | null;
-  setSelectedAdvancedOption: (intent: AdvancedIntent | null) => void;
+  selectedAdvancedOption: AdvancedIntent | undefined;
+  setSelectedAdvancedOption: (intent: AdvancedIntent | undefined) => void;
 }
 
 // Zod schema for validating user settings
@@ -118,7 +118,7 @@ export const ConfigContext = createContext<ConfigContextProps>({
   externalLinkModalUrl: '',
   setExternalLinkModalUrl: () => {},
   onExternalLinkClicked: () => {},
-  selectedAdvancedOption: null,
+  selectedAdvancedOption: undefined,
   setSelectedAdvancedOption: () => {}
 });
 
@@ -131,7 +131,7 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
   const [linkedActionConfig, setLinkedActionConfig] = useState(defaultLinkedActionConfig);
   const [externalLinkModalOpened, setExternalLinkModalOpened] = useState(false);
   const [externalLinkModalUrl, setExternalLinkModalUrl] = useState('');
-  const [selectedAdvancedOption, setSelectedAdvancedOption] = useState<AdvancedIntent | null>(null);
+  const [selectedAdvancedOption, setSelectedAdvancedOption] = useState<AdvancedIntent | undefined>(undefined);
 
   // Check the user settings on load, and set locale
   useEffect(() => {

@@ -21,7 +21,8 @@ export enum QueryParams {
   Reset = 'reset',
   Flow = 'flow',
   StakeTab = 'stake_tab',
-  SealTab = 'seal_tab'
+  SealTab = 'seal_tab',
+  AdvancedModule = 'advanced_module'
 }
 
 const isRestrictedBuild = import.meta.env.VITE_RESTRICTED_BUILD === 'true';
@@ -40,6 +41,10 @@ export const IntentMapping = {
   [Intent.SEAL_INTENT]: 'seal',
   [Intent.STAKE_INTENT]: 'stake',
   [Intent.ADVANCED_INTENT]: 'advanced'
+};
+
+export const AdvancedIntentMapping: Record<AdvancedIntent, string> = {
+  [AdvancedIntent.STUSDS_INTENT]: 'stusds'
 };
 
 export const CHAIN_WIDGET_MAP: Record<number, Intent[]> = {

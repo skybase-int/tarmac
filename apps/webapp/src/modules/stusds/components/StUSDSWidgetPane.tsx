@@ -6,7 +6,7 @@ import {
   StUSDSFlow
 } from '@jetstreamgg/sky-widgets';
 import { useSavingsHistory } from '@jetstreamgg/sky-hooks';
-import { IntentMapping, QueryParams, REFRESH_DELAY } from '@/lib/constants';
+import { AdvancedIntentMapping, QueryParams, REFRESH_DELAY } from '@/lib/constants';
 import { SharedProps } from '@/modules/app/types/Widgets';
 import { LinkedActionSteps } from '@/modules/config/context/ConfigContext';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
@@ -14,7 +14,7 @@ import { useSearchParams } from 'react-router-dom';
 import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
 import { useSubgraphUrl } from '@/modules/app/hooks/useSubgraphUrl';
 import { useChatContext } from '@/modules/chat/context/ChatContext';
-import { Intent } from '@/lib/enums';
+import { AdvancedIntent } from '@/lib/enums';
 import { useBatchToggle } from '@/modules/ui/hooks/useBatchToggle';
 
 export function StUSDSWidgetPane(sharedProps: SharedProps) {
@@ -37,7 +37,9 @@ export function StUSDSWidgetPane(sharedProps: SharedProps) {
     originAmount
   }: WidgetStateChangeParams) => {
     // Prevent race conditions
-    if (searchParams.get(QueryParams.Widget) !== IntentMapping[Intent.STUSDS_INTENT]) {
+    if (
+      searchParams.get(QueryParams.AdvancedModule) !== AdvancedIntentMapping[AdvancedIntent.STUSDS_INTENT]
+    ) {
       return;
     }
 
@@ -107,7 +109,11 @@ export function StUSDSWidgetPane(sharedProps: SharedProps) {
   };
 
   const handleBack = () => {
-    setSelectedAdvancedOption(null);
+    setSearchParams(params => {
+      params.delete(QueryParams.AdvancedModule);
+      return params;
+    });
+    setSelectedAdvancedOption(undefined);
   };
 
   return (
