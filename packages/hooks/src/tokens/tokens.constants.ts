@@ -181,7 +181,7 @@ export const TOKENS: TokenMapping = {
     address: stUsdsAddress, // TODO: no stUsdsConfig for now as it comes from the wagmi etherscan plugin
     name: 'stUSDS',
     symbol: 'stUSDS',
-    color: '#1AAB9B',
+    color: '#EB5EDF',
     decimals: 18
   }
 };
