@@ -13,6 +13,7 @@ export function StUSDSTvlCard() {
 
   return (
     <StatsCard
+      className="h-full"
       isLoading={isLoading}
       title={i18n._(msg`Total Value Locked`)}
       content={

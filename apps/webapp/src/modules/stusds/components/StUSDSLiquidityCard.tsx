@@ -20,6 +20,7 @@ export function StUSDSLiquidityCard() {
 
   return (
     <StatsCard
+      className="h-full"
       isLoading={isStUsdsLoading || isCollateralLoading}
       title={
         <div className="flex items-center gap-1">

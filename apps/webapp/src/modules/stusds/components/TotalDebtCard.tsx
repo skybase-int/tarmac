@@ -14,6 +14,7 @@ export function TotalDebtCard() {
 
   return (
     <StatsCard
+      className="h-full"
       isLoading={isCollateralLoading}
       title={
         <div className="flex items-center gap-1">

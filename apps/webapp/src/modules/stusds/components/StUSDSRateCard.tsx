@@ -15,6 +15,7 @@ export function StUSDSRateCard() {
 
   return (
     <StatsCard
+      className="h-full"
       isLoading={isLoading}
       title={i18n._(msg`Rate`)}
       content={
