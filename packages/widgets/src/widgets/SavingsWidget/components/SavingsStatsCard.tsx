@@ -76,7 +76,6 @@ export const SavingsStatsCard = ({
 
   return (
     <SavingsStatsCardCore
-      isLoading={isLoading}
       content={
         <StatsAccordionCard
           chainId={chainId}
