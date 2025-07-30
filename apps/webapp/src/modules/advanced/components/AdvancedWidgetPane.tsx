@@ -9,6 +9,7 @@ import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { StUSDSWidgetPane } from '@/modules/stusds/components/StUSDSWidgetPane';
 import { ADVANCED_WIDGET_OPTIONS, AdvancedIntentMapping, QueryParams } from '@/lib/constants';
 import { useSearchParams } from 'react-router-dom';
+import { AdvancedRiskCheckbox } from './AdvancedRiskCheckbox';
 
 export function AdvancedWidgetPane(sharedProps: SharedProps) {
   const { selectedAdvancedOption, setSelectedAdvancedOption } = useConfigContext();
@@ -42,6 +43,7 @@ export function AdvancedWidgetPane(sharedProps: SharedProps) {
             rightHeader={sharedProps.rightHeaderComponent}
           >
             <CardAnimationWrapper className="flex flex-col gap-4">
+              <AdvancedRiskCheckbox />
               {ADVANCED_WIDGET_OPTIONS.map(widget => (
                 <Card
                   key={widget.id}
