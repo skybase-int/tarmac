@@ -4,7 +4,7 @@ import { useTokenBalance } from '../tokens/useTokenBalance';
 import { usdsAddress, stUsdsAddress, stUsdsAbi } from '../generated';
 import { TRUST_LEVELS, TrustLevelEnum } from '../constants';
 import { DataSource, ReadHook } from '../hooks';
-import { getEtherscanLink } from '@jetstreamgg/sky-utils';
+import { getEtherscanLink, isTestnetId } from '@jetstreamgg/sky-utils';
 
 export type StUsdsHookData = {
   totalAssets: bigint;
@@ -27,7 +27,8 @@ export type StUsdsHook = ReadHook & {
 };
 
 export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
-  const chainId = useChainId();
+  const connectedChainId = useChainId();
+  const chainId = isTestnetId(connectedChainId) ? 314310 : 1; //StUsds is only on mainnet / mainnet testnet
   const { address: connectedAddress } = useAccount();
   const acct = address || connectedAddress;
 
