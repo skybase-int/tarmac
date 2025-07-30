@@ -15,6 +15,8 @@ import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 import { FooterLinks } from '@/modules/layout/components/FooterLinks';
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
 import { StakeDetailsPane } from '@/modules/stake/components/StakeDetailsPane';
+import { AdvancedDetailsPane } from '@/modules/advanced/components/AdvancedDetailsPane';
+import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 
 type DetailsPaneProps = {
   intent: Intent;
@@ -39,16 +41,17 @@ const MotionDetailsWrapper = forwardRef<
 export const DetailsPane = ({ intent }: DetailsPaneProps) => {
   const defaultDetail = Intent.BALANCES_INTENT;
   const [intentState, setIntentState] = useState<Intent>(intent || defaultDetail);
-  const [keys, setKeys] = useState([0, 1, 2, 3, 4, 5, 6]);
+  const [keys, setKeys] = useState([0, 1, 2, 3, 4, 5, 6, 7]);
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
   const { bpi } = useBreakpointIndex();
+  const { selectedAdvancedOption } = useConfigContext();
 
   useEffect(() => {
     setIntentState(prevIntentState => {
       if (prevIntentState !== intent) {
         // By giving the keys a new value, we force the motion component to animate the new component in, even if it's
         // the same component as before. This prevents the component from being re-added before being removed
-        setKeys(prevKeys => prevKeys.map(key => key + 7));
+        setKeys(prevKeys => prevKeys.map(key => key + 8));
       }
 
       return intent || defaultDetail;
@@ -96,22 +99,32 @@ export const DetailsPane = ({ intent }: DetailsPaneProps) => {
                   <SavingsDetails />
                 </MotionDetailsWrapper>
               );
-            case Intent.STUSDS_INTENT:
-              return (
-                <MotionDetailsWrapper key={keys[4]}>
-                  <StUSDSDetails />
-                </MotionDetailsWrapper>
-              );
             case Intent.STAKE_INTENT:
               return (
-                <MotionDetailsWrapper key={keys[5]}>
+                <MotionDetailsWrapper key={keys[4]}>
                   <StakeDetailsPane />
                 </MotionDetailsWrapper>
               );
+            case Intent.ADVANCED_INTENT:
+              // Switch for the multiple advanced options
+              switch (selectedAdvancedOption) {
+                case Intent.STUSDS_INTENT:
+                  return (
+                    <MotionDetailsWrapper key={keys[5]}>
+                      <StUSDSDetails />
+                    </MotionDetailsWrapper>
+                  );
+                default:
+                  return (
+                    <MotionDetailsWrapper key={keys[6]}>
+                      <AdvancedDetailsPane />
+                    </MotionDetailsWrapper>
+                  );
+              }
             case Intent.BALANCES_INTENT:
             default:
               return (
-                <MotionDetailsWrapper key={keys[6]}>
+                <MotionDetailsWrapper key={keys[7]}>
                   <BalancesDetails />
                 </MotionDetailsWrapper>
               );
