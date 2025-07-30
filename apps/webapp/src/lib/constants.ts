@@ -105,6 +105,11 @@ export const intentTxt: Record<string, MessageDescriptor> = {
   stake: msg`stake`
 };
 
+export const ADVANCED_WIDGET_OPTIONS: {
+  id: Intent;
+  name: string;
+}[] = [{ id: Intent.STUSDS_INTENT, name: 'stUSDS' }];
+
 export const VALID_LINKED_ACTIONS = [
   IntentMapping[Intent.REWARDS_INTENT],
   IntentMapping[Intent.SAVINGS_INTENT]

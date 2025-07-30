@@ -7,18 +7,7 @@ import { Trans } from '@lingui/react/macro';
 import { AnimatePresence } from 'framer-motion';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { StUSDSWidgetPane } from '@/modules/stusds/components/StUSDSWidgetPane';
-
-interface WidgetCard {
-  id: Intent;
-  name: string;
-}
-
-const WIDGET_CARDS: WidgetCard[] = [
-  { id: Intent.TRADE_INTENT, name: 'Trade' },
-  { id: Intent.SAVINGS_INTENT, name: 'Savings' },
-  { id: Intent.REWARDS_INTENT, name: 'Rewards' },
-  { id: Intent.STUSDS_INTENT, name: 'stUSDS' }
-];
+import { ADVANCED_WIDGET_OPTIONS } from '@/lib/constants';
 
 export function AdvancedWidgetPane(sharedProps: SharedProps) {
   const { selectedAdvancedOption, setSelectedAdvancedOption } = useConfigContext();
@@ -43,7 +32,7 @@ export function AdvancedWidgetPane(sharedProps: SharedProps) {
             rightHeader={sharedProps.rightHeaderComponent}
           >
             <CardAnimationWrapper className="flex flex-col gap-4">
-              {WIDGET_CARDS.map(widget => (
+              {ADVANCED_WIDGET_OPTIONS.map(widget => (
                 <Card
                   key={widget.id}
                   className="cursor-pointer"
