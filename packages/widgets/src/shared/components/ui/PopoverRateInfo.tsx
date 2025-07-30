@@ -178,6 +178,14 @@ const getContent = (
       </Text>
     )
   },
+  stusdsLiquidity: {
+    title: 'Available Liquidity',
+    description: (
+      <Text className="leading-5 text-white/80" variant="small">
+        TODO: Add description
+      </Text>
+    )
+  },
   delayedUpgradePenalty: {
     title: 'Delayed Upgrade Penalty',
     description: (
@@ -216,6 +224,7 @@ export const PopoverRateInfo = ({
     | 'delegate'
     | 'liquidation'
     | 'stusds'
+    | 'stusdsLiquidity'
     | 'delayedUpgradePenalty';
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   iconClassName?: string;
