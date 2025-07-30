@@ -39,3 +39,5 @@ export type { PopoverInfoProps } from './shared/components/ui/PopoverInfo';
 export { UtilizationBar } from './shared/components/ui/UtilizationBar';
 export type { UtilizationBarProps } from './shared/components/ui/UtilizationBar';
 export { PairTokenIcons } from './shared/components/ui/token/PairTokenIcon';
+export { WidgetContainer } from './shared/components/ui/widget/WidgetContainer';
+export { CardAnimationWrapper } from './shared/animation/Wrappers';

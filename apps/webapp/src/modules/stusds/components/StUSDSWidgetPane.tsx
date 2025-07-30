@@ -19,7 +19,8 @@ import { useBatchToggle } from '@/modules/ui/hooks/useBatchToggle';
 
 export function StUSDSWidgetPane(sharedProps: SharedProps) {
   const subgraphUrl = useSubgraphUrl();
-  const { linkedActionConfig, updateLinkedActionConfig, exitLinkedActionMode } = useConfigContext();
+  const { linkedActionConfig, updateLinkedActionConfig, exitLinkedActionMode, setSelectedAdvancedOption } =
+    useConfigContext();
   const { mutate: refreshSavingsHistory } = useSavingsHistory(subgraphUrl);
   const [searchParams, setSearchParams] = useSearchParams();
   const { setShouldDisableActionButtons } = useChatContext();
@@ -105,6 +106,10 @@ export function StUSDSWidgetPane(sharedProps: SharedProps) {
     }
   };
 
+  const handleBack = () => {
+    setSelectedAdvancedOption(null);
+  };
+
   return (
     <StUSDSWidget
       {...sharedProps}
@@ -115,6 +120,7 @@ export function StUSDSWidgetPane(sharedProps: SharedProps) {
       }}
       batchEnabled={batchEnabled}
       setBatchEnabled={setBatchEnabled}
+      onBackToAdvanced={handleBack}
     />
   );
 }

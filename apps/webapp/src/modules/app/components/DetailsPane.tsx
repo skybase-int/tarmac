@@ -23,7 +23,7 @@ type DetailsPaneProps = {
 // When using popLayout mode on AnimatePresence, any immediate child of AnimatePresence that's a custom component
 // must be wrapped in `forwardRef`, forwarding the provided ref to the motion component that is being animated.
 const MotionDetailsWrapper = forwardRef<
-  React.ElementRef<typeof motion.div>,
+  React.ComponentRef<typeof motion.div>,
   React.ComponentPropsWithoutRef<typeof motion.div>
 >((props, ref) => (
   <motion.div
