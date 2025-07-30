@@ -100,7 +100,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
     `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.STAKE_INTENT)}`
   );
   const stusdsUrl = getQueryParams(
-    `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.STUSDS_INTENT)}`
+    `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.ADVANCED_INTENT)}`
   );
 
   const widgetItems: WidgetItem[] = [

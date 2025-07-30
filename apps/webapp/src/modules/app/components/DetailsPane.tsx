@@ -1,5 +1,5 @@
 import React, { useState, useEffect, forwardRef } from 'react';
-import { Intent } from '@/lib/enums';
+import { AdvancedIntent, Intent } from '@/lib/enums';
 import { TradeDetails } from '@/modules/trade/components/TradeDetails';
 import { UpgradeDetails } from '@/modules/upgrade/components/UpgradeDetails';
 import { SavingsDetails } from '@/modules/savings/components/SavingsDetails';
@@ -108,7 +108,7 @@ export const DetailsPane = ({ intent }: DetailsPaneProps) => {
             case Intent.ADVANCED_INTENT:
               // Switch for the multiple advanced options
               switch (selectedAdvancedOption) {
-                case Intent.STUSDS_INTENT:
+                case AdvancedIntent.STUSDS_INTENT:
                   return (
                     <MotionDetailsWrapper key={keys[5]}>
                       <StUSDSDetails />

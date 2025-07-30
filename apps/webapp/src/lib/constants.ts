@@ -1,5 +1,5 @@
 import { RewardsModule, Savings, Trade, Upgrade, Seal } from '@/modules/icons';
-import { Intent } from './enums';
+import { AdvancedIntent, Intent } from './enums';
 import { msg } from '@lingui/core/macro';
 import { MessageDescriptor } from '@lingui/core';
 import { base, mainnet, sepolia, arbitrum, unichain, optimism } from 'viem/chains';
@@ -36,7 +36,6 @@ export const IntentMapping = {
   [Intent.UPGRADE_INTENT]: 'upgrade',
   [Intent.TRADE_INTENT]: 'trade',
   [Intent.SAVINGS_INTENT]: 'savings',
-  [Intent.STUSDS_INTENT]: 'stusds',
   [Intent.REWARDS_INTENT]: 'rewards',
   [Intent.SEAL_INTENT]: 'seal',
   [Intent.STAKE_INTENT]: 'stake',
@@ -48,7 +47,6 @@ export const CHAIN_WIDGET_MAP: Record<number, Intent[]> = {
     Intent.BALANCES_INTENT,
     Intent.REWARDS_INTENT,
     Intent.SAVINGS_INTENT,
-    Intent.STUSDS_INTENT,
     Intent.UPGRADE_INTENT,
     Intent.TRADE_INTENT,
     Intent.SEAL_INTENT,
@@ -59,7 +57,6 @@ export const CHAIN_WIDGET_MAP: Record<number, Intent[]> = {
     Intent.BALANCES_INTENT,
     Intent.REWARDS_INTENT,
     Intent.SAVINGS_INTENT,
-    Intent.STUSDS_INTENT,
     Intent.UPGRADE_INTENT,
     Intent.SEAL_INTENT,
     Intent.STAKE_INTENT,
@@ -106,9 +103,9 @@ export const intentTxt: Record<string, MessageDescriptor> = {
 };
 
 export const ADVANCED_WIDGET_OPTIONS: {
-  id: Intent;
+  id: AdvancedIntent;
   name: string;
-}[] = [{ id: Intent.STUSDS_INTENT, name: 'stUSDS' }];
+}[] = [{ id: AdvancedIntent.STUSDS_INTENT, name: 'stUSDS' }];
 
 export const VALID_LINKED_ACTIONS = [
   IntentMapping[Intent.REWARDS_INTENT],
@@ -143,7 +140,6 @@ export const linkedActionMetadata = {
   [IntentMapping[Intent.UPGRADE_INTENT]]: { text: 'Upgrade DAI', icon: Upgrade },
   [IntentMapping[Intent.TRADE_INTENT]]: { text: 'Trade Tokens', icon: Trade },
   [IntentMapping[Intent.SAVINGS_INTENT]]: { text: 'Access Savings', icon: Savings },
-  [IntentMapping[Intent.STUSDS_INTENT]]: { text: 'Access stUSDS', icon: Savings },
   [IntentMapping[Intent.REWARDS_INTENT]]: { text: 'Get Rewards', icon: RewardsModule },
   [IntentMapping[Intent.SEAL_INTENT]]: { text: 'Seal', icon: Seal },
   [IntentMapping[Intent.STAKE_INTENT]]: { text: 'Activate', icon: Seal }

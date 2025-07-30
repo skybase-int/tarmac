@@ -6,7 +6,7 @@ import { defaultConfig as siteConfig } from '../default-config';
 // import { QueryParams } from '@/lib/constants';
 import { i18n } from '@lingui/core';
 import { dynamicActivate } from '@jetstreamgg/sky-utils';
-import { Intent } from '@/lib/enums';
+import { AdvancedIntent, Intent } from '@/lib/enums';
 // import { z } from 'zod';
 import { RewardContract } from '@jetstreamgg/sky-hooks';
 import { ALLOWED_EXTERNAL_DOMAINS, USER_SETTINGS_KEY } from '@/lib/constants';
@@ -85,8 +85,8 @@ export interface ConfigContextProps {
   externalLinkModalUrl: string;
   setExternalLinkModalUrl: (val: string) => void;
   onExternalLinkClicked: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-  selectedAdvancedOption: Intent | null;
-  setSelectedAdvancedOption: (intent: Intent | null) => void;
+  selectedAdvancedOption: AdvancedIntent | null;
+  setSelectedAdvancedOption: (intent: AdvancedIntent | null) => void;
 }
 
 // Zod schema for validating user settings
@@ -131,7 +131,7 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
   const [linkedActionConfig, setLinkedActionConfig] = useState(defaultLinkedActionConfig);
   const [externalLinkModalOpened, setExternalLinkModalOpened] = useState(false);
   const [externalLinkModalUrl, setExternalLinkModalUrl] = useState('');
-  const [selectedAdvancedOption, setSelectedAdvancedOption] = useState<Intent | null>(null);
+  const [selectedAdvancedOption, setSelectedAdvancedOption] = useState<AdvancedIntent | null>(null);
 
   // Check the user settings on load, and set locale
   useEffect(() => {

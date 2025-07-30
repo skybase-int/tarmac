@@ -1,7 +1,7 @@
 import { CardAnimationWrapper, WidgetContainer } from '@jetstreamgg/sky-widgets';
 import { SharedProps } from '@/modules/app/types/Widgets';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
-import { Intent } from '@/lib/enums';
+import { AdvancedIntent } from '@/lib/enums';
 import { Heading, Text } from '@/modules/layout/components/Typography';
 import { Trans } from '@lingui/react/macro';
 import { AnimatePresence } from 'framer-motion';
@@ -15,7 +15,7 @@ export function AdvancedWidgetPane(sharedProps: SharedProps) {
   return (
     <AnimatePresence mode="popLayout" initial={false}>
       <CardAnimationWrapper key={selectedAdvancedOption} className="h-full">
-        {selectedAdvancedOption === Intent.STUSDS_INTENT ? (
+        {selectedAdvancedOption === AdvancedIntent.STUSDS_INTENT ? (
           <StUSDSWidgetPane {...sharedProps} />
         ) : (
           <WidgetContainer
