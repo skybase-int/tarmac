@@ -39,7 +39,8 @@ export const IntentMapping = {
   [Intent.STUSDS_INTENT]: 'stusds',
   [Intent.REWARDS_INTENT]: 'rewards',
   [Intent.SEAL_INTENT]: 'seal',
-  [Intent.STAKE_INTENT]: 'stake'
+  [Intent.STAKE_INTENT]: 'stake',
+  [Intent.ADVANCED_INTENT]: 'advanced'
 };
 
 export const CHAIN_WIDGET_MAP: Record<number, Intent[]> = {
@@ -51,7 +52,8 @@ export const CHAIN_WIDGET_MAP: Record<number, Intent[]> = {
     Intent.UPGRADE_INTENT,
     Intent.TRADE_INTENT,
     Intent.SEAL_INTENT,
-    Intent.STAKE_INTENT
+    Intent.STAKE_INTENT,
+    Intent.ADVANCED_INTENT
   ],
   [tenderly.id]: [
     Intent.BALANCES_INTENT,
@@ -60,7 +62,8 @@ export const CHAIN_WIDGET_MAP: Record<number, Intent[]> = {
     Intent.STUSDS_INTENT,
     Intent.UPGRADE_INTENT,
     Intent.SEAL_INTENT,
-    Intent.STAKE_INTENT
+    Intent.STAKE_INTENT,
+    Intent.ADVANCED_INTENT
   ],
   [base.id]: [Intent.BALANCES_INTENT, Intent.REWARDS_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
   [arbitrum.id]: [Intent.BALANCES_INTENT, Intent.REWARDS_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],

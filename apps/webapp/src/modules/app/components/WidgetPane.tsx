@@ -35,6 +35,7 @@ import { useBalanceFilters } from '@/modules/ui/context/BalanceFiltersContext';
 import { isIntentAllowed } from '@/lib/utils';
 import { WidgetContent, WidgetItem } from '../types/Widgets';
 import { isL2ChainId } from '@jetstreamgg/sky-utils';
+import { AdvancedWidgetPane } from '@/modules/advanced/components/AdvancedWidgetPane';
 
 type WidgetPaneProps = {
   intent: Intent;
@@ -185,6 +186,15 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
       false,
       undefined,
       'Stake SKY to earn rewards, delegate votes, and borrow USDS'
+    ],
+    [
+      Intent.ADVANCED_INTENT,
+      'Advanced',
+      Savings,
+      withErrorBoundary(<AdvancedWidgetPane {...sharedProps} />),
+      false,
+      undefined,
+      'Advanced, higher risk options'
     ]
   ].map(([intent, label, icon, component, , , description]) => {
     const comingSoon = COMING_SOON_MAP[chainId]?.includes(intent as Intent);
@@ -220,6 +230,10 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
       items: widgetItems.filter(
         ([intent]) => intent === Intent.UPGRADE_INTENT || intent === Intent.TRADE_INTENT
       )
+    },
+    {
+      id: 'group-4',
+      items: widgetItems.filter(([intent]) => intent === Intent.ADVANCED_INTENT)
     }
   ];
 
