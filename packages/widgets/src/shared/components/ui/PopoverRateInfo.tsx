@@ -186,6 +186,14 @@ const getContent = (
       </Text>
     )
   },
+  totalStakingDebt: {
+    title: 'Total Staking Engine Debt',
+    description: (
+      <Text className="leading-5 text-white/80" variant="small">
+        TODO: Add description
+      </Text>
+    )
+  },
   delayedUpgradePenalty: {
     title: 'Delayed Upgrade Penalty',
     description: (
@@ -225,6 +233,7 @@ export const PopoverRateInfo = ({
     | 'liquidation'
     | 'stusds'
     | 'stusdsLiquidity'
+    | 'totalStakingDebt'
     | 'delayedUpgradePenalty';
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   iconClassName?: string;
