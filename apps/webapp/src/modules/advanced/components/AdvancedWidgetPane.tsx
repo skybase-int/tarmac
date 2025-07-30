@@ -10,9 +10,10 @@ import { StUSDSWidgetPane } from '@/modules/stusds/components/StUSDSWidgetPane';
 import { ADVANCED_WIDGET_OPTIONS, AdvancedIntentMapping, QueryParams } from '@/lib/constants';
 import { useSearchParams } from 'react-router-dom';
 import { AdvancedRiskCheckbox } from './AdvancedRiskCheckbox';
+import { cn } from '@/lib/utils';
 
 export function AdvancedWidgetPane(sharedProps: SharedProps) {
-  const { selectedAdvancedOption, setSelectedAdvancedOption } = useConfigContext();
+  const { selectedAdvancedOption, setSelectedAdvancedOption, advancedRiskAcknowledged } = useConfigContext();
   const [, setSearchParams] = useSearchParams();
 
   const handleSelectAdvancedOption = (advancedIntent: AdvancedIntent) => {
@@ -47,11 +48,23 @@ export function AdvancedWidgetPane(sharedProps: SharedProps) {
               {ADVANCED_WIDGET_OPTIONS.map(widget => (
                 <Card
                   key={widget.id}
-                  className="cursor-pointer"
+                  className={cn(
+                    'border transition',
+                    advancedRiskAcknowledged
+                      ? 'hover:bg-radial-(--gradient-position) hover:from-primary-start/100 hover:to-primary-end/100 cursor-pointer border-transparent'
+                      : 'border-textSecondary pointer-events-none bg-transparent'
+                  )}
                   onClick={() => handleSelectAdvancedOption(widget.id)}
                 >
                   <CardHeader>
-                    <CardTitle>{widget.name}</CardTitle>
+                    <CardTitle
+                      className={cn(
+                        'transition',
+                        advancedRiskAcknowledged ? 'text-text' : 'text-textSecondary'
+                      )}
+                    >
+                      {widget.name}
+                    </CardTitle>
                   </CardHeader>
                 </Card>
               ))}
