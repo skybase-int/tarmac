@@ -1,9 +1,10 @@
 import { Balances, Upgrade, Trade, RewardsModule, Savings, Stake, Info } from '../../icons';
-import { Intent } from '@/lib/enums';
+import { AdvancedIntent, Intent } from '@/lib/enums';
 import { useLingui } from '@lingui/react';
 import { useCustomConnectModal } from '@/modules/ui/hooks/useCustomConnectModal';
 import { useAddRecentTransaction } from '@rainbow-me/rainbowkit';
 import {
+  AdvancedIntentMapping,
   BATCH_TX_LEGAL_NOTICE_URL,
   COMING_SOON_MAP,
   mapIntentToQueryParam,
@@ -99,8 +100,10 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
   const stakeUrl = getQueryParams(
     `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.STAKE_INTENT)}`
   );
+  // Attempt to redirect to the stUSDS module, but if user hasn't acknowledged the risk checkbox,
+  // they will be redirected to the overview of the advanced widget
   const stusdsUrl = getQueryParams(
-    `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.ADVANCED_INTENT)}`
+    `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.ADVANCED_INTENT)}&advanced_module=${AdvancedIntentMapping[AdvancedIntent.STUSDS_INTENT]}`
   );
 
   const widgetItems: WidgetItem[] = [

@@ -68,7 +68,8 @@ export function SealMigrationApp() {
           () => {},
           newChainId,
           chains,
-          () => {}
+          () => {},
+          false
         );
         // Runs second validation for linked-action-specific criteria
         const validatedLinkedActionParams = validateLinkedActionSearchParams(validatedParams);

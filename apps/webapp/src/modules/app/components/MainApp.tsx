@@ -35,7 +35,8 @@ export function MainApp() {
     linkedActionConfig,
     updateLinkedActionConfig,
     setSelectedRewardContract,
-    setSelectedAdvancedOption
+    setSelectedAdvancedOption,
+    advancedRiskAcknowledged
   } = useConfigContext();
   const { isAuthorized } = useConnectedContext();
 
@@ -134,7 +135,8 @@ export function MainApp() {
           setSelectedRewardContract,
           newChainId,
           chains,
-          setSelectedAdvancedOption
+          setSelectedAdvancedOption,
+          advancedRiskAcknowledged
         );
         // Runs second validation for linked-action-specific criteria
         const validatedLinkedActionParams = validateLinkedActionSearchParams(validatedParams);
@@ -142,7 +144,14 @@ export function MainApp() {
       },
       { replace: true }
     );
-  }, [searchParams, rewardContracts, setSelectedRewardContract, widgetParam, setSelectedAdvancedOption]);
+  }, [
+    searchParams,
+    rewardContracts,
+    setSelectedRewardContract,
+    widgetParam,
+    setSelectedAdvancedOption,
+    advancedRiskAcknowledged
+  ]);
 
   useEffect(() => {
     // If there's no network param, default to the current chain

@@ -22,7 +22,8 @@ export const validateSearchParams = (
   setSelectedRewardContract: (rewardContract?: RewardContract) => void,
   chainId: number,
   chains: readonly [Chain, ...Chain[]],
-  setSelectedAdvancedOption: (advancedOption: AdvancedIntent | undefined) => void
+  setSelectedAdvancedOption: (advancedOption: AdvancedIntent | undefined) => void,
+  advancedRiskAcknowledged: boolean
 ) => {
   const chainInUrl = chains.find(c => normalizeUrlParam(c.name) === searchParams.get(QueryParams.Network));
   const isL2Chain = isL2ChainId(chainInUrl?.id || chainId);
@@ -91,13 +92,13 @@ export const validateSearchParams = (
       setSelectedRewardContract(undefined);
     }
 
-    // removes advancedModule param if value is not a valid advanced intent
+    // removes advancedModule param if value is not a valid advanced intent or if the advanced risk hasn't been acknowledged
     // also sets the selected advanced option if the advancedIntent is valid
     if (key === QueryParams.AdvancedModule) {
       const intent = Object.entries(AdvancedIntentMapping).find(
         ([, intentValue]) => intentValue === value
       )?.[0] as AdvancedIntent | undefined;
-      if (!intent) {
+      if (!intent || !advancedRiskAcknowledged) {
         searchParams.delete(key);
       } else {
         setSelectedAdvancedOption(intent);
