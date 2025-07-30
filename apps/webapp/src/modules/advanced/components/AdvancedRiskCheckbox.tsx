@@ -1,11 +1,11 @@
-import { useState } from 'react';
 import { Trans } from '@lingui/react/macro';
 import { AlertTriangle } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Text } from '@/modules/layout/components/Typography';
+import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 
 export function AdvancedRiskCheckbox() {
-  const [isAcknowledged, setIsAcknowledged] = useState(false);
+  const { advancedRiskAcknowledged, setAdvancedRiskAcknowledged } = useConfigContext();
 
   return (
     <div className="mb-4">
@@ -21,8 +21,8 @@ export function AdvancedRiskCheckbox() {
       <div className="flex items-center gap-2">
         <Checkbox
           id="risk-acknowledgment"
-          checked={isAcknowledged}
-          onCheckedChange={checked => setIsAcknowledged(!!checked)}
+          checked={advancedRiskAcknowledged}
+          onCheckedChange={checked => setAdvancedRiskAcknowledged(!!checked)}
         />
         <label htmlFor="risk-acknowledgment" className="cursor-pointer">
           <Text variant="medium" className="text-text">
