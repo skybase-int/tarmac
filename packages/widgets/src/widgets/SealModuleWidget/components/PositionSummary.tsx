@@ -17,7 +17,6 @@ import {
   useDelegateOwner,
   useCollateralData
 } from '@jetstreamgg/sky-hooks';
-import { useChainId } from 'wagmi';
 import { Card, CardContent } from '@widgets/components/ui/card';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
@@ -120,8 +119,7 @@ const LineItem = ({
 };
 
 export const PositionSummary = () => {
-  const chainId = useChainId();
-  const ilkName = getIlkName(chainId);
+  const ilkName = getIlkName(1);
 
   const {
     activeUrn,
@@ -465,7 +463,7 @@ export const PositionSummary = () => {
             {hasPositions && lineItemsUpdated.length > 0 && (
               <motion.div key="updates" variants={positionAnimations}>
                 <Text variant="medium" className="mb-1 font-medium">
-                  Position updates
+                  Position changes
                 </Text>
                 {lineItemsUpdated.map(({ label, value, icon, className, tooltipText }) => {
                   return (
