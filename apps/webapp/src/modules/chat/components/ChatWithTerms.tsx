@@ -7,63 +7,25 @@ import { useLingui } from '@lingui/react';
 import { useTermsAcceptance } from '../hooks/useTermsAcceptance';
 import { generateUUID } from '../lib/generateUUID';
 import { MessageType, UserType, TERMS_ACCEPTANCE_MESSAGE } from '../constants';
+import termsMarkdown from '@/content/chatbot_terms.md?raw'; //https://vitejs.dev/guide/assets#importing-asset-as-string
 
-interface ChatWithTermsProps {
-  sendMessage: (message: string) => void;
-}
+const parseTerms = () => {
+  const lines = termsMarkdown.split('\n');
+  const dateMatch = lines[0]?.match(/^\d{4}-\d{2}-\d{2}$/);
 
-export const ChatWithTerms: React.FC<ChatWithTermsProps> = ({ sendMessage }) => {
-  const { i18n } = useLingui();
-  const [termsVersion, setTermsVersion] = useState<string>(''); // TODO: Update this mock date when real terms document is ready
-  const [termsContent, setTermsContent] = useState<string | undefined>(undefined);
-  const [isLoadingTerms, setIsLoadingTerms] = useState(false);
-  const [termsLoadError, setTermsLoadError] = useState<string | null>(null);
-  const [termsLoadedSuccessfully, setTermsLoadedSuccessfully] = useState(false);
+  if (dateMatch) {
+    return {
+      version: dateMatch[0],
+      content: lines.slice(1).join('\n').trim(),
+      isValid: true
+    };
+  }
 
-  // TODO: Update this URL to the final terms document location
-  const TERMS_URL = 'https://raw.githubusercontent.com/jetstreamgg/tarmac/main/README.md';
-
-  // Fetch terms from GitHub
-  useEffect(() => {
-    const fetchTerms = async () => {
-      setIsLoadingTerms(true);
-      setTermsLoadError(null);
-      setTermsLoadedSuccessfully(false);
-
-      try {
-        const response = await fetch(TERMS_URL);
-        if (!response.ok) {
-          throw new Error('Failed to fetch terms');
-        }
-
-        let text = await response.text();
-
-        // TODO: Remove this mock date prepending when the real terms document includes the date
-        // Prepend mock date to simulate the expected format
-        const mockDate = '2025-07-15';
-        text = `${mockDate}\n${text}`;
-
-        // Parse the first line as date
-        // Expected format:
-        // 2025-07-15
-        // Terms content...
-
-        const lines = text.split('\n');
-        const dateMatch = lines[0]?.match(/^\d{4}-\d{2}-\d{2}$/);
-
-        if (dateMatch) {
-          setTermsVersion(dateMatch[0]);
-          setTermsContent(lines.slice(1).join('\n').trim());
-          setTermsLoadedSuccessfully(true);
-        } else {
-          // Invalid format - terms not loaded successfully
-          console.error('Terms document does not start with expected date format (YYYY-MM-DD)');
-          setTermsLoadError(
-            t`Invalid terms format. The terms document must start with a date in YYYY-MM-DD format.`
-          );
-
-          // Show error content
-          const errorContent = t`# Invalid Terms Format
+  // Invalid format
+  console.error('Terms document does not start with expected date format (YYYY-MM-DD)');
+  return {
+    version: '',
+    content: t`# Invalid Terms Format
 
 The terms document could not be loaded because it doesn't follow the expected format.
 
@@ -71,38 +33,21 @@ The terms document could not be loaded because it doesn't follow the expected fo
 The first line must contain a date in YYYY-MM-DD format (e.g., 2025-01-20), followed by the terms content.
 
 #### What This Means:
-We cannot present the terms for acceptance at this time. Please contact support if this issue persists.`;
+We cannot present the terms for acceptance at this time. Please contact support if this issue persists.`,
+    isValid: false
+  };
+};
+interface ChatWithTermsProps {
+  sendMessage: (message: string) => void;
+}
 
-          setTermsContent(errorContent);
-          setTermsLoadedSuccessfully(false);
-        }
-      } catch (error) {
-        console.error('Error fetching terms:', error);
-        setTermsLoadError(t`Failed to load terms. Please try again later.`);
-        // Fallback to error message content
-        const fallbackTerms = t`# Unable to Load Terms
+export const ChatWithTerms: React.FC<ChatWithTermsProps> = ({ sendMessage }) => {
+  const { i18n } = useLingui();
 
-We're currently unable to fetch the latest terms and conditions. This may be due to a network issue or temporary service disruption.
-
-## What you can do:
-
-1. **Check your internet connection** - Ensure you have a stable connection
-2. **Refresh the page** - Try reloading to fetch the terms again
-3. **Try again later** - The service may be temporarily unavailable
-
-## Important Notice
-
-By using this chatbot service, you acknowledge that terms and conditions apply. We recommend reviewing them once they're available.
-
-If this issue persists, please contact support for assistance.`;
-        setTermsContent(fallbackTerms);
-      } finally {
-        setIsLoadingTerms(false);
-      }
-    };
-
-    fetchTerms();
-  }, [TERMS_URL]);
+  const parsedTerms = parseTerms();
+  const termsVersion = parsedTerms.version;
+  const termsContent = parsedTerms.content;
+  const termsLoadedSuccessfully = parsedTerms.isValid;
 
   const {
     termsAccepted,
@@ -215,8 +160,8 @@ If this issue persists, please contact support for assistance.`;
         onDecline={handleDeclineTerms}
         termsVersion={termsVersion}
         termsContent={termsContent}
-        isLoading={isAccepting || isCheckingTerms || isLoadingTerms}
-        error={termsError || termsLoadError}
+        isLoading={isAccepting || isCheckingTerms}
+        error={termsError}
         termsLoadedSuccessfully={termsLoadedSuccessfully}
       />
     </>
