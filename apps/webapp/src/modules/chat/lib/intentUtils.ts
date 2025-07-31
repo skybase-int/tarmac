@@ -36,7 +36,8 @@ export const testnetNameMapping = {
   [normalizeUrlParam(tenderlyBase.name)]: normalizeUrlParam(base.name),
   [normalizeUrlParam(tenderlyArbitrum.name)]: normalizeUrlParam(arbitrum.name),
   [normalizeUrlParam(unichain.name)]: normalizeUrlParam(unichain.name),
-  [normalizeUrlParam(optimism.name)]: normalizeUrlParam(optimism.name)
+  [normalizeUrlParam(optimism.name)]: normalizeUrlParam(optimism.name),
+  optimism: normalizeUrlParam(optimism.name)
 } as const;
 
 export const intents = {
