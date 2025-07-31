@@ -11,10 +11,18 @@ import { chainIdNameMapping, intentModifiesState } from '../lib/intentUtils';
 import { useChainId } from 'wagmi';
 import { ConfirmationWarningRow } from './ConfirmationWarningRow';
 import { HStack } from '@/modules/layout/components/HStack';
-import { Info } from '@/modules/icons';
+import {
+  ArbitrumChain as Arbitrumone,
+  Info,
+  MainnetChain as Ethereum,
+  OptimismChain as Opmainnet,
+  BaseChain as Base,
+  UnichainChain as Unichain
+} from '@/modules/icons';
 import { Tooltip, TooltipArrow, TooltipPortal, TooltipTrigger } from '@/components/ui/tooltip';
 import { TooltipContent } from '@/components/ui/tooltip';
 import { Trans } from '@lingui/react/macro';
+import { capitalizeFirstLetter } from '@/lib/helpers/string/capitalizeFirstLetter';
 
 type ChatIntentsRowProps = {
   intents: ChatIntent[];
@@ -91,6 +99,17 @@ const IntentRow = ({ intent, shouldDisableActionButtons }: IntentRowProps) => {
     useNetworkFromIntentUrl(intentUrl) || chainIdNameMapping[chainId as keyof typeof chainIdNameMapping];
   const modifiesState = intentModifiesState(intent);
 
+  const networkIcons = {
+    Ethereum,
+    Arbitrumone,
+    Opmainnet,
+    Base,
+    Unichain
+  };
+
+  const IconComponent =
+    networkIcons[capitalizeFirstLetter(network || '') as keyof typeof networkIcons] || Ethereum;
+
   return (
     <Button
       variant="suggest"
@@ -108,13 +127,7 @@ const IntentRow = ({ intent, shouldDisableActionButtons }: IntentRowProps) => {
       }}
     >
       {intent.title}
-      {network && (
-        <img
-          src={`/networks/${network}.svg`}
-          alt={`${network} logo`}
-          className={`ml-2 h-5 w-5 ${shouldDisableActionButtons ? 'opacity-30' : ''}`}
-        />
-      )}
+      <IconComponent className="h-4.5 w-4.5 ml-2" />
     </Button>
   );
 };
