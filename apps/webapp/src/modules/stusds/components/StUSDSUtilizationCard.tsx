@@ -16,6 +16,7 @@ export function StUSDSUtilizationCard() {
 
   return (
     <StatsCard
+      className="h-full"
       isLoading={isLoading}
       title={
         <div className="flex items-center gap-1">

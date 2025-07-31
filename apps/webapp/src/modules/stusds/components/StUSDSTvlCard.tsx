@@ -13,11 +13,12 @@ export function StUSDSTvlCard() {
 
   return (
     <StatsCard
+      className="h-full"
       isLoading={isLoading}
       title={i18n._(msg`Total Value Locked`)}
       content={
         <Text variant="large" className="mt-2">
-          {formatBigInt(totalAssets, { unit: 18, compact: true })} USDS
+          {formatBigInt(totalAssets, { unit: 18 })} USDS
         </Text>
       }
     />
