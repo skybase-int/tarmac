@@ -6,8 +6,6 @@ import { t } from '@lingui/core/macro';
 // import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 // import { getSupportedChainIds } from '@/data/wagmi/config/config.default';
 // import { useChainId } from 'wagmi';
-import { Intent } from '@/lib/enums';
-import { ConnectCard } from '@/modules/layout/components/ConnectCard';
 import { Text } from '@/modules/layout/components/Typography';
 
 export function AdvancedDetailsPane() {
@@ -19,9 +17,6 @@ export function AdvancedDetailsPane() {
 
   return (
     <DetailSectionWrapper>
-      <DetailSectionRow>
-        <ConnectCard intent={Intent.ADVANCED_INTENT} className="mb-4" />
-      </DetailSectionRow>
       <DetailSection title={t`FAQs`}>
         <DetailSectionRow>
           <Text className="text-text">TODO</Text>
