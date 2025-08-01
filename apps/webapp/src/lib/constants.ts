@@ -110,7 +110,12 @@ export const intentTxt: Record<string, MessageDescriptor> = {
 export const ADVANCED_WIDGET_OPTIONS: {
   id: AdvancedIntent;
   name: string;
-}[] = [{ id: AdvancedIntent.STUSDS_INTENT, name: 'stUSDS' }];
+}[] = [
+  {
+    id: AdvancedIntent.STUSDS_INTENT,
+    name: 'stUSDS'
+  }
+];
 
 export const VALID_LINKED_ACTIONS = [
   IntentMapping[Intent.REWARDS_INTENT],
