@@ -32,7 +32,7 @@
     "@wagmi/core": "^2.18.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "viem": "^2.33.1",
+    "viem": "^2.33.2",
     "wagmi": "^2.16.0"
   },
   "dependencies": {
@@ -51,7 +51,7 @@
     "openapi-fetch": "^0.14.0",
     "react-dom": "^19.1.1",
     "typescript": "5.8.3",
-    "viem": "^2.33.1",
+    "viem": "^2.33.2",
     "vite": "^6.3.5",
     "vite-plugin-dts": "^4.5.4",
     "vitest": "^3.2.4",
