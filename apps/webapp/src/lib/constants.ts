@@ -110,12 +110,10 @@ export const intentTxt: Record<string, MessageDescriptor> = {
 export const ADVANCED_WIDGET_OPTIONS: {
   id: AdvancedIntent;
   name: string;
-  symbol: string;
 }[] = [
   {
     id: AdvancedIntent.STUSDS_INTENT,
-    name: 'stUSDS',
-    symbol: 'stUSDS'
+    name: 'stUSDS'
   }
 ];
 
