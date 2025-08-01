@@ -4,6 +4,7 @@ import { msg } from '@lingui/core/macro';
 import { MessageDescriptor } from '@lingui/core';
 import { base, mainnet, sepolia, arbitrum, unichain, optimism } from 'viem/chains';
 import { tenderly, tenderlyBase, tenderlyArbitrum } from '@/data/wagmi/config/config.default';
+import { stUsdsAddress } from '@jetstreamgg/sky-hooks';
 
 export enum QueryParams {
   Locale = 'lang',
@@ -110,7 +111,22 @@ export const intentTxt: Record<string, MessageDescriptor> = {
 export const ADVANCED_WIDGET_OPTIONS: {
   id: AdvancedIntent;
   name: string;
-}[] = [{ id: AdvancedIntent.STUSDS_INTENT, name: 'stUSDS' }];
+  symbol: string;
+  address: Record<number, `0x${string}`>;
+  showRate?: boolean;
+  showUtilization?: boolean;
+  showTVL?: boolean;
+}[] = [
+  {
+    id: AdvancedIntent.STUSDS_INTENT,
+    name: 'stUSDS',
+    symbol: 'stUSDS',
+    address: stUsdsAddress,
+    showRate: true,
+    showUtilization: true,
+    showTVL: true
+  }
+];
 
 export const VALID_LINKED_ACTIONS = [
   IntentMapping[Intent.REWARDS_INTENT],

@@ -5,12 +5,11 @@ import { AdvancedIntent } from '@/lib/enums';
 import { Heading, Text } from '@/modules/layout/components/Typography';
 import { Trans } from '@lingui/react/macro';
 import { AnimatePresence } from 'framer-motion';
-import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { StUSDSWidgetPane } from '@/modules/stusds/components/StUSDSWidgetPane';
 import { ADVANCED_WIDGET_OPTIONS, AdvancedIntentMapping, QueryParams } from '@/lib/constants';
 import { useSearchParams } from 'react-router-dom';
 import { AdvancedRiskCheckbox } from './AdvancedRiskCheckbox';
-import { cn } from '@/lib/utils';
+import { StusdsStatsCard } from './StusdsStatsCard';
 
 export function AdvancedWidgetPane(sharedProps: SharedProps) {
   const { selectedAdvancedOption, setSelectedAdvancedOption, advancedRiskAcknowledged } = useConfigContext();
@@ -45,29 +44,21 @@ export function AdvancedWidgetPane(sharedProps: SharedProps) {
           >
             <CardAnimationWrapper className="flex flex-col gap-4">
               <AdvancedRiskCheckbox />
-              {ADVANCED_WIDGET_OPTIONS.map(widget => (
-                <Card
-                  key={widget.id}
-                  className={cn(
-                    'border transition',
-                    advancedRiskAcknowledged
-                      ? 'hover:bg-radial-(--gradient-position) hover:from-primary-start/100 hover:to-primary-end/100 cursor-pointer border-transparent'
-                      : 'border-textSecondary pointer-events-none bg-transparent'
-                  )}
-                  onClick={() => handleSelectAdvancedOption(widget.id)}
-                >
-                  <CardHeader>
-                    <CardTitle
-                      className={cn(
-                        'transition',
-                        advancedRiskAcknowledged ? 'text-text' : 'text-textSecondary'
-                      )}
-                    >
-                      {widget.name}
-                    </CardTitle>
-                  </CardHeader>
-                </Card>
-              ))}
+              {ADVANCED_WIDGET_OPTIONS.map(widget => {
+                switch (widget.id) {
+                  case AdvancedIntent.STUSDS_INTENT:
+                    return (
+                      <StusdsStatsCard
+                        key={widget.id}
+                        onClick={() => handleSelectAdvancedOption(widget.id)}
+                        disabled={!advancedRiskAcknowledged}
+                      />
+                    );
+                  // Add more cases here for future contracts
+                  default:
+                    return null;
+                }
+              })}
             </CardAnimationWrapper>
           </WidgetContainer>
         )}
