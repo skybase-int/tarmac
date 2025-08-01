@@ -51,9 +51,9 @@
     "zod": "^3.25.76"
   },
   "peerDependencies": {
-    "@lingui/detect-locale": "^5.3.3",
-    "@lingui/macro": "^5.3.3",
-    "@lingui/react": "^5.3.3",
+    "@lingui/detect-locale": "^5.4.0",
+    "@lingui/macro": "^5.4.0",
+    "@lingui/react": "^5.4.0",
     "@tanstack/react-query": "^5.84.1",
     "framer-motion": "^11.18.2",
     "react": "^19.1.1",
