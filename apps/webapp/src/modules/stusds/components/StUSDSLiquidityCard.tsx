@@ -15,8 +15,8 @@ export function StUSDSLiquidityCard() {
   const { data: collateralData, isLoading: isCollateralLoading } = useCollateralData(getIlkName(2));
   const totalStakingDebt = collateralData?.totalDaiDebt ?? 0n;
 
-  const totalSupply = stUsdsData?.totalSupply ?? 0n;
-  const availableLiquidity = totalSupply > totalStakingDebt ? totalSupply - totalStakingDebt : 0n;
+  const totalAssets = stUsdsData?.totalAssets ?? 0n;
+  const availableLiquidity = totalAssets > totalStakingDebt ? totalAssets - totalStakingDebt : 0n;
 
   return (
     <StatsCard
