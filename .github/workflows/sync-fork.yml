@@ -26,29 +26,26 @@ env:
 jobs:
   sync_fork:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout everything
         id: checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ssh-key: ${{ secrets.SYNC_FORK_SSH_PRIVATE_KEY }}
+          token: ${{ secrets.SYNC_FORK_PAT }}
 
       - name: Configure git
         id: configure_git
-        shell: bash
         run: |
-          echo "${{ secrets.SYNC_FORK_SSH_PRIVATE_KEY }}" > ~/sync-fork-key.pem
-          chmod 600 ~/sync-fork-key.pem
           git config --global user.email "${{ secrets.SYNC_FORK_USER_EMAIL }}"
           git config --global user.name "${{ vars.SYNC_FORK_USER_NAME }}"
-          git config core.sshCommand "ssh -i ~/sync-fork-key.pem -F /dev/null"
 
       - name: Add upstream
         id: add_upstream
-        shell: bash
         run: |
-          git remote add upstream git@github.com:${{ env.UPSTREAM_REPO }}.git
+          git remote add upstream https://github.com/${{ env.UPSTREAM_REPO }}.git
 
       - name: Set branches to sync
         id: set_branches
@@ -90,13 +87,7 @@ jobs:
             echo "Done with $BRANCH"
           done
 
-      - name: Delete private key
-        id: delete_private_key
-        shell: bash
-        run: |
-          rm -f ~/sync-fork-key.pem
-
-      - name: Send an alert to PagerDuty
+      - name: Send an alert to PagerDuty on failure
         id: alert
         if: failure()
         run: |
