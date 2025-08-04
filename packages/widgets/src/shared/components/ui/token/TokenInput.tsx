@@ -259,7 +259,7 @@ export function TokenInput({
       return tokenList;
     }
 
-    const query = searchQuery.toLowerCase();
+    const query = searchQuery.toLowerCase().replace(/\s/g, ''); // Remove all spaces from the query
     return tokenList.filter(
       token => token.name.toLowerCase().includes(query) || token.symbol.toLowerCase().includes(query)
     );
@@ -388,7 +388,7 @@ export function TokenInput({
             </motion.div>
             {enableSearch && (
               <motion.div variants={positionAnimations} className="px-2">
-                <HStack gap={2} className="items-center rounded-xl p-3">
+                <HStack gap={2} className="bg-white/2 items-center rounded-xl p-3">
                   <Search className="text-textSecondary h-4 w-4" />
                   <div className="grow">
                     <Input
