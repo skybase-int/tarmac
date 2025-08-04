@@ -24,6 +24,9 @@ import { useLingui } from '@lingui/react';
 import { useAccount, useChainId } from 'wagmi';
 import { formatUnits, parseUnits } from 'viem';
 import { Heading, Text } from '@widgets/shared/components/ui/Typography';
+import { ArrowLeft } from 'lucide-react';
+import { Button } from '@widgets/components/ui/button';
+import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { getValidatedState } from '@widgets/lib/utils';
 import { WidgetButtons } from '@widgets/shared/components/ui/widget/WidgetButtons';
 import { ErrorBoundary } from '@widgets/shared/components/ErrorBoundary';
@@ -36,6 +39,7 @@ export type StUSDSWidgetProps = WidgetProps & {
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
+  onBackToAdvanced?: () => void;
 };
 
 export const StUSDSWidget = ({
@@ -52,7 +56,8 @@ export const StUSDSWidget = ({
   referralCode,
   shouldReset = false,
   batchEnabled,
-  setBatchEnabled
+  setBatchEnabled,
+  onBackToAdvanced
 }: StUSDSWidgetProps) => {
   const key = shouldReset ? 'reset' : undefined;
   return (
@@ -72,6 +77,7 @@ export const StUSDSWidget = ({
           referralCode={referralCode}
           batchEnabled={batchEnabled}
           setBatchEnabled={setBatchEnabled}
+          onBackToAdvanced={onBackToAdvanced}
         />
       </WidgetProvider>
     </ErrorBoundary>
@@ -91,7 +97,8 @@ const StUSDSWidgetWrapped = ({
   enabled = true,
   referralCode,
   batchEnabled,
-  setBatchEnabled
+  setBatchEnabled,
+  onBackToAdvanced
 }: StUSDSWidgetProps) => {
   const validatedExternalState = getValidatedState(externalWidgetState);
 
@@ -657,13 +664,25 @@ const StUSDSWidgetWrapped = ({
   return (
     <WidgetContainer
       header={
-        <div className="space-y-1">
-          <Heading variant="x-large">
-            <Trans>stUSDS Module</Trans>
-          </Heading>
-          <Text className="text-textSecondary" variant="small">
-            <Trans>Earn a variable rate on USDS by participating in SKY-backed borrowing</Trans>
-          </Text>
+        <div>
+          {onBackToAdvanced && (
+            <Button variant="link" onClick={onBackToAdvanced} className="mb-2 p-0">
+              <HStack className="space-x-2">
+                <ArrowLeft className="self-center" />
+                <Heading tag="h3" variant="small" className="text-textSecondary">
+                  Back to Advanced
+                </Heading>
+              </HStack>
+            </Button>
+          )}
+          <div className="space-y-1">
+            <Heading variant="x-large">
+              <Trans>stUSDS Module</Trans>
+            </Heading>
+            <Text className="text-textSecondary" variant="small">
+              <Trans>Earn a variable rate on USDS by participating in SKY-backed borrowing</Trans>
+            </Text>
+          </div>
         </div>
       }
       rightHeader={rightHeaderComponent}

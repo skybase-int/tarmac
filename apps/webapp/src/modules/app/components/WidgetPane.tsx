@@ -1,9 +1,10 @@
-import { Balances, Upgrade, Trade, RewardsModule, Savings, Stake } from '../../icons';
-import { Intent } from '@/lib/enums';
+import { Balances, Upgrade, Trade, RewardsModule, Savings, Stake, Info } from '../../icons';
+import { AdvancedIntent, Intent } from '@/lib/enums';
 import { useLingui } from '@lingui/react';
 import { useCustomConnectModal } from '@/modules/ui/hooks/useCustomConnectModal';
 import { useAddRecentTransaction } from '@rainbow-me/rainbowkit';
 import {
+  AdvancedIntentMapping,
   BATCH_TX_LEGAL_NOTICE_URL,
   COMING_SOON_MAP,
   mapIntentToQueryParam,
@@ -17,7 +18,6 @@ import { UpgradeWidgetPane } from '@/modules/upgrade/components/UpgradeWidgetPan
 import { RewardsWidgetPane } from '@/modules/rewards/components/RewardsWidgetPane';
 import { TradeWidgetPane } from '@/modules/trade/components/TradeWidgetPane';
 import { SavingsWidgetPane } from '@/modules/savings/components/SavingsWidgetPane';
-import { StUSDSWidgetPane } from '@/modules/stusds/components/StUSDSWidgetPane';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 import React, { useEffect } from 'react';
 import { useNotification } from '../hooks/useNotification';
@@ -35,6 +35,7 @@ import { useBalanceFilters } from '@/modules/ui/context/BalanceFiltersContext';
 import { isIntentAllowed } from '@/lib/utils';
 import { WidgetContent, WidgetItem } from '../types/Widgets';
 import { isL2ChainId } from '@jetstreamgg/sky-utils';
+import { AdvancedWidgetPane } from '@/modules/advanced/components/AdvancedWidgetPane';
 
 type WidgetPaneProps = {
   intent: Intent;
@@ -99,8 +100,10 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
   const stakeUrl = getQueryParams(
     `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.STAKE_INTENT)}`
   );
+  // Attempt to redirect to the stUSDS module, but if user hasn't acknowledged the risk checkbox,
+  // they will be redirected to the overview of the advanced widget
   const stusdsUrl = getQueryParams(
-    `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.STUSDS_INTENT)}`
+    `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.ADVANCED_INTENT)}&advanced_module=${AdvancedIntentMapping[AdvancedIntent.STUSDS_INTENT]}`
   );
 
   const widgetItems: WidgetItem[] = [
@@ -151,15 +154,6 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
         : 'Use USDS to access the Sky Savings Rate'
     ],
     [
-      Intent.STUSDS_INTENT,
-      'stUSDS',
-      Savings,
-      withErrorBoundary(<StUSDSWidgetPane {...sharedProps} />),
-      false,
-      undefined,
-      'Use USDS to access the Sky Savings Rate'
-    ],
-    [
       Intent.UPGRADE_INTENT,
       'Upgrade',
       Upgrade,
@@ -185,6 +179,16 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
       false,
       undefined,
       'Stake SKY to earn rewards, delegate votes, and borrow USDS'
+    ],
+    [
+      Intent.ADVANCED_INTENT,
+      'Advanced',
+      // TODO: Update icon once we define the Advanced widget icon
+      () => <Info width={24} height={24} />,
+      withErrorBoundary(<AdvancedWidgetPane {...sharedProps} />),
+      false,
+      undefined,
+      'Advanced, higher risk options'
     ]
   ].map(([intent, label, icon, component, , , description]) => {
     const comingSoon = COMING_SOON_MAP[chainId]?.includes(intent as Intent);
@@ -211,7 +215,6 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
         ([intent]) =>
           intent === Intent.REWARDS_INTENT ||
           intent === Intent.SAVINGS_INTENT ||
-          intent === Intent.STUSDS_INTENT ||
           intent === Intent.STAKE_INTENT
       )
     },
@@ -220,6 +223,10 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
       items: widgetItems.filter(
         ([intent]) => intent === Intent.UPGRADE_INTENT || intent === Intent.TRADE_INTENT
       )
+    },
+    {
+      id: 'group-4',
+      items: widgetItems.filter(([intent]) => intent === Intent.ADVANCED_INTENT)
     }
   ];
 

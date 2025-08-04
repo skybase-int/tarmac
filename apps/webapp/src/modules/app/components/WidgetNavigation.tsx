@@ -229,47 +229,49 @@ export function WidgetNavigation({
                         key={widgetIntent}
                         className="flex grow basis-[15%] justify-center md:w-full md:basis-auto md:justify-start"
                       >
-                        <Tooltip delayDuration={150}>
-                          <TooltipTrigger asChild>
-                            <TabsTrigger
-                              variant="icons"
-                              value={widgetIntent}
-                              className={cn(
-                                'text-textSecondary data-[state=active]:text-text w-full px-1',
-                                'lg:justify-start lg:gap-1.5 lg:bg-transparent lg:px-4 lg:py-2 lg:hover:bg-transparent',
-                                'lg:data-[state=active]:text-text lg:data-[state=active]:bg-transparent',
-                                'disabled:cursor-not-allowed disabled:text-[rgba(198,194,255,0.4)]',
-                                'max-lg:before:opacity-0',
-                                'max-lg:disabled:before:opacity-0 max-lg:disabled:hover:before:opacity-0',
-                                !showDrawerMenu && intent === widgetIntent && verticalTabGlowClasses,
-                                showDrawerMenu &&
-                                  intent === widgetIntent &&
-                                  'before:opacity-100 hover:before:opacity-100'
-                              )}
-                              disabled={options?.disabled || false}
-                            >
-                              {icon({ color: 'inherit' })}
-                              <Text variant="small" className="leading-4 text-inherit">
-                                <Trans>{label}</Trans>
-                              </Text>
-                              {comingSoon && (
-                                <Text
-                                  variant="small"
-                                  className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 text-textSecondary absolute left-1/2 top-0 -mt-2 rounded-full px-1.5 py-0 lg:static lg:px-1.5 lg:py-0.5 lg:text-[10px]"
-                                >
-                                  <Trans>Soon</Trans>
-                                </Text>
-                              )}
-                            </TabsTrigger>
-                          </TooltipTrigger>
-                          {description && !isMobile && (
-                            <TooltipPortal>
-                              <TooltipContent side="right">
-                                <p className="max-w-xs text-sm">{description}</p>
-                              </TooltipContent>
-                            </TooltipPortal>
+                        <TabsTrigger
+                          variant="icons"
+                          value={widgetIntent}
+                          className={cn(
+                            'text-textSecondary data-[state=active]:text-text w-full px-1',
+                            'lg:justify-start lg:gap-1.5 lg:bg-transparent lg:px-4 lg:py-2 lg:hover:bg-transparent',
+                            'lg:data-[state=active]:text-text lg:data-[state=active]:bg-transparent',
+                            'disabled:cursor-not-allowed disabled:text-[rgba(198,194,255,0.4)]',
+                            'max-lg:before:opacity-0',
+                            'max-lg:disabled:before:opacity-0 max-lg:disabled:hover:before:opacity-0',
+                            !showDrawerMenu && intent === widgetIntent && verticalTabGlowClasses,
+                            showDrawerMenu &&
+                              intent === widgetIntent &&
+                              'before:opacity-100 hover:before:opacity-100'
                           )}
-                        </Tooltip>
+                          disabled={options?.disabled || false}
+                        >
+                          <Tooltip delayDuration={150}>
+                            <TooltipTrigger asChild>
+                              <div className="flex flex-col items-center justify-center gap-1">
+                                {!isMobile && icon({ color: 'inherit' })}
+                                <Text variant="small" className="leading-4 text-inherit">
+                                  <Trans>{label}</Trans>
+                                </Text>
+                              </div>
+                            </TooltipTrigger>
+                            {description && !isMobile && (
+                              <TooltipPortal>
+                                <TooltipContent side="right">
+                                  <p className="max-w-xs text-sm">{description}</p>
+                                </TooltipContent>
+                              </TooltipPortal>
+                            )}
+                          </Tooltip>
+                          {comingSoon && (
+                            <Text
+                              variant="small"
+                              className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 text-textSecondary absolute left-1/2 top-0 -mt-2 rounded-full px-1.5 py-0 lg:static lg:px-1.5 lg:py-0.5 lg:text-[10px]"
+                            >
+                              <Trans>Soon</Trans>
+                            </Text>
+                          )}
+                        </TabsTrigger>
                       </div>
                     ))}
                     {groupIndex < widgetContent.length - 1 && !showDrawerMenu && (

@@ -6,7 +6,7 @@ import { defaultConfig as siteConfig } from '../default-config';
 // import { QueryParams } from '@/lib/constants';
 import { i18n } from '@lingui/core';
 import { dynamicActivate } from '@jetstreamgg/sky-utils';
-import { Intent } from '@/lib/enums';
+import { AdvancedIntent, Intent } from '@/lib/enums';
 // import { z } from 'zod';
 import { RewardContract } from '@jetstreamgg/sky-hooks';
 import { ALLOWED_EXTERNAL_DOMAINS, USER_SETTINGS_KEY } from '@/lib/constants';
@@ -56,7 +56,8 @@ const defaultUserConfig: UserConfig = {
   intent: Intent.BALANCES_INTENT,
   sealToken: SealToken.MKR,
   stakeToken: StakeToken.SKY,
-  batchEnabled: false // Default to false to show activation prompt
+  batchEnabled: false, // Default to false to show activation prompt
+  advancedRiskAcknowledged: false
 };
 
 const defaultLinkedActionConfig = {
@@ -85,6 +86,10 @@ export interface ConfigContextProps {
   externalLinkModalUrl: string;
   setExternalLinkModalUrl: (val: string) => void;
   onExternalLinkClicked: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  selectedAdvancedOption: AdvancedIntent | undefined;
+  setSelectedAdvancedOption: (intent: AdvancedIntent | undefined) => void;
+  advancedRiskAcknowledged: boolean;
+  setAdvancedRiskAcknowledged: (acknowledged: boolean) => void;
 }
 
 // Zod schema for validating user settings
@@ -115,7 +120,11 @@ export const ConfigContext = createContext<ConfigContextProps>({
   setExternalLinkModalOpened: () => {},
   externalLinkModalUrl: '',
   setExternalLinkModalUrl: () => {},
-  onExternalLinkClicked: () => {}
+  onExternalLinkClicked: () => {},
+  selectedAdvancedOption: undefined,
+  setSelectedAdvancedOption: () => {},
+  advancedRiskAcknowledged: false,
+  setAdvancedRiskAcknowledged: () => {}
 });
 
 export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElement => {
@@ -127,6 +136,7 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
   const [linkedActionConfig, setLinkedActionConfig] = useState(defaultLinkedActionConfig);
   const [externalLinkModalOpened, setExternalLinkModalOpened] = useState(false);
   const [externalLinkModalUrl, setExternalLinkModalUrl] = useState('');
+  const [selectedAdvancedOption, setSelectedAdvancedOption] = useState<AdvancedIntent | undefined>(undefined);
 
   // Check the user settings on load, and set locale
   useEffect(() => {
@@ -146,7 +156,8 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
         locale: 'en',
         batchEnabled:
           // If the feature flag is enabled, but the local storage item is not set, default to enabled
-          import.meta.env.VITE_BATCH_TX_ENABLED === 'true' ? (parsed.batchEnabled ?? true) : undefined
+          import.meta.env.VITE_BATCH_TX_ENABLED === 'true' ? (parsed.batchEnabled ?? true) : undefined,
+        advancedRiskAcknowledged: parsed.advancedRiskAcknowledged ?? false
       });
     } catch (e) {
       console.log('Error parsing user settings', e);
@@ -208,6 +219,16 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
     [setExternalLinkModalUrl, setExternalLinkModalOpened]
   );
 
+  const setAdvancedRiskAcknowledged = useCallback(
+    (acknowledged: boolean) => {
+      updateUserConfig({
+        ...userConfig,
+        advancedRiskAcknowledged: acknowledged
+      });
+    },
+    [userConfig, updateUserConfig]
+  );
+
   return (
     <ConfigContext.Provider
       value={{
@@ -230,7 +251,11 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
         setExternalLinkModalOpened,
         externalLinkModalUrl,
         setExternalLinkModalUrl,
-        onExternalLinkClicked
+        onExternalLinkClicked,
+        selectedAdvancedOption,
+        setSelectedAdvancedOption,
+        advancedRiskAcknowledged: userConfig.advancedRiskAcknowledged ?? false,
+        setAdvancedRiskAcknowledged
       }}
     >
       {children}
