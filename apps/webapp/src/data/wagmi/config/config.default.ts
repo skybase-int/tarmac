@@ -91,6 +91,7 @@ const connectors = connectorsForWallets(
   ],
   {
     appName: 'sky.money',
+    appIcon: 'https://app.sky.money/images/sky.svg',
     projectId: import.meta.env.VITE_WALLETCONNECT_PROJECT_ID || 'd5c6af7c0680adbaad12f33744ee4413'
   }
 );
