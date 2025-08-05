@@ -344,12 +344,14 @@ const StUSDSWidgetWrapped = ({
       ? true
       : false;
 
-  const isWithdrawBalanceError = false;
-  // stUsdsData?.userMaxWithdraw !== undefined &&
-  // debouncedAmount > stUsdsData.userMaxWithdraw &&
-  // amount !== 0n //don't wait for debouncing on default state
-  //   ? true
-  //   : false;
+  const isWithdrawBalanceError =
+    txStatus === TxStatus.IDLE &&
+    address &&
+    amount !== 0n && //don't wait for debouncing on default state
+    stUsdsData?.userMaxWithdraw !== undefined &&
+    debouncedAmount > stUsdsData.userMaxWithdraw
+      ? true
+      : false;
 
   const isAmountWaitingForDebounce = debouncedAmount !== amount;
 

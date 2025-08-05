@@ -86,6 +86,29 @@ export const StUSDSSupplyWithdraw = ({
     return t`Insufficient funds`;
   };
 
+  // Determine specific error message for withdraw
+  const getWithdrawErrorMessage = () => {
+    if (!error || !amount) return undefined;
+
+    // Check if exceeds user's deposited balance in stUSDS
+    if (userUsdsBalance !== undefined && amount > userUsdsBalance) {
+      return t`Insufficient funds. Your balance is ${formatUnits(
+        userUsdsBalance,
+        inputToken ? getTokenDecimals(inputToken, chainId) : 18
+      )} ${inputToken?.symbol}.`;
+    }
+
+    // Check if exceeds max withdrawable (which is min of user balance and module liquidity)
+    if (withdrawableBalance !== undefined && amount > withdrawableBalance) {
+      // If withdrawableBalance < userUsdsBalance, it means module liquidity is the constraint
+      if (userUsdsBalance !== undefined && withdrawableBalance < userUsdsBalance) {
+        return t`Insufficient liquidity in module`;
+      }
+    }
+
+    return t`Insufficient funds`;
+  };
+
   const isHighUtilization = (utilizationRate || 0) > 90;
   const isLiquidityConstrained = (utilizationRate || 0) > 95;
 
@@ -179,14 +202,7 @@ export const StUSDSSupplyWithdraw = ({
                 onChange(BigInt(newValue), !!event);
               }}
               value={amount}
-              error={
-                error
-                  ? t`Insufficient funds. Your balance is ${formatUnits(
-                      withdrawableBalance || 0n,
-                      inputToken ? getTokenDecimals(inputToken, chainId) : 18
-                    )} ${inputToken?.symbol}.`
-                  : undefined
-              }
+              error={getWithdrawErrorMessage()}
               onSetMax={onSetMax}
               dataTestId="withdraw-input-savings"
               showPercentageButtons={isConnectedAndEnabled}
