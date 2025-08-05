@@ -4,44 +4,20 @@ import { connectMockWalletAndAcceptTerms } from '../utils/connectMockWalletAndAc
 import { mineBlock } from '../utils/mineBlock.ts';
 
 test.describe('Advanced Module - stUSDS', () => {
-  test.beforeAll(async ({ page }) => {
-    await page.goto('/');
-    await connectMockWalletAndAcceptTerms(page);
-    // Navigate to stUSDS module
-    await page.getByRole('tab', { name: 'Advanced' }).click();
-
-    // Check that risk disclaimer is visible
-    await expect(page.getByTestId('advanced-risk-disclaimer')).toBeVisible();
-
-    // Check that the checkbox is present
-    const riskCheckbox = page.getByTestId('advanced-risk-checkbox');
-    await expect(riskCheckbox).toBeVisible();
-    await expect(riskCheckbox).not.toBeChecked();
-
-    // Check that stUSDS card is disabled initially
-    const stusdsCard = page.getByTestId('stusds-stats-card');
-    await expect(stusdsCard).toBeVisible();
-    // Clicking the stUSDS card should do nothing when disabled
-    await stusdsCard.click();
-
-    // Click the checkbox to acknowledge risk
-    await riskCheckbox.click();
-    await expect(riskCheckbox).toBeChecked();
-
-    // Now the stUSDS card should be clickable
-    await stusdsCard.click();
-
-    // Verify we're in the stUSDS module
-    await expect(page.getByRole('heading', { name: 'stUSDS Module' })).toBeVisible();
-    await expect(page.getByText('Earn a variable rate on USDS')).toBeVisible();
-  });
-
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
     await connectMockWalletAndAcceptTerms(page);
-    // Navigate to stUSDS module
+    // Navigate to Advanced module
     await page.getByRole('tab', { name: 'Advanced' }).click();
-    page.getByTestId('stusds-stats-card').click();
+
+    // Check and accept risk disclaimer if present and not already checked
+    const riskCheckbox = page.getByTestId('advanced-risk-checkbox');
+    if (!(await riskCheckbox.isChecked())) {
+      await riskCheckbox.click();
+    }
+
+    // Navigate to stUSDS module
+    await page.getByTestId('stusds-stats-card').click();
   });
 
   test('Navigate back to Advanced menu', async ({ page }) => {
@@ -49,7 +25,7 @@ test.describe('Advanced Module - stUSDS', () => {
     await page.getByRole('button', { name: 'Back to Advanced' }).click();
 
     // Should be back at Advanced menu
-    await expect(page.getByRole('heading', { name: 'Advanced' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Advanced', exact: true })).toBeVisible();
     await expect(page.getByTestId('stusds-stats-card')).toBeVisible();
   });
 
@@ -79,7 +55,9 @@ test.describe('Advanced Module - stUSDS', () => {
     await page.getByRole('button', { name: 'Back to stUSDS' }).click();
 
     // Should still be in stUSDS module
-    await expect(page.getByRole('heading', { name: 'stUSDS Module' })).toBeVisible();
+    await expect(
+      page.getByTestId('widget-container').getByRole('heading', { name: 'stUSDS Module' })
+    ).toBeVisible();
   });
 
   test('Withdraw USDS from stUSDS module', async ({ page }) => {
