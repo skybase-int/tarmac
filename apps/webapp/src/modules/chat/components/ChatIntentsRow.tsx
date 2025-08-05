@@ -23,6 +23,8 @@ import { Tooltip, TooltipArrow, TooltipPortal, TooltipTrigger } from '@/componen
 import { TooltipContent } from '@/components/ui/tooltip';
 import { Trans } from '@lingui/react/macro';
 import { capitalizeFirstLetter } from '@/lib/helpers/string/capitalizeFirstLetter';
+import { useState } from 'react';
+import { ChevronDown } from 'lucide-react';
 
 type ChatIntentsRowProps = {
   intents: ChatIntent[];
@@ -40,7 +42,23 @@ const addResetParam = (url: string): string => {
 };
 
 export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
-  const { shouldShowConfirmationWarning, shouldDisableActionButtons } = useChatContext();
+  const { shouldShowConfirmationWarning, shouldDisableActionButtons, triggerScroll } = useChatContext();
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const INITIAL_VISIBLE_COUNT = 3;
+  const hasMoreIntents = intents.length > INITIAL_VISIBLE_COUNT;
+  const visibleIntents = hasMoreIntents && !isExpanded ? intents.slice(0, INITIAL_VISIBLE_COUNT) : intents;
+  const hiddenCount = intents.length - INITIAL_VISIBLE_COUNT;
+
+  const handleToggleExpand = () => {
+    setIsExpanded(!isExpanded);
+    if (!isExpanded) {
+      // Trigger scroll when expanding
+      setTimeout(() => {
+        triggerScroll();
+      }, 100);
+    }
+  };
 
   return (
     <div>
@@ -66,7 +84,7 @@ export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
         </Tooltip>
       </HStack>
       <div className="mt-2 flex flex-wrap gap-2">
-        {intents.map((intent, index) => (
+        {visibleIntents.map((intent, index) => (
           <IntentRow
             key={index}
             intent={{ ...intent, url: addResetParam(intent.url) }}
@@ -74,6 +92,24 @@ export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
           />
         ))}
       </div>
+      {hasMoreIntents && (
+        <Button
+          variant="link"
+          onClick={handleToggleExpand}
+          className="mt-3 flex h-auto items-center gap-1 py-1 pl-1 pr-0 text-sm font-normal"
+        >
+          {isExpanded ? (
+            <Trans>Collapse</Trans>
+          ) : (
+            <Trans>
+              Show {hiddenCount} more {hiddenCount === 1 ? 'action' : 'actions'}
+            </Trans>
+          )}
+          <ChevronDown
+            className={`h-4 w-4 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+          />
+        </Button>
+      )}
       {shouldShowConfirmationWarning && <ConfirmationWarningRow />}
     </div>
   );

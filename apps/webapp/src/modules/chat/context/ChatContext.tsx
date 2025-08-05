@@ -18,6 +18,7 @@ interface ChatContextType {
   showTermsModal: boolean;
   isCheckingTerms: boolean;
   termsError: string | null;
+  scrollTrigger: number;
   setTermsError: React.Dispatch<React.SetStateAction<string | null>>;
   setChatHistory: React.Dispatch<React.SetStateAction<ChatHistory[]>>;
   setConfirmationWarningOpened: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,6 +29,7 @@ interface ChatContextType {
   setTermsAccepted: React.Dispatch<React.SetStateAction<boolean>>;
   setShowTermsModal: React.Dispatch<React.SetStateAction<boolean>>;
   setIsCheckingTerms: React.Dispatch<React.SetStateAction<boolean>>;
+  triggerScroll: () => void;
 }
 
 const ChatContext = createContext<ChatContextType>({
@@ -52,7 +54,9 @@ const ChatContext = createContext<ChatContextType>({
   isCheckingTerms: false,
   setIsCheckingTerms: () => {},
   termsError: null,
-  setTermsError: () => {}
+  setTermsError: () => {},
+  scrollTrigger: 0,
+  triggerScroll: () => {}
 });
 
 export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -71,6 +75,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [confirmationWarningOpened, setConfirmationWarningOpened] = useState<boolean>(false);
   const [warningShown, setWarningShown] = useState<ChatIntent[]>([]);
   const [shouldDisableActionButtons, setShouldDisableActionButtons] = useState<boolean>(false);
+  const [scrollTrigger, setScrollTrigger] = useState<number>(0);
   const isLoading = chatHistory[chatHistory.length - 1]?.type === MessageType.loading;
 
   // Terms acceptance state - managed by ChatWithTerms component
@@ -78,6 +83,10 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [isCheckingTerms, setIsCheckingTerms] = useState(false);
   const [termsError, setTermsError] = useState<string | null>(null);
+
+  const triggerScroll = useCallback(() => {
+    setScrollTrigger(prev => prev + 1);
+  }, []);
 
   const hasShownIntent = useCallback(
     (intent?: ChatIntent) => {
@@ -116,7 +125,9 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isCheckingTerms,
         setIsCheckingTerms,
         termsError,
-        setTermsError
+        setTermsError,
+        scrollTrigger,
+        triggerScroll
       }}
     >
       {children}
