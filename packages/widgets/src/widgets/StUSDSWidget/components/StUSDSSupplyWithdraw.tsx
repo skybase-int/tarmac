@@ -69,10 +69,10 @@ export const StUSDSSupplyWithdraw = ({
 
     // Check if exceeds wallet balance
     if (nstBalance !== undefined && amount > nstBalance) {
-      return t`Insufficient funds. Your balance is ${formatUnits(
-        nstBalance,
-        inputToken ? getTokenDecimals(inputToken, chainId) : 18
-      )} ${inputToken?.symbol}.`;
+      return t`Insufficient funds. Your balance is ${formatBigInt(nstBalance, {
+        unit: inputToken ? getTokenDecimals(inputToken, chainId) : 18,
+        maxDecimals: 4
+      })} ${inputToken?.symbol}.`;
     }
 
     // Check if exceeds max deposit
@@ -92,10 +92,10 @@ export const StUSDSSupplyWithdraw = ({
 
     // Check if exceeds user's deposited balance in stUSDS
     if (userUsdsBalance !== undefined && amount > userUsdsBalance) {
-      return t`Insufficient funds. Your balance is ${formatUnits(
-        userUsdsBalance,
-        inputToken ? getTokenDecimals(inputToken, chainId) : 18
-      )} ${inputToken?.symbol}.`;
+      return t`Insufficient funds. Your balance is ${formatBigInt(userUsdsBalance, {
+        unit: inputToken ? getTokenDecimals(inputToken, chainId) : 18,
+        maxDecimals: 4
+      })} ${inputToken?.symbol}.`;
     }
 
     // Check if exceeds max withdrawable (which is min of user balance and module liquidity)
