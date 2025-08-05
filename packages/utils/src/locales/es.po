@@ -735,6 +735,10 @@ msgstr ""
 msgid "Close your position(s)"
 msgstr ""
 
+#: apps/webapp/src/modules/chat/components/ChatIntentsRow.tsx
+msgid "Collapse"
+msgstr ""
+
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Repay.tsx
 #: packages/widgets/src/widgets/StakeModuleWidget/components/Borrow.tsx
 #: packages/widgets/src/widgets/SealModuleWidget/components/Repay.tsx
@@ -2112,6 +2116,11 @@ msgstr ""
 
 #: apps/webapp/src/modules/chat/components/ChatInput.tsx
 msgid "Share your feedback about this chat experience. Click this button to start a feedback message, then type your thoughts and send."
+msgstr ""
+
+#. placeholder {0}: hiddenCount === 1 ? 'action' : 'actions'
+#: apps/webapp/src/modules/chat/components/ChatIntentsRow.tsx
+msgid "Show {hiddenCount} more {0}"
 msgstr ""
 
 #: packages/widgets/src/widgets/SealModuleWidget/components/ViewSkyMkrButton.tsx
