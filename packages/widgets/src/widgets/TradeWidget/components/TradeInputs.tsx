@@ -47,6 +47,7 @@ type TradeInputsProps = {
   onOriginTokenChange?: (token: TokenForChain) => void;
   onTargetTokenChange?: (token: TokenForChain) => void;
   onOriginInputChange?: (val: bigint, userTriggered?: boolean) => void;
+  enableSearch?: boolean;
 };
 
 export function TradeInput(props: TokenInputProps) {
@@ -84,11 +85,11 @@ export function TradeInputs({
   setTradeAnyway,
   onOriginTokenChange,
   onTargetTokenChange,
-  onOriginInputChange
+  onOriginInputChange,
+  enableSearch = false
 }: TradeInputsProps) {
   const separationPx = 12;
   const separationMb = 'mb-[12px]';
-  const [max, setMax] = useState(false);
   const topInputRef = useRef<HTMLDivElement>(null);
   const bottomInputRef = useRef<HTMLDivElement>(null);
   const [switchPosition, setSwitchPosition] = useState<{ top: string; left: string }>({
@@ -174,10 +175,6 @@ export function TradeInputs({
 
   const switchDisabled = !canSwitchTokens || isQuoteLoading || !enoughTimePassed;
 
-  const GAS_BUFFER = 10000000000000000n; // 0.01 ETH
-  const notEnoughEthForGas =
-    max && originToken?.symbol === 'ETH' && originBalance?.value && originBalance?.value <= GAS_BUFFER;
-
   return (
     <VStack className="relative h-auto items-stretch" gap={0}>
       <motion.div variants={positionAnimations} ref={topInputRef}>
@@ -208,19 +205,12 @@ export function TradeInputs({
             setOriginToken(option as TokenForChain);
             onOriginTokenChange?.(option as TokenForChain);
           }}
-          error={
-            isBalanceError
-              ? t`Insufficient funds`
-              : notEnoughEthForGas
-                ? t`A minimum 0.01 ETH is needed to cover transaction costs. Actual gas fees may be lower.`
-                : undefined
-          }
+          error={isBalanceError ? t`Insufficient funds` : undefined}
           variant="top"
           extraPadding={true}
           showPercentageButtons={isConnectedAndEnabled}
           enabled={isConnectedAndEnabled}
-          gasBufferAmount={originToken?.symbol === 'ETH' ? GAS_BUFFER : 0n}
-          onSetMax={setMax}
+          enableSearch={enableSearch}
         />
       </motion.div>
       <div
@@ -277,6 +267,7 @@ export function TradeInputs({
           showPercentageButtons={false}
           enabled={isConnectedAndEnabled}
           inputDisabled={originToken?.isNative}
+          enableSearch={enableSearch}
         />
       </motion.div>
       {quoteError && (

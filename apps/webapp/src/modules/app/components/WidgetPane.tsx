@@ -54,6 +54,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
   const locale = i18n.locale;
 
   const isRestrictedBuild = import.meta.env.VITE_RESTRICTED_BUILD === 'true';
+  const isRestrictedMiCa = import.meta.env.VITE_RESTRICTED_BUILD_MICA === 'true';
   const referralCode = Number(import.meta.env.VITE_REFERRAL_CODE) || 0; // fallback to 0 if invalid
 
   const rightHeaderComponent = <DualSwitcher className="hidden lg:flex" />;
@@ -150,7 +151,9 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
       false,
       undefined,
       isL2ChainId(chainId)
-        ? 'Use USDS or USDC to access the Sky Savings Rate'
+        ? isRestrictedMiCa
+          ? 'Use USDS to access the Sky Savings Rate'
+          : 'Use USDS or USDC to access the Sky Savings Rate'
         : 'Use USDS to access the Sky Savings Rate'
     ],
     [
