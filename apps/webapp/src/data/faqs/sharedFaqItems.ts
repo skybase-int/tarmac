@@ -39,9 +39,9 @@ SkyLink is the Sky system that provides the rails for Sky Ecosystem projects to 
   },
   {
     question:
-      'Why do I see activity in my Trade transaction history in the Sky.money web app if I’ve never used the Trade feature?',
+      "Why do I see activity in my Trade transaction history in the Sky.money web app if I've never used the Trade feature?",
     answer:
-      'If you’ve accessed the Sky Savings Rate on a supported Layer 2 (L2) network, a conversion from USDS or USDC to sUSDS would have been automatically triggered via the Peg Stability Module (PSM)(i). Therefore, you will see such activity in your Trade transaction history, despite not having traded.',
+      "If you've accessed the Sky Savings Rate on a supported Layer 2 (L2) network, a conversion from USDS or USDC to sUSDS would have been automatically triggered via the Peg Stability Module (PSM)(i). Therefore, you will see such activity in your Trade transaction history, despite not having traded.",
     index: 5
   },
   {

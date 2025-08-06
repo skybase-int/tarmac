@@ -43,7 +43,7 @@ export const getSparkGeneralFaqItems = () => {
       question:
         'Where can I find information related to logic for Spark, including its strategy and operations?',
       answer:
-        'For complete information regarding Spark’s logic and how it uses the Sky Primitives to operationalize its strategy, please see the [Spark Artifact](https://sky-atlas.powerhouse.io/A.AG1_Spark/1c1f2ff0-8d73-8157-a4b8-f568e2f09fe3%7C7896ed332638) within the [Sky Atlas](https://sky-atlas.powerhouse.io/A.0_Atlas_Preamble/4281ab93-ef4f-4974-988d-7dad149a693d).',
+        "For complete information regarding Spark's logic and how it uses the Sky Primitives to operationalize its strategy, please see the [Spark Artifact](https://sky-atlas.powerhouse.io/A.AG1_Spark/1c1f2ff0-8d73-8157-a4b8-f568e2f09fe3%7C7896ed332638) within the [Sky Atlas](https://sky-atlas.powerhouse.io/A.0_Atlas_Preamble/4281ab93-ef4f-4974-988d-7dad149a693d).",
       index: 6
     },
     {

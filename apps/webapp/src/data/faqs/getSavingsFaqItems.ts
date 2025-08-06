@@ -55,9 +55,9 @@ Please see the [Terms of Use](https://docs.sky.money/legal-terms) for more infor
     },
     {
       question:
-        'Why do I see activity in my Savings transaction history in the Sky.money web app if I’ve never used the Savings feature?',
+        "Why do I see activity in my Savings transaction history in the Sky.money web app if I've never used the Savings feature?",
       answer:
-        'When you trade sUSDS for another token (or vice versa), sUSDS is automatically supplied to (or withdrawn from) the Sky Savings Rate module. These transactions are recorded in your Savings transaction history as a “supply” or “withdrawal.” Your Savings balance will also update automatically to reflect the increase or decrease in the amount of sUSDS you hold.',
+        'When you trade sUSDS for another token (or vice versa), sUSDS is automatically supplied to (or withdrawn from) the Sky Savings Rate module. These transactions are recorded in your Savings transaction history as a "supply" or "withdrawal." Your Savings balance will also update automatically to reflect the increase or decrease in the amount of sUSDS you hold.',
       index: 6
     },
     {

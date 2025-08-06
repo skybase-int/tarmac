@@ -25,7 +25,7 @@ export const getRewardsFaqItems = () => {
 
 - The market price of the token rewarded; and
 
-- The user’s proportional supply within the total pool of assets linked to the Sky Token Rewards module.
+- The user's proportional supply within the total pool of assets linked to the Sky Token Rewards module.
 
 Sky.money does not control the issuance, determination, or distribution of these rewards.`,
       index: 3
