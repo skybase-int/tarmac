@@ -36,7 +36,7 @@ export function ExpertWidgetPane(sharedProps: SharedProps) {
                   <Trans>Expert</Trans>
                 </Heading>
                 <Text className="text-textSecondary" variant="small">
-                  <Trans>Expert, higher risk options</Trans>
+                  <Trans>Higher-Risk Options: For experienced users</Trans>
                 </Text>
               </div>
             }

@@ -190,7 +190,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
       withErrorBoundary(<ExpertWidgetPane {...sharedProps} />),
       false,
       undefined,
-      'Expert, higher risk options'
+      'Higher-Risk Options: For experienced users'
     ]
   ].map(([intent, label, icon, component, , , description]) => {
     const comingSoon = COMING_SOON_MAP[chainId]?.includes(intent as Intent);

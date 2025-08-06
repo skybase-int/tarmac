@@ -10,11 +10,11 @@ export function ExpertRiskCheckbox() {
   return (
     <div className="mb-4">
       <div className="mb-2 flex gap-2">
-        <AlertTriangle className="mt-1 h-4 w-4 shrink-0 text-red-500" />
+        <AlertTriangle className="mt-1 h-4 w-4 shrink-0 text-yellow-500" />
         <Text variant="medium" className="text-text">
           <Trans>
-            These expert modules involve higher risk and are intended for experienced users. Please ensure you
-            understand the risks before proceeding.
+            These modules carry higher risk and are intended for experienced users. Please review and
+            understand the risks before continuing.
           </Trans>
         </Text>
       </div>
@@ -26,7 +26,7 @@ export function ExpertRiskCheckbox() {
         />
         <label htmlFor="risk-acknowledgment" className="cursor-pointer">
           <Text variant="medium" className="text-text">
-            <Trans>I acknowledge and accept the higher risk</Trans>
+            <Trans>I understand and accept the associated risks.</Trans>
           </Text>
         </label>
       </div>
