@@ -11,7 +11,7 @@ NC='\033[0m' # No Color
 
 # Configuration
 # Use SSH URL for authentication, or override with CONTENT_REPO_URL env var
-CONTENT_REPO="${CONTENT_REPO_URL:-git@github.com:archon-research/sky-data.git}"
+CONTENT_REPO="${CONTENT_REPO_URL:-git@github.com:sky-ecosystem/corpus.git}"
 CONTENT_VERSION_FILE=".content-version"
 TEMP_DIR=".tmp-content-repo"
 OUTPUT_SOURCE_PATH="output/webapp/faq"
@@ -126,6 +126,82 @@ else
     cp -r "$TEMP_DIR/$OUTPUT_SOURCE_PATH/"* "$DESTINATION_PATH/"
 fi
 
+# Post-process sharedFaqItems.ts
+print_status "Processing sharedFaqItems..."
+
+# Create a Node.js script to extract and combine the FAQ items
+cat > "$DESTINATION_PATH/.process-shared-items.cjs" << 'EOF'
+const fs = require('fs');
+const path = require('path');
+
+// Files to process
+const sourceFiles = [
+  'getL2GeneralFaqItems.ts',
+  'getBaseFaqItems.ts', 
+  'getArbitrumFaqItems.ts',
+  'getOptimismFaqItems.ts',
+  'getUnichainFaqItems.ts'
+];
+
+// Export names for each file
+const exportNames = {
+  'getL2GeneralFaqItems.ts': 'L2GeneralFaqItems',
+  'getBaseFaqItems.ts': 'baseFaqItems',
+  'getArbitrumFaqItems.ts': 'arbitrumFaqItems',
+  'getOptimismFaqItems.ts': 'optimismFaqItems',
+  'getUnichainFaqItems.ts': 'unichainFaqItems'
+};
+
+let outputContent = '';
+
+// Process each file
+sourceFiles.forEach((fileName) => {
+  const filePath = path.join(__dirname, fileName);
+  
+  if (fs.existsSync(filePath)) {
+    console.log(`Processing ${fileName}...`);
+    
+    // Read the file content
+    const content = fs.readFileSync(filePath, 'utf8');
+    
+    // Extract the items array using regex
+    const match = content.match(/const items = (\[[\s\S]*?\]);[\s\S]*?return items/);
+    
+    if (match && match[1]) {
+      const itemsArray = match[1];
+      const exportName = exportNames[fileName];
+      
+      // Add export to output
+      if (outputContent) outputContent += '\n\n';
+      outputContent += `export const ${exportName} = ${itemsArray};`;
+      
+      // Delete the source file
+      fs.unlinkSync(filePath);
+      console.log(`  - Extracted and removed ${fileName}`);
+    } else {
+      console.log(`  - Warning: Could not extract items from ${fileName}`);
+    }
+  }
+});
+
+// Write the combined file
+if (outputContent) {
+  const outputPath = path.join(__dirname, 'sharedFaqItems.ts');
+  fs.writeFileSync(outputPath, outputContent + '\n', 'utf8');
+  console.log(`Created sharedFaqItems.ts with combined exports`);
+} else {
+  console.log('No content to write to sharedFaqItems.ts');
+}
+
+// Clean up this script
+fs.unlinkSync(__filename);
+EOF
+
+# Run the processing script
+if [ -f "$DESTINATION_PATH/.process-shared-items.cjs" ]; then
+    node "$DESTINATION_PATH/.process-shared-items.cjs"
+fi
+
 # Clean up temp directory
 print_status "Cleaning up temporary files..."
 rm -rf "$TEMP_DIR"
@@ -135,6 +211,6 @@ print_status "Content sync completed successfully!"
 # List the synced files
 echo ""
 print_status "Synced files:"
-find "$DESTINATION_PATH" -type f -name "*.json" -o -name "*.md" | sort | while read file; do
+find "$DESTINATION_PATH" -type f -name "*.json" -o -name "*.md" -o -name "*.ts" | sort | while read file; do
     echo "  - $file"
 done
