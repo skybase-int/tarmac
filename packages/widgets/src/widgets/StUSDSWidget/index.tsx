@@ -344,12 +344,14 @@ const StUSDSWidgetWrapped = ({
       ? true
       : false;
 
-  const isWithdrawBalanceError = false;
-  // stUsdsData?.userMaxWithdraw !== undefined &&
-  // debouncedAmount > stUsdsData.userMaxWithdraw &&
-  // amount !== 0n //don't wait for debouncing on default state
-  //   ? true
-  //   : false;
+  const isWithdrawBalanceError =
+    txStatus === TxStatus.IDLE &&
+    address &&
+    amount !== 0n && //don't wait for debouncing on default state
+    stUsdsData?.userMaxWithdraw !== undefined &&
+    debouncedAmount > stUsdsData.userMaxWithdraw
+      ? true
+      : false;
 
   const isAmountWaitingForDebounce = debouncedAmount !== amount;
 
@@ -459,6 +461,12 @@ const StUSDSWidgetWrapped = ({
     // if successful supply/withdraw, reset amount
     if (widgetState.action !== StUSDSAction.APPROVE) {
       setAmount(0n);
+      // Notify external state about the cleared amount
+      onWidgetStateChange?.({
+        originAmount: '',
+        txStatus,
+        widgetState
+      });
     }
 
     // if successfully approved, go to supply/withdraw
