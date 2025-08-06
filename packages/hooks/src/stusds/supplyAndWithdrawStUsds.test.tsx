@@ -272,10 +272,27 @@ describe('stUSDS - Supply and withdraw', () => {
     const { result: resultStUsdsData } = renderHook(() => useStUsdsData(TEST_WALLET_ADDRESS), {
       wrapper: WagmiWrapper
     });
-
     await waitFor(
       () => {
         expect(resultStUsdsData.current.isLoading).toBe(false);
+      },
+      { timeout: 15000 }
+    );
+    const userMaxWithdrawBefore = resultStUsdsData.current.data?.userMaxWithdraw;
+
+    resultStUsdsData.current.mutate();
+
+    // Wait for mutation to happen
+    await waitFor(
+      () => {
+        expect(resultStUsdsData.current.data?.userMaxWithdraw).not.toBe(userMaxWithdrawBefore);
+      },
+      { timeout: 15000 }
+    );
+
+    await waitFor(
+      () => {
+        expect(resultStUsdsData.current.data?.userMaxWithdraw).toBeGreaterThan(0n);
       },
       { timeout: 15000 }
     );
@@ -283,28 +300,20 @@ describe('stUSDS - Supply and withdraw', () => {
     // The precision buffer should allow withdrawal of exact amounts
     const userMaxWithdraw = resultStUsdsData.current.data?.userMaxWithdraw || 0n;
 
-    if (userMaxWithdraw > 1n) {
-      // Try to withdraw the exact amount (should work with precision buffer)
-      const { result: resultExactWithdraw } = renderHook(
-        () =>
-          useStUsdsWithdraw({
-            amount: userMaxWithdraw - 1n, // Subtract 1 wei to account for buffer
-            enabled: true,
-            gas: GAS
-          }),
-        {
-          wrapper: WagmiWrapper
-        }
-      );
+    // Try to withdraw the exact amount (should work with precision buffer)
+    const { result: resultExactWithdraw } = renderHook(
+      () =>
+        useStUsdsWithdraw({
+          amount: userMaxWithdraw - 1n, // Subtract 1 wei to account for buffer
+          enabled: true,
+          gas: GAS
+        }),
+      {
+        wrapper: WagmiWrapper
+      }
+    );
 
-      await waitFor(
-        () => {
-          // Should be prepared successfully
-          expect(resultExactWithdraw.current.prepared).toBe(true);
-        },
-        { timeout: 5000 }
-      );
-    }
+    await waitForPreparedExecuteAndMine(resultExactWithdraw);
   });
 
   afterAll(() => {
