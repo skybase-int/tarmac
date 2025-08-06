@@ -152,6 +152,9 @@ const exportNames = {
   'getUnichainFaqItems.ts': 'unichainFaqItems'
 };
 
+// Store L2SavingsFaqItems content for later use
+let l2SavingsContent = '';
+
 let outputContent = '';
 
 // Process each file for sharedFaqItems
@@ -184,6 +187,29 @@ sourceFiles.forEach((fileName) => {
   }
 });
 
+// Process getL2SavingsFaqItems.ts separately
+const l2SavingsFilePath = path.join(__dirname, 'getL2SavingsFaqItems.ts');
+if (fs.existsSync(l2SavingsFilePath)) {
+  console.log('Processing getL2SavingsFaqItems.ts...');
+  
+  // Read the file content
+  const content = fs.readFileSync(l2SavingsFilePath, 'utf8');
+  
+  // Extract the items array
+  const match = content.match(/const items = (\[[\s\S]*?\]);[\s\S]*?return items/);
+  
+  if (match && match[1]) {
+    l2SavingsContent = match[1];
+    console.log('  - Extracted L2SavingsFaqItems content');
+    
+    // Delete the source file
+    fs.unlinkSync(l2SavingsFilePath);
+    console.log('  - Removed getL2SavingsFaqItems.ts');
+  } else {
+    console.log('  - Warning: Could not extract items from getL2SavingsFaqItems.ts');
+  }
+}
+
 // Write the combined sharedFaqItems file
 if (outputContent) {
   const outputPath = path.join(__dirname, 'sharedFaqItems.ts');
@@ -193,9 +219,11 @@ if (outputContent) {
   console.log('No content to write to sharedFaqItems.ts');
 }
 
-// Now update getBalancesFaqItems.ts to use chain-aware logic
+// Now update getBalancesFaqItems.ts and getSavingsFaqItems.ts to use chain-aware logic
 const balancesFilePath = path.join(__dirname, 'getBalancesFaqItems.ts');
+const savingsFilePath = path.join(__dirname, 'getSavingsFaqItems.ts');
 
+// Update getBalancesFaqItems.ts
 if (fs.existsSync(balancesFilePath)) {
   console.log('Updating getBalancesFaqItems.ts with chain-aware logic...');
   
@@ -241,6 +269,59 @@ const generalFaqItems = ${match[1]};
     console.log('  - Updated getBalancesFaqItems.ts with chain-aware imports and logic');
   } else {
     console.log('  - Warning: Could not extract items from getBalancesFaqItems.ts');
+  }
+}
+
+// Update getSavingsFaqItems.ts
+if (fs.existsSync(savingsFilePath)) {
+  console.log('Updating getSavingsFaqItems.ts with chain-aware logic...');
+  
+  // Read the current file
+  const content = fs.readFileSync(savingsFilePath, 'utf8');
+  
+  // Extract the items array
+  const match = content.match(/const items = (\[[\s\S]*?\]);[\s\S]*?return items/);
+  
+  if (match && match[1] && l2SavingsContent) {
+    // Create the new chain-aware version using the extracted L2SavingsFaqItems
+    const newContent = `import {
+  isArbitrumChainId,
+  isBaseChainId,
+  isL2ChainId,
+  isOptimismChainId,
+  isUnichainChainId
+} from '@jetstreamgg/sky-utils';
+
+import {
+  L2GeneralFaqItems,
+  arbitrumFaqItems,
+  baseFaqItems,
+  optimismFaqItems,
+  unichainFaqItems
+} from './sharedFaqItems';
+
+export const getSavingsFaqItems = (chainId: number) => {
+  const items = [
+    ...generalFaqItems,
+    ...L2GeneralFaqItems,
+    ...(isBaseChainId(chainId) ? baseFaqItems : []),
+    ...(isArbitrumChainId(chainId) ? arbitrumFaqItems : []),
+    ...(isOptimismChainId(chainId) ? optimismFaqItems : []),
+    ...(isUnichainChainId(chainId) ? unichainFaqItems : []),
+    ...(isL2ChainId(chainId) ? L2SavingsFaqItems : [])
+  ];
+  return items.sort((a, b) => a.index - b.index);
+};
+
+const generalFaqItems = ${match[1]};
+
+const L2SavingsFaqItems = ${l2SavingsContent};
+`;
+    
+    fs.writeFileSync(savingsFilePath, newContent, 'utf8');
+    console.log('  - Updated getSavingsFaqItems.ts with chain-aware imports and logic');
+  } else {
+    console.log('  - Warning: Could not extract items from getSavingsFaqItems.ts or L2SavingsFaqItems');
   }
 }
 

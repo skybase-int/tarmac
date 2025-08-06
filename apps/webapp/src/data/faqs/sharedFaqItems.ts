@@ -43,24 +43,6 @@ SkyLink is the Sky system that provides the rails for Sky Ecosystem projects to 
     answer:
       "If you've accessed the Sky Savings Rate on a supported Layer 2 (L2) network, a conversion from USDS or USDC to sUSDS would have been automatically triggered via the Peg Stability Module (PSM)(i). Therefore, you will see such activity in your Trade transaction history, despite not having traded.",
     index: 5
-  },
-  {
-    question: 'Which tokens can I supply to and withdraw from the Savings Rate Module on supported L2s?',
-    answer:
-      'Some features of Sky.money or the Sky Protocol are not available on supported Layer 2 (L2) solutions There is no native Sky Savings Rate module deployed to supported L2s, for example. However, on some L2s, both USDS and USDC token support is made possible through a Peg Stability Module (PSM)(i) deployed to those L2s.',
-    index: 6
-  },
-  {
-    question: 'Is the Savings feature experience on L2s the same as on Ethereum Mainnet?',
-    answer:
-      'Some features of Sky.money or the Sky Protocol are not available on supported Layer 2 (L2) solutions There is no native Sky Savings Rate module deployed to supported L2s, for example. However, on some L2s, both USDS and USDC token support is made possible through a Peg Stability Module (PSM)(i) deployed to those L2s. In those cases, the experience of using the Savings feature on supported Layer 2 (L2) networks and Ethereum is very similar.',
-    index: 7
-  },
-  {
-    question: 'Is the Sky Savings Rate percentage the same on Ethereum Mainnet and supported L2s?',
-    answer:
-      'Yes, the Sky Savings Rate percentage noted on supported Layer 2 (L2) solutions tracks the rate on Ethereum Mainnet. This is done programmatically in the Peg Stability Module (PSM)(i) where deployed on supported L2s.',
-    index: 8
   }
 ];
 

@@ -149,19 +149,9 @@ For upgrade details and step-by-step upgrade instructions, please visit the [MKR
     },
     {
       question: 'Can I still vote and delegate with MKR?',
-      answer: `No, MKR is no longer used for Sky Ecosystem Governance. Only SKY, the upgrade of MKR, can be used to participate in Sky Ecosystem Governance voting at the new [Sky Governance Voting Portal](https://vote.sky.money/).
-
-##
-
-##`,
+      answer:
+        'No, MKR is no longer used for Sky Ecosystem Governance. Only SKY, the upgrade of MKR, can be used to participate in Sky Ecosystem Governance voting at the new [Sky Governance Voting Portal](https://vote.sky.money/).',
       index: 16
-    },
-    {
-      question: 'END NEW MKR > SKY FAQS',
-      answer: `##
-
-##`,
-      index: 17
     },
     {
       question: 'What is USDS?',
@@ -172,7 +162,7 @@ USDS is freely transferable and can be used in connection with any software prot
 The Sky Protocol is governed by a community of broad and diversified individuals and entities from around the world, who hold Sky governance tokens and support the Sky Ecosystem by participating in a system of decentralized onchain voting. USDS powers the open Sky Ecosystem.
 
 USDS is also currently available on networks other than Ethereum Mainnet, including Solana, Base and Arbitrum. You can follow the health of USDS and all Sky Protocol tokens using the [Sky Ecosystem Dashboard](https://info.sky.money/).`,
-      index: 18
+      index: 17
     },
     {
       question: 'How does USDS maintain stability and benefit the ecosystem?',
@@ -193,27 +183,27 @@ Other mechanisms of the decentralized Sky Protocol that are used to keep USDS st
 Importantly, the [Sky Ecosystem Dashboard](https://info.sky.money/), designed by [Block Analitica](https://blockanalitica.com/), allows anyone to examine the health of the decentralized Sky Protocol in real time. Users can view the total value locked (TVL) in the Protocol, TVL in the Sky Savings Rate module, TVL in the Sky Token Rewards module, the total collateral backing the system, an estimation of annual profits, and much more. For more on the Dashboard, see this [Substack post](https://blockanalitica.substack.com/p/the-sky-risk-and-analytics-dashboard) by Block Analitica.
 
 For details on the risks associated with soft-pegged stablecoins, review the [User Risk Documentation](https://docs.sky.money/user-risks).`,
-      index: 19
+      index: 18
     },
     {
       question: 'Can I trade USDS on the open market?',
       answer: `Yes, eligible sUSDS holders can access the Sky.money web app to trade the tokens via an API integration with the third-party decentralized exchange [CoW Swap](https://swap.cow.fi/#/1/swap/WETH). sUSDS holders are also free to access any other protocol or exchange that supports sUSDS trading; however, users do so at their own risk. Sky.money is not responsible for any loss or damages incurred while using such third-party platforms.
 
 Please see the [Terms of Use](https://docs.sky.money/legal-terms) for more information on third-party services.`,
-      index: 20
+      index: 19
     },
     {
       question: 'Do I have to upgrade my DAI to USDS?',
       answer:
         'No, upgrading your DAI is optional. You can continue to hold DAI tokens as you have in the past.',
-      index: 21
+      index: 20
     },
     {
       question: "What happens to the DAI I've supplied to the DAI Savings Rate contract?",
       answer: `The DAI Savings Rate (DSR) contract remains unchanged, so you don't need to immediately do anything to your DAI in the DSR module. You can, however, withdraw your DSR position, and, if you're an eligible user of the Sky.money web app, upgrade your DAI to USDS, and then use the USDS to access the Sky Savings Rate.
 
 When you supply USDS to the Sky Savings Rate module of the decentralized, non-custodial Sky Protocol, you receive sUSDS savings tokens in return. When you choose to redeem your sUSDS for USDS—which you can do at any time—the total USDS you will receive will equal the amount you originally supplied, plus any rewards accumulated. No minimum supply amount is required to access the Sky Savings Rate, and you always maintain full control of your supplied assets.`,
-      index: 22
+      index: 21
     }
   ];
   return items.sort((a, b) => a.index - b.index);
