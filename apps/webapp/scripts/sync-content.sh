@@ -126,15 +126,15 @@ else
     cp -r "$TEMP_DIR/$OUTPUT_SOURCE_PATH/"* "$DESTINATION_PATH/"
 fi
 
-# Post-process sharedFaqItems.ts
-print_status "Processing sharedFaqItems..."
+# Post-process sharedFaqItems.ts and update getBalancesFaqItems.ts
+print_status "Processing sharedFaqItems and updating getBalancesFaqItems..."
 
 # Create a Node.js script to extract and combine the FAQ items
 cat > "$DESTINATION_PATH/.process-shared-items.cjs" << 'EOF'
 const fs = require('fs');
 const path = require('path');
 
-// Files to process
+// Files to process for sharedFaqItems
 const sourceFiles = [
   'getL2GeneralFaqItems.ts',
   'getBaseFaqItems.ts', 
@@ -154,7 +154,7 @@ const exportNames = {
 
 let outputContent = '';
 
-// Process each file
+// Process each file for sharedFaqItems
 sourceFiles.forEach((fileName) => {
   const filePath = path.join(__dirname, fileName);
   
@@ -184,13 +184,64 @@ sourceFiles.forEach((fileName) => {
   }
 });
 
-// Write the combined file
+// Write the combined sharedFaqItems file
 if (outputContent) {
   const outputPath = path.join(__dirname, 'sharedFaqItems.ts');
   fs.writeFileSync(outputPath, outputContent + '\n', 'utf8');
   console.log(`Created sharedFaqItems.ts with combined exports`);
 } else {
   console.log('No content to write to sharedFaqItems.ts');
+}
+
+// Now update getBalancesFaqItems.ts to use chain-aware logic
+const balancesFilePath = path.join(__dirname, 'getBalancesFaqItems.ts');
+
+if (fs.existsSync(balancesFilePath)) {
+  console.log('Updating getBalancesFaqItems.ts with chain-aware logic...');
+  
+  // Read the current file
+  const content = fs.readFileSync(balancesFilePath, 'utf8');
+  
+  // Extract the items array
+  const match = content.match(/const items = (\[[\s\S]*?\]);[\s\S]*?return items/);
+  
+  if (match && match[1]) {
+    // Create the new chain-aware version
+    const newContent = `import {
+  isArbitrumChainId,
+  isBaseChainId,
+  isOptimismChainId,
+  isUnichainChainId
+} from '@jetstreamgg/sky-utils';
+
+import {
+  L2GeneralFaqItems,
+  arbitrumFaqItems,
+  baseFaqItems,
+  optimismFaqItems,
+  unichainFaqItems
+} from './sharedFaqItems';
+
+export const getBalancesFaqItems = (chainId: number) => {
+  const items = [
+    ...generalFaqItems,
+    ...L2GeneralFaqItems,
+    ...(isBaseChainId(chainId) ? baseFaqItems : []),
+    ...(isArbitrumChainId(chainId) ? arbitrumFaqItems : []),
+    ...(isOptimismChainId(chainId) ? optimismFaqItems : []),
+    ...(isUnichainChainId(chainId) ? unichainFaqItems : [])
+  ];
+  return items.sort((a, b) => a.index - b.index);
+};
+
+const generalFaqItems = ${match[1]};
+`;
+    
+    fs.writeFileSync(balancesFilePath, newContent, 'utf8');
+    console.log('  - Updated getBalancesFaqItems.ts with chain-aware imports and logic');
+  } else {
+    console.log('  - Warning: Could not extract items from getBalancesFaqItems.ts');
+  }
 }
 
 // Clean up this script
