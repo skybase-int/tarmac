@@ -6,6 +6,7 @@ import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 import { Text } from '@/modules/layout/components/Typography';
 import { AdvancedOverview } from './AdvancedOverview';
 import { AdvancedChart } from './AdvancedChart';
+import { AdvancedAbout } from './AdvancedAbout';
 
 export function AdvancedDetailsPane() {
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
@@ -31,7 +32,7 @@ export function AdvancedDetailsPane() {
       </DetailSection>
       <DetailSection title={t`About Native Sky Protocol Tokens`}>
         <DetailSectionRow>
-          <Text className="text-text">stUSDS card</Text>
+          <AdvancedAbout />
         </DetailSectionRow>
       </DetailSection>
       <DetailSection title={t`FAQs`}>

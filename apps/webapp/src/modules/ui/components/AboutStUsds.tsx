@@ -8,7 +8,7 @@ import { useChainId } from 'wagmi';
 import { stUsdsAddress } from '@jetstreamgg/sky-hooks';
 import { GradientShapeCard } from './GradientShapeCard';
 
-export const AboutStUsds = () => {
+export const AboutStUsds = ({ isOverview = false }: { isOverview?: boolean }) => {
   const chainId = useChainId();
 
   const stUsdsEtherscanLink = getEtherscanLink(
@@ -17,11 +17,24 @@ export const AboutStUsds = () => {
     'address'
   );
 
+  // Use SKY-like colors for overview, original colors for details
+  const colors = isOverview
+    ? {
+        colorLeft: 'radial-gradient(217.45% 249.6% at 116.69% 275.4%, #A273FF 0%, #4331E9 100%)',
+        colorMiddle: 'linear-gradient(360deg, #FFD2B9 0%, #FF6D6D 300%)',
+        colorRight: '#1e1a4b'
+      }
+    : {
+        colorLeft: 'radial-gradient(258.73% 268.92% at 116.69% 275.4%, #F7A7F9 0%, #6D28FF 100%)',
+        colorMiddle: 'linear-gradient(0deg, #F7A7F9 0%, #00DDFB 300%)',
+        colorRight: 'bg-card'
+      };
+
   return (
     <GradientShapeCard
-      colorLeft="radial-gradient(258.73% 268.92% at 116.69% 275.4%, #F7A7F9 0%, #6D28FF 100%)"
-      colorMiddle="linear-gradient(0deg, #F7A7F9 0%, #00DDFB 300%)"
-      colorRight="bg-card"
+      colorLeft={colors.colorLeft}
+      colorMiddle={colors.colorMiddle}
+      colorRight={colors.colorRight}
       className="mb-6"
     >
       <div className="w-[80%] space-y-2 lg:w-2/3">
