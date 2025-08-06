@@ -4,8 +4,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Text } from '@/modules/layout/components/Typography';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 
-export function AdvancedRiskCheckbox() {
-  const { advancedRiskAcknowledged, setAdvancedRiskAcknowledged } = useConfigContext();
+export function ExpertRiskCheckbox() {
+  const { expertRiskAcknowledged, setExpertRiskAcknowledged } = useConfigContext();
 
   return (
     <div className="mb-4">
@@ -13,16 +13,16 @@ export function AdvancedRiskCheckbox() {
         <AlertTriangle className="mt-1 h-4 w-4 shrink-0 text-red-500" />
         <Text variant="medium" className="text-text">
           <Trans>
-            These advanced modules involve higher risk and are intended for experienced users. Please ensure
-            you understand the risks before proceeding.
+            These expert modules involve higher risk and are intended for experienced users. Please ensure you
+            understand the risks before proceeding.
           </Trans>
         </Text>
       </div>
       <div className="flex items-center gap-2">
         <Checkbox
           id="risk-acknowledgment"
-          checked={advancedRiskAcknowledged}
-          onCheckedChange={checked => setAdvancedRiskAcknowledged(!!checked)}
+          checked={expertRiskAcknowledged}
+          onCheckedChange={checked => setExpertRiskAcknowledged(!!checked)}
         />
         <label htmlFor="risk-acknowledgment" className="cursor-pointer">
           <Text variant="medium" className="text-text">

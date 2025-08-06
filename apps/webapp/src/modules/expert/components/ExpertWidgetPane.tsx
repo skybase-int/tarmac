@@ -1,57 +1,57 @@
 import { CardAnimationWrapper, WidgetContainer } from '@jetstreamgg/sky-widgets';
 import { SharedProps } from '@/modules/app/types/Widgets';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
-import { AdvancedIntent } from '@/lib/enums';
+import { ExpertIntent } from '@/lib/enums';
 import { Heading, Text } from '@/modules/layout/components/Typography';
 import { Trans } from '@lingui/react/macro';
 import { AnimatePresence } from 'framer-motion';
 import { StUSDSWidgetPane } from '@/modules/stusds/components/StUSDSWidgetPane';
-import { ADVANCED_WIDGET_OPTIONS, AdvancedIntentMapping, QueryParams } from '@/lib/constants';
+import { EXPERT_WIDGET_OPTIONS, ExpertIntentMapping, QueryParams } from '@/lib/constants';
 import { useSearchParams } from 'react-router-dom';
-import { AdvancedRiskCheckbox } from './AdvancedRiskCheckbox';
+import { ExpertRiskCheckbox } from './ExpertRiskCheckbox';
 import { StusdsStatsCard } from './StusdsStatsCard';
 
-export function AdvancedWidgetPane(sharedProps: SharedProps) {
-  const { selectedAdvancedOption, setSelectedAdvancedOption, advancedRiskAcknowledged } = useConfigContext();
+export function ExpertWidgetPane(sharedProps: SharedProps) {
+  const { selectedExpertOption, setSelectedExpertOption, expertRiskAcknowledged } = useConfigContext();
   const [, setSearchParams] = useSearchParams();
 
-  const handleSelectAdvancedOption = (advancedIntent: AdvancedIntent) => {
+  const handleSelectExpertOption = (expertIntent: ExpertIntent) => {
     setSearchParams(params => {
-      params.set(QueryParams.AdvancedModule, AdvancedIntentMapping[advancedIntent]);
+      params.set(QueryParams.ExpertModule, ExpertIntentMapping[expertIntent]);
       return params;
     });
-    setSelectedAdvancedOption(advancedIntent);
+    setSelectedExpertOption(expertIntent);
   };
 
   return (
     <AnimatePresence mode="popLayout" initial={false}>
-      <CardAnimationWrapper key={selectedAdvancedOption} className="h-full">
-        {selectedAdvancedOption === AdvancedIntent.STUSDS_INTENT ? (
+      <CardAnimationWrapper key={selectedExpertOption} className="h-full">
+        {selectedExpertOption === ExpertIntent.STUSDS_INTENT ? (
           <StUSDSWidgetPane {...sharedProps} />
         ) : (
           <WidgetContainer
             header={
               <div className="space-y-1">
                 <Heading variant="x-large">
-                  <Trans>Advanced</Trans>
+                  <Trans>Expert</Trans>
                 </Heading>
                 <Text className="text-textSecondary" variant="small">
-                  <Trans>Advanced, higher risk options</Trans>
+                  <Trans>Expert, higher risk options</Trans>
                 </Text>
               </div>
             }
             rightHeader={sharedProps.rightHeaderComponent}
           >
             <CardAnimationWrapper className="flex flex-col gap-4">
-              <AdvancedRiskCheckbox />
-              {ADVANCED_WIDGET_OPTIONS.map(widget => {
+              <ExpertRiskCheckbox />
+              {EXPERT_WIDGET_OPTIONS.map(widget => {
                 switch (widget.id) {
-                  case AdvancedIntent.STUSDS_INTENT:
+                  case ExpertIntent.STUSDS_INTENT:
                     return (
                       <StusdsStatsCard
                         key={widget.id}
-                        onClick={() => handleSelectAdvancedOption(widget.id)}
-                        disabled={!advancedRiskAcknowledged}
+                        onClick={() => handleSelectExpertOption(widget.id)}
+                        disabled={!expertRiskAcknowledged}
                       />
                     );
                   // Add more cases here for future contracts

@@ -39,7 +39,7 @@ export type StUSDSWidgetProps = WidgetProps & {
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
-  onBackToAdvanced?: () => void;
+  onBackToExpert?: () => void;
 };
 
 export const StUSDSWidget = ({
@@ -57,7 +57,7 @@ export const StUSDSWidget = ({
   shouldReset = false,
   batchEnabled,
   setBatchEnabled,
-  onBackToAdvanced
+  onBackToExpert
 }: StUSDSWidgetProps) => {
   const key = shouldReset ? 'reset' : undefined;
   return (
@@ -77,7 +77,7 @@ export const StUSDSWidget = ({
           referralCode={referralCode}
           batchEnabled={batchEnabled}
           setBatchEnabled={setBatchEnabled}
-          onBackToAdvanced={onBackToAdvanced}
+          onBackToExpert={onBackToExpert}
         />
       </WidgetProvider>
     </ErrorBoundary>
@@ -98,7 +98,7 @@ const StUSDSWidgetWrapped = ({
   referralCode,
   batchEnabled,
   setBatchEnabled,
-  onBackToAdvanced
+  onBackToExpert
 }: StUSDSWidgetProps) => {
   const validatedExternalState = getValidatedState(externalWidgetState);
 
@@ -673,12 +673,12 @@ const StUSDSWidgetWrapped = ({
     <WidgetContainer
       header={
         <div>
-          {onBackToAdvanced && (
-            <Button variant="link" onClick={onBackToAdvanced} className="mb-2 p-0">
+          {onBackToExpert && (
+            <Button variant="link" onClick={onBackToExpert} className="mb-2 p-0">
               <HStack className="space-x-2">
                 <ArrowLeft className="self-center" />
                 <Heading tag="h3" variant="small" className="text-textSecondary">
-                  Back to Advanced
+                  Back to Expert
                 </Heading>
               </HStack>
             </Button>

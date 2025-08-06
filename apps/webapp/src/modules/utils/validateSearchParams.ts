@@ -7,9 +7,9 @@ import {
   CHAIN_WIDGET_MAP,
   mapQueryParamToIntent,
   COMING_SOON_MAP,
-  AdvancedIntentMapping
+  ExpertIntentMapping
 } from '@/lib/constants';
-import { AdvancedIntent, Intent } from '@/lib/enums';
+import { ExpertIntent, Intent } from '@/lib/enums';
 import { defaultConfig } from '../config/default-config';
 import { isL2ChainId } from '@jetstreamgg/sky-utils';
 import { Chain } from 'viem';
@@ -22,8 +22,8 @@ export const validateSearchParams = (
   setSelectedRewardContract: (rewardContract?: RewardContract) => void,
   chainId: number,
   chains: readonly [Chain, ...Chain[]],
-  setSelectedAdvancedOption: (advancedOption: AdvancedIntent | undefined) => void,
-  advancedRiskAcknowledged: boolean
+  setSelectedExpertOption: (expertOption: ExpertIntent | undefined) => void,
+  expertRiskAcknowledged: boolean
 ) => {
   const chainInUrl = chains.find(c => normalizeUrlParam(c.name) === searchParams.get(QueryParams.Network));
   const isL2Chain = isL2ChainId(chainInUrl?.id || chainId);
@@ -92,31 +92,31 @@ export const validateSearchParams = (
       setSelectedRewardContract(undefined);
     }
 
-    // removes advancedModule param if value is not a valid advanced intent or if the advanced risk hasn't been acknowledged
-    // also sets the selected advanced option if the advancedIntent is valid
-    if (key === QueryParams.AdvancedModule) {
-      const intent = Object.entries(AdvancedIntentMapping).find(
+    // removes expertModule param if value is not a valid expert intent or if the expert risk hasn't been acknowledged
+    // also sets the selected expert option if the expertIntent is valid
+    if (key === QueryParams.ExpertModule) {
+      const intent = Object.entries(ExpertIntentMapping).find(
         ([, intentValue]) => intentValue === value
-      )?.[0] as AdvancedIntent | undefined;
-      if (!intent || !advancedRiskAcknowledged) {
+      )?.[0] as ExpertIntent | undefined;
+      if (!intent || !expertRiskAcknowledged) {
         searchParams.delete(key);
       } else {
-        setSelectedAdvancedOption(intent);
+        setSelectedExpertOption(intent);
       }
     }
 
-    // Reset the selected advanced option if the widget is set to advanced and no valid advanced option parameter exists.
-    if (widget === IntentMapping[Intent.ADVANCED_INTENT]) {
-      if (!searchParams.get(QueryParams.AdvancedModule)) {
-        setSelectedAdvancedOption(undefined);
+    // Reset the selected expert option if the widget is set to expert and no valid expert option parameter exists.
+    if (widget === IntentMapping[Intent.EXPERT_INTENT]) {
+      if (!searchParams.get(QueryParams.ExpertModule)) {
+        setSelectedExpertOption(undefined);
         searchParams.delete(QueryParams.InputAmount);
       }
     }
 
-    // if widget changes to something other than advanced, reset the selected advanced option
-    if (widget !== IntentMapping[Intent.ADVANCED_INTENT]) {
-      searchParams.delete(QueryParams.AdvancedModule);
-      setSelectedAdvancedOption(undefined);
+    // if widget changes to something other than expert, reset the selected expert option
+    if (widget !== IntentMapping[Intent.EXPERT_INTENT]) {
+      searchParams.delete(QueryParams.ExpertModule);
+      setSelectedExpertOption(undefined);
     }
 
     // validate source token
