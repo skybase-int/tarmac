@@ -1,4 +1,4 @@
-import { Balances, Upgrade, Trade, RewardsModule, Savings, Stake, Info } from '../../icons';
+import { Balances, Upgrade, Trade, RewardsModule, Savings, Stake, Expert } from '../../icons';
 import { ExpertIntent, Intent } from '@/lib/enums';
 import { useLingui } from '@lingui/react';
 import { useCustomConnectModal } from '@/modules/ui/hooks/useCustomConnectModal';
@@ -186,8 +186,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
     [
       Intent.EXPERT_INTENT,
       'Expert',
-      // TODO: Update icon once we define the Expert widget icon
-      () => <Info width={24} height={24} />,
+      Expert,
       withErrorBoundary(<ExpertWidgetPane {...sharedProps} />),
       false,
       undefined,
