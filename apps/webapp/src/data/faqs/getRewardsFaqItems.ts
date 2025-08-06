@@ -21,11 +21,11 @@ export const getRewardsFaqItems = () => {
       question: 'How is the Sky Token Rewards rates calculated?',
       answer: `The Sky Token Rewards Rate is different for each type of token rewarded, and always fluctuates, determined by the following factors:
 
-- The issuance rate of the token rewarded, which is determined by Sky Ecosystem Governance;
+• The issuance rate of the token rewarded, which is determined by Sky Ecosystem Governance;
 
-- The market price of the token rewarded; and
+• The market price of the token rewarded; and
 
-- The user's proportional supply within the total pool of assets linked to the Sky Token Rewards module.
+• The user's proportional supply within the total pool of assets linked to the Sky Token Rewards module.
 
 Sky.money does not control the issuance, determination, or distribution of these rewards.`,
       index: 3
