@@ -53,7 +53,12 @@ export function TransactionOverview({
           <FetchingSpinner message={fetchingMessage} />
         </motion.div>
       ) : !transactionData ? null : (
-        <motion.div key="fetched" variants={positionAnimations}>
+        <motion.div
+          key="fetched"
+          variants={positionAnimations}
+          initial={AnimationLabels.initial}
+          animate={AnimationLabels.animate}
+        >
           <Accordion type="single" collapsible className="p-4" defaultValue="item-1">
             <AccordionItem value="item-1">
               <AccordionTrigger className="py-1">
