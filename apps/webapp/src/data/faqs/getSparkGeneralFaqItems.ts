@@ -32,11 +32,8 @@ export const getSparkGeneralFaqItems = () => {
     },
     {
       question: 'Where can I learn more about Spark?',
-      answer: `For a deep dive into [Spark.fi](http://Spark.fi), see the [Spark documentation](https://docs.spark.fi/dev/spk).
-
-**END OF SPARK GENERAL FAQS**
-
-**SPK TOKEN SPECIFIC FAQS**`,
+      answer:
+        'For a deep dive into [Spark.fi](http://Spark.fi), see the [Spark documentation](https://docs.spark.fi/dev/spk).',
       index: 5
     },
     {
@@ -61,7 +58,7 @@ export const getSparkGeneralFaqItems = () => {
     {
       question: 'Where can find the Spark analytics dashboard?',
       answer:
-        '## View the most comprehensive information and data about Spark on the [Spark analytics dashboard](https://spark.blockanalitica.com/).',
+        'View the most comprehensive information and data about Spark on the [Spark analytics dashboard](https://spark.blockanalitica.com/).',
       index: 9
     }
   ];

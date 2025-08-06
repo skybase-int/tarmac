@@ -37,7 +37,7 @@ Some onchain actions might require multiple wallet signatures to authorize them.
     },
     {
       question: 'What is USDS?',
-      answer: `USDS is a stablecoin of the decentralized Sky Protocol and the upgrade of DAI. It is backed by a surplus of collateral and soft-pegged to the value of the U.S. dollar, meaning it is designed to maintain a value equal to or close to a dollar. I
+      answer: `USDS is a stablecoin of the decentralized Sky Protocol and the upgrade of DAI. It is backed by a surplus of collateral and soft-pegged to the value of the U.S. dollar, meaning it is designed to maintain a value equal to or close to a dollar.
 
 USDS is freely transferable and can be used in connection with any software protocol or platform that supports it. For example, you can use USDS to participate in the Sky Savings Rate to accumulate additional USDS, and to access Sky Token Rewards in the form of SKY tokens via the Sky.money web app.
 
@@ -55,7 +55,7 @@ USDS is also currently available on networks other than Ethereum Mainnet, includ
     {
       question: 'How can I use USDS?',
       answer:
-        'Like other decentralized stablecoins, USDS is freely transferable and can be used in connection with any software protocol or platform that supports it. Unlike other stablecoins, you can use USDS to participate in the Sky Savings Rate to accumulate additional USDS over time, and to access Sky Token Rewards to accumulate SKY, the governance token of the Sky Protocol, without giving up control of your digital assets. When you select SKY as yourWith Sky Token Rewards, you can participate—if you choose to do so—in the governance of the Sky Ecosystem.',
+        'Like other decentralized stablecoins, USDS is freely transferable and can be used in connection with any software protocol or platform that supports it. Unlike other stablecoins, you can use USDS to participate in the Sky Savings Rate to accumulate additional USDS over time, and to access Sky Token Rewards, without giving up control of your digital assets. When you select SKY as your Sky Token Reward, you can participate—if you choose to do so—in the governance of the Sky Ecosystem.',
       index: 6
     },
     {
