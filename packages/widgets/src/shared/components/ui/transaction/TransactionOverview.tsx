@@ -18,7 +18,7 @@ type TransactionOverviewParams = {
   title: string;
   isFetching: boolean;
   fetchingMessage: string;
-  rateType?: 'str' | 'ssr' | 'srr' | 'dtc';
+  rateType?: 'str' | 'ssr' | 'srr' | 'dtc' | 'stusds';
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   transactionData:
     | {
