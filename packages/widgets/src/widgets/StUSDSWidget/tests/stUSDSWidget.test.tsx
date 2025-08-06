@@ -121,7 +121,7 @@ describe('StUSDS widget tests', () => {
   it('shows transaction review screen after entering amount', async () => {
     renderWithWagmiWrapper(<StUSDSWidget onConnect={() => true} />);
 
-    const supplyInput = await screen.findByTestId('supply-input-savings');
+    const supplyInput = await screen.findByTestId('supply-input-stusds');
     const inputField = supplyInput.querySelector('input');
 
     if (inputField) {
@@ -151,7 +151,7 @@ describe('StUSDS widget tests', () => {
     const withdrawTab = await screen.findByText('Withdraw');
     fireEvent.click(withdrawTab);
 
-    const withdrawInput = await screen.findByTestId('withdraw-input-savings');
+    const withdrawInput = await screen.findByTestId('withdraw-input-stusds');
     const inputField = withdrawInput.querySelector('input');
 
     if (inputField) {
@@ -178,7 +178,7 @@ describe('StUSDS widget tests', () => {
 
     renderWithWagmiWrapper(<StUSDSWidget onConnect={() => true} onWidgetStateChange={mockStateChange} />);
 
-    const supplyInput = await screen.findByTestId('supply-input-savings');
+    const supplyInput = await screen.findByTestId('supply-input-stusds');
     const inputField = supplyInput.querySelector('input');
 
     if (inputField) {

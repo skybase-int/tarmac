@@ -43,7 +43,7 @@ describe('StUSDS Widget Integration Tests', () => {
     expect(supplyTab).toBeTruthy();
 
     // 2. Enter amount
-    const supplyInput = await screen.findByTestId('supply-input-savings');
+    const supplyInput = await screen.findByTestId('supply-input-stusds');
     const inputField = supplyInput.querySelector('input');
 
     if (inputField) {
@@ -96,7 +96,7 @@ describe('StUSDS Widget Integration Tests', () => {
     expect(withdrawInput).toBeTruthy();
 
     // 3. Enter amount
-    const withdrawInputField = await screen.findByTestId('withdraw-input-savings');
+    const withdrawInputField = await screen.findByTestId('withdraw-input-stusds');
     const inputField = withdrawInputField.querySelector('input');
 
     if (inputField) {
@@ -153,7 +153,7 @@ describe('StUSDS Widget Integration Tests', () => {
     const withdrawTab = await screen.findByText('Withdraw');
     fireEvent.click(withdrawTab);
 
-    const withdrawInput = await screen.findByTestId('withdraw-input-savings');
+    const withdrawInput = await screen.findByTestId('withdraw-input-stusds');
     const inputField = withdrawInput.querySelector('input');
 
     if (inputField) {
@@ -189,7 +189,7 @@ describe('StUSDS Widget Integration Tests', () => {
     );
 
     // Should start with supply flow and amount
-    const supplyInput = await screen.findByTestId('supply-input-savings');
+    const supplyInput = await screen.findByTestId('supply-input-stusds');
     const inputField = supplyInput.querySelector('input');
 
     if (inputField) {
@@ -242,7 +242,7 @@ describe('StUSDS Widget Integration Tests', () => {
     const withdrawTab = await screen.findByText('Withdraw');
     fireEvent.click(withdrawTab);
 
-    const withdrawInput = await screen.findByTestId('withdraw-input-savings');
+    const withdrawInput = await screen.findByTestId('withdraw-input-stusds');
     const inputField = withdrawInput.querySelector('input');
 
     if (inputField) {
