@@ -5,6 +5,7 @@ import { t } from '@lingui/core/macro';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 import { Text } from '@/modules/layout/components/Typography';
 import { AdvancedOverview } from './AdvancedOverview';
+import { AdvancedChart } from './AdvancedChart';
 
 export function AdvancedDetailsPane() {
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
@@ -25,7 +26,7 @@ export function AdvancedDetailsPane() {
       )}
       <DetailSection title={t`Expert activity`}>
         <DetailSectionRow>
-          <Text className="text-text">CHART</Text>
+          <AdvancedChart />
         </DetailSectionRow>
       </DetailSection>
       <DetailSection title={t`About Native Sky Protocol Tokens`}>
