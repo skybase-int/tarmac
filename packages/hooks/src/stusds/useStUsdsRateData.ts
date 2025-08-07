@@ -3,7 +3,7 @@ import { useStUsdsData } from './useStUsdsData';
 import { ReadHook } from '../hooks';
 
 export type StUsdsRateData = {
-  currentSavingsRate: bigint; // Current APY
+  currentStusdsRate: bigint; // Current APY
   totalRateEarned: bigint; // Total rate earned in vault
   userRateEarned: bigint; // User's accrued rate
   projectedRate: bigint; // Projected annual rate
@@ -19,8 +19,8 @@ export function useStUsdsRateData(): StUsdsRateDataHook {
   const data = useMemo<StUsdsRateData | undefined>(() => {
     if (!stUsdsData) return undefined;
 
-    // Calculate current savings rate from ysr (yield savings rate)
-    const currentSavingsRate = stUsdsData.moduleRate;
+    // Calculate current stusds rate from ysr (yield stusds rate)
+    const currentStusdsRate = stUsdsData.moduleRate;
 
     // Calculate total rate earned in the vault
     // This would be the difference between current assets and what was originally deposited
@@ -36,10 +36,10 @@ export function useStUsdsRateData(): StUsdsRateDataHook {
 
     // Project annual rate based on current rate
     // This is a simplified calculation - in practice you'd want more sophisticated modeling
-    const projectedRate = (stUsdsData.userStUsdsBalance * currentSavingsRate) / 10n ** 18n;
+    const projectedRate = (stUsdsData.userStUsdsBalance * currentStusdsRate) / 10n ** 18n;
 
     return {
-      currentSavingsRate,
+      currentStusdsRate,
       totalRateEarned,
       userRateEarned,
       projectedRate
