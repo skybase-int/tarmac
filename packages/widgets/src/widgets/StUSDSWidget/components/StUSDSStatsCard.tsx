@@ -67,7 +67,7 @@ export const StUSDSStatsCard = ({
                 <Skeleton className="bg-textSecondary h-6 w-20" />
               ) : (
                 <Text dataTestId="remaining-capacity">
-                  {formatBigInt(remainingCapacity, { unit: 18 })} USDS
+                  {formatBigInt(remainingCapacity, { unit: 18, compact: true })} USDS
                 </Text>
               )}
             </MotionVStack>
@@ -83,7 +83,9 @@ export const StUSDSStatsCard = ({
                   <Skeleton className="bg-textSecondary h-6 w-20" />
                 </div>
               ) : (
-                <Text dataTestId="available-liquidity">{formatBigInt(availableLiquidity)} USDS</Text>
+                <Text dataTestId="available-liquidity">
+                  {formatBigInt(availableLiquidity, { compact: true })} USDS
+                </Text>
               )}
             </MotionVStack>
           </HStack>
@@ -100,7 +102,7 @@ export const StUSDSStatsCard = ({
               ) : (
                 <Text dataTestId="usds-balance">
                   {isConnectedAndEnabled && walletUsdsBalance !== undefined
-                    ? `${formatBigInt(walletUsdsBalance, { unit: 18 })} USDS`
+                    ? `${formatBigInt(walletUsdsBalance, { unit: 18, compact: true })} USDS`
                     : '--'}
                 </Text>
               )}
@@ -119,7 +121,7 @@ export const StUSDSStatsCard = ({
               ) : (
                 <Text dataTestId="supplied-balance">
                   {isConnectedAndEnabled && stats.userUsdsBalance !== undefined
-                    ? `${formatBigInt(stats.userUsdsBalance || 0n, { unit: 18 })} USDS`
+                    ? `${formatBigInt(stats.userUsdsBalance || 0n, { unit: 18, compact: true })} USDS`
                     : '--'}
                 </Text>
               )}

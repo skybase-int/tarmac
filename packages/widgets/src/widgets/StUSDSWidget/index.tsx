@@ -741,7 +741,6 @@ const StUSDSWidgetWrapped = ({
               maxDeposit={stUsdsData?.userMaxDeposit}
               totalAssets={stUsdsData?.totalAssets}
               availableLiquidity={stUsdsData?.availableLiquidity}
-              utilizationRate={capacityData?.utilizationRate}
               moduleRate={stUsdsData?.moduleRate}
               isStUsdsDataLoading={isStUsdsDataLoading}
               remainingCapacity={remainingCapacity}
