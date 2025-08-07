@@ -10,8 +10,6 @@ import { WidgetContext } from '@widgets/context/WidgetContext';
 import { StUSDSFlow } from '../lib/constants';
 import { StUSDSStatsCard } from './StUSDSStatsCard';
 import { useAccount, useChainId } from 'wagmi';
-import { Card } from '@widgets/components/ui/card';
-import { AlertTriangle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
@@ -27,7 +25,6 @@ type StUSDSSupplyWithdrawProps = {
   maxDeposit?: bigint; // Max USDS user can deposit
   totalAssets?: bigint;
   availableLiquidity?: bigint; // Available USDS in vault for withdrawals
-  utilizationRate?: number; // Vault utilization percentage
   moduleRate?: bigint; // Current module rate
   isStUsdsDataLoading: boolean;
   onChange: (val: bigint, userTriggered?: boolean) => void;
@@ -49,7 +46,6 @@ export const StUSDSSupplyWithdraw = ({
   maxDeposit,
   totalAssets,
   availableLiquidity,
-  utilizationRate = 0,
   moduleRate,
   isStUsdsDataLoading,
   onChange,
@@ -109,9 +105,6 @@ export const StUSDSSupplyWithdraw = ({
 
     return t`Insufficient funds`;
   };
-
-  const isHighUtilization = (utilizationRate || 0) > 90;
-  const isLiquidityConstrained = (utilizationRate || 0) > 95;
 
   // Check if user's balance exceeds available capacity/liquidity
   const userBalanceExceedsCapacity =
@@ -205,22 +198,6 @@ export const StUSDSSupplyWithdraw = ({
         </TabsContent>
         <TabsContent value="right">
           <motion.div className="flex w-full flex-col" variants={positionAnimations}>
-            {isHighUtilization && (
-              <Card
-                className={`mb-4 border p-3 ${isLiquidityConstrained ? 'border-destructive bg-destructive/10' : 'border-warning bg-warning/10'}`}
-              >
-                <div className="flex items-start gap-2 text-orange-400">
-                  <AlertTriangle
-                    className={`mt-0.5 h-4 w-4 ${isLiquidityConstrained ? 'text-destructive' : 'text-warning'}`}
-                  />
-                  <Text variant="small">
-                    {isLiquidityConstrained
-                      ? t`Liquidity is extremely limited. Withdrawals may be delayed or unavailable.`
-                      : t`High utilization (${utilizationRate || 0}%). Withdrawals may be delayed during periods of high demand.`}
-                  </Text>
-                </div>
-              </Card>
-            )}
             <TokenInput
               className="w-full"
               label={t`How much USDS would you like to withdraw?`}
@@ -236,7 +213,7 @@ export const StUSDSSupplyWithdraw = ({
               onSetMax={onSetMax}
               dataTestId="withdraw-input-stusds"
               showPercentageButtons={isConnectedAndEnabled}
-              enabled={isConnectedAndEnabled && !isLiquidityConstrained}
+              enabled={isConnectedAndEnabled}
               disabled={availableLiquidity === 0n}
             />
             {!isStUsdsDataLoading && availableLiquidity === 0n ? (
