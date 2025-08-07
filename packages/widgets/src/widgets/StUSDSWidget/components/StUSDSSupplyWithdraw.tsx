@@ -216,7 +216,7 @@ export const StUSDSSupplyWithdraw = ({
           title={t`Transaction overview`}
           isFetching={false}
           fetchingMessage={t`Fetching transaction details`}
-          rateType="ssr"
+          rateType="stusds"
           onExternalLinkClicked={onExternalLinkClicked}
           transactionData={[
             {
