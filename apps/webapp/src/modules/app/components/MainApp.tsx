@@ -35,8 +35,8 @@ export function MainApp() {
     linkedActionConfig,
     updateLinkedActionConfig,
     setSelectedRewardContract,
-    setSelectedAdvancedOption,
-    advancedRiskAcknowledged
+    setSelectedExpertOption,
+    expertRiskAcknowledged
   } = useConfigContext();
   const { isAuthorized } = useConnectedContext();
 
@@ -135,8 +135,8 @@ export function MainApp() {
           setSelectedRewardContract,
           newChainId,
           chains,
-          setSelectedAdvancedOption,
-          advancedRiskAcknowledged
+          setSelectedExpertOption,
+          expertRiskAcknowledged
         );
         // Runs second validation for linked-action-specific criteria
         const validatedLinkedActionParams = validateLinkedActionSearchParams(validatedParams);
@@ -149,8 +149,8 @@ export function MainApp() {
     rewardContracts,
     setSelectedRewardContract,
     widgetParam,
-    setSelectedAdvancedOption,
-    advancedRiskAcknowledged
+    setSelectedExpertOption,
+    expertRiskAcknowledged
   ]);
 
   useEffect(() => {

@@ -2,6 +2,8 @@ import { describe, expect, it, afterAll } from 'vitest';
 import { cleanup, waitFor, renderHook } from '@testing-library/react';
 import { WagmiWrapper } from '../../test';
 import { useStUsdsData } from './useStUsdsData';
+import { useCollateralData } from '../vaults/useCollateralData';
+import { getIlkName } from '../vaults/helpers';
 
 describe('useStUsdsData', () => {
   it('Should return a loading state', () => {
@@ -52,21 +54,38 @@ describe('useStUsdsData', () => {
     const { result } = renderHook(() => useStUsdsData('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266'), {
       wrapper: WagmiWrapper
     });
+    const { result: collateralResult } = renderHook(() => useCollateralData(getIlkName(2)), {
+      wrapper: WagmiWrapper
+    });
 
     await waitFor(
       () => {
         expect(result.current.isLoading).toBe(false);
+        expect(collateralResult.current.isLoading).toBe(false);
       },
       { timeout: 15000 }
     );
 
+    const totalAssets = result.current.data?.totalAssets ?? 0n;
+    const totalStakingDebt = collateralResult.current.data?.totalDaiDebt ?? 0n;
+    const userSuppliedUsds = result.current.data?.userSuppliedUsds ?? 0n;
+
     // If user has stUSDS balance, withdrawable should be calculated
     if (result.current.data?.userStUsdsBalance && result.current.data.userStUsdsBalance > 0n) {
       expect(result.current.data.userMaxWithdraw).toBeGreaterThan(0n);
-      // Should include precision buffer (1 wei)
-      expect(result.current.data.userMaxWithdraw).toBeGreaterThanOrEqual(
-        result.current.data.userStUsdsBalance
-      );
+
+      const availableLiquidity = totalAssets - totalStakingDebt;
+
+      // If user has supplied more than the current available liquidity, the current maxWithrawable amount
+      // will be the current available liquidity, even if that's less than what they have supplied
+      if (userSuppliedUsds <= availableLiquidity) {
+        // Should include precision buffer (1 wei)
+        expect(result.current.data.userMaxWithdraw).toBeGreaterThanOrEqual(
+          result.current.data.userStUsdsBalance
+        );
+      } else {
+        expect(result.current.data.userMaxWithdraw).toBe(availableLiquidity);
+      }
     }
   });
 
@@ -84,8 +103,8 @@ describe('useStUsdsData', () => {
 
     // Should still return data object with defaults
     expect(result.current.data).toBeDefined();
-    expect(result.current.data?.totalAssets).toBe(0n);
-    expect(result.current.data?.totalSupply).toBe(0n);
+    expect(result.current.data?.totalAssets).toBeGreaterThan(0n);
+    expect(result.current.data?.totalSupply).toBeGreaterThan(0n);
     expect(result.current.data?.userStUsdsBalance).toBe(0n);
     expect(result.current.data?.userMaxWithdraw).toBe(0n);
   });

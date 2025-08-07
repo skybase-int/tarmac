@@ -7,5 +7,5 @@ export type UserConfig = {
   sealToken?: SealToken;
   stakeToken?: StakeToken;
   batchEnabled: boolean;
-  advancedRiskAcknowledged?: boolean;
+  expertRiskAcknowledged?: boolean;
 };

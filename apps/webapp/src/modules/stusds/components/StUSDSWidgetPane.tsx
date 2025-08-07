@@ -6,7 +6,7 @@ import {
   StUSDSFlow
 } from '@jetstreamgg/sky-widgets';
 import { useSavingsHistory } from '@jetstreamgg/sky-hooks';
-import { AdvancedIntentMapping, QueryParams, REFRESH_DELAY } from '@/lib/constants';
+import { ExpertIntentMapping, QueryParams, REFRESH_DELAY } from '@/lib/constants';
 import { SharedProps } from '@/modules/app/types/Widgets';
 import { LinkedActionSteps } from '@/modules/config/context/ConfigContext';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
@@ -14,12 +14,12 @@ import { useSearchParams } from 'react-router-dom';
 import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
 import { useSubgraphUrl } from '@/modules/app/hooks/useSubgraphUrl';
 import { useChatContext } from '@/modules/chat/context/ChatContext';
-import { AdvancedIntent } from '@/lib/enums';
+import { ExpertIntent } from '@/lib/enums';
 import { useBatchToggle } from '@/modules/ui/hooks/useBatchToggle';
 
 export function StUSDSWidgetPane(sharedProps: SharedProps) {
   const subgraphUrl = useSubgraphUrl();
-  const { linkedActionConfig, updateLinkedActionConfig, exitLinkedActionMode, setSelectedAdvancedOption } =
+  const { linkedActionConfig, updateLinkedActionConfig, exitLinkedActionMode, setSelectedExpertOption } =
     useConfigContext();
   const { mutate: refreshSavingsHistory } = useSavingsHistory(subgraphUrl);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -37,9 +37,7 @@ export function StUSDSWidgetPane(sharedProps: SharedProps) {
     originAmount
   }: WidgetStateChangeParams) => {
     // Prevent race conditions
-    if (
-      searchParams.get(QueryParams.AdvancedModule) !== AdvancedIntentMapping[AdvancedIntent.STUSDS_INTENT]
-    ) {
+    if (searchParams.get(QueryParams.ExpertModule) !== ExpertIntentMapping[ExpertIntent.STUSDS_INTENT]) {
       return;
     }
 
@@ -110,10 +108,10 @@ export function StUSDSWidgetPane(sharedProps: SharedProps) {
 
   const handleBack = () => {
     setSearchParams(params => {
-      params.delete(QueryParams.AdvancedModule);
+      params.delete(QueryParams.ExpertModule);
       return params;
     });
-    setSelectedAdvancedOption(undefined);
+    setSelectedExpertOption(undefined);
   };
 
   return (
@@ -126,7 +124,7 @@ export function StUSDSWidgetPane(sharedProps: SharedProps) {
       }}
       batchEnabled={batchEnabled}
       setBatchEnabled={setBatchEnabled}
-      onBackToAdvanced={handleBack}
+      onBackToExpert={handleBack}
     />
   );
 }
