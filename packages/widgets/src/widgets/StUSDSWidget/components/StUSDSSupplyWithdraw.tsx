@@ -1,6 +1,6 @@
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { getTokenDecimals, TOKENS, stUsdsAddress } from '@jetstreamgg/sky-hooks';
+import { getTokenDecimals, TOKENS } from '@jetstreamgg/sky-hooks';
 import { formatBigInt, formatYsrAsApy } from '@jetstreamgg/sky-utils';
 import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
@@ -17,6 +17,7 @@ import { positionAnimations } from '@widgets/shared/animation/presets';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
 import { formatUnits } from 'viem';
 import { Text } from '@widgets/shared/components/ui/Typography';
+import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
 
 type StUSDSSupplyWithdrawProps = {
   address?: string;
@@ -37,6 +38,7 @@ type StUSDSSupplyWithdrawProps = {
   tabIndex: 0 | 1;
   enabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  remainingCapacity?: bigint;
 };
 
 export const StUSDSSupplyWithdraw = ({
@@ -57,11 +59,11 @@ export const StUSDSSupplyWithdraw = ({
   onSetMax,
   tabIndex,
   enabled = true,
-  onExternalLinkClicked
+  onExternalLinkClicked,
+  remainingCapacity
 }: StUSDSSupplyWithdrawProps) => {
   const inputToken = TOKENS.usds;
   const chainId = useChainId();
-  const contractAddress = stUsdsAddress[chainId as keyof typeof stUsdsAddress];
 
   // Determine specific error message for supply
   const getSupplyErrorMessage = () => {
@@ -147,10 +149,8 @@ export const StUSDSSupplyWithdraw = ({
               maxWithdraw: withdrawableBalance,
               maxDeposit: maxDeposit
             }}
-            utilizationRate={utilizationRate}
-            address={contractAddress}
             isConnectedAndEnabled={isConnectedAndEnabled}
-            onExternalLinkClicked={onExternalLinkClicked}
+            walletUsdsBalance={nstBalance}
           />
         </motion.div>
         <TabsContent value="left">
@@ -170,7 +170,18 @@ export const StUSDSSupplyWithdraw = ({
               error={getSupplyErrorMessage()}
               showPercentageButtons={isConnectedAndEnabled}
               enabled={isConnectedAndEnabled}
+              disabled={remainingCapacity === 0n}
             />
+            {remainingCapacity === 0n ? (
+              <div className="ml-3 mt-2 flex items-start text-amber-400">
+                <PopoverRateInfo type="stusds" iconClassName="mt-1 shrink-0" />
+                <Text variant="small" className="ml-2 flex gap-2">
+                  Supply capacity reached. Deposits are temporarily unavailable.
+                </Text>
+              </div>
+            ) : (
+              <div className="mb-4" />
+            )}
           </motion.div>
         </TabsContent>
         <TabsContent value="right">
@@ -207,7 +218,18 @@ export const StUSDSSupplyWithdraw = ({
               dataTestId="withdraw-input-stusds"
               showPercentageButtons={isConnectedAndEnabled}
               enabled={isConnectedAndEnabled && !isLiquidityConstrained}
+              disabled={availableLiquidity === 0n}
             />
+            {availableLiquidity === 0n ? (
+              <div className="ml-3 mt-2 flex items-start text-amber-400">
+                <PopoverRateInfo type="stusds" iconClassName="mt-1 shrink-0" />
+                <Text variant="small" className="ml-2 flex gap-2">
+                  Withdrawal liquidity exhausted. Withdrawals are temporarily unavailable.
+                </Text>
+              </div>
+            ) : (
+              <div className="mb-4" />
+            )}
           </motion.div>
         </TabsContent>
       </Tabs>

@@ -669,6 +669,11 @@ const StUSDSWidgetWrapped = ({
     mutateAllowance();
   }, [chainId]);
 
+  // Calculate remaining capacity
+  const maxCapacity = capacityData?.maxCapacity || 0n;
+  const totalAssets = stUsdsData?.totalAssets || 0n;
+  const remainingCapacity = maxCapacity > totalAssets ? maxCapacity - totalAssets : 0n;
+
   return (
     <WidgetContainer
       header={
@@ -739,6 +744,7 @@ const StUSDSWidgetWrapped = ({
               utilizationRate={capacityData?.utilizationRate}
               moduleRate={stUsdsData?.moduleRate}
               isStUsdsDataLoading={isStUsdsDataLoading}
+              remainingCapacity={remainingCapacity}
               onChange={(newValue: bigint, userTriggered?: boolean) => {
                 setAmount(newValue);
                 if (userTriggered) {
