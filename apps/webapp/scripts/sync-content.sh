@@ -219,9 +219,10 @@ if (outputContent) {
   console.log('No content to write to sharedFaqItems.ts');
 }
 
-// Now update getBalancesFaqItems.ts and getSavingsFaqItems.ts to use chain-aware logic
+// Now update getBalancesFaqItems.ts, getSavingsFaqItems.ts and getTradeFaqItems.ts to use chain-aware logic
 const balancesFilePath = path.join(__dirname, 'getBalancesFaqItems.ts');
 const savingsFilePath = path.join(__dirname, 'getSavingsFaqItems.ts');
+const tradeFilePath = path.join(__dirname, 'getTradeFaqItems.ts');
 
 // Update getBalancesFaqItems.ts
 if (fs.existsSync(balancesFilePath)) {
@@ -322,6 +323,55 @@ const L2SavingsFaqItems = ${l2SavingsContent};
     console.log('  - Updated getSavingsFaqItems.ts with chain-aware imports and logic');
   } else {
     console.log('  - Warning: Could not extract items from getSavingsFaqItems.ts or L2SavingsFaqItems');
+  }
+}
+
+// Update getTradeFaqItems.ts
+if (fs.existsSync(tradeFilePath)) {
+  console.log('Updating getTradeFaqItems.ts with chain-aware logic...');
+  
+  // Read the current file
+  const content = fs.readFileSync(tradeFilePath, 'utf8');
+  
+  // Extract the items array
+  const match = content.match(/const items = (\[[\s\S]*?\]);[\s\S]*?return items/);
+  
+  if (match && match[1]) {
+    // Create the new chain-aware version
+    const newContent = `import {
+  isArbitrumChainId,
+  isBaseChainId,
+  isOptimismChainId,
+  isUnichainChainId
+} from '@jetstreamgg/sky-utils';
+
+import {
+  L2GeneralFaqItems,
+  arbitrumFaqItems,
+  baseFaqItems,
+  optimismFaqItems,
+  unichainFaqItems
+} from './sharedFaqItems';
+
+export const getTradeFaqItems = (chainId: number) => {
+  const items = [
+    ...generalFaqItems,
+    ...L2GeneralFaqItems,
+    ...(isBaseChainId(chainId) ? baseFaqItems : []),
+    ...(isArbitrumChainId(chainId) ? arbitrumFaqItems : []),
+    ...(isOptimismChainId(chainId) ? optimismFaqItems : []),
+    ...(isUnichainChainId(chainId) ? unichainFaqItems : [])
+  ];
+  return items.sort((a, b) => a.index - b.index);
+};
+
+const generalFaqItems = ${match[1]};
+`;
+    
+    fs.writeFileSync(tradeFilePath, newContent, 'utf8');
+    console.log('  - Updated getTradeFaqItems.ts with chain-aware imports and logic');
+  } else {
+    console.log('  - Warning: Could not extract items from getTradeFaqItems.ts');
   }
 }
 

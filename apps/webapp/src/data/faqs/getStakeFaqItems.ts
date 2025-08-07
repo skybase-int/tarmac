@@ -51,7 +51,7 @@ For upgrade details and step-by-step upgrade instructions, please visit the [MKR
     },
     {
       question: 'How does the Staking Engine enable borrowing?',
-      answer: `The Staking Engine is a feature of the decentralized Sky Protocol. When you stakesupply SKY tokens to the Staking Engine using the Sky.money web app, you can access Staking Rewards and may also choose to create one or more positions, including a position that enables you to generate and borrow USDS stablecoins against your supplied SKY.
+      answer: `The Staking Engine is a feature of the decentralized Sky Protocol. When you supply SKY tokens to the Staking Engine using the Sky.money web app, you can access Staking Rewards and may also choose to create one or more positions, including a position that enables you to generate and borrow USDS stablecoins against your supplied SKY.
 
 You can exit your borrow position at any time—no exit fee applies—and withdraw or pay back USDS whenever you would like.
 
@@ -92,7 +92,7 @@ A borrow position is subject to liquidation risk if at any time the value of the
     {
       question: "What's the difference between Sky Token Rewards and Staking Rewards?",
       answer:
-        'Sky Token Rewards are what you can access when you supply USDS stablecoins to the Sky Token Rewards module of the Sky Protocol. Sky Token Rewards currently take the form of SKY tokens. Both USDS and SKY are native tokens of the Sky Protocol. Staking Rewards are what you can access when you stakesupply SKY to the Staking Engine of the Sky Protocol. Staking Rewards currently take the form of USDS.',
+        'Sky Token Rewards are what you can access when you supply USDS stablecoins to the Sky Token Rewards module of the Sky Protocol. Sky Token Rewards currently take the form of SKY tokens. Both USDS and SKY are native tokens of the Sky Protocol. Staking Rewards are what you can access when you supply SKY to the Staking Engine of the Sky Protocol. Staking Rewards currently take the form of USDS.',
       index: 10
     },
     {
