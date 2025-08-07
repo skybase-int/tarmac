@@ -4,7 +4,7 @@ import { Text } from '@/modules/layout/components/Typography';
 import { useStUsdsData } from '@jetstreamgg/sky-hooks';
 import { formatBigInt } from '@jetstreamgg/sky-utils';
 
-export function AdvancedTvlCard(): React.ReactElement {
+export function ExpertTvlCard(): React.ReactElement {
   const { data, isLoading, error } = useStUsdsData();
 
   // Currently only stUSDS TVL, will aggregate all expert modules TVL in the future

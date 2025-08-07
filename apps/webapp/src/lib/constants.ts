@@ -1,4 +1,4 @@
-import { RewardsModule, Savings, Trade, Upgrade, Seal } from '@/modules/icons';
+import { RewardsModule, Savings, Trade, Upgrade, Seal, Expert } from '@/modules/icons';
 import { ExpertIntent, Intent } from './enums';
 import { msg } from '@lingui/core/macro';
 import { MessageDescriptor } from '@lingui/core';
@@ -154,7 +154,7 @@ export const linkedActionMetadata = {
   [IntentMapping[Intent.REWARDS_INTENT]]: { text: 'Get Rewards', icon: RewardsModule },
   [IntentMapping[Intent.SEAL_INTENT]]: { text: 'Seal', icon: Seal },
   [IntentMapping[Intent.STAKE_INTENT]]: { text: 'Activate', icon: Seal },
-  [IntentMapping[Intent.EXPERT_INTENT]]: { text: 'Expert Modules', icon: RewardsModule } // TODO: Change icon to advanced module icon
+  [IntentMapping[Intent.EXPERT_INTENT]]: { text: 'Expert Modules', icon: Expert }
 };
 
 export const ALLOWED_EXTERNAL_DOMAINS = [

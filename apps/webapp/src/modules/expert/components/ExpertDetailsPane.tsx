@@ -4,9 +4,9 @@ import { DetailSectionWrapper } from '@/modules/ui/components/DetailSectionWrapp
 import { t } from '@lingui/core/macro';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 import { Text } from '@/modules/layout/components/Typography';
-import { AdvancedOverview } from './AdvancedOverview';
-import { AdvancedChart } from './AdvancedChart';
-import { AdvancedAbout } from './AdvancedAbout';
+import { ExpertOverview } from './ExpertOverview';
+import { ExpertChart } from './ExpertChart';
+import { ExpertAbout } from './ExpertAbout';
 import { ActionsShowcase } from '@/modules/ui/components/ActionsShowcase';
 import { IntentMapping } from '@/lib/constants';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
@@ -23,7 +23,7 @@ export function ExpertDetailsPane() {
     <DetailSectionWrapper>
       <DetailSection title={t`Expert modules overview`}>
         <DetailSectionRow>
-          <AdvancedOverview />
+          <ExpertOverview />
         </DetailSectionRow>
       </DetailSection>
       {isConnectedAndAcceptedTerms &&
@@ -37,12 +37,12 @@ export function ExpertDetailsPane() {
         )}
       <DetailSection title={t`Expert activity`}>
         <DetailSectionRow>
-          <AdvancedChart />
+          <ExpertChart />
         </DetailSectionRow>
       </DetailSection>
       <DetailSection title={t`About Native Sky Protocol Tokens`}>
         <DetailSectionRow>
-          <AdvancedAbout />
+          <ExpertAbout />
         </DetailSectionRow>
       </DetailSection>
       <DetailSection title={t`FAQs`}>

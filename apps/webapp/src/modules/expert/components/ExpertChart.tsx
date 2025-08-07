@@ -55,7 +55,7 @@ function useExpertModulesChartInfo({ expertModules }: { expertModules: ExpertMod
   };
 }
 
-export function AdvancedChart() {
+export function ExpertChart() {
   const [activeChart, setActiveChart] = useState('tvl');
   const [timeFrame, setTimeFrame] = useState<TimeFrame>('w');
   const chainId = useChainId();
@@ -81,7 +81,7 @@ export function AdvancedChart() {
           </Tabs>
         </div>
         <Chart
-          dataTestId="advanced-chart"
+          dataTestId="expert-chart"
           data={chartData}
           isLoading={isLoading}
           error={error}
