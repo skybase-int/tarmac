@@ -152,8 +152,9 @@ const exportNames = {
   'getUnichainFaqItems.ts': 'unichainFaqItems'
 };
 
-// Store L2SavingsFaqItems content for later use
+// Store L2 FAQ content for later use
 let l2SavingsContent = '';
+let l2TradeContent = '';
 
 let outputContent = '';
 
@@ -207,6 +208,29 @@ if (fs.existsSync(l2SavingsFilePath)) {
     console.log('  - Removed getL2SavingsFaqItems.ts');
   } else {
     console.log('  - Warning: Could not extract items from getL2SavingsFaqItems.ts');
+  }
+}
+
+// Process getL2TradeFaqItems.ts separately  
+const l2TradeFilePath = path.join(__dirname, 'getL2TradeFaqItems.ts');
+if (fs.existsSync(l2TradeFilePath)) {
+  console.log('Processing getL2TradeFaqItems.ts...');
+  
+  // Read the file content
+  const content = fs.readFileSync(l2TradeFilePath, 'utf8');
+  
+  // Extract the items array
+  const match = content.match(/const items = (\[[\s\S]*?\]);[\s\S]*?return items/);
+  
+  if (match && match[1]) {
+    l2TradeContent = match[1];
+    console.log('  - Extracted L2TradeFaqItems content');
+    
+    // Delete the source file
+    fs.unlinkSync(l2TradeFilePath);
+    console.log('  - Removed getL2TradeFaqItems.ts');
+  } else {
+    console.log('  - Warning: Could not extract items from getL2TradeFaqItems.ts');
   }
 }
 
@@ -336,11 +360,12 @@ if (fs.existsSync(tradeFilePath)) {
   // Extract the items array
   const match = content.match(/const items = (\[[\s\S]*?\]);[\s\S]*?return items/);
   
-  if (match && match[1]) {
-    // Create the new chain-aware version
+  if (match && match[1] && l2TradeContent) {
+    // Create the new chain-aware version using the extracted L2TradeFaqItems
     const newContent = `import {
   isArbitrumChainId,
   isBaseChainId,
+  isL2ChainId,
   isOptimismChainId,
   isUnichainChainId
 } from '@jetstreamgg/sky-utils';
@@ -360,18 +385,21 @@ export const getTradeFaqItems = (chainId: number) => {
     ...(isBaseChainId(chainId) ? baseFaqItems : []),
     ...(isArbitrumChainId(chainId) ? arbitrumFaqItems : []),
     ...(isOptimismChainId(chainId) ? optimismFaqItems : []),
-    ...(isUnichainChainId(chainId) ? unichainFaqItems : [])
+    ...(isUnichainChainId(chainId) ? unichainFaqItems : []),
+    ...(isL2ChainId(chainId) ? L2TradeFaqItems : [])
   ];
   return items.sort((a, b) => a.index - b.index);
 };
 
 const generalFaqItems = ${match[1]};
+
+const L2TradeFaqItems = ${l2TradeContent};
 `;
     
     fs.writeFileSync(tradeFilePath, newContent, 'utf8');
     console.log('  - Updated getTradeFaqItems.ts with chain-aware imports and logic');
   } else {
-    console.log('  - Warning: Could not extract items from getTradeFaqItems.ts');
+    console.log('  - Warning: Could not extract items from getTradeFaqItems.ts or L2TradeFaqItems');
   }
 }
 

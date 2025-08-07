@@ -15,34 +15,6 @@ L2s used with Ethereum not only offer users much lower fees and much faster spee
     answer:
       'On many supported Layer 2 (L2) networks, you can perform the same types of transactions as on Ethereum Mainnet—i.e., trade tokens, use DeFi applications (dApps), etc.— but with reduced fees and faster transaction speeds. Many popular dApps have L2 versions, though not all are available on every L2. Please note that some features of Sky.money or the Sky Protocol arel not available on L2s.',
     index: 1
-  },
-  {
-    question: 'Which native Sky tokens can I trade on supported L2s?',
-    answer:
-      'USDS and sUSDS are available to trade on supported Layer 2 (L2) networks using the Sky.money web app.',
-    index: 2
-  },
-  {
-    question: 'Which tokens can I trade on supported L2s?',
-    answer: `Using the Sky.money web app, you can interact with the Peg Stability Module (PSM)(i) for conversions to/from USDS, sUSDS and USDC. The PSM handles conversions programmatically, driven at your direction, between these pairs directly.
-
-On some supported L2s, you can also access the Sky Savings Rate.
-
-SkyLink is the Sky system that provides the rails for Sky Ecosystem projects to link assets between the Sky Protocol on Ethereum Mainnet and supported L2 networks. If you have shied away from the Ethereum blockchain due to the high price of gas, SkyLink introduces reduced fees and faster transaction speeds.`,
-    index: 3
-  },
-  {
-    question: 'How does trading on supported L2s differ from trading on Ethereum?',
-    answer:
-      'On Ethereum mainnet, the Sky.money web app features a native integration of [CoW Swap](https://swap.cow.fi/#/1/swap/WETH), a third-party decentralized exchange (DEX) aggregator. On supported L2s, converting between tokens is made possible through a Peg Stability Module (PSM) (i). Please see the [Terms of Use](https://docs.sky.money/legal-terms) for more information on third-party services.',
-    index: 4
-  },
-  {
-    question:
-      "Why do I see activity in my Trade transaction history in the Sky.money web app if I've never used the Trade feature?",
-    answer:
-      "If you've accessed the Sky Savings Rate on a supported Layer 2 (L2) network, a conversion from USDS or USDC to sUSDS would have been automatically triggered via the Peg Stability Module (PSM)(i). Therefore, you will see such activity in your Trade transaction history, despite not having traded.",
-    index: 5
   }
 ];
 
