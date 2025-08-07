@@ -7,9 +7,17 @@ import { Text } from '@/modules/layout/components/Typography';
 import { AdvancedOverview } from './AdvancedOverview';
 import { AdvancedChart } from './AdvancedChart';
 import { AdvancedAbout } from './AdvancedAbout';
+import { ActionsShowcase } from '@/modules/ui/components/ActionsShowcase';
+import { IntentMapping } from '@/lib/constants';
+import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
+import { useUserSuggestedActions } from '@/modules/ui/hooks/useUserSuggestedActions';
+import { filterActionsByIntent } from '@/lib/utils';
 
 export function AdvancedDetailsPane() {
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
+  const { linkedActionConfig } = useConfigContext();
+  const { data: actionData } = useUserSuggestedActions();
+  const widget = IntentMapping.ADVANCED_INTENT;
 
   return (
     <DetailSectionWrapper>
@@ -18,13 +26,15 @@ export function AdvancedDetailsPane() {
           <AdvancedOverview />
         </DetailSectionRow>
       </DetailSection>
-      {isConnectedAndAcceptedTerms && (
-        <DetailSection title={t`Combined Actions`}>
-          <DetailSectionRow>
-            <Text className="text-text">TODO</Text>
-          </DetailSectionRow>
-        </DetailSection>
-      )}
+      {isConnectedAndAcceptedTerms &&
+        !linkedActionConfig?.showLinkedAction &&
+        (filterActionsByIntent(actionData?.linkedActions || [], widget).length ?? 0) > 0 && (
+          <DetailSection title={t`Combined actions`}>
+            <DetailSectionRow>
+              <ActionsShowcase widget={widget} />
+            </DetailSectionRow>
+          </DetailSection>
+        )}
       <DetailSection title={t`Expert activity`}>
         <DetailSectionRow>
           <AdvancedChart />

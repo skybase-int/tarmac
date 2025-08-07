@@ -113,8 +113,11 @@ export const validateSearchParams = (
       }
     }
 
-    // if widget changes to something other than advanced, reset the selected advanced option
-    if (widget !== IntentMapping[Intent.ADVANCED_INTENT]) {
+    // if widget changes to something other than advanced, and we're not in an advanced linked action, reset the selected advanced option
+    if (
+      widget !== IntentMapping[Intent.ADVANCED_INTENT] &&
+      searchParams.get(QueryParams.LinkedAction) !== IntentMapping[Intent.ADVANCED_INTENT]
+    ) {
       searchParams.delete(QueryParams.AdvancedModule);
       setSelectedAdvancedOption(undefined);
     }

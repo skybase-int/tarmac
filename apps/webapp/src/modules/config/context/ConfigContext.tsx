@@ -21,6 +21,7 @@ type LinkedActionConfig = {
   sourceToken?: string;
   targetToken?: string;
   rewardContract?: string;
+  advancedModule?: string;
   step: number;
   timestamp?: string;
 };

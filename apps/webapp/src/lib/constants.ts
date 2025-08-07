@@ -119,7 +119,8 @@ export const ADVANCED_WIDGET_OPTIONS: {
 
 export const VALID_LINKED_ACTIONS = [
   IntentMapping[Intent.REWARDS_INTENT],
-  IntentMapping[Intent.SAVINGS_INTENT]
+  IntentMapping[Intent.SAVINGS_INTENT],
+  IntentMapping[Intent.ADVANCED_INTENT]
 ];
 
 const AvailableIntentMapping = Object.entries(IntentMapping).reduce(
@@ -152,7 +153,8 @@ export const linkedActionMetadata = {
   [IntentMapping[Intent.SAVINGS_INTENT]]: { text: 'Access Savings', icon: Savings },
   [IntentMapping[Intent.REWARDS_INTENT]]: { text: 'Get Rewards', icon: RewardsModule },
   [IntentMapping[Intent.SEAL_INTENT]]: { text: 'Seal', icon: Seal },
-  [IntentMapping[Intent.STAKE_INTENT]]: { text: 'Activate', icon: Seal }
+  [IntentMapping[Intent.STAKE_INTENT]]: { text: 'Activate', icon: Seal },
+  [IntentMapping[Intent.ADVANCED_INTENT]]: { text: 'Expert Modules', icon: RewardsModule } // TODO: Change icon to advanced module icon
 };
 
 export const ALLOWED_EXTERNAL_DOMAINS = [
