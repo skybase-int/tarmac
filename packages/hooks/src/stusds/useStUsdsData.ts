@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useAccount, useChainId, useReadContracts } from 'wagmi';
+import { useAccount, useChainId, useReadContracts, useReadContract } from 'wagmi';
 import { useTokenBalance } from '../tokens/useTokenBalance';
 import { usdsAddress, stUsdsAddress, stUsdsAbi } from '../generated';
 import { TRUST_LEVELS, TrustLevelEnum } from '../constants';
@@ -117,6 +117,15 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
   const userMaxDeposit = acct ? (contractData?.[7]?.result as bigint | undefined) : undefined;
   const userMaxWithdraw = acct ? (contractData?.[8]?.result as bigint | undefined) : undefined;
 
+  // Separate call for convertToAssets since we need userStUsdsBalance first
+  const { data: userConvertedAssets, refetch: mutateConvertToAssets } = useReadContract({
+    address: stUsdsContractAddress,
+    abi: stUsdsAbi,
+    functionName: 'convertToAssets',
+    args: userStUsdsBalance ? [userStUsdsBalance] : [0n],
+    chainId
+  });
+
   const {
     data: userUsdsBalance,
     isLoading: userUsdsLoading,
@@ -144,12 +153,20 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
   }, [totalAssets, totalSupply]);
 
   const userSuppliedUsds = useMemo(() => {
+    // convertToAssets calculates real-time value including pending yield.
+    // Chi (rate accumulator) only updates on deposits/withdrawals, but convertToAssets
+    // computes what chi should be now based on time elapsed, giving accurate value
+    // without needing on-chain updates.
+    if (userConvertedAssets) {
+      return userConvertedAssets;
+    }
+    // Fallback: uses stale totalAssets, won't show pending yield
     if (!userStUsdsBalance || userStUsdsBalance === 0n) return 0n;
     if (totalAssets && totalSupply && totalSupply > 0n) {
       return (userStUsdsBalance * totalAssets) / totalSupply;
     }
     return userStUsdsBalance;
-  }, [userStUsdsBalance, totalAssets, totalSupply]);
+  }, [userConvertedAssets, userStUsdsBalance, totalAssets, totalSupply]);
 
   const isLoading = isContractLoading || userUsdsLoading || vaultUsdsLoading;
 
@@ -203,6 +220,7 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     data,
     mutate: () => {
       mutateContractData();
+      mutateConvertToAssets();
       mutateUserUsdsBalance();
       mutateVaultUsdsBalance();
     },
