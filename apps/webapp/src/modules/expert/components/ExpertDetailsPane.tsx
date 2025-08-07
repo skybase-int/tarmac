@@ -8,7 +8,7 @@ import { t } from '@lingui/core/macro';
 // import { useChainId } from 'wagmi';
 import { Text } from '@/modules/layout/components/Typography';
 
-export function AdvancedDetailsPane() {
+export function ExpertDetailsPane() {
   // const { bpi } = useBreakpointIndex();
   // const isDesktop = bpi > BP.lg;
   // const { isConnectedAndAcceptedTerms } = useConnectedContext();

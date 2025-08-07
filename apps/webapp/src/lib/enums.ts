@@ -6,9 +6,9 @@ export enum Intent {
   BALANCES_INTENT = 'BALANCES_INTENT',
   SEAL_INTENT = 'SEAL_INTENT',
   STAKE_INTENT = 'STAKE_INTENT',
-  ADVANCED_INTENT = 'ADVANCED_INTENT'
+  EXPERT_INTENT = 'EXPERT_INTENT'
 }
 
-export enum AdvancedIntent {
+export enum ExpertIntent {
   STUSDS_INTENT = 'STUSDS_INTENT'
 }

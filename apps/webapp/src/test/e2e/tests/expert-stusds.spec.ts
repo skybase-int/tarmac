@@ -3,15 +3,15 @@ import { approveOrPerformAction, performAction } from '../utils/approveOrPerform
 import { connectMockWalletAndAcceptTerms } from '../utils/connectMockWalletAndAcceptTerms.ts';
 import { mineBlock } from '../utils/mineBlock.ts';
 
-test.describe('Advanced Module - stUSDS', () => {
+test.describe('Expert Module - stUSDS', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
     await connectMockWalletAndAcceptTerms(page);
-    // Navigate to Advanced module
-    await page.getByRole('tab', { name: 'Advanced' }).click();
+    // Navigate to Expert module
+    await page.getByRole('tab', { name: 'Expert' }).click();
 
     // Check and accept risk disclaimer if present and not already checked
-    const riskCheckbox = page.getByTestId('advanced-risk-checkbox');
+    const riskCheckbox = page.getByTestId('expert-risk-checkbox');
     if (!(await riskCheckbox.isChecked())) {
       await riskCheckbox.click();
     }
@@ -20,12 +20,12 @@ test.describe('Advanced Module - stUSDS', () => {
     await page.getByTestId('stusds-stats-card').click();
   });
 
-  test('Navigate back to Advanced menu', async ({ page }) => {
+  test('Navigate back to Expert menu', async ({ page }) => {
     // Click back button
-    await page.getByRole('button', { name: 'Back to Advanced' }).click();
+    await page.getByRole('button', { name: 'Back to Expert' }).click();
 
-    // Should be back at Advanced menu
-    await expect(page.getByRole('heading', { name: 'Advanced', exact: true })).toBeVisible();
+    // Should be back at Expert menu
+    await expect(page.getByRole('heading', { name: 'Expert', exact: true })).toBeVisible();
     await expect(page.getByTestId('stusds-stats-card')).toBeVisible();
   });
 
