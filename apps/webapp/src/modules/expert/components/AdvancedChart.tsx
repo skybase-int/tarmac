@@ -6,7 +6,7 @@ import { Trans } from '@lingui/react/macro';
 import { useParseTokenChartData } from '@/modules/ui/hooks/useParseTokenChartData';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useChainId } from 'wagmi';
-import { getExpertModules, ExpertModule } from '../helpers/expertModules';
+import { getExpertModules, ExpertModule } from '../../advanced/helpers/expertModules';
 
 function calculateCumulativeTotalSupply(tokenChartData: TokenChartInfoParsed[]) {
   if (!tokenChartData || tokenChartData.length === 0) return [];

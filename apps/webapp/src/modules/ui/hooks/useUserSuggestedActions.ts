@@ -1,4 +1,4 @@
-import { IntentMapping, AdvancedIntentMapping, QueryParams } from '@/lib/constants';
+import { IntentMapping, ExpertIntentMapping, QueryParams } from '@/lib/constants';
 import {
   useTokens,
   useTokenBalances,
@@ -55,9 +55,9 @@ const fetchUserSuggestedActions = (
     SAVINGS_INTENT: SAVINGS,
     UPGRADE_INTENT: UPGRADE,
     TRADE_INTENT: TRADE,
-    ADVANCED_INTENT: ADVANCED
+    EXPERT_INTENT: EXPERT
   } = IntentMapping;
-  const { STUSDS_INTENT: STUSDS } = AdvancedIntentMapping;
+  const { STUSDS_INTENT: STUSDS } = ExpertIntentMapping;
   const skyRewardContract = rewardContracts?.find(
     (rewardContract: RewardContract) => rewardContract.rewardToken === TOKENS.sky
   );
@@ -100,9 +100,9 @@ const fetchUserSuggestedActions = (
         balance: daiBalance.formatted,
         stepOne: t`Upgrade DAI to USDS`,
         stepTwo: t`Access stUSDS rewards`,
-        url: `/?${Widget}=${UPGRADE}&${InputAmount}=${daiBalance.formatted}&${LinkedAction}=${ADVANCED}&advanced_module=${STUSDS}`,
+        url: `/?${Widget}=${UPGRADE}&${InputAmount}=${daiBalance.formatted}&${LinkedAction}=${EXPERT}&expert_module=${STUSDS}`,
         intent: IntentMapping.UPGRADE_INTENT,
-        la: IntentMapping.ADVANCED_INTENT,
+        la: IntentMapping.EXPERT_INTENT,
         weight: 5,
         type: 'linked'
       });
@@ -214,9 +214,9 @@ const fetchUserSuggestedActions = (
         title: t`Trade and access rewards`,
         stepOne: t`Trade USDC for USDS`,
         stepTwo: t`Access stUSDS rewards`,
-        url: `/?${Widget}=${TRADE}&${SourceToken}=USDC&${InputAmount}=${usdcBalance.formatted}&${TargetToken}=USDS&${LinkedAction}=${ADVANCED}&advanced_module=${STUSDS}`,
+        url: `/?${Widget}=${TRADE}&${SourceToken}=USDC&${InputAmount}=${usdcBalance.formatted}&${TargetToken}=USDS&${LinkedAction}=${EXPERT}&expert_module=${STUSDS}`,
         intent: IntentMapping.TRADE_INTENT,
-        la: IntentMapping.ADVANCED_INTENT,
+        la: IntentMapping.EXPERT_INTENT,
         weight: 4,
         type: 'linked'
       });
@@ -311,9 +311,9 @@ const fetchUserSuggestedActions = (
         title: t`Trade and access rewards`,
         stepOne: t`Trade USDT for USDS`,
         stepTwo: t`Access stUSDS rewards`,
-        url: `/?${Widget}=${TRADE}&${SourceToken}=USDT&${InputAmount}=${usdtBalance.formatted}&${TargetToken}=USDS&${LinkedAction}=${ADVANCED}&advanced_module=${STUSDS}`,
+        url: `/?${Widget}=${TRADE}&${SourceToken}=USDT&${InputAmount}=${usdtBalance.formatted}&${TargetToken}=USDS&${LinkedAction}=${EXPERT}&expert_module=${STUSDS}`,
         intent: IntentMapping.TRADE_INTENT,
-        la: IntentMapping.ADVANCED_INTENT,
+        la: IntentMapping.EXPERT_INTENT,
         weight: 4,
         type: 'linked'
       });
@@ -403,8 +403,8 @@ const fetchUserSuggestedActions = (
         secondaryToken: 'stUSDS',
         title: t`Access stUSDS rewards`,
         balance: usdsBalance.formatted,
-        url: `/?${Widget}=${ADVANCED}&advanced_module=${STUSDS}&${InputAmount}=${usdsBalance.formatted}`,
-        intent: IntentMapping.ADVANCED_INTENT,
+        url: `/?${Widget}=${EXPERT}&expert_module=${STUSDS}&${InputAmount}=${usdsBalance.formatted}`,
+        intent: IntentMapping.EXPERT_INTENT,
         weight: 4,
         type: 'suggested'
       });

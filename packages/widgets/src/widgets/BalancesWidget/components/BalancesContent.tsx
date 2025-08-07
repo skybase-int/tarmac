@@ -226,7 +226,7 @@ export const BalancesContent = ({
 
   const hideStUSDS = Boolean(
     stUsdsError ||
-      stUsdsData?.userSuppliedUsds === 0n || //always hide zero balances for advanced modules
+      stUsdsData?.userSuppliedUsds === 0n || //always hide zero balances for expert modules
       (!showAllNetworks && !isMainnetId(currentChainId))
   );
 

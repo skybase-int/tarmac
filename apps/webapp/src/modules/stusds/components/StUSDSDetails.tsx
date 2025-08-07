@@ -10,8 +10,8 @@ import { StUSDSChart } from './StUSDSChart';
 import { AboutStUsds } from '@/modules/ui/components/AboutStUsds';
 import { ActionsShowcase } from '@/modules/ui/components/ActionsShowcase';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
-import { AdvancedIntentMapping } from '@/lib/constants';
-import { AdvancedIntent } from '@/lib/enums';
+import { ExpertIntentMapping } from '@/lib/constants';
+import { ExpertIntent } from '@/lib/enums';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { useUserSuggestedActions } from '@/modules/ui/hooks/useUserSuggestedActions';
 import { filterActionsByIntent } from '@/lib/utils';
@@ -20,7 +20,7 @@ export function StUSDSDetails(): React.ReactElement {
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
   const { linkedActionConfig } = useConfigContext();
   const { data: actionData } = useUserSuggestedActions();
-  const widget = AdvancedIntentMapping[AdvancedIntent.STUSDS_INTENT];
+  const widget = ExpertIntentMapping[ExpertIntent.STUSDS_INTENT];
 
   return (
     <DetailSectionWrapper>

@@ -32,6 +32,7 @@ export const StusdsStatsCard = ({ onClick, disabled = false }: StusdsStatsCardPr
     <Card
       className={`bg-radial-(--gradient-position) from-card to-card h-full transition lg:p-5 ${onClick && !disabled ? 'hover:from-primary-start/100 hover:to-primary-end/100 cursor-pointer' : ''} ${disabled ? 'opacity-50' : ''}`}
       onClick={disabled ? undefined : onClick}
+      data-testid="stusds-stats-card"
     >
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
         {/* Left side - Title */}

@@ -1,10 +1,10 @@
-import { Balances, Upgrade, Trade, RewardsModule, Savings, Stake, Info } from '../../icons';
-import { AdvancedIntent, Intent } from '@/lib/enums';
+import { Balances, Upgrade, Trade, RewardsModule, Savings, Stake, Expert } from '../../icons';
+import { ExpertIntent, Intent } from '@/lib/enums';
 import { useLingui } from '@lingui/react';
 import { useCustomConnectModal } from '@/modules/ui/hooks/useCustomConnectModal';
 import { useAddRecentTransaction } from '@rainbow-me/rainbowkit';
 import {
-  AdvancedIntentMapping,
+  ExpertIntentMapping,
   BATCH_TX_LEGAL_NOTICE_URL,
   COMING_SOON_MAP,
   mapIntentToQueryParam,
@@ -35,7 +35,7 @@ import { useBalanceFilters } from '@/modules/ui/context/BalanceFiltersContext';
 import { isIntentAllowed } from '@/lib/utils';
 import { WidgetContent, WidgetItem } from '../types/Widgets';
 import { isL2ChainId } from '@jetstreamgg/sky-utils';
-import { AdvancedWidgetPane } from '@/modules/advanced/components/AdvancedWidgetPane';
+import { ExpertWidgetPane } from '@/modules/expert/components/ExpertWidgetPane';
 
 type WidgetPaneProps = {
   intent: Intent;
@@ -102,9 +102,9 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
     `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.STAKE_INTENT)}`
   );
   // Attempt to redirect to the stUSDS module, but if user hasn't acknowledged the risk checkbox,
-  // they will be redirected to the overview of the advanced widget
+  // they will be redirected to the overview of the expert widget
   const stusdsUrl = getQueryParams(
-    `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.ADVANCED_INTENT)}&advanced_module=${AdvancedIntentMapping[AdvancedIntent.STUSDS_INTENT]}`
+    `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.EXPERT_INTENT)}&expert_module=${ExpertIntentMapping[ExpertIntent.STUSDS_INTENT]}`
   );
 
   const widgetItems: WidgetItem[] = [
@@ -184,14 +184,13 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
       'Stake SKY to earn rewards, delegate votes, and borrow USDS'
     ],
     [
-      Intent.ADVANCED_INTENT,
-      'Advanced',
-      // TODO: Update icon once we define the Advanced widget icon
-      () => <Info width={24} height={24} />,
-      withErrorBoundary(<AdvancedWidgetPane {...sharedProps} />),
+      Intent.EXPERT_INTENT,
+      'Expert',
+      Expert,
+      withErrorBoundary(<ExpertWidgetPane {...sharedProps} />),
       false,
       undefined,
-      'Advanced, higher risk options'
+      'Higher-Risk Options: For experienced users'
     ]
   ].map(([intent, label, icon, component, , , description]) => {
     const comingSoon = COMING_SOON_MAP[chainId]?.includes(intent as Intent);
@@ -229,7 +228,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
     },
     {
       id: 'group-4',
-      items: widgetItems.filter(([intent]) => intent === Intent.ADVANCED_INTENT)
+      items: widgetItems.filter(([intent]) => intent === Intent.EXPERT_INTENT)
     }
   ];
 

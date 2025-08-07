@@ -20,7 +20,7 @@ import { useChainId } from 'wagmi';
 const secondaryTagline: Record<string, string> = {
   [IntentMapping.SAVINGS_INTENT]: 'to get the Sky Savings Rate',
   [IntentMapping.REWARDS_INTENT]: 'to get rewards',
-  [IntentMapping.ADVANCED_INTENT]: 'to access expert modules'
+  [IntentMapping.EXPERT_INTENT]: 'to access expert modules'
 };
 
 export const LinkedActionCard = ({
@@ -53,7 +53,7 @@ export const LinkedActionCard = ({
   // Extract reward contract address and advanced module
   const urlObj = new URL(urlWithRetainedParams, window.location.origin);
   const rewardContractAddress = urlObj.searchParams.get(QueryParams.Reward);
-  const advancedModule = urlObj.searchParams.get(QueryParams.AdvancedModule);
+  const expertModule = urlObj.searchParams.get(QueryParams.ExpertModule);
   const selectedRewardContract = rewardContracts.find(
     contract => contract.contractAddress?.toLowerCase() === rewardContractAddress?.toLowerCase()
   );
@@ -88,8 +88,8 @@ export const LinkedActionCard = ({
           </Heading>
           {la === IntentMapping.REWARDS_INTENT ? (
             <RewardsRate token={secondaryToken} currentRewardContract={selectedRewardContract} />
-          ) : la === IntentMapping.ADVANCED_INTENT ? (
-            <AdvancedRate advancedModule={advancedModule || undefined} />
+          ) : la === IntentMapping.EXPERT_INTENT ? (
+            <AdvancedRate expertModule={expertModule || undefined} />
           ) : (
             <SavingsRate />
           )}

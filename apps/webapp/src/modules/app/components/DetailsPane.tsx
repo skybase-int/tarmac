@@ -1,5 +1,5 @@
 import React, { useState, useEffect, forwardRef } from 'react';
-import { AdvancedIntent, Intent } from '@/lib/enums';
+import { ExpertIntent, Intent } from '@/lib/enums';
 import { TradeDetails } from '@/modules/trade/components/TradeDetails';
 import { UpgradeDetails } from '@/modules/upgrade/components/UpgradeDetails';
 import { SavingsDetails } from '@/modules/savings/components/SavingsDetails';
@@ -15,7 +15,7 @@ import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 import { FooterLinks } from '@/modules/layout/components/FooterLinks';
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
 import { StakeDetailsPane } from '@/modules/stake/components/StakeDetailsPane';
-import { AdvancedDetailsPane } from '@/modules/advanced/components/AdvancedDetailsPane';
+import { ExpertDetailsPane } from '@/modules/expert/components/ExpertDetailsPane';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 
 type DetailsPaneProps = {
@@ -44,7 +44,7 @@ export const DetailsPane = ({ intent }: DetailsPaneProps) => {
   const [keys, setKeys] = useState([0, 1, 2, 3, 4, 5, 6, 7]);
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
   const { bpi } = useBreakpointIndex();
-  const { selectedAdvancedOption } = useConfigContext();
+  const { selectedExpertOption } = useConfigContext();
 
   useEffect(() => {
     setIntentState(prevIntentState => {
@@ -71,9 +71,7 @@ export const DetailsPane = ({ intent }: DetailsPaneProps) => {
     >
       {intentState !== Intent.BALANCES_INTENT && !isConnectedAndAcceptedTerms && (
         <ConnectCard
-          intent={
-            intent === Intent.ADVANCED_INTENT && selectedAdvancedOption ? selectedAdvancedOption : intent
-          }
+          intent={intent === Intent.EXPERT_INTENT && selectedExpertOption ? selectedExpertOption : intent}
         />
       )}
       <AnimatePresence mode="popLayout">
@@ -109,10 +107,10 @@ export const DetailsPane = ({ intent }: DetailsPaneProps) => {
                   <StakeDetailsPane />
                 </MotionDetailsWrapper>
               );
-            case Intent.ADVANCED_INTENT:
-              // Switch for the multiple advanced options
-              switch (selectedAdvancedOption) {
-                case AdvancedIntent.STUSDS_INTENT:
+            case Intent.EXPERT_INTENT:
+              // Switch for the multiple expert options
+              switch (selectedExpertOption) {
+                case ExpertIntent.STUSDS_INTENT:
                   return (
                     <MotionDetailsWrapper key={keys[5]}>
                       <StUSDSDetails />
@@ -121,7 +119,7 @@ export const DetailsPane = ({ intent }: DetailsPaneProps) => {
                 default:
                   return (
                     <MotionDetailsWrapper key={keys[6]}>
-                      <AdvancedDetailsPane />
+                      <ExpertDetailsPane />
                     </MotionDetailsWrapper>
                   );
               }

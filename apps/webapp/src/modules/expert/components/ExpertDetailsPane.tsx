@@ -13,11 +13,11 @@ import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { useUserSuggestedActions } from '@/modules/ui/hooks/useUserSuggestedActions';
 import { filterActionsByIntent } from '@/lib/utils';
 
-export function AdvancedDetailsPane() {
+export function ExpertDetailsPane() {
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
   const { linkedActionConfig } = useConfigContext();
   const { data: actionData } = useUserSuggestedActions();
-  const widget = IntentMapping.ADVANCED_INTENT;
+  const widget = IntentMapping.EXPERT_INTENT;
 
   return (
     <DetailSectionWrapper>

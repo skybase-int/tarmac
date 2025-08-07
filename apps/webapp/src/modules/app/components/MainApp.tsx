@@ -35,8 +35,8 @@ export function MainApp() {
     linkedActionConfig,
     updateLinkedActionConfig,
     setSelectedRewardContract,
-    setSelectedAdvancedOption,
-    advancedRiskAcknowledged
+    setSelectedExpertOption,
+    expertRiskAcknowledged
   } = useConfigContext();
   const { isAuthorized } = useConnectedContext();
 
@@ -82,7 +82,7 @@ export function MainApp() {
   const widgetParam = searchParams.get(QueryParams.Widget);
   const detailsParam = !(searchParams.get(QueryParams.Details) === 'false');
   const rewardContract = searchParams.get(QueryParams.Reward) || undefined;
-  const advancedModule = searchParams.get(QueryParams.AdvancedModule) || undefined;
+  const expertModule = searchParams.get(QueryParams.ExpertModule) || undefined;
   const sourceToken = searchParams.get(QueryParams.SourceToken) || undefined;
   const targetToken = searchParams.get(QueryParams.TargetToken) || undefined;
   const linkedAction = searchParams.get(QueryParams.LinkedAction) || undefined;
@@ -136,8 +136,8 @@ export function MainApp() {
           setSelectedRewardContract,
           newChainId,
           chains,
-          setSelectedAdvancedOption,
-          advancedRiskAcknowledged
+          setSelectedExpertOption,
+          expertRiskAcknowledged
         );
         // Runs second validation for linked-action-specific criteria
         const validatedLinkedActionParams = validateLinkedActionSearchParams(validatedParams);
@@ -150,8 +150,8 @@ export function MainApp() {
     rewardContracts,
     setSelectedRewardContract,
     widgetParam,
-    setSelectedAdvancedOption,
-    advancedRiskAcknowledged
+    setSelectedExpertOption,
+    expertRiskAcknowledged
   ]);
 
   useEffect(() => {
@@ -228,7 +228,7 @@ export function MainApp() {
       linkedAction,
       inputAmount,
       rewardContract,
-      advancedModule,
+      expertModule,
       step,
       showLinkedAction: !!linkedAction,
       timestamp
@@ -239,7 +239,7 @@ export function MainApp() {
     linkedAction,
     inputAmount,
     rewardContract,
-    advancedModule,
+    expertModule,
     step,
     widgetParam,
     linkedActionConfig.initialAction

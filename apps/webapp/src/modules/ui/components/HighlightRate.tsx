@@ -143,9 +143,9 @@ export function RewardsRate({
   );
 }
 
-export function AdvancedRate({ advancedModule }: { advancedModule?: string }) {
+export function AdvancedRate({ expertModule }: { expertModule?: string }) {
   const { linkedActionConfig } = useConfigContext();
-  const module = advancedModule || linkedActionConfig?.advancedModule;
+  const module = expertModule || linkedActionConfig?.expertModule;
   const { data: stUsdsData } = useStUsdsData();
   const moduleRate = stUsdsData?.moduleRate || 0n;
   const formattedRate = moduleRate > 0n ? formatYsrAsApy(moduleRate) : '0.00%';

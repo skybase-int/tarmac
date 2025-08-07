@@ -12,7 +12,7 @@ export interface StUsdsVaultMetrics {
   totalAssets: bigint;
   totalSupply: bigint;
   assetPerShare: bigint;
-  yieldSavingsRate: bigint;
+  yieldRate: bigint;
   chi: bigint;
   cap: bigint;
   line: bigint;

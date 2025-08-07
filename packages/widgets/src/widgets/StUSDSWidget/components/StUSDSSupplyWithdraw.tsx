@@ -118,7 +118,7 @@ export const StUSDSSupplyWithdraw = ({
 
   const finalBalance =
     widgetState.flow === StUSDSFlow.SUPPLY ? (nstBalance || 0n) - amount : (nstBalance || 0n) + amount;
-  const finalSavingsBalance =
+  const finalStUsdsBalance =
     widgetState.flow === StUSDSFlow.SUPPLY
       ? (userUsdsBalance || 0n) + amount
       : (userUsdsBalance || 0n) - amount;
@@ -166,7 +166,7 @@ export const StUSDSSupplyWithdraw = ({
                 onChange(BigInt(newValue), !!event);
               }}
               value={amount}
-              dataTestId="supply-input-savings"
+              dataTestId="supply-input-stusds"
               error={getSupplyErrorMessage()}
               showPercentageButtons={isConnectedAndEnabled}
               enabled={isConnectedAndEnabled}
@@ -204,7 +204,7 @@ export const StUSDSSupplyWithdraw = ({
               value={amount}
               error={getWithdrawErrorMessage()}
               onSetMax={onSetMax}
-              dataTestId="withdraw-input-savings"
+              dataTestId="withdraw-input-stusds"
               showPercentageButtons={isConnectedAndEnabled}
               enabled={isConnectedAndEnabled && !isLiquidityConstrained}
             />
@@ -216,7 +216,7 @@ export const StUSDSSupplyWithdraw = ({
           title={t`Transaction overview`}
           isFetching={false}
           fetchingMessage={t`Fetching transaction details`}
-          rateType="ssr"
+          rateType="stusds"
           onExternalLinkClicked={onExternalLinkClicked}
           transactionData={[
             {
@@ -243,12 +243,12 @@ export const StUSDSSupplyWithdraw = ({
                         : '--'
                   },
                   {
-                    label: t`Your Savings USDS balance`,
+                    label: t`Your supplied USDS balance`,
                     value:
                       userUsdsBalance !== undefined
                         ? [
                             formatBigInt(userUsdsBalance, { maxDecimals: 2, compact: true }),
-                            formatBigInt(finalSavingsBalance, { maxDecimals: 2, compact: true })
+                            formatBigInt(finalStUsdsBalance, { maxDecimals: 2, compact: true })
                           ]
                         : '--'
                   }
