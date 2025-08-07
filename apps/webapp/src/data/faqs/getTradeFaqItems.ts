@@ -60,7 +60,7 @@ Please see the [Terms of Use](https://docs.sky.money/legal-terms) for more infor
   {
     question: 'What are Sky Token Rewards?',
     answer:
-      'When you supply USDS to the Sky Token Rewards module of the Sky Protocol, you receive Sky Token Rewards over time in the form of SKY governance tokens. The USDS, as well as the rewards received, are supplied to a non-custodial smart contract that represents the USDS pool of assets. That means no intermediary has custody of your supplied assets.',
+      'When you supply USDS to the Sky Token Rewards module of the Sky Protocol, you receive Sky Token Rewards over time. The USDS, as well as the rewards received, are supplied to a non-custodial smart contract that represents the USDS pool of assets. That means no intermediary has custody of your supplied assets.',
     index: 3
   }
 ];

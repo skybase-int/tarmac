@@ -13,7 +13,7 @@ L2s used with Ethereum not only offer users much lower fees and much faster spee
   {
     question: 'What can I do with my assets once they are linked to a supported L2 network?',
     answer:
-      'On many supported Layer 2 (L2) networks, you can perform the same types of transactions as on Ethereum Mainnet—i.e., trade tokens, use DeFi applications (dApps), etc.— but with reduced fees and faster transaction speeds. Many popular dApps have L2 versions, though not all are available on every L2. Please note that some features of Sky.money or the Sky Protocol arel not available on L2s.',
+      'On many supported Layer 2 (L2) networks, you can perform the same types of transactions as on Ethereum Mainnet—i.e., trade tokens, use DeFi applications (dApps), etc.— but with reduced fees and faster transaction speeds. Many popular dApps have L2 versions, though not all are available on every L2. Please note that some features of Sky.money or the Sky Protocol are not available on L2s.',
     index: 1
   }
 ];

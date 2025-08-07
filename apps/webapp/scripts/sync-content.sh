@@ -16,6 +16,8 @@ CONTENT_VERSION_FILE=".content-version"
 TEMP_DIR=".tmp-content-repo"
 OUTPUT_SOURCE_PATH="output/webapp/faq"
 DESTINATION_PATH="src/data/faqs"
+TOOLTIPS_SOURCE_PATH="output/webapp/tooltips"
+TOOLTIPS_DESTINATION_PATH="../../packages/widgets/src/data/tooltips"
 EXTRACT_SCRIPT="scripts/extract_webapp_faqs.js"
 
 # Function to print colored output
@@ -412,6 +414,57 @@ if [ -f "$DESTINATION_PATH/.process-shared-items.cjs" ]; then
     node "$DESTINATION_PATH/.process-shared-items.cjs"
 fi
 
+# Copy tooltips if they exist
+if [ -d "$TEMP_DIR/$TOOLTIPS_SOURCE_PATH" ]; then
+    print_status "Syncing tooltips to widgets package..."
+    
+    # Check if tooltips.ts exists in the output
+    if [ -f "$TEMP_DIR/$TOOLTIPS_SOURCE_PATH/tooltips.ts" ]; then
+        # Ensure destination directory exists
+        mkdir -p "$TOOLTIPS_DESTINATION_PATH"
+        
+        # Copy the tooltips file to index.ts
+        cp "$TEMP_DIR/$TOOLTIPS_SOURCE_PATH/tooltips.ts" "$TOOLTIPS_DESTINATION_PATH/index.ts"
+        
+        # Post-process the index.ts file to add fallback mechanism
+        print_status "Adding fallback mechanism to tooltips..."
+        
+        # Create a temporary file with the modifications
+        cat > "$TOOLTIPS_DESTINATION_PATH/.index.ts.tmp" << 'EOF'
+import { getLegacyTooltipById } from './legacy-tooltips';
+
+EOF
+        
+        # Append the original content
+        cat "$TOOLTIPS_DESTINATION_PATH/index.ts" >> "$TOOLTIPS_DESTINATION_PATH/.index.ts.tmp"
+        
+        # Add the helper function with fallback at the end
+        cat >> "$TOOLTIPS_DESTINATION_PATH/.index.ts.tmp" << 'EOF'
+
+// Helper function to get tooltip by ID with fallback to legacy tooltips
+export function getTooltipById(id: string): Tooltip | undefined {
+  // First, try to find in current tooltips
+  const tooltip = tooltips.find(t => t.id === id);
+  if (tooltip) {
+    return tooltip;
+  }
+  
+  // If not found, fallback to legacy tooltips
+  return getLegacyTooltipById(id);
+}
+EOF
+        
+        # Replace the original file
+        mv "$TOOLTIPS_DESTINATION_PATH/.index.ts.tmp" "$TOOLTIPS_DESTINATION_PATH/index.ts"
+        
+        print_status "Tooltips synced successfully to $TOOLTIPS_DESTINATION_PATH/index.ts with fallback mechanism"
+    else
+        print_warning "No tooltips.ts file found in corpus output"
+    fi
+else
+    print_warning "No tooltips directory found in corpus output"
+fi
+
 # Clean up temp directory
 print_status "Cleaning up temporary files..."
 rm -rf "$TEMP_DIR"
@@ -421,6 +474,13 @@ print_status "Content sync completed successfully!"
 # List the synced files
 echo ""
 print_status "Synced files:"
+print_status "FAQ files:"
 find "$DESTINATION_PATH" -type f -name "*.json" -o -name "*.md" -o -name "*.ts" | sort | while read file; do
     echo "  - $file"
 done
+
+if [ -f "$TOOLTIPS_DESTINATION_PATH/index.ts" ]; then
+    echo ""
+    print_status "Tooltip files:"
+    echo "  - $TOOLTIPS_DESTINATION_PATH/index.ts"
+fi
