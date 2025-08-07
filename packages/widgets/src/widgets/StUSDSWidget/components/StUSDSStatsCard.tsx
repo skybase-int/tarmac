@@ -155,7 +155,6 @@ export const StUSDSStatsCard = ({
           onExternalLinkClicked={onExternalLinkClicked}
         />
       }
-      onExternalLinkClicked={onExternalLinkClicked}
     />
   );
 };
