@@ -161,7 +161,7 @@ export const StUSDSSupplyWithdraw = ({
               placeholder={t`Enter amount`}
               token={inputToken}
               tokenList={[inputToken]}
-              balance={address ? nstBalance : undefined}
+              balance={address ? maxDeposit : undefined}
               onChange={(newValue, event) => {
                 onChange(BigInt(newValue), !!event);
               }}
