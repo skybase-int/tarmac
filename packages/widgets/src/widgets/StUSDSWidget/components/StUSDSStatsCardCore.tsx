@@ -5,21 +5,11 @@ import { Text } from '@widgets/shared/components/ui/Typography';
 import { StatsOverviewCardCore } from '@widgets/shared/components/ui/card/StatsOverviewCardCore';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { JSX } from 'react';
-import { InfoTooltip } from '@widgets/shared/components/ui/tooltip/InfoTooltip';
-import { msg } from '@lingui/core/macro';
-import { useLingui } from '@lingui/react';
 import { useStUsdsData } from '@jetstreamgg/sky-hooks';
 import { formatYsrAsApy } from '@jetstreamgg/sky-utils';
+import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
 
-export const StUSDSStatsCardCore = ({
-  content,
-  isLoading
-}: {
-  content: JSX.Element;
-  isLoading: boolean;
-  onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-}) => {
-  const { i18n } = useLingui();
+export const StUSDSStatsCardCore = ({ content, isLoading }: { content: JSX.Element; isLoading: boolean }) => {
   const { data: stUsdsData, isLoading: stUsdsLoading } = useStUsdsData();
 
   const moduleRate = stUsdsData?.moduleRate || 0n;
@@ -44,15 +34,7 @@ export const StUSDSStatsCardCore = ({
                   {formattedRate}
                 </Text>
               </Text>
-              <InfoTooltip
-                content={
-                  <Text variant="small">
-                    {i18n._(
-                      msg`stUSDS rate fluctuates based on borrowing demand. Returns are not guaranteed.`
-                    )}
-                  </Text>
-                }
-              />
+              <PopoverRateInfo type={'stusds'} />
             </>
           )}
         </MotionHStack>
