@@ -34,7 +34,7 @@ const generalFaqItems = [
 
 When you supply USDS to the Sky Savings Rate module, you access the Sky Savings Rate and receive sUSDS tokens. Those sUSDS tokens serve as a digital record of your USDS interaction with the module and any value accrued to your position.
 
-The Sky Protocol dynamically adds USDS tokens to the pool every few seconds, in accordance with the Sky Savings Rate percentage. As those tokens auto-accumulate in the pool over time, the value of the sUSDS you hold may gradually increase. Therefore, when you choose to redeem your sUSDS for USDS—which you can do anytime—the total USDS you will receive will equal the amount you originally supplied, plus any additional USDS accumulated. 
+The Sky Protocol dynamically adds USDS tokens to the pool every few seconds, in accordance with the Sky Savings Rate percentage. As those tokens auto-accumulate in the pool over time, the value of the sUSDS you hold may gradually increase. Therefore, when you choose to redeem your sUSDS for USDS—which you can do anytime—the total USDS you will receive will equal the amount you originally supplied, plus any additional USDS accumulated.
 
 The Sky Savings Rate percentage is variable, determined by Sky Ecosystem Governance through a process of decentralized onchain voting.
 
@@ -52,7 +52,7 @@ If you have shied away from the Ethereum blockchain due to the high price of gas
     question: 'What is USDS?',
     answer: `USDS is a stablecoin of the decentralized Sky Protocol and the upgrade of DAI. It is backed by a surplus of collateral and soft-pegged to the value of the U.S. dollar, meaning it is designed to maintain a value equal to or close to a dollar.
 
-USDS is freely transferable and can be used in connection with any software protocol or platform that supports it. For example, you can use USDS to participate in the Sky Savings Rate to accumulate additional USDS, and to access Sky Token Rewards in the form of SKY tokens via the Sky.money web app.  
+USDS is freely transferable and can be used in connection with any software protocol or platform that supports it. For example, you can use USDS to participate in the Sky Savings Rate to accumulate additional USDS, and to access Sky Token Rewards in the form of SKY tokens via the Sky.money web app.
 
 The Sky Protocol is governed by a community of broad and diversified individuals and entities from around the world, who hold Sky governance tokens and support the Sky Ecosystem by participating in a system of decentralized onchain voting. USDS powers the open Sky Ecosystem.
 
@@ -83,7 +83,7 @@ Please see the [Terms of Use](https://docs.sky.money/legal-terms) for more infor
   },
   {
     question:
-      "Why do I see activity in my Savings transaction history in the Sky.money app if I've never used the Savings feature?",
+      "Why do I see activity in my Savings transaction history in the Sky.money web app if I've never used the Savings feature?",
     answer:
       'When you trade sUSDS for another token (or vice versa), sUSDS is automatically supplied to (or withdrawn from) the Sky Savings Rate module. These transactions are recorded in your Savings transaction history as a "supply" or "withdrawal." Your Savings balance will also update automatically to reflect the increase or decrease in the amount of sUSDS you hold.',
     index: 6
@@ -91,7 +91,7 @@ Please see the [Terms of Use](https://docs.sky.money/legal-terms) for more infor
   {
     question:
       'Why is the USDS amount I supplied to the Sky Savings Rate module different from the converted sUSDS amount, and how is that conversion calculated?',
-    answer: `The USDS you supply to the Sky Savings Rate module enables you to receive sUSDS tokens. The sUSDS tokens serve as a digital record of your USDS interaction with the module and any value accrued to your position. The decentralized Sky Protocol dynamically adds USDS tokens to the pool every few seconds, in accordance with the Sky Savings Rate. As those tokens auto-accumulate in the pool over time, the value of the sUSDS you hold may gradually increase. 
+    answer: `The USDS you supply to the Sky Savings Rate module enables you to receive sUSDS tokens. The sUSDS tokens serve as a digital record of your USDS interaction with the module and any value accrued to your position. The decentralized Sky Protocol dynamically adds USDS tokens to the pool every few seconds, in accordance with the Sky Savings Rate. As those tokens auto-accumulate in the pool over time, the value of the sUSDS you hold may gradually increase.
 
 The conversion rate between USDS and sUSDS is determined programmatically by smart contracts, but the dollar value should match given that there are no fees involved. When redeeming sUSDS for USDS at a later point in time, one would expect an increase in net USDS tokens in accordance with the Sky Savings Rate multiplied by the duration.`,
     index: 7
@@ -102,19 +102,19 @@ const L2SavingsFaqItems = [
   {
     question: 'Which tokens can I supply to and withdraw from the Savings Rate Module on supported L2s?',
     answer:
-      'Some features of Sky.money or the Sky Protocol are not available on supported Layer 2 (L2) solutions. There is no native Sky Savings Rate module deployed to supported L2s, for example. However, on some L2s, both USDS and USDC token support is made possible through a Peg Stability Module [(PSM)](#tooltip-psm) deployed to those L2s and [powered by Spark](https://docs.spark.fi/dev/savings/cross-chain-savings-rate-oracle).',
-    index: 8
+      'Some features of Sky.money or the Sky Protocol are not available on supported Layer 2 (L2) solutions There is no native Sky Savings Rate module deployed to supported L2s, for example. However, on some L2s, both USDS and USDC token support is made possible through a Peg Stability Module (PSM)(i) deployed to those L2s.',
+    index: 0
   },
   {
     question: 'Is the Savings feature experience on L2s the same as on Ethereum Mainnet?',
     answer:
-      'Some features of Sky.money or the Sky Protocol are not available on supported Layer 2 (L2) solutions  There is no native Sky Savings Rate module deployed to supported L2s, for example. However, on some L2s, both USDS and USDC token support is made possible through a Peg Stability Module [(PSM)](#tooltip-psm) deployed to those L2s and powered by Spark. In those cases, the experience of using the Savings feature on supported Layer 2 (L2) networks and Ethereum is very similar.',
-    index: 9
+      'Some features of Sky.money or the Sky Protocol are not available on supported Layer 2 (L2) solutions There is no native Sky Savings Rate module deployed to supported L2s, for example. However, on some L2s, both USDS and USDC token support is made possible through a Peg Stability Module (PSM)(i) deployed to those L2s. In those cases, the experience of using the Savings feature on supported Layer 2 (L2) networks and Ethereum is very similar.',
+    index: 1
   },
   {
     question: 'Is the Sky Savings Rate percentage the same on Ethereum Mainnet and supported L2s?',
     answer:
-      'Yes, the Sky Savings Rate percentage noted on supported Layer 2 (L2) solutions tracks the rate on Ethereum Mainnet. This is done programmatically in the Peg Stability Module [(PSM)](#tooltip-psm) where deployed on supported L2s.',
-    index: 10
+      'Yes, the Sky Savings Rate percentage noted on supported Layer 2 (L2) solutions tracks the rate on Ethereum Mainnet. This is done programmatically in the Peg Stability Module (PSM)(i) where deployed on supported L2s.',
+    index: 2
   }
 ];
