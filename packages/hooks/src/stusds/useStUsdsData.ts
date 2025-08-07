@@ -117,7 +117,6 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
   const userMaxDeposit = acct ? (contractData?.[7]?.result as bigint | undefined) : undefined;
   const userMaxWithdraw = acct ? (contractData?.[8]?.result as bigint | undefined) : undefined;
 
-  // Separate call for convertToAssets since we need userStUsdsBalance first
   const { data: userConvertedAssets, refetch: mutateConvertToAssets } = useReadContract({
     address: stUsdsContractAddress,
     abi: stUsdsAbi,
