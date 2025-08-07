@@ -38,7 +38,8 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
   const {
     data: contractData,
     isLoading: isContractLoading,
-    error: contractError
+    error: contractError,
+    refetch: mutateContractData
   } = useReadContracts({
     contracts: [
       {
@@ -116,14 +117,22 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
   const userMaxDeposit = acct ? (contractData?.[7]?.result as bigint | undefined) : undefined;
   const userMaxWithdraw = acct ? (contractData?.[8]?.result as bigint | undefined) : undefined;
 
-  const { data: userUsdsBalance, isLoading: userUsdsLoading } = useTokenBalance({
+  const {
+    data: userUsdsBalance,
+    isLoading: userUsdsLoading,
+    refetch: mutateUserUsdsBalance
+  } = useTokenBalance({
     address: acct,
     chainId: chainId,
     token: usdsAddress[chainId as keyof typeof usdsAddress]
   });
 
   // Get vault's USDS balance (available liquidity)
-  const { data: vaultUsdsBalance, isLoading: vaultUsdsLoading } = useTokenBalance({
+  const {
+    data: vaultUsdsBalance,
+    isLoading: vaultUsdsLoading,
+    refetch: mutateVaultUsdsBalance
+  } = useTokenBalance({
     address: stUsdsContractAddress,
     chainId: chainId,
     token: usdsAddress[chainId as keyof typeof usdsAddress]
@@ -192,7 +201,11 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     isLoading,
     error: contractError || null,
     data,
-    mutate: () => {}, // implement if needed
+    mutate: () => {
+      mutateContractData();
+      mutateUserUsdsBalance();
+      mutateVaultUsdsBalance();
+    },
     dataSources
   };
 }

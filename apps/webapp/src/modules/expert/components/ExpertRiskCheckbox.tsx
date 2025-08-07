@@ -11,7 +11,7 @@ export function ExpertRiskCheckbox() {
     <div className="mb-4">
       <div className="mb-2 flex gap-2">
         <AlertTriangle className="mt-1 h-4 w-4 shrink-0 text-yellow-500" />
-        <Text variant="medium" className="text-text">
+        <Text variant="medium" className="text-text" dataTestId="expert-risk-disclaimer">
           <Trans>
             These modules carry higher risk and are intended for experienced users. Please review and
             understand the risks before continuing.
@@ -23,6 +23,7 @@ export function ExpertRiskCheckbox() {
           id="risk-acknowledgment"
           checked={expertRiskAcknowledged}
           onCheckedChange={checked => setExpertRiskAcknowledged(!!checked)}
+          data-testid="expert-risk-checkbox"
         />
         <label htmlFor="risk-acknowledgment" className="cursor-pointer">
           <Text variant="medium" className="text-text">
