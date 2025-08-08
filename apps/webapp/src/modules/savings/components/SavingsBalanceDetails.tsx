@@ -9,7 +9,7 @@ export function SavingsBalanceDetails() {
   const { address } = useAccount();
   const { data, isLoading, error } = useSavingsData();
   const isL2 = isL2ChainId(chainId);
-  const isRestrictedMiCa = import.meta.env.VITE_RESTRICTED_BUILD_MICA === 'true';
+
   const { data: usdcBalance } = useTokenBalance({
     chainId,
     address,
@@ -63,7 +63,7 @@ export function SavingsBalanceDetails() {
     );
   };
 
-  return isL2 && !isRestrictedMiCa ? (
+  return isL2 ? (
     <div className="flex w-full flex-col gap-3">
       <div className="w-full">
         <SuppliedSavingsBalanceCard />
