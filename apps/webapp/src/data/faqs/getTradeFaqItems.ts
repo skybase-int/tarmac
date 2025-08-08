@@ -18,7 +18,6 @@ export const getTradeFaqItems = (chainId: number) => {
   const items = [
     ...generalFaqItems,
     ...L2GeneralFaqItems,
-    ...mainnetFaqItems,
     ...(isBaseChainId(chainId) ? baseFaqItems : []),
     ...(isArbitrumChainId(chainId) ? arbitrumFaqItems : []),
     ...(isOptimismChainId(chainId) ? optimismFaqItems : []),
@@ -29,27 +28,6 @@ export const getTradeFaqItems = (chainId: number) => {
 };
 
 const generalFaqItems = [
-  {
-    question: 'Why would I trade tokens?',
-    answer: `The following statements are provided for informational purposes only and are not intended to be construed as financial advice or recommendations on trading strategies. Your use of the Sky Protocol is at your own risk. Please see our [User Risk Documentation](https://docs.sky.money/user-risks) and [Terms of Use](https://docs.sky.money/legal-terms) for further information.  
-
-Market participants trade crypto for a variety of reasons. For example, users may trade crypto for portfolio diversification and to participate in DeFi. Regardless of the motivation, crypto trading can provide a diverse range of opportunities to market participants depending on their goals and risk appetite.
-
-When you trade USDC, USDT, ETH or SKY for USDS via the Sky Protocol, you can use your USDS to access the Sky Savings Rate to access additional USDS over time, and to access Sky Token Rewards.
-
-When you trade USDC, USDT, ETH and USDS for SKY, you can supply your SKY tokens to the Staking Engine of the Sky Protocol to access Staking Rewards. The Staking Engine enables you to create one or more positions, including positions that enable you to generate and borrow USDS against your supplied SKY and to delegate the voting power the SKY token provides.`
-  },
-  {
-    question:
-      'Why do I see activity in my Trade transaction history in the Sky.money web app if I’ve never used the Trade feature?',
-    answer: `If you’ve accessed the Sky Savings Rate on Base or Arbitrum, a conversion from USDS or USDC to sUSDS would have been automatically triggered via the Peg Stability Module [(PSM)](#tooltip-psm). Therefore, you will see such activity in your Trade transaction history, despite not having traded.  
-
-PSMs are smart contracts that allow users to convert certain stablecoins directly with the Sky Protocol for USDS or DAI at a fixed rate and with relatively low fees; however, blockchain (gas) fees may apply. They are designed to maintain the stability of USDS and DAI. Unlike decentralized exchange (DEX) transactions, PSM operations do not involve trading between users. Instead, they are direct, non-custodial conversions (generate and burn) executed with the decentralized smart contracts of the Sky Protocol.
-`
-  }
-];
-
-const mainnetFaqItems = [
   {
     question: 'What is a trade?',
     answer: `A trade is the direct exchange of one cryptocurrency token for another. Trading can occur on decentralized exchanges (DEXs) and centralized exchanges (CEXs).
