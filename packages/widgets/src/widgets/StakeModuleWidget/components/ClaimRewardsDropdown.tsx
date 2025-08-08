@@ -46,7 +46,7 @@ export function ClaimRewardsDropdown({
 
   const selectedRewardToClaim = useMemo(() => {
     return rewardContractsToClaim?.find(({ contractAddress }) => contractAddress === selectedContract);
-  }, [rewardContractToClaim, selectedContract]);
+  }, [rewardContractsToClaim, selectedContract]);
 
   const handleClaimClick = () => {
     if (selectedContract) {
