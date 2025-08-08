@@ -77,9 +77,9 @@ export const BalancesHistory = ({
                 savingsToken={'token' in item ? item.token?.symbol : undefined}
                 tradeFromToken={'fromToken' in item ? item.fromToken?.symbol : undefined}
                 rewardContract={
-                  'rewardContractAddress' in item
+                  'rewardContractAddress' in item && item.rewardContractAddress
                     ? item.rewardContractAddress
-                    : 'rewardContract' in item
+                    : 'rewardContract' in item && item.rewardContract
                       ? item.rewardContract
                       : undefined
                 }
