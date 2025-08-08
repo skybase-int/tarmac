@@ -242,7 +242,7 @@ const PositionManagerOverviewContainer = ({
                 `${Math.ceil(newDebtCeilingUtilization * 100)}%`
               ]
             : `${Math.ceil(newDebtCeilingUtilization * 100)}%`,
-        tooltipText: getTooltipById('debt-ceiling')?.tooltip || '',
+        tooltipText: getTooltipById('debt-ceiling-utilization')?.tooltip || '',
         classNamePrev: existingCeilingRiskTextColor,
         className: newCeilingTextColor
       }

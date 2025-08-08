@@ -37,16 +37,6 @@ export const legacyTooltips: Tooltip[] = [
       'The Borrow Rate is determined by Sky Ecosystem Governance through a process of community-driven, decentralized onchain voting.'
   },
   {
-    id: 'staked-amount',
-    title: 'Staked',
-    tooltip: "The amount of SKY you've staked in this position."
-  },
-  {
-    id: 'borrowed-amount',
-    title: 'Borrowed',
-    tooltip: "The amount of USDS you've borrowed using SKY as collateral."
-  },
-  {
     id: 'available-to-borrow',
     title: 'Available to borrow',
     tooltip: 'The maximum amount of USDS you can still borrow based on your collateral and current position.'

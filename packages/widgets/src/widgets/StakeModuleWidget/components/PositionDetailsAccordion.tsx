@@ -53,8 +53,8 @@ export function PositionDetailAccordion({
         <AccordionContent className="space-y-4 pt-4">
           <motion.div className="flex justify-between" variants={positionAnimations}>
             <TextWithTooltip
-              text={getTooltipById('staked-amount')?.title || 'Staked'}
-              tooltip={getTooltipById('staked-amount')?.tooltip || ''}
+              text={getTooltipById('staked')?.title || 'Staked'}
+              tooltip={getTooltipById('staked')?.tooltip || ''}
               textClassName="leading-4"
               gap={1}
               iconClassName="text-textSecondary"
@@ -64,8 +64,8 @@ export function PositionDetailAccordion({
           {!!borrowedAmount && borrowedAmount > 0n && (
             <motion.div className="flex justify-between" variants={positionAnimations}>
               <TextWithTooltip
-                text={getTooltipById('borrowed-amount')?.title || 'Borrowed'}
-                tooltip={getTooltipById('borrowed-amount')?.tooltip || ''}
+                text={getTooltipById('borrowed')?.title || 'Borrowed'}
+                tooltip={getTooltipById('borrowed')?.tooltip || ''}
                 textClassName="leading-4"
                 gap={1}
                 iconClassName="text-textSecondary"
