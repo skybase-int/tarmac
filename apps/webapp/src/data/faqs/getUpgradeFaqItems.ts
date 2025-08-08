@@ -137,7 +137,7 @@ MKR holders can upgrade their tokens to SKY at the rate of 1:24,000 (1 MKR = 24,
     {
       question: 'Will the MKR I have locked in the Seal Engine be automatically upgraded to SKY?',
       answer:
-        'No, but your sealed MKR will be upgraded to SKY during the Seal to Staking migration process. The process, via the Sky.money web app, makes manually exiting your current Seal positions and creating new positions in the Staking Engine as simple as possible The Staking Engine offers all of the same features as the Seal Engine, but it has no exit fee and only supports SKY, not MKR.No, If you currently have one or more positions in the Seal Engine, you will need to manually exit and, if you choose, upgrade your MKR to SKY, and then supply your SKY to the Staking Engine. The process, via the Sky.money web app, makes manually exiting your current Seal positions and creating new positions in the Staking Engine as simple as possible.',
+        'No, but your sealed MKR will be upgraded to SKY during the Seal to Staking migration process. The process, via the Sky.money web app, makes manually exiting your current Seal positions and creating new positions in the Staking Engine as simple as possible The Staking Engine offers all of the same features as the Seal Engine, but it has no exit fee and only supports SKY, not MKR.',
       index: 14
     },
     {
@@ -157,7 +157,7 @@ For upgrade details and step-by-step upgrade instructions, please visit the [MKR
       question: 'What is USDS?',
       answer: `USDS is a stablecoin of the decentralized Sky Protocol and the upgrade of DAI. It is backed by a surplus of collateral and soft-pegged to the value of the U.S. dollar, meaning it is designed to maintain a value equal to or close to a dollar.
 
-USDS is freely transferable and can be used in connection with any software protocol or platform that supports it. For example, you can use USDS to participate in the Sky Savings Rate to accumulate additional USDS, and to access Sky Token Rewards in the form of SKY tokens via the Sky.money web app.
+USDS is freely transferable and can be used in connection with any software protocol or platform that supports it. For example, you can use USDS to participate in the Sky Savings Rate to accumulate additional USDS, and to access Sky Token Rewards via the Sky.money web app.  
 
 The Sky Protocol is governed by a community of broad and diversified individuals and entities from around the world, who hold Sky governance tokens and support the Sky Ecosystem by participating in a system of decentralized onchain voting. USDS powers the open Sky Ecosystem.
 

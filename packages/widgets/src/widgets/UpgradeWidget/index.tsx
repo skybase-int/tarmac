@@ -13,11 +13,18 @@ import { WidgetProps, WidgetState } from '@widgets/shared/types/widgetState';
 import { WidgetContainer } from '@widgets/shared/components/ui/widget/WidgetContainer';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { Heading } from '@widgets/shared/components/ui/Typography';
+import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { UpgradeTransactionStatus } from './components/UpgradeTransactionStatus';
 import { useAccount, useChainId } from 'wagmi';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { useDebounce, getTransactionLink, useIsSafeWallet, math } from '@jetstreamgg/sky-utils';
+import {
+  useDebounce,
+  getTransactionLink,
+  useIsSafeWallet,
+  math,
+  formatBigInt,
+  useIsMetaMaskWallet
+} from '@jetstreamgg/sky-utils';
 import { useTokenAllowance } from '@jetstreamgg/sky-hooks';
 import { useUpgraderManager } from './hooks/useUpgraderManager';
 import { TxStatus, notificationTypeMaping } from '@widgets/shared/constants';
@@ -101,6 +108,7 @@ export const UpgradeWidget = ({
   onExternalLinkClicked,
   batchEnabled,
   setBatchEnabled,
+  legalBatchTxUrl,
   upgradeOptions = defaultUpgradeOptions,
   enabled = true,
   shouldReset = false
@@ -125,6 +133,7 @@ export const UpgradeWidget = ({
           upgradeOptions={upgradeOptions}
           batchEnabled={batchEnabled}
           setBatchEnabled={setBatchEnabled}
+          legalBatchTxUrl={legalBatchTxUrl}
         />
       </WidgetProvider>
     </ErrorBoundary>
@@ -145,6 +154,7 @@ export function UpgradeWidgetWrapped({
   upgradeOptions,
   batchEnabled,
   setBatchEnabled,
+  legalBatchTxUrl,
   enabled = true
 }: UpgradeWidgetProps): React.ReactElement {
   const validatedExternalState = getValidatedState(externalWidgetState);
@@ -255,6 +265,7 @@ export function UpgradeWidgetWrapped({
   });
 
   const { data: batchSupported, isLoading: isBatchSupportLoading } = useIsBatchSupported();
+  const isMetaMaskWallet = useIsMetaMaskWallet();
 
   const {
     data: allowance,
@@ -270,7 +281,10 @@ export function UpgradeWidgetWrapped({
         : mkrSkyAddress[chainId as keyof typeof mkrSkyAddress]
   });
   const hasAllowance = !!(allowance && debouncedOriginAmount !== 0n && allowance >= debouncedOriginAmount);
-  const shouldUseBatch = !!batchEnabled && !!batchSupported && !hasAllowance;
+  // MKR to SKY conversion is not supported in MetaMask as a bundled transaction as it's throwing missleading warnings
+  // So we we avoid the bundled Upgrade MKR flow in MetaMask for now
+  const shouldAvoidBundledFlow = originToken.symbol === 'MKR' && isMetaMaskWallet;
+  const shouldUseBatch = !!batchEnabled && !!batchSupported && !hasAllowance && !shouldAvoidBundledFlow;
 
   const actionManager = useUpgraderManager({
     token: originToken,
@@ -330,7 +344,10 @@ export function UpgradeWidgetWrapped({
     token: originToken,
     enabled: widgetState.action === UpgradeAction.APPROVE && allowance !== undefined,
     onStart: (hash: string) => {
-      addRecentTransaction?.({ hash, description: t`Approving ${originToken.symbol} token` });
+      addRecentTransaction?.({
+        hash,
+        description: t`Approving ${formatBigInt(debouncedOriginAmount, { unit: getTokenDecimals(originToken, chainId) })} ${originToken.symbol}`
+      });
       setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
@@ -799,6 +816,11 @@ export function UpgradeWidgetWrapped({
           <Trans>Upgrade</Trans>
         </Heading>
       }
+      subHeader={
+        <Text className="text-textSecondary" variant="small">
+          <Trans>Upgrade your DAI to USDS and MKR to SKY</Trans>
+        </Text>
+      }
       rightHeader={rightHeaderComponent}
       footer={
         <WidgetButtons
@@ -826,7 +848,7 @@ export function UpgradeWidgetWrapped({
         ) : widgetState.screen === UpgradeScreen.REVIEW ? (
           <CardAnimationWrapper key="widget-transaction-review">
             <UpgradeTransactionReview
-              batchEnabled={batchEnabled}
+              batchEnabled={batchEnabled && !shouldAvoidBundledFlow}
               setBatchEnabled={setBatchEnabled}
               isBatchTransaction={shouldUseBatch}
               originToken={originToken}
@@ -834,6 +856,8 @@ export function UpgradeWidgetWrapped({
               targetToken={targetToken}
               targetAmount={math.calculateConversion(originToken, debouncedOriginAmount)}
               needsAllowance={!hasAllowance}
+              legalBatchTxUrl={legalBatchTxUrl}
+              isBatchFlowSupported={!shouldAvoidBundledFlow}
             />
           </CardAnimationWrapper>
         ) : (
@@ -864,10 +888,12 @@ export function UpgradeWidgetWrapped({
                     return;
                   }
 
-                  const newOriginToken = targetToken;
                   setTabIndex(index);
+                  //Always default to DAI / USDS flow when toggling tabs
+                  const newOriginToken = index === 0 ? TOKENS.dai : TOKENS.usds;
+                  const newTargetToken = index === 0 ? TOKENS.usds : TOKENS.dai;
                   setOriginToken(newOriginToken);
-                  setTargetToken(originToken);
+                  setTargetToken(newTargetToken);
                   setOriginAmount(0n);
 
                   if (isConnectedAndEnabled) {

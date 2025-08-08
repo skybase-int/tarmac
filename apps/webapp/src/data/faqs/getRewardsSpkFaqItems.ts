@@ -10,7 +10,7 @@ const mainnetFaqItems: {
   type?: 'restricted' | 'unrestricted';
 }[] = [
   {
-    question: 'What is SPK?',
+    question: 'What is Spark?',
     answer:
       'SPK is the native governance and staking token of Spark. Designed with a long-term vision for sustainability, decentralization, and ecosystem alignment, SPK enables protocol governance, protocol security via staking, and reward distribution to participants.',
     index: 5

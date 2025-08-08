@@ -12,7 +12,6 @@ import { motion } from 'framer-motion';
 import { getRiskTextColor } from '../lib/utils';
 import { getIlkName, RiskLevel, useCollateralData } from '@jetstreamgg/sky-hooks';
 import { cn } from '@widgets/lib/utils';
-import { useChainId } from 'wagmi';
 import { getTooltipById } from '../../../data/tooltips';
 
 type Props = {
@@ -37,8 +36,7 @@ export function PositionDetailAccordion({
   delayedPrice,
   liquidationPrice
 }: Props) {
-  const chainId = useChainId();
-  const ilkName = getIlkName(chainId, 2);
+  const ilkName = getIlkName(2);
   const riskTextColor = getRiskTextColor(riskLevel as RiskLevel);
   const { data: collateralData } = useCollateralData(ilkName);
 

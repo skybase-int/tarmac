@@ -27,7 +27,7 @@ import { t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { useAccount, useChainId } from 'wagmi';
 import { formatUnits, parseUnits } from 'viem';
-import { Heading } from '@widgets/shared/components/ui/Typography';
+import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { getValidatedState } from '@widgets/lib/utils';
 import { WidgetButtons } from '@widgets/shared/components/ui/widget/WidgetButtons';
 import { ErrorBoundary } from '@widgets/shared/components/ErrorBoundary';
@@ -96,6 +96,7 @@ export const L2SavingsWidget = ({
   onWidgetStateChange,
   onExternalLinkClicked,
   enabled = true,
+  legalBatchTxUrl,
   referralCode,
   disallowedTokens,
   shouldReset = false,
@@ -122,6 +123,7 @@ export const L2SavingsWidget = ({
           disallowedTokens={disallowedTokens}
           batchEnabled={batchEnabled}
           setBatchEnabled={setBatchEnabled}
+          legalBatchTxUrl={legalBatchTxUrl}
         />
       </WidgetProvider>
     </ErrorBoundary>
@@ -143,7 +145,8 @@ const SavingsWidgetWrapped = ({
   referralCode,
   disallowedTokens,
   batchEnabled,
-  setBatchEnabled
+  setBatchEnabled,
+  legalBatchTxUrl
 }: SavingsWidgetProps) => {
   const {
     setButtonText,
@@ -165,6 +168,7 @@ const SavingsWidgetWrapped = ({
         disallowedToken => disallowedToken.symbol.toLowerCase() === symbol.toLowerCase()
       )
   );
+  const usdcSupported = allowedSymbolsForValidation.includes('USDC');
 
   const validatedExternalState = getValidatedState(externalWidgetState, allowedSymbolsForValidation);
 
@@ -755,6 +759,12 @@ const SavingsWidgetWrapped = ({
     // if successful supply/withdraw, reset amount
     if (widgetState.action !== SavingsAction.APPROVE) {
       setAmount(0n);
+      // Notify external state about the cleared amount
+      onWidgetStateChange?.({
+        originAmount: '',
+        txStatus,
+        widgetState
+      });
     }
 
     // if successfully approved, go to supply/withdraw
@@ -985,6 +995,15 @@ const SavingsWidgetWrapped = ({
           <Trans>Sky Savings Rate</Trans>
         </Heading>
       }
+      subHeader={
+        <Text className="text-textSecondary" variant="small">
+          {usdcSupported ? (
+            <Trans>Use USDS or USDC to access the Sky Savings Rate</Trans>
+          ) : (
+            <Trans>Use USDS to access the Sky Savings Rate</Trans>
+          )}
+        </Text>
+      }
       rightHeader={rightHeaderComponent}
       footer={
         <WidgetButtons
@@ -1016,6 +1035,7 @@ const SavingsWidgetWrapped = ({
               originToken={originToken}
               originAmount={debouncedAmount}
               needsAllowance={needsAllowance}
+              legalBatchTxUrl={legalBatchTxUrl}
             />
           </CardAnimationWrapper>
         ) : (

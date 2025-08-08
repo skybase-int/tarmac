@@ -32,7 +32,7 @@ import { useLingui } from '@lingui/react';
 import { useAccount, useChainId } from 'wagmi';
 import { RewardsTransactionStatus } from './components/RewardsTransactionStatus';
 import { ManagePosition } from './components/ManagePosition';
-import { Heading } from '@widgets/shared/components/ui/Typography';
+import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { RewardsOverview } from './components/RewardsOverview';
 import { Button } from '@widgets/components/ui/button';
 import { getValidatedState } from '../../lib/utils';
@@ -67,6 +67,7 @@ export const RewardsWidget = ({
   onWidgetStateChange,
   onExternalLinkClicked,
   enabled = true,
+  legalBatchTxUrl,
   referralCode,
   shouldReset = false,
   batchEnabled,
@@ -92,6 +93,7 @@ export const RewardsWidget = ({
           referralCode={referralCode}
           batchEnabled={batchEnabled}
           setBatchEnabled={setBatchEnabled}
+          legalBatchTxUrl={legalBatchTxUrl}
         />
       </WidgetProvider>
     </ErrorBoundary>
@@ -111,6 +113,7 @@ const RewardsWidgetWrapped = ({
   onWidgetStateChange,
   onExternalLinkClicked,
   enabled = true,
+  legalBatchTxUrl,
   referralCode,
   batchEnabled,
   setBatchEnabled
@@ -393,6 +396,13 @@ const RewardsWidgetWrapped = ({
     !!batchEnabled && !!batchSupported && needsAllowance && widgetState.flow === RewardsFlow.SUPPLY;
 
   useEffect(() => {
+    // Only the supply flow requires token allowance
+    setShowStepIndicator(
+      widgetState.flow === RewardsFlow.SUPPLY && widgetState.action !== RewardsAction.CLAIM
+    );
+  }, [widgetState.flow, widgetState.action]);
+
+  useEffect(() => {
     if (widgetState.action === RewardsAction.CLAIM) {
       setWidgetState({
         flow: selectedRewardContract ? (tabIndex === 1 ? RewardsFlow.WITHDRAW : RewardsFlow.SUPPLY) : null,
@@ -545,14 +555,12 @@ const RewardsWidgetWrapped = ({
   }, [debouncedBalanceError]);
 
   const approveOnClick = () => {
-    setShowStepIndicator(true);
     setWidgetState((prev: WidgetState) => ({ ...prev, screen: RewardsScreen.TRANSACTION }));
     setTxStatus(TxStatus.INITIALIZED);
     setExternalLink(undefined);
     approve.execute();
   };
   const supplyOnClick = () => {
-    setShowStepIndicator(true);
     setWidgetState((prev: WidgetState) => ({ ...prev, screen: RewardsScreen.TRANSACTION }));
     setTxStatus(TxStatus.INITIALIZED);
     setExternalLink(undefined);
@@ -564,14 +572,12 @@ const RewardsWidgetWrapped = ({
       supplyOnClick();
       return;
     }
-    setShowStepIndicator(true);
     setWidgetState((prev: WidgetState) => ({ ...prev, screen: RewardsScreen.TRANSACTION }));
     setTxStatus(TxStatus.INITIALIZED);
     setExternalLink(undefined);
     batchSupply.execute();
   };
   const withdrawOnClick = () => {
-    setShowStepIndicator(false);
     setWidgetState((prev: WidgetState) => ({ ...prev, screen: RewardsScreen.TRANSACTION }));
     setTxStatus(TxStatus.INITIALIZED);
     setExternalLink(undefined);
@@ -642,7 +648,6 @@ const RewardsWidgetWrapped = ({
     }));
     setTxStatus(TxStatus.INITIALIZED);
     setExternalLink(undefined);
-    setShowStepIndicator(false);
     claim?.execute();
   };
 
@@ -799,6 +804,13 @@ const RewardsWidgetWrapped = ({
           </CardAnimationWrapper>
         )
       }
+      subHeader={
+        widgetState.action === RewardsAction.OVERVIEW ? (
+          <Text className="text-textSecondary" variant="small">
+            <Trans>Use USDS to access Sky Token Rewards</Trans>
+          </Text>
+        ) : undefined
+      }
       rightHeader={rightHeaderComponent}
       footer={
         <AnimatePresence mode="popLayout" initial={false}>
@@ -856,6 +868,7 @@ const RewardsWidgetWrapped = ({
               rewardAmount={widgetState.action === RewardsAction.CLAIM ? claimAmount : amount}
               selectedRewardContract={selectedRewardContract}
               needsAllowance={needsAllowance}
+              legalBatchTxUrl={legalBatchTxUrl}
             />
           </CardAnimationWrapper>
         ) : (

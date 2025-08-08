@@ -3,7 +3,12 @@ import { Intent } from '@/lib/enums';
 import { useLingui } from '@lingui/react';
 import { useCustomConnectModal } from '@/modules/ui/hooks/useCustomConnectModal';
 import { useAddRecentTransaction } from '@rainbow-me/rainbowkit';
-import { COMING_SOON_MAP, mapIntentToQueryParam, QueryParams } from '@/lib/constants';
+import {
+  BATCH_TX_LEGAL_NOTICE_URL,
+  COMING_SOON_MAP,
+  mapIntentToQueryParam,
+  QueryParams
+} from '@/lib/constants';
 import { WidgetNavigation } from '@/modules/app/components/WidgetNavigation';
 import { withErrorBoundary } from '@/modules/utils/withErrorBoundary';
 import { DualSwitcher } from '@/components/DualSwitcher';
@@ -27,6 +32,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useChains } from 'wagmi';
 import { useBalanceFilters } from '@/modules/ui/context/BalanceFiltersContext';
 import { isIntentAllowed } from '@/lib/utils';
+import { isL2ChainId } from '@jetstreamgg/sky-utils';
 
 export type WidgetContent = [
   Intent,
@@ -34,7 +40,8 @@ export type WidgetContent = [
   (props: IconProps) => React.ReactNode,
   React.ReactNode | null,
   boolean,
-  { disabled?: boolean }?
+  { disabled?: boolean }?,
+  string? // description for tooltip
 ][];
 
 type WidgetPaneProps = {
@@ -71,7 +78,8 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
     enabled: isConnectedAndAcceptedTerms,
     onExternalLinkClicked,
     referralCode,
-    shouldReset: searchParams.get(QueryParams.Reset) === 'true'
+    shouldReset: searchParams.get(QueryParams.Reset) === 'true',
+    legalBatchTxUrl: BATCH_TX_LEGAL_NOTICE_URL
   };
 
   const getQueryParams = (url: string) => getRetainedQueryParams(url, retainedParams, searchParams);
@@ -121,19 +129,59 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
           showAllNetworks={showAllNetworks}
           setShowAllNetworks={setShowAllNetworks}
         />
-      )
+      ),
+      false,
+      undefined,
+      'Manage your Sky Ecosystem funds across supported networks'
     ],
     [
       Intent.REWARDS_INTENT,
       'Rewards',
       RewardsModule,
-      withErrorBoundary(<RewardsWidgetPane {...sharedProps} />)
+      withErrorBoundary(<RewardsWidgetPane {...sharedProps} />),
+      false,
+      undefined,
+      'Use USDS to access Sky Token Rewards'
     ],
-    [Intent.SAVINGS_INTENT, 'Savings', Savings, withErrorBoundary(<SavingsWidgetPane {...sharedProps} />)],
-    [Intent.UPGRADE_INTENT, 'Upgrade', Upgrade, withErrorBoundary(<UpgradeWidgetPane {...sharedProps} />)],
-    [Intent.TRADE_INTENT, 'Trade', Trade, withErrorBoundary(<TradeWidgetPane {...sharedProps} />)],
-    [Intent.STAKE_INTENT, 'Stake', Stake, withErrorBoundary(<StakeWidgetPane {...sharedProps} />)]
-  ].map(([intent, label, icon, component]) => {
+    [
+      Intent.SAVINGS_INTENT,
+      'Savings',
+      Savings,
+      withErrorBoundary(<SavingsWidgetPane {...sharedProps} />),
+      false,
+      undefined,
+      isL2ChainId(chainId)
+        ? 'Use USDS or USDC to access the Sky Savings Rate'
+        : 'Use USDS to access the Sky Savings Rate'
+    ],
+    [
+      Intent.UPGRADE_INTENT,
+      'Upgrade',
+      Upgrade,
+      withErrorBoundary(<UpgradeWidgetPane {...sharedProps} />),
+      false,
+      undefined,
+      'Upgrade your DAI to USDS and MKR to SKY'
+    ],
+    [
+      Intent.TRADE_INTENT,
+      'Trade',
+      Trade,
+      withErrorBoundary(<TradeWidgetPane {...sharedProps} />),
+      false,
+      undefined,
+      'Trade popular tokens for Sky Ecosystem tokens'
+    ],
+    [
+      Intent.STAKE_INTENT,
+      'Stake',
+      Stake,
+      withErrorBoundary(<StakeWidgetPane {...sharedProps} />),
+      false,
+      undefined,
+      'Stake SKY to earn rewards, delegate votes, and borrow USDS'
+    ]
+  ].map(([intent, label, icon, component, , , description]) => {
     const comingSoon = COMING_SOON_MAP[chainId]?.includes(intent as Intent);
     return [
       intent as Intent,
@@ -141,7 +189,8 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
       icon as (props: IconProps) => React.ReactNode,
       comingSoon ? null : (component as React.ReactNode),
       comingSoon,
-      comingSoon ? { disabled: true } : undefined
+      comingSoon ? { disabled: true } : undefined,
+      description as string
     ];
   });
 
