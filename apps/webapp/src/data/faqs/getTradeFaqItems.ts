@@ -74,7 +74,7 @@ const L2TradeFaqItems = [
   },
   {
     question: 'Which tokens can I trade on supported L2s?',
-    answer: `Using the Sky.money web app, you can interact with the Peg Stability Module (PSM)(i) for conversions to/from USDS, sUSDS and USDC. The PSM handles conversions programmatically, driven at your direction, between these pairs directly.
+    answer: `Using the Sky.money web app, you can interact with the Peg Stability Module [(PSM)](#tooltip-psm) for conversions to/from USDS, sUSDS and USDC. The PSM handles conversions programmatically, driven at your direction, between these pairs directly.
 
 On some supported L2s, you can also access the Sky Savings Rate.
 
@@ -91,7 +91,7 @@ SkyLink is the Sky system that provides the rails for Sky Ecosystem projects to 
     question:
       "Why do I see activity in my Trade transaction history in the Sky.money web app if I've never used the Trade feature?",
     answer:
-      "If you've accessed the Sky Savings Rate on a supported Layer 2 (L2) network, a conversion from USDS or USDC to sUSDS would have been automatically triggered via the Peg Stability Module (PSM)(i). Therefore, you will see such activity in your Trade transaction history, despite not having traded.",
+      "If you've accessed the Sky Savings Rate on a supported Layer 2 (L2) network, a conversion from USDS or USDC to sUSDS would have been automatically triggered via the Peg Stability Module [(PSM)](#tooltip-psm). Therefore, you will see such activity in your Trade transaction history, despite not having traded.",
     index: 3
   }
 ];
