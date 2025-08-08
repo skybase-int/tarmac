@@ -2,9 +2,9 @@ import { Button } from '@widgets/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@widgets/components/ui/popover';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { Text } from '@widgets/shared/components/ui/Typography';
-import { useRewardContractTokens, useRewardsRewardsBalance } from '@jetstreamgg/sky-hooks';
+import { useRewardContractsToClaim } from '@jetstreamgg/sky-hooks';
 import { formatBigInt } from '@jetstreamgg/sky-utils';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useChainId } from 'wagmi';
 import { TxStatus } from '@widgets/shared/constants';
 import { WidgetState } from '@widgets/shared/types/widgetState';
@@ -13,7 +13,7 @@ import { StakeModuleWidgetContext } from '../context/context';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@widgets/lib/utils';
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
-import { ClaimRewardOption } from './ClaimRewardOption';
+import { ClaimRewardsButton } from './ClaimRewardsButton';
 
 export function ClaimRewardsDropdown({
   stakeRewardContracts,
@@ -36,18 +36,17 @@ export function ClaimRewardsDropdown({
 
   const chainId = useChainId();
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedContract, setSelectedContract] = useState<`0x${string}`>(
-    stakeRewardContracts[0].contractAddress
-  );
+  const [selectedContract, setSelectedContract] = useState<`0x${string}` | null>(null);
 
-  // Fetch data only for the selected contract
-  const { data: selectedRewardsBalance } = useRewardsRewardsBalance({
-    contractAddress: selectedContract,
-    address: urnAddress,
+  const { data: rewardContractsToClaim } = useRewardContractsToClaim({
+    rewardContractAddresses: stakeRewardContracts.map(({ contractAddress }) => contractAddress),
+    userAddress: urnAddress,
     chainId
   });
 
-  const { data: selectedRewardTokens } = useRewardContractTokens(selectedContract);
+  const selectedRewardToClaim = useMemo(() => {
+    return rewardContractsToClaim?.find(({ contractAddress }) => contractAddress === selectedContract);
+  }, [rewardContractToClaim, selectedContract]);
 
   const handleClaimClick = () => {
     if (selectedContract) {
@@ -80,26 +79,35 @@ export function ClaimRewardsDropdown({
     }
   }, [indexToClaim, index, rewardContractToClaim, selectedContract, claimPrepared]);
 
-  if (!stakeRewardContracts || stakeRewardContracts.length === 0) return null;
-
-  // Multiple options - show split button
   const isProcessing =
     indexToClaim === index && selectedContract && rewardContractToClaim === selectedContract;
   const isDisabled = !!rewardContractToClaim && indexToClaim !== undefined;
 
+  if (!rewardContractsToClaim || rewardContractsToClaim.length === 0) return null;
+  if (rewardContractsToClaim.length === 1)
+    return (
+      <ClaimRewardsButton
+        rewardContract={rewardContractsToClaim[0].contractAddress}
+        urnAddress={urnAddress}
+        index={index}
+        claimPrepared={claimPrepared}
+        claimExecute={claimExecute}
+      />
+    );
+
   return (
-    <div className="relative flex">
+    <div className="flex">
       <Button
         variant="secondary"
         onClick={handleClaimClick}
-        disabled={isDisabled}
+        disabled={isDisabled || !selectedRewardToClaim}
         className="flex-1 rounded-r-none border-r-0"
       >
         <Text>
           {isProcessing
             ? 'Preparing your claim transaction...'
-            : selectedRewardsBalance && selectedRewardTokens
-              ? `Claim ${formatBigInt(selectedRewardsBalance)} ${selectedRewardTokens.rewardsToken.symbol}`
+            : selectedRewardToClaim
+              ? `Claim ${formatBigInt(selectedRewardToClaim.claimBalance)} ${selectedRewardToClaim.rewardSymbol}`
               : 'Select reward to claim'}
         </Text>
       </Button>
@@ -120,14 +128,18 @@ export function ClaimRewardsDropdown({
           sideOffset={8}
         >
           <VStack className="space-y-1">
-            {stakeRewardContracts.map(({ contractAddress }) => (
-              <ClaimRewardOption
+            {rewardContractsToClaim.map(({ contractAddress, claimBalance, rewardSymbol }) => (
+              <Button
                 key={contractAddress}
-                contractAddress={contractAddress}
-                urnAddress={urnAddress}
-                isSelected={selectedContract === contractAddress}
-                onSelect={handleOptionSelect}
-              />
+                variant={null}
+                onClick={() => handleOptionSelect(contractAddress)}
+                className={cn(
+                  'text-text flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
+                  selectedContract === contractAddress ? 'bg-surface' : 'bg-transparent hover:bg-[#FFFFFF0D]'
+                )}
+              >
+                <Text>{`Claim ${formatBigInt(claimBalance)} ${rewardSymbol}`}</Text>
+              </Button>
             ))}
           </VStack>
         </PopoverContent>
