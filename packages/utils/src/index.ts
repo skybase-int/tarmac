@@ -29,7 +29,6 @@ export * from './localization';
 export * from './hooks/useFormatDate';
 export * from './hooks/useIsSafeWallet';
 export * from './hooks/useIsSmartContractWallet';
-export * from './hooks/useIsMetaMaskWallet';
 export * from './math.constants';
 export * from './collection';
 export * from './getChainIcon';
