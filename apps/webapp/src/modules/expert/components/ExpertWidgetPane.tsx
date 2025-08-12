@@ -8,11 +8,11 @@ import { AnimatePresence } from 'framer-motion';
 import { StUSDSWidgetPane } from '@/modules/stusds/components/StUSDSWidgetPane';
 import { EXPERT_WIDGET_OPTIONS, ExpertIntentMapping, QueryParams } from '@/lib/constants';
 import { useSearchParams } from 'react-router-dom';
-import { ExpertRiskCheckbox } from './ExpertRiskCheckbox';
+import { ExpertRiskDisclaimer } from './ExpertRiskDisclaimer';
 import { StusdsStatsCard } from './StusdsStatsCard';
 
 export function ExpertWidgetPane(sharedProps: SharedProps) {
-  const { selectedExpertOption, setSelectedExpertOption, expertRiskAcknowledged } = useConfigContext();
+  const { selectedExpertOption, setSelectedExpertOption, expertRiskDisclaimerShown } = useConfigContext();
   const [, setSearchParams] = useSearchParams();
 
   const handleSelectExpertOption = (expertIntent: ExpertIntent) => {
@@ -43,7 +43,7 @@ export function ExpertWidgetPane(sharedProps: SharedProps) {
             rightHeader={sharedProps.rightHeaderComponent}
           >
             <CardAnimationWrapper className="flex flex-col gap-4">
-              <ExpertRiskCheckbox />
+              <ExpertRiskDisclaimer />
               {EXPERT_WIDGET_OPTIONS.map(widget => {
                 switch (widget.id) {
                   case ExpertIntent.STUSDS_INTENT:
@@ -51,7 +51,7 @@ export function ExpertWidgetPane(sharedProps: SharedProps) {
                       <StusdsStatsCard
                         key={widget.id}
                         onClick={() => handleSelectExpertOption(widget.id)}
-                        disabled={!expertRiskAcknowledged}
+                        disabled={!expertRiskDisclaimerShown}
                       />
                     );
                   // Add more cases here for future contracts
