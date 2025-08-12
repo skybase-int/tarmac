@@ -9,13 +9,6 @@ test.describe('Expert Module - stUSDS', () => {
     await connectMockWalletAndAcceptTerms(page);
     // Navigate to Expert module
     await page.getByRole('tab', { name: 'Expert' }).click();
-
-    // Check and accept risk disclaimer if present and not already checked
-    const riskCheckbox = page.getByTestId('expert-risk-checkbox');
-    if (!(await riskCheckbox.isChecked())) {
-      await riskCheckbox.click();
-    }
-
     // Navigate to stUSDS module
     await page.getByTestId('stusds-stats-card').click();
   });
