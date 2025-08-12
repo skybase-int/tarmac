@@ -2,21 +2,49 @@ import { DetailSection } from '@/modules/ui/components/DetailSection';
 import { DetailSectionRow } from '@/modules/ui/components/DetailSectionRow';
 import { DetailSectionWrapper } from '@/modules/ui/components/DetailSectionWrapper';
 import { t } from '@lingui/core/macro';
-// import { useBreakpointIndex, BP } from '@/modules/ui/hooks/useBreakpointIndex';
-// import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
-// import { getSupportedChainIds } from '@/data/wagmi/config/config.default';
-// import { useChainId } from 'wagmi';
+import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 import { Text } from '@/modules/layout/components/Typography';
+import { ExpertOverview } from './ExpertOverview';
+import { ExpertChart } from './ExpertChart';
+import { ExpertAbout } from './ExpertAbout';
+import { ActionsShowcase } from '@/modules/ui/components/ActionsShowcase';
+import { IntentMapping } from '@/lib/constants';
+import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
+import { useUserSuggestedActions } from '@/modules/ui/hooks/useUserSuggestedActions';
+import { filterActionsByIntent } from '@/lib/utils';
 
 export function ExpertDetailsPane() {
-  // const { bpi } = useBreakpointIndex();
-  // const isDesktop = bpi > BP.lg;
-  // const { isConnectedAndAcceptedTerms } = useConnectedContext();
-  // const chainId = useChainId();
-  // const supportedChainIds = getSupportedChainIds(chainId);
+  const { isConnectedAndAcceptedTerms } = useConnectedContext();
+  const { linkedActionConfig } = useConfigContext();
+  const { data: actionData } = useUserSuggestedActions();
+  const widget = IntentMapping.EXPERT_INTENT;
 
   return (
     <DetailSectionWrapper>
+      <DetailSection title={t`Expert modules overview`}>
+        <DetailSectionRow>
+          <ExpertOverview />
+        </DetailSectionRow>
+      </DetailSection>
+      {isConnectedAndAcceptedTerms &&
+        !linkedActionConfig?.showLinkedAction &&
+        (filterActionsByIntent(actionData?.linkedActions || [], widget).length ?? 0) > 0 && (
+          <DetailSection title={t`Combined actions`}>
+            <DetailSectionRow>
+              <ActionsShowcase widget={widget} />
+            </DetailSectionRow>
+          </DetailSection>
+        )}
+      <DetailSection title={t`Expert activity`}>
+        <DetailSectionRow>
+          <ExpertChart />
+        </DetailSectionRow>
+      </DetailSection>
+      <DetailSection title={t`About Native Sky Protocol Tokens`}>
+        <DetailSectionRow>
+          <ExpertAbout />
+        </DetailSectionRow>
+      </DetailSection>
       <DetailSection title={t`FAQs`}>
         <DetailSectionRow>
           <Text className="text-text">TODO</Text>

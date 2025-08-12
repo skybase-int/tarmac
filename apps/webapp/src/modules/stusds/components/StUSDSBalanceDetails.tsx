@@ -1,4 +1,5 @@
 import { useSavingsData, useStUsdsData } from '@jetstreamgg/sky-hooks';
+import { formatBigInt } from '@jetstreamgg/sky-utils';
 import { SuppliedBalanceCard, UnsuppliedBalanceCard } from '@/modules/ui/components/BalanceCards';
 import { t } from '@lingui/core/macro';
 
@@ -9,6 +10,10 @@ export function StUSDSBalanceDetails() {
   const usdsToken = { name: 'USDS', symbol: 'USDS' };
 
   const SuppliedStUSDSBalanceCard = () => {
+    const stUsdsBalance = data?.userStUsdsBalance
+      ? `(${formatBigInt(data.userStUsdsBalance, { unit: 18, compact: true, maxDecimals: 2 })} stUSDS)`
+      : undefined;
+
     return (
       <SuppliedBalanceCard
         balance={data?.userSuppliedUsds || 0n}
@@ -16,6 +21,7 @@ export function StUSDSBalanceDetails() {
         token={usdsToken}
         error={error}
         label={t`Supplied balance`}
+        afterBalance={stUsdsBalance}
         dataTestId="stusds-supplied-balance-details"
       />
     );
