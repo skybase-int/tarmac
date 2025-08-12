@@ -132,7 +132,8 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
   } = useTokenBalance({
     address: acct,
     chainId: chainId,
-    token: usdsAddress[chainId as keyof typeof usdsAddress]
+    token: usdsAddress[chainId as keyof typeof usdsAddress],
+    enabled: !!acct
   });
 
   // Get vault's USDS balance (available liquidity)
@@ -167,7 +168,7 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     return userStUsdsBalance;
   }, [userConvertedAssets, userStUsdsBalance, totalAssets, totalSupply]);
 
-  const isLoading = isContractLoading || userUsdsLoading || vaultUsdsLoading;
+  const isLoading = isContractLoading || (!!acct && userUsdsLoading) || vaultUsdsLoading;
 
   const data: StUsdsHookData | undefined = useMemo(() => {
     if (!contractData) return undefined;
