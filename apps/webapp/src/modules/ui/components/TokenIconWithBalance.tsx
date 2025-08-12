@@ -23,10 +23,10 @@ export const TokenIconWithBalance: React.FC<TokenIconWithBalanceProps> = ({
   afterBalance,
   dataTestId
 }) => (
-  <div className={cn('flex items-center', className)} data-testid={dataTestId}>
+  <div className={cn('flex items-center', className)}>
     {/* TODO the size should come from the width prop and not the class name */}
     <TokenIcon className="h-6 w-6" token={token} width={24} chainId={chainId} />
-    <Text className="ml-2">
+    <Text className="ml-2" dataTestId={dataTestId}>
       {balance} {token.symbol} {token.symbol === 'CLE' ? 'Points' : ''}
     </Text>
     {afterBalance && <span className="text-textSecondary ml-1 text-sm">{afterBalance}</span>}
