@@ -461,10 +461,10 @@ const StUSDSWidgetWrapped = ({
     // if successful supply/withdraw, reset amount
     if (widgetState.action !== StUSDSAction.APPROVE) {
       setAmount(0n);
-      // Notify external state about the cleared amount
+      // Notify external state about the cleared amount with IDLE status
       onWidgetStateChange?.({
         originAmount: '',
-        txStatus,
+        txStatus: TxStatus.IDLE,
         widgetState
       });
     }
