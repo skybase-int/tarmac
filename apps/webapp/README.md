@@ -52,6 +52,7 @@ Create a `.env` file in the root directory of the project. You can use the `.env
 - `VITE_FOOTER_LINKS`: Array containing footer links with their URLs and names
 - `VITE_TERMS_MESSAGE_TO_SIGN`: Message that users need to sign to accept the terms and conditions
 - `VITE_TERMS_CHECKBOX_TEXT`: The text displayed next to the checkbox in the terms acceptance modal
+- `VITE_BATCH_TX_ENABLED`: Boolean flag to enable the use of EIP-7702 batch transactions in widgets
 - `VITE_ENV_NAME`: (Optional) Environment name (e.g., 'development', 'staging', 'production')
 - `VITE_CF_PAGES_COMMIT_SHA`: (Optional) Git commit hash of the current build
 - `VITE_REFERRAL_CODE`: (Optional) Referral code for the app
@@ -63,6 +64,8 @@ Create a `.env` file in the root directory of the project. You can use the `.env
 - `VITE_CHATBOT_DOMAIN`: The base URL for the chatbot backend API
 - `VITE_CHATBOT_MAX_HISTORY`: Maximum number of previous messages to include in chat context.
 - `VITE_CHATBOT_MAX_MESSAGE_LENGTH`: Maximum character length for user input messages.
+- `VITE_CHATBOT_CF_ACCESS_CLIENT_ID`: (Optional) Cloudflare Access client ID for authentication headers in development/staging environments
+- `VITE_CHATBOT_CF_ACCESS_CLIENT_SECRET`: (Optional) Cloudflare Access client secret for authentication headers in development/staging environments
 
 ## Running the App
 

@@ -16,6 +16,7 @@ export { useTotalSavingsSuppliers } from './savings/useTotalSavingsSuppliers';
 export { useSsrSharesToAssets } from './savings/useSsrSharesToAssets';
 export { useSsrAssetsToShares } from './savings/useSsrAssetsToShares';
 export { useMultiChainSavingsBalances } from './savings/useMultiChainSavingsBalances';
+export { useBatchSavingsSupply } from './savings/useBatchSavingsSupply';
 
 // Authentication
 export { useRestrictedAddressCheck } from './authentication/useRestrictedAddressCheck';
@@ -39,6 +40,7 @@ export { useRewardsChartInfo } from './rewards/useRewardsChartInfo';
 export { useRewardContractTokens } from './rewards/useRewardContractTokens';
 export { useUserRewardsBalance } from './rewards/useUserRewardsBalance';
 export { useRewardsWithUserBalance } from './rewards/useRewardsWithUserBalance';
+export { useBatchRewardsSupply } from './rewards/useBatchRewardsSupply';
 
 // Rewards
 export { useRewardsSupply } from './rewards/useRewardsSupply';
@@ -69,7 +71,6 @@ export { MakerHooksProvider, useMakerHooks } from './context/context';
 export { useUsdsToDai } from './upgrade/useUsdsToDai';
 export { useDaiToUsds } from './upgrade/useDaiToUsds';
 export { useMkrToSky } from './upgrade/useMkrToSky';
-export { useSkyToMkr } from './upgrade/useSkyToMkr';
 export { useDaiUsdsApprove } from './upgrade/useDaiUsdsApprove';
 export { useMkrSkyApprove } from './upgrade/useMkrSkyApprove';
 export { useUpgradeHistory } from './upgrade/useUpgradeHistory';
@@ -143,6 +144,8 @@ export { useStakeSkyApprove, useStakeUsdsApprove } from './stake/useStakeApprove
 export { useClaimRewards as useStakeClaimRewards } from './stake/useClaimRewards';
 export { useStakeRewardsData } from './stake/useStakeRewardsData';
 export { useStakePosition } from './stake/useStakePosition';
+export { useBatchStakeMulticall } from './stake/useBatchStakeMulticall';
+export { useHighestRateFromChartData } from './stake/useHighestRateFromChartData';
 export * from './stake/calldata';
 
 //Vaults
@@ -161,6 +164,8 @@ export { useDelegateOwner } from './delegates/useDelegateOwner';
 // PSM
 export { usePsmSwapExactIn } from './psm/usePsmSwapExactIn';
 export { usePsmSwapExactOut } from './psm/usePsmSwapExactOut';
+export { useBatchPsmSwapExactIn } from './psm/useBatchPsmSwapExactIn';
+export { useBatchPsmSwapExactOut } from './psm/useBatchPsmSwapExactOut';
 export { useL2SavingsHistory } from './psm/useL2SavingsHistory';
 export { useL2TradeHistory } from './psm/useL2TradeHistory';
 export { usePsmLiquidity } from './psm/usePsmLiquidity';
@@ -193,7 +198,15 @@ export {
 
 // Export types
 export type { DsProxyHookResponse } from './dsProxy/useDsProxyData';
-export type { WriteHookParams, ReadHook, WriteHook, TrustLevel, DataSource, ReadHookParams } from './hooks';
+export type {
+  WriteHookParams,
+  ReadHook,
+  WriteHook,
+  TrustLevel,
+  DataSource,
+  ReadHookParams,
+  BatchWriteHookParams
+} from './hooks';
 export type { PaginationOption } from './filters';
 export type { RewardContract, RewardContractInfo, RewardContractChange } from './rewards/rewards';
 export type { SavingsHistory } from './savings/savings';
@@ -232,6 +245,7 @@ export {
   wethAddress,
   usdcAddress,
   usdtAddress,
+  spkAddress,
   wethSepoliaAddress,
   usdcSepoliaAddress,
   usdtSepoliaAddress,
@@ -252,6 +266,11 @@ export {
   useReadPsm3L2PreviewSwapExactIn,
   useReadPsm3L2PreviewSwapExactOut,
   lsMkrUsdsRewardAddress,
-  lsSkyUsdsRewardAddress
+  lsSkyUsdsRewardAddress,
+  lsSkySpkRewardAddress
 } from './generated';
 export { contracts, /*tenderlyContracts,*/ sepoliaContracts, l2Contracts } from './contracts';
+
+export { useSendBatchTransactionFlow } from './shared/useSendBatchTransactionFlow';
+export { getWriteContractCall } from './shared/getWriteContractCall';
+export { useIsBatchSupported } from './shared/useIsBatchSupported';

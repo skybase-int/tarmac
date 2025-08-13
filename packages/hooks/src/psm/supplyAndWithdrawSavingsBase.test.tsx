@@ -11,6 +11,9 @@ import { waitForPreparedExecuteAndMine } from '../../test/helpers';
 import { usePsmSwapExactIn } from './usePsmSwapExactIn';
 import { switchChain } from '@wagmi/core';
 import { usePsmSwapExactOut } from './usePsmSwapExactOut';
+import { useBatchPsmSwapExactIn } from './useBatchPsmSwapExactIn';
+import { useBatchPsmSwapExactOut } from './useBatchPsmSwapExactOut';
+import { useTokenAllowance } from '../tokens/useTokenAllowance';
 
 describe('Savings Base - Supply and withdraw', () => {
   beforeAll(async () => {
@@ -46,9 +49,12 @@ describe('Savings Base - Supply and withdraw', () => {
     );
 
     // The user should have some tokens
+    let initialBalance: string = '0';
     await waitFor(
       () => {
-        expect(resultBalance.current.data?.formatted).toEqual('200');
+        expect(resultBalance.current.data?.formatted).toBeDefined();
+        expect(Number(resultBalance.current.data?.formatted)).toBeGreaterThanOrEqual(10);
+        initialBalance = resultBalance.current.data?.formatted ?? '0';
         return;
       },
       { timeout: 5000 }
@@ -87,9 +93,10 @@ describe('Savings Base - Supply and withdraw', () => {
     );
 
     // The user should have less tokens after supply
+    const expectedBalanceAfterSupply = (Number(initialBalance) - 10).toString();
     await waitFor(
       () => {
-        expect(resultBalanceAfterSupply.current.data?.formatted).toEqual('190');
+        expect(resultBalanceAfterSupply.current.data?.formatted).toEqual(expectedBalanceAfterSupply);
         return;
       },
       { timeout: 5000 }
@@ -142,9 +149,161 @@ describe('Savings Base - Supply and withdraw', () => {
     );
 
     // The user should have more tokens after withdrawing
+    const expectedBalanceAfterWithdraw = (Number(initialBalance) - 10 + 5).toString();
     await waitFor(
       () => {
-        expect(resultBalanceAfterWithdraw.current.data?.formatted).toEqual('195');
+        expect(resultBalanceAfterWithdraw.current.data?.formatted).toEqual(expectedBalanceAfterWithdraw);
+        return;
+      },
+      { timeout: 5000 }
+    );
+  });
+
+  it('Batch - Should supply and withdraw', { timeout: 90000 }, async () => {
+    // Get initial balance
+    const { result: resultInitialBalance } = renderHook(
+      () =>
+        useTokenBalance({
+          address: TEST_WALLET_ADDRESS,
+          token: TOKENS.usds.address[TENDERLY_BASE_CHAIN_ID],
+          chainId: TENDERLY_BASE_CHAIN_ID
+        }),
+      {
+        wrapper: WagmiWrapper
+      }
+    );
+
+    let initialBalance: string = '0';
+    await waitFor(
+      () => {
+        expect(resultInitialBalance.current.data?.formatted).toBeDefined();
+        expect(Number(resultInitialBalance.current.data?.formatted)).toBeGreaterThanOrEqual(20);
+        initialBalance = resultInitialBalance.current.data?.formatted ?? '0';
+        return;
+      },
+      { timeout: 5000 }
+    );
+
+    // Refetch USDS allowance
+    const { result: resultAllowanceUsds } = renderHook(
+      () =>
+        useTokenAllowance({
+          chainId: TENDERLY_BASE_CHAIN_ID,
+          contractAddress: TOKENS.usds.address[TENDERLY_BASE_CHAIN_ID],
+          owner: TEST_WALLET_ADDRESS,
+          spender: psm3L2Address[TENDERLY_BASE_CHAIN_ID]
+        }),
+      {
+        wrapper: WagmiWrapper
+      }
+    );
+
+    resultAllowanceUsds.current.mutate();
+    await waitFor(
+      () => {
+        expect(resultAllowanceUsds.current.data).toEqual(0n);
+        return;
+      },
+      { timeout: 15000 }
+    );
+
+    // Supply
+    const { result: resultBatchSupply } = renderHook(
+      () =>
+        useBatchPsmSwapExactIn({
+          amountIn: parseEther('20'),
+          assetIn: TOKENS.usds.address[TENDERLY_BASE_CHAIN_ID],
+          assetOut: TOKENS.susds.address[TENDERLY_BASE_CHAIN_ID],
+          minAmountOut: 0n,
+          enabled: true,
+          gas: GAS
+        }),
+      {
+        wrapper: WagmiWrapper
+      }
+    );
+    await waitForPreparedExecuteAndMine(resultBatchSupply);
+
+    // Get the balance of tokens for that user
+    const { result: resultBalanceAfterSupply } = renderHook(
+      () =>
+        useTokenBalance({
+          address: TEST_WALLET_ADDRESS,
+          token: TOKENS.usds.address[TENDERLY_BASE_CHAIN_ID],
+          chainId: TENDERLY_BASE_CHAIN_ID
+        }),
+      {
+        wrapper: WagmiWrapper
+      }
+    );
+
+    // The user should have less tokens after supply
+    const expectedBalanceAfterSupply = (Number(initialBalance) - 20).toString();
+    await waitFor(
+      () => {
+        expect(resultBalanceAfterSupply.current.data?.formatted).toEqual(expectedBalanceAfterSupply);
+        return;
+      },
+      { timeout: 5000 }
+    );
+
+    // Refetch sUSDS allowance
+    const { result: resultAllowanceSusds } = renderHook(
+      () =>
+        useTokenAllowance({
+          chainId: TENDERLY_BASE_CHAIN_ID,
+          contractAddress: TOKENS.susds.address[TENDERLY_BASE_CHAIN_ID],
+          owner: TEST_WALLET_ADDRESS,
+          spender: psm3L2Address[TENDERLY_BASE_CHAIN_ID]
+        }),
+      {
+        wrapper: WagmiWrapper
+      }
+    );
+
+    resultAllowanceSusds.current.mutate();
+    await waitFor(
+      () => {
+        expect(resultAllowanceSusds.current.data).toBeLessThan(parseEther('5'));
+        return;
+      },
+      { timeout: 15000 }
+    );
+
+    // Withdraw
+    const { result: resultBatchWithdraw } = renderHook(
+      () =>
+        useBatchPsmSwapExactOut({
+          amountOut: parseEther('10'),
+          assetOut: TOKENS.usds.address[TENDERLY_BASE_CHAIN_ID],
+          assetIn: TOKENS.susds.address[TENDERLY_BASE_CHAIN_ID],
+          maxAmountIn: parseEther('10'),
+          enabled: true,
+          gas: GAS
+        }),
+      {
+        wrapper: WagmiWrapper
+      }
+    );
+    await waitForPreparedExecuteAndMine(resultBatchWithdraw);
+
+    // Get the balance of tokens for that user
+    const { result: resultBalanceAfterWithdraw } = renderHook(
+      () =>
+        useTokenBalance({
+          address: TEST_WALLET_ADDRESS,
+          token: TOKENS.usds.address[TENDERLY_BASE_CHAIN_ID],
+          chainId: TENDERLY_BASE_CHAIN_ID
+        }),
+      {
+        wrapper: WagmiWrapper
+      }
+    );
+
+    // The user should have more tokens after withdrawing
+    await waitFor(
+      () => {
+        expect(resultBalanceAfterWithdraw.current.data?.formatted).toEqual('185');
         return;
       },
       { timeout: 5000 }

@@ -45,7 +45,7 @@ import { TradeInputs } from './components/TradeInputs';
 import { getAllowedTargetTokens, getQuoteErrorForType, verifySlippage } from './lib/utils';
 import { defaultConfig } from '@widgets/config/default-config';
 import { useLingui } from '@lingui/react';
-import { TradeHeader } from './components/TradeHeader';
+import { TradeHeader, TradeSubHeader, TradePoweredBy, TradeWarning } from './components/TradeHeader';
 import { formatUnits, parseUnits } from 'viem';
 import { getValidatedState } from '@widgets/lib/utils';
 import { TradeSummary } from './components/TradeSummary';
@@ -1174,16 +1174,20 @@ function TradeWidgetWrapped({
     txStatus === TxStatus.ERROR ||
     (widgetState.action === TradeAction.TRADE && widgetState.screen === TradeScreen.REVIEW) ||
     (widgetState.action === TradeAction.APPROVE && widgetState.screen === TradeScreen.REVIEW) ||
-    (widgetState.action === TradeAction.TRADE && txStatus === TxStatus.SUCCESS) ||
+    // After a successful trade, show the back button, as long as target token is not ETH
+    (targetToken?.symbol !== 'ETH' &&
+      widgetState.action === TradeAction.TRADE &&
+      txStatus === TxStatus.SUCCESS) ||
     // After a successful approve transaction, show the back button
     (txStatus === TxStatus.SUCCESS &&
       widgetState.action === TradeAction.APPROVE &&
       widgetState.screen === TradeScreen.TRANSACTION);
 
   const showCancelOrderButton =
-    (txStatus === TxStatus.LOADING || txStatus === TxStatus.SUCCESS || txStatus === TxStatus.ERROR) &&
+    (txStatus === TxStatus.LOADING || txStatus === TxStatus.ERROR) &&
     widgetState.flow === TradeFlow.TRADE &&
     widgetState.action === TradeAction.TRADE &&
+    widgetState.screen === TradeScreen.TRANSACTION &&
     !originToken?.isNative;
 
   return (
@@ -1195,10 +1199,9 @@ function TradeWidgetWrapped({
           isEthFlow={originToken?.isNative}
           ttl={ttl}
           setTtl={setTtl}
-          onExternalLinkClicked={onExternalLinkClicked}
-          originToken={originToken}
         />
       }
+      subHeader={<TradeSubHeader />}
       rightHeader={rightHeaderComponent}
       footer={
         <WidgetButtons
@@ -1213,6 +1216,10 @@ function TradeWidgetWrapped({
         />
       }
     >
+      <div className="mt-[-16px] space-y-0">
+        <TradePoweredBy onExternalLinkClicked={onExternalLinkClicked} />
+        <TradeWarning originToken={originToken} />
+      </div>
       <AnimatePresence mode="popLayout" initial={false}>
         {widgetState.screen === TradeScreen.REVIEW && quoteData && originToken && targetToken ? (
           <CardAnimationWrapper key="widget-summary">
@@ -1265,6 +1272,7 @@ function TradeWidgetWrapped({
               onUserSwitchTokens={onUserSwitchTokens}
               tradeAnyway={tradeAnyway}
               setTradeAnyway={setTradeAnyway}
+              enableSearch={true}
               onOriginTokenChange={(token: TokenForChain) => {
                 onWidgetStateChange?.({
                   originToken: token.symbol,

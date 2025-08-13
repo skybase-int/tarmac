@@ -3,10 +3,8 @@ import { formatBigInt, formatNumber } from '@jetstreamgg/sky-utils';
 import { t } from '@lingui/core/macro';
 import { Text } from '@/modules/layout/components/Typography';
 import { StatsCard } from '@/modules/ui/components/StatsCard';
-import { PopoverInfo } from '@/modules/ui/components/PopoverInfo';
-import { useOverallSkyData } from '@jetstreamgg/sky-hooks';
+import { PopoverRateInfo as PopoverInfo } from '@jetstreamgg/sky-widgets';
 import { formatDecimalPercentage } from '@jetstreamgg/sky-utils';
-import { TOKENS } from '@jetstreamgg/sky-hooks';
 import { TokenIconWithBalance } from '@/modules/ui/components/TokenIconWithBalance';
 import { useSubgraphUrl } from '@/modules/app/hooks/useSubgraphUrl';
 
@@ -34,24 +32,25 @@ export function RewardsTokenInfo({ rewardContract }: { rewardContract: RewardCon
   const mostRecentReward = historicRewardsTokenData
     ?.slice()
     .sort((a, b) => b.blockTimestamp - a.blockTimestamp)[0];
-
-  const { data: skyData, isLoading: skyIsLoading, error: skyError } = useOverallSkyData();
+  const mostRecentRate = mostRecentReward?.rate;
 
   return (
     <div className="xl:scrollbar-thin flex w-full flex-wrap justify-between gap-3 overflow-auto xl:flex-nowrap">
       <StatsCard
         visible={
-          rewardContract.supplyToken.symbol === TOKENS.usds.symbol &&
-          rewardContract.rewardToken.symbol === TOKENS.sky.symbol &&
-          !!skyData?.usdsSkyCRate
+          !!rewardContract.supplyToken.symbol &&
+          !!rewardContract.rewardToken.symbol &&
+          !!mostRecentRate &&
+          !isNaN(parseFloat(mostRecentRate)) &&
+          parseFloat(mostRecentRate) > 0
         }
         title={t`Rate`}
-        isLoading={skyIsLoading}
-        error={skyError}
+        isLoading={historicRewardsTokenIsLoading}
+        error={historicRewardsTokenError}
         content={
           <div className="mt-2 flex flex-row items-center gap-2">
             <Text className="text-bullish" variant="large">
-              {formatDecimalPercentage(parseFloat(skyData?.usdsSkyCRate || '0'))}
+              {formatDecimalPercentage(parseFloat(mostRecentRate || '0'))}
             </Text>
             <PopoverInfo type="str" />
           </div>
@@ -73,7 +72,7 @@ export function RewardsTokenInfo({ rewardContract }: { rewardContract: RewardCon
         error={rewardContractInfoError}
         content={
           <Text className="mt-2" variant="large">
-            {mostRecentReward?.suppliers || ''}
+            {formatNumber(mostRecentReward?.suppliers || 0, { maxDecimals: 0 })}
           </Text>
         }
       />

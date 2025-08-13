@@ -15,13 +15,11 @@ import { StakeHistory } from './StakeHistory';
 import { StakeRewardsOverview } from './StakeRewardsOverview';
 import { StakeFaq } from './StakeFaq';
 import { StakeChart } from './StakeChart';
-import { PopoverInfo } from '@/modules/ui/components/PopoverInfo';
+import { PopoverRateInfo as PopoverInfo } from '@jetstreamgg/sky-widgets';
 import { useMemo } from 'react';
 import { StakeToken } from '../constants';
-import { useChainId } from 'wagmi';
 
 export function StakeOverview() {
-  const chainId = useChainId();
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
   const { data, isLoading, error } = useStakeHistoricData();
   const mostRecentData = data?.sort(
@@ -36,7 +34,7 @@ export function StakeOverview() {
   const tvl = mostRecentData?.tvl ?? 0;
   const numberOfUrns = mostRecentData?.numberOfUrns ?? 0;
 
-  const ilkName = getIlkName(chainId, 2);
+  const ilkName = getIlkName(2);
 
   const {
     data: collateralData,
@@ -121,7 +119,7 @@ export function StakeOverview() {
               title={t`Staking positions`}
               isLoading={isLoading}
               error={error}
-              content={<Text className="mt-2">{numberOfUrns}</Text>}
+              content={<Text className="mt-2">{formatNumber(numberOfUrns, { maxDecimals: 0 })}</Text>}
             />
           </HStack>
         </DetailSectionRow>

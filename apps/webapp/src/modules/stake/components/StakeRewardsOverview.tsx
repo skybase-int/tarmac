@@ -4,11 +4,10 @@ import { Heading, Text } from '@/modules/layout/components/Typography';
 import { VStack } from '@/modules/layout/components/VStack';
 import { LoadingErrorWrapper } from '@/modules/ui/components/LoadingErrorWrapper';
 import { LoadingStatCard } from '@/modules/ui/components/LoadingStatCard';
-import { PopoverInfo } from '@/modules/ui/components/PopoverInfo';
+import { PopoverRateInfo as PopoverInfo } from '@jetstreamgg/sky-widgets';
 import { StatsCard } from '@/modules/ui/components/StatsCard';
 import { TokenIcon } from '@/modules/ui/components/TokenIcon';
 import {
-  lsSkyUsdsRewardAddress,
   useRewardContractTokens,
   useRewardsChartInfo,
   useStakeHistoricData,
@@ -18,7 +17,6 @@ import { formatAddress, formatDecimalPercentage, formatNumber } from '@jetstream
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { useMemo } from 'react';
-import { useChainId } from 'wagmi';
 
 const StakeRewardsOverviewRow = ({ contractAddress }: { contractAddress: `0x${string}` }) => {
   const {
@@ -26,8 +24,6 @@ const StakeRewardsOverviewRow = ({ contractAddress }: { contractAddress: `0x${st
     isLoading: tokensLoading,
     error: tokensError
   } = useRewardContractTokens(contractAddress);
-
-  const chainId = useChainId();
 
   // const {
   //   data: rewardRate,
@@ -62,7 +58,7 @@ const StakeRewardsOverviewRow = ({ contractAddress }: { contractAddress: `0x${st
 
   // Fetch from this BA labs endpoint to get the rate
   const { data: rewardsChartInfoData } = useRewardsChartInfo({
-    rewardContractAddress: lsSkyUsdsRewardAddress[chainId as keyof typeof lsSkyUsdsRewardAddress]
+    rewardContractAddress: contractAddress
   });
 
   const mostRecentRewardsChartInfoData = useMemo(
@@ -123,7 +119,9 @@ const StakeRewardsOverviewRow = ({ contractAddress }: { contractAddress: `0x${st
         title={t`Suppliers`}
         isLoading={historicRewardsTokenIsLoading}
         error={historicRewardsTokenError}
-        content={<Text className="mt-2">{mostRecentReward?.suppliers || ''}</Text>}
+        content={
+          <Text className="mt-2">{formatNumber(mostRecentReward?.suppliers || 0, { maxDecimals: 0 })}</Text>
+        }
       />
     </HStack>
   );

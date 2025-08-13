@@ -11,6 +11,8 @@ import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 import { BalancesFaq } from './BalancesFaq';
 import { getSupportedChainIds } from '@/data/wagmi/config/config.default';
 import { useChainId } from 'wagmi';
+import { Intent } from '@/lib/enums';
+import { ConnectCard } from '@/modules/layout/components/ConnectCard';
 
 export function BalancesDetails() {
   const { bpi } = useBreakpointIndex();
@@ -21,12 +23,14 @@ export function BalancesDetails() {
 
   return (
     <DetailSectionWrapper>
-      {isConnectedAndAcceptedTerms && (
+      <DetailSectionRow>
+        <BalancesModuleShowcase />
+      </DetailSectionRow>
+      {!isConnectedAndAcceptedTerms && (
         <DetailSectionRow>
-          <BalancesModuleShowcase />
+          <ConnectCard intent={Intent.BALANCES_INTENT} className="mb-4" />
         </DetailSectionRow>
       )}
-      {/* only render this section on desktop */}
       {isConnectedAndAcceptedTerms && isDesktop && (
         <DetailSection title={t`Your funds`}>
           <DetailSectionRow>

@@ -8,12 +8,14 @@ import { useLingui } from '@lingui/react';
 import { Button } from '@/components/ui/button';
 import { VStack } from '@/modules/layout/components/VStack';
 import { RewardsRate, SavingsRate } from './HighlightRate';
-import { Logo } from './HighlightLogo';
+import { Logo, LogoName } from './HighlightLogo';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { LinkedActionSteps } from '@/modules/config/context/ConfigContext';
 import { Trans } from '@lingui/react/macro';
 import { formatNumber } from '@jetstreamgg/sky-utils';
 import { useEffect, useState } from 'react';
+import { useAvailableTokenRewardContracts } from '@jetstreamgg/sky-hooks';
+import { useChainId } from 'wagmi';
 
 const secondaryTagline = {
   [IntentMapping.SAVINGS_INTENT]: 'to get the Sky Savings Rate',
@@ -44,6 +46,15 @@ export const LinkedActionCard = ({
   const { linkedActionConfig, updateLinkedActionConfig } = useConfigContext();
   const navigate = useNavigate();
   const [isLastStep, setIsLastStep] = useState<boolean>();
+  const chainId = useChainId();
+  const rewardContracts = useAvailableTokenRewardContracts(chainId);
+
+  // Extract reward contract address
+  const urlObj = new URL(urlWithRetainedParams, window.location.origin);
+  const rewardContractAddress = urlObj.searchParams.get(QueryParams.Reward);
+  const selectedRewardContract = rewardContracts.find(
+    contract => contract.contractAddress?.toLowerCase() === rewardContractAddress?.toLowerCase()
+  );
 
   const handleClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     event.preventDefault();
@@ -59,7 +70,7 @@ export const LinkedActionCard = ({
 
   return (
     <Card variant="spotlight" className="relative w-full overflow-hidden xl:flex-1">
-      {<Logo logoName={isLastStep ? intent : la} />}
+      {<Logo logoName={(isLastStep ? intent : la) as LogoName} />}
       <CardContent className="relative z-10">
         <VStack className="space-between gap-4">
           <Heading>
@@ -71,7 +82,11 @@ export const LinkedActionCard = ({
               {secondaryTagline[la]}
             </Trans>
           </Heading>
-          {la === IntentMapping.REWARDS_INTENT ? <RewardsRate token={secondaryToken} /> : <SavingsRate />}
+          {la === IntentMapping.REWARDS_INTENT ? (
+            <RewardsRate token={secondaryToken} currentRewardContract={selectedRewardContract} />
+          ) : (
+            <SavingsRate />
+          )}
           <Link to={urlWithRetainedParams} onClick={handleClick}>
             <Button variant="light" className="w-fit px-5">
               {buttonText}
