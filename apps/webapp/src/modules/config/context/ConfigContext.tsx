@@ -90,7 +90,6 @@ export interface ConfigContextProps {
   selectedExpertOption: ExpertIntent | undefined;
   setSelectedExpertOption: (intent: ExpertIntent | undefined) => void;
   expertRiskDisclaimerShown: boolean;
-  setExpertRiskDisclaimerShown: (shown: boolean) => void;
 }
 
 // Zod schema for validating user settings
@@ -124,8 +123,7 @@ export const ConfigContext = createContext<ConfigContextProps>({
   onExternalLinkClicked: () => {},
   selectedExpertOption: undefined,
   setSelectedExpertOption: () => {},
-  expertRiskDisclaimerShown: false,
-  setExpertRiskDisclaimerShown: () => {}
+  expertRiskDisclaimerShown: false
 });
 
 export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElement => {
@@ -220,16 +218,6 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
     [setExternalLinkModalUrl, setExternalLinkModalOpened]
   );
 
-  const setExpertRiskDisclaimerShown = useCallback(
-    (shown: boolean) => {
-      updateUserConfig({
-        ...userConfig,
-        expertRiskDisclaimerShown: shown
-      });
-    },
-    [userConfig, updateUserConfig]
-  );
-
   return (
     <ConfigContext.Provider
       value={{
@@ -255,8 +243,7 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
         onExternalLinkClicked,
         selectedExpertOption,
         setSelectedExpertOption,
-        expertRiskDisclaimerShown: userConfig.expertRiskDisclaimerShown ?? false,
-        setExpertRiskDisclaimerShown
+        expertRiskDisclaimerShown: userConfig.expertRiskDisclaimerShown ?? false
       }}
     >
       {children}

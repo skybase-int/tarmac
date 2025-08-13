@@ -12,16 +12,16 @@ export function ExpertRiskDisclaimer() {
   const [expertRiskDisclaimerDismissed, setExpertRiskDisclaimerDismissed] = useState(
     window.localStorage.getItem(DISCLAIMER_DISMISSED_KEY) === 'true'
   );
-  console.log({ expertRiskDisclaimerDismissed });
-  const { setExpertRiskDisclaimerShown } = useConfigContext();
+
+  const { userConfig, updateUserConfig } = useConfigContext();
 
   useEffect(() => {
-    setExpertRiskDisclaimerShown(true);
+    updateUserConfig({ ...userConfig, expertRiskDisclaimerShown: true });
   }, []);
 
   const onDismissDisclaimer = () => {
     window.localStorage.setItem(DISCLAIMER_DISMISSED_KEY, 'true');
-    setExpertRiskDisclaimerShown(true);
+    updateUserConfig({ ...userConfig, expertRiskDisclaimerShown: true });
     setExpertRiskDisclaimerDismissed(true);
   };
 
