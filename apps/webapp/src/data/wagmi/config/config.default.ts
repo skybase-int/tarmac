@@ -6,7 +6,6 @@ import {
   rainbowWallet,
   walletConnectWallet,
   metaMaskWallet,
-  coinbaseWallet,
   binanceWallet
 } from '@rainbow-me/rainbowkit/wallets';
 import {
@@ -18,10 +17,12 @@ import {
   TENDERLY_ARBITRUM_CHAIN_ID
 } from './testTenderlyChain';
 import { isTestnetId } from '@jetstreamgg/sky-utils';
+import { baseAccount } from './baseAccount';
 
 export const tenderly = {
+  ...mainnet,
   id: TENDERLY_CHAIN_ID,
-  name: 'mainnet_2025_apr_15_0',
+  name: 'mainnet_yusds_2025_jul_13_0',
   network: 'tenderly',
   // This is used by RainbowKit to display a chain icon for small screens
   iconUrl: 'tokens/weth.svg',
@@ -40,6 +41,7 @@ export const tenderly = {
 };
 
 export const tenderlyBase = {
+  ...base,
   id: TENDERLY_BASE_CHAIN_ID,
   name: 'new-base-testnet-jan-27',
   network: 'tenderly base',
@@ -60,6 +62,7 @@ export const tenderlyBase = {
 };
 
 export const tenderlyArbitrum = {
+  ...arbitrum,
   id: TENDERLY_ARBITRUM_CHAIN_ID,
   name: 'arbitrum_fork_feb_7',
   network: 'tenderly arbitrum',
@@ -83,11 +86,12 @@ const connectors = connectorsForWallets(
   [
     {
       groupName: 'Suggested',
-      wallets: [metaMaskWallet, coinbaseWallet, walletConnectWallet, rainbowWallet, safeWallet, binanceWallet]
+      wallets: [metaMaskWallet, baseAccount, walletConnectWallet, rainbowWallet, safeWallet, binanceWallet]
     }
   ],
   {
     appName: 'sky.money',
+    appIcon: 'https://app.sky.money/images/sky.svg',
     projectId: import.meta.env.VITE_WALLETCONNECT_PROJECT_ID || 'd5c6af7c0680adbaad12f33744ee4413'
   }
 );

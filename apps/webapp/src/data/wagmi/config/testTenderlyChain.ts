@@ -1,15 +1,15 @@
 import { Chain, defineChain } from 'viem';
 import tenderlyTestnetData from '../../../../../../tenderlyTestnetData.json' with { type: 'json' };
-import { optimism, unichain } from 'viem/chains';
+import { arbitrum, base, mainnet, optimism, unichain } from 'viem/chains';
 import { NetworkName } from '../../../test/e2e/utils/constants';
 
 export const TENDERLY_CHAIN_ID = 314310;
 export const TENDERLY_BASE_CHAIN_ID = 8555;
 export const TENDERLY_ARBITRUM_CHAIN_ID = 42012;
 
-// only works if hardcoded, cannot be set via env variable. Corresponds to the public RPC of `mainnet_2025_apr_15_0`
+// only works if hardcoded, cannot be set via env variable. Corresponds to the public RPC of `mainnet_yusds_2025_jul_13_0`
 export const TENDERLY_RPC_URL =
-  'https://virtual.mainnet.rpc.tenderly.co/b0298788-ff98-44df-ad8a-c10b7d8e3199';
+  'https://virtual.mainnet.rpc.tenderly.co/e02716de-7d2b-400a-89f4-86c9a97033a7';
 
 // only works if hardcoded, cannot be set via env variable. Corresponds to the public RPC of `new-base-testnet-jan-27`
 export const TENDERLY_BASE_RPC_URL =
@@ -32,6 +32,7 @@ export const getTestTenderlyChains = () => {
 
   return [
     defineChain({
+      ...mainnet,
       id: TENDERLY_CHAIN_ID,
       name: 'Tenderly Mainnet',
       nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
@@ -40,6 +41,7 @@ export const getTestTenderlyChains = () => {
       }
     }),
     defineChain({
+      ...base,
       id: TENDERLY_BASE_CHAIN_ID,
       name: 'Tenderly Base',
       nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
@@ -48,6 +50,7 @@ export const getTestTenderlyChains = () => {
       }
     }),
     defineChain({
+      ...arbitrum,
       id: TENDERLY_ARBITRUM_CHAIN_ID,
       name: 'Tenderly Arbitrum',
       nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
@@ -55,19 +58,19 @@ export const getTestTenderlyChains = () => {
         default: { http: [arbitrumData.TENDERLY_RPC_URL || TENDERLY_ARBITRUM_RPC_URL] }
       }
     }),
-    {
+    defineChain({
       ...optimism,
       name: 'Tenderly Optimism',
       rpcUrls: {
         default: { http: [optimismData.TENDERLY_RPC_URL] }
       }
-    },
-    {
+    }),
+    defineChain({
       ...unichain,
       name: 'Tenderly Unichain',
       rpcUrls: {
         default: { http: [unichainData.TENDERLY_RPC_URL] }
       }
-    }
+    })
   ] as readonly Chain[];
 };

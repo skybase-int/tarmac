@@ -6,7 +6,7 @@ import {
   WidgetStateChangeParams,
   SavingsFlow
 } from '@jetstreamgg/sky-widgets';
-import { TOKENS, useSavingsHistory } from '@jetstreamgg/sky-hooks';
+import { useSavingsHistory } from '@jetstreamgg/sky-hooks';
 import { IntentMapping, QueryParams, REFRESH_DELAY } from '@/lib/constants';
 import { isL2ChainId } from '@jetstreamgg/sky-utils';
 import { SharedProps } from '@/modules/app/types/Widgets';
@@ -18,6 +18,7 @@ import { useSubgraphUrl } from '@/modules/app/hooks/useSubgraphUrl';
 import { useChainId } from 'wagmi';
 import { useChatContext } from '@/modules/chat/context/ChatContext';
 import { Intent } from '@/lib/enums';
+import { useBatchToggle } from '@/modules/ui/hooks/useBatchToggle';
 
 export function SavingsWidgetPane(sharedProps: SharedProps) {
   const subgraphUrl = useSubgraphUrl();
@@ -27,12 +28,9 @@ export function SavingsWidgetPane(sharedProps: SharedProps) {
   const chainId = useChainId();
   const { setShouldDisableActionButtons } = useChatContext();
 
+  const [batchEnabled, setBatchEnabled] = useBatchToggle();
+
   const isL2 = isL2ChainId(chainId);
-  const isRestrictedMiCa = import.meta.env.VITE_RESTRICTED_BUILD_MICA === 'true';
-
-  const disallowedTokens =
-    isRestrictedMiCa && isL2 ? { supply: [TOKENS.usdc], withdraw: [TOKENS.usdc] } : undefined;
-
   const flow = (searchParams.get(QueryParams.Flow) || undefined) as SavingsFlow | undefined;
 
   const onSavingsWidgetStateChange = ({
@@ -123,7 +121,8 @@ export function SavingsWidgetPane(sharedProps: SharedProps) {
         token: isL2 ? linkedActionConfig?.sourceToken : undefined,
         flow
       }}
-      disallowedTokens={disallowedTokens}
+      batchEnabled={batchEnabled}
+      setBatchEnabled={setBatchEnabled}
     />
   );
 }
