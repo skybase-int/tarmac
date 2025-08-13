@@ -220,15 +220,12 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
     [setExternalLinkModalUrl, setExternalLinkModalOpened]
   );
 
-  const setExpertRiskDisclaimerShown = useCallback(
-    (shown: boolean) => {
-      updateUserConfig({
-        ...userConfig,
-        expertRiskDisclaimerShown: shown
-      });
-    },
-    [userConfig, updateUserConfig]
-  );
+  const setExpertRiskDisclaimerShown = (shown: boolean) => {
+    updateUserConfig({
+      ...userConfig,
+      expertRiskDisclaimerShown: shown
+    });
+  };
 
   return (
     <ConfigContext.Provider
