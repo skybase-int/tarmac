@@ -3,7 +3,6 @@ import { Card } from '@/components/ui/card';
 import { Text } from '@/modules/layout/components/Typography';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { ExternalLink } from '@/modules/layout/components/ExternalLink';
-import { useEffect } from 'react';
 import { useState } from 'react';
 
 const DISCLAIMER_DISMISSED_KEY = 'expert-risk-disclaimer-dismissed';
@@ -13,14 +12,13 @@ export function ExpertRiskDisclaimer() {
     window.localStorage.getItem(DISCLAIMER_DISMISSED_KEY) === 'true'
   );
 
-  const { setExpertRiskDisclaimerShown, loaded } = useConfigContext();
+  const { setExpertRiskDisclaimerShown, expertRiskDisclaimerShown } = useConfigContext();
 
-  useEffect(() => {
-    // Only call this when the context is fully loaded to avoid race conditions
-    if (loaded) {
-      setExpertRiskDisclaimerShown(true);
-    }
-  }, [loaded]);
+  // Set the disclaimer as shown during render if not already set
+  // This avoids race conditions with useEffect
+  if (!expertRiskDisclaimerShown) {
+    setExpertRiskDisclaimerShown(true);
+  }
 
   const onDismissDisclaimer = () => {
     window.localStorage.setItem(DISCLAIMER_DISMISSED_KEY, 'true');
