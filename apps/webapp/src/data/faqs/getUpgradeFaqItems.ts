@@ -119,10 +119,13 @@ SKY holders participate directly in Sky Ecosystem Governance by supplying SKY to
 
 SKY holders can use their tokens to entrust their voting power to one or more delegates via the Sky Governance Voting portal or the Staking Engine of the Sky Protocol. Sky Ecosystem Governance delegates are chosen and approved by governance vote. Creating a new delegate account can only be done via the Sky Governance Voting Portal.
 
-Delegates in receipt of token voting power can never directly access any SKY tokens delegated to them. Throughout the delegation process, users always own and are in control of their SKY tokens, and can change their delegate(s) at any time (subject to the Sky Protocol's rules that prevent double voting or misuse of delegated voting power).
-
-**Does the MKR to SKY upgrade affect DAI and USDS?**  
-No. DAI and USDS are not affected by the MKR to SKY upgrade. Eligible users of the Sky.money web app can continue to upgrade any amount of DAI to USDS (and revert USDS to DAI) at any time without a fee. Please note, however, that blockchain fees for using the Ethereum network apply when upgrading. Blockchain transaction fees are neither controlled, imposed nor received by Sky.money or the Sky Protocol.`,
+Delegates in receipt of token voting power can never directly access any SKY tokens delegated to them. Throughout the delegation process, users always own and are in control of their SKY tokens, and can change their delegate(s) at any time (subject to the Sky Protocol's rules that prevent double voting or misuse of delegated voting power).`,
+      index: 12
+    },
+    {
+      question: 'Does the MKR to SKY upgrade affect DAI and USDS?',
+      answer:
+        'No. DAI and USDS are not affected by the MKR to SKY upgrade. Eligible users of the Sky.money web app can continue to upgrade any amount of DAI to USDS (and revert USDS to DAI) at any time without a fee. Please note, however, that blockchain fees for using the Ethereum network apply when upgrading. Blockchain transaction fees are neither controlled, imposed nor received by Sky.money or the Sky Protocol.',
       index: 12
     },
     {
