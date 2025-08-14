@@ -1,19 +1,23 @@
-import { Skeleton } from '@widgets/components/ui/skeleton';
+import { StatsOverviewCardCore } from '@widgets/shared/components/ui/card/StatsOverviewCardCore';
 import { MotionHStack } from '@widgets/shared/components/ui/layout/MotionHStack';
 import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
 import { Text } from '@widgets/shared/components/ui/Typography';
-import { StatsOverviewCardCore } from '@widgets/shared/components/ui/card/StatsOverviewCardCore';
-import { positionAnimations } from '@widgets/shared/animation/presets';
-import { JSX } from 'react';
-import { useStUsdsData } from '@jetstreamgg/sky-hooks';
-import { formatYsrAsApy } from '@jetstreamgg/sky-utils';
+import { Skeleton } from '@widgets/components/ui/skeleton';
 import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
+import { positionAnimations } from '@widgets/shared/animation/presets';
+import { formatYsrAsApy } from '@jetstreamgg/sky-utils';
+import { useStUsdsData } from '@jetstreamgg/sky-hooks';
+import { JSX } from 'react';
 
-export const StUSDSStatsCardCore = ({ content, isLoading }: { content: JSX.Element; isLoading: boolean }) => {
-  const { data: stUsdsData, isLoading: stUsdsLoading } = useStUsdsData();
-
+export const StUSDSStatsCardCore = ({
+  content,
+  onExternalLinkClicked
+}: {
+  content: JSX.Element;
+  onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+}) => {
+  const { data: stUsdsData, isLoading: isStUsdsDataLoading } = useStUsdsData();
   const moduleRate = stUsdsData?.moduleRate || 0n;
-  const formattedRate = moduleRate > 0n ? formatYsrAsApy(moduleRate) : '0.00%';
 
   return (
     <StatsOverviewCardCore
@@ -25,18 +29,14 @@ export const StUSDSStatsCardCore = ({ content, isLoading }: { content: JSX.Eleme
       }
       headerRightContent={
         <MotionHStack className="items-center" gap={2} variants={positionAnimations}>
-          {isLoading || stUsdsLoading ? (
-            <Skeleton className="bg-textSecondary h-5 w-16" />
+          {isStUsdsDataLoading ? (
+            <Skeleton className="bg-textSecondary h-5 w-12" />
           ) : (
-            <>
-              <Text className="text-primary">
-                <Text tag="span" className="text-bullish ml-1">
-                  {formattedRate}
-                </Text>
-              </Text>
-              <PopoverRateInfo type={'stusds'} />
-            </>
+            <Text className="text-bullish">
+              {moduleRate > 0n ? `Rate: ${formatYsrAsApy(moduleRate)}` : 'Rate: --'}
+            </Text>
           )}
+          <PopoverRateInfo type="stusds" onExternalLinkClicked={onExternalLinkClicked} />
         </MotionHStack>
       }
       content={content}

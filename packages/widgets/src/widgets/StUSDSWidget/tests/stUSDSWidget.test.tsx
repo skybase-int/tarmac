@@ -78,18 +78,11 @@ describe('StUSDS widget tests', () => {
     expect(balanceLabel).toBeTruthy();
   });
 
-  it('displays TVL information', async () => {
+  it('displays withdrawal liquidity information', async () => {
     renderWithWagmiWrapper(<StUSDSWidget onConnect={() => true} />);
 
-    const tvlLabel = await screen.findByText('TVL');
-    expect(tvlLabel).toBeTruthy();
-  });
-
-  it('displays utilization information', async () => {
-    renderWithWagmiWrapper(<StUSDSWidget onConnect={() => true} />);
-
-    const utilizationLabel = await screen.findByText('Utilization');
-    expect(utilizationLabel).toBeTruthy();
+    const withdrawalLiquidityLabel = await screen.findByText('Withdrawal liquidity');
+    expect(withdrawalLiquidityLabel).toBeTruthy();
   });
 
   it('handles external state for supply flow', async () => {

@@ -5,6 +5,8 @@ import { usdsAddress, stUsdsAddress, stUsdsAbi } from '../generated';
 import { TRUST_LEVELS, TrustLevelEnum } from '../constants';
 import { DataSource, ReadHook } from '../hooks';
 import { getEtherscanLink, isTestnetId } from '@jetstreamgg/sky-utils';
+import { useCollateralData } from '../vaults/useCollateralData';
+import { getIlkName } from '../vaults/helpers';
 
 export type StUsdsHookData = {
   totalAssets: bigint;
@@ -33,6 +35,14 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
   const acct = address || connectedAddress;
 
   const stUsdsContractAddress = stUsdsAddress[chainId as keyof typeof stUsdsAddress];
+
+  // Get staking engine collateral data for debt calculation
+  const stakingEngineIlk = getIlkName(2); // Staking engine is collateral type 2
+  const {
+    data: stakingEngineData,
+    isLoading: isLoadingStakingEngine,
+    mutate: refetchStakingEngine
+  } = useCollateralData(stakingEngineIlk);
 
   // Batch all contract reads into a single multicall
   const {
@@ -136,17 +146,6 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     enabled: !!acct
   });
 
-  // Get vault's USDS balance (available liquidity)
-  const {
-    data: vaultUsdsBalance,
-    isLoading: vaultUsdsLoading,
-    refetch: mutateVaultUsdsBalance
-  } = useTokenBalance({
-    address: stUsdsContractAddress,
-    chainId: chainId,
-    token: usdsAddress[chainId as keyof typeof usdsAddress]
-  });
-
   const assetPerShare = useMemo(() => {
     if (!totalAssets || !totalSupply || totalSupply === 0n) return 0n;
     return (totalAssets * 10n ** 18n) / totalSupply;
@@ -168,7 +167,14 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     return userStUsdsBalance;
   }, [userConvertedAssets, userStUsdsBalance, totalAssets, totalSupply]);
 
-  const isLoading = isContractLoading || (!!acct && userUsdsLoading) || vaultUsdsLoading;
+  // Calculate available liquidity as totalAssets - staking engine total debt
+  const availableLiquidity = useMemo(() => {
+    const stakingEngineDebt = stakingEngineData?.totalDaiDebt || 0n;
+    const assets = totalAssets || 0n;
+    return assets > stakingEngineDebt ? assets - stakingEngineDebt : 0n;
+  }, [totalAssets, stakingEngineData?.totalDaiDebt]);
+
+  const isLoading = isContractLoading || (!!acct && userUsdsLoading) || isLoadingStakingEngine;
 
   const data: StUsdsHookData | undefined = useMemo(() => {
     if (!contractData) return undefined;
@@ -177,7 +183,7 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
       totalAssets: totalAssets || 0n,
       totalSupply: totalSupply || 0n,
       assetPerShare,
-      availableLiquidity: vaultUsdsBalance?.value || 0n,
+      availableLiquidity,
       userStUsdsBalance: userStUsdsBalance || 0n,
       userUsdsBalance: userUsdsBalance?.value || 0n,
       userSuppliedUsds,
@@ -193,7 +199,7 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     totalAssets,
     totalSupply,
     assetPerShare,
-    vaultUsdsBalance,
+    availableLiquidity,
     userStUsdsBalance,
     userUsdsBalance,
     userSuppliedUsds,
@@ -222,7 +228,7 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
       mutateContractData();
       mutateConvertToAssets();
       mutateUserUsdsBalance();
-      mutateVaultUsdsBalance();
+      refetchStakingEngine();
     },
     dataSources
   };
