@@ -154,6 +154,9 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
 
   const Widget = isL2 ? L2TradeWidget : TradeWidget;
 
+  const shouldLockTokens =
+    linkedActionConfig.showLinkedAction && linkedActionConfig.sourceToken && linkedActionConfig.targetToken;
+
   return (
     <Widget
       key={externalWidgetState.timestamp}
@@ -176,6 +179,7 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
       )}
       batchEnabled={batchEnabled}
       setBatchEnabled={setBatchEnabled}
+      tokensLocked={shouldLockTokens}
     />
   );
 }
