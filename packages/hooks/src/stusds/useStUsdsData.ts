@@ -142,7 +142,8 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
   } = useTokenBalance({
     address: acct,
     chainId: chainId,
-    token: usdsAddress[chainId as keyof typeof usdsAddress]
+    token: usdsAddress[chainId as keyof typeof usdsAddress],
+    enabled: !!acct
   });
 
   const assetPerShare = useMemo(() => {
@@ -173,7 +174,7 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     return assets > stakingEngineDebt ? assets - stakingEngineDebt : 0n;
   }, [totalAssets, stakingEngineData?.totalDaiDebt]);
 
-  const isLoading = isContractLoading || userUsdsLoading || isLoadingStakingEngine;
+  const isLoading = isContractLoading || (!!acct && userUsdsLoading) || isLoadingStakingEngine;
 
   const data: StUsdsHookData | undefined = useMemo(() => {
     if (!contractData) return undefined;
