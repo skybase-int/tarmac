@@ -36,7 +36,7 @@ export function MainApp() {
     updateLinkedActionConfig,
     setSelectedRewardContract,
     setSelectedExpertOption,
-    expertRiskAcknowledged
+    expertRiskDisclaimerShown
   } = useConfigContext();
   const { isAuthorized } = useConnectedContext();
 
@@ -137,7 +137,7 @@ export function MainApp() {
           newChainId,
           chains,
           setSelectedExpertOption,
-          expertRiskAcknowledged
+          expertRiskDisclaimerShown
         );
         // Runs second validation for linked-action-specific criteria
         const validatedLinkedActionParams = validateLinkedActionSearchParams(validatedParams);
@@ -151,7 +151,7 @@ export function MainApp() {
     setSelectedRewardContract,
     widgetParam,
     setSelectedExpertOption,
-    expertRiskAcknowledged
+    expertRiskDisclaimerShown
   ]);
 
   useEffect(() => {

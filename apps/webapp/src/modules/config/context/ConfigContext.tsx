@@ -58,7 +58,7 @@ const defaultUserConfig: UserConfig = {
   sealToken: SealToken.MKR,
   stakeToken: StakeToken.SKY,
   batchEnabled: false, // Default to false to show activation prompt
-  expertRiskAcknowledged: false
+  expertRiskDisclaimerShown: false
 };
 
 const defaultLinkedActionConfig = {
@@ -89,8 +89,8 @@ export interface ConfigContextProps {
   onExternalLinkClicked: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   selectedExpertOption: ExpertIntent | undefined;
   setSelectedExpertOption: (intent: ExpertIntent | undefined) => void;
-  expertRiskAcknowledged: boolean;
-  setExpertRiskAcknowledged: (acknowledged: boolean) => void;
+  expertRiskDisclaimerShown: boolean;
+  setExpertRiskDisclaimerShown: (shown: boolean) => void;
 }
 
 // Zod schema for validating user settings
@@ -124,8 +124,8 @@ export const ConfigContext = createContext<ConfigContextProps>({
   onExternalLinkClicked: () => {},
   selectedExpertOption: undefined,
   setSelectedExpertOption: () => {},
-  expertRiskAcknowledged: false,
-  setExpertRiskAcknowledged: () => {}
+  expertRiskDisclaimerShown: false,
+  setExpertRiskDisclaimerShown: () => {}
 });
 
 export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElement => {
@@ -158,7 +158,7 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
         batchEnabled:
           // If the feature flag is enabled, but the local storage item is not set, default to enabled
           import.meta.env.VITE_BATCH_TX_ENABLED === 'true' ? (parsed.batchEnabled ?? true) : undefined,
-        expertRiskAcknowledged: parsed.expertRiskAcknowledged ?? false
+        expertRiskDisclaimerShown: parsed.expertRiskDisclaimerShown ?? false
       });
     } catch (e) {
       console.log('Error parsing user settings', e);
@@ -220,15 +220,12 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
     [setExternalLinkModalUrl, setExternalLinkModalOpened]
   );
 
-  const setExpertRiskAcknowledged = useCallback(
-    (acknowledged: boolean) => {
-      updateUserConfig({
-        ...userConfig,
-        expertRiskAcknowledged: acknowledged
-      });
-    },
-    [userConfig, updateUserConfig]
-  );
+  const setExpertRiskDisclaimerShown = (shown: boolean) => {
+    updateUserConfig({
+      ...userConfig,
+      expertRiskDisclaimerShown: shown
+    });
+  };
 
   return (
     <ConfigContext.Provider
@@ -255,8 +252,8 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
         onExternalLinkClicked,
         selectedExpertOption,
         setSelectedExpertOption,
-        expertRiskAcknowledged: userConfig.expertRiskAcknowledged ?? false,
-        setExpertRiskAcknowledged
+        expertRiskDisclaimerShown: userConfig.expertRiskDisclaimerShown ?? false,
+        setExpertRiskDisclaimerShown
       }}
     >
       {children}

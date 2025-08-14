@@ -23,7 +23,7 @@ export const validateSearchParams = (
   chainId: number,
   chains: readonly [Chain, ...Chain[]],
   setSelectedExpertOption: (expertOption: ExpertIntent | undefined) => void,
-  expertRiskAcknowledged: boolean
+  expertRiskDisclaimerShown: boolean
 ) => {
   const chainInUrl = chains.find(c => normalizeUrlParam(c.name) === searchParams.get(QueryParams.Network));
   const isL2Chain = isL2ChainId(chainInUrl?.id || chainId);
@@ -97,7 +97,7 @@ export const validateSearchParams = (
       const intent = Object.entries(ExpertIntentMapping).find(
         ([, intentValue]) => intentValue === value
       )?.[0] as ExpertIntent | undefined;
-      if (!intent || !expertRiskAcknowledged) {
+      if (!intent || !expertRiskDisclaimerShown) {
         searchParams.delete(key);
       } else {
         setSelectedExpertOption(intent);
