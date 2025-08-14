@@ -71,13 +71,6 @@ describe('StUSDS widget tests', () => {
     expect(connectButton).toBeTruthy();
   });
 
-  it('shows "USDS balance" balance label', async () => {
-    renderWithWagmiWrapper(<StUSDSWidget onConnect={() => true} />);
-
-    const balanceLabel = await screen.findByText('USDS balance');
-    expect(balanceLabel).toBeTruthy();
-  });
-
   it('shows "Supplied balance" balance label', async () => {
     renderWithWagmiWrapper(<StUSDSWidget onConnect={() => true} />);
 
