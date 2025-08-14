@@ -18,7 +18,7 @@ test.describe('Expert Module - stUSDS', () => {
     await page.getByRole('button', { name: 'Back to Expert' }).click();
 
     // Should be back at Expert menu
-    await expect(page.getByRole('heading', { name: 'Expert', exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Expert Modules', exact: true })).toBeVisible();
     await expect(page.getByTestId('stusds-stats-card')).toBeVisible();
   });
 
