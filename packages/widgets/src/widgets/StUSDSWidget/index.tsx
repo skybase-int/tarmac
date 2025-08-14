@@ -7,7 +7,8 @@ import {
   useStUsdsDeposit,
   useStUsdsWithdraw,
   useStUsdsCapacityData,
-  useIsBatchSupported
+  useIsBatchSupported,
+  useBatchStUsdsDeposit
 } from '@jetstreamgg/sky-hooks';
 import { getTransactionLink, useDebounce, formatBigInt, useIsSafeWallet } from '@jetstreamgg/sky-utils';
 import { useContext, useEffect, useMemo, useState } from 'react';
@@ -185,7 +186,7 @@ const StUSDSWidgetWrapped = ({
     enabled: widgetState.action === StUSDSAction.APPROVE && allowance !== undefined
   });
 
-  const savingsSupplyParams = {
+  const stUsdsDepositParams = {
     amount: debouncedAmount,
     onStart: (hash?: string) => {
       if (hash) {
@@ -231,12 +232,17 @@ const StUSDSWidgetWrapped = ({
   };
 
   const stUsdsDeposit = useStUsdsDeposit({
-    ...savingsSupplyParams,
+    ...stUsdsDepositParams,
     enabled: widgetState.action === StUSDSAction.SUPPLY && allowance !== undefined
   });
 
   // TODO: Implement batch support later
-  const batchSavingsSupply = { prepared: false, isLoading: false, execute: () => {} };
+  const batchStUsdsDeposit = useBatchStUsdsDeposit({
+    ...stUsdsDepositParams,
+    enabled:
+      (widgetState.action === StUSDSAction.SUPPLY || widgetState.action === StUSDSAction.APPROVE) &&
+      allowance !== undefined
+  });
 
   const stUsdsWithdraw = useStUsdsWithdraw({
     amount: debouncedAmount,
@@ -276,10 +282,8 @@ const StUSDSWidgetWrapped = ({
   });
 
   const needsAllowance = !!(!allowance || allowance < debouncedAmount);
-  // Temporarily disable batch operations until useStUsdsBatchDeposit is implemented
-  const shouldUseBatch = false;
-  // const shouldUseBatch =
-  //   !!batchEnabled && !!batchSupported && needsAllowance && widgetState.flow === StUSDSFlow.SUPPLY;
+  const shouldUseBatch =
+    !!batchEnabled && !!batchSupported && needsAllowance && widgetState.flow === StUSDSFlow.SUPPLY;
 
   useEffect(() => {
     //Initialize the supply flow only when we are connected
@@ -308,7 +312,7 @@ const StUSDSWidgetWrapped = ({
     }
   }, [tabIndex, isConnectedAndEnabled]);
 
-  // If we're in the supply flow, need allowance and  batch transactions are not supported, set the action to approve,
+  // If we're in the supply flow, need allowance and batch transactions are not supported, set the action to approve
   useEffect(() => {
     if (
       widgetState.flow === StUSDSFlow.SUPPLY &&
@@ -372,8 +376,8 @@ const StUSDSWidgetWrapped = ({
   const batchSupplyDisabled =
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
     isSupplyBalanceError ||
-    !batchSavingsSupply.prepared ||
-    batchSavingsSupply.isLoading ||
+    !batchStUsdsDeposit.prepared ||
+    batchStUsdsDeposit.isLoading ||
     isAmountWaitingForDebounce ||
     // If the user has allowance, don't send a batch transaction as it's only 1 contract call
     !needsAllowance ||
@@ -413,7 +417,7 @@ const StUSDSWidgetWrapped = ({
     setWidgetState((prev: WidgetState) => ({ ...prev, screen: StUSDSScreen.TRANSACTION }));
     setTxStatus(TxStatus.INITIALIZED);
     setExternalLink(undefined);
-    batchSavingsSupply.execute();
+    batchStUsdsDeposit.execute();
   };
 
   const withdrawOnClick = () => {
