@@ -1,4 +1,5 @@
-import { IntentMapping, ExpertIntentMapping, QueryParams } from '@/lib/constants';
+import { IntentMapping, ExpertIntentMapping, QueryParams, CHAIN_WIDGET_MAP } from '@/lib/constants';
+import { Intent } from '@/lib/enums';
 import {
   useTokens,
   useTokenBalances,
@@ -461,17 +462,29 @@ const fetchUserSuggestedActions = (
       ? [IntentMapping.TRADE_INTENT]
       : [];
 
-  // if restricted build, remove restricted actions
-  const restrictedSuggestedActions = suggestedActions.filter(
-    action => !restrictedIntents.includes(action.intent)
-  );
-  const restrictedLinkedActions = linkedActions.filter(
-    action => !restrictedIntents.includes(action.intent) && !restrictedIntents.includes(action.la)
-  );
+  const supportedIntents = CHAIN_WIDGET_MAP[chainId] || [];
+
+  const isIntentSupported = (intentString: string): boolean => {
+    const intentEnum = Object.entries(IntentMapping).find(([, value]) => value === intentString)?.[0] as
+      | Intent
+      | undefined;
+    if (!intentEnum) return false;
+    return supportedIntents.includes(intentEnum);
+  };
+
+  const filteredSuggestedActions = suggestedActions.filter(action => {
+    if (restrictedIntents.includes(action.intent)) return false;
+    return isIntentSupported(action.intent);
+  });
+
+  const filteredLinkedActions = linkedActions.filter(action => {
+    if (restrictedIntents.includes(action.intent) || restrictedIntents.includes(action.la)) return false;
+    return isIntentSupported(action.intent) && isIntentSupported(action.la);
+  });
 
   return {
-    suggestedActions: restrictedSuggestedActions,
-    linkedActions: restrictedLinkedActions
+    suggestedActions: filteredSuggestedActions,
+    linkedActions: filteredLinkedActions
   };
 };
 
