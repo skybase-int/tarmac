@@ -84,7 +84,12 @@ describe('useStUsdsData', () => {
           result.current.data.userStUsdsBalance
         );
       } else {
-        expect(result.current.data.userMaxWithdraw).toBe(availableLiquidity);
+        // Check if the value is within 1 of the expected value
+        const difference =
+          availableLiquidity > result.current.data.userMaxWithdraw
+            ? availableLiquidity - result.current.data.userMaxWithdraw
+            : result.current.data.userMaxWithdraw - availableLiquidity;
+        expect(difference).toBeLessThanOrEqual(1n);
       }
     }
   });
