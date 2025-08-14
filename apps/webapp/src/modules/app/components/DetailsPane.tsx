@@ -17,6 +17,7 @@ import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
 import { StakeDetailsPane } from '@/modules/stake/components/StakeDetailsPane';
 import { ExpertDetailsPane } from '@/modules/expert/components/ExpertDetailsPane';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
+import { SealDetailsPane } from '@/modules/seal/components/SealDetailsPane';
 
 type DetailsPaneProps = {
   intent: Intent;
@@ -123,10 +124,16 @@ export const DetailsPane = ({ intent }: DetailsPaneProps) => {
                     </MotionDetailsWrapper>
                   );
               }
+            case Intent.SEAL_INTENT:
+              return (
+                <MotionDetailsWrapper key={keys[7]}>
+                  <SealDetailsPane />
+                </MotionDetailsWrapper>
+              );
             case Intent.BALANCES_INTENT:
             default:
               return (
-                <MotionDetailsWrapper key={keys[7]}>
+                <MotionDetailsWrapper key={keys[8]}>
                   <BalancesDetails />
                 </MotionDetailsWrapper>
               );
