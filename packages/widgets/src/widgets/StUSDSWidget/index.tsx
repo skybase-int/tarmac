@@ -236,7 +236,6 @@ const StUSDSWidgetWrapped = ({
     enabled: widgetState.action === StUSDSAction.SUPPLY && allowance !== undefined
   });
 
-  // TODO: Implement batch support later
   const batchStUsdsDeposit = useBatchStUsdsDeposit({
     ...stUsdsDepositParams,
     enabled:
