@@ -7,6 +7,7 @@ import { DataSource, ReadHook } from '../hooks';
 import { getEtherscanLink, isTestnetId } from '@jetstreamgg/sky-utils';
 import { useCollateralData } from '../vaults/useCollateralData';
 import { getIlkName } from '../vaults/helpers';
+import { calculateLiquidityBuffer } from './helpers';
 
 export type StUsdsHookData = {
   totalAssets: bigint;
@@ -18,6 +19,7 @@ export type StUsdsHookData = {
   userSuppliedUsds: bigint;
   userMaxDeposit: bigint;
   userMaxWithdraw: bigint;
+  userMaxWithdrawBuffered: bigint;
   moduleRate: bigint;
   chi: bigint;
   cap: bigint;
@@ -174,6 +176,20 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     return assets > stakingEngineDebt ? assets - stakingEngineDebt : 0n;
   }, [totalAssets, stakingEngineData?.totalDaiDebt]);
 
+  // Calculate liquidity buffer for max withdrawal (accounts for both yield and stability fee accrual)
+  const liquidityBuffer = useMemo(() => {
+    if (!totalAssets || !ysr) return 0n;
+    const stakingEngineDebt = stakingEngineData?.totalDaiDebt || 0n;
+    const stabilityFeeRate = stakingEngineData?.stabilityFee || 0n;
+    return calculateLiquidityBuffer(totalAssets, ysr, stakingEngineDebt, stabilityFeeRate, 30); // 5 minute buffer
+  }, [totalAssets, ysr, stakingEngineData?.totalDaiDebt, stakingEngineData?.stabilityFee]);
+
+  const userMaxWithdrawBuffered = useMemo(() => {
+    if (!userMaxWithdraw) return 0n;
+    // Ensure we don't go negative
+    return userMaxWithdraw > liquidityBuffer ? userMaxWithdraw - liquidityBuffer : userMaxWithdraw;
+  }, [userMaxWithdraw, liquidityBuffer]);
+
   const isLoading = isContractLoading || (!!acct && userUsdsLoading) || isLoadingStakingEngine;
 
   const data: StUsdsHookData | undefined = useMemo(() => {
@@ -189,6 +205,7 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
       userSuppliedUsds,
       userMaxDeposit: userMaxDeposit || 0n,
       userMaxWithdraw: userMaxWithdraw || 0n,
+      userMaxWithdrawBuffered,
       moduleRate: ysr || 0n,
       chi: chi || 0n,
       cap: cap || 0n,
@@ -205,6 +222,7 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     userSuppliedUsds,
     userMaxDeposit,
     userMaxWithdraw,
+    userMaxWithdrawBuffered,
     ysr,
     chi,
     cap,
