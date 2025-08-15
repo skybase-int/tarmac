@@ -1,26 +1,18 @@
 /**
- * Calculate the total liquidity buffer to account for both yield accrual
- * and stability fee accrual on staking engine debt
- * @param currentTotalAssets - Current total assets in the vault
- * @param ysr - Yield savings rate from the contract
- * @param stakingEngineDebt - Current staking engine debt
- * @param stabilityFeeRate - Stability fee rate for the staking engine
- * @param bufferMinutes - Time buffer in minutes (default 30)
- * @returns The total buffer amount to subtract from max withdrawal
+ * Calculate how much the stusds available liquidity will decrease over the next bufferMinutes
+ * by accounting for both yield accrual and stability fee accrual on staking engine debt
  */
 export function calculateLiquidityBuffer(
-  currentTotalAssets: bigint, // scaled by 1e18, wei
+  currentTotalAssets: bigint, // scaled by 1e18
   ysr: bigint, // scaled by 1e27, 1 + per second rate
-  stakingEngineDebt: bigint, // scaled by 1e18, wei
-  stabilityFeeRate: bigint, // scaled by 1e27, annual rate
-  bufferMinutes: number = 30 //30 minutes
+  stakingEngineDebt: bigint, // scaled by 1e18
+  stakingDuty: bigint, // scaled by 1e27, 1 + per second rate
+  bufferMinutes: number = 15 //15 minutes
 ): bigint {
   if (bufferMinutes <= 0) {
     return 0n;
   }
-
   const secondsInBuffer = BigInt(bufferMinutes * 60);
-  const yearlySeconds = 365n * 24n * 60n * 60n;
   const BASE_RATE = 10n ** 27n;
 
   // Calculate yield accrual on total assets
@@ -29,20 +21,19 @@ export function calculateLiquidityBuffer(
     // ysr is (1 + per_second_rate), so subtract 1 to get actual rate
     const actualYieldRate = ysr - BASE_RATE;
     // Apply rate for buffer period: assets * rate * time
-    yieldAccrual = (currentTotalAssets * actualYieldRate * secondsInBuffer) / BASE_RATE;
+    // Doesn't account for compounding, but is close enough for short time periods
+    yieldAccrual = (currentTotalAssets * actualYieldRate * secondsInBuffer) / BASE_RATE; //scaled by 1e18
   }
 
   // Calculate debt accrual on staking engine debt
   let debtAccrual = 0n;
-  if (stakingEngineDebt > 0n && stabilityFeeRate > 0n) {
-    // Convert annual rate to buffer period: debt * annual_rate * (buffer_time / year_time)
-    debtAccrual =
-      (stakingEngineDebt * stabilityFeeRate * secondsInBuffer * 10n ** 9n) / (yearlySeconds * BASE_RATE);
+  if (stakingEngineDebt > 0n && stakingDuty > 0n) {
+    //duty is 1 + per_second_rate, so subtract 1 to get actual rate
+    const actualDuty = stakingDuty - BASE_RATE;
+    // Apply rate for buffer period: debt * per_second_rate * time
+    // Doesn't account for compounding, but is close enough for short time periods
+    debtAccrual = (stakingEngineDebt * actualDuty * secondsInBuffer) / BASE_RATE; //scaled by 1e18
   }
-
-  console.log('yieldAccrual', yieldAccrual);
-  console.log('debtAccrual', debtAccrual);
-  console.log('debtAccrual - yieldAccrual / 10^18', (debtAccrual - yieldAccrual) / 10n ** 18n);
 
   // Return net buffer (debt growth minus yield growth)
   return debtAccrual > yieldAccrual ? debtAccrual - yieldAccrual : 0n;

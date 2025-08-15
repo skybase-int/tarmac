@@ -42,6 +42,7 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
   const stakingEngineIlk = getIlkName(2); // Staking engine is collateral type 2
   const {
     data: stakingEngineData,
+    raw: stakingEngineRaw,
     isLoading: isLoadingStakingEngine,
     mutate: refetchStakingEngine
   } = useCollateralData(stakingEngineIlk);
@@ -180,9 +181,9 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
   const liquidityBuffer = useMemo(() => {
     if (!totalAssets || !ysr) return 0n;
     const stakingEngineDebt = stakingEngineData?.totalDaiDebt || 0n;
-    const stabilityFeeRate = stakingEngineData?.stabilityFee || 0n;
-    return calculateLiquidityBuffer(totalAssets, ysr, stakingEngineDebt, stabilityFeeRate, 30); // 5 minute buffer
-  }, [totalAssets, ysr, stakingEngineData?.totalDaiDebt, stakingEngineData?.stabilityFee]);
+    const stakingDuty = stakingEngineRaw?.duty?.value || 0n;
+    return calculateLiquidityBuffer(totalAssets, ysr, stakingEngineDebt, stakingDuty);
+  }, [totalAssets, ysr, stakingEngineData?.totalDaiDebt, stakingEngineRaw?.duty]);
 
   const userMaxWithdrawBuffered = useMemo(() => {
     if (!userMaxWithdraw) return 0n;
