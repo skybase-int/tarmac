@@ -14,6 +14,7 @@ export type StUsdsHookData = {
   totalSupply: bigint;
   assetPerShare: bigint;
   availableLiquidity: bigint;
+  availableLiquidityBuffered: bigint;
   userStUsdsBalance: bigint;
   userUsdsBalance: bigint;
   userSuppliedUsds: bigint;
@@ -191,6 +192,13 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     return userMaxWithdraw > liquidityBuffer ? userMaxWithdraw - liquidityBuffer : userMaxWithdraw;
   }, [userMaxWithdraw, liquidityBuffer]);
 
+  // Calculate buffered available liquidity for the protocol
+  const availableLiquidityBuffered = useMemo(() => {
+    if (!availableLiquidity) return 0n;
+    // Ensure we don't go negative
+    return availableLiquidity > liquidityBuffer ? availableLiquidity - liquidityBuffer : 0n;
+  }, [availableLiquidity, liquidityBuffer]);
+
   const isLoading = isContractLoading || (!!acct && userUsdsLoading) || isLoadingStakingEngine;
 
   const data: StUsdsHookData | undefined = useMemo(() => {
@@ -201,6 +209,7 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
       totalSupply: totalSupply || 0n,
       assetPerShare,
       availableLiquidity,
+      availableLiquidityBuffered,
       userStUsdsBalance: userStUsdsBalance || 0n,
       userUsdsBalance: userUsdsBalance?.value || 0n,
       userSuppliedUsds,
@@ -218,6 +227,7 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     totalSupply,
     assetPerShare,
     availableLiquidity,
+    availableLiquidityBuffered,
     userStUsdsBalance,
     userUsdsBalance,
     userSuppliedUsds,

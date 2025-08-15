@@ -7,7 +7,33 @@ export function calculateLiquidityBuffer(
   ysr: bigint, // scaled by 1e27, 1 + per second rate
   stakingEngineDebt: bigint, // scaled by 1e18
   stakingDuty: bigint, // scaled by 1e27, 1 + per second rate
+  bufferMinutes: number = 30 //30 minutes
+): bigint {
+  const yieldAccrual = calculateYieldAccrual(currentTotalAssets, ysr, bufferMinutes);
+
+  const debtAccrual = calculateDebtAccrual(stakingEngineDebt, stakingDuty, bufferMinutes);
+
+  // Return net buffer (debt growth minus yield growth)
+  return debtAccrual > yieldAccrual ? debtAccrual - yieldAccrual : 0n;
+}
+
+/**
+ * Calculate how much the stusds available capacity will decrease over the next bufferMinutes
+ * by accounting for yield accrual on total assets
+ */
+export function calculateCapacityBuffer(
+  currentTotalAssets: bigint, // scaled by 1e18
+  ysr: bigint, // scaled by 1e27, 1 + per second rate
   bufferMinutes: number = 15 //15 minutes
+): bigint {
+  return calculateYieldAccrual(currentTotalAssets, ysr, bufferMinutes);
+}
+
+//helper function to calculate yield accrual on total assets
+function calculateYieldAccrual(
+  currentTotalAssets: bigint, // scaled by 1e18
+  ysr: bigint, // scaled by 1e27, 1 + per second rate
+  bufferMinutes: number = 30 //30 minutes
 ): bigint {
   if (bufferMinutes <= 0) {
     return 0n;
@@ -25,6 +51,21 @@ export function calculateLiquidityBuffer(
     yieldAccrual = (currentTotalAssets * actualYieldRate * secondsInBuffer) / BASE_RATE; //scaled by 1e18
   }
 
+  return yieldAccrual;
+}
+
+//helper function to calculate debt accrual on staking engine debt
+function calculateDebtAccrual(
+  stakingEngineDebt: bigint, // scaled by 1e18
+  stakingDuty: bigint, // scaled by 1e27, 1 + per second rate
+  bufferMinutes: number = 30 //30 minutes
+): bigint {
+  if (bufferMinutes <= 0) {
+    return 0n;
+  }
+  const secondsInBuffer = BigInt(bufferMinutes * 60);
+  const BASE_RATE = 10n ** 27n;
+
   // Calculate debt accrual on staking engine debt
   let debtAccrual = 0n;
   if (stakingEngineDebt > 0n && stakingDuty > 0n) {
@@ -35,6 +76,5 @@ export function calculateLiquidityBuffer(
     debtAccrual = (stakingEngineDebt * actualDuty * secondsInBuffer) / BASE_RATE; //scaled by 1e18
   }
 
-  // Return net buffer (debt growth minus yield growth)
-  return debtAccrual > yieldAccrual ? debtAccrual - yieldAccrual : 0n;
+  return debtAccrual;
 }

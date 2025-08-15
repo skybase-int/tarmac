@@ -348,8 +348,8 @@ const StUSDSWidgetWrapped = ({
     txStatus === TxStatus.IDLE &&
     address &&
     amount !== 0n && //don't wait for debouncing on default state
-    stUsdsData?.userMaxWithdraw !== undefined &&
-    debouncedAmount > stUsdsData.userMaxWithdraw
+    stUsdsData?.userMaxWithdrawBuffered !== undefined &&
+    debouncedAmount > stUsdsData.userMaxWithdrawBuffered
       ? true
       : false;
 
@@ -740,7 +740,7 @@ const StUSDSWidgetWrapped = ({
               withdrawableBalance={stUsdsData?.userMaxWithdrawBuffered}
               maxDeposit={stUsdsData?.userMaxDeposit}
               totalAssets={stUsdsData?.totalAssets}
-              availableLiquidity={stUsdsData?.availableLiquidity}
+              availableLiquidity={stUsdsData?.availableLiquidityBuffered}
               moduleRate={stUsdsData?.moduleRate}
               isStUsdsDataLoading={isStUsdsDataLoading}
               remainingCapacity={remainingCapacity}
