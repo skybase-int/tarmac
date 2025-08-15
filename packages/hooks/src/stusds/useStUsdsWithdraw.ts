@@ -60,9 +60,9 @@ export function useStUsdsWithdraw({
   const enabled =
     isConnected &&
     !!stUsdsData &&
-    !!stUsdsData?.userMaxWithdraw &&
-    stUsdsData.userMaxWithdraw > 0n &&
-    stUsdsData.userMaxWithdraw >= withdrawAmount &&
+    !!stUsdsData?.userMaxWithdrawBuffered &&
+    stUsdsData.userMaxWithdrawBuffered > 0n &&
+    stUsdsData.userMaxWithdrawBuffered >= withdrawAmount &&
     withdrawAmount > 0n &&
     activeTabEnabled &&
     !!connectedAddress;
