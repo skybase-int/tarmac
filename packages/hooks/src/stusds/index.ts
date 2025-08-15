@@ -4,6 +4,7 @@ export type { StUsdsHookData, StUsdsHook } from './useStUsdsData';
 
 // Write Operation Hooks
 export { useStUsdsDeposit } from './useStUsdsDeposit';
+export { useBatchStUsdsDeposit } from './useBatchStUsdsDeposit';
 export { useStUsdsWithdraw } from './useStUsdsWithdraw';
 
 // Permission Management Hooks

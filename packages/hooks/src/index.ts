@@ -22,6 +22,7 @@ export { useBatchSavingsSupply } from './savings/useBatchSavingsSupply';
 export {
   useStUsdsData,
   useStUsdsDeposit,
+  useBatchStUsdsDeposit,
   useStUsdsWithdraw,
   useStUsdsAllowance,
   useStUsdsApprove,
