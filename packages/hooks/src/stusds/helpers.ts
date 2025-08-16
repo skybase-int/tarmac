@@ -24,7 +24,7 @@ export function calculateLiquidityBuffer(
 export function calculateCapacityBuffer(
   currentTotalAssets: bigint, // scaled by 1e18
   ysr: bigint, // scaled by 1e27, 1 + per second rate
-  bufferMinutes: number = 15 //15 minutes
+  bufferMinutes: number = 30 //30 minutes
 ): bigint {
   return calculateYieldAccrual(currentTotalAssets, ysr, bufferMinutes);
 }
