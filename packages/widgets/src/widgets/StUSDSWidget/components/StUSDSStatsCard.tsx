@@ -13,7 +13,7 @@ import { useChainId } from 'wagmi';
 export type StUSDSStats = {
   totalAssets: bigint;
   userUsdsBalance: bigint;
-  availableLiquidity?: bigint;
+  availableLiquidityBuffered?: bigint;
 };
 
 type StUSDSStatsProps = {
@@ -33,8 +33,7 @@ export const StUSDSStatsCard = ({
   const chainId = isTestnetId(connectedChainId) ? 314310 : 1; // StUsds is only on mainnet / mainnet testnet
   const stUsdsContractAddress = stUsdsAddress[chainId as keyof typeof stUsdsAddress];
 
-  // Use the buffered available liquidity from stats
-  const availableLiquidity = stats.availableLiquidity || 0n;
+  const availableLiquidityBuffered = stats.availableLiquidityBuffered || 0n;
 
   const accordionContent = (
     <HStack className="mt-5 justify-between" gap={2}>
@@ -68,7 +67,7 @@ export const StUSDSStatsCard = ({
           </div>
         ) : (
           <Text dataTestId="withdrawal-liquidity">
-            {formatBigInt(availableLiquidity, { compact: true })} USDS
+            {formatBigInt(availableLiquidityBuffered, { compact: true })} USDS
           </Text>
         )}
       </MotionVStack>

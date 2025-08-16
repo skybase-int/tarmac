@@ -669,7 +669,7 @@ const StUSDSWidgetWrapped = ({
     mutateAllowance();
   }, [chainId]);
 
-  const remainingCapacity = capacityData?.remainingCapacityBuffered || 0n;
+  const remainingCapacityBuffered = capacityData?.remainingCapacityBuffered || 0n;
 
   return (
     <WidgetContainer
@@ -735,12 +735,11 @@ const StUSDSWidgetWrapped = ({
               nstBalance={stUsdsData?.userUsdsBalance}
               userUsdsBalance={stUsdsData?.userSuppliedUsds}
               withdrawableBalance={stUsdsData?.userMaxWithdrawBuffered}
-              maxDeposit={stUsdsData?.userMaxDeposit}
               totalAssets={stUsdsData?.totalAssets}
-              availableLiquidity={stUsdsData?.availableLiquidityBuffered}
+              availableLiquidityBuffered={stUsdsData?.availableLiquidityBuffered}
               moduleRate={stUsdsData?.moduleRate}
               isStUsdsDataLoading={isStUsdsDataLoading}
-              remainingCapacity={remainingCapacity}
+              remainingCapacityBuffered={remainingCapacityBuffered}
               onChange={(newValue: bigint, userTriggered?: boolean) => {
                 setAmount(newValue);
                 if (userTriggered) {

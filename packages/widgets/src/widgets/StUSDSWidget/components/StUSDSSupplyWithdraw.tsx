@@ -22,7 +22,7 @@ type StUSDSSupplyWithdrawProps = {
   userUsdsBalance?: bigint;
   withdrawableBalance?: bigint; // User's withdrawable USDS balance (for withdraw functionality)
   totalAssets?: bigint;
-  availableLiquidity?: bigint; // Available USDS in vault for withdrawals
+  availableLiquidityBuffered?: bigint; // Available USDS in vault for withdrawals
   moduleRate?: bigint; // Current module rate
   isStUsdsDataLoading: boolean;
   onChange: (val: bigint, userTriggered?: boolean) => void;
@@ -33,7 +33,7 @@ type StUSDSSupplyWithdrawProps = {
   tabIndex: 0 | 1;
   enabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-  remainingCapacity?: bigint;
+  remainingCapacityBuffered?: bigint;
 };
 
 export const StUSDSSupplyWithdraw = ({
@@ -42,7 +42,7 @@ export const StUSDSSupplyWithdraw = ({
   userUsdsBalance,
   withdrawableBalance,
   totalAssets,
-  availableLiquidity,
+  availableLiquidityBuffered,
   moduleRate,
   isStUsdsDataLoading,
   onChange,
@@ -53,7 +53,7 @@ export const StUSDSSupplyWithdraw = ({
   tabIndex,
   enabled = true,
   onExternalLinkClicked,
-  remainingCapacity
+  remainingCapacityBuffered
 }: StUSDSSupplyWithdrawProps) => {
   const inputToken = TOKENS.usds;
   const chainId = useChainId();
@@ -70,7 +70,7 @@ export const StUSDSSupplyWithdraw = ({
     }
 
     // Check if exceeds remaining capacity
-    if (remainingCapacity !== undefined && amount > remainingCapacity) {
+    if (remainingCapacityBuffered !== undefined && amount > remainingCapacityBuffered) {
       return t`Exceeds remaining capacity.`;
     }
 
@@ -102,16 +102,16 @@ export const StUSDSSupplyWithdraw = ({
 
   // Check if user's balance exceeds available capacity/liquidity
   const userBalanceExceedsCapacity =
-    remainingCapacity !== undefined &&
+    remainingCapacityBuffered !== undefined &&
     nstBalance !== undefined &&
-    remainingCapacity > 0n &&
-    nstBalance > remainingCapacity;
+    remainingCapacityBuffered > 0n &&
+    nstBalance > remainingCapacityBuffered;
 
   const userSuppliedExceedsLiquidity =
-    availableLiquidity !== undefined &&
+    availableLiquidityBuffered !== undefined &&
     userUsdsBalance !== undefined &&
-    availableLiquidity > 0n &&
-    userUsdsBalance > availableLiquidity;
+    availableLiquidityBuffered > 0n &&
+    userUsdsBalance > availableLiquidityBuffered;
 
   const { widgetState } = useContext(WidgetContext);
   const { isConnected } = useAccount();
@@ -158,7 +158,7 @@ export const StUSDSSupplyWithdraw = ({
             stats={{
               totalAssets: totalAssets || 0n,
               userUsdsBalance: userUsdsBalance || 0n,
-              availableLiquidity: availableLiquidity
+              availableLiquidityBuffered: availableLiquidityBuffered
             }}
             isConnectedAndEnabled={isConnectedAndEnabled}
             onExternalLinkClicked={onExternalLinkClicked}
@@ -173,10 +173,10 @@ export const StUSDSSupplyWithdraw = ({
               token={inputToken}
               tokenList={[inputToken]}
               balance={
-                address && nstBalance !== undefined && remainingCapacity !== undefined
-                  ? nstBalance < remainingCapacity
+                address && nstBalance !== undefined && remainingCapacityBuffered !== undefined
+                  ? nstBalance < remainingCapacityBuffered
                     ? nstBalance
-                    : remainingCapacity
+                    : remainingCapacityBuffered
                   : undefined
               }
               onChange={(newValue, event) => {
@@ -187,9 +187,9 @@ export const StUSDSSupplyWithdraw = ({
               error={getSupplyErrorMessage()}
               showPercentageButtons={isConnectedAndEnabled}
               enabled={isConnectedAndEnabled}
-              disabled={remainingCapacity === 0n}
+              disabled={remainingCapacityBuffered === 0n}
             />
-            {!isStUsdsDataLoading && remainingCapacity === 0n ? (
+            {!isStUsdsDataLoading && remainingCapacityBuffered === 0n ? (
               <div className="ml-3 mt-2 flex items-start text-amber-400">
                 <PopoverRateInfo type="stusds" iconClassName="mt-1 shrink-0" />
                 <Text variant="small" className="ml-2 flex gap-2">
@@ -226,9 +226,9 @@ export const StUSDSSupplyWithdraw = ({
               dataTestId="withdraw-input-stusds"
               showPercentageButtons={isConnectedAndEnabled}
               enabled={isConnectedAndEnabled}
-              disabled={availableLiquidity === 0n}
+              disabled={availableLiquidityBuffered === 0n}
             />
-            {!isStUsdsDataLoading && availableLiquidity === 0n ? (
+            {!isStUsdsDataLoading && availableLiquidityBuffered === 0n ? (
               <div className="ml-3 mt-2 flex items-start text-amber-400">
                 <PopoverRateInfo type="stusds" iconClassName="mt-1 shrink-0" />
                 <Text variant="small" className="ml-2 flex gap-2">

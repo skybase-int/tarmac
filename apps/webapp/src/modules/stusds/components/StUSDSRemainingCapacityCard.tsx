@@ -9,8 +9,7 @@ export function StUSDSRemainingCapacityCard() {
   const { i18n } = useLingui();
   const { data: capacityData, isLoading: isLoadingCapacity } = useStUsdsCapacityData();
 
-  // Use buffered remaining capacity from the hook
-  const remainingCapacity = capacityData?.remainingCapacityBuffered || 0n;
+  const remainingCapacityBuffered = capacityData?.remainingCapacityBuffered || 0n;
 
   return (
     <StatsCard
@@ -19,7 +18,7 @@ export function StUSDSRemainingCapacityCard() {
       title={i18n._(msg`Remaining capacity`)}
       content={
         <Text variant="large" className="mt-2">
-          {formatBigInt(remainingCapacity, { unit: 18 })} USDS
+          {formatBigInt(remainingCapacityBuffered, { unit: 18 })} USDS
         </Text>
       }
     />
