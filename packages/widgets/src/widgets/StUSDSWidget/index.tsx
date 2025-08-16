@@ -338,12 +338,14 @@ const StUSDSWidgetWrapped = ({
     setShowStepIndicator(widgetState.flow === StUSDSFlow.SUPPLY);
   }, [widgetState.flow]);
 
+  const remainingCapacityBuffered = capacityData?.remainingCapacityBuffered || 0n;
+
   const isSupplyBalanceError =
     txStatus === TxStatus.IDLE &&
     address &&
     amount !== 0n && //don't wait for debouncing on default state
     ((stUsdsData?.userUsdsBalance !== undefined && debouncedAmount > stUsdsData.userUsdsBalance) ||
-      (stUsdsData?.userMaxDeposit !== undefined && debouncedAmount > stUsdsData.userMaxDeposit))
+      (remainingCapacityBuffered !== undefined && debouncedAmount > remainingCapacityBuffered))
       ? true
       : false;
 
@@ -671,8 +673,6 @@ const StUSDSWidgetWrapped = ({
     mutateStUsds();
     mutateAllowance();
   }, [chainId]);
-
-  const remainingCapacityBuffered = capacityData?.remainingCapacityBuffered || 0n;
 
   return (
     <WidgetContainer

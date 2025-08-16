@@ -171,14 +171,12 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     return userStUsdsBalance;
   }, [userConvertedAssets, userStUsdsBalance, totalAssets, totalSupply]);
 
-  // Calculate available liquidity as totalAssets - staking engine total debt
   const availableLiquidity = useMemo(() => {
     const stakingEngineDebt = stakingEngineData?.totalDaiDebt || 0n;
     const assets = totalAssets || 0n;
     return assets > stakingEngineDebt ? assets - stakingEngineDebt : 0n;
   }, [totalAssets, stakingEngineData?.totalDaiDebt]);
 
-  // Calculate liquidity buffer for max withdrawal (accounts for both yield and stability fee accrual)
   const liquidityBuffer = useMemo(() => {
     if (!totalAssets || !ysr) return 0n;
     const stakingEngineDebt = stakingEngineData?.totalDaiDebt || 0n;
@@ -193,19 +191,15 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
       availableLiquidity > liquidityBuffer ? availableLiquidity - liquidityBuffer : 0n;
 
     // Only apply buffer if protocol liquidity is the limiting factor
-    // If user's balance is smaller than buffered liquidity, buffer doesn't matter
     if (userMaxWithdraw <= bufferedLiquidity) {
-      return userMaxWithdraw; // User balance is the limit, no buffer needed
+      return userMaxWithdraw;
     }
 
-    // Buffered protocol liquidity is the limit
     return bufferedLiquidity;
   }, [userMaxWithdraw, availableLiquidity, liquidityBuffer]);
 
-  // Calculate buffered available liquidity for the protocol
   const availableLiquidityBuffered = useMemo(() => {
     if (!availableLiquidity) return 0n;
-    // Ensure we don't go negative
     return availableLiquidity > liquidityBuffer ? availableLiquidity - liquidityBuffer : 0n;
   }, [availableLiquidity, liquidityBuffer]);
 
