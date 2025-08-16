@@ -14,8 +14,6 @@ export type StUSDSStats = {
   totalAssets: bigint;
   userUsdsBalance: bigint;
   availableLiquidity?: bigint;
-  maxWithdraw?: bigint;
-  maxDeposit?: bigint;
 };
 
 type StUSDSStatsProps = {

@@ -13,7 +13,6 @@ import { useAccount, useChainId } from 'wagmi';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
-import { formatUnits } from 'viem';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
 
@@ -22,7 +21,6 @@ type StUSDSSupplyWithdrawProps = {
   nstBalance?: bigint;
   userUsdsBalance?: bigint;
   withdrawableBalance?: bigint; // User's withdrawable USDS balance (for withdraw functionality)
-  maxDeposit?: bigint; // Max USDS user can deposit
   totalAssets?: bigint;
   availableLiquidity?: bigint; // Available USDS in vault for withdrawals
   moduleRate?: bigint; // Current module rate
@@ -43,7 +41,6 @@ export const StUSDSSupplyWithdraw = ({
   nstBalance,
   userUsdsBalance,
   withdrawableBalance,
-  maxDeposit,
   totalAssets,
   availableLiquidity,
   moduleRate,
@@ -72,12 +69,9 @@ export const StUSDSSupplyWithdraw = ({
       })} ${inputToken?.symbol}.`;
     }
 
-    // Check if exceeds max deposit
-    if (maxDeposit !== undefined && amount > maxDeposit) {
-      return t`Exceeds max deposit. Maximum allowed is ${formatUnits(
-        maxDeposit,
-        inputToken ? getTokenDecimals(inputToken, chainId) : 18
-      )} ${inputToken?.symbol}.`;
+    // Check if exceeds remaining capacity
+    if (remainingCapacity !== undefined && amount > remainingCapacity) {
+      return t`Exceeds remaining capacity.`;
     }
 
     return t`Insufficient funds`;
@@ -164,9 +158,7 @@ export const StUSDSSupplyWithdraw = ({
             stats={{
               totalAssets: totalAssets || 0n,
               userUsdsBalance: userUsdsBalance || 0n,
-              availableLiquidity: availableLiquidity,
-              maxWithdraw: withdrawableBalance,
-              maxDeposit: maxDeposit
+              availableLiquidity: availableLiquidity
             }}
             isConnectedAndEnabled={isConnectedAndEnabled}
             onExternalLinkClicked={onExternalLinkClicked}
@@ -181,12 +173,10 @@ export const StUSDSSupplyWithdraw = ({
               token={inputToken}
               tokenList={[inputToken]}
               balance={
-                address
-                  ? nstBalance && maxDeposit
-                    ? nstBalance < maxDeposit
-                      ? nstBalance
-                      : maxDeposit
-                    : nstBalance
+                address && nstBalance !== undefined && remainingCapacity !== undefined
+                  ? nstBalance < remainingCapacity
+                    ? nstBalance
+                    : remainingCapacity
                   : undefined
               }
               onChange={(newValue, event) => {
