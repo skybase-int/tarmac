@@ -4,7 +4,8 @@ export interface Banner {
   description: string;
   display?: string[];
 }
-export const banners = [
+
+export const banners: Banner[] = [
   {
     id: 'about-balances',
     title: 'About Balances',
@@ -112,7 +113,6 @@ export const banners = [
   }
 ];
 
-// Helper function to get banner by ID
 export function getBannerById(id: string): Banner | undefined {
-  return banners.find(b => b.id === id);
+  return banners.find(banner => banner.id === id);
 }
