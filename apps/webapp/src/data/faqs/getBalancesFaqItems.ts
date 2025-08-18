@@ -58,7 +58,7 @@ Some onchain actions might require multiple wallet signatures to authorize them.
     index: 2
   },
   {
-    question: 'Whitelist USDS in digital non-custodial wallet',
+    question: 'How can I whitelist USDS in digital non-custodial wallet?',
     answer: `Your non-custodial wallet provider of choice might not always display all of the digital assets that you hold on blockchains. Metamask, for example, does not automatically integrate all tokens into its user interface in an effort to help protect its users from fake-token scams. What this means is that newly acquired tokens might not show up in the integrated asset list of your chosen wallet provider until you whitelist the contract addresses of those tokens. Notably, such tokens will still be visible if you are viewing the blockchain directly (i.e., outside the interface provided by your chosen wallet provider).
 
 Whitelisting a token address communicates to the wallet that the address is approved, adding an extra layer of security to all transactions involving that token. This process does not impact the token's availability on the blockchain, but ensures that it is visible and accessible within the wallet interface. Accordingly, a user of the decentralized Sky.money web app might choose to manually whitelist Sky Protocol native token addresses, including USDS and SKY. Metamask offers a one-click option to do so immediately after you've obtained tokens through trading or upgrading on the Sky.money web app.
