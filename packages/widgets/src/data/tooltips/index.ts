@@ -106,6 +106,60 @@ Bundled transaction: Active`
     title: 'Legal Notice',
     tooltip:
       "Please note that all security checks, user confirmations, and error handling are managed by your chosen wallet's delegate contract. As outlined in our Terms of Use, your use of a non-custodial digital wallet—including wallets supporting EIP-7702 and smart account functionality—is governed by the terms of service of your third-party wallet provider. We do not control or take responsibility for the security, functionality, or behavior of third-party wallets, including their handling of bundled transactions or delegate contracts. To ensure a secure and transparent experience, please ensure you are using a trusted and up-to-date wallet before proceeding."
+  },
+  {
+    id: 'gas-fee',
+    title: 'Gas fee',
+    tooltip:
+      'Every time you engage in transactions with your assets (e.g., buy, sell, trade or transfer them) on the Sky Protocol you may pay a transaction fee— called a gas fee—for using the Ethereum blockchain network. That fee is not controlled, imposed or received by Sky.money or the Sky Protocol; it is calculated based on current network demand and the amount of gas required to process your transaction.'
+  },
+  {
+    id: 'exchange-rate',
+    title: 'Exchange Rate',
+    tooltip:
+      'Exchange rate refers to the price of one cryptocurrency relative to another cryptocurrency or fiat currency at any given moment. Cryptocurrency exchange rates may be subject to price volatility and may fluctuate based on various factors. The final amount you will receive is estimated, based on your chosen slippage tolerance level.'
+  },
+  {
+    id: 'psm',
+    title: 'PSM',
+    tooltip:
+      'Peg Stability Modules (PSMs) are smart contracts that allow users to convert certain stablecoins directly with the Sky Protocol for USDS or DAI at a fixed rate and with relatively low fees. They are designed to maintain the stability of USDS and DAI. Unlike decentralized exchange (DEX) transactions, PSM operations do not involve trading between users. Instead, they are direct, non-custodial conversions (generate and burn) executed with the decentralized smart contracts of the Sky Protocol.'
+  },
+  {
+    id: 'slippage',
+    title: 'Slippage',
+    tooltip: 'This reflects your slippage tolerance level.'
+  },
+  {
+    id: 'slippage-tolerancee',
+    title: 'Slippage Tolerancee',
+    tooltip:
+      'By setting your slippage tolerance level, you control the degree of token price fluctuation that you will accept between the time you initiate a trade transaction and its execution on the blockchain. If the actual slippage is greater than your chosen tolerance level, the transaction will fail and be reverted. Note that reverted transactions may still incur gas fees.'
+  },
+  {
+    id: 'rate',
+    title: 'Rate',
+    tooltip:
+      'The Sky Savings Rate is variable, determined by decentralized, onchain Sky Ecosystem Governance, and configured on the Ethereum blockchain. Sky Ecosystem Governance is able to adapt the SSR and other relevant parameters at any time at its discretion and without notice, based on market conditions, protocol surplus and other factors. The rate shown here is an estimate of the Sky Savings Rate representing the expected compounded rate per annum. It should be automatically updated every 5 minutes, and is powered by data provided by a third party ([Block Analitica](https://blockanalitica.com/)). This figure does not promise or guarantee future results.'
+  },
+  {
+    id: 'rewards-info-lock',
+    title: 'Rewards Info [Lock]',
+    tooltip:
+      'Wallet connection required. To access detailed Sky Token Rewards information, please connect your wallet.'
+  },
+  {
+    id: 'rewards-rate',
+    title: 'Rewards Rate',
+    tooltip: `The Sky Token Rewards Rate is different for each type of token rewarded, and always fluctuates, determined by the following factors:
+
+- The issuance rate of the token rewarded, which is determined by Sky Ecosystem Governance;
+
+- The market price of the token rewarded; and
+
+- The user's proportional supply within the total pool of assets linked to the Sky Token Rewards module.
+
+Sky.money does not control the issuance, determination, or distribution of these rewards. The Sky Token Rewards Rate is variable and may fluctuate. It is determined by: (1) the current issuance rate of the reward token set through onchain governance processes, (2) the token's current market price, and (3) each user's proportional percentage of the total supply in the pool automatically accruing rewards. The STR rate provided is an estimated annual rate, updated every 5 minutes using data from a third party provider (Block Analitica,). This estimate is for informational purposes only and does not guarantee future results.`
   }
 ];
 
