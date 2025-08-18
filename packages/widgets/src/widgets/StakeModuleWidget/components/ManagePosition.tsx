@@ -20,7 +20,8 @@ export const ManagePosition = ({
   allowanceToken,
   batchEnabled,
   setBatchEnabled,
-  isBatchTransaction
+  isBatchTransaction,
+  legalBatchTxUrl
 }: {
   isConnectedAndEnabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
@@ -37,6 +38,7 @@ export const ManagePosition = ({
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
   isBatchTransaction: boolean;
+  legalBatchTxUrl?: string;
 }) => {
   return currentAction === StakeAction.OVERVIEW ? (
     <UrnsList claimPrepared={claimPrepared} claimExecute={claimExecute} onStakeUrnChange={onStakeUrnChange} />
@@ -53,6 +55,7 @@ export const ManagePosition = ({
       batchEnabled={batchEnabled}
       setBatchEnabled={setBatchEnabled}
       isBatchTransaction={isBatchTransaction}
+      legalBatchTxUrl={legalBatchTxUrl}
     />
   );
 };

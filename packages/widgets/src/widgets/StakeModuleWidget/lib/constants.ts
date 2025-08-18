@@ -76,8 +76,8 @@ export function getStakeTitle(
   }
 }
 
-export const stakeOpenReviewTitle = msg`Begin the open position process`;
-export const stakeManageReviewTitle = msg`Begin the change position process`;
+export const stakeOpenReviewTitle = msg`Open your position`;
+export const stakeManageReviewTitle = msg`Change your position`;
 
 export function getStakeOpenReviewSubtitle({
   batchStatus,
@@ -94,9 +94,9 @@ export function getStakeOpenReviewSubtitle({
 
   switch (batchStatus) {
     case BatchStatus.ENABLED:
-      return msg`You're allowing this app to access the ${symbol} in your wallet and open a new Staking Rewards Engine position in one bundled transaction.`;
+      return msg`You're allowing this app to access your ${symbol} and open a new position in one bundled transaction.`;
     case BatchStatus.DISABLED:
-      return msg`You're allowing this app to access the ${symbol} in your wallet and open a new Staking Rewards Engine position in multiple transactions.`;
+      return msg`You're allowing this app to access your ${symbol} and open a new position in multiple transactions.`;
     default:
       return msg``;
   }
@@ -117,9 +117,9 @@ export function getStakeManageReviewSubtitle({
 
   switch (batchStatus) {
     case BatchStatus.ENABLED:
-      return msg`You're allowing this app to access the ${symbol} in your wallet and change your Staking Rewards Engine position in one bundled transaction.`;
+      return msg`You're allowing this app to access your ${symbol} and change your position in one bundled transaction.`;
     case BatchStatus.DISABLED:
-      return msg`You're allowing this app to access the ${symbol} in your wallet and change your Staking Rewards Engine position in multiple transactions.`;
+      return msg`You're allowing this app to access your ${symbol} and change your position in multiple transactions.`;
     default:
       return msg``;
   }
@@ -177,20 +177,31 @@ export function getStakeSubtitle({
 
 export function stakeLoadingButtonText({
   txStatus,
-  flow
+  flow,
+  action,
+  amount,
+  symbol
 }: {
   flow: StakeFlow;
   txStatus: TxStatus;
+  action?: StakeAction;
+  amount?: string;
+  symbol?: string;
 }): MessageDescriptor {
   switch (txStatus) {
     case TxStatus.INITIALIZED:
       return msg`Waiting for confirmation`;
-    default:
+    case TxStatus.LOADING:
+      if (action === StakeAction.APPROVE && amount && symbol) {
+        return msg`Approving ${amount} ${symbol}`;
+      }
       return flow === StakeFlow.OPEN
         ? msg`Opening position`
         : flow === StakeFlow.MANAGE
           ? msg`Changing position`
           : msg`Loading`;
+    default:
+      return msg`Loading`;
   }
 }
 
@@ -218,18 +229,3 @@ export function claimLoadingButtonText({ txStatus }: { txStatus: TxStatus }): Me
       return msg`Loading`;
   }
 }
-
-export const borrowRateTooltipText =
-  'The Borrow Rate is determined by Sky Ecosystem Governance through a process of community-driven, decentralized onchain voting.';
-
-export const collateralizationRatioTooltipText =
-  'The ratio between the value of collateral you’ve provided and the amount you’ve borrowed against that collateral.';
-
-export const liquidationPriceTooltipText =
-  "If the value of your collateral (SKY) drops below the liquidation price noted here, some or all of your collateral may be auctioned to repay the amount of USDS that you borrowed. Note that a one-hour price update delay applies. In other words, when SKY drops below a user's liquidation price it will only start applying one hour later. This is called the OSM delay in technical terms, and it also applies to any legacy Maker MCD vault.";
-
-export const riskLevelTooltipText =
-  'Risk level indicates the likelihood of your collateral being liquidated. This is primarily determined by your Loan-to-Value (LTV) ratio, which represents the amount you’ve borrowed compared to the value of your crypto collateral. A high risk level means your collateral is close to the liquidation price threshold, and most vulnerable to market changes. A medium risk level means you have a reasonable balance between borrowing power and a safety buffer. A low risk level means you have a comparatively wider safety next against price fluctuations.';
-
-export const debtCeilingTooltipText =
-  'If the debt ceiling utilization reaches 100%, no new USDS can be borrowed. The debt ceiling is a parameter determined by Sky ecosystem governance through a process of decentralized onchain voting.';
