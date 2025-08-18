@@ -50,6 +50,11 @@ export default ({ mode }: { mode: modeEnum }) => {
       https://virtual.arbitrum.rpc.tenderly.co
       https://virtual.optimism.rpc.tenderly.co
       https://virtual.unichain.rpc.tenderly.co
+      https://virtual.mainnet.eu.rpc.tenderly.co
+      https://virtual.base.eu.rpc.tenderly.co
+      https://virtual.arbitrum.eu.rpc.tenderly.co
+      https://virtual.optimism.eu.rpc.tenderly.co
+      https://virtual.unichain.eu.rpc.tenderly.co
       https://rpc.sepolia.org
       https://mainnet.base.org
       https://safe-transaction-mainnet.safe.global
@@ -58,6 +63,7 @@ export default ({ mode }: { mode: modeEnum }) => {
       https://safe-transaction-sepolia.safe.global
       https://safe-transaction-optimism.safe.global
       https://safe-transaction-unichain.safe.global
+      https://chain-proxy.wallet.coinbase.com
       https://vote.makerdao.com
       https://vote.sky.money
       https://query-subgraph-testnet.sky.money

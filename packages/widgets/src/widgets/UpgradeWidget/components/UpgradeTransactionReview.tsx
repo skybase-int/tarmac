@@ -22,7 +22,9 @@ export const UpgradeTransactionReview = ({
   originAmount,
   targetToken,
   targetAmount,
-  needsAllowance
+  needsAllowance,
+  legalBatchTxUrl,
+  isBatchFlowSupported
 }: {
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
@@ -32,6 +34,8 @@ export const UpgradeTransactionReview = ({
   targetToken: Token;
   targetAmount: bigint;
   needsAllowance: boolean;
+  legalBatchTxUrl?: string;
+  isBatchFlowSupported?: boolean;
 }) => {
   const { i18n } = useLingui();
   const { data: batchSupported } = useIsBatchSupported();
@@ -90,5 +94,12 @@ export const UpgradeTransactionReview = ({
     );
   }, [flow, action, screen, i18n.locale, isBatchTransaction, batchEnabled, batchSupported]);
 
-  return <TransactionReview batchEnabled={batchEnabled} setBatchEnabled={setBatchEnabled} />;
+  return (
+    <TransactionReview
+      batchEnabled={batchEnabled}
+      setBatchEnabled={setBatchEnabled}
+      legalBatchTxUrl={legalBatchTxUrl}
+      isBatchFlowSupported={isBatchFlowSupported}
+    />
+  );
 };

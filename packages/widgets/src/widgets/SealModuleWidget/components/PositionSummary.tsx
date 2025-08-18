@@ -17,7 +17,6 @@ import {
   useDelegateOwner,
   useCollateralData
 } from '@jetstreamgg/sky-hooks';
-import { useChainId } from 'wagmi';
 import { Card, CardContent } from '@widgets/components/ui/card';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
@@ -39,12 +38,7 @@ import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { ArrowDown } from '@widgets/shared/components/icons/ArrowDown';
 import { JazziconComponent } from './Jazzicon';
 import { InfoTooltip } from '@widgets/shared/components/ui/tooltip/InfoTooltip';
-import {
-  collateralizationRatioTooltipText,
-  liquidationPriceTooltipText,
-  riskLevelTooltipText,
-  borrowRateTooltipText
-} from '../lib/constants';
+import { getTooltipById } from '../../../data/tooltips';
 
 const { usds, mkr } = TOKENS;
 
@@ -120,8 +114,7 @@ const LineItem = ({
 };
 
 export const PositionSummary = () => {
-  const chainId = useChainId();
-  const ilkName = getIlkName(chainId);
+  const ilkName = getIlkName(1);
 
   const {
     activeUrn,
@@ -266,7 +259,7 @@ export const PositionSummary = () => {
             : hasPositions
               ? formatPercent(existingVault?.collateralizationRatio || 0n)
               : formatPercent(updatedVault?.collateralizationRatio || 0n),
-        tooltipText: collateralizationRatioTooltipText,
+        tooltipText: getTooltipById('collateralization-ratio-seal')?.tooltip || '',
         className:
           hasPositions &&
           isUpdatedValue(existingVault?.collateralizationRatio, updatedVault?.collateralizationRatio)
@@ -283,7 +276,7 @@ export const PositionSummary = () => {
         label: t`Borrow rate`,
         value: collateralData?.stabilityFee ? formatPercent(collateralData?.stabilityFee) : undefined,
         hideIfNoDebt: true,
-        tooltipText: borrowRateTooltipText
+        tooltipText: getTooltipById('borrow-rate-seal')?.tooltip || ''
       },
       {
         label: t`Current ${displayToken.symbol} price`,
@@ -302,7 +295,10 @@ export const PositionSummary = () => {
                 `$${formatBigInt(updatedLiquidationPrice, { unit: WAD_PRECISION })}`
               ]
             : `$${formatBigInt(updatedLiquidationPrice, { unit: WAD_PRECISION })}`,
-        tooltipText: liquidationPriceTooltipText,
+        tooltipText:
+          getTooltipById(
+            displayToken === TOKENS.mkr ? 'liquidation-price-seal-mkr' : 'liquidation-price-seal-sky'
+          )?.tooltip || '',
         hideIfNoDebt: true
       },
       {
@@ -317,7 +313,7 @@ export const PositionSummary = () => {
         className: isRiskLevelUpdated
           ? [getRiskTextColor(existingVault?.riskLevel), getRiskTextColor(updatedVault?.riskLevel)]
           : getRiskTextColor(vaultToDisplay?.riskLevel),
-        tooltipText: riskLevelTooltipText,
+        tooltipText: getTooltipById('risk-level-seal')?.tooltip || '',
         hideIfNoDebt: true
       },
       {

@@ -41,7 +41,10 @@ export const useUpgradeTransactionCallbacks = ({
   const approveTransactionCallbacks = useMemo<TransactionCallbacks>(
     () => ({
       onStart: hash => {
-        handleOnStart({ hash, recentTransactionDescription: t`Approving ${originToken.symbol} token` });
+        handleOnStart({
+          hash,
+          recentTransactionDescription: t`Approving ${formatUnits(originAmount, 18)} ${originToken.symbol}`
+        });
       },
       onSuccess: hash => {
         handleOnSuccess({
