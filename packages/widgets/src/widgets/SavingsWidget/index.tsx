@@ -19,7 +19,7 @@ import { Trans } from '@lingui/react/macro';
 import { useLingui } from '@lingui/react';
 import { useAccount, useChainId } from 'wagmi';
 import { formatUnits, parseUnits } from 'viem';
-import { Heading } from '@widgets/shared/components/ui/Typography';
+import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { getValidatedState } from '@widgets/lib/utils';
 import { WidgetButtons } from '@widgets/shared/components/ui/widget/WidgetButtons';
 import { AnimatePresence } from 'framer-motion';
@@ -46,6 +46,7 @@ const SavingsWidgetWrapped = ({
   onWidgetStateChange,
   onExternalLinkClicked,
   enabled = true,
+  legalBatchTxUrl,
   referralCode,
   batchEnabled,
   setBatchEnabled
@@ -206,6 +207,13 @@ const SavingsWidgetWrapped = ({
       action: prev.flow === SavingsFlow.WITHDRAW ? SavingsAction.WITHDRAW : SavingsAction.SUPPLY,
       screen: SavingsScreen.ACTION
     }));
+
+    // Notify external state about the cleared amount
+    onWidgetStateChange?.({
+      originAmount: '',
+      txStatus,
+      widgetState
+    });
   };
 
   const reviewOnClick = () => {
@@ -348,6 +356,11 @@ const SavingsWidgetWrapped = ({
           <Trans>Sky Savings Rate</Trans>
         </Heading>
       }
+      subHeader={
+        <Text className="text-textSecondary" variant="small">
+          <Trans>Use USDS to access the Sky Savings Rate</Trans>
+        </Text>
+      }
       rightHeader={rightHeaderComponent}
       footer={
         <WidgetButtons
@@ -379,6 +392,7 @@ const SavingsWidgetWrapped = ({
               originToken={usds}
               originAmount={debouncedAmount}
               needsAllowance={needsAllowance}
+              legalBatchTxUrl={legalBatchTxUrl}
             />
           </CardAnimationWrapper>
         ) : (

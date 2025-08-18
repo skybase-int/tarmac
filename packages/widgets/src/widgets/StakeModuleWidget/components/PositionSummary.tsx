@@ -18,7 +18,6 @@ import {
   Token,
   useIsBatchSupported
 } from '@jetstreamgg/sky-hooks';
-import { useChainId } from 'wagmi';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
 import { motion } from 'framer-motion';
@@ -32,11 +31,8 @@ import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { ArrowDown } from '@widgets/shared/components/icons/ArrowDown';
 import { JazziconComponent } from './Jazzicon';
 import { InfoTooltip } from '@widgets/shared/components/ui/tooltip/InfoTooltip';
+import { getTooltipById } from '../../../data/tooltips';
 import {
-  collateralizationRatioTooltipText,
-  liquidationPriceTooltipText,
-  riskLevelTooltipText,
-  borrowRateTooltipText,
   StakeFlow,
   stakeOpenReviewTitle,
   getStakeOpenReviewSubtitle,
@@ -126,16 +122,17 @@ export const PositionSummary = ({
   allowanceToken,
   batchEnabled,
   setBatchEnabled,
-  isBatchTransaction
+  isBatchTransaction,
+  legalBatchTxUrl
 }: {
   needsAllowance: boolean;
   allowanceToken?: Token;
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
   isBatchTransaction: boolean;
+  legalBatchTxUrl?: string;
 }) => {
-  const chainId = useChainId();
-  const ilkName = getIlkName(chainId, 2);
+  const ilkName = getIlkName(2);
   const { i18n } = useLingui();
   const { data: batchSupported } = useIsBatchSupported();
 
@@ -283,7 +280,7 @@ export const PositionSummary = ({
             : hasPositions
               ? `${formatPercent(existingVault?.collateralizationRatio || 0n)}`
               : `${formatPercent(updatedVault?.collateralizationRatio || 0n)}`,
-        tooltipText: collateralizationRatioTooltipText,
+        tooltipText: getTooltipById('collateralization-ratio')?.tooltip || '',
         className:
           hasPositions &&
           isUpdatedValue(existingVault?.collateralizationRatio, updatedVault?.collateralizationRatio)
@@ -300,7 +297,7 @@ export const PositionSummary = ({
         label: t`Borrow rate`,
         value: collateralData?.stabilityFee ? formatPercent(collateralData?.stabilityFee) : undefined,
         hideIfNoDebt: true,
-        tooltipText: borrowRateTooltipText
+        tooltipText: getTooltipById('borrow-rate')?.tooltip || ''
       },
       {
         label: t`Current SKY price`,
@@ -319,7 +316,7 @@ export const PositionSummary = ({
                 `$${formatBigInt(updatedLiquidationPrice, { unit: WAD_PRECISION })}`
               ]
             : `$${formatBigInt(updatedLiquidationPrice, { unit: WAD_PRECISION })}`,
-        tooltipText: liquidationPriceTooltipText,
+        tooltipText: getTooltipById('liquidation-price')?.tooltip || '',
         hideIfNoDebt: true
       },
       {
@@ -334,7 +331,7 @@ export const PositionSummary = ({
         className: isRiskLevelUpdated
           ? [getRiskTextColor(existingVault?.riskLevel), getRiskTextColor(updatedVault?.riskLevel)]
           : getRiskTextColor(vaultToDisplay?.riskLevel),
-        tooltipText: riskLevelTooltipText,
+        tooltipText: getTooltipById('risk-level')?.tooltip || '',
         hideIfNoDebt: true
       },
       {
@@ -467,6 +464,7 @@ export const PositionSummary = ({
     <TransactionReview
       batchEnabled={batchEnabled}
       setBatchEnabled={setBatchEnabled}
+      legalBatchTxUrl={legalBatchTxUrl}
       transactionDetail={
         <MotionVStack gap={2} variants={positionAnimations} className="mt-6 space-y-3">
           <motion.div

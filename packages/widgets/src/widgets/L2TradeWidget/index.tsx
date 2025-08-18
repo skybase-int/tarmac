@@ -35,7 +35,7 @@ import { WidgetButtons } from '@widgets/shared/components/ui/widget/WidgetButton
 import { useAddTokenToWallet } from '@widgets/shared/hooks/useAddTokenToWallet';
 import { AnimatePresence } from 'framer-motion';
 import { CardAnimationWrapper } from '@widgets/shared/animation/Wrappers';
-import { Heading } from '@widgets/shared/components/ui/Typography';
+import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { L2TradeTransactionStatus } from './components/L2TradeTransactionStatus';
 import { useTokenImage } from '@widgets/shared/hooks/useTokenImage';
 import { L2TradeTransactionReview } from './components/L2TradeTransactionReview';
@@ -44,6 +44,7 @@ import { withWidgetProvider } from '@widgets/shared/hocs/withWidgetProvider';
 import { useL2TradeTransactions } from './hooks/useL2TradeTransactions';
 import { useMaxInForWithdraw } from './hooks/useMaxInForWithdraw';
 import { useMaxOutForDeposit } from './hooks/useMaxOutForDeposit';
+import { Trans } from '@lingui/react/macro';
 
 export type TradeWidgetProps = WidgetProps & {
   customTokenList?: TokenForChain[];
@@ -69,6 +70,7 @@ function TradeWidgetWrapped({
   customNavigationLabel,
   onExternalLinkClicked,
   enabled = true,
+  legalBatchTxUrl,
   referralCode,
   widgetTitle,
   batchEnabled,
@@ -757,6 +759,11 @@ function TradeWidgetWrapped({
   return (
     <WidgetContainer
       header={<Heading variant="x-large">{widgetTitle || 'Trade'}</Heading>}
+      subHeader={
+        <Text className="text-textSecondary" variant="small">
+          <Trans>Trade popular tokens for Sky Ecosystem tokens</Trans>
+        </Text>
+      }
       rightHeader={rightHeaderComponent}
       footer={
         <WidgetButtons
@@ -792,6 +799,7 @@ function TradeWidgetWrapped({
               targetToken={targetToken as Token}
               targetAmount={debouncedTargetAmount}
               needsAllowance={needsAllowance}
+              legalBatchTxUrl={legalBatchTxUrl}
             />
           </CardAnimationWrapper>
         ) : (

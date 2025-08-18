@@ -8,7 +8,7 @@ import { Skeleton } from '@widgets/components/ui/skeleton';
 import { SavingsStatsCardCore } from './SavingsStatsCardCore';
 import { StatsAccordionCard } from '@widgets/shared/components/ui/card/StatsAccordionCard'; // Import StatsAccordionCard
 import { positionAnimations } from '@widgets/shared/animation/presets';
-import { useOverallSkyData } from '@jetstreamgg/sky-hooks';
+import { TOKENS, useOverallSkyData, useTokenBalance } from '@jetstreamgg/sky-hooks';
 
 export type SavingsStats = {
   savingsTvl: bigint;
@@ -18,6 +18,7 @@ export type SavingsStats = {
 type SavingsStatsProps = {
   isLoading: boolean;
   address?: string;
+  userAddress?: string;
   stats: SavingsStats;
   isConnectedAndEnabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
@@ -26,12 +27,18 @@ type SavingsStatsProps = {
 export const SavingsStatsCard = ({
   isLoading,
   address,
+  userAddress,
   stats,
   isConnectedAndEnabled = true,
   onExternalLinkClicked
 }: SavingsStatsProps) => {
   const chainId = useChainId();
   const { data: overallData, isLoading: isOverallDataLoading } = useOverallSkyData();
+  const { data: sUsdsBalance } = useTokenBalance({
+    address: userAddress as `0x${string}` | undefined,
+    chainId,
+    token: TOKENS.susds.address[chainId]
+  });
 
   const accordionContent = (
     <HStack className="mt-5 justify-between" gap={2}>
@@ -42,11 +49,16 @@ export const SavingsStatsCard = ({
         data-testid="supplied-balance-container"
       >
         <Text className="text-textSecondary text-sm leading-4">{t`Savings balance`}</Text>
-        {isLoading ? (
+        {isLoading && isConnectedAndEnabled ? (
           <Skeleton className="bg-textSecondary h-6 w-10" />
         ) : isConnectedAndEnabled && stats?.savingsBalance !== undefined ? (
           <Text dataTestId="supplied-balance">
             {formatBigInt(stats.savingsBalance, { compact: true })} USDS
+            {sUsdsBalance !== undefined && (
+              <span className="text-textSecondary ml-1 text-sm">
+                ({formatBigInt(sUsdsBalance.value, { compact: true, maxDecimals: 2 })} sUSDS)
+              </span>
+            )}
           </Text>
         ) : (
           <Text>--</Text>
@@ -76,7 +88,6 @@ export const SavingsStatsCard = ({
 
   return (
     <SavingsStatsCardCore
-      isLoading={isLoading}
       content={
         <StatsAccordionCard
           chainId={chainId}
