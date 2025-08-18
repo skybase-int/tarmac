@@ -103,7 +103,8 @@ export const SavingsTransactionStatus = ({
             supplyLoadingButtonText({
               txStatus: flowTxStatus,
               amount: formatBigInt(originAmount, { unit: getTokenDecimals(originToken, chainId) }),
-              symbol: originToken.symbol
+              symbol: originToken.symbol,
+              action
             })
           )
         );
@@ -146,7 +147,8 @@ export const SavingsTransactionStatus = ({
             withdrawLoadingButtonText({
               txStatus: flowTxStatus,
               amount: formatBigInt(originAmount, { unit: getTokenDecimals(originToken, chainId) }),
-              symbol: originToken.symbol
+              symbol: originToken.symbol,
+              action
             })
           )
         );

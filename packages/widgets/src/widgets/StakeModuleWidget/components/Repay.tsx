@@ -28,12 +28,7 @@ import { getRiskTextColor } from '../lib/utils';
 import { useAccount, useChainId } from 'wagmi';
 import { useSealExitFee } from '@jetstreamgg/sky-hooks';
 import { useRiskSlider } from '../hooks/useRiskSlider';
-import {
-  collateralizationRatioTooltipText,
-  liquidationPriceTooltipText,
-  riskLevelTooltipText,
-  borrowRateTooltipText
-} from '../lib/constants';
+import { getTooltipById } from '../../../data/tooltips';
 
 const { usds } = TOKENS;
 
@@ -71,7 +66,7 @@ const PositionManagerOverviewContainer = ({
   minDebtNotMet: boolean;
 }) => {
   const chainId = useChainId();
-  const { data: collateralData } = useCollateralData(getIlkName(chainId, 2));
+  const { data: collateralData } = useCollateralData(getIlkName(2));
   const hasPositions = !!existingVault;
 
   // New amount values here will factor in user input, if there is no existing vault then amounts will not be included
@@ -181,7 +176,7 @@ const PositionManagerOverviewContainer = ({
       {
         label: t`Borrow rate`,
         value: collateralData?.stabilityFee ? formatPercent(collateralData?.stabilityFee) : '',
-        tooltipText: borrowRateTooltipText
+        tooltipText: getTooltipById('borrow-rate')?.tooltip || ''
       },
       {
         label: t`Collateral value`,
@@ -197,13 +192,13 @@ const PositionManagerOverviewContainer = ({
         label: t`Liquidation price`,
         value:
           hasPositions && existingLiqPrice !== newLiqPrice ? [existingLiqPrice, newLiqPrice] : newLiqPrice,
-        tooltipText: liquidationPriceTooltipText
+        tooltipText: getTooltipById('liquidation-price')?.tooltip || ''
       },
       {
         label: t`Collateralization ratio`,
         value:
           hasPositions && existingColRatio !== newColRatio ? [existingColRatio, newColRatio] : newColRatio,
-        tooltipText: collateralizationRatioTooltipText
+        tooltipText: getTooltipById('collateralization-ratio')?.tooltip || ''
       },
       {
         label: t`Liquidation ratio`,
@@ -218,7 +213,7 @@ const PositionManagerOverviewContainer = ({
                 `${captitalizeFirstLetter(simulatedVault?.riskLevel?.toLowerCase() || '')}`
               ]
             : `${captitalizeFirstLetter(simulatedVault?.riskLevel?.toLowerCase() || '')}`,
-        tooltipText: riskLevelTooltipText,
+        tooltipText: getTooltipById('risk-level')?.tooltip || '',
         classNamePrev: existingRiskTextColor,
         className: riskTextColor
       }
@@ -254,7 +249,7 @@ const PositionManagerOverviewContainer = ({
 export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolean }) => {
   const { address } = useAccount();
   const chainId = useChainId();
-  const ilkName = getIlkName(chainId, 2);
+  const ilkName = getIlkName(2);
 
   const { data: usdsBalance } = useTokenBalance({ address, token: TOKENS.usds.address[chainId], chainId });
 

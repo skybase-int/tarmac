@@ -26,7 +26,8 @@ export const SavingsTransactionReview = ({
   originAmount,
   needsAllowance,
   isUpgradeSupplyFlow,
-  shouldUseBatch
+  shouldUseBatch,
+  legalBatchTxUrl
 }: {
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
@@ -36,6 +37,7 @@ export const SavingsTransactionReview = ({
   needsAllowance: boolean;
   isUpgradeSupplyFlow?: boolean;
   shouldUseBatch?: boolean;
+  legalBatchTxUrl?: string;
 }) => {
   const { i18n } = useLingui();
   const { data: batchSupported } = useIsBatchSupported();
@@ -95,6 +97,7 @@ export const SavingsTransactionReview = ({
         batchEnabled={batchEnabled}
         setBatchEnabled={setBatchEnabled}
         customSteps={isUpgradeSupplyFlow ? <UpgradeAndSupplySteps /> : undefined}
+        legalBatchTxUrl={legalBatchTxUrl}
       />
       {isUpgradeSupplyFlow && !shouldUseBatch && (
         <BundledTransactionWarning flowTitle="Supplying DAI to the Sky Savings Rate" />
