@@ -7,9 +7,9 @@ describe('stUSDS Buffer Calculations', () => {
 
     it('should return 0 when debt accrual is less than yield accrual', () => {
       const totalAssets = 1000000n * 10n ** 18n; // 1M USDS
-      const ysr = BASE_RATE + 31536000n; // ~1% APR (simplified)
+      const ysr = BASE_RATE + 317097919837645865n; // 1% APR
       const stakingEngineDebt = 100000n * 10n ** 18n; // 100k debt
-      const stakingDuty = BASE_RATE + 15768000n; // ~0.5% APR
+      const stakingDuty = BASE_RATE + 158548959918822932n; // 0.5% APR
 
       const buffer = calculateLiquidityBuffer(totalAssets, ysr, stakingEngineDebt, stakingDuty);
 
@@ -19,9 +19,9 @@ describe('stUSDS Buffer Calculations', () => {
 
     it('should return positive buffer when debt accrual exceeds yield accrual', () => {
       const totalAssets = 100000n * 10n ** 18n; // 100k USDS
-      const ysr = BASE_RATE + 15768000n; // ~0.5% APR
+      const ysr = BASE_RATE + 158548959918822932n; // 0.5% APR
       const stakingEngineDebt = 1000000n * 10n ** 18n; // 1M debt
-      const stakingDuty = BASE_RATE + 31536000n; // ~1% APR
+      const stakingDuty = BASE_RATE + 317097919837645865n; // 1% APR
 
       const buffer = calculateLiquidityBuffer(totalAssets, ysr, stakingEngineDebt, stakingDuty);
 
@@ -31,9 +31,9 @@ describe('stUSDS Buffer Calculations', () => {
 
     it('should handle zero total assets', () => {
       const totalAssets = 0n;
-      const ysr = BASE_RATE + 31536000n;
+      const ysr = BASE_RATE + 317097919837645865n; // 1% APR
       const stakingEngineDebt = 1000000n * 10n ** 18n;
-      const stakingDuty = BASE_RATE + 31536000n;
+      const stakingDuty = BASE_RATE + 317097919837645865n; // 1% APR
 
       const buffer = calculateLiquidityBuffer(totalAssets, ysr, stakingEngineDebt, stakingDuty);
 
@@ -43,9 +43,9 @@ describe('stUSDS Buffer Calculations', () => {
 
     it('should handle zero debt', () => {
       const totalAssets = 1000000n * 10n ** 18n;
-      const ysr = BASE_RATE + 31536000n;
+      const ysr = BASE_RATE + 317097919837645865n; // 1% APR
       const stakingEngineDebt = 0n;
-      const stakingDuty = BASE_RATE + 31536000n;
+      const stakingDuty = BASE_RATE + 317097919837645865n; // 1% APR
 
       const buffer = calculateLiquidityBuffer(totalAssets, ysr, stakingEngineDebt, stakingDuty);
 
@@ -67,9 +67,9 @@ describe('stUSDS Buffer Calculations', () => {
 
     it('should scale with buffer time', () => {
       const totalAssets = 100000n * 10n ** 18n;
-      const ysr = BASE_RATE + 15768000n;
+      const ysr = BASE_RATE + 158548959918822932n; // 0.5% APR
       const stakingEngineDebt = 1000000n * 10n ** 18n;
-      const stakingDuty = BASE_RATE + 31536000n;
+      const stakingDuty = BASE_RATE + 317097919837645865n; // 1% APR
 
       const buffer30 = calculateLiquidityBuffer(totalAssets, ysr, stakingEngineDebt, stakingDuty, 30);
       const buffer60 = calculateLiquidityBuffer(totalAssets, ysr, stakingEngineDebt, stakingDuty, 60);
@@ -81,9 +81,9 @@ describe('stUSDS Buffer Calculations', () => {
 
     it('should return 0 for zero or negative buffer time', () => {
       const totalAssets = 100000n * 10n ** 18n;
-      const ysr = BASE_RATE + 15768000n;
+      const ysr = BASE_RATE + 158548959918822932n; // 0.5% APR
       const stakingEngineDebt = 1000000n * 10n ** 18n;
-      const stakingDuty = BASE_RATE + 31536000n;
+      const stakingDuty = BASE_RATE + 317097919837645865n; // 1% APR
 
       const buffer0 = calculateLiquidityBuffer(totalAssets, ysr, stakingEngineDebt, stakingDuty, 0);
       const bufferNeg = calculateLiquidityBuffer(totalAssets, ysr, stakingEngineDebt, stakingDuty, -10);
@@ -98,7 +98,9 @@ describe('stUSDS Buffer Calculations', () => {
 
     it('should calculate yield accrual for 30 minutes', () => {
       const totalAssets = 1000000n * 10n ** 18n; // 1M USDS
-      const ysr = BASE_RATE + 31536000n; // ~1% APR (simplified)
+      // 1% APR = 0.01 per year / 31536000 seconds = ~3.17e-10 per second
+      // Scaled by 1e27 = ~317097919837645865
+      const ysr = BASE_RATE + 317097919837645865n; // 1% APR
 
       const buffer = calculateCapacityBuffer(totalAssets, ysr);
 
@@ -106,9 +108,9 @@ describe('stUSDS Buffer Calculations', () => {
       expect(buffer).toBeGreaterThan(0n);
 
       // Rough calculation: 1M * 1% / year * 30 minutes
-      // Expected ~= 1M * 0.01 / 365 / 24 / 2 ~= 5.7 USDS
-      const expectedMin = 5n * 10n ** 18n;
-      const expectedMax = 10n * 10n ** 18n;
+      // 1M * 0.01 / (365 * 24 * 60) minutes * 30 minutes ~= 0.57 USDS
+      const expectedMin = 5n * 10n ** 17n; // 0.5 USDS
+      const expectedMax = 6n * 10n ** 17n; // 0.6 USDS
       expect(buffer).toBeGreaterThan(expectedMin);
       expect(buffer).toBeLessThan(expectedMax);
     });
@@ -124,7 +126,7 @@ describe('stUSDS Buffer Calculations', () => {
 
     it('should return 0 for zero assets', () => {
       const totalAssets = 0n;
-      const ysr = BASE_RATE + 31536000n;
+      const ysr = BASE_RATE + 317097919837645865n; // 1% APR
 
       const buffer = calculateCapacityBuffer(totalAssets, ysr);
 
@@ -132,7 +134,7 @@ describe('stUSDS Buffer Calculations', () => {
     });
 
     it('should scale linearly with assets', () => {
-      const ysr = BASE_RATE + 31536000n;
+      const ysr = BASE_RATE + 317097919837645865n; // 1% APR
 
       const buffer1M = calculateCapacityBuffer(1000000n * 10n ** 18n, ysr);
       const buffer2M = calculateCapacityBuffer(2000000n * 10n ** 18n, ysr);
@@ -143,7 +145,7 @@ describe('stUSDS Buffer Calculations', () => {
 
     it('should scale with buffer time', () => {
       const totalAssets = 1000000n * 10n ** 18n;
-      const ysr = BASE_RATE + 31536000n;
+      const ysr = BASE_RATE + 317097919837645865n; // 1% APR
 
       const buffer30 = calculateCapacityBuffer(totalAssets, ysr, 30);
       const buffer60 = calculateCapacityBuffer(totalAssets, ysr, 60);
@@ -154,7 +156,7 @@ describe('stUSDS Buffer Calculations', () => {
 
     it('should return 0 for zero or negative buffer time', () => {
       const totalAssets = 1000000n * 10n ** 18n;
-      const ysr = BASE_RATE + 31536000n;
+      const ysr = BASE_RATE + 317097919837645865n; // 1% APR
 
       const buffer0 = calculateCapacityBuffer(totalAssets, ysr, 0);
       const bufferNeg = calculateCapacityBuffer(totalAssets, ysr, -10);
