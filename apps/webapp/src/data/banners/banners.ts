@@ -4,8 +4,7 @@ export interface Banner {
   description: string;
   display?: string[];
 }
-
-export const banners: Banner[] = [
+export const banners = [
   {
     id: 'about-balances',
     title: 'About Balances',
@@ -21,17 +20,10 @@ export const banners: Banner[] = [
     display: ['disconnected']
   },
   {
-    id: 'trade-1',
+    id: 'trade',
     title: 'Trade',
     description:
-      'On Layer 2 (L2) scaling solutions for the Ethereum blockchain via Sky.money, you can convert between USDS, sUSDS and USDC through a Peg Stability Module (PSM) (i) deployed to the L2. The PSM [(PSM)](#tooltip-psm) handles conversions programmatically, driven at your direction, between these pairs directly.',
-    display: ['disconnected']
-  },
-  {
-    id: 'trade-2',
-    title: 'Trade',
-    description:
-      'Directly trade eligible tokens for Sky Ecosystem tokens using permissionless and non-custodial rails. With the Sky.money web app, you can access the decentralized Sky Protocol to trade via smart contracts on the blockchain instead of relying on centralized entities.',
+      'On Layer 2 (L2) scaling solutions for the Ethereum blockchain via Sky.money, you can convert between USDS, sUSDS and USDC through a Peg Stability Module (PSM) [(PSM)](#tooltip-psm) deployed to the L2. The PSM handles conversions programmatically, driven at your direction, between these pairs directly.',
     display: ['disconnected']
   },
   {
@@ -61,6 +53,62 @@ export const banners: Banner[] = [
     description:
       'Seal Rewards can be accessed when you supply MKR or SKY to the Seal Engine of the decentralised, non-custodial Sky Protocol. Currently, all Seal Rewards take the form of USDS. Eventually, subject to Sky ecosystem governance approval, Seal Rewards may also be available in the form of Sky Star tokens.',
     display: ['disconnected']
+  },
+  {
+    id: 'ready-to-upgrade-and-explore',
+    title: 'Ready to upgrade and explore?',
+    description:
+      'Your DeFi journey with Sky is just beginning. Connect your wallet to access the decentralized Sky Protocol and upgrade your DAI to USDS, and your MKR to SKY. Unlock all the Sky Protocol has to offer, without giving up control.',
+    display: ['disconnected']
+  },
+  {
+    id: 'usds',
+    title: 'USDS',
+    description:
+      'USDS is the stablecoin of the decentralised Sky Protocol. It can be used in several ways, including to participate in the Sky Savings Rate and get Sky Token Rewards without giving up control. It is the upgraded version of DAI.',
+    display: ['connected', 'disconnected']
+  },
+  {
+    id: 'sky',
+    title: 'SKY',
+    description:
+      'SKY is a native governance token of the decentralised Sky ecosystem and the upgraded version of MKR. You can upgrade your MKR to SKY at the rate of 1:24,000, trade SKY for USDS and, soon, use it to accumulate Activation Token Rewards and participate in Sky ecosystem governance.',
+    display: ['connected', 'disconnected']
+  },
+  {
+    id: 'about-trade',
+    title: 'About Trade',
+    description:
+      'Directly trade eligible tokens for Sky Ecosystem tokens using permissionless and non-custodial rails. With the Sky.money web app, you can access the decentralized Sky Protocol to trade via smart contracts on the blockchain instead of relying on centralized entities.',
+    display: ['disconnected']
+  },
+  {
+    id: 'about-the-sky-savings-rate',
+    title: 'About the Sky Savings Rate',
+    description:
+      'When you supply USDS to the Sky Savings Rate module of the decentralized Sky Protocol, you access the Sky Savings Rate and may accumulate additional USDS over time. No minimum supply amount is required, and you always maintain control of your supplied assets, as this feature is non-custodial.',
+    display: ['disconnected']
+  },
+  {
+    id: 'susds',
+    title: 'sUSDS',
+    description:
+      'sUSDS is a savings token for eligible Sky Protocol users. When you supply USDS to the Sky Savings Rate module of the Protocol, you access the Sky Savings Rate and receive sUSDS tokens. These sUSDS tokens serve as a digital record of your USDS interaction with the Sky Savings Rate module and any value accrued to your position.',
+    display: ['connected', 'disconnected']
+  },
+  {
+    id: 'about-sky-token-rewards',
+    title: 'About Sky Token Rewards',
+    description:
+      'When you supply USDS to the Sky Token Rewards module of the Sky Protocol, you receive Sky Token Rewards over time. The USDS, as well as the rewards received, are supplied to a non-custodial smart contract that represents the USDS pool of assets. That means no intermediary has custody of your supplied assets.',
+    display: ['disconnected']
+  },
+  {
+    id: 'about-the-spk-token',
+    title: 'About the SPK Token',
+    description:
+      'SPK is the native governance and staking token of [Spark.fi](http://Spark.fi). Designed with a long-term vision for sustainability, decentralization and ecosystem alignment, SPK enables protocol governance, protocol security via staking, and reward distribution to participants.',
+    display: ['connected', 'disconnected']
   }
 ];
 
