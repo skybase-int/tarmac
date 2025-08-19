@@ -519,7 +519,7 @@ if [ -d "$TEMP_DIR/$BANNERS_SOURCE_PATH" ]; then
     fi
 else
     print_warning "No banners directory found in corpus output"
-
+fi
 
 # Track all generated files for formatting
 GENERATED_FILES=()
