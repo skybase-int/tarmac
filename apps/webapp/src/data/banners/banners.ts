@@ -24,7 +24,7 @@ export const banners: Banner[] = [
     id: 'trade',
     title: 'Trade',
     description:
-      'On Layer 2 (L2) scaling solutions for the Ethereum blockchain via Sky.money, you can convert between USDS, sUSDS and USDC through a Peg Stability Module (PSM) [(PSM)](#tooltip-psm) deployed to the L2. The PSM handles conversions programmatically, driven at your direction, between these pairs directly.',
+      'On Layer 2 (L2) scaling solutions for the Ethereum blockchain via Sky.money, you can convert between USDS, sUSDS and USDC through a Peg Stability Module [(PSM)](#tooltip-psm) deployed to the L2. The PSM handles conversions programmatically, driven at your direction, between these pairs directly.',
     display: ['disconnected']
   },
   {

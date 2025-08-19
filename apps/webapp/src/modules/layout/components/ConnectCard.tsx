@@ -1,4 +1,4 @@
-import { Heading } from './Typography';
+import { Heading, Text } from './Typography';
 import { Button } from '@/components/ui/button';
 import { useCustomConnectModal } from '@/modules/ui/hooks/useCustomConnectModal';
 import { Trans } from '@lingui/react/macro';
@@ -61,7 +61,9 @@ export function ConnectCard({ intent, className }: { intent: Intent; className?:
     >
       <div className="w-[80%] space-y-2 lg:w-2/3" data-testid="connect-wallet-card">
         <Heading className="mb-2">{heading}</Heading>
-        {contentText}
+        <Text variant="small" className="leading-[18px]">
+          {contentText}
+        </Text>
       </div>
       <Button
         className="border-border mt-3 w-fit px-6 py-6 lg:mt-0"
