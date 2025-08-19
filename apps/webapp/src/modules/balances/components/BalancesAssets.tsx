@@ -18,7 +18,7 @@ type BalancesAssetsProps = {
   chainIds?: number[];
 };
 
-const INITIAL_TOKEN_COUNT = 5;
+export const INITIAL_TOKEN_COUNT = 5;
 
 export function BalancesAssets({ chainIds }: BalancesAssetsProps) {
   const { address } = useAccount();
