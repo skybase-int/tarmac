@@ -50,7 +50,7 @@ export interface TokenInputProps {
   extraPadding?: boolean;
   enabled?: boolean;
   maxIntegerDigits?: number;
-  borrowLimitText?: string | undefined;
+  limitText?: string | undefined;
   enableSearch?: boolean;
 }
 
@@ -76,7 +76,7 @@ export function TokenInput({
   buttonsToShow = [25, 50, 100],
   extraPadding = false,
   enabled = true,
-  borrowLimitText,
+  limitText,
   maxIntegerDigits,
   enableSearch = false
 }: TokenInputProps): React.ReactElement {
@@ -328,7 +328,7 @@ export function TokenInput({
                         className={`text-selectActive ${'w-full'} items-center overflow-clip`}
                         title={balanceText}
                       >
-                        {(!borrowLimitText || !isConnectedAndEnabled) && (
+                        {(!limitText || !isConnectedAndEnabled) && (
                           <div>
                             <Wallet height={20} width={20} className="text-textDesaturated" />
                           </div>
@@ -337,7 +337,7 @@ export function TokenInput({
                           className="text-textDesaturated text-nowrap text-sm leading-none"
                           dataTestId={`${dataTestId}-balance`}
                         >
-                          {borrowLimitText && isConnectedAndEnabled ? borrowLimitText : balanceText}
+                          {limitText && isConnectedAndEnabled ? limitText : balanceText}
                         </Text>
                       </HStack>
                       {showPercentageButtons && (

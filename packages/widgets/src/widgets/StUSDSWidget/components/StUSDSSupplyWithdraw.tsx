@@ -179,6 +179,16 @@ export const StUSDSSupplyWithdraw = ({
                     : remainingCapacityBuffered
                   : undefined
               }
+              limitText={
+                address &&
+                nstBalance !== undefined &&
+                remainingCapacityBuffered !== undefined &&
+                nstBalance > remainingCapacityBuffered
+                  ? `${formatBigInt(remainingCapacityBuffered, {
+                      unit: inputToken ? getTokenDecimals(inputToken, chainId) : 18
+                    })} ${inputToken?.symbol} capacity`
+                  : undefined
+              }
               onChange={(newValue, event) => {
                 onChange(BigInt(newValue), !!event);
               }}
@@ -217,6 +227,16 @@ export const StUSDSSupplyWithdraw = ({
               token={inputToken}
               tokenList={[inputToken]}
               balance={address ? withdrawableBalance : undefined}
+              limitText={
+                address &&
+                userUsdsBalance !== undefined &&
+                availableLiquidityBuffered !== undefined &&
+                userUsdsBalance > availableLiquidityBuffered
+                  ? `${formatBigInt(availableLiquidityBuffered, {
+                      unit: inputToken ? getTokenDecimals(inputToken, chainId) : 18
+                    })} ${inputToken?.symbol} liquidity`
+                  : undefined
+              }
               onChange={(newValue, event) => {
                 onChange(BigInt(newValue), !!event);
               }}
