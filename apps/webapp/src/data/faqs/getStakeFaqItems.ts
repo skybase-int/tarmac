@@ -15,7 +15,7 @@ export const getStakeFaqItems = () => {
     {
       question: 'How are Staking Rewards rates determined?',
       answer:
-        'Staking Rewards rates are variable and may fluctuate. They are determined by: (1) the current issuance rate of the rewards set through onchain governance processes and (2) the market price of the staked SKY at the time of each calculation. Rewards are accrued in USDS for the time being, subject to any future adjustment by onchain governance. The SRR shown here is an estimated annual rate, updated using data from a third party provider (i.e., [BlockAnaltica](https://blockanalitica.com/)). Further, the estimate is for informational purposes only and does not guarantee future results.',
+        'Staking Rewards rates are variable and may fluctuate. They are determined by: (1) the current issuance rate of the rewards set through onchain governance processes and (2) the market price of the staked SKY at the time of each calculation. Rewards are accrued in USDS for the time being, subject to any future adjustment by onchain governance. The SRR shown here is an estimated annual rate, updated using data from a third party provider (i.e., [BlockAnalitica](https://blockanalitica.com/)). Further, the estimate is for informational purposes only and does not guarantee future results.',
       index: 2
     },
     {
