@@ -7,6 +7,7 @@ import { Intent } from '@/lib/enums';
 import { useChainId } from 'wagmi';
 import { getBannerById } from '@/data/banners/banners';
 import { parseBannerContent } from '@/utils/bannerContentParser';
+import { base, arbitrum, optimism, unichain } from 'viem/chains';
 
 // Type for banner configuration
 type BannerConfig = {
@@ -33,7 +34,12 @@ export function ConnectCard({ intent, className }: { intent: Intent; className?:
   const getBannerForContext = (intentBannerMap: BannerConfig) => {
     // For objects with multiple banner IDs
     // Check for L2-specific banner first if on L2
-    if (intentBannerMap.allL2s && chainId && [8453, 42161, 10, 480].includes(chainId)) {
+    const supportedL2ChainIds = [base.id, arbitrum.id, optimism.id, unichain.id];
+    if (
+      intentBannerMap.allL2s &&
+      chainId &&
+      supportedL2ChainIds.includes(chainId as (typeof supportedL2ChainIds)[number])
+    ) {
       const l2Banner = getBannerById(intentBannerMap.allL2s);
       if (l2Banner) return l2Banner;
     }
