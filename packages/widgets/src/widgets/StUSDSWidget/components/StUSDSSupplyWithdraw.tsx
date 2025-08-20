@@ -186,7 +186,7 @@ export const StUSDSSupplyWithdraw = ({
                 nstBalance > remainingCapacityBuffered
                   ? `${formatBigInt(remainingCapacityBuffered, {
                       unit: inputToken ? getTokenDecimals(inputToken, chainId) : 18
-                    })} ${inputToken?.symbol} capacity`
+                    })} ${inputToken?.symbol}`
                   : undefined
               }
               onChange={(newValue, event) => {
@@ -198,6 +198,7 @@ export const StUSDSSupplyWithdraw = ({
               showPercentageButtons={isConnectedAndEnabled}
               enabled={isConnectedAndEnabled}
               disabled={remainingCapacityBuffered === 0n}
+              showGauge={true}
             />
             {!isStUsdsDataLoading && remainingCapacityBuffered === 0n ? (
               <div className="ml-3 mt-2 flex items-start text-amber-400">
@@ -234,7 +235,7 @@ export const StUSDSSupplyWithdraw = ({
                 userUsdsBalance > availableLiquidityBuffered
                   ? `${formatBigInt(availableLiquidityBuffered, {
                       unit: inputToken ? getTokenDecimals(inputToken, chainId) : 18
-                    })} ${inputToken?.symbol} liquidity`
+                    })} ${inputToken?.symbol}`
                   : undefined
               }
               onChange={(newValue, event) => {
@@ -247,6 +248,7 @@ export const StUSDSSupplyWithdraw = ({
               showPercentageButtons={isConnectedAndEnabled}
               enabled={isConnectedAndEnabled}
               disabled={availableLiquidityBuffered === 0n}
+              showGauge={true}
             />
             {!isStUsdsDataLoading && availableLiquidityBuffered === 0n ? (
               <div className="ml-3 mt-2 flex items-start text-amber-400">

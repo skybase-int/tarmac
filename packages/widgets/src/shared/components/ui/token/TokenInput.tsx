@@ -12,6 +12,7 @@ import { Text } from '@widgets/shared/components/ui/Typography';
 import { VStack } from '../layout/VStack';
 import { createSvgCardMask } from '@widgets/lib/svgMask';
 import { Wallet } from '../../icons/Wallet';
+import { Gauge } from '../../icons/Gauge';
 import { tokenColors } from '@widgets/shared/constants';
 import { Trans } from '@lingui/react/macro';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -52,6 +53,7 @@ export interface TokenInputProps {
   maxIntegerDigits?: number;
   limitText?: string | undefined;
   enableSearch?: boolean;
+  showGauge?: boolean;
 }
 
 export function TokenInput({
@@ -78,7 +80,8 @@ export function TokenInput({
   enabled = true,
   limitText,
   maxIntegerDigits,
-  enableSearch = false
+  enableSearch = false,
+  showGauge = false
 }: TokenInputProps): React.ReactElement {
   const cardRef = React.useRef<HTMLDivElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -328,11 +331,15 @@ export function TokenInput({
                         className={`text-selectActive ${'w-full'} items-center overflow-clip`}
                         title={balanceText}
                       >
-                        {(!limitText || !isConnectedAndEnabled) && (
+                        {limitText && isConnectedAndEnabled && showGauge ? (
+                          <div>
+                            <Gauge height={20} width={20} className="text-textDesaturated" />
+                          </div>
+                        ) : !limitText || !isConnectedAndEnabled ? (
                           <div>
                             <Wallet height={20} width={20} className="text-textDesaturated" />
                           </div>
-                        )}
+                        ) : null}
                         <Text
                           className="text-textDesaturated text-nowrap text-sm leading-none"
                           dataTestId={`${dataTestId}-balance`}
