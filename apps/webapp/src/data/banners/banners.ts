@@ -10,8 +10,8 @@ export const banners: Banner[] = [
     id: 'about-balances',
     title: 'About Balances',
     description:
-      'Balances displays all of your Sky-related assets. When you connect your crypto wallet to Sky.money to access the decentralized Sky Protocol, only the tokens in the wallet that are relevant to the app are listed. With all of your Sky assets visible in one place, you can better self-manage your assets in line with your goals. Sky.money is non-custodial and permissionless.',
-    display: ['disconnected']
+      'Balances displays all of your Sky-related assets available on the selected network for the Ethereum blockchain. When you connect your crypto wallet to Sky.money, you can view your tokens across supported networks on the decentralized Sky Protocol. This visibility is built in for ease of use. Sky.money is non-custodial and permissionless.',
+    display: ['connected', 'disconnected']
   },
   {
     id: 'savings',
@@ -56,6 +56,13 @@ export const banners: Banner[] = [
     display: ['disconnected']
   },
   {
+    id: 'about-balances-2',
+    title: 'About Balances',
+    description:
+      'Balances displays all of your Sky-related assets. When you connect your crypto wallet to Sky.money to access the decentralized Sky Protocol, only the tokens in the wallet that are relevant to the app are listed. With all of your Sky assets visible in one place, you can better self-manage your assets in line with your goals. Sky.money is non-custodial and permissionless.',
+    display: ['disconnected']
+  },
+  {
     id: 'ready-to-upgrade-and-explore',
     title: 'Ready to upgrade and explore?',
     description:
@@ -84,10 +91,17 @@ export const banners: Banner[] = [
     display: ['disconnected']
   },
   {
+    id: 'usds-2',
+    title: 'USDS',
+    description:
+      'USDS is the stablecoin of the decentralised Sky Protocol. It can be used in several ways, including to participate in the Sky Savings Rate and get Sky Token Rewards without giving up control. It is the upgraded version of DAI.',
+    display: ['connected', 'disconnected']
+  },
+  {
     id: 'about-the-sky-savings-rate',
     title: 'About the Sky Savings Rate',
     description:
-      'When you supply USDS to the Sky Savings Rate module of the decentralized Sky Protocol, you access the Sky Savings Rate and may accumulate additional USDS over time. No minimum supply amount is required, and you always maintain control of your supplied assets, as this feature is non-custodial.',
+      'When you supply USDS to the Sky Savings Rate module of the decentralized Sky Protocol, you access the [Sky Savings Rate](#tooltip-ssr) and may accumulate additional USDS over time. No minimum supply amount is required, and you always maintain control of your supplied assets, as this feature is non-custodial.',
     display: ['disconnected']
   },
   {
@@ -98,11 +112,32 @@ export const banners: Banner[] = [
     display: ['connected', 'disconnected']
   },
   {
+    id: 'usds-3',
+    title: 'USDS',
+    description:
+      'USDS is the stablecoin of the decentralized Sky Protocol. It can be used in several ways, including to participate in the Sky Savings Rate and access Sky Token Rewards without giving up control. It is the upgraded version of DAI, backed by a surplus of collateral and soft-pegged to the value of the U.S. dollar, meaning it is designed to maintain a value equal to or close to a dollar. USDS powers the permissionless, non-custodial Sky Protocol.',
+    display: ['connected', 'disconnected']
+  },
+  {
     id: 'about-sky-token-rewards',
     title: 'About Sky Token Rewards',
     description:
       'When you supply USDS to the Sky Token Rewards module of the Sky Protocol, you receive Sky Token Rewards over time. The USDS, as well as the rewards received, are supplied to a non-custodial smart contract that represents the USDS pool of assets. That means no intermediary has custody of your supplied assets.',
     display: ['disconnected']
+  },
+  {
+    id: 'usds-4',
+    title: 'USDS',
+    description:
+      'USDS is the stablecoin of the decentralised Sky Protocol. It can be used in several ways, including to participate in the Sky Savings Rate and get Sky Token Rewards without giving up control. It is the upgraded version of DAI.',
+    display: ['connected', 'disconnected']
+  },
+  {
+    id: 'sky-2',
+    title: 'SKY',
+    description:
+      'SKY is a native governance token of the decentralised Sky ecosystem and the upgraded version of MKR. You can upgrade your MKR to SKY at the rate of 1:24,000, trade SKY for USDS and, soon, use it to accumulate Activation Token Rewards and participate in Sky ecosystem governance.',
+    display: ['connected', 'disconnected']
   },
   {
     id: 'about-the-spk-token',
