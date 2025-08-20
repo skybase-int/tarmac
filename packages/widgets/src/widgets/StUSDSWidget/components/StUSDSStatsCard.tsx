@@ -80,7 +80,7 @@ export const StUSDSStatsCard = ({
         <StatsAccordionCard
           chainId={connectedChainId}
           address={stUsdsContractAddress}
-          accordionTitle="StUSDS info"
+          accordionTitle="stUSDS info"
           accordionContent={accordionContent}
           onExternalLinkClicked={onExternalLinkClicked}
         />

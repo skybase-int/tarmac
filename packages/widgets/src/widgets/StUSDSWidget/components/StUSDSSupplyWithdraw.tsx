@@ -179,6 +179,16 @@ export const StUSDSSupplyWithdraw = ({
                     : remainingCapacityBuffered
                   : undefined
               }
+              limitText={
+                address &&
+                nstBalance !== undefined &&
+                remainingCapacityBuffered !== undefined &&
+                nstBalance > remainingCapacityBuffered
+                  ? `${formatBigInt(remainingCapacityBuffered, {
+                      unit: inputToken ? getTokenDecimals(inputToken, chainId) : 18
+                    })} ${inputToken?.symbol}`
+                  : undefined
+              }
               onChange={(newValue, event) => {
                 onChange(BigInt(newValue), !!event);
               }}
@@ -188,6 +198,7 @@ export const StUSDSSupplyWithdraw = ({
               showPercentageButtons={isConnectedAndEnabled}
               enabled={isConnectedAndEnabled}
               disabled={remainingCapacityBuffered === 0n}
+              showGauge={true}
             />
             {!isStUsdsDataLoading && remainingCapacityBuffered === 0n ? (
               <div className="ml-3 mt-2 flex items-start text-amber-400">
@@ -217,6 +228,16 @@ export const StUSDSSupplyWithdraw = ({
               token={inputToken}
               tokenList={[inputToken]}
               balance={address ? withdrawableBalance : undefined}
+              limitText={
+                address &&
+                userUsdsBalance !== undefined &&
+                availableLiquidityBuffered !== undefined &&
+                userUsdsBalance > availableLiquidityBuffered
+                  ? `${formatBigInt(availableLiquidityBuffered, {
+                      unit: inputToken ? getTokenDecimals(inputToken, chainId) : 18
+                    })} ${inputToken?.symbol}`
+                  : undefined
+              }
               onChange={(newValue, event) => {
                 onChange(BigInt(newValue), !!event);
               }}
@@ -227,6 +248,7 @@ export const StUSDSSupplyWithdraw = ({
               showPercentageButtons={isConnectedAndEnabled}
               enabled={isConnectedAndEnabled}
               disabled={availableLiquidityBuffered === 0n}
+              showGauge={true}
             />
             {!isStUsdsDataLoading && availableLiquidityBuffered === 0n ? (
               <div className="ml-3 mt-2 flex items-start text-amber-400">
