@@ -32,7 +32,11 @@ export function parseBannerContent(description: string | React.ReactNode): React
   // Check if the description contains any tooltip placeholders
   if (!tooltipPattern.test(description)) {
     // No tooltips found, return the plain text
-    return description;
+    return (
+      <Text variant="small" className="leading-[18px]">
+        <Trans>{description}</Trans>
+      </Text>
+    );
   }
 
   // Reset the regex lastIndex after test
