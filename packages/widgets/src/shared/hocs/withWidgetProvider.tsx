@@ -25,6 +25,7 @@ export const withWidgetProvider = <P extends object>(
           <WrappedComponent
             key={key}
             {...(componentProps as P)}
+            locale={locale}
             onWidgetStateChange={processedOnWidgetStateChange}
           />
         </WidgetProvider>
