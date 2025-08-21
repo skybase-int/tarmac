@@ -108,7 +108,7 @@ export const SupplyWithdraw = ({
           <motion.div className="flex w-full flex-col" variants={positionAnimations}>
             <TokenInput
               className="w-full"
-              label={t`How much USDS would you like to supply?`}
+              label={t`How much ${originToken.symbol} would you like to supply?`}
               placeholder={t`Enter amount`}
               token={originToken}
               onTokenSelected={token => {
