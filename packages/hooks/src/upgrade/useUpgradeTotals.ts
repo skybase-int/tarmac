@@ -15,14 +15,24 @@ async function fetchUpgradeTotals(urlSubgraph: string): Promise<UpgradeTotals | 
       daiTotal: total(id: "daiUpgraded") {
         total
       }
+      skyUpgraded: total(id: "skyUpgraded") {
+        total
+      }
+      skyUpgradeFees: total(id: "skyUpgradeFees") {
+        total
+      }
     }
   `;
 
-  const response: Record<'mkrTotal' | 'daiTotal', UpgradeTotalResponses> = await request(urlSubgraph, query);
+  const response: Record<'mkrTotal' | 'daiTotal' | 'skyUpgraded' | 'skyUpgradeFees', UpgradeTotalResponses> =
+    await request(urlSubgraph, query);
 
   const totalDaiUpgraded = response?.daiTotal?.total ?? '0';
   const totalMkrUpgraded = response?.mkrTotal?.total ?? '0';
-  return { totalDaiUpgraded, totalMkrUpgraded };
+  const skyUpgraded = response?.skyUpgraded?.total ?? '0';
+  const skyUpgradeFees = response?.skyUpgradeFees?.total ?? '0';
+  const totalSkyUpgraded = skyUpgraded + skyUpgradeFees;
+  return { totalDaiUpgraded, totalMkrUpgraded, skyUpgraded, skyUpgradeFees, totalSkyUpgraded };
 }
 
 export function useUpgradeTotals({

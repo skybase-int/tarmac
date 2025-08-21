@@ -30,7 +30,8 @@ type Props = WidgetProps & {
   onOriginInputChange: (val: bigint, userTriggered?: boolean) => void;
   onMenuItemChange?: (token: Token) => void;
   isConnectedAndEnabled: boolean;
-  onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  mkrSkyFee?: bigint;
+  isFeeLoading?: boolean;
 };
 
 export function UpgradeRevert({
@@ -49,9 +50,14 @@ export function UpgradeRevert({
   onToggle,
   onOriginInputChange,
   onMenuItemChange,
-  isConnectedAndEnabled = true
+  isConnectedAndEnabled = true,
+  mkrSkyFee,
+  isFeeLoading
 }: Props): React.ReactElement {
   const chainId = useChainId();
+
+  // Calculate the upgrade penalty percentage for display
+  const upgradePenalty = math.calculateUpgradePenalty(mkrSkyFee);
 
   return (
     <VStack className="w-full items-center justify-center">
@@ -116,14 +122,14 @@ export function UpgradeRevert({
                         originToken?.symbol === TOKENS.mkr.symbol &&
                         targetToken?.symbol === TOKENS.sky.symbol
                       ) {
-                        return `1:${math.MKR_TO_SKY_PRICE_RATIO.toString()}`;
+                        return `1:${math.MKR_TO_SKY_RATE.toLocaleString()}`;
                       }
                       // Check if it's SKY to MKR conversion
                       else if (
                         originToken?.symbol === TOKENS.sky.symbol &&
                         targetToken?.symbol === TOKENS.mkr.symbol
                       ) {
-                        return `${math.MKR_TO_SKY_PRICE_RATIO.toString()}:1`;
+                        return `${math.MKR_TO_SKY_RATE.toLocaleString()}:1`;
                       }
                       // All other conversions are 1:1 (DAI to USDS, USDS to DAI)
                       else {
@@ -174,8 +180,7 @@ export function UpgradeRevert({
                     ? [
                         {
                           label: t`Delayed Upgrade Penalty`,
-                          // TODO: Fetch this value dynamically
-                          value: '0%',
+                          value: isFeeLoading ? '...' : `${upgradePenalty}%`,
                           tooltipText: (
                             <>
                               <Text>
