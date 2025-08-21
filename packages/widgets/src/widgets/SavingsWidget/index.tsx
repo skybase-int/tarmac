@@ -93,10 +93,6 @@ const SavingsWidgetWrapped = ({
   }, [initialAmount]);
 
   useEffect(() => {
-    setOriginToken(tokenForSymbol(validatedExternalState?.token || 'USDS'));
-  }, [validatedExternalState?.token]);
-
-  useEffect(() => {
     setTabIndex(initialTabIndex);
   }, [initialTabIndex]);
 
@@ -113,6 +109,15 @@ const SavingsWidgetWrapped = ({
   } = useContext(WidgetContext);
 
   useNotifyWidgetState({ widgetState, txStatus, onWidgetStateChange });
+
+  useEffect(() => {
+    // We only support DAI for supply flows. For withdrawals it should always use USDS
+    const tokenSymbolToUse =
+      widgetState.flow === SavingsFlow.SUPPLY && !!validatedExternalState?.token
+        ? validatedExternalState?.token
+        : 'USDS';
+    setOriginToken(tokenForSymbol(tokenSymbolToUse));
+  }, [validatedExternalState?.token, widgetState.flow]);
 
   const needsAllowance = !!(!allowance || allowance < debouncedAmount);
   const shouldUseBatch =
