@@ -16,7 +16,7 @@ import { WidgetContainer } from '@widgets/shared/components/ui/widget/WidgetCont
 import { StUSDSFlow, StUSDSAction, StUSDSScreen } from './lib/constants';
 import { StUSDSTransactionStatus } from './components/StUSDSTransactionStatus';
 import { StUSDSSupplyWithdraw } from './components/StUSDSSupplyWithdraw';
-import { WidgetContext, WidgetProvider } from '@widgets/context/WidgetContext';
+import { WidgetContext } from '@widgets/context/WidgetContext';
 import { NotificationType, TxStatus } from '@widgets/shared/constants';
 import { WidgetProps, WidgetState } from '@widgets/shared/types/widgetState';
 import { t } from '@lingui/core/macro';
@@ -30,59 +30,17 @@ import { Button } from '@widgets/components/ui/button';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { getValidatedState } from '@widgets/lib/utils';
 import { WidgetButtons } from '@widgets/shared/components/ui/widget/WidgetButtons';
-import { ErrorBoundary } from '@widgets/shared/components/ErrorBoundary';
 import { AnimatePresence } from 'framer-motion';
 import { CardAnimationWrapper } from '@widgets/shared/animation/Wrappers';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
 import { StUSDSTransactionReview } from './components/StUSDSTransactionReview';
+import { withWidgetProvider } from '@widgets/shared/hocs/withWidgetProvider';
 
 export type StUSDSWidgetProps = WidgetProps & {
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
   onBackToExpert?: () => void;
-};
-
-export const StUSDSWidget = ({
-  onConnect,
-  addRecentTransaction,
-  locale,
-  rightHeaderComponent,
-  externalWidgetState,
-  onStateValidated,
-  onNotification,
-  onWidgetStateChange,
-  onExternalLinkClicked,
-  enabled = true,
-  referralCode,
-  shouldReset = false,
-  batchEnabled,
-  setBatchEnabled,
-  onBackToExpert
-}: StUSDSWidgetProps) => {
-  const key = shouldReset ? 'reset' : undefined;
-  return (
-    <ErrorBoundary componentName="StUSDSWidget">
-      <WidgetProvider key={key} locale={locale}>
-        <StUSDSWidgetWrapped
-          key={key}
-          onConnect={onConnect}
-          addRecentTransaction={addRecentTransaction}
-          rightHeaderComponent={rightHeaderComponent}
-          externalWidgetState={externalWidgetState}
-          onStateValidated={onStateValidated}
-          onNotification={onNotification}
-          onWidgetStateChange={shouldReset ? undefined : onWidgetStateChange}
-          onExternalLinkClicked={onExternalLinkClicked}
-          enabled={enabled}
-          referralCode={referralCode}
-          batchEnabled={batchEnabled}
-          setBatchEnabled={setBatchEnabled}
-          onBackToExpert={onBackToExpert}
-        />
-      </WidgetProvider>
-    </ErrorBoundary>
-  );
 };
 
 // HOC Widget
@@ -770,3 +728,5 @@ const StUSDSWidgetWrapped = ({
     </WidgetContainer>
   );
 };
+
+export const StUSDSWidget = withWidgetProvider(StUSDSWidgetWrapped, 'StUSDSWidget');
