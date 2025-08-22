@@ -21,22 +21,29 @@ export function getTermsContent(): string {
     return defaultTerms;
   }
 
-  // The keys in termsModules are like '/content/terms.md'
-  // If the env var includes the full path, extract just the filename
+  // Extract just the filename if a full path was provided
   let fileName = termsFileName;
   if (termsFileName.includes('/')) {
-    // Extract just the filename from a path like '/src/content/custom-terms.md'
     fileName = termsFileName.split('/').pop() || termsFileName;
   }
 
-  const termPath = `/content/${fileName}`;
-
-  if (termsModules[termPath]) {
-    console.log(`Using custom terms file: ${fileName}`);
-    return termsModules[termPath];
+  // Ensure the filename has a .md extension
+  if (!fileName.endsWith('.md')) {
+    fileName = `${fileName}.md`;
   }
 
-  console.warn(`Terms file not found: ${fileName} at path ${termPath}, falling back to default`);
+  // Find the module key that ends with the filename
+  // This handles various path formats like '/content/terms.md', '/src/content/terms.md', etc.
+  const matchedKey = Object.keys(termsModules).find(
+    key => key.endsWith(`/${fileName}`) || key.endsWith(fileName)
+  );
+
+  if (matchedKey) {
+    console.log(`Using custom terms file: ${fileName} (matched key: ${matchedKey})`);
+    return termsModules[matchedKey];
+  }
+
+  console.warn(`Terms file not found: ${fileName}, falling back to default`);
   console.warn('Available files:', Object.keys(termsModules));
   return defaultTerms;
 }
