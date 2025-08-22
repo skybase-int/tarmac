@@ -45,6 +45,7 @@ import { useL2TradeTransactions } from './hooks/useL2TradeTransactions';
 import { useMaxInForWithdraw } from './hooks/useMaxInForWithdraw';
 import { useMaxOutForDeposit } from './hooks/useMaxOutForDeposit';
 import { Trans } from '@lingui/react/macro';
+import { getTooltipById } from '../../data/tooltips';
 
 export type TradeWidgetProps = WidgetProps & {
   customTokenList?: TokenForChain[];
@@ -973,6 +974,7 @@ function TradeWidgetWrapped({
                 transactionData={[
                   {
                     label: t`Exchange rate`,
+                    tooltipText: getTooltipById('exchange-rate')?.tooltip || '',
                     value: (() => {
                       if (!originAmount || originAmount === 0n || !targetAmount) return '1:1';
 
