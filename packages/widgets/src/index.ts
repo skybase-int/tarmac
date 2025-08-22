@@ -33,7 +33,11 @@ export { formatUrnIndex } from './widgets/SealModuleWidget/lib/utils';
 export { defaultConfig } from './config/default-config';
 export type { WidgetsConfig } from './config/types/widgets-config';
 export { NoResults } from './shared/components/icons/NoResults';
-export { PopoverRateInfo } from './shared/components/ui/PopoverRateInfo';
+export {
+  PopoverRateInfo,
+  POPOVER_TOOLTIP_TYPES,
+  type PopoverTooltipType
+} from './shared/components/ui/PopoverRateInfo';
 export { PopoverInfo } from './shared/components/ui/PopoverInfo';
 export type { PopoverInfoProps } from './shared/components/ui/PopoverInfo';
 export { UtilizationBar } from './shared/components/ui/UtilizationBar';
