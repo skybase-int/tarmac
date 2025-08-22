@@ -343,6 +343,21 @@ export const calculateUpgradePenalty = (fee: bigint | undefined): string => {
   return fracStr.endsWith('0') ? `${intPart}.${fracStr[0]}` : `${intPart}.${fracStr}`;
 };
 
+export const calculateEffectiveSkyRate = (fee: bigint | undefined): string => {
+  // Base rate is 1 MKR = 24,000 SKY
+  const baseRate = MKR_TO_SKY_RATE;
+
+  if (!fee || fee === 0n) {
+    return baseRate.toLocaleString();
+  }
+
+  // Calculate effective rate after fee (fee is WAD scaled, 1e18 = 100%)
+  const oneWad = parseUnits('1', 18);
+  const effectiveRate = (baseRate * (oneWad - fee)) / oneWad;
+
+  return effectiveRate.toLocaleString();
+};
+
 export const convertUSDCtoWad = (usdcAmount: bigint) => {
   const usdcFixed = FixedNumber.fromValue(usdcAmount, USDC_PRECISION, USDC_FORMAT);
   const usdcWad = usdcFixed.round(USDC_PRECISION).toFormat(WAD_FORMAT);

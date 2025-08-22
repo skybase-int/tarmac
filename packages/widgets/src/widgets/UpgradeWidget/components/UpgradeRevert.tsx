@@ -137,6 +137,40 @@ export function UpgradeRevert({
                       }
                     })()
                   },
+                  ...(originToken?.symbol === TOKENS.mkr.symbol
+                    ? [
+                        {
+                          label: t`Delayed Upgrade Penalty`,
+                          value: isFeeLoading ? '...' : `${upgradePenalty}%`,
+                          tooltipText: (
+                            <>
+                              <Text>
+                                The Delayed Upgrade Penalty is a time-based upgrade mechanism, approved by Sky
+                                Ecosystem Governance, which is designed to facilitate a smooth and prompt
+                                upgrade of MKR to SKY.
+                              </Text>
+                              <br />
+                              <Text>
+                                The penalty, which will begin sometime in September 2025, reduces the amount
+                                of SKY received per MKR upgraded at a rate of 1%, and increases by 1% every
+                                three months thereafter until it reaches 100% in 25 years. The penalty will
+                                not apply to anyone upgrading their MKR to SKY before it kicks in.
+                              </Text>
+                            </>
+                          )
+                        },
+                        {
+                          label: t`Effective rate`,
+                          value: isFeeLoading
+                            ? '...'
+                            : (() => {
+                                // Calculate the effective SKY amount after penalty
+                                const effectiveRate = math.calculateEffectiveSkyRate(mkrSkyFee);
+                                return `1:${effectiveRate.toLocaleString()}`;
+                              })()
+                        }
+                      ]
+                    : []),
                   {
                     label: t`Tokens to receive`,
                     value: `${formatBigInt(targetAmount, {
@@ -175,31 +209,7 @@ export function UpgradeRevert({
                             })
                           ]
                         : '--'
-                  },
-                  ...(originToken?.symbol === TOKENS.mkr.symbol
-                    ? [
-                        {
-                          label: t`Delayed Upgrade Penalty`,
-                          value: isFeeLoading ? '...' : `${upgradePenalty}%`,
-                          tooltipText: (
-                            <>
-                              <Text>
-                                The Delayed Upgrade Penalty is a time-based upgrade mechanism, approved by Sky
-                                Ecosystem Governance, which is designed to facilitate a smooth and prompt
-                                upgrade of MKR to SKY.
-                              </Text>
-                              <br />
-                              <Text>
-                                The penalty, which will begin sometime in September 2025, reduces the amount
-                                of SKY received per MKR upgraded at a rate of 1%, and increases by 1% every
-                                three months thereafter until it reaches 100% in 25 years. The penalty will
-                                not apply to anyone upgrading their MKR to SKY before it kicks in.
-                              </Text>
-                            </>
-                          )
-                        }
-                      ]
-                    : [])
+                  }
                 ]}
               />
             </motion.div>
