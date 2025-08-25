@@ -225,6 +225,9 @@ export const POPOVER_TOOLTIP_TYPES = [
   'borrow',
   'delegate',
   'liquidation',
+  'stusds',
+  'stusdsLiquidity',
+  'totalStakingDebt',
   'delayedUpgradePenalty'
 ] as const;
 
