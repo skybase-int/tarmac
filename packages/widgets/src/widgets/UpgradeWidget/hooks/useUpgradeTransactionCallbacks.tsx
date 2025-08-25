@@ -12,6 +12,7 @@ interface UseUpgradeTransactionCallbacksParameters
   originToken: Token;
   targetToken: Token;
   tabIndex: 0 | 1;
+  shouldAllowExternalUpdate: React.RefObject<boolean>;
   mutateAllowance: () => void;
   mutateOriginBalance: () => void;
   mutateTargetBalance: () => void;
@@ -23,6 +24,7 @@ export const useUpgradeTransactionCallbacks = ({
   originToken,
   targetToken,
   tabIndex,
+  shouldAllowExternalUpdate,
   mutateAllowance,
   mutateOriginBalance,
   mutateTargetBalance,
@@ -31,7 +33,7 @@ export const useUpgradeTransactionCallbacks = ({
   onWidgetStateChange,
   onNotification
 }: UseUpgradeTransactionCallbacksParameters) => {
-  const { handleOnStart, handleOnSuccess, handleOnError } = useTransactionCallbacks({
+  const { handleOnMutate, handleOnStart, handleOnSuccess, handleOnError } = useTransactionCallbacks({
     addRecentTransaction,
     onWidgetStateChange,
     onNotification
@@ -40,6 +42,10 @@ export const useUpgradeTransactionCallbacks = ({
   // Upgrade approve
   const approveTransactionCallbacks = useMemo<TransactionCallbacks>(
     () => ({
+      onMutate: () => {
+        shouldAllowExternalUpdate.current = false;
+        handleOnMutate();
+      },
       onStart: hash => {
         handleOnStart({
           hash,
@@ -67,18 +73,24 @@ export const useUpgradeTransactionCallbacks = ({
     }),
     [
       handleOnError,
+      handleOnMutate,
       handleOnStart,
       handleOnSuccess,
       mutateAllowance,
       originAmount,
       originToken.symbol,
-      retryPrepareAction
+      retryPrepareAction,
+      shouldAllowExternalUpdate
     ]
   );
 
   // Upgrade action manager
   const upgradeManagerTransactionCallbacks = useMemo<TransactionCallbacks>(
     () => ({
+      onMutate: () => {
+        shouldAllowExternalUpdate.current = false;
+        handleOnMutate();
+      },
       onStart: hash => {
         handleOnStart({
           hash,
@@ -119,6 +131,7 @@ export const useUpgradeTransactionCallbacks = ({
     }),
     [
       handleOnError,
+      handleOnMutate,
       handleOnStart,
       handleOnSuccess,
       mutateAllowance,
@@ -127,7 +140,8 @@ export const useUpgradeTransactionCallbacks = ({
       originAmount,
       originToken.symbol,
       tabIndex,
-      targetToken.symbol
+      targetToken.symbol,
+      shouldAllowExternalUpdate
     ]
   );
 

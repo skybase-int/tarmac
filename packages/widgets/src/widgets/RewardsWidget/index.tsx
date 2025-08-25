@@ -140,8 +140,7 @@ const RewardsWidgetWrapped = ({
     txStatus,
     setExternalLink,
     widgetState,
-    setWidgetState,
-    setShowStepIndicator
+    setWidgetState
   } = useContext(WidgetContext);
 
   useNotifyWidgetState({ widgetState, txStatus, onWidgetStateChange });
@@ -151,25 +150,20 @@ const RewardsWidgetWrapped = ({
     amount,
     referralCode,
     allowance,
+    rewardsBalance,
     addRecentTransaction,
     onWidgetStateChange,
     onNotification,
     mutateAllowance,
     mutateTokenBalance,
     mutateRewardsBalance,
-    mutateUserSuppliedBalance
+    mutateUserSuppliedBalance,
+    setClaimAmount
   });
 
   const needsAllowance = !!(!allowance || allowance < amount);
   const shouldUseBatch =
     !!batchEnabled && !!batchSupported && needsAllowance && widgetState.flow === RewardsFlow.SUPPLY;
-
-  useEffect(() => {
-    // Only the supply flow requires token allowance
-    setShowStepIndicator(
-      widgetState.flow === RewardsFlow.SUPPLY && widgetState.action !== RewardsAction.CLAIM
-    );
-  }, [widgetState.flow, widgetState.action]);
 
   useEffect(() => {
     if (widgetState.action === RewardsAction.CLAIM) {
@@ -323,37 +317,9 @@ const RewardsWidgetWrapped = ({
     }
   }, [debouncedBalanceError]);
 
-  const approveOnClick = () => {
-    setWidgetState((prev: WidgetState) => ({ ...prev, screen: RewardsScreen.TRANSACTION }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    approve.execute();
-  };
-  const supplyOnClick = () => {
-    setWidgetState((prev: WidgetState) => ({ ...prev, screen: RewardsScreen.TRANSACTION }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    supply.execute();
-  };
-  const batchSupplyOnClick = () => {
-    if (!needsAllowance) {
-      // If the user does not need allowance, just send the individual transaction as it will be more gas efficient
-      supplyOnClick();
-      return;
-    }
-    setWidgetState((prev: WidgetState) => ({ ...prev, screen: RewardsScreen.TRANSACTION }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    batchSupply.execute();
-  };
-  const withdrawOnClick = () => {
-    setWidgetState((prev: WidgetState) => ({ ...prev, screen: RewardsScreen.TRANSACTION }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    withdraw.execute();
-  };
   const nextOnClick = () => {
     setTxStatus(TxStatus.IDLE);
+    setAmount(0n);
 
     setWidgetState((prev: WidgetState) => ({
       ...prev,
@@ -365,16 +331,6 @@ const RewardsWidgetWrapped = ({
             : RewardsAction.SUPPLY,
       screen: RewardsScreen.ACTION
     }));
-
-    // if successful supply/wWITHDRAW, reset amount
-    if (widgetState.action !== RewardsAction.APPROVE) {
-      setAmount(0n);
-    }
-
-    // if successfully approved, go to supply/withdraw
-    if (widgetState.action === RewardsAction.APPROVE && !needsAllowance) {
-      return widgetState.flow === RewardsFlow.SUPPLY ? supplyOnClick() : withdrawOnClick();
-    }
   };
 
   const reviewOnClick = () => {
@@ -397,27 +353,15 @@ const RewardsWidgetWrapped = ({
   const errorOnClick = () => {
     return widgetState.action === RewardsAction.SUPPLY
       ? shouldUseBatch
-        ? batchSupplyOnClick()
-        : supplyOnClick()
+        ? batchSupply.execute()
+        : supply.execute()
       : widgetState.action === RewardsAction.WITHDRAW
-        ? withdrawOnClick()
+        ? withdraw.execute()
         : widgetState.action === RewardsAction.APPROVE
-          ? approveOnClick()
+          ? approve.execute()
           : widgetState.action === RewardsAction.CLAIM
-            ? onClaimClick()
+            ? claim.execute()
             : undefined;
-  };
-
-  const onClaimClick = () => {
-    setClaimAmount(rewardsBalance || 0n);
-    setWidgetState((prev: WidgetState) => ({
-      ...prev,
-      screen: RewardsScreen.TRANSACTION,
-      action: RewardsAction.CLAIM
-    }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    claim?.execute();
   };
 
   const onClickAction = !isConnectedAndEnabled
@@ -430,12 +374,12 @@ const RewardsWidgetWrapped = ({
           ? reviewOnClick
           : widgetState.flow === RewardsFlow.SUPPLY
             ? shouldUseBatch
-              ? batchSupplyOnClick
+              ? batchSupply.execute
               : widgetState.action === RewardsAction.APPROVE
-                ? approveOnClick
-                : supplyOnClick
+                ? approve.execute
+                : supply.execute
             : widgetState.flow === RewardsFlow.WITHDRAW && widgetState.action === RewardsAction.WITHDRAW
-              ? withdrawOnClick
+              ? withdraw.execute
               : undefined;
 
   const showSecondaryButton = txStatus === TxStatus.ERROR || widgetState.screen === RewardsScreen.REVIEW;
@@ -494,7 +438,7 @@ const RewardsWidgetWrapped = ({
         ...prev,
         action: RewardsAction.SUPPLY
       }));
-      supplyOnClick();
+      supply.execute();
     }
   }, [widgetState.action, txStatus, supply.prepared]);
 
@@ -679,7 +623,7 @@ const RewardsWidgetWrapped = ({
                       widgetState
                     });
                   }}
-                  onClaimClick={onClaimClick}
+                  onClaimClick={claim.execute}
                   isConnectedAndEnabled={isConnectedAndEnabled}
                   tabIndex={tabIndex}
                   onExternalLinkClicked={onExternalLinkClicked}
