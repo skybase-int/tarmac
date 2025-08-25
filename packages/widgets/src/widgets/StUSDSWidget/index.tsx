@@ -231,39 +231,6 @@ const StUSDSWidgetWrapped = ({
     isAmountWaitingForDebounce ||
     (!!batchEnabled && isBatchSupportLoading);
 
-  const approveOnClick = () => {
-    setWidgetState((prev: WidgetState) => ({ ...prev, screen: StUSDSScreen.TRANSACTION }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    stUsdsApprove.execute();
-  };
-
-  const supplyOnClick = () => {
-    setWidgetState((prev: WidgetState) => ({ ...prev, screen: StUSDSScreen.TRANSACTION }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    stUsdsDeposit.execute();
-  };
-
-  const batchSupplyOnClick = () => {
-    if (!needsAllowance) {
-      // If the user does not need allowance, just send the individual transaction as it will be more gas efficient
-      supplyOnClick();
-      return;
-    }
-    setWidgetState((prev: WidgetState) => ({ ...prev, screen: StUSDSScreen.TRANSACTION }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    batchStUsdsDeposit.execute();
-  };
-
-  const withdrawOnClick = () => {
-    setWidgetState((prev: WidgetState) => ({ ...prev, screen: StUSDSScreen.TRANSACTION }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    stUsdsWithdraw.execute();
-  };
-
   // Handle external state changes
   useEffect(() => {
     const tokenDecimals = getTokenDecimals(usds, chainId);
@@ -287,6 +254,7 @@ const StUSDSWidgetWrapped = ({
 
   const nextOnClick = () => {
     setTxStatus(TxStatus.IDLE);
+    setAmount(0n);
 
     setWidgetState((prev: WidgetState) => ({
       ...prev,
@@ -299,21 +267,12 @@ const StUSDSWidgetWrapped = ({
       screen: StUSDSScreen.ACTION
     }));
 
-    // if successful supply/withdraw, reset amount
-    if (widgetState.action !== StUSDSAction.APPROVE) {
-      setAmount(0n);
-      // Notify external state about the cleared amount with IDLE status
-      onWidgetStateChange?.({
-        originAmount: '',
-        txStatus: TxStatus.IDLE,
-        widgetState
-      });
-    }
-
-    // if successfully approved, go to supply/withdraw
-    if (widgetState.action === StUSDSAction.APPROVE && !needsAllowance) {
-      return widgetState.flow === StUSDSFlow.SUPPLY ? supplyOnClick() : withdrawOnClick();
-    }
+    // Notify external state about the cleared amount
+    onWidgetStateChange?.({
+      originAmount: '',
+      txStatus,
+      widgetState
+    });
   };
 
   const reviewOnClick = () => {
@@ -335,12 +294,12 @@ const StUSDSWidgetWrapped = ({
   const errorOnClick = () => {
     return widgetState.action === StUSDSAction.SUPPLY
       ? shouldUseBatch
-        ? batchSupplyOnClick()
-        : supplyOnClick()
+        ? batchStUsdsDeposit.execute()
+        : stUsdsDeposit.execute()
       : widgetState.action === StUSDSAction.WITHDRAW
-        ? withdrawOnClick()
+        ? stUsdsWithdraw.execute()
         : widgetState.action === StUSDSAction.APPROVE
-          ? approveOnClick()
+          ? stUsdsApprove.execute()
           : undefined;
   };
 
@@ -354,12 +313,12 @@ const StUSDSWidgetWrapped = ({
           ? reviewOnClick
           : widgetState.flow === StUSDSFlow.SUPPLY
             ? shouldUseBatch
-              ? batchSupplyOnClick
+              ? batchStUsdsDeposit.execute
               : widgetState.action === StUSDSAction.APPROVE
-                ? approveOnClick
-                : supplyOnClick
+                ? stUsdsApprove.execute
+                : stUsdsDeposit.execute
             : widgetState.flow === StUSDSFlow.WITHDRAW && widgetState.action === StUSDSAction.WITHDRAW
-              ? withdrawOnClick
+              ? stUsdsWithdraw.execute
               : undefined;
 
   const showSecondaryButton = txStatus === TxStatus.ERROR || widgetState.screen === StUSDSScreen.REVIEW;
@@ -455,7 +414,7 @@ const StUSDSWidgetWrapped = ({
         ...prev,
         action: StUSDSAction.SUPPLY
       }));
-      supplyOnClick();
+      stUsdsDeposit.execute();
     }
   }, [widgetState.action, txStatus, stUsdsDeposit.prepared]);
 

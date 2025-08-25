@@ -22,7 +22,7 @@ export const useStUsdsTransactionCallbacks = ({
   mutateStUsds,
   retryPrepareDeposit
 }: UseStUsdsTransactionCallbacksParameters) => {
-  const { handleOnStart, handleOnSuccess, handleOnError } = useTransactionCallbacks({
+  const { handleOnMutate, handleOnStart, handleOnSuccess, handleOnError } = useTransactionCallbacks({
     addRecentTransaction,
     onWidgetStateChange,
     onNotification
@@ -30,6 +30,7 @@ export const useStUsdsTransactionCallbacks = ({
 
   const approveTransactionCallbacks = useMemo<TransactionCallbacks>(
     () => ({
+      onMutate: handleOnMutate,
       onStart: hash => {
         handleOnStart({
           hash,
@@ -55,11 +56,20 @@ export const useStUsdsTransactionCallbacks = ({
         mutateAllowance();
       }
     }),
-    [amount, handleOnError, handleOnStart, handleOnSuccess, mutateAllowance, retryPrepareDeposit]
+    [
+      amount,
+      handleOnMutate,
+      handleOnError,
+      handleOnStart,
+      handleOnSuccess,
+      mutateAllowance,
+      retryPrepareDeposit
+    ]
   );
 
   const supplyTransactionCallbacks = useMemo<TransactionCallbacks>(
     () => ({
+      onMutate: handleOnMutate,
       onStart: hash => {
         handleOnStart({
           hash,
@@ -86,11 +96,12 @@ export const useStUsdsTransactionCallbacks = ({
         mutateStUsds();
       }
     }),
-    [amount, handleOnError, handleOnStart, handleOnSuccess, mutateAllowance, mutateStUsds]
+    [amount, handleOnMutate, handleOnError, handleOnStart, handleOnSuccess, mutateAllowance, mutateStUsds]
   );
 
   const withdrawTransactionCallbacks = useMemo<TransactionCallbacks>(
     () => ({
+      onMutate: handleOnMutate,
       onStart: hash => {
         handleOnStart({
           hash,
@@ -116,7 +127,7 @@ export const useStUsdsTransactionCallbacks = ({
         mutateStUsds();
       }
     }),
-    [amount, handleOnError, handleOnStart, handleOnSuccess, mutateAllowance, mutateStUsds]
+    [amount, handleOnMutate, handleOnError, handleOnStart, handleOnSuccess, mutateAllowance, mutateStUsds]
   );
 
   return { approveTransactionCallbacks, supplyTransactionCallbacks, withdrawTransactionCallbacks };

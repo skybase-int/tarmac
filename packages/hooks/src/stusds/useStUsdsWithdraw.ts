@@ -11,6 +11,7 @@ import { Abi } from 'viem';
 export function useStUsdsWithdraw({
   amount,
   gas,
+  onMutate = () => null,
   onSuccess = () => null,
   onError = () => null,
   onStart = () => null,
@@ -75,6 +76,7 @@ export function useStUsdsWithdraw({
     chainId,
     gas,
     enabled,
+    onMutate,
     onSuccess,
     onError,
     onStart

@@ -6,6 +6,7 @@ import { useApproveToken } from '../tokens/useApproveToken';
 export function useStUsdsApprove({
   amount,
   gas,
+  onMutate = () => null,
   onSuccess = () => null,
   onError = () => null,
   onStart = () => null
@@ -21,6 +22,7 @@ export function useStUsdsApprove({
     spender: stUsdsAddress[chainId as keyof typeof stUsdsAddress],
     amount,
     gas,
+    onMutate,
     onError,
     onSuccess,
     onStart
