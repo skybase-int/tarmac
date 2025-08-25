@@ -6,6 +6,7 @@ import {
   mkrSkyAddress,
   useIsBatchSupported,
   useTokenBalance,
+  useMkrSkyFee,
   useTokenAllowance
 } from '@jetstreamgg/sky-hooks';
 import { UpgradeRevert } from './components/UpgradeRevert';
@@ -178,6 +179,18 @@ export function UpgradeWidgetWrapped({
 
   const { data: batchSupported, isLoading: isBatchSupportLoading } = useIsBatchSupported();
   const isMetaMaskWallet = useIsMetaMaskWallet();
+
+  // Fetch the current fee from the contract
+  const { data: mkrSkyFee, isLoading: isFeeLoading } = useMkrSkyFee();
+
+  // Calculate target amount with fee applied
+  const targetAmount = useMemo(() => {
+    // Don't calculate if fee is still loading or undefined
+    if (isFeeLoading || mkrSkyFee === undefined) {
+      return 0n;
+    }
+    return math.calculateConversion(originToken, debouncedOriginAmount, mkrSkyFee);
+  }, [originToken, debouncedOriginAmount, mkrSkyFee, isFeeLoading]);
 
   const {
     data: allowance,
@@ -630,7 +643,7 @@ export function UpgradeWidgetWrapped({
               originToken={originToken}
               originAmount={originAmount}
               targetToken={targetToken}
-              targetAmount={math.calculateConversion(originToken, debouncedOriginAmount)}
+              targetAmount={targetAmount}
               onExternalLinkClicked={onExternalLinkClicked}
               isBatchTransaction={shouldUseBatch}
               needsAllowance={!hasAllowance}
@@ -645,7 +658,7 @@ export function UpgradeWidgetWrapped({
               originToken={originToken}
               originAmount={debouncedOriginAmount}
               targetToken={targetToken}
-              targetAmount={math.calculateConversion(originToken, debouncedOriginAmount)}
+              targetAmount={targetAmount}
               needsAllowance={!hasAllowance}
               legalBatchTxUrl={legalBatchTxUrl}
               isBatchFlowSupported={!shouldAvoidBundledFlow}
@@ -663,7 +676,9 @@ export function UpgradeWidgetWrapped({
                     : t`Enter an amount of USDS to revert`
                 }
                 originAmount={originAmount}
-                targetAmount={math.calculateConversion(originToken, debouncedOriginAmount)}
+                targetAmount={targetAmount}
+                mkrSkyFee={mkrSkyFee}
+                isFeeLoading={isFeeLoading}
                 originOptions={calculateOriginOptions(
                   originToken,
                   tabIndex === 0 ? 'upgrade' : 'revert',
