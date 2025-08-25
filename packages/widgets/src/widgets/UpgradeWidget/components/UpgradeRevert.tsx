@@ -33,6 +33,8 @@ type Props = WidgetProps & {
   isConnectedAndEnabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   disallowedFlow?: string;
+  mkrSkyFee?: bigint;
+  isFeeLoading?: boolean;
 };
 
 export function UpgradeRevert({
@@ -52,13 +54,18 @@ export function UpgradeRevert({
   onOriginInputChange,
   onMenuItemChange,
   isConnectedAndEnabled = true,
-  disallowedFlow
+  disallowedFlow,
+  mkrSkyFee,
+  isFeeLoading
 }: Props): React.ReactElement {
   const chainId = useChainId();
 
   // Check if each flow is disabled
   const isUpgradeDisabled = disallowedFlow === UpgradeFlow.UPGRADE;
   const isRevertDisabled = disallowedFlow === UpgradeFlow.REVERT;
+
+  // Calculate the upgrade penalty percentage for display
+  const upgradePenalty = math.calculateUpgradePenalty(mkrSkyFee);
 
   return (
     <VStack className="w-full items-center justify-center">
@@ -128,14 +135,14 @@ export function UpgradeRevert({
                         originToken?.symbol === TOKENS.mkr.symbol &&
                         targetToken?.symbol === TOKENS.sky.symbol
                       ) {
-                        return `1:${math.MKR_TO_SKY_PRICE_RATIO.toString()}`;
+                        return `1:${math.MKR_TO_SKY_RATE.toLocaleString()}`;
                       }
                       // Check if it's SKY to MKR conversion
                       else if (
                         originToken?.symbol === TOKENS.sky.symbol &&
                         targetToken?.symbol === TOKENS.mkr.symbol
                       ) {
-                        return `${math.MKR_TO_SKY_PRICE_RATIO.toString()}:1`;
+                        return `${math.MKR_TO_SKY_RATE.toLocaleString()}:1`;
                       }
                       // All other conversions are 1:1 (DAI to USDS, USDS to DAI)
                       else {
@@ -143,6 +150,40 @@ export function UpgradeRevert({
                       }
                     })()
                   },
+                  ...(originToken?.symbol === TOKENS.mkr.symbol
+                    ? [
+                        {
+                          label: t`Delayed Upgrade Penalty`,
+                          value: isFeeLoading ? '...' : `${upgradePenalty}%`,
+                          tooltipText: (
+                            <>
+                              <Text>
+                                The Delayed Upgrade Penalty is a time-based upgrade mechanism, approved by Sky
+                                Ecosystem Governance, which is designed to facilitate a smooth and prompt
+                                upgrade of MKR to SKY.
+                              </Text>
+                              <br />
+                              <Text>
+                                The penalty, which will begin sometime in September 2025, reduces the amount
+                                of SKY received per MKR upgraded at a rate of 1%, and increases by 1% every
+                                three months thereafter until it reaches 100% in 25 years. The penalty will
+                                not apply to anyone upgrading their MKR to SKY before it kicks in.
+                              </Text>
+                            </>
+                          )
+                        },
+                        {
+                          label: t`Effective rate`,
+                          value: isFeeLoading
+                            ? '...'
+                            : (() => {
+                                // Calculate the effective SKY amount after penalty
+                                const effectiveRate = math.calculateEffectiveSkyRate(mkrSkyFee);
+                                return `1:${effectiveRate.toLocaleString()}`;
+                              })()
+                        }
+                      ]
+                    : []),
                   {
                     label: t`Tokens to receive`,
                     value: `${formatBigInt(targetAmount, {
@@ -150,6 +191,37 @@ export function UpgradeRevert({
                       compact: true
                     })} ${targetToken?.symbol}`
                   },
+                  ...(originToken?.symbol === TOKENS.mkr.symbol &&
+                  mkrSkyFee &&
+                  mkrSkyFee > 0n &&
+                  originAmount > 0n
+                    ? [
+                        {
+                          label: t`Delayed Upgrade Fee`,
+                          value: isFeeLoading
+                            ? '...'
+                            : (() => {
+                                // Calculate gross SKY amount (without fee)
+                                const grossAmount = math.calculateConversion(originToken, originAmount, 0n);
+                                // Calculate net SKY amount (with fee applied)
+                                const netAmount = math.calculateConversion(
+                                  originToken,
+                                  originAmount,
+                                  mkrSkyFee
+                                );
+                                // The difference is the penalty
+                                const penaltyAmount = grossAmount - netAmount;
+
+                                const penaltyFormatted = formatBigInt(penaltyAmount, {
+                                  unit: 18, // Result is in wei
+                                  compact: true
+                                });
+
+                                return `${penaltyFormatted} SKY`;
+                              })()
+                        }
+                      ]
+                    : []),
                   {
                     label: t`Your wallet ${originToken?.symbol || ''} balance`,
                     value:
@@ -181,32 +253,7 @@ export function UpgradeRevert({
                             })
                           ]
                         : '--'
-                  },
-                  ...(originToken?.symbol === TOKENS.mkr.symbol
-                    ? [
-                        {
-                          label: t`Delayed Upgrade Penalty`,
-                          // TODO: Fetch this value dynamically
-                          value: '0%',
-                          tooltipText: (
-                            <>
-                              <Text>
-                                The Delayed Upgrade Penalty is a time-based upgrade mechanism, approved by Sky
-                                Ecosystem Governance, which is designed to facilitate a smooth and prompt
-                                upgrade of MKR to SKY.
-                              </Text>
-                              <br />
-                              <Text>
-                                The penalty, which will begin sometime in September 2025, reduces the amount
-                                of SKY received per MKR upgraded at a rate of 1%, and increases by 1% every
-                                three months thereafter until it reaches 100% in 25 years. The penalty will
-                                not apply to anyone upgrading their MKR to SKY before it kicks in.
-                              </Text>
-                            </>
-                          )
-                        }
-                      ]
-                    : [])
+                  }
                 ]}
               />
             </motion.div>
