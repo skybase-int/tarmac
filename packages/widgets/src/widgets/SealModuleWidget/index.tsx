@@ -1,5 +1,5 @@
 import { ErrorBoundary } from '@widgets/shared/components/ErrorBoundary';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef } from 'react';
 import { WidgetContext, WidgetProvider } from '@widgets/context/WidgetContext';
 import { WidgetProps, WidgetState } from '@widgets/shared/types/widgetState';
 import { WidgetContainer } from '@widgets/shared/components/ui/widget/WidgetContainer';
@@ -25,10 +25,8 @@ import { SelectDelegate } from './components/SelectDelegate';
 import { PositionSummary } from './components/PositionSummary';
 import {
   useSealCurrentIndex,
-  useSaMkrAllowance,
   useSaNgtAllowance,
   useSaNstAllowance as useSealUsdsAllowance,
-  useSaMkrApprove,
   useSaNstApprove as useSealUsdsApprove,
   useSaMulticall,
   useClaimRewards,
@@ -44,7 +42,6 @@ import { SealModuleTransactionStatus } from './components/SealModuleTransactionS
 import { Button } from '@widgets/components/ui/button';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { ArrowLeft } from 'lucide-react';
-import { getValidatedState } from '@widgets/lib/utils';
 import { UnconnectedState } from './components/UnconnectedState';
 import { useLingui } from '@lingui/react';
 import { OnSealUrnChange } from './lib/types';
@@ -112,10 +109,6 @@ function SealModuleWidgetWrapped({
   onNavigateToStakeWidget,
   mkrSkyUpgradeUrl
 }: SealModuleWidgetProps) {
-  const validatedExternalState = getValidatedState(externalWidgetState);
-  const initialTabIndex = validatedExternalState?.sealTab === SealAction.LOCK ? 1 : 0;
-  const [tabIndex, setTabIndex] = useState<0 | 1>(initialTabIndex);
-  const tabSide = tabIndex === 0 ? 'left' : 'right';
   const containerRef = useRef<HTMLDivElement>(null);
 
   const {
@@ -145,15 +138,12 @@ function SealModuleWidgetWrapped({
     isBorrowCompleted,
     calldata,
     setCalldata,
-    mkrToLock,
     usdsToWipe,
+    mkrToFree, // eslint-disable-line @typescript-eslint/no-unused-vars
     generateAllCalldata,
     currentStep,
     setCurrentStep,
     setActiveUrn,
-    setMkrToLock,
-    setSkyToLock,
-    setUsdsToBorrow,
     setSelectedDelegate,
     setSelectedRewardContract,
     setAcceptedExitFee,
@@ -164,8 +154,7 @@ function SealModuleWidgetWrapped({
     setIndexToClaim,
     rewardContractToClaim,
     setRewardContractToClaim,
-    wipeAll,
-    displayToken
+    wipeAll
   } = useContext(SealModuleWidgetContext);
 
   // Returns the urn index to use for opening a new urn
@@ -184,8 +173,6 @@ function SealModuleWidgetWrapped({
 
   const urnIndexForTransaction = activeUrn?.urnIndex ?? currentUrnIndex;
 
-  const debouncedMkrAmount = useDebounce(mkrToLock);
-  const debouncedLockAmount = debouncedMkrAmount;
   const WIPE_BUFFER_MULTIPLIER = 100005n;
   const WIPE_BUFFER_DIVISOR = 100000n;
   // Approve a 0.005% extra amount of USDS to give users a time margin to pay the debt
@@ -194,15 +181,7 @@ function SealModuleWidgetWrapped({
     wipeAll && usdsToWipe ? (usdsToWipe * WIPE_BUFFER_MULTIPLIER) / WIPE_BUFFER_DIVISOR : usdsToWipe
   );
 
-  const {
-    data: sealMkrAllowance,
-    mutate: mutateSealMkrAllowance,
-    isLoading: sealMkrAllowanceLoading
-  } = useSaMkrAllowance();
-
   const { mutate: mutateSealNgtAllowance } = useSaNgtAllowance();
-
-  const sealLockAllowanceLoading = sealMkrAllowanceLoading;
 
   const {
     data: sealUsdsAllowance,
@@ -218,42 +197,6 @@ function SealModuleWidgetWrapped({
 
   const allStepsComplete =
     isLockCompleted && isBorrowCompleted && isSelectRewardContractCompleted && isSelectDelegateCompleted;
-
-  const lockMkrApprove = useSaMkrApprove({
-    amount: debouncedMkrAmount,
-    onStart: (hash: string) => {
-      addRecentTransaction?.({
-        hash,
-        description: t`Approving ${formatBigInt(debouncedMkrAmount)} MKR`
-      });
-      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
-    },
-    onSuccess: hash => {
-      onNotification?.({
-        title: t`Approve successful`,
-        description: t`You approved MKR`,
-        status: TxStatus.SUCCESS
-      });
-      setTxStatus(TxStatus.SUCCESS);
-      mutateSealMkrAllowance();
-      multicall.retryPrepare();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
-    },
-    onError: (error, hash) => {
-      onNotification?.({
-        title: t`Approval failed`,
-        description: t`We could not approve your token allowance.`,
-        status: TxStatus.ERROR
-      });
-      setTxStatus(TxStatus.ERROR);
-      mutateSealMkrAllowance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
-    },
-    enabled: widgetState.action === SealAction.APPROVE && sealMkrAllowance !== undefined
-  });
 
   const repayUsdsApprove = useSealUsdsApprove({
     amount: debouncedUsdsAmount,
@@ -307,7 +250,6 @@ function SealModuleWidgetWrapped({
         status: TxStatus.SUCCESS
       });
       setTxStatus(TxStatus.SUCCESS);
-      mutateSealMkrAllowance();
       // TODO Mutate balances here
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
     },
@@ -318,7 +260,6 @@ function SealModuleWidgetWrapped({
         status: TxStatus.ERROR
       });
       setTxStatus(TxStatus.ERROR);
-      mutateSealMkrAllowance();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
       console.log(error);
     }
@@ -373,8 +314,6 @@ function SealModuleWidgetWrapped({
    * USEEFFECTS ----------------------------------------------------------------------------------
    */
 
-  const needsMkrAllowance = !!(sealMkrAllowance === undefined || sealMkrAllowance < debouncedMkrAmount);
-  const needsLockAllowance = needsMkrAllowance;
   const needsUsdsAllowance = !!(sealUsdsAllowance === undefined || sealUsdsAllowance < debouncedUsdsAmount);
 
   // Generate calldata when all steps are complete
@@ -389,21 +328,10 @@ function SealModuleWidgetWrapped({
   // Ref: https://lingui.dev/tutorials/react-patterns#memoization-pitfall
   useEffect(() => {
     if (isConnectedAndEnabled) {
-      if (
-        widgetState.action === SealAction.APPROVE &&
-        txStatus === TxStatus.SUCCESS &&
-        !needsLockAllowance &&
-        !needsUsdsAllowance
-      ) {
+      if (widgetState.action === SealAction.APPROVE && txStatus === TxStatus.SUCCESS && !needsUsdsAllowance) {
         setButtonText(t`Continue`);
       } else if (txStatus === TxStatus.ERROR) {
         setButtonText(t`Retry`);
-      } else if (
-        widgetState.action === SealAction.APPROVE &&
-        currentStep === SealStep.SUMMARY &&
-        needsLockAllowance
-      ) {
-        setButtonText(t`Approve seal amount`);
       } else if (
         widgetState.action === SealAction.APPROVE &&
         currentStep === SealStep.SUMMARY &&
@@ -435,7 +363,6 @@ function SealModuleWidgetWrapped({
     isConnectedAndEnabled,
     shouldOpenFromWidgetButton,
     currentStep,
-    needsLockAllowance,
     needsUsdsAllowance
   ]);
 
@@ -449,9 +376,8 @@ function SealModuleWidgetWrapped({
 
   const approveDisabled =
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
-    (needsLockAllowance && (!lockMkrApprove.prepared || lockMkrApprove.isLoading)) ||
     (needsUsdsAllowance && (!repayUsdsApprove.prepared || repayUsdsApprove.isLoading)) ||
-    (!needsLockAllowance && !needsUsdsAllowance && txStatus === TxStatus.SUCCESS && !multicall.prepared); //disable next button if multicall is not prepared
+    (!needsUsdsAllowance && txStatus === TxStatus.SUCCESS && !multicall.prepared); //disable next button if multicall is not prepared
 
   // Set widget button to be disabled depending on which action we're in
   useEffect(() => {
@@ -540,44 +466,27 @@ function SealModuleWidgetWrapped({
       widgetState.screen === SealScreen.ACTION &&
       (widgetState.flow === SealFlow.OPEN || (widgetState.flow === SealFlow.MANAGE && activeUrn))
     ) {
-      if (tabSide === 'right') {
-        setWidgetState((prev: WidgetState) => ({
-          ...prev,
-          action:
-            debouncedUsdsAmount > 0n && needsUsdsAllowance && !sealUsdsAllowanceLoading
-              ? SealAction.APPROVE
-              : SealAction.MULTICALL
-        }));
-      } else {
-        setWidgetState((prev: WidgetState) => ({
-          ...prev,
-          action:
-            debouncedLockAmount > 0n && needsLockAllowance && !sealLockAllowanceLoading
-              ? SealAction.APPROVE
-              : SealAction.MULTICALL
-        }));
-      }
+      setWidgetState((prev: WidgetState) => ({
+        ...prev,
+        action:
+          debouncedUsdsAmount > 0n && needsUsdsAllowance && !sealUsdsAllowanceLoading
+            ? SealAction.APPROVE
+            : SealAction.MULTICALL
+      }));
     }
   }, [
     debouncedUsdsAmount,
-    debouncedLockAmount,
     widgetState.screen,
     widgetState.flow,
     needsUsdsAllowance,
     sealUsdsAllowanceLoading,
-    needsLockAllowance,
-    sealLockAllowanceLoading,
-    activeUrn,
-    tabSide
+    activeUrn
   ]);
 
   useEffect(() => {
     if (widgetState.flow === SealFlow.OPEN) {
       // Reset the wizard state when we start a new open flow
       setActiveUrn(undefined, onSealUrnChange ?? (() => {}));
-      setMkrToLock(0n);
-      setSkyToLock(0n);
-      setUsdsToBorrow(0n);
       setSelectedDelegate(undefined);
       setSelectedRewardContract(undefined);
     }
@@ -623,16 +532,6 @@ function SealModuleWidgetWrapped({
     }
   }, [externalWidgetState?.urnIndex, externalParamUrnAddress]);
 
-  useEffect(() => {
-    if (!displayToken) return;
-
-    onWidgetStateChange?.({
-      widgetState,
-      txStatus,
-      displayToken
-    });
-  }, [displayToken]);
-
   // Handle network changes
   useEffect(() => {
     // Reset widget state when network changes
@@ -640,11 +539,8 @@ function SealModuleWidgetWrapped({
     setExternalLink(undefined);
 
     // Reset all state variables
-    setMkrToLock(0n);
-    setSkyToLock(0n);
     setMkrToFree(0n);
     setUsdsToWipe(0n);
-    setUsdsToBorrow(0n);
     setAcceptedExitFee(false);
 
     // Reset claim-related state
@@ -675,9 +571,6 @@ function SealModuleWidgetWrapped({
       });
     }
 
-    // Reset to first tab
-    setTabIndex(0);
-
     // Reset current step
     setCurrentStep(SealStep.ABOUT);
 
@@ -685,7 +578,6 @@ function SealModuleWidgetWrapped({
     setActiveUrn(undefined, onSealUrnChange ?? (() => {}));
 
     // Refresh allowances
-    mutateSealMkrAllowance();
     mutateSealNgtAllowance();
     mutateSealUsdsAllowance();
   }, [chainId]);
@@ -709,9 +601,7 @@ function SealModuleWidgetWrapped({
     }));
     setTxStatus(TxStatus.INITIALIZED);
     setExternalLink(undefined);
-    if (needsLockAllowance) {
-      lockMkrApprove.execute();
-    } else if (needsUsdsAllowance) {
+    if (needsUsdsAllowance) {
       repayUsdsApprove.execute();
     }
   };
@@ -773,12 +663,8 @@ function SealModuleWidgetWrapped({
     setActiveUrn(undefined, onSealUrnChange ?? (() => {}));
     setCurrentStep(SealStep.ABOUT);
     setAcceptedExitFee(false);
-    setMkrToLock(0n);
-    setSkyToLock(0n);
     setMkrToFree(0n);
     setUsdsToWipe(0n);
-    setUsdsToBorrow(0n);
-    setTabIndex(0);
   };
 
   const handleClickOpenPosition = () => {
@@ -796,7 +682,6 @@ function SealModuleWidgetWrapped({
     : currentStep === SealStep.SUMMARY &&
         widgetState.action === SealAction.APPROVE &&
         txStatus === TxStatus.SUCCESS &&
-        !needsLockAllowance &&
         !needsUsdsAllowance
       ? submitOnClick
       : txStatus === TxStatus.SUCCESS
@@ -850,12 +735,8 @@ function SealModuleWidgetWrapped({
       action: SealAction.OVERVIEW
     }));
     setCurrentStep(SealStep.ABOUT);
-    setMkrToLock(0n);
-    setSkyToLock(0n);
     setMkrToFree(0n);
     setUsdsToWipe(0n);
-    setUsdsToBorrow(0n);
-    setTabIndex(0);
     setBackButtonText(t`Back`);
   };
 
@@ -914,7 +795,7 @@ function SealModuleWidgetWrapped({
                 <StepperBar
                   step={stepIndex}
                   totalSteps={totalSteps}
-                  title={i18n._(getStepTitle(currentStep, tabSide))}
+                  title={i18n._(getStepTitle(currentStep, 'right'))}
                 />
               </motion.div>
             )}
@@ -927,8 +808,6 @@ function SealModuleWidgetWrapped({
                       onExternalLinkClicked={onExternalLinkClicked}
                       currentStep={currentStep}
                       currentAction={widgetState.action}
-                      onClickTrigger={setTabIndex}
-                      tabSide={tabSide}
                       claimPrepared={claimRewards.prepared}
                       claimExecute={claimRewards.execute}
                       onSealUrnChange={onSealUrnChange}
@@ -942,8 +821,6 @@ function SealModuleWidgetWrapped({
                       isConnectedAndEnabled={isConnectedAndEnabled}
                       onExternalLinkClicked={onExternalLinkClicked}
                       currentStep={currentStep}
-                      onClickTrigger={setTabIndex}
-                      tabSide={tabSide}
                       termsLink={termsLink}
                     />
                   )}
@@ -961,15 +838,11 @@ const Wizard = ({
   isConnectedAndEnabled,
   onExternalLinkClicked,
   currentStep,
-  onClickTrigger,
-  tabSide,
   termsLink
 }: {
   isConnectedAndEnabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   currentStep: SealStep;
-  onClickTrigger: any;
-  tabSide: 'left' | 'right';
   termsLink?: { url: string; name: string };
 }) => {
   return (
@@ -983,8 +856,6 @@ const Wizard = ({
         <OpenNewUrn
           isConnectedAndEnabled={isConnectedAndEnabled}
           onExternalLinkClicked={onExternalLinkClicked}
-          onClickTrigger={onClickTrigger}
-          tabSide={tabSide}
           termsLink={termsLink}
         />
       )}
@@ -1002,8 +873,6 @@ const ManagePosition = ({
   onExternalLinkClicked,
   currentStep,
   currentAction,
-  onClickTrigger,
-  tabSide,
   claimPrepared,
   claimExecute,
   onSealUrnChange,
@@ -1015,8 +884,6 @@ const ManagePosition = ({
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   currentStep: SealStep;
   currentAction: SealAction;
-  onClickTrigger: any;
-  tabSide: 'left' | 'right';
   claimPrepared: boolean;
   mkrSkyUpgradeUrl?: string;
   claimExecute: () => void;
@@ -1038,8 +905,6 @@ const ManagePosition = ({
       isConnectedAndEnabled={isConnectedAndEnabled}
       onExternalLinkClicked={onExternalLinkClicked}
       currentStep={currentStep}
-      onClickTrigger={onClickTrigger}
-      tabSide={tabSide}
       termsLink={termsLink}
     />
   );

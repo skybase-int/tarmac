@@ -19,7 +19,6 @@ import {
   captitalizeFirstLetter,
   formatBigInt,
   formatPercent,
-  math,
   useDebounce
 } from '@jetstreamgg/sky-utils';
 import { formatUnits } from 'viem';
@@ -66,19 +65,12 @@ const PositionManagerOverviewContainer = ({
   minDebtNotMet: boolean;
 }) => {
   const chainId = useChainId();
-  const { displayToken } = useContext(SealModuleWidgetContext);
   const { data: collateralData } = useCollateralData();
   const hasPositions = !!existingVault;
 
   // New amount values here will factor in user input, if there is no existing vault then amounts will not be included
-  const newCollateralAmount =
-    displayToken === mkr
-      ? simulatedVault?.collateralAmount || 0n
-      : math.calculateConversion(mkr, simulatedVault?.collateralAmount || 0n, 0n);
-  const existingColAmount =
-    displayToken === mkr
-      ? existingVault?.collateralAmount || 0n
-      : math.calculateConversion(mkr, existingVault?.collateralAmount || 0n, 0n);
+  const newCollateralAmount = simulatedVault?.collateralAmount || 0n;
+  const existingColAmount = existingVault?.collateralAmount || 0n;
 
   const newBorrowAmount = simulatedVault?.debtValue || 0n;
   const existingBorrowAmount = existingVault?.debtValue || 0n;
@@ -90,22 +82,12 @@ const PositionManagerOverviewContainer = ({
     Number(formatUnits(existingVault?.collateralizationRatio || 0n, WAD_PRECISION)) * 100
   ).toFixed(2)}%`;
 
-  const newLiqPrice = `$${formatBigInt(
-    displayToken === mkr
-      ? simulatedVault?.liquidationPrice || 0n
-      : math.calculateMKRtoSKYPrice(simulatedVault?.liquidationPrice || 0n, 0n),
-    {
-      unit: WAD_PRECISION
-    }
-  )}`;
-  const existingLiqPrice = `$${formatBigInt(
-    displayToken === mkr
-      ? existingVault?.liquidationPrice || 0n
-      : math.calculateMKRtoSKYPrice(existingVault?.liquidationPrice || 0n, 0n),
-    {
-      unit: WAD_PRECISION
-    }
-  )}`;
+  const newLiqPrice = `$${formatBigInt(simulatedVault?.liquidationPrice || 0n, {
+    unit: WAD_PRECISION
+  })}`;
+  const existingLiqPrice = `$${formatBigInt(existingVault?.liquidationPrice || 0n, {
+    unit: WAD_PRECISION
+  })}`;
 
   const existingRiskLevel = existingVault?.riskLevel || LOW;
   const riskLevel = simulatedVault?.riskLevel || LOW;
@@ -139,10 +121,10 @@ const PositionManagerOverviewContainer = ({
           value:
             hasPositions && newCollateralAmount !== existingColAmount
               ? [
-                  `${formatBigInt(existingColAmount)}  ${displayToken.symbol}`,
-                  `${formatBigInt(newCollateralAmount)}  ${displayToken.symbol}`
+                  `${formatBigInt(existingColAmount)}  ${mkr.symbol}`,
+                  `${formatBigInt(newCollateralAmount)}  ${mkr.symbol}`
                 ]
-              : `${formatBigInt(newCollateralAmount)}  ${displayToken.symbol}`
+              : `${formatBigInt(newCollateralAmount)}  ${mkr.symbol}`
         },
         {
           label: t`Exit fee`,
@@ -151,7 +133,7 @@ const PositionManagerOverviewContainer = ({
               ? [
                   `${formatBigInt((existingColAmount - newCollateralAmount) * exitFee, {
                     unit: WAD_PRECISION * 2
-                  })} ${displayToken.symbol}`
+                  })} ${mkr.symbol}`
                 ]
               : ''
         },
@@ -185,8 +167,8 @@ const PositionManagerOverviewContainer = ({
               }
             ],
         {
-          label: t`Current ${displayToken.symbol} price`,
-          value: `$${formatBigInt(displayToken === mkr ? simulatedVault?.delayedPrice || 0n : math.calculateMKRtoSKYPrice(simulatedVault?.delayedPrice || 0n, 0n), { unit: WAD_PRECISION })}`
+          label: t`Current ${mkr.symbol} price`,
+          value: `$${formatBigInt(simulatedVault?.delayedPrice || 0n, { unit: WAD_PRECISION })}`
         }
       ].flat(),
     [
@@ -224,10 +206,7 @@ const PositionManagerOverviewContainer = ({
         label: t`Liquidation price`,
         value:
           hasPositions && existingLiqPrice !== newLiqPrice ? [existingLiqPrice, newLiqPrice] : newLiqPrice,
-        tooltipText:
-          getTooltipById(
-            displayToken === TOKENS.mkr ? 'liquidation-price-seal-mkr' : 'liquidation-price-seal-sky'
-          )?.tooltip || ''
+        tooltipText: getTooltipById('liquidation-price-seal-mkr')?.tooltip || ''
       },
       {
         label: t`Collateralization ratio`,
