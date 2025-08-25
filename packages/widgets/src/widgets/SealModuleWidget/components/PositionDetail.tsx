@@ -11,7 +11,7 @@ import {
   useSaRewardContracts,
   useDelegateOwner
 } from '@jetstreamgg/sky-hooks';
-import { captitalizeFirstLetter, formatBigInt, formatPercent } from '@jetstreamgg/sky-utils';
+import { capitalizeFirstLetter, formatBigInt, formatPercent } from '@jetstreamgg/sky-utils';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { getRiskTextColor } from '../lib/utils';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
@@ -137,7 +137,7 @@ export function PositionDetail({
               {liquidationData?.isInLiquidatedState ? (
                 <Text className={'text-error text-right text-sm'}>Liquidated</Text>
               ) : (
-                <Text className={`${riskTextColor}`}>{captitalizeFirstLetter(riskLevel.toLowerCase())}</Text>
+                <Text className={`${riskTextColor}`}>{capitalizeFirstLetter(riskLevel.toLowerCase())}</Text>
               )}
             </VStack>
           )}
