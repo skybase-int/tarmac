@@ -190,11 +190,16 @@ export function UpgradeRevert({
                           value: isFeeLoading
                             ? '...'
                             : (() => {
-                                // First convert MKR to SKY (1 MKR = 24,000 SKY)
-                                const skyAmount = originAmount * BigInt(math.MKR_TO_SKY_RATE);
-
-                                // Then apply the fee percentage to get the penalty amount
-                                const penaltyAmount = (skyAmount * mkrSkyFee) / BigInt(10 ** 18);
+                                // Calculate gross SKY amount (without fee)
+                                const grossAmount = math.calculateConversion(originToken, originAmount, 0n);
+                                // Calculate net SKY amount (with fee applied)
+                                const netAmount = math.calculateConversion(
+                                  originToken,
+                                  originAmount,
+                                  mkrSkyFee
+                                );
+                                // The difference is the penalty
+                                const penaltyAmount = grossAmount - netAmount;
 
                                 const penaltyFormatted = formatBigInt(penaltyAmount, {
                                   unit: 18, // Result is in wei
