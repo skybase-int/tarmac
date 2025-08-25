@@ -180,6 +180,32 @@ export function UpgradeRevert({
                       compact: true
                     })} ${targetToken?.symbol}`
                   },
+                  ...(originToken?.symbol === TOKENS.mkr.symbol &&
+                  mkrSkyFee &&
+                  mkrSkyFee > 0n &&
+                  originAmount > 0n
+                    ? [
+                        {
+                          label: t`Delayed Upgrade Fee`,
+                          value: isFeeLoading
+                            ? '...'
+                            : (() => {
+                                // First convert MKR to SKY (1 MKR = 24,000 SKY)
+                                const skyAmount = originAmount * BigInt(math.MKR_TO_SKY_RATE);
+
+                                // Then apply the fee percentage to get the penalty amount
+                                const penaltyAmount = (skyAmount * mkrSkyFee) / BigInt(10 ** 18);
+
+                                const penaltyFormatted = formatBigInt(penaltyAmount, {
+                                  unit: 18, // Result is in wei
+                                  compact: true
+                                });
+
+                                return `${penaltyFormatted} SKY`;
+                              })()
+                        }
+                      ]
+                    : []),
                   {
                     label: t`Your wallet ${originToken?.symbol || ''} balance`,
                     value:
