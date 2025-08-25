@@ -157,7 +157,7 @@ export function StakeRewardsOverview() {
         </Text>
       }
     >
-      <VStack className="space-y-8">
+      <VStack className="space-y-4">
         {data?.map(({ contractAddress }) => (
           <StakeRewardsOverviewRow key={contractAddress} contractAddress={contractAddress} />
         ))}
