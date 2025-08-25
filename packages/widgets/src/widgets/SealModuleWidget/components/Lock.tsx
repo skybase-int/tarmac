@@ -1,5 +1,5 @@
 import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
-import { Token, TOKENS, useTokenBalance } from '@jetstreamgg/sky-hooks';
+import { TOKENS, useTokenBalance } from '@jetstreamgg/sky-hooks';
 import { t } from '@lingui/core/macro';
 import { useContext, useEffect } from 'react';
 import { useAccount, useChainId } from 'wagmi';
@@ -17,17 +17,8 @@ export const Lock = ({
   const { address } = useAccount();
   const chainId = useChainId();
   const { widgetState } = useContext(WidgetContext);
-  const {
-    mkrToLock,
-    setMkrToLock,
-    skyToLock,
-    setSkyToLock,
-    acceptedExitFee,
-    setIsLockCompleted,
-    selectedToken,
-    setSelectedToken,
-    setUsdsToBorrow
-  } = useContext(SealModuleWidgetContext);
+  const { mkrToLock, setMkrToLock, skyToLock, acceptedExitFee, setIsLockCompleted } =
+    useContext(SealModuleWidgetContext);
 
   const { data: mkrBalance } = useTokenBalance({ address, token: TOKENS.mkr.address[chainId], chainId });
   const { data: skyBalance } = useTokenBalance({ address, token: TOKENS.sky.address[chainId], chainId });
@@ -37,59 +28,32 @@ export const Lock = ({
     const hasAcceptedExitFee = widgetState.flow === SealFlow.MANAGE || acceptedExitFee || mkrToLock === 0n;
     const canLockZeroWhenManaging = mkrToLock > 0n || skyToLock > 0n || widgetState.flow === SealFlow.MANAGE; // can lock 0 when managing
     const hasSufficientMkrBalance = !!mkrBalance && mkrToLock <= mkrBalance.value;
-    const hasSufficientSkyBalance = !!skyBalance && skyToLock <= skyBalance.value;
-    const hasSufficientBalance =
-      selectedToken === TOKENS.mkr ? hasSufficientMkrBalance : hasSufficientSkyBalance;
 
-    setIsLockCompleted(hasAcceptedExitFee && canLockZeroWhenManaging && hasSufficientBalance);
-  }, [acceptedExitFee, mkrToLock, mkrBalance, skyToLock, skyBalance, widgetState.flow, selectedToken]);
+    setIsLockCompleted(hasAcceptedExitFee && canLockZeroWhenManaging && hasSufficientMkrBalance);
+  }, [acceptedExitFee, mkrToLock, mkrBalance, skyToLock, skyBalance, widgetState.flow]);
 
   const isMkrSupplyBalanceError =
     address &&
     (mkrBalance?.value || mkrBalance?.value === 0n) &&
     mkrToLock > mkrBalance.value &&
-    mkrToLock !== 0n //don't wait for debouncing on default state
-      ? true
-      : false;
-
-  const isSkySupplyBalanceError =
-    address &&
-    (skyBalance?.value || skyBalance?.value === 0n) &&
-    skyToLock > skyBalance.value &&
-    skyToLock !== 0n //don't wait for debouncing on default state
-      ? true
-      : false;
-
-  const isSupplyBalanceError =
-    selectedToken === TOKENS.mkr ? isMkrSupplyBalanceError : isSkySupplyBalanceError;
-  const balance = selectedToken === TOKENS.mkr ? mkrBalance?.value : skyBalance?.value;
-  const amountToLock = selectedToken === TOKENS.mkr ? mkrToLock : skyToLock;
-  const setAmountToLock = selectedToken === TOKENS.mkr ? setMkrToLock : setSkyToLock;
+    mkrToLock !== 0n; //don't wait for debouncing on default state
 
   return (
     <div>
       <TokenInput
         className="w-full"
-        label={t`How much ${selectedToken.symbol} would you like to seal?`}
+        label={t`How much MKR would you like to seal?`}
         placeholder={t`Enter amount`}
-        token={selectedToken}
+        token={TOKENS.mkr}
         tokenList={[TOKENS.mkr, TOKENS.sky]}
-        balance={balance}
-        value={amountToLock}
+        balance={mkrBalance?.value}
+        value={mkrToLock}
         onChange={(val, event) => {
-          setAmountToLock(val);
+          setMkrToLock(val);
           onChange?.(val, !!event);
         }}
-        onTokenSelected={option => {
-          if (option.symbol !== selectedToken?.symbol) {
-            setSelectedToken(option as Token);
-            setMkrToLock(0n);
-            setSkyToLock(0n);
-            setUsdsToBorrow(0n);
-          }
-        }}
         dataTestId="supply-first-input-lse"
-        error={isSupplyBalanceError ? t`Insufficient funds` : undefined}
+        error={isMkrSupplyBalanceError ? t`Insufficient funds` : undefined}
         showPercentageButtons={isConnectedAndEnabled}
         enabled={isConnectedAndEnabled}
       />

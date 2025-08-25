@@ -3,7 +3,6 @@ import {
   getIlkName,
   getTokenDecimals,
   RiskLevel,
-  Token,
   TOKENS,
   useCollateralData,
   useSimulatedVault,
@@ -31,7 +30,7 @@ import { useSealExitFee } from '@jetstreamgg/sky-hooks';
 import { useRiskSlider } from '../hooks/useRiskSlider';
 import { getTooltipById } from '../../../data/tooltips';
 
-const { usds, mkr, sky } = TOKENS;
+const { usds, mkr } = TOKENS;
 
 const { LOW } = RiskLevel;
 
@@ -60,16 +59,14 @@ const SliderContainer = ({ vault }: { vault?: Vault }) => {
 const PositionManagerOverviewContainer = ({
   simulatedVault,
   existingVault,
-  minDebtNotMet,
-  selectedToken
+  minDebtNotMet
 }: {
   simulatedVault?: Vault;
   existingVault?: Vault;
   minDebtNotMet: boolean;
-  selectedToken: Token;
 }) => {
   const chainId = useChainId();
-  const { displayToken, setDisplayToken } = useContext(SealModuleWidgetContext);
+  const { displayToken } = useContext(SealModuleWidgetContext);
   const { data: collateralData } = useCollateralData();
   const hasPositions = !!existingVault;
 
@@ -274,10 +271,6 @@ const PositionManagerOverviewContainer = ({
     ]
   );
 
-  useEffect(() => {
-    setDisplayToken(selectedToken);
-  }, [selectedToken]);
-
   return (
     <TransactionOverview
       title={t`Position overview`}
@@ -295,16 +288,8 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
 
   const { data: usdsBalance } = useTokenBalance({ address, token: TOKENS.usds.address[chainId], chainId });
 
-  const {
-    setIsBorrowCompleted,
-    usdsToWipe,
-    setUsdsToWipe,
-    setWipeAll,
-    mkrToFree,
-    activeUrn,
-    selectedToken,
-    skyToFree
-  } = useContext(SealModuleWidgetContext);
+  const { setIsBorrowCompleted, usdsToWipe, setUsdsToWipe, setWipeAll, mkrToFree, activeUrn } =
+    useContext(SealModuleWidgetContext);
 
   const { data: existingVault } = useVault(activeUrn?.urnAddress, ilkName);
   // Comes from user input amount
@@ -314,9 +299,7 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
   const newDebtValue = (existingVault?.debtValue || 0n) - debouncedUsdsToWipe;
 
   // Calculated total amount user will have locked based on existing collateral locked plus user input
-  const newCollateralAmount =
-    (existingVault?.collateralAmount || 0n) -
-    (selectedToken === mkr ? mkrToFree : math.calculateConversion(sky, skyToFree, 0n));
+  const newCollateralAmount = (existingVault?.collateralAmount || 0n) - mkrToFree;
 
   const {
     data: simulatedVault,
@@ -392,7 +375,6 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
       <SliderContainer vault={simulatedVault} />
 
       <PositionManagerOverviewContainer
-        selectedToken={selectedToken}
         simulatedVault={simulatedVault}
         existingVault={existingVault}
         minDebtNotMet={minDebtNotMet}

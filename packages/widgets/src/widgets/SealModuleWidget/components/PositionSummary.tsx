@@ -1,7 +1,7 @@
 import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { JSX, useContext, useEffect, useMemo } from 'react';
+import { JSX, useContext, useMemo } from 'react';
 import { SealModuleWidgetContext } from '../context/context';
 import {
   TOKENS,
@@ -120,15 +120,11 @@ export const PositionSummary = () => {
     activeUrn,
     mkrToLock,
     mkrToFree,
-    skyToLock,
-    skyToFree,
     usdsToBorrow,
     usdsToWipe,
     selectedDelegate,
     selectedRewardContract,
-    selectedToken,
-    displayToken,
-    setDisplayToken
+    displayToken
   } = useContext(SealModuleWidgetContext);
 
   const { data: existingRewardContract } = useUrnSelectedRewardContract({
@@ -160,10 +156,8 @@ export const PositionSummary = () => {
   const newBorrowAmount = usdsToBorrow + (existingVault?.debtValue || 0n) - usdsToWipe;
 
   // Calculated total amount user will have locked based on existing collateral locked plus user input
-  const collateralToLock =
-    selectedToken === mkr ? mkrToLock : math.calculateConversion(TOKENS.sky, skyToLock, 0n);
-  const collateralToFree =
-    selectedToken === mkr ? mkrToFree : math.calculateConversion(TOKENS.sky, skyToFree, 0n);
+  const collateralToLock = mkrToLock;
+  const collateralToFree = mkrToFree;
   const newCollateralAmount = collateralToLock + (existingVault?.collateralAmount || 0n) - collateralToFree;
 
   const { data: updatedVault } = useSimulatedVault(
@@ -205,11 +199,11 @@ export const PositionSummary = () => {
     return [
       {
         label: t`Exit fee`,
-        updated: hasPositions && (mkrToFree > 0n || skyToFree > 0n),
+        updated: hasPositions && mkrToFree > 0n,
         value:
-          hasPositions && (mkrToFree > 0n || skyToFree > 0n) && typeof exitFee === 'bigint'
+          hasPositions && mkrToFree > 0n && typeof exitFee === 'bigint'
             ? [
-                `${Number(formatUnits((displayToken === mkr ? mkrToFree : math.calculateConversion(mkr, mkrToFree, 0n)) * exitFee, WAD_PRECISION * 2)).toFixed(2)} ${displayToken.symbol}`
+                `${Number(formatUnits(mkrToFree * exitFee, WAD_PRECISION * 2)).toFixed(2)} ${displayToken.symbol}`
               ]
             : '',
         icon: <TokenIcon token={displayToken} className="h-5 w-5" />
@@ -426,10 +420,6 @@ export const PositionSummary = () => {
       ? lineItems.filter(item => !item.hideIfNoDebt)
       : lineItems;
   const lineItemsUpdated = lineItemsFiltered.filter(item => item.updated);
-
-  useEffect(() => {
-    setDisplayToken(selectedToken);
-  }, [selectedToken]);
 
   return (
     <motion.div variants={positionAnimations}>

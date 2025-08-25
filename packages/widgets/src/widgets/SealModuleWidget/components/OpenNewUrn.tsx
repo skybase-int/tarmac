@@ -49,7 +49,6 @@ export const OpenNewUrn = ({
     setUsdsToWipe,
     activeUrn,
     setMkrToFree,
-    setSkyToFree,
     setIsLockCompleted,
     setIsBorrowCompleted
   } = useContext(SealModuleWidgetContext);
@@ -70,7 +69,6 @@ export const OpenNewUrn = ({
     setMkrToLock(0n);
     setSkyToLock(0n);
     setMkrToFree(0n);
-    setSkyToFree(0n);
     setUsdsToWipe(0n);
     setUsdsToBorrow(0n);
   };

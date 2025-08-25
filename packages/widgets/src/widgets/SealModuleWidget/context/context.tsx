@@ -1,7 +1,6 @@
 import {
   getSaDrawCalldata,
   getSaFreeMkrCalldata,
-  getSaFreeSkyCalldata,
   getSaLockMkrCalldata,
   getSaLockSkyCalldata,
   getSaOpenCalldata,
@@ -49,9 +48,6 @@ export interface SealModuleWidgetContextProps {
   mkrToFree: bigint;
   setMkrToFree: Dispatch<SetStateAction<bigint>>;
 
-  skyToFree: bigint;
-  setSkyToFree: Dispatch<SetStateAction<bigint>>;
-
   usdsToWipe: bigint;
   setUsdsToWipe: Dispatch<SetStateAction<bigint>>;
 
@@ -63,9 +59,6 @@ export interface SealModuleWidgetContextProps {
 
   acceptedMkrUpgrade: boolean;
   setAcceptedMkrUpgrade: Dispatch<SetStateAction<boolean>>;
-
-  selectedToken: Token;
-  setSelectedToken: Dispatch<SetStateAction<Token>>;
 
   displayToken: Token;
   setDisplayToken: Dispatch<SetStateAction<Token>>;
@@ -132,9 +125,6 @@ export const SealModuleWidgetContext = createContext<SealModuleWidgetContextProp
   mkrToFree: 0n,
   setMkrToFree: () => null,
 
-  skyToFree: 0n,
-  setSkyToFree: () => null,
-
   usdsToWipe: 0n,
   setUsdsToWipe: () => null,
 
@@ -152,9 +142,6 @@ export const SealModuleWidgetContext = createContext<SealModuleWidgetContextProp
 
   selectedDelegate: undefined,
   setSelectedDelegate: () => null,
-
-  selectedToken: TOKENS.mkr,
-  setSelectedToken: () => null,
 
   displayToken: TOKENS.mkr,
   setDisplayToken: () => null,
@@ -191,14 +178,12 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
   const [mkrToLock, setMkrToLock] = useState<bigint>(0n);
   const [skyToLock, setSkyToLock] = useState<bigint>(0n);
   const [mkrToFree, setMkrToFree] = useState<bigint>(0n);
-  const [skyToFree, setSkyToFree] = useState<bigint>(0n);
   const [usdsToWipe, setUsdsToWipe] = useState<bigint>(0n);
   const [wipeAll, setWipeAll] = useState<boolean>(false);
   const [acceptedExitFee, setAcceptedExitFee] = useState<boolean>(false);
   const [acceptedMkrUpgrade, setAcceptedMkrUpgrade] = useState<boolean>(false);
   const [selectedRewardContract, setSelectedRewardContract] = useState<`0x${string}` | undefined>();
   const [selectedDelegate, setSelectedDelegate] = useState<`0x${string}` | undefined>();
-  const [selectedToken, setSelectedToken] = useState<Token>(TOKENS.mkr);
   const [displayToken, setDisplayToken] = useState<Token>(TOKENS.mkr);
   const [usdsToBorrow, setUsdsToBorrow] = useState<bigint>(0n);
   const [currentStep, setCurrentStep] = useState<SealStep>(SealStep.ABOUT);
@@ -272,12 +257,6 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
           ? getSaFreeMkrCalldata({ ownerAddress, urnIndex, toAddress: ownerAddress, amount: mkrToFree })
           : undefined;
 
-      // SKY to free
-      const freeSkyCalldata =
-        skyToFree && skyToFree > 0n
-          ? getSaFreeSkyCalldata({ ownerAddress, urnIndex, toAddress: ownerAddress, amount: skyToFree })
-          : undefined;
-
       // USDS to borrow
       const borrowUsdsCalldata =
         usdsToBorrow && usdsToBorrow > 0n
@@ -314,7 +293,6 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
               repayCalldata,
               repayAllCalldata,
               freeMkrCalldata,
-              freeSkyCalldata,
               selectRewardContractCalldata,
               selectDelegateCalldata,
               lockMkrCalldata,
@@ -331,7 +309,6 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
       mkrToLock,
       mkrToFree,
       skyToLock,
-      skyToFree,
       usdsToWipe,
       usdsToBorrow,
       selectedRewardContract,
@@ -360,8 +337,6 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
         setMkrToFree,
         skyToLock,
         setSkyToLock,
-        skyToFree,
-        setSkyToFree,
         usdsToWipe,
         setUsdsToWipe,
         wipeAll,
@@ -389,8 +364,6 @@ export const SealModuleWidgetProvider = ({ children }: { children: ReactNode }):
         setIndexToClaim,
         rewardContractToClaim,
         setRewardContractToClaim,
-        selectedToken,
-        setSelectedToken,
         displayToken,
         setDisplayToken
       }}

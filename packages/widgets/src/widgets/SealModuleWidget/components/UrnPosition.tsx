@@ -51,7 +51,6 @@ export const UrnPosition: React.FC<UrnPositionProps> = ({
     setActiveUrn,
     setCurrentStep,
     setAcceptedExitFee,
-    setSelectedToken,
     displayToken
   } = useContext(SealModuleWidgetContext);
 
@@ -100,7 +99,6 @@ export const UrnPosition: React.FC<UrnPositionProps> = ({
     setActiveUrn({ urnAddress, urnIndex: index }, onSealUrnChange ?? (() => {}));
     setCurrentStep(SealStep.OPEN_BORROW);
     setAcceptedExitFee(false);
-    setSelectedToken(displayToken);
   }, [urnAddress, index, vaultData, urnSelectedVoteDelegate, urnSelectedRewardContract, displayToken]);
 
   return (

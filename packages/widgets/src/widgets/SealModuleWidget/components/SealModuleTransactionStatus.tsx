@@ -51,14 +51,12 @@ function TransactionDetail() {
     mkrToLock,
     mkrToFree,
     skyToLock,
-    skyToFree,
     usdsToBorrow,
     usdsToWipe,
     wipeAll,
     selectedRewardContract,
     selectedDelegate,
-    activeUrn,
-    selectedToken
+    activeUrn
   } = useContext(SealModuleWidgetContext);
   const { data: rewardContractTokens } = useRewardContractTokens(selectedRewardContract);
 
@@ -73,7 +71,7 @@ function TransactionDetail() {
   });
 
   const showSealing = (!!mkrToLock && mkrToLock > 0n) || (!!skyToLock && skyToLock > 0n);
-  const showUnsealing = (!!mkrToFree && mkrToFree > 0n) || (!!skyToFree && skyToFree > 0n);
+  const showUnsealing = !!mkrToFree && mkrToFree > 0n;
   const showBorrowing = !!usdsToBorrow && usdsToBorrow > 0n;
   const showRepaying = (!!usdsToWipe && usdsToWipe > 0n) || wipeAll;
   const showReward =
@@ -85,7 +83,7 @@ function TransactionDetail() {
     selectedDelegateName;
 
   const amountToLock = !!skyToLock && skyToLock > 0n ? skyToLock : mkrToLock;
-  const amountToFree = !!skyToFree && skyToFree > 0n ? skyToFree : mkrToFree;
+  const amountToFree = mkrToFree;
 
   const transactionComponents = [
     {
@@ -95,7 +93,7 @@ function TransactionDetail() {
           <Text variant="medium" className="text-textSecondary leading-4">
             Sealing
           </Text>
-          <TokenIconWithBalance token={selectedToken} balance={formatBigInt(amountToLock)} textLarge />
+          <TokenIconWithBalance token={TOKENS.mkr} balance={formatBigInt(amountToLock)} textLarge />
         </VStack>
       )
     },
@@ -106,7 +104,7 @@ function TransactionDetail() {
           <Text variant="medium" className="text-textSecondary leading-4">
             Unsealing
           </Text>
-          <TokenIconWithBalance token={selectedToken} balance={formatBigInt(amountToFree)} textLarge />
+          <TokenIconWithBalance token={TOKENS.mkr} balance={formatBigInt(amountToFree)} textLarge />
         </VStack>
       )
     },
@@ -188,8 +186,7 @@ export const SealModuleTransactionStatus = ({ onExternalLinkClicked }: SealModul
     setOriginAmount,
     setTxDescription
   } = useContext(WidgetContext);
-  const { mkrToLock, skyToLock, usdsToBorrow, mkrToFree, skyToFree, usdsToWipe, selectedToken } =
-    useContext(SealModuleWidgetContext);
+  const { mkrToLock, skyToLock, usdsToBorrow, mkrToFree, usdsToWipe } = useContext(SealModuleWidgetContext);
 
   const { flow, action, screen } = widgetState;
 
@@ -255,7 +252,7 @@ export const SealModuleTransactionStatus = ({ onExternalLinkClicked }: SealModul
         i18n._(
           usdsToWipe && usdsToWipe > 0n
             ? repayApproveDescription
-            : sealApproveDescription[selectedToken.symbol as keyof typeof sealApproveDescription]
+            : sealApproveDescription[TOKENS.mkr.symbol as keyof typeof sealApproveDescription]
         )
       );
     } else if (action === SealAction.MULTICALL && screen === SealScreen.TRANSACTION) {
@@ -282,14 +279,9 @@ export const SealModuleTransactionStatus = ({ onExternalLinkClicked }: SealModul
                   ? formatBigInt(skyToLock)
                   : undefined,
             borrowAmount: usdsToBorrow && usdsToBorrow > 0n ? formatBigInt(usdsToBorrow) : undefined,
-            collateralToFree:
-              mkrToFree && mkrToFree > 0n
-                ? formatBigInt(mkrToFree)
-                : skyToFree && skyToFree > 0n
-                  ? formatBigInt(skyToFree)
-                  : undefined,
+            collateralToFree: mkrToFree && mkrToFree > 0n ? formatBigInt(mkrToFree) : undefined,
             borrowToRepay: usdsToWipe && usdsToWipe > 0n ? formatBigInt(usdsToWipe) : undefined,
-            selectedToken: selectedToken.symbol
+            selectedToken: TOKENS.mkr.symbol
           })
         )
       );

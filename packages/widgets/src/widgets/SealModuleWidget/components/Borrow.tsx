@@ -3,7 +3,6 @@ import {
   getIlkName,
   getTokenDecimals,
   RiskLevel,
-  Token,
   TOKENS,
   useCollateralData,
   useSimulatedVault,
@@ -63,11 +62,9 @@ const PositionManagerOverviewContainer = ({
   simulatedVault,
   existingVault,
   minCollateralNotMet,
-  selectedToken,
   collateralData,
   debouncedUsdsToBorrow
 }: {
-  selectedToken: Token;
   simulatedVault?: Vault;
   existingVault?: Vault;
   minCollateralNotMet: boolean;
@@ -75,7 +72,7 @@ const PositionManagerOverviewContainer = ({
   debouncedUsdsToBorrow: bigint;
 }) => {
   const chainId = useChainId();
-  const { displayToken, setDisplayToken } = useContext(SealModuleWidgetContext);
+  const { displayToken } = useContext(SealModuleWidgetContext);
   const hasPositions = !!existingVault;
 
   // New amount values here will factor in user input, if there is no existing vault then amounts will not be included
@@ -310,10 +307,6 @@ const PositionManagerOverviewContainer = ({
     ]
   );
 
-  useEffect(() => {
-    setDisplayToken(selectedToken);
-  }, [selectedToken]);
-
   return (
     <TransactionOverview
       title={t`Position overview`}
@@ -325,15 +318,8 @@ const PositionManagerOverviewContainer = ({
 };
 
 export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolean }) => {
-  const {
-    setIsBorrowCompleted,
-    usdsToBorrow,
-    setUsdsToBorrow,
-    mkrToLock,
-    activeUrn,
-    skyToLock,
-    selectedToken
-  } = useContext(SealModuleWidgetContext);
+  const { setIsBorrowCompleted, usdsToBorrow, setUsdsToBorrow, mkrToLock, activeUrn } =
+    useContext(SealModuleWidgetContext);
 
   const chainId = useChainId();
   const ilkName = getIlkName(1);
@@ -347,9 +333,7 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
   const newBorrowAmount = debouncedUsdsToBorrow + (existingVault?.debtValue || 0n);
 
   // Calculated total amount user will have locked based on existing collateral locked plus user input
-  const newCollateralAmount =
-    (selectedToken === mkr ? mkrToLock : math.calculateConversion(sky, skyToLock, 0n)) +
-    (existingVault?.collateralAmount || 0n);
+  const newCollateralAmount = mkrToLock + (existingVault?.collateralAmount || 0n);
 
   const { data: collateralData } = useCollateralData();
 
@@ -460,7 +444,6 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
         simulatedVault={simulatedVault}
         existingVault={existingVault}
         minCollateralNotMet={minCollateralNotMet}
-        selectedToken={selectedToken}
         collateralData={collateralData}
         debouncedUsdsToBorrow={debouncedUsdsToBorrow}
       />
