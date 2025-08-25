@@ -68,7 +68,7 @@ const StUSDSWidgetWrapped = ({
 
   const { mutate: mutateStUsds, data: stUsdsData, isLoading: isStUsdsDataLoading } = useStUsdsData();
   const { data: capacityData } = useStUsdsCapacityData();
-  const { data: allowance, mutate: mutateAllowance, isLoading: allowanceLoading } = useStUsdsAllowance();
+  const { data: allowance, mutate: mutateAllowance } = useStUsdsAllowance();
   const initialAmount =
     validatedExternalState?.amount && validatedExternalState.amount !== '0'
       ? parseUnits(validatedExternalState.amount, 18)
@@ -80,7 +80,7 @@ const StUSDSWidgetWrapped = ({
   const [max, setMax] = useState<boolean>(false);
   const linguiCtx = useLingui();
   const usds = TOKENS.usds;
-  const { data: batchSupported, isLoading: isBatchSupportLoading } = useIsBatchSupported();
+  const { data: batchSupported } = useIsBatchSupported();
 
   useEffect(() => {
     setAmount(initialAmount);
@@ -104,21 +104,21 @@ const StUSDSWidgetWrapped = ({
 
   useNotifyWidgetState({ widgetState, txStatus, onWidgetStateChange });
 
-  const { stUsdsApprove, stUsdsDeposit, batchStUsdsDeposit, stUsdsWithdraw } = useStUsdsTransactions({
-    allowance,
+  const needsAllowance = !!(!allowance || allowance < debouncedAmount);
+  const shouldUseBatch =
+    !!batchEnabled && !!batchSupported && needsAllowance && widgetState.flow === StUSDSFlow.SUPPLY;
+
+  const { batchStUsdsDeposit, stUsdsWithdraw } = useStUsdsTransactions({
     amount,
     referralCode,
     max,
+    shouldUseBatch,
     mutateAllowance,
     mutateStUsds,
     addRecentTransaction,
     onWidgetStateChange,
     onNotification
   });
-
-  const needsAllowance = !!(!allowance || allowance < debouncedAmount);
-  const shouldUseBatch =
-    !!batchEnabled && !!batchSupported && needsAllowance && widgetState.flow === StUSDSFlow.SUPPLY;
 
   useEffect(() => {
     //Initialize the supply flow only when we are connected
@@ -146,29 +146,6 @@ const StUSDSWidgetWrapped = ({
       });
     }
   }, [tabIndex, isConnectedAndEnabled]);
-
-  // If we're in the supply flow, need allowance and batch transactions are not supported, set the action to approve
-  useEffect(() => {
-    if (
-      widgetState.flow === StUSDSFlow.SUPPLY &&
-      (widgetState.screen === StUSDSScreen.ACTION || widgetState.screen === StUSDSScreen.REVIEW)
-    ) {
-      setWidgetState((prev: WidgetState) => ({
-        ...prev,
-        action:
-          needsAllowance && !allowanceLoading && !shouldUseBatch && !isBatchSupportLoading
-            ? StUSDSAction.APPROVE
-            : StUSDSAction.SUPPLY
-      }));
-    }
-  }, [
-    widgetState.flow,
-    widgetState.screen,
-    needsAllowance,
-    allowanceLoading,
-    shouldUseBatch,
-    isBatchSupportLoading
-  ]);
 
   useEffect(() => {
     setShowStepIndicator(widgetState.flow === StUSDSFlow.SUPPLY);
@@ -202,34 +179,12 @@ const StUSDSWidgetWrapped = ({
     !stUsdsWithdraw.prepared ||
     isAmountWaitingForDebounce;
 
-  const supplyDisabled =
-    [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
-    isSupplyBalanceError ||
-    allowance === undefined ||
-    !stUsdsDeposit.prepared ||
-    stUsdsDeposit.isLoading ||
-    isAmountWaitingForDebounce;
-
   const batchSupplyDisabled =
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
     isSupplyBalanceError ||
     !batchStUsdsDeposit.prepared ||
     batchStUsdsDeposit.isLoading ||
-    isAmountWaitingForDebounce ||
-    // If the user has allowance, don't send a batch transaction as it's only 1 contract call
-    !needsAllowance ||
-    allowanceLoading ||
-    !batchSupported;
-
-  const approveDisabled =
-    [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
-    isSupplyBalanceError ||
-    !stUsdsApprove.prepared ||
-    stUsdsApprove.isLoading ||
-    (txStatus === TxStatus.SUCCESS && !stUsdsDeposit.prepared) || //disable next button if supply not prepared
-    allowance === undefined ||
-    isAmountWaitingForDebounce ||
-    (!!batchEnabled && isBatchSupportLoading);
+    isAmountWaitingForDebounce;
 
   // Handle external state changes
   useEffect(() => {
@@ -258,12 +213,7 @@ const StUSDSWidgetWrapped = ({
 
     setWidgetState((prev: WidgetState) => ({
       ...prev,
-      action:
-        prev.flow === StUSDSFlow.WITHDRAW
-          ? StUSDSAction.WITHDRAW
-          : needsAllowance
-            ? StUSDSAction.APPROVE
-            : StUSDSAction.SUPPLY,
+      action: prev.flow === StUSDSFlow.WITHDRAW ? StUSDSAction.WITHDRAW : StUSDSAction.SUPPLY,
       screen: StUSDSScreen.ACTION
     }));
 
@@ -293,14 +243,10 @@ const StUSDSWidgetWrapped = ({
   // Handle the error onClicks separately to keep it clean
   const errorOnClick = () => {
     return widgetState.action === StUSDSAction.SUPPLY
-      ? shouldUseBatch
-        ? batchStUsdsDeposit.execute()
-        : stUsdsDeposit.execute()
+      ? batchStUsdsDeposit.execute()
       : widgetState.action === StUSDSAction.WITHDRAW
         ? stUsdsWithdraw.execute()
-        : widgetState.action === StUSDSAction.APPROVE
-          ? stUsdsApprove.execute()
-          : undefined;
+        : undefined;
   };
 
   const onClickAction = !isConnectedAndEnabled
@@ -312,27 +258,12 @@ const StUSDSWidgetWrapped = ({
         : widgetState.screen === StUSDSScreen.ACTION
           ? reviewOnClick
           : widgetState.flow === StUSDSFlow.SUPPLY
-            ? shouldUseBatch
-              ? batchStUsdsDeposit.execute
-              : widgetState.action === StUSDSAction.APPROVE
-                ? stUsdsApprove.execute
-                : stUsdsDeposit.execute
-            : widgetState.flow === StUSDSFlow.WITHDRAW && widgetState.action === StUSDSAction.WITHDRAW
+            ? batchStUsdsDeposit.execute
+            : widgetState.flow === StUSDSFlow.WITHDRAW
               ? stUsdsWithdraw.execute
               : undefined;
 
   const showSecondaryButton = txStatus === TxStatus.ERROR || widgetState.screen === StUSDSScreen.REVIEW;
-
-  useEffect(() => {
-    if (stUsdsDeposit.prepareError) {
-      console.log(stUsdsDeposit.prepareError);
-      onNotification?.({
-        title: t`Error preparing transaction`,
-        description: stUsdsDeposit.prepareError.message,
-        status: TxStatus.ERROR
-      });
-    }
-  }, [stUsdsDeposit.prepareError]);
 
   useEffect(() => {
     if (stUsdsWithdraw.prepareError) {
@@ -360,7 +291,7 @@ const StUSDSWidgetWrapped = ({
   // Ref: https://lingui.dev/tutorials/react-patterns#memoization-pitfall
   useEffect(() => {
     if (isConnectedAndEnabled) {
-      if (txStatus === TxStatus.SUCCESS && widgetState.action !== StUSDSAction.APPROVE) {
+      if (txStatus === TxStatus.SUCCESS) {
         setButtonText(t`Back to stUSDS`);
       } else if (txStatus === TxStatus.ERROR) {
         setButtonText(t`Retry`);
@@ -369,65 +300,34 @@ const StUSDSWidgetWrapped = ({
       } else if (widgetState.screen === StUSDSScreen.ACTION) {
         setButtonText(t`Review`);
       } else if (widgetState.screen === StUSDSScreen.REVIEW) {
-        if (shouldUseBatch) {
+        if (widgetState.flow === StUSDSFlow.WITHDRAW) {
+          setButtonText(t`Confirm withdrawal`);
+        } else if (shouldUseBatch) {
           setButtonText(t`Confirm bundled transaction`);
-        } else if (widgetState.action === StUSDSAction.APPROVE) {
+        } else if (needsAllowance) {
           setButtonText(t`Confirm 2 transactions`);
         } else if (widgetState.flow === StUSDSFlow.SUPPLY) {
           setButtonText(t`Confirm supply`);
-        } else if (widgetState.flow === StUSDSFlow.WITHDRAW) {
-          setButtonText(t`Confirm withdrawal`);
         }
       }
     } else {
       setButtonText(t`Connect Wallet`);
     }
-  }, [widgetState, txStatus, linguiCtx, amount, isConnectedAndEnabled, shouldUseBatch]);
+  }, [widgetState, txStatus, linguiCtx, amount, isConnectedAndEnabled, shouldUseBatch, needsAllowance]);
 
   // Set widget button to be disabled depending on which action we're in
   useEffect(() => {
     setIsDisabled(
       isConnectedAndEnabled &&
-        ((widgetState.action === StUSDSAction.SUPPLY &&
-          (shouldUseBatch ? batchSupplyDisabled : supplyDisabled)) ||
-          (widgetState.action === StUSDSAction.WITHDRAW && withdrawDisabled) ||
-          (widgetState.action === StUSDSAction.APPROVE && approveDisabled))
+        ((widgetState.action === StUSDSAction.SUPPLY && batchSupplyDisabled) ||
+          (widgetState.action === StUSDSAction.WITHDRAW && withdrawDisabled))
     );
-  }, [
-    widgetState.action,
-    supplyDisabled,
-    withdrawDisabled,
-    approveDisabled,
-    isConnectedAndEnabled,
-    shouldUseBatch,
-    batchSupplyDisabled
-  ]);
-
-  // After a successful approval, wait for the next hook (supply) to be prepared and send the transaction
-  useEffect(() => {
-    if (
-      widgetState.action === StUSDSAction.APPROVE &&
-      txStatus === TxStatus.SUCCESS &&
-      stUsdsDeposit.prepared
-    ) {
-      setWidgetState((prev: WidgetState) => ({
-        ...prev,
-        action: StUSDSAction.SUPPLY
-      }));
-      stUsdsDeposit.execute();
-    }
-  }, [widgetState.action, txStatus, stUsdsDeposit.prepared]);
+  }, [widgetState.action, withdrawDisabled, isConnectedAndEnabled, batchSupplyDisabled]);
 
   // Set isLoading to be consumed by WidgetButton
   useEffect(() => {
-    setIsLoading(
-      isConnecting ||
-        txStatus === TxStatus.LOADING ||
-        txStatus === TxStatus.INITIALIZED ||
-        // Keep the loading state after a successful approval as a new transaction will automatically pop up
-        (widgetState.action === StUSDSAction.APPROVE && txStatus === TxStatus.SUCCESS)
-    );
-  }, [isConnecting, txStatus, widgetState.action]);
+    setIsLoading(isConnecting || txStatus === TxStatus.LOADING || txStatus === TxStatus.INITIALIZED);
+  }, [isConnecting, txStatus]);
 
   const debouncedBalanceError = useDebounce(isSupplyBalanceError, 2000);
   useEffect(() => {

@@ -10,7 +10,6 @@ interface UseStUsdsTransactionCallbacksParameters
   amount: bigint;
   mutateAllowance: () => void;
   mutateStUsds: () => void;
-  retryPrepareDeposit: () => void;
 }
 
 export const useStUsdsTransactionCallbacks = ({
@@ -19,8 +18,7 @@ export const useStUsdsTransactionCallbacks = ({
   onWidgetStateChange,
   onNotification,
   mutateAllowance,
-  mutateStUsds,
-  retryPrepareDeposit
+  mutateStUsds
 }: UseStUsdsTransactionCallbacksParameters) => {
   const { handleOnMutate, handleOnStart, handleOnSuccess, handleOnError } = useTransactionCallbacks({
     addRecentTransaction,
@@ -28,48 +26,12 @@ export const useStUsdsTransactionCallbacks = ({
     onNotification
   });
 
-  const approveTransactionCallbacks = useMemo<TransactionCallbacks>(
-    () => ({
-      onMutate: handleOnMutate,
-      onStart: hash => {
-        handleOnStart({
-          hash,
-          recentTransactionDescription: t`Approving ${formatBigInt(amount)} USDS`
-        });
-      },
-      onSuccess: hash => {
-        handleOnSuccess({
-          hash,
-          notificationTitle: t`Approve successful`,
-          notificationDescription: t`You approved ${formatBigInt(amount)} USDS`
-        });
-        mutateAllowance();
-        retryPrepareDeposit();
-      },
-      onError: (error, hash) => {
-        handleOnError({
-          error,
-          hash,
-          notificationTitle: t`Approval failed`,
-          notificationDescription: t`We could not approve your token allowance.`
-        });
-        mutateAllowance();
-      }
-    }),
-    [
-      amount,
-      handleOnMutate,
-      handleOnError,
-      handleOnStart,
-      handleOnSuccess,
-      mutateAllowance,
-      retryPrepareDeposit
-    ]
-  );
-
   const supplyTransactionCallbacks = useMemo<TransactionCallbacks>(
     () => ({
-      onMutate: handleOnMutate,
+      onMutate: () => {
+        mutateAllowance();
+        handleOnMutate();
+      },
       onStart: hash => {
         handleOnStart({
           hash,
@@ -130,5 +92,5 @@ export const useStUsdsTransactionCallbacks = ({
     [amount, handleOnMutate, handleOnError, handleOnStart, handleOnSuccess, mutateAllowance, mutateStUsds]
   );
 
-  return { approveTransactionCallbacks, supplyTransactionCallbacks, withdrawTransactionCallbacks };
+  return { supplyTransactionCallbacks, withdrawTransactionCallbacks };
 };

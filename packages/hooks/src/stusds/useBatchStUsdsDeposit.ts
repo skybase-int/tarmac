@@ -5,7 +5,7 @@ import { stUsdsImplementationAbi } from './useReadStUsdsImplementation';
 import { Abi, Call, erc20Abi } from 'viem';
 import { useStUsdsAllowance } from './useStUsdsAllowance';
 import { getWriteContractCall } from '../shared/getWriteContractCall';
-import { useSendBatchTransactionFlow } from '../shared/useSendBatchTransactionFlow';
+import { useTransactionFlow } from '../shared/useTransactionFlow';
 
 export function useBatchStUsdsDeposit({
   amount,
@@ -14,6 +14,7 @@ export function useBatchStUsdsDeposit({
   onError = () => null,
   onStart = () => null,
   enabled: activeTabEnabled = true,
+  shouldUseBatch = true,
   referral = 0
 }: BatchWriteHookParams & {
   amount: bigint;
@@ -52,10 +53,11 @@ export function useBatchStUsdsDeposit({
     activeTabEnabled &&
     !!connectedAddress;
 
-  const sendBatchTransactionFlowResults = useSendBatchTransactionFlow({
+  const transactionFlowResults = useTransactionFlow({
     calls,
     chainId,
     enabled,
+    shouldUseBatch,
     onMutate,
     onSuccess,
     onError,
@@ -63,7 +65,7 @@ export function useBatchStUsdsDeposit({
   });
 
   return {
-    ...sendBatchTransactionFlowResults,
-    error: sendBatchTransactionFlowResults.error || allowanceError
+    ...transactionFlowResults,
+    error: transactionFlowResults.error || allowanceError
   };
 }
