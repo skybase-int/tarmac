@@ -9,6 +9,7 @@ type L2ChainId =
   | typeof arbitrum.id
   | typeof optimism.id
   | typeof unichain.id;
+type CowswapChainId = typeof mainnet.id | typeof base.id | typeof arbitrum.id | typeof sepolia.id;
 
 export const contracts: { name: string; address: Record<ChainId, `0x${string}`> }[] = [
   // Savings module
@@ -103,13 +104,6 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
     address: {
       [mainnet.id]: '0x19c0976f590d67707e62397c87829d896dc0f1f1',
       [TENDERLY_CHAIN_ID]: '0x19c0976f590d67707e62397c87829d896dc0f1f1'
-    }
-  },
-  {
-    name: 'ethFlow',
-    address: {
-      [mainnet.id]: '0xba3cb449bd2b4adddbc894d8697f5170800eadec',
-      [TENDERLY_CHAIN_ID]: '0xba3cb449bd2b4adddbc894d8697f5170800eadec'
     }
   },
   // new Sky contracts
@@ -219,14 +213,6 @@ export const contracts: { name: string; address: Record<ChainId, `0x${string}`> 
       [TENDERLY_CHAIN_ID]: '0xca9eF7F3404B23C77A2a0Dee8ab54B3338d35eAe'
     }
   },
-  // CoW Protocol
-  {
-    name: 'gPv2Settlement',
-    address: {
-      [mainnet.id]: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41',
-      [TENDERLY_CHAIN_ID]: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41'
-    }
-  },
   // StakeModule
   {
     name: 'stakeModule',
@@ -296,19 +282,6 @@ export const sepoliaContracts: { name: string; address: Record<typeof sepolia.id
     address: {
       [sepolia.id]: '0x58Eb19eF91e8A6327FEd391b51aE1887b833cc91'
     }
-  },
-  {
-    name: 'ethFlowSepolia',
-    address: {
-      [sepolia.id]: '0x0b7795E18767259CC253a2dF471db34c72B49516'
-    }
-  },
-  // CoW Protocol
-  {
-    name: 'gPv2SettlementSepolia',
-    address: {
-      [sepolia.id]: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41'
-    }
   }
 ];
 
@@ -366,6 +339,28 @@ export const l2Contracts: { name: string; address: Record<L2ChainId, `0x${string
       [arbitrum.id]: '0xEE2816c1E1eed14d444552654Ed3027abC033A36',
       [optimism.id]: '0x6E53585449142A5E6D5fC918AE6BEa341dC81C68',
       [unichain.id]: '0x1566BFA55D95686a823751298533D42651183988'
+    }
+  }
+];
+
+export const cowswapContracts: { name: string; address: Record<CowswapChainId, `0x${string}`> }[] = [
+  // CoW Protocol
+  {
+    name: 'gPv2Settlement',
+    address: {
+      [mainnet.id]: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41',
+      [base.id]: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41',
+      [arbitrum.id]: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41',
+      [sepolia.id]: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41'
+    }
+  },
+  {
+    name: 'ethFlow',
+    address: {
+      [mainnet.id]: '0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC',
+      [base.id]: '0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC',
+      [arbitrum.id]: '0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC',
+      [sepolia.id]: '0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC'
     }
   }
 ];

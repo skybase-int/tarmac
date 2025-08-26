@@ -9,6 +9,7 @@ import { mainnet, sepolia, base } from 'wagmi/chains';
 // --- End ABI imports ---
 
 import { contracts, /*tenderlyContracts,*/ sepoliaContracts, l2Contracts } from './src';
+import { cowswapContracts } from './src/contracts';
 
 export default defineConfig(() => {
   const hookNames: string[] = [];
@@ -54,7 +55,7 @@ export default defineConfig(() => {
       etherscan({
         apiKey: env.ETHERSCAN_V2_API_KEY,
         chainId: mainnet.id,
-        contracts: contracts
+        contracts: [...contracts, ...cowswapContracts]
       }),
       // This etherscan plugin fetches ABIs for contracts which have a sepolia deployment
       etherscan({
@@ -68,6 +69,12 @@ export default defineConfig(() => {
         chainId: base.id,
         contracts: l2Contracts
       })
+      // // This etherscan plugin fetches ABIs for Cowswap contracts which have a mainnet deployment
+      // etherscan({
+      //   apiKey: env.ETHERSCAN_V2_API_KEY,
+      //   chainId: mainnet.id,
+      //   contracts: cowswapContracts
+      // })
       // // This fetch plugin fetches ABIs for contracts deployed on the tenderly testnet
       // fetchPlugin({
       //   contracts: tenderlyContracts,
