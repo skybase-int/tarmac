@@ -11,11 +11,9 @@ import { JSX } from 'react';
 
 export const SavingsStatsCardCore = ({
   content,
-  isLoading,
   onExternalLinkClicked
 }: {
   content: JSX.Element;
-  isLoading: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 }) => {
   const { data: overallSkyData, isLoading: isOverallSkyDataLoading } = useOverallSkyData();
@@ -24,13 +22,13 @@ export const SavingsStatsCardCore = ({
     <StatsOverviewCardCore
       headerLeftContent={
         <MotionHStack className="items-center" gap={2} variants={positionAnimations}>
-          <TokenIcon className="h-6 w-6" token={{ symbol: 'USDS' }} />
+          <TokenIcon className="h-6 w-6" token={{ symbol: 'sUSDS' }} />
           <Text>Sky Savings Rate</Text>
         </MotionHStack>
       }
       headerRightContent={
         <MotionHStack className="items-center" gap={2} variants={positionAnimations}>
-          {isLoading || isOverallSkyDataLoading ? (
+          {isOverallSkyDataLoading ? (
             <Skeleton className="bg-textSecondary h-5 w-12" />
           ) : (
             <Text className="text-bullish">

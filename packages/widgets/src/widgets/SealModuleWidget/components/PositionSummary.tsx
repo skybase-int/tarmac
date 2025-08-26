@@ -1,7 +1,7 @@
 import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { JSX, useContext, useEffect, useMemo } from 'react';
+import { JSX, useContext, useMemo } from 'react';
 import { SealModuleWidgetContext } from '../context/context';
 import {
   TOKENS,
@@ -23,13 +23,7 @@ import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack'
 import { motion } from 'framer-motion';
 import { Skeleton } from '@widgets/components/ui/skeleton';
 import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
-import {
-  WAD_PRECISION,
-  captitalizeFirstLetter,
-  formatBigInt,
-  formatPercent,
-  math
-} from '@jetstreamgg/sky-utils';
+import { WAD_PRECISION, capitalizeFirstLetter, formatBigInt, formatPercent } from '@jetstreamgg/sky-utils';
 import { formatUnits } from 'viem';
 import { cn } from '@widgets/lib/utils';
 import { getRiskTextColor } from '../lib/utils';
@@ -38,23 +32,18 @@ import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { ArrowDown } from '@widgets/shared/components/icons/ArrowDown';
 import { JazziconComponent } from './Jazzicon';
 import { InfoTooltip } from '@widgets/shared/components/ui/tooltip/InfoTooltip';
-import {
-  collateralizationRatioTooltipText,
-  liquidationPriceTooltipText,
-  riskLevelTooltipText,
-  borrowRateTooltipText
-} from '../lib/constants';
+import { getTooltipById } from '../../../data/tooltips';
 
 const { usds, mkr } = TOKENS;
 
 const isUpdatedValue = (prev: any, next: any) => prev !== undefined && next !== undefined && prev !== next;
 const getSealLabel = (prev: bigint | undefined, next: bigint | undefined) => {
-  if (prev === undefined || next === undefined) return t`Sealing`;
-  return next > prev ? t`Sealing` : next < prev ? t`Unsealing` : t`Sealed`;
+  if (prev === undefined || next === undefined) return t`Unsealing`;
+  return next < prev ? t`Unsealing` : t`Sealed`;
 };
 const getBorrowLabel = (prev: bigint | undefined, next: bigint | undefined) => {
-  if (prev === undefined || next === undefined) return t`Borrowing`;
-  return next > prev ? t`Borrowing` : next < prev ? t`Repaying` : t`Borrowed`;
+  if (prev === undefined || next === undefined) return t`Repaying`;
+  return next < prev ? t`Repaying` : t`Borrowed`;
 };
 
 const LineItem = ({
@@ -121,20 +110,8 @@ const LineItem = ({
 export const PositionSummary = () => {
   const ilkName = getIlkName(1);
 
-  const {
-    activeUrn,
-    mkrToLock,
-    mkrToFree,
-    skyToLock,
-    skyToFree,
-    usdsToBorrow,
-    usdsToWipe,
-    selectedDelegate,
-    selectedRewardContract,
-    selectedToken,
-    displayToken,
-    setDisplayToken
-  } = useContext(SealModuleWidgetContext);
+  const { activeUrn, mkrToFree, usdsToWipe, selectedDelegate, selectedRewardContract } =
+    useContext(SealModuleWidgetContext);
 
   const { data: existingRewardContract } = useUrnSelectedRewardContract({
     urn: activeUrn?.urnAddress || ZERO_ADDRESS
@@ -161,15 +138,15 @@ export const PositionSummary = () => {
 
   const hasPositions = !!existingVault;
 
-  // Calculated total amount user will have borrowed based on existing debt plus the user input
-  const newBorrowAmount = usdsToBorrow + (existingVault?.debtValue || 0n) - usdsToWipe;
+  // Helper to ensure non-negative BigInt values
+  const max0 = (value: bigint): bigint => (value >= 0n ? value : 0n);
 
-  // Calculated total amount user will have locked based on existing collateral locked plus user input
-  const collateralToLock =
-    selectedToken === mkr ? mkrToLock : math.calculateConversion(TOKENS.sky, skyToLock);
-  const collateralToFree =
-    selectedToken === mkr ? mkrToFree : math.calculateConversion(TOKENS.sky, skyToFree);
-  const newCollateralAmount = collateralToLock + (existingVault?.collateralAmount || 0n) - collateralToFree;
+  // Calculated total amount user will have borrowed based on existing debt minus the user input (repay only)
+  const newBorrowAmount = max0((existingVault?.debtValue || 0n) - usdsToWipe);
+
+  // Calculated total amount user will have locked based on existing collateral minus user input (unseal only)
+  const collateralToFree = mkrToFree;
+  const newCollateralAmount = max0((existingVault?.collateralAmount || 0n) - collateralToFree);
 
   const { data: updatedVault } = useSimulatedVault(
     newCollateralAmount,
@@ -186,23 +163,11 @@ export const PositionSummary = () => {
 
   const { data: exitFee } = useSealExitFee();
 
-  const existingCollateralAmount =
-    displayToken === mkr
-      ? existingVault?.collateralAmount || 0n
-      : math.calculateConversion(mkr, existingVault?.collateralAmount || 0n);
-  const updatedCollateralAmount =
-    displayToken === mkr
-      ? updatedVault?.collateralAmount || 0n
-      : math.calculateConversion(mkr, updatedVault?.collateralAmount || 0n);
+  const existingCollateralAmount = existingVault?.collateralAmount || 0n;
+  const updatedCollateralAmount = updatedVault?.collateralAmount || 0n;
 
-  const existingLiquidationPrice =
-    displayToken === mkr
-      ? existingVault?.liquidationPrice || 0n
-      : math.calculateMKRtoSKYPrice(existingVault?.liquidationPrice || 0n);
-  const updatedLiquidationPrice =
-    displayToken === mkr
-      ? updatedVault?.liquidationPrice || 0n
-      : math.calculateMKRtoSKYPrice(updatedVault?.liquidationPrice || 0n);
+  const existingLiquidationPrice = existingVault?.liquidationPrice || 0n;
+  const updatedLiquidationPrice = updatedVault?.liquidationPrice || 0n;
 
   const { data: collateralData } = useCollateralData();
 
@@ -210,14 +175,12 @@ export const PositionSummary = () => {
     return [
       {
         label: t`Exit fee`,
-        updated: hasPositions && (mkrToFree > 0n || skyToFree > 0n),
+        updated: hasPositions && mkrToFree > 0n,
         value:
-          hasPositions && (mkrToFree > 0n || skyToFree > 0n) && typeof exitFee === 'bigint'
-            ? [
-                `${Number(formatUnits((displayToken === mkr ? mkrToFree : math.calculateConversion(mkr, mkrToFree)) * exitFee, WAD_PRECISION * 2)).toFixed(2)} ${displayToken.symbol}`
-              ]
+          hasPositions && mkrToFree > 0n && typeof exitFee === 'bigint'
+            ? [`${Number(formatUnits(mkrToFree * exitFee, WAD_PRECISION * 2)).toFixed(2)} ${mkr.symbol}`]
             : '',
-        icon: <TokenIcon token={displayToken} className="h-5 w-5" />
+        icon: <TokenIcon token={mkr} className="h-5 w-5" />
       },
       {
         label: getSealLabel(existingVault?.collateralAmount, updatedVault?.collateralAmount),
@@ -226,13 +189,13 @@ export const PositionSummary = () => {
         value:
           hasPositions && isUpdatedValue(existingVault?.collateralAmount, updatedVault?.collateralAmount)
             ? [
-                `${formatBigInt(existingCollateralAmount)} ${displayToken.symbol}`,
-                `${formatBigInt(updatedCollateralAmount)} ${displayToken.symbol}`
+                `${formatBigInt(existingCollateralAmount)} ${mkr.symbol}`,
+                `${formatBigInt(updatedCollateralAmount)} ${mkr.symbol}`
               ]
             : hasPositions
-              ? `${formatBigInt(existingCollateralAmount)} ${displayToken.symbol}`
-              : `${formatBigInt(updatedCollateralAmount)} ${displayToken.symbol}`,
-        icon: <TokenIcon token={displayToken} className="h-5 w-5" />
+              ? `${formatBigInt(existingCollateralAmount)} ${mkr.symbol}`
+              : `${formatBigInt(updatedCollateralAmount)} ${mkr.symbol}`,
+        icon: <TokenIcon token={mkr} className="h-5 w-5" />
       },
       {
         label: getBorrowLabel(existingVault?.debtValue, updatedVault?.debtValue),
@@ -264,7 +227,7 @@ export const PositionSummary = () => {
             : hasPositions
               ? formatPercent(existingVault?.collateralizationRatio || 0n)
               : formatPercent(updatedVault?.collateralizationRatio || 0n),
-        tooltipText: collateralizationRatioTooltipText,
+        tooltipText: getTooltipById('collateralization-ratio-seal')?.tooltip || '',
         className:
           hasPositions &&
           isUpdatedValue(existingVault?.collateralizationRatio, updatedVault?.collateralizationRatio)
@@ -281,11 +244,11 @@ export const PositionSummary = () => {
         label: t`Borrow rate`,
         value: collateralData?.stabilityFee ? formatPercent(collateralData?.stabilityFee) : undefined,
         hideIfNoDebt: true,
-        tooltipText: borrowRateTooltipText
+        tooltipText: getTooltipById('borrow-rate-seal')?.tooltip || ''
       },
       {
-        label: t`Current ${displayToken.symbol} price`,
-        value: `$${formatBigInt(displayToken === mkr ? updatedVault?.delayedPrice || 0n : math.calculateMKRtoSKYPrice(updatedVault?.delayedPrice || 0n), { unit: WAD_PRECISION })}`
+        label: t`Current ${mkr.symbol} price`,
+        value: `$${formatBigInt(updatedVault?.delayedPrice || 0n, { unit: WAD_PRECISION })}`
       },
       {
         label: t`Liquidation price`,
@@ -300,7 +263,7 @@ export const PositionSummary = () => {
                 `$${formatBigInt(updatedLiquidationPrice, { unit: WAD_PRECISION })}`
               ]
             : `$${formatBigInt(updatedLiquidationPrice, { unit: WAD_PRECISION })}`,
-        tooltipText: liquidationPriceTooltipText,
+        tooltipText: getTooltipById('liquidation-price-seal-mkr')?.tooltip || '',
         hideIfNoDebt: true
       },
       {
@@ -308,14 +271,14 @@ export const PositionSummary = () => {
         updated: isRiskLevelUpdated,
         value: isRiskLevelUpdated
           ? [
-              `${captitalizeFirstLetter(existingVault?.riskLevel?.toLowerCase() || '')}`,
-              `${captitalizeFirstLetter(updatedVault?.riskLevel?.toLowerCase() || '')}`
+              `${capitalizeFirstLetter(existingVault?.riskLevel?.toLowerCase() || '')}`,
+              `${capitalizeFirstLetter(updatedVault?.riskLevel?.toLowerCase() || '')}`
             ]
-          : `${captitalizeFirstLetter(updatedVault?.riskLevel?.toLowerCase() || '')}`,
+          : `${capitalizeFirstLetter(updatedVault?.riskLevel?.toLowerCase() || '')}`,
         className: isRiskLevelUpdated
           ? [getRiskTextColor(existingVault?.riskLevel), getRiskTextColor(updatedVault?.riskLevel)]
           : getRiskTextColor(vaultToDisplay?.riskLevel),
-        tooltipText: riskLevelTooltipText,
+        tooltipText: getTooltipById('risk-level-seal')?.tooltip || '',
         hideIfNoDebt: true
       },
       {
@@ -417,7 +380,6 @@ export const PositionSummary = () => {
     selectedDelegateName,
     selectedDelegateOwner,
     isDelegateLoading,
-    displayToken,
     exitFee
   ]);
 
@@ -428,10 +390,6 @@ export const PositionSummary = () => {
       ? lineItems.filter(item => !item.hideIfNoDebt)
       : lineItems;
   const lineItemsUpdated = lineItemsFiltered.filter(item => item.updated);
-
-  useEffect(() => {
-    setDisplayToken(selectedToken);
-  }, [selectedToken]);
 
   return (
     <motion.div variants={positionAnimations}>

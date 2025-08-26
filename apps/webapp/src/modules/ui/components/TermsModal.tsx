@@ -3,7 +3,6 @@ import { useTermsModal } from '../context/TermsModalContext';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/modules/layout/components/Typography';
 import { Trans } from '@lingui/react/macro';
-import termsMarkdown from '@/content/terms.md?raw'; //https://vitejs.dev/guide/assets#importing-asset-as-string
 import { TermsMarkdownRenderer } from '@/modules/ui/components/markdown/TermsMarkdownRenderer';
 import { useSignMessage, useAccount, useDisconnect } from 'wagmi';
 import { useConnectedContext } from '../context/ConnectedContext';
@@ -12,6 +11,7 @@ import { CheckedState } from '@radix-ui/react-checkbox';
 import { ExternalLink } from '@/modules/layout/components/ExternalLink';
 import { sanitizeUrl } from '@/lib/utils';
 import { TermsDialog } from './TermsDialog';
+import { getTermsContent } from './terms-loader';
 
 export function TermsModal() {
   const { closeModal, isModalOpen, openModal } = useTermsModal();
@@ -21,6 +21,7 @@ export function TermsModal() {
   const [hasScrolledToEnd, setHasScrolledToEnd] = useState(false);
   const { address, chainId } = useAccount();
   const { disconnect } = useDisconnect();
+  const [termsMarkdown] = useState<string>(getTermsContent());
 
   const onSuccess = async (signature: string) => {
     const payload = {
