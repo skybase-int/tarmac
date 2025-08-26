@@ -17,7 +17,7 @@ import { StakeModuleWidgetContext } from '../context/context';
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
 import {
   WAD_PRECISION,
-  captitalizeFirstLetter,
+  capitalizeFirstLetter,
   formatBigInt,
   formatPercent,
   useDebounce,
@@ -192,7 +192,7 @@ const PositionManagerOverviewContainer = ({
       {
         label: t`Borrow rate`,
         value: collateralData?.stabilityFee ? formatPercent(collateralData?.stabilityFee) : '',
-        tooltipText: getTooltipById('borrow-rate')?.tooltip || ''
+        tooltipText: getTooltipById('borrow')?.tooltip || ''
       },
       {
         label: t`Collateral value`,
@@ -225,10 +225,10 @@ const PositionManagerOverviewContainer = ({
         value:
           hasPositions && simulatedVault?.riskLevel !== existingVault?.riskLevel
             ? [
-                `${captitalizeFirstLetter(existingVault?.riskLevel?.toLowerCase() || '')}`,
-                `${captitalizeFirstLetter(simulatedVault?.riskLevel?.toLowerCase() || '')}`
+                `${capitalizeFirstLetter(existingVault?.riskLevel?.toLowerCase() || '')}`,
+                `${capitalizeFirstLetter(simulatedVault?.riskLevel?.toLowerCase() || '')}`
               ]
-            : `${captitalizeFirstLetter(simulatedVault?.riskLevel?.toLowerCase() || '')}`,
+            : `${capitalizeFirstLetter(simulatedVault?.riskLevel?.toLowerCase() || '')}`,
         tooltipText: getTooltipById('risk-level')?.tooltip || '',
         classNamePrev: existingRiskTextColor,
         className: riskTextColor
