@@ -1175,7 +1175,7 @@ function TradeWidgetWrapped({
     >
       <div className="mt-[-16px] space-y-0">
         <TradePoweredBy onExternalLinkClicked={onExternalLinkClicked} />
-        <TradeWarning />
+        <TradeWarning originToken={originToken} />
       </div>
       <AnimatePresence mode="popLayout" initial={false}>
         {widgetState.screen === TradeScreen.REVIEW && quoteData && originToken && targetToken ? (

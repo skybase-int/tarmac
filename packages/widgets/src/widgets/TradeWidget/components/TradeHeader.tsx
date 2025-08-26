@@ -62,7 +62,11 @@ export const TradePoweredBy = ({
   </Text>
 );
 
-export const TradeWarning = () => {
+export const TradeWarning = ({ originToken }: { originToken?: TokenForChain }) => {
+  const shouldShowUSDTWarning = originToken?.symbol === 'USDT';
+
+  if (!shouldShowUSDTWarning) return null;
+
   return (
     <Text className="mt-1 text-[11px] font-normal leading-none text-orange-400">
       Need to reset the allowance to 0 before approving a new amount
