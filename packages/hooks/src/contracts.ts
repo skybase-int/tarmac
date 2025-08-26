@@ -1,4 +1,4 @@
-import { mainnet, sepolia, base, arbitrum, optimism, unichain } from 'wagmi/chains';
+import { mainnet, base, arbitrum, optimism, unichain } from 'wagmi/chains';
 import { TENDERLY_BASE_CHAIN_ID, TENDERLY_CHAIN_ID, TENDERLY_ARBITRUM_CHAIN_ID } from './constants';
 
 type ChainId = typeof mainnet.id | typeof TENDERLY_CHAIN_ID;
@@ -9,7 +9,7 @@ type L2ChainId =
   | typeof arbitrum.id
   | typeof optimism.id
   | typeof unichain.id;
-type CowswapChainId = typeof mainnet.id | typeof base.id | typeof arbitrum.id | typeof sepolia.id;
+type CowswapChainId = typeof mainnet.id | typeof base.id | typeof arbitrum.id;
 
 export const contracts: { name: string; address: Record<ChainId, `0x${string}`> }[] = [
   // Savings module
@@ -258,33 +258,6 @@ export const tenderlyContracts: { name: string; address: Record<typeof TENDERLY_
     // }
   ];
 
-export const sepoliaContracts: { name: string; address: Record<typeof sepolia.id, `0x${string}`> }[] = [
-  {
-    name: 'wethSepolia',
-    address: {
-      [sepolia.id]: '0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14'
-    }
-  },
-  {
-    name: 'mcdDaiSepolia',
-    address: {
-      [sepolia.id]: '0xB4F1737Af37711e9A5890D9510c9bB60e170CB0D'
-    }
-  },
-  {
-    name: 'usdcSepolia',
-    address: {
-      [sepolia.id]: '0xbe72E441BF55620febc26715db68d3494213D8Cb'
-    }
-  },
-  {
-    name: 'usdtSepolia',
-    address: {
-      [sepolia.id]: '0x58Eb19eF91e8A6327FEd391b51aE1887b833cc91'
-    }
-  }
-];
-
 export const l2Contracts: { name: string; address: Record<L2ChainId, `0x${string}`> }[] = [
   {
     name: 'usdcL2',
@@ -350,8 +323,7 @@ export const cowswapContracts: { name: string; address: Record<CowswapChainId, `
     address: {
       [mainnet.id]: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41',
       [base.id]: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41',
-      [arbitrum.id]: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41',
-      [sepolia.id]: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41'
+      [arbitrum.id]: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41'
     }
   },
   {
@@ -359,8 +331,7 @@ export const cowswapContracts: { name: string; address: Record<CowswapChainId, `
     address: {
       [mainnet.id]: '0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC',
       [base.id]: '0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC',
-      [arbitrum.id]: '0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC',
-      [sepolia.id]: '0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC'
+      [arbitrum.id]: '0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC'
     }
   }
 ];

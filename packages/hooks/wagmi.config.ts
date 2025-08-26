@@ -1,6 +1,6 @@
 import { defineConfig, loadEnv } from '@wagmi/cli';
 import { etherscan, /*fetch as fetchPlugin,*/ react } from '@wagmi/cli/plugins';
-import { mainnet, sepolia, base } from 'wagmi/chains';
+import { mainnet, base } from 'wagmi/chains';
 
 // --- Add imports for your local ABI files here ---
 // import LockstakeEngineAbi from './abis/LockstakeEngine.json';
@@ -8,7 +8,7 @@ import { mainnet, sepolia, base } from 'wagmi/chains';
 // import LockstakeSkyAbi from './abis/LockstakeSky.json';
 // --- End ABI imports ---
 
-import { contracts, /*tenderlyContracts,*/ sepoliaContracts, l2Contracts } from './src';
+import { contracts, /*tenderlyContracts,*/ l2Contracts } from './src';
 import { cowswapContracts } from './src/contracts';
 
 export default defineConfig(() => {
@@ -57,24 +57,12 @@ export default defineConfig(() => {
         chainId: mainnet.id,
         contracts: [...contracts, ...cowswapContracts]
       }),
-      // This etherscan plugin fetches ABIs for contracts which have a sepolia deployment
-      etherscan({
-        apiKey: env.ETHERSCAN_V2_API_KEY,
-        chainId: sepolia.id,
-        contracts: sepoliaContracts
-      }),
       // This etherscan plugin fetches ABIs for L2 contracts which have a base deployment
       etherscan({
         apiKey: env.ETHERSCAN_V2_API_KEY,
         chainId: base.id,
         contracts: l2Contracts
       })
-      // // This etherscan plugin fetches ABIs for Cowswap contracts which have a mainnet deployment
-      // etherscan({
-      //   apiKey: env.ETHERSCAN_V2_API_KEY,
-      //   chainId: mainnet.id,
-      //   contracts: cowswapContracts
-      // })
       // // This fetch plugin fetches ABIs for contracts deployed on the tenderly testnet
       // fetchPlugin({
       //   contracts: tenderlyContracts,

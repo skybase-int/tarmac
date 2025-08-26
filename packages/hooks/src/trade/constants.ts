@@ -1,4 +1,4 @@
-import { mainnet, sepolia } from 'wagmi/chains';
+import { mainnet } from 'wagmi/chains';
 import createClient from 'openapi-fetch';
 import { paths } from './cowApiSchema';
 
@@ -8,8 +8,7 @@ export enum TradeSide {
 }
 
 const COW_API_ENDPOINT = {
-  [mainnet.id]: 'https://api.cow.fi/mainnet',
-  [sepolia.id]: 'https://api.cow.fi/sepolia'
+  [mainnet.id]: 'https://api.cow.fi/mainnet'
 } as const;
 
 export enum OrderQuoteSideKind {
@@ -53,11 +52,9 @@ export const ETH_FLOW_QUOTE_PARAMS = {
 } as const;
 
 export const gpv2VaultRelayerAddress = {
-  [mainnet.id]: '0xC92E8bdf79f0507f65a392b0ab4667716BFE0110',
-  [sepolia.id]: '0xC92E8bdf79f0507f65a392b0ab4667716BFE0110'
+  [mainnet.id]: '0xC92E8bdf79f0507f65a392b0ab4667716BFE0110'
 } as const;
 
 export const cowApiClient = {
-  [mainnet.id]: createClient<paths>({ baseUrl: COW_API_ENDPOINT[mainnet.id] }),
-  [sepolia.id]: createClient<paths>({ baseUrl: COW_API_ENDPOINT[sepolia.id] })
+  [mainnet.id]: createClient<paths>({ baseUrl: COW_API_ENDPOINT[mainnet.id] })
 } as const;

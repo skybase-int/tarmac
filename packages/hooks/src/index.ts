@@ -247,10 +247,6 @@ export {
   usdcAddress,
   usdtAddress,
   spkAddress,
-  wethSepoliaAddress,
-  usdcSepoliaAddress,
-  usdtSepoliaAddress,
-  mcdDaiSepoliaAddress,
   sealModuleAddress,
   stakeModuleAddress,
   usdcL2Address,
@@ -270,7 +266,7 @@ export {
   lsSkyUsdsRewardAddress,
   lsSkySpkRewardAddress
 } from './generated';
-export { contracts, /*tenderlyContracts,*/ sepoliaContracts, l2Contracts } from './contracts';
+export { contracts, /*tenderlyContracts,*/ l2Contracts } from './contracts';
 
 export { useTransactionFlow } from './shared/useTransactionFlow';
 export { getWriteContractCall } from './shared/getWriteContractCall';

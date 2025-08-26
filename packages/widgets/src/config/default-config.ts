@@ -1,6 +1,6 @@
 // Default configuration used site-wide
 
-import { base, mainnet, sepolia, arbitrum, unichain, optimism } from 'wagmi/chains';
+import { base, mainnet, arbitrum, unichain, optimism } from 'wagmi/chains';
 import { WidgetsConfig } from './types/widgets-config';
 import {
   usdsAddress,
@@ -8,15 +8,10 @@ import {
   wethAddress,
   usdcAddress,
   usdtAddress,
-  wethSepoliaAddress,
-  usdcSepoliaAddress,
-  usdtSepoliaAddress,
-  mcdDaiSepoliaAddress,
   mkrAddress,
   skyAddress,
   TOKENS,
   sUsdsAddress,
-  ETH_ADDRESS,
   usdcL2Address,
   usdsL2Address,
   sUsdsL2Address,
@@ -138,14 +133,6 @@ export const defaultConfig: WidgetsConfig = {
       { ...usdc, address: usdcL2Address[TENDERLY_ARBITRUM_CHAIN_ID] },
       { ...usds, address: usdsL2Address[TENDERLY_ARBITRUM_CHAIN_ID] },
       { ...susds, address: sUsdsL2Address[TENDERLY_ARBITRUM_CHAIN_ID] }
-    ],
-    [sepolia.id]: [
-      // The USDC token that COW uses has 18 decimals, instead of 6
-      { ...usdc, address: usdcSepoliaAddress[sepolia.id], decimals: 18 },
-      { ...usdt, address: usdtSepoliaAddress[sepolia.id] },
-      { ...eth, address: ETH_ADDRESS },
-      { ...weth, address: wethSepoliaAddress[sepolia.id] },
-      { ...dai, address: mcdDaiSepoliaAddress[sepolia.id] }
     ],
     [unichain.id]: [
       { ...usdc, address: usdcL2Address[unichain.id] },

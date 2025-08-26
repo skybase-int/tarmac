@@ -1,14 +1,10 @@
-import { sepolia, mainnet, base, arbitrum, optimism, unichain } from 'wagmi/chains';
+import { mainnet, base, arbitrum, optimism, unichain } from 'wagmi/chains';
 import {
   usdcAddress,
-  usdcSepoliaAddress,
   usdtAddress,
-  usdtSepoliaAddress,
   TOKENS,
   wethAddress,
   mcdDaiAddress,
-  wethSepoliaAddress,
-  mcdDaiSepoliaAddress,
   usdsAddress,
   ETH_ADDRESS,
   mkrAddress,
@@ -48,14 +44,6 @@ export const restrictedBalancesTokenList = {
     { ...mkr, address: mkrAddress[TENDERLY_CHAIN_ID] },
     { ...sky, address: skyAddress[TENDERLY_CHAIN_ID] },
     { ...spk, address: spkAddress[TENDERLY_CHAIN_ID] }
-  ],
-  [sepolia.id]: [
-    // The USDC token that COW uses has 18 decimals, instead of 6
-    { ...usdc, address: usdcSepoliaAddress[sepolia.id], decimals: 18 },
-    { ...usdt, address: usdtSepoliaAddress[sepolia.id] },
-    { ...eth, address: ETH_ADDRESS },
-    { ...weth, address: wethSepoliaAddress[sepolia.id] },
-    { ...dai, address: mcdDaiSepoliaAddress[sepolia.id] }
   ],
   [base.id]: [
     { ...usdc, address: usdcL2Address[base.id] },
@@ -105,11 +93,6 @@ export const restrictedBalancesTokenListMiCa = {
     { ...sky, address: skyAddress[TENDERLY_CHAIN_ID] },
     { ...spk, address: spkAddress[TENDERLY_CHAIN_ID] }
   ],
-  [sepolia.id]: [
-    { ...eth, address: ETH_ADDRESS },
-    { ...weth, address: wethSepoliaAddress[sepolia.id] },
-    { ...dai, address: mcdDaiSepoliaAddress[sepolia.id] }
-  ],
   [base.id]: [
     { ...usds, address: usdsL2Address[base.id] },
     { ...eth, address: ETH_ADDRESS }
@@ -146,14 +129,6 @@ export const restrictedTradeTokenList = {
     { ...weth, address: wethAddress[TENDERLY_CHAIN_ID] },
     { ...dai, address: mcdDaiAddress[TENDERLY_CHAIN_ID] },
     { ...usds, address: usdsAddress[TENDERLY_CHAIN_ID] }
-  ],
-  [sepolia.id]: [
-    // The USDC token that COW uses has 18 decimals, instead of 6
-    { ...usdc, address: usdcSepoliaAddress[sepolia.id], decimals: 18 },
-    { ...usdt, address: usdtSepoliaAddress[sepolia.id] },
-    { ...eth, address: ETH_ADDRESS },
-    { ...weth, address: wethSepoliaAddress[sepolia.id] },
-    { ...dai, address: mcdDaiSepoliaAddress[sepolia.id] }
   ],
   [base.id]: [
     { ...usdc, address: usdcL2Address[base.id] },

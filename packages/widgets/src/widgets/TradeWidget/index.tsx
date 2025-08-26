@@ -54,7 +54,6 @@ import { useAddTokenToWallet } from '@widgets/shared/hooks/useAddTokenToWallet';
 import { AnimatePresence } from 'framer-motion';
 import { CardAnimationWrapper } from '@widgets/shared/animation/Wrappers';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
-import { sepolia } from 'viem/chains';
 import { useTokenImage } from '@widgets/shared/hooks/useTokenImage';
 import { withWidgetProvider } from '@widgets/shared/hocs/withWidgetProvider';
 
@@ -344,7 +343,7 @@ function TradeWidgetWrapped({
     order: quoteData,
     onStart: (orderId: string) => {
       setOrderId(orderId as `0x${string}`);
-      setExternalLink(`https://explorer.cow.fi/${chainId === sepolia.id ? 'sepolia/' : ''}orders/${orderId}`);
+      setExternalLink(`https://explorer.cow.fi/orders/${orderId}`);
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash: orderId, widgetState, txStatus: TxStatus.LOADING });
       setCancelButtonText(t`Cancel order`);
@@ -404,7 +403,7 @@ function TradeWidgetWrapped({
     order: quoteData,
     onStart: (orderId: string) => {
       setOrderId(orderId as `0x${string}`);
-      setExternalLink(`https://explorer.cow.fi/${chainId === sepolia.id ? 'sepolia/' : ''}orders/${orderId}`);
+      setExternalLink(`https://explorer.cow.fi/orders/${orderId}`);
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash: orderId, widgetState, txStatus: TxStatus.LOADING });
       setCancelButtonText(t`Cancel order`);
@@ -495,7 +494,7 @@ function TradeWidgetWrapped({
       setEthFlowTxStatus(EthFlowTxStatus.CREATING_ORDER);
     },
     onOrderCreated: (orderId: string) => {
-      setExternalLink(`https://explorer.cow.fi/${chainId === sepolia.id ? 'sepolia/' : ''}orders/${orderId}`);
+      setExternalLink(`https://explorer.cow.fi/orders/${orderId}`);
       setEthFlowTxStatus(EthFlowTxStatus.ORDER_CREATED);
       onWidgetStateChange?.({ widgetState, txStatus: TxStatus.LOADING });
     },
@@ -1175,7 +1174,7 @@ function TradeWidgetWrapped({
     >
       <div className="mt-[-16px] space-y-0">
         <TradePoweredBy onExternalLinkClicked={onExternalLinkClicked} />
-        <TradeWarning originToken={originToken} />
+        <TradeWarning />
       </div>
       <AnimatePresence mode="popLayout" initial={false}>
         {widgetState.screen === TradeScreen.REVIEW && quoteData && originToken && targetToken ? (
