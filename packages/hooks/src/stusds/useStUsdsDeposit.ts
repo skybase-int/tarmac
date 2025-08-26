@@ -8,6 +8,7 @@ import { Abi } from 'viem';
 export function useStUsdsDeposit({
   amount,
   gas,
+  onMutate = () => null,
   onSuccess = () => null,
   onError = () => null,
   onStart = () => null,
@@ -33,6 +34,7 @@ export function useStUsdsDeposit({
     chainId,
     gas,
     enabled,
+    onMutate,
     onSuccess,
     onError,
     onStart
