@@ -1,29 +1,18 @@
 import {
   RewardContract,
-  useApproveToken,
   useRewardsRewardsBalance,
-  useRewardsSupply,
   useRewardsSuppliedBalance,
-  useRewardsWithdraw,
-  useBatchRewardsSupply,
-  useRewardsClaim,
   useTokenAllowance,
   useTokenBalance,
   getTokenDecimals,
   useIsBatchSupported,
   useRewardsChartInfo
 } from '@jetstreamgg/sky-hooks';
-import {
-  getTransactionLink,
-  useDebounce,
-  formatBigInt,
-  useIsSafeWallet,
-  formatDecimalPercentage
-} from '@jetstreamgg/sky-utils';
+import { useDebounce, formatBigInt, formatDecimalPercentage } from '@jetstreamgg/sky-utils';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { WidgetContainer } from '../../shared/components/ui/widget/WidgetContainer';
 import { RewardsFlow, RewardsAction, RewardsScreen } from './lib/constants';
-import { WidgetContext, WidgetProvider } from '../../context/WidgetContext';
+import { WidgetContext } from '../../context/WidgetContext';
 import { NotificationType, TxStatus } from '../../shared/constants';
 import { WidgetProps, WidgetState } from '../../shared/types/widgetState';
 import { Trans } from '@lingui/react/macro';
@@ -41,12 +30,13 @@ import { WidgetButtons } from '@widgets/shared/components/ui/widget/WidgetButton
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { ArrowLeft } from 'lucide-react';
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
-import { ErrorBoundary } from '@widgets/shared/components/ErrorBoundary';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CardAnimationWrapper } from '@widgets/shared/animation/Wrappers';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { RewardsTransactionReview } from './components/RewardsTransactionReview';
+import { useRewardsTransactions } from './hooks/useRewardsTransactions';
+import { withWidgetProvider } from '@widgets/shared/hocs/withWidgetProvider';
 
 export type RewardsWidgetProps = WidgetProps & {
   onRewardContractChange?: (rewardContract?: RewardContract) => void;
@@ -55,55 +45,9 @@ export type RewardsWidgetProps = WidgetProps & {
   setBatchEnabled?: (enabled: boolean) => void;
 };
 
-export const RewardsWidget = ({
-  addRecentTransaction,
-  onConnect,
-  locale,
-  rightHeaderComponent,
-  onRewardContractChange,
-  externalWidgetState,
-  onStateValidated,
-  onNotification,
-  onWidgetStateChange,
-  onExternalLinkClicked,
-  enabled = true,
-  legalBatchTxUrl,
-  referralCode,
-  shouldReset = false,
-  batchEnabled,
-  setBatchEnabled
-}: RewardsWidgetProps) => {
-  const key = shouldReset ? 'reset' : undefined;
-  return (
-    <ErrorBoundary componentName="RewardsWidget">
-      <WidgetProvider key={key} locale={locale}>
-        <RewardsWidgetWrapped
-          key={key}
-          addRecentTransaction={addRecentTransaction}
-          onConnect={onConnect}
-          locale={locale}
-          rightHeaderComponent={rightHeaderComponent}
-          onRewardContractChange={onRewardContractChange}
-          externalWidgetState={externalWidgetState}
-          onStateValidated={onStateValidated}
-          onNotification={onNotification}
-          onWidgetStateChange={shouldReset ? undefined : onWidgetStateChange}
-          onExternalLinkClicked={onExternalLinkClicked}
-          enabled={enabled}
-          referralCode={referralCode}
-          batchEnabled={batchEnabled}
-          setBatchEnabled={setBatchEnabled}
-          legalBatchTxUrl={legalBatchTxUrl}
-        />
-      </WidgetProvider>
-    </ErrorBoundary>
-  );
-};
-
 // HOC Widget
 const RewardsWidgetWrapped = ({
   onConnect,
-  locale,
   addRecentTransaction,
   rightHeaderComponent,
   onRewardContractChange,
@@ -121,12 +65,11 @@ const RewardsWidgetWrapped = ({
   const validatedExternalState = getValidatedState(externalWidgetState);
   const chainId = useChainId();
   const { address, isConnecting, isConnected } = useAccount();
-  const isSafeWallet = useIsSafeWallet();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
   const [selectedRewardContract, setSelectedRewardContract] = useState<RewardContract | undefined>(undefined);
   const [amount, setAmount] = useState(parseUnits(validatedExternalState?.amount || '0', 18));
   const [claimAmount, setClaimAmount] = useState(0n);
-  const { data: batchSupported, isLoading: isBatchSupportLoading } = useIsBatchSupported();
+  const { data: batchSupported } = useIsBatchSupported();
 
   useEffect(() => {
     onStateValidated?.(validatedExternalState);
@@ -169,11 +112,7 @@ const RewardsWidgetWrapped = ({
     return sortedData[0].rate;
   }, [chartData]);
 
-  const {
-    data: allowance,
-    mutate: mutateAllowance,
-    isLoading: allowanceLoading
-  } = useTokenAllowance({
+  const { data: allowance, mutate: mutateAllowance } = useTokenAllowance({
     chainId,
     contractAddress: selectedRewardContract?.supplyToken.address[chainId],
     spender: selectedRewardContract?.contractAddress as `0x${string}`,
@@ -203,253 +142,46 @@ const RewardsWidgetWrapped = ({
 
   useNotifyWidgetState({ widgetState, txStatus, onWidgetStateChange });
 
-  const supplyParams = {
-    contractAddress: selectedRewardContract?.contractAddress as `0x${string}`,
-    supplyTokenAddress: selectedRewardContract?.supplyToken.address[chainId],
-    ref: referralCode,
-    amount: debouncedAmount,
-    onStart: (hash?: string) => {
-      if (hash) {
-        addRecentTransaction?.({
-          hash,
-          description: t`Supplying ${formatBigInt(debouncedAmount, { locale })} ${
-            selectedRewardContract?.supplyToken.name ?? ''
-          }`
-        });
-        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      }
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
-    },
-    onSuccess: (hash: string | undefined) => {
-      onNotification?.({
-        title: t`Supply successful`,
-        description: t`You supplied ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name ?? ''
-        }`,
-        status: TxStatus.SUCCESS
-      });
-      setTxStatus(TxStatus.SUCCESS);
-      if (hash) {
-        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      }
-      mutateAllowance();
-      mutateTokenBalance();
-      mutateRewardsBalance();
-      mutateUserSuppliedBalance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
-    },
-    onError: (error: Error, hash: string | undefined) => {
-      onNotification?.({
-        title: t`Supply failed`,
-        description: t`Something went wrong with your transaction. Please try again.`,
-        status: TxStatus.ERROR
-      });
-      mutateTokenBalance();
-      setTxStatus(TxStatus.ERROR);
-      if (hash) {
-        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      }
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
-    }
-  };
-
-  // Supply call
-  const supply = useRewardsSupply({
-    ...supplyParams,
-    enabled: widgetState.action === RewardsAction.SUPPLY && allowance !== undefined
-  });
-
-  const batchSupply = useBatchRewardsSupply({
-    ...supplyParams,
-    enabled:
-      (widgetState.action === RewardsAction.SUPPLY || widgetState.action === RewardsAction.APPROVE) &&
-      allowance !== undefined
-  });
-
-  // Approve
-  const approve = useApproveToken({
-    spender: selectedRewardContract?.contractAddress as `0x${string}`,
-    enabled: widgetState.action === RewardsAction.APPROVE && allowance !== undefined,
-    amount: debouncedAmount,
-    contractAddress: selectedRewardContract?.supplyToken.address[chainId],
-    onStart: (hash: string) => {
-      addRecentTransaction?.({
-        hash,
-        description: t`Approving ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name ?? ''
-        }`
-      });
-      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
-    },
-    onSuccess: hash => {
-      onNotification?.({
-        title: t`Approve successful`,
-        description: t`You approved ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name ?? ''
-        }`,
-        status: TxStatus.SUCCESS
-      });
-      setTxStatus(TxStatus.SUCCESS);
-      mutateAllowance();
-      supply.retryPrepare();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
-    },
-    onError: (error, hash) => {
-      onNotification?.({
-        title: t`Approval failed`,
-        description: t`We could not approve your token allowance.`,
-        status: TxStatus.ERROR
-      });
-      setTxStatus(TxStatus.ERROR);
-      mutateAllowance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
-    }
-  });
-
-  // Withdraw
-  const withdraw = useRewardsWithdraw({
-    contractAddress: selectedRewardContract?.contractAddress as `0x${string}`,
-    enabled: widgetState.action === RewardsAction.WITHDRAW,
-    amount: debouncedAmount,
-    onStart: (hash: string) => {
-      addRecentTransaction?.({
-        hash,
-        description: t`Withdrawing ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name ?? ''
-        }`
-      });
-      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
-    },
-    onSuccess: hash => {
-      onNotification?.({
-        title: t`Withdraw successful`,
-        description: t`You withdrew ${formatBigInt(debouncedAmount, { locale })} ${
-          selectedRewardContract?.supplyToken.name ?? ''
-        }`,
-        status: TxStatus.SUCCESS
-      });
-
-      setTxStatus(TxStatus.SUCCESS);
-      mutateTokenBalance();
-      mutateRewardsBalance();
-      mutateAllowance();
-      mutateUserSuppliedBalance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
-    },
-    onError: (error, hash) => {
-      onNotification?.({
-        title: t`Withdraw failed`,
-        description: t`Something went wrong with your withdraw. Please try again.`,
-        status: TxStatus.ERROR
-      });
-      setTxStatus(TxStatus.ERROR);
-      mutateTokenBalance();
-      mutateAllowance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
-    }
-  });
-
-  // Harvest
-  const claim = useRewardsClaim({
-    contractAddress: selectedRewardContract?.contractAddress as `0x${string}`,
-    onStart: (hash: string) => {
-      addRecentTransaction?.({ hash, description: 'Claiming tokens' });
-      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
-    },
-    onSuccess: hash => {
-      onNotification?.({
-        title: 'Rewards claim successful',
-        description: 'You claimed your rewards!',
-        status: TxStatus.SUCCESS
-      });
-      setTxStatus(TxStatus.SUCCESS);
-      mutateRewardsBalance();
-      mutateRewardsBalance();
-      mutateTokenBalance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
-    },
-    onError: (error, hash) => {
-      onNotification?.({
-        title: 'Claim failed',
-        description: 'Something went wrong with claiming your rewards. Please try again.',
-        status: TxStatus.ERROR
-      });
-      setTxStatus(TxStatus.ERROR);
-      mutateTokenBalance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
-    }
-  });
+  useEffect(() => {
+    setShowStepIndicator(widgetState.action === RewardsAction.SUPPLY);
+  }, [widgetState.action, setShowStepIndicator]);
 
   const needsAllowance = !!(!allowance || allowance < amount);
   const shouldUseBatch =
     !!batchEnabled && !!batchSupported && needsAllowance && widgetState.flow === RewardsFlow.SUPPLY;
 
-  useEffect(() => {
-    // Only the supply flow requires token allowance
-    setShowStepIndicator(
-      widgetState.flow === RewardsFlow.SUPPLY && widgetState.action !== RewardsAction.CLAIM
-    );
-  }, [widgetState.flow, widgetState.action]);
+  const { batchSupply, withdraw, claim } = useRewardsTransactions({
+    selectedRewardContract,
+    amount,
+    referralCode,
+    rewardsBalance,
+    shouldUseBatch,
+    addRecentTransaction,
+    onWidgetStateChange,
+    onNotification,
+    mutateAllowance,
+    mutateTokenBalance,
+    mutateRewardsBalance,
+    mutateUserSuppliedBalance,
+    setClaimAmount
+  });
 
   useEffect(() => {
-    if (widgetState.action === RewardsAction.CLAIM) {
-      setWidgetState({
-        flow: selectedRewardContract ? (tabIndex === 1 ? RewardsFlow.WITHDRAW : RewardsFlow.SUPPLY) : null,
-        action: RewardsAction.CLAIM,
-        screen: RewardsScreen.ACTION
-      });
-      return;
-    }
     // Set the widget state based on tabIndex and selectedRewardContract
     setWidgetState({
       flow: selectedRewardContract ? (tabIndex === 1 ? RewardsFlow.WITHDRAW : RewardsFlow.SUPPLY) : null,
-      action: selectedRewardContract
-        ? tabIndex === 1
-          ? RewardsAction.WITHDRAW
-          : RewardsAction.SUPPLY
-        : RewardsAction.OVERVIEW,
+      action:
+        widgetState.action === RewardsAction.CLAIM
+          ? RewardsAction.CLAIM
+          : selectedRewardContract
+            ? tabIndex === 1
+              ? RewardsAction.WITHDRAW
+              : RewardsAction.SUPPLY
+            : RewardsAction.OVERVIEW,
       screen: RewardsScreen.ACTION
     });
     //for some reason without the widgetState.flow dependency, the action can be stuck in approve even when we're in the withdraw flow
   }, [tabIndex, widgetState.flow, selectedRewardContract]);
-
-  // If we're in the supply flow and action screen, need allowance, and batch transactions are not supported, set the action to approve
-  // This useEffect should run whenever the useEffect above runs, so we don't end up with the wrong action
-  useEffect(() => {
-    if (
-      widgetState.flow === RewardsFlow.SUPPLY &&
-      (widgetState.screen === RewardsScreen.ACTION || widgetState.screen === RewardsScreen.REVIEW)
-    ) {
-      setWidgetState((prev: WidgetState) => ({
-        ...prev,
-        action:
-          needsAllowance && !allowanceLoading && !shouldUseBatch && !isBatchSupportLoading
-            ? RewardsAction.APPROVE
-            : RewardsAction.SUPPLY
-      }));
-    }
-  }, [
-    widgetState.flow,
-    widgetState.screen,
-    needsAllowance,
-    allowanceLoading,
-    isConnectedAndEnabled,
-    tabIndex,
-    selectedRewardContract,
-    shouldUseBatch,
-    isBatchSupportLoading
-  ]);
 
   const isSupplyBalanceError =
     txStatus === TxStatus.IDLE &&
@@ -479,46 +211,12 @@ const RewardsWidgetWrapped = ({
     withdraw.isLoading ||
     isAmountWaitingForDebounce;
 
-  const suppliedisabled =
-    [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
-    isSupplyBalanceError ||
-    !supply.prepared ||
-    supply.isLoading ||
-    allowance === undefined ||
-    isAmountWaitingForDebounce;
-
   const batchSupplyDisabled =
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
     isSupplyBalanceError ||
     !batchSupply.prepared ||
     batchSupply.isLoading ||
-    isAmountWaitingForDebounce ||
-    // If the user has allowance, don't send a batch transaction as it's only 1 contract call
-    !needsAllowance ||
-    allowanceLoading ||
-    !batchSupported;
-
-  const approveDisabled =
-    [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
-    isSupplyBalanceError ||
-    !approve.prepared ||
-    allowance === undefined ||
-    (txStatus === TxStatus.SUCCESS && !supply.prepared) || //disable next button if supply not prepared
-    isAmountWaitingForDebounce ||
-    (!!batchEnabled && isBatchSupportLoading);
-
-  const supplyPrepareError = approve.prepareError || supply.prepareError;
-
-  useEffect(() => {
-    if (supplyPrepareError) {
-      console.log(supply.prepareError);
-      onNotification?.({
-        title: t`Error preparing transaction`,
-        description: supplyPrepareError.message,
-        status: TxStatus.ERROR
-      });
-    }
-  }, [supplyPrepareError]);
+    isAmountWaitingForDebounce;
 
   useEffect(() => {
     if (withdraw.prepareError) {
@@ -533,7 +231,7 @@ const RewardsWidgetWrapped = ({
 
   useEffect(() => {
     if (claim.prepareError) {
-      console.log(supply.prepareError);
+      console.log(claim.prepareError);
       onNotification?.({
         title: t`Error preparing transaction`,
         description: claim.prepareError.message,
@@ -554,58 +252,15 @@ const RewardsWidgetWrapped = ({
     }
   }, [debouncedBalanceError]);
 
-  const approveOnClick = () => {
-    setWidgetState((prev: WidgetState) => ({ ...prev, screen: RewardsScreen.TRANSACTION }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    approve.execute();
-  };
-  const supplyOnClick = () => {
-    setWidgetState((prev: WidgetState) => ({ ...prev, screen: RewardsScreen.TRANSACTION }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    supply.execute();
-  };
-  const batchSupplyOnClick = () => {
-    if (!needsAllowance) {
-      // If the user does not need allowance, just send the individual transaction as it will be more gas efficient
-      supplyOnClick();
-      return;
-    }
-    setWidgetState((prev: WidgetState) => ({ ...prev, screen: RewardsScreen.TRANSACTION }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    batchSupply.execute();
-  };
-  const withdrawOnClick = () => {
-    setWidgetState((prev: WidgetState) => ({ ...prev, screen: RewardsScreen.TRANSACTION }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    withdraw.execute();
-  };
   const nextOnClick = () => {
     setTxStatus(TxStatus.IDLE);
+    setAmount(0n);
 
     setWidgetState((prev: WidgetState) => ({
       ...prev,
-      action:
-        prev.flow === RewardsFlow.WITHDRAW
-          ? RewardsAction.WITHDRAW
-          : needsAllowance
-            ? RewardsAction.APPROVE
-            : RewardsAction.SUPPLY,
+      action: prev.flow === RewardsFlow.WITHDRAW ? RewardsAction.WITHDRAW : RewardsAction.SUPPLY,
       screen: RewardsScreen.ACTION
     }));
-
-    // if successful supply/wWITHDRAW, reset amount
-    if (widgetState.action !== RewardsAction.APPROVE) {
-      setAmount(0n);
-    }
-
-    // if successfully approved, go to supply/withdraw
-    if (widgetState.action === RewardsAction.APPROVE && !needsAllowance) {
-      return widgetState.flow === RewardsFlow.SUPPLY ? supplyOnClick() : withdrawOnClick();
-    }
   };
 
   const reviewOnClick = () => {
@@ -627,28 +282,12 @@ const RewardsWidgetWrapped = ({
   // Handle the error onClicks separately to keep it clean
   const errorOnClick = () => {
     return widgetState.action === RewardsAction.SUPPLY
-      ? shouldUseBatch
-        ? batchSupplyOnClick()
-        : supplyOnClick()
+      ? batchSupply.execute()
       : widgetState.action === RewardsAction.WITHDRAW
-        ? withdrawOnClick()
-        : widgetState.action === RewardsAction.APPROVE
-          ? approveOnClick()
-          : widgetState.action === RewardsAction.CLAIM
-            ? onClaimClick()
-            : undefined;
-  };
-
-  const onClaimClick = () => {
-    setClaimAmount(rewardsBalance || 0n);
-    setWidgetState((prev: WidgetState) => ({
-      ...prev,
-      screen: RewardsScreen.TRANSACTION,
-      action: RewardsAction.CLAIM
-    }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    claim?.execute();
+        ? withdraw.execute()
+        : widgetState.action === RewardsAction.CLAIM
+          ? claim.execute()
+          : undefined;
   };
 
   const onClickAction = !isConnectedAndEnabled
@@ -660,13 +299,9 @@ const RewardsWidgetWrapped = ({
         : widgetState.screen === RewardsScreen.ACTION
           ? reviewOnClick
           : widgetState.flow === RewardsFlow.SUPPLY
-            ? shouldUseBatch
-              ? batchSupplyOnClick
-              : widgetState.action === RewardsAction.APPROVE
-                ? approveOnClick
-                : supplyOnClick
+            ? batchSupply.execute
             : widgetState.flow === RewardsFlow.WITHDRAW && widgetState.action === RewardsAction.WITHDRAW
-              ? withdrawOnClick
+              ? withdraw.execute
               : undefined;
 
   const showSecondaryButton = txStatus === TxStatus.ERROR || widgetState.screen === RewardsScreen.REVIEW;
@@ -684,61 +319,34 @@ const RewardsWidgetWrapped = ({
       } else if (widgetState.screen === RewardsScreen.ACTION) {
         setButtonText(t`Review`);
       } else if (widgetState.screen === RewardsScreen.REVIEW) {
-        if (shouldUseBatch) {
+        if (widgetState.flow === RewardsFlow.WITHDRAW) {
+          setButtonText(t`Confirm withdrawal`);
+        } else if (shouldUseBatch) {
           setButtonText(t`Confirm bundled transaction`);
-        } else if (widgetState.action === RewardsAction.APPROVE) {
+        } else if (needsAllowance) {
           setButtonText(t`Confirm 2 transactions`);
         } else if (widgetState.flow === RewardsFlow.SUPPLY) {
           setButtonText(t`Confirm supply`);
-        } else if (widgetState.flow === RewardsFlow.WITHDRAW) {
-          setButtonText(t`Confirm withdrawal`);
         }
       }
     } else {
       setButtonText(t`Connect Wallet`);
     }
-  }, [widgetState, txStatus, linguiCtx, amount, isConnectedAndEnabled, shouldUseBatch]);
+  }, [widgetState, txStatus, linguiCtx, amount, isConnectedAndEnabled, shouldUseBatch, needsAllowance]);
 
   // Set widget button to be disabled depending on which action we're in
   useEffect(() => {
     setIsDisabled(
       isConnectedAndEnabled &&
-        ((widgetState.action === RewardsAction.APPROVE && approveDisabled) ||
-          (widgetState.action === RewardsAction.SUPPLY &&
-            (shouldUseBatch ? batchSupplyDisabled : suppliedisabled)) ||
+        ((widgetState.action === RewardsAction.SUPPLY && batchSupplyDisabled) ||
           (widgetState.action === RewardsAction.WITHDRAW && withdrawDisabled))
     );
-  }, [
-    isConnectedAndEnabled,
-    widgetState.action,
-    approveDisabled,
-    suppliedisabled,
-    withdrawDisabled,
-    shouldUseBatch,
-    batchSupplyDisabled
-  ]);
-
-  // After a successful approval, wait for the next hook (supply) to be prepared and send the transaction
-  useEffect(() => {
-    if (widgetState.action === RewardsAction.APPROVE && txStatus === TxStatus.SUCCESS && supply.prepared) {
-      setWidgetState((prev: WidgetState) => ({
-        ...prev,
-        action: RewardsAction.SUPPLY
-      }));
-      supplyOnClick();
-    }
-  }, [widgetState.action, txStatus, supply.prepared]);
+  }, [isConnectedAndEnabled, widgetState.action, withdrawDisabled, batchSupplyDisabled]);
 
   // Set isLoading to be consumed by WidgetButton
   useEffect(() => {
-    setIsLoading(
-      isConnecting ||
-        txStatus === TxStatus.LOADING ||
-        txStatus === TxStatus.INITIALIZED ||
-        // Keep the loading state after a successful approval as a new transaction will automatically pop up
-        (widgetState.action === RewardsAction.APPROVE && txStatus === TxStatus.SUCCESS)
-    );
-  }, [isConnecting, txStatus, widgetState.action]);
+    setIsLoading(isConnecting || txStatus === TxStatus.LOADING || txStatus === TxStatus.INITIALIZED);
+  }, [isConnecting, txStatus]);
 
   const onSelectRewardContract = (rewardContract: RewardContract) => {
     setSelectedRewardContract(rewardContract);
@@ -910,7 +518,7 @@ const RewardsWidgetWrapped = ({
                       widgetState
                     });
                   }}
-                  onClaimClick={onClaimClick}
+                  onClaimClick={claim.execute}
                   isConnectedAndEnabled={isConnectedAndEnabled}
                   tabIndex={tabIndex}
                   onExternalLinkClicked={onExternalLinkClicked}
@@ -983,3 +591,5 @@ const RewardsWidgetWrapped = ({
     </WidgetContainer>
   );
 };
+
+export const RewardsWidget = withWidgetProvider(RewardsWidgetWrapped, 'RewardsWidget');

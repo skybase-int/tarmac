@@ -7,7 +7,7 @@ import {
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { TextWithTooltip } from '@widgets/shared/components/ui/tooltip/TextWithTooltip';
 import { Text } from '@widgets/shared/components/ui/Typography';
-import { captitalizeFirstLetter, formatBigInt, formatPercent } from '@jetstreamgg/sky-utils';
+import { capitalizeFirstLetter, formatBigInt, formatPercent } from '@jetstreamgg/sky-utils';
 import { motion } from 'framer-motion';
 import { getRiskTextColor } from '../lib/utils';
 import { getIlkName, RiskLevel, useCollateralData } from '@jetstreamgg/sky-hooks';
@@ -74,8 +74,8 @@ export function PositionDetailAccordion({
           {!!collateralData?.stabilityFee && (
             <motion.div className="flex justify-between" variants={positionAnimations}>
               <TextWithTooltip
-                text={getTooltipById('borrow-rate')?.title || 'Borrow rate'}
-                tooltip={getTooltipById('borrow-rate')?.tooltip || ''}
+                text={getTooltipById('borrow')?.title || 'Borrow rate'}
+                tooltip={getTooltipById('borrow')?.tooltip || ''}
                 textClassName="leading-4"
                 contentClassname="w-[400px]"
                 gap={1}
@@ -136,7 +136,7 @@ export function PositionDetailAccordion({
               >
                 {liquidationData?.isInLiquidatedState
                   ? 'Liquidated'
-                  : captitalizeFirstLetter(riskLevel.toLowerCase())}
+                  : capitalizeFirstLetter(riskLevel.toLowerCase())}
               </Text>
             </motion.div>
           )}

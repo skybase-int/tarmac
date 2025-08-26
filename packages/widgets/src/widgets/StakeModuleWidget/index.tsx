@@ -1,7 +1,6 @@
-import { ErrorBoundary } from '@widgets/shared/components/ErrorBoundary';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { WidgetProps, WidgetState, WidgetStateChangeParams } from '@widgets/shared/types/widgetState';
-import { WidgetContext, WidgetProvider } from '@widgets/context/WidgetContext';
+import { WidgetProps, WidgetState } from '@widgets/shared/types/widgetState';
+import { WidgetContext } from '@widgets/context/WidgetContext';
 import { WidgetContainer } from '@widgets/shared/components/ui/widget/WidgetContainer';
 import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
@@ -17,21 +16,11 @@ import { useAccount, useChainId } from 'wagmi';
 import { getStepTitle, StakeAction, StakeFlow, StakeScreen, StakeStep } from './lib/constants';
 import { getNextStep, getPreviousStep, getStepIndex, getTotalSteps } from './lib/utils';
 import { StepperBar } from './components/StepperBar';
-import { UrnsList } from './components/UrnsList';
-import { OpenNewUrn } from './components/OpenNewUrn';
-import { SelectRewardContract } from './components/SelectRewardContract';
 import { StakeModuleWidgetContext, StakeModuleWidgetProvider } from './context/context';
-import { SelectDelegate } from './components/SelectDelegate';
-import { PositionSummary } from './components/PositionSummary';
 import {
   useCurrentUrnIndex,
   useStakeSkyAllowance,
   useStakeUsdsAllowance,
-  useStakeSkyApprove,
-  useStakeUsdsApprove,
-  useStakeMulticall,
-  useBatchStakeMulticall,
-  useStakeClaimRewards,
   useStakeUrnAddress,
   useVault,
   ZERO_ADDRESS,
@@ -40,10 +29,9 @@ import {
   TOKENS,
   getTokenDecimals,
   getIlkName,
-  useIsBatchSupported,
-  Token
+  useIsBatchSupported
 } from '@jetstreamgg/sky-hooks';
-import { formatBigInt, getTransactionLink, useDebounce, useIsSafeWallet } from '@jetstreamgg/sky-utils';
+import { useDebounce } from '@jetstreamgg/sky-utils';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
 import { Button } from '@widgets/components/ui/button';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
@@ -53,6 +41,10 @@ import { UnconnectedState } from './components/UnconnectedState';
 import { useLingui } from '@lingui/react';
 import { formatUnits, parseUnits } from 'viem';
 import { StakeModuleTransactionStatus } from './components/StakeModuleTransactionStatus';
+import { withWidgetProvider } from '@widgets/shared/hocs/withWidgetProvider';
+import { Wizard } from './components/Wizard';
+import { ManagePosition } from './components/ManagePosition';
+import { useStakeTransactions } from './hooks/useStakeTransactions';
 
 export type OnStakeUrnChange = (
   urn: { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined } | undefined
@@ -65,50 +57,6 @@ type StakeModuleWidgetProps = WidgetProps & {
   addRecentTransaction: any;
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
-};
-
-export const StakeModuleWidget = ({
-  locale,
-  rightHeaderComponent,
-  onStakeUrnChange,
-  externalWidgetState,
-  onConnect,
-  onNotification,
-  onWidgetStateChange,
-  onExternalLinkClicked,
-  onShowHelpModal,
-  addRecentTransaction,
-  legalBatchTxUrl,
-  referralCode,
-  shouldReset = false,
-  batchEnabled,
-  setBatchEnabled
-}: StakeModuleWidgetProps) => {
-  const key = shouldReset ? 'reset' : undefined;
-  return (
-    <ErrorBoundary componentName="StakeModuleWidget">
-      <WidgetProvider key={key} locale={locale}>
-        <StakeModuleWidgetProvider>
-          <StakeModuleWidgetWrapped
-            key={key}
-            rightHeaderComponent={rightHeaderComponent}
-            onStakeUrnChange={onStakeUrnChange}
-            externalWidgetState={externalWidgetState}
-            onConnect={onConnect}
-            onNotification={onNotification}
-            onWidgetStateChange={shouldReset ? undefined : onWidgetStateChange}
-            onExternalLinkClicked={onExternalLinkClicked}
-            onShowHelpModal={onShowHelpModal}
-            addRecentTransaction={addRecentTransaction}
-            referralCode={referralCode}
-            batchEnabled={batchEnabled}
-            setBatchEnabled={setBatchEnabled}
-            legalBatchTxUrl={legalBatchTxUrl}
-          />
-        </StakeModuleWidgetProvider>
-      </WidgetProvider>
-    </ErrorBoundary>
-  );
 };
 
 function StakeModuleWidgetWrapped({
@@ -138,15 +86,13 @@ function StakeModuleWidgetWrapped({
     setButtonText,
     setIsDisabled,
     setTxStatus,
-    setExternalLink,
     setShowStepIndicator
   } = useContext(WidgetContext);
   const { i18n } = useLingui();
   const chainId = useChainId();
   const { isConnected, isConnecting, address } = useAccount();
-  const isSafeWallet = useIsSafeWallet();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
-  const { data: batchSupported, isLoading: isBatchSupportLoading } = useIsBatchSupported();
+  const { data: batchSupported } = useIsBatchSupported();
   const {
     isLockCompleted,
     isSelectRewardContractCompleted,
@@ -206,17 +152,8 @@ function StakeModuleWidgetWrapped({
     wipeAll && usdsToWipe ? (usdsToWipe * WIPE_BUFFER_MULTIPLIER) / WIPE_BUFFER_DIVISOR : usdsToWipe
   );
 
-  const {
-    data: stakeSkyAllowance,
-    mutate: mutateStakeSkyAllowance,
-    isLoading: stakeLockAllowanceLoading
-  } = useStakeSkyAllowance();
-
-  const {
-    data: stakeUsdsAllowance,
-    mutate: mutateStakeUsdsAllowance,
-    isLoading: stakeUsdsAllowanceLoading
-  } = useStakeUsdsAllowance();
+  const { data: stakeSkyAllowance, mutate: mutateStakeSkyAllowance } = useStakeSkyAllowance();
+  const { data: stakeUsdsAllowance, mutate: mutateStakeUsdsAllowance } = useStakeUsdsAllowance();
 
   useNotifyWidgetState({ widgetState, txStatus, onWidgetStateChange });
 
@@ -227,175 +164,26 @@ function StakeModuleWidgetWrapped({
   const allStepsComplete =
     isLockCompleted && isBorrowCompleted && isSelectRewardContractCompleted && isSelectDelegateCompleted;
 
-  const lockSkyApprove = useStakeSkyApprove({
-    amount: debouncedLockAmount,
-    onStart: (hash: string) => {
-      addRecentTransaction?.({
-        hash,
-        description: t`Approving ${formatBigInt(debouncedLockAmount)} SKY`
-      });
-      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
-    },
-    onSuccess: hash => {
-      onNotification?.({
-        title: t`Approve successful`,
-        description: t`You approved SKY`,
-        status: TxStatus.SUCCESS
-      });
-      setTxStatus(TxStatus.SUCCESS);
-      mutateStakeSkyAllowance();
-      multicall.retryPrepare();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
-    },
-    onError: (error, hash) => {
-      onNotification?.({
-        title: t`Approval failed`,
-        description: t`We could not approve your token allowance.`,
-        status: TxStatus.ERROR
-      });
-      setTxStatus(TxStatus.ERROR);
-      mutateStakeSkyAllowance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
-    },
-    enabled: widgetState.action === StakeAction.APPROVE && stakeSkyAllowance !== undefined
-  });
+  const needsLockAllowance = !!(stakeSkyAllowance === undefined || stakeSkyAllowance < debouncedLockAmount);
+  const needsUsdsAllowance = !!(stakeUsdsAllowance === undefined || stakeUsdsAllowance < debouncedUsdsAmount);
+  const needsAllowance = needsLockAllowance || needsUsdsAllowance;
+  const shouldUseBatch = !!batchEnabled && !!batchSupported && needsAllowance;
 
-  const repayUsdsApprove = useStakeUsdsApprove({
-    amount: debouncedUsdsAmount,
-    onStart: (hash: string) => {
-      addRecentTransaction?.({
-        hash,
-        description: t`Approving ${formatBigInt(debouncedUsdsAmount)} USDS`
-      });
-      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
-    },
-    onSuccess: hash => {
-      onNotification?.({
-        title: t`Approve successful`,
-        description: t`You approved USDS`,
-        status: TxStatus.SUCCESS
-      });
-      setTxStatus(TxStatus.SUCCESS);
-      mutateStakeUsdsAllowance();
-      multicall.retryPrepare();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
-    },
-    onError: (error, hash) => {
-      onNotification?.({
-        title: t`Approval failed`,
-        description: t`We could not approve your token allowance.`,
-        status: TxStatus.ERROR
-      });
-      setTxStatus(TxStatus.ERROR);
-      mutateStakeUsdsAllowance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
-    },
-    enabled: widgetState.action === StakeAction.APPROVE && stakeUsdsAllowance !== undefined
-  });
-
-  const multicallParams = {
-    calldata,
-    onStart: (hash?: string) => {
-      if (hash) {
-        addRecentTransaction?.({ hash, description: t`Doing multicall` });
-        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      }
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
-    },
-    onSuccess: (hash: string | undefined) => {
-      //TODO: fix all this copy
-      onNotification?.({
-        title: t`Approve successful`,
-        description: t`You approved ${formatBigInt(debouncedLockAmount)} SKY`, // TODO fix copy
-        status: TxStatus.SUCCESS
-      });
-      if (hash) {
-        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      }
-      setTxStatus(TxStatus.SUCCESS);
-      mutateStakeSkyAllowance();
-      // TODO Mutate balances here
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
-    },
-    onError: (error: Error, hash: string | undefined) => {
-      console.log('error', error, hash);
-      //TODO: fix all this copy
-      onNotification?.({
-        title: t`Approval failed`,
-        description: t`We could not approve your token allowance.`,
-        status: TxStatus.ERROR
-      });
-      setTxStatus(TxStatus.ERROR);
-      if (hash) {
-        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      }
-      mutateStakeSkyAllowance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
-    }
-  };
-
-  const multicall = useStakeMulticall({
-    ...multicallParams,
-    enabled: widgetState.action === StakeAction.MULTICALL && !!allStepsComplete
-  });
-
-  const batchMulticall = useBatchStakeMulticall({
-    ...multicallParams,
-    skyAmount: debouncedLockAmount,
+  const { batchMulticall, claimRewards } = useStakeTransactions({
+    lockAmount: debouncedLockAmount,
     usdsAmount: debouncedUsdsAmount,
-    enabled:
-      (widgetState.action === StakeAction.MULTICALL || widgetState.action === StakeAction.APPROVE) &&
-      !!allStepsComplete
-  });
-
-  const claimRewards = useStakeClaimRewards({
-    index: indexToClaim,
-    rewardContract: rewardContractToClaim,
-    to: address,
-    enabled: indexToClaim !== undefined && !!rewardContractToClaim && !!address,
-    onStart: (hash: string) => {
-      addRecentTransaction?.({
-        hash,
-        description: 'Claiming rewards'
-      });
-      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
-    },
-    onSuccess: (hash: string) => {
-      //TODO: Update copy
-      onNotification?.({
-        title: t`Claim successful`,
-        description: t`You claimed your rewards`,
-        status: TxStatus.SUCCESS
-      });
-      setTxStatus(TxStatus.SUCCESS);
-      // TODO: `useRewardsRewardsBalance` invalidates the query after every block,
-      // do we need to invalidate it again here?
-      // mutateRewardsBalance();
-      setIndexToClaim(undefined);
-      setRewardContractToClaim(undefined);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
-    },
-    onError: (error: Error, hash: string) => {
-      //TODO: Update copy
-      onNotification?.({
-        title: t`Claim failed`,
-        description: t`We could not claim your rewards.`,
-        status: TxStatus.ERROR
-      });
-      setTxStatus(TxStatus.ERROR);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
-    }
+    calldata,
+    allStepsComplete,
+    indexToClaim,
+    setIndexToClaim,
+    rewardContractToClaim,
+    shouldUseBatch,
+    setRewardContractToClaim,
+    mutateStakeSkyAllowance,
+    mutateStakeUsdsAllowance,
+    addRecentTransaction,
+    onWidgetStateChange,
+    onNotification
   });
 
   const shouldOpenFromWidgetButton =
@@ -405,9 +193,9 @@ function StakeModuleWidgetWrapped({
    * USEEFFECTS ----------------------------------------------------------------------------------
    */
 
-  const needsLockAllowance = !!(stakeSkyAllowance === undefined || stakeSkyAllowance < debouncedLockAmount);
-  const needsUsdsAllowance = !!(stakeUsdsAllowance === undefined || stakeUsdsAllowance < debouncedUsdsAmount);
-  const shouldUseBatch = !!batchEnabled && !!batchSupported && (needsLockAllowance || needsUsdsAllowance);
+  useEffect(() => {
+    setShowStepIndicator(widgetState.flow !== StakeFlow.CLAIM);
+  }, [setShowStepIndicator, widgetState.flow]);
 
   useEffect(() => {
     setTabIndex(initialTabIndex);
@@ -433,7 +221,7 @@ function StakeModuleWidgetWrapped({
       } else if (currentStep === StakeStep.SUMMARY) {
         if (shouldUseBatch) {
           setButtonText(t`Confirm bundled transaction`);
-        } else if (widgetState.action === StakeAction.APPROVE) {
+        } else if (needsAllowance) {
           setButtonText(t`Confirm 2 transactions`);
         } else if (widgetState.flow === StakeFlow.OPEN) {
           setButtonText(t`Confirm your position`);
@@ -465,53 +253,20 @@ function StakeModuleWidgetWrapped({
     isConnectedAndEnabled,
     shouldOpenFromWidgetButton,
     currentStep,
-    needsLockAllowance,
-    needsUsdsAllowance,
+    needsAllowance,
     isDelegateSkippable,
     shouldUseBatch
   ]);
 
-  // After a successful approval, wait for the next hook (multicall) to be prepared and send the transaction
-  useEffect(() => {
-    if (widgetState.action === StakeAction.APPROVE && txStatus === TxStatus.SUCCESS && multicall.prepared) {
-      setWidgetState((prev: WidgetState) => ({
-        ...prev,
-        action: StakeAction.MULTICALL
-      }));
-      submitOnClick();
-    }
-  }, [widgetState.flow, widgetState.action, txStatus, multicall.prepared]);
-
   // Set isLoading to be consumed by WidgetButton
   useEffect(() => {
-    setIsLoading(
-      isConnecting ||
-        txStatus === TxStatus.LOADING ||
-        txStatus === TxStatus.INITIALIZED ||
-        // Keep the loading state after a successful approval as a new transaction will automatically pop up
-        (widgetState.action === StakeAction.APPROVE && txStatus === TxStatus.SUCCESS)
-    );
-  }, [isConnecting, txStatus, widgetState.action]);
-
-  const multicallDisabled =
-    [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) || !multicall.prepared || multicall.isLoading;
+    setIsLoading(isConnecting || txStatus === TxStatus.LOADING || txStatus === TxStatus.INITIALIZED);
+  }, [isConnecting, txStatus]);
 
   const batchMulticallDisabled =
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
     !batchMulticall.prepared ||
-    batchMulticall.isLoading ||
-    // If the user has allowance, don't send a batch transaction as it's only 1 contract call
-    (!needsLockAllowance && !needsUsdsAllowance) ||
-    stakeLockAllowanceLoading ||
-    stakeUsdsAllowanceLoading ||
-    !batchSupported;
-
-  const approveDisabled =
-    [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
-    (needsLockAllowance && (!lockSkyApprove.prepared || lockSkyApprove.isLoading)) ||
-    (needsUsdsAllowance && (!repayUsdsApprove.prepared || repayUsdsApprove.isLoading)) ||
-    (!needsLockAllowance && !needsUsdsAllowance && txStatus === TxStatus.SUCCESS && !multicall.prepared) || //disable next button if multicall is not prepared
-    (!!batchEnabled && isBatchSupportLoading);
+    batchMulticall.isLoading;
 
   // Set widget button to be disabled depending on which action we're in
   useEffect(() => {
@@ -537,10 +292,8 @@ function StakeModuleWidgetWrapped({
         (currentStep === StakeStep.REWARDS && !isSelectRewardContractCompleted) ||
         (currentStep === StakeStep.DELEGATE && !isSelectDelegateCompleted) ||
         (currentStep === StakeStep.SUMMARY &&
-          ((widgetState.action === StakeAction.APPROVE && approveDisabled) ||
-            (txStatus !== TxStatus.SUCCESS &&
-              widgetState.action === StakeAction.MULTICALL &&
-              (shouldUseBatch ? batchMulticallDisabled : multicallDisabled))))
+          widgetState.action === StakeAction.MULTICALL &&
+          batchMulticallDisabled)
     );
   }, [
     currentStep,
@@ -552,10 +305,6 @@ function StakeModuleWidgetWrapped({
     isSelectDelegateCompleted,
     isBorrowCompleted,
     shouldOpenFromWidgetButton,
-    multicallDisabled,
-    approveDisabled,
-    txStatus,
-    shouldUseBatch,
     batchMulticallDisabled
   ]);
 
@@ -586,53 +335,6 @@ function StakeModuleWidgetWrapped({
       setCurrentStep(StakeStep.OPEN_BORROW);
     }
   }, [currentUrnIndex, isConnectedAndEnabled]);
-
-  // If we need allowance and batch transactions are not supported, set the action to approve
-  useEffect(() => {
-    if (
-      widgetState.screen === StakeScreen.ACTION &&
-      (widgetState.flow === StakeFlow.OPEN || (widgetState.flow === StakeFlow.MANAGE && activeUrn))
-    ) {
-      if (tabSide === 'right') {
-        setWidgetState((prev: WidgetState) => ({
-          ...prev,
-          action:
-            debouncedUsdsAmount > 0n &&
-            needsUsdsAllowance &&
-            !stakeUsdsAllowanceLoading &&
-            !shouldUseBatch &&
-            !isBatchSupportLoading
-              ? StakeAction.APPROVE
-              : StakeAction.MULTICALL
-        }));
-      } else {
-        setWidgetState((prev: WidgetState) => ({
-          ...prev,
-          action:
-            debouncedLockAmount > 0n &&
-            needsLockAllowance &&
-            !stakeLockAllowanceLoading &&
-            !shouldUseBatch &&
-            !isBatchSupportLoading
-              ? StakeAction.APPROVE
-              : StakeAction.MULTICALL
-        }));
-      }
-    } // else { } //For single action managements, we'll need to be more detailed here
-  }, [
-    debouncedUsdsAmount,
-    debouncedLockAmount,
-    widgetState.screen,
-    widgetState.flow,
-    needsUsdsAllowance,
-    stakeUsdsAllowanceLoading,
-    needsLockAllowance,
-    stakeLockAllowanceLoading,
-    activeUrn,
-    tabSide,
-    shouldUseBatch,
-    isBatchSupportLoading
-  ]);
 
   useEffect(() => {
     if (widgetState.flow === StakeFlow.OPEN) {
@@ -786,22 +488,6 @@ function StakeModuleWidgetWrapped({
     // TODO: Handle all states to determine the next action, this is only to test navigation in the wizard
   };
 
-  const approveOnClick = () => {
-    setShowStepIndicator(true);
-    // Need to set action to approve to trigger the tx screen content
-    setWidgetState((prev: WidgetState) => ({
-      ...prev,
-      screen: StakeScreen.TRANSACTION
-    }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    if (needsLockAllowance) {
-      lockSkyApprove.execute();
-    } else if (needsUsdsAllowance) {
-      repayUsdsApprove.execute();
-    }
-  };
-
   const onClickBack = () => {
     // TODO: This may need to handle other screens, this is for testing navigation in the wizard
     // const previousStep = getPreviousStep(widgetState.action);
@@ -823,42 +509,6 @@ function StakeModuleWidgetWrapped({
     //   ...prev,
     //   action: previousAction
     // }));
-  };
-
-  const submitOnClick = () => {
-    setShowStepIndicator(true);
-    setWidgetState((prev: WidgetState) => ({
-      ...prev,
-      action: StakeAction.MULTICALL,
-      screen: StakeScreen.TRANSACTION
-    }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    multicall.execute();
-  };
-
-  const batchSubmitOnClick = () => {
-    setShowStepIndicator(true);
-    setWidgetState((prev: WidgetState) => ({
-      ...prev,
-      action: StakeAction.MULTICALL,
-      screen: StakeScreen.TRANSACTION
-    }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    batchMulticall.execute();
-  };
-
-  const claimOnClick = () => {
-    setShowStepIndicator(false);
-    setWidgetState((prev: WidgetState) => ({
-      ...prev,
-      action: StakeAction.CLAIM,
-      screen: StakeScreen.TRANSACTION
-    }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    claimRewards.execute();
   };
 
   const finishOnClick = () => {
@@ -900,19 +550,15 @@ function StakeModuleWidgetWrapped({
     ? onConnect
     : txStatus === TxStatus.SUCCESS
       ? finishOnClick
-      : currentStep === StakeStep.SUMMARY && widgetState.action === StakeAction.APPROVE
-        ? approveOnClick
-        : currentStep === StakeStep.SUMMARY && widgetState.action === StakeAction.MULTICALL
-          ? shouldUseBatch
-            ? batchSubmitOnClick
-            : submitOnClick
-          : shouldOpenFromWidgetButton
-            ? handleClickOpenPosition
-            : widgetState.flow === StakeFlow.MANAGE && widgetState.action === StakeAction.CLAIM
-              ? claimOnClick
-              : widgetState.flow === StakeFlow.OPEN || widgetState.flow === StakeFlow.MANAGE
-                ? nextOnClick
-                : undefined;
+      : currentStep === StakeStep.SUMMARY && widgetState.action === StakeAction.MULTICALL
+        ? batchMulticall.execute
+        : shouldOpenFromWidgetButton
+          ? handleClickOpenPosition
+          : widgetState.flow === StakeFlow.MANAGE && widgetState.action === StakeAction.CLAIM
+            ? claimRewards.execute
+            : widgetState.flow === StakeFlow.OPEN || widgetState.flow === StakeFlow.MANAGE
+              ? nextOnClick
+              : undefined;
 
   const [stepIndex, totalSteps] = useMemo(
     () => [getStepIndex(currentStep, widgetState.flow) + 1, getTotalSteps(widgetState.flow)],
@@ -1046,7 +692,7 @@ function StakeModuleWidgetWrapped({
             <StakeModuleTransactionStatus
               onExternalLinkClicked={onExternalLinkClicked}
               isBatchTransaction={shouldUseBatch}
-              needsAllowance={needsLockAllowance || needsUsdsAllowance}
+              needsAllowance={needsAllowance}
             />
           </CardAnimationWrapper>
         ) : (
@@ -1076,7 +722,7 @@ function StakeModuleWidgetWrapped({
                       claimExecute={claimRewards.execute}
                       onStakeUrnChange={onStakeUrnChange}
                       onWidgetStateChange={onWidgetStateChange}
-                      needsAllowance={needsLockAllowance || needsUsdsAllowance}
+                      needsAllowance={needsAllowance}
                       allowanceToken={
                         needsLockAllowance ? TOKENS.sky : needsUsdsAllowance ? TOKENS.usds : undefined
                       }
@@ -1112,125 +758,10 @@ function StakeModuleWidgetWrapped({
   );
 }
 
-const Wizard = ({
-  isConnectedAndEnabled,
-  onExternalLinkClicked,
-  currentStep,
-  onClickTrigger,
-  tabSide,
-  onWidgetStateChange,
-  needsAllowance,
-  allowanceToken,
-  batchEnabled,
-  setBatchEnabled,
-  isBatchTransaction,
-  legalBatchTxUrl
-}: {
-  isConnectedAndEnabled: boolean;
-  onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-  currentStep: StakeStep;
-  onClickTrigger: any;
-  tabSide: 'left' | 'right';
-  onWidgetStateChange?: (params: WidgetStateChangeParams) => void;
-  needsAllowance: boolean;
-  allowanceToken?: Token;
-  batchEnabled?: boolean;
-  setBatchEnabled?: (enabled: boolean) => void;
-  isBatchTransaction: boolean;
-  legalBatchTxUrl?: string;
-}) => {
-  const chainId = useChainId();
-  const { widgetState, txStatus } = useContext(WidgetContext);
-  return (
-    <div>
-      {currentStep === StakeStep.OPEN_BORROW && (
-        <OpenNewUrn
-          isConnectedAndEnabled={isConnectedAndEnabled}
-          onClickTrigger={onClickTrigger}
-          tabSide={tabSide}
-          onInputAmountChange={(val: bigint, userTriggered?: boolean) => {
-            if (userTriggered) {
-              // If newValue is 0n and it was triggered by user, it means they're clearing the input
-              const formattedValue =
-                val === 0n ? '' : formatUnits(val, getTokenDecimals(TOKENS.sky, chainId));
-              onWidgetStateChange?.({
-                originAmount: formattedValue,
-                txStatus,
-                widgetState
-              });
-            }
-          }}
-        />
-      )}
-      {currentStep === StakeStep.REWARDS && (
-        <SelectRewardContract onExternalLinkClicked={onExternalLinkClicked} />
-      )}
-      {currentStep === StakeStep.DELEGATE && <SelectDelegate onExternalLinkClicked={onExternalLinkClicked} />}
-      {currentStep === StakeStep.SUMMARY && (
-        <PositionSummary
-          needsAllowance={needsAllowance}
-          allowanceToken={allowanceToken}
-          batchEnabled={batchEnabled}
-          setBatchEnabled={setBatchEnabled}
-          isBatchTransaction={isBatchTransaction}
-          legalBatchTxUrl={legalBatchTxUrl}
-        />
-      )}
-    </div>
-  );
-};
+const StakeModuleWidgetWithProvider = (props: StakeModuleWidgetProps) => (
+  <StakeModuleWidgetProvider>
+    <StakeModuleWidgetWrapped {...props} />
+  </StakeModuleWidgetProvider>
+);
 
-const ManagePosition = ({
-  isConnectedAndEnabled,
-  onExternalLinkClicked,
-  currentStep,
-  currentAction,
-  onClickTrigger,
-  tabSide,
-  claimPrepared,
-  claimExecute,
-  onStakeUrnChange,
-  onWidgetStateChange,
-  needsAllowance,
-  allowanceToken,
-  batchEnabled,
-  setBatchEnabled,
-  isBatchTransaction,
-  legalBatchTxUrl
-}: {
-  isConnectedAndEnabled: boolean;
-  onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-  currentStep: StakeStep;
-  currentAction: StakeAction;
-  onClickTrigger: any;
-  tabSide: 'left' | 'right';
-  claimPrepared: boolean;
-  claimExecute: () => void;
-  onStakeUrnChange?: OnStakeUrnChange;
-  onWidgetStateChange?: (params: WidgetStateChangeParams) => void;
-  needsAllowance: boolean;
-  allowanceToken?: Token;
-  batchEnabled?: boolean;
-  setBatchEnabled?: (enabled: boolean) => void;
-  isBatchTransaction: boolean;
-  legalBatchTxUrl?: string;
-}) => {
-  return currentAction === StakeAction.OVERVIEW ? (
-    <UrnsList claimPrepared={claimPrepared} claimExecute={claimExecute} onStakeUrnChange={onStakeUrnChange} />
-  ) : (
-    <Wizard
-      isConnectedAndEnabled={isConnectedAndEnabled}
-      onExternalLinkClicked={onExternalLinkClicked}
-      currentStep={currentStep}
-      onClickTrigger={onClickTrigger}
-      tabSide={tabSide}
-      onWidgetStateChange={onWidgetStateChange}
-      needsAllowance={needsAllowance}
-      allowanceToken={allowanceToken}
-      batchEnabled={batchEnabled}
-      setBatchEnabled={setBatchEnabled}
-      isBatchTransaction={isBatchTransaction}
-      legalBatchTxUrl={legalBatchTxUrl}
-    />
-  );
-};
+export const StakeModuleWidget = withWidgetProvider(StakeModuleWidgetWithProvider, 'StakeModuleWidget');
