@@ -138,12 +138,15 @@ export const PositionSummary = () => {
 
   const hasPositions = !!existingVault;
 
+  // Helper to ensure non-negative BigInt values
+  const max0 = (value: bigint): bigint => (value >= 0n ? value : 0n);
+
   // Calculated total amount user will have borrowed based on existing debt minus the user input (repay only)
-  const newBorrowAmount = (existingVault?.debtValue || 0n) - usdsToWipe;
+  const newBorrowAmount = max0((existingVault?.debtValue || 0n) - usdsToWipe);
 
   // Calculated total amount user will have locked based on existing collateral minus user input (unseal only)
   const collateralToFree = mkrToFree;
-  const newCollateralAmount = (existingVault?.collateralAmount || 0n) - collateralToFree;
+  const newCollateralAmount = max0((existingVault?.collateralAmount || 0n) - collateralToFree);
 
   const { data: updatedVault } = useSimulatedVault(
     newCollateralAmount,

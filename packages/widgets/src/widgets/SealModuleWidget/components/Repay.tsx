@@ -121,20 +121,25 @@ const PositionManagerOverviewContainer = ({
           value:
             hasPositions && newCollateralAmount !== existingColAmount
               ? [
-                  `${formatBigInt(existingColAmount)}  ${mkr.symbol}`,
-                  `${formatBigInt(newCollateralAmount)}  ${mkr.symbol}`
+                  `${formatBigInt(existingColAmount)} ${mkr.symbol}`,
+                  `${formatBigInt(newCollateralAmount)} ${mkr.symbol}`
                 ]
-              : `${formatBigInt(newCollateralAmount)}  ${mkr.symbol}`
+              : `${formatBigInt(newCollateralAmount)} ${mkr.symbol}`
         },
         {
           label: t`Exit fee`,
           value:
             hasPositions && typeof exitFee === 'bigint'
-              ? [
-                  `${formatBigInt((existingColAmount - newCollateralAmount) * exitFee, {
-                    unit: WAD_PRECISION * 2
-                  })} ${mkr.symbol}`
-                ]
+              ? (() => {
+                  // Clamp the freed amount to non-negative before applying exit fee
+                  const freedAmount =
+                    existingColAmount > newCollateralAmount ? existingColAmount - newCollateralAmount : 0n;
+                  return [
+                    `${formatBigInt(freedAmount * exitFee, {
+                      unit: WAD_PRECISION * 2
+                    })} ${mkr.symbol}`
+                  ];
+                })()
               : ''
         },
         {
