@@ -37,52 +37,52 @@ test('Upgrade DAI and revert USDS', async ({ page }) => {
   await page.getByRole('button', { name: 'Back to Upgrade' }).click();
 });
 
-// test('Upgrade MKR but revert SKY isnt allowed', async ({ page }) => {
-//   await setTestBalance(mcdDaiAddress[TENDERLY_CHAIN_ID], '10');
-//   await page.goto('/');
-//   await connectMockWalletAndAcceptTerms(page);
-//   await page.getByRole('tab', { name: 'Upgrade' }).click();
-//   await page.getByTestId('undefined-menu-button').click();
-//   await page.getByRole('button', { name: 'MKR MKR MKR' }).click();
+test('Upgrade MKR but revert SKY isnt allowed', async ({ page }) => {
+  await setTestBalance(mcdDaiAddress[TENDERLY_CHAIN_ID], '10');
+  await page.goto('/');
+  await connectMockWalletAndAcceptTerms(page);
+  await page.getByRole('tab', { name: 'Upgrade' }).click();
+  await page.getByTestId('undefined-menu-button').click();
+  await page.getByRole('button', { name: 'MKR MKR MKR' }).click();
 
-//   await expect(page.getByRole('button', { name: 'Transaction overview' })).not.toBeVisible();
+  await expect(page.getByRole('button', { name: 'Transaction overview' })).not.toBeVisible();
 
-//   await page.getByTestId('upgrade-input-origin').click();
-//   await page.getByTestId('upgrade-input-origin').fill('4');
-//   await expect(page.getByRole('button', { name: 'Transaction overview' })).not.toBeVisible();
-//   await approveOrPerformAction(page, 'Upgrade');
-//   await page.getByRole('button', { name: 'Back to Upgrade' }).click();
-//   await page.getByRole('tab', { name: 'Revert' }).click();
-//   // Sky can't be reverted
-//   await expect(page.getByRole('button', { name: 'SKY SKY SKY' })).not.toBeVisible();
-// });
+  await page.getByTestId('upgrade-input-origin').click();
+  await page.getByTestId('upgrade-input-origin').fill('4');
+  await expect(page.getByRole('button', { name: 'Transaction overview' })).not.toBeVisible();
+  await approveOrPerformAction(page, 'Upgrade');
+  await page.getByRole('button', { name: 'Back to Upgrade' }).click();
+  await page.getByRole('tab', { name: 'Revert' }).click();
+  // Sky can't be reverted
+  await expect(page.getByRole('button', { name: 'SKY SKY SKY' })).not.toBeVisible();
+});
 
-// test('Upgrade and revert with insufficient balance', async ({ page }) => {
-//   await page.goto('/');
-//   await connectMockWalletAndAcceptTerms(page);
-//   await page.getByRole('tab', { name: 'Upgrade' }).click();
+test('Upgrade and revert with insufficient balance', async ({ page }) => {
+  await page.goto('/');
+  await connectMockWalletAndAcceptTerms(page);
+  await page.getByRole('tab', { name: 'Upgrade' }).click();
 
-//   await expect(page.getByTestId('upgrade-input-origin-balance')).not.toHaveText('No wallet connected');
-//   const daiBalanceLabel = page.getByTestId('upgrade-input-origin-balance');
-//   const daiBalanceText = ((await daiBalanceLabel.innerText()) as string).split(' ')[0].trim();
+  await expect(page.getByTestId('upgrade-input-origin-balance')).not.toHaveText('No wallet connected');
+  const daiBalanceLabel = page.getByTestId('upgrade-input-origin-balance');
+  const daiBalanceText = ((await daiBalanceLabel.innerText()) as string).split(' ')[0].trim();
 
-//   await page.getByTestId('upgrade-input-origin').click();
-//   // Upgrade an amount greater than the balance
-//   await page.getByTestId('upgrade-input-origin').fill(`${daiBalanceText}0`);
-//   await expect(page.getByText('Insufficient funds')).toBeVisible();
-//   await expect(page.getByRole('button', { name: 'Review' })).toBeDisabled();
+  await page.getByTestId('upgrade-input-origin').click();
+  // Upgrade an amount greater than the balance
+  await page.getByTestId('upgrade-input-origin').fill(`${daiBalanceText}0`);
+  await expect(page.getByText('Insufficient funds')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Review' })).toBeDisabled();
 
-//   await page.getByRole('tab', { name: 'Revert' }).click();
-//   await expect(page.getByTestId('upgrade-input-origin-balance')).not.toHaveText('No wallet connected');
-//   const uSDSBalanceLabel = page.getByTestId('upgrade-input-origin-balance');
-//   const uSDSBalanceText = ((await uSDSBalanceLabel.innerText()) as string).split(' ')[0].trim();
+  await page.getByRole('tab', { name: 'Revert' }).click();
+  await expect(page.getByTestId('upgrade-input-origin-balance')).not.toHaveText('No wallet connected');
+  const uSDSBalanceLabel = page.getByTestId('upgrade-input-origin-balance');
+  const uSDSBalanceText = ((await uSDSBalanceLabel.innerText()) as string).split(' ')[0].trim();
 
-//   await page.getByTestId('upgrade-input-origin').click();
-//   // Upgrade an amount greater than the balance
-//   await page.getByTestId('upgrade-input-origin').fill(`${uSDSBalanceText}0`);
-//   await expect(page.getByText('Insufficient funds')).toBeVisible();
-//   await expect(page.getByRole('button', { name: 'Review' })).toBeDisabled();
-// });
+  await page.getByTestId('upgrade-input-origin').click();
+  // Upgrade an amount greater than the balance
+  await page.getByTestId('upgrade-input-origin').fill(`${uSDSBalanceText}0`);
+  await expect(page.getByText('Insufficient funds')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Review' })).toBeDisabled();
+});
 
 // test('Balances change after successfully upgrading and reverting', async ({ page }) => {
 //   await setTestBalance(mcdDaiAddress[TENDERLY_CHAIN_ID], '10');
