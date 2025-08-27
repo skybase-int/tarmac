@@ -1,13 +1,13 @@
 import { expect, test } from '../fixtures.ts';
 import { setErc20Balance } from '../utils/setBalance.ts';
-import { usdsAddress, mcdDaiAddress } from '@jetstreamgg/sky-hooks';
+import { usdsAddress, mcdDaiAddress, daiUsdsAddress } from '@jetstreamgg/sky-hooks';
 import { TENDERLY_CHAIN_ID } from '@/data/wagmi/config/testTenderlyChain.ts';
 // import { interceptAndRejectTransactions } from '../utils/rejectTransaction.ts';
 import { approveOrPerformAction } from '../utils/approveOrPerformAction.ts';
 import { connectMockWalletAndAcceptTerms } from '../utils/connectMockWalletAndAcceptTerms.ts';
 import { getTestWalletAddress } from '../utils/testWallets.ts';
 import { NetworkName } from '../utils/constants.ts';
-// import { approveToken } from '../utils/approveToken.ts';
+import { approveToken } from '../utils/approveToken.ts';
 
 const setTestBalance = async (tokenAddress: string, amount: string, decimals = 18) => {
   const workerIndex = Number(process.env.VITE_TEST_WORKER_INDEX ?? 1);
@@ -124,45 +124,45 @@ test('Balances change after successfully upgrading and reverting', async ({ page
   await expect(page.getByTestId('upgrade-input-origin-balance')).toHaveText('9 DAI');
 });
 
-// test('Insufficient token allowance triggers approval flow', async ({ page }) => {
-//   await page.goto('/');
-//   await connectMockWalletAndAcceptTerms(page);
-//   await page.getByRole('tab', { name: 'Upgrade' }).click();
-//   await page.getByTestId('upgrade-input-origin').click();
-//   await page.getByTestId('upgrade-input-origin').fill('90');
-//   await page.getByTestId('widget-button').getByText('Review').click();
-//   // Not enough allowance, so the 'confirm 2 transactions' button should be visible
-//   await expect(page.getByRole('button', { name: 'Confirm 2 transactions' }).last()).toBeVisible();
-//   await approveToken(
-//     mcdDaiAddress[TENDERLY_CHAIN_ID],
-//     daiUsdsAddress[TENDERLY_CHAIN_ID],
-//     '90',
-//     NetworkName.mainnet
-//   );
+test('Insufficient token allowance triggers approval flow', async ({ page }) => {
+  await page.goto('/');
+  await connectMockWalletAndAcceptTerms(page);
+  await page.getByRole('tab', { name: 'Upgrade' }).click();
+  await page.getByTestId('upgrade-input-origin').click();
+  await page.getByTestId('upgrade-input-origin').fill('90');
+  await page.getByTestId('widget-button').getByText('Review').click();
+  // Not enough allowance, so the 'confirm 2 transactions' button should be visible
+  await expect(page.getByRole('button', { name: 'Confirm 2 transactions' }).last()).toBeVisible();
+  await approveToken(
+    mcdDaiAddress[TENDERLY_CHAIN_ID],
+    daiUsdsAddress[TENDERLY_CHAIN_ID],
+    '90',
+    NetworkName.mainnet
+  );
 
-//   // Restart
-//   await page.reload();
-//   await connectMockWalletAndAcceptTerms(page);
-//   await page.getByTestId('upgrade-input-origin').click();
-//   await page.getByTestId('upgrade-input-origin').fill('90');
-//   await page.getByTestId('widget-button').getByText('Review').click();
-//   // It should not ask for approval
-//   await expect(
-//     page.getByTestId('widget-container').getByRole('button', { name: 'Confirm upgrade' }).last()
-//   ).toBeVisible();
-//   // Upgrade and reset approval
-//   await page.getByTestId('widget-container').getByRole('button', { name: 'Confirm upgrade' }).last().click();
-//   await page.getByRole('button', { name: 'Back to Upgrade' }).click();
+  // Restart
+  await page.reload();
+  await connectMockWalletAndAcceptTerms(page);
+  await page.getByTestId('upgrade-input-origin').click();
+  await page.getByTestId('upgrade-input-origin').fill('90');
+  await page.getByTestId('widget-button').getByText('Review').click();
+  // It should not ask for approval
+  await expect(
+    page.getByTestId('widget-container').getByRole('button', { name: 'Confirm upgrade' }).last()
+  ).toBeVisible();
+  // Upgrade and reset approval
+  await page.getByTestId('widget-container').getByRole('button', { name: 'Confirm upgrade' }).last().click();
+  await page.getByRole('button', { name: 'Back to Upgrade' }).click();
 
-//   // Restart
-//   await page.reload();
-//   await connectMockWalletAndAcceptTerms(page);
-//   await page.getByTestId('upgrade-input-origin').click();
-//   await page.getByTestId('upgrade-input-origin').fill('10');
-//   await page.getByTestId('widget-button').getByText('Review').click();
-//   // Allowance should be reset, so the 2 transactions button should be visible again
-//   await expect(page.getByRole('button', { name: 'Confirm 2 transactions' }).last()).toBeVisible();
-// });
+  // Restart
+  await page.reload();
+  await connectMockWalletAndAcceptTerms(page);
+  await page.getByTestId('upgrade-input-origin').click();
+  await page.getByTestId('upgrade-input-origin').fill('10');
+  await page.getByTestId('widget-button').getByText('Review').click();
+  // Allowance should be reset, so the 2 transactions button should be visible again
+  await expect(page.getByRole('button', { name: 'Confirm 2 transactions' }).last()).toBeVisible();
+});
 
 // test('if not connected it should show a connect button', async ({ page }) => {
 //   await page.goto('/');
