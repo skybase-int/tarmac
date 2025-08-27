@@ -5,6 +5,11 @@
 import defaultTerms from '@/content/terms.md?raw';
 import chatbotDefaultTerms from '@/content/chatbot_terms.md?raw';
 
+export enum TermsType {
+  App = 'app',
+  Chatbot = 'chatbot'
+}
+
 // Import all potential terms files that might be used
 // Add more imports here as needed for different environments
 const termsModules = import.meta.glob('@/content/*.md', {
@@ -14,13 +19,13 @@ const termsModules = import.meta.glob('@/content/*.md', {
 }) as Record<string, string>;
 
 // Function to get terms content based on environment variable and type
-export function getTermsContent(termsType: 'app' | 'chatbot' = 'app'): string {
+export function getTermsContent(termsType: TermsType = TermsType.App): string {
   const termsFileName =
-    termsType === 'app'
+    termsType === TermsType.App
       ? import.meta.env.VITE_TERMS_MARKDOWN_FILE
       : import.meta.env.VITE_CHATBOT_TERMS_MARKDOWN_FILE;
 
-  const defaultTermsContent = termsType === 'app' ? defaultTerms : chatbotDefaultTerms;
+  const defaultTermsContent = termsType === TermsType.App ? defaultTerms : chatbotDefaultTerms;
 
   if (!termsFileName) {
     // No custom file specified, use appropriate default

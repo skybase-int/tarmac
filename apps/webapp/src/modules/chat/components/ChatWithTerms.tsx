@@ -7,7 +7,7 @@ import { useLingui } from '@lingui/react';
 import { useTermsAcceptance } from '../hooks/useTermsAcceptance';
 import { generateUUID } from '../lib/generateUUID';
 import { MessageType, UserType, TERMS_ACCEPTANCE_MESSAGE } from '../constants';
-import { getTermsContent } from '@/modules/ui/components/terms-loader';
+import { getTermsContent, TermsType } from '@/modules/ui/components/terms-loader';
 
 const parseTerms = (termsMarkdown: string) => {
   const lines = termsMarkdown.split('\n');
@@ -44,7 +44,7 @@ interface ChatWithTermsProps {
 export const ChatWithTerms: React.FC<ChatWithTermsProps> = ({ sendMessage }) => {
   const { i18n } = useLingui();
 
-  const termsMarkdown = getTermsContent('chatbot');
+  const termsMarkdown = getTermsContent(TermsType.Chatbot);
   const parsedTerms = parseTerms(termsMarkdown);
   const termsVersion = parsedTerms.version;
   const termsContent = parsedTerms.content;
