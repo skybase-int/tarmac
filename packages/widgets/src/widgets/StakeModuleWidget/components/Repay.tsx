@@ -16,7 +16,7 @@ import { StakeModuleWidgetContext } from '../context/context';
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
 import {
   WAD_PRECISION,
-  captitalizeFirstLetter,
+  capitalizeFirstLetter,
   formatBigInt,
   formatBigIntAsCeiledAbsoluteWithSymbol,
   formatPercent,
@@ -28,12 +28,7 @@ import { getRiskTextColor } from '../lib/utils';
 import { useAccount, useChainId } from 'wagmi';
 import { useSealExitFee } from '@jetstreamgg/sky-hooks';
 import { useRiskSlider } from '../hooks/useRiskSlider';
-import {
-  collateralizationRatioTooltipText,
-  liquidationPriceTooltipText,
-  riskLevelTooltipText,
-  borrowRateTooltipText
-} from '../lib/constants';
+import { getTooltipById } from '../../../data/tooltips';
 
 const { usds } = TOKENS;
 
@@ -181,7 +176,7 @@ const PositionManagerOverviewContainer = ({
       {
         label: t`Borrow rate`,
         value: collateralData?.stabilityFee ? formatPercent(collateralData?.stabilityFee) : '',
-        tooltipText: borrowRateTooltipText
+        tooltipText: getTooltipById('borrow')?.tooltip || ''
       },
       {
         label: t`Collateral value`,
@@ -197,13 +192,13 @@ const PositionManagerOverviewContainer = ({
         label: t`Liquidation price`,
         value:
           hasPositions && existingLiqPrice !== newLiqPrice ? [existingLiqPrice, newLiqPrice] : newLiqPrice,
-        tooltipText: liquidationPriceTooltipText
+        tooltipText: getTooltipById('liquidation-price')?.tooltip || ''
       },
       {
         label: t`Collateralization ratio`,
         value:
           hasPositions && existingColRatio !== newColRatio ? [existingColRatio, newColRatio] : newColRatio,
-        tooltipText: collateralizationRatioTooltipText
+        tooltipText: getTooltipById('collateralization-ratio')?.tooltip || ''
       },
       {
         label: t`Liquidation ratio`,
@@ -214,11 +209,11 @@ const PositionManagerOverviewContainer = ({
         value:
           hasPositions && simulatedVault?.riskLevel !== existingVault?.riskLevel
             ? [
-                `${captitalizeFirstLetter(existingVault?.riskLevel?.toLowerCase() || '')}`,
-                `${captitalizeFirstLetter(simulatedVault?.riskLevel?.toLowerCase() || '')}`
+                `${capitalizeFirstLetter(existingVault?.riskLevel?.toLowerCase() || '')}`,
+                `${capitalizeFirstLetter(simulatedVault?.riskLevel?.toLowerCase() || '')}`
               ]
-            : `${captitalizeFirstLetter(simulatedVault?.riskLevel?.toLowerCase() || '')}`,
-        tooltipText: riskLevelTooltipText,
+            : `${capitalizeFirstLetter(simulatedVault?.riskLevel?.toLowerCase() || '')}`,
+        tooltipText: getTooltipById('risk-level')?.tooltip || '',
         classNamePrev: existingRiskTextColor,
         className: riskTextColor
       }
