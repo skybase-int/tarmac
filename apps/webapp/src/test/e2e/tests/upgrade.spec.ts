@@ -2,7 +2,7 @@ import { expect, test } from '../fixtures.ts';
 import { setErc20Balance } from '../utils/setBalance.ts';
 import { usdsAddress, mcdDaiAddress, daiUsdsAddress } from '@jetstreamgg/sky-hooks';
 import { TENDERLY_CHAIN_ID } from '@/data/wagmi/config/testTenderlyChain.ts';
-// import { interceptAndRejectTransactions } from '../utils/rejectTransaction.ts';
+import { interceptAndRejectTransactions } from '../utils/rejectTransaction.ts';
 import { approveOrPerformAction } from '../utils/approveOrPerformAction.ts';
 import { connectMockWalletAndAcceptTerms } from '../utils/connectMockWalletAndAcceptTerms.ts';
 import { getTestWalletAddress } from '../utils/testWallets.ts';
@@ -205,117 +205,117 @@ test('percentage buttons work', async ({ page }) => {
   expect(await page.getByTestId('upgrade-input-origin').inputValue()).toBe('1000');
 });
 
-// test('enter amount button should be disabled', async ({ page }) => {
-//   await page.goto('/');
-//   await connectMockWalletAndAcceptTerms(page);
-//   await page.getByRole('tab', { name: 'Upgrade' }).click();
+test('enter amount button should be disabled', async ({ page }) => {
+  await page.goto('/');
+  await connectMockWalletAndAcceptTerms(page);
+  await page.getByRole('tab', { name: 'Upgrade' }).click();
 
-//   await expect(
-//     page.getByTestId('widget-container').locator('button').filter({ hasText: 'Enter amount' })
-//   ).toBeDisabled();
+  await expect(
+    page.getByTestId('widget-container').locator('button').filter({ hasText: 'Enter amount' })
+  ).toBeDisabled();
 
-//   await page.getByTestId('upgrade-input-origin').click();
-//   await page.getByTestId('upgrade-input-origin').fill('0');
+  await page.getByTestId('upgrade-input-origin').click();
+  await page.getByTestId('upgrade-input-origin').fill('0');
 
-//   await expect(
-//     page.getByTestId('widget-container').locator('button').filter({ hasText: 'Enter amount' })
-//   ).toBeDisabled();
+  await expect(
+    page.getByTestId('widget-container').locator('button').filter({ hasText: 'Enter amount' })
+  ).toBeDisabled();
 
-//   // Revert
-//   await page.getByRole('tab', { name: 'Revert' }).click();
-//   await expect(
-//     page.getByTestId('widget-container').locator('button').filter({ hasText: 'Enter amount' })
-//   ).toBeDisabled();
-//   await page.getByTestId('upgrade-input-origin').click();
-//   await page.getByTestId('upgrade-input-origin').fill('0');
-//   // TODO: Fix this in widgets package
-//   await expect(
-//     page.getByTestId('widget-container').locator('button').filter({ hasText: 'Enter amount' })
-//   ).toBeDisabled();
-// });
+  // Revert
+  await page.getByRole('tab', { name: 'Revert' }).click();
+  await expect(
+    page.getByTestId('widget-container').locator('button').filter({ hasText: 'Enter amount' })
+  ).toBeDisabled();
+  await page.getByTestId('upgrade-input-origin').click();
+  await page.getByTestId('upgrade-input-origin').fill('0');
+  // TODO: Fix this in widgets package
+  await expect(
+    page.getByTestId('widget-container').locator('button').filter({ hasText: 'Enter amount' })
+  ).toBeDisabled();
+});
 
-// test('An approval error redirects to the error screen', async ({ page }) => {
-//   await page.goto('/');
-//   await connectMockWalletAndAcceptTerms(page);
-//   await page.getByRole('tab', { name: 'Upgrade' }).click();
-//   await page.getByTestId('upgrade-input-origin').click();
-//   await page.getByTestId('upgrade-input-origin').fill('100');
-//   await page.getByTestId('widget-button').getByText('Review').click();
+test('An approval error redirects to the error screen', async ({ page }) => {
+  await page.goto('/');
+  await connectMockWalletAndAcceptTerms(page);
+  await page.getByRole('tab', { name: 'Upgrade' }).click();
+  await page.getByTestId('upgrade-input-origin').click();
+  await page.getByTestId('upgrade-input-origin').fill('100');
+  await page.getByTestId('widget-button').getByText('Review').click();
 
-//   // Intercept the tenderly RPC call to reject the transaction. Waits for 200ms for UI to update
-//   await interceptAndRejectTransactions(page, 200, true);
-//   await page.getByRole('button', { name: 'Confirm 2 transactions' }).last().click();
+  // Intercept the tenderly RPC call to reject the transaction. Waits for 200ms for UI to update
+  await interceptAndRejectTransactions(page, 200, true);
+  await page.getByRole('button', { name: 'Confirm 2 transactions' }).last().click();
 
-//   expect(page.getByText('An error occurred during the upgrade flow.').last()).toBeVisible();
-//   expect(page.getByRole('button', { name: 'Back', exact: true }).last()).toBeVisible();
-//   expect(page.getByRole('button', { name: 'Back', exact: true }).last()).toBeEnabled();
-//   expect(page.getByRole('button', { name: 'Retry' }).last()).toBeVisible();
-//   await expect(page.getByRole('button', { name: 'Retry' }).last()).toBeEnabled({ timeout: 15000 });
+  expect(page.getByText('An error occurred during the upgrade flow.').last()).toBeVisible();
+  expect(page.getByRole('button', { name: 'Back', exact: true }).last()).toBeVisible();
+  expect(page.getByRole('button', { name: 'Back', exact: true }).last()).toBeEnabled();
+  expect(page.getByRole('button', { name: 'Retry' }).last()).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Retry' }).last()).toBeEnabled({ timeout: 15000 });
 
-//   await page.getByRole('button', { name: 'Retry' }).last().click();
+  await page.getByRole('button', { name: 'Retry' }).last().click();
 
-//   await expect(page.getByText('An error occurred during the upgrade flow.').last()).toBeVisible();
+  await expect(page.getByText('An error occurred during the upgrade flow.').last()).toBeVisible();
 
-//   page.getByRole('button', { name: 'Back', exact: true }).last().click();
-//   await page.getByRole('tab', { name: 'Revert' }).click();
-//   await page.getByTestId('upgrade-input-origin').click();
-//   await page.getByTestId('upgrade-input-origin').fill('100');
-//   await page.getByTestId('widget-button').getByText('Review').click();
+  page.getByRole('button', { name: 'Back', exact: true }).last().click();
+  await page.getByRole('tab', { name: 'Revert' }).click();
+  await page.getByTestId('upgrade-input-origin').click();
+  await page.getByTestId('upgrade-input-origin').fill('100');
+  await page.getByTestId('widget-button').getByText('Review').click();
 
-//   await page.getByRole('button', { name: 'Confirm 2 transactions' }).last().click();
+  await page.getByRole('button', { name: 'Confirm 2 transactions' }).last().click();
 
-//   expect(page.getByText('An error occurred during the revert flow.').last()).toBeVisible();
-//   expect(page.getByRole('button', { name: 'Back', exact: true }).last()).toBeVisible();
-//   expect(page.getByRole('button', { name: 'Back', exact: true }).last()).toBeEnabled();
-//   expect(page.getByRole('button', { name: 'Retry' }).last()).toBeVisible();
-//   await expect(page.getByRole('button', { name: 'Retry' }).last()).toBeEnabled({ timeout: 15000 });
+  expect(page.getByText('An error occurred during the revert flow.').last()).toBeVisible();
+  expect(page.getByRole('button', { name: 'Back', exact: true }).last()).toBeVisible();
+  expect(page.getByRole('button', { name: 'Back', exact: true }).last()).toBeEnabled();
+  expect(page.getByRole('button', { name: 'Retry' }).last()).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Retry' }).last()).toBeEnabled({ timeout: 15000 });
 
-//   await page.getByRole('button', { name: 'Retry' }).last().click();
+  await page.getByRole('button', { name: 'Retry' }).last().click();
 
-//   await expect(page.getByText('An error occurred during the revert flow.').last()).toBeVisible();
-// });
+  await expect(page.getByText('An error occurred during the revert flow.').last()).toBeVisible();
+});
 
-// test('An upgrade error redirects to the error screen', async ({ page }) => {
-//   await page.goto('/');
-//   await connectMockWalletAndAcceptTerms(page);
-//   await page.getByRole('tab', { name: 'Upgrade' }).click();
-//   await page.getByTestId('upgrade-input-origin').click();
-//   await page.getByTestId('upgrade-input-origin').fill('1');
+test('An upgrade error redirects to the error screen', async ({ page }) => {
+  await page.goto('/');
+  await connectMockWalletAndAcceptTerms(page);
+  await page.getByRole('tab', { name: 'Upgrade' }).click();
+  await page.getByTestId('upgrade-input-origin').click();
+  await page.getByTestId('upgrade-input-origin').fill('1');
 
-//   await approveOrPerformAction(page, 'Upgrade', { reject: true });
+  await approveOrPerformAction(page, 'Upgrade', { reject: true });
 
-//   await expect(page.getByText('An error occurred during the upgrade flow.').last()).toBeVisible();
-//   await expect(page.getByRole('button', { name: 'Back' }).last()).toBeVisible();
-//   await expect(page.getByRole('button', { name: 'Back' }).last()).toBeEnabled();
-//   await expect(page.getByRole('button', { name: 'Retry' }).last()).toBeVisible();
-//   await expect(page.getByRole('button', { name: 'Retry' }).last()).toBeEnabled({ timeout: 15000 });
+  await expect(page.getByText('An error occurred during the upgrade flow.').last()).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Back' }).last()).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Back' }).last()).toBeEnabled();
+  await expect(page.getByRole('button', { name: 'Retry' }).last()).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Retry' }).last()).toBeEnabled({ timeout: 15000 });
 
-//   await page.getByRole('button', { name: 'Retry' }).last().click();
+  await page.getByRole('button', { name: 'Retry' }).last().click();
 
-//   await expect(page.getByText('An error occurred during the upgrade flow.').last()).toBeVisible();
-// });
+  await expect(page.getByText('An error occurred during the upgrade flow.').last()).toBeVisible();
+});
 
-// test('A revert error redirects to the error screen', async ({ page }) => {
-//   await page.goto('/');
-//   await connectMockWalletAndAcceptTerms(page);
-//   await page.getByRole('tab', { name: 'Upgrade' }).click();
-//   await page.getByRole('tab', { name: 'Revert' }).click();
-//   await page.getByTestId('upgrade-input-origin').click();
-//   await page.getByTestId('upgrade-input-origin').fill('1');
+test('A revert error redirects to the error screen', async ({ page }) => {
+  await page.goto('/');
+  await connectMockWalletAndAcceptTerms(page);
+  await page.getByRole('tab', { name: 'Upgrade' }).click();
+  await page.getByRole('tab', { name: 'Revert' }).click();
+  await page.getByTestId('upgrade-input-origin').click();
+  await page.getByTestId('upgrade-input-origin').fill('1');
 
-//   await interceptAndRejectTransactions(page, 200, true);
+  await interceptAndRejectTransactions(page, 200, true);
 
-//   await approveOrPerformAction(page, 'Revert', { reject: true });
-//   expect(page.getByText('An error occurred during the revert flow.').last()).toBeVisible();
-//   expect(page.getByRole('button', { name: 'Back' }).last()).toBeVisible();
-//   expect(page.getByRole('button', { name: 'Back' }).last()).toBeEnabled();
-//   expect(page.getByRole('button', { name: 'Retry' }).last()).toBeVisible();
-//   await expect(page.getByRole('button', { name: 'Retry' }).last()).toBeEnabled({ timeout: 15000 });
+  await approveOrPerformAction(page, 'Revert', { reject: true });
+  expect(page.getByText('An error occurred during the revert flow.').last()).toBeVisible();
+  expect(page.getByRole('button', { name: 'Back' }).last()).toBeVisible();
+  expect(page.getByRole('button', { name: 'Back' }).last()).toBeEnabled();
+  expect(page.getByRole('button', { name: 'Retry' }).last()).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Retry' }).last()).toBeEnabled({ timeout: 15000 });
 
-//   await page.getByRole('button', { name: 'Retry' }).last().click();
+  await page.getByRole('button', { name: 'Retry' }).last().click();
 
-//   await expect(page.getByText('An error occurred during the revert flow.').last()).toBeVisible();
-// });
+  await expect(page.getByText('An error occurred during the revert flow.').last()).toBeVisible();
+});
 
 // test('Details pane shows right data', async ({ page }) => {
 //   await page.goto('/');
