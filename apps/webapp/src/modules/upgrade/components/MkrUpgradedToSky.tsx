@@ -20,7 +20,7 @@ export function MkrUpgradedToSky() {
 
   return (
     <StatsCard
-      title={t`Upgraded MKR to SKY`}
+      title={t`Total MKR upgraded to SKY`}
       isLoading={isLoading}
       error={error}
       content={
