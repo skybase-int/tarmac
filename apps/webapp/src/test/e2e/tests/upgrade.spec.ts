@@ -3,7 +3,7 @@ import { setErc20Balance } from '../utils/setBalance.ts';
 import { usdsAddress, mcdDaiAddress, daiUsdsAddress } from '@jetstreamgg/sky-hooks';
 import { TENDERLY_CHAIN_ID } from '@/data/wagmi/config/testTenderlyChain.ts';
 import { interceptAndRejectTransactions } from '../utils/rejectTransaction.ts';
-import { approveOrPerformAction } from '../utils/approveOrPerformAction.ts';
+import { approveOrPerformAction, performAction } from '../utils/approveOrPerformAction.ts';
 import { connectMockWalletAndAcceptTerms } from '../utils/connectMockWalletAndAcceptTerms.ts';
 import { getTestWalletAddress } from '../utils/testWallets.ts';
 import { NetworkName } from '../utils/constants.ts';
@@ -317,114 +317,114 @@ test('A revert error redirects to the error screen', async ({ page }) => {
   await expect(page.getByText('An error occurred during the revert flow.').last()).toBeVisible();
 });
 
-// test('Details pane shows right data', async ({ page }) => {
-//   await page.goto('/');
-//   await page.getByRole('tab', { name: 'Upgrade' }).click();
+test('Details pane shows right data', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('tab', { name: 'Upgrade' }).click();
 
-//   expect(page.getByTestId('upgrade-input-origin-balance')).toHaveText('No wallet connected');
+  expect(page.getByTestId('upgrade-input-origin-balance')).toHaveText('No wallet connected');
 
-//   expect(
-//     page.getByTestId('widget-container').getByRole('button', { name: 'Connect Wallet' }).last()
-//   ).toBeVisible();
-//   expect(
-//     page.getByTestId('widget-container').getByRole('button', { name: 'Connect Wallet' }).last()
-//   ).toBeEnabled();
-//   expect(
-//     page.getByTestId('connect-wallet-card').getByRole('heading', { name: 'Ready to upgrade and explore?' })
-//   ).toBeVisible();
-//   // expect(
-//   //   page.getByTestId('connect-wallet-card').getByRole('heading', { name: 'Set up access to explore' })
-//   // ).toBeVisible();
-//   expect(page.getByTestId('connect-wallet-card-button').first()).toBeVisible();
-//   // expect(page.getByRole('cell')).toBeVisible();
-//   // expect(page.getByRole('cell', { name: 'Connect a wallet to view' })).toBeVisible();
+  expect(
+    page.getByTestId('widget-container').getByRole('button', { name: 'Connect Wallet' }).last()
+  ).toBeVisible();
+  expect(
+    page.getByTestId('widget-container').getByRole('button', { name: 'Connect Wallet' }).last()
+  ).toBeEnabled();
+  expect(
+    page.getByTestId('connect-wallet-card').getByRole('heading', { name: 'Ready to upgrade and explore?' })
+  ).toBeVisible();
+  // expect(
+  //   page.getByTestId('connect-wallet-card').getByRole('heading', { name: 'Set up access to explore' })
+  // ).toBeVisible();
+  expect(page.getByTestId('connect-wallet-card-button').first()).toBeVisible();
+  // expect(page.getByRole('cell')).toBeVisible();
+  // expect(page.getByRole('cell', { name: 'Connect a wallet to view' })).toBeVisible();
 
-//   await connectMockWalletAndAcceptTerms(page);
+  await connectMockWalletAndAcceptTerms(page);
 
-//   await expect(page.getByTestId('upgrade-input-origin-balance')).not.toHaveText('No wallet connected');
+  await expect(page.getByTestId('upgrade-input-origin-balance')).not.toHaveText('No wallet connected');
 
-//   // Connect wallet elements should not be visible after connecting
-//   await expect(
-//     page.getByTestId('widget-container').getByRole('button', { name: 'Connect Wallet' })
-//   ).not.toBeVisible();
-//   await expect(
-//     page.getByTestId('connect-wallet-card').getByRole('heading', { name: 'Set up access to explore' })
-//   ).not.toBeVisible();
-//   await expect(
-//     page.getByRole('cell', { name: 'Please connect your wallet to view your history' })
-//   ).not.toBeVisible();
+  // Connect wallet elements should not be visible after connecting
+  await expect(
+    page.getByTestId('widget-container').getByRole('button', { name: 'Connect Wallet' })
+  ).not.toBeVisible();
+  await expect(
+    page.getByTestId('connect-wallet-card').getByRole('heading', { name: 'Set up access to explore' })
+  ).not.toBeVisible();
+  await expect(
+    page.getByRole('cell', { name: 'Please connect your wallet to view your history' })
+  ).not.toBeVisible();
 
-//   await page.pause();
-//   const totalDaiUpgradedWidget = await page
-//     .getByTestId('widget-container')
-//     .getByRole('heading', { name: 'Total USDS upgraded', exact: true })
-//     .first()
-//     .locator('xpath=ancestor::div[1]')
-//     .getByText(/\d+/)
-//     .innerText();
-//   // const totalMkrUpgradedWidget = await page
-//   //   .getByTestId('widget-container')
-//   //   .getByRole('heading', { name: 'Total MKR upgraded', exact: true })
-//   //   .nth(1)
-//   //   .locator('xpath=ancestor::div[1]')
-//   //   .getByText(/\d+/)
-//   //   .innerText();
-//   const totalDaiUpgradedDetails = await page
-//     .getByTestId('upgrade-stats-details')
-//     .getByRole('heading', { name: 'Total USDS upgraded', exact: true })
-//     .locator('xpath=ancestor::div[1]')
-//     .getByText(/\d+/)
-//     .innerText();
-//   await page
-//     .getByTestId('upgrade-stats-details')
-//     .getByRole('heading', { name: 'Total SKY upgraded', exact: true })
-//     .locator('xpath=ancestor::div[1]')
-//     .getByText(/\d+/)
-//     .innerText();
+  await page.pause();
+  const totalDaiUpgradedWidget = await page
+    .getByTestId('widget-container')
+    .getByRole('heading', { name: 'Total USDS upgraded', exact: true })
+    .first()
+    .locator('xpath=ancestor::div[1]')
+    .getByText(/\d+/)
+    .innerText();
+  // const totalMkrUpgradedWidget = await page
+  //   .getByTestId('widget-container')
+  //   .getByRole('heading', { name: 'Total MKR upgraded', exact: true })
+  //   .nth(1)
+  //   .locator('xpath=ancestor::div[1]')
+  //   .getByText(/\d+/)
+  //   .innerText();
+  const totalDaiUpgradedDetails = await page
+    .getByTestId('upgrade-stats-details')
+    .getByRole('heading', { name: 'Total USDS upgraded', exact: true })
+    .locator('xpath=ancestor::div[1]')
+    .getByText(/\d+/)
+    .innerText();
+  await page
+    .getByTestId('upgrade-stats-details')
+    .getByRole('heading', { name: 'Total SKY upgraded', exact: true })
+    .locator('xpath=ancestor::div[1]')
+    .getByText(/\d+/)
+    .innerText();
 
-//   // TODO: we should run these through the number formatter, but it was throwing an error
-//   // The widget is truncated with a "." while the details is comma seprated, so just check the first number
-//   expect(totalDaiUpgradedWidget.slice(0, 1)).toEqual(totalDaiUpgradedDetails.slice(0, 1));
+  // TODO: we should run these through the number formatter, but it was throwing an error
+  // The widget is truncated with a "." while the details is comma seprated, so just check the first number
+  expect(totalDaiUpgradedWidget.slice(0, 1)).toEqual(totalDaiUpgradedDetails.slice(0, 1));
 
-//   // close details pane
-//   await page.getByLabel('Toggle details').click();
-//   await expect(
-//     page.getByRole('button', { name: 'Your Upgrade/Revert transaction history' })
-//   ).not.toBeVisible();
+  // close details pane
+  await page.getByLabel('Toggle details').click();
+  await expect(
+    page.getByRole('button', { name: 'Your Upgrade/Revert transaction history' })
+  ).not.toBeVisible();
 
-//   // open details pane
-//   await page.getByLabel('Toggle details').click();
-//   await expect(page.getByRole('button', { name: 'Your Upgrade/Revert transaction history' })).toBeVisible();
+  // open details pane
+  await page.getByLabel('Toggle details').click();
+  await expect(page.getByRole('button', { name: 'Your Upgrade/Revert transaction history' })).toBeVisible();
 
-//   // Chart is present
-//   await expect(page.getByTestId('usds-sky-totals-chart')).toBeVisible();
+  // Chart is present
+  await expect(page.getByTestId('usds-sky-totals-chart')).toBeVisible();
 
-//   // About section is present
-//   await expect(page.getByRole('button', { name: 'About' })).toBeVisible();
+  // About section is present
+  await expect(page.getByRole('button', { name: 'About' })).toBeVisible();
 
-//   // FAQ section is present
-//   await expect(page.getByRole('button', { name: 'FAQs', exact: true })).toBeVisible();
-// });
+  // FAQ section is present
+  await expect(page.getByRole('button', { name: 'FAQs', exact: true })).toBeVisible();
+});
 
-// test('Batch - Upgrade DAI and revert USDS', async ({ page }) => {
-//   await setTestBalance(mcdDaiAddress[TENDERLY_CHAIN_ID], '10');
-//   await page.goto('/');
-//   await connectMockWalletAndAcceptTerms(page, { batch: true });
-//   await page.getByRole('tab', { name: 'Upgrade' }).click();
+test('Batch - Upgrade DAI and revert USDS', async ({ page }) => {
+  await setTestBalance(mcdDaiAddress[TENDERLY_CHAIN_ID], '10');
+  await page.goto('/');
+  await connectMockWalletAndAcceptTerms(page, { batch: true });
+  await page.getByRole('tab', { name: 'Upgrade' }).click();
 
-//   await expect(page.getByRole('button', { name: 'Transaction overview' })).not.toBeVisible();
+  await expect(page.getByRole('button', { name: 'Transaction overview' })).not.toBeVisible();
 
-//   await page.getByTestId('upgrade-input-origin').click();
-//   await page.getByTestId('upgrade-input-origin').fill('4');
-//   await expect(page.getByRole('button', { name: 'Transaction overview' })).toBeVisible();
-//   await performAction(page, 'Upgrade');
-//   await page.getByRole('button', { name: 'Back to Upgrade' }).click();
-//   await expect(page.getByTestId('upgrade-input-origin-balance')).toHaveText('96 DAI');
-//   await page.getByRole('tab', { name: 'Revert' }).click();
-//   await expect(page.getByRole('button', { name: 'Transaction overview' })).not.toBeVisible();
-//   await page.getByTestId('upgrade-input-origin').click();
-//   await page.getByTestId('upgrade-input-origin').fill('4');
-//   await expect(page.getByRole('button', { name: 'Transaction overview' })).toBeVisible();
-//   await performAction(page, 'Revert');
-//   await page.getByRole('button', { name: 'Back to Upgrade' }).click();
-// });
+  await page.getByTestId('upgrade-input-origin').click();
+  await page.getByTestId('upgrade-input-origin').fill('4');
+  await expect(page.getByRole('button', { name: 'Transaction overview' })).toBeVisible();
+  await performAction(page, 'Upgrade');
+  await page.getByRole('button', { name: 'Back to Upgrade' }).click();
+  await expect(page.getByTestId('upgrade-input-origin-balance')).toHaveText('96 DAI');
+  await page.getByRole('tab', { name: 'Revert' }).click();
+  await expect(page.getByRole('button', { name: 'Transaction overview' })).not.toBeVisible();
+  await page.getByTestId('upgrade-input-origin').click();
+  await page.getByTestId('upgrade-input-origin').fill('4');
+  await expect(page.getByRole('button', { name: 'Transaction overview' })).toBeVisible();
+  await performAction(page, 'Revert');
+  await page.getByRole('button', { name: 'Back to Upgrade' }).click();
+});
