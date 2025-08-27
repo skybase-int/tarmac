@@ -1,6 +1,6 @@
 import { expect, test } from '../fixtures.ts';
 import { setErc20Balance } from '../utils/setBalance.ts';
-import { usdsAddress, mcdDaiAddress, daiUsdsAddress } from '@jetstreamgg/sky-hooks';
+import { daiUsdsAddress, mcdDaiAddress, usdsAddress } from '@jetstreamgg/sky-hooks';
 import { TENDERLY_CHAIN_ID } from '@/data/wagmi/config/testTenderlyChain.ts';
 import { interceptAndRejectTransactions } from '../utils/rejectTransaction.ts';
 import { approveOrPerformAction, performAction } from '../utils/approveOrPerformAction.ts';
@@ -316,6 +316,8 @@ test('A revert error redirects to the error screen', async ({ page }) => {
 
   await expect(page.getByText('An error occurred during the revert flow.').last()).toBeVisible();
 });
+
+// TODO: this test failing due to an unknown issue, debug and fix ASAP
 
 // test('Details pane shows right data', async ({ page }) => {
 //   await page.goto('/');

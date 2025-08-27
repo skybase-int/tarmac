@@ -12,9 +12,57 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - test: reward-1.spec
+            vnet: true
+            chain: mainnet
+          - test: reward-2.spec
+            vnet: true
+            chain: mainnet,arbitrum,base,optimism,unichain
           - test: upgrade.spec
             vnet: true
             chain: mainnet
+          - test: mainnet-savings.spec
+            vnet: true
+            chain: mainnet
+          - test: seal.spec
+            vnet: true
+            chain: mainnet
+          - test: stake.spec
+            vnet: true
+            chain: mainnet
+          - test: landing.spec
+            vnet: true
+            chain: mainnet
+          - test: la-u-r.spec
+            vnet: true
+            chain: mainnet
+          - test: la-u-s.spec
+            vnet: true
+            chain: mainnet
+          - test: base-savings.spec
+            vnet: true
+            chain: base
+          - test: base-trade.spec
+            vnet: true
+            chain: base
+          - test: arbitrum-savings.spec
+            vnet: true
+            chain: arbitrum
+          - test: arbitrum-trade.spec
+            vnet: true
+            chain: arbitrum
+          - test: optimism-savings.spec
+            vnet: true
+            chain: optimism
+          - test: optimism-trade.spec
+            vnet: true
+            chain: optimism
+          - test: unichain-savings.spec
+            vnet: true
+            chain: unichain
+          - test: unichain-trade.spec
+            vnet: true
+            chain: unichain
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
