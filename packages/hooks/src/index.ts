@@ -112,6 +112,7 @@ export { useMkrSkyApprove } from './upgrade/useMkrSkyApprove';
 export { useUpgradeHistory } from './upgrade/useUpgradeHistory';
 export { useUpgradeTotals } from './upgrade/useUpgradeTotals';
 export { useMkrSkyFee } from './upgrade/useMkrSkyFee';
+export { useMigrationStats } from './upgrade/useMigrationStats';
 
 // Trade
 export { useTradeHistory } from './trade/useTradeHistory';
@@ -145,7 +146,6 @@ export { useUrnSelectedVoteDelegate } from './seal/useUrnSelectedVoteDelegate';
 export { useLockMkr } from './seal/useLockMkr';
 export { useLockSky } from './seal/useLockSky';
 export { useFreeMkr } from './seal/useFreeMkr';
-export { useFreeSky } from './seal/useFreeSky';
 export { useSaMkrAllowance, useSaNgtAllowance, useSaNstAllowance } from './seal/useSaAllowance';
 export { useSaMkrApprove, useSaNgtApprove, useSaNstApprove } from './seal/useSaApprove';
 export { useClaimRewards } from './seal/useClaimRewards';
