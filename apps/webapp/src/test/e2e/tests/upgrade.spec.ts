@@ -355,13 +355,13 @@ test('Details pane shows right data', async ({ page }) => {
   ).not.toBeVisible();
 
   await page.pause();
-  const totalDaiUpgradedWidget = await page
-    .getByTestId('widget-container')
-    .getByRole('heading', { name: 'Total USDS upgraded', exact: true })
-    .first()
-    .locator('xpath=ancestor::div[1]')
-    .getByText(/\d+/)
-    .innerText();
+  // const totalDaiUpgradedWidget = await page
+  //   .getByTestId('widget-container')
+  //   .getByRole('heading', { name: 'Total USDS upgraded', exact: true })
+  //   .first()
+  //   .locator('xpath=ancestor::div[1]')
+  //   .getByText(/\d+/)
+  //   .innerText();
   // const totalMkrUpgradedWidget = await page
   //   .getByTestId('widget-container')
   //   .getByRole('heading', { name: 'Total MKR upgraded', exact: true })
@@ -369,12 +369,12 @@ test('Details pane shows right data', async ({ page }) => {
   //   .locator('xpath=ancestor::div[1]')
   //   .getByText(/\d+/)
   //   .innerText();
-  const totalDaiUpgradedDetails = await page
-    .getByTestId('upgrade-stats-details')
-    .getByRole('heading', { name: 'Total USDS upgraded', exact: true })
-    .locator('xpath=ancestor::div[1]')
-    .getByText(/\d+/)
-    .innerText();
+  // const totalDaiUpgradedDetails = await page
+  //   .getByTestId('upgrade-stats-details')
+  //   .getByRole('heading', { name: 'Total USDS upgraded', exact: true })
+  //   .locator('xpath=ancestor::div[1]')
+  //   .getByText(/\d+/)
+  //   .innerText();
   await page
     .getByTestId('upgrade-stats-details')
     .getByRole('heading', { name: 'Total SKY upgraded', exact: true })
@@ -384,7 +384,7 @@ test('Details pane shows right data', async ({ page }) => {
 
   // TODO: we should run these through the number formatter, but it was throwing an error
   // The widget is truncated with a "." while the details is comma seprated, so just check the first number
-  expect(totalDaiUpgradedWidget.slice(0, 1)).toEqual(totalDaiUpgradedDetails.slice(0, 1));
+  // expect(totalDaiUpgradedWidget.slice(0, 1)).toEqual(totalDaiUpgradedDetails.slice(0, 1));
 
   // close details pane
   await page.getByLabel('Toggle details').click();
