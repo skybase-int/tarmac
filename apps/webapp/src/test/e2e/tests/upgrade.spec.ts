@@ -164,46 +164,46 @@ test('Insufficient token allowance triggers approval flow', async ({ page }) => 
   await expect(page.getByRole('button', { name: 'Confirm 2 transactions' }).last()).toBeVisible();
 });
 
-// test('if not connected it should show a connect button', async ({ page }) => {
-//   await page.goto('/');
-//   await page.getByRole('tab', { name: 'Upgrade' }).click();
+test('if not connected it should show a connect button', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('tab', { name: 'Upgrade' }).click();
 
-//   // Connect button and copy should be visible
-//   const widgetConnectButton = page
-//     .getByTestId('widget-container')
-//     .getByRole('button', { name: 'Connect Wallet' });
-//   await expect(widgetConnectButton).toBeEnabled();
-//   await expect(page.getByRole('heading', { name: 'Connect to explore Sky' })).toBeVisible();
+  // Connect button and copy should be visible
+  const widgetConnectButton = page
+    .getByTestId('widget-container')
+    .getByRole('button', { name: 'Connect Wallet' });
+  await expect(widgetConnectButton).toBeEnabled();
+  await expect(page.getByRole('heading', { name: 'Connect to explore Sky' })).toBeVisible();
 
-//   // After connecting, the button should disappear
-//   await connectMockWalletAndAcceptTerms(page);
-//   await expect(widgetConnectButton).not.toBeVisible();
-// });
+  // After connecting, the button should disappear
+  await connectMockWalletAndAcceptTerms(page);
+  await expect(widgetConnectButton).not.toBeVisible();
+});
 
-// // TODO: this test occasionally fails due to wallet not being connect, which might be related to above test
-// test('percentage buttons work', async ({ page }) => {
-//   await setTestBalance(usdsAddress[TENDERLY_CHAIN_ID], '1000');
+// TODO: this test occasionally fails due to wallet not being connect, which might be related to above test
+test('percentage buttons work', async ({ page }) => {
+  await setTestBalance(usdsAddress[TENDERLY_CHAIN_ID], '1000');
 
-//   await page.goto('/');
-//   await connectMockWalletAndAcceptTerms(page);
-//   await page.getByRole('tab', { name: 'Upgrade' }).click();
+  await page.goto('/');
+  await connectMockWalletAndAcceptTerms(page);
+  await page.getByRole('tab', { name: 'Upgrade' }).click();
 
-//   await page.getByRole('button', { name: '25%' }).click();
-//   expect(await page.getByTestId('upgrade-input-origin').inputValue()).toBe('25');
-//   await page.getByRole('button', { name: '50%' }).click();
-//   expect(await page.getByTestId('upgrade-input-origin').inputValue()).toBe('50');
-//   await page.getByRole('button', { name: '100%' }).click();
-//   expect(await page.getByTestId('upgrade-input-origin').inputValue()).toBe('100');
+  await page.getByRole('button', { name: '25%' }).click();
+  expect(await page.getByTestId('upgrade-input-origin').inputValue()).toBe('25');
+  await page.getByRole('button', { name: '50%' }).click();
+  expect(await page.getByTestId('upgrade-input-origin').inputValue()).toBe('50');
+  await page.getByRole('button', { name: '100%' }).click();
+  expect(await page.getByTestId('upgrade-input-origin').inputValue()).toBe('100');
 
-//   await page.getByRole('tab', { name: 'Revert' }).click();
-//   await expect(page.getByText('No wallet connected')).not.toBeVisible();
-//   await page.getByRole('button', { name: '25%' }).click();
-//   expect(await page.getByTestId('upgrade-input-origin').inputValue()).toBe('250');
-//   await page.getByRole('button', { name: '50%' }).click();
-//   expect(await page.getByTestId('upgrade-input-origin').inputValue()).toBe('500');
-//   await page.getByRole('button', { name: '100%' }).click();
-//   expect(await page.getByTestId('upgrade-input-origin').inputValue()).toBe('1000');
-// });
+  await page.getByRole('tab', { name: 'Revert' }).click();
+  await expect(page.getByText('No wallet connected')).not.toBeVisible();
+  await page.getByRole('button', { name: '25%' }).click();
+  expect(await page.getByTestId('upgrade-input-origin').inputValue()).toBe('250');
+  await page.getByRole('button', { name: '50%' }).click();
+  expect(await page.getByTestId('upgrade-input-origin').inputValue()).toBe('500');
+  await page.getByRole('button', { name: '100%' }).click();
+  expect(await page.getByTestId('upgrade-input-origin').inputValue()).toBe('1000');
+});
 
 // test('enter amount button should be disabled', async ({ page }) => {
 //   await page.goto('/');
