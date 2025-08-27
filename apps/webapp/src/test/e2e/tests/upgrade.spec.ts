@@ -1,6 +1,6 @@
 import { expect, test } from '../fixtures.ts';
 import { setErc20Balance } from '../utils/setBalance.ts';
-import { mcdDaiAddress } from '@jetstreamgg/sky-hooks';
+import { usdsAddress, mcdDaiAddress } from '@jetstreamgg/sky-hooks';
 import { TENDERLY_CHAIN_ID } from '@/data/wagmi/config/testTenderlyChain.ts';
 // import { interceptAndRejectTransactions } from '../utils/rejectTransaction.ts';
 import { approveOrPerformAction } from '../utils/approveOrPerformAction.ts';
@@ -84,45 +84,45 @@ test('Upgrade and revert with insufficient balance', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Review' })).toBeDisabled();
 });
 
-// test('Balances change after successfully upgrading and reverting', async ({ page }) => {
-//   await setTestBalance(mcdDaiAddress[TENDERLY_CHAIN_ID], '10');
-//   await setTestBalance(usdsAddress[TENDERLY_CHAIN_ID], '10');
+test('Balances change after successfully upgrading and reverting', async ({ page }) => {
+  await setTestBalance(mcdDaiAddress[TENDERLY_CHAIN_ID], '10');
+  await setTestBalance(usdsAddress[TENDERLY_CHAIN_ID], '10');
 
-//   await page.goto('/');
-//   await connectMockWalletAndAcceptTerms(page);
-//   await page.getByRole('tab', { name: 'Upgrade' }).click();
+  await page.goto('/');
+  await connectMockWalletAndAcceptTerms(page);
+  await page.getByRole('tab', { name: 'Upgrade' }).click();
 
-//   await expect(page.getByTestId('upgrade-input-origin-balance')).not.toHaveText('No wallet connected');
-//   expect(await page.getByTestId('upgrade-input-origin-balance').innerText()).toBe('10 DAI');
+  await expect(page.getByTestId('upgrade-input-origin-balance')).not.toHaveText('No wallet connected');
+  expect(await page.getByTestId('upgrade-input-origin-balance').innerText()).toBe('10 DAI');
 
-//   await page.getByRole('tab', { name: 'Revert' }).click();
-//   await expect(page.getByTestId('upgrade-input-origin-balance')).not.toHaveText('No wallet connected');
-//   expect(await page.getByTestId('upgrade-input-origin-balance').innerText()).toBe('10 USDS');
-//   await page.getByRole('tab', { name: 'Upgrade' }).last().click();
+  await page.getByRole('tab', { name: 'Revert' }).click();
+  await expect(page.getByTestId('upgrade-input-origin-balance')).not.toHaveText('No wallet connected');
+  expect(await page.getByTestId('upgrade-input-origin-balance').innerText()).toBe('10 USDS');
+  await page.getByRole('tab', { name: 'Upgrade' }).last().click();
 
-//   await page.getByTestId('upgrade-input-origin').click();
-//   await page.getByTestId('upgrade-input-origin').fill('5');
+  await page.getByTestId('upgrade-input-origin').click();
+  await page.getByTestId('upgrade-input-origin').fill('5');
 
-//   await approveOrPerformAction(page, 'Upgrade');
-//   await page.getByRole('button', { name: 'Back to Upgrade' }).click();
+  await approveOrPerformAction(page, 'Upgrade');
+  await page.getByRole('button', { name: 'Back to Upgrade' }).click();
 
-//   await expect(page.getByTestId('upgrade-input-origin-balance')).not.toHaveText('No wallet connected');
-//   await expect(page.getByTestId('upgrade-input-origin-balance')).toHaveText('5 DAI');
+  await expect(page.getByTestId('upgrade-input-origin-balance')).not.toHaveText('No wallet connected');
+  await expect(page.getByTestId('upgrade-input-origin-balance')).toHaveText('5 DAI');
 
-//   await page.getByRole('tab', { name: 'Revert' }).click();
-//   await expect(page.getByTestId('upgrade-input-origin-balance')).not.toHaveText('No wallet connected');
-//   await expect(page.getByTestId('upgrade-input-origin-balance')).toHaveText('15 USDS');
+  await page.getByRole('tab', { name: 'Revert' }).click();
+  await expect(page.getByTestId('upgrade-input-origin-balance')).not.toHaveText('No wallet connected');
+  await expect(page.getByTestId('upgrade-input-origin-balance')).toHaveText('15 USDS');
 
-//   await page.getByTestId('upgrade-input-origin').click();
-//   await page.getByTestId('upgrade-input-origin').fill('4');
-//   await approveOrPerformAction(page, 'Revert');
-//   await page.getByRole('button', { name: 'Back to Upgrade' }).click();
+  await page.getByTestId('upgrade-input-origin').click();
+  await page.getByTestId('upgrade-input-origin').fill('4');
+  await approveOrPerformAction(page, 'Revert');
+  await page.getByRole('button', { name: 'Back to Upgrade' }).click();
 
-//   await expect(page.getByTestId('upgrade-input-origin-balance')).toHaveText('11 USDS');
+  await expect(page.getByTestId('upgrade-input-origin-balance')).toHaveText('11 USDS');
 
-//   await page.getByRole('tab', { name: 'Upgrade' }).last().click();
-//   await expect(page.getByTestId('upgrade-input-origin-balance')).toHaveText('9 DAI');
-// });
+  await page.getByRole('tab', { name: 'Upgrade' }).last().click();
+  await expect(page.getByTestId('upgrade-input-origin-balance')).toHaveText('9 DAI');
+});
 
 // test('Insufficient token allowance triggers approval flow', async ({ page }) => {
 //   await page.goto('/');
