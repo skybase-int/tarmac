@@ -7,9 +7,9 @@ import { useLingui } from '@lingui/react';
 import { useTermsAcceptance } from '../hooks/useTermsAcceptance';
 import { generateUUID } from '../lib/generateUUID';
 import { MessageType, UserType, TERMS_ACCEPTANCE_MESSAGE } from '../constants';
-import termsMarkdown from '@/content/chatbot_terms.md?raw'; //https://vitejs.dev/guide/assets#importing-asset-as-string
+import { getTermsContent } from '@/modules/ui/components/terms-loader';
 
-const parseTerms = () => {
+const parseTerms = (termsMarkdown: string) => {
   const lines = termsMarkdown.split('\n');
   const dateMatch = lines[0]?.match(/^\d{4}-\d{2}-\d{2}$/);
 
@@ -44,7 +44,8 @@ interface ChatWithTermsProps {
 export const ChatWithTerms: React.FC<ChatWithTermsProps> = ({ sendMessage }) => {
   const { i18n } = useLingui();
 
-  const parsedTerms = parseTerms();
+  const termsMarkdown = getTermsContent('chatbot');
+  const parsedTerms = parseTerms(termsMarkdown);
   const termsVersion = parsedTerms.version;
   const termsContent = parsedTerms.content;
   const termsLoadedSuccessfully = parsedTerms.isValid;
