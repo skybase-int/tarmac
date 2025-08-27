@@ -19,6 +19,7 @@ import { ChatMarkdownRenderer } from '@/modules/ui/components/markdown/ChatMarkd
 import { useChatContext } from '../context/ChatContext';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { useMemo } from 'react';
 
 type ChatBubbleProps = {
   user: UserType;
@@ -26,10 +27,18 @@ type ChatBubbleProps = {
   type?: MessageType;
   isLastMessage?: boolean;
   isFirstMessage?: boolean;
+  isOnlyMessage?: boolean;
   intents?: ChatIntent[];
   sendMessage: (message: string) => void;
   showModifierRow?: boolean;
 };
+
+// Default suggested questions if env var is not set
+const DEFAULT_SUGGESTED_QUESTIONS = [
+  'What is Sky Protocol?',
+  'How do I earn rewards?',
+  'How does the savings feature work?'
+];
 
 const TypingIndicator: React.FC<{ text?: string }> = ({ text = '' }) => {
   const dotVariants = {
@@ -72,7 +81,8 @@ export const ChatBubble = ({
   intents,
   sendMessage,
   showModifierRow = true,
-  isLastMessage
+  isLastMessage,
+  isOnlyMessage
 }: ChatBubbleProps) => {
   const { address } = useAccount();
   const [searchParams] = useSearchParams();
@@ -85,6 +95,32 @@ export const ChatBubble = ({
   const isCanceled = type === MessageType.canceled;
   const isAuthError = type === MessageType.authError;
   const isFeedback = message.startsWith('/feedback');
+
+  // Parse suggested questions from environment variable
+  const suggestedQuestions = useMemo(() => {
+    const envQuestions = import.meta.env.VITE_CHATBOT_SUGGESTED_QUESTIONS;
+    if (envQuestions) {
+      try {
+        // Support both JSON array format and comma-separated format
+        if (envQuestions.startsWith('[')) {
+          return JSON.parse(envQuestions);
+        } else {
+          return envQuestions
+            .split(',')
+            .map((q: string) => q.trim())
+            .filter(Boolean);
+        }
+      } catch (e) {
+        console.warn('Failed to parse VITE_CHATBOT_SUGGESTED_QUESTIONS:', e);
+        return DEFAULT_SUGGESTED_QUESTIONS;
+      }
+    }
+    return DEFAULT_SUGGESTED_QUESTIONS;
+  }, []);
+
+  const handleQuestionClick = (question: string) => {
+    sendMessage(question);
+  };
 
   // Parse feedback message to extract the actual feedback content
   const getFeedbackContent = () => {
@@ -213,6 +249,26 @@ export const ChatBubble = ({
             )}
             {user === UserType.bot && !isError && !isInternal && !isCanceled && !isAuthError && (
               <div className="space-y-5">
+                {isOnlyMessage && suggestedQuestions.length > 0 && (
+                  <div className="space-y-2">
+                    <Text variant="small" className="text-white/50">
+                      <Trans>Suggested questions:</Trans>
+                    </Text>
+                    <div className="flex flex-wrap gap-2">
+                      {suggestedQuestions.map((question: string, index: number) => (
+                        <Button
+                          key={`${question}-${index}`}
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleQuestionClick(question)}
+                          className="h-auto whitespace-normal px-3 py-2 text-left"
+                        >
+                          {question}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 {intents && intents?.length > 0 && isLastMessage && <ChatIntentsRow intents={intents} />}
                 {showModifierRow && <ResponseModifierRow sendMessage={sendMessage} />}
               </div>

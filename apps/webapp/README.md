@@ -69,6 +69,7 @@ Create a `.env` file in the root directory of the project. You can use the `.env
 - `VITE_CHATBOT_MAX_MESSAGE_LENGTH`: Maximum character length for user input messages.
 - `VITE_CHATBOT_CF_ACCESS_CLIENT_ID`: (Optional) Cloudflare Access client ID for authentication headers in development/staging environments
 - `VITE_CHATBOT_CF_ACCESS_CLIENT_SECRET`: (Optional) Cloudflare Access client secret for authentication headers in development/staging environments
+- `VITE_CHATBOT_SUGGESTED_QUESTIONS`: (Optional) Array of suggested questions displayed when the chatbot first loads (e.g., `'["Question 1", "Question 2"]'`). If not provided, default questions will be shown
 
 ## Running the App
 
