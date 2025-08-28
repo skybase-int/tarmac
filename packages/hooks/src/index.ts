@@ -77,6 +77,7 @@ export { useMkrSkyApprove } from './upgrade/useMkrSkyApprove';
 export { useUpgradeHistory } from './upgrade/useUpgradeHistory';
 export { useUpgradeTotals } from './upgrade/useUpgradeTotals';
 export { useMkrSkyFee } from './upgrade/useMkrSkyFee';
+export { useMigrationStats } from './upgrade/useMigrationStats';
 
 // Trade
 export { useTradeHistory } from './trade/useTradeHistory';
