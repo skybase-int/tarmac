@@ -11,6 +11,9 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write        # Changesets needs this to open/update PRs
+      id-token: write        # REQUIRED for npm Trusted Publishing (OIDC)
     strategy:
       matrix:
         node-version: [20]
@@ -29,6 +32,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+          registry-url: 'https://registry.npmjs.org'  # lets npm CLI know which registry to use
 
       - name: Install Dependencies
         run: pnpm i
@@ -41,4 +45,7 @@ jobs:
           publish: pnpm changeset:release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # Enable provenance for any `npm publish` called under the hood
+          NPM_CONFIG_PROVENANCE: 'true'
+          # If your package is scoped and public, ensure public access
+          NPM_CONFIG_ACCESS: 'public'
