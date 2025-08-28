@@ -1,5 +1,5 @@
 import { useAccount, useChainId } from 'wagmi';
-import { SaWriteHookParams } from './sealModule';
+import { SaWriteHookParams, SaWriteHookReturnType } from './sealModule';
 import { sealModuleAbi, sealModuleAddress } from '../generated';
 import { ZERO_ADDRESS } from '../constants';
 import { getSaDrawCalldata } from './calldata';
@@ -11,6 +11,7 @@ export function useDrawUsds({
   gas,
   amount,
   enabled: activeTabEnabled = true,
+  onMutate = () => null,
   onStart = () => null,
   onError = () => null,
   onSuccess = () => null
@@ -18,7 +19,7 @@ export function useDrawUsds({
   index: bigint;
   to: `0x${string}`;
   amount: bigint | undefined;
-}) {
+}): SaWriteHookReturnType {
   const chainId = useChainId();
   const { isConnected, address } = useAccount();
 
@@ -33,6 +34,7 @@ export function useDrawUsds({
     chainId: chainId,
     gas,
     enabled,
+    onMutate,
     onStart,
     onError,
     onSuccess

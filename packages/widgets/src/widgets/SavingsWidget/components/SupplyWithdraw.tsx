@@ -1,7 +1,7 @@
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { getTokenDecimals, sUsdsAddress, TOKENS, useOverallSkyData } from '@jetstreamgg/hooks';
-import { formatBigInt, formatDecimalPercentage } from '@jetstreamgg/utils';
+import { getTokenDecimals, sUsdsAddress, TOKENS, useOverallSkyData } from '@jetstreamgg/sky-hooks';
+import { formatBigInt, formatDecimalPercentage } from '@jetstreamgg/sky-utils';
 import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
@@ -21,7 +21,7 @@ type SupplyWithdrawProps = {
   savingsBalance?: bigint;
   savingsTvl?: bigint;
   isSavingsDataLoading: boolean;
-  onChange: (val: bigint) => void;
+  onChange: (val: bigint, userTriggered?: boolean) => void;
   amount: bigint;
   error: boolean;
   onToggle: (number: 0 | 1) => void;
@@ -73,7 +73,7 @@ export const SupplyWithdraw = ({
 
   return (
     <MotionVStack gap={0} className="w-full" variants={positionAnimations}>
-      <Tabs defaultValue={tabIndex === 0 ? 'left' : 'right'}>
+      <Tabs value={tabIndex === 0 ? 'left' : 'right'}>
         <motion.div variants={positionAnimations}>
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger position="left" value="left" onClick={() => onToggle(0)}>
@@ -89,6 +89,7 @@ export const SupplyWithdraw = ({
           isLoading={isSavingsDataLoading}
           stats={stats}
           address={contractAddress}
+          userAddress={address}
           isConnectedAndEnabled={isConnectedAndEnabled}
           onExternalLinkClicked={onExternalLinkClicked}
         />
@@ -101,7 +102,9 @@ export const SupplyWithdraw = ({
               token={inputToken}
               tokenList={[inputToken]}
               balance={address ? nstBalance : undefined}
-              onChange={onChange}
+              onChange={(newValue, event) => {
+                onChange(BigInt(newValue), !!event);
+              }}
               value={amount}
               dataTestId="supply-input-savings"
               error={error ? t`Insufficient funds` : undefined}
@@ -119,7 +122,9 @@ export const SupplyWithdraw = ({
               token={inputToken}
               tokenList={[inputToken]}
               balance={address ? savingsBalance : undefined}
-              onChange={onChange}
+              onChange={(newValue, event) => {
+                onChange(BigInt(newValue), !!event);
+              }}
               value={amount}
               error={
                 error
@@ -142,30 +147,41 @@ export const SupplyWithdraw = ({
           title={t`Transaction overview`}
           isFetching={false}
           fetchingMessage={t`Fetching transaction details`}
+          rateType="ssr"
+          onExternalLinkClicked={onExternalLinkClicked}
           transactionData={[
             {
               label: tabIndex === 0 ? t`You will supply` : t`You will withdraw`,
               value: `${formatBigInt(amount, {
-                maxDecimals: 2
+                maxDecimals: 2,
+                compact: true
               })} ${inputToken?.symbol}`
+            },
+            {
+              label: t`Rate`,
+              value: stats.skySavingsRatecRate
             },
             ...(address
               ? [
-                  ...(widgetState.flow === SavingsFlow.SUPPLY
-                    ? [
-                        {
-                          label: t`Rate`,
-                          value: stats.skySavingsRatecRate
-                        }
-                      ]
-                    : []),
                   {
-                    label: t`Your wallet ${inputToken?.symbol} balance will be`,
-                    value: `${formatBigInt(finalBalance, { maxDecimals: 2 })} ${inputToken?.symbol}`
+                    label: t`Your wallet ${inputToken?.symbol} balance`,
+                    value:
+                      nstBalance !== undefined
+                        ? [
+                            formatBigInt(nstBalance, { maxDecimals: 2, compact: true }),
+                            formatBigInt(finalBalance, { maxDecimals: 2, compact: true })
+                          ]
+                        : '--'
                   },
                   {
-                    label: t`Your Savings ${inputToken?.symbol} balance will be`,
-                    value: `${formatBigInt(finalSavingsBalance, { maxDecimals: 2 })} ${inputToken?.symbol}`
+                    label: t`Your Savings USDS balance`,
+                    value:
+                      savingsBalance !== undefined
+                        ? [
+                            formatBigInt(savingsBalance, { maxDecimals: 2, compact: true }),
+                            formatBigInt(finalSavingsBalance, { maxDecimals: 2, compact: true })
+                          ]
+                        : '--'
                   }
                 ]
               : [])

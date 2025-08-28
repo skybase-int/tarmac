@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
-import { useCombinedHistory, useAllNetworksCombinedHistory } from '@jetstreamgg/hooks';
-import { useFormatDates } from '@jetstreamgg/utils';
+import { useCombinedHistory, useAllNetworksCombinedHistory } from '@jetstreamgg/sky-hooks';
+import { useFormatDates } from '@jetstreamgg/sky-utils';
 import { useLingui } from '@lingui/react';
 import { CustomPagination } from '@widgets/shared/components/ui/pagination/CustomPagination';
 import { BalancesHistoryItem } from './BalancesHistoryItem';
@@ -76,6 +76,13 @@ export const BalancesHistory = ({
                 chainId={item.chainId}
                 savingsToken={'token' in item ? item.token?.symbol : undefined}
                 tradeFromToken={'fromToken' in item ? item.fromToken?.symbol : undefined}
+                rewardContract={
+                  'rewardContractAddress' in item && item.rewardContractAddress
+                    ? item.rewardContractAddress
+                    : 'rewardContract' in item && item.rewardContract
+                      ? item.rewardContract
+                      : undefined
+                }
                 item={item}
                 onExternalLinkClicked={onExternalLinkClicked}
               />

@@ -108,23 +108,6 @@ export const getSaFreeMkrCalldata = ({
     args: [ownerAddress, urnIndex, toAddress, amount]
   });
 
-export const getSaFreeSkyCalldata = ({
-  ownerAddress,
-  urnIndex,
-  toAddress,
-  amount
-}: {
-  ownerAddress: `0x${string}`;
-  urnIndex: bigint;
-  toAddress: `0x${string}`;
-  amount: bigint;
-}) =>
-  encodeFunctionData({
-    abi: sealModuleAbi,
-    functionName: 'freeSky',
-    args: [ownerAddress, urnIndex, toAddress, amount]
-  });
-
 export const getSaWipeCalldata = ({
   ownerAddress,
   urnIndex,
@@ -168,4 +151,26 @@ export const getSaGetRewardCalldata = ({
     abi: sealModuleAbi,
     functionName: 'getReward',
     args: [ownerAddress, urnIndex, rewardContractAddress, toAddress]
+  });
+
+export const getSaHopeCalldata = ({
+  ownerAddress,
+  urnIndex,
+  usrAddress
+}: {
+  ownerAddress: `0x${string}`;
+  urnIndex: bigint;
+  usrAddress: `0x${string}`;
+}) =>
+  encodeFunctionData({
+    abi: sealModuleAbi,
+    functionName: 'hope',
+    args: [ownerAddress, urnIndex, usrAddress]
+  });
+
+export const getSaMulticallCalldata = ({ calldata }: { calldata: `0x${string}`[] }) =>
+  encodeFunctionData({
+    abi: sealModuleAbi,
+    functionName: 'multicall',
+    args: [calldata]
   });

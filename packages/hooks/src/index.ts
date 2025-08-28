@@ -16,6 +16,42 @@ export { useTotalSavingsSuppliers } from './savings/useTotalSavingsSuppliers';
 export { useSsrSharesToAssets } from './savings/useSsrSharesToAssets';
 export { useSsrAssetsToShares } from './savings/useSsrAssetsToShares';
 export { useMultiChainSavingsBalances } from './savings/useMultiChainSavingsBalances';
+export { useBatchSavingsSupply } from './savings/useBatchSavingsSupply';
+
+// stUSDS
+export {
+  useStUsdsData,
+  useStUsdsDeposit,
+  useBatchStUsdsDeposit,
+  useStUsdsWithdraw,
+  useStUsdsAllowance,
+  useStUsdsApprove,
+  useStUsdsConvertToShares,
+  useStUsdsConvertToAssets,
+  useStUsdsPreviewDeposit,
+  useStUsdsPreviewWithdraw,
+  useStUsdsRateData,
+  useStUsdsCapacityData,
+  useStUsdsHistory
+} from './stusds';
+
+export type {
+  StUsdsHookData,
+  StUsdsHook,
+  StUsdsAllowanceHookResponse,
+  StUsdsConvertToSharesHookResponse,
+  StUsdsConvertToAssetsHookResponse,
+  StUsdsPreviewDepositHookResponse,
+  StUsdsPreviewWithdrawHookResponse,
+  StUsdsRateData,
+  StUsdsRateDataHook,
+  StUsdsCapacityData,
+  StUsdsCapacityDataHook,
+  StUsdsHistoryHook,
+  StUsdsHistoryItem,
+  StUsdsVaultMetrics,
+  StUsdsUserMetrics
+} from './stusds';
 
 // Authentication
 export { useRestrictedAddressCheck } from './authentication/useRestrictedAddressCheck';
@@ -39,6 +75,7 @@ export { useRewardsChartInfo } from './rewards/useRewardsChartInfo';
 export { useRewardContractTokens } from './rewards/useRewardContractTokens';
 export { useUserRewardsBalance } from './rewards/useUserRewardsBalance';
 export { useRewardsWithUserBalance } from './rewards/useRewardsWithUserBalance';
+export { useBatchRewardsSupply } from './rewards/useBatchRewardsSupply';
 
 // Rewards
 export { useRewardsSupply } from './rewards/useRewardsSupply';
@@ -49,6 +86,7 @@ export { useRewardsSuppliedBalance } from './rewards/useRewardsBalance';
 export { useRewardsTotalSupplied } from './rewards/useRewardsTotalSupplied';
 export { useRewardsRate } from './rewards/useRewardsRate';
 export { useRewardsPeriodFinish } from './rewards/useRewardsPeriodFinish';
+export { useRewardContractsToClaim } from './rewards/useRewardContractsToClaim';
 
 // Shared
 export { useCombinedHistory } from './shared/useCombinedHistory';
@@ -69,11 +107,12 @@ export { MakerHooksProvider, useMakerHooks } from './context/context';
 export { useUsdsToDai } from './upgrade/useUsdsToDai';
 export { useDaiToUsds } from './upgrade/useDaiToUsds';
 export { useMkrToSky } from './upgrade/useMkrToSky';
-export { useSkyToMkr } from './upgrade/useSkyToMkr';
 export { useDaiUsdsApprove } from './upgrade/useDaiUsdsApprove';
 export { useMkrSkyApprove } from './upgrade/useMkrSkyApprove';
 export { useUpgradeHistory } from './upgrade/useUpgradeHistory';
 export { useUpgradeTotals } from './upgrade/useUpgradeTotals';
+export { useMkrSkyFee } from './upgrade/useMkrSkyFee';
+export { useMigrationStats } from './upgrade/useMigrationStats';
 
 // Trade
 export { useTradeHistory } from './trade/useTradeHistory';
@@ -98,7 +137,7 @@ export { useLsMkrPrice } from './prices/useLsMkrPrice';
 
 // Seal Module
 export { useOpenUrn } from './seal/useOpenUrn';
-export { useCurrentUrnIndex } from './seal/useCurrentUrnIndex';
+export { useCurrentUrnIndex as useSealCurrentIndex } from './seal/useCurrentUrnIndex';
 export { useUrnAddress } from './seal/useUrnAddress';
 export { useSelectRewardContract } from './seal/useSelectRewardContract';
 export { useSelectVoteDelegate } from './seal/useSelectVoteDelegate';
@@ -107,7 +146,6 @@ export { useUrnSelectedVoteDelegate } from './seal/useUrnSelectedVoteDelegate';
 export { useLockMkr } from './seal/useLockMkr';
 export { useLockSky } from './seal/useLockSky';
 export { useFreeMkr } from './seal/useFreeMkr';
-export { useFreeSky } from './seal/useFreeSky';
 export { useSaMkrAllowance, useSaNgtAllowance, useSaNstAllowance } from './seal/useSaAllowance';
 export { useSaMkrApprove, useSaNgtApprove, useSaNstApprove } from './seal/useSaApprove';
 export { useClaimRewards } from './seal/useClaimRewards';
@@ -119,12 +157,33 @@ export { useWipeAll } from './seal/useWipeAll';
 export { useSaUserDelegates } from './seal/useSaUserDelegates';
 export { useSaRewardContracts } from './seal/useSaRewardContracts';
 export { useSealHistory } from './seal/useSealHistory';
+export { useStakeHistory } from './stake/useStakeHistory';
 export { useSealPosition } from './seal/useSealPosition';
 export { useSealExitFee } from './seal/useSealExitFee';
 export { usePositionsAtRisk } from './seal/usePositionsAtRisk';
 export { useTotalUserSealed } from './seal/useTotalUserSealed';
+export { useTotalUserStaked } from './stake/useTotalUserStaked';
 export { useSealRewardsData } from './seal/useSealRewardsData';
 export { useSealHistoricData } from './seal/useSealHistoricData';
+export { useStakeHistoricData } from './stake/useStakeHistoricData';
+export * from './seal/calldata';
+
+// Stake Module
+export { useStakeRewardContracts } from './stake/useStakeRewardContracts';
+export { useStakeUserDelegates } from './stake/useStakeUserDelegates';
+export { useStakeMulticall } from './stake/useStakeMulticall';
+export { useCurrentUrnIndex } from './stake/useCurrentUrnIndex';
+export { useUrnAddress as useStakeUrnAddress } from './stake/useUrnAddress';
+export { useUrnSelectedRewardContract as useStakeUrnSelectedRewardContract } from './stake/useUrnSelectedRewardContract';
+export { useUrnSelectedVoteDelegate as useStakeUrnSelectedVoteDelegate } from './stake/useUrnSelectedVoteDelegate';
+export { useStakeSkyAllowance, useStakeUsdsAllowance } from './stake/useStakeAllowance';
+export { useStakeSkyApprove, useStakeUsdsApprove } from './stake/useStakeApprove';
+export { useClaimRewards as useStakeClaimRewards } from './stake/useClaimRewards';
+export { useStakeRewardsData } from './stake/useStakeRewardsData';
+export { useStakePosition } from './stake/useStakePosition';
+export { useBatchStakeMulticall } from './stake/useBatchStakeMulticall';
+export { useHighestRateFromChartData } from './stake/useHighestRateFromChartData';
+export * from './stake/calldata';
 
 //Vaults
 export { useVault } from './vaults/useVault';
@@ -142,6 +201,8 @@ export { useDelegateOwner } from './delegates/useDelegateOwner';
 // PSM
 export { usePsmSwapExactIn } from './psm/usePsmSwapExactIn';
 export { usePsmSwapExactOut } from './psm/usePsmSwapExactOut';
+export { useBatchPsmSwapExactIn } from './psm/useBatchPsmSwapExactIn';
+export { useBatchPsmSwapExactOut } from './psm/useBatchPsmSwapExactOut';
 export { useL2SavingsHistory } from './psm/useL2SavingsHistory';
 export { useL2TradeHistory } from './psm/useL2TradeHistory';
 export { usePsmLiquidity } from './psm/usePsmLiquidity';
@@ -174,7 +235,15 @@ export {
 
 // Export types
 export type { DsProxyHookResponse } from './dsProxy/useDsProxyData';
-export type { WriteHookParams, ReadHook, WriteHook, TrustLevel, DataSource, ReadHookParams } from './hooks';
+export type {
+  WriteHookParams,
+  ReadHook,
+  WriteHook,
+  TrustLevel,
+  DataSource,
+  ReadHookParams,
+  BatchWriteHookParams
+} from './hooks';
 export type { PaginationOption } from './filters';
 export type { RewardContract, RewardContractInfo, RewardContractChange } from './rewards/rewards';
 export type { SavingsHistory } from './savings/savings';
@@ -213,15 +282,17 @@ export {
   wethAddress,
   usdcAddress,
   usdtAddress,
+  spkAddress,
   wethSepoliaAddress,
   usdcSepoliaAddress,
   usdtSepoliaAddress,
   mcdDaiSepoliaAddress,
   sealModuleAddress,
+  stakeModuleAddress,
   usdcL2Address,
   usdsL2Address,
+  stUsdsAddress,
   sUsdsL2Address,
-  skyL2Address,
   psm3L2Address,
   useReadPsm3L2ConvertToShares,
   useReadPsm3L2ConvertToAssetValue,
@@ -231,7 +302,13 @@ export {
   useReadSsrAuthOracleGetSsr,
   useReadPsm3L2Pocket,
   useReadPsm3L2PreviewSwapExactIn,
-  useReadPsm3L2PreviewSwapExactOut
+  useReadPsm3L2PreviewSwapExactOut,
+  lsMkrUsdsRewardAddress,
+  lsSkyUsdsRewardAddress,
+  lsSkySpkRewardAddress
 } from './generated';
-export { contracts, tenderlyContracts, sepoliaContracts, l2Contracts } from './contracts';
-export * from './seal/calldata';
+export { contracts, /*tenderlyContracts,*/ sepoliaContracts, l2Contracts } from './contracts';
+
+export { useTransactionFlow } from './shared/useTransactionFlow';
+export { getWriteContractCall } from './shared/getWriteContractCall';
+export { useIsBatchSupported } from './shared/useIsBatchSupported';

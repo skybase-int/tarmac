@@ -3,13 +3,13 @@ import { WidgetProps } from '@widgets/shared/types/widgetState';
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
-import { Token, useOverallSkyData, getTokenDecimals } from '@jetstreamgg/hooks';
+import { Token, useOverallSkyData, getTokenDecimals } from '@jetstreamgg/sky-hooks';
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
 import { t } from '@lingui/core/macro';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { L2SavingsStatsCard } from './L2SavingsStatsCard';
-import { formatBigInt, formatDecimalPercentage } from '@jetstreamgg/utils';
+import { formatBigInt, formatDecimalPercentage } from '@jetstreamgg/sky-utils';
 import { useChainId } from 'wagmi';
 
 type Props = WidgetProps & {
@@ -26,7 +26,7 @@ type Props = WidgetProps & {
   tabIndex: 0 | 1;
   error?: boolean;
   onToggle: (number: 0 | 1) => void;
-  onOriginInputChange: (val: bigint) => void;
+  onOriginInputChange: (val: bigint, userTriggered?: boolean) => void;
   onMenuItemChange?: (token: Token) => void;
   isConnectedAndEnabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
@@ -65,7 +65,7 @@ export function L2SavingsSupplyWithdraw({
 
   return (
     <VStack className="w-full items-center justify-center">
-      <Tabs defaultValue={tabIndex === 0 ? 'left' : 'right'} className="w-full">
+      <Tabs value={tabIndex === 0 ? 'left' : 'right'} className="w-full">
         <motion.div variants={positionAnimations}>
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger
@@ -106,7 +106,7 @@ export function L2SavingsSupplyWithdraw({
                 token={originToken}
                 tokenList={originOptions || []}
                 balance={originBalance}
-                onChange={onOriginInputChange}
+                onChange={(val, event) => onOriginInputChange(BigInt(val), !!event)}
                 onTokenSelected={token => {
                   onMenuItemChange?.(token as Token);
                 }}
@@ -124,7 +124,7 @@ export function L2SavingsSupplyWithdraw({
                 className="w-full"
                 token={originToken}
                 balance={convertedBalance?.value}
-                onChange={onOriginInputChange}
+                onChange={(val, event) => onOriginInputChange(BigInt(val), !!event)}
                 value={originAmount}
                 dataTestId="l2-savings-withdraw-input"
                 label={t`How much ${originToken?.symbol} would you like to withdraw?`}
@@ -145,31 +145,58 @@ export function L2SavingsSupplyWithdraw({
                 title={t`Transaction overview`}
                 isFetching={false}
                 fetchingMessage={t`Fetching transaction details`}
+                rateType="ssr"
+                onExternalLinkClicked={onExternalLinkClicked}
                 transactionData={[
                   {
                     label: tabIndex === 0 ? t`You will supply` : t`You will withdraw`,
                     value: `${formatBigInt(originAmount, {
                       maxDecimals: 2,
-                      unit: getTokenDecimals(originToken, chainId)
+                      unit: getTokenDecimals(originToken, chainId),
+                      compact: true
                     })} ${originToken?.symbol}`
+                  },
+                  {
+                    label: t`Rate`,
+                    value: skySavingsRatecRate
                   },
                   ...(isConnectedAndEnabled
                     ? [
-                        ...(tabIndex === 0
-                          ? [
-                              {
-                                label: t`Rate`,
-                                value: skySavingsRatecRate
-                              }
-                            ]
-                          : []),
                         {
-                          label: t`Your wallet ${originToken?.symbol} balance will be`,
-                          value: `${formatBigInt(finalBalance, { maxDecimals: 2, unit: getTokenDecimals(originToken, chainId) })} ${originToken?.symbol}`
+                          label: t`Your wallet ${originToken?.symbol} balance`,
+                          value:
+                            originBalance !== undefined
+                              ? [
+                                  formatBigInt(originBalance, {
+                                    maxDecimals: 2,
+                                    unit: getTokenDecimals(originToken, chainId),
+                                    compact: true
+                                  }),
+                                  formatBigInt(finalBalance, {
+                                    maxDecimals: 2,
+                                    unit: getTokenDecimals(originToken, chainId),
+                                    compact: true
+                                  })
+                                ]
+                              : '--'
                         },
                         {
-                          label: t`Your Savings ${originToken?.symbol} balance will be`,
-                          value: `${formatBigInt(finalSavingsBalance, { maxDecimals: 2, unit: getTokenDecimals(originToken, chainId) })} ${originToken?.symbol}`
+                          label: t`Your Savings USDS balance`,
+                          value:
+                            convertedBalance?.value !== undefined
+                              ? [
+                                  formatBigInt(convertedBalance.value, {
+                                    maxDecimals: 2,
+                                    unit: getTokenDecimals(originToken, chainId),
+                                    compact: true
+                                  }),
+                                  formatBigInt(finalSavingsBalance, {
+                                    maxDecimals: 2,
+                                    unit: getTokenDecimals(originToken, chainId),
+                                    compact: true
+                                  })
+                                ]
+                              : '--'
                         }
                       ]
                     : [])

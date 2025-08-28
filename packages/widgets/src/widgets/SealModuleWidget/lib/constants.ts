@@ -2,11 +2,12 @@ import { msg } from '@lingui/core/macro';
 import { MessageDescriptor } from '@lingui/core';
 import { TxStatus } from '@widgets/shared/constants';
 import { TxCardCopyText } from '@widgets/shared/types/txCardCopyText';
-import { TOKENS } from '@jetstreamgg/hooks';
+import { TOKENS } from '@jetstreamgg/sky-hooks';
 
 export enum SealFlow {
   OPEN = 'open',
-  MANAGE = 'manage'
+  MANAGE = 'manage',
+  CLAIM = 'claim'
 }
 
 export enum SealAction {
@@ -76,6 +77,13 @@ export const sealApproveDescription: Record<string, MessageDescriptor> = {
   [TOKENS.sky.symbol]: msg`Sealing SKY in the Seal Rewards module`
 };
 
+export const hopeLoadingButtonText: TxCardCopyText = {
+  [TxStatus.INITIALIZED]: msg`Waiting for confirmation`,
+  [TxStatus.LOADING]: msg`Processing transaction`,
+  [TxStatus.SUCCESS]: msg`Success`,
+  [TxStatus.ERROR]: msg`Error`
+};
+
 export const repayApproveDescription: MessageDescriptor = msg`Repaying USDS in the Seal Rewards module`;
 
 export function getSealTitle(
@@ -121,7 +129,7 @@ export function getSealSubtitle({
     case TxStatus.LOADING:
       return flow === SealFlow.OPEN
         ? msg`Your transaction is being processed on the blockchain to create your position. Please wait.`
-        : msg`Your transaction is being processed on the blockchain to update your position. Please wait.`;
+        : msg`Your transaction is being processed on the blockchain. Please wait.`;
     case TxStatus.SUCCESS:
       return flow === SealFlow.OPEN
         ? collateralToLock && borrowAmount
@@ -130,9 +138,9 @@ export function getSealSubtitle({
             ? msg`You've sealed ${collateralToLock} ${selectedToken ?? ''}. Your new position is open.`
             : msg`You just opened your position`
         : collateralToFree && borrowToRepay
-          ? msg`You've unsealed ${collateralToFree} ${selectedToken ?? ''} and repaid ${borrowToRepay} USDS to exit your position. An exit fee was applied.`
+          ? msg`You've unsealed ${collateralToFree} ${selectedToken ?? ''} and repaid ${borrowToRepay} USDS to exit your position.`
           : collateralToFree
-            ? msg`You've unsealed ${collateralToFree} ${selectedToken ?? ''} to exit your position. An exit fee was applied.`
+            ? msg`You've unsealed ${collateralToFree} ${selectedToken ?? ''} to exit your position.`
             : borrowToRepay
               ? msg`You've repaid ${borrowToRepay} USDS to exit your position.`
               : collateralToLock && borrowAmount
@@ -162,7 +170,7 @@ export function sealLoadingButtonText({
       return flow === SealFlow.OPEN
         ? msg`Opening position`
         : flow === SealFlow.MANAGE
-          ? msg`Updating position`
+          ? msg`Changing position`
           : msg`Loading`;
   }
 }
@@ -191,18 +199,3 @@ export function claimLoadingButtonText({ txStatus }: { txStatus: TxStatus }): Me
       return msg`Loading`;
   }
 }
-
-export const borrowRateTooltipText =
-  'The borrow rate is a parameter determined by Sky ecosystem governance through a process of decentralised onchain voting. Borrow rate fees accumulate automatically per block and get added to the total debt.';
-
-export const collateralizationRatioTooltipText =
-  'The ratio between the value of collateral you’ve provided and the amount you’ve borrowed against that collateral.';
-
-export const liquidationPriceTooltipText =
-  "If the value of your collateral (MKR or SKY) drops below the liquidation price noted here, some or all of your collateral may be auctioned to repay the amount of USDS that you borrowed. Note that a one-hour price update delay applies. In other words, when MKR or SKY drops below a user's liquidation price it will only start applying one hour later. This is called the OSM delay in technical terms, and it also applies to any legacy Maker MCD vault.";
-
-export const riskLevelTooltipText =
-  'Risk level indicates the likelihood of your collateral being liquidated. This is primarily determined by your Loan-to-Value (LTV) ratio, which represents the amount you’ve borrowed compared to the value of your crypto collateral. A high risk level means your collateral is close to the liquidation price threshold, and most vulnerable to market changes. A medium risk level means you have a reasonable balance between borrowing power and a safety buffer. A low risk level means you have a comparatively wider safety next against price fluctuations.';
-
-export const debtCeilingTooltipText =
-  'If the debt ceiling utilization reaches 100%, no new USDS can be borrowed. The debt ceiling is a parameter determined by Sky ecosystem governance through a process of decentralised onchain voting.';

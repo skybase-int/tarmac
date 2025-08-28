@@ -1,13 +1,13 @@
 import { connectorsForWallets } from '@rainbow-me/rainbowkit';
 import { createConfig, createStorage, http, noopStorage } from 'wagmi';
-import { mainnet, base, sepolia, arbitrum } from 'wagmi/chains';
+import { mainnet, base, sepolia, arbitrum, optimism, unichain } from 'wagmi/chains';
 import {
   safeWallet,
   rainbowWallet,
   walletConnectWallet,
   metaMaskWallet,
-  coinbaseWallet,
-  injectedWallet
+  binanceWallet,
+  coinbaseWallet
 } from '@rainbow-me/rainbowkit/wallets';
 import {
   TENDERLY_CHAIN_ID,
@@ -17,11 +17,13 @@ import {
   TENDERLY_ARBITRUM_RPC_URL,
   TENDERLY_ARBITRUM_CHAIN_ID
 } from './testTenderlyChain';
-import { isTestnetId } from '@jetstreamgg/utils';
+import { isTestnetId } from '@jetstreamgg/sky-utils';
+import { baseAccount } from './baseAccount';
 
 export const tenderly = {
+  ...mainnet,
   id: TENDERLY_CHAIN_ID,
-  name: 'mainnet_sep_30_0',
+  name: 'mainnet_yusds_2025_jul_13_0',
   network: 'tenderly',
   // This is used by RainbowKit to display a chain icon for small screens
   iconUrl: 'tokens/weth.svg',
@@ -40,6 +42,7 @@ export const tenderly = {
 };
 
 export const tenderlyBase = {
+  ...base,
   id: TENDERLY_BASE_CHAIN_ID,
   name: 'new-base-testnet-jan-27',
   network: 'tenderly base',
@@ -60,6 +63,7 @@ export const tenderlyBase = {
 };
 
 export const tenderlyArbitrum = {
+  ...arbitrum,
   id: TENDERLY_ARBITRUM_CHAIN_ID,
   name: 'arbitrum_fork_feb_7',
   network: 'tenderly arbitrum',
@@ -85,22 +89,24 @@ const connectors = connectorsForWallets(
       groupName: 'Suggested',
       wallets: [
         metaMaskWallet,
+        baseAccount,
         coinbaseWallet,
         walletConnectWallet,
         rainbowWallet,
         safeWallet,
-        injectedWallet
+        binanceWallet
       ]
     }
   ],
   {
     appName: 'sky.money',
+    appIcon: 'https://app.sky.money/images/sky.svg',
     projectId: import.meta.env.VITE_WALLETCONNECT_PROJECT_ID || 'd5c6af7c0680adbaad12f33744ee4413'
   }
 );
 
 export const wagmiConfigDev = createConfig({
-  chains: [mainnet, tenderly, base, arbitrum, tenderlyBase, sepolia, tenderlyArbitrum],
+  chains: [mainnet, tenderly, base, arbitrum, tenderlyBase, sepolia, tenderlyArbitrum, optimism, unichain],
   connectors,
   transports: {
     [mainnet.id]: http(import.meta.env.VITE_RPC_PROVIDER_MAINNET || ''),
@@ -109,9 +115,13 @@ export const wagmiConfigDev = createConfig({
     [arbitrum.id]: http(import.meta.env.VITE_RPC_PROVIDER_ARBITRUM || ''),
     [tenderlyBase.id]: http(import.meta.env.VITE_RPC_PROVIDER_TENDERLY_BASE || ''),
     [sepolia.id]: http(import.meta.env.VITE_RPC_PROVIDER_SEPOLIA || ''),
-    [tenderlyArbitrum.id]: http(import.meta.env.VITE_RPC_PROVIDER_TENDERLY_ARBITRUM || '')
+    [tenderlyArbitrum.id]: http(import.meta.env.VITE_RPC_PROVIDER_TENDERLY_ARBITRUM || ''),
+    [unichain.id]: http(import.meta.env.VITE_RPC_PROVIDER_UNICHAIN || ''),
+    [optimism.id]: http(import.meta.env.VITE_RPC_PROVIDER_OPTIMISM || '')
   },
-  multiInjectedProviderDiscovery: false,
+  // This was causing issues in the past when users tried to connect to the Safe connector and had the Phantom wallet installed
+  // due to how Phantom handled `eth_accounts` requests, resulting in the Safe connector hanging in a reconnecting state
+  multiInjectedProviderDiscovery: true,
   storage: createStorage({
     storage: typeof window !== 'undefined' && window.localStorage ? window.localStorage : noopStorage,
     key: 'wagmi-dev'
@@ -119,21 +129,23 @@ export const wagmiConfigDev = createConfig({
 });
 
 export const wagmiConfigMainnet = createConfig({
-  chains: [mainnet, base, arbitrum],
+  chains: [mainnet, base, arbitrum, optimism, unichain],
   connectors,
   transports: {
     [mainnet.id]: http(import.meta.env.VITE_RPC_PROVIDER_MAINNET || ''),
     [base.id]: http(import.meta.env.VITE_RPC_PROVIDER_BASE || ''),
-    [arbitrum.id]: http(import.meta.env.VITE_RPC_PROVIDER_ARBITRUM || '')
+    [arbitrum.id]: http(import.meta.env.VITE_RPC_PROVIDER_ARBITRUM || ''),
+    [optimism.id]: http(import.meta.env.VITE_RPC_PROVIDER_OPTIMISM || ''),
+    [unichain.id]: http(import.meta.env.VITE_RPC_PROVIDER_UNICHAIN || '')
   },
-  multiInjectedProviderDiscovery: false
+  multiInjectedProviderDiscovery: true
 });
 
 export const getSupportedChainIds = (chainId: number) => {
   if (isTestnetId(chainId)) {
     return [tenderly.id, tenderlyBase.id, tenderlyArbitrum.id];
   }
-  return [mainnet.id, base.id, arbitrum.id];
+  return [mainnet.id, base.id, arbitrum.id, optimism.id, unichain.id];
 };
 
 export const getMainnetChainName = (chainId: number) => {

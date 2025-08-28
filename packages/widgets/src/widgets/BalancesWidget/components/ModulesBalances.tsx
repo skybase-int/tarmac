@@ -1,6 +1,8 @@
 import { RewardsBalanceCard } from './RewardsBalanceCard';
 import { SavingsBalanceCard } from './SavingsBalanceCard';
 import { SealBalanceCard } from './SealBalanceCard';
+import { StakeBalanceCard } from './StakeBalanceCard';
+import { StUSDSBalanceCard } from './StUSDSBalanceCard';
 
 export interface CardProps {
   url?: string;
@@ -8,10 +10,10 @@ export interface CardProps {
   chainIds?: number[];
   loading?: boolean;
   error?: string;
-  usdsSkySuppliedBalance?: bigint;
-  usdsCleSuppliedBalance?: bigint;
+  totalUserRewardsSupplied?: bigint;
   savingsBalances?: { chainId: number; balance: bigint }[];
   sealBalance?: bigint;
+  stakeBalance?: bigint;
 }
 
 interface ModulesBalancesProps {
@@ -25,13 +27,19 @@ interface ModulesBalancesProps {
   rewardsLoading?: boolean;
   hideSeal?: boolean;
   sealLoading?: boolean;
-  usdsSkySuppliedBalance?: bigint;
-  usdsCleSuppliedBalance?: bigint;
+  totalUserRewardsSupplied?: bigint;
   hideSavings?: boolean;
   totalUserSealed?: bigint;
   savingsBalances?: { chainId: number; balance: bigint }[];
   savingsLoading?: boolean;
   sealBalance?: bigint;
+  stakeBalance?: bigint;
+  stakeLoading?: boolean;
+  hideStake?: boolean;
+  stakeCardUrl?: string;
+  hideStUSDS?: boolean;
+  stusdsLoading?: boolean;
+  stusdsCardUrl?: string;
 }
 
 export const ModulesBalances = ({
@@ -45,11 +53,17 @@ export const ModulesBalances = ({
   hideSeal,
   sealLoading,
   sealBalance,
-  usdsSkySuppliedBalance,
-  usdsCleSuppliedBalance,
+  totalUserRewardsSupplied,
   hideSavings,
   savingsBalances,
-  savingsLoading
+  savingsLoading,
+  stakeBalance,
+  stakeLoading,
+  hideStake,
+  stakeCardUrl,
+  hideStUSDS,
+  stusdsLoading,
+  stusdsCardUrl
 }: ModulesBalancesProps): React.ReactElement => {
   return (
     <div className="flex flex-col gap-2">
@@ -58,8 +72,7 @@ export const ModulesBalances = ({
           url={rewardsCardUrl}
           onExternalLinkClicked={onExternalLinkClicked}
           loading={rewardsLoading}
-          usdsSkySuppliedBalance={usdsSkySuppliedBalance}
-          usdsCleSuppliedBalance={usdsCleSuppliedBalance}
+          totalUserRewardsSupplied={totalUserRewardsSupplied}
         />
       )}
       {!hideModuleBalances && !hideSavings && (
@@ -68,6 +81,21 @@ export const ModulesBalances = ({
           onExternalLinkClicked={onExternalLinkClicked}
           loading={savingsLoading}
           savingsBalances={savingsBalances}
+        />
+      )}
+      {!hideModuleBalances && !hideStUSDS && (
+        <StUSDSBalanceCard
+          url={stusdsCardUrl}
+          onExternalLinkClicked={onExternalLinkClicked}
+          loading={stusdsLoading}
+        />
+      )}
+      {!hideStake && (
+        <StakeBalanceCard
+          loading={stakeLoading}
+          stakeBalance={stakeBalance}
+          onExternalLinkClicked={onExternalLinkClicked}
+          url={stakeCardUrl}
         />
       )}
       {!hideSeal && (

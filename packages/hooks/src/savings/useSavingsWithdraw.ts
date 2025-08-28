@@ -5,11 +5,11 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useReadSavingsUsds, sUsdsAddress, sUsdsImplementationAbi } from './useReadSavingsUsds';
 import { useWriteContractFlow } from '../shared/useWriteContractFlow';
-import { TENDERLY_CHAIN_ID } from '../constants';
 
 export function useSavingsWithdraw({
   amount,
   gas,
+  onMutate = () => null,
   onSuccess = () => null,
   onError = () => null,
   onStart = () => null,
@@ -59,8 +59,9 @@ export function useSavingsWithdraw({
     functionName: 'withdraw',
     args: [withdrawAmount, connectedAddress!, connectedAddress!],
     chainId,
-    gas: chainId === TENDERLY_CHAIN_ID ? gas || 170000n : gas, // Set gas limit for Tenderly to prevent errors due to pot.drip() not being called every block
+    gas,
     enabled,
+    onMutate,
     onSuccess,
     onError,
     onStart

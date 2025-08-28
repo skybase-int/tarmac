@@ -1,5 +1,5 @@
-import { TransactionTypeEnum, ModuleEnum } from '@jetstreamgg/hooks';
-import { captitalizeFirstLetter } from '@jetstreamgg/utils';
+import { TransactionTypeEnum, ModuleEnum } from '@jetstreamgg/sky-hooks';
+import { capitalizeFirstLetter } from '@jetstreamgg/sky-utils';
 import { t } from '@lingui/core/macro';
 
 export const getTitle = ({ type, module }: { type: TransactionTypeEnum; module: ModuleEnum }) => {
@@ -17,6 +17,8 @@ export const getTitle = ({ type, module }: { type: TransactionTypeEnum; module: 
         return t`Rewards Supply`;
       } else if (module === ModuleEnum.SAVINGS) {
         return t`Savings Supply`;
+      } else if (module === ModuleEnum.STUSDS) {
+        return t`stUSDS Supply`;
       }
       return t`Supply`;
     case TransactionTypeEnum.WITHDRAW:
@@ -24,11 +26,31 @@ export const getTitle = ({ type, module }: { type: TransactionTypeEnum; module: 
         return t`Rewards Withdraw `;
       } else if (module === ModuleEnum.SAVINGS) {
         return t`Savings Withdraw`;
+      } else if (module === ModuleEnum.STUSDS) {
+        return t`stUSDS Withdraw`;
       }
       return t`Withdraw`;
     case TransactionTypeEnum.REWARD:
       return t`Claim rewards`;
+    case TransactionTypeEnum.STAKE_OPEN:
+      return t`Open position`;
+    case TransactionTypeEnum.STAKE:
+      return t`Stake`;
+    case TransactionTypeEnum.UNSTAKE:
+      return t`Unstake`;
+    case TransactionTypeEnum.STAKE_REWARD:
+      return t`Claim rewards`;
+    case TransactionTypeEnum.STAKE_BORROW:
+      return t`Borrow`;
+    case TransactionTypeEnum.STAKE_REPAY:
+      return t`Repay`;
+    case TransactionTypeEnum.STAKE_SELECT_DELEGATE:
+      return t`Select delegate`;
+    case TransactionTypeEnum.STAKE_SELECT_REWARD:
+      return t`Select reward`;
+    case TransactionTypeEnum.UNSTAKE_KICK:
+      return t`Liquidation`;
     default:
-      return captitalizeFirstLetter((type || module).toLowerCase().replace('_', ' '));
+      return capitalizeFirstLetter((type || module).toLowerCase().replace('_', ' '));
   }
 };

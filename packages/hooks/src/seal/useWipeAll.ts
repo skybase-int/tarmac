@@ -1,5 +1,5 @@
 import { useAccount, useChainId } from 'wagmi';
-import { SaWriteHookParams } from './sealModule';
+import { SaWriteHookParams, SaWriteHookReturnType } from './sealModule';
 import { sealModuleAbi, sealModuleAddress } from '../generated';
 import { getSaWipeAllCalldata } from './calldata';
 import { useWriteContractFlow } from '../shared/useWriteContractFlow';
@@ -8,12 +8,13 @@ export function useWipeAll({
   index,
   gas,
   enabled: activeTabEnabled = true,
+  onMutate = () => null,
   onStart = () => null,
   onError = () => null,
   onSuccess = () => null
 }: SaWriteHookParams & {
   index: bigint;
-}) {
+}): SaWriteHookReturnType {
   const chainId = useChainId();
   const { isConnected, address } = useAccount();
 
@@ -27,6 +28,7 @@ export function useWipeAll({
     chainId,
     gas,
     enabled,
+    onMutate,
     onStart,
     onError,
     onSuccess

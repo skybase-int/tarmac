@@ -23,7 +23,7 @@ The project structure is divided in:
 
 This project contains the following apps, located under the ["apps" folder](./apps):
 
-- [integration-ui](./apps/integration-ui): UI interface for interacting with widgets from the [widgets](./packages/widgets/README.md) package
+- [webapp](./apps/webapp): Web3 dApp that interacts with widgets from the [widgets](./packages/widgets/README.md) package
 
 ## Packages
 
@@ -47,6 +47,8 @@ pnpm build -> Builds all packages
 pnpm dev -> Runs dev mode and launches the webapp in the port 3000
 pnpm test -> Runs the unit tests suite across the different packages
 pnpm test:hooks -> Manages the lifecycle of forking a new Tenderly testnet, running the 'hooks' tests, and then deleting the forked testnet.
+pnpm pr:desc [base-branch] -> Copies all code diffs and pull request template to clipboard by analyzing changes between the current branch and the specified base branch (defaults to main if not provided)
+
 ```
 
 #### Environment Variables for Testing
@@ -94,7 +96,7 @@ This monorepo uses `changesets` to manage the versioning and changelog of the Je
 
 ## Internationalization and Translation Process
 
-In this project, we're utilizing `lingui` library for handling the internationalization (i18n) of the widgets package, and the webapp and integration-ui apps. The following steps provide an overview of the i18n process:
+In this project, we're utilizing `lingui` library for handling the internationalization (i18n) of the widgets package and the webapp. The following steps provide an overview of the i18n process:
 
 The three commands we use for managing messages are listed in the `scripts` section of your `package.json` file:
 

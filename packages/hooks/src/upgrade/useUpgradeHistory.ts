@@ -5,7 +5,7 @@ import { getMakerSubgraphUrl } from '../helpers/getSubgraphUrl';
 import { DaiUsdsRow, MkrSkyRow, UpgradeHistory, UpgradeResponse, UpgradeResponses } from './upgrade';
 import { useQuery } from '@tanstack/react-query';
 import { useAccount, useChainId } from 'wagmi';
-import { isTestnetId, chainId as chainIdMap } from '@jetstreamgg/utils';
+import { isTestnetId, chainId as chainIdMap } from '@jetstreamgg/sky-utils';
 
 async function fetchUpgradeHistory(
   urlSubgraph: string,
@@ -32,6 +32,12 @@ async function fetchUpgradeHistory(
         blockTimestamp
         transactionHash
       }
+      mkrToSkyUpgradeV2S(where: {usr: "${address}"}) {
+        mkrAmt
+        skyAmt
+        blockTimestamp
+        transactionHash
+      }
       skyToMkrReverts(where: {usr: "${address}"}) {
         mkrAmt
         skyAmt
@@ -42,7 +48,7 @@ async function fetchUpgradeHistory(
   `;
 
   const response: Record<
-    'daiToUsdsUpgrades' | 'usdsToDaiReverts' | 'mkrToSkyUpgrades' | 'skyToMkrReverts',
+    'daiToUsdsUpgrades' | 'usdsToDaiReverts' | 'mkrToSkyUpgrades' | 'skyToMkrReverts' | 'mkrToSkyUpgradeV2S',
     UpgradeResponses
   > = await request(urlSubgraph, query);
 
@@ -76,6 +82,18 @@ async function fetchUpgradeHistory(
     chainId
   }));
 
+  const mkrToSkyUpgradeV2S: MkrSkyRow[] = response.mkrToSkyUpgradeV2S.map(
+    (d: UpgradeResponse<MkrSkyRow>) => ({
+      mkrAmt: BigInt(d.mkrAmt),
+      skyAmt: BigInt(d.skyAmt),
+      blockTimestamp: new Date(parseInt(d.blockTimestamp) * 1000),
+      transactionHash: d.transactionHash,
+      module: ModuleEnum.UPGRADE,
+      type: TransactionTypeEnum.MKR_TO_SKY,
+      chainId
+    })
+  );
+
   const skyToMkrReverts: MkrSkyRow[] = response.skyToMkrReverts.map((w: UpgradeResponse<MkrSkyRow>) => ({
     mkrAmt: -BigInt(w.mkrAmt), //make withdrawals negative
     skyAmt: -BigInt(w.skyAmt),
@@ -86,7 +104,13 @@ async function fetchUpgradeHistory(
     chainId
   }));
 
-  const combined = [...daiToUsdsUpgrades, ...usdsToDaiReverts, ...mkrToSkyUpgrades, ...skyToMkrReverts];
+  const combined = [
+    ...daiToUsdsUpgrades,
+    ...usdsToDaiReverts,
+    ...mkrToSkyUpgrades,
+    ...mkrToSkyUpgradeV2S,
+    ...skyToMkrReverts
+  ];
   return combined.sort((a, b) => b.blockTimestamp.getTime() - a.blockTimestamp.getTime());
 }
 

@@ -6,8 +6,8 @@ import {
   useUrnAddress,
   useVault,
   ZERO_ADDRESS
-} from '@jetstreamgg/hooks';
-import { formatBigInt, math, WAD_PRECISION } from '@jetstreamgg/utils';
+} from '@jetstreamgg/sky-hooks';
+import { formatBigInt, formatPercent, math } from '@jetstreamgg/sky-utils';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { SealToken } from '../constants';
@@ -16,7 +16,6 @@ import { SealBorrowedCard, SealSealedCard } from '@/modules/ui/components/Balanc
 import { VStack } from '@/modules/layout/components/VStack';
 import { StatsCard } from '@/modules/ui/components/StatsCard';
 import { Heading, Text } from '@/modules/layout/components/Typography';
-import { formatUnits } from 'viem';
 import { cn } from '@/lib/utils';
 import { DetailSection } from '@/modules/ui/components/DetailSection';
 import { DetailSectionRow } from '@/modules/ui/components/DetailSectionRow';
@@ -24,7 +23,7 @@ import { SealDelegateCard } from './SealDelegateCard';
 import { SealRewardCard } from './SealRewardCard';
 import { useMemo } from 'react';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
-import { formatUrnIndex } from '@jetstreamgg/widgets';
+import { formatUrnIndex } from '@jetstreamgg/sky-widgets';
 
 const RISK_COLORS = {
   [RiskLevel.LIQUIDATION]: { text: 'text-red-400', bg: 'bg-red-400' },
@@ -49,7 +48,9 @@ export function SealPositionOverview({
 
   const mkrSealed = formatBigInt(vault?.collateralAmount || 0n);
   const skySealed = useMemo(() => {
-    return vault?.collateralAmount ? math.calculateConversion(TOKENS.mkr, vault?.collateralAmount || 0n) : 0n;
+    return vault?.collateralAmount
+      ? math.calculateConversion(TOKENS.mkr, vault?.collateralAmount || 0n, 0n)
+      : 0n;
   }, [vault?.collateralAmount]);
 
   const displayToken = useMemo(() => {
@@ -107,8 +108,7 @@ export function SealPositionOverview({
               error={urnAddressLoading ? null : vaultError}
               content={
                 <Text className={cn('mt-2', riskColor ? riskColor.text : '')}>
-                  {(Number(formatUnits(vault?.collateralizationRatio || 0n, WAD_PRECISION)) * 100).toFixed(2)}
-                  %
+                  {formatPercent(vault?.collateralizationRatio || 0n)}
                 </Text>
               }
             />
@@ -122,7 +122,7 @@ export function SealPositionOverview({
                   {formatBigInt(
                     displayToken === SealToken.MKR
                       ? vault?.liquidationPrice || 0n
-                      : math.calculateMKRtoSKYPrice(vault?.liquidationPrice || 0n)
+                      : math.calculateMKRtoSKYPrice(vault?.liquidationPrice || 0n, 0n)
                   )}
                 </Text>
               }
@@ -137,7 +137,7 @@ export function SealPositionOverview({
                   {formatBigInt(
                     displayToken === SealToken.MKR
                       ? vault?.delayedPrice || 0n
-                      : math.calculateMKRtoSKYPrice(vault?.delayedPrice || 0n)
+                      : math.calculateMKRtoSKYPrice(vault?.delayedPrice || 0n, 0n)
                   )}
                 </Text>
               }

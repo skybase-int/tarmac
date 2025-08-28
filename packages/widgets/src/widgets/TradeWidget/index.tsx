@@ -1,5 +1,5 @@
 import { WidgetProps, WidgetState } from '@widgets/shared/types/widgetState';
-import { WidgetContext, WidgetProvider } from '@widgets/context/WidgetContext';
+import { WidgetContext } from '@widgets/context/WidgetContext';
 import {
   MAX_SLIPPAGE_WITHOUT_WARNING,
   MAX_FEE_PERCENTAGE_WITHOUT_WARNING,
@@ -25,9 +25,16 @@ import {
   getTokenDecimals,
   useCreatePreSignTradeOrder,
   useOnChainCancelOrder
-} from '@jetstreamgg/hooks';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { formatBigInt, getEtherscanLink, useDebounce, useIsSmartContractWallet } from '@jetstreamgg/utils';
+} from '@jetstreamgg/sky-hooks';
+import { ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import {
+  formatBigInt,
+  truncateStringToFourDecimals,
+  getTransactionLink,
+  useIsSafeWallet,
+  useDebounce,
+  useIsSmartContractWallet
+} from '@jetstreamgg/sky-utils';
 import { useAccount, useChainId } from 'wagmi';
 import { t } from '@lingui/core/macro';
 import { TxStatus, notificationTypeMaping } from '@widgets/shared/constants';
@@ -38,63 +45,25 @@ import { TradeInputs } from './components/TradeInputs';
 import { getAllowedTargetTokens, getQuoteErrorForType, verifySlippage } from './lib/utils';
 import { defaultConfig } from '@widgets/config/default-config';
 import { useLingui } from '@lingui/react';
-import { TradeHeader } from './components/TradeHeader';
-import { parseUnits } from 'viem';
+import { TradeHeader, TradeSubHeader, TradePoweredBy, TradeWarning } from './components/TradeHeader';
+import { formatUnits, parseUnits } from 'viem';
 import { getValidatedState } from '@widgets/lib/utils';
 import { TradeSummary } from './components/TradeSummary';
 import { WidgetButtons } from '@widgets/shared/components/ui/widget/WidgetButtons';
 import { useAddTokenToWallet } from '@widgets/shared/hooks/useAddTokenToWallet';
-import { ErrorBoundary } from '@widgets/shared/components/ErrorBoundary';
 import { AnimatePresence } from 'framer-motion';
 import { CardAnimationWrapper } from '@widgets/shared/animation/Wrappers';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
 import { sepolia } from 'viem/chains';
 import { useTokenImage } from '@widgets/shared/hooks/useTokenImage';
+import { withWidgetProvider } from '@widgets/shared/hocs/withWidgetProvider';
 
 export type TradeWidgetProps = WidgetProps & {
   customTokenList?: TokenForChain[];
   disallowedPairs?: Record<string, SUPPORTED_TOKEN_SYMBOLS[]>;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-};
-
-export const TradeWidget = ({
-  onConnect,
-  addRecentTransaction,
-  locale,
-  rightHeaderComponent,
-  customTokenList,
-  disallowedPairs = defaultConfig.tradeDisallowedPairs,
-  externalWidgetState,
-  onStateValidated,
-  onNotification,
-  onWidgetStateChange,
-  onCustomNavigation,
-  customNavigationLabel,
-  onExternalLinkClicked,
-  enabled = true
-}: TradeWidgetProps) => {
-  return (
-    <ErrorBoundary componentName="TradeWidget">
-      <WidgetProvider locale={locale}>
-        <TradeWidgetWrapped
-          onConnect={onConnect}
-          addRecentTransaction={addRecentTransaction}
-          rightHeaderComponent={rightHeaderComponent}
-          customTokenList={customTokenList}
-          disallowedPairs={disallowedPairs}
-          locale={locale}
-          externalWidgetState={externalWidgetState}
-          onStateValidated={onStateValidated}
-          onNotification={onNotification}
-          onWidgetStateChange={onWidgetStateChange}
-          customNavigationLabel={customNavigationLabel}
-          onCustomNavigation={onCustomNavigation}
-          onExternalLinkClicked={onExternalLinkClicked}
-          enabled={enabled}
-        />
-      </WidgetProvider>
-    </ErrorBoundary>
-  );
+  widgetTitle?: ReactNode;
+  tokensLocked?: boolean;
 };
 
 function TradeWidgetWrapped({
@@ -102,7 +71,7 @@ function TradeWidgetWrapped({
   addRecentTransaction,
   rightHeaderComponent,
   customTokenList = [],
-  disallowedPairs,
+  disallowedPairs = defaultConfig.tradeDisallowedPairs,
   locale,
   externalWidgetState,
   onStateValidated,
@@ -111,7 +80,8 @@ function TradeWidgetWrapped({
   onCustomNavigation,
   customNavigationLabel,
   onExternalLinkClicked,
-  enabled = true
+  enabled = true,
+  tokensLocked = false
 }: TradeWidgetProps): React.ReactElement {
   const { mutate: addToWallet } = useAddTokenToWallet();
   const [showAddToken, setShowAddToken] = useState(false);
@@ -131,6 +101,7 @@ function TradeWidgetWrapped({
 
   const chainId = useChainId();
   const { address, isConnecting, isConnected } = useAccount();
+  const isSafeWallet = useIsSafeWallet();
   const isSmartContractWallet = useIsSmartContractWallet();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
   const linguiCtx = useLingui();
@@ -163,9 +134,9 @@ function TradeWidgetWrapped({
 
   const initialOriginTokenIndex = 0;
   const initialOriginToken =
-    originTokenList.find(
-      token => token.symbol.toLowerCase() === validatedExternalState?.token?.toLowerCase()
-    ) || (originTokenList.length ? originTokenList[initialOriginTokenIndex] : undefined);
+    originTokenList.find(token => token.symbol.toLowerCase() === externalWidgetState?.token?.toLowerCase()) ||
+    (originTokenList.length ? originTokenList[initialOriginTokenIndex] : undefined);
+
   const [originToken, setOriginToken] = useState<TokenForChain | undefined>(initialOriginToken);
 
   const targetTokenList = useMemo(() => {
@@ -339,7 +310,7 @@ function TradeWidgetWrapped({
           unit: originToken ? getTokenDecimals(originToken, chainId) : 18
         })} ${originToken?.symbol ?? ''}`
       });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
     },
@@ -517,7 +488,7 @@ function TradeWidgetWrapped({
           unit: originToken ? getTokenDecimals(originToken, chainId) : 18
         })} ${originToken?.symbol ?? ''} to the EthFlow contract`
       });
-      setExternalLink(getEtherscanLink(chainId, hash, 'tx'));
+      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       setTxStatus(TxStatus.LOADING);
       setEthFlowTxStatus(EthFlowTxStatus.SENDING_ETH);
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
@@ -719,9 +690,6 @@ function TradeWidgetWrapped({
     }
   }, [widgetState.flow, widgetState.screen, needsAllowance, allowanceLoading]);
 
-  // Indicates that the user is manually switching tokens
-  const [userSwitchingTokens, setUserSwitchingTokens] = useState(false);
-
   // update target/origin amount input when quote data changes
   useEffect(() => {
     const setFn = lastUpdated === TradeSide.IN ? setTargetAmount : setOriginAmount;
@@ -800,13 +768,6 @@ function TradeWidgetWrapped({
     setOriginToken(initialOriginToken);
   }, [chainId, initialOriginTokenIndex]);
 
-  const [latestExternalUpdate, setLatestExternalUpdate] = useState(externalWidgetState?.timestamp);
-  useEffect(() => {
-    setTimeout(() => {
-      setLatestExternalUpdate(externalWidgetState?.timestamp);
-    }, 500);
-  }, [externalWidgetState?.timestamp]);
-
   useEffect(() => {
     if (targetTokenList.length === 1) {
       // Theres only one token in the list, we select it
@@ -854,74 +815,125 @@ function TradeWidgetWrapped({
   }, [prepareError]);
 
   useEffect(() => {
-    setUserSwitchingTokens(false);
-  }, [externalWidgetState]);
-
-  useEffect(() => {
     const tokensHasChanged =
       externalWidgetState?.token?.toLowerCase() !== originToken?.symbol?.toLowerCase() ||
-      externalWidgetState?.targetToken?.toLowerCase() !== targetToken?.symbol?.toLowerCase() ||
+      externalWidgetState?.targetToken?.toLowerCase() !== targetToken?.symbol?.toLowerCase();
+
+    const amountHasChanged =
+      externalWidgetState?.amount !== undefined &&
       externalWidgetState?.amount !==
         formatBigInt(originAmount, {
           locale,
           unit: originToken ? getTokenDecimals(originToken, chainId) : 18
         });
 
-    const isExternalStateUpdated = latestExternalUpdate !== externalWidgetState?.timestamp;
-    let isUserSwitchingTokens = userSwitchingTokens;
-    if (isExternalStateUpdated) {
-      setUserSwitchingTokens(false);
-      isUserSwitchingTokens = false;
-    }
+    if ((tokensHasChanged || amountHasChanged) && txStatus === TxStatus.IDLE) {
+      // Handle "Trade to X" case
+      if (externalWidgetState?.targetToken && !externalWidgetState?.token) {
+        const proposedTargetToken = tokenList.find(
+          token => token.symbol.toLowerCase() === externalWidgetState.targetToken?.toLowerCase()
+        );
 
-    if (tokensHasChanged && txStatus === TxStatus.IDLE) {
-      setOriginToken(initialOriginToken);
+        if (proposedTargetToken) {
+          // Check if current origin token would create an invalid pair
+          const isInvalidPair =
+            originToken &&
+            // Same token check
+            (originToken.symbol.toLowerCase() === proposedTargetToken.symbol.toLowerCase() ||
+              // Disallowed pair check (like ETH-WETH)
+              ((disallowedPairs || {})[originToken.symbol] &&
+                (disallowedPairs || {})[originToken.symbol].includes(
+                  proposedTargetToken.symbol as SUPPORTED_TOKEN_SYMBOLS
+                )));
 
-      const newTargetList = getAllowedTargetTokens(
-        initialOriginToken?.symbol || '',
-        tokenList,
-        disallowedPairs
-      );
-      const newTargetToken = newTargetList.find(
-        token =>
-          token.symbol.toLowerCase() === externalWidgetState?.targetToken?.toLowerCase() &&
-          token.symbol !== originToken?.symbol
-      );
-      setTargetToken(newTargetToken);
+          if (isInvalidPair) {
+            // If invalid pair, clear target token but keep origin
+            setTargetToken(undefined);
+            setTargetAmount(0n);
+          } else if (originToken) {
+            // We have a valid origin token, check if target is allowed
+            const newTargetList = getAllowedTargetTokens(originToken.symbol, tokenList, disallowedPairs);
+
+            // If target token is not in allowed list, don't set it
+            if (!newTargetList.find(t => t.symbol === proposedTargetToken.symbol)) {
+              setTargetToken(undefined);
+            } else {
+              setTargetToken(proposedTargetToken);
+            }
+            // Keep origin amount but reset target amount
+            setTargetAmount(0n);
+          }
+        }
+      } else {
+        // Handle other cases (normal trade with source token)
+        const newOriginToken = tokenList.find(
+          token => token.symbol.toLowerCase() === externalWidgetState?.token?.toLowerCase()
+        );
+
+        if (newOriginToken) {
+          const tokenChanged = newOriginToken.symbol !== originToken?.symbol;
+          setOriginToken(newOriginToken);
+
+          // Handle target token changes
+          if (externalWidgetState?.targetToken) {
+            // Get allowed target tokens for this origin
+            const newTargetList = getAllowedTargetTokens(newOriginToken.symbol, tokenList, disallowedPairs);
+            const newTargetToken = newTargetList.find(
+              token => token.symbol.toLowerCase() === externalWidgetState.targetToken?.toLowerCase()
+            );
+
+            // Only clear target if it's the same as origin, otherwise set the new target
+            if (newOriginToken.symbol.toLowerCase() === externalWidgetState.targetToken?.toLowerCase()) {
+              setTargetToken(undefined);
+            } else {
+              setTargetToken(newTargetToken || undefined);
+            }
+          } else {
+            // If no target token in external state, clear it
+            setTargetToken(undefined);
+          }
+
+          // Handle amount updates
+          if (externalWidgetState?.amount !== undefined) {
+            if (tokenChanged || amountHasChanged) {
+              const newAmount = parseUnits(
+                externalWidgetState.amount,
+                getTokenDecimals(newOriginToken, chainId)
+              );
+              setTimeout(() => {
+                setOriginAmount(newAmount);
+                setTargetAmount(0n);
+                setLastUpdated(TradeSide.IN);
+              }, 500);
+            }
+          } else {
+            setOriginAmount(0n);
+            setTargetAmount(0n);
+          }
+        }
+      }
+
       setWidgetState((prev: WidgetState) => ({
         ...prev,
         action: needsAllowance ? TradeAction.APPROVE : TradeAction.TRADE,
         screen: TradeScreen.ACTION
       }));
-
-      if ((initialOriginToken && !isUserSwitchingTokens) || isExternalStateUpdated) {
-        if (userSwitchingTokens) {
-          const newAmount = initialOriginToken
-            ? parseUnits(validatedExternalState?.amount || '0', getTokenDecimals(initialOriginToken, chainId))
-            : 0n;
-
-          setTargetAmount(0n);
-
-          setTimeout(() => {
-            setOriginAmount(newAmount);
-            setLastUpdated(TradeSide.IN);
-          }, 500);
-        } else {
-          const newAmount = initialOriginToken
-            ? parseUnits(validatedExternalState?.amount || '0', getTokenDecimals(initialOriginToken, chainId))
-            : 0n;
-
-          setTargetAmount(0n);
-          setOriginAmount(newAmount);
-          setLastUpdated(TradeSide.IN);
-        }
-      }
     }
-  }, [externalWidgetState]); // by setting the object as dep we detect changes in the object reference
+  }, [externalWidgetState, txStatus]);
 
   useEffect(() => {
     setShowStepIndicator(!originToken?.isNative);
   }, [originToken?.isNative]);
+
+  useEffect(() => {
+    if (targetToken === undefined) {
+      onWidgetStateChange?.({
+        targetToken: '',
+        txStatus,
+        widgetState
+      });
+    }
+  }, [targetToken]);
 
   const approveOnClick = () => {
     setWidgetState((prev: WidgetState) => ({
@@ -955,12 +967,29 @@ function TradeWidgetWrapped({
     setEthFlowTxStatus(EthFlowTxStatus.IDLE);
     setTxStatus(TxStatus.IDLE);
 
-    // After a successful trade, reset the origin amount
+    // After a successful trade, reset everything to initial state
     if (widgetState.action !== TradeAction.APPROVE) {
-      setOriginAmount(0n);
-      setTargetAmount(0n);
-      setOriginToken(initialOriginToken);
-      setTargetToken(initialTargetToken);
+      setTimeout(() => {
+        setOriginAmount(0n);
+        setTargetAmount(0n);
+        setOriginToken(initialOriginToken);
+        setTargetToken(undefined); // Clear target token
+        setLastUpdated(TradeSide.IN);
+      }, 500);
+
+      // Notify widget state change to clear URL params and force a reset
+      onWidgetStateChange?.({
+        originToken: initialOriginToken?.symbol || '',
+        targetToken: '',
+        originAmount: '',
+        txStatus: TxStatus.IDLE,
+        widgetState: {
+          flow: TradeFlow.TRADE,
+          action: TradeAction.TRADE,
+          screen: TradeScreen.ACTION
+        },
+        hash: undefined // Clear any existing hash
+      });
     }
 
     if (widgetState.action === TradeAction.APPROVE && !needsAllowance) {
@@ -1017,16 +1046,32 @@ function TradeWidgetWrapped({
       // If we have a custom navigation label, leave the state as-is to proceed with custom navigation
       if (!customNavigationLabel) {
         // clear inputs and reset tx and widget state
-        setOriginAmount(0n);
-        setTargetAmount(0n);
-        setOriginToken(initialOriginToken);
-        setTargetToken(initialTargetToken);
-        setTxStatus(TxStatus.IDLE);
-        setEthFlowTxStatus(EthFlowTxStatus.IDLE);
-        setWidgetState({
-          flow: TradeFlow.TRADE,
-          action: TradeAction.TRADE,
-          screen: TradeScreen.ACTION
+        setTimeout(() => {
+          setOriginAmount(0n);
+          setTargetAmount(0n);
+          setOriginToken(initialOriginToken);
+          setTargetToken(undefined);
+          setTxStatus(TxStatus.IDLE);
+          setEthFlowTxStatus(EthFlowTxStatus.IDLE);
+          setWidgetState({
+            flow: TradeFlow.TRADE,
+            action: TradeAction.TRADE,
+            screen: TradeScreen.ACTION
+          });
+        }, 500);
+
+        // Notify widget state change to clear URL params and force a reset
+        onWidgetStateChange?.({
+          originToken: initialOriginToken?.symbol || '',
+          targetToken: '',
+          originAmount: '',
+          txStatus: TxStatus.IDLE,
+          widgetState: {
+            flow: TradeFlow.TRADE,
+            action: TradeAction.TRADE,
+            screen: TradeScreen.ACTION
+          },
+          hash: undefined // Clear any existing hash
         });
       }
       setShowAddToken(false);
@@ -1070,7 +1115,15 @@ function TradeWidgetWrapped({
       // if tokens are back to the original state, we set it to false
       const tokensHasChanged =
         externalWidgetState?.token !== originSymbol || externalWidgetState?.targetToken !== targetSymbol;
-      setUserSwitchingTokens(tokensHasChanged);
+      if (tokensHasChanged) {
+        onWidgetStateChange?.({
+          originToken: originSymbol,
+          targetToken: targetSymbol,
+          originAmount: '',
+          txStatus,
+          widgetState
+        });
+      }
     },
     [externalWidgetState]
   );
@@ -1080,16 +1133,20 @@ function TradeWidgetWrapped({
     txStatus === TxStatus.ERROR ||
     (widgetState.action === TradeAction.TRADE && widgetState.screen === TradeScreen.REVIEW) ||
     (widgetState.action === TradeAction.APPROVE && widgetState.screen === TradeScreen.REVIEW) ||
-    (widgetState.action === TradeAction.TRADE && txStatus === TxStatus.SUCCESS) ||
+    // After a successful trade, show the back button, as long as target token is not ETH
+    (targetToken?.symbol !== 'ETH' &&
+      widgetState.action === TradeAction.TRADE &&
+      txStatus === TxStatus.SUCCESS) ||
     // After a successful approve transaction, show the back button
     (txStatus === TxStatus.SUCCESS &&
       widgetState.action === TradeAction.APPROVE &&
       widgetState.screen === TradeScreen.TRANSACTION);
 
   const showCancelOrderButton =
-    (txStatus === TxStatus.LOADING || txStatus === TxStatus.SUCCESS || txStatus === TxStatus.ERROR) &&
+    (txStatus === TxStatus.LOADING || txStatus === TxStatus.ERROR) &&
     widgetState.flow === TradeFlow.TRADE &&
     widgetState.action === TradeAction.TRADE &&
+    widgetState.screen === TradeScreen.TRANSACTION &&
     !originToken?.isNative;
 
   return (
@@ -1101,10 +1158,9 @@ function TradeWidgetWrapped({
           isEthFlow={originToken?.isNative}
           ttl={ttl}
           setTtl={setTtl}
-          onExternalLinkClicked={onExternalLinkClicked}
-          originToken={originToken}
         />
       }
+      subHeader={<TradeSubHeader />}
       rightHeader={rightHeaderComponent}
       footer={
         <WidgetButtons
@@ -1119,6 +1175,10 @@ function TradeWidgetWrapped({
         />
       }
     >
+      <div className="mt-[-16px] space-y-0">
+        <TradePoweredBy onExternalLinkClicked={onExternalLinkClicked} />
+        <TradeWarning originToken={originToken} />
+      </div>
       <AnimatePresence mode="popLayout" initial={false}>
         {widgetState.screen === TradeScreen.REVIEW && quoteData && originToken && targetToken ? (
           <CardAnimationWrapper key="widget-summary">
@@ -1160,17 +1220,44 @@ function TradeWidgetWrapped({
               targetAmount={targetAmount}
               quoteData={quoteData}
               quoteError={quoteError}
-              originTokenList={originTokenList}
-              targetTokenList={targetTokenList}
+              originTokenList={tokensLocked && originToken ? [originToken] : originTokenList}
+              targetTokenList={tokensLocked && targetToken ? [targetToken] : targetTokenList}
               isBalanceError={isBalanceError}
               isQuoteLoading={isQuoteLoading}
-              canSwitchTokens={true}
+              canSwitchTokens={!tokensLocked}
               priceImpact={priceImpact}
               feePercentage={feePercentage}
               isConnectedAndEnabled={isConnectedAndEnabled}
               onUserSwitchTokens={onUserSwitchTokens}
               tradeAnyway={tradeAnyway}
               setTradeAnyway={setTradeAnyway}
+              enableSearch={true}
+              tokensLocked={tokensLocked}
+              onOriginTokenChange={(token: TokenForChain) => {
+                onWidgetStateChange?.({
+                  originToken: token.symbol,
+                  txStatus,
+                  widgetState
+                });
+              }}
+              onTargetTokenChange={(token: TokenForChain) => {
+                onWidgetStateChange?.({
+                  targetToken: token.symbol,
+                  txStatus,
+                  widgetState
+                });
+              }}
+              onOriginInputChange={(newValue: bigint, userTriggered?: boolean) => {
+                if (originToken && userTriggered) {
+                  const formattedValue = formatUnits(newValue, getTokenDecimals(originToken, chainId));
+                  const truncatedValue = truncateStringToFourDecimals(formattedValue);
+                  onWidgetStateChange?.({
+                    originAmount: truncatedValue,
+                    txStatus,
+                    widgetState
+                  });
+                }
+              }}
             />
           </CardAnimationWrapper>
         )}
@@ -1178,3 +1265,5 @@ function TradeWidgetWrapped({
     </WidgetContainer>
   );
 }
+
+export const TradeWidget = withWidgetProvider(TradeWidgetWrapped, 'TradeWidget');

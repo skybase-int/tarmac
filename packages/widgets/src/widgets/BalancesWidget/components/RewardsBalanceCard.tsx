@@ -1,5 +1,11 @@
-import { useAvailableTokenRewardContracts, useRewardsChartInfo, TOKENS, usePrices } from '@jetstreamgg/hooks';
-import { formatBigInt, formatDecimalPercentage, formatNumber } from '@jetstreamgg/utils';
+import {
+  useAvailableTokenRewardContracts,
+  useRewardsChartInfo,
+  TOKENS,
+  usePrices,
+  useHighestRateFromChartData
+} from '@jetstreamgg/sky-hooks';
+import { formatBigInt, formatDecimalPercentage, formatNumber } from '@jetstreamgg/sky-utils';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
 import { InteractiveStatsCard } from '@widgets/shared/components/ui/card/InteractiveStatsCard';
@@ -8,14 +14,13 @@ import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
 import { formatUnits } from 'viem';
 import { CardProps } from './ModulesBalances';
 import { useChainId } from 'wagmi';
-import { isTestnetId } from '@jetstreamgg/utils';
+import { isTestnetId } from '@jetstreamgg/sky-utils';
 
 export const RewardsBalanceCard = ({
   url,
   onExternalLinkClicked,
   loading,
-  usdsSkySuppliedBalance,
-  usdsCleSuppliedBalance
+  totalUserRewardsSupplied
 }: CardProps) => {
   const currentChainId = useChainId();
   const chainId = isTestnetId(currentChainId) ? 314310 : 1; //TODO: update once we add non-mainnet rewards
@@ -25,15 +30,28 @@ export const RewardsBalanceCard = ({
     f => f.supplyToken.symbol === TOKENS.usds.symbol && f.rewardToken.symbol === TOKENS.sky.symbol
   );
 
-  const { data: chartData, isLoading: chartDataLoading } = useRewardsChartInfo({
+  const usdsSpkRewardContract = rewardContracts.find(
+    f => f.supplyToken.symbol === TOKENS.usds.symbol && f.rewardToken.symbol === TOKENS.spk.symbol
+  );
+
+  // Fetch chart data for both reward contracts
+  const { data: usdsSkyChartData, isLoading: usdsSkyChartDataLoading } = useRewardsChartInfo({
     rewardContractAddress: usdsSkyRewardContract?.contractAddress as string,
     limit: 1
   });
 
+  const { data: usdsSpkChartData, isLoading: usdsSpkChartDataLoading } = useRewardsChartInfo({
+    rewardContractAddress: usdsSpkRewardContract?.contractAddress as string,
+    limit: 1
+  });
+
+  // Find the highest rate from both contracts
+  const highestRateData = useHighestRateFromChartData([usdsSkyChartData, usdsSpkChartData]);
+
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
 
-  const mostRecentRate = chartData && chartData.length > 0 ? chartData[0].rate : null;
-  const mostRecentRateNumber = mostRecentRate ? parseFloat(mostRecentRate) : null;
+  const chartDataLoading = usdsSkyChartDataLoading || usdsSpkChartDataLoading;
+  const mostRecentRateNumber = highestRateData ? parseFloat(highestRateData.rate) : null;
 
   return (
     <InteractiveStatsCard
@@ -44,11 +62,7 @@ export const RewardsBalanceCard = ({
           <Skeleton className="w-32" />
         ) : (
           <Text>
-            {`${
-              usdsSkySuppliedBalance !== undefined && usdsCleSuppliedBalance !== undefined
-                ? formatBigInt(usdsSkySuppliedBalance + usdsCleSuppliedBalance)
-                : '0'
-            }`}
+            {`${totalUserRewardsSupplied !== undefined ? formatBigInt(totalUserRewardsSupplied) : '0'}`}
           </Text>
         )
       }
@@ -73,14 +87,11 @@ export const RewardsBalanceCard = ({
       footerRightContent={
         loading || pricesLoading ? (
           <Skeleton className="h-[13px] w-20" />
-        ) : usdsSkySuppliedBalance !== undefined &&
-          usdsCleSuppliedBalance !== undefined &&
-          !!pricesData?.USDS ? (
+        ) : totalUserRewardsSupplied !== undefined && !!pricesData?.USDS ? (
           <Text variant="small" className="text-textSecondary">
             $
             {formatNumber(
-              parseFloat(formatUnits(usdsSkySuppliedBalance + usdsCleSuppliedBalance, 18)) *
-                parseFloat(pricesData.USDS.price),
+              parseFloat(formatUnits(totalUserRewardsSupplied, 18)) * parseFloat(pricesData.USDS.price),
               {
                 maxDecimals: 2
               }

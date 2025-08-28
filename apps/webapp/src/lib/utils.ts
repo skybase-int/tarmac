@@ -1,7 +1,8 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { LinkedAction } from '@/modules/ui/hooks/useUserSuggestedActions';
-import { ALLOWED_EXTERNAL_DOMAINS } from './constants';
+import { ALLOWED_EXTERNAL_DOMAINS, CHAIN_WIDGET_MAP, IntentMapping, restrictedIntents } from './constants';
+import { Intent } from './enums';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -23,7 +24,20 @@ export function getFooterLinks(): { url: string; name: string }[] {
 }
 
 export function filterActionsByIntent(actions: LinkedAction[], intent: string) {
-  return actions.filter(x => x.intent === intent || (x as LinkedAction)?.la === intent);
+  // For expert module intents (like 'stusds'), also include actions with la='expert'
+  const isExpertModuleIntent = ['stusds'].includes(intent);
+
+  return actions.filter(x => {
+    // Direct match on intent or linked action
+    if (x.intent === intent || (x as LinkedAction)?.la === intent) {
+      return true;
+    }
+    // For advanced module pages (stusds), show actions that lead to advanced modules
+    if (isExpertModuleIntent && (x as LinkedAction)?.la === IntentMapping[Intent.EXPERT_INTENT]) {
+      return true;
+    }
+    return false;
+  });
 }
 
 /**
@@ -63,4 +77,19 @@ export function sanitizeUrl(url: string | undefined) {
     console.error('Error parsing url: ', error);
     return undefined;
   }
+}
+
+export function isIntentAllowed(intent: Intent, chainId: number) {
+  const isRestrictedBuild = import.meta.env.VITE_RESTRICTED_BUILD === 'true';
+  const isRestrictedMiCa = import.meta.env.VITE_RESTRICTED_BUILD_MICA === 'true';
+  const isRestricted = isRestrictedBuild || isRestrictedMiCa;
+
+  // First check if restricted build
+  if (isRestricted && restrictedIntents.includes(intent)) {
+    return false;
+  }
+  // Then check if widget is supported on current chain
+  const supportedIntents = CHAIN_WIDGET_MAP[chainId] || [];
+
+  return supportedIntents.includes(intent);
 }

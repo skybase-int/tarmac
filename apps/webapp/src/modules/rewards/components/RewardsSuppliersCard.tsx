@@ -3,7 +3,7 @@ import { Text } from '@/modules/layout/components/Typography';
 import { t } from '@lingui/core/macro';
 import { useRewardsSuppliersCount } from '../hooks/useRewardsSuppliersCount';
 import { useChainId } from 'wagmi';
-import { isL2ChainId } from '@jetstreamgg/utils';
+import { formatNumber, isL2ChainId } from '@jetstreamgg/sky-utils';
 
 export function RewardsSuppliersCard() {
   const chainId = useChainId();
@@ -15,7 +15,7 @@ export function RewardsSuppliersCard() {
       error={error}
       content={
         <Text className="mt-2" variant="large">
-          {`${suppliers}`}
+          {`${formatNumber(suppliers, { maxDecimals: 0 })}`}
         </Text>
       }
     />

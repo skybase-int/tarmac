@@ -2,13 +2,23 @@ import { expect } from 'vitest';
 import { WriteHook } from '../src';
 import { renderHook, waitFor } from '@testing-library/react';
 import { WagmiWrapper } from './WagmiWrapper';
+import { BatchWriteHook } from '../src/hooks';
 
-export const waitForPreparedExecuteAndMine = async (result: { current: WriteHook }) => {
+export const waitForPreparedExecuteAndMine = async (
+  result: { current: WriteHook | BatchWriteHook },
+  loadingTimeout: number = 5000
+) => {
   await waitFor(
     () => {
       expect(result.current.prepared).toBe(true);
     },
-    { timeout: 15000 }
+    {
+      timeout: 15000,
+      onTimeout: error => {
+        console.log({ writeHookResponse: result.current });
+        return error;
+      }
+    }
   );
   result.current.execute();
 
@@ -16,13 +26,13 @@ export const waitForPreparedExecuteAndMine = async (result: { current: WriteHook
     () => {
       expect(result.current.isLoading).toBe(true);
     },
-    { timeout: 3000 }
+    { timeout: loadingTimeout }
   );
   await waitFor(
     () => {
       expect(result.current.isLoading).toBe(false);
     },
-    { timeout: 3000 }
+    { timeout: loadingTimeout }
   );
   expect(result.current.error).toBeNull();
 };

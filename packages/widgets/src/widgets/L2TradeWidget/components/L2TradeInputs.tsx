@@ -4,10 +4,11 @@ import { positionAnimations } from '@widgets/shared/animation/presets';
 import { ShiftArrow } from '@widgets/shared/components/icons/Icons';
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { TradeInput } from '@widgets/widgets/TradeWidget/components/TradeInputs';
-import { TokenForChain, Token, tokenArrayFiltered } from '@jetstreamgg/hooks';
+import { TokenForChain, Token, tokenArrayFiltered } from '@jetstreamgg/sky-hooks';
 import { t } from '@lingui/core/macro';
 import { motion } from 'framer-motion';
 import { useState, useRef, useMemo, useEffect } from 'react';
+import { TradeSide } from '@widgets/widgets/TradeWidget/lib/constants';
 
 type TokenBalanceData = Omit<GetBalanceData, 'symbol'> & {
   symbol?: string;
@@ -29,12 +30,16 @@ type TradeInputsProps = {
   isBalanceError: boolean;
   canSwitchTokens: boolean;
   isConnectedAndEnabled: boolean;
+  lastUpdated: TradeSide;
   onUserSwitchTokens?: (originToken?: string, targetToken?: string) => void;
-  onOriginInputChange: (val: bigint) => void;
+  onOriginInputChange?: (val: bigint, userTriggered?: boolean) => void;
   onTargetInputChange: (val: bigint) => void;
   onOriginInputInput?: () => void;
   onTargetInputInput?: () => void;
   setMaxWithdraw?: (val: boolean) => void;
+  onOriginTokenChange?: (token: TokenForChain) => void;
+  onTargetTokenChange?: (token: TokenForChain) => void;
+  tokensLocked?: boolean;
 };
 
 export function L2TradeInputs({
@@ -53,11 +58,15 @@ export function L2TradeInputs({
   isBalanceError,
   canSwitchTokens,
   isConnectedAndEnabled = true,
+  lastUpdated,
   onUserSwitchTokens,
   onOriginInputChange,
   onTargetInputChange,
   onOriginInputInput,
-  onTargetInputInput
+  onTargetInputInput,
+  onOriginTokenChange,
+  onTargetTokenChange,
+  tokensLocked = false
   // setMaxWithdraw
 }: TradeInputsProps) {
   const separationPx = 12;
@@ -134,63 +143,73 @@ export function L2TradeInputs({
           label={t`Choose a token to trade, and enter an amount`}
           token={originToken as Token}
           balance={originBalance?.value}
-          onChange={onOriginInputChange}
+          onChange={(newValue, event) => {
+            onOriginInputChange?.(BigInt(newValue), !!event);
+          }}
           onInput={onOriginInputInput}
           value={originAmount}
           dataTestId="trade-input-origin"
           tokenList={originList as Token[]}
           onTokenSelected={option => {
             setOriginToken(option as TokenForChain);
+            onOriginTokenChange?.(option as TokenForChain);
           }}
           error={isBalanceError ? t`Insufficient funds` : undefined}
-          variant="top"
-          extraPadding={true}
+          variant={tokensLocked ? undefined : 'top'}
+          extraPadding={!tokensLocked}
           showPercentageButtons={isConnectedAndEnabled}
           enabled={isConnectedAndEnabled}
         />
       </motion.div>
-      <div
-        className="flex justify-center"
-        style={{
-          position: 'absolute',
-          zIndex: 10,
-          left: switchPosition.left,
-          top: switchPosition.top,
-          transform: 'translate(-50%, -50%)',
-          visibility: isSwitchVisible ? 'visible' : 'hidden',
-          cursor: switchDisabled ? 'not-allowed' : 'pointer'
-        }}
-      >
-        <Button
-          aria-label="Switch token inputs"
-          size="icon"
-          className="border-background text-tabPrimary focus:outline-hidden my-0 h-9 w-9 rounded-full bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent disabled:bg-transparent"
-          onClick={() => {
-            const tempToken = originToken;
-            const prevOriginAmount = originAmount;
-            const prevTargetAmount = targetAmount;
-            setOriginAmount(0n);
-            setTargetAmount(0n);
-            setTimeout(() => {
-              setOriginToken(targetToken);
-              setTargetToken(tempToken);
-              setTimeout(() => {
-                setOriginAmount(prevTargetAmount);
-                setTargetAmount(prevOriginAmount);
-                onUserSwitchTokens?.();
-              }, 500);
-            }, 500);
+      {!tokensLocked && (
+        <div
+          className="flex justify-center"
+          style={{
+            position: 'absolute',
+            zIndex: 10,
+            left: switchPosition.left,
+            top: switchPosition.top,
+            transform: 'translate(-50%, -50%)',
+            visibility: isSwitchVisible ? 'visible' : 'hidden',
+            cursor: switchDisabled ? 'not-allowed' : 'pointer'
           }}
-          disabled={switchDisabled}
         >
-          <ShiftArrow height={24} className="text-textDesaturated" />
-        </Button>
-      </div>
+          <Button
+            aria-label="Switch token inputs"
+            size="icon"
+            className="border-background text-tabPrimary focus:outline-hidden my-0 h-9 w-9 rounded-full bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent disabled:bg-transparent"
+            onClick={() => {
+              const tempToken = originToken;
+              const prevOriginAmount = originAmount;
+              const prevTargetAmount = targetAmount;
+              setOriginAmount(0n);
+              setTargetAmount(0n);
+              setTimeout(() => {
+                setOriginToken(targetToken);
+                setTargetToken(tempToken);
+                setTimeout(() => {
+                  if (lastUpdated === TradeSide.IN) {
+                    setTargetAmount(prevOriginAmount);
+                    setOriginAmount(0n);
+                  } else {
+                    setOriginAmount(prevTargetAmount);
+                    setTargetAmount(0n);
+                  }
+                  onUserSwitchTokens?.(targetToken?.symbol, originToken?.symbol);
+                }, 500);
+              }, 500);
+            }}
+            disabled={switchDisabled}
+          >
+            <ShiftArrow height={24} className="text-textDesaturated" />
+          </Button>
+        </div>
+      )}
       <motion.div variants={positionAnimations} ref={bottomInputRef}>
         <TradeInput
           className="w-full"
           label={t`Choose a token to receive`}
-          variant="bottom"
+          variant={tokensLocked ? undefined : 'bottom'}
           token={targetToken as Token}
           balance={targetBalance?.value}
           onChange={onTargetInputChange}
@@ -200,6 +219,7 @@ export function L2TradeInputs({
           tokenList={targetList as Token[]}
           onTokenSelected={option => {
             setTargetToken(option as TokenForChain);
+            onTargetTokenChange?.(option as TokenForChain);
           }}
           showPercentageButtons={false}
           enabled={isConnectedAndEnabled}

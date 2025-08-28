@@ -64,10 +64,6 @@ dev-dist.gitsigners
 cache
 .eslintcache
 
-# E2e videos & screenshots
-apps/integration-ui/tests/e2e/videos/*
-apps/integration-ui/tests/e2e/screenshots/*
-
 # coverage results
 coverage
 
@@ -82,3 +78,7 @@ apps/*/stats.html
 tenderlyTestnetData.json
 apps/webapp/playwright-report
 apps/webapp/test-results
+
+# locales
+packages/utils/src/locales/*.po
+packages/utils/src/locales/*.ts

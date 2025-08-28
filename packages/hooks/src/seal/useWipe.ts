@@ -1,5 +1,5 @@
 import { useAccount, useChainId } from 'wagmi';
-import { SaWriteHookParams } from './sealModule';
+import { SaWriteHookParams, SaWriteHookReturnType } from './sealModule';
 import { encodeFunctionData } from 'viem';
 import { sealModuleAbi, sealModuleAddress } from '../generated';
 import { useWriteContractFlow } from '../shared/useWriteContractFlow';
@@ -9,13 +9,14 @@ export function useWipe({
   amount,
   index,
   enabled: activeTabEnabled = true,
+  onMutate = () => null,
   onStart = () => null,
   onError = () => null,
   onSuccess = () => null
 }: SaWriteHookParams & {
   amount: bigint | undefined;
   index: bigint;
-}) {
+}): SaWriteHookReturnType {
   const chainId = useChainId();
   const { isConnected, address } = useAccount();
 
@@ -29,6 +30,7 @@ export function useWipe({
     chainId,
     gas,
     enabled,
+    onMutate,
     onStart,
     onError,
     onSuccess

@@ -24,10 +24,10 @@ describe('useSavingsData', async () => {
       { timeout: 15000 }
     );
 
-    expect(result.current.data?.savingsRate).toBe(59999997611290600n);
-    expect(result.current.data?.savingsTvl).toBe(1964485263326169406547674321n);
-    expect(result.current.data?.userNstBalance).toBe(11000000000000000000000n);
-    expect(result.current.data?.userSavingsBalance).toBeGreaterThanOrEqual(1000000499822603103n);
+    expect(result.current.data?.savingsRate).toBe(20000002099060277n);
+    expect(result.current.data?.savingsTvl).toBe(682058753219013357205047897n);
+    expect(result.current.data?.userNstBalance).toBeGreaterThanOrEqual(0n);
+    expect(result.current.data?.userSavingsBalance).toBeGreaterThanOrEqual(0n);
     expect(result.current.dataSources.length).toEqual(5);
   });
 

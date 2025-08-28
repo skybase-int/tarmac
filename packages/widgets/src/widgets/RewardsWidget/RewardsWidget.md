@@ -5,13 +5,13 @@ The **Rewards Widget** is a React component that allows users to participate in 
 ## Installation
 
 ```shell
-npm install @jetstreamgg/widgets
+npm install @jetstreamgg/sky-widgets
 ```
 
 ## Example Usage
 
 ```jsx
-import { RewardsWidget } from '@jetstreamgg/widgets';
+import { RewardsWidget } from '@jetstreamgg/sky-widgets';
 
 function RewardsPage() {
   return (
@@ -39,7 +39,6 @@ function RewardsPage() {
 In addition to `WidgetProps`, `RewardsWidget` component also accepts the following props:
 
 - `onRewardContractChange?: (rewardContract?: RewardContract) => void;`
-
   - A callback function that is called when the selected reward contract changes. It receives the new reward contract as an argument.
 
 - `onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;`

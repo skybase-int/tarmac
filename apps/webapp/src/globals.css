@@ -16,7 +16,7 @@
 @import 'tailwindcss';
 
 /* This forces tailwind to scan imported components for classes  */
-@source "../node_modules/@jetstreamgg/widgets";
+@source "../node_modules/@jetstreamgg/sky-widgets";
 
 @plugin 'tailwindcss-animate';
 
@@ -84,11 +84,8 @@
   --background-image-primaryFocus: var(--primary-purple-40);
   --background-image-primaryTransparent: var(--service-purple-transparent);
   --background-image-app-background: URL('/images/background.png');
-  --background-image-sky-blue: URL('/images/sky-blue.png');
-  --background-image-sky-purple: URL('/images/sky-purple.png');
-  --background-image-sky-pink: URL('/images/sky-pink.png');
-  --background-image-sky-purplish-blue: URL('/images/sky-purplish-blue.png');
   --background-image-nav-light: var(--service-nav-light);
+  --background-image-nav-light-vertical: var(--service-nav-light-vertical);
 
   --radius-lg: 10px;
   --radius-md: 8px;
@@ -258,6 +255,12 @@
     --service-chart-red: linear-gradient(90deg, 0% rgba(255, 130, 129, 1), 100% rgba(255, 130, 129, 0));
     --service-nav-light: linear-gradient(
       90deg,
+      rgba(71, 34, 255, 0) 2.2%,
+      #9580ff 48.55%,
+      rgba(54, 13, 255, 0) 100%
+    );
+    --service-nav-light-vertical: linear-gradient(
+      180deg,
       rgba(71, 34, 255, 0) 2.2%,
       #9580ff 48.55%,
       rgba(54, 13, 255, 0) 100%

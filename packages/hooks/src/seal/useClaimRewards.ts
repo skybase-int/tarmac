@@ -1,5 +1,5 @@
 import { useAccount, useChainId } from 'wagmi';
-import { SaWriteHookParams } from './sealModule';
+import { SaWriteHookParams, SaWriteHookReturnType } from './sealModule';
 import { sealModuleAbi, sealModuleAddress } from '../generated';
 import { ZERO_ADDRESS } from '../constants';
 import { getSaGetRewardCalldata } from './calldata';
@@ -11,6 +11,7 @@ export function useClaimRewards({
   to,
   gas,
   enabled: activeTabEnabled = true,
+  onMutate = () => null,
   onStart = () => null,
   onError = () => null,
   onSuccess = () => null
@@ -18,7 +19,7 @@ export function useClaimRewards({
   index: bigint | undefined;
   rewardContract: `0x${string}` | undefined;
   to: `0x${string}` | undefined;
-}) {
+}): SaWriteHookReturnType {
   const chainId = useChainId();
   const { isConnected, address } = useAccount();
 
@@ -39,6 +40,7 @@ export function useClaimRewards({
     chainId,
     gas,
     enabled,
+    onMutate,
     onStart,
     onError,
     onSuccess

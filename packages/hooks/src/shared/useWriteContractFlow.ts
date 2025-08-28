@@ -7,32 +7,11 @@ import {
 } from 'wagmi';
 import { isRevertedError } from '../helpers';
 import { useEffect, useMemo } from 'react';
-import type { WriteHook } from '../hooks';
-import { type Abi, type ContractFunctionArgs, type ContractFunctionName } from 'viem';
 import { Config, ResolvedRegister } from '@wagmi/core';
 import { SAFE_CONNECTOR_ID } from './constants';
 import { useWaitForSafeTxHash } from './useWaitForSafeTxHash';
-
-type UseWriteContractFlowParameters<
-  abi extends Abi | readonly unknown[] = Abi,
-  functionName extends ContractFunctionName<abi, 'nonpayable' | 'payable'> = ContractFunctionName<
-    abi,
-    'nonpayable' | 'payable'
-  >,
-  args extends ContractFunctionArgs<abi, 'nonpayable' | 'payable', functionName> = ContractFunctionArgs<
-    abi,
-    'nonpayable' | 'payable',
-    functionName
-  >,
-  config extends Config = Config,
-  chainId extends config['chains'][number]['id'] | undefined = undefined
-> = UseSimulateContractParameters<abi, functionName, args, config, chainId> & {
-  enabled: boolean;
-  gcTime?: number;
-  onStart?: (hash: string) => void;
-  onSuccess?: (hash: string) => void;
-  onError?: (error: Error, hash: string) => void;
-};
+import type { UseWriteContractFlowParameters, WriteHook } from '../hooks';
+import type { Abi, ContractFunctionArgs, ContractFunctionName } from 'viem';
 
 export function useWriteContractFlow<
   const abi extends Abi | readonly unknown[],
@@ -44,6 +23,7 @@ export function useWriteContractFlow<
   const {
     enabled,
     gcTime,
+    onMutate = () => null,
     onSuccess = () => null,
     onError = () => null,
     onStart = () => null,
@@ -67,6 +47,7 @@ export function useWriteContractFlow<
     data: mutationHash
   } = useWriteContract({
     mutation: {
+      onMutate,
       onSuccess: (hash: `0x${string}`) => {
         if (onStart) {
           onStart(hash);
@@ -125,6 +106,14 @@ export function useWriteContractFlow<
     execute: () => {
       if (simulationData?.request) {
         writeContract(simulationData.request);
+      } else {
+        console.log(`ERROR: the contract interaction was triggered before the call was ready.
+          contract address: ${useSimulateContractParamters.address}
+          function name: ${useSimulateContractParamters.functionName}
+          function arguments: ${useSimulateContractParamters.args}
+          isSimulationLoading: ${isSimulationLoading}
+          simulationError: ${simulationError}
+          enabled: ${enabled}`);
       }
     },
     data: txHash,

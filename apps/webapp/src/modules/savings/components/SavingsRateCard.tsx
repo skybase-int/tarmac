@@ -1,9 +1,9 @@
 import { StatsCard } from '@/modules/ui/components/StatsCard';
 import { t } from '@lingui/core/macro';
 import { Text } from '@/modules/layout/components/Typography';
-import { useOverallSkyData } from '@jetstreamgg/hooks';
-import { formatDecimalPercentage } from '@jetstreamgg/utils';
-import { PopoverRateInfo } from '@/modules/ui/components/PopoverRateInfo';
+import { useOverallSkyData } from '@jetstreamgg/sky-hooks';
+import { formatDecimalPercentage } from '@jetstreamgg/sky-utils';
+import { PopoverRateInfo as PopoverInfo } from '@jetstreamgg/sky-widgets';
 
 export function SavingsRateCard(): React.ReactElement {
   const { data, isLoading, error } = useOverallSkyData();
@@ -16,7 +16,7 @@ export function SavingsRateCard(): React.ReactElement {
           <Text className="text-bullish" variant="large">
             {formatDecimalPercentage(parseFloat(data?.skySavingsRatecRate || '0'))}
           </Text>
-          <PopoverRateInfo type="ssr" />
+          <PopoverInfo type="ssr" />
         </div>
       }
       isLoading={isLoading}

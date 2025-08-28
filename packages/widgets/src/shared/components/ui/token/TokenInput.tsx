@@ -1,17 +1,18 @@
 import { MotionCard, MotionCardContent } from '@widgets/components/ui/card';
 import { Popover, PopoverAnchor, PopoverContent, PopoverPortal } from '@widgets/components/ui/popover';
 import { Input } from '@widgets/components/ui/input';
-import { getTokenDecimals, Token } from '@jetstreamgg/hooks';
+import { getTokenDecimals, Token } from '@jetstreamgg/sky-hooks';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Button } from '@widgets/components/ui/button';
 import { cn } from '@widgets/lib/utils';
 import { formatUnits, parseUnits } from 'viem';
-import { formatBigInt, truncateStringToFourDecimals } from '@jetstreamgg/utils';
+import { formatBigInt, truncateStringToFourDecimals } from '@jetstreamgg/sky-utils';
 import { HStack } from '../layout/HStack';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { VStack } from '../layout/VStack';
 import { createSvgCardMask } from '@widgets/lib/svgMask';
 import { Wallet } from '../../icons/Wallet';
+import { Gauge } from '../../icons/Gauge';
 import { tokenColors } from '@widgets/shared/constants';
 import { Trans } from '@lingui/react/macro';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -21,13 +22,18 @@ import { AnimationLabels } from '@widgets/shared/animation/constants';
 import { TokenListItem } from './TokenListItem';
 import { TokenSelector } from './TokenSelector';
 import { useChainId } from 'wagmi';
+import { Search } from '../../icons/Search';
+import { Close } from '../../icons/Close';
 
 export interface TokenInputProps {
   label?: string;
   placeholder?: string;
   token?: Token;
   onTokenSelected?: (token: Token) => void;
-  onChange: (val: bigint) => void;
+  onChange: (
+    val: bigint,
+    e?: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement>
+  ) => void;
   onInput?: () => void;
   tokenList: Token[];
   balance?: bigint;
@@ -44,8 +50,10 @@ export interface TokenInputProps {
   buttonsToShow?: number[];
   extraPadding?: boolean;
   enabled?: boolean;
-  gasBufferAmount?: bigint;
-  borrowLimitText?: string | undefined;
+  maxIntegerDigits?: number;
+  limitText?: string | undefined;
+  enableSearch?: boolean;
+  showGauge?: boolean;
 }
 
 export function TokenInput({
@@ -70,13 +78,16 @@ export function TokenInput({
   buttonsToShow = [25, 50, 100],
   extraPadding = false,
   enabled = true,
-  gasBufferAmount = 0n,
-  borrowLimitText
+  limitText,
+  maxIntegerDigits,
+  enableSearch = false,
+  showGauge = false
 }: TokenInputProps): React.ReactElement {
   const cardRef = React.useRef<HTMLDivElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
   const chainId = useChainId();
   const decimals = token ? getTokenDecimals(token, chainId) : 18;
   const color = useMemo(() => {
@@ -90,7 +101,10 @@ export function TokenInput({
   const [errorInvalidFormat, setErrorInvalidFormat] = useState(false);
   const shownError = errorInvalidFormat ? 'Invalid amount. Please enter a valid amount.' : error;
 
-  const updateValue = (val: `${number}`) => {
+  const updateValue = (
+    val: `${number}`,
+    event?: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement>
+  ) => {
     //prevent exponential notation
     if (val.includes('e')) return;
 
@@ -106,6 +120,20 @@ export function TokenInput({
       val = (partsComma[0] + ',' + partsComma[1].substring(0, decimals)) as `${number}`;
     }
 
+    // Prevent overflow by limiting integer part length
+    // ethers.js FixedNumber uses internal 128-bit precision for calculations.
+    // When multiplying two FixedNumbers (like in collateralValue = ink * price),
+    // we need to ensure the result doesn't overflow. Since both operands can have
+    // up to N digits, the result can have up to 2N digits internally.
+    // Using 38 total digits ensures safe multiplication: 38/2 = 19 digits per operand,
+    // which when squared (19^2 ≈ 10^38) stays well within 128-bit bounds (≈ 10^39).
+    const DEFAULT_MAX_TOTAL_DIGITS = 38;
+    const maxDigits = maxIntegerDigits ?? Math.max(DEFAULT_MAX_TOTAL_DIGITS - decimals, 1);
+    const integerPart = val.split(/[.,]/)[0];
+    if (integerPart.length > maxDigits) {
+      return; // Don't update if too many digits
+    }
+
     setInputValue(val);
 
     try {
@@ -118,11 +146,11 @@ export function TokenInput({
 
       setErrorInvalidFormat(false);
 
-      onChange(newValue);
+      onChange(newValue, event);
     } catch (e) {
       console.error('Error updating value: ', e);
       setErrorInvalidFormat(true);
-      onChange(0n);
+      onChange(0n, event);
       return;
     }
   };
@@ -174,14 +202,13 @@ export function TokenInput({
     const formattedValue = formatUnits(newValue, decimals);
 
     if (max) {
-      const maxValue = balance - gasBufferAmount > 0n ? balance - gasBufferAmount : 0n;
-      updateValue(formatUnits(maxValue, decimals) as `${number}`);
+      updateValue(formatUnits(balance, decimals) as `${number}`, e);
       if (typeof onSetMax === 'function') onSetMax(true);
     } else {
       // Truncate the string to two decimal places
       const truncatedValue = truncateStringToFourDecimals(formattedValue);
       // Update the value
-      updateValue(truncatedValue as `${number}`);
+      updateValue(truncatedValue as `${number}`, e);
       if (typeof onSetMax === 'function') onSetMax(false);
     }
   };
@@ -230,6 +257,17 @@ export function TokenInput({
     })} ${token.symbol.toUpperCase()}`;
   }, [balance, token, enabled]);
 
+  const filteredTokenList = useMemo(() => {
+    if (!enableSearch || !searchQuery) {
+      return tokenList;
+    }
+
+    const query = searchQuery.toLowerCase().replace(/\s/g, ''); // Remove all spaces from the query
+    return tokenList.filter(
+      token => token.name.toLowerCase().includes(query) || token.symbol.toLowerCase().includes(query)
+    );
+  }, [tokenList, searchQuery, enableSearch]);
+
   return (
     <Popover>
       <PopoverAnchor>
@@ -261,7 +299,7 @@ export function TokenInput({
                       className="hide-spin-button placeholder:text-white/30"
                       value={inputValue !== '00' ? inputValue : '0'}
                       onChange={e => {
-                        updateValue(e.target.value as `${number}`);
+                        updateValue(e.target.value as `${number}`, e);
                         if (typeof onSetMax === 'function') onSetMax(false);
                       }}
                       onInput={() => {
@@ -282,6 +320,8 @@ export function TokenInput({
                       error={shownError}
                       errorTooltip={errorTooltip}
                       data-testid={dataTestId}
+                      step={'any'}
+                      min={0}
                     />
                   </motion.div>
                   <motion.div variants={positionAnimations}>
@@ -291,16 +331,20 @@ export function TokenInput({
                         className={`text-selectActive ${'w-full'} items-center overflow-clip`}
                         title={balanceText}
                       >
-                        {(!borrowLimitText || !isConnectedAndEnabled) && (
+                        {limitText && isConnectedAndEnabled && showGauge ? (
+                          <div>
+                            <Gauge height={20} width={20} className="text-textDesaturated" />
+                          </div>
+                        ) : !limitText || !isConnectedAndEnabled ? (
                           <div>
                             <Wallet height={20} width={20} className="text-textDesaturated" />
                           </div>
-                        )}
+                        ) : null}
                         <Text
                           className="text-textDesaturated text-nowrap text-sm leading-none"
                           dataTestId={`${dataTestId}-balance`}
                         >
-                          {borrowLimitText && isConnectedAndEnabled ? borrowLimitText : balanceText}
+                          {limitText && isConnectedAndEnabled ? limitText : balanceText}
                         </Text>
                       </HStack>
                       {showPercentageButtons && (
@@ -340,7 +384,7 @@ export function TokenInput({
         <PopoverContent
           className="bg-container rounded-[20px] border-0 p-2 pr-0 pt-5 backdrop-blur-[50px]"
           sideOffset={4}
-          avoidCollisions={false}
+          avoidCollisions={true}
           style={{ width: `${width}px` }}
         >
           <VStack className="w-full space-y-2">
@@ -349,9 +393,37 @@ export function TokenInput({
                 <Trans>Select token</Trans>
               </Text>
             </motion.div>
-            {/* 185px is 3 rows of 60px */}
-            <VStack className="scrollbar-thin max-h-[185px] space-y-2 overflow-y-scroll">
-              {tokenList?.map((token, index) => (
+            {enableSearch && (
+              <motion.div variants={positionAnimations} className="px-2">
+                <HStack gap={2} className="bg-white/2 items-center rounded-xl p-3">
+                  <Search className="text-textSecondary h-4 w-4" />
+                  <div className="grow">
+                    <Input
+                      type="text"
+                      value={searchQuery}
+                      placeholder="Search tokens"
+                      className="placeholder:text-textSecondary h-5 text-sm leading-4 lg:text-sm lg:leading-4"
+                      containerClassName="border-none p-0"
+                      onChange={e => setSearchQuery(e.target.value)}
+                    />
+                  </div>
+                  {searchQuery && (
+                    <Close
+                      className="text-textSecondary h-4 w-4 cursor-pointer transition-colors hover:text-white"
+                      onClick={() => setSearchQuery('')}
+                    />
+                  )}
+                </HStack>
+              </motion.div>
+            )}
+            {/* 185px is 3 rows of 60px, adjust height when search is enabled */}
+            <VStack
+              className={cn(
+                'scrollbar-thin space-y-2 overflow-y-scroll',
+                enableSearch ? 'max-h-[125px]' : 'max-h-[185px]'
+              )}
+            >
+              {filteredTokenList?.map((token, index) => (
                 <TokenListItem
                   key={token.symbol}
                   token={token}
@@ -360,6 +432,11 @@ export function TokenInput({
                   enabled={enabled}
                 />
               ))}
+              {enableSearch && filteredTokenList.length === 0 && searchQuery && (
+                <Text className="text-textDesaturated px-5 py-4 text-center text-sm">
+                  No tokens found matching &quot;{searchQuery}&quot;
+                </Text>
+              )}
             </VStack>
           </VStack>
         </PopoverContent>

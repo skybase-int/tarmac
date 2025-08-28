@@ -36,13 +36,14 @@ Create a `.env` file in the root directory of the project. You can use the `.env
 - `VITE_RPC_PROVIDER_TENDERLY_BASE`: URL for the Tenderly Base RPC provider (used for testing and development)
 - `VITE_RPC_PROVIDER_ARBITRUM`: URL for the Arbitrum RPC provider
 - `VITE_RPC_PROVIDER_TENDERLY_ARBITRUM`: URL for the Tenderly Arbitrum RPC provider (used for testing and development)
+- `VITE_RPC_PROVIDER_OPTIMISM`: URL for the Optimism RPC provider
+- `VITE_RPC_PROVIDER_UNICHAIN`: URL for the Unichain provider
 - `VITE_TESTNET_CONFIG`: Boolean flag to determine network config to use, should be `false` in production
 - `VITE_AUTH_URL`: Base URL for the authentication service
 - `VITE_RESTRICTED_BUILD`: Boolean flag to enable certain restrictions
 - `VITE_RESTRICTED_BUILD_MICA`: Boolean flag to enable certain restrictions for MiCa compliance
 - `VITE_WALLETCONNECT_PROJECT_ID`: Project ID for WalletConnect integration
 - `VITE_SKIP_AUTH_CHECK`: Boolean flag to bypass authentication checks during development
-- `NPM_TOKEN`: Token for accessing private npm packages or registries
 - `TENDERLY_API_KEY`: API key for Tenderly (used for forking and managing virtual networks for testing)
 - `VITE_USE_MOCK_WALLET`: Boolean flag to enable the use of a mock wallet for testing purposes
 - `VITE_TERMS_ENDPOINT`: URL endpoint for submitting and checking terms acceptance
@@ -50,9 +51,21 @@ Create a `.env` file in the root directory of the project. You can use the `.env
 - `VITE_FOOTER_LINKS`: Array containing footer links with their URLs and names
 - `VITE_TERMS_MESSAGE_TO_SIGN`: Message that users need to sign to accept the terms and conditions
 - `VITE_TERMS_CHECKBOX_TEXT`: The text displayed next to the checkbox in the terms acceptance modal
+- `VITE_TERMS_MARKDOWN_FILE`: (Optional) Name of a custom terms markdown file in the `/src/content/` directory (e.g., `/src/content/custom-terms.md`). If not specified, uses the default `terms.md` file. This allows external teams to provide their own terms file that will be bundled into the application
+- `VITE_BATCH_TX_ENABLED`: Boolean flag to enable the use of EIP-7702 batch transactions in widgets
 - `VITE_ENV_NAME`: (Optional) Environment name (e.g., 'development', 'staging', 'production')
 - `VITE_CF_PAGES_COMMIT_SHA`: (Optional) Git commit hash of the current build
 - `VITE_REFERRAL_CODE`: (Optional) Referral code for the app
+- `VITE_CHATBOT_ENABLED`: If set to `'true`, enables the chatbot functionality
+- `VITE_CHATBOT_USE_TESTNET_NETWORK_NAME`: If set to `'true'` replaces network names for their testnet counterpart. Only in development or staging.
+- `VITE_ADVANCED_CHAT_ENABLED`: If set to `'true`, enables advanced chat features
+- `VITE_CHAT_SUGGESTIONS_ENABLED`: If set to `'true`, enables chat suggestions functionality, set to 'true' to enable
+- `VITE_CHATBOT_NAME`: The name of the chatbot
+- `VITE_CHATBOT_DOMAIN`: The base URL for the chatbot backend API
+- `VITE_CHATBOT_MAX_HISTORY`: Maximum number of previous messages to include in chat context.
+- `VITE_CHATBOT_MAX_MESSAGE_LENGTH`: Maximum character length for user input messages.
+- `VITE_CHATBOT_CF_ACCESS_CLIENT_ID`: (Optional) Cloudflare Access client ID for authentication headers in development/staging environments
+- `VITE_CHATBOT_CF_ACCESS_CLIENT_SECRET`: (Optional) Cloudflare Access client secret for authentication headers in development/staging environments
 
 ## Running the App
 
@@ -73,6 +86,14 @@ You can download the [Playwright VS Code](https://playwright.dev/docs/getting-st
 The VS code extension can also help with [generating tests](https://playwright.dev/docs/codegen).
 
 Note that when you try to initiate a transaction using this feature, the transaction will fail because the RPC interception has not been setup to add the gas parameter. You'll run into the same issue if you run `pnpm dev:mock`.
+
+### Running a single test
+
+In addition to the above, you can also run only a single e2e test by passing along an argument for the test file:
+
+`pnpm e2e upgrade.spec.ts`
+
+You will need to have the `TEST_CHAIN` env var set. You can set it locally by entering this command: `export TEST_CHAIN=mainnet`
 
 ## Building the App
 

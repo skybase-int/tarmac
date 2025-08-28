@@ -5,11 +5,11 @@ import { LinkedAction, useUserSuggestedActions } from '@/modules/ui/hooks/useUse
 import { Intent } from '@/lib/enums';
 import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
 import { useCallback, useMemo } from 'react';
-import { useAvailableTokenRewardContracts } from '@jetstreamgg/hooks';
+import { useAvailableTokenRewardContracts } from '@jetstreamgg/sky-hooks';
 import { useChainId } from 'wagmi';
-import { formatDecimalPercentage } from '@jetstreamgg/utils';
+import { formatDecimalPercentage, isL2ChainId } from '@jetstreamgg/sky-utils';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
-import { useOverallSkyData } from '@jetstreamgg/hooks';
+import { useOverallSkyData } from '@jetstreamgg/sky-hooks';
 
 export const usePrepareNotification = () => {
   const chainId = useChainId();
@@ -21,6 +21,7 @@ export const usePrepareNotification = () => {
   const isRewardsModule = widgetParam === IntentMapping[Intent.REWARDS_INTENT];
   const isUpgradeModule = widgetParam === IntentMapping[Intent.UPGRADE_INTENT];
   const isTradeModule = widgetParam === IntentMapping[Intent.TRADE_INTENT];
+  const isL2 = isL2ChainId(chainId);
   const { dismiss } = useToast();
   const navigate = useNavigate();
 
@@ -76,18 +77,29 @@ export const usePrepareNotification = () => {
   // After a trade, the user should be redirected to Upgrade and Get Rewards LA
   const tradeAction = useMemo(() => {
     if (isTradeModule) {
-      return data?.linkedActions.find(
-        action =>
-          action.intent === IntentMapping[Intent.UPGRADE_INTENT] &&
-          action.la === IntentMapping[Intent.REWARDS_INTENT]
+      return (
+        data?.linkedActions.find(
+          action =>
+            action.intent === IntentMapping[Intent.UPGRADE_INTENT] &&
+            action.la === IntentMapping[Intent.REWARDS_INTENT]
+        ) || data?.suggestedActions.find(action => action.intent === IntentMapping[Intent.REWARDS_INTENT])
       );
     }
   }, [data, isTradeModule]);
 
   // We don't send them to a single reward contract but to the overview page
-  const tradeUrl = useRetainedQueryParams(
-    isTradeModule && tradeAction ? tradeAction?.url?.replace(/&reward=0x[a-fA-F0-9]+/, '') : action?.url || ''
-  );
+  let tradeUrlValue = '';
+  if (isTradeModule) {
+    if (isL2) {
+      tradeUrlValue = `/?widget=${IntentMapping[Intent.SAVINGS_INTENT]}`;
+    } else {
+      tradeUrlValue = `/?widget=${IntentMapping[Intent.REWARDS_INTENT]}`;
+    }
+  } else {
+    tradeUrlValue = action?.url || '';
+  }
+
+  const tradeUrl = useRetainedQueryParams(tradeUrlValue);
 
   const navigateCallback = useCallback(() => {
     const targetUrl = isUpgradeModule ? upgradeUrl : isTradeModule ? tradeUrl : url;

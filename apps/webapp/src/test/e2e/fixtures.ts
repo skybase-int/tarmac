@@ -1,6 +1,6 @@
 import { test as playwrightTest, expect } from '@playwright/test';
-import { waitForVnetsReady } from './utils/waitForVnetsReady';
-import { evmRevert, evmSnapshot } from './utils/snapshotTestnet';
+import { waitForVnetReady } from './utils/waitForVnetsReady';
+import { evmRevert, evmSnapshot, SnapshotInfo } from './utils/snapshotTestnet';
 import { mockRpcCalls } from './mock-rpc-call';
 import { mockVpnCheck } from './mock-vpn-check';
 import { setErc20Balance, setEthBalance } from './utils/setBalance';
@@ -12,66 +12,132 @@ import {
   usdcL2Address,
   usdsAddress,
   usdsL2Address
-} from '@jetstreamgg/hooks';
+} from '@jetstreamgg/sky-hooks';
 import {
   TENDERLY_ARBITRUM_CHAIN_ID,
   TENDERLY_BASE_CHAIN_ID,
   TENDERLY_CHAIN_ID
 } from '@/data/wagmi/config/testTenderlyChain';
 import { NetworkName } from './utils/constants';
+import { getTestWalletAddress } from './utils/testWallets';
+import { optimism, unichain } from 'viem/chains';
 
 type WorkerFixture = {
-  snapshotIds: string[];
+  snapshotId: string | SnapshotInfo[];
 };
 
 type TestFixture = {
   autoTestFixture: void;
 };
 
-export const test = playwrightTest.extend<TestFixture, WorkerFixture>({
+const setupMainnetBalances = async (address: string) => {
+  await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '100', 18, NetworkName.mainnet, address);
+  await setErc20Balance(mcdDaiAddress[TENDERLY_CHAIN_ID], '100', 18, NetworkName.mainnet, address);
+  await setErc20Balance(mkrAddress[TENDERLY_CHAIN_ID], '10', 18, NetworkName.mainnet, address);
+  await setErc20Balance(skyAddress[TENDERLY_CHAIN_ID], '100000000', 18, NetworkName.mainnet, address);
+  await setErc20Balance(usdcAddress[TENDERLY_CHAIN_ID], '10', 6, NetworkName.mainnet, address);
+};
+
+const setupBaseBalances = async (address: string) => {
+  await setEthBalance('100', NetworkName.base, address);
+  await setErc20Balance(usdsL2Address[TENDERLY_BASE_CHAIN_ID], '100', 18, NetworkName.base, address);
+  await setErc20Balance(usdcL2Address[TENDERLY_BASE_CHAIN_ID], '100', 6, NetworkName.base, address);
+};
+
+const setupArbitrumBalances = async (address: string) => {
+  await setEthBalance('100', NetworkName.arbitrum, address);
+  await setErc20Balance(usdsL2Address[TENDERLY_ARBITRUM_CHAIN_ID], '100', 18, NetworkName.arbitrum, address);
+  await setErc20Balance(usdcL2Address[TENDERLY_ARBITRUM_CHAIN_ID], '100', 6, NetworkName.arbitrum, address);
+};
+
+const setupOptimismBalances = async (address: string) => {
+  await setEthBalance('100', NetworkName.optimism, address);
+  await setErc20Balance(usdsL2Address[optimism.id], '100', 18, NetworkName.optimism, address);
+  await setErc20Balance(usdcL2Address[optimism.id], '100', 6, NetworkName.optimism, address);
+};
+
+const setupUnichainBalances = async (address: string) => {
+  await setEthBalance('100', NetworkName.unichain, address);
+  await setErc20Balance(usdsL2Address[unichain.id], '100', 18, NetworkName.unichain, address);
+  await setErc20Balance(usdcL2Address[unichain.id], '100', 6, NetworkName.unichain, address);
+};
+
+const chainSetupFunctions: Record<string, (address: string) => Promise<void>> = {
+  [NetworkName.mainnet]: setupMainnetBalances,
+  [NetworkName.base]: setupBaseBalances,
+  [NetworkName.arbitrum]: setupArbitrumBalances,
+  [NetworkName.optimism]: setupOptimismBalances,
+  [NetworkName.unichain]: setupUnichainBalances
+};
+
+const ALL_CHAINS = Object.values(NetworkName);
+
+const test = playwrightTest.extend<TestFixture, WorkerFixture>({
   // One-time setup fixture. This will run once at the beginning of the worker and provide the EVM snapshotIds to the tests or to other fixtures
-  snapshotIds: [
+  snapshotId: [
     // eslint-disable-next-line no-empty-pattern
-    async ({}, use) => {
-      await waitForVnetsReady();
+    async ({}, use, workerInfo) => {
+      const isCI = !!process.env.CI;
+      const requiredChain = process.env.TEST_CHAIN;
+      const [primaryChain] = requiredChain?.split(',').map(chain => chain.trim()) || [];
 
-      // Fund address before taking the snapshot, so we can return to a point where the address already has the funds
-      await Promise.all([
-        // Mainnet funding
-        await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '100'),
-        await setErc20Balance(mcdDaiAddress[TENDERLY_CHAIN_ID], '100'),
-        await setErc20Balance(mkrAddress[TENDERLY_CHAIN_ID], '10'),
-        await setErc20Balance(skyAddress[TENDERLY_CHAIN_ID], '100000000'),
-        await setErc20Balance(usdcAddress[TENDERLY_CHAIN_ID], '10', 6),
-        // Base funding
-        await setEthBalance('100', NetworkName.base),
-        await setErc20Balance(usdsL2Address[TENDERLY_BASE_CHAIN_ID], '100', 18, NetworkName.base),
-        await setErc20Balance(usdcL2Address[TENDERLY_BASE_CHAIN_ID], '100', 6, NetworkName.base),
-        // Arbitrum funding
-        await setEthBalance('100', NetworkName.arbitrum),
-        await setErc20Balance(usdsL2Address[TENDERLY_ARBITRUM_CHAIN_ID], '100', 18, NetworkName.arbitrum),
-        await setErc20Balance(usdcL2Address[TENDERLY_ARBITRUM_CHAIN_ID], '100', 6, NetworkName.arbitrum)
-      ]);
+      if (isCI && !primaryChain) {
+        throw new Error('TEST_CHAIN environment variable must be set in CI');
+      }
 
-      const snapshotIds = await evmSnapshot();
+      const address = getTestWalletAddress(workerInfo.workerIndex);
 
-      await use(snapshotIds);
+      if (primaryChain) {
+        // CI environment: setup only the primary chain
+        if (!chainSetupFunctions[primaryChain]) {
+          throw new Error(`Unsupported chain for CI: ${primaryChain}`);
+        }
+        await waitForVnetReady(primaryChain as NetworkName);
+        await chainSetupFunctions[primaryChain](address);
+      } else {
+        // Local environment: setup all chains
+        await Promise.all(ALL_CHAINS.map(chain => waitForVnetReady(chain)));
+        await Promise.all(ALL_CHAINS.map(chain => chainSetupFunctions[chain](address)));
+      }
+
+      const snapshotId = await evmSnapshot(primaryChain);
+      await use(snapshotId);
     },
     { scope: 'worker', auto: true }
   ],
   // Auto fixture that will run for each test. By adding its code after the `use` call, we ensure that the fixture runs after the test
   autoTestFixture: [
-    async ({ snapshotIds }, use) => {
+    async ({ snapshotId }, use) => {
       await use();
 
-      // Restore the EVM snapshot after each test
-      const allRevertsSuccessful = await evmRevert(snapshotIds);
-      expect(allRevertsSuccessful).toBe(true);
+      // Restore the EVM snapshot for the current test's chain
+      if (typeof snapshotId === 'string') {
+        const requiredChain = process.env.TEST_CHAIN;
+        if (!requiredChain) {
+          throw new Error('TEST_CHAIN environment variable not set');
+        }
+
+        // Split the chain string and use the first chain as primary
+        const [primaryChain] = requiredChain.split(',').map(chain => chain.trim());
+        if (!primaryChain) {
+          throw new Error('No valid chain specified in TEST_CHAIN');
+        }
+        const revertSuccessful = await evmRevert(primaryChain, snapshotId);
+        expect(revertSuccessful).toBe(true);
+      } else {
+        const results = await Promise.all(snapshotId.map(info => evmRevert(info.chain, info.snapshotId)));
+        results.forEach(revertSuccessful => {
+          expect(revertSuccessful).toBe(true);
+        });
+      }
     },
     { scope: 'test', auto: true }
   ],
   // Mock routes before starting the test, and before the `beforeAll` calls
-  page: async ({ page }, use) => {
+  page: async ({ page }, use, workerInfo) => {
+    // Set worker index in the environment with VITE_ prefix
+    process.env.VITE_TEST_WORKER_INDEX = String(workerInfo.workerIndex);
+
     await page.route('https://virtual.**.rpc.tenderly.co/**', mockRpcCalls);
     await page.route('**/ip/status?ip=*', mockVpnCheck);
 
@@ -79,4 +145,4 @@ export const test = playwrightTest.extend<TestFixture, WorkerFixture>({
   }
 });
 
-export { expect };
+export { test, expect };

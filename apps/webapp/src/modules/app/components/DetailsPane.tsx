@@ -1,8 +1,9 @@
 import React, { useState, useEffect, forwardRef } from 'react';
-import { Intent } from '@/lib/enums';
+import { ExpertIntent, Intent } from '@/lib/enums';
 import { TradeDetails } from '@/modules/trade/components/TradeDetails';
 import { UpgradeDetails } from '@/modules/upgrade/components/UpgradeDetails';
 import { SavingsDetails } from '@/modules/savings/components/SavingsDetails';
+import { StUSDSDetails } from '@/modules/stusds/components/StUSDSDetails';
 import { RewardsDetailsPane } from '@/modules/rewards/components/RewardsDetailsPane';
 import { BalancesDetails } from '@/modules/balances/components/BalancesDetails';
 import { ConnectCard } from '@/modules/layout/components/ConnectCard';
@@ -13,6 +14,9 @@ import { AnimationLabels } from '@/modules/ui/animation/constants';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 import { FooterLinks } from '@/modules/layout/components/FooterLinks';
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
+import { StakeDetailsPane } from '@/modules/stake/components/StakeDetailsPane';
+import { ExpertDetailsPane } from '@/modules/expert/components/ExpertDetailsPane';
+import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { SealDetailsPane } from '@/modules/seal/components/SealDetailsPane';
 
 type DetailsPaneProps = {
@@ -22,7 +26,7 @@ type DetailsPaneProps = {
 // When using popLayout mode on AnimatePresence, any immediate child of AnimatePresence that's a custom component
 // must be wrapped in `forwardRef`, forwarding the provided ref to the motion component that is being animated.
 const MotionDetailsWrapper = forwardRef<
-  React.ElementRef<typeof motion.div>,
+  React.ComponentRef<typeof motion.div>,
   React.ComponentPropsWithoutRef<typeof motion.div>
 >((props, ref) => (
   <motion.div
@@ -38,16 +42,17 @@ const MotionDetailsWrapper = forwardRef<
 export const DetailsPane = ({ intent }: DetailsPaneProps) => {
   const defaultDetail = Intent.BALANCES_INTENT;
   const [intentState, setIntentState] = useState<Intent>(intent || defaultDetail);
-  const [keys, setKeys] = useState([0, 1, 2, 3, 4]);
+  const [keys, setKeys] = useState([0, 1, 2, 3, 4, 5, 6, 7]);
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
   const { bpi } = useBreakpointIndex();
+  const { selectedExpertOption } = useConfigContext();
 
   useEffect(() => {
     setIntentState(prevIntentState => {
       if (prevIntentState !== intent) {
         // By giving the keys a new value, we force the motion component to animate the new component in, even if it's
         // the same component as before. This prevents the component from being re-added before being removed
-        setKeys(prevKeys => prevKeys.map(key => key + 5));
+        setKeys(prevKeys => prevKeys.map(key => key + 8));
       }
 
       return intent || defaultDetail;
@@ -58,14 +63,16 @@ export const DetailsPane = ({ intent }: DetailsPaneProps) => {
     // The remaining padding in the right is added by the scrollbar
     // `details-pane` class is used by the AppContainer component to make the container full width if the details pane is visible
     <motion.div
-      className="scrollbar-thin details-pane bg-panel flex w-full flex-col gap-4 p-3 md:overflow-auto md:rounded-3xl md:p-6 md:pr-3.5 xl:p-8 xl:pr-[22px]"
+      className="scrollbar-thin details-pane bg-panel flex w-full flex-col gap-4 p-3 group-has-[.chat-pane]:w-[calc(100%-764px)] md:overflow-auto md:rounded-3xl md:p-6 md:pr-3.5 xl:p-8 xl:pr-[22px]"
       layout
       key="details-pane"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ layout: { duration: 0 }, opacity: { duration: 0.5, ease: easeOutExpo } }}
     >
-      {!isConnectedAndAcceptedTerms && <ConnectCard intent={intent} />}
+      {intentState !== Intent.BALANCES_INTENT && !isConnectedAndAcceptedTerms && (
+        <ConnectCard intent={intent} />
+      )}
       <AnimatePresence mode="popLayout">
         {(() => {
           switch (intentState) {
@@ -93,16 +100,38 @@ export const DetailsPane = ({ intent }: DetailsPaneProps) => {
                   <SavingsDetails />
                 </MotionDetailsWrapper>
               );
+            case Intent.STAKE_INTENT:
+              return (
+                <MotionDetailsWrapper key={keys[4]}>
+                  <StakeDetailsPane />
+                </MotionDetailsWrapper>
+              );
+            case Intent.EXPERT_INTENT:
+              // Switch for the multiple expert options
+              switch (selectedExpertOption) {
+                case ExpertIntent.STUSDS_INTENT:
+                  return (
+                    <MotionDetailsWrapper key={keys[5]}>
+                      <StUSDSDetails />
+                    </MotionDetailsWrapper>
+                  );
+                default:
+                  return (
+                    <MotionDetailsWrapper key={keys[6]}>
+                      <ExpertDetailsPane />
+                    </MotionDetailsWrapper>
+                  );
+              }
             case Intent.SEAL_INTENT:
               return (
-                <MotionDetailsWrapper key={keys[3]}>
+                <MotionDetailsWrapper key={keys[7]}>
                   <SealDetailsPane />
                 </MotionDetailsWrapper>
               );
             case Intent.BALANCES_INTENT:
             default:
               return (
-                <MotionDetailsWrapper key={keys[4]}>
+                <MotionDetailsWrapper key={keys[8]}>
                   <BalancesDetails />
                 </MotionDetailsWrapper>
               );

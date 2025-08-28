@@ -10,8 +10,8 @@ import {
   useDelegateName,
   useSaRewardContracts,
   useDelegateOwner
-} from '@jetstreamgg/hooks';
-import { captitalizeFirstLetter, formatBigInt, formatPercent, math } from '@jetstreamgg/utils';
+} from '@jetstreamgg/sky-hooks';
+import { capitalizeFirstLetter, formatBigInt, formatPercent } from '@jetstreamgg/sky-utils';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { getRiskTextColor } from '../lib/utils';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
@@ -21,8 +21,8 @@ import { JazziconComponent } from './Jazzicon';
 import { TextWithTooltip } from '@widgets/shared/components/ui/tooltip/TextWithTooltip';
 import { PositionDetailAccordion } from './PositionDetailsAccordion';
 import { ClaimRewardsButton } from './ClaimRewardsButton';
-import { useContext } from 'react';
-import { SealModuleWidgetContext } from '../context/context';
+// Removed unused imports: useContext, SealModuleWidgetContext
+import { getTooltipById } from '../../../data/tooltips';
 
 type Props = {
   collateralizationRatio?: bigint;
@@ -64,7 +64,7 @@ export function PositionDetail({
   const { data: selectedDelegateName } = useDelegateName(selectedVoteDelegate);
   const { data: selectedDelegateOwner } = useDelegateOwner(selectedVoteDelegate);
   const { data: sealRewardContracts } = useSaRewardContracts();
-  const { displayToken, setDisplayToken } = useContext(SealModuleWidgetContext);
+  // Removed displayToken usage - now always using MKR
 
   const riskTextColor = getRiskTextColor(riskLevel as RiskLevel);
 
@@ -94,8 +94,8 @@ export function PositionDetail({
           {collateralizationRatio !== undefined && collateralizationRatio !== 0n && (
             <VStack gap={3}>
               <TextWithTooltip
-                text="Collateralization ratio"
-                tooltip="The ratio between the value of collateral you’ve provided and the amount you’ve borrowed against that collateral."
+                text={getTooltipById('collateralization-ratio-seal')?.title || 'Collateralization ratio'}
+                tooltip={getTooltipById('collateralization-ratio-seal')?.tooltip || ''}
                 contentClassname="w-[400px]"
                 textClassName="leading-4"
                 gap={1}
@@ -108,14 +108,7 @@ export function PositionDetail({
             <Text variant="medium" className="text-textSecondary leading-4">
               Sealed
             </Text>
-            <TokenIconWithBalance
-              token={displayToken}
-              balance={formatBigInt(
-                displayToken === TOKENS.mkr
-                  ? sealedAmount || 0n
-                  : math.calculateConversion(TOKENS.mkr, sealedAmount || 0n)
-              )}
-            />
+            <TokenIconWithBalance token={TOKENS.mkr} balance={formatBigInt(sealedAmount || 0n)} />
           </VStack>
           {rewardContractTokens && (
             <VStack gap={3}>
@@ -134,8 +127,8 @@ export function PositionDetail({
           {!!riskLevel && borrowedAmount !== undefined && borrowedAmount > 0n && (
             <VStack gap={3}>
               <TextWithTooltip
-                text="Risk level"
-                tooltip="Risk level indicates the likelihood of your collateral being liquidated. This is primarily determined by your Loan-to-Value (LTV) ratio, which represents the amount you've borrowed compared to the value of your crypto collateral. A high risk level means your collateral is close to the liquidation price threshold, and most vulnerable to market changes. A medium risk level means you have a reasonable balance between borrowing power and a safety buffer. A low risk level means you have a comparatively wider safety next against price fluctuations."
+                text={getTooltipById('risk-level-seal')?.title || 'Risk level'}
+                tooltip={getTooltipById('risk-level-seal')?.tooltip || ''}
                 textClassName="leading-4"
                 contentClassname="w-[400px]"
                 gap={1}
@@ -144,7 +137,7 @@ export function PositionDetail({
               {liquidationData?.isInLiquidatedState ? (
                 <Text className={'text-error text-right text-sm'}>Liquidated</Text>
               ) : (
-                <Text className={`${riskTextColor}`}>{captitalizeFirstLetter(riskLevel.toLowerCase())}</Text>
+                <Text className={`${riskTextColor}`}>{capitalizeFirstLetter(riskLevel.toLowerCase())}</Text>
               )}
             </VStack>
           )}
@@ -171,8 +164,6 @@ export function PositionDetail({
         </VStack>
       </HStack>
       <PositionDetailAccordion
-        displayToken={displayToken}
-        setDisplayToken={setDisplayToken}
         collateralizationRatio={collateralizationRatio}
         riskLevel={riskLevel}
         sealedAmount={sealedAmount}

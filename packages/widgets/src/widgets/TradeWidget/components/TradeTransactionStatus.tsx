@@ -1,8 +1,15 @@
 import { useContext, useEffect } from 'react';
 import { useLingui } from '@lingui/react';
 import { t } from '@lingui/core/macro';
-import { getTokenDecimals, OrderQuoteResponse, Token } from '@jetstreamgg/hooks';
-import { WAD_PRECISION, formatBigInt, ExplorerName, getExplorerName, isL2ChainId } from '@jetstreamgg/utils';
+import { getTokenDecimals, OrderQuoteResponse, Token } from '@jetstreamgg/sky-hooks';
+import {
+  WAD_PRECISION,
+  formatBigInt,
+  ExplorerName,
+  getExplorerName,
+  isL2ChainId,
+  useIsSafeWallet
+} from '@jetstreamgg/sky-utils';
 import { TxCardCopyText } from '@widgets/shared/types/txCardCopyText';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { TransactionStatus } from '@widgets/shared/components/ui/transaction/TransactionStatus';
@@ -22,9 +29,10 @@ import {
   tradeDescription,
   tradeLoadingButtonText,
   tradeSubtitle,
-  tradeTitle
+  tradeTitle,
+  tradeApproveLoadingButtonText
 } from '../lib/constants';
-import { TxStatus, approveLoadingButtonText } from '@widgets/shared/constants';
+import { TxStatus } from '@widgets/shared/constants';
 import { formatUnits } from 'viem';
 import { EthTxCardCopyText } from '../lib/types';
 import { useChainId } from 'wagmi';
@@ -53,6 +61,7 @@ export const TradeTransactionStatus = ({
 }) => {
   const { i18n } = useLingui();
   const chainId = useChainId();
+  const isSafeWallet = useIsSafeWallet();
   const {
     setTxTitle,
     setTxSubtitle,
@@ -95,7 +104,7 @@ export const TradeTransactionStatus = ({
       : undefined;
 
   const isL2 = isL2ChainId(chainId);
-  const chainExplorerName = getExplorerName(chainId);
+  const chainExplorerName = getExplorerName(chainId, isSafeWallet);
 
   useEffect(() => {
     setOriginToken(originToken);
@@ -131,7 +140,17 @@ export const TradeTransactionStatus = ({
       if (flow === TradeFlow.TRADE) setStepTwoTitle(t`Trade`);
       if (flow === TradeFlow.TRADE && action === TradeAction.APPROVE && screen === TradeScreen.TRANSACTION) {
         setStep(1);
-        setLoadingText(i18n._(approveLoadingButtonText[txStatus as keyof TxCardCopyText]));
+        setLoadingText(
+          i18n._(
+            tradeApproveLoadingButtonText({
+              txStatus,
+              amount: formatBigInt(originAmount, {
+                unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+              }),
+              symbol: originToken.symbol
+            })
+          )
+        );
         setTxTitle(i18n._(tradeApproveTitle[txStatus as keyof TxCardCopyText]));
         setTxSubtitle(i18n._(tradeApproveSubtitle(txStatus, originToken.symbol)));
         setTxDescription(

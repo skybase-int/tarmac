@@ -1,6 +1,8 @@
-export const TEST_ADDRESS = '0xFebC63589D8a3bc5CD97E86C174A836c9caa6DEe';
+export const TEST_ADDRESS = '0xc45806d20044407f33ef0d0885991c738639e5b3';
 export enum NetworkName {
   mainnet = 'mainnet',
   base = 'base',
-  arbitrum = 'arbitrum'
+  arbitrum = 'arbitrum',
+  unichain = 'unichain',
+  optimism = 'optimism'
 }

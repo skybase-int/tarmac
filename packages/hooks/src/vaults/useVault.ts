@@ -3,7 +3,7 @@ import { useChainId } from 'wagmi';
 import { ReadHook } from '../hooks';
 import { Vault, VaultRaw } from './vault';
 import { calculateVaultInfo, rawVaultInfo } from './calculateVaultInfo';
-import { getEtherscanLink } from '@jetstreamgg/utils';
+import { getEtherscanLink } from '@jetstreamgg/sky-utils';
 import { TRUST_LEVELS } from '../constants';
 import { stringToHex } from 'viem';
 import { SupportedCollateralTypes } from './vaults.constants';
@@ -19,7 +19,7 @@ export function useVault(
   // MCD Vat
   // We get the collateral and debt from the MCD Vat contract
 
-  const ilkName = ilkNameParam || getIlkName(chainId);
+  const ilkName = ilkNameParam || getIlkName(1);
   const ilkHex = stringToHex(ilkName, { size: 32 });
 
   const mcdVatSource = {

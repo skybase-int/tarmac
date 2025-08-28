@@ -4,7 +4,7 @@ import { TradeSide } from '../lib/constants';
 import { ShiftArrow } from '@widgets/shared/components/icons/Icons';
 import { TradeDetails } from './TradeDetails';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { OrderQuoteResponse, Token, tokenArrayFiltered, TokenForChain } from '@jetstreamgg/hooks';
+import { OrderQuoteResponse, Token, tokenArrayFiltered, TokenForChain } from '@jetstreamgg/sky-hooks';
 import { TokenInput, TokenInputProps } from '@widgets/shared/components/ui/token/TokenInput';
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { Text } from '@widgets/shared/components/ui/Typography';
@@ -44,6 +44,11 @@ type TradeInputsProps = {
   onUserSwitchTokens?: (originToken?: string, targetToken?: string) => void;
   tradeAnyway: boolean;
   setTradeAnyway: (tradeAnyway: boolean) => void;
+  onOriginTokenChange?: (token: TokenForChain) => void;
+  onTargetTokenChange?: (token: TokenForChain) => void;
+  onOriginInputChange?: (val: bigint, userTriggered?: boolean) => void;
+  enableSearch?: boolean;
+  tokensLocked?: boolean;
 };
 
 export function TradeInput(props: TokenInputProps) {
@@ -78,11 +83,15 @@ export function TradeInputs({
   isConnectedAndEnabled = true,
   onUserSwitchTokens,
   tradeAnyway,
-  setTradeAnyway
+  setTradeAnyway,
+  onOriginTokenChange,
+  onTargetTokenChange,
+  onOriginInputChange,
+  enableSearch = false,
+  tokensLocked = false
 }: TradeInputsProps) {
   const separationPx = 12;
   const separationMb = 'mb-[12px]';
-  const [max, setMax] = useState(false);
   const topInputRef = useRef<HTMLDivElement>(null);
   const bottomInputRef = useRef<HTMLDivElement>(null);
   const [switchPosition, setSwitchPosition] = useState<{ top: string; left: string }>({
@@ -168,10 +177,6 @@ export function TradeInputs({
 
   const switchDisabled = !canSwitchTokens || isQuoteLoading || !enoughTimePassed;
 
-  const GAS_BUFFER = 10000000000000000n; // 0.01 ETH
-  const notEnoughEthForGas =
-    max && originToken?.symbol === 'ETH' && originBalance?.value && originBalance?.value <= GAS_BUFFER;
-
   return (
     <VStack className="relative h-auto items-stretch" gap={0}>
       <motion.div variants={positionAnimations} ref={topInputRef}>
@@ -180,9 +185,10 @@ export function TradeInputs({
           label={t`Choose a token to trade, and enter an amount`}
           token={originToken as Token}
           balance={originBalance?.value}
-          onChange={newValue => {
+          onChange={(newValue, event) => {
             setLastUpdated(TradeSide.IN);
             setOriginAmount(BigInt(newValue));
+            onOriginInputChange?.(BigInt(newValue), !!event);
           }}
           value={originAmount}
           dataTestId="trade-input-origin"
@@ -199,59 +205,55 @@ export function TradeInputs({
             }
 
             setOriginToken(option as TokenForChain);
+            onOriginTokenChange?.(option as TokenForChain);
           }}
-          error={
-            isBalanceError
-              ? t`Insufficient funds`
-              : notEnoughEthForGas
-                ? t`A minimum 0.01 ETH is needed to cover transaction costs. Actual gas fees may be lower.`
-                : undefined
-          }
-          variant="top"
-          extraPadding={true}
+          error={isBalanceError ? t`Insufficient funds` : undefined}
+          variant={tokensLocked ? undefined : 'top'}
+          extraPadding={!tokensLocked}
           showPercentageButtons={isConnectedAndEnabled}
           enabled={isConnectedAndEnabled}
-          gasBufferAmount={originToken?.symbol === 'ETH' ? GAS_BUFFER : 0n}
-          onSetMax={setMax}
+          enableSearch={enableSearch}
         />
       </motion.div>
-      <div
-        className="flex justify-center"
-        style={{
-          position: 'absolute',
-          zIndex: 10,
-          left: switchPosition.left,
-          top: switchPosition.top,
-          transform: 'translate(-50%, -50%)',
-          visibility: isSwitchVisible ? 'visible' : 'hidden',
-          cursor: switchDisabled ? 'not-allowed' : 'pointer'
-        }}
-      >
-        <Button
-          aria-label="Switch token inputs"
-          size="icon"
-          className="border-background text-tabPrimary focus:outline-hidden my-0 h-9 w-9 rounded-full bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent disabled:bg-transparent"
-          onClick={() => {
-            setLastSwitchTimestamp(Date.now());
-            const auxOriginAmount = originAmount;
-            const auxOriginToken = originToken;
-            setLastUpdated(TradeSide.OUT);
-            setOriginToken(targetToken);
-            setTargetToken(auxOriginToken);
-            setOriginAmount(0n);
-            setTargetAmount(auxOriginAmount);
-            onUserSwitchTokens?.(targetToken?.symbol, auxOriginToken?.symbol);
+      {!tokensLocked && (
+        <div
+          className="flex justify-center"
+          style={{
+            position: 'absolute',
+            zIndex: 10,
+            left: switchPosition.left,
+            top: switchPosition.top,
+            transform: 'translate(-50%, -50%)',
+            visibility: isSwitchVisible ? 'visible' : 'hidden',
+            cursor: switchDisabled ? 'not-allowed' : 'pointer'
           }}
-          disabled={switchDisabled}
         >
-          <ShiftArrow height={24} className="text-textDesaturated" />
-        </Button>
-      </div>
+          <Button
+            aria-label="Switch token inputs"
+            size="icon"
+            className="border-background text-tabPrimary focus:outline-hidden my-0 h-9 w-9 rounded-full bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent disabled:bg-transparent"
+            onClick={() => {
+              setLastSwitchTimestamp(Date.now());
+              const auxOriginAmount = originAmount;
+              const auxOriginToken = originToken;
+              setLastUpdated(TradeSide.OUT);
+              setOriginToken(targetToken);
+              setTargetToken(auxOriginToken);
+              setOriginAmount(0n);
+              setTargetAmount(auxOriginAmount);
+              onUserSwitchTokens?.(targetToken?.symbol, auxOriginToken?.symbol);
+            }}
+            disabled={switchDisabled}
+          >
+            <ShiftArrow height={24} className="text-textDesaturated" />
+          </Button>
+        </div>
+      )}
       <motion.div variants={positionAnimations} ref={bottomInputRef}>
         <TradeInput
           className="w-full"
           label={t`Choose a token to receive`}
-          variant="bottom"
+          variant={tokensLocked ? undefined : 'bottom'}
           token={targetToken as Token}
           balance={targetBalance?.value}
           onChange={newValue => {
@@ -264,10 +266,12 @@ export function TradeInputs({
           onTokenSelected={option => {
             setTargetAmount(0n);
             setTargetToken(option as TokenForChain);
+            onTargetTokenChange?.(option as TokenForChain);
           }}
           showPercentageButtons={false}
           enabled={isConnectedAndEnabled}
           inputDisabled={originToken?.isNative}
+          enableSearch={enableSearch}
         />
       </motion.div>
       {quoteError && (

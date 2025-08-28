@@ -1,17 +1,17 @@
 {
-  "name": "@jetstreamgg/hooks",
-  "version": "3.3.2",
+  "name": "@jetstreamgg/sky-hooks",
+  "version": "1.1.0",
   "description": "",
   "type": "module",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
-  "main": "./dist/jetstream-gg-hooks.js",
+  "main": "./dist/jetstream-gg-sky-hooks.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "default": "./dist/jetstream-gg-hooks.js"
+      "default": "./dist/jetstream-gg-sky-hooks.js"
     }
   },
   "scripts": {
@@ -23,38 +23,39 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit",
-    "generate": "wagmi generate"
+    "generate": "wagmi generate",
+    "generate:retry": "node generate-with-retry.js"
   },
   "sideEffects": false,
   "peerDependencies": {
-    "@tanstack/react-query": "^5.67.1",
-    "@wagmi/core": "^2.16.4",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "viem": "^2.23.5",
-    "wagmi": "^2.14.12"
+    "@tanstack/react-query": "^5.84.1",
+    "@wagmi/core": "^2.18.1",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "viem": "^2.33.2",
+    "wagmi": "^2.16.1"
   },
   "dependencies": {
-    "@jetstreamgg/utils": "workspace:^",
-    "graphql": "^16.10.0",
-    "graphql-request": "^5.1.0"
+    "@jetstreamgg/sky-utils": "workspace:^",
+    "graphql": "^16.11.0",
+    "graphql-request": "^7.2.0"
   },
   "devDependencies": {
-    "@tanstack/react-query": "^5.67.1",
-    "@testing-library/dom": "^10.4.0",
-    "@testing-library/react": "^16.2.0",
-    "@types/react": "^19.0.10",
-    "@types/react-dom": "^19.0.4",
-    "@vitest/coverage-v8": "^3.0.7",
-    "@wagmi/cli": "^2.2.0",
-    "openapi-fetch": "^0.13.4",
-    "react-dom": "^19.0.0",
-    "typescript": "5.8.2",
-    "viem": "^2.23.5",
-    "vite": "^6.2.0",
-    "vite-plugin-dts": "^4.5.3",
-    "vitest": "^3.0.7",
-    "wagmi": "^2.14.12"
+    "@tanstack/react-query": "^5.84.1",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/react": "^16.3.0",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
+    "@vitest/coverage-v8": "^3.2.4",
+    "@wagmi/cli": "^2.3.2",
+    "openapi-fetch": "^0.14.0",
+    "react-dom": "^19.1.1",
+    "typescript": "5.9.2",
+    "viem": "^2.33.2",
+    "vite": "^6.3.5",
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^3.2.4",
+    "wagmi": "^2.16.1"
   },
   "keywords": [
     "react",
@@ -63,5 +64,12 @@
     "sky ecosystem"
   ],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jetstreamgg/tarmac"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }

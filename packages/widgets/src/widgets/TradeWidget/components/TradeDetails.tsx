@@ -1,7 +1,7 @@
 import { t } from '@lingui/core/macro';
-import { getTokenDecimals, OrderQuoteResponse, TokenForChain } from '@jetstreamgg/hooks';
+import { getTokenDecimals, OrderQuoteResponse, TokenForChain } from '@jetstreamgg/sky-hooks';
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
-import { formatNumber } from '@jetstreamgg/utils';
+import { formatNumber } from '@jetstreamgg/sky-utils';
 import { formatUnits } from 'viem';
 import { useChainId } from 'wagmi';
 
@@ -88,7 +88,7 @@ export function TradeDetails({
 
   return (
     <TransactionOverview
-      title={t`Trade details`}
+      title={t`Transaction overview`}
       isFetching={isQuoteLoading}
       fetchingMessage={t`Fetching price`}
       transactionData={transactionData}

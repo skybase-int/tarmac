@@ -11,7 +11,7 @@ import {
   useUrnSelectedVoteDelegate,
   useVault,
   SealHistoryKick
-} from '@jetstreamgg/hooks';
+} from '@jetstreamgg/sky-hooks';
 import { SealModuleWidgetContext } from '../context/context';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { SealAction, SealStep } from '../lib/constants';
@@ -20,7 +20,7 @@ import { formatUrnIndex } from '../lib/utils';
 import { PositionDetail } from './PositionDetail';
 import { Button } from '@widgets/components/ui/button';
 import { Edit } from '@widgets/shared/components/icons/Edit';
-import { OnSealUrnChange } from '..';
+import { OnSealUrnChange } from '../lib/types';
 import { fromHex, trim } from 'viem';
 
 interface UrnPositionProps {
@@ -45,15 +45,8 @@ export const UrnPosition: React.FC<UrnPositionProps> = ({
 
   const { setWidgetState } = useContext(WidgetContext);
 
-  const {
-    setSelectedRewardContract,
-    setSelectedDelegate,
-    setActiveUrn,
-    setCurrentStep,
-    setAcceptedExitFee,
-    setSelectedToken,
-    displayToken
-  } = useContext(SealModuleWidgetContext);
+  const { setSelectedRewardContract, setSelectedDelegate, setActiveUrn, setCurrentStep, setAcceptedExitFee } =
+    useContext(SealModuleWidgetContext);
 
   const { data: urnHistory } = useSealHistory();
   const { data: urnPosition } = useSealPosition({ urnIndex: Number(index) });
@@ -83,12 +76,12 @@ export const UrnPosition: React.FC<UrnPositionProps> = ({
   };
 
   const handleOnClick = useCallback(() => {
-    if (vaultData?.collateralAmount && urnSelectedRewardContract) {
+    if (urnAddress && urnAddress !== ZERO_ADDRESS && urnSelectedRewardContract) {
       setSelectedRewardContract(urnSelectedRewardContract);
     } else {
       setSelectedRewardContract(undefined);
     }
-    if (vaultData?.collateralAmount && urnSelectedVoteDelegate) {
+    if (urnAddress && urnAddress !== ZERO_ADDRESS && urnSelectedVoteDelegate) {
       setSelectedDelegate(urnSelectedVoteDelegate);
     } else {
       setSelectedDelegate(undefined);
@@ -100,16 +93,17 @@ export const UrnPosition: React.FC<UrnPositionProps> = ({
     setActiveUrn({ urnAddress, urnIndex: index }, onSealUrnChange ?? (() => {}));
     setCurrentStep(SealStep.OPEN_BORROW);
     setAcceptedExitFee(false);
-    setSelectedToken(displayToken);
-  }, [urnAddress, index, vaultData, urnSelectedVoteDelegate, urnSelectedRewardContract, displayToken]);
+  }, [urnAddress, index, vaultData, urnSelectedVoteDelegate, urnSelectedRewardContract]);
 
   return (
     <Card>
       <div className="flex items-center justify-between">
         <Text className="text-sm leading-4">{`Position ${formatUrnIndex(index)}`}</Text>
-        <Button variant="ghost" onClick={handleOnClick} className="h-fit px-0 py-1.5">
-          Manage position <Edit className="ml-[5px]" />
-        </Button>
+        {!!vaultData?.collateralAmount && (
+          <Button variant="ghost" onClick={handleOnClick} className="h-fit px-0 py-1.5">
+            Manage Seal position <Edit className="ml-[5px]" />
+          </Button>
+        )}
       </div>
       <PositionDetail
         collateralizationRatio={vaultData?.collateralizationRatio}

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { HStack } from '@/modules/layout/components/HStack';
 import { Text } from '@/modules/layout/components/Typography';
 import { VStack } from '@/modules/layout/components/VStack';
@@ -10,8 +11,8 @@ import {
   useRewardsChartInfo,
   useSaRewardContracts,
   useSealHistoricData
-} from '@jetstreamgg/hooks';
-import { formatAddress, formatNumber } from '@jetstreamgg/utils';
+} from '@jetstreamgg/sky-hooks';
+import { formatAddress, formatNumber } from '@jetstreamgg/sky-utils';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { useMemo } from 'react';
@@ -112,7 +113,7 @@ export function SealRewardsOverview() {
       error={error}
       errorComponent={
         <Text variant="large" className="text-text text-center">
-          <Trans>We couldn&amp;t load the Seal module rewards. Please try again later.</Trans>
+          <Trans>We couldn't load the Seal module rewards. Please try again later.</Trans>
         </Text>
       }
     >

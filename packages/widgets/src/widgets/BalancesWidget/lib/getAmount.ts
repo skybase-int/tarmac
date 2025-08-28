@@ -1,7 +1,7 @@
-import { CombinedHistoryItem, ModuleEnum, Token, TransactionTypeEnum } from '@jetstreamgg/hooks';
-import { formatBigInt } from '@jetstreamgg/utils';
+import { CombinedHistoryItem, ModuleEnum, Token, TransactionTypeEnum } from '@jetstreamgg/sky-hooks';
+import { formatBigInt } from '@jetstreamgg/sky-utils';
 import { absBigInt } from './absBigInt';
-import { getTokenDecimals } from '@jetstreamgg/hooks';
+import { getTokenDecimals } from '@jetstreamgg/sky-hooks';
 
 // TODO this needs to be standardized across modules so that amount is the same property name on each module
 export const getAmount = ({
@@ -31,10 +31,12 @@ export const getAmount = ({
       break;
     case ModuleEnum.REWARDS:
     case ModuleEnum.SEAL:
+    case ModuleEnum.STAKE:
       return [TransactionTypeEnum.SELECT_DELEGATE, TransactionTypeEnum.SELECT_REWARD].includes(type)
         ? ''
         : formatBigInt(absBigInt('amount' in item ? item.amount : 0n), { compact: true });
     case ModuleEnum.SAVINGS:
+    case ModuleEnum.STUSDS:
       return formatBigInt(absBigInt('assets' in item ? item.assets : 0n), {
         compact: true,
         unit: 'token' in item ? getTokenDecimals(item.token, chainId) : 18

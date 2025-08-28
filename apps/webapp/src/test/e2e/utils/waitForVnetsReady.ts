@@ -1,35 +1,32 @@
 import { readFile } from 'fs/promises';
-import { backOffRetry } from './setBalance';
+import path from 'path';
 
-const waitForVnetsReadyRequest = async () => {
-  const file = await readFile('../../tenderlyTestnetData.json', 'utf-8');
-  const testnetsData = JSON.parse(file);
+// This function waits for a single vnet
+export const waitForVnetReady = async (chain: string) => {
+  const filePath = path.resolve('../../tenderlyTestnetData.json');
+  const file = await readFile(filePath, 'utf-8');
+  const data = JSON.parse(file);
 
-  // We send an `eth_blockNumber` request to the RPC endpoints to "ping" them
-  const responses = await Promise.all(
-    testnetsData.map(({ TENDERLY_RPC_URL }: { TENDERLY_RPC_URL: string }) =>
-      fetch(TENDERLY_RPC_URL, {
-        method: 'POST',
-        headers: {
-          accept: '*/*',
-          'content-type': 'application/json'
-        },
-        body: JSON.stringify({
-          method: 'eth_blockNumber',
-          params: [],
-          id: 42,
-          jsonrpc: '2.0'
-        })
-      })
-    )
-  );
-
-  // If all of the RPC endpoints respond with status 200, it means they are ready
-  if (!responses.every(({ status }: { status: number }) => status === 200)) {
-    throw new Error('Virtual testnets are not ready');
+  const networkData = data.find((item: any) => item.NETWORK === chain);
+  if (!networkData) {
+    throw new Error(`No data found for network ${chain}`);
   }
-};
 
-export const waitForVnetsReady = async () => {
-  await backOffRetry(() => waitForVnetsReadyRequest(), 6, 1);
+  // Wait for the specific chain to be ready
+  const response = await fetch(networkData.TENDERLY_RPC_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      jsonrpc: '2.0',
+      id: 1,
+      method: 'eth_blockNumber',
+      params: []
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to connect to ${chain} network`);
+  }
 };

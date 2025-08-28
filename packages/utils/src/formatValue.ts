@@ -18,6 +18,7 @@ type FormatOptions = {
   maxDecimals?: number;
   showPercentageDecimals?: boolean;
   roundingMode?: 'ceil' | 'floor';
+  useGrouping?: boolean;
 };
 
 export function createNumberFormatter(options?: FormatOptions) {
@@ -39,7 +40,8 @@ export function createNumberFormatter(options?: FormatOptions) {
     maximumFractionDigits: maxDecimals,
     notation: options?.compact ? 'compact' : undefined,
     compactDisplay: options?.compact ? 'short' : undefined,
-    roundingMode: options?.roundingMode || undefined
+    roundingMode: options?.roundingMode || undefined,
+    useGrouping: options?.useGrouping
   });
 }
 
@@ -65,7 +67,8 @@ export function formatBigInt(amount: bigint, options?: FormatOptions): string {
 
 export function formatNumber(amount: number, options?: FormatOptions): string {
   const absAmount = Math.abs(amount);
-  const smallestNumber = 1 / Math.pow(10, SMALL_NUM_DECIMALS); //0.0001 if SMALL_NUM_DECIMALS is 4
+  // If the maxDecimals is provided, set the smallestNumber with that amount of decimals
+  const smallestNumber = 1 / Math.pow(10, options?.maxDecimals || SMALL_NUM_DECIMALS); //0.0001 if SMALL_NUM_DECIMALS is 4
   const lessThanSmallest = absAmount > 0 && absAmount < smallestNumber / 2;
   const amountToFormat = lessThanSmallest ? smallestNumber : amount;
   const result = createNumberFormatter({ ...options, amount: amountToFormat }).format(
@@ -92,4 +95,24 @@ export function formatPercent(amount: bigint, options?: FormatOptions): `${numbe
 export function formatDecimalPercentage(value: number, decimalPlaces: number = 2): string {
   const percentage = value * 100;
   return `${percentage.toFixed(decimalPlaces)}%`;
+}
+
+export function formatBigIntAsCeiledAbsoluteWithSymbol(
+  amount: bigint,
+  unit: number,
+  symbol?: string
+): string {
+  const formattedRoundedDebtValue = formatBigInt(amount, {
+    unit,
+    useGrouping: false
+  });
+  const parsedRoundedDebtValue = parseFloat(formattedRoundedDebtValue);
+  const regex = /\.[0-9]*[1-9]/;
+  const hasDecimalPart = regex.test(formattedRoundedDebtValue);
+  const nearestWholeNumber = hasDecimalPart
+    ? Math.floor(Math.abs(parsedRoundedDebtValue)) + 1
+    : Math.abs(parsedRoundedDebtValue);
+  const formattedNumber = formatNumber(nearestWholeNumber);
+
+  return `${formattedNumber}${symbol ? ` ${symbol}` : ''}`;
 }

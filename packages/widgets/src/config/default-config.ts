@@ -1,6 +1,6 @@
 // Default configuration used site-wide
 
-import { base, mainnet, sepolia, arbitrum } from 'wagmi/chains';
+import { base, mainnet, sepolia, arbitrum, unichain, optimism } from 'wagmi/chains';
 import { WidgetsConfig } from './types/widgets-config';
 import {
   usdsAddress,
@@ -19,9 +19,10 @@ import {
   ETH_ADDRESS,
   usdcL2Address,
   usdsL2Address,
-  // skyL2Address,
-  sUsdsL2Address
-} from '@jetstreamgg/hooks';
+  sUsdsL2Address,
+  spkAddress,
+  stUsdsAddress
+} from '@jetstreamgg/sky-hooks';
 import {
   TENDERLY_ARBITRUM_CHAIN_ID,
   TENDERLY_BASE_CHAIN_ID,
@@ -29,7 +30,7 @@ import {
 } from '@widgets/shared/constants';
 import { SUPPORTED_TOKEN_SYMBOLS } from '..';
 
-const { usds, mkr, sky, susds, eth, weth, usdc, usdt, dai } = TOKENS;
+const { usds, mkr, sky, susds, eth, weth, usdc, usdt, dai, spk, stusds } = TOKENS;
 
 // It stores all the RPCs the application will use, and also the user configured-ones
 export const defaultConfig: WidgetsConfig = {
@@ -41,8 +42,11 @@ export const defaultConfig: WidgetsConfig = {
       { ...usdt, address: usdtAddress[mainnet.id] },
       { ...dai, address: mcdDaiAddress[mainnet.id] },
       { ...usds, address: usdsAddress[mainnet.id] },
+      { ...susds, address: sUsdsAddress[mainnet.id] },
       { ...mkr, address: mkrAddress[mainnet.id] },
-      { ...sky, address: skyAddress[mainnet.id] }
+      { ...sky, address: skyAddress[mainnet.id] },
+      { ...spk, address: spkAddress[mainnet.id] },
+      { ...stusds, address: stUsdsAddress[mainnet.id] }
     ],
     [TENDERLY_CHAIN_ID]: [
       eth,
@@ -51,8 +55,11 @@ export const defaultConfig: WidgetsConfig = {
       { ...usdt, address: usdtAddress[TENDERLY_CHAIN_ID] },
       { ...dai, address: mcdDaiAddress[TENDERLY_CHAIN_ID] },
       { ...usds, address: usdsAddress[TENDERLY_CHAIN_ID] },
+      { ...susds, address: sUsdsAddress[TENDERLY_CHAIN_ID] },
       { ...mkr, address: mkrAddress[TENDERLY_CHAIN_ID] },
-      { ...sky, address: skyAddress[TENDERLY_CHAIN_ID] }
+      { ...sky, address: skyAddress[TENDERLY_CHAIN_ID] },
+      { ...spk, address: spkAddress[TENDERLY_CHAIN_ID] },
+      { ...stusds, address: stUsdsAddress[TENDERLY_CHAIN_ID] }
     ],
     [base.id]: [
       eth,
@@ -77,6 +84,18 @@ export const defaultConfig: WidgetsConfig = {
       { ...usdc, address: usdcL2Address[TENDERLY_ARBITRUM_CHAIN_ID] },
       { ...usds, address: usdsL2Address[TENDERLY_ARBITRUM_CHAIN_ID] },
       { ...susds, address: sUsdsL2Address[TENDERLY_ARBITRUM_CHAIN_ID] }
+    ],
+    [unichain.id]: [
+      eth,
+      { ...usdc, address: usdcL2Address[unichain.id] },
+      { ...usds, address: usdsL2Address[unichain.id] },
+      { ...susds, address: sUsdsL2Address[unichain.id] }
+    ],
+    [optimism.id]: [
+      eth,
+      { ...usdc, address: usdcL2Address[optimism.id] },
+      { ...usds, address: usdsL2Address[optimism.id] },
+      { ...susds, address: sUsdsL2Address[optimism.id] }
     ]
   },
   tradeTokenList: {
@@ -89,7 +108,8 @@ export const defaultConfig: WidgetsConfig = {
       { ...mkr, address: mkrAddress[mainnet.id] },
       { ...usds, address: usdsAddress[mainnet.id] },
       { ...susds, address: sUsdsAddress[mainnet.id] },
-      { ...sky, address: skyAddress[mainnet.id] }
+      { ...sky, address: skyAddress[mainnet.id] },
+      { ...spk, address: spkAddress[mainnet.id] }
     ],
     [TENDERLY_CHAIN_ID]: [
       { ...usdc, address: usdcAddress[TENDERLY_CHAIN_ID] },
@@ -129,9 +149,20 @@ export const defaultConfig: WidgetsConfig = {
       { ...eth, address: ETH_ADDRESS },
       { ...weth, address: wethSepoliaAddress[sepolia.id] },
       { ...dai, address: mcdDaiSepoliaAddress[sepolia.id] }
+    ],
+    [unichain.id]: [
+      { ...usdc, address: usdcL2Address[unichain.id] },
+      { ...usds, address: usdsL2Address[unichain.id] },
+      { ...susds, address: sUsdsL2Address[unichain.id] }
+    ],
+    [optimism.id]: [
+      { ...usdc, address: usdcL2Address[optimism.id] },
+      { ...usds, address: usdsL2Address[optimism.id] },
+      { ...susds, address: sUsdsL2Address[optimism.id] }
     ]
   },
   tradeDisallowedPairs: {
-    ETH: [weth.symbol as SUPPORTED_TOKEN_SYMBOLS]
+    ETH: [weth.symbol as SUPPORTED_TOKEN_SYMBOLS],
+    MKR: [sky.symbol as SUPPORTED_TOKEN_SYMBOLS]
   }
 };
