@@ -121,12 +121,6 @@ export const getChainFromNetwork = (
   return chains.find(c => c.id === networkMapping[detectedNetwork.toLowerCase() as NetworkName]);
 };
 
-export const generateFallbackIntent = (intentId: string, description: string): ChatIntent => ({
-  intent_id: intentId,
-  title: description,
-  url: generateBaseUrl(intentId, {})
-});
-
 export const intentModifiesState = (intent?: ChatIntent): boolean => {
   if (!intent) return false;
   return (

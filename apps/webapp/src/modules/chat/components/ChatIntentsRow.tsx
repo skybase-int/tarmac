@@ -2,12 +2,11 @@ import { Button } from '@/components/ui/button';
 import { ChatIntent } from '../types/Chat';
 import { Heading, Text } from '@/modules/layout/components/Typography';
 import { useChatContext } from '../context/ChatContext';
-import { useNavigate } from 'react-router-dom';
+import { useIntentExecution } from '../hooks/useIntentExecution';
 import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
-import { intentSelectedMessage } from '../lib/intentSelectedMessage';
 import { QueryParams } from '@/lib/constants';
 import { useNetworkFromIntentUrl } from '../hooks/useNetworkFromUrl';
-import { chainIdNameMapping, intentModifiesState, getNetworkDisplayName } from '../lib/intentUtils';
+import { chainIdNameMapping, getNetworkDisplayName } from '../lib/intentUtils';
 import { useChainId } from 'wagmi';
 import { ConfirmationWarningRow } from './ConfirmationWarningRow';
 import { HStack } from '@/modules/layout/components/HStack';
@@ -281,9 +280,27 @@ const NetworkDropdown = ({
   const IconComponent =
     networkIcons[capitalizeFirstLetter(network || '') as keyof typeof networkIcons] || Ethereum;
 
+  // Prepare URLs for all intents upfront (hooks must be called at top level)
+  const intentUrls = intents.map(intent =>
+    useRetainedQueryParams(addResetParam(intent.url) || '', [
+      QueryParams.Locale,
+      QueryParams.Details,
+      QueryParams.Chat
+    ])
+  );
+
+  const executeIntent = useIntentExecution();
+
   const handleSelect = (index: number) => {
+    // Update selection
     onSelect(index);
     onOpenChange(false);
+
+    // Execute the intent action immediately
+    const intent = intents[index];
+    const intentWithResetParam = { ...intent, url: addResetParam(intent.url) };
+    const targetUrl = intentUrls[index];
+    executeIntent(intentWithResetParam, targetUrl);
   };
 
   const TriggerButton = (
@@ -370,9 +387,7 @@ const IntentRow = ({
   hideIcon
 }: IntentRowProps & { className?: string; hideIcon?: boolean }) => {
   const chainId = useChainId();
-  const { setConfirmationWarningOpened, setSelectedIntent, setChatHistory, hasShownIntent } =
-    useChatContext();
-  const navigate = useNavigate();
+  const executeIntent = useIntentExecution();
   const intentUrl = useRetainedQueryParams(intent?.url || '', [
     QueryParams.Locale,
     QueryParams.Details,
@@ -381,7 +396,6 @@ const IntentRow = ({
 
   const network =
     useNetworkFromIntentUrl(intentUrl) || chainIdNameMapping[chainId as keyof typeof chainIdNameMapping];
-  const modifiesState = intentModifiesState(intent);
 
   const networkIcons = {
     Ethereum,
@@ -398,17 +412,7 @@ const IntentRow = ({
     <Button
       variant="suggest"
       disabled={shouldDisableActionButtons}
-      onClick={() => {
-        setConfirmationWarningOpened(false);
-
-        if (!hasShownIntent(intent) && modifiesState) {
-          setConfirmationWarningOpened(true);
-          setSelectedIntent(intent);
-        } else {
-          setChatHistory(prev => [...prev, intentSelectedMessage(intent)]);
-          navigate(intentUrl);
-        }
-      }}
+      onClick={() => executeIntent(intent, intentUrl)}
       className={className}
     >
       {intent.title}

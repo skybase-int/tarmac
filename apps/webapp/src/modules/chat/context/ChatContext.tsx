@@ -91,7 +91,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const hasShownIntent = useCallback(
     (intent?: ChatIntent) => {
       if (!intent) return false;
-      return warningShown.some(i => i.intent_id === intent.intent_id);
+      return warningShown.some(i => i.widget === intent.widget);
     },
     [warningShown]
   );
