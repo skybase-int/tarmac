@@ -9,7 +9,6 @@ import { mainnet, base } from 'wagmi/chains';
 // --- End ABI imports ---
 
 import { contracts, /*tenderlyContracts,*/ l2Contracts } from './src';
-import { cowswapContracts } from './src/contracts';
 
 export default defineConfig(() => {
   const hookNames: string[] = [];
@@ -55,7 +54,7 @@ export default defineConfig(() => {
       etherscan({
         apiKey: env.ETHERSCAN_V2_API_KEY,
         chainId: mainnet.id,
-        contracts: [...contracts, ...cowswapContracts]
+        contracts
       }),
       // This etherscan plugin fetches ABIs for L2 contracts which have a base deployment
       etherscan({

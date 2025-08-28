@@ -2422,7 +2422,9 @@ export const lsSkyUsdsRewardConfig = { address: lsSkyUsdsRewardAddress, abi: lsS
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const mcdDaiAbi = [
   {
@@ -2702,15 +2704,21 @@ export const mcdDaiAbi = [
 ] as const;
 
 /**
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const mcdDaiAddress = {
   1: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
+  8453: '0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb',
+  42161: '0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1',
   314310: '0x6B175474E89094C44Da98b954EedeAC495271d0F'
 } as const;
 
 /**
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const mcdDaiConfig = { address: mcdDaiAddress, abi: mcdDaiAbi } as const;
 
@@ -8816,7 +8824,9 @@ export const usdsSpkRewardConfig = { address: usdsSpkRewardAddress, abi: usdsSpk
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const usdtAbi = [
   {
@@ -9210,15 +9220,21 @@ export const usdtAbi = [
 ] as const;
 
 /**
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const usdtAddress = {
   1: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+  8453: '0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2',
+  42161: '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9',
   314310: '0xdAC17F958D2ee523a2206206994597C13D831ec7'
 } as const;
 
 /**
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const usdtConfig = { address: usdtAddress, abi: usdtAbi } as const;
 
@@ -9227,7 +9243,9 @@ export const usdtConfig = { address: usdtAddress, abi: usdtAbi } as const;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const wethAbi = [
   {
@@ -9384,15 +9402,21 @@ export const wethAbi = [
 ] as const;
 
 /**
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const wethAddress = {
   1: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+  8453: '0x4200000000000000000000000000000000000006',
+  42161: '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1',
   314310: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
 } as const;
 
 /**
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const wethConfig = { address: wethAddress, abi: wethAbi } as const;
 
@@ -13586,14 +13610,18 @@ export const useWatchLsSkyUsdsRewardWithdrawn = /*#__PURE__*/ createUseWatchCont
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdDaiAbi}__
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useReadMcdDai = /*#__PURE__*/ createUseReadContract({ abi: mcdDaiAbi, address: mcdDaiAddress });
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"DOMAIN_SEPARATOR"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useReadMcdDaiDomainSeparator = /*#__PURE__*/ createUseReadContract({
   abi: mcdDaiAbi,
@@ -13604,7 +13632,9 @@ export const useReadMcdDaiDomainSeparator = /*#__PURE__*/ createUseReadContract(
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"PERMIT_TYPEHASH"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useReadMcdDaiPermitTypehash = /*#__PURE__*/ createUseReadContract({
   abi: mcdDaiAbi,
@@ -13615,7 +13645,9 @@ export const useReadMcdDaiPermitTypehash = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"allowance"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useReadMcdDaiAllowance = /*#__PURE__*/ createUseReadContract({
   abi: mcdDaiAbi,
@@ -13626,7 +13658,9 @@ export const useReadMcdDaiAllowance = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"balanceOf"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useReadMcdDaiBalanceOf = /*#__PURE__*/ createUseReadContract({
   abi: mcdDaiAbi,
@@ -13637,7 +13671,9 @@ export const useReadMcdDaiBalanceOf = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"decimals"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useReadMcdDaiDecimals = /*#__PURE__*/ createUseReadContract({
   abi: mcdDaiAbi,
@@ -13648,7 +13684,9 @@ export const useReadMcdDaiDecimals = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"name"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useReadMcdDaiName = /*#__PURE__*/ createUseReadContract({
   abi: mcdDaiAbi,
@@ -13659,7 +13697,9 @@ export const useReadMcdDaiName = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"nonces"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useReadMcdDaiNonces = /*#__PURE__*/ createUseReadContract({
   abi: mcdDaiAbi,
@@ -13670,7 +13710,9 @@ export const useReadMcdDaiNonces = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"symbol"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useReadMcdDaiSymbol = /*#__PURE__*/ createUseReadContract({
   abi: mcdDaiAbi,
@@ -13681,7 +13723,9 @@ export const useReadMcdDaiSymbol = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"totalSupply"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useReadMcdDaiTotalSupply = /*#__PURE__*/ createUseReadContract({
   abi: mcdDaiAbi,
@@ -13692,7 +13736,9 @@ export const useReadMcdDaiTotalSupply = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"version"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useReadMcdDaiVersion = /*#__PURE__*/ createUseReadContract({
   abi: mcdDaiAbi,
@@ -13703,7 +13749,9 @@ export const useReadMcdDaiVersion = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"wards"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useReadMcdDaiWards = /*#__PURE__*/ createUseReadContract({
   abi: mcdDaiAbi,
@@ -13714,7 +13762,9 @@ export const useReadMcdDaiWards = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdDaiAbi}__
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useWriteMcdDai = /*#__PURE__*/ createUseWriteContract({
   abi: mcdDaiAbi,
@@ -13724,7 +13774,9 @@ export const useWriteMcdDai = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"approve"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useWriteMcdDaiApprove = /*#__PURE__*/ createUseWriteContract({
   abi: mcdDaiAbi,
@@ -13735,7 +13787,9 @@ export const useWriteMcdDaiApprove = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"burn"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useWriteMcdDaiBurn = /*#__PURE__*/ createUseWriteContract({
   abi: mcdDaiAbi,
@@ -13746,7 +13800,9 @@ export const useWriteMcdDaiBurn = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"deny"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useWriteMcdDaiDeny = /*#__PURE__*/ createUseWriteContract({
   abi: mcdDaiAbi,
@@ -13757,7 +13813,9 @@ export const useWriteMcdDaiDeny = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"mint"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useWriteMcdDaiMint = /*#__PURE__*/ createUseWriteContract({
   abi: mcdDaiAbi,
@@ -13768,7 +13826,9 @@ export const useWriteMcdDaiMint = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"move"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useWriteMcdDaiMove = /*#__PURE__*/ createUseWriteContract({
   abi: mcdDaiAbi,
@@ -13779,7 +13839,9 @@ export const useWriteMcdDaiMove = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"permit"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useWriteMcdDaiPermit = /*#__PURE__*/ createUseWriteContract({
   abi: mcdDaiAbi,
@@ -13790,7 +13852,9 @@ export const useWriteMcdDaiPermit = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"pull"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useWriteMcdDaiPull = /*#__PURE__*/ createUseWriteContract({
   abi: mcdDaiAbi,
@@ -13801,7 +13865,9 @@ export const useWriteMcdDaiPull = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"push"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useWriteMcdDaiPush = /*#__PURE__*/ createUseWriteContract({
   abi: mcdDaiAbi,
@@ -13812,7 +13878,9 @@ export const useWriteMcdDaiPush = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"rely"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useWriteMcdDaiRely = /*#__PURE__*/ createUseWriteContract({
   abi: mcdDaiAbi,
@@ -13823,7 +13891,9 @@ export const useWriteMcdDaiRely = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"transfer"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useWriteMcdDaiTransfer = /*#__PURE__*/ createUseWriteContract({
   abi: mcdDaiAbi,
@@ -13834,7 +13904,9 @@ export const useWriteMcdDaiTransfer = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"transferFrom"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useWriteMcdDaiTransferFrom = /*#__PURE__*/ createUseWriteContract({
   abi: mcdDaiAbi,
@@ -13845,7 +13917,9 @@ export const useWriteMcdDaiTransferFrom = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdDaiAbi}__
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useSimulateMcdDai = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdDaiAbi,
@@ -13855,7 +13929,9 @@ export const useSimulateMcdDai = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"approve"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useSimulateMcdDaiApprove = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdDaiAbi,
@@ -13866,7 +13942,9 @@ export const useSimulateMcdDaiApprove = /*#__PURE__*/ createUseSimulateContract(
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"burn"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useSimulateMcdDaiBurn = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdDaiAbi,
@@ -13877,7 +13955,9 @@ export const useSimulateMcdDaiBurn = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"deny"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useSimulateMcdDaiDeny = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdDaiAbi,
@@ -13888,7 +13968,9 @@ export const useSimulateMcdDaiDeny = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"mint"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useSimulateMcdDaiMint = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdDaiAbi,
@@ -13899,7 +13981,9 @@ export const useSimulateMcdDaiMint = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"move"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useSimulateMcdDaiMove = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdDaiAbi,
@@ -13910,7 +13994,9 @@ export const useSimulateMcdDaiMove = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"permit"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useSimulateMcdDaiPermit = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdDaiAbi,
@@ -13921,7 +14007,9 @@ export const useSimulateMcdDaiPermit = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"pull"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useSimulateMcdDaiPull = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdDaiAbi,
@@ -13932,7 +14020,9 @@ export const useSimulateMcdDaiPull = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"push"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useSimulateMcdDaiPush = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdDaiAbi,
@@ -13943,7 +14033,9 @@ export const useSimulateMcdDaiPush = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"rely"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useSimulateMcdDaiRely = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdDaiAbi,
@@ -13954,7 +14046,9 @@ export const useSimulateMcdDaiRely = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"transfer"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useSimulateMcdDaiTransfer = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdDaiAbi,
@@ -13965,7 +14059,9 @@ export const useSimulateMcdDaiTransfer = /*#__PURE__*/ createUseSimulateContract
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"transferFrom"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useSimulateMcdDaiTransferFrom = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdDaiAbi,
@@ -13976,7 +14072,9 @@ export const useSimulateMcdDaiTransferFrom = /*#__PURE__*/ createUseSimulateCont
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mcdDaiAbi}__
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useWatchMcdDai = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mcdDaiAbi,
@@ -13986,7 +14084,9 @@ export const useWatchMcdDai = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mcdDaiAbi}__ and `eventName` set to `"Approval"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useWatchMcdDaiApproval = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mcdDaiAbi,
@@ -13997,7 +14097,9 @@ export const useWatchMcdDaiApproval = /*#__PURE__*/ createUseWatchContractEvent(
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mcdDaiAbi}__ and `eventName` set to `"LogNote"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useWatchMcdDaiLogNote = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mcdDaiAbi,
@@ -14008,7 +14110,9 @@ export const useWatchMcdDaiLogNote = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mcdDaiAbi}__ and `eventName` set to `"Transfer"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
 export const useWatchMcdDaiTransfer = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mcdDaiAbi,
@@ -23393,14 +23497,18 @@ export const useWatchUsdsSpkRewardWithdrawn = /*#__PURE__*/ createUseWatchContra
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useReadUsdt = /*#__PURE__*/ createUseReadContract({ abi: usdtAbi, address: usdtAddress });
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"name"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useReadUsdtName = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
@@ -23411,7 +23519,9 @@ export const useReadUsdtName = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"deprecated"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useReadUsdtDeprecated = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
@@ -23422,7 +23532,9 @@ export const useReadUsdtDeprecated = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"totalSupply"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useReadUsdtTotalSupply = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
@@ -23433,7 +23545,9 @@ export const useReadUsdtTotalSupply = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"upgradedAddress"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useReadUsdtUpgradedAddress = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
@@ -23444,7 +23558,9 @@ export const useReadUsdtUpgradedAddress = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"balances"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useReadUsdtBalances = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
@@ -23455,7 +23571,9 @@ export const useReadUsdtBalances = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"decimals"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useReadUsdtDecimals = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
@@ -23466,7 +23584,9 @@ export const useReadUsdtDecimals = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"maximumFee"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useReadUsdtMaximumFee = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
@@ -23477,7 +23597,9 @@ export const useReadUsdtMaximumFee = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"_totalSupply"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useReadUsdtTotalSupply_2 = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
@@ -23488,7 +23610,9 @@ export const useReadUsdtTotalSupply_2 = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"getBlackListStatus"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useReadUsdtGetBlackListStatus = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
@@ -23499,7 +23623,9 @@ export const useReadUsdtGetBlackListStatus = /*#__PURE__*/ createUseReadContract
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"allowed"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useReadUsdtAllowed = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
@@ -23510,7 +23636,9 @@ export const useReadUsdtAllowed = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"paused"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useReadUsdtPaused = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
@@ -23521,7 +23649,9 @@ export const useReadUsdtPaused = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"balanceOf"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useReadUsdtBalanceOf = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
@@ -23532,7 +23662,9 @@ export const useReadUsdtBalanceOf = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"getOwner"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useReadUsdtGetOwner = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
@@ -23543,7 +23675,9 @@ export const useReadUsdtGetOwner = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"owner"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useReadUsdtOwner = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
@@ -23554,7 +23688,9 @@ export const useReadUsdtOwner = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"symbol"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useReadUsdtSymbol = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
@@ -23565,7 +23701,9 @@ export const useReadUsdtSymbol = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"allowance"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useReadUsdtAllowance = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
@@ -23576,7 +23714,9 @@ export const useReadUsdtAllowance = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"basisPointsRate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useReadUsdtBasisPointsRate = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
@@ -23587,7 +23727,9 @@ export const useReadUsdtBasisPointsRate = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"isBlackListed"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useReadUsdtIsBlackListed = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
@@ -23598,7 +23740,9 @@ export const useReadUsdtIsBlackListed = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"MAX_UINT"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useReadUsdtMaxUint = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
@@ -23609,14 +23753,18 @@ export const useReadUsdtMaxUint = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWriteUsdt = /*#__PURE__*/ createUseWriteContract({ abi: usdtAbi, address: usdtAddress });
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"deprecate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWriteUsdtDeprecate = /*#__PURE__*/ createUseWriteContract({
   abi: usdtAbi,
@@ -23627,7 +23775,9 @@ export const useWriteUsdtDeprecate = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"approve"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWriteUsdtApprove = /*#__PURE__*/ createUseWriteContract({
   abi: usdtAbi,
@@ -23638,7 +23788,9 @@ export const useWriteUsdtApprove = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"addBlackList"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWriteUsdtAddBlackList = /*#__PURE__*/ createUseWriteContract({
   abi: usdtAbi,
@@ -23649,7 +23801,9 @@ export const useWriteUsdtAddBlackList = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"transferFrom"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWriteUsdtTransferFrom = /*#__PURE__*/ createUseWriteContract({
   abi: usdtAbi,
@@ -23660,7 +23814,9 @@ export const useWriteUsdtTransferFrom = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"unpause"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWriteUsdtUnpause = /*#__PURE__*/ createUseWriteContract({
   abi: usdtAbi,
@@ -23671,7 +23827,9 @@ export const useWriteUsdtUnpause = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"pause"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWriteUsdtPause = /*#__PURE__*/ createUseWriteContract({
   abi: usdtAbi,
@@ -23682,7 +23840,9 @@ export const useWriteUsdtPause = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"transfer"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWriteUsdtTransfer = /*#__PURE__*/ createUseWriteContract({
   abi: usdtAbi,
@@ -23693,7 +23853,9 @@ export const useWriteUsdtTransfer = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"setParams"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWriteUsdtSetParams = /*#__PURE__*/ createUseWriteContract({
   abi: usdtAbi,
@@ -23704,7 +23866,9 @@ export const useWriteUsdtSetParams = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"issue"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWriteUsdtIssue = /*#__PURE__*/ createUseWriteContract({
   abi: usdtAbi,
@@ -23715,7 +23879,9 @@ export const useWriteUsdtIssue = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"redeem"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWriteUsdtRedeem = /*#__PURE__*/ createUseWriteContract({
   abi: usdtAbi,
@@ -23726,7 +23892,9 @@ export const useWriteUsdtRedeem = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"removeBlackList"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWriteUsdtRemoveBlackList = /*#__PURE__*/ createUseWriteContract({
   abi: usdtAbi,
@@ -23737,7 +23905,9 @@ export const useWriteUsdtRemoveBlackList = /*#__PURE__*/ createUseWriteContract(
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"transferOwnership"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWriteUsdtTransferOwnership = /*#__PURE__*/ createUseWriteContract({
   abi: usdtAbi,
@@ -23748,7 +23918,9 @@ export const useWriteUsdtTransferOwnership = /*#__PURE__*/ createUseWriteContrac
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"destroyBlackFunds"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWriteUsdtDestroyBlackFunds = /*#__PURE__*/ createUseWriteContract({
   abi: usdtAbi,
@@ -23759,7 +23931,9 @@ export const useWriteUsdtDestroyBlackFunds = /*#__PURE__*/ createUseWriteContrac
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useSimulateUsdt = /*#__PURE__*/ createUseSimulateContract({
   abi: usdtAbi,
@@ -23769,7 +23943,9 @@ export const useSimulateUsdt = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"deprecate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useSimulateUsdtDeprecate = /*#__PURE__*/ createUseSimulateContract({
   abi: usdtAbi,
@@ -23780,7 +23956,9 @@ export const useSimulateUsdtDeprecate = /*#__PURE__*/ createUseSimulateContract(
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"approve"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useSimulateUsdtApprove = /*#__PURE__*/ createUseSimulateContract({
   abi: usdtAbi,
@@ -23791,7 +23969,9 @@ export const useSimulateUsdtApprove = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"addBlackList"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useSimulateUsdtAddBlackList = /*#__PURE__*/ createUseSimulateContract({
   abi: usdtAbi,
@@ -23802,7 +23982,9 @@ export const useSimulateUsdtAddBlackList = /*#__PURE__*/ createUseSimulateContra
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"transferFrom"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useSimulateUsdtTransferFrom = /*#__PURE__*/ createUseSimulateContract({
   abi: usdtAbi,
@@ -23813,7 +23995,9 @@ export const useSimulateUsdtTransferFrom = /*#__PURE__*/ createUseSimulateContra
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"unpause"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useSimulateUsdtUnpause = /*#__PURE__*/ createUseSimulateContract({
   abi: usdtAbi,
@@ -23824,7 +24008,9 @@ export const useSimulateUsdtUnpause = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"pause"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useSimulateUsdtPause = /*#__PURE__*/ createUseSimulateContract({
   abi: usdtAbi,
@@ -23835,7 +24021,9 @@ export const useSimulateUsdtPause = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"transfer"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useSimulateUsdtTransfer = /*#__PURE__*/ createUseSimulateContract({
   abi: usdtAbi,
@@ -23846,7 +24034,9 @@ export const useSimulateUsdtTransfer = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"setParams"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useSimulateUsdtSetParams = /*#__PURE__*/ createUseSimulateContract({
   abi: usdtAbi,
@@ -23857,7 +24047,9 @@ export const useSimulateUsdtSetParams = /*#__PURE__*/ createUseSimulateContract(
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"issue"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useSimulateUsdtIssue = /*#__PURE__*/ createUseSimulateContract({
   abi: usdtAbi,
@@ -23868,7 +24060,9 @@ export const useSimulateUsdtIssue = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"redeem"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useSimulateUsdtRedeem = /*#__PURE__*/ createUseSimulateContract({
   abi: usdtAbi,
@@ -23879,7 +24073,9 @@ export const useSimulateUsdtRedeem = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"removeBlackList"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useSimulateUsdtRemoveBlackList = /*#__PURE__*/ createUseSimulateContract({
   abi: usdtAbi,
@@ -23890,7 +24086,9 @@ export const useSimulateUsdtRemoveBlackList = /*#__PURE__*/ createUseSimulateCon
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"transferOwnership"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useSimulateUsdtTransferOwnership = /*#__PURE__*/ createUseSimulateContract({
   abi: usdtAbi,
@@ -23901,7 +24099,9 @@ export const useSimulateUsdtTransferOwnership = /*#__PURE__*/ createUseSimulateC
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"destroyBlackFunds"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useSimulateUsdtDestroyBlackFunds = /*#__PURE__*/ createUseSimulateContract({
   abi: usdtAbi,
@@ -23912,14 +24112,18 @@ export const useSimulateUsdtDestroyBlackFunds = /*#__PURE__*/ createUseSimulateC
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtAbi}__
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWatchUsdt = /*#__PURE__*/ createUseWatchContractEvent({ abi: usdtAbi, address: usdtAddress });
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtAbi}__ and `eventName` set to `"Issue"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWatchUsdtIssue = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdtAbi,
@@ -23930,7 +24134,9 @@ export const useWatchUsdtIssue = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtAbi}__ and `eventName` set to `"Redeem"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWatchUsdtRedeem = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdtAbi,
@@ -23941,7 +24147,9 @@ export const useWatchUsdtRedeem = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtAbi}__ and `eventName` set to `"Deprecate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWatchUsdtDeprecate = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdtAbi,
@@ -23952,7 +24160,9 @@ export const useWatchUsdtDeprecate = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtAbi}__ and `eventName` set to `"Params"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWatchUsdtParams = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdtAbi,
@@ -23963,7 +24173,9 @@ export const useWatchUsdtParams = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtAbi}__ and `eventName` set to `"DestroyedBlackFunds"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWatchUsdtDestroyedBlackFunds = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdtAbi,
@@ -23974,7 +24186,9 @@ export const useWatchUsdtDestroyedBlackFunds = /*#__PURE__*/ createUseWatchContr
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtAbi}__ and `eventName` set to `"AddedBlackList"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWatchUsdtAddedBlackList = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdtAbi,
@@ -23985,7 +24199,9 @@ export const useWatchUsdtAddedBlackList = /*#__PURE__*/ createUseWatchContractEv
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtAbi}__ and `eventName` set to `"RemovedBlackList"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWatchUsdtRemovedBlackList = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdtAbi,
@@ -23996,7 +24212,9 @@ export const useWatchUsdtRemovedBlackList = /*#__PURE__*/ createUseWatchContract
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtAbi}__ and `eventName` set to `"Approval"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWatchUsdtApproval = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdtAbi,
@@ -24007,7 +24225,9 @@ export const useWatchUsdtApproval = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtAbi}__ and `eventName` set to `"Transfer"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWatchUsdtTransfer = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdtAbi,
@@ -24018,7 +24238,9 @@ export const useWatchUsdtTransfer = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtAbi}__ and `eventName` set to `"Pause"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWatchUsdtPause = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdtAbi,
@@ -24029,7 +24251,9 @@ export const useWatchUsdtPause = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtAbi}__ and `eventName` set to `"Unpause"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
 export const useWatchUsdtUnpause = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdtAbi,
@@ -24040,14 +24264,18 @@ export const useWatchUsdtUnpause = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link wethAbi}__
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const useReadWeth = /*#__PURE__*/ createUseReadContract({ abi: wethAbi, address: wethAddress });
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"name"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const useReadWethName = /*#__PURE__*/ createUseReadContract({
   abi: wethAbi,
@@ -24058,7 +24286,9 @@ export const useReadWethName = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"totalSupply"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const useReadWethTotalSupply = /*#__PURE__*/ createUseReadContract({
   abi: wethAbi,
@@ -24069,7 +24299,9 @@ export const useReadWethTotalSupply = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"decimals"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const useReadWethDecimals = /*#__PURE__*/ createUseReadContract({
   abi: wethAbi,
@@ -24080,7 +24312,9 @@ export const useReadWethDecimals = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"balanceOf"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const useReadWethBalanceOf = /*#__PURE__*/ createUseReadContract({
   abi: wethAbi,
@@ -24091,7 +24325,9 @@ export const useReadWethBalanceOf = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"symbol"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const useReadWethSymbol = /*#__PURE__*/ createUseReadContract({
   abi: wethAbi,
@@ -24102,7 +24338,9 @@ export const useReadWethSymbol = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"allowance"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const useReadWethAllowance = /*#__PURE__*/ createUseReadContract({
   abi: wethAbi,
@@ -24113,14 +24351,18 @@ export const useReadWethAllowance = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wethAbi}__
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const useWriteWeth = /*#__PURE__*/ createUseWriteContract({ abi: wethAbi, address: wethAddress });
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"approve"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const useWriteWethApprove = /*#__PURE__*/ createUseWriteContract({
   abi: wethAbi,
@@ -24131,7 +24373,9 @@ export const useWriteWethApprove = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"transferFrom"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const useWriteWethTransferFrom = /*#__PURE__*/ createUseWriteContract({
   abi: wethAbi,
@@ -24142,7 +24386,9 @@ export const useWriteWethTransferFrom = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"withdraw"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const useWriteWethWithdraw = /*#__PURE__*/ createUseWriteContract({
   abi: wethAbi,
@@ -24153,7 +24399,9 @@ export const useWriteWethWithdraw = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"transfer"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const useWriteWethTransfer = /*#__PURE__*/ createUseWriteContract({
   abi: wethAbi,
@@ -24164,7 +24412,9 @@ export const useWriteWethTransfer = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"deposit"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const useWriteWethDeposit = /*#__PURE__*/ createUseWriteContract({
   abi: wethAbi,
@@ -24175,7 +24425,9 @@ export const useWriteWethDeposit = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wethAbi}__
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const useSimulateWeth = /*#__PURE__*/ createUseSimulateContract({
   abi: wethAbi,
@@ -24185,7 +24437,9 @@ export const useSimulateWeth = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"approve"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const useSimulateWethApprove = /*#__PURE__*/ createUseSimulateContract({
   abi: wethAbi,
@@ -24196,7 +24450,9 @@ export const useSimulateWethApprove = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"transferFrom"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const useSimulateWethTransferFrom = /*#__PURE__*/ createUseSimulateContract({
   abi: wethAbi,
@@ -24207,7 +24463,9 @@ export const useSimulateWethTransferFrom = /*#__PURE__*/ createUseSimulateContra
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"withdraw"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const useSimulateWethWithdraw = /*#__PURE__*/ createUseSimulateContract({
   abi: wethAbi,
@@ -24218,7 +24476,9 @@ export const useSimulateWethWithdraw = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"transfer"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const useSimulateWethTransfer = /*#__PURE__*/ createUseSimulateContract({
   abi: wethAbi,
@@ -24229,7 +24489,9 @@ export const useSimulateWethTransfer = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"deposit"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const useSimulateWethDeposit = /*#__PURE__*/ createUseSimulateContract({
   abi: wethAbi,
@@ -24240,14 +24502,18 @@ export const useSimulateWethDeposit = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wethAbi}__
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const useWatchWeth = /*#__PURE__*/ createUseWatchContractEvent({ abi: wethAbi, address: wethAddress });
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wethAbi}__ and `eventName` set to `"Approval"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const useWatchWethApproval = /*#__PURE__*/ createUseWatchContractEvent({
   abi: wethAbi,
@@ -24258,7 +24524,9 @@ export const useWatchWethApproval = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wethAbi}__ and `eventName` set to `"Transfer"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const useWatchWethTransfer = /*#__PURE__*/ createUseWatchContractEvent({
   abi: wethAbi,
@@ -24269,7 +24537,9 @@ export const useWatchWethTransfer = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wethAbi}__ and `eventName` set to `"Deposit"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const useWatchWethDeposit = /*#__PURE__*/ createUseWatchContractEvent({
   abi: wethAbi,
@@ -24280,7 +24550,9 @@ export const useWatchWethDeposit = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wethAbi}__ and `eventName` set to `"Withdrawal"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
 export const useWatchWethWithdrawal = /*#__PURE__*/ createUseWatchContractEvent({
   abi: wethAbi,
