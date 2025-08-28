@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { ChatIntent } from '../types/Chat';
-import { Text } from '@/modules/layout/components/Typography';
+import { Heading, Text } from '@/modules/layout/components/Typography';
 import { useChatContext } from '../context/ChatContext';
 import { useNavigate } from 'react-router-dom';
 import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
@@ -24,8 +24,10 @@ import { capitalizeFirstLetter } from '@/lib/helpers/string/capitalizeFirstLette
 import { useState, useMemo } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipPortal, TooltipTrigger } from '@/components/ui/tooltip';
+import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
 import { VStack } from '@/modules/layout/components/VStack';
 
 type ChatIntentsRowProps = {
@@ -255,6 +257,9 @@ const NetworkDropdown = ({
   disabled
 }: NetworkDropdownProps) => {
   const chainId = useChainId();
+  const { bpi } = useBreakpointIndex();
+  const isMobile = bpi < BP.md;
+
   const selectedIntent = intents[selectedIndex];
   const intentUrl = useRetainedQueryParams(selectedIntent?.url || '', [
     QueryParams.Locale,
@@ -282,52 +287,73 @@ const NetworkDropdown = ({
     onOpenChange(false);
   };
 
+  const TriggerButton = (
+    <Button variant="suggest" disabled={disabled} className="rounded-l-none border-l border-l-white/20 px-2">
+      <IconComponent className="h-4.5 w-4.5" />
+      <ChevronDown className={cn('ml-1 h-4 w-4 transition-transform', isOpen && 'rotate-180')} />
+    </Button>
+  );
+
+  const NetworkOptions = (
+    <VStack gap={isMobile ? 1 : 0.5}>
+      {intents.map((intent, index) => {
+        const intentUrl = useRetainedQueryParams(intent?.url || '', [
+          QueryParams.Locale,
+          QueryParams.Details,
+          QueryParams.Chat
+        ]);
+        const network =
+          useNetworkFromIntentUrl(addResetParam(intentUrl)) ||
+          chainIdNameMapping[chainId as keyof typeof chainIdNameMapping];
+        const NetworkIcon =
+          networkIcons[capitalizeFirstLetter(network || '') as keyof typeof networkIcons] || Ethereum;
+
+        return (
+          <Button
+            key={index}
+            variant="ghost"
+            onClick={() => handleSelect(index)}
+            className={cn(
+              'w-full justify-start text-sm',
+              isMobile ? 'px-4 py-3' : 'px-3 py-2',
+              selectedIndex === index && 'bg-white/10'
+            )}
+          >
+            <NetworkIcon className={isMobile ? 'mr-3 h-5 w-5' : 'mr-2 h-4 w-4'} />
+            <Text>{getNetworkDisplayName(network)}</Text>
+          </Button>
+        );
+      })}
+    </VStack>
+  );
+
+  if (isMobile) {
+    return (
+      <Sheet open={isOpen} onOpenChange={onOpenChange}>
+        <SheetTrigger asChild>{TriggerButton}</SheetTrigger>
+        <SheetContent side="bottom" className="bg-brandDark gap-2 px-2 pb-3 [&>button>svg]:text-white">
+          <SheetHeader>
+            <SheetTitle>
+              <Heading className="text-center">
+                <Trans>Select Network</Trans>
+              </Heading>
+            </SheetTitle>
+          </SheetHeader>
+          {NetworkOptions}
+        </SheetContent>
+      </Sheet>
+    );
+  }
+
   return (
     <Popover open={isOpen} onOpenChange={onOpenChange}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="suggest"
-          disabled={disabled}
-          className="rounded-l-none border-l border-l-white/20 px-2"
-        >
-          <IconComponent className="h-4.5 w-4.5" />
-          <ChevronDown className={cn('ml-1 h-4 w-4 transition-transform', isOpen && 'rotate-180')} />
-        </Button>
-      </PopoverTrigger>
+      <PopoverTrigger asChild>{TriggerButton}</PopoverTrigger>
       <PopoverContent
         className="bg-brandDark w-fit rounded-xl border p-1 shadow-lg"
         align="end"
         sideOffset={4}
       >
-        <VStack gap={0.5}>
-          {intents.map((intent, index) => {
-            const intentUrl = useRetainedQueryParams(intent?.url || '', [
-              QueryParams.Locale,
-              QueryParams.Details,
-              QueryParams.Chat
-            ]);
-            const network =
-              useNetworkFromIntentUrl(addResetParam(intentUrl)) ||
-              chainIdNameMapping[chainId as keyof typeof chainIdNameMapping];
-            const NetworkIcon =
-              networkIcons[capitalizeFirstLetter(network || '') as keyof typeof networkIcons] || Ethereum;
-
-            return (
-              <Button
-                key={index}
-                variant="ghost"
-                onClick={() => handleSelect(index)}
-                className={cn(
-                  'w-full justify-start px-3 py-2 text-sm',
-                  selectedIndex === index && 'bg-white/10'
-                )}
-              >
-                <NetworkIcon className="mr-2 h-4 w-4" />
-                <Text variant="small">{getNetworkDisplayName(network)}</Text>
-              </Button>
-            );
-          })}
-        </VStack>
+        {NetworkOptions}
       </PopoverContent>
     </Popover>
   );
