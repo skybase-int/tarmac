@@ -56,6 +56,7 @@ export const ChatPane = ({ sendMessage }: { sendMessage: (message: string) => vo
                   sendMessage={sendMessage}
                   showModifierRow={!isFirstMessage && isLastMessage}
                   isFirstMessage={isFirstMessage}
+                  isOnlyMessage={chatHistory.length === 1}
                 />
               );
             })}

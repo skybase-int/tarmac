@@ -97,7 +97,7 @@ export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
     <div>
       <HStack>
         <Text className="mr-2 text-xs italic text-gray-500">
-          <Trans>Try a suggested action</Trans>
+          <Trans>Explore actions</Trans>
         </Text>
         <InfoTooltip
           iconClassName="text-gray-400"
