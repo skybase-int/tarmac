@@ -64,5 +64,8 @@
     "sky ecosystem"
   ],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  }
 }
