@@ -56,12 +56,18 @@ export const defaultConfig: WidgetsConfig = {
     [base.id]: [
       eth,
       { ...usdc, address: usdcL2Address[base.id] },
+      { ...usdt, address: usdtAddress[base.id] },
+      { ...weth, address: wethAddress[base.id] },
+      { ...dai, address: mcdDaiAddress[base.id] },
       { ...usds, address: usdsL2Address[base.id] },
       { ...susds, address: sUsdsL2Address[base.id] }
     ],
     [arbitrum.id]: [
       eth,
       { ...usdc, address: usdcL2Address[arbitrum.id] },
+      { ...usdt, address: usdtAddress[arbitrum.id] },
+      { ...weth, address: wethAddress[arbitrum.id] },
+      { ...dai, address: mcdDaiAddress[arbitrum.id] },
       { ...usds, address: usdsL2Address[arbitrum.id] },
       { ...susds, address: sUsdsL2Address[arbitrum.id] }
     ],
@@ -116,11 +122,19 @@ export const defaultConfig: WidgetsConfig = {
     ],
     [base.id]: [
       { ...usdc, address: usdcL2Address[base.id] },
+      { ...usdt, address: usdtAddress[base.id] },
+      { ...eth, address: eth.address[base.id] },
+      { ...weth, address: wethAddress[base.id] },
+      { ...dai, address: mcdDaiAddress[base.id] },
       { ...usds, address: usdsL2Address[base.id] },
       { ...susds, address: sUsdsL2Address[base.id] }
     ],
     [arbitrum.id]: [
       { ...usdc, address: usdcL2Address[arbitrum.id] },
+      { ...usdt, address: usdtAddress[arbitrum.id] },
+      { ...eth, address: eth.address[arbitrum.id] },
+      { ...weth, address: wethAddress[arbitrum.id] },
+      { ...dai, address: mcdDaiAddress[arbitrum.id] },
       { ...usds, address: usdsL2Address[arbitrum.id] },
       { ...susds, address: sUsdsL2Address[arbitrum.id] }
     ],

@@ -47,13 +47,19 @@ export const restrictedBalancesTokenList = {
   ],
   [base.id]: [
     { ...usdc, address: usdcL2Address[base.id] },
+    { ...usdt, address: usdtAddress[base.id] },
     { ...usds, address: usdsL2Address[base.id] },
-    { ...eth, address: ETH_ADDRESS }
+    { ...eth, address: ETH_ADDRESS },
+    { ...weth, address: wethAddress[base.id] },
+    { ...dai, address: mcdDaiAddress[base.id] }
   ],
   [arbitrum.id]: [
     { ...usdc, address: usdcL2Address[arbitrum.id] },
+    { ...usdt, address: usdtAddress[arbitrum.id] },
     { ...usds, address: usdsL2Address[arbitrum.id] },
-    { ...eth, address: ETH_ADDRESS }
+    { ...eth, address: ETH_ADDRESS },
+    { ...weth, address: wethAddress[arbitrum.id] },
+    { ...dai, address: mcdDaiAddress[arbitrum.id] }
   ],
   [tenderlyBase.id]: [
     { ...usdc, address: usdcL2Address[TENDERLY_BASE_CHAIN_ID] },
@@ -95,20 +101,24 @@ export const restrictedBalancesTokenListMiCa = {
   ],
   [base.id]: [
     { ...usds, address: usdsL2Address[base.id] },
+    { ...usdc, address: usdcL2Address[base.id] },
     { ...eth, address: ETH_ADDRESS }
   ],
   [arbitrum.id]: [
     { ...usds, address: usdsL2Address[arbitrum.id] },
+    { ...usdc, address: usdcL2Address[arbitrum.id] },
     { ...eth, address: ETH_ADDRESS }
   ],
   [tenderlyBase.id]: [{ ...usds, address: usdsL2Address[TENDERLY_BASE_CHAIN_ID] }],
   [tenderlyArbitrum.id]: [{ ...usds, address: usdsL2Address[TENDERLY_ARBITRUM_CHAIN_ID] }],
   [optimism.id]: [
     { ...usds, address: usdsL2Address[optimism.id] },
+    { ...usdc, address: usdcL2Address[optimism.id] },
     { ...eth, address: ETH_ADDRESS }
   ],
   [unichain.id]: [
     { ...usds, address: usdsL2Address[unichain.id] },
+    { ...usdc, address: usdcL2Address[unichain.id] },
     { ...eth, address: ETH_ADDRESS }
   ]
 };
@@ -132,10 +142,18 @@ export const restrictedTradeTokenList = {
   ],
   [base.id]: [
     { ...usdc, address: usdcL2Address[base.id] },
+    { ...usdt, address: usdtAddress[base.id] },
+    { ...eth, address: eth.address[base.id] },
+    { ...weth, address: wethAddress[base.id] },
+    { ...dai, address: mcdDaiAddress[base.id] },
     { ...usds, address: usdsL2Address[base.id] }
   ],
   [arbitrum.id]: [
     { ...usdc, address: usdcL2Address[arbitrum.id] },
+    { ...usdt, address: usdtAddress[arbitrum.id] },
+    { ...eth, address: eth.address[arbitrum.id] },
+    { ...weth, address: wethAddress[arbitrum.id] },
+    { ...dai, address: mcdDaiAddress[arbitrum.id] },
     { ...usds, address: usdsL2Address[arbitrum.id] }
   ],
   [tenderlyBase.id]: [
