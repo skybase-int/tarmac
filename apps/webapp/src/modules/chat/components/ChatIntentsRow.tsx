@@ -54,7 +54,6 @@ const addResetParam = (url: string): string => {
 };
 
 export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
-  console.log('🚀 ~ ChatIntentsRow ~ intents:', intents);
   const { shouldShowConfirmationWarning, shouldDisableActionButtons, triggerScroll } = useChatContext();
   const [isExpanded, setIsExpanded] = useState(false);
 
