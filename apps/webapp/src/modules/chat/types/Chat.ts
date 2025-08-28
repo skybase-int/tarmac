@@ -30,6 +30,7 @@ export interface ChatIntent {
   intent_id: string;
   title: string;
   url: string;
+  widget: string;
 }
 
 export enum SlotType {

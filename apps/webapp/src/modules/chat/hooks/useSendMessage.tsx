@@ -76,11 +76,26 @@ const sendMessageMutation: MutationFunction<
   // we will override the response if we detect an action intent
   const data: SendMessageResponse = { ...chatResponse };
 
-  data.intents = actionIntentResponse.map(action => ({
-    title: action.title,
-    url: action.url,
-    intent_id: action.title
-  }));
+  data.intents = actionIntentResponse.map(action => {
+    // Extract widget parameter from the action URL to use as intent_id
+    let widget = '';
+    try {
+      const urlObj = new URL(action.url, window.location.origin);
+      const widgetParam = urlObj.searchParams.get('widget');
+      if (widgetParam) {
+        widget = widgetParam;
+      }
+    } catch {
+      // If URL parsing fails, widget remains empty string
+    }
+
+    return {
+      title: action.title,
+      url: action.url,
+      intent_id: action.title,
+      widget
+    };
+  });
 
   return data;
 };
