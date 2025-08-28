@@ -48,4 +48,4 @@ jobs:
           # Enable provenance for any `npm publish` called under the hood
           NPM_CONFIG_PROVENANCE: 'true'
           # If your package is scoped and public, ensure public access
-          # NPM_CONFIG_ACCESS: 'public'
+          NPM_CONFIG_ACCESS: 'public'
