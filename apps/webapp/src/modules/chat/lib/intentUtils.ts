@@ -28,6 +28,31 @@ export const chainIdNameMapping = {
   [optimism.id]: 'optimism'
 } as const;
 
+// Map of chainId to chain objects for display names
+const chains = {
+  [mainnet.id]: mainnet,
+  [base.id]: base,
+  [arbitrum.id]: arbitrum,
+  [optimism.id]: optimism,
+  [unichain.id]: unichain
+};
+
+export const getNetworkDisplayName = (network: string | undefined): string => {
+  if (!network) return 'Ethereum';
+
+  // Get chainId from network identifier
+  const chainId =
+    networkMapping[network as keyof typeof networkMapping] ||
+    networkMapping[network.toLowerCase() as keyof typeof networkMapping];
+
+  if (chainId && chains[chainId]) {
+    return chains[chainId].name;
+  }
+
+  // Fallback: capitalize the network name
+  return network.charAt(0).toUpperCase() + network.slice(1);
+};
+
 export const testnetNameMapping = {
   [normalizeUrlParam(mainnet.name)]: normalizeUrlParam(mainnet.name),
   [normalizeUrlParam(base.name)]: normalizeUrlParam(base.name),
