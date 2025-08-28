@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4.0.0
@@ -29,10 +29,14 @@ jobs:
           version: ${{ matrix.pnpm-version }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          registry-url: 'https://registry.npmjs.org'  # lets npm CLI know which registry to use
+          registry-url: 'https://registry.npmjs.org'
+
+      # Ensure npm 11.5.1 or later for trusted publishing
+      - name: Update npm
+        run: npm install -g npm@latest
 
       - name: Install Dependencies
         run: pnpm i
@@ -45,7 +49,4 @@ jobs:
           publish: pnpm changeset:release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Enable provenance for any `npm publish` called under the hood
           NPM_CONFIG_PROVENANCE: 'true'
-          # If your package is scoped and public, ensure public access
-          NPM_CONFIG_ACCESS: 'public'
