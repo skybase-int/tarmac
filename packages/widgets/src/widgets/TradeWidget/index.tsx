@@ -45,7 +45,7 @@ import { TradeInputs } from './components/TradeInputs';
 import { getAllowedTargetTokens, getQuoteErrorForType, verifySlippage } from './lib/utils';
 import { defaultConfig } from '@widgets/config/default-config';
 import { useLingui } from '@lingui/react';
-import { TradeHeader, TradeSubHeader, TradePoweredBy, TradeWarning } from './components/TradeHeader';
+import { TradeHeader, TradeSubHeader, TradePoweredBy } from './components/TradeHeader';
 import { formatUnits, parseUnits } from 'viem';
 import { getValidatedState } from '@widgets/lib/utils';
 import { TradeSummary } from './components/TradeSummary';
@@ -1175,7 +1175,6 @@ function TradeWidgetWrapped({
     >
       <div className="mt-[-16px] space-y-0">
         <TradePoweredBy onExternalLinkClicked={onExternalLinkClicked} />
-        <TradeWarning originToken={originToken} />
       </div>
       <AnimatePresence mode="popLayout" initial={false}>
         {widgetState.screen === TradeScreen.REVIEW && quoteData && originToken && targetToken ? (
@@ -1230,6 +1229,7 @@ function TradeWidgetWrapped({
               tradeAnyway={tradeAnyway}
               setTradeAnyway={setTradeAnyway}
               enableSearch={true}
+              allowance={allowance}
               onOriginTokenChange={(token: TokenForChain) => {
                 onWidgetStateChange?.({
                   originToken: token.symbol,

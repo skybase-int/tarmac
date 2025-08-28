@@ -12,6 +12,7 @@ import { Button } from '@widgets/components/ui/button';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { CostWarning } from './CostWarning';
+import { TradeWarning } from './TradeWarning';
 import { getQuoteErrorForType } from '../lib/utils';
 
 type TokenBalanceData = Omit<GetBalanceData, 'symbol'> & {
@@ -38,6 +39,7 @@ type TradeInputsProps = {
   isBalanceError: boolean;
   isQuoteLoading: boolean;
   canSwitchTokens: boolean;
+  allowance?: bigint;
   priceImpact: number | undefined;
   feePercentage: number | undefined;
   isConnectedAndEnabled: boolean;
@@ -86,7 +88,8 @@ export function TradeInputs({
   onOriginTokenChange,
   onTargetTokenChange,
   onOriginInputChange,
-  enableSearch = false
+  enableSearch = false,
+  allowance
 }: TradeInputsProps) {
   const separationPx = 12;
   const separationMb = 'mb-[12px]';
@@ -287,6 +290,13 @@ export function TradeInputs({
           />
         </motion.div>
       )}
+      <motion.div variants={positionAnimations}>
+        <TradeWarning
+          originToken={originToken}
+          currentAllowance={allowance}
+          neededAllowance={quoteData?.quote.sellAmountToSign}
+        />
+      </motion.div>
       <motion.div variants={positionAnimations}>
         <TradeDetails
           quoteData={quoteData}
