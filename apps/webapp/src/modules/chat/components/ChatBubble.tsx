@@ -36,8 +36,8 @@ type ChatBubbleProps = {
 // Default suggested questions if env var is not set
 const DEFAULT_SUGGESTED_QUESTIONS = [
   'What is Sky Protocol?',
-  'How do I earn rewards?',
-  'How does the savings feature work?'
+  'How can I get USDS?',
+  'What can I do with USDS?'
 ];
 
 const TypingIndicator: React.FC<{ text?: string }> = ({ text = '' }) => {
