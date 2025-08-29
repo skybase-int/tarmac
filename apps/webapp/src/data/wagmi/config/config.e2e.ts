@@ -3,9 +3,10 @@ import { createConfig, createConnector, createStorage, noopStorage } from 'wagmi
 import { getTestTenderlyChains, TENDERLY_BASE_CHAIN_ID, TENDERLY_CHAIN_ID } from './testTenderlyChain';
 import { mock, MockParameters } from 'wagmi/connectors';
 import { TEST_WALLET_ADDRESSES } from '@/test/e2e/utils/testWallets';
-import { optimism, unichain } from 'viem/chains';
+import { arbitrum, optimism, unichain } from 'viem/chains';
 
-const [tenderlyMainnet, tenderlyBase, tenderlyOptimism, tenderlyUnichain] = getTestTenderlyChains();
+const [tenderlyMainnet, tenderlyBase, tenderlyArbitrum, tenderlyOptimism, tenderlyUnichain] =
+  getTestTenderlyChains();
 
 function extendedMock(params: MockParameters) {
   return createConnector(config => {
@@ -80,7 +81,7 @@ const workerIndex = Number(import.meta.env.VITE_TEST_WORKER_INDEX || 0);
 const accounts = TEST_WALLET_ADDRESSES as [`0x${string}`, ...`0x${string}`[]];
 
 export const mockWagmiConfig = createConfig({
-  chains: [tenderlyMainnet, tenderlyBase, tenderlyOptimism, tenderlyUnichain],
+  chains: [tenderlyMainnet, tenderlyBase, tenderlyArbitrum, tenderlyOptimism, tenderlyUnichain],
   connectors: [
     mock({
       accounts,
@@ -99,6 +100,7 @@ export const mockWagmiConfig = createConfig({
   transports: {
     [tenderlyMainnet.id]: http(),
     [tenderlyBase.id]: http(),
+    [arbitrum.id]: http(),
     [optimism.id]: http(),
     [unichain.id]: http()
   },
