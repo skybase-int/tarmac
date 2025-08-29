@@ -67,23 +67,13 @@ export const CHAIN_WIDGET_MAP: Record<number, Intent[]> = {
     Intent.STAKE_INTENT,
     Intent.EXPERT_INTENT
   ],
-  [base.id]: [Intent.BALANCES_INTENT, Intent.REWARDS_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
-  [arbitrum.id]: [Intent.BALANCES_INTENT, Intent.REWARDS_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
-  [tenderlyBase.id]: [
-    Intent.BALANCES_INTENT,
-    Intent.REWARDS_INTENT,
-    Intent.SAVINGS_INTENT,
-    Intent.TRADE_INTENT
-  ],
-  [tenderlyArbitrum.id]: [
-    Intent.BALANCES_INTENT,
-    Intent.REWARDS_INTENT,
-    Intent.SAVINGS_INTENT,
-    Intent.TRADE_INTENT
-  ],
+  [base.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
+  [arbitrum.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
+  [tenderlyBase.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
+  [tenderlyArbitrum.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
   [sepolia.id]: [Intent.BALANCES_INTENT, Intent.TRADE_INTENT],
-  [unichain.id]: [Intent.BALANCES_INTENT, Intent.REWARDS_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
-  [optimism.id]: [Intent.BALANCES_INTENT, Intent.REWARDS_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT]
+  [unichain.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
+  [optimism.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT]
 };
 
 export const COMING_SOON_MAP: Record<number, Intent[]> = {
