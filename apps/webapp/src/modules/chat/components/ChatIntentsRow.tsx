@@ -56,11 +56,30 @@ export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
   const { shouldShowConfirmationWarning, shouldDisableActionButtons, triggerScroll } = useChatContext();
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Group intents by title
+  // Group intents by title and filter duplicates with same title + network
   const groupedIntents = useMemo(() => {
     const groups = new Map<string, GroupedIntent>();
+    const seenCombos = new Map<string, Set<string>>();
 
     intents.forEach(intent => {
+      // Extract network from the intent URL to check for duplicates
+      const intentUrl = new URL(intent.url, window.location.origin);
+      const network = intentUrl.searchParams.get('network')?.toLowerCase();
+
+      // Initialize tracking for this title if needed
+      if (!seenCombos.has(intent.title)) {
+        seenCombos.set(intent.title, new Set());
+      }
+
+      const titleCombos = seenCombos.get(intent.title)!;
+      const trackingKey = network || 'NO_NETWORK';
+
+      // Check if we've seen this exact combination before
+      if (titleCombos.has(trackingKey)) {
+        return; // Skip duplicate (same title + same network, or same title + both without network)
+      }
+      titleCombos.add(trackingKey);
+
       if (!groups.has(intent.title)) {
         groups.set(intent.title, {
           title: intent.title,
@@ -73,7 +92,8 @@ export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
     });
 
     // Convert Map to array and sort if needed
-    // TODO: Sort by priority when priority field is available from the endpoint
+    // TODO: When priority field becomes available from the backend,
+    // use it for sorting instead of relying on array order
     return Array.from(groups.values());
   }, [intents]);
 
