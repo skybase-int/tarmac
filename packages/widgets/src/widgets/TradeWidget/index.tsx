@@ -65,6 +65,7 @@ export type TradeWidgetProps = WidgetProps & {
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   widgetTitle?: ReactNode;
   batchEnabled?: boolean;
+  setBatchEnabled?: (enabled: boolean) => void;
 };
 
 function TradeWidgetWrapped({
@@ -82,13 +83,19 @@ function TradeWidgetWrapped({
   customNavigationLabel,
   onExternalLinkClicked,
   enabled = true,
-  batchEnabled = true
+  batchEnabled: initialBatchEnabled = true,
+  setBatchEnabled: externalSetBatchEnabled
 }: TradeWidgetProps): React.ReactElement {
   const { mutate: addToWallet } = useAddTokenToWallet();
   const [showAddToken, setShowAddToken] = useState(false);
   const [tradeAnyway, setTradeAnyway] = useState(false);
   const [cancelLoading, setCancelLoading] = useState(false);
   const [ethFlowTxStatus, setEthFlowTxStatus] = useState<EthFlowTxStatus>(EthFlowTxStatus.IDLE);
+  const [internalBatchEnabled, setInternalBatchEnabled] = useState(initialBatchEnabled);
+
+  // Use external setter if provided, otherwise use internal state
+  const batchEnabled = externalSetBatchEnabled ? initialBatchEnabled : internalBatchEnabled;
+  const setBatchEnabled = externalSetBatchEnabled || setInternalBatchEnabled;
   const validatedExternalState = getValidatedState(externalWidgetState);
 
   useEffect(() => {
@@ -824,14 +831,47 @@ function TradeWidgetWrapped({
 
   // set widget button to be disabled depending on which action we're performing
   useEffect(() => {
-    setIsDisabled(
-      isConnectedAndEnabled &&
-        !!(
-          (widgetState.action === TradeAction.APPROVE && approveDisabled) ||
-          (widgetState.action === TradeAction.TRADE && tradeDisabled)
-        )
-    );
-  }, [isQuoteLoading, isConnectedAndEnabled, approveDisabled, tradeDisabled, widgetState.action]);
+    // For review screen, only check basic conditions
+    if (widgetState.screen === TradeScreen.ACTION) {
+      const reviewDisabled =
+        isConnectedAndEnabled &&
+        (isBalanceError ||
+          !pairValid ||
+          disabledDueToHighCosts ||
+          !originToken ||
+          !targetToken ||
+          originAmount === 0n ||
+          !quoteData ||
+          isQuoteLoading ||
+          allowanceLoading ||
+          isAmountWaitingForDebounce);
+      setIsDisabled(reviewDisabled);
+    } else {
+      setIsDisabled(
+        isConnectedAndEnabled &&
+          !!(
+            (widgetState.action === TradeAction.APPROVE && approveDisabled) ||
+            (widgetState.action === TradeAction.TRADE && tradeDisabled)
+          )
+      );
+    }
+  }, [
+    isQuoteLoading,
+    isConnectedAndEnabled,
+    approveDisabled,
+    tradeDisabled,
+    widgetState.action,
+    widgetState.screen,
+    isBalanceError,
+    pairValid,
+    disabledDueToHighCosts,
+    originToken,
+    targetToken,
+    originAmount,
+    quoteData,
+    allowanceLoading,
+    isAmountWaitingForDebounce
+  ]);
 
   // set isLoading to be consumed by WidgetButton
   useEffect(() => {
@@ -1267,6 +1307,9 @@ function TradeWidgetWrapped({
               originToken={originToken}
               targetToken={targetToken}
               priceImpact={priceImpact}
+              allowance={allowance}
+              batchEnabled={batchEnabled}
+              setBatchEnabled={setBatchEnabled}
             />
           </CardAnimationWrapper>
         ) : txStatus !== TxStatus.IDLE ? (
@@ -1311,8 +1354,6 @@ function TradeWidgetWrapped({
               tradeAnyway={tradeAnyway}
               setTradeAnyway={setTradeAnyway}
               enableSearch={true}
-              allowance={allowance}
-              batchEnabled={batchEnabled}
               onOriginTokenChange={(token: TokenForChain) => {
                 onWidgetStateChange?.({
                   originToken: token.symbol,
