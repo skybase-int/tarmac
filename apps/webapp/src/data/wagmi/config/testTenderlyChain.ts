@@ -16,7 +16,7 @@ export const TENDERLY_BASE_RPC_URL =
 
 export const getTestTenderlyChains = () => {
   const mainnetData = tenderlyTestnetData.find(data => data.NETWORK === NetworkName.mainnet);
-  const arbitrumData = tenderlyTestnetData.find(data => data.NETWORK === NetworkName.optimism);
+  const arbitrumData = tenderlyTestnetData.find(data => data.NETWORK === NetworkName.arbitrum);
   const baseData = tenderlyTestnetData.find(data => data.NETWORK === NetworkName.base);
   const optimismData = tenderlyTestnetData.find(data => data.NETWORK === NetworkName.optimism);
   const unichainData = tenderlyTestnetData.find(data => data.NETWORK === NetworkName.unichain);
