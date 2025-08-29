@@ -1,7 +1,7 @@
 import { Chain, defineChain } from 'viem';
 import { TENDERLY_BASE_CHAIN_ID, TENDERLY_CHAIN_ID } from '../src/constants';
 import { readFileSync } from 'fs';
-import { optimism, unichain } from 'viem/chains';
+import { arbitrum, optimism, unichain } from 'viem/chains';
 import { NetworkName } from './constants';
 
 export const getTenderlyChains = () => {
@@ -10,6 +10,7 @@ export const getTenderlyChains = () => {
 
   const mainnetData = tenderlyTestnetData.find((data: any) => data.NETWORK === NetworkName.mainnet);
   const baseData = tenderlyTestnetData.find((data: any) => data.NETWORK === NetworkName.base);
+  const arbitrumData = tenderlyTestnetData.find((data: any) => data.NETWORK === NetworkName.arbitrum);
   const optimismData = tenderlyTestnetData.find((data: any) => data.NETWORK === NetworkName.optimism);
   const unichainData = tenderlyTestnetData.find((data: any) => data.NETWORK === NetworkName.unichain);
 
@@ -30,6 +31,13 @@ export const getTenderlyChains = () => {
         default: { http: [baseData.TENDERLY_RPC_URL] }
       }
     }),
+    {
+      ...arbitrum,
+      name: 'Tenderly Arbitrum',
+      rpcUrls: {
+        default: { http: [arbitrumData.TENDERLY_RPC_URL] }
+      }
+    },
     {
       ...optimism,
       name: 'Tenderly Optimism',

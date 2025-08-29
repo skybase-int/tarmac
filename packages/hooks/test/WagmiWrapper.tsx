@@ -10,7 +10,7 @@ import { TEST_WALLET_ADDRESS } from './constants';
 import { createTestClient, EIP1193Parameters, WalletRpcSchema } from 'viem';
 import { optimism, unichain } from 'viem/chains';
 
-const [tenderlyMainnet, tenderlyBase] = getTenderlyChains();
+const [tenderlyMainnet, tenderlyArbitrum, tenderlyBase] = getTenderlyChains();
 
 function extendedMock(params: MockParameters) {
   return createConnector(config => {
@@ -32,6 +32,7 @@ function extendedMock(params: MockParameters) {
                     // Add capabilities for different chains
                     [tenderlyMainnet.id]: { atomic: { status: 'supported' } },
                     [tenderlyBase.id]: { atomic: { status: 'supported' } },
+                    [tenderlyArbitrum.id]: { atomic: { status: 'supported' } },
                     [optimism.id]: { atomic: { status: 'supported' } },
                     [unichain.id]: { atomic: { status: 'supported' } }
                   };
@@ -79,7 +80,7 @@ function extendedMock(params: MockParameters) {
 }
 
 export const config = createConfig({
-  chains: [tenderlyMainnet, tenderlyBase],
+  chains: [tenderlyMainnet, tenderlyBase, tenderlyArbitrum],
   connectors: [
     extendedMock({
       accounts: [TEST_WALLET_ADDRESS],
@@ -90,7 +91,8 @@ export const config = createConfig({
   ],
   transports: {
     [tenderlyMainnet.id]: http(),
-    [tenderlyBase.id]: http()
+    [tenderlyBase.id]: http(),
+    [tenderlyArbitrum.id]: http()
   }
 });
 
@@ -112,6 +114,12 @@ export const testClientMainnet = createTestClient({
 
 export const testClientBase = createTestClient({
   chain: tenderlyBase,
+  mode: 'anvil',
+  transport: http()
+});
+
+export const testClientArbitrum = createTestClient({
+  chain: tenderlyArbitrum,
   mode: 'anvil',
   transport: http()
 });
