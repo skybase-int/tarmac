@@ -87,12 +87,7 @@ export const CHAIN_WIDGET_MAP: Record<number, Intent[]> = {
 };
 
 export const COMING_SOON_MAP: Record<number, Intent[]> = {
-  [base.id]: [Intent.REWARDS_INTENT],
-  [arbitrum.id]: [Intent.REWARDS_INTENT],
-  [optimism.id]: [Intent.REWARDS_INTENT],
-  [unichain.id]: [Intent.REWARDS_INTENT],
-  [tenderlyBase.id]: [Intent.REWARDS_INTENT],
-  [tenderlyArbitrum.id]: [Intent.REWARDS_INTENT]
+  // Rewards is now treated as a mainnet-only module with auto-switching
   // [base.id]: [Intent.YOUR_INTENT] // Example of how to add a coming soon intent
 };
 
