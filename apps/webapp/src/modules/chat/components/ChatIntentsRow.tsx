@@ -59,27 +59,25 @@ export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
   // Group intents by title and filter duplicates with same title + network
   const groupedIntents = useMemo(() => {
     const groups = new Map<string, GroupedIntent>();
-    const seenCombos = new Map<string, Set<string>>();
+    // Track seen title+network combinations to filter duplicates
+    const seenCombos = new Set<string>();
 
     intents.forEach(intent => {
       // Extract network from the intent URL to check for duplicates
       const intentUrl = new URL(intent.url, window.location.origin);
       const network = intentUrl.searchParams.get('network')?.toLowerCase();
 
-      // Initialize tracking for this title if needed
-      if (!seenCombos.has(intent.title)) {
-        seenCombos.set(intent.title, new Set());
+      // Create a unique key combining title and network
+      // All intents should have networks now thanks to ensureIntentHasNetwork
+      const comboKey = `${intent.title}::${network}`;
+
+      // Skip if we've already seen this title+network combination
+      if (seenCombos.has(comboKey)) {
+        return; // Skip duplicate
       }
+      seenCombos.add(comboKey);
 
-      const titleCombos = seenCombos.get(intent.title)!;
-      const trackingKey = network || 'NO_NETWORK';
-
-      // Check if we've seen this exact combination before
-      if (titleCombos.has(trackingKey)) {
-        return; // Skip duplicate (same title + same network, or same title + both without network)
-      }
-      titleCombos.add(trackingKey);
-
+      // Add to grouped intents
       if (!groups.has(intent.title)) {
         groups.set(intent.title, {
           title: intent.title,
