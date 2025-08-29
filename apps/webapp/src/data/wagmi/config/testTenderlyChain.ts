@@ -1,6 +1,6 @@
 import { Chain, defineChain } from 'viem';
 import tenderlyTestnetData from '../../../../../../tenderlyTestnetData.json' with { type: 'json' };
-import { base, mainnet, optimism, unichain } from 'viem/chains';
+import { arbitrum, base, mainnet, optimism, unichain } from 'viem/chains';
 import { NetworkName } from '../../../test/e2e/utils/constants';
 
 export const TENDERLY_CHAIN_ID = 314310;
@@ -16,11 +16,12 @@ export const TENDERLY_BASE_RPC_URL =
 
 export const getTestTenderlyChains = () => {
   const mainnetData = tenderlyTestnetData.find(data => data.NETWORK === NetworkName.mainnet);
+  const arbitrumData = tenderlyTestnetData.find(data => data.NETWORK === NetworkName.optimism);
   const baseData = tenderlyTestnetData.find(data => data.NETWORK === NetworkName.base);
   const optimismData = tenderlyTestnetData.find(data => data.NETWORK === NetworkName.optimism);
   const unichainData = tenderlyTestnetData.find(data => data.NETWORK === NetworkName.unichain);
 
-  if (!mainnetData || !baseData || !optimismData || !unichainData) {
+  if (!mainnetData || !arbitrumData || !baseData || !optimismData || !unichainData) {
     throw new Error('Missing required network data from tenderlyTestnetData file');
   }
 
@@ -41,6 +42,13 @@ export const getTestTenderlyChains = () => {
       nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
       rpcUrls: {
         default: { http: [baseData.TENDERLY_RPC_URL || TENDERLY_BASE_RPC_URL] }
+      }
+    }),
+    defineChain({
+      ...arbitrum,
+      name: 'Tenderly Arbitrum',
+      rpcUrls: {
+        default: { http: [arbitrumData.TENDERLY_RPC_URL] }
       }
     }),
     defineChain({
