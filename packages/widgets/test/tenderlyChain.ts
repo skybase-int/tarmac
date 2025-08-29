@@ -1,11 +1,11 @@
 import { Chain, defineChain } from 'viem';
 import { readFileSync } from 'fs';
 import { TENDERLY_CHAIN_ID } from '../src/shared/constants';
-import { arbitrum, optimism, unichain } from 'viem/chains';
+import { arbitrum, base, optimism, unichain } from 'viem/chains';
 
 export const getTenderlyChains = () => {
   const res = readFileSync('../../tenderlyTestnetData.json', 'utf-8');
-  const [mainnetData, , arbitrumData, optimismData, unichainData] = JSON.parse(res);
+  const [mainnetData, baseData, arbitrumData, optimismData, unichainData] = JSON.parse(res);
 
   return [
     defineChain({
@@ -16,6 +16,13 @@ export const getTenderlyChains = () => {
         default: { http: [mainnetData.TENDERLY_RPC_URL] }
       }
     }),
+    {
+      ...base,
+      name: 'Tenderly Base',
+      rpcUrls: {
+        default: { http: [baseData.TENDERLY_RPC_URL] }
+      }
+    },
     {
       ...arbitrum,
       name: 'Tenderly Arbitrum',
