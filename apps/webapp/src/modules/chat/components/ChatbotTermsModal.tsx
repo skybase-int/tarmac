@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { t } from '@lingui/core/macro';
-import { Trans } from '@lingui/react/macro';
 import { TermsDialog } from '@/modules/ui/components/TermsDialog';
 import { TermsMarkdownRenderer } from '@/modules/ui/components/markdown/TermsMarkdownRenderer';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -27,13 +26,19 @@ export const ChatbotTermsModal: React.FC<ChatbotTermsModalProps> = ({
   error = null,
   termsLoadedSuccessfully = true
 }) => {
-  const [isChecked, setIsChecked] = useState(false);
+  const [isTermsChecked, setIsTermsChecked] = useState(false);
+  const [isPrivacyChecked, setIsPrivacyChecked] = useState(false);
   const [hasScrolledToEnd, setHasScrolledToEnd] = useState(false);
+  const termsLabel =
+    import.meta.env.VITE_CHATBOT_CHECKBOX_TERMS_LABEL ||
+    t`By clicking accept, you confirm agreement to the Chatbot Terms of Use.`;
+  const privacyLabel = import.meta.env.VITE_CHATBOT_CHECKBOX_PRIVACY_LABEL || t`I accept the privacy policy.`;
 
-  // Reset checkbox when modal opens
+  // Reset checkboxes when modal opens
   useEffect(() => {
     if (isOpen) {
-      setIsChecked(false);
+      setIsTermsChecked(false);
+      setIsPrivacyChecked(false);
       setHasScrolledToEnd(false);
     }
   }, [isOpen]);
@@ -44,16 +49,20 @@ export const ChatbotTermsModal: React.FC<ChatbotTermsModalProps> = ({
     }
   };
 
-  const handleCheckboxChange = (checkedState: CheckedState) => {
-    setIsChecked(checkedState === true);
+  const handleTermsCheckboxChange = (checkedState: CheckedState) => {
+    setIsTermsChecked(checkedState === true);
+  };
+
+  const handlePrivacyCheckboxChange = (checkedState: CheckedState) => {
+    setIsPrivacyChecked(checkedState === true);
   };
 
   // Compute button text based on state
   const getButtonText = () => {
-    if (isLoading) return t`Accepting...`;
+    if (isLoading) return t`Processing...`;
     if (!hasScrolledToEnd) return t`Scroll down ↓`;
-    if (!isChecked) return t`Check to continue`;
-    return t`Accept`;
+    if (!isTermsChecked || !isPrivacyChecked) return t`Check to continue`;
+    return t`I Agree`;
   };
 
   const checkboxContent = (scrolledToEnd: boolean) => {
@@ -63,20 +72,31 @@ export const ChatbotTermsModal: React.FC<ChatbotTermsModalProps> = ({
     }
 
     return (
-      <div className="flex items-center sm:my-4">
-        <Checkbox
-          id="chatbotTermsCheckbox"
-          disabled={!scrolledToEnd}
-          checked={isChecked}
-          onCheckedChange={handleCheckboxChange}
-          className="mr-2"
-        />
-        <label
-          htmlFor="chatbotTermsCheckbox"
-          className="text-text ml-2 text-sm leading-none md:leading-tight"
-        >
-          <Trans>By clicking accept, you confirm agreement to the Chatbot Terms of Use.</Trans>
-        </label>
+      <div className="space-y-3">
+        <div className="flex items-center">
+          <Checkbox
+            id="termsCheckbox"
+            disabled={!scrolledToEnd}
+            checked={isTermsChecked}
+            onCheckedChange={handleTermsCheckboxChange}
+            className="mr-2"
+          />
+          <label htmlFor="termsCheckbox" className="text-text ml-2 text-sm leading-none md:leading-tight">
+            <TermsMarkdownRenderer className="pb-0" markdown={termsLabel} />
+          </label>
+        </div>
+        <div className="flex items-center">
+          <Checkbox
+            id="privacyCheckbox"
+            disabled={!scrolledToEnd}
+            checked={isPrivacyChecked}
+            onCheckedChange={handlePrivacyCheckboxChange}
+            className="mr-2"
+          />
+          <label htmlFor="privacyCheckbox" className="text-text ml-2 text-sm leading-none md:leading-tight">
+            <TermsMarkdownRenderer className="pb-0" markdown={privacyLabel} />
+          </label>
+        </div>
       </div>
     );
   };
@@ -93,8 +113,8 @@ export const ChatbotTermsModal: React.FC<ChatbotTermsModalProps> = ({
       onAccept={termsLoadedSuccessfully ? onAccept : () => {}}
       onDecline={onDecline}
       acceptButtonText={termsLoadedSuccessfully ? getButtonText() : undefined}
-      declineButtonText={termsLoadedSuccessfully ? t`Reject` : t`Close`}
-      acceptButtonDisabled={!isChecked}
+      declineButtonText={termsLoadedSuccessfully ? t`I Decline` : t`Close`}
+      acceptButtonDisabled={!isTermsChecked || !isPrivacyChecked}
       additionalContent={termsLoadedSuccessfully ? checkboxContent : undefined}
       showScrollInstruction={termsLoadedSuccessfully}
       scrollInstructionText={t`Please scroll to the bottom and read the entire terms; the checkbox will become enabled afterward.`}
