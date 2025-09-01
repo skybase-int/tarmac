@@ -140,7 +140,7 @@ function TradeWidgetWrapped({
 
   const initialOriginAmount = parseUnits(
     validatedExternalState?.amount || '0',
-    originToken ? getTokenDecimals(originToken, chainId) : 18
+    getTokenDecimals(originToken, chainId)
   );
 
   const [originAmount, setOriginAmount] = useState(initialOriginAmount);
@@ -148,7 +148,7 @@ function TradeWidgetWrapped({
 
   const initialTargetAmount = parseUnits(
     validatedExternalState?.amount || '0',
-    targetToken ? getTokenDecimals(targetToken, chainId) : 18
+    getTokenDecimals(targetToken, chainId)
   );
 
   const [targetAmount, setTargetAmount] = useState(initialTargetAmount);
@@ -351,7 +351,7 @@ function TradeWidgetWrapped({
       externalWidgetState?.amount !==
         formatBigInt(originAmount, {
           locale,
-          unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+          unit: getTokenDecimals(originToken, chainId)
         });
 
     if ((tokensHasChanged || amountHasChanged) && txStatus === TxStatus.IDLE) {
@@ -871,12 +871,8 @@ function TradeWidgetWrapped({
                     value: (() => {
                       if (!originAmount || originAmount === 0n || !targetAmount) return '1:1';
 
-                      const originDecimals = originToken
-                        ? getTokenDecimals(originToken as Token, chainId)
-                        : 18;
-                      const targetDecimals = targetToken
-                        ? getTokenDecimals(targetToken as Token, chainId)
-                        : 18;
+                      const originDecimals = getTokenDecimals(originToken as Token, chainId);
+                      const targetDecimals = getTokenDecimals(targetToken as Token, chainId);
 
                       // Convert to decimal values
                       const originValue = Number(formatUnits(originAmount, originDecimals));
@@ -897,7 +893,7 @@ function TradeWidgetWrapped({
                   {
                     label: t`Tokens to receive`,
                     value: `${formatBigInt(targetAmount, {
-                      unit: targetToken ? getTokenDecimals(targetToken as Token, chainId) : 18,
+                      unit: getTokenDecimals(targetToken as Token, chainId),
                       compact: true
                     })} ${targetToken?.symbol}`
                   },
@@ -907,11 +903,11 @@ function TradeWidgetWrapped({
                       originBalance?.value !== undefined && originAmount > 0n
                         ? [
                             formatBigInt(originBalance.value, {
-                              unit: originToken ? getTokenDecimals(originToken as Token, chainId) : 18,
+                              unit: getTokenDecimals(originToken as Token, chainId),
                               compact: true
                             }),
                             formatBigInt(originBalance.value - originAmount, {
-                              unit: originToken ? getTokenDecimals(originToken as Token, chainId) : 18,
+                              unit: getTokenDecimals(originToken as Token, chainId),
                               compact: true
                             })
                           ]
@@ -923,11 +919,11 @@ function TradeWidgetWrapped({
                       targetBalance?.value !== undefined && targetAmount > 0n
                         ? [
                             formatBigInt(targetBalance.value, {
-                              unit: targetToken ? getTokenDecimals(targetToken as Token, chainId) : 18,
+                              unit: getTokenDecimals(targetToken as Token, chainId),
                               compact: true
                             }),
                             formatBigInt(targetBalance.value + targetAmount, {
-                              unit: targetToken ? getTokenDecimals(targetToken as Token, chainId) : 18,
+                              unit: getTokenDecimals(targetToken as Token, chainId),
                               compact: true
                             })
                           ]

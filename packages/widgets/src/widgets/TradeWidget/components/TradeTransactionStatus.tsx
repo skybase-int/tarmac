@@ -123,11 +123,11 @@ export const TradeTransactionStatus = ({
             ethFlowTxStatus,
             originToken,
             originAmount: formatBigInt(originAmount, {
-              unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+              unit: getTokenDecimals(originToken, chainId)
             }),
             targetToken,
             targetAmount: formatBigInt(targetAmount, {
-              unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18
+              unit: getTokenDecimals(targetToken, chainId)
             })
           })
         )
@@ -145,7 +145,7 @@ export const TradeTransactionStatus = ({
             tradeApproveLoadingButtonText({
               txStatus,
               amount: formatBigInt(originAmount, {
-                unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+                unit: getTokenDecimals(originToken, chainId)
               }),
               symbol: originToken.symbol
             })
@@ -174,11 +174,11 @@ export const TradeTransactionStatus = ({
               txStatus,
               originToken,
               originAmount: formatBigInt(originAmount, {
-                unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+                unit: getTokenDecimals(originToken, chainId)
               }),
               targetToken,
               targetAmount: formatBigInt(targetAmount, {
-                unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18
+                unit: getTokenDecimals(targetToken, chainId)
               })
             })
           )

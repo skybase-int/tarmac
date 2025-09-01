@@ -149,13 +149,13 @@ function TradeWidgetWrapped({
   const [targetToken, setTargetToken] = useState<TokenForChain | undefined>(initialTargetToken);
   const initialOriginAmount = parseUnits(
     validatedExternalState?.amount || '0',
-    originToken ? getTokenDecimals(originToken, chainId) : 18
+    getTokenDecimals(originToken, chainId)
   );
   const [originAmount, setOriginAmount] = useState(initialOriginAmount);
   const debouncedOriginAmount = useDebounce(originAmount);
   const initialTargetAmount = parseUnits(
     validatedExternalState?.targetAmount || '0',
-    targetToken ? getTokenDecimals(targetToken, chainId) : 18
+    getTokenDecimals(targetToken, chainId)
   );
   const [targetAmount, setTargetAmount] = useState(initialTargetAmount);
   const debouncedTargetAmount = useDebounce(targetAmount);
@@ -305,7 +305,7 @@ function TradeWidgetWrapped({
         hash,
         description: t`Approving ${formatBigInt(debouncedOriginAmount, {
           locale,
-          unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+          unit: getTokenDecimals(originToken, chainId)
         })} ${originToken?.symbol ?? ''}`
       });
       setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
@@ -353,11 +353,11 @@ function TradeWidgetWrapped({
       //hardcoding the locale used for the externalized widget state because the widget consumer expects a constistent formatting
       const executedSellAmountEnUs = formatBigInt(executedSellAmount, {
         locale: 'en-US',
-        unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+        unit: getTokenDecimals(originToken, chainId)
       });
       const executedBuyAmountEnUs = formatBigInt(executedBuyAmount, {
         locale: 'en-US',
-        unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18
+        unit: getTokenDecimals(targetToken, chainId)
       });
       setFormattedExecutedSellAmount(executedSellAmountEnUs);
       setFormattedExecutedBuyAmount(executedBuyAmountEnUs);
@@ -367,10 +367,10 @@ function TradeWidgetWrapped({
         title: t`Trade successful`,
         description: t`You traded ${formatBigInt(executedSellAmount, {
           locale,
-          unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+          unit: getTokenDecimals(originToken, chainId)
         })} ${originToken?.symbol ?? ''} for ${formatBigInt(executedBuyAmount, {
           locale,
-          unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18
+          unit: getTokenDecimals(targetToken, chainId)
         })} ${targetToken?.symbol ?? ''}`,
         status: TxStatus.SUCCESS,
         type: notificationTypeMaping[targetToken?.symbol?.toUpperCase() || 'none']
@@ -413,11 +413,11 @@ function TradeWidgetWrapped({
       //hardcoding the locale used for the externalized widget state because the widget consumer expects a constistent formatting
       const executedSellAmountEnUs = formatBigInt(executedSellAmount, {
         locale: 'en-US',
-        unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+        unit: getTokenDecimals(originToken, chainId)
       });
       const executedBuyAmountEnUs = formatBigInt(executedBuyAmount, {
         locale: 'en-US',
-        unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18
+        unit: getTokenDecimals(targetToken, chainId)
       });
       setFormattedExecutedSellAmount(executedSellAmountEnUs);
       setFormattedExecutedBuyAmount(executedBuyAmountEnUs);
@@ -427,10 +427,10 @@ function TradeWidgetWrapped({
         title: t`Trade successful`,
         description: t`You traded ${formatBigInt(executedSellAmount, {
           locale,
-          unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+          unit: getTokenDecimals(originToken, chainId)
         })} ${originToken?.symbol ?? ''} for ${formatBigInt(executedBuyAmount, {
           locale,
-          unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18
+          unit: getTokenDecimals(targetToken, chainId)
         })} ${targetToken?.symbol ?? ''}`,
         status: TxStatus.SUCCESS,
         type: notificationTypeMaping[targetToken?.symbol?.toUpperCase() || 'none']
@@ -483,7 +483,7 @@ function TradeWidgetWrapped({
         hash,
         description: t`Sending ${formatBigInt(debouncedOriginAmount, {
           locale,
-          unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+          unit: getTokenDecimals(originToken, chainId)
         })} ${originToken?.symbol ?? ''} to the EthFlow contract`
       });
       setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
@@ -503,11 +503,11 @@ function TradeWidgetWrapped({
       //hardcoding the locale used for the externalized widget state because the widget consumer expects a constistent formatting
       const executedSellAmountEnUs = formatBigInt(executedSellAmount, {
         locale: 'en-US',
-        unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+        unit: getTokenDecimals(originToken, chainId)
       });
       const executedBuyAmountEnUs = formatBigInt(executedBuyAmount, {
         locale: 'en-US',
-        unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18
+        unit: getTokenDecimals(targetToken, chainId)
       });
       setFormattedExecutedSellAmount(executedSellAmountEnUs);
       setFormattedExecutedBuyAmount(executedBuyAmountEnUs);
@@ -517,10 +517,10 @@ function TradeWidgetWrapped({
         title: t`Trade successful`,
         description: t`You traded ${formatBigInt(executedSellAmount, {
           locale,
-          unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+          unit: getTokenDecimals(originToken, chainId)
         })} ${originToken?.symbol ?? ''} for ${formatBigInt(executedBuyAmount, {
           locale,
-          unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18
+          unit: getTokenDecimals(targetToken, chainId)
         })} ${targetToken?.symbol ?? ''}`,
         status: TxStatus.SUCCESS,
         type: notificationTypeMaping[targetToken?.symbol?.toUpperCase() || 'none']
@@ -822,7 +822,7 @@ function TradeWidgetWrapped({
       externalWidgetState?.amount !==
         formatBigInt(originAmount, {
           locale,
-          unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+          unit: getTokenDecimals(originToken, chainId)
         });
 
     if ((tokensHasChanged || amountHasChanged) && txStatus === TxStatus.IDLE) {
