@@ -4,14 +4,36 @@ import { t } from '@lingui/core/macro';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { ChainModal } from '@/modules/ui/components/ChainModal';
 import { requiresMainnet } from '@/lib/widget-network-map';
+import { useNetworkSwitch } from '@/modules/ui/context/NetworkSwitchContext';
+import { Loader2 } from 'lucide-react';
 
 export function NetworkSwitcher() {
   const { userConfig } = useConfigContext();
   const { intent } = userConfig;
+  const { isSwitchingNetwork } = useNetworkSwitch();
 
   // Check if current intent requires mainnet - if so, always disable the switcher
   // since these modules only work on mainnet
   const isMainnetOnly = requiresMainnet(intent);
+
+  // Show loading state when switching network
+  if (isSwitchingNetwork) {
+    return (
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 hover:from-primary-start/100 hover:to-primary-end/100 focus:from-primary-start/100 focus:to-primary-end/100 flex h-9 items-center justify-center rounded-lg border border-transparent px-[9px] bg-blend-overlay hover:border-transparent hover:bg-white/10 focus:border-transparent focus:bg-white/15">
+            <Loader2 className="h-5 w-5 animate-spin text-white" />
+          </div>
+        </TooltipTrigger>
+        <TooltipPortal>
+          <TooltipContent arrowPadding={10}>
+            <Text variant="small">{t`Switching network...`}</Text>
+            <TooltipArrow width={12} height={8} />
+          </TooltipContent>
+        </TooltipPortal>
+      </Tooltip>
+    );
+  }
 
   // For mainnet-only modules, always show disabled state with explanation
   // This prevents users from switching away from mainnet when on mainnet-only modules

@@ -21,6 +21,7 @@ import { Menu } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { DualSwitcher } from '@/components/DualSwitcher';
+import { useNetworkSwitch } from '@/modules/ui/context/NetworkSwitchContext';
 import {
   Tooltip,
   TooltipContent,
@@ -58,6 +59,7 @@ export function WidgetNavigation({
   const isRewardsOverview = !selectedRewardContract && intent === Intent.REWARDS_INTENT;
 
   const [, setSearchParams] = useSearchParams();
+  const { setIsSwitchingNetwork } = useNetworkSwitch();
 
   const handleWidgetChange = (value: string) => {
     const targetIntent = value as Intent;
@@ -65,6 +67,9 @@ export function WidgetNavigation({
 
     // Check if we need to switch networks
     if (currentChainId && requiresMainnet(targetIntent) && isL2ChainId(currentChainId)) {
+      // Set switching state to show loading indicator
+      setIsSwitchingNetwork(true);
+
       // Auto-switch to mainnet
       setSearchParams(prevParams => {
         const searchParams = deleteSearchParams(prevParams);
