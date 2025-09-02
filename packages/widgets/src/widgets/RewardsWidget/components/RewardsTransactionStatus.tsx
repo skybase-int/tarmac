@@ -83,7 +83,7 @@ export const RewardsTransactionStatus = ({
           rewardsClaimLoadingButtonText({
             txStatus,
             amount: formatBigInt(rewardAmount, {
-              unit: rewardToken ? getTokenDecimals(rewardToken, chainId) : 18
+              unit: getTokenDecimals(rewardToken, chainId)
             }),
             symbol: rewardToken.symbol
           })
@@ -95,7 +95,7 @@ export const RewardsTransactionStatus = ({
           rewardsClaimSubtitle({
             txStatus,
             amount: formatBigInt(rewardAmount, {
-              unit: rewardToken ? getTokenDecimals(rewardToken, chainId) : 18
+              unit: getTokenDecimals(rewardToken, chainId)
             }),
             symbol: rewardToken.symbol
           })
@@ -113,7 +113,7 @@ export const RewardsTransactionStatus = ({
             rewardsSupplyLoadingButtonText({
               txStatus: flowTxStatus,
               amount: formatBigInt(rewardAmount, {
-                unit: rewardToken ? getTokenDecimals(rewardToken, chainId) : 18
+                unit: getTokenDecimals(rewardToken, chainId)
               }),
               symbol: rewardToken.symbol,
               action
@@ -126,7 +126,7 @@ export const RewardsTransactionStatus = ({
             rewardsSupplySubtitle({
               txStatus: flowTxStatus,
               amount: formatBigInt(rewardAmount, {
-                unit: rewardToken ? getTokenDecimals(rewardToken, chainId) : 18
+                unit: getTokenDecimals(rewardToken, chainId)
               }),
               symbol: rewardToken.symbol,
               needsAllowance: flowNeedsAllowance
@@ -162,7 +162,7 @@ export const RewardsTransactionStatus = ({
             rewardsWithdrawLoadingButtonText({
               txStatus,
               amount: formatBigInt(rewardAmount, {
-                unit: rewardToken ? getTokenDecimals(rewardToken, chainId) : 18
+                unit: getTokenDecimals(rewardToken, chainId)
               }),
               symbol: rewardToken.symbol
             })
@@ -174,7 +174,7 @@ export const RewardsTransactionStatus = ({
             rewardsWithdrawSubtitle({
               txStatus,
               amount: formatBigInt(rewardAmount, {
-                unit: rewardToken ? getTokenDecimals(rewardToken, chainId) : 18
+                unit: getTokenDecimals(rewardToken, chainId)
               }),
               symbol: rewardToken.symbol
             })
