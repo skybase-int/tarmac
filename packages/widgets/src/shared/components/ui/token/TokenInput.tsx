@@ -86,7 +86,7 @@ export function TokenInput({
   const [height, setHeight] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const chainId = useChainId();
-  const decimals = token ? getTokenDecimals(token, chainId) : 18;
+  const decimals = getTokenDecimals(token, chainId);
   const color = useMemo(() => {
     return token?.color || tokenColors.find(t => t.symbol === token?.symbol)?.color || '#6d7ce3';
   }, [token]);

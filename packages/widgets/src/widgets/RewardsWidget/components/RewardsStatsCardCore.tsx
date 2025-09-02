@@ -7,7 +7,13 @@ import { StatsOverviewCardCore } from '@widgets/shared/components/ui/card/StatsO
 import { MotionHStack } from '@widgets/shared/components/ui/layout/MotionHStack';
 import { PairTokenIcons } from '@widgets/shared/components/ui/token/PairTokenIcon';
 import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
-import { RewardContract, TOKENS, WriteHook, useRewardsChartInfo } from '@jetstreamgg/sky-hooks';
+import {
+  RewardContract,
+  TOKENS,
+  WriteHook,
+  useRewardsChartInfo,
+  getTokenDecimals
+} from '@jetstreamgg/sky-hooks';
 import { formatBigInt, formatDecimalPercentage } from '@jetstreamgg/sky-utils';
 import { Trans } from '@lingui/react/macro';
 import { motion } from 'framer-motion';
@@ -36,12 +42,7 @@ export const RewardsStatsCardCore = ({
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 }) => {
   const chainId = useChainId();
-  const rewardTokenDecimals = rewardContract.rewardToken.decimals;
-  const parsedRewardTokenDecimals = !rewardTokenDecimals
-    ? 18
-    : typeof rewardTokenDecimals === 'number'
-      ? rewardTokenDecimals
-      : rewardTokenDecimals[chainId] || 18;
+  const parsedRewardTokenDecimals = getTokenDecimals(rewardContract.rewardToken, chainId);
   const MIN_CLAIM_DISPLAY = BigInt(10 ** (parsedRewardTokenDecimals - 2)); // 0.01
 
   const {
