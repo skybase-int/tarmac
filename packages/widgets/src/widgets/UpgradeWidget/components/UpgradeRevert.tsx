@@ -176,7 +176,7 @@ export function UpgradeRevert({
                   {
                     label: t`Tokens to receive`,
                     value: `${formatBigInt(targetAmount, {
-                      unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18,
+                      unit: getTokenDecimals(targetToken, chainId),
                       compact: true
                     })} ${targetToken?.symbol}`
                   },
@@ -217,11 +217,11 @@ export function UpgradeRevert({
                       originBalance !== undefined && originAmount > 0n
                         ? [
                             formatBigInt(originBalance, {
-                              unit: originToken ? getTokenDecimals(originToken, chainId) : 18,
+                              unit: getTokenDecimals(originToken, chainId),
                               compact: true
                             }),
                             formatBigInt(originBalance - originAmount, {
-                              unit: originToken ? getTokenDecimals(originToken, chainId) : 18,
+                              unit: getTokenDecimals(originToken, chainId),
                               compact: true
                             })
                           ]
@@ -233,11 +233,11 @@ export function UpgradeRevert({
                       targetBalance !== undefined && targetAmount > 0n
                         ? [
                             formatBigInt(targetBalance, {
-                              unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18,
+                              unit: getTokenDecimals(targetToken, chainId),
                               compact: true
                             }),
                             formatBigInt(targetBalance + targetAmount, {
-                              unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18,
+                              unit: getTokenDecimals(targetToken, chainId),
                               compact: true
                             })
                           ]
