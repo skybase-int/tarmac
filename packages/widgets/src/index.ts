@@ -37,3 +37,7 @@ export {
   type PopoverTooltipType
 } from './shared/components/ui/PopoverRateInfo';
 export { PairTokenIcons } from './shared/components/ui/token/PairTokenIcon';
+export { useTokenImage } from './shared/hooks/useTokenImage';
+export { useChainImage } from './shared/hooks/useChainImage';
+export { WidgetContainer } from './shared/components/ui/widget/WidgetContainer';
+export { CardAnimationWrapper } from './shared/animation/Wrappers';
