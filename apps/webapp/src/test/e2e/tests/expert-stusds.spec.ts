@@ -76,6 +76,16 @@ test.describe('Expert Module - stUSDS', () => {
     await expect(
       page.getByTestId('widget-container').getByRole('heading', { name: 'stUSDS Module' })
     ).toBeVisible();
+
+    // go to balance page
+    await page.getByRole('tab', { name: 'Balance' }).click();
+    await expect(page.getByText('USDS supplied to stUSDS')).toBeVisible();
+
+    // Click using the href that contains the stusds expert module path
+    await page.locator('a[href*="expert_module=stusds"]').first().click();
+
+    // should land on the stusds balance page
+    expect(page.getByText('stUSDS Module')).toBeTruthy();
   });
 
   test('Withdraw USDS from stUSDS module', async ({ page }) => {
