@@ -717,8 +717,7 @@ function TradeWidgetWrapped({
     disabledDueToHighCosts ||
     (!originToken.isNative && allowance === undefined) ||
     allowanceLoading ||
-    isAmountWaitingForDebounce ||
-    (needsUsdtReset && !batchEnabled); // Disable approve if USDT reset needed but batch disabled
+    isAmountWaitingForDebounce;
 
   const tradeDisabled =
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||

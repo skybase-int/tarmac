@@ -219,7 +219,7 @@ export function TradeSummary({
                   </HStack>
                   <Switch checked={batchEnabled} onCheckedChange={setBatchEnabled} />
                 </HStack>
-                <Text className={`mt-2 text-[13px] ${batchEnabled ? 'text-white/60' : 'text-error'}`}>
+                <Text className="mt-2 text-[13px] text-white/60">
                   {batchEnabled ? (
                     <Trans>
                       USDT allowance will be reset to 0 and then set to the required amount in a single
@@ -227,8 +227,8 @@ export function TradeSummary({
                     </Trans>
                   ) : (
                     <Trans>
-                      USDT requires allowance reset. Please enable bundled transactions to complete this
-                      trade.
+                      USDT allowance will be reset to 0 and then set to the required amount in two sequential
+                      transactions.
                     </Trans>
                   )}
                 </Text>
