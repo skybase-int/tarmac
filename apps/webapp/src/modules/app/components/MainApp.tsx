@@ -64,10 +64,15 @@ export function MainApp() {
         if (err.name === 'UserRejectedRequestError') {
           const chainName = chains.find(c => c.id === chainId)?.name;
           if (chainName) {
-            setSearchParams(params => {
-              params.set(QueryParams.Network, normalizeUrlParam(chainName));
-              return params;
-            });
+            const normalizedChainName = normalizeUrlParam(chainName);
+            const currentNetwork = searchParams.get(QueryParams.Network);
+            // Only update if the network actually changed
+            if (currentNetwork !== normalizedChainName) {
+              setSearchParams(params => {
+                params.set(QueryParams.Network, normalizedChainName);
+                return params;
+              });
+            }
           }
         }
       }
@@ -146,11 +151,16 @@ export function MainApp() {
     // If there's no network param, default to the current chain
     if (!network) {
       const chainName = chains.find(c => c.id === chainId)?.name;
-      if (chainName)
-        setSearchParams(params => {
-          params.set(QueryParams.Network, normalizeUrlParam(chainName));
-          return params;
-        });
+      if (chainName) {
+        const normalizedChainName = normalizeUrlParam(chainName);
+        // Only set if not already present (double-check in case of race condition)
+        if (!searchParams.get(QueryParams.Network)) {
+          setSearchParams(params => {
+            params.set(QueryParams.Network, normalizedChainName);
+            return params;
+          });
+        }
+      }
     } else {
       // If the network param doesn't match the current chain, switch chains
       const parsedChainId = chains.find(
@@ -167,10 +177,15 @@ export function MainApp() {
     const handleChainChange = ({ chainId: newChainId }: { chainId?: number | undefined }) => {
       const newChainName = chains.find(c => c.id === newChainId)?.name;
       if (newChainName) {
-        setSearchParams(params => {
-          params.set(QueryParams.Network, normalizeUrlParam(newChainName));
-          return params;
-        });
+        const normalizedNewChainName = normalizeUrlParam(newChainName);
+        const currentNetwork = searchParams.get(QueryParams.Network);
+        // Only update if the network actually changed
+        if (currentNetwork !== normalizedNewChainName) {
+          setSearchParams(params => {
+            params.set(QueryParams.Network, normalizedNewChainName);
+            return params;
+          });
+        }
       }
     };
 
