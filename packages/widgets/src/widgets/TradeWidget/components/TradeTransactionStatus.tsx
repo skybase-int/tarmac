@@ -56,7 +56,8 @@ export const TradeTransactionStatus = ({
   ethFlowTxStatus = EthFlowTxStatus.IDLE,
   onExternalLinkClicked,
   needsUsdtReset,
-  isSequentialUsdtResetFlow
+  isUsdtResetFlow,
+  isBatchTransaction
 }: {
   quoteData?: OrderQuoteResponse | null | undefined;
   originToken?: Token;
@@ -68,7 +69,8 @@ export const TradeTransactionStatus = ({
   ethFlowTxStatus?: EthFlowTxStatus;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   needsUsdtReset: boolean;
-  isSequentialUsdtResetFlow: boolean;
+  isUsdtResetFlow: boolean;
+  isBatchTransaction: boolean;
 }) => {
   const { i18n } = useLingui();
   const chainId = useChainId();
@@ -201,23 +203,23 @@ export const TradeTransactionStatus = ({
     }
   }, [txStatus, flow, action, screen, i18n.locale, isEthFlow, ethFlowTxStatus]);
 
-  // Show sequential USDT reset flow with two vertical steps
-  if (isSequentialUsdtResetFlow && action === TradeAction.APPROVE) {
+  // Show USDT reset flow with two vertical steps (for both sequential and batched)
+  if (isUsdtResetFlow && action === TradeAction.APPROVE) {
     const usdtResetSteps = (
       <>
         <motion.div variants={positionAnimations} className="flex w-full flex-col">
           <StepIndicator
             stepNumber={1}
-            currentStep={needsUsdtReset}
-            txStatus={needsUsdtReset ? txStatus : TxStatus.SUCCESS}
+            currentStep={needsUsdtReset || isBatchTransaction}
+            txStatus={isBatchTransaction ? txStatus : needsUsdtReset ? txStatus : TxStatus.SUCCESS}
             text={t`Reset USDT Approval`}
             className="flex-1"
             circleIndicator
           />
           <StepIndicator
             stepNumber={2}
-            currentStep={!needsUsdtReset}
-            txStatus={!needsUsdtReset ? txStatus : TxStatus.IDLE}
+            currentStep={!needsUsdtReset || isBatchTransaction}
+            txStatus={isBatchTransaction ? txStatus : !needsUsdtReset ? txStatus : TxStatus.IDLE}
             text={t`Approve USDT`}
             className="flex-1"
             circleIndicator
@@ -265,7 +267,7 @@ export const TradeTransactionStatus = ({
     );
   }
 
-  // Default behavior for everything else that's not a sequential USDT reset flow
+  // Default behavior for everything else that's not a USDT reset flow
   return (
     <TransactionStatus
       explorerName={

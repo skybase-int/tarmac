@@ -93,7 +93,7 @@ function TradeWidgetWrapped({
   const [cancelLoading, setCancelLoading] = useState(false);
   const [ethFlowTxStatus, setEthFlowTxStatus] = useState<EthFlowTxStatus>(EthFlowTxStatus.IDLE);
   const [internalBatchEnabled, setInternalBatchEnabled] = useState(initialBatchEnabled);
-  const [isSequentialUsdtResetFlow, setIsSequentialUsdtResetFlow] = useState(false);
+  const [isUsdtResetFlow, setIsUsdtResetFlow] = useState(false);
 
   // Use external setter if provided, otherwise use internal state
   const batchEnabled = externalSetBatchEnabled ? initialBatchEnabled : internalBatchEnabled;
@@ -317,11 +317,10 @@ function TradeWidgetWrapped({
   useEffect(() => {
     if (
       needsUsdtReset &&
-      !batchEnabled &&
       widgetState.action === TradeAction.APPROVE &&
       widgetState.screen === TradeScreen.TRANSACTION
     ) {
-      setIsSequentialUsdtResetFlow(true);
+      setIsUsdtResetFlow(true);
     } else if (
       // Only reset when we exit the approve action entirely
       widgetState.action !== TradeAction.APPROVE ||
@@ -329,9 +328,9 @@ function TradeWidgetWrapped({
       // Or when we move to a different screen that's not transaction
       (widgetState.action === TradeAction.APPROVE && widgetState.screen !== TradeScreen.TRANSACTION)
     ) {
-      setIsSequentialUsdtResetFlow(false);
+      setIsUsdtResetFlow(false);
     }
-  }, [needsUsdtReset, batchEnabled, widgetState.action, widgetState.screen, txStatus]);
+  }, [needsUsdtReset, widgetState.action, widgetState.screen, txStatus]);
 
   // Get the trade spender address (same as used in useTradeApprove)
   const tradeSpenderAddress = useMemo(() => {
@@ -1341,7 +1340,8 @@ function TradeWidgetWrapped({
               ethFlowTxStatus={ethFlowTxStatus}
               onExternalLinkClicked={onExternalLinkClicked}
               needsUsdtReset={needsUsdtReset}
-              isSequentialUsdtResetFlow={isSequentialUsdtResetFlow}
+              isUsdtResetFlow={isUsdtResetFlow}
+              isBatchTransaction={batchEnabled}
             />
           </CardAnimationWrapper>
         ) : (
