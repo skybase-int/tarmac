@@ -13,6 +13,13 @@ import {
 import { TxCardCopyText } from '@widgets/shared/types/txCardCopyText';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { TransactionStatus } from '@widgets/shared/components/ui/transaction/TransactionStatus';
+import { StepIndicator } from '@widgets/shared/components/ui/transaction/StepIndicator';
+import { TokenIconWithBalance } from '@widgets/shared/components/ui/token/TokenIconWithBalance';
+import { HStack } from '@widgets/shared/components/ui/layout/HStack';
+import { Text } from '@widgets/shared/components/ui/Typography';
+import { ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { positionAnimations } from '@widgets/shared/animation/presets';
 import {
   EthFlowTxStatus,
   TradeAction,
@@ -72,6 +79,7 @@ export const TradeTransactionStatus = ({
     setTxDescription,
     setLoadingText,
     txStatus,
+    txDescription,
     widgetState,
     setStep,
     setStepTwoTitle,
@@ -192,22 +200,84 @@ export const TradeTransactionStatus = ({
       }
     }
   }, [txStatus, flow, action, screen, i18n.locale, isEthFlow, ethFlowTxStatus]);
-  return (
-    <>
+
+  // Show sequential USDT reset flow with two vertical steps
+  if (isSequentialUsdtResetFlow && action === TradeAction.APPROVE) {
+    const usdtResetSteps = (
+      <>
+        <motion.div variants={positionAnimations} className="flex w-full flex-col">
+          <StepIndicator
+            stepNumber={1}
+            currentStep={needsUsdtReset}
+            txStatus={needsUsdtReset ? txStatus : TxStatus.SUCCESS}
+            text={t`Reset USDT Approval`}
+            className="flex-1"
+            circleIndicator
+          />
+          <StepIndicator
+            stepNumber={2}
+            currentStep={!needsUsdtReset}
+            txStatus={!needsUsdtReset ? txStatus : TxStatus.IDLE}
+            text={t`Approve USDT`}
+            className="flex-1"
+            circleIndicator
+          />
+        </motion.div>
+        <motion.div variants={positionAnimations}>
+          {!!originToken && !!originAmount && (
+            <HStack className="mt-8 items-center">
+              <TokenIconWithBalance
+                token={originToken}
+                balance={formatBigInt(originAmount, {
+                  unit: getTokenDecimals(originToken, chainId)
+                })}
+                textLarge
+              />
+              {!!targetToken && !!targetAmount && (
+                <>
+                  <ArrowRight />
+                  <TokenIconWithBalance
+                    token={targetToken}
+                    balance={formatBigInt(targetAmount, {
+                      unit: getTokenDecimals(targetToken, chainId)
+                    })}
+                    textLarge
+                  />
+                </>
+              )}
+            </HStack>
+          )}
+        </motion.div>
+        <motion.div variants={positionAnimations}>
+          <Text variant="medium" className="text-textSecondary mt-3 leading-4">
+            {txDescription}
+          </Text>
+        </motion.div>
+      </>
+    );
+
+    return (
       <TransactionStatus
-        explorerName={
-          action === TradeAction.APPROVE || isL2
-            ? chainExplorerName
-            : isEthFlow &&
-                (ethFlowTxStatus === EthFlowTxStatus.SENDING_ETH ||
-                  ethFlowTxStatus === EthFlowTxStatus.CREATING_ORDER)
-              ? chainExplorerName
-              : ExplorerName.COW_EXPLORER
-        }
+        explorerName={chainExplorerName}
         onExternalLinkClicked={onExternalLinkClicked}
+        transactionDetail={usdtResetSteps}
       />
-      needsUsdtReset: {needsUsdtReset.toString()}
-      isSequentialUsdtResetFlow: {isSequentialUsdtResetFlow.toString()}
-    </>
+    );
+  }
+
+  // Default behavior for everything else that's not a sequential USDT reset flow
+  return (
+    <TransactionStatus
+      explorerName={
+        action === TradeAction.APPROVE || isL2
+          ? chainExplorerName
+          : isEthFlow &&
+              (ethFlowTxStatus === EthFlowTxStatus.SENDING_ETH ||
+                ethFlowTxStatus === EthFlowTxStatus.CREATING_ORDER)
+            ? chainExplorerName
+            : ExplorerName.COW_EXPLORER
+      }
+      onExternalLinkClicked={onExternalLinkClicked}
+    />
   );
 };
