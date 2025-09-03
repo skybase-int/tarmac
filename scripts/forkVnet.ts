@@ -11,12 +11,13 @@ const MAINNET_FORK_CONTAINER_ID = 'b6296491-f7e7-461b-aa3c-822ecc0c4efc';
 
 const ARBITRUM_CONFIG = {
   chainId: 42161,
+  // Fixed block from after the Arbitrum PSM was funded
   forkBlock: '343221023'
 };
 const BASE_CONFIG = {
   chainId: 8453,
-  // Fixed block from after the Optimism PSM was funded
-  forkBlock: '22062267'
+  // Fixed block from after the Base PSM was funded
+  forkBlock: '31758878'
 };
 const OPTIMISM_CONFIG = {
   chainId: 10,
