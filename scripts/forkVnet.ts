@@ -2,12 +2,7 @@ require('dotenv').config();
 //@ts-expect-error readFile is already declared
 const { writeFile, readFile } = require('fs/promises');
 
-// https://dashboard.tenderly.co/jetstreamgg/jetstream/testnet/b6296491-f7e7-461b-aa3c-822ecc0c4efc
 const MAINNET_FORK_CONTAINER_ID = 'b6296491-f7e7-461b-aa3c-822ecc0c4efc';
-// corresponds to https://dashboard.tenderly.co/jetstreamgg/jetstream/testnet/d382d976-02a4-4fc2-a9ba-db43a1602719
-// const BASE_FORK_CONTAINER_ID = 'd382d976-02a4-4fc2-a9ba-db43a1602719';
-// corresponds to https://dashboard.tenderly.co/jetstreamgg/jetstream/testnet/d720e619-0124-4c51-aae9-f32dcba6de2a
-// const ARBITRUM_FORK_CONTAINER_ID = 'd720e619-0124-4c51-aae9-f32dcba6de2a';
 
 const ARBITRUM_CONFIG = {
   chainId: 42161,

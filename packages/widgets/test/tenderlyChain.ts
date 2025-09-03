@@ -5,7 +5,6 @@ import { arbitrum, base, optimism, unichain } from 'viem/chains';
 
 export const getTenderlyChains = () => {
   const res = readFileSync('../../tenderlyTestnetData.json', 'utf-8');
-  // const tenderlyTestnetData = JSON.parse(res);
 
   const [mainnetData, baseData, arbitrumData, optimismData, unichainData] = JSON.parse(res);
 
