@@ -21,15 +21,13 @@ const mockConnector = mock({
   accounts: MOCK_TEST_ACCOUNTS
 });
 
-const [tenderlyMainnet, tenderlyArbitrum, tenderlyBase] = getTenderlyChains();
+const [tenderlyMainnet] = getTenderlyChains();
 
 const config = createConfig({
-  chains: [tenderlyMainnet, tenderlyArbitrum, tenderlyBase],
+  chains: [tenderlyMainnet],
   connectors: [mockConnector],
   transports: {
-    [tenderlyMainnet.id]: http(),
-    [tenderlyArbitrum.id]: http(),
-    [tenderlyBase.id]: http()
+    [tenderlyMainnet.id]: http()
   }
 });
 

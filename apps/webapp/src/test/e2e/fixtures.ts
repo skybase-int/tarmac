@@ -16,7 +16,7 @@ import {
 import { TENDERLY_CHAIN_ID } from '@/data/wagmi/config/testTenderlyChain';
 import { NetworkName } from './utils/constants';
 import { getTestWalletAddress } from './utils/testWallets';
-import { optimism, unichain, arbitrum } from 'viem/chains';
+import { optimism, unichain, arbitrum, base } from 'viem/chains';
 
 type WorkerFixture = {
   snapshotId: string | SnapshotInfo[];
@@ -36,8 +36,8 @@ const setupMainnetBalances = async (address: string) => {
 
 const setupBaseBalances = async (address: string) => {
   await setEthBalance('100', NetworkName.base, address);
-  await setErc20Balance(usdsL2Address[8453], '100', 18, NetworkName.base, address);
-  await setErc20Balance(usdcL2Address[8453], '100', 6, NetworkName.base, address);
+  await setErc20Balance(usdsL2Address[base.id], '100', 18, NetworkName.base, address);
+  await setErc20Balance(usdcL2Address[base.id], '100', 6, NetworkName.base, address);
 };
 
 const setupArbitrumBalances = async (address: string) => {
