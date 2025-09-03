@@ -210,6 +210,8 @@ export const TradeTransactionStatus = ({
         <motion.div variants={positionAnimations} className="flex w-full flex-col">
           <StepIndicator
             stepNumber={1}
+            //first tx is active if we still need the reset
+            //both steps are active if we're in a batch transaction
             currentStep={needsUsdtReset || isBatchTransaction}
             txStatus={isBatchTransaction ? txStatus : needsUsdtReset ? txStatus : TxStatus.SUCCESS}
             text={t`Reset USDT Approval`}
@@ -218,6 +220,8 @@ export const TradeTransactionStatus = ({
           />
           <StepIndicator
             stepNumber={2}
+            //if we no longer need reset, that means the first allowance reset tx has succeeded
+            //both steps are active if we're in a batch transaction
             currentStep={!needsUsdtReset || isBatchTransaction}
             txStatus={isBatchTransaction ? txStatus : !needsUsdtReset ? txStatus : TxStatus.IDLE}
             text={t`Approve USDT`}

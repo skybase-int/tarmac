@@ -313,7 +313,7 @@ function TradeWidgetWrapped({
     allowance > 0n &&
     allowance < quoteData.quote.sellAmountToSign;
 
-  // Capture the sequential flow state when it starts
+  // capture when we're in a USDT reset flow
   useEffect(() => {
     if (
       needsUsdtReset &&
@@ -722,7 +722,6 @@ function TradeWidgetWrapped({
     !tradeAnyway &&
     txStatus === TxStatus.IDLE;
 
-  // Determine which approval method is prepared
   const approvalPrepared = needsUsdtReset ? batchUsdtApprovePrepared : approvePrepared;
   const approvalLoading = needsUsdtReset ? batchUsdtApproveIsLoading : approveIsLoading;
 

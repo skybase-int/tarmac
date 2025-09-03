@@ -43,10 +43,9 @@ export function TradeSummary({
   const chainId = useChainId();
   const { data: batchSupported } = useIsBatchSupported();
 
-  // Check if USDT reset is needed
-  const isUsdt = originToken?.symbol === 'USDT';
+  // Check if USDT reset is needed;
   const needsReset =
-    isUsdt &&
+    originToken?.symbol === 'USDT' &&
     allowance !== undefined &&
     quoteData.quote.sellAmountToSign !== undefined &&
     quoteData.quote.sellAmountToSign > 0n &&
