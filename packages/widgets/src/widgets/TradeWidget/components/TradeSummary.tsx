@@ -223,7 +223,7 @@ export function TradeSummary({
                   {batchEnabled ? (
                     <Trans>
                       USDT allowance will be reset to 0 and then set to the required amount in a single
-                      bundled transaction. Then you will sign to complete the trade.
+                      bundled transaction.
                     </Trans>
                   ) : (
                     <Trans>
