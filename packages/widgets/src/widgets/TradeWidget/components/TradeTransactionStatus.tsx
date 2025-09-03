@@ -47,7 +47,9 @@ export const TradeTransactionStatus = ({
   lastUpdated,
   isEthFlow,
   ethFlowTxStatus = EthFlowTxStatus.IDLE,
-  onExternalLinkClicked
+  onExternalLinkClicked,
+  needsUsdtReset,
+  isSequentialUsdtResetFlow
 }: {
   quoteData?: OrderQuoteResponse | null | undefined;
   originToken?: Token;
@@ -58,6 +60,8 @@ export const TradeTransactionStatus = ({
   isEthFlow: boolean;
   ethFlowTxStatus?: EthFlowTxStatus;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  needsUsdtReset: boolean;
+  isSequentialUsdtResetFlow: boolean;
 }) => {
   const { i18n } = useLingui();
   const chainId = useChainId();
@@ -189,17 +193,21 @@ export const TradeTransactionStatus = ({
     }
   }, [txStatus, flow, action, screen, i18n.locale, isEthFlow, ethFlowTxStatus]);
   return (
-    <TransactionStatus
-      explorerName={
-        action === TradeAction.APPROVE || isL2
-          ? chainExplorerName
-          : isEthFlow &&
-              (ethFlowTxStatus === EthFlowTxStatus.SENDING_ETH ||
-                ethFlowTxStatus === EthFlowTxStatus.CREATING_ORDER)
+    <>
+      <TransactionStatus
+        explorerName={
+          action === TradeAction.APPROVE || isL2
             ? chainExplorerName
-            : ExplorerName.COW_EXPLORER
-      }
-      onExternalLinkClicked={onExternalLinkClicked}
-    />
+            : isEthFlow &&
+                (ethFlowTxStatus === EthFlowTxStatus.SENDING_ETH ||
+                  ethFlowTxStatus === EthFlowTxStatus.CREATING_ORDER)
+              ? chainExplorerName
+              : ExplorerName.COW_EXPLORER
+        }
+        onExternalLinkClicked={onExternalLinkClicked}
+      />
+      needsUsdtReset: {needsUsdtReset.toString()}
+      isSequentialUsdtResetFlow: {isSequentialUsdtResetFlow.toString()}
+    </>
   );
 };

@@ -93,6 +93,7 @@ function TradeWidgetWrapped({
   const [cancelLoading, setCancelLoading] = useState(false);
   const [ethFlowTxStatus, setEthFlowTxStatus] = useState<EthFlowTxStatus>(EthFlowTxStatus.IDLE);
   const [internalBatchEnabled, setInternalBatchEnabled] = useState(initialBatchEnabled);
+  const [isSequentialUsdtResetFlow, setIsSequentialUsdtResetFlow] = useState(false);
 
   // Use external setter if provided, otherwise use internal state
   const batchEnabled = externalSetBatchEnabled ? initialBatchEnabled : internalBatchEnabled;
@@ -311,6 +312,26 @@ function TradeWidgetWrapped({
     quoteData?.quote.sellAmountToSign !== undefined &&
     allowance > 0n &&
     allowance < quoteData.quote.sellAmountToSign;
+
+  // Capture the sequential flow state when it starts
+  useEffect(() => {
+    if (
+      needsUsdtReset &&
+      !batchEnabled &&
+      widgetState.action === TradeAction.APPROVE &&
+      widgetState.screen === TradeScreen.TRANSACTION
+    ) {
+      setIsSequentialUsdtResetFlow(true);
+    } else if (
+      // Only reset when we exit the approve action entirely
+      widgetState.action !== TradeAction.APPROVE ||
+      txStatus === TxStatus.ERROR ||
+      // Or when we move to a different screen that's not transaction
+      (widgetState.action === TradeAction.APPROVE && widgetState.screen !== TradeScreen.TRANSACTION)
+    ) {
+      setIsSequentialUsdtResetFlow(false);
+    }
+  }, [needsUsdtReset, batchEnabled, widgetState.action, widgetState.screen, txStatus]);
 
   // Get the trade spender address (same as used in useTradeApprove)
   const tradeSpenderAddress = useMemo(() => {
@@ -1319,6 +1340,8 @@ function TradeWidgetWrapped({
               isEthFlow={!!originToken?.isNative}
               ethFlowTxStatus={ethFlowTxStatus}
               onExternalLinkClicked={onExternalLinkClicked}
+              needsUsdtReset={needsUsdtReset}
+              isSequentialUsdtResetFlow={isSequentialUsdtResetFlow}
             />
           </CardAnimationWrapper>
         ) : (
