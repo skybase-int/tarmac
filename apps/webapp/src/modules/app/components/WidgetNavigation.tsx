@@ -23,6 +23,7 @@ import { Button } from '@/components/ui/button';
 import { DualSwitcher } from '@/components/DualSwitcher';
 import { useNetworkSwitch } from '@/modules/ui/context/NetworkSwitchContext';
 import { useChains } from 'wagmi';
+import { useEnhancedNetworkToast } from '@/modules/app/hooks/useEnhancedNetworkToast';
 import {
   Tooltip,
   TooltipContent,
@@ -62,6 +63,8 @@ export function WidgetNavigation({
   const [, setSearchParams] = useSearchParams();
   const { setIsSwitchingNetwork, saveWidgetNetwork, getWidgetNetwork } = useNetworkSwitch();
   const chains = useChains();
+  const { showNetworkToast } = useEnhancedNetworkToast();
+  const [previousChainId, setPreviousChainId] = useState<number | undefined>(currentChainId);
 
   const handleWidgetChange = (value: string) => {
     const targetIntent = value as Intent;
@@ -155,6 +158,33 @@ export function WidgetNavigation({
       });
     }
   };
+
+  // Track network changes and show enhanced toast
+  useEffect(() => {
+    if (currentChainId && previousChainId && currentChainId !== previousChainId) {
+      const prevChain = chains.find(c => c.id === previousChainId);
+      const currChain = chains.find(c => c.id === currentChainId);
+
+      if (prevChain && currChain) {
+        // Reset switching state when network change completes
+        setIsSwitchingNetwork(false);
+
+        // Show enhanced network toast with quick switch options
+        showNetworkToast({
+          previousChain: { id: prevChain.id, name: prevChain.name },
+          currentChain: { id: currChain.id, name: currChain.name },
+          currentIntent: intent,
+          onNetworkSwitch: chainId => {
+            // Save the manually selected network for the current widget
+            if (intent && isMultichain(intent) && intent !== Intent.BALANCES_INTENT) {
+              saveWidgetNetwork(intent, chainId);
+            }
+          }
+        });
+      }
+    }
+    setPreviousChainId(currentChainId);
+  }, [currentChainId, chains, intent, showNetworkToast, saveWidgetNetwork, setIsSwitchingNetwork]);
 
   useEffect(() => {
     const containerElement = containerRef.current;
