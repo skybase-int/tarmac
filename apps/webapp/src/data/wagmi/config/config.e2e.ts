@@ -10,12 +10,12 @@ const [tenderlyMainnet, tenderlyBase, tenderlyArbitrum, tenderlyOptimism, tender
 
 function extendedMock(params: MockParameters) {
   return createConnector(config => {
-    const base = mock(params)(config);
+    const baseMock = mock(params)(config);
 
     return {
-      ...base,
+      ...baseMock,
       async getProvider({ chainId } = {}) {
-        const provider = await base.getProvider({ chainId });
+        const provider = await baseMock.getProvider({ chainId });
 
         // Create a proxy to intercept requests
         return new Proxy(provider, {
