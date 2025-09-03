@@ -25,7 +25,11 @@ export function getTermsContent(termsType: TermsType = TermsType.App): string {
       ? import.meta.env.VITE_TERMS_MARKDOWN_FILE
       : import.meta.env.VITE_CHATBOT_TERMS_MARKDOWN_FILE;
 
-  const defaultTermsContent = termsType === TermsType.App ? defaultTerms : chatbotDefaultTerms;
+  // TODO: Remove this after testing
+  const tempChatbotTermsContent = import.meta.env.VITE_CHATBOT_TERMS_MARKDOWN;
+
+  const defaultTermsContent =
+    termsType === TermsType.App ? defaultTerms : tempChatbotTermsContent || chatbotDefaultTerms;
 
   if (!termsFileName) {
     // No custom file specified, use appropriate default

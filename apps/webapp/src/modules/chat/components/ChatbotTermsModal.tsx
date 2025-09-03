@@ -4,6 +4,7 @@ import { TermsDialog } from '@/modules/ui/components/TermsDialog';
 import { TermsMarkdownRenderer } from '@/modules/ui/components/markdown/TermsMarkdownRenderer';
 import { Checkbox } from '@/components/ui/checkbox';
 import { CheckedState } from '@radix-ui/react-checkbox';
+import { Text } from '@/modules/layout/components/Typography';
 
 interface ChatbotTermsModalProps {
   isOpen: boolean;
@@ -29,6 +30,7 @@ export const ChatbotTermsModal: React.FC<ChatbotTermsModalProps> = ({
   const [isTermsChecked, setIsTermsChecked] = useState(false);
   const [isPrivacyChecked, setIsPrivacyChecked] = useState(false);
   const [hasScrolledToEnd, setHasScrolledToEnd] = useState(false);
+  const checkboxLabel = import.meta.env.VITE_CHATBOT_CHECKBOX_LABEL;
   const termsLabel =
     import.meta.env.VITE_CHATBOT_CHECKBOX_TERMS_LABEL ||
     t`By clicking accept, you confirm agreement to the Chatbot Terms of Use.`;
@@ -73,6 +75,11 @@ export const ChatbotTermsModal: React.FC<ChatbotTermsModalProps> = ({
 
     return (
       <div className="space-y-3">
+        {checkboxLabel && (
+          <Text className="text-center text-sm leading-none text-white/50 md:leading-tight">
+            {checkboxLabel}
+          </Text>
+        )}
         <div className="flex items-center">
           <Checkbox
             id="termsCheckbox"
