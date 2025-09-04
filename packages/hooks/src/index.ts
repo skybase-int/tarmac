@@ -42,6 +42,7 @@ export { useRewardContractTokens } from './rewards/useRewardContractTokens';
 export { useUserRewardsBalance } from './rewards/useUserRewardsBalance';
 export { useRewardsWithUserBalance } from './rewards/useRewardsWithUserBalance';
 export { useBatchRewardsSupply } from './rewards/useBatchRewardsSupply';
+export { useBatchClaimAllRewards } from './rewards/useBatchClaimAllRewards';
 
 // Rewards
 export { useRewardsSupply } from './rewards/useRewardsSupply';
@@ -145,7 +146,7 @@ export { useUrnSelectedVoteDelegate as useStakeUrnSelectedVoteDelegate } from '.
 export { useStakeSkyAllowance, useStakeUsdsAllowance } from './stake/useStakeAllowance';
 export { useStakeSkyApprove, useStakeUsdsApprove } from './stake/useStakeApprove';
 export { useClaimRewards as useStakeClaimRewards } from './stake/useClaimRewards';
-export { useBatchClaimAllRewards as useBatchStakeClaimAllRewards } from './stake/useBatchClaimAllRewards';
+export { useBatchStakeClaimAllRewards } from './stake/useBatchStakeClaimAllRewards';
 export { useStakeRewardsData } from './stake/useStakeRewardsData';
 export { useStakePosition } from './stake/useStakePosition';
 export { useBatchStakeMulticall } from './stake/useBatchStakeMulticall';

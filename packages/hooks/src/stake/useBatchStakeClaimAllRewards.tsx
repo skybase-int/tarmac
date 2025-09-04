@@ -6,7 +6,7 @@ import { getWriteContractCall, stakeModuleAddress, useStakeUrnAddress, useTransa
 import { Call } from 'viem';
 import { stakeModuleAbi } from '../generated';
 
-export function useBatchClaimAllRewards({
+export function useBatchStakeClaimAllRewards({
   index,
   onMutate = () => null,
   onSuccess = () => null,
