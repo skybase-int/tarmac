@@ -30,7 +30,7 @@ export function StUSDSChart() {
           data={chartData}
           isLoading={isLoading}
           error={error}
-          symbol={'stUSDS'}
+          symbol={'USDS'}
           onTimeFrameChange={tf => {
             setTimeFrame(tf);
           }}
