@@ -10,7 +10,7 @@ import { cardAnimations } from '@/modules/ui/animation/presets';
 import { AnimationLabels } from '@/modules/ui/animation/constants';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { QueryParams, mapIntentToQueryParam } from '@/lib/constants';
-import { requiresMainnet } from '@/lib/widget-network-map';
+import { requiresMainnet, isMultichain } from '@/lib/widget-network-map';
 import { isL2ChainId } from '@jetstreamgg/sky-utils';
 import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
 import { LinkedActionWrapper } from '@/modules/ui/components/LinkedActionWrapper';
@@ -22,6 +22,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { DualSwitcher } from '@/components/DualSwitcher';
 import { useNetworkSwitch } from '@/modules/ui/context/NetworkSwitchContext';
+import { useChains } from 'wagmi';
 import {
   Tooltip,
   TooltipContent,
@@ -59,11 +60,29 @@ export function WidgetNavigation({
   const isRewardsOverview = !selectedRewardContract && intent === Intent.REWARDS_INTENT;
 
   const [, setSearchParams] = useSearchParams();
-  const { setIsSwitchingNetwork } = useNetworkSwitch();
+  const { setIsSwitchingNetwork, saveWidgetNetwork, getWidgetNetwork } = useNetworkSwitch();
+  const chains = useChains();
 
   const handleWidgetChange = (value: string) => {
     const targetIntent = value as Intent;
     const queryParam = mapIntentToQueryParam(targetIntent);
+
+    // Save current network for multichain widgets before switching (except Balances)
+    if (intent && currentChainId && isMultichain(intent) && intent !== Intent.BALANCES_INTENT) {
+      saveWidgetNetwork(intent, currentChainId);
+    }
+
+    // Check if target widget has a saved network preference
+    // Only restore network if:
+    // 1. Target is multichain (but not Balances)
+    // 2. We have a saved preference for that specific widget
+    // 3. The saved network is different from current
+    const savedNetwork = getWidgetNetwork(targetIntent);
+    const shouldRestoreNetwork =
+      savedNetwork &&
+      isMultichain(targetIntent) &&
+      targetIntent !== Intent.BALANCES_INTENT &&
+      savedNetwork !== currentChainId;
 
     // Check if we need to switch networks
     if (currentChainId && requiresMainnet(targetIntent) && isL2ChainId(currentChainId)) {
@@ -84,6 +103,41 @@ export function WidgetNavigation({
 
         return searchParams;
       });
+    } else if (shouldRestoreNetwork) {
+      // Restore saved network for multichain widget
+      const savedChain = chains.find(c => c.id === savedNetwork);
+      if (savedChain) {
+        setIsSwitchingNetwork(true);
+        setSearchParams(prevParams => {
+          const searchParams = deleteSearchParams(prevParams);
+          searchParams.set(QueryParams.Network, normalizeUrlParam(savedChain.name));
+          searchParams.set(QueryParams.Widget, queryParam);
+
+          // Handle rewards-specific params
+          if (targetIntent === Intent.REWARDS_INTENT) {
+            if (selectedRewardContract?.contractAddress)
+              searchParams.set(QueryParams.Reward, selectedRewardContract.contractAddress);
+          } else {
+            searchParams.delete(QueryParams.Reward);
+          }
+          return searchParams;
+        });
+      } else {
+        // Fallback to normal widget change if saved chain not found
+        setSearchParams(prevParams => {
+          const searchParams = deleteSearchParams(prevParams);
+          searchParams.set(QueryParams.Widget, queryParam);
+
+          // Handle rewards-specific params
+          if (targetIntent === Intent.REWARDS_INTENT) {
+            if (selectedRewardContract?.contractAddress)
+              searchParams.set(QueryParams.Reward, selectedRewardContract.contractAddress);
+          } else {
+            searchParams.delete(QueryParams.Reward);
+          }
+          return searchParams;
+        });
+      }
     } else {
       // Normal widget change without network switch
       setSearchParams(prevParams => {
