@@ -457,6 +457,7 @@ const RewardsWidgetWrapped = ({
               onExternalLinkClicked={onExternalLinkClicked}
               claimAllExecute={claimAll.execute}
               claimAllPrepared={claimAll.prepared}
+              batchEnabledAndSupported={!!batchEnabled && !!batchSupported}
             />
           </CardAnimationWrapper>
         ) : txStatus !== TxStatus.IDLE && selectedRewardContract ? (

@@ -2,6 +2,7 @@ import { WidgetContext } from '@widgets/context/WidgetContext';
 import {
   RewardContract,
   useAvailableTokenRewardContracts,
+  useRewardContractsToClaim,
   useRewardsWithUserBalance
 } from '@jetstreamgg/sky-hooks';
 import { useContext, useMemo } from 'react';
@@ -20,6 +21,7 @@ type RewardsOverviewProps = {
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   claimAllExecute: () => void;
   claimAllPrepared: boolean;
+  batchEnabledAndSupported: boolean;
 };
 
 export const RewardsOverview = ({
@@ -27,6 +29,7 @@ export const RewardsOverview = ({
   onExternalLinkClicked,
   claimAllExecute,
   claimAllPrepared,
+  batchEnabledAndSupported,
   isConnectedAndEnabled = true
 }: RewardsOverviewProps) => {
   const chainId = useChainId();
@@ -59,6 +62,13 @@ export const RewardsOverview = ({
     return [userRewards, allRewards];
   }, [rewardContracts, rewardsWithUserBalance]);
 
+  const { data: rewardContractsToClaim } = useRewardContractsToClaim({
+    rewardContractAddresses: userRewards.map(({ contractAddress }) => contractAddress as `0x${string}`) || [],
+    userAddress: address,
+    chainId,
+    enabled: !!userRewards.length && !!address
+  });
+
   const handleRewardContractClick = (rewardContract: RewardContract) => {
     onSelectRewardContract(rewardContract);
     setWidgetState({
@@ -69,14 +79,21 @@ export const RewardsOverview = ({
 
   return (
     <div className="space-y-4">
-      <Button disabled={!claimAllPrepared} onClick={claimAllExecute} variant="primaryAlt">
-        Claim all
-      </Button>
       {userRewards.length > 0 && (
         <motion.div className="space-y-3" variants={positionAnimations}>
           <Heading tag="h3" variant="medium">
             <Trans>My rewards</Trans>
           </Heading>
+          {batchEnabledAndSupported && !!rewardContractsToClaim && rewardContractsToClaim.length > 1 && (
+            <Button
+              disabled={!claimAllPrepared}
+              onClick={claimAllExecute}
+              variant="secondary"
+              className="w-full"
+            >
+              Claim all rewards
+            </Button>
+          )}
           {userRewards.map(rewardContract => (
             <RewardsStatsCard
               key={`${rewardContract.name}${rewardContract.contractAddress}`}
