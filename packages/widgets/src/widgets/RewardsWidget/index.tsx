@@ -261,7 +261,12 @@ const RewardsWidgetWrapped = ({
 
     setWidgetState((prev: WidgetState) => ({
       ...prev,
-      action: prev.flow === RewardsFlow.WITHDRAW ? RewardsAction.WITHDRAW : RewardsAction.SUPPLY,
+      action:
+        prev.action === RewardsAction.CLAIM_ALL
+          ? RewardsAction.OVERVIEW
+          : prev.flow === RewardsFlow.WITHDRAW
+            ? RewardsAction.WITHDRAW
+            : RewardsAction.SUPPLY,
       screen: RewardsScreen.ACTION
     }));
   };

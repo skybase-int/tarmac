@@ -17,7 +17,8 @@ export const RewardsClaimAllTransactionStatus = ({
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 }) => {
   const { i18n } = useLingui();
-  const { setTxTitle, setTxSubtitle, setTxDescription, txStatus, setLoadingText } = useContext(WidgetContext);
+  const { setTxTitle, setTxSubtitle, setTxDescription, txStatus, setLoadingText, setStep } =
+    useContext(WidgetContext);
 
   // Sets the title and subtitle of the card
   useEffect(() => {
@@ -25,6 +26,7 @@ export const RewardsClaimAllTransactionStatus = ({
     setTxTitle(i18n._(rewardsClaimTitle[txStatus as keyof TxCardCopyText]));
     setTxSubtitle(i18n._(rewardsClaimAllSubtitle({ txStatus })));
     setTxDescription(i18n._(rewardsClaimAllTxDescription({ txStatus })));
+    setStep(2);
   }, [txStatus, i18n.locale]);
   return <BatchTransactionStatus onExternalLinkClicked={onExternalLinkClicked} />;
 };

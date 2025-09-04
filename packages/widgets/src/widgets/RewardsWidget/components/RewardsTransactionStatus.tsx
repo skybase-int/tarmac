@@ -75,7 +75,7 @@ export const RewardsTransactionStatus = ({
 
     if (
       // Claim rewards
-      (action === RewardsAction.CLAIM || action === RewardsAction.CLAIM_ALL) &&
+      action === RewardsAction.CLAIM &&
       screen === RewardsScreen.TRANSACTION
     ) {
       setLoadingText(
