@@ -168,7 +168,6 @@ export const useRewardsTransactionCallbacks = ({
         notificationDescription: 'You claimed your rewards!'
       });
       mutateRewardsBalance();
-      mutateRewardsBalance();
       mutateTokenBalance();
     },
     onError: (error, hash) => {

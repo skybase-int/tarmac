@@ -24,7 +24,7 @@ export function useBatchClaimAllRewards({
       rewardContracts?.map(({ contractAddress }) => contractAddress as `0x${string}`) || [],
     userAddress: address,
     chainId,
-    enabled: !!rewardContracts.length && !!address
+    enabled: !!rewardContracts?.length && !!address
   });
 
   // Calls for the batch transaction
