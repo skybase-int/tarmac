@@ -67,10 +67,15 @@ export function WidgetNavigation({
   const chains = useChains();
   const { showNetworkToast } = useEnhancedNetworkToast();
   const [previousChainId, setPreviousChainId] = useState<number | undefined>(currentChainId);
+  const [previousIntent, setPreviousIntent] = useState<Intent | undefined>(intent);
+  const [isAutoSwitching, setIsAutoSwitching] = useState(false);
 
   const handleWidgetChange = (value: string) => {
     const targetIntent = value as Intent;
     const queryParam = mapIntentToQueryParam(targetIntent);
+
+    // Store the previous intent before switching
+    setPreviousIntent(intent);
 
     // Save current network for multichain widgets before switching (except Balances)
     if (intent && currentChainId && isMultichain(intent) && intent !== Intent.BALANCES_INTENT) {
@@ -93,6 +98,7 @@ export function WidgetNavigation({
     if (currentChainId && requiresMainnet(targetIntent) && isL2ChainId(currentChainId)) {
       // Set switching state to show loading indicator
       setIsSwitchingNetwork(true);
+      setIsAutoSwitching(true);
 
       // Auto-switch to mainnet
       setSearchParams(prevParams => {
@@ -113,6 +119,7 @@ export function WidgetNavigation({
       const savedChain = chains.find(c => c.id === savedNetwork);
       if (savedChain) {
         setIsSwitchingNetwork(true);
+        setIsAutoSwitching(true);
         setSearchParams(prevParams => {
           const searchParams = deleteSearchParams(prevParams);
           searchParams.set(QueryParams.Network, normalizeUrlParam(savedChain.name));
@@ -176,6 +183,8 @@ export function WidgetNavigation({
           previousChain: { id: prevChain.id, name: prevChain.name },
           currentChain: { id: currChain.id, name: currChain.name },
           currentIntent: intent,
+          previousIntent: previousIntent,
+          isAutoSwitch: isAutoSwitching,
           onNetworkSwitch: chainId => {
             // Save the manually selected network for the current widget
             if (intent && isMultichain(intent) && intent !== Intent.BALANCES_INTENT) {
@@ -183,10 +192,22 @@ export function WidgetNavigation({
             }
           }
         });
+
+        // Reset auto-switching flag after showing toast
+        setIsAutoSwitching(false);
       }
     }
     setPreviousChainId(currentChainId);
-  }, [currentChainId, chains, intent, showNetworkToast, saveWidgetNetwork, setIsSwitchingNetwork]);
+  }, [
+    currentChainId,
+    chains,
+    intent,
+    previousIntent,
+    showNetworkToast,
+    saveWidgetNetwork,
+    setIsSwitchingNetwork,
+    isAutoSwitching
+  ]);
 
   useEffect(() => {
     const containerElement = containerRef.current;

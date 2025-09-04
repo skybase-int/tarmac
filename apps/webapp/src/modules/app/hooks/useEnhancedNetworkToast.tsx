@@ -2,10 +2,10 @@ import { useCallback, useState } from 'react';
 import { useChains } from 'wagmi';
 import { toast } from '@/components/ui/use-toast';
 import { Text } from '@/modules/layout/components/Typography';
-import { getChainIcon } from '@jetstreamgg/sky-utils';
+import { getChainIcon, isL2ChainId } from '@jetstreamgg/sky-utils';
 import { ArrowRightLong } from '@/modules/icons';
 import { Intent } from '@/lib/enums';
-import { isMultichain } from '@/lib/widget-network-map';
+import { isMultichain, requiresMainnet } from '@/lib/widget-network-map';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useChainModalContext } from '@/modules/ui/context/ChainModalContext';
@@ -19,7 +19,9 @@ interface NetworkToastProps {
   previousChain?: { id: number; name: string };
   currentChain: { id: number; name: string };
   currentIntent?: Intent;
+  previousIntent?: Intent;
   onNetworkSwitch?: (chainId: number) => void;
+  isAutoSwitch?: boolean;
 }
 
 const getWidgetName = (intent: Intent): string => {
@@ -79,15 +81,15 @@ const NetworkQuickSwitchButtons = ({
 
   return (
     <div className="mt-3 flex flex-col gap-2">
-      <Text className="text-text/60 text-xs">Other networks {widgetName} is supported on</Text>
-      <div className="flex flex-wrap gap-2">
+      <Text className="text-text/60 text-xs">{widgetName} is also supported on:</Text>
+      <div className="flex gap-2">
         {availableChains.map(chain => (
           <Button
             key={chain.id}
-            size="xs"
+            size="icon"
             variant="outline"
             className={cn(
-              'border-text/20 bg-container/50 hover:bg-container/80 h-7 gap-1.5 px-2.5 py-1',
+              'border-text/20 bg-container/50 hover:bg-container/80 h-8 w-8 p-0',
               switchingTo === chain.id && 'cursor-wait opacity-50'
             )}
             disabled={switchingTo !== null}
@@ -95,13 +97,13 @@ const NetworkQuickSwitchButtons = ({
               setSwitchingTo(chain.id);
               onNetworkSwitch(chain.id);
             }}
+            title={`Switch to ${chain.name}`}
           >
             {switchingTo === chain.id ? (
-              <Loader2 className="h-3 w-3 animate-spin" />
+              <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
-              getChainIcon(chain.id, 'h-3.5 w-3.5')
+              getChainIcon(chain.id, 'h-4 w-4')
             )}
-            <span className="text-xs">{chain.name}</span>
           </Button>
         ))}
       </div>
@@ -115,7 +117,14 @@ export function useEnhancedNetworkToast() {
   const [, setSearchParams] = useSearchParams();
 
   const showNetworkToast = useCallback(
-    ({ previousChain, currentChain, currentIntent, onNetworkSwitch }: NetworkToastProps) => {
+    ({
+      previousChain,
+      currentChain,
+      currentIntent,
+      previousIntent,
+      onNetworkSwitch,
+      isAutoSwitch
+    }: NetworkToastProps) => {
       const handleQuickSwitch = (targetChainId: number) => {
         handleSwitchChain({
           chainId: targetChainId,
@@ -132,6 +141,40 @@ export function useEnhancedNetworkToast() {
           }
         });
       };
+
+      // Generate context-aware title
+      let title = '';
+
+      if (isAutoSwitch) {
+        // Check if switching TO mainnet for a mainnet-only widget
+        if (currentIntent && requiresMainnet(currentIntent) && !isL2ChainId(currentChain.id)) {
+          const widgetName = getWidgetName(currentIntent);
+          title = `To access ${widgetName}, you need to be on mainnet. We've switched your network automatically.`;
+        }
+        // Check if switching BACK to L2 for a multichain widget that was previously used on L2
+        else if (
+          previousIntent &&
+          requiresMainnet(previousIntent) &&
+          currentIntent &&
+          isMultichain(currentIntent) &&
+          isL2ChainId(currentChain.id)
+        ) {
+          const widgetName = getWidgetName(currentIntent);
+          title = `We've switched you back to ${currentChain.name}, the last network you used for ${widgetName}.`;
+        }
+        // Generic auto-switch for returning to a saved network preference
+        else if (currentIntent && isMultichain(currentIntent) && previousChain) {
+          const widgetName = getWidgetName(currentIntent);
+          title = `We've switched you to ${currentChain.name}, the last network you used for ${widgetName}.`;
+        }
+        // Default auto-switch message
+        else {
+          title = previousChain ? 'The network has changed' : `Switched to ${currentChain.name}`;
+        }
+      } else {
+        // Manual network switch
+        title = previousChain ? 'The network has changed' : `Switched to ${currentChain.name}`;
+      }
 
       const toastContent = (
         <div className="mt-2 w-full">
@@ -158,14 +201,15 @@ export function useEnhancedNetworkToast() {
         </div>
       );
 
-      // Extend duration if we're showing quick switch buttons
+      // Extend duration if we're showing quick switch buttons or have a longer title
       const hasQuickSwitch =
         currentIntent && isMultichain(currentIntent) && currentIntent !== Intent.BALANCES_INTENT;
+      const hasLongTitle = title.length > 50;
 
       toast({
-        title: previousChain ? 'The network has changed' : `Switched to ${currentChain.name}`,
+        title,
         description: toastContent,
-        duration: hasQuickSwitch ? 8000 : 5000 // Extended duration for multichain widgets
+        duration: hasQuickSwitch || hasLongTitle ? 8000 : 5000 // Extended duration for multichain widgets or longer messages
       });
     },
     [chains, handleSwitchChain, setSearchParams]
