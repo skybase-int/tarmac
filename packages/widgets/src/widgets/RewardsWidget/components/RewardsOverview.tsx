@@ -12,16 +12,21 @@ import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { Heading } from '@widgets/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
+import { Button } from '@widgets/components/ui/button';
 
 type RewardsOverviewProps = {
   onSelectRewardContract: (rewardContract: RewardContract) => void;
   isConnectedAndEnabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  claimAllExecute: () => void;
+  claimAllPrepared: boolean;
 };
 
 export const RewardsOverview = ({
   onSelectRewardContract,
   onExternalLinkClicked,
+  claimAllExecute,
+  claimAllPrepared,
   isConnectedAndEnabled = true
 }: RewardsOverviewProps) => {
   const chainId = useChainId();
@@ -64,6 +69,9 @@ export const RewardsOverview = ({
 
   return (
     <div className="space-y-4">
+      <Button disabled={!claimAllPrepared} onClick={claimAllExecute} variant="primaryAlt">
+        Claim all
+      </Button>
       {userRewards.length > 0 && (
         <motion.div className="space-y-3" variants={positionAnimations}>
           <Heading tag="h3" variant="medium">
