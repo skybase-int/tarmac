@@ -13,7 +13,7 @@ vi.mock('@widgets/shared/constants', async importOriginal => {
   return {
     ...(actual as any),
     TENDERLY_CHAIN_ID: 1337,
-    TENDERLY_BASE_CHAIN_ID: 8555,
+    TENDERLY_BASE_CHAIN_ID: 8453, // Set to Base mainnet ID
     TENDERLY_ARBITRUM_CHAIN_ID: 42161 // Set to Arbitrum mainnet ID
   };
 });
