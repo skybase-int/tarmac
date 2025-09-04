@@ -31,6 +31,8 @@ import {
   TooltipTrigger,
   TooltipPortal
 } from '@/components/ui/tooltip';
+import { getChainIcon } from '@jetstreamgg/sky-utils';
+import { getSupportedChainIds } from '@/data/wagmi/config/config.default';
 
 interface WidgetNavigationProps {
   widgetContent: WidgetContent;
@@ -374,8 +376,100 @@ export function WidgetNavigation({
                             />
                             {description && !isMobile && (
                               <TooltipPortal>
-                                <TooltipContent side="right">
-                                  <p className="max-w-xs text-sm">{description}</p>
+                                <TooltipContent side="right" className="max-w-xs">
+                                  <p className="text-sm">{description}</p>
+                                  {currentChainId && widgetIntent !== Intent.BALANCES_INTENT && (
+                                    <>
+                                      <p className="mt-2 text-xs text-gray-400">Supported on:</p>
+                                      <div className="mt-1 flex gap-2">
+                                        {isMultichain(widgetIntent)
+                                          ? // Show all supported chains for multichain widgets (excluding Balances)
+                                            getSupportedChainIds(currentChainId).map(chainId => {
+                                              const chain = chains.find(c => c.id === chainId);
+                                              if (!chain) return null;
+                                              return (
+                                                <button
+                                                  key={chainId}
+                                                  onClick={e => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    // Save current network if switching from multichain widget
+                                                    if (
+                                                      intent &&
+                                                      currentChainId &&
+                                                      isMultichain(intent) &&
+                                                      intent !== Intent.BALANCES_INTENT
+                                                    ) {
+                                                      saveWidgetNetwork(intent, currentChainId);
+                                                    }
+                                                    // Navigate to widget on selected network
+                                                    setIsSwitchingNetwork(true);
+                                                    setSearchParams(prevParams => {
+                                                      const searchParams = deleteSearchParams(prevParams);
+                                                      searchParams.set(
+                                                        QueryParams.Network,
+                                                        normalizeUrlParam(chain.name)
+                                                      );
+                                                      searchParams.set(
+                                                        QueryParams.Widget,
+                                                        mapIntentToQueryParam(widgetIntent)
+                                                      );
+                                                      return searchParams;
+                                                    });
+                                                  }}
+                                                  className="flex items-center justify-center rounded-full p-1 transition-all hover:bg-white/10"
+                                                  title={`Go to ${label} on ${chain.name}`}
+                                                >
+                                                  {getChainIcon(chainId, 'h-5 w-5')}
+                                                </button>
+                                              );
+                                            })
+                                          : // Show only Ethereum mainnet for mainnet-only widgets
+                                            (() => {
+                                              const mainnetId =
+                                                getSupportedChainIds(currentChainId).find(id => {
+                                                  const chain = chains.find(c => c.id === id);
+                                                  return (
+                                                    chain &&
+                                                    (chain.name === 'Ethereum' ||
+                                                      chain.name.includes('mainnet'))
+                                                  );
+                                                }) || getSupportedChainIds(currentChainId)[0];
+
+                                              const chain = chains.find(c => c.id === mainnetId);
+                                              if (!chain) return null;
+
+                                              return (
+                                                <button
+                                                  key={mainnetId}
+                                                  onClick={e => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    // Navigate to widget on mainnet
+                                                    setIsSwitchingNetwork(true);
+                                                    setSearchParams(prevParams => {
+                                                      const searchParams = deleteSearchParams(prevParams);
+                                                      searchParams.set(
+                                                        QueryParams.Network,
+                                                        normalizeUrlParam(chain.name)
+                                                      );
+                                                      searchParams.set(
+                                                        QueryParams.Widget,
+                                                        mapIntentToQueryParam(widgetIntent)
+                                                      );
+                                                      return searchParams;
+                                                    });
+                                                  }}
+                                                  className="flex items-center justify-center rounded-full p-1 transition-all hover:bg-white/10"
+                                                  title={`Go to ${label} on ${chain.name}`}
+                                                >
+                                                  {getChainIcon(mainnetId, 'h-5 w-5')}
+                                                </button>
+                                              );
+                                            })()}
+                                      </div>
+                                    </>
+                                  )}
                                 </TooltipContent>
                               </TooltipPortal>
                             )}
