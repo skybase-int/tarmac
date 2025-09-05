@@ -379,9 +379,9 @@ export function Chart({
       return 0;
     }
 
-    const offset = 1; // to prevent Infinity values. maybe it should be a smaller number
+    const offset = isPercentage ? 0.001 : 1;
     const first = data[0].value + offset;
-    const last = data[data.length - 1].value;
+    const last = data[data.length - 1].value + offset;
 
     return ((last - first) / first) * 100;
   }, [data]);
