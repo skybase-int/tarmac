@@ -21,7 +21,7 @@ export function NetworkSwitcher() {
     return (
       <Tooltip>
         <TooltipTrigger asChild>
-          <div className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 hover:from-primary-start/100 hover:to-primary-end/100 focus:from-primary-start/100 focus:to-primary-end/100 flex h-9 items-center justify-center rounded-lg border border-transparent px-[9px] bg-blend-overlay hover:border-transparent hover:bg-white/10 focus:border-transparent focus:bg-white/15">
+          <div className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 hover:from-primary-start/100 hover:to-primary-end/100 focus:from-primary-start/100 focus:to-primary-end/100 flex items-center justify-center rounded-xl border border-transparent px-[9px] py-2 bg-blend-overlay hover:border-transparent hover:bg-white/10 focus:border-transparent focus:bg-white/15">
             <Loader2 className="h-5 w-5 animate-spin text-white" />
           </div>
         </TooltipTrigger>
