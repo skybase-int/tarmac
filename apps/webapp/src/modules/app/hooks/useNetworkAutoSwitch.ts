@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useChains } from 'wagmi';
 import { Intent } from '@/lib/enums';
 import { requiresMainnet, isMultichain } from '@/lib/widget-network-map';
-import { isL2ChainId } from '@jetstreamgg/sky-utils';
+import { isL2ChainId, isTestnetId } from '@jetstreamgg/sky-utils';
 import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
 import { QueryParams, mapIntentToQueryParam } from '@/lib/constants';
 import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
@@ -49,6 +49,28 @@ export function useNetworkAutoSwitch({
       // Store the previous intent before switching
       setPreviousIntent(currentIntent);
 
+      // IMPORTANT: Skip all auto-switching logic if we're on a testnet
+      // Testnets are for testing and we shouldn't disrupt the user's testing environment
+      if (currentChainId && isTestnetId(currentChainId)) {
+        // Just change the widget without any network switching
+        setSearchParams(prevParams => {
+          const searchParams = deleteSearchParams(prevParams);
+          searchParams.set(QueryParams.Widget, queryParam);
+
+          // Handle rewards-specific params even on testnet
+          if (targetIntent === Intent.REWARDS_INTENT) {
+            if (selectedRewardContract?.contractAddress) {
+              searchParams.set(QueryParams.Reward, selectedRewardContract.contractAddress);
+            }
+          } else {
+            searchParams.delete(QueryParams.Reward);
+          }
+
+          return searchParams;
+        });
+        return; // Exit early for testnets
+      }
+
       // Save current network for multichain widgets before switching (except Balances)
       if (
         currentIntent &&
@@ -76,7 +98,7 @@ export function useNetworkAutoSwitch({
         savedNetwork &&
         savedNetwork !== currentChainId; // Saved network is different (likely an L2)
 
-      // Check if we need to switch networks
+      // Check if we need to switch networks (only for non-testnets)
       if (currentChainId && requiresMainnet(targetIntent) && isL2ChainId(currentChainId)) {
         // Auto-switch to mainnet for mainnet-only widgets (they're not available on L2)
         setIsSwitchingNetwork(true);
