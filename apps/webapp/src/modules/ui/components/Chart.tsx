@@ -384,7 +384,7 @@ export function Chart({
     const last = data[data.length - 1].value + offset;
 
     return ((last - first) / first) * 100;
-  }, [data]);
+  }, [data, isPercentage]);
   const formattedPercentage = formatPercentage(percentage, isLarge);
   const isZeroPercentage = formattedPercentage.replace('-', '').replace(/%/g, '') === '0';
   const [activeTimeframe, setActiveTimeframe] = useState<TimeFrame>('w');

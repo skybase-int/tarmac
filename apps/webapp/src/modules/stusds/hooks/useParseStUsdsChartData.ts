@@ -18,10 +18,12 @@ export function useParseStUsdsChartData(
   // For rate, transform the data to use rate field as amount
   const rateChartData = useMemo(
     () =>
-      chartData.map(item => ({
-        blockTimestamp: item.blockTimestamp,
-        amount: item.rate || 0n // Use rate as amount for the parser
-      })),
+      chartData
+        .filter(item => item.rate !== undefined && item.rate !== null)
+        .map(item => ({
+          blockTimestamp: item.blockTimestamp,
+          amount: item.rate as bigint // Use rate as amount for the parser
+        })),
     [chartData]
   );
 

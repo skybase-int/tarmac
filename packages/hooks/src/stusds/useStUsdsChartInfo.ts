@@ -8,7 +8,7 @@ import { ReadHook } from '../hooks';
 
 type StUsdsChartInfo = {
   date: string;
-  stusds_tvl: string;
+  stusds_tvl: string | null;
   stusds_rate: string | null;
 };
 
