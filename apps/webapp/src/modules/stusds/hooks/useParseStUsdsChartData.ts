@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Data, TimeFrame } from '@/modules/ui/components/Chart';
-import { useParseSavingsChartData } from '@/modules/savings/hooks/useParseSavingsChartData';
+import { useParseTvlChartData } from '@/modules/ui/hooks/useParseTvlChartData';
 
 type StUsdsChartInfoParsed = {
   blockTimestamp: number;
@@ -13,7 +13,7 @@ export function useParseStUsdsChartData(
   chartData: StUsdsChartInfoParsed[]
 ): { tvl: Data[]; rate: Data[] } {
   // For TVL, use amount field
-  const tvlData = useParseSavingsChartData(timeFrame, chartData);
+  const tvlData = useParseTvlChartData(timeFrame, chartData);
 
   // For rate, transform the data to use rate field as amount
   const rateChartData = useMemo(
@@ -26,7 +26,7 @@ export function useParseStUsdsChartData(
   );
 
   // Parse rate data
-  const parsedRateData = useParseSavingsChartData(timeFrame, rateChartData);
+  const parsedRateData = useParseTvlChartData(timeFrame, rateChartData);
 
   // Convert rate values to percentages
   const rateData = useMemo(

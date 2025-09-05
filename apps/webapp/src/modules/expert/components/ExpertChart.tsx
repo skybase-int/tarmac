@@ -3,7 +3,7 @@ import { Chart, TimeFrame } from '@/modules/ui/components/Chart';
 import { useState } from 'react';
 import { ErrorBoundary } from '@/modules/layout/components/ErrorBoundary';
 import { Trans } from '@lingui/react/macro';
-import { useParseSavingsChartData } from '@/modules/savings/hooks/useParseSavingsChartData';
+import { useParseTvlChartData } from '@/modules/ui/hooks/useParseTvlChartData';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 type TvlChartInfoParsed = {
@@ -57,7 +57,7 @@ export function ExpertChart() {
   // Fetch and aggregate chart data for all expert modules
   const { data: expertModulesChartData, isLoading, error } = useExpertModulesChartInfo();
 
-  const chartData = useParseSavingsChartData(timeFrame, expertModulesChartData);
+  const chartData = useParseTvlChartData(timeFrame, expertModulesChartData);
 
   return (
     <div>
