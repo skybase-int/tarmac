@@ -212,7 +212,7 @@ test.describe('Expert Module - stUSDS', () => {
     await approveOrPerformAction(page, 'Upgrade');
 
     // Check that Rewards modal is visible
-    await expect(page.getByText('Go to Expert')).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Go to Expert' })).toBeVisible();
 
     // Click on Close button
     await page.getByRole('button', { name: 'Go to Expert' }).click();
