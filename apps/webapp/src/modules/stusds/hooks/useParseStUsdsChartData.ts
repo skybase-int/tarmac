@@ -33,7 +33,7 @@ export function useParseStUsdsChartData(
     () =>
       parsedRateData.map(point => ({
         ...point,
-        value: point.value / 1e16 // Convert from 1e18 to percentage
+        value: point.value * 100 // Convert from decimal (0.045) to percentage (4.5)
       })),
     [parsedRateData]
   );
