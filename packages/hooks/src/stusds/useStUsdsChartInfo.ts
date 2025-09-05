@@ -9,20 +9,33 @@ import { ReadHook } from '../hooks';
 type StUsdsChartInfo = {
   date: string;
   stusds_tvl: string;
+  stusds_rate: string | null;
 };
 
 type StUsdsChartInfoParsed = {
   blockTimestamp: number;
   amount: bigint;
+  rate?: bigint;
 };
 
 function transformBaLabsChartData(results: StUsdsChartInfo[]): StUsdsChartInfoParsed[] {
   const parsed = results.map((item: StUsdsChartInfo) => {
-    const stUsdsTvl = Number(item.stusds_tvl).toFixed(18); //remove scientific notation if it exists
-    return {
+    const result: StUsdsChartInfoParsed = {
       blockTimestamp: new Date(item?.date).getTime() / 1000,
-      amount: parseEther(stUsdsTvl)
+      amount: 0n // Default tvl amount
     };
+
+    if (item.stusds_tvl !== null) {
+      const stUsdsTvl = Number(item.stusds_tvl).toFixed(18); //remove scientific notation if it exists
+      result.amount = parseEther(stUsdsTvl);
+    }
+
+    if (item.stusds_rate !== null) {
+      const stUsdsRate = Number(item.stusds_rate).toFixed(18); //remove scientific notation if it exists
+      result.rate = parseEther(stUsdsRate);
+    }
+
+    return result;
   });
   return parsed;
 }
