@@ -26,7 +26,7 @@ export const usePreviewSwapExactOut = (
     };
   }
   // use the correct decimals for the in token
-  const tokenDecimals = inToken ? getTokenDecimals(inToken, chainId) : 18;
+  const tokenDecimals = getTokenDecimals(inToken, chainId);
 
   // Format the result
   const formattedAmount = formatBigInt(amountIn, { unit: tokenDecimals });

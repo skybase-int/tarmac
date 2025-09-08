@@ -130,7 +130,7 @@ export const SupplyWithdraw = ({
                 error
                   ? t`Insufficient funds. Your balance is ${formatUnits(
                       savingsBalance || 0n,
-                      inputToken ? getTokenDecimals(inputToken, chainId) : 18
+                      getTokenDecimals(inputToken, chainId)
                     )} ${inputToken?.symbol}.`
                   : undefined
               }
