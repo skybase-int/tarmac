@@ -28848,7 +28848,7 @@ export const stUsdsAbi = [
  * Using proxy address for contract interactions
  */
 export const stUsdsAddress = {
-  1: '0x6c7df3575f1d69eb3b245a082937794794c2b82e',
+  1: '0x99CD4Ec3f88A45940936F469E4bB72A2A701EEB9',
   314310: '0x6c7df3575f1d69eb3b245a082937794794c2b82e'
 } as const;
 
