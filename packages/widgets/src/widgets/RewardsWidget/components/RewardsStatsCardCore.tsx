@@ -96,7 +96,7 @@ export const RewardsStatsCardCore = ({
           className={`flex w-full justify-center ${!!rewardsBalance && !!claim ? 'mt-3' : ''}`}
         >
           {isConnectedAndEnabled && !!rewardsBalance && !!claim ? (
-            <Button disabled={!claim.prepared} onClick={onClaimClick} variant="primaryAlt">
+            <Button disabled={!claim.prepared} onClick={onClaimClick} variant="secondary" className="w-full">
               <Trans>
                 {`Claim ${
                   rewardsBalance < MIN_CLAIM_DISPLAY
