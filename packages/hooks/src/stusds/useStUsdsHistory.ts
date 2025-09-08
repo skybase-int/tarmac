@@ -28,7 +28,7 @@ async function fetchStusdsHistory(urlSubgraph: string, chainId: number, address?
   `;
 
   const response = (await request(urlSubgraph, query)) as any;
-  const supplies = response.yusdsDeposits.map((d: any) => ({
+  const supplies = response.stusdsDeposits.map((d: any) => ({
     assets: BigInt(d.assets),
     blockTimestamp: new Date(parseInt(d.blockTimestamp) * 1000),
     transactionHash: d.transactionHash,
@@ -38,7 +38,7 @@ async function fetchStusdsHistory(urlSubgraph: string, chainId: number, address?
     chainId
   }));
 
-  const withdraws = response.yusdsWithdraws.map((w: any) => ({
+  const withdraws = response.stusdsWithdraws.map((w: any) => ({
     assets: -BigInt(w.assets), //make withdrawals negative
     blockTimestamp: new Date(parseInt(w.blockTimestamp) * 1000),
     transactionHash: w.transactionHash,
