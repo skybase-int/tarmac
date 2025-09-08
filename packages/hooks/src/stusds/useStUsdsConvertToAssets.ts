@@ -1,5 +1,5 @@
 import { useChainId } from 'wagmi';
-import { useReadStUsds } from '../generated';
+import { useReadStUsdsImplementation } from '../generated';
 import { ReadHook } from '../hooks';
 import { useMemo } from 'react';
 
@@ -15,10 +15,10 @@ export function useStUsdsConvertToAssets(shares: bigint): StUsdsConvertToAssetsH
     isLoading,
     error,
     refetch
-  } = useReadStUsds({
+  } = useReadStUsdsImplementation({
     functionName: 'convertToAssets',
     args: [shares],
-    chainId: chainId as keyof typeof useReadStUsds,
+    chainId: chainId as keyof typeof useReadStUsdsImplementation,
     query: {
       enabled: !!shares && shares > 0n
     }

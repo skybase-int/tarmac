@@ -1,5 +1,5 @@
 import { useChainId } from 'wagmi';
-import { useReadStUsds } from '../generated';
+import { useReadStUsdsImplementation } from '../generated';
 import { ReadHook } from '../hooks';
 import { useMemo } from 'react';
 
@@ -15,10 +15,10 @@ export function useStUsdsPreviewDeposit(assets: bigint): StUsdsPreviewDepositHoo
     isLoading,
     error,
     refetch
-  } = useReadStUsds({
+  } = useReadStUsdsImplementation({
     functionName: 'previewDeposit',
     args: [assets],
-    chainId: chainId as keyof typeof useReadStUsds,
+    chainId: chainId as keyof typeof useReadStUsdsImplementation,
     query: {
       enabled: !!assets && assets > 0n
     }
