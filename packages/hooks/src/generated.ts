@@ -5916,8 +5916,6 @@ export const psm3L2Address = {
   10: '0xe0F9978b907853F354d79188A3dEfbD41978af62',
   130: '0x7b42Ed932f26509465F7cE3FAF76FfCe1275312f',
   8453: '0x1601843c5E9bC251A3272907010AFa41Fa18347E',
-  8555: '0x1601843c5E9bC251A3272907010AFa41Fa18347E',
-  42012: '0x2B05F8e1cACC6974fD79A673a341Fe1f58d27266',
   42161: '0x2B05F8e1cACC6974fD79A673a341Fe1f58d27266'
 } as const;
 
@@ -6578,8 +6576,6 @@ export const sUsdsL2Address = {
   10: '0xb5B2dc7fd34C249F4be7fB1fCea07950784229e0',
   130: '0xA06b10Db9F390990364A3984C04FaDf1c13691b5',
   8453: '0x5875eEE11Cf8398102FdAd704C9E96607675467a',
-  8555: '0x5875eEE11Cf8398102FdAd704C9E96607675467a',
-  42012: '0xdDb46999F8891663a8F2828d25298f70416d7610',
   42161: '0xdDb46999F8891663a8F2828d25298f70416d7610'
 } as const;
 
@@ -8026,8 +8022,6 @@ export const ssrAuthOracleAddress = {
   10: '0x6E53585449142A5E6D5fC918AE6BEa341dC81C68',
   130: '0x1566BFA55D95686a823751298533D42651183988',
   8453: '0x65d946e533748A998B1f0E430803e39A6388f7a1',
-  8555: '0x65d946e533748A998B1f0E430803e39A6388f7a1',
-  42012: '0xEE2816c1E1eed14d444552654Ed3027abC033A36',
   42161: '0xEE2816c1E1eed14d444552654Ed3027abC033A36'
 } as const;
 
@@ -8038,6 +8032,659 @@ export const ssrAuthOracleAddress = {
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xEE2816c1E1eed14d444552654Ed3027abC033A36)
  */
 export const ssrAuthOracleConfig = { address: ssrAuthOracleAddress, abi: ssrAuthOracleAbi } as const;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// stUsds
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99CD4Ec3f88A45940936F469E4bB72A2A701EEB9)
+ */
+export const stUsdsAbi = [
+  {
+    type: 'constructor',
+    inputs: [
+      { name: 'implementation', internalType: 'address', type: 'address' },
+      { name: '_data', internalType: 'bytes', type: 'bytes' }
+    ],
+    stateMutability: 'payable'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
+    name: 'AddressEmptyCode'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'implementation', internalType: 'address', type: 'address' }],
+    name: 'ERC1967InvalidImplementation'
+  },
+  { type: 'error', inputs: [], name: 'ERC1967NonPayable' },
+  { type: 'error', inputs: [], name: 'FailedInnerCall' },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
+    name: 'Upgraded'
+  },
+  { type: 'fallback', stateMutability: 'payable' }
+] as const;
+
+/**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99CD4Ec3f88A45940936F469E4bB72A2A701EEB9)
+ */
+export const stUsdsAddress = {
+  1: '0x99CD4Ec3f88A45940936F469E4bB72A2A701EEB9',
+  314310: '0x6c7Df3575f1d69eb3B245A082937794794C2b82E'
+} as const;
+
+/**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99CD4Ec3f88A45940936F469E4bB72A2A701EEB9)
+ */
+export const stUsdsConfig = { address: stUsdsAddress, abi: stUsdsAbi } as const;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// stUsdsImplementation
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const stUsdsImplementationAbi = [
+  {
+    type: 'constructor',
+    inputs: [
+      { name: 'usdsJoin_', internalType: 'address', type: 'address' },
+      { name: 'jug_', internalType: 'address', type: 'address' },
+      { name: 'clip_', internalType: 'address', type: 'address' },
+      { name: 'vow_', internalType: 'address', type: 'address' }
+    ],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
+    name: 'AddressEmptyCode'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'implementation', internalType: 'address', type: 'address' }],
+    name: 'ERC1967InvalidImplementation'
+  },
+  { type: 'error', inputs: [], name: 'ERC1967NonPayable' },
+  { type: 'error', inputs: [], name: 'FailedInnerCall' },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
+  { type: 'error', inputs: [], name: 'UUPSUnauthorizedCallContext' },
+  {
+    type: 'error',
+    inputs: [{ name: 'slot', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'UUPSUnsupportedProxiableUUID'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'spender', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Approval'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'assets', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'oldChi', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'newChi', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Cut'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'usr', internalType: 'address', type: 'address', indexed: true }],
+    name: 'Deny'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address', indexed: true },
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'assets', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'shares', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Deposit'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'chi', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'diff', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Drip'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'what', internalType: 'bytes32', type: 'bytes32', indexed: true },
+      { name: 'data', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'File'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
+    name: 'Initialized'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'referral', internalType: 'uint16', type: 'uint16', indexed: true },
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'assets', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'shares', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Referral'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'usr', internalType: 'address', type: 'address', indexed: true }],
+    name: 'Rely'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Transfer'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
+    name: 'Upgraded'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address', indexed: true },
+      { name: 'receiver', internalType: 'address', type: 'address', indexed: true },
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'assets', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'shares', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Withdraw'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'DOMAIN_SEPARATOR',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'PERMIT_TYPEHASH',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'UPGRADE_INTERFACE_VERSION',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '', internalType: 'address', type: 'address' },
+      { name: '', internalType: 'address', type: 'address' }
+    ],
+    name: 'allowance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'approve',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'asset',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'cap',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'chi',
+    outputs: [{ name: '', internalType: 'uint192', type: 'uint192' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'clip',
+    outputs: [{ name: '', internalType: 'contract ClipLike', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    name: 'convertToAssets',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    name: 'convertToShares',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'rad', internalType: 'uint256', type: 'uint256' }],
+    name: 'cut',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'decimals',
+    outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'usr', internalType: 'address', type: 'address' }],
+    name: 'deny',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'assets', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' }
+    ],
+    name: 'deposit',
+    outputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'assets', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+      { name: 'referral', internalType: 'uint16', type: 'uint16' }
+    ],
+    name: 'deposit',
+    outputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'drip',
+    outputs: [{ name: 'nChi', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'what', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'data', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'file',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getImplementation',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'ilk',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view'
+  },
+  { type: 'function', inputs: [], name: 'initialize', outputs: [], stateMutability: 'nonpayable' },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'jug',
+    outputs: [{ name: '', internalType: 'contract JugLike', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'line',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: 'maxDeposit',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: 'maxMint',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
+    name: 'maxRedeem',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
+    name: 'maxWithdraw',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'shares', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+      { name: 'referral', internalType: 'uint16', type: 'uint16' }
+    ],
+    name: 'mint',
+    outputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'shares', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' }
+    ],
+    name: 'mint',
+    outputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'name',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: 'nonces',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+      { name: 'signature', internalType: 'bytes', type: 'bytes' }
+    ],
+    name: 'permit',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+      { name: 'v', internalType: 'uint8', type: 'uint8' },
+      { name: 'r', internalType: 'bytes32', type: 'bytes32' },
+      { name: 's', internalType: 'bytes32', type: 'bytes32' }
+    ],
+    name: 'permit',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    name: 'previewDeposit',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    name: 'previewMint',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    name: 'previewRedeem',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    name: 'previewWithdraw',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'proxiableUUID',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'shares', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+      { name: 'owner', internalType: 'address', type: 'address' }
+    ],
+    name: 'redeem',
+    outputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'usr', internalType: 'address', type: 'address' }],
+    name: 'rely',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'rho',
+    outputs: [{ name: '', internalType: 'uint64', type: 'uint64' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'str',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'symbol',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalAssets',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'transfer',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'transferFrom',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'newImplementation', internalType: 'address', type: 'address' },
+      { name: 'data', internalType: 'bytes', type: 'bytes' }
+    ],
+    name: 'upgradeToAndCall',
+    outputs: [],
+    stateMutability: 'payable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'usds',
+    outputs: [{ name: '', internalType: 'contract UsdsLike', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'usdsJoin',
+    outputs: [{ name: '', internalType: 'contract UsdsJoinLike', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'vat',
+    outputs: [{ name: '', internalType: 'contract VatLike', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'version',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'vow',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: 'wards',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'assets', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+      { name: 'owner', internalType: 'address', type: 'address' }
+    ],
+    name: 'withdraw',
+    outputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable'
+  }
+] as const;
+
+/**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const stUsdsImplementationAddress = {
+  1: '0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22',
+  314310: '0x6c9a2f9A94770336403E69e9eA5D88C97EF3b78A'
+} as const;
+
+/**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const stUsdsImplementationConfig = {
+  address: stUsdsImplementationAddress,
+  abi: stUsdsImplementationAbi
+} as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // stakeModule
@@ -8790,8 +9437,6 @@ export const usdcL2Address = {
   10: '0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85',
   130: '0x078D782b760474a361dDA0AF3839290b0EF57AD6',
   8453: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
-  8555: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
-  42012: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831',
   42161: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831'
 } as const;
 
@@ -9198,8 +9843,6 @@ export const usdsL2Address = {
   10: '0x4F13a96EC5C4Cf34e442b46Bbd98a0791F20edC3',
   130: '0x7E10036Acc4B56d4dFCa3b77810356CE52313F9C',
   8453: '0x820C137fa70C8691f0e44Dc420a5e53c168921Dc',
-  8555: '0x820C137fa70C8691f0e44Dc420a5e53c168921Dc',
-  42012: '0x6491c05A82219b8D1479057361ff1654749b876b',
   42161: '0x6491c05A82219b8D1479057361ff1654749b876b'
 } as const;
 
@@ -23455,6 +24098,947 @@ export const useWatchSsrAuthOracleSetSusdsData = /*#__PURE__*/ createUseWatchCon
 });
 
 /**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsAbi}__
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99CD4Ec3f88A45940936F469E4bB72A2A701EEB9)
+ */
+export const useWatchStUsds = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stUsdsAbi,
+  address: stUsdsAddress
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsAbi}__ and `eventName` set to `"Upgraded"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99CD4Ec3f88A45940936F469E4bB72A2A701EEB9)
+ */
+export const useWatchStUsdsUpgraded = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stUsdsAbi,
+  address: stUsdsAddress,
+  eventName: 'Upgraded'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementation = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"DOMAIN_SEPARATOR"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationDomainSeparator = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'DOMAIN_SEPARATOR'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"PERMIT_TYPEHASH"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationPermitTypehash = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'PERMIT_TYPEHASH'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"UPGRADE_INTERFACE_VERSION"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationUpgradeInterfaceVersion = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'UPGRADE_INTERFACE_VERSION'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"allowance"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationAllowance = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'allowance'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"asset"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationAsset = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'asset'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"balanceOf"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationBalanceOf = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'balanceOf'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"cap"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationCap = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'cap'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"chi"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationChi = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'chi'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"clip"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationClip = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'clip'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"convertToAssets"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationConvertToAssets = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'convertToAssets'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"convertToShares"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationConvertToShares = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'convertToShares'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"decimals"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationDecimals = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'decimals'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"getImplementation"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationGetImplementation = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'getImplementation'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"ilk"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationIlk = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'ilk'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"jug"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationJug = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'jug'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"line"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationLine = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'line'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"maxDeposit"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationMaxDeposit = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'maxDeposit'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"maxMint"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationMaxMint = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'maxMint'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"maxRedeem"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationMaxRedeem = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'maxRedeem'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"maxWithdraw"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationMaxWithdraw = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'maxWithdraw'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"name"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationName = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'name'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"nonces"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationNonces = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'nonces'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"previewDeposit"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationPreviewDeposit = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'previewDeposit'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"previewMint"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationPreviewMint = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'previewMint'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"previewRedeem"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationPreviewRedeem = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'previewRedeem'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"previewWithdraw"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationPreviewWithdraw = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'previewWithdraw'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"proxiableUUID"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationProxiableUuid = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'proxiableUUID'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"rho"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationRho = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'rho'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"str"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationStr = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'str'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"symbol"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationSymbol = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'symbol'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"totalAssets"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationTotalAssets = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'totalAssets'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"totalSupply"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationTotalSupply = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'totalSupply'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"usds"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationUsds = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'usds'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"usdsJoin"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationUsdsJoin = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'usdsJoin'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"vat"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationVat = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'vat'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"version"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationVersion = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'version'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"vow"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationVow = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'vow'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"wards"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useReadStUsdsImplementationWards = /*#__PURE__*/ createUseReadContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'wards'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWriteStUsdsImplementation = /*#__PURE__*/ createUseWriteContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"approve"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWriteStUsdsImplementationApprove = /*#__PURE__*/ createUseWriteContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'approve'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"cut"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWriteStUsdsImplementationCut = /*#__PURE__*/ createUseWriteContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'cut'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"deny"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWriteStUsdsImplementationDeny = /*#__PURE__*/ createUseWriteContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'deny'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"deposit"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWriteStUsdsImplementationDeposit = /*#__PURE__*/ createUseWriteContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'deposit'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"drip"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWriteStUsdsImplementationDrip = /*#__PURE__*/ createUseWriteContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'drip'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"file"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWriteStUsdsImplementationFile = /*#__PURE__*/ createUseWriteContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'file'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"initialize"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWriteStUsdsImplementationInitialize = /*#__PURE__*/ createUseWriteContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'initialize'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"mint"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWriteStUsdsImplementationMint = /*#__PURE__*/ createUseWriteContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'mint'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"permit"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWriteStUsdsImplementationPermit = /*#__PURE__*/ createUseWriteContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'permit'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"redeem"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWriteStUsdsImplementationRedeem = /*#__PURE__*/ createUseWriteContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'redeem'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"rely"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWriteStUsdsImplementationRely = /*#__PURE__*/ createUseWriteContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'rely'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"transfer"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWriteStUsdsImplementationTransfer = /*#__PURE__*/ createUseWriteContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'transfer'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"transferFrom"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWriteStUsdsImplementationTransferFrom = /*#__PURE__*/ createUseWriteContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'transferFrom'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWriteStUsdsImplementationUpgradeToAndCall = /*#__PURE__*/ createUseWriteContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'upgradeToAndCall'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"withdraw"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWriteStUsdsImplementationWithdraw = /*#__PURE__*/ createUseWriteContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'withdraw'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useSimulateStUsdsImplementation = /*#__PURE__*/ createUseSimulateContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"approve"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useSimulateStUsdsImplementationApprove = /*#__PURE__*/ createUseSimulateContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'approve'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"cut"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useSimulateStUsdsImplementationCut = /*#__PURE__*/ createUseSimulateContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'cut'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"deny"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useSimulateStUsdsImplementationDeny = /*#__PURE__*/ createUseSimulateContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'deny'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"deposit"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useSimulateStUsdsImplementationDeposit = /*#__PURE__*/ createUseSimulateContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'deposit'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"drip"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useSimulateStUsdsImplementationDrip = /*#__PURE__*/ createUseSimulateContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'drip'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"file"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useSimulateStUsdsImplementationFile = /*#__PURE__*/ createUseSimulateContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'file'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"initialize"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useSimulateStUsdsImplementationInitialize = /*#__PURE__*/ createUseSimulateContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'initialize'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"mint"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useSimulateStUsdsImplementationMint = /*#__PURE__*/ createUseSimulateContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'mint'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"permit"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useSimulateStUsdsImplementationPermit = /*#__PURE__*/ createUseSimulateContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'permit'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"redeem"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useSimulateStUsdsImplementationRedeem = /*#__PURE__*/ createUseSimulateContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'redeem'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"rely"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useSimulateStUsdsImplementationRely = /*#__PURE__*/ createUseSimulateContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'rely'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"transfer"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useSimulateStUsdsImplementationTransfer = /*#__PURE__*/ createUseSimulateContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'transfer'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"transferFrom"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useSimulateStUsdsImplementationTransferFrom = /*#__PURE__*/ createUseSimulateContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'transferFrom'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useSimulateStUsdsImplementationUpgradeToAndCall = /*#__PURE__*/ createUseSimulateContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'upgradeToAndCall'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"withdraw"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useSimulateStUsdsImplementationWithdraw = /*#__PURE__*/ createUseSimulateContract({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  functionName: 'withdraw'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWatchStUsdsImplementation = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `eventName` set to `"Approval"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWatchStUsdsImplementationApproval = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  eventName: 'Approval'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `eventName` set to `"Cut"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWatchStUsdsImplementationCut = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  eventName: 'Cut'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `eventName` set to `"Deny"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWatchStUsdsImplementationDeny = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  eventName: 'Deny'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `eventName` set to `"Deposit"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWatchStUsdsImplementationDeposit = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  eventName: 'Deposit'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `eventName` set to `"Drip"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWatchStUsdsImplementationDrip = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  eventName: 'Drip'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `eventName` set to `"File"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWatchStUsdsImplementationFile = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  eventName: 'File'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `eventName` set to `"Initialized"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWatchStUsdsImplementationInitialized = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  eventName: 'Initialized'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `eventName` set to `"Referral"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWatchStUsdsImplementationReferral = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  eventName: 'Referral'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `eventName` set to `"Rely"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWatchStUsdsImplementationRely = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  eventName: 'Rely'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `eventName` set to `"Transfer"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWatchStUsdsImplementationTransfer = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  eventName: 'Transfer'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `eventName` set to `"Upgraded"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWatchStUsdsImplementationUpgraded = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  eventName: 'Upgraded'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `eventName` set to `"Withdraw"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
+ */
+export const useWatchStUsdsImplementationWithdraw = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: stUsdsImplementationAbi,
+  address: stUsdsImplementationAddress,
+  eventName: 'Withdraw'
+});
+
+/**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xCe01C90dE7FD1bcFa39e237FE6D8D9F569e8A6a3)
@@ -28298,588 +29882,4 @@ export const useWatchWethSepoliaWithdrawal = /*#__PURE__*/ createUseWatchContrac
   abi: wethSepoliaAbi,
   address: wethSepoliaAddress,
   eventName: 'Withdrawal'
-});
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// stUsds
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/**
- * stUSDS (ERC-4626 Vault) - Ethereum Mainnet
- */
-export const stUsdsAbi = [
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'usdsJoin_',
-        type: 'address'
-      },
-      {
-        internalType: 'address',
-        name: 'jug_',
-        type: 'address'
-      },
-      {
-        internalType: 'address',
-        name: 'clip_',
-        type: 'address'
-      },
-      {
-        internalType: 'address',
-        name: 'vow_',
-        type: 'address'
-      }
-    ],
-    stateMutability: 'nonpayable',
-    type: 'constructor'
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'owner',
-        type: 'address'
-      },
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'spender',
-        type: 'address'
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'value',
-        type: 'uint256'
-      }
-    ],
-    name: 'Approval',
-    type: 'event'
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'sender',
-        type: 'address'
-      },
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'owner',
-        type: 'address'
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'assets',
-        type: 'uint256'
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'shares',
-        type: 'uint256'
-      }
-    ],
-    name: 'Deposit',
-    type: 'event'
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'uint16',
-        name: 'referral',
-        type: 'uint16'
-      },
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'owner',
-        type: 'address'
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'assets',
-        type: 'uint256'
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'shares',
-        type: 'uint256'
-      }
-    ],
-    name: 'Referral',
-    type: 'event'
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'from',
-        type: 'address'
-      },
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'to',
-        type: 'address'
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'value',
-        type: 'uint256'
-      }
-    ],
-    name: 'Transfer',
-    type: 'event'
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'sender',
-        type: 'address'
-      },
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'receiver',
-        type: 'address'
-      },
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'owner',
-        type: 'address'
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'assets',
-        type: 'uint256'
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'shares',
-        type: 'uint256'
-      }
-    ],
-    name: 'Withdraw',
-    type: 'event'
-  },
-  {
-    inputs: [],
-    name: 'asset',
-    outputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address'
-      }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address'
-      }
-    ],
-    name: 'balanceOf',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256'
-      }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  },
-  {
-    inputs: [],
-    name: 'cap',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256'
-      }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  },
-  {
-    inputs: [],
-    name: 'chi',
-    outputs: [
-      {
-        internalType: 'uint192',
-        name: '',
-        type: 'uint192'
-      }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'shares',
-        type: 'uint256'
-      }
-    ],
-    name: 'convertToAssets',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256'
-      }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'assets',
-        type: 'uint256'
-      }
-    ],
-    name: 'convertToShares',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256'
-      }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  },
-  {
-    inputs: [],
-    name: 'decimals',
-    outputs: [
-      {
-        internalType: 'uint8',
-        name: '',
-        type: 'uint8'
-      }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'assets',
-        type: 'uint256'
-      },
-      {
-        internalType: 'address',
-        name: 'receiver',
-        type: 'address'
-      }
-    ],
-    name: 'deposit',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: 'shares',
-        type: 'uint256'
-      }
-    ],
-    stateMutability: 'nonpayable',
-    type: 'function'
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'assets',
-        type: 'uint256'
-      },
-      {
-        internalType: 'address',
-        name: 'receiver',
-        type: 'address'
-      },
-      {
-        internalType: 'uint16',
-        name: 'referral',
-        type: 'uint16'
-      }
-    ],
-    name: 'deposit',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: 'shares',
-        type: 'uint256'
-      }
-    ],
-    stateMutability: 'nonpayable',
-    type: 'function'
-  },
-  {
-    inputs: [],
-    name: 'drip',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: 'nChi',
-        type: 'uint256'
-      }
-    ],
-    stateMutability: 'nonpayable',
-    type: 'function'
-  },
-  {
-    inputs: [],
-    name: 'line',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256'
-      }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address'
-      }
-    ],
-    name: 'maxDeposit',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256'
-      }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'owner',
-        type: 'address'
-      }
-    ],
-    name: 'maxWithdraw',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256'
-      }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  },
-  {
-    inputs: [],
-    name: 'name',
-    outputs: [
-      {
-        internalType: 'string',
-        name: '',
-        type: 'string'
-      }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'assets',
-        type: 'uint256'
-      }
-    ],
-    name: 'previewDeposit',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256'
-      }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'assets',
-        type: 'uint256'
-      }
-    ],
-    name: 'previewWithdraw',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256'
-      }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  },
-  {
-    inputs: [],
-    name: 'symbol',
-    outputs: [
-      {
-        internalType: 'string',
-        name: '',
-        type: 'string'
-      }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  },
-  {
-    inputs: [],
-    name: 'totalAssets',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256'
-      }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  },
-  {
-    inputs: [],
-    name: 'totalSupply',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256'
-      }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'assets',
-        type: 'uint256'
-      },
-      {
-        internalType: 'address',
-        name: 'receiver',
-        type: 'address'
-      },
-      {
-        internalType: 'address',
-        name: 'owner',
-        type: 'address'
-      }
-    ],
-    name: 'withdraw',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: 'shares',
-        type: 'uint256'
-      }
-    ],
-    stateMutability: 'nonpayable',
-    type: 'function'
-  },
-  {
-    inputs: [],
-    name: 'ysr',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256'
-      }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  }
-] as const;
-
-/**
- * stUSDS Contract Address
- * Using proxy address for contract interactions
- */
-export const stUsdsAddress = {
-  1: '0x6c7df3575f1d69eb3b245a082937794794c2b82e',
-  314310: '0x6c7df3575f1d69eb3b245a082937794794c2b82e'
-} as const;
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsAbi}__
- */
-export const useReadStUsds = /*#__PURE__*/ createUseReadContract({
-  abi: stUsdsAbi,
-  address: stUsdsAddress
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsAbi}__
- */
-export const useWriteStUsds = /*#__PURE__*/ createUseWriteContract({
-  abi: stUsdsAbi,
-  address: stUsdsAddress
-});
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsAbi}__
- */
-export const useSimulateStUsds = /*#__PURE__*/ createUseSimulateContract({
-  abi: stUsdsAbi,
-  address: stUsdsAddress
-});
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsAbi}__
- */
-export const useWatchStUsds = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: stUsdsAbi,
-  address: stUsdsAddress
 });
