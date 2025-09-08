@@ -22,15 +22,12 @@ function extendedMock(params: MockParameters) {
       async getProvider({ chainId } = {}) {
         const provider = await base.getProvider({ chainId });
 
-        // Create a proxy to intercept requests
         return new Proxy(provider, {
           get(target, prop) {
             if (prop === 'request') {
               return async (args: EIP1193Parameters<WalletRpcSchema>) => {
-                // Handle wallet_getCapabilities method
                 if (args.method === 'wallet_getCapabilities') {
                   return {
-                    // Add capabilities for different chains
                     [TENDERLY_CHAIN_ID]: { atomic: { status: 'supported' } },
                     [TENDERLY_BASE_CHAIN_ID]: { atomic: { status: 'supported' } },
                     [TENDERLY_ARBITRUM_CHAIN_ID]: { atomic: { status: 'supported' } },
@@ -39,14 +36,11 @@ function extendedMock(params: MockParameters) {
                   };
                 }
 
-                // Handle wallet_sendCalls method
                 if (args.method === 'wallet_sendCalls') {
-                  // Get the original parameters
                   const params = args.params as any;
                   const calls = params[0].calls;
                   const from = params[0].from;
 
-                  // Create modified parameters with 'from' address included
                   const modifiedParams = [
                     {
                       ...params[0],
@@ -57,18 +51,14 @@ function extendedMock(params: MockParameters) {
                     }
                   ];
 
-                  // Call the original implementation with modified parameters
                   const modifiedArgs = {
                     method: args.method,
                     params: modifiedParams
                   } as EIP1193Parameters<WalletRpcSchema>;
 
-                  const originalResult = await target.request(modifiedArgs);
-
-                  return originalResult;
+                  return await target.request(modifiedArgs);
                 }
 
-                // For all other methods, use the original implementation
                 return target.request(args);
               };
             }
@@ -80,39 +70,33 @@ function extendedMock(params: MockParameters) {
   });
 }
 
-// Get worker index from environment variable or window object
-function getWorkerAccounts(): [`0x${string}`, ...`0x${string}`[]] {
-  // First check if we have a specific account injected by the test
-  if (typeof window !== 'undefined' && (window as any).__TEST_ACCOUNT__) {
-    return [(window as any).__TEST_ACCOUNT__ as `0x${string}`];
+// Get the account from the injected window variable or environment
+function getWorkerAccount(): [`0x${string}`, ...`0x${string}`[]] {
+  if (typeof window !== 'undefined') {
+    const testAccount = (window as any).__TEST_ACCOUNT__;
+    if (testAccount) {
+      // Return only the specific account for this worker
+      return [testAccount as `0x${string}`];
+    }
   }
 
-  // Otherwise use worker index to get the account
+  // Fallback to environment variable
   const workerIndex = Number(import.meta.env.VITE_TEST_WORKER_INDEX || 0);
   const account = TEST_WALLET_ADDRESSES[workerIndex % TEST_WALLET_ADDRESSES.length];
-
-  // For parallel execution, return only the worker's specific account
-  // This ensures each worker uses a different account
-  if (import.meta.env.VITE_PARALLEL_TEST === 'true') {
-    return [account];
-  }
-
-  // For non-parallel tests, return all accounts (existing behavior)
-  return TEST_WALLET_ADDRESSES as [`0x${string}`, ...`0x${string}`[]];
+  return [account];
 }
 
 export const mockWagmiConfig = createConfig({
   chains: [tenderlyMainnet, tenderlyBase, tenderlyArbitrum, tenderlyOptimism, tenderlyUnichain],
   connectors: [
     mock({
-      accounts: getWorkerAccounts(),
+      accounts: getWorkerAccount(),
       features: {
         reconnect: true
       }
     }),
-    // Mock connector that adds suport for batch transactions
     extendedMock({
-      accounts: getWorkerAccounts(),
+      accounts: getWorkerAccount(),
       features: {
         reconnect: true
       }
@@ -127,6 +111,6 @@ export const mockWagmiConfig = createConfig({
   },
   storage: createStorage({
     storage: typeof window !== 'undefined' && window.localStorage ? window.localStorage : noopStorage,
-    key: `wagmi-mock-${(window as any).__WORKER_INDEX__ || import.meta.env.VITE_TEST_WORKER_INDEX || 0}`
+    key: `wagmi-mock-${(window as any).__WORKER_INDEX__ || 0}`
   })
 });

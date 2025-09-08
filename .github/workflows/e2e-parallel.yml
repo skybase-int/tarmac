@@ -1,0 +1,108 @@
+name: Parallel E2E Tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  setup-vnets:
+    runs-on: ubuntu-latest
+    outputs:
+      vnet-mainnet: ${{ steps.vnets.outputs.mainnet }}
+      vnet-l2: ${{ steps.vnets.outputs.l2 }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.9.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: Create Shared VNets
+        id: vnets
+        run: |
+          # Create one VNet for mainnet tests
+          MAINNET_ID=$(node scripts/vnetPoolManager.ts acquire mainnet)
+          echo "mainnet=$MAINNET_ID" >> $GITHUB_OUTPUT
+          
+          # Create one VNet for all L2 chains
+          L2_ID=$(node scripts/vnetPoolManager.ts acquire base,arbitrum,optimism,unichain)
+          echo "l2=$L2_ID" >> $GITHUB_OUTPUT
+        env:
+          TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
+
+  e2e-parallel:
+    needs: setup-vnets
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Use sharding instead of per-file matrix
+        shard: [1, 2, 3, 4, 5]
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      VNET_MAINNET_ID: ${{ needs.setup-vnets.outputs.vnet-mainnet }}
+      VNET_L2_ID: ${{ needs.setup-vnets.outputs.vnet-l2 }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.9.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Build packages
+        run: pnpm build:packages
+        env:
+          NODE_OPTIONS: "--max-old-space-size=4096"
+      
+      - name: Install Playwright
+        run: pnpm -F webapp exec playwright install --with-deps chromium
+      
+      - name: Run E2E Tests (Shard ${{ matrix.shard }})
+        run: |
+          pnpm -F webapp exec playwright test \
+            --config=playwright-parallel.config.ts \
+            --shard=${{ matrix.shard }}/5
+        env:
+          VITE_ENV_NAME: development
+          VITE_TERMS_LINK: '[{"url":"https://legal-terms","name":"Terms of Use"}]'
+          VITE_BATCH_TX_ENABLED: 'true'
+          VITE_USE_MOCK_WALLET: 'true'
+          CI: true
+      
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report-shard-${{ matrix.shard }}
+          path: apps/webapp/playwright-report/
+          retention-days: 30
+  
+  cleanup:
+    needs: [setup-vnets, e2e-parallel]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.9.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Cleanup VNets
+        run: |
+          node scripts/vnetPoolManager.ts release ${{ needs.setup-vnets.outputs.vnet-mainnet }}
+          node scripts/vnetPoolManager.ts release ${{ needs.setup-vnets.outputs.vnet-l2 }}
+        env:
+          TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
