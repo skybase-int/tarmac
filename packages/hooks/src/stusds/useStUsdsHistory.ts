@@ -14,12 +14,12 @@ async function fetchStusdsHistory(urlSubgraph: string, chainId: number, address?
   if (!address) return [];
   const query = gql`
     {
-      yusdsDeposits(where: {owner: "${address}"}) {
+      stusdsDeposits(where: {owner: "${address}"}) {
         assets
         blockTimestamp
         transactionHash
       }
-      yusdsWithdraws(where: {owner: "${address}"}) {
+      stusdsWithdraws(where: {owner: "${address}"}) {
         assets
         blockTimestamp
         transactionHash
