@@ -42,7 +42,8 @@ export const RewardsStatsCard = ({
     isLoading: isLoadingChart,
     error: errorChart
   } = useRewardsChartInfo({
-    rewardContractAddress: rewardContract.contractAddress
+    rewardContractAddress: rewardContract.contractAddress,
+    limit: 1
   });
 
   // User's supplied balance
@@ -66,10 +67,6 @@ export const RewardsStatsCard = ({
     address,
     contractAddress: rewardContract.contractAddress as `0x${string}`
   });
-
-  const mostRecentData = chartData
-    ? [...chartData].sort((a, b) => b.blockTimestamp - a.blockTimestamp)[0]
-    : null;
 
   // Check if user has a balance to determine which stats to show
   const hasUserBalance = suppliedBalance && suppliedBalance > 0n;
@@ -136,8 +133,8 @@ export const RewardsStatsCard = ({
                 </HStack>
               )
             ) : // Show Suppliers for non-user contracts
-            mostRecentData ? (
-              <Text>{formatNumber(mostRecentData?.suppliers, { maxDecimals: 0 })}</Text>
+            chartData ? (
+              <Text>{formatNumber(chartData[0].suppliers, { maxDecimals: 0 })}</Text>
             ) : isLoadingChart ? (
               <Skeleton className="bg-textSecondary h-5 w-10" />
             ) : errorChart ? (

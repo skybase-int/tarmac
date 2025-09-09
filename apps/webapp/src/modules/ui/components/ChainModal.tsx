@@ -61,7 +61,7 @@ export function ChainModal({
   const client = useClient();
   const chains = useChains();
   const isSafeWallet = useIsSafeWallet();
-  const [, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const {
     handleSwitchChain,
     isPending: isSwitchChainPending,
@@ -135,13 +135,23 @@ export function ChainModal({
 
                       const newChainName = chains.find(c => c.id === newChainId)?.name;
                       if (newChainName) {
-                        setSearchParams((params: URLSearchParams) => {
-                          params.set(QueryParams.Network, normalizeUrlParam(newChainName));
-                          if (nextIntent) {
-                            params.set(QueryParams.Widget, mapIntentToQueryParam(nextIntent));
-                          }
-                          return params;
-                        });
+                        const normalizedNewChainName = normalizeUrlParam(newChainName);
+                        const currentNetwork = searchParams.get(QueryParams.Network);
+                        // Only update if the network actually changed
+                        if (currentNetwork !== normalizedNewChainName) {
+                          setSearchParams(
+                            (params: URLSearchParams) => {
+                              if (currentNetwork !== normalizedNewChainName) {
+                                params.set(QueryParams.Network, normalizedNewChainName);
+                              }
+                              if (nextIntent) {
+                                params.set(QueryParams.Widget, mapIntentToQueryParam(nextIntent));
+                              }
+                              return params;
+                            },
+                            { replace: true }
+                          );
+                        }
                       }
                     },
                     onSettled: () => setOpen(false)
