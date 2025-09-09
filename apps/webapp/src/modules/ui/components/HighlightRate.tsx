@@ -7,7 +7,7 @@ import { PopoverRateInfo as PopoverInfo } from '@jetstreamgg/sky-widgets';
 import { TOKENS } from '@jetstreamgg/sky-hooks';
 import { useOverallSkyData } from '@jetstreamgg/sky-hooks';
 import { useRewardsChartInfo } from '@jetstreamgg/sky-hooks';
-import { formatDecimalPercentage, formatYsrAsApy } from '@jetstreamgg/sky-utils';
+import { formatDecimalPercentage, formatStrAsApy } from '@jetstreamgg/sky-utils';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { useStUsdsData } from '@jetstreamgg/sky-hooks';
 
@@ -148,7 +148,7 @@ export function AdvancedRate({ expertModule }: { expertModule?: string }) {
   const module = expertModule || linkedActionConfig?.expertModule;
   const { data: stUsdsData } = useStUsdsData();
   const moduleRate = stUsdsData?.moduleRate || 0n;
-  const formattedRate = moduleRate > 0n ? formatYsrAsApy(moduleRate) : '0.00%';
+  const formattedRate = moduleRate > 0n ? formatStrAsApy(moduleRate) : '0.00%';
 
   const moduleConfigs: Record<string, { inputToken: string; outputToken: string; rateType: string }> = {
     stusds: { inputToken: 'USDS', outputToken: 'stUSDS', rateType: 'stusds' }

@@ -28830,7 +28830,7 @@ export const stUsdsAbi = [
   },
   {
     inputs: [],
-    name: 'ysr',
+    name: 'str',
     outputs: [
       {
         internalType: 'uint256',

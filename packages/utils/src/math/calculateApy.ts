@@ -1,17 +1,17 @@
 /**
- * Converts a per-second rate (ysr) to Annual Percentage Yield (APY)
- * @param ysr - Per-second yield rate scaled by 1e27 (ray)
+ * Converts a per-second rate (str) to Annual Percentage Yield (APY)
+ * @param str - Per-second yield rate scaled by 1e27 (ray)
  * @returns APY as a percentage (e.g., 5.2 for 5.2%)
  */
-export function calculateApyFromYsr(ysr: bigint): number {
-  if (ysr === 0n) return 0;
+export function calculateApyFromStr(str: bigint): number {
+  if (str === 0n) return 0;
 
   const secondsInYear = 365.25 * 24 * 60 * 60;
 
-  // Convert ray to decimal (ysr is scaled by 1e27)
-  // ysr represents (1 + rate), not just rate
+  // Convert ray to decimal (str is scaled by 1e27)
+  // str represents (1 + rate), not just rate
   // So we need to subtract 1e27 to get the actual rate
-  const ratePerSecond = (Number(ysr) - 1e27) / 1e27;
+  const ratePerSecond = (Number(str) - 1e27) / 1e27;
 
   // For small rates, use the approximation: (1 + r)^n ≈ 1 + n*r
   // This avoids overflow issues with Math.pow or Math.exp
@@ -38,12 +38,12 @@ export function calculateApyFromYsr(ysr: bigint): number {
 }
 
 /**
- * Formats ysr as APY string with decimals
- * @param ysr - Per-second yield rate scaled by 1e27 (ray)
+ * Formats str as APY string with decimals
+ * @param str - Per-second yield rate scaled by 1e27 (ray)
  * @param decimals - Number of decimal places (default: 2)
  * @returns Formatted APY string (e.g., "5.20%")
  */
-export function formatYsrAsApy(ysr: bigint, decimals: number = 2): string {
-  const apy = calculateApyFromYsr(ysr);
+export function formatStrAsApy(str: bigint, decimals: number = 2): string {
+  const apy = calculateApyFromStr(str);
   return `${apy.toFixed(decimals)}%`;
 }
