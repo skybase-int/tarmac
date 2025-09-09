@@ -1,41 +1,46 @@
-import { useSavingsChartInfo } from '@jetstreamgg/sky-hooks';
+import { useStUsdsChartInfo } from '@jetstreamgg/sky-hooks';
 import { Chart, TimeFrame } from '@/modules/ui/components/Chart';
 import { useState } from 'react';
 import { ErrorBoundary } from '@/modules/layout/components/ErrorBoundary';
 import { Trans } from '@lingui/react/macro';
-import { useParseSavingsChartData } from '@/modules/savings/hooks/useParseSavingsChartData';
+import { useParseStUsdsChartData } from '../hooks/useParseStUsdsChartData';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useChainId } from 'wagmi';
-import { getDayCountFromTimeFrame } from '@/modules/utils/getDayCountFromTimeFrame';
+
+enum ChartName {
+  TVL = 'tvl',
+  RATE = 'rate'
+}
 
 export function StUSDSChart() {
-  const [activeChart, setActiveChart] = useState('tvl');
+  const [activeChart, setActiveChart] = useState<ChartName>(ChartName.TVL);
   const [timeFrame, setTimeFrame] = useState<TimeFrame>('w');
-  const chainId = useChainId();
-  const limit = getDayCountFromTimeFrame(timeFrame);
 
-  // TODO: Replace with useStUSDSChartInfo when available
-  const { data: stUsdsChartInfo, isLoading, error } = useSavingsChartInfo(chainId, { limit });
-  const chartData = useParseSavingsChartData(timeFrame, stUsdsChartInfo || []);
+  const { data: stUsdsChartInfo, isLoading, error } = useStUsdsChartInfo();
+  const chartData = useParseStUsdsChartData(timeFrame, stUsdsChartInfo || []);
+
+  const availableCharts = [ChartName.TVL, ChartName.RATE];
 
   return (
     <div>
       <ErrorBoundary variant="small">
         <div className="mb-4 flex">
-          <Tabs value={activeChart} onValueChange={value => setActiveChart(value)}>
+          <Tabs value={activeChart} onValueChange={value => setActiveChart(value as ChartName)}>
             <TabsList className="flex">
-              <TabsTrigger position="whole" value="tvl">
-                <Trans>TVL</Trans>
-              </TabsTrigger>
+              {availableCharts.map((chart, index) => (
+                <TabsTrigger key={chart} position={index === 0 ? 'left' : 'right'} value={chart}>
+                  <Trans>{chart === ChartName.TVL ? 'TVL' : 'Rate'}</Trans>
+                </TabsTrigger>
+              ))}
             </TabsList>
           </Tabs>
         </div>
         <Chart
           dataTestId="stusds-chart"
-          data={chartData}
+          data={activeChart === ChartName.TVL ? chartData.tvl : chartData.rate}
           isLoading={isLoading}
           error={error}
-          symbol={'stUSDS'}
+          isPercentage={activeChart === ChartName.RATE}
+          symbol={activeChart === ChartName.TVL ? 'USDS' : undefined}
           onTimeFrameChange={tf => {
             setTimeFrame(tf);
           }}

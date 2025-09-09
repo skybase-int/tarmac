@@ -3,7 +3,7 @@ import { Chart, TimeFrame } from '@/modules/ui/components/Chart';
 import { useState } from 'react';
 import { ErrorBoundary } from '@/modules/layout/components/ErrorBoundary';
 import { Trans } from '@lingui/react/macro';
-import { useParseSavingsChartData } from '../hooks/useParseSavingsChartData';
+import { useParseTvlChartData } from '@/modules/ui/hooks/useParseTvlChartData';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useChainId } from 'wagmi';
 import { isL2ChainId } from '@jetstreamgg/sky-utils';
@@ -18,7 +18,7 @@ export function SavingsChart() {
   const limit = getDayCountFromTimeFrame(timeFrame);
 
   const { data: savingsChartInfo, isLoading, error } = useSavingsChartInfo(chartChainId, { limit });
-  const chartData = useParseSavingsChartData(timeFrame, savingsChartInfo || []);
+  const chartData = useParseTvlChartData(timeFrame, savingsChartInfo || []);
 
   return (
     <div>

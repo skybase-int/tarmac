@@ -55,39 +55,57 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
 
     // Update search params
     if (originAmount && originAmount !== '0') {
-      setSearchParams(prev => {
-        prev.set(QueryParams.InputAmount, originAmount);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.set(QueryParams.InputAmount, originAmount);
+          return prev;
+        },
+        { replace: true }
+      );
     } else if (originAmount === '') {
-      setSearchParams(prev => {
-        prev.delete(QueryParams.InputAmount);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.delete(QueryParams.InputAmount);
+          return prev;
+        },
+        { replace: true }
+      );
     }
 
     if (originToken) {
-      setSearchParams(prev => {
-        prev.set(QueryParams.SourceToken, originToken);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.set(QueryParams.SourceToken, originToken);
+          return prev;
+        },
+        { replace: true }
+      );
     } else if (originToken === '') {
-      setSearchParams(prev => {
-        prev.delete(QueryParams.SourceToken);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.delete(QueryParams.SourceToken);
+          return prev;
+        },
+        { replace: true }
+      );
     }
 
     if (targetToken) {
-      setSearchParams(prev => {
-        prev.set(QueryParams.TargetToken, targetToken);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.set(QueryParams.TargetToken, targetToken);
+          return prev;
+        },
+        { replace: true }
+      );
     } else if (targetToken === '') {
-      setSearchParams(prev => {
-        prev.delete(QueryParams.TargetToken);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.delete(QueryParams.TargetToken);
+          return prev;
+        },
+        { replace: true }
+      );
     }
 
     // After a successful trade, set the linked action step to "success"

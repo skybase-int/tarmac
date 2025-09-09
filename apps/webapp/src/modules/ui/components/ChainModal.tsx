@@ -7,7 +7,6 @@ import { MainnetChain, BaseChain, ArbitrumChain, Close, OptimismChain, UnichainC
 import { cn } from '@/lib/utils';
 import { base, arbitrum, optimism, unichain } from 'viem/chains';
 import { ChevronDown } from 'lucide-react';
-import { tenderlyBase } from '@/data/wagmi/config/config.default';
 import { useState } from 'react';
 import { Intent } from '@/lib/enums';
 import { useChainModalContext } from '@/modules/ui/context/ChainModalContext';
@@ -25,7 +24,7 @@ enum ChainModalVariant {
 
 //TODO: handle optimism and unichain
 const getChainIcon = (chainId: number, className?: string) =>
-  [base.id, tenderlyBase.id].includes(chainId) ? (
+  base.id === chainId ? (
     <BaseChain className={className} />
   ) : arbitrum.id === chainId ? (
     <ArbitrumChain className={className} />
@@ -57,7 +56,7 @@ export function ChainModal({
   const client = useClient();
   const chains = useChains();
   const isSafeWallet = useIsSafeWallet();
-  const [, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const {
     handleSwitchChain,
     isPending: isSwitchChainPending,
@@ -119,13 +118,23 @@ export function ChainModal({
                     onSuccess: (_, { chainId: newChainId }) => {
                       const newChainName = chains.find(c => c.id === newChainId)?.name;
                       if (newChainName) {
-                        setSearchParams((params: URLSearchParams) => {
-                          params.set(QueryParams.Network, normalizeUrlParam(newChainName));
-                          if (nextIntent) {
-                            params.set(QueryParams.Widget, mapIntentToQueryParam(nextIntent));
-                          }
-                          return params;
-                        });
+                        const normalizedNewChainName = normalizeUrlParam(newChainName);
+                        const currentNetwork = searchParams.get(QueryParams.Network);
+                        // Only update if the network actually changed
+                        if (currentNetwork !== normalizedNewChainName) {
+                          setSearchParams(
+                            (params: URLSearchParams) => {
+                              if (currentNetwork !== normalizedNewChainName) {
+                                params.set(QueryParams.Network, normalizedNewChainName);
+                              }
+                              if (nextIntent) {
+                                params.set(QueryParams.Widget, mapIntentToQueryParam(nextIntent));
+                              }
+                              return params;
+                            },
+                            { replace: true }
+                          );
+                        }
                       }
                     },
                     onSettled: () => setOpen(false)
