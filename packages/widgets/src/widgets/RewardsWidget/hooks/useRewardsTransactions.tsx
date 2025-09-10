@@ -1,5 +1,6 @@
 import {
   RewardContract,
+  useBatchClaimAllRewards,
   useBatchRewardsSupply,
   useRewardsClaim,
   useRewardsWithdraw
@@ -41,20 +42,24 @@ export const useRewardsTransactions = ({
   setClaimAmount
 }: UseRewardsTransactionsParameters) => {
   const chainId = useChainId();
-  const { supplyTransactionCallbacks, withdrawTransactionCallbacks, claimTransactionCallbacks } =
-    useRewardsTransactionCallbacks({
-      selectedRewardContract,
-      amount,
-      rewardsBalance,
-      mutateAllowance,
-      mutateTokenBalance,
-      mutateRewardsBalance,
-      mutateUserSuppliedBalance,
-      addRecentTransaction,
-      onWidgetStateChange,
-      onNotification,
-      setClaimAmount
-    });
+  const {
+    supplyTransactionCallbacks,
+    withdrawTransactionCallbacks,
+    claimTransactionCallbacks,
+    claimAllTransactionCallbacks
+  } = useRewardsTransactionCallbacks({
+    selectedRewardContract,
+    amount,
+    rewardsBalance,
+    mutateAllowance,
+    mutateTokenBalance,
+    mutateRewardsBalance,
+    mutateUserSuppliedBalance,
+    addRecentTransaction,
+    onWidgetStateChange,
+    onNotification,
+    setClaimAmount
+  });
 
   const { widgetState } = useContext(WidgetContext);
 
@@ -82,5 +87,8 @@ export const useRewardsTransactions = ({
     ...claimTransactionCallbacks
   });
 
-  return { batchSupply, withdraw, claim };
+  // Claim all
+  const claimAll = useBatchClaimAllRewards(claimAllTransactionCallbacks);
+
+  return { batchSupply, withdraw, claim, claimAll };
 };

@@ -140,7 +140,7 @@ function TradeWidgetWrapped({
 
   const initialOriginAmount = parseUnits(
     validatedExternalState?.amount || '0',
-    originToken ? getTokenDecimals(originToken, chainId) : 18
+    getTokenDecimals(originToken, chainId)
   );
 
   const [originAmount, setOriginAmount] = useState(initialOriginAmount);
@@ -148,7 +148,7 @@ function TradeWidgetWrapped({
 
   const initialTargetAmount = parseUnits(
     validatedExternalState?.amount || '0',
-    targetToken ? getTokenDecimals(targetToken, chainId) : 18
+    getTokenDecimals(targetToken, chainId)
   );
 
   const [targetAmount, setTargetAmount] = useState(initialTargetAmount);
@@ -351,7 +351,7 @@ function TradeWidgetWrapped({
       externalWidgetState?.amount !==
         formatBigInt(originAmount, {
           locale,
-          unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+          unit: getTokenDecimals(originToken, chainId)
         });
 
     if ((tokensHasChanged || amountHasChanged) && txStatus === TxStatus.IDLE) {
