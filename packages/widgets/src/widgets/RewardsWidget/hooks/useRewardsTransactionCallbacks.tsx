@@ -147,41 +147,43 @@ export const useRewardsTransactionCallbacks = ({
     ]
   );
 
+  // Create claim callbacks factory
+  const createClaimCallbacks = (action: RewardsAction): TransactionCallbacks => ({
+    onMutate: () => {
+      handleOnMutate();
+      setClaimAmount(rewardsBalance || 0n);
+      setWidgetState((prev: WidgetState) => ({
+        ...prev,
+        screen: RewardsScreen.TRANSACTION,
+        action
+      }));
+    },
+    onStart: hash => {
+      handleOnStart({ hash, recentTransactionDescription: 'Claiming tokens' });
+    },
+    onSuccess: hash => {
+      handleOnSuccess({
+        hash,
+        notificationTitle: 'Rewards claim successful',
+        notificationDescription: 'You claimed your rewards!'
+      });
+      mutateRewardsBalance();
+      mutateTokenBalance();
+    },
+    onError: (error, hash) => {
+      handleOnError({
+        error,
+        hash,
+        notificationTitle: 'Claim failed',
+        notificationDescription: 'Something went wrong with claiming your rewards. Please try again.'
+      });
+      mutateTokenBalance();
+    }
+  });
+
   // Rewards claim
   const claimTransactionCallbacks = useMemo<TransactionCallbacks>(
-    () => ({
-      onMutate: () => {
-        handleOnMutate();
-        setClaimAmount(rewardsBalance || 0n);
-        setWidgetState((prev: WidgetState) => ({
-          ...prev,
-          screen: RewardsScreen.TRANSACTION,
-          action: RewardsAction.CLAIM
-        }));
-      },
-      onStart: hash => {
-        handleOnStart({ hash, recentTransactionDescription: 'Claiming tokens' });
-      },
-      onSuccess: hash => {
-        handleOnSuccess({
-          hash,
-          notificationTitle: 'Rewards claim successful',
-          notificationDescription: 'You claimed your rewards!'
-        });
-        mutateRewardsBalance();
-        mutateRewardsBalance();
-        mutateTokenBalance();
-      },
-      onError: (error, hash) => {
-        handleOnError({
-          error,
-          hash,
-          notificationTitle: 'Claim failed',
-          notificationDescription: 'Something went wrong with claiming your rewards. Please try again.'
-        });
-        mutateTokenBalance();
-      }
-    }),
+    () => createClaimCallbacks(RewardsAction.CLAIM),
     [
       handleOnError,
       handleOnMutate,
@@ -195,5 +197,26 @@ export const useRewardsTransactionCallbacks = ({
     ]
   );
 
-  return { supplyTransactionCallbacks, withdrawTransactionCallbacks, claimTransactionCallbacks };
+  // Rewards claim all
+  const claimAllTransactionCallbacks = useMemo<TransactionCallbacks>(
+    () => createClaimCallbacks(RewardsAction.CLAIM_ALL),
+    [
+      handleOnError,
+      handleOnMutate,
+      handleOnStart,
+      handleOnSuccess,
+      mutateRewardsBalance,
+      mutateTokenBalance,
+      rewardsBalance,
+      setClaimAmount,
+      setWidgetState
+    ]
+  );
+
+  return {
+    supplyTransactionCallbacks,
+    withdrawTransactionCallbacks,
+    claimTransactionCallbacks,
+    claimAllTransactionCallbacks
+  };
 };

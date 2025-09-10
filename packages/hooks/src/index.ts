@@ -25,6 +25,7 @@ export { useVpnCheck } from './authentication/useVpnCheck';
 // Tokens
 export { useTokenAllowance } from './tokens/useTokenAllowance';
 export { useApproveToken } from './tokens/useApproveToken';
+export { useBatchUsdtApprove } from './tokens/useBatchUsdtApprove';
 export { useTokens } from './tokens/useTokens';
 export { useTokenBalance, useTokenBalances, type TokenItem } from './tokens/useTokenBalance';
 export { useTokenChartInfo } from './tokens/useTokenChartInfo';
@@ -41,6 +42,7 @@ export { useRewardContractTokens } from './rewards/useRewardContractTokens';
 export { useUserRewardsBalance } from './rewards/useUserRewardsBalance';
 export { useRewardsWithUserBalance } from './rewards/useRewardsWithUserBalance';
 export { useBatchRewardsSupply } from './rewards/useBatchRewardsSupply';
+export { useBatchClaimAllRewards } from './rewards/useBatchClaimAllRewards';
 
 // Rewards
 export { useRewardsSupply } from './rewards/useRewardsSupply';
@@ -144,6 +146,7 @@ export { useUrnSelectedVoteDelegate as useStakeUrnSelectedVoteDelegate } from '.
 export { useStakeSkyAllowance, useStakeUsdsAllowance } from './stake/useStakeAllowance';
 export { useStakeSkyApprove, useStakeUsdsApprove } from './stake/useStakeApprove';
 export { useClaimRewards as useStakeClaimRewards } from './stake/useClaimRewards';
+export { useBatchStakeClaimAllRewards } from './stake/useBatchStakeClaimAllRewards';
 export { useStakeRewardsData } from './stake/useStakeRewardsData';
 export { useStakePosition } from './stake/useStakePosition';
 export { useBatchStakeMulticall } from './stake/useBatchStakeMulticall';
@@ -188,7 +191,7 @@ export {
 export { SupportedCollateralTypes } from './vaults/vaults.constants';
 export { getIlkName } from './vaults/helpers';
 
-export { OrderQuoteSideKind } from './trade/constants';
+export { OrderQuoteSideKind, gpv2VaultRelayerAddress } from './trade/constants';
 
 export {
   TOKENS,

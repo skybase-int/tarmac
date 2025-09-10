@@ -45,15 +45,18 @@ export function SealWidgetPane(sharedProps: SharedProps) {
       return;
     }
 
-    setSearchParams(params => {
-      if (urn?.urnAddress && urn?.urnIndex !== undefined) {
-        params.set(QueryParams.Widget, IntentMapping[Intent.SEAL_INTENT]);
-        params.set(QueryParams.UrnIndex, urn.urnIndex.toString());
-      } else {
-        params.delete(QueryParams.UrnIndex);
-      }
-      return params;
-    });
+    setSearchParams(
+      params => {
+        if (urn?.urnAddress && urn?.urnIndex !== undefined) {
+          params.set(QueryParams.Widget, IntentMapping[Intent.SEAL_INTENT]);
+          params.set(QueryParams.UrnIndex, urn.urnIndex.toString());
+        } else {
+          params.delete(QueryParams.UrnIndex);
+        }
+        return params;
+      },
+      { replace: true }
+    );
     setSelectedSealUrnIndex(urn?.urnIndex !== undefined ? Number(urn.urnIndex) : undefined);
   };
 
@@ -87,36 +90,51 @@ export function SealWidgetPane(sharedProps: SharedProps) {
 
     // Set flow search param based on widgetState.flow
     if (widgetState.flow) {
-      setSearchParams(prev => {
-        prev.set(QueryParams.Flow, widgetState.flow);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.set(QueryParams.Flow, widgetState.flow);
+          return prev;
+        },
+        { replace: true }
+      );
     }
 
     // Set flow search param based on widgetState.flow
     if (sealTab) {
-      setSearchParams(prev => {
-        prev.set(QueryParams.SealTab, sealTab === SealAction.FREE ? 'free' : 'lock');
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.set(QueryParams.SealTab, sealTab === SealAction.FREE ? 'free' : 'lock');
+          return prev;
+        },
+        { replace: true }
+      );
     } else if (sealTab === '') {
-      setSearchParams(prev => {
-        prev.delete(QueryParams.SealTab);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.delete(QueryParams.SealTab);
+          return prev;
+        },
+        { replace: true }
+      );
     }
 
     // Update amount in URL if provided and not zero
     if (originAmount && originAmount !== '0') {
-      setSearchParams(prev => {
-        prev.set(QueryParams.InputAmount, originAmount);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.set(QueryParams.InputAmount, originAmount);
+          return prev;
+        },
+        { replace: true }
+      );
     } else if (originAmount === '') {
-      setSearchParams(prev => {
-        prev.delete(QueryParams.InputAmount);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.delete(QueryParams.InputAmount);
+          return prev;
+        },
+        { replace: true }
+      );
     }
 
     // Return early so we don't trigger the linked action code below
@@ -136,10 +154,13 @@ export function SealWidgetPane(sharedProps: SharedProps) {
     // Reset the linked action state and URL params after clicking "finish"
     if (txStatus === TxStatus.IDLE && linkedActionConfig.step === LinkedActionSteps.COMPLETED_SUCCESS) {
       exitLinkedActionMode();
-      setSearchParams(prevParams => {
-        const params = deleteSearchParams(prevParams);
-        return params;
-      });
+      setSearchParams(
+        prevParams => {
+          const params = deleteSearchParams(prevParams);
+          return params;
+        },
+        { replace: true }
+      );
     }
 
     if (

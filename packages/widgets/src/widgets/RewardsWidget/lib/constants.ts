@@ -15,7 +15,8 @@ export enum RewardsAction {
   APPROVE = 'approve',
   SUPPLY = 'supply',
   WITHDRAW = 'withdraw',
-  CLAIM = 'claim'
+  CLAIM = 'claim',
+  CLAIM_ALL = 'claim_all'
 }
 
 export enum RewardsScreen {
@@ -215,6 +216,17 @@ export function rewardsClaimLoadingButtonText({
   }
 }
 
+export function rewardsClaimAllLoadingButtonText({ txStatus }: { txStatus: TxStatus }): MessageDescriptor {
+  switch (txStatus) {
+    case TxStatus.INITIALIZED:
+      return msg`Waiting for confirmation`;
+    case TxStatus.LOADING:
+      return msg`Claiming all rewards`;
+    default:
+      return msg``;
+  }
+}
+
 export function rewardsClaimSubtitle({
   txStatus,
   amount,
@@ -238,6 +250,21 @@ export function rewardsClaimSubtitle({
   }
 }
 
+export function rewardsClaimAllSubtitle({ txStatus }: { txStatus: TxStatus }): MessageDescriptor {
+  switch (txStatus) {
+    case TxStatus.INITIALIZED:
+      return msg`Please confirm that you want to claim all your rewards directly to your wallet.`;
+    case TxStatus.LOADING:
+      return msg`Your claim is being processed on the blockchain. Please wait.`;
+    case TxStatus.SUCCESS:
+      return msg`You’ve claimed all your rewards`;
+    case TxStatus.ERROR:
+      return msg`An error occurred while claiming your rewards`;
+    default:
+      return msg``;
+  }
+}
+
 export function rewardsClaimTxDescription({
   txStatus,
   selectedRewardContract
@@ -253,6 +280,20 @@ export function rewardsClaimTxDescription({
       return msg`Claimed from the ${selectedRewardContract.name} rewards pool`;
     case TxStatus.ERROR:
       return msg`Error claiming from the ${selectedRewardContract.name} rewards pool`;
+    default:
+      return msg``;
+  }
+}
+
+export function rewardsClaimAllTxDescription({ txStatus }: { txStatus: TxStatus }): MessageDescriptor {
+  switch (txStatus) {
+    case TxStatus.INITIALIZED:
+    case TxStatus.LOADING:
+      return msg`Claiming from multiple rewards pools`;
+    case TxStatus.SUCCESS:
+      return msg`Claimed from multiple rewards pools`;
+    case TxStatus.ERROR:
+      return msg`Error claiming from multiple rewards pools`;
     default:
       return msg``;
   }
