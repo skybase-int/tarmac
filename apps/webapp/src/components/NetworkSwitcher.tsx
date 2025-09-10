@@ -1,14 +1,15 @@
 import { Tooltip, TooltipArrow, TooltipContent, TooltipPortal, TooltipTrigger } from './ui/tooltip';
 import { Text } from '@/modules/layout/components/Typography';
 import { t } from '@lingui/core/macro';
-import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { Intent } from '@/lib/enums';
 import { ChainModal } from '@/modules/ui/components/ChainModal';
+import { useSearchParams } from 'react-router-dom';
+import { mapQueryParamToIntent, QueryParams } from '@/lib/constants';
 
 export function NetworkSwitcher() {
-  const { userConfig } = useConfigContext();
+  const [searchParams] = useSearchParams();
+  const intent = mapQueryParamToIntent(searchParams.get(QueryParams.Widget));
 
-  const { intent } = userConfig;
   const supportedMultichainWidgets = [
     Intent.BALANCES_INTENT,
     // TODO: Uncomment once rewards in Base support is added
