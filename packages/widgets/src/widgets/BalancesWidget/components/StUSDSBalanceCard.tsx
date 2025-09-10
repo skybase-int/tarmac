@@ -1,5 +1,5 @@
 import { useStUsdsData, usePrices } from '@jetstreamgg/sky-hooks';
-import { formatBigInt, formatNumber, formatYsrAsApy } from '@jetstreamgg/sky-utils';
+import { formatBigInt, formatNumber, formatStrAsApy } from '@jetstreamgg/sky-utils';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
 import { InteractiveStatsCard } from '@widgets/shared/components/ui/card/InteractiveStatsCard';
@@ -32,7 +32,7 @@ export const StUSDSBalanceCard = ({ url, onExternalLinkClicked, loading }: CardP
         ) : moduleRate > 0n ? (
           <div className="flex w-fit items-center gap-1.5">
             <Text variant="small" className="text-bullish leading-4">
-              {`Rate: ${formatYsrAsApy(moduleRate)}`}
+              {`Rate: ${formatStrAsApy(moduleRate)}`}
             </Text>
             <PopoverRateInfo
               type="stusds"

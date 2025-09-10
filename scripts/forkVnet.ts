@@ -2,7 +2,7 @@ require('dotenv').config();
 //@ts-expect-error readFile is already declared
 const { writeFile, readFile } = require('fs/promises');
 
-const MAINNET_FORK_CONTAINER_ID = 'b6296491-f7e7-461b-aa3c-822ecc0c4efc';
+const MAINNET_FORK_CONTAINER_ID = 'e6aa1a49-ded5-490c-bb48-52649f0fd461';
 
 const ARBITRUM_CONFIG = {
   chainId: 42161,
