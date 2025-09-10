@@ -18,11 +18,18 @@ import {
 import { TokenMapping, Token, TokenForChain } from './types';
 import { TENDERLY_CHAIN_ID } from '../constants';
 
-export function getTokenDecimals(token: Token | TokenForChain, chainId: number): number {
+export function getTokenDecimals(
+  token: Token | TokenForChain | undefined | null,
+  chainId: number,
+  defaultDecimals = 18
+): number {
+  if (!token) {
+    return defaultDecimals;
+  }
   if (typeof token.decimals === 'number') {
     return token.decimals;
   }
-  return token.decimals[chainId] ?? 18; // fallback to 18 if not specified
+  return token.decimals[chainId] ?? defaultDecimals; // fallback to 18 if not specified
 }
 
 export function tokenArrayFiltered(arr: Array<TokenForChain>, elementToRemove?: TokenForChain) {

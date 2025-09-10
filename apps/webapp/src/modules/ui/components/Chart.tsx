@@ -28,10 +28,9 @@ import { VStack } from '@/modules/layout/components/VStack';
 import { Warning } from '@/modules/icons/Warning';
 
 const dateFormat = 'MMM d';
-const timeFormat = 'HH:mm';
-const monthFormat = 'MMM';
+const monthFormat = 'MMM y';
 
-export type TimeFrame = 'd' | 'w' | 'm' | 'y' | 'all';
+export type TimeFrame = 'w' | 'm' | 'y' | 'all';
 
 const TimeframeControls = ({
   activeTimeframe,
@@ -46,7 +45,7 @@ const TimeframeControls = ({
   bpi: BP;
   compact: boolean;
 }) => {
-  const keys: TimeFrame[] = ['d', 'w', 'm', 'y', 'all'];
+  const keys: TimeFrame[] = ['w', 'm', 'y', 'all'];
 
   if (bpi < BP.lg || compact) {
     return (
@@ -171,22 +170,12 @@ const formatedXAxis = (data: Data[], tf: TimeFrame, bpi: BP) => {
 
   filteredData.push(data[data.length - 1]); // Always include the last element
 
-  let finalFormat = dateFormat;
-  if (tf === 'd') {
-    finalFormat = timeFormat;
-  } else if (tf === 'y') {
-    finalFormat = monthFormat;
-  }
+  const finalFormat = ['y', 'all'].includes(tf) ? monthFormat : dateFormat;
   return filteredData.map(item => format(new Date(item.date?.toISOString()), finalFormat));
 };
 
 const formatDate = (date: Date, tf: TimeFrame) => {
-  let finalFormat = dateFormat;
-  if (tf === 'd') {
-    finalFormat = timeFormat;
-  } else if (tf === 'y') {
-    finalFormat = monthFormat;
-  }
+  const finalFormat = ['y', 'all'].includes(tf) ? monthFormat : dateFormat;
   return format(date, finalFormat);
 };
 
@@ -379,12 +368,12 @@ export function Chart({
       return 0;
     }
 
-    const offset = 1; // to prevent Infinity values. maybe it should be a smaller number
+    const offset = isPercentage ? 0.001 : 1;
     const first = data[0].value + offset;
-    const last = data[data.length - 1].value;
+    const last = data[data.length - 1].value + offset;
 
     return ((last - first) / first) * 100;
-  }, [data]);
+  }, [data, isPercentage]);
   const formattedPercentage = formatPercentage(percentage, isLarge);
   const isZeroPercentage = formattedPercentage.replace('-', '').replace(/%/g, '') === '0';
   const [activeTimeframe, setActiveTimeframe] = useState<TimeFrame>('w');
@@ -456,7 +445,7 @@ export function Chart({
       </Card>
       <HStack className="mt-3 justify-between">
         {dateAxis.map((date, index) => (
-          <Text className="text-selectActive leading-none" variant="small" key={`${date}+${index}`}>
+          <Text className="text-selectActive" variant="small" key={`${date}+${index}`}>
             {date}
           </Text>
         ))}

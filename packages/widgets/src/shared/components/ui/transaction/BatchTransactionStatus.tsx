@@ -31,7 +31,7 @@ export function TransactionDetail() {
             <TokenIconWithBalance
               token={originToken}
               balance={formatBigInt(originAmount, {
-                unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+                unit: getTokenDecimals(originToken, chainId)
               })}
               textLarge
             />
@@ -41,7 +41,7 @@ export function TransactionDetail() {
                 <TokenIconWithBalance
                   token={targetToken}
                   balance={formatBigInt(targetAmount, {
-                    unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18
+                    unit: getTokenDecimals(targetToken, chainId)
                   })}
                   textLarge
                 />

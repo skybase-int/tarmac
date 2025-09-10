@@ -1,19 +1,22 @@
-import { useTokenChartInfo, TokenChartInfoParsed } from '@jetstreamgg/sky-hooks';
+import { useStUsdsChartInfo } from '@jetstreamgg/sky-hooks';
 import { Chart, TimeFrame } from '@/modules/ui/components/Chart';
 import { useState } from 'react';
 import { ErrorBoundary } from '@/modules/layout/components/ErrorBoundary';
 import { Trans } from '@lingui/react/macro';
-import { useParseTokenChartData } from '@/modules/ui/hooks/useParseTokenChartData';
+import { useParseTvlChartData } from '@/modules/ui/hooks/useParseTvlChartData';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useChainId } from 'wagmi';
-import { getExpertModules, ExpertModule } from '../../advanced/helpers/expertModules';
 
-function calculateCumulativeTotalSupply(tokenChartData: TokenChartInfoParsed[]) {
-  if (!tokenChartData || tokenChartData.length === 0) return [];
+type TvlChartInfoParsed = {
+  blockTimestamp: number;
+  amount: bigint;
+};
 
-  const mergedData = new Map<number, TokenChartInfoParsed>();
+function calculateCumulativeTotalSupply(chartData: TvlChartInfoParsed[]) {
+  if (!chartData || chartData.length === 0) return [];
 
-  tokenChartData.forEach(entry => {
+  const mergedData = new Map<number, TvlChartInfoParsed>();
+
+  chartData.forEach(entry => {
     const foundData = mergedData.get(entry.blockTimestamp);
     if (foundData) {
       mergedData.set(entry.blockTimestamp, {
@@ -29,24 +32,16 @@ function calculateCumulativeTotalSupply(tokenChartData: TokenChartInfoParsed[]) 
 }
 
 // Hook to fetch and aggregate expert modules chart data
-function useExpertModulesChartInfo({ expertModules }: { expertModules: ExpertModule[] }) {
+function useExpertModulesChartInfo() {
   // TODO: Loop through all expert modules when more are added
   // Currently only handling stUSDS
-  const [stUsdsModule] = expertModules;
-
-  const {
-    data: stUsdsChartData,
-    isLoading: isLoadingStUsds,
-    error: errorStUsds
-  } = useTokenChartInfo({
-    tokenAddress: stUsdsModule?.tokenAddress
-  });
+  const { data: stUsdsChartData, isLoading: isLoadingStUsds, error: errorStUsds } = useStUsdsChartInfo();
 
   // When more modules are added, fetch their data and combine like this:
   const combinedChartData = stUsdsChartData ? [...stUsdsChartData] : [];
 
-  // For now, just use stUSDS data
-  const data = calculateCumulativeTotalSupply(combinedChartData || []);
+  // Aggregate the data (currently just stUSDS, but ready for more modules)
+  const data = calculateCumulativeTotalSupply(combinedChartData);
 
   return {
     data,
@@ -58,15 +53,11 @@ function useExpertModulesChartInfo({ expertModules }: { expertModules: ExpertMod
 export function ExpertChart() {
   const [activeChart, setActiveChart] = useState('tvl');
   const [timeFrame, setTimeFrame] = useState<TimeFrame>('w');
-  const chainId = useChainId();
-
-  // Get all expert modules for the current chain
-  const expertModules = getExpertModules(chainId);
 
   // Fetch and aggregate chart data for all expert modules
-  const { data: expertModulesChartData, isLoading, error } = useExpertModulesChartInfo({ expertModules });
+  const { data: expertModulesChartData, isLoading, error } = useExpertModulesChartInfo();
 
-  const chartData = useParseTokenChartData(timeFrame, expertModulesChartData);
+  const chartData = useParseTvlChartData(timeFrame, expertModulesChartData);
 
   return (
     <div>
