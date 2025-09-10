@@ -445,7 +445,7 @@ export function Chart({
       </Card>
       <HStack className="mt-3 justify-between">
         {dateAxis.map((date, index) => (
-          <Text className="text-selectActive leading-none" variant="small" key={`${date}+${index}`}>
+          <Text className="text-selectActive" variant="small" key={`${date}+${index}`}>
             {date}
           </Text>
         ))}
