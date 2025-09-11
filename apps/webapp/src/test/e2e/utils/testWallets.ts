@@ -1,7 +1,7 @@
 // Test wallet addresses for parallel workers
 // derived from eth_accounts response from tenderly
 export const TEST_WALLET_ADDRESSES: `0x${string}`[] = [
-  '0xc45806d20044407f33ef0d0885991c738639e5b3',
+  '0x0944AB0c507A12052A5D766e43bf3a541e45A7Fc',
   '0xb4b115a488fe318d6ecc640bdcf5c2a174c8360a',
   '0xa877a5bb7f56b6ab41810d31e57213955778d3c8',
   '0x83553ca3cbd6a54df133f50bef96b922036e16e1',

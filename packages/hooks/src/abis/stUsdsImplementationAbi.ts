@@ -340,7 +340,7 @@ export default [
   },
   {
     type: 'function',
-    name: 'ysr',
+    name: 'str',
     stateMutability: 'view',
     constant: false,
     outputs: [{ type: 'uint256', name: '', simpleType: 'uint' }],

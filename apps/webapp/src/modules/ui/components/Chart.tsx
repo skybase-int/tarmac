@@ -28,7 +28,7 @@ import { VStack } from '@/modules/layout/components/VStack';
 import { Warning } from '@/modules/icons/Warning';
 
 const dateFormat = 'MMM d';
-const monthFormat = 'MMM';
+const monthFormat = 'MMM y';
 
 export type TimeFrame = 'w' | 'm' | 'y' | 'all';
 
@@ -170,12 +170,12 @@ const formatedXAxis = (data: Data[], tf: TimeFrame, bpi: BP) => {
 
   filteredData.push(data[data.length - 1]); // Always include the last element
 
-  const finalFormat = tf === 'y' ? monthFormat : dateFormat;
+  const finalFormat = ['y', 'all'].includes(tf) ? monthFormat : dateFormat;
   return filteredData.map(item => format(new Date(item.date?.toISOString()), finalFormat));
 };
 
 const formatDate = (date: Date, tf: TimeFrame) => {
-  const finalFormat = tf === 'y' ? monthFormat : dateFormat;
+  const finalFormat = ['y', 'all'].includes(tf) ? monthFormat : dateFormat;
   return format(date, finalFormat);
 };
 
@@ -445,7 +445,7 @@ export function Chart({
       </Card>
       <HStack className="mt-3 justify-between">
         {dateAxis.map((date, index) => (
-          <Text className="text-selectActive leading-none" variant="small" key={`${date}+${index}`}>
+          <Text className="text-selectActive" variant="small" key={`${date}+${index}`}>
             {date}
           </Text>
         ))}
