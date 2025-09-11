@@ -4,7 +4,7 @@ import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { cn } from '@/lib/utils';
 import { Card, CardTitle, CardContent } from '@/components/ui/card';
-import { Heading, Text } from '@/modules/layout/components/Typography';
+import { Text } from '@/modules/layout/components/Typography';
 import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
 import {
   isBaseChainId,
@@ -70,8 +70,8 @@ export const ModuleCard = ({
         className
       )}
     >
-      <CardTitle className="mb-5 text-left font-normal leading-8">
-        <Heading>{t`${title}`}</Heading>
+      <CardTitle className="text-text font-circle mb-5 scroll-m-20 text-left text-2xl font-normal leading-8 tracking-tight transition-colors">
+        {t`${title}`}
       </CardTitle>
       <CardContent className="z-10 flex grow flex-col items-start justify-between p-0">
         <div>

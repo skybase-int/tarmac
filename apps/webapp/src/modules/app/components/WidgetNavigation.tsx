@@ -256,11 +256,14 @@ export function WidgetNavigation({
                           </div>
                           <Tooltip delayDuration={150}>
                             <TooltipTrigger
+                              asChild
                               className={cn(
                                 'absolute inset-0 h-full w-full',
                                 (options?.disabled || false) && 'pointer-events-none'
                               )}
-                            />
+                            >
+                              <div />
+                            </TooltipTrigger>
                             {description && !isMobile && (
                               <TooltipPortal>
                                 <TooltipContent side="right">
