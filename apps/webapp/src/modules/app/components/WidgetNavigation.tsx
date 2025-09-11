@@ -129,8 +129,6 @@ export function WidgetNavigation({
     scrollToTop();
   }, [intent, scrollToTop]);
 
-  console.log({ widgetContent, hideTabs });
-
   return (
     <div ref={containerRef} className={`${showDrawerMenu ? 'w-full' : 'lg:flex lg:h-full'}`}>
       {/* Mobile and tablet hamburger menu */}
