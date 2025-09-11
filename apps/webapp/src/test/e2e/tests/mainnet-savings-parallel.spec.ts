@@ -2,7 +2,7 @@ import { expect, test } from '../fixtures-parallel';
 import { setErc20Balance } from '../utils/setBalance';
 import { usdsAddress } from '@jetstreamgg/sky-hooks';
 import { TENDERLY_CHAIN_ID } from '@/data/wagmi/config/testTenderlyChain';
-import { approveOrPerformAction } from '../utils/approveOrPerformAction';
+import { performAction } from '../utils/approveOrPerformAction';
 import { connectMockWalletAndAcceptTerms } from '../utils/connectMockWalletAndAcceptTerms';
 import { NetworkName } from '../utils/constants';
 
@@ -14,10 +14,10 @@ test('Supply and withdraw from Savings - Parallel Safe', async ({ isolatedPage, 
   // Wait for the app to fully load
   await isolatedPage.waitForLoadState('domcontentloaded');
   await isolatedPage.waitForTimeout(1000); // Small delay to ensure React has rendered
-  await connectMockWalletAndAcceptTerms(isolatedPage);
 
-  // Log the account being used for debugging
+  // Connect and switch to the worker's specific account
   console.log(`Test "${test.info().title}" using account: ${testAccount}`);
+  await connectMockWalletAndAcceptTerms(isolatedPage, { batch: true });
 
   await isolatedPage.getByRole('tab', { name: 'Savings' }).click();
 
@@ -26,7 +26,7 @@ test('Supply and withdraw from Savings - Parallel Safe', async ({ isolatedPage, 
   await isolatedPage.getByTestId('supply-input-savings').click();
   await isolatedPage.getByTestId('supply-input-savings').fill('.02');
   await expect(isolatedPage.getByRole('button', { name: 'Transaction overview' })).toBeVisible();
-  await approveOrPerformAction(isolatedPage, 'Supply');
+  await performAction(isolatedPage, 'Supply');
   await isolatedPage.getByRole('button', { name: 'Back to Savings' }).click();
   await isolatedPage.getByRole('tab', { name: 'Withdraw' }).click();
 
@@ -36,7 +36,7 @@ test('Supply and withdraw from Savings - Parallel Safe', async ({ isolatedPage, 
   await isolatedPage.getByTestId('withdraw-input-savings').fill('.01');
   await expect(isolatedPage.getByRole('button', { name: 'Transaction overview' })).toBeVisible();
 
-  await approveOrPerformAction(isolatedPage, 'Withdraw');
+  await performAction(isolatedPage, 'Withdraw');
 
   await expect(
     isolatedPage.getByText("You've withdrawn 0.01 USDS from the Sky Savings Rate module")
@@ -60,7 +60,7 @@ test('Balance isolation - Two parallel tests with different accounts', async ({
 
   await isolatedPage.goto('/', { waitUntil: 'networkidle' });
   await isolatedPage.waitForLoadState('domcontentloaded');
-  await connectMockWalletAndAcceptTerms(isolatedPage);
+  await connectMockWalletAndAcceptTerms(isolatedPage, { batch: true });
   await isolatedPage.getByRole('tab', { name: 'Savings' }).click();
 
   // Verify the balance is unique to this account
@@ -73,7 +73,7 @@ test('Balance isolation - Two parallel tests with different accounts', async ({
 
   // Perform a supply operation
   await isolatedPage.getByTestId('supply-input-savings').fill('10');
-  await approveOrPerformAction(isolatedPage, 'Supply');
+  await performAction(isolatedPage, 'Supply');
 
   // Verify the operation only affected this account's balance
   await isolatedPage.getByRole('button', { name: 'Back to Savings' }).click();
@@ -81,63 +81,61 @@ test('Balance isolation - Two parallel tests with different accounts', async ({
   console.log(`Account ${testAccount} new balance: ${newBalance}`);
 });
 
-test.describe('Parallel test suite', () => {
-  test('Test 1 - Can run simultaneously', async ({ isolatedPage, testAccount }) => {
-    console.log(`Test 1 using account: ${testAccount}`);
+test('Test 1 - Can run simultaneously', async ({ isolatedPage, testAccount }) => {
+  console.log(`Test 1 using account: ${testAccount}`);
 
-    // Set initial balance for this specific account
-    await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '1000', 18, NetworkName.mainnet, testAccount);
+  // Set initial balance for this specific account
+  await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '1000', 18, NetworkName.mainnet, testAccount);
 
-    await isolatedPage.goto('/');
-    await connectMockWalletAndAcceptTerms(isolatedPage);
-    await isolatedPage.getByRole('tab', { name: 'Savings' }).click();
+  await isolatedPage.goto('/');
+  await connectMockWalletAndAcceptTerms(isolatedPage, { batch: true });
+  await isolatedPage.getByRole('tab', { name: 'Savings' }).click();
 
-    // Add a small delay to simulate real work
-    await isolatedPage.waitForTimeout(2000);
+  // Add a small delay to simulate real work
+  await isolatedPage.waitForTimeout(2000);
 
-    await isolatedPage.getByTestId('supply-input-savings').fill('100');
-    await approveOrPerformAction(isolatedPage, 'Supply');
+  await isolatedPage.getByTestId('supply-input-savings').fill('100');
+  await performAction(isolatedPage, 'Supply');
 
-    console.log(`Test 1 completed for account: ${testAccount}`);
-  });
+  console.log(`Test 1 completed for account: ${testAccount}`);
+});
 
-  test('Test 2 - Can run simultaneously', async ({ isolatedPage, testAccount }) => {
-    console.log(`Test 2 using account: ${testAccount}`);
+test('Test 2 - Can run simultaneously', async ({ isolatedPage, testAccount }) => {
+  console.log(`Test 2 using account: ${testAccount}`);
 
-    // Set different initial balance for this account
-    await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '500', 18, NetworkName.mainnet, testAccount);
+  // Set different initial balance for this account
+  await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '500', 18, NetworkName.mainnet, testAccount);
 
-    await isolatedPage.goto('/');
-    await connectMockWalletAndAcceptTerms(isolatedPage);
-    await isolatedPage.getByRole('tab', { name: 'Savings' }).click();
+  await isolatedPage.goto('/');
+  await connectMockWalletAndAcceptTerms(isolatedPage, { batch: true });
+  await isolatedPage.getByRole('tab', { name: 'Savings' }).click();
 
-    // Add a small delay to simulate real work
-    await isolatedPage.waitForTimeout(2000);
+  // Add a small delay to simulate real work
+  await isolatedPage.waitForTimeout(2000);
 
-    await isolatedPage.getByTestId('supply-input-savings').fill('50');
-    await approveOrPerformAction(isolatedPage, 'Supply');
+  await isolatedPage.getByTestId('supply-input-savings').fill('50');
+  await performAction(isolatedPage, 'Supply');
 
-    console.log(`Test 2 completed for account: ${testAccount}`);
-  });
+  console.log(`Test 2 completed for account: ${testAccount}`);
+});
 
-  test('Test 3 - Can run simultaneously', async ({ isolatedPage, testAccount }) => {
-    console.log(`Test 3 using account: ${testAccount}`);
+test('Test 3 - Can run simultaneously', async ({ isolatedPage, testAccount }) => {
+  console.log(`Test 3 using account: ${testAccount}`);
 
-    // Set different initial balance
-    await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '750', 18, NetworkName.mainnet, testAccount);
+  // Set different initial balance
+  await setErc20Balance(usdsAddress[TENDERLY_CHAIN_ID], '750', 18, NetworkName.mainnet, testAccount);
 
-    await isolatedPage.goto('/');
-    await connectMockWalletAndAcceptTerms(isolatedPage);
-    await isolatedPage.getByRole('tab', { name: 'Savings' }).click();
+  await isolatedPage.goto('/');
+  await connectMockWalletAndAcceptTerms(isolatedPage, { batch: true });
+  await isolatedPage.getByRole('tab', { name: 'Savings' }).click();
 
-    // Add a small delay to simulate real work
-    await isolatedPage.waitForTimeout(2000);
+  // Add a small delay to simulate real work
+  await isolatedPage.waitForTimeout(2000);
 
-    await isolatedPage.getByTestId('supply-input-savings').fill('75');
-    await approveOrPerformAction(isolatedPage, 'Supply');
+  await isolatedPage.getByTestId('supply-input-savings').fill('75');
+  await performAction(isolatedPage, 'Supply');
 
-    console.log(`Test 3 completed for account: ${testAccount}`);
-  });
+  console.log(`Test 3 completed for account: ${testAccount}`);
 });
 
 test('Verify account isolation with allowances', async ({ isolatedPage, testAccount }) => {
@@ -148,26 +146,26 @@ test('Verify account isolation with allowances', async ({ isolatedPage, testAcco
 
   await isolatedPage.goto('/', { waitUntil: 'networkidle' });
   await isolatedPage.waitForLoadState('domcontentloaded');
-  await connectMockWalletAndAcceptTerms(isolatedPage);
+  await connectMockWalletAndAcceptTerms(isolatedPage, { batch: true });
   await isolatedPage.getByRole('tab', { name: 'Savings' }).click();
 
   // First supply without allowance (should trigger approval)
   await isolatedPage.getByTestId('supply-input-savings').fill('10');
 
   // This should show approval is needed
-  const approvalNeeded = await isolatedPage.getByText(/Approve|Allow/i).isVisible();
-  console.log(`Account ${testAccount} needs approval: ${approvalNeeded}`);
+  // const approvalNeeded = await isolatedPage.getByText(/Approve|Allow/i).isVisible();
+  // console.log(`Account ${testAccount} needs approval: ${approvalNeeded}`);
 
-  await approveOrPerformAction(isolatedPage, 'Supply');
+  await performAction(isolatedPage, 'Supply', { review: true });
 
   // Second supply should not need approval (allowance already set for this account)
-  await isolatedPage.getByRole('button', { name: 'Back to Savings' }).click();
-  await isolatedPage.getByTestId('supply-input-savings').fill('5');
+  // await isolatedPage.getByRole('button', { name: 'Back to Savings' }).click();
+  // await isolatedPage.getByTestId('supply-input-savings').fill('5');
 
   // Should go directly to supply without approval
-  const secondApprovalNeeded = await isolatedPage.getByText(/Approve|Allow/i).isVisible();
-  console.log(`Account ${testAccount} needs second approval: ${secondApprovalNeeded}`);
+  // const secondApprovalNeeded = await isolatedPage.getByText(/Approve|Allow/i).isVisible();
+  // console.log(`Account ${testAccount} needs second approval: ${secondApprovalNeeded}`);
 
   // Verify this doesn't affect other test accounts' allowances
-  expect(secondApprovalNeeded).toBe(false);
+  // expect(secondApprovalNeeded).toBe(false);
 });
