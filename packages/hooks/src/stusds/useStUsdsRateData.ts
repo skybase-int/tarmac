@@ -19,7 +19,7 @@ export function useStUsdsRateData(): StUsdsRateDataHook {
   const data = useMemo<StUsdsRateData | undefined>(() => {
     if (!stUsdsData) return undefined;
 
-    // Calculate current stusds rate from ysr (yield stusds rate)
+    // Calculate current stusds rate from str (stusds rate)
     const currentStusdsRate = stUsdsData.moduleRate;
 
     // Calculate total rate earned in the vault
