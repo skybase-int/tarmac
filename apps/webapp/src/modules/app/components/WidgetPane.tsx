@@ -10,6 +10,7 @@ import {
   mapIntentToQueryParam,
   QueryParams
 } from '@/lib/constants';
+import { isExpertModulesEnabled } from '@/lib/feature-flags';
 import { WidgetNavigation } from '@/modules/app/components/WidgetNavigation';
 import { withErrorBoundary } from '@/modules/utils/withErrorBoundary';
 import { DualSwitcher } from '@/components/DualSwitcher';
@@ -101,9 +102,23 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
   );
   // Attempt to redirect to the stUSDS module, but if user hasn't acknowledged the risk checkbox,
   // they will be redirected to the overview of the expert widget
-  const stusdsUrl = getQueryParams(
-    `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.EXPERT_INTENT)}&expert_module=${ExpertIntentMapping[ExpertIntent.STUSDS_INTENT]}`
-  );
+  // Only generate URL if expert modules are enabled
+  const stusdsUrl = isExpertModulesEnabled()
+    ? getQueryParams(
+        `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.EXPERT_INTENT)}&expert_module=${ExpertIntentMapping[ExpertIntent.STUSDS_INTENT]}`
+      )
+    : undefined;
+
+  // Filter out stUSDS from token list if expert modules are disabled
+  const filteredBalancesTokenList = isExpertModulesEnabled()
+    ? defaultConfig.balancesTokenList
+    : Object.entries(defaultConfig.balancesTokenList).reduce(
+        (acc, [chainId, tokens]) => {
+          acc[Number(chainId)] = tokens.filter(token => token.symbol !== 'stUSDS');
+          return acc;
+        },
+        {} as typeof defaultConfig.balancesTokenList
+      );
 
   const widgetItems: WidgetItem[] = [
     [
@@ -120,7 +135,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
           sealCardUrl={sealUrl}
           stakeCardUrl={stakeUrl}
           stusdsCardUrl={stusdsUrl}
-          customTokenMap={defaultConfig.balancesTokenList}
+          customTokenMap={filteredBalancesTokenList}
           chainIds={getSupportedChainIds(chainId)}
           hideZeroBalances={hideZeroBalances}
           setHideZeroBalances={setHideZeroBalances}
@@ -179,15 +194,19 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
       undefined,
       'Stake SKY to earn rewards, delegate votes, and borrow USDS'
     ],
-    [
-      Intent.EXPERT_INTENT,
-      'Expert',
-      Expert,
-      withErrorBoundary(<ExpertWidgetPane {...sharedProps} />),
-      false,
-      undefined,
-      'Higher-Risk Options: For experienced users'
-    ]
+    ...(isExpertModulesEnabled()
+      ? [
+          [
+            Intent.EXPERT_INTENT,
+            'Expert',
+            Expert,
+            withErrorBoundary(<ExpertWidgetPane {...sharedProps} />),
+            false,
+            undefined,
+            'Higher-Risk Options: For experienced users'
+          ]
+        ]
+      : [])
   ].map(([intent, label, icon, component, , , description]) => {
     const comingSoon = COMING_SOON_MAP[chainId]?.includes(intent as Intent);
     return [

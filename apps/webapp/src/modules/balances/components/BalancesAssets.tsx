@@ -13,6 +13,7 @@ import { useMemo, useState } from 'react';
 import { BalancesTableHeader } from './BalancesTableHeader';
 import { LoadingBalancesTable } from './LoadingBalancesTable';
 import { BalancesTableBodyRow } from './BalancesTableBodyRow';
+import { isExpertModulesEnabled } from '@/lib/feature-flags';
 
 type BalancesAssetsProps = {
   chainIds?: number[];
@@ -33,9 +34,13 @@ export function BalancesAssets({ chainIds }: BalancesAssetsProps) {
   };
 
   // Create an object mapping chainIds to their tokens
+  // Filter out stUSDS if expert modules are disabled
   const chainTokenMap: Record<number, TokenItem[]> = {};
   for (const chainId of chainsToQuery) {
-    chainTokenMap[chainId] = defaultConfig.balancesTokenList[chainId] ?? [];
+    const tokens = defaultConfig.balancesTokenList[chainId] ?? [];
+    chainTokenMap[chainId] = isExpertModulesEnabled()
+      ? tokens
+      : tokens.filter(token => token.symbol !== 'stUSDS');
   }
 
   const {
