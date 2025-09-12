@@ -13,6 +13,7 @@ import { TermsModalProvider } from '@/modules/ui/context/TermsModalContext';
 import { BalanceFiltersProvider } from '@/modules/ui/context/BalanceFiltersContext';
 import { ChainModalProvider } from '@/modules/ui/context/ChainModalContext';
 import { ConnectModalProvider } from '@/modules/ui/context/ConnectModalContext';
+import { NetworkSwitchProvider } from '@/modules/ui/context/NetworkSwitchContext';
 import { ExternalLinkModal } from '@/modules/layout/components/ExternalLinkModal';
 import { ChatProvider } from '@/modules/chat/context/ChatContext';
 
@@ -35,9 +36,11 @@ const AppContent = () => {
           <BalanceFiltersProvider>
             <TooltipProvider delayDuration={300}>
               <ChainModalProvider>
-                <ExternalLinkModal />
-                <Toaster />
-                <RouterProvider router={router} />
+                <NetworkSwitchProvider>
+                  <ExternalLinkModal />
+                  <Toaster />
+                  <RouterProvider router={router} />
+                </NetworkSwitchProvider>
               </ChainModalProvider>
             </TooltipProvider>
           </BalanceFiltersProvider>
