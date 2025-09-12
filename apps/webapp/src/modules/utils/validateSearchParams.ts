@@ -178,7 +178,7 @@ export const validateSearchParams = (
       if (sourceToken) {
         const disallowedPairs = defaultConfig.tradeDisallowedPairs;
         const pairsToCheck = disallowedPairs?.[sourceToken.toUpperCase()];
-        if (pairsToCheck?.includes(value.toUpperCase())) {
+        if (pairsToCheck?.includes(value.toUpperCase() as SUPPORTED_TOKEN_SYMBOLS)) {
           searchParams.delete(key);
         }
       }
