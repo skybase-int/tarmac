@@ -9,35 +9,34 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { cardAnimations } from '@/modules/ui/animation/presets';
 import { AnimationLabels } from '@/modules/ui/animation/constants';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
-import { QueryParams, mapIntentToQueryParam } from '@/lib/constants';
+import { isMultichain } from '@/lib/widget-network-map';
 import { LinkedActionWrapper } from '@/modules/ui/components/LinkedActionWrapper';
-import { useSearchParams } from 'react-router-dom';
-import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
 import { cn } from '@/lib/utils';
 import { Menu } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { DualSwitcher } from '@/components/DualSwitcher';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-  TooltipPortal
-} from '@/components/ui/tooltip';
+import { useNetworkSwitch } from '@/modules/ui/context/NetworkSwitchContext';
+import { useChains } from 'wagmi';
+import { useEnhancedNetworkToast } from '@/modules/app/hooks/useEnhancedNetworkToast';
+import { useNetworkAutoSwitch } from '@/modules/app/hooks/useNetworkAutoSwitch';
+import { WidgetMenuItemTooltip } from '@/modules/app/components/WidgetMenuItemTooltip';
+import { TooltipProvider } from '@/components/ui/tooltip';
 
 interface WidgetNavigationProps {
   widgetContent: WidgetContent;
   intent?: Intent;
   children?: React.ReactNode;
   hideTabs?: boolean;
+  currentChainId?: number;
 }
 
 export function WidgetNavigation({
   widgetContent,
   intent,
   children,
-  hideTabs
+  hideTabs,
+  currentChainId
 }: WidgetNavigationProps): JSX.Element {
   const { bpi } = useBreakpointIndex();
   const isMobile = bpi < BP.md;
@@ -52,28 +51,59 @@ export function WidgetNavigation({
   } = useConfigContext();
   const isRewardsOverview = !selectedRewardContract && intent === Intent.REWARDS_INTENT;
 
-  const [, setSearchParams] = useSearchParams();
+  const { setIsSwitchingNetwork, saveWidgetNetwork } = useNetworkSwitch();
+  const chains = useChains();
+  const { showNetworkToast } = useEnhancedNetworkToast();
+  const [previousChainId, setPreviousChainId] = useState<number | undefined>(currentChainId);
+
+  // Use the new network auto-switch hook
+  const { handleWidgetNavigation, isAutoSwitching, previousIntent } = useNetworkAutoSwitch({
+    currentChainId,
+    currentIntent: intent
+  });
 
   const handleWidgetChange = (value: string) => {
-    const queryParam = mapIntentToQueryParam(value as Intent);
-
-    setSearchParams(prevParams => {
-      // delete the query params when we navigate to a different widget by tab click
-      const searchParams = deleteSearchParams(prevParams);
-
-      // set the new widget parameter
-      searchParams.set(QueryParams.Widget, queryParam);
-
-      // I think this part needs to move too
-      if (value === Intent.REWARDS_INTENT) {
-        if (selectedRewardContract?.contractAddress)
-          searchParams.set(QueryParams.Reward, selectedRewardContract.contractAddress);
-      } else {
-        searchParams.delete(QueryParams.Reward);
-      }
-      return searchParams;
-    });
+    const targetIntent = value as Intent;
+    handleWidgetNavigation(targetIntent);
   };
+
+  // Track network changes and show enhanced toast
+  useEffect(() => {
+    if (currentChainId && previousChainId && currentChainId !== previousChainId) {
+      const prevChain = chains.find(c => c.id === previousChainId);
+      const currChain = chains.find(c => c.id === currentChainId);
+
+      if (prevChain && currChain) {
+        // Reset switching state when network change completes
+        setIsSwitchingNetwork(false);
+
+        // Show enhanced network toast with quick switch options
+        showNetworkToast({
+          previousChain: { id: prevChain.id, name: prevChain.name },
+          currentChain: { id: currChain.id, name: currChain.name },
+          currentIntent: intent,
+          previousIntent: previousIntent,
+          isAutoSwitch: isAutoSwitching,
+          onNetworkSwitch: chainId => {
+            // Save the manually selected network for the current widget
+            if (intent && isMultichain(intent) && intent !== Intent.BALANCES_INTENT) {
+              saveWidgetNetwork(intent, chainId);
+            }
+          }
+        });
+      }
+    }
+    setPreviousChainId(currentChainId);
+  }, [
+    currentChainId,
+    chains,
+    intent,
+    previousIntent,
+    showNetworkToast,
+    saveWidgetNetwork,
+    setIsSwitchingNetwork,
+    isAutoSwitching
+  ]);
 
   useEffect(() => {
     const containerElement = containerRef.current;
@@ -231,56 +261,48 @@ export function WidgetNavigation({
                         key={widgetIntent}
                         className="flex grow basis-[15%] justify-center md:w-full md:basis-auto md:justify-start"
                       >
-                        <TabsTrigger
-                          variant="icons"
-                          value={widgetIntent}
-                          className={cn(
-                            'text-textSecondary data-[state=active]:text-text relative w-full px-1',
-                            'lg:justify-start lg:gap-1.5 lg:bg-transparent lg:px-4 lg:py-2 lg:hover:bg-transparent',
-                            'lg:data-[state=active]:text-text lg:data-[state=active]:bg-transparent',
-                            'disabled:cursor-not-allowed disabled:text-[rgba(198,194,255,0.4)]',
-                            'max-lg:before:opacity-0',
-                            'max-lg:disabled:before:opacity-0 max-lg:disabled:hover:before:opacity-0',
-                            !showDrawerMenu && intent === widgetIntent && verticalTabGlowClasses,
-                            showDrawerMenu &&
-                              intent === widgetIntent &&
-                              'before:opacity-100 hover:before:opacity-100'
-                          )}
+                        <WidgetMenuItemTooltip
+                          description={description}
+                          widgetIntent={widgetIntent}
+                          currentChainId={currentChainId}
+                          currentIntent={intent}
+                          label={label as string}
+                          isMobile={isMobile}
                           disabled={options?.disabled || false}
                         >
-                          <div className="flex flex-col items-center justify-center gap-1">
-                            {!isMobile && icon({ color: 'inherit' })}
-                            <Text variant="small" className="leading-4 text-inherit">
-                              <Trans>{label}</Trans>
-                            </Text>
-                          </div>
-                          <Tooltip delayDuration={150}>
-                            <TooltipTrigger
-                              asChild
-                              className={cn(
-                                'absolute inset-0 h-full w-full',
-                                (options?.disabled || false) && 'pointer-events-none'
-                              )}
-                            >
-                              <div />
-                            </TooltipTrigger>
-                            {description && !isMobile && (
-                              <TooltipPortal>
-                                <TooltipContent side="right">
-                                  <p className="max-w-xs text-sm">{description}</p>
-                                </TooltipContent>
-                              </TooltipPortal>
+                          <TabsTrigger
+                            variant="icons"
+                            value={widgetIntent}
+                            className={cn(
+                              'text-textSecondary data-[state=active]:text-text relative w-full px-1',
+                              'lg:justify-start lg:gap-1.5 lg:bg-transparent lg:px-4 lg:py-2 lg:hover:bg-transparent',
+                              'lg:data-[state=active]:text-text lg:data-[state=active]:bg-transparent',
+                              'disabled:cursor-not-allowed disabled:text-[rgba(198,194,255,0.4)]',
+                              'max-lg:before:opacity-0',
+                              'max-lg:disabled:before:opacity-0 max-lg:disabled:hover:before:opacity-0',
+                              !showDrawerMenu && intent === widgetIntent && verticalTabGlowClasses,
+                              showDrawerMenu &&
+                                intent === widgetIntent &&
+                                'before:opacity-100 hover:before:opacity-100'
                             )}
-                          </Tooltip>
-                          {comingSoon && (
-                            <Text
-                              variant="small"
-                              className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 text-textSecondary absolute left-1/2 top-0 -mt-2 rounded-full px-1.5 py-0 lg:static lg:px-1.5 lg:py-0.5 lg:text-[10px]"
-                            >
-                              <Trans>Soon</Trans>
-                            </Text>
-                          )}
-                        </TabsTrigger>
+                            disabled={options?.disabled || false}
+                          >
+                            <div className="flex flex-col items-center justify-center gap-1">
+                              {!isMobile && icon({ color: 'inherit' })}
+                              <Text variant="small" className="leading-4 text-inherit">
+                                <Trans>{label}</Trans>
+                              </Text>
+                            </div>
+                            {comingSoon && (
+                              <Text
+                                variant="small"
+                                className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 text-textSecondary absolute left-1/2 top-0 -mt-2 rounded-full px-1.5 py-0 lg:static lg:px-1.5 lg:py-0.5 lg:text-[10px]"
+                              >
+                                <Trans>Soon</Trans>
+                              </Text>
+                            )}
+                          </TabsTrigger>
+                        </WidgetMenuItemTooltip>
                       </div>
                     ))}
                     {groupIndex < widgetContent.length - 1 && !showDrawerMenu && (
