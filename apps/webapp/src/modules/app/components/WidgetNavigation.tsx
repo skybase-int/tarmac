@@ -242,7 +242,7 @@ export function WidgetNavigation({
       >
         <motion.div layout transition={{ layout: { duration: 0 } }} className="lg:flex lg:w-full lg:flex-row">
           {/* Desktop vertical tabs, hidden on mobile and tablet */}
-          <div className="border-r-1 h-full justify-center">
+          <div className={cn('border-r-1 h-full justify-center', hideTabs && 'border-transparent')}>
             <TooltipProvider>
               <TabsList
                 className={cn(
