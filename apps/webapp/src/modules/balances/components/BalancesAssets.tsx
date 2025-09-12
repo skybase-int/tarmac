@@ -1,26 +1,36 @@
 /* eslint-disable react/no-unescaped-entities */
-import { HStack } from '@/modules/layout/components/HStack';
 import { usePrices, useTokenBalances } from '@jetstreamgg/sky-hooks';
 import { useAccount, useChainId } from 'wagmi';
-import { LoadingAssetBalanceCard } from './LoadingAssetBalanceCard';
-import { AssetBalanceCard } from './AssetBalanceCard';
 import { LoadingErrorWrapper } from '@/modules/ui/components/LoadingErrorWrapper';
 import { Text } from '@/modules/layout/components/Typography';
 import { Trans } from '@lingui/react/macro';
 import { defaultConfig } from '@/modules/config/default-config';
 import { TokenItem } from '@jetstreamgg/sky-hooks';
 import { useBalanceFilters } from '@/modules/ui/context/BalanceFiltersContext';
+import { Table, TableBody } from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import { useMemo, useState } from 'react';
+import { BalancesTableHeader } from './BalancesTableHeader';
+import { LoadingBalancesTable } from './LoadingBalancesTable';
+import { BalancesTableBodyRow } from './BalancesTableBodyRow';
 
 type BalancesAssetsProps = {
   chainIds?: number[];
 };
+
+export const INITIAL_TOKEN_COUNT = 5;
 
 export function BalancesAssets({ chainIds }: BalancesAssetsProps) {
   const { address } = useAccount();
   const currentChainId = useChainId();
   const chainsToQuery = chainIds ?? [currentChainId];
   const { data: pricesData, isLoading: pricesIsLoading, error: pricesError } = usePrices();
-  const { hideZeroBalances, showAllNetworks } = useBalanceFilters();
+  const { showAllNetworks } = useBalanceFilters();
+  const [showAll, setShowAll] = useState(false);
+
+  const toggleShowAll = () => {
+    setShowAll(prev => !prev);
+  };
 
   // Create an object mapping chainIds to their tokens
   const chainTokenMap: Record<number, TokenItem[]> = {};
@@ -55,14 +65,16 @@ export function BalancesAssets({ chainIds }: BalancesAssetsProps) {
       : undefined;
 
   // Apply zero balance filter
-  const balancesWithBalanceFilter = hideZeroBalances
-    ? sortedTokenBalances?.filter(({ value }) => value > 0n)
-    : sortedTokenBalances;
+  const balancesWithBalanceFilter = sortedTokenBalances?.filter(({ value }) => value > 0n);
 
   // Apply network filter
   const filteredAndSortedTokenBalances = showAllNetworks
     ? balancesWithBalanceFilter
     : balancesWithBalanceFilter?.filter(({ chainId: id }) => id === currentChainId);
+
+  const paginatedTokenBalances = useMemo(() => {
+    return filteredAndSortedTokenBalances?.slice(0, showAll ? undefined : INITIAL_TOKEN_COUNT);
+  }, [filteredAndSortedTokenBalances, showAll]);
 
   if (filteredAndSortedTokenBalances?.length === 0 && !tokenBalancesIsLoading) {
     return <Text className="text-text text-center">No balances found</Text>;
@@ -71,13 +83,7 @@ export function BalancesAssets({ chainIds }: BalancesAssetsProps) {
   return (
     <LoadingErrorWrapper
       isLoading={tokenBalancesIsLoading || !filteredAndSortedTokenBalances}
-      loadingComponent={
-        <HStack gap={2} className="scrollbar-thin w-full overflow-auto">
-          {[1, 2, 3, 4].map(i => (
-            <LoadingAssetBalanceCard key={i} />
-          ))}
-        </HStack>
-      }
+      loadingComponent={<LoadingBalancesTable />}
       error={balanceError}
       errorComponent={
         <Text variant="large" className="text-text text-center">
@@ -85,23 +91,32 @@ export function BalancesAssets({ chainIds }: BalancesAssetsProps) {
         </Text>
       }
     >
-      <HStack gap={2} className="scrollbar-thin w-full overflow-auto">
-        {filteredAndSortedTokenBalances?.map(tokenBalance => {
-          if (!tokenBalance) return null;
-          const priceData = pricesData?.[tokenBalance.symbol];
+      <div>
+        <Table>
+          <BalancesTableHeader />
+          <TableBody>
+            {paginatedTokenBalances?.map(tokenBalance => {
+              if (!tokenBalance) return null;
+              const priceData = pricesData?.[tokenBalance.symbol];
 
-          return (
-            <AssetBalanceCard
-              key={`${tokenBalance.symbol}-${tokenBalance.chainId}`}
-              tokenBalance={tokenBalance}
-              priceData={priceData}
-              isLoadingPrice={pricesIsLoading}
-              chainId={tokenBalance.chainId}
-              error={pricesError}
-            />
-          );
-        })}
-      </HStack>
+              return (
+                <BalancesTableBodyRow
+                  key={`${tokenBalance.symbol}-${tokenBalance.chainId}`}
+                  isLoading={pricesIsLoading || !pricesData}
+                  error={pricesError}
+                  price={priceData?.price}
+                  tokenBalance={tokenBalance}
+                />
+              );
+            })}
+          </TableBody>
+        </Table>
+        <div className="mt-3 flex w-full justify-end">
+          <Button variant="pagination" className="h-auto py-1 text-sm" onClick={toggleShowAll}>
+            Show {showAll ? 'less' : 'all'} tokens
+          </Button>
+        </div>
+      </div>
     </LoadingErrorWrapper>
   );
 }

@@ -7,17 +7,12 @@ import {
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { TextWithTooltip } from '@widgets/shared/components/ui/tooltip/TextWithTooltip';
 import { Text } from '@widgets/shared/components/ui/Typography';
-import { captitalizeFirstLetter, formatBigInt, formatPercent, math } from '@jetstreamgg/sky-utils';
+import { capitalizeFirstLetter, formatBigInt, formatPercent } from '@jetstreamgg/sky-utils';
 import { motion } from 'framer-motion';
 import { getRiskTextColor } from '../lib/utils';
-import { RiskLevel, Token, TOKENS, useCollateralData } from '@jetstreamgg/sky-hooks';
+import { RiskLevel, TOKENS, useCollateralData } from '@jetstreamgg/sky-hooks';
 import { cn } from '@widgets/lib/utils';
-import {
-  collateralizationRatioTooltipText,
-  borrowRateTooltipText,
-  liquidationPriceTooltipText,
-  riskLevelTooltipText
-} from '../lib/constants';
+import { getTooltipById } from '../../../data/tooltips';
 
 type Props = {
   collateralizationRatio?: bigint;
@@ -30,8 +25,6 @@ type Props = {
   };
   delayedPrice?: bigint;
   liquidationPrice?: bigint;
-  displayToken: Token;
-  setDisplayToken: (token: Token) => void;
 };
 
 export function PositionDetailAccordion({
@@ -41,8 +34,7 @@ export function PositionDetailAccordion({
   borrowedAmount,
   liquidationData,
   delayedPrice,
-  liquidationPrice,
-  displayToken
+  liquidationPrice
 }: Props) {
   const riskTextColor = getRiskTextColor(riskLevel as RiskLevel);
   const { data: collateralData } = useCollateralData();
@@ -58,26 +50,21 @@ export function PositionDetailAccordion({
         <AccordionContent className="space-y-4 pt-4">
           <motion.div className="flex justify-between" variants={positionAnimations}>
             <TextWithTooltip
-              text="Sealed"
-              tooltip={`The amount of ${displayToken.symbol} you’ve sealed in this position.`}
+              text={getTooltipById('sealed-amount-mkr')?.title || 'Sealed'}
+              tooltip={getTooltipById('sealed-amount-mkr')?.tooltip || ''}
               textClassName="leading-4"
               gap={1}
               iconClassName="text-textSecondary"
             />
             <Text className="text-right text-sm">
-              {formatBigInt(
-                displayToken === TOKENS.mkr
-                  ? sealedAmount || 0n
-                  : math.calculateConversion(TOKENS.mkr, sealedAmount || 0n)
-              )}{' '}
-              {displayToken.symbol}
+              {formatBigInt(sealedAmount || 0n)} {TOKENS.mkr.symbol}
             </Text>
           </motion.div>
           {!!borrowedAmount && borrowedAmount > 0n && (
             <motion.div className="flex justify-between" variants={positionAnimations}>
               <TextWithTooltip
-                text="Borrowed"
-                tooltip="The amount of USDS that you have borrowed."
+                text={getTooltipById('borrowed-amount-seal')?.title || 'Borrowed'}
+                tooltip={getTooltipById('borrowed-amount-seal')?.tooltip || ''}
                 textClassName="leading-4"
                 gap={1}
                 iconClassName="text-textSecondary"
@@ -88,8 +75,8 @@ export function PositionDetailAccordion({
           {!!collateralData?.stabilityFee && (
             <motion.div className="flex justify-between" variants={positionAnimations}>
               <TextWithTooltip
-                text="Borrow rate"
-                tooltip={borrowRateTooltipText}
+                text={getTooltipById('borrow-rate-seal')?.title || 'Borrow rate'}
+                tooltip={getTooltipById('borrow-rate-seal')?.tooltip || ''}
                 textClassName="leading-4"
                 contentClassname="w-[400px]"
                 gap={1}
@@ -101,8 +88,8 @@ export function PositionDetailAccordion({
           {!!collateralizationRatio && (
             <motion.div className="flex justify-between" variants={positionAnimations}>
               <TextWithTooltip
-                text="Collateralization ratio"
-                tooltip={collateralizationRatioTooltipText}
+                text={getTooltipById('collateralization-ratio-seal')?.title || 'Collateralization ratio'}
+                tooltip={getTooltipById('collateralization-ratio-seal')?.tooltip || ''}
                 textClassName="leading-4"
                 contentClassname="w-[400px]"
                 gap={1}
@@ -116,39 +103,27 @@ export function PositionDetailAccordion({
           {!!liquidationPrice && liquidationPrice > 0n && (
             <motion.div className="flex justify-between" variants={positionAnimations}>
               <TextWithTooltip
-                text="Liquidation price"
-                tooltip={liquidationPriceTooltipText}
+                text={getTooltipById('liquidation-price-seal-mkr')?.title || 'Liquidation price'}
+                tooltip={getTooltipById('liquidation-price-seal-mkr')?.tooltip || ''}
                 textClassName="leading-4"
                 contentClassname="w-[400px]"
                 gap={1}
                 iconClassName="text-textSecondary"
               />
-              <Text className="text-right text-sm">
-                $
-                {formatBigInt(
-                  displayToken === TOKENS.mkr
-                    ? liquidationPrice
-                    : math.calculateMKRtoSKYPrice(liquidationPrice)
-                )}
-              </Text>
+              <Text className="text-right text-sm">${formatBigInt(liquidationPrice)}</Text>
             </motion.div>
           )}
           {!!delayedPrice && delayedPrice > 0n && (
             <motion.div className="flex justify-between" variants={positionAnimations}>
-              <Text className="text-textSecondary text-sm font-normal leading-4">{`Current ${displayToken.symbol} price`}</Text>
-              <Text className="text-right text-sm">
-                $
-                {formatBigInt(
-                  displayToken === TOKENS.mkr ? delayedPrice : math.calculateMKRtoSKYPrice(delayedPrice)
-                )}
-              </Text>
+              <Text className="text-textSecondary text-sm font-normal leading-4">{`Current ${TOKENS.mkr.symbol} price`}</Text>
+              <Text className="text-right text-sm">${formatBigInt(delayedPrice)}</Text>
             </motion.div>
           )}
           {!!riskLevel && (
             <motion.div className="flex justify-between" variants={positionAnimations}>
               <TextWithTooltip
-                text="Risk level"
-                tooltip={riskLevelTooltipText}
+                text={getTooltipById('risk-level-seal')?.title || 'Risk level'}
+                tooltip={getTooltipById('risk-level-seal')?.tooltip || ''}
                 textClassName="leading-4"
                 contentClassname="w-[400px]"
                 gap={1}
@@ -162,7 +137,7 @@ export function PositionDetailAccordion({
               >
                 {liquidationData?.isInLiquidatedState
                   ? 'Liquidated'
-                  : captitalizeFirstLetter(riskLevel.toLowerCase())}
+                  : capitalizeFirstLetter(riskLevel.toLowerCase())}
               </Text>
             </motion.div>
           )}

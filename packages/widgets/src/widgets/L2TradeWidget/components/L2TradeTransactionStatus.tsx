@@ -27,9 +27,9 @@ export const L2TradeTransactionStatus = ({
   isBatchTransaction,
   needsAllowance
 }: {
-  originToken?: Token;
+  originToken: Token;
   originAmount: bigint;
-  targetToken?: Token;
+  targetToken: Token;
   targetAmount: bigint;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   isBatchTransaction?: boolean;
@@ -53,7 +53,6 @@ export const L2TradeTransactionStatus = ({
     setTargetToken,
     setTargetAmount
   } = useContext(WidgetContext);
-  if (!originToken || !targetToken) return null;
 
   const { flow, action, screen } = widgetState;
 
@@ -74,14 +73,12 @@ export const L2TradeTransactionStatus = ({
 
   // Sets the title and subtitle of the card
   useEffect(() => {
-    const isApprovalSuccess = txStatus === TxStatus.SUCCESS && action === TradeAction.APPROVE;
     const isWaitingForSecondTransaction =
       txStatus === TxStatus.INITIALIZED &&
       action !== TradeAction.APPROVE &&
       flowNeedsAllowance &&
       !isBatchTransaction;
-    const flowTxStatus: TxStatus =
-      isApprovalSuccess || isWaitingForSecondTransaction ? TxStatus.LOADING : txStatus;
+    const flowTxStatus: TxStatus = isWaitingForSecondTransaction ? TxStatus.LOADING : txStatus;
 
     if (flow === TradeFlow.TRADE) {
       setStepTwoTitle(t`Trade`);
@@ -94,11 +91,11 @@ export const L2TradeTransactionStatus = ({
               txStatus: flowTxStatus,
               originToken,
               originAmount: formatBigInt(originAmount, {
-                unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+                unit: getTokenDecimals(originToken, chainId)
               }),
               targetToken,
               targetAmount: formatBigInt(targetAmount, {
-                unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18
+                unit: getTokenDecimals(targetToken, chainId)
               }),
               needsAllowance: flowNeedsAllowance
             })
@@ -111,24 +108,21 @@ export const L2TradeTransactionStatus = ({
               txStatus: flowTxStatus,
               action,
               amount: formatBigInt(originAmount, {
-                unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+                unit: getTokenDecimals(originToken, chainId)
               }),
               symbol: originToken.symbol
             })
           )
         );
 
-        if (action === TradeAction.APPROVE) setStep(1);
-        else if (action === TradeAction.TRADE) setStep(2);
+        if (isBatchTransaction) setStep(2);
+        else if (flowTxStatus !== TxStatus.SUCCESS) {
+          if (needsAllowance) setStep(1);
+          else setStep(2);
+        }
       }
     }
-
-    if (action === TradeAction.APPROVE) {
-      setStep(1);
-    } else if (action === TradeAction.TRADE) {
-      setStep(2);
-    }
-  }, [txStatus, flow, action, screen, i18n.locale]);
+  }, [txStatus, flow, action, screen, i18n.locale, needsAllowance]);
 
   return (
     <BatchTransactionStatus

@@ -1,24 +1,15 @@
 import { WidgetProps, WidgetState } from '@widgets/shared/types/widgetState';
-import { WidgetContext, WidgetProvider } from '@widgets/context/WidgetContext';
+import { WidgetContext } from '@widgets/context/WidgetContext';
 import {
   useTokenBalance,
   TokenForChain,
-  usePsmSwapExactIn,
-  useBatchPsmSwapExactIn,
   getTokenDecimals,
   useTokenAllowance,
   psm3L2Address,
-  useApproveToken,
   Token,
   useReadSsrAuthOracleGetChi,
   useReadSsrAuthOracleGetRho,
   useReadSsrAuthOracleGetSsr,
-  usePsmSwapExactOut,
-  useBatchPsmSwapExactOut,
-  tokenForChainToToken,
-  usePreviewSwapExactIn,
-  usePreviewSwapExactOut,
-  ZERO_ADDRESS,
   useIsBatchSupported
 } from '@jetstreamgg/sky-hooks';
 import { useContext, useEffect, useMemo, useState, ReactNode } from 'react';
@@ -27,13 +18,11 @@ import {
   formatNumber,
   math,
   truncateStringToFourDecimals,
-  useDebounce,
-  getTransactionLink,
-  useIsSafeWallet
+  useDebounce
 } from '@jetstreamgg/sky-utils';
 import { useAccount, useChainId } from 'wagmi';
 import { t } from '@lingui/core/macro';
-import { notificationTypeMaping, TxStatus, EPOCH_LENGTH } from '@widgets/shared/constants';
+import { TxStatus, EPOCH_LENGTH } from '@widgets/shared/constants';
 import { WidgetContainer } from '@widgets/shared/components/ui/widget/WidgetContainer';
 import { SUPPORTED_TOKEN_SYMBOLS, TradeAction, TradeFlow, TradeScreen, TradeSide } from '@widgets/index';
 import { getAllowedTargetTokens } from '../TradeWidget/lib/utils';
@@ -44,7 +33,6 @@ import { getValidatedState } from '@widgets/lib/utils';
 import { L2TradeInputs } from './components/L2TradeInputs';
 import { WidgetButtons } from '@widgets/shared/components/ui/widget/WidgetButtons';
 import { useAddTokenToWallet } from '@widgets/shared/hooks/useAddTokenToWallet';
-import { ErrorBoundary } from '@widgets/shared/components/ErrorBoundary';
 import { AnimatePresence } from 'framer-motion';
 import { CardAnimationWrapper } from '@widgets/shared/animation/Wrappers';
 import { Heading, Text } from '@widgets/shared/components/ui/Typography';
@@ -52,44 +40,12 @@ import { L2TradeTransactionStatus } from './components/L2TradeTransactionStatus'
 import { useTokenImage } from '@widgets/shared/hooks/useTokenImage';
 import { L2TradeTransactionReview } from './components/L2TradeTransactionReview';
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
+import { withWidgetProvider } from '@widgets/shared/hocs/withWidgetProvider';
+import { useL2TradeTransactions } from './hooks/useL2TradeTransactions';
+import { useMaxInForWithdraw } from './hooks/useMaxInForWithdraw';
+import { useMaxOutForDeposit } from './hooks/useMaxOutForDeposit';
 import { Trans } from '@lingui/react/macro';
-
-const useMaxInForWithdraw = (
-  targetAmount: bigint,
-  originToken?: TokenForChain,
-  targetToken?: TokenForChain
-) => {
-  const chainId = useChainId();
-
-  //used to calculate regular withdraw maxIn amount
-  const { value } = usePreviewSwapExactOut(
-    targetAmount,
-    originToken
-      ? tokenForChainToToken(originToken, originToken?.address || ZERO_ADDRESS, chainId)
-      : undefined,
-    targetToken ? tokenForChainToToken(targetToken, targetToken?.address || ZERO_ADDRESS, chainId) : undefined
-  );
-
-  return { value };
-};
-
-const useMaxOutForDeposit = (
-  originAmount: bigint,
-  originToken?: TokenForChain,
-  targetToken?: TokenForChain
-) => {
-  const chainId = useChainId();
-
-  const { value } = usePreviewSwapExactIn(
-    originAmount,
-    originToken
-      ? tokenForChainToToken(originToken, originToken?.address || ZERO_ADDRESS, chainId)
-      : undefined,
-    targetToken ? tokenForChainToToken(targetToken, targetToken?.address || ZERO_ADDRESS, chainId) : undefined
-  );
-
-  return { value };
-};
+import { getTooltipById } from '../../data/tooltips';
 
 export type TradeWidgetProps = WidgetProps & {
   customTokenList?: TokenForChain[];
@@ -100,65 +56,12 @@ export type TradeWidgetProps = WidgetProps & {
   setBatchEnabled?: (enabled: boolean) => void;
 };
 
-export const L2TradeWidget = ({
-  onConnect,
-  addRecentTransaction,
-  locale,
-  rightHeaderComponent,
-  customTokenList,
-  disallowedPairs = defaultConfig.tradeDisallowedPairs,
-  externalWidgetState,
-  onStateValidated,
-  onNotification,
-  onWidgetStateChange,
-  onCustomNavigation,
-  customNavigationLabel,
-  onExternalLinkClicked,
-  enabled = true,
-  legalBatchTxUrl,
-  referralCode,
-  widgetTitle,
-  shouldReset = false,
-  batchEnabled,
-  setBatchEnabled
-}: TradeWidgetProps) => {
-  const key = shouldReset ? 'reset' : undefined;
-  return (
-    <ErrorBoundary componentName="TradeWidget">
-      <WidgetProvider key={key} locale={locale}>
-        <TradeWidgetWrapped
-          key={key}
-          onConnect={onConnect}
-          addRecentTransaction={addRecentTransaction}
-          rightHeaderComponent={rightHeaderComponent}
-          customTokenList={customTokenList}
-          disallowedPairs={disallowedPairs}
-          locale={locale}
-          externalWidgetState={externalWidgetState}
-          onStateValidated={onStateValidated}
-          onNotification={onNotification}
-          onWidgetStateChange={shouldReset ? undefined : onWidgetStateChange}
-          customNavigationLabel={customNavigationLabel}
-          onCustomNavigation={onCustomNavigation}
-          onExternalLinkClicked={onExternalLinkClicked}
-          enabled={enabled}
-          referralCode={referralCode}
-          widgetTitle={widgetTitle}
-          batchEnabled={batchEnabled}
-          setBatchEnabled={setBatchEnabled}
-          legalBatchTxUrl={legalBatchTxUrl}
-        />
-      </WidgetProvider>
-    </ErrorBoundary>
-  );
-};
-
 function TradeWidgetWrapped({
   onConnect,
   addRecentTransaction,
   rightHeaderComponent,
   customTokenList = [],
-  disallowedPairs,
+  disallowedPairs = defaultConfig.tradeDisallowedPairs,
   locale,
   externalWidgetState,
   onStateValidated,
@@ -186,7 +89,6 @@ function TradeWidgetWrapped({
 
   const chainId = useChainId();
   const { address, isConnecting, isConnected } = useAccount();
-  const isSafeWallet = useIsSafeWallet();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
   const linguiCtx = useLingui();
 
@@ -238,7 +140,7 @@ function TradeWidgetWrapped({
 
   const initialOriginAmount = parseUnits(
     validatedExternalState?.amount || '0',
-    originToken ? getTokenDecimals(originToken, chainId) : 18
+    getTokenDecimals(originToken, chainId)
   );
 
   const [originAmount, setOriginAmount] = useState(initialOriginAmount);
@@ -246,13 +148,13 @@ function TradeWidgetWrapped({
 
   const initialTargetAmount = parseUnits(
     validatedExternalState?.amount || '0',
-    targetToken ? getTokenDecimals(targetToken, chainId) : 18
+    getTokenDecimals(targetToken, chainId)
   );
 
   const [targetAmount, setTargetAmount] = useState(initialTargetAmount);
   const debouncedTargetAmount = useDebounce(targetAmount);
 
-  const { data: batchSupported, isLoading: isBatchSupportLoading } = useIsBatchSupported();
+  const { data: batchSupported } = useIsBatchSupported();
 
   const { value: maxAmountInForWithdraw } = useMaxInForWithdraw(
     debouncedTargetAmount,
@@ -271,7 +173,6 @@ function TradeWidgetWrapped({
 
   const {
     setButtonText,
-    setBackButtonText,
     setIsLoading,
     setIsDisabled,
     setTxStatus,
@@ -279,7 +180,7 @@ function TradeWidgetWrapped({
     txStatus,
     widgetState,
     setWidgetState,
-    setShowStepIndicator
+    setBackButtonText
   } = useContext(WidgetContext);
 
   const pairValid = !!originToken && !!targetToken && originToken.symbol !== targetToken.symbol;
@@ -303,11 +204,7 @@ function TradeWidgetWrapped({
     chainId
   });
 
-  const {
-    data: allowance,
-    mutate: mutateAllowance,
-    isLoading: allowanceLoading
-  } = useTokenAllowance({
+  const { data: allowance, mutate: mutateAllowance } = useTokenAllowance({
     chainId,
     contractAddress: originToken?.address as `0x${string}`,
     owner: address,
@@ -454,7 +351,7 @@ function TradeWidgetWrapped({
       externalWidgetState?.amount !==
         formatBigInt(originAmount, {
           locale,
-          unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+          unit: getTokenDecimals(originToken, chainId)
         });
 
     if ((tokensHasChanged || amountHasChanged) && txStatus === TxStatus.IDLE) {
@@ -580,238 +477,33 @@ function TradeWidgetWrapped({
     }
   }, [debouncedOriginAmount]);
 
-  const {
-    execute: approveExecute,
-    prepareError: approvePrepareError,
-    isLoading: approveIsLoading,
-    prepared: approvePrepared
-  } = useApproveToken({
-    amount: debouncedOriginAmount,
-    contractAddress: originTokenAddress,
-    spender: psm3L2Address[chainId as keyof typeof psm3L2Address],
-    onStart: (hash: string) => {
-      addRecentTransaction?.({
-        hash,
-        description: t`Approving ${formatBigInt(debouncedOriginAmount, {
-          locale,
-          unit: originToken && getTokenDecimals(originToken, chainId)
-        })} ${originToken?.symbol ?? ''}`
-      });
-      setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
-    },
-    onSuccess: (hash: string) => {
-      onNotification?.({
-        title: t`Approve successful`,
-        description: t`You approved ${originToken?.symbol ?? ''}`,
-        status: TxStatus.SUCCESS
-      });
-      setTxStatus(TxStatus.SUCCESS);
-      mutateAllowance();
-      retryTradePrepare();
-      retryTradeOutPrepare();
-
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
-    },
-    onError: (error: Error, hash: string) => {
-      onNotification?.({
-        title: t`Approval failed`,
-        description: t`We could not approve your token allowance.`,
-        status: TxStatus.ERROR
-      });
-      setTxStatus(TxStatus.ERROR);
-      mutateAllowance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
-    },
-    enabled: widgetState.action === TradeAction.APPROVE && allowance !== undefined && !!originToken
+  const { batchTrade, batchTradeOut } = useL2TradeTransactions({
+    originAmount: debouncedOriginAmount,
+    originToken,
+    targetToken,
+    targetAmount: debouncedTargetAmount,
+    referralCode,
+    maxAmountInForWithdraw,
+    shouldUseBatch,
+    addRecentTransaction,
+    onWidgetStateChange,
+    onNotification,
+    mutateAllowance,
+    mutateOriginBalance,
+    mutateTargetBalance,
+    setShowAddToken
   });
-
-  const tradeParams = {
-    amountIn: debouncedOriginAmount,
-    assetIn: originToken?.address as `0x${string}`,
-    assetOut: targetToken?.address as `0x${string}`,
-    minAmountOut: debouncedTargetAmount,
-    onStart: (hash?: string) => {
-      if (hash) {
-        addRecentTransaction?.({
-          hash,
-          description: t`Trading ${formatBigInt(debouncedOriginAmount, {
-            locale,
-            unit: originToken && getTokenDecimals(originToken, chainId)
-          })} ${originToken?.symbol ?? ''}`
-        });
-        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      }
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
-    },
-    onSuccess: (hash: string | undefined) => {
-      setTxStatus(TxStatus.SUCCESS);
-      onNotification?.({
-        title: t`Trade successful`,
-        description: t`You traded ${formatBigInt(debouncedOriginAmount, {
-          locale,
-          unit: originToken && getTokenDecimals(originToken, chainId)
-        })} ${originToken?.symbol ?? ''} for ${formatBigInt(debouncedTargetAmount, {
-          locale,
-          unit: targetToken && getTokenDecimals(targetToken, chainId)
-        })} ${targetToken?.symbol ?? ''}`,
-        status: TxStatus.SUCCESS,
-        type: notificationTypeMaping[targetToken?.symbol?.toUpperCase() || 'none']
-      });
-      if (hash) {
-        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      }
-      setBackButtonText(t`Back to Trade`);
-      mutateAllowance();
-      mutateOriginBalance();
-      mutateTargetBalance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
-      setShowAddToken(true);
-    },
-    onError: (error: Error, hash: string | undefined) => {
-      onNotification?.({
-        title: t`Trade failed`,
-        description: t`Something went wrong with your transaction. Please try again.`,
-        status: TxStatus.ERROR
-      });
-      if (hash) {
-        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      }
-      setTxStatus(TxStatus.ERROR);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
-    },
-    referralCode: referralCode ? BigInt(referralCode) : undefined
-  };
-
-  const {
-    execute: tradeExecute,
-    retryPrepare: retryTradePrepare,
-    prepared: tradePrepared
-  } = usePsmSwapExactIn({
-    ...tradeParams,
-    enabled: widgetState.action === TradeAction.TRADE && !!(originToken?.address && targetToken?.address)
-  });
-
-  const { execute: batchTradeExecute, prepared: batchTradePrepared } = useBatchPsmSwapExactIn({
-    ...tradeParams,
-    enabled:
-      (widgetState.action === TradeAction.TRADE || widgetState.action === TradeAction.APPROVE) &&
-      !!(originToken?.address && targetToken?.address)
-  });
-
-  const tradeOutParams = {
-    amountOut: debouncedTargetAmount,
-    assetIn: originToken?.address as `0x${string}`,
-    assetOut: targetToken?.address as `0x${string}`,
-    maxAmountIn: originToken?.symbol === 'sUSDS' ? maxAmountInForWithdraw : debouncedOriginAmount,
-    onStart: (hash?: string) => {
-      if (hash) {
-        addRecentTransaction?.({
-          hash,
-          description: t`Trading ${formatBigInt(debouncedOriginAmount, {
-            locale,
-            unit: originToken && getTokenDecimals(originToken, chainId)
-          })} ${originToken?.symbol ?? ''}`
-        });
-        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      }
-      setTxStatus(TxStatus.LOADING);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.LOADING });
-    },
-    onSuccess: (hash: string | undefined) => {
-      setTxStatus(TxStatus.SUCCESS);
-      onNotification?.({
-        title: t`Trade successful`,
-        description: t`You traded ${formatBigInt(debouncedOriginAmount, {
-          locale,
-          unit: originToken && getTokenDecimals(originToken, chainId)
-        })} ${originToken?.symbol ?? ''} for ${formatBigInt(debouncedTargetAmount, {
-          locale,
-          unit: targetToken && getTokenDecimals(targetToken, chainId)
-        })} ${targetToken?.symbol ?? ''}`,
-        status: TxStatus.SUCCESS,
-        type: notificationTypeMaping[targetToken?.symbol?.toUpperCase() || 'none']
-      });
-      if (hash) {
-        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      }
-      setBackButtonText(t`Back to Trade`);
-      mutateAllowance();
-      mutateOriginBalance();
-      mutateTargetBalance();
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
-      setShowAddToken(true);
-    },
-    onError: (error: Error, hash: string | undefined) => {
-      onNotification?.({
-        title: t`Trade failed`,
-        description: t`Something went wrong with your transaction. Please try again.`,
-        status: TxStatus.ERROR
-      });
-      if (hash) {
-        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
-      }
-      setTxStatus(TxStatus.ERROR);
-      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
-      console.log(error);
-    },
-    referralCode: referralCode ? BigInt(referralCode) : undefined
-  };
-
-  const {
-    execute: tradeOutExecute,
-    retryPrepare: retryTradeOutPrepare,
-    prepared: tradeOutPrepared
-  } = usePsmSwapExactOut({
-    ...tradeOutParams,
-    enabled: widgetState.action === TradeAction.TRADE && !!(originToken?.address && targetToken?.address)
-  });
-
-  const { execute: batchTradeOutExecute, prepared: batchTradeOutPrepared } = useBatchPsmSwapExactOut({
-    ...tradeOutParams,
-    enabled:
-      (widgetState.action === TradeAction.TRADE || widgetState.action === TradeAction.APPROVE) &&
-      !!(originToken?.address && targetToken?.address)
-  });
-
-  const prepareError = approvePrepareError;
 
   const isAmountWaitingForDebounce =
     lastUpdated === TradeSide.IN
       ? debouncedOriginAmount !== originAmount
       : debouncedTargetAmount !== targetAmount;
 
-  const approveDisabled =
-    [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
-    !approvePrepared ||
-    isBalanceError ||
-    approveIsLoading ||
-    !pairValid ||
-    (!originToken.isNative && allowance === undefined) ||
-    allowanceLoading ||
-    (txStatus === TxStatus.SUCCESS && (lastUpdated === TradeSide.OUT ? !tradeOutPrepared : !tradePrepared)) ||
-    isAmountWaitingForDebounce ||
-    !originAmount ||
-    !targetAmount ||
-    (!!batchEnabled && isBatchSupportLoading);
-
   const tradeDisabled =
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
     isBalanceError ||
     !pairValid ||
-    (lastUpdated === TradeSide.OUT
-      ? shouldUseBatch
-        ? !batchTradeOutPrepared
-        : !tradeOutPrepared
-      : shouldUseBatch
-        ? !batchTradePrepared
-        : !tradePrepared) ||
-    (!originToken.isNative && allowance === undefined) ||
-    allowanceLoading ||
+    (lastUpdated === TradeSide.OUT ? !batchTradeOut.prepared : !batchTrade.prepared) ||
     isAmountWaitingForDebounce;
 
   useEffect(() => {
@@ -832,35 +524,10 @@ function TradeWidgetWrapped({
     }
   }, [isConnectedAndEnabled]);
 
-  // If we need allowance and  batch transactions are not supported, set the action to approve
-  useEffect(() => {
-    if (
-      isConnectedAndEnabled &&
-      widgetState.flow === TradeFlow.TRADE &&
-      (widgetState.screen === TradeScreen.ACTION || widgetState.screen === TradeScreen.REVIEW)
-    ) {
-      setWidgetState((prev: WidgetState) => ({
-        ...prev,
-        action:
-          needsAllowance && !allowanceLoading && !shouldUseBatch && !isBatchSupportLoading
-            ? TradeAction.APPROVE
-            : TradeAction.TRADE
-      }));
-    }
-  }, [
-    widgetState.flow,
-    widgetState.screen,
-    needsAllowance,
-    allowanceLoading,
-    isConnectedAndEnabled,
-    shouldUseBatch,
-    isBatchSupportLoading
-  ]);
-
   // Update button state according to action and tx
   useEffect(() => {
     if (isConnectedAndEnabled) {
-      if (txStatus === TxStatus.SUCCESS && widgetState.action !== TradeAction.APPROVE) {
+      if (txStatus === TxStatus.SUCCESS) {
         if (showAddToken) {
           setButtonText(t`Add ${targetToken?.symbol || ''} to wallet`);
           // This should run after adding the token
@@ -880,14 +547,12 @@ function TradeWidgetWrapped({
           setButtonText(t`Review`);
         }
       } else if (widgetState.screen === TradeScreen.REVIEW) {
-        if (widgetState.action === TradeAction.APPROVE) {
+        if (shouldUseBatch) {
+          setButtonText(t`Confirm bundled transaction`);
+        } else if (needsAllowance) {
           setButtonText(t`Confirm 2 transactions`);
-        } else if (widgetState.action === TradeAction.TRADE) {
-          if (shouldUseBatch) {
-            setButtonText(t`Confirm bundled transaction`);
-          } else {
-            setButtonText(t`Confirm trade`);
-          }
+        } else {
+          setButtonText(t`Confirm trade`);
         }
       }
     } else {
@@ -903,43 +568,19 @@ function TradeWidgetWrapped({
     chainId,
     targetToken,
     showAddToken,
-    shouldUseBatch
+    shouldUseBatch,
+    needsAllowance
   ]);
 
   // set widget button to be disabled depending on which action we're performing
   useEffect(() => {
-    setIsDisabled(
-      isConnectedAndEnabled &&
-        !!(
-          (widgetState.action === TradeAction.APPROVE && approveDisabled) ||
-          (widgetState.action === TradeAction.TRADE && tradeDisabled)
-        )
-    );
-  }, [isConnectedAndEnabled, approveDisabled, tradeDisabled, widgetState.action]);
-
-  // After a successful approval, wait for the next hook to be prepared and send the transaction
-  useEffect(() => {
-    const nextActionPrepared = lastUpdated === TradeSide.IN ? tradePrepared : tradeOutPrepared;
-
-    if (widgetState.action === TradeAction.APPROVE && txStatus === TxStatus.SUCCESS && nextActionPrepared) {
-      setWidgetState((prev: WidgetState) => ({
-        ...prev,
-        action: TradeAction.TRADE
-      }));
-      tradeOnClick();
-    }
-  }, [widgetState.action, txStatus, tradePrepared, tradeOutPrepared, lastUpdated]);
+    setIsDisabled(isConnectedAndEnabled && tradeDisabled);
+  }, [isConnectedAndEnabled, setIsDisabled, tradeDisabled]);
 
   // set isLoading to be consumed by WidgetButton
   useEffect(() => {
-    setIsLoading(
-      isConnecting ||
-        txStatus === TxStatus.LOADING ||
-        txStatus === TxStatus.INITIALIZED ||
-        // Keep the loading state after a successful approval as a new transaction will automatically pop up
-        (widgetState.action === TradeAction.APPROVE && txStatus === TxStatus.SUCCESS)
-    );
-  }, [isConnecting, txStatus, widgetState.action]);
+    setIsLoading(isConnecting || txStatus === TxStatus.LOADING || txStatus === TxStatus.INITIALIZED);
+  }, [isConnecting, txStatus]);
 
   useEffect(() => {
     setOriginToken(initialOriginToken);
@@ -955,21 +596,6 @@ function TradeWidgetWrapped({
     }
     // do nothing, the current target token is correct
   }, [targetTokenList]);
-
-  useEffect(() => {
-    if (prepareError) {
-      console.log(prepareError);
-      onNotification?.({
-        title: t`Error preparing transaction`,
-        description: prepareError.message,
-        status: TxStatus.ERROR
-      });
-    }
-  }, [prepareError]);
-
-  useEffect(() => {
-    setShowStepIndicator(!originToken?.isNative);
-  }, [originToken?.isNative]);
 
   useEffect(() => {
     if (targetToken === undefined || originToken === undefined) {
@@ -1002,65 +628,38 @@ function TradeWidgetWrapped({
     });
   }, [chainId]);
 
-  const approveOnClick = () => {
-    setWidgetState((prev: WidgetState) => ({
-      ...prev,
-      screen: TradeScreen.TRANSACTION
-    }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    approveExecute();
-  };
-
   const tradeOnClick = () => {
-    setWidgetState((prev: WidgetState) => ({
-      ...prev,
-      screen: TradeScreen.TRANSACTION,
-      action: TradeAction.TRADE
-    }));
-    setTxStatus(TxStatus.INITIALIZED);
-    setExternalLink(undefined);
-    const tradeExecuteFunction = shouldUseBatch ? batchTradeExecute : tradeExecute;
-    const tradeOutExecuteFunction = shouldUseBatch ? batchTradeOutExecute : tradeOutExecute;
-    const executeFunction = lastUpdated === TradeSide.OUT ? tradeOutExecuteFunction : tradeExecuteFunction;
+    const executeFunction = lastUpdated === TradeSide.OUT ? batchTradeOut.execute : batchTrade.execute;
     executeFunction();
   };
 
   const nextOnClick = () => {
     setTxStatus(TxStatus.IDLE);
 
-    // After a successful trade, reset the origin amount
-    if (widgetState.action !== TradeAction.APPROVE) {
-      setTimeout(() => {
-        setOriginAmount(0n);
-        setTargetAmount(0n);
-        setOriginToken(initialOriginToken);
-        setTargetToken(undefined);
-      }, 500);
+    setTimeout(() => {
+      setOriginAmount(0n);
+      setTargetAmount(0n);
+      setOriginToken(initialOriginToken);
+      setTargetToken(undefined);
+    }, 500);
 
-      // Notify widget state change to clear URL params and force a reset
-      onWidgetStateChange?.({
-        originToken: initialOriginToken?.symbol || '',
-        targetToken: '',
-        originAmount: '',
-        txStatus: TxStatus.IDLE,
-        widgetState: {
-          flow: TradeFlow.TRADE,
-          action: TradeAction.TRADE,
-          screen: TradeScreen.ACTION
-        },
-        hash: undefined // Clear any existing hash
-      });
-    }
-
-    if (widgetState.action === TradeAction.APPROVE && !needsAllowance) {
-      // If we just finished approving, we want to go directly to the next action
-      return tradeOnClick();
-    }
+    // Notify widget state change to clear URL params and force a reset
+    onWidgetStateChange?.({
+      originToken: initialOriginToken?.symbol || '',
+      targetToken: '',
+      originAmount: '',
+      txStatus: TxStatus.IDLE,
+      widgetState: {
+        flow: TradeFlow.TRADE,
+        action: TradeAction.TRADE,
+        screen: TradeScreen.ACTION
+      },
+      hash: undefined // Clear any existing hash
+    });
 
     setWidgetState((prev: WidgetState) => ({
       ...prev,
-      action: needsAllowance ? TradeAction.APPROVE : TradeAction.TRADE,
+      action: TradeAction.TRADE,
       screen: TradeScreen.ACTION
     }));
   };
@@ -1073,8 +672,9 @@ function TradeWidgetWrapped({
   };
 
   const onClickBack = () => {
-    if (widgetState.action === TradeAction.TRADE && txStatus === TxStatus.SUCCESS) {
+    if (txStatus === TxStatus.SUCCESS) {
       // If success trade we restart the flow
+      setBackButtonText(t`Back`);
       nextOnClick();
     } else {
       setTxStatus(TxStatus.IDLE);
@@ -1135,15 +735,6 @@ function TradeWidgetWrapped({
     }
   };
 
-  // Handle the error onClicks separately to keep it clean
-  const errorOnClick = () => {
-    return widgetState.action === TradeAction.TRADE
-      ? tradeOnClick()
-      : widgetState.action === TradeAction.APPROVE
-        ? approveOnClick()
-        : undefined;
-  };
-
   const onClickAction = !isConnectedAndEnabled
     ? onConnect
     : widgetState.action === TradeAction.TRADE && txStatus === TxStatus.SUCCESS && showAddToken
@@ -1153,14 +744,12 @@ function TradeWidgetWrapped({
         : txStatus === TxStatus.SUCCESS
           ? nextOnClick
           : txStatus === TxStatus.ERROR
-            ? errorOnClick
+            ? tradeOnClick
             : widgetState.screen === TradeScreen.ACTION
               ? reviewOnClick
-              : widgetState.action === TradeAction.APPROVE
-                ? approveOnClick
-                : widgetState.action === TradeAction.TRADE
-                  ? tradeOnClick
-                  : undefined;
+              : widgetState.flow === TradeFlow.TRADE
+                ? tradeOnClick
+                : undefined;
 
   const showSecondaryButton =
     !!customNavigationLabel ||
@@ -1278,6 +867,7 @@ function TradeWidgetWrapped({
                 transactionData={[
                   {
                     label: t`Exchange rate`,
+                    tooltipText: getTooltipById('exchange-rate')?.tooltip || '',
                     value: (() => {
                       if (!originAmount || originAmount === 0n || !targetAmount) return '1:1';
 
@@ -1348,3 +938,5 @@ function TradeWidgetWrapped({
     </WidgetContainer>
   );
 }
+
+export const L2TradeWidget = withWidgetProvider(TradeWidgetWrapped, 'L2TradeWidget');
