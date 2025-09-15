@@ -11,12 +11,11 @@ import { useState } from 'react';
 import { Intent } from '@/lib/enums';
 import { useChainModalContext } from '@/modules/ui/context/ChainModalContext';
 import { useSearchParams } from 'react-router-dom';
-import { mapIntentToQueryParam, QueryParams } from '@/lib/constants';
+import { mapIntentToQueryParam, mapQueryParamToIntent, QueryParams } from '@/lib/constants';
 import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
 import { useIsSafeWallet } from '@jetstreamgg/sky-utils';
 import { Trans } from '@lingui/react/macro';
 import { useNetworkSwitch } from '@/modules/ui/context/NetworkSwitchContext';
-import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { isMultichain } from '@/lib/widget-network-map';
 
 enum ChainModalVariant {
@@ -68,8 +67,7 @@ export function ChainModal({
     variables: switchChainVariables
   } = useChainModalContext();
   const { saveWidgetNetwork } = useNetworkSwitch();
-  const { userConfig } = useConfigContext();
-  const currentIntent = userConfig.intent;
+  const currentIntent = mapQueryParamToIntent(searchParams.get(QueryParams.Widget));
 
   return (
     <Dialog open={open} onOpenChange={disabled ? undefined : setOpen}>

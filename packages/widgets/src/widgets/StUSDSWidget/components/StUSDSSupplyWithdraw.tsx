@@ -197,7 +197,7 @@ export const StUSDSSupplyWithdraw = ({
               error={getSupplyErrorMessage()}
               showPercentageButtons={isConnectedAndEnabled}
               enabled={isConnectedAndEnabled}
-              disabled={remainingCapacityBuffered === 0n}
+              disabled={!isStUsdsDataLoading && remainingCapacityBuffered === 0n}
               showGauge={true}
             />
             {!isStUsdsDataLoading && remainingCapacityBuffered === 0n ? (
@@ -247,7 +247,7 @@ export const StUSDSSupplyWithdraw = ({
               dataTestId="withdraw-input-stusds"
               showPercentageButtons={isConnectedAndEnabled}
               enabled={isConnectedAndEnabled}
-              disabled={availableLiquidityBuffered === 0n}
+              disabled={!isStUsdsDataLoading && availableLiquidityBuffered === 0n}
               showGauge={true}
             />
             {!isStUsdsDataLoading && availableLiquidityBuffered === 0n ? (
