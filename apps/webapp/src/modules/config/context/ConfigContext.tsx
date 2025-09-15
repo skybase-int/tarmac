@@ -2,7 +2,7 @@ import { createContext } from 'react';
 import { SiteConfig } from '../types/site-config';
 import { UserConfig } from '../types/user-config';
 import { defaultConfig as siteConfig } from '../default-config';
-import { ExpertIntent, Intent } from '@/lib/enums';
+import { ExpertIntent } from '@/lib/enums';
 import { RewardContract } from '@jetstreamgg/sky-hooks';
 import { SealToken } from '@/modules/seal/constants';
 import { StakeToken } from '@/modules/stake/constants';
@@ -48,7 +48,6 @@ export const StepMap: Record<LinkedActionSteps, StepIndicatorStates[]> = {
 // Default user config
 export const defaultUserConfig: UserConfig = {
   locale: undefined,
-  intent: Intent.BALANCES_INTENT,
   sealToken: SealToken.MKR,
   stakeToken: StakeToken.SKY,
   batchEnabled: false, // Default to false to show activation prompt
@@ -66,7 +65,6 @@ export interface ConfigContextProps {
   loaded: boolean;
   locale: string;
   updateUserConfig: (config: UserConfig) => void;
-  setIntent: (intent: Intent) => void;
   selectedRewardContract?: RewardContract;
   setSelectedRewardContract: (rewardContract?: RewardContract) => void;
   selectedSealUrnIndex: number | undefined;
@@ -101,7 +99,6 @@ export const ConfigContext = createContext<ConfigContextProps>({
   updateUserConfig: () => {
     // do nothing.
   },
-  setIntent: () => {},
   selectedRewardContract: undefined,
   setSelectedRewardContract: () => {},
   selectedSealUrnIndex: undefined,
