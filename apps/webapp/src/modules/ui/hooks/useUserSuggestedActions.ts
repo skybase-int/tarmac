@@ -94,22 +94,20 @@ const fetchUserSuggestedActions = (
         weight: 9,
         type: 'linked'
       });
-      // Add stUSDS linked action for DAI (only if expert modules are enabled)
-      if (isExpertModulesEnabled()) {
-        linkedActions.push({
-          primaryToken: 'DAI',
-          secondaryToken: 'USDS',
-          title: t`Upgrade and access rewards`,
-          balance: daiBalance.formatted,
-          stepOne: t`Upgrade DAI to USDS`,
-          stepTwo: t`Access stUSDS rewards`,
-          url: `/?${Widget}=${UPGRADE}&${InputAmount}=${daiBalance.formatted}&${LinkedAction}=${EXPERT}&expert_module=${STUSDS}`,
-          intent: IntentMapping.UPGRADE_INTENT,
-          la: IntentMapping.EXPERT_INTENT,
-          weight: 5,
-          type: 'linked'
-        });
-      }
+      // Add stUSDS linked action for DAI
+      linkedActions.push({
+        primaryToken: 'DAI',
+        secondaryToken: 'USDS',
+        title: t`Upgrade and access rewards`,
+        balance: daiBalance.formatted,
+        stepOne: t`Upgrade DAI to USDS`,
+        stepTwo: t`Access stUSDS rewards`,
+        url: `/?${Widget}=${UPGRADE}&${InputAmount}=${daiBalance.formatted}&${LinkedAction}=${EXPERT}&expert_module=${STUSDS}`,
+        intent: IntentMapping.UPGRADE_INTENT,
+        la: IntentMapping.EXPERT_INTENT,
+        weight: 5,
+        type: 'linked'
+      });
       // Create contextual reward action based on current page
       if (prioritizedRewardContract) {
         const isSpkContext = prioritizedRewardContract.rewardToken === TOKENS.spk;
@@ -210,22 +208,20 @@ const fetchUserSuggestedActions = (
         weight: 6,
         type: 'linked'
       });
-      // Add stUSDS linked action for USDC (only if expert modules are enabled)
-      if (isExpertModulesEnabled()) {
-        linkedActions.push({
-          balance: usdcBalance.formatted,
-          primaryToken: 'USDC',
-          secondaryToken: 'USDS',
-          title: t`Trade and access rewards`,
-          stepOne: t`Trade USDC for USDS`,
-          stepTwo: t`Access stUSDS rewards`,
-          url: `/?${Widget}=${TRADE}&${SourceToken}=USDC&${InputAmount}=${usdcBalance.formatted}&${TargetToken}=USDS&${LinkedAction}=${EXPERT}&expert_module=${STUSDS}`,
-          intent: IntentMapping.TRADE_INTENT,
-          la: IntentMapping.EXPERT_INTENT,
-          weight: 4,
-          type: 'linked'
-        });
-      }
+      // Add stUSDS linked action for USDC
+      linkedActions.push({
+        balance: usdcBalance.formatted,
+        primaryToken: 'USDC',
+        secondaryToken: 'USDS',
+        title: t`Trade and access rewards`,
+        stepOne: t`Trade USDC for USDS`,
+        stepTwo: t`Access stUSDS rewards`,
+        url: `/?${Widget}=${TRADE}&${SourceToken}=USDC&${InputAmount}=${usdcBalance.formatted}&${TargetToken}=USDS&${LinkedAction}=${EXPERT}&expert_module=${STUSDS}`,
+        intent: IntentMapping.TRADE_INTENT,
+        la: IntentMapping.EXPERT_INTENT,
+        weight: 4,
+        type: 'linked'
+      });
       // Create contextual reward action for USDC
       if (prioritizedRewardContract) {
         const isSpkContext = prioritizedRewardContract.rewardToken === TOKENS.spk;
@@ -309,22 +305,20 @@ const fetchUserSuggestedActions = (
         weight: 6,
         type: 'linked'
       });
-      // Add stUSDS linked action for USDT (only if expert modules are enabled)
-      if (isExpertModulesEnabled()) {
-        linkedActions.push({
-          balance: usdtBalance.formatted,
-          primaryToken: 'USDT',
-          secondaryToken: 'USDS',
-          title: t`Trade and access rewards`,
-          stepOne: t`Trade USDT for USDS`,
-          stepTwo: t`Access stUSDS rewards`,
-          url: `/?${Widget}=${TRADE}&${SourceToken}=USDT&${InputAmount}=${usdtBalance.formatted}&${TargetToken}=USDS&${LinkedAction}=${EXPERT}&expert_module=${STUSDS}`,
-          intent: IntentMapping.TRADE_INTENT,
-          la: IntentMapping.EXPERT_INTENT,
-          weight: 4,
-          type: 'linked'
-        });
-      }
+      // Add stUSDS linked action for USDT
+      linkedActions.push({
+        balance: usdtBalance.formatted,
+        primaryToken: 'USDT',
+        secondaryToken: 'USDS',
+        title: t`Trade and access rewards`,
+        stepOne: t`Trade USDT for USDS`,
+        stepTwo: t`Access stUSDS rewards`,
+        url: `/?${Widget}=${TRADE}&${SourceToken}=USDT&${InputAmount}=${usdtBalance.formatted}&${TargetToken}=USDS&${LinkedAction}=${EXPERT}&expert_module=${STUSDS}`,
+        intent: IntentMapping.TRADE_INTENT,
+        la: IntentMapping.EXPERT_INTENT,
+        weight: 4,
+        type: 'linked'
+      });
       // Create contextual reward action for USDT
       if (prioritizedRewardContract) {
         const isSpkContext = prioritizedRewardContract.rewardToken === TOKENS.spk;
@@ -405,19 +399,17 @@ const fetchUserSuggestedActions = (
         weight: 6,
         type: 'suggested'
       });
-      // Add stUSDS suggested action for USDS holders (only if expert modules are enabled)
-      if (isExpertModulesEnabled()) {
-        suggestedActions.push({
-          primaryToken: 'USDS',
-          secondaryToken: 'stUSDS',
-          title: t`Access stUSDS rewards`,
-          balance: usdsBalance.formatted,
-          url: `/?${Widget}=${EXPERT}&expert_module=${STUSDS}&${InputAmount}=${usdsBalance.formatted}`,
-          intent: IntentMapping.EXPERT_INTENT,
-          weight: 4,
-          type: 'suggested'
-        });
-      }
+      // Add stUSDS suggested action for USDS holders
+      suggestedActions.push({
+        primaryToken: 'USDS',
+        secondaryToken: 'stUSDS',
+        title: t`Access stUSDS rewards`,
+        balance: usdsBalance.formatted,
+        url: `/?${Widget}=${EXPERT}&expert_module=${STUSDS}&${InputAmount}=${usdsBalance.formatted}`,
+        intent: IntentMapping.EXPERT_INTENT,
+        weight: 4,
+        type: 'suggested'
+      });
       // Create contextual reward suggestion for USDS holders
       if (prioritizedRewardContract) {
         const isSpkContext = prioritizedRewardContract.rewardToken === TOKENS.spk;
