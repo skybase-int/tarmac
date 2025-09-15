@@ -109,17 +109,6 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
       )
     : undefined;
 
-  // Filter out stUSDS from token list if expert modules are disabled
-  const filteredBalancesTokenList = isExpertModulesEnabled()
-    ? defaultConfig.balancesTokenList
-    : Object.entries(defaultConfig.balancesTokenList).reduce(
-        (acc, [chainId, tokens]) => {
-          acc[Number(chainId)] = tokens.filter(token => token.symbol !== 'stUSDS');
-          return acc;
-        },
-        {} as typeof defaultConfig.balancesTokenList
-      );
-
   const widgetItems: WidgetItem[] = [
     [
       Intent.BALANCES_INTENT,
@@ -135,7 +124,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
           sealCardUrl={sealUrl}
           stakeCardUrl={stakeUrl}
           stusdsCardUrl={stusdsUrl}
-          customTokenMap={filteredBalancesTokenList}
+          customTokenMap={defaultConfig.balancesTokenList}
           chainIds={getSupportedChainIds(chainId)}
           hideZeroBalances={hideZeroBalances}
           setHideZeroBalances={setHideZeroBalances}
