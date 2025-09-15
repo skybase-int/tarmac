@@ -21,6 +21,7 @@ import { useNotificationQueue } from '../hooks/useNotificationQueue';
 import { usePageLoadNotifications } from '../hooks/usePageLoadNotifications';
 import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
+import { useNetworkSwitch } from '@/modules/ui/context/NetworkSwitchContext';
 
 export function MainApp() {
   const {
@@ -52,9 +53,18 @@ export function MainApp() {
     }
   });
 
+  const { setIsSwitchingNetwork } = useNetworkSwitch();
+
   const { switchChain } = useSwitchChain({
     mutation: {
+      onSuccess: () => {
+        // Clear switching state when network switch succeeds
+        setIsSwitchingNetwork(false);
+      },
       onError: err => {
+        // Clear switching state when network switch fails
+        setIsSwitchingNetwork(false);
+
         // If the user rejects the network switch request, update the network query param to the current chain
         if (err.name === 'UserRejectedRequestError') {
           const chainName = chains.find(c => c.id === chainId)?.name;

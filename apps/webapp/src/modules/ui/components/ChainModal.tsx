@@ -15,6 +15,9 @@ import { mapIntentToQueryParam, QueryParams } from '@/lib/constants';
 import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
 import { useIsSafeWallet } from '@jetstreamgg/sky-utils';
 import { Trans } from '@lingui/react/macro';
+import { useNetworkSwitch } from '@/modules/ui/context/NetworkSwitchContext';
+import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
+import { isMultichain } from '@/lib/widget-network-map';
 
 enum ChainModalVariant {
   default = 'default',
@@ -42,7 +45,8 @@ export function ChainModal({
   variant = 'default',
   dataTestId = 'chain-modal-trigger',
   children,
-  nextIntent
+  nextIntent,
+  disabled = false
 }: {
   showLabel?: boolean;
   showDropdownIcon?: boolean;
@@ -50,6 +54,7 @@ export function ChainModal({
   dataTestId?: string;
   children?: React.ReactNode;
   nextIntent?: Intent;
+  disabled?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const chainId = useChainId();
@@ -62,10 +67,13 @@ export function ChainModal({
     isPending: isSwitchChainPending,
     variables: switchChainVariables
   } = useChainModalContext();
+  const { saveWidgetNetwork } = useNetworkSwitch();
+  const { userConfig } = useConfigContext();
+  const currentIntent = userConfig.intent;
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+    <Dialog open={open} onOpenChange={disabled ? undefined : setOpen}>
+      <DialogTrigger asChild disabled={disabled}>
         {variant === ChainModalVariant.wrapper ? (
           <button className="h-full w-full">{children}</button>
         ) : (
@@ -116,6 +124,15 @@ export function ChainModal({
                   handleSwitchChain({
                     chainId: chain.id,
                     onSuccess: (_, { chainId: newChainId }) => {
+                      // Track the manual network change for multichain widgets (except Balances)
+                      if (
+                        currentIntent &&
+                        isMultichain(currentIntent) &&
+                        currentIntent !== Intent.BALANCES_INTENT
+                      ) {
+                        saveWidgetNetwork(currentIntent, newChainId);
+                      }
+
                       const newChainName = chains.find(c => c.id === newChainId)?.name;
                       if (newChainName) {
                         const normalizedNewChainName = normalizeUrlParam(newChainName);

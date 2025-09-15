@@ -15,6 +15,7 @@ import { ConnectedProvider } from '@/modules/ui/context/ConnectedContext';
 import { TermsModalProvider } from '@/modules/ui/context/TermsModalContext';
 import { BalanceFiltersProvider } from '@/modules/ui/context/BalanceFiltersContext';
 import { ChainModalProvider } from '@/modules/ui/context/ChainModalContext';
+import { NetworkSwitchProvider } from '@/modules/ui/context/NetworkSwitchContext';
 
 import '@rainbow-me/rainbowkit/styles.css';
 import { ExternalLinkModal } from '@/modules/layout/components/ExternalLinkModal';
@@ -39,9 +40,11 @@ const AppContent = () => {
           <BalanceFiltersProvider>
             <TooltipProvider delayDuration={300}>
               <ChainModalProvider>
-                <ExternalLinkModal />
-                <Toaster />
-                <RouterProvider router={router} />
+                <NetworkSwitchProvider>
+                  <ExternalLinkModal />
+                  <Toaster />
+                  <RouterProvider router={router} />
+                </NetworkSwitchProvider>
               </ChainModalProvider>
             </TooltipProvider>
           </BalanceFiltersProvider>
