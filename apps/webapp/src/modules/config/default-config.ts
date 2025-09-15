@@ -24,7 +24,7 @@ export const defaultConfig: SiteConfig = {
           acc[Number(chainId)] = tokens.filter(token => token.symbol !== TOKENS.stusds.symbol);
           return acc;
         },
-        {} as typeof defaultConfig.balancesTokenList
+        {} as typeof widgetsConfig.balancesTokenList
       ),
   name: 'Sky',
   description: 'Get rewarded for saving, without giving up control',
