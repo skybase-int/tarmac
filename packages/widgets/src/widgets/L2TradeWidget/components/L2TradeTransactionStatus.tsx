@@ -91,11 +91,11 @@ export const L2TradeTransactionStatus = ({
               txStatus: flowTxStatus,
               originToken,
               originAmount: formatBigInt(originAmount, {
-                unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+                unit: getTokenDecimals(originToken, chainId)
               }),
               targetToken,
               targetAmount: formatBigInt(targetAmount, {
-                unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18
+                unit: getTokenDecimals(targetToken, chainId)
               }),
               needsAllowance: flowNeedsAllowance
             })
@@ -108,7 +108,7 @@ export const L2TradeTransactionStatus = ({
               txStatus: flowTxStatus,
               action,
               amount: formatBigInt(originAmount, {
-                unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+                unit: getTokenDecimals(originToken, chainId)
               }),
               symbol: originToken.symbol
             })

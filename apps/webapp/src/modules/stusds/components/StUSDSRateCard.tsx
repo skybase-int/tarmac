@@ -3,7 +3,7 @@ import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Text } from '@/modules/layout/components/Typography';
 import { useStUsdsData } from '@jetstreamgg/sky-hooks';
-import { formatYsrAsApy } from '@jetstreamgg/sky-utils';
+import { formatStrAsApy } from '@jetstreamgg/sky-utils';
 import { PopoverRateInfo as PopoverInfo } from '@jetstreamgg/sky-widgets';
 
 export function StUSDSRateCard() {
@@ -11,7 +11,7 @@ export function StUSDSRateCard() {
   const { data: stUsdsData, isLoading } = useStUsdsData();
 
   const moduleRate = stUsdsData?.moduleRate || 0n;
-  const formattedRate = moduleRate > 0n ? formatYsrAsApy(moduleRate) : '0.00%';
+  const formattedRate = moduleRate > 0n ? formatStrAsApy(moduleRate) : '0.00%';
 
   return (
     <StatsCard

@@ -7,7 +7,7 @@ type TokenChartTvl = { blockTimestamp: number; amount: bigint; holders: number }
 
 export function useParseTokenChartData(timeFrame: TimeFrame, tvl: TokenChartTvl[]): Data[] {
   return useMemo(() => {
-    const sortedTvl = tvl.sort((a, b) => a.blockTimestamp - b.blockTimestamp);
+    const sortedTvl = [...tvl].sort((a, b) => a.blockTimestamp - b.blockTimestamp);
 
     // Determine the start and end timestamps based on the timeFrame
     const { startTimestamp, endTimestamp } = determineTimeframeBounds(timeFrame, sortedTvl);
@@ -44,9 +44,6 @@ function determineTimeframeBounds(
   const now = Date.now() / 1000; // Current timestamp in seconds
   let startTimestamp: number;
   switch (timeFrame) {
-    case 'd':
-      startTimestamp = now - 86400; // Last day
-      break;
     case 'w':
       startTimestamp = now - 604800; // Last week
       break;
@@ -131,18 +128,18 @@ function generateDataPoints(
   timeFrame: TimeFrame
 ): Data[] {
   // Sort tvl by timestamp in ascending order to ensure correct processing
-  tvl.sort((a, b) => a.blockTimestamp - b.blockTimestamp);
+  const sortedTvl = [...tvl].sort((a, b) => a.blockTimestamp - b.blockTimestamp);
 
   let dataPoints;
   if (timeFrame === 'all' || timeFrame === 'y') {
     // Handle 'all' timeframe by generating equidistant points across the entire dataset
     const totalPoints = 7; // Including start and end, with 5 in between
     const interval = (endTimestamp - startTimestamp) / (totalPoints - 1);
-    dataPoints = interpolateDataPoints(tvl, startTimestamp, endTimestamp, interval);
+    dataPoints = interpolateDataPoints(sortedTvl, startTimestamp, endTimestamp, interval);
   } else {
     // For other timeframes, calculate the interval based on the timeframe
     const interval = getTimeFrameInterval(timeFrame);
-    dataPoints = interpolateDataPoints(tvl, startTimestamp, endTimestamp, interval);
+    dataPoints = interpolateDataPoints(sortedTvl, startTimestamp, endTimestamp, interval);
   }
 
   //Find min and max points

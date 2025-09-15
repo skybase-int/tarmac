@@ -1,7 +1,7 @@
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { getTokenDecimals, TOKENS } from '@jetstreamgg/sky-hooks';
-import { formatBigInt, formatYsrAsApy } from '@jetstreamgg/sky-utils';
+import { formatBigInt, formatStrAsApy } from '@jetstreamgg/sky-utils';
 import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
@@ -197,7 +197,7 @@ export const StUSDSSupplyWithdraw = ({
               error={getSupplyErrorMessage()}
               showPercentageButtons={isConnectedAndEnabled}
               enabled={isConnectedAndEnabled}
-              disabled={remainingCapacityBuffered === 0n}
+              disabled={!isStUsdsDataLoading && remainingCapacityBuffered === 0n}
               showGauge={true}
             />
             {!isStUsdsDataLoading && remainingCapacityBuffered === 0n ? (
@@ -247,7 +247,7 @@ export const StUSDSSupplyWithdraw = ({
               dataTestId="withdraw-input-stusds"
               showPercentageButtons={isConnectedAndEnabled}
               enabled={isConnectedAndEnabled}
-              disabled={availableLiquidityBuffered === 0n}
+              disabled={!isStUsdsDataLoading && availableLiquidityBuffered === 0n}
               showGauge={true}
             />
             {!isStUsdsDataLoading && availableLiquidityBuffered === 0n ? (
@@ -287,7 +287,7 @@ export const StUSDSSupplyWithdraw = ({
             },
             {
               label: t`Rate`,
-              value: moduleRate !== undefined && moduleRate > 0n ? formatYsrAsApy(moduleRate) : '--'
+              value: moduleRate !== undefined && moduleRate > 0n ? formatStrAsApy(moduleRate) : '--'
             },
             ...(address
               ? [

@@ -12,8 +12,11 @@ export const updateParamsFromTransaction = async (
 
   const resultAmount = formatEther(fromHex(logs[0]?.data, 'bigint'));
 
-  setSearchParams(searchParams => {
-    searchParams.set(QueryParams.InputAmount, resultAmount);
-    return searchParams;
-  });
+  setSearchParams(
+    searchParams => {
+      searchParams.set(QueryParams.InputAmount, resultAmount);
+      return searchParams;
+    },
+    { replace: true }
+  );
 };

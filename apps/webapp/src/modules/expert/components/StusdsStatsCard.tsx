@@ -1,4 +1,4 @@
-import { formatBigInt, formatYsrAsApy } from '@jetstreamgg/sky-utils';
+import { formatBigInt, formatStrAsApy } from '@jetstreamgg/sky-utils';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { useStUsdsData, useStUsdsCapacityData } from '@jetstreamgg/sky-hooks';
@@ -24,7 +24,7 @@ export const StusdsStatsCard = ({ onClick, disabled = false }: StusdsStatsCardPr
 
   // Data handling
   const moduleRate = stUsdsData?.moduleRate || 0n;
-  const formattedRate = moduleRate > 0n ? formatYsrAsApy(moduleRate) : '0.00%';
+  const formattedRate = moduleRate > 0n ? formatStrAsApy(moduleRate) : '0.00%';
   const utilizationRate = capacityData?.utilizationRate ?? 0;
   const totalAssets = stUsdsData?.totalAssets || 0n;
 

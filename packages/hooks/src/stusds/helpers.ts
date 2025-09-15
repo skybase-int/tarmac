@@ -4,12 +4,12 @@
  */
 export function calculateLiquidityBuffer(
   currentTotalAssets: bigint, // scaled by 1e18
-  ysr: bigint, // scaled by 1e27, 1 + per second rate
+  str: bigint, // scaled by 1e27, 1 + per second rate
   stakingEngineDebt: bigint, // scaled by 1e18
   stakingDuty: bigint, // scaled by 1e27, 1 + per second rate
   bufferMinutes: number = 30 //30 minutes
 ): bigint {
-  const yieldAccrual = calculateYieldAccrual(currentTotalAssets, ysr, bufferMinutes);
+  const yieldAccrual = calculateYieldAccrual(currentTotalAssets, str, bufferMinutes);
 
   const debtAccrual = calculateDebtAccrual(stakingEngineDebt, stakingDuty, bufferMinutes);
 
@@ -23,16 +23,16 @@ export function calculateLiquidityBuffer(
  */
 export function calculateCapacityBuffer(
   currentTotalAssets: bigint, // scaled by 1e18
-  ysr: bigint, // scaled by 1e27, 1 + per second rate
+  str: bigint, // scaled by 1e27, 1 + per second rate
   bufferMinutes: number = 30 //30 minutes
 ): bigint {
-  return calculateYieldAccrual(currentTotalAssets, ysr, bufferMinutes);
+  return calculateYieldAccrual(currentTotalAssets, str, bufferMinutes);
 }
 
 //helper function to calculate yield accrual on total assets
 function calculateYieldAccrual(
   currentTotalAssets: bigint, // scaled by 1e18
-  ysr: bigint, // scaled by 1e27, 1 + per second rate
+  str: bigint, // scaled by 1e27, 1 + per second rate
   bufferMinutes: number = 30 //30 minutes
 ): bigint {
   if (bufferMinutes <= 0) {
@@ -43,9 +43,9 @@ function calculateYieldAccrual(
 
   // Calculate yield accrual on total assets
   let yieldAccrual = 0n;
-  if (currentTotalAssets > 0n && ysr > BASE_RATE) {
-    // ysr is (1 + per_second_rate), so subtract 1 to get actual rate
-    const actualYieldRate = ysr - BASE_RATE;
+  if (currentTotalAssets > 0n && str > BASE_RATE) {
+    // str is (1 + per_second_rate), so subtract 1 to get actual rate
+    const actualYieldRate = str - BASE_RATE;
     // Apply rate for buffer period: assets * rate * time
     // Doesn't account for compounding, but is close enough for short time periods
     yieldAccrual = (currentTotalAssets * actualYieldRate * secondsInBuffer) / BASE_RATE; //scaled by 1e18
