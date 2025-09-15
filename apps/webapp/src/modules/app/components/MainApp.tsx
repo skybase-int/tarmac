@@ -3,14 +3,8 @@ import { WidgetPane } from './WidgetPane';
 import { DetailsPane } from './DetailsPane';
 import { AppContainer } from './AppContainer';
 import { useSearchParams } from 'react-router-dom';
-import {
-  CHAIN_WIDGET_MAP,
-  CHATBOT_ENABLED,
-  COMING_SOON_MAP,
-  QueryParams,
-  mapQueryParamToIntent
-} from '@/lib/constants';
-import { Intent } from '@/lib/enums';
+import { CHATBOT_ENABLED, QueryParams, mapQueryParamToIntent } from '@/lib/constants';
+
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { validateLinkedActionSearchParams, validateSearchParams } from '@/modules/utils/validateSearchParams';
 import { useAvailableTokenRewardContracts } from '@jetstreamgg/sky-hooks';
@@ -31,8 +25,6 @@ import { useNetworkSwitch } from '@/modules/ui/context/NetworkSwitchContext';
 
 export function MainApp() {
   const {
-    userConfig,
-    updateUserConfig,
     linkedActionConfig,
     updateLinkedActionConfig,
     setSelectedRewardContract,
@@ -40,10 +32,11 @@ export function MainApp() {
     expertRiskDisclaimerShown
   } = useConfigContext();
   const { isAuthorized } = useConnectedContext();
-
+  const [searchParams, setSearchParams] = useSearchParams();
   const { bpi } = useBreakpointIndex();
 
-  const { intent } = userConfig;
+  const intent = mapQueryParamToIntent(searchParams.get(QueryParams.Widget));
+
   const chainId = useChainId();
   const chains = useChains();
 
@@ -92,7 +85,6 @@ export function MainApp() {
   });
 
   const { sendMessage } = useSendMessage();
-  const [searchParams, setSearchParams] = useSearchParams();
 
   const widgetParam = searchParams.get(QueryParams.Widget);
   const detailsParam = !(searchParams.get(QueryParams.Details) === 'false');
@@ -219,29 +211,6 @@ export function MainApp() {
       emitter?.off('change', handleChainChange);
     };
   }, [chains, connector, setSearchParams]);
-
-  useEffect(() => {
-    // Updates the active widget pane in the config
-    let validatedWidgetParam: Intent | undefined;
-    if (widgetParam) {
-      validatedWidgetParam = mapQueryParamToIntent(widgetParam);
-    }
-
-    updateUserConfig({
-      ...userConfig,
-      // If user selected intent is not available for the current network, default to the balances intent
-      intent:
-        validatedWidgetParam ??
-        // Use the user config intent if found in the chain widget map, but not on the coming soon map for the given network
-        CHAIN_WIDGET_MAP[chainId].find(
-          intent =>
-            intent === mapQueryParamToIntent(userConfig.intent) &&
-            // If there is no coming soon map for the current network, default to true
-            (COMING_SOON_MAP[chainId]?.includes(mapQueryParamToIntent(userConfig.intent)) ?? true)
-        ) ??
-        Intent.BALANCES_INTENT
-    });
-  }, [widgetParam, userConfig.intent]);
 
   useEffect(() => {
     updateLinkedActionConfig({

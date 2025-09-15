@@ -1,15 +1,16 @@
 import { Tooltip, TooltipArrow, TooltipContent, TooltipPortal, TooltipTrigger } from './ui/tooltip';
 import { Text } from '@/modules/layout/components/Typography';
 import { t } from '@lingui/core/macro';
-import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { ChainModal } from '@/modules/ui/components/ChainModal';
+import { useSearchParams } from 'react-router-dom';
+import { mapQueryParamToIntent, QueryParams } from '@/lib/constants';
 import { requiresMainnet } from '@/lib/widget-network-map';
 import { useNetworkSwitch } from '@/modules/ui/context/NetworkSwitchContext';
 import { Loader2 } from 'lucide-react';
 
 export function NetworkSwitcher() {
-  const { userConfig } = useConfigContext();
-  const { intent } = userConfig;
+  const [searchParams] = useSearchParams();
+  const intent = mapQueryParamToIntent(searchParams.get(QueryParams.Widget));
   const { isSwitchingNetwork } = useNetworkSwitch();
 
   // Check if current intent requires mainnet - if so, always disable the switcher
