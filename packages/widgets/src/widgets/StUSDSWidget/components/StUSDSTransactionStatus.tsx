@@ -61,14 +61,12 @@ export const StUSDSTransactionStatus = ({
 
   // Sets the title and subtitle of the card
   useEffect(() => {
-    const isApprovalSuccess = txStatus === TxStatus.SUCCESS && action === StUSDSAction.APPROVE;
     const isWaitingForSecondTransaction =
       txStatus === TxStatus.INITIALIZED &&
       action !== StUSDSAction.APPROVE &&
       flowNeedsAllowance &&
       !isBatchTransaction;
-    const flowTxStatus: TxStatus =
-      isApprovalSuccess || isWaitingForSecondTransaction ? TxStatus.LOADING : txStatus;
+    const flowTxStatus: TxStatus = isWaitingForSecondTransaction ? TxStatus.LOADING : txStatus;
 
     if (flow === StUSDSFlow.SUPPLY) {
       setStepTwoTitle(t`Supply`);
@@ -105,8 +103,11 @@ export const StUSDSTransactionStatus = ({
           )
         );
 
-        if (action === StUSDSAction.APPROVE) setStep(1);
-        else if (action === StUSDSAction.SUPPLY) setStep(2);
+        if (isBatchTransaction) setStep(2);
+        else if (flowTxStatus !== TxStatus.SUCCESS) {
+          if (needsAllowance) setStep(1);
+          else setStep(2);
+        }
       }
     } else if (flow === StUSDSFlow.WITHDRAW) {
       setStepTwoTitle(t`Withdraw`);
@@ -143,8 +144,7 @@ export const StUSDSTransactionStatus = ({
           )
         );
 
-        if (action === StUSDSAction.APPROVE) setStep(1);
-        else if (action === StUSDSAction.WITHDRAW) setStep(2);
+        setStep(2);
       }
     }
   }, [txStatus, flow, action, screen, i18n.locale]);
