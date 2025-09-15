@@ -10,7 +10,8 @@ type TestFixtures = {
 // Extend the existing fixture that already handles snapshots and balances
 export const test = baseTest.extend<TestFixtures>({
   // Each test gets the worker's account from the existing fixture setup
-  testAccount: async (_, use, workerInfo) => {
+  // eslint-disable-next-line no-empty-pattern
+  testAccount: async ({}, use, workerInfo) => {
     const account = getTestWalletAddress(workerInfo.workerIndex).toLowerCase() as `0x${string}`;
     await use(account);
   },

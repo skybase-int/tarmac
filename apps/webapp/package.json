@@ -22,7 +22,7 @@
     "e2e": "playwright test --trace on",
     "e2e:ui": "playwright test --ui",
     "e2e:parallel": "VITE_PARALLEL_TEST=true playwright test --config=playwright-parallel.config.ts --workers=4",
-    "e2e:parallel:test": "VITE_PARALLEL_TEST=true playwright test --config=playwright-parallel.config.ts mainnet-savings-parallel.spec.ts --workers=6 --reporter=list",
+    "e2e:parallel:test": "VITE_TEST_GENERATE_ADDRESSES=true VITE_PARALLEL_TEST=true playwright test --config=playwright-parallel.config.ts mainnet-savings-parallel.spec.ts --workers=6 --reporter=list",
     "e2e:parallel:debug": "VITE_PARALLEL_TEST=true PWDEBUG=console playwright test --config=playwright-parallel.config.ts debug-parallel.spec.ts --workers=2 --reporter=list",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",

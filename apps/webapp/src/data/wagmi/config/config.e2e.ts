@@ -2,7 +2,7 @@ import { http, WalletRpcSchema, EIP1193Parameters } from 'viem';
 import { createConfig, createConnector, createStorage, noopStorage } from 'wagmi';
 import { getTestTenderlyChains, TENDERLY_CHAIN_ID } from './testTenderlyChain';
 import { mock, MockParameters } from 'wagmi/connectors';
-import { TEST_WALLET_ADDRESSES } from '@/test/e2e/utils/testWallets';
+import { TEST_WALLET_ADDRESSES, getTestWalletAddress } from '@/test/e2e/utils/testWallets';
 import { arbitrum, base, optimism, unichain } from 'viem/chains';
 
 const [tenderlyMainnet, tenderlyBase, tenderlyArbitrum, tenderlyOptimism, tenderlyUnichain] =
@@ -39,13 +39,20 @@ function extendedMock(params: MockParameters) {
 
                 // Handle eth_requestAccounts method
                 if (args.method === 'eth_requestAccounts') {
-                  console.log('extendedMock returning accounts:', params.accounts);
+                  // First, let's see what the original returns
+                  const originalAccounts = await target.request(args);
+                  console.log('Original eth_requestAccounts returned:', originalAccounts);
+                  console.log('extendedMock overriding with:', params.accounts);
                   return params.accounts;
                 }
 
                 // Handle eth_accounts method
                 if (args.method === 'eth_accounts') {
-                  console.log('extendedMock returning accounts (eth_accounts):', params.accounts);
+                  // First, let's see what the original returns
+                  const originalAccounts = await target.request(args);
+                  console.log('Original eth_accounts returned:', originalAccounts);
+                  console.log('extendedMock overriding with:', params.accounts);
+
                   return params.accounts;
                 }
 
@@ -104,9 +111,12 @@ function getWorkerAccounts(): [`0x${string}`, ...`0x${string}`[]] {
     return [account];
   }
 
-  // Otherwise use worker index to get the account
+  // Use the dynamic getTestWalletAddress function which handles:
+  // - Custom addresses via env vars
+  // - Seed-based generation
+  // - Unlimited address generation
   const workerIndex = Number(import.meta.env.VITE_TEST_WORKER_INDEX || 0);
-  const account = TEST_WALLET_ADDRESSES[workerIndex % TEST_WALLET_ADDRESSES.length];
+  const account = getTestWalletAddress(workerIndex);
   console.log('Using worker account:', account, 'for worker index:', workerIndex);
 
   // For parallel execution, return only the worker's specific account
