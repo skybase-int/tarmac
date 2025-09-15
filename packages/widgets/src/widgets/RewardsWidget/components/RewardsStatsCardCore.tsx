@@ -7,7 +7,13 @@ import { StatsOverviewCardCore } from '@widgets/shared/components/ui/card/StatsO
 import { MotionHStack } from '@widgets/shared/components/ui/layout/MotionHStack';
 import { PairTokenIcons } from '@widgets/shared/components/ui/token/PairTokenIcon';
 import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
-import { RewardContract, TOKENS, WriteHook, useRewardsChartInfo } from '@jetstreamgg/sky-hooks';
+import {
+  RewardContract,
+  TOKENS,
+  WriteHook,
+  useRewardsChartInfo,
+  getTokenDecimals
+} from '@jetstreamgg/sky-hooks';
 import { formatBigInt, formatDecimalPercentage } from '@jetstreamgg/sky-utils';
 import { Trans } from '@lingui/react/macro';
 import { motion } from 'framer-motion';
@@ -36,12 +42,7 @@ export const RewardsStatsCardCore = ({
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 }) => {
   const chainId = useChainId();
-  const rewardTokenDecimals = rewardContract.rewardToken.decimals;
-  const parsedRewardTokenDecimals = !rewardTokenDecimals
-    ? 18
-    : typeof rewardTokenDecimals === 'number'
-      ? rewardTokenDecimals
-      : rewardTokenDecimals[chainId] || 18;
+  const parsedRewardTokenDecimals = getTokenDecimals(rewardContract.rewardToken, chainId);
   const MIN_CLAIM_DISPLAY = BigInt(10 ** (parsedRewardTokenDecimals - 2)); // 0.01
 
   const {
@@ -49,12 +50,11 @@ export const RewardsStatsCardCore = ({
     isLoading,
     error
   } = useRewardsChartInfo({
-    rewardContractAddress: rewardContract.contractAddress
+    rewardContractAddress: rewardContract.contractAddress,
+    limit: 1
   });
 
-  // Get the most recent data
-  const sortedChartData = chartData ? [...chartData].sort((a, b) => b.blockTimestamp - a.blockTimestamp) : [];
-  const mostRecentRate = sortedChartData.length > 0 ? sortedChartData[0].rate : null;
+  const rate = chartData && chartData.length > 0 ? chartData[0].rate : null;
 
   return (
     <StatsOverviewCardCore
@@ -70,12 +70,10 @@ export const RewardsStatsCardCore = ({
       }
       headerRightContent={
         <MotionHStack className="items-center" gap={2} variants={positionAnimations}>
-          {rewardContract.rewardToken.symbol !== TOKENS.cle.symbol &&
-          mostRecentRate &&
-          parseFloat(mostRecentRate) > 0 ? (
+          {rewardContract.rewardToken.symbol !== TOKENS.cle.symbol && rate && parseFloat(rate) > 0 ? (
             <>
               <Text className="text-bullish">
-                <Trans>Rate: {formatDecimalPercentage(parseFloat(mostRecentRate))}</Trans>
+                <Trans>Rate: {formatDecimalPercentage(parseFloat(rate))}</Trans>
               </Text>
               <PopoverRateInfo type="str" onExternalLinkClicked={onExternalLinkClicked} />
             </>
@@ -95,7 +93,7 @@ export const RewardsStatsCardCore = ({
           className={`flex w-full justify-center ${!!rewardsBalance && !!claim ? 'mt-3' : ''}`}
         >
           {isConnectedAndEnabled && !!rewardsBalance && !!claim ? (
-            <Button disabled={!claim.prepared} onClick={onClaimClick} variant="primaryAlt">
+            <Button disabled={!claim.prepared} onClick={onClaimClick} variant="secondary" className="w-full">
               <Trans>
                 {`Claim ${
                   rewardsBalance < MIN_CLAIM_DISPLAY

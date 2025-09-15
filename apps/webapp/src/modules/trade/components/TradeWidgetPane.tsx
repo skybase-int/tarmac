@@ -55,39 +55,57 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
 
     // Update search params
     if (originAmount && originAmount !== '0') {
-      setSearchParams(prev => {
-        prev.set(QueryParams.InputAmount, originAmount);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.set(QueryParams.InputAmount, originAmount);
+          return prev;
+        },
+        { replace: true }
+      );
     } else if (originAmount === '') {
-      setSearchParams(prev => {
-        prev.delete(QueryParams.InputAmount);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.delete(QueryParams.InputAmount);
+          return prev;
+        },
+        { replace: true }
+      );
     }
 
     if (originToken) {
-      setSearchParams(prev => {
-        prev.set(QueryParams.SourceToken, originToken);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.set(QueryParams.SourceToken, originToken);
+          return prev;
+        },
+        { replace: true }
+      );
     } else if (originToken === '') {
-      setSearchParams(prev => {
-        prev.delete(QueryParams.SourceToken);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.delete(QueryParams.SourceToken);
+          return prev;
+        },
+        { replace: true }
+      );
     }
 
     if (targetToken) {
-      setSearchParams(prev => {
-        prev.set(QueryParams.TargetToken, targetToken);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.set(QueryParams.TargetToken, targetToken);
+          return prev;
+        },
+        { replace: true }
+      );
     } else if (targetToken === '') {
-      setSearchParams(prev => {
-        prev.delete(QueryParams.TargetToken);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.delete(QueryParams.TargetToken);
+          return prev;
+        },
+        { replace: true }
+      );
     }
 
     // After a successful trade, set the linked action step to "success"
@@ -129,8 +147,11 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
       const reward = linkedActionConfig.rewardContract
         ? `&${QueryParams.Reward}=${linkedActionConfig.rewardContract}`
         : '';
+      const expertModule = linkedActionConfig.expertModule
+        ? `&${QueryParams.ExpertModule}=${linkedActionConfig.expertModule}`
+        : '';
       setCustomHref(
-        `/?${QueryParams.Widget}=${widget}&${QueryParams.InputAmount}=${executedBuyAmount}&${QueryParams.LinkedAction}=${widget}${reward}`
+        `/?${QueryParams.Widget}=${widget}&${QueryParams.InputAmount}=${executedBuyAmount}&${QueryParams.LinkedAction}=${widget}${reward}${expertModule}`
       );
       setCustomNavLabel(`Go to ${capitalizeFirstLetter(linkedActionConfig.linkedAction)}`);
     } else {
@@ -151,6 +172,10 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
 
   const Widget = isL2 ? L2TradeWidget : TradeWidget;
 
+  const shouldLockTokens =
+    linkedActionConfig.showLinkedAction &&
+    !!linkedActionConfig.sourceToken &&
+    !!linkedActionConfig.targetToken;
   return (
     <Widget
       key={externalWidgetState.timestamp}
@@ -173,6 +198,7 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
       )}
       batchEnabled={batchEnabled}
       setBatchEnabled={setBatchEnabled}
+      tokensLocked={shouldLockTokens}
     />
   );
 }

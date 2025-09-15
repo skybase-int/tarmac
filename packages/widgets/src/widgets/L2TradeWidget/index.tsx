@@ -54,6 +54,7 @@ export type TradeWidgetProps = WidgetProps & {
   widgetTitle?: ReactNode;
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
+  tokensLocked?: boolean;
 };
 
 function TradeWidgetWrapped({
@@ -75,7 +76,8 @@ function TradeWidgetWrapped({
   referralCode,
   widgetTitle,
   batchEnabled,
-  setBatchEnabled
+  setBatchEnabled,
+  tokensLocked = false
 }: TradeWidgetProps): React.ReactElement {
   const { mutate: addToWallet } = useAddTokenToWallet();
   const [showAddToken, setShowAddToken] = useState(false);
@@ -140,7 +142,7 @@ function TradeWidgetWrapped({
 
   const initialOriginAmount = parseUnits(
     validatedExternalState?.amount || '0',
-    originToken ? getTokenDecimals(originToken, chainId) : 18
+    getTokenDecimals(originToken, chainId)
   );
 
   const [originAmount, setOriginAmount] = useState(initialOriginAmount);
@@ -148,7 +150,7 @@ function TradeWidgetWrapped({
 
   const initialTargetAmount = parseUnits(
     validatedExternalState?.amount || '0',
-    targetToken ? getTokenDecimals(targetToken, chainId) : 18
+    getTokenDecimals(targetToken, chainId)
   );
 
   const [targetAmount, setTargetAmount] = useState(initialTargetAmount);
@@ -351,7 +353,7 @@ function TradeWidgetWrapped({
       externalWidgetState?.amount !==
         formatBigInt(originAmount, {
           locale,
-          unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+          unit: getTokenDecimals(originToken, chainId)
         });
 
     if ((tokensHasChanged || amountHasChanged) && txStatus === TxStatus.IDLE) {
@@ -853,10 +855,11 @@ function TradeWidgetWrapped({
               }}
               lastUpdated={lastUpdated}
               targetAmount={targetAmount}
-              originTokenList={originTokenList}
-              targetTokenList={targetTokenList}
+              originTokenList={tokensLocked && originToken ? [originToken] : originTokenList}
+              targetTokenList={tokensLocked && targetToken ? [targetToken] : targetTokenList}
               isBalanceError={isBalanceError}
-              canSwitchTokens={true}
+              canSwitchTokens={!tokensLocked}
+              tokensLocked={tokensLocked}
               isConnectedAndEnabled={isConnectedAndEnabled}
             />
             {!!originAmount && !!targetAmount && !isBalanceError && (

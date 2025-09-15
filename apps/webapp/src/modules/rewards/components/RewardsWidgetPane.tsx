@@ -42,15 +42,18 @@ export function RewardsWidgetPane(sharedProps: SharedProps) {
       return;
     }
 
-    setSearchParams(params => {
-      if (rewardContract?.contractAddress) {
-        params.set(QueryParams.Widget, IntentMapping[Intent.REWARDS_INTENT]);
-        params.set(QueryParams.Reward, rewardContract.contractAddress);
-      } else {
-        params.delete(QueryParams.Reward);
-      }
-      return params;
-    });
+    setSearchParams(
+      params => {
+        if (rewardContract?.contractAddress) {
+          params.set(QueryParams.Widget, IntentMapping[Intent.REWARDS_INTENT]);
+          params.set(QueryParams.Reward, rewardContract.contractAddress);
+        } else {
+          params.delete(QueryParams.Reward);
+        }
+        return params;
+      },
+      { replace: true }
+    );
     setSelectedRewardContract(rewardContract);
   };
 
@@ -69,23 +72,32 @@ export function RewardsWidgetPane(sharedProps: SharedProps) {
 
     // Set flow search param based on widgetState.flow
     if (widgetState.flow) {
-      setSearchParams(prev => {
-        prev.set(QueryParams.Flow, widgetState.flow);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.set(QueryParams.Flow, widgetState.flow);
+          return prev;
+        },
+        { replace: true }
+      );
     }
 
     // Update amount in URL if provided and not zero
     if (originAmount && originAmount !== '0') {
-      setSearchParams(prev => {
-        prev.set(QueryParams.InputAmount, originAmount);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.set(QueryParams.InputAmount, originAmount);
+          return prev;
+        },
+        { replace: true }
+      );
     } else if (originAmount === '') {
-      setSearchParams(prev => {
-        prev.delete(QueryParams.InputAmount);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.delete(QueryParams.InputAmount);
+          return prev;
+        },
+        { replace: true }
+      );
     }
 
     // After a successful linked action supply, set the step to "success"
@@ -100,10 +112,13 @@ export function RewardsWidgetPane(sharedProps: SharedProps) {
     // Reset the linked action state and URL params after clicking "finish"
     if (txStatus === TxStatus.IDLE && linkedActionConfig.step === LinkedActionSteps.COMPLETED_SUCCESS) {
       exitLinkedActionMode();
-      setSearchParams((prevParams: URLSearchParams) => {
-        const params = deleteSearchParams(prevParams);
-        return params;
-      });
+      setSearchParams(
+        (prevParams: URLSearchParams) => {
+          const params = deleteSearchParams(prevParams);
+          return params;
+        },
+        { replace: true }
+      );
     }
 
     if (
