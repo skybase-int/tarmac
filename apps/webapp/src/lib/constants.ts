@@ -121,7 +121,7 @@ export function mapIntentToQueryParam(intent: Intent): string {
   return AvailableIntentMapping[intent] || '';
 }
 
-export function mapQueryParamToIntent(queryParam: string): Intent {
+export function mapQueryParamToIntent(queryParam?: string | null): Intent {
   const intent = Object.keys(AvailableIntentMapping).find(
     key => AvailableIntentMapping[key as keyof typeof AvailableIntentMapping] === queryParam
   );
