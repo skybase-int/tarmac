@@ -11,6 +11,7 @@ import { isL2ChainId } from '@jetstreamgg/sky-utils';
 import { t } from '@lingui/core/macro';
 import { useState, useEffect, useRef } from 'react';
 import { useAccount, useChainId } from 'wagmi';
+import { isExpertModulesEnabled } from '@/lib/feature-flags';
 
 export type LinkedAction = SuggestedAction & {
   stepOne: string;
@@ -469,6 +470,8 @@ const fetchUserSuggestedActions = (
       | Intent
       | undefined;
     if (!intentEnum) return false;
+    // Check if Expert intent is disabled via feature flag
+    if (intentEnum === Intent.EXPERT_INTENT && !isExpertModulesEnabled()) return false;
     return supportedIntents.includes(intentEnum);
   };
 

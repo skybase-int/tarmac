@@ -1,4 +1,4 @@
-import { WidgetsConfig } from '@jetstreamgg/sky-widgets/dist/config/types/widgets-config';
+import { WidgetsConfig } from '@jetstreamgg/sky-widgets';
 
 export type ThemeColor = {
   default: string;
