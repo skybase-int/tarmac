@@ -21,7 +21,7 @@ TOOLTIPS_DESTINATION_PATH="../../packages/widgets/src/data/tooltips"
 BANNERS_SOURCE_PATH="output/webapp/banner"
 BANNERS_DESTINATION_PATH="src/data/banners"
 SPEED_BUMPS_SOURCE_PATH="output/webapp/speed-bumps"
-SPEED_BUMPS_DESTINATION_PATH="src/data/chat"
+SPEED_BUMPS_DESTINATION_PATH="src/data/chat/speed-bumps"
 EXTRACT_SCRIPT="scripts/extract_webapp_faqs.js"
 SPEED_BUMP_EXTRACT_SCRIPT="scripts/extract_speed_bump_copy.js"
 
