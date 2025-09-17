@@ -58,8 +58,7 @@ Create a `.env` file in the root directory of the project. You can use the `.env
 - `VITE_CHATBOT_ENABLED`: If set to `'true'`, enables the chatbot functionality
 - `VITE_CHATBOT_FEEDBACK_ENABLED`: If set to `'true'`, enables the chatbot feedback functionality
 - `VITE_CHATBOT_USE_TESTNET_NETWORK_NAME`: If set to `'true'` replaces network names for their testnet counterpart. Only in development or staging.
-- `VITE_ADVANCED_CHAT_ENABLED`: If set to `'true'`, enables advanced chat features
-- `VITE_CHAT_SUGGESTIONS_ENABLED`: If set to `'true'`, enables chat suggestions functionality, set to 'true' to enable
+- `VITE_CHATBOT_SUGGESTIONS_ENABLED`: Chat suggestions are enabled by default. Set to `'false'` to disable
 - `VITE_CHATBOT_NAME`: The name of the chatbot
 - `VITE_CHATBOT_DOMAIN`: The base URL for the chatbot backend API
 - `VITE_CHATBOT_MAX_HISTORY`: Maximum number of previous messages to include in chat context.

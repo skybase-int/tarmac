@@ -6,7 +6,7 @@ import { useAccount } from 'wagmi';
 import { CustomAvatar } from '@/modules/ui/components/Avatar';
 import { useSearchParams } from 'react-router-dom';
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
-import { QueryParams } from '@/lib/constants';
+import { CHAT_SUGGESTIONS_ENABLED, QueryParams } from '@/lib/constants';
 import { motion } from 'framer-motion';
 import { ResponseModifierRow } from './ResponseModifierRow';
 import { t } from '@lingui/core/macro';
@@ -269,7 +269,9 @@ export const ChatBubble = ({
                     </div>
                   </div>
                 )}
-                {intents && intents?.length > 0 && isLastMessage && <ChatIntentsRow intents={intents} />}
+                {CHAT_SUGGESTIONS_ENABLED && intents && intents?.length > 0 && isLastMessage && (
+                  <ChatIntentsRow intents={intents} />
+                )}
                 {showModifierRow && <ResponseModifierRow sendMessage={sendMessage} />}
               </div>
             )}
