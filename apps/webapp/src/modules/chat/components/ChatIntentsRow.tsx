@@ -95,7 +95,7 @@ export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
     return Array.from(groups.values());
   }, [intents]);
 
-  const INITIAL_VISIBLE_COUNT = 3;
+  const INITIAL_VISIBLE_COUNT = 4;
   const hasMoreIntents = groupedIntents.length > INITIAL_VISIBLE_COUNT;
   const visibleIntents =
     hasMoreIntents && !isExpanded ? groupedIntents.slice(0, INITIAL_VISIBLE_COUNT) : groupedIntents;

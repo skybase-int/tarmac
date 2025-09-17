@@ -31,6 +31,7 @@ export interface ChatIntent {
   title: string;
   url: string;
   widget: string;
+  priority: number;
 }
 
 export enum SlotType {

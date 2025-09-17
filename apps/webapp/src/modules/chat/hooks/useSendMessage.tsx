@@ -18,7 +18,7 @@ interface ChatbotResponse {
   chatResponse: {
     response: string;
   };
-  actionIntentResponse: Pick<ChatIntent, 'title' | 'url'>[];
+  actionIntentResponse: Pick<ChatIntent, 'title' | 'url' | 'priority'>[];
 }
 
 const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
@@ -81,26 +81,29 @@ const sendMessageMutation: MutationFunction<
   // we will override the response if we detect an action intent
   const data: SendMessageResponse = { ...chatResponse };
 
-  data.intents = actionIntentResponse.map(action => {
-    // Extract widget parameter from the action URL to use as intent_id
-    let widget = '';
-    try {
-      const urlObj = new URL(action.url, window.location.origin);
-      const widgetParam = urlObj.searchParams.get('widget');
-      if (widgetParam) {
-        widget = widgetParam;
+  data.intents = actionIntentResponse
+    .map(action => {
+      // Extract widget parameter from the action URL to use as intent_id
+      let widget = '';
+      try {
+        const urlObj = new URL(action.url, window.location.origin);
+        const widgetParam = urlObj.searchParams.get('widget');
+        if (widgetParam) {
+          widget = widgetParam;
+        }
+      } catch {
+        // If URL parsing fails, widget remains empty string
       }
-    } catch {
-      // If URL parsing fails, widget remains empty string
-    }
 
-    return {
-      title: action.title,
-      url: action.url,
-      intent_id: action.title,
-      widget
-    };
-  });
+      return {
+        title: action.title,
+        url: action.url,
+        intent_id: action.title,
+        widget,
+        priority: action.priority ?? 9999 // Default to 9999 if priority is missing
+      };
+    })
+    .sort((a, b) => a.priority - b.priority); // Sort by priority (lower numbers first)
 
   return data;
 };
