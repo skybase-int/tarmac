@@ -3,6 +3,7 @@ import { mainnet, base, sepolia, arbitrum, optimism, unichain } from 'wagmi/chai
 import { metaMask, safe, walletConnect, coinbaseWallet, baseAccount } from 'wagmi/connectors';
 import { TENDERLY_CHAIN_ID, TENDERLY_RPC_URL } from './testTenderlyChain';
 import { isTestnetId } from '@jetstreamgg/sky-utils';
+import { porto } from 'porto/wagmi';
 
 export const tenderly = {
   ...mainnet,
@@ -47,7 +48,8 @@ const connectors = [
       icons: ['https://app.sky.money/images/sky.svg']
     }
   }),
-  safe()
+  safe(),
+  porto()
 ];
 
 export const wagmiConfigDev = createConfig({
