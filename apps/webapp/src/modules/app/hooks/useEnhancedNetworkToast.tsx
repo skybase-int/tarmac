@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useChains } from 'wagmi';
 import { toast } from '@/components/ui/use-toast';
 import { Text } from '@/modules/layout/components/Typography';
@@ -115,6 +115,7 @@ export function useEnhancedNetworkToast() {
   const chains = useChains();
   const { handleSwitchChain } = useChainModalContext();
   const [, setSearchParams] = useSearchParams();
+  const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const showNetworkToast = useCallback(
     ({
@@ -206,11 +207,24 @@ export function useEnhancedNetworkToast() {
         currentIntent && isMultichain(currentIntent) && currentIntent !== Intent.BALANCES_INTENT;
       const hasLongTitle = title.length > 50;
 
-      toast({
-        title,
-        description: toastContent,
-        duration: hasQuickSwitch || hasLongTitle ? 8000 : 5000 // Extended duration for multichain widgets or longer messages
-      });
+      // Clear any existing timeout to prevent multiple toasts
+      if (toastTimeoutRef.current) {
+        clearTimeout(toastTimeoutRef.current);
+      }
+
+      // Set new timeout with proper cleanup reference
+      toastTimeoutRef.current = setTimeout(
+        () => {
+          toast({
+            title,
+            description: toastContent,
+            duration: hasQuickSwitch || hasLongTitle ? 8000 : 5000 // Extended duration for multichain widgets or longer messages
+          });
+          // Clear the ref after the toast is shown
+          toastTimeoutRef.current = null;
+        },
+        currentIntent === previousIntent ? 700 : 0
+      );
     },
     [chains, handleSwitchChain, setSearchParams]
   );
