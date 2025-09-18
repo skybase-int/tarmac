@@ -28,11 +28,11 @@ export enum QueryParams {
 const isRestrictedBuild = import.meta.env.VITE_RESTRICTED_BUILD === 'true';
 const isRestrictedMiCa = import.meta.env.VITE_RESTRICTED_BUILD_MICA === 'true';
 
-export const restrictedIntents: Intent[] = (() => {
+export const RESTRICTED_INTENTS: Intent[] = (() => {
   if (isRestrictedMiCa) {
     return [Intent.TRADE_INTENT];
   } else if (isRestrictedBuild) {
-    return [Intent.SAVINGS_INTENT, Intent.REWARDS_INTENT];
+    return [Intent.SAVINGS_INTENT, Intent.REWARDS_INTENT, Intent.EXPERT_INTENT];
   }
   return [];
 })();
@@ -114,7 +114,7 @@ export const VALID_LINKED_ACTIONS = [
 const AvailableIntentMapping = Object.entries(IntentMapping).reduce(
   (acc, [key, value]) => {
     const isRestricted = isRestrictedBuild || isRestrictedMiCa;
-    if (!isRestricted || !restrictedIntents.includes(key as Intent)) {
+    if (!isRestricted || !RESTRICTED_INTENTS.includes(key as Intent)) {
       acc[key as Intent] = value;
     }
     return acc;

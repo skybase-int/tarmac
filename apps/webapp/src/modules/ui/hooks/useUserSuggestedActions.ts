@@ -3,7 +3,7 @@ import {
   ExpertIntentMapping,
   QueryParams,
   CHAIN_WIDGET_MAP,
-  restrictedIntents
+  RESTRICTED_INTENTS
 } from '@/lib/constants';
 import { Intent } from '@/lib/enums';
 import {
@@ -461,7 +461,7 @@ const fetchUserSuggestedActions = (
   }
 
   // Convert Intent enums to their string mappings for comparison
-  const restrictedIntentStrings = restrictedIntents.map(intent => IntentMapping[intent]);
+  const restrictedIntentStrings = RESTRICTED_INTENTS.map(intent => IntentMapping[intent]);
 
   const supportedIntents = CHAIN_WIDGET_MAP[chainId] || [];
 

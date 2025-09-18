@@ -9,7 +9,7 @@ import {
   COMING_SOON_MAP,
   mapIntentToQueryParam,
   QueryParams,
-  restrictedIntents
+  RESTRICTED_INTENTS
 } from '@/lib/constants';
 import { isExpertModulesEnabled } from '@/lib/feature-flags';
 import { WidgetNavigation } from '@/modules/app/components/WidgetNavigation';
@@ -198,7 +198,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
         ]
       : [])
   ]
-    .filter(([intent]) => !restrictedIntents.includes(intent as Intent))
+    .filter(([intent]) => !RESTRICTED_INTENTS.includes(intent as Intent))
     .map(([intent, label, icon, component, , , description]) => {
       const comingSoon = COMING_SOON_MAP[chainId]?.includes(intent as Intent);
       return [
