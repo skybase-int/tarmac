@@ -423,7 +423,7 @@ function TradeWidgetWrapped({
         }
       }
 
-      let timeoutId: NodeJS.Timeout | undefined;
+      let timeoutId: ReturnType<typeof setTimeout> | undefined;
       // Handle amount updates
       if (externalWidgetState?.amount !== undefined) {
         const newOriginToken = tokenList.find(

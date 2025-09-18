@@ -115,7 +115,7 @@ export function useEnhancedNetworkToast() {
   const chains = useChains();
   const { handleSwitchChain } = useChainModalContext();
   const [, setSearchParams] = useSearchParams();
-  const toastTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const showNetworkToast = useCallback(
     ({
