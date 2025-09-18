@@ -55,7 +55,7 @@ export function WidgetMenuItemTooltip({
     // Navigate to widget on selected network
     const chain = chains.find(c => c.id === chainId);
     if (chain) {
-      setIsSwitchingNetwork(true);
+      setIsSwitchingNetwork(currentChainId !== chainId);
       setSearchParams(prevParams => {
         const searchParams = deleteSearchParams(prevParams);
         searchParams.set(QueryParams.Network, normalizeUrlParam(chain.name));
