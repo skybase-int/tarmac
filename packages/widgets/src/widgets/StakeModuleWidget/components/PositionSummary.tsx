@@ -294,7 +294,7 @@ export const PositionSummary = ({
         hideIfNoDebt: true
       },
       {
-        label: t`Borrow rate`,
+        label: t`Borrow Rate`,
         value: collateralData?.stabilityFee ? formatPercent(collateralData?.stabilityFee) : undefined,
         hideIfNoDebt: true,
         tooltipText: getTooltipById('borrow')?.tooltip || ''
