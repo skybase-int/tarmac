@@ -869,7 +869,7 @@ function TradeWidgetWrapped({
                 fetchingMessage={t`Fetching transaction details`}
                 transactionData={[
                   {
-                    label: t`Exchange rate`,
+                    label: t`Exchange Rate`,
                     tooltipText: getTooltipById('exchange-rate')?.tooltip || '',
                     value: (() => {
                       if (!originAmount || originAmount === 0n || !targetAmount) return '1:1';
