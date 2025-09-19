@@ -16,7 +16,7 @@ export const ChatInput = ({ sendMessage }: { sendMessage: (message: string) => v
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const { isLoading, chatHistory, termsAccepted } = useChatContext();
   const isAuthError = chatHistory[chatHistory.length - 1].type === MessageType.authError && !termsAccepted;
-  const isMessageSendingBlocked = !inputText || isLoading || isAuthError;
+  const isMessageSendingBlocked = !inputText.trim() || isLoading || isAuthError;
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const handleFeedbackClick = () => {
@@ -41,7 +41,11 @@ export const ChatInput = ({ sendMessage }: { sendMessage: (message: string) => v
 
   const handleSubmit = () => {
     if (isMessageSendingBlocked) return;
-    sendMessage(inputText);
+    const trimmed = inputText.trim();
+    if (!trimmed) {
+      return;
+    }
+    sendMessage(trimmed);
     setInputText('');
   };
 
