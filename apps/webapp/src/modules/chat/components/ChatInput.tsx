@@ -15,7 +15,7 @@ export const ChatInput = ({ sendMessage }: { sendMessage: (message: string) => v
   const [inputText, setInputText] = useState('');
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const { isLoading, chatHistory, termsAccepted } = useChatContext();
-  const isAuthError = chatHistory[chatHistory.length - 1].type === MessageType.authError && !termsAccepted;
+  const isAuthError = chatHistory.at(-1)?.type === MessageType.authError && !termsAccepted;
   const isMessageSendingBlocked = !inputText.trim() || isLoading || isAuthError;
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
