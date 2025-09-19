@@ -158,7 +158,11 @@ const PositionManagerOverviewContainer = ({
           tooltipText: getTooltipById('borrow')?.tooltip || ''
         },
         minCollateralNotMet
-          ? { label: 'Borrow limit', value: t`Not enough collateral to borrow` }
+          ? {
+              label: 'Borrow limit',
+              value: t`Not enough collateral to borrow`,
+              tooltipText: getTooltipById('borrow-limit')?.tooltip || ''
+            }
           : [
               {
                 label: t`Min borrowable amount`,
