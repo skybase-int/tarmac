@@ -47,7 +47,6 @@
     "lucide-react": "catalog:",
     "react-jazzicon": "catalog:",
     "tailwind-merge": "catalog:",
-    "tailwind-variants": "catalog:",
     "zod": "catalog:"
   },
   "peerDependencies": {
