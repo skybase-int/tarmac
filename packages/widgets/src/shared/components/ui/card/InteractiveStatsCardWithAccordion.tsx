@@ -124,7 +124,7 @@ export const InteractiveStatsCardWithAccordion = ({
 
                 return (
                   <Link to={urlMap[chainId]} key={chainId}>
-                    <div className="group/interactive-card hover:bg-radial-(--gradient-position) hover:from-primary-start/100 hover:to-primary-end/100 cursor-pointer transition">
+                    <div className="group/interactive-card hover:bg-radial-(--gradient-position) hover:from-primary-start/100 hover:to-primary-end/100 cursor-pointer transition-[background-color,background-image,opacity]">
                       <div className="flex items-start gap-2 p-2 px-4 lg:px-5">
                         <TokenIcon
                           className="h-8 w-8"
