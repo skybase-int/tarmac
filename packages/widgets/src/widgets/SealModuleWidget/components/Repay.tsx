@@ -193,7 +193,7 @@ const PositionManagerOverviewContainer = ({
   const txData = useMemo(
     () => [
       {
-        label: t`Borrow rate`,
+        label: t`Borrow Rate`,
         value: collateralData?.stabilityFee ? formatPercent(collateralData?.stabilityFee) : '',
         tooltipText: getTooltipById('borrow-rate-seal')?.tooltip || ''
       },

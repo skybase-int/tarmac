@@ -78,7 +78,7 @@ const getContent = (
     )
   },
   dtc: {
-    title: 'Debt Ceiling',
+    title: 'Debt ceiling',
     description: (
       <Text className="leading-5 text-white/80" variant="small">
         The debt ceiling is the maximum amount of debt or tokens that can be issued within the SKY protocol,

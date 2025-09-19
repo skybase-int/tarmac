@@ -8,7 +8,8 @@ import {
   BATCH_TX_LEGAL_NOTICE_URL,
   COMING_SOON_MAP,
   mapIntentToQueryParam,
-  QueryParams
+  QueryParams,
+  RESTRICTED_INTENTS
 } from '@/lib/constants';
 import { isExpertModulesEnabled } from '@/lib/feature-flags';
 import { WidgetNavigation } from '@/modules/app/components/WidgetNavigation';
@@ -196,18 +197,20 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
           ]
         ]
       : [])
-  ].map(([intent, label, icon, component, , , description]) => {
-    const comingSoon = COMING_SOON_MAP[chainId]?.includes(intent as Intent);
-    return [
-      intent as Intent,
-      label as string,
-      icon as (props: IconProps) => React.ReactNode,
-      comingSoon ? null : (component as React.ReactNode),
-      comingSoon,
-      comingSoon ? { disabled: true } : undefined,
-      description as string
-    ];
-  }) as WidgetItem[];
+  ]
+    .filter(([intent]) => !RESTRICTED_INTENTS.includes(intent as Intent))
+    .map(([intent, label, icon, component, , , description]) => {
+      const comingSoon = COMING_SOON_MAP[chainId]?.includes(intent as Intent);
+      return [
+        intent as Intent,
+        label as string,
+        icon as (props: IconProps) => React.ReactNode,
+        comingSoon ? null : (component as React.ReactNode),
+        comingSoon,
+        comingSoon ? { disabled: true } : undefined,
+        description as string
+      ];
+    }) as WidgetItem[];
 
   // Group the widgets in categories
   const widgetContent: WidgetContent = [
