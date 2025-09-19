@@ -51,16 +51,16 @@
     "zod": "catalog:"
   },
   "peerDependencies": {
-    "@lingui/detect-locale": "^5.4.1",
-    "@lingui/macro": "^5.4.1",
-    "@lingui/react": "^5.4.1",
-    "@tanstack/react-query": "^5.85.6",
-    "framer-motion": "^11.18.2",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "react-router-dom": "^6.30.1",
-    "viem": "^2.36.0",
-    "wagmi": "^2.16.9"
+    "@lingui/detect-locale": ">=5.0.0",
+    "@lingui/macro": ">=5.0.0",
+    "@lingui/react": ">=5.0.0",
+    "@tanstack/react-query": ">=5.0.0",
+    "framer-motion": ">=11.0.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "react-router-dom": ">=6.0.0",
+    "viem": ">=2.0.0",
+    "wagmi": ">=2.0.0"
   },
   "devDependencies": {
     "@lingui/core": "catalog:",
