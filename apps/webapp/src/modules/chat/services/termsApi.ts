@@ -18,6 +18,10 @@ export const signChatbotTerms = async (termsVersion: string): Promise<SignTermsR
   const response = await fetch(`${CHATBOT_DOMAIN}/chatbot/terms/sign`, {
     method: 'POST',
     credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
+    },
     body: JSON.stringify({ termsVersion })
   });
 
@@ -31,7 +35,11 @@ export const signChatbotTerms = async (termsVersion: string): Promise<SignTermsR
 export const checkChatbotTerms = async (): Promise<CheckTermsResponse> => {
   const response = await fetch(`${CHATBOT_DOMAIN}/chatbot/terms/check`, {
     method: 'POST',
-    credentials: 'include'
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
+    }
   });
 
   if (!response.ok) {
