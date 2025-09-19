@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useChains } from 'wagmi';
 import { Intent } from '@/lib/enums';
@@ -41,6 +41,16 @@ export function useNetworkAutoSwitch({
   const { selectedRewardContract } = useConfigContext();
   const [isAutoSwitching, setIsAutoSwitching] = useState(false);
   const [previousIntent, setPreviousIntent] = useState<Intent | undefined>(currentIntent);
+  const [previousChainId, setPreviousChainId] = useState<number | undefined>(currentChainId);
+
+  // Reset isAutoSwitching after network change completes
+  useEffect(() => {
+    if (currentChainId && previousChainId && currentChainId !== previousChainId && isAutoSwitching) {
+      // Network has changed, reset the auto-switching flag
+      setIsAutoSwitching(false);
+    }
+    setPreviousChainId(currentChainId);
+  }, [currentChainId, previousChainId, isAutoSwitching]);
 
   const handleWidgetNavigation = useCallback(
     (targetIntent: Intent) => {

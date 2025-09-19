@@ -158,7 +158,8 @@ export function useEnhancedNetworkToast() {
           requiresMainnet(previousIntent) &&
           currentIntent &&
           isMultichain(currentIntent) &&
-          isL2ChainId(currentChain.id)
+          isL2ChainId(currentChain.id) &&
+          currentIntent !== previousIntent
         ) {
           const widgetName = getWidgetName(currentIntent);
           title = `We've switched you back to ${currentChain.name}, the last network you used for ${widgetName}.`;
