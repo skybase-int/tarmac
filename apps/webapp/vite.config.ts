@@ -81,7 +81,6 @@ export default ({ mode }: { mode: modeEnum }) => {
       https://enhanced-provider.rainbow.me
       https://mainnet.unichain.org/
       https://mainnet.optimism.io/
-      https://raw.githubusercontent.com/jetstreamgg/tarmac/main/README.md
       cloudflareinsights.com;
     frame-src 'self'
       https://verify.walletconnect.com

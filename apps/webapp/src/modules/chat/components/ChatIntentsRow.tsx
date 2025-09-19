@@ -3,9 +3,9 @@ import { ChatIntent } from '../types/Chat';
 import { Heading, Text } from '@/modules/layout/components/Typography';
 import { useChatContext } from '../context/ChatContext';
 import { useIntentExecution } from '../hooks/useIntentExecution';
-import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
+import { useRetainedQueryParams, getRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
 import { QueryParams } from '@/lib/constants';
-import { useNetworkFromIntentUrl } from '../hooks/useNetworkFromUrl';
+import { useNetworkFromIntentUrl, getNetworkFromIntentUrl } from '../hooks/useNetworkFromUrl';
 import { chainIdNameMapping, getNetworkDisplayName } from '../lib/intentUtils';
 import { useChainId } from 'wagmi';
 import { ConfirmationWarningRow } from './ConfirmationWarningRow';
@@ -28,6 +28,7 @@ import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipPortal, TooltipTrigger } from '@/components/ui/tooltip';
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
 import { VStack } from '@/modules/layout/components/VStack';
+import { useSearchParams } from 'react-router-dom';
 
 type ChatIntentsRowProps = {
   intents: ChatIntent[];
@@ -37,13 +38,11 @@ type ChatIntentsRowProps = {
 type GroupedIntent = {
   title: string;
   intents: ChatIntent[];
-  // TODO: Add priority field when it becomes available from the endpoint
-  // priority?: number;
 };
 
 const addResetParam = (url: string): string => {
   try {
-    const urlObj = new URL(url, window.location.origin);
+    const urlObj = new URL(url, typeof window !== 'undefined' ? window.location.origin : 'http://temp');
     urlObj.searchParams.set(QueryParams.Reset, 'true');
     return urlObj.pathname + urlObj.search;
   } catch (error) {
@@ -64,8 +63,18 @@ export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
 
     intents.forEach(intent => {
       // Extract network from the intent URL to check for duplicates
-      const intentUrl = new URL(intent.url, window.location.origin);
-      const network = intentUrl.searchParams.get('network')?.toLowerCase();
+      let network: string;
+      try {
+        const intentUrl = new URL(
+          intent.url,
+          typeof window !== 'undefined' ? window.location.origin : 'http://temp'
+        );
+        network = intentUrl.searchParams.get('network')?.toLowerCase() || '';
+      } catch (error) {
+        console.error('Failed to parse intent URL:', intent.url, error);
+        // If URL parsing fails, still group by title only
+        network = '';
+      }
 
       // Create a unique key combining title and network
       // All intents should have networks now thanks to ensureIntentHasNetwork
@@ -193,18 +202,19 @@ type GroupedIntentButtonProps = {
 const GroupedIntentButton = ({ groupedIntent, shouldDisableActionButtons }: GroupedIntentButtonProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+  const chainId = useChainId();
+  const [searchParams] = useSearchParams();
 
   // If only one intent, render the standard IntentRow with tooltip
   if (groupedIntent.intents.length === 1) {
     const intent = groupedIntent.intents[0];
-    const chainId = useChainId();
-    const intentUrl = useRetainedQueryParams(intent?.url || '', [
-      QueryParams.Locale,
-      QueryParams.Details,
-      QueryParams.Chat
-    ]);
+    const intentUrl = getRetainedQueryParams(
+      intent?.url || '',
+      [QueryParams.Locale, QueryParams.Details, QueryParams.Chat],
+      searchParams
+    );
     const network =
-      useNetworkFromIntentUrl(addResetParam(intentUrl)) ||
+      getNetworkFromIntentUrl(addResetParam(intentUrl)) ||
       chainIdNameMapping[chainId as keyof typeof chainIdNameMapping];
 
     return (
@@ -221,14 +231,13 @@ const GroupedIntentButton = ({ groupedIntent, shouldDisableActionButtons }: Grou
 
   // Multiple intents: render split button with dropdown
   const selectedIntent = groupedIntent.intents[selectedIndex];
-  const chainId = useChainId();
-  const intentUrl = useRetainedQueryParams(selectedIntent?.url || '', [
-    QueryParams.Locale,
-    QueryParams.Details,
-    QueryParams.Chat
-  ]);
+  const intentUrl = getRetainedQueryParams(
+    selectedIntent?.url || '',
+    [QueryParams.Locale, QueryParams.Details, QueryParams.Chat],
+    searchParams
+  );
   const network =
-    useNetworkFromIntentUrl(addResetParam(intentUrl)) ||
+    getNetworkFromIntentUrl(addResetParam(intentUrl)) ||
     chainIdNameMapping[chainId as keyof typeof chainIdNameMapping];
 
   return (
@@ -275,6 +284,8 @@ const NetworkDropdown = ({
   const chainId = useChainId();
   const { bpi } = useBreakpointIndex();
   const isMobile = bpi < BP.md;
+  const [searchParams] = useSearchParams();
+  const executeIntent = useIntentExecution();
 
   const selectedIntent = intents[selectedIndex];
   const intentUrl = useRetainedQueryParams(selectedIntent?.url || '', [
@@ -298,16 +309,8 @@ const NetworkDropdown = ({
   const IconComponent =
     networkIcons[capitalizeFirstLetter(network || '') as keyof typeof networkIcons] || Ethereum;
 
-  // Prepare URLs for all intents upfront (hooks must be called at top level)
-  const intentUrls = intents.map(intent =>
-    useRetainedQueryParams(addResetParam(intent.url) || '', [
-      QueryParams.Locale,
-      QueryParams.Details,
-      QueryParams.Chat
-    ])
-  );
-
-  const executeIntent = useIntentExecution();
+  // Default retained params for query string handling
+  const defaultRetainedParams = [QueryParams.Locale, QueryParams.Details, QueryParams.Chat];
 
   const handleSelect = (index: number) => {
     // Update selection
@@ -317,7 +320,11 @@ const NetworkDropdown = ({
     // Execute the intent action immediately
     const intent = intents[index];
     const intentWithResetParam = { ...intent, url: addResetParam(intent.url) };
-    const targetUrl = intentUrls[index];
+    const targetUrl = getRetainedQueryParams(
+      addResetParam(intent.url) || '',
+      defaultRetainedParams,
+      searchParams
+    );
     executeIntent(intentWithResetParam, targetUrl);
   };
 
@@ -331,13 +338,10 @@ const NetworkDropdown = ({
   const NetworkOptions = (
     <VStack gap={isMobile ? 1 : 0.5}>
       {intents.map((intent, index) => {
-        const intentUrl = useRetainedQueryParams(intent?.url || '', [
-          QueryParams.Locale,
-          QueryParams.Details,
-          QueryParams.Chat
-        ]);
+        // Calculate network using pure functions instead of hooks
+        const intentUrl = getRetainedQueryParams(intent?.url || '', defaultRetainedParams, searchParams);
         const network =
-          useNetworkFromIntentUrl(addResetParam(intentUrl)) ||
+          getNetworkFromIntentUrl(addResetParam(intentUrl)) ||
           chainIdNameMapping[chainId as keyof typeof chainIdNameMapping];
         const NetworkIcon =
           networkIcons[capitalizeFirstLetter(network || '') as keyof typeof networkIcons] || Ethereum;

@@ -15,7 +15,7 @@ const validNetworks = [
   'optimism'
 ];
 
-export const useNetworkFromIntentUrl = (url: string) => {
+export const getNetworkFromIntentUrl = (url: string) => {
   try {
     const urlObj = new URL(url.startsWith('https') ? url : `https://domain.com${url}`);
     const network = urlObj.searchParams.get(QueryParams.Network);
@@ -28,4 +28,8 @@ export const useNetworkFromIntentUrl = (url: string) => {
     console.error('Error parsing URL:', error);
     return undefined;
   }
+};
+
+export const useNetworkFromIntentUrl = (url: string) => {
+  return getNetworkFromIntentUrl(url);
 };

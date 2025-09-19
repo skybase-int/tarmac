@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { t } from '@lingui/core/macro';
 import { TermsDialog } from '@/modules/ui/components/TermsDialog';
 import { TermsMarkdownRenderer } from '@/modules/ui/components/markdown/TermsMarkdownRenderer';
@@ -30,6 +30,8 @@ export const ChatbotTermsModal: React.FC<ChatbotTermsModalProps> = ({
   const [isTermsChecked, setIsTermsChecked] = useState(false);
   const [isPrivacyChecked, setIsPrivacyChecked] = useState(false);
   const [hasScrolledToEnd, setHasScrolledToEnd] = useState(false);
+  // Track accept-driven close to avoid firing onDecline on success
+  const closedByAcceptRef = useRef(false);
   const checkboxLabel = import.meta.env.VITE_CHATBOT_CHECKBOX_LABEL;
   const termsLabel =
     import.meta.env.VITE_CHATBOT_CHECKBOX_TERMS_LABEL ||
@@ -45,11 +47,15 @@ export const ChatbotTermsModal: React.FC<ChatbotTermsModalProps> = ({
     }
   }, [isOpen]);
 
-  const handleOpenChange = (open: boolean) => {
-    if (!open) {
-      onDecline();
-    }
-  };
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
+      if (!open) {
+        if (!closedByAcceptRef.current) onDecline();
+        closedByAcceptRef.current = false;
+      }
+    },
+    [onDecline]
+  );
 
   const handleTermsCheckboxChange = (checkedState: CheckedState) => {
     setIsTermsChecked(checkedState === true);
@@ -117,7 +123,14 @@ export const ChatbotTermsModal: React.FC<ChatbotTermsModalProps> = ({
       termsVersion={termsVersion}
       error={error}
       isLoading={isLoading}
-      onAccept={termsLoadedSuccessfully ? onAccept : () => {}}
+      onAccept={
+        termsLoadedSuccessfully
+          ? () => {
+              closedByAcceptRef.current = true;
+              onAccept();
+            }
+          : () => {}
+      }
       onDecline={onDecline}
       acceptButtonText={termsLoadedSuccessfully ? getButtonText() : undefined}
       declineButtonText={termsLoadedSuccessfully ? t`I Decline` : t`Close`}
