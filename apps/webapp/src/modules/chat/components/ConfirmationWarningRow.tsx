@@ -81,7 +81,7 @@ export const ConfirmationWarningRow = () => {
         <Trans>Associated risks:</Trans>
       </Heading>
       <div className="ml-4 mt-4 text-[13px]">
-        <ChatMarkdownRenderer markdown={disclaimerMetadata?.associatedRisks.join('\n')} />
+        <ChatMarkdownRenderer markdown={disclaimerMetadata?.associatedRisks?.join('\n') ?? ''} />
       </div>
       <div className="mt-3 flex gap-5">
         <Button
