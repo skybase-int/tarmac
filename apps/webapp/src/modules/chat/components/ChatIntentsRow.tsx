@@ -3,9 +3,9 @@ import { ChatIntent } from '../types/Chat';
 import { Heading, Text } from '@/modules/layout/components/Typography';
 import { useChatContext } from '../context/ChatContext';
 import { useIntentExecution } from '../hooks/useIntentExecution';
-import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
+import { useRetainedQueryParams, getRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
 import { QueryParams } from '@/lib/constants';
-import { useNetworkFromIntentUrl } from '../hooks/useNetworkFromUrl';
+import { useNetworkFromIntentUrl, getNetworkFromIntentUrl } from '../hooks/useNetworkFromUrl';
 import { chainIdNameMapping, getNetworkDisplayName } from '../lib/intentUtils';
 import { useChainId } from 'wagmi';
 import { ConfirmationWarningRow } from './ConfirmationWarningRow';
@@ -28,6 +28,7 @@ import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipPortal, TooltipTrigger } from '@/components/ui/tooltip';
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
 import { VStack } from '@/modules/layout/components/VStack';
+import { useSearchParams } from 'react-router-dom';
 
 type ChatIntentsRowProps = {
   intents: ChatIntent[];
@@ -275,6 +276,8 @@ const NetworkDropdown = ({
   const chainId = useChainId();
   const { bpi } = useBreakpointIndex();
   const isMobile = bpi < BP.md;
+  const [searchParams] = useSearchParams();
+  const executeIntent = useIntentExecution();
 
   const selectedIntent = intents[selectedIndex];
   const intentUrl = useRetainedQueryParams(selectedIntent?.url || '', [
@@ -298,16 +301,8 @@ const NetworkDropdown = ({
   const IconComponent =
     networkIcons[capitalizeFirstLetter(network || '') as keyof typeof networkIcons] || Ethereum;
 
-  // Prepare URLs for all intents upfront (hooks must be called at top level)
-  const intentUrls = intents.map(intent =>
-    useRetainedQueryParams(addResetParam(intent.url) || '', [
-      QueryParams.Locale,
-      QueryParams.Details,
-      QueryParams.Chat
-    ])
-  );
-
-  const executeIntent = useIntentExecution();
+  // Default retained params for query string handling
+  const defaultRetainedParams = [QueryParams.Locale, QueryParams.Details, QueryParams.Chat];
 
   const handleSelect = (index: number) => {
     // Update selection
@@ -317,7 +312,11 @@ const NetworkDropdown = ({
     // Execute the intent action immediately
     const intent = intents[index];
     const intentWithResetParam = { ...intent, url: addResetParam(intent.url) };
-    const targetUrl = intentUrls[index];
+    const targetUrl = getRetainedQueryParams(
+      addResetParam(intent.url) || '',
+      defaultRetainedParams,
+      searchParams
+    );
     executeIntent(intentWithResetParam, targetUrl);
   };
 
@@ -331,13 +330,10 @@ const NetworkDropdown = ({
   const NetworkOptions = (
     <VStack gap={isMobile ? 1 : 0.5}>
       {intents.map((intent, index) => {
-        const intentUrl = useRetainedQueryParams(intent?.url || '', [
-          QueryParams.Locale,
-          QueryParams.Details,
-          QueryParams.Chat
-        ]);
+        // Calculate network using pure functions instead of hooks
+        const intentUrl = getRetainedQueryParams(intent?.url || '', defaultRetainedParams, searchParams);
         const network =
-          useNetworkFromIntentUrl(addResetParam(intentUrl)) ||
+          getNetworkFromIntentUrl(addResetParam(intentUrl)) ||
           chainIdNameMapping[chainId as keyof typeof chainIdNameMapping];
         const NetworkIcon =
           networkIcons[capitalizeFirstLetter(network || '') as keyof typeof networkIcons] || Ethereum;
