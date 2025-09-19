@@ -42,7 +42,7 @@ type GroupedIntent = {
 
 const addResetParam = (url: string): string => {
   try {
-    const urlObj = new URL(url, window.location.origin);
+    const urlObj = new URL(url, typeof window !== 'undefined' ? window.location.origin : 'http://temp');
     urlObj.searchParams.set(QueryParams.Reset, 'true');
     return urlObj.pathname + urlObj.search;
   } catch (error) {
@@ -63,8 +63,18 @@ export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
 
     intents.forEach(intent => {
       // Extract network from the intent URL to check for duplicates
-      const intentUrl = new URL(intent.url, window.location.origin);
-      const network = intentUrl.searchParams.get('network')?.toLowerCase();
+      let network: string;
+      try {
+        const intentUrl = new URL(
+          intent.url,
+          typeof window !== 'undefined' ? window.location.origin : 'http://temp'
+        );
+        network = intentUrl.searchParams.get('network')?.toLowerCase() || '';
+      } catch (error) {
+        console.error('Failed to parse intent URL:', intent.url, error);
+        // If URL parsing fails, still group by title only
+        network = '';
+      }
 
       // Create a unique key combining title and network
       // All intents should have networks now thanks to ensureIntentHasNetwork
