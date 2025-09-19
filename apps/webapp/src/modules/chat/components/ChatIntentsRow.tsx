@@ -194,18 +194,19 @@ type GroupedIntentButtonProps = {
 const GroupedIntentButton = ({ groupedIntent, shouldDisableActionButtons }: GroupedIntentButtonProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+  const chainId = useChainId();
+  const [searchParams] = useSearchParams();
 
   // If only one intent, render the standard IntentRow with tooltip
   if (groupedIntent.intents.length === 1) {
     const intent = groupedIntent.intents[0];
-    const chainId = useChainId();
-    const intentUrl = useRetainedQueryParams(intent?.url || '', [
-      QueryParams.Locale,
-      QueryParams.Details,
-      QueryParams.Chat
-    ]);
+    const intentUrl = getRetainedQueryParams(
+      intent?.url || '',
+      [QueryParams.Locale, QueryParams.Details, QueryParams.Chat],
+      searchParams
+    );
     const network =
-      useNetworkFromIntentUrl(addResetParam(intentUrl)) ||
+      getNetworkFromIntentUrl(addResetParam(intentUrl)) ||
       chainIdNameMapping[chainId as keyof typeof chainIdNameMapping];
 
     return (
@@ -222,14 +223,13 @@ const GroupedIntentButton = ({ groupedIntent, shouldDisableActionButtons }: Grou
 
   // Multiple intents: render split button with dropdown
   const selectedIntent = groupedIntent.intents[selectedIndex];
-  const chainId = useChainId();
-  const intentUrl = useRetainedQueryParams(selectedIntent?.url || '', [
-    QueryParams.Locale,
-    QueryParams.Details,
-    QueryParams.Chat
-  ]);
+  const intentUrl = getRetainedQueryParams(
+    selectedIntent?.url || '',
+    [QueryParams.Locale, QueryParams.Details, QueryParams.Chat],
+    searchParams
+  );
   const network =
-    useNetworkFromIntentUrl(addResetParam(intentUrl)) ||
+    getNetworkFromIntentUrl(addResetParam(intentUrl)) ||
     chainIdNameMapping[chainId as keyof typeof chainIdNameMapping];
 
   return (
