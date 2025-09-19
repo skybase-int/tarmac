@@ -38,8 +38,6 @@ type ChatIntentsRowProps = {
 type GroupedIntent = {
   title: string;
   intents: ChatIntent[];
-  // TODO: Add priority field when it becomes available from the endpoint
-  // priority?: number;
 };
 
 const addResetParam = (url: string): string => {
