@@ -3,7 +3,6 @@ import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { getTokenDecimals, OrderQuoteResponse } from '@jetstreamgg/sky-hooks';
 import { formatNumber } from '@jetstreamgg/sky-utils';
-import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { ArrowRight } from 'lucide-react';
 import { TradeSide } from '../lib/constants';
@@ -18,6 +17,7 @@ import { TokenForChain } from '@jetstreamgg/sky-hooks';
 import { useChainId } from 'wagmi';
 import { Switch } from '@widgets/components/ui/switch';
 import { useIsBatchSupported } from '@jetstreamgg/sky-hooks';
+import { getTooltipById } from '@widgets/data/tooltips';
 
 type TradeSummaryProps = {
   quoteData: OrderQuoteResponse;
@@ -126,7 +126,7 @@ export function TradeSummary({
                   <Trans>Slippage</Trans>
                 </Text>
                 <InfoTooltip
-                  content={t`This reflects your slippage tolerance.`}
+                  content={getTooltipById('slippage')?.tooltip || ''}
                   iconClassName="text-textSecondary"
                 />
               </HStack>
