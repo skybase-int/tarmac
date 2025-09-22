@@ -154,10 +154,15 @@ const PositionManagerOverviewContainer = ({
                   `${formatBigInt(existingBorrowAmount, { compact: true })} ${usds.symbol}`,
                   `${formatBigInt(newBorrowAmount, { compact: true })} ${usds.symbol}`
                 ]
-              : `${formatBigInt(newBorrowAmount, { compact: true })} ${usds.symbol}`
+              : `${formatBigInt(newBorrowAmount, { compact: true })} ${usds.symbol}`,
+          tooltipText: getTooltipById('borrow')?.tooltip || ''
         },
         minCollateralNotMet
-          ? { label: 'Borrow limit', value: t`Not enough collateral to borrow` }
+          ? {
+              label: 'Borrow limit',
+              value: t`Not enough collateral to borrow`,
+              tooltipText: getTooltipById('borrow-limit')?.tooltip || ''
+            }
           : [
               {
                 label: t`Min borrowable amount`,
@@ -165,7 +170,8 @@ const PositionManagerOverviewContainer = ({
               },
               {
                 label: t`Max borrowable amount`,
-                value: formattedMaxBorrowable
+                value: formattedMaxBorrowable,
+                tooltipText: getTooltipById('borrow-limit')?.tooltip || ''
               }
             ],
         {
@@ -190,7 +196,7 @@ const PositionManagerOverviewContainer = ({
   const txData = useMemo(
     () => [
       {
-        label: t`Borrow rate`,
+        label: t`Borrow Rate`,
         value: collateralData?.stabilityFee ? formatPercent(collateralData?.stabilityFee) : '',
         tooltipText: getTooltipById('borrow')?.tooltip || ''
       },
