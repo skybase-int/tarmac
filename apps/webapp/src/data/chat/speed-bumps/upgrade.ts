@@ -6,14 +6,17 @@ export const upgradeSpeedBump: SpeedBumpContent = {
   slug: 'upgrade',
   restrictions: ['- None.'],
   howItWorks: `#### MKR ↔ SKY
+
 - A user can upgrade their MKR to SKY at a rate of 1:24,000
 - This will not always be bi-directional
 
 #### DAI ↔ USDS
+
 - A user can upgrade their DAI to USDS at a rate of 1:1
 - This will always be bi-directional
 
 #### sUSDS ↔ USDS
+
 - A user can upgrade their savings USDS to USDS
 - This will always be bi-directional`,
   associatedRisks: [
