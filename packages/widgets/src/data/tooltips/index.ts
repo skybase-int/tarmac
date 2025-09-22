@@ -21,7 +21,7 @@ Open Safe[Wallet]`
   },
   {
     id: 'borrow-rate',
-    title: 'Borrow rate',
+    title: 'Borrow Rate',
     tooltip:
       'The Borrow Rate is determined by Sky Ecosystem Governance through a process of community-driven, decentralized onchain voting.'
   },
