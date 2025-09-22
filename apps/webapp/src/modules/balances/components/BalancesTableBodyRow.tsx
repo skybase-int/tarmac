@@ -51,7 +51,7 @@ export function BalancesTableBodyRow({
           info={`$${formatNumber(
             parseFloat(formatUnits(tokenBalance?.value || 0n, tokenBalance?.decimals || 18)) *
               parseFloat(price || '0'),
-            { maxDecimals: 0, compact: true }
+            { maxDecimals: 2, compact: true }
           )}`}
           error={error}
         />

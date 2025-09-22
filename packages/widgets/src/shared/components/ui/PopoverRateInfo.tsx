@@ -78,7 +78,7 @@ const getContent = (
     )
   },
   dtc: {
-    title: 'Debt Ceiling',
+    title: 'Debt ceiling',
     description: (
       <Text className="leading-5 text-white/80" variant="small">
         The debt ceiling is the maximum amount of debt or tokens that can be issued within the SKY protocol,
@@ -167,6 +167,33 @@ const getContent = (
       </Text>
     )
   },
+  stusds: {
+    title: 'stUSDS Rate',
+    description: (
+      <Text className="leading-5 text-white/80" variant="small">
+        The stUSDS rate is the current yield earned on your stUSDS position. This rate fluctuates based on
+        vault utilization and borrowing demand from the Sky Protocol. As more USDS is borrowed from the vault,
+        the rate typically increases. The rate shown is an annualized percentage and updates in real-time as
+        market conditions change.
+      </Text>
+    )
+  },
+  stusdsLiquidity: {
+    title: 'Available Liquidity',
+    description: (
+      <Text className="leading-5 text-white/80" variant="small">
+        TODO: Add description
+      </Text>
+    )
+  },
+  totalStakingDebt: {
+    title: 'Total Staking Engine Debt',
+    description: (
+      <Text className="leading-5 text-white/80" variant="small">
+        TODO: Add description
+      </Text>
+    )
+  },
   delayedUpgradePenalty: {
     title: 'Delayed Upgrade Penalty',
     description: (
@@ -198,6 +225,9 @@ export const POPOVER_TOOLTIP_TYPES = [
   'borrow',
   'delegate',
   'liquidation',
+  'stusds',
+  'stusdsLiquidity',
+  'totalStakingDebt',
   'delayedUpgradePenalty'
 ] as const;
 
@@ -223,8 +253,10 @@ export const PopoverRateInfo = ({
 
   return (
     <Popover>
-      <PopoverTrigger onClick={e => e.stopPropagation()} className="z-10">
-        <Info className={iconClassName} width={width} height={height} />
+      <PopoverTrigger asChild onClick={e => e.stopPropagation()} className="z-10">
+        <span className="inline-flex items-center">
+          <Info className={iconClassName} width={width} height={height} />
+        </span>
       </PopoverTrigger>
       <PopoverContent
         align="center"

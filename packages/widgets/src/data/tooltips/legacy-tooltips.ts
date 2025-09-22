@@ -32,7 +32,7 @@ export const legacyTooltips: Tooltip[] = [
   },
   {
     id: 'borrow-rate',
-    title: 'Borrow rate',
+    title: 'Borrow Rate',
     tooltip:
       'The Borrow Rate is determined by Sky Ecosystem Governance through a process of community-driven, decentralized onchain voting.'
   },
@@ -106,7 +106,7 @@ export const legacyTooltips: Tooltip[] = [
   },
   {
     id: 'borrow-rate-seal',
-    title: 'Borrow rate',
+    title: 'Borrow Rate',
     tooltip:
       'The Borrow Rate is determined by Sky Ecosystem Governance through a process of community-driven, decentralized onchain voting.'
   }

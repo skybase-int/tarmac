@@ -1,4 +1,11 @@
-import { IntentMapping, QueryParams } from '@/lib/constants';
+import {
+  IntentMapping,
+  ExpertIntentMapping,
+  QueryParams,
+  CHAIN_WIDGET_MAP,
+  RESTRICTED_INTENTS
+} from '@/lib/constants';
+import { Intent } from '@/lib/enums';
 import {
   useTokens,
   useTokenBalances,
@@ -10,6 +17,7 @@ import { isL2ChainId } from '@jetstreamgg/sky-utils';
 import { t } from '@lingui/core/macro';
 import { useState, useEffect, useRef } from 'react';
 import { useAccount, useChainId } from 'wagmi';
+import { isExpertModulesEnabled } from '@/lib/feature-flags';
 
 export type LinkedAction = SuggestedAction & {
   stepOne: string;
@@ -54,8 +62,10 @@ const fetchUserSuggestedActions = (
     REWARDS_INTENT: REWARDS,
     SAVINGS_INTENT: SAVINGS,
     UPGRADE_INTENT: UPGRADE,
-    TRADE_INTENT: TRADE
+    TRADE_INTENT: TRADE,
+    EXPERT_INTENT: EXPERT
   } = IntentMapping;
+  const { STUSDS_INTENT: STUSDS } = ExpertIntentMapping;
   const skyRewardContract = rewardContracts?.find(
     (rewardContract: RewardContract) => rewardContract.rewardToken === TOKENS.sky
   );
@@ -88,6 +98,20 @@ const fetchUserSuggestedActions = (
         la: IntentMapping.SAVINGS_INTENT,
         // note: weights are arbitrary for now but can give us a way to sort the most relevant actions to the front
         weight: 9,
+        type: 'linked'
+      });
+      // Add stUSDS linked action for DAI
+      linkedActions.push({
+        primaryToken: 'DAI',
+        secondaryToken: 'USDS',
+        title: t`Upgrade and access rewards`,
+        balance: daiBalance.formatted,
+        stepOne: t`Upgrade DAI to USDS`,
+        stepTwo: t`Access stUSDS rewards`,
+        url: `/?${Widget}=${UPGRADE}&${InputAmount}=${daiBalance.formatted}&${LinkedAction}=${EXPERT}&expert_module=${STUSDS}`,
+        intent: IntentMapping.UPGRADE_INTENT,
+        la: IntentMapping.EXPERT_INTENT,
+        weight: 5,
         type: 'linked'
       });
       // Create contextual reward action based on current page
@@ -190,6 +214,20 @@ const fetchUserSuggestedActions = (
         weight: 6,
         type: 'linked'
       });
+      // Add stUSDS linked action for USDC
+      linkedActions.push({
+        balance: usdcBalance.formatted,
+        primaryToken: 'USDC',
+        secondaryToken: 'USDS',
+        title: t`Trade and access rewards`,
+        stepOne: t`Trade USDC for USDS`,
+        stepTwo: t`Access stUSDS rewards`,
+        url: `/?${Widget}=${TRADE}&${SourceToken}=USDC&${InputAmount}=${usdcBalance.formatted}&${TargetToken}=USDS&${LinkedAction}=${EXPERT}&expert_module=${STUSDS}`,
+        intent: IntentMapping.TRADE_INTENT,
+        la: IntentMapping.EXPERT_INTENT,
+        weight: 4,
+        type: 'linked'
+      });
       // Create contextual reward action for USDC
       if (prioritizedRewardContract) {
         const isSpkContext = prioritizedRewardContract.rewardToken === TOKENS.spk;
@@ -273,6 +311,20 @@ const fetchUserSuggestedActions = (
         weight: 6,
         type: 'linked'
       });
+      // Add stUSDS linked action for USDT
+      linkedActions.push({
+        balance: usdtBalance.formatted,
+        primaryToken: 'USDT',
+        secondaryToken: 'USDS',
+        title: t`Trade and access rewards`,
+        stepOne: t`Trade USDT for USDS`,
+        stepTwo: t`Access stUSDS rewards`,
+        url: `/?${Widget}=${TRADE}&${SourceToken}=USDT&${InputAmount}=${usdtBalance.formatted}&${TargetToken}=USDS&${LinkedAction}=${EXPERT}&expert_module=${STUSDS}`,
+        intent: IntentMapping.TRADE_INTENT,
+        la: IntentMapping.EXPERT_INTENT,
+        weight: 4,
+        type: 'linked'
+      });
       // Create contextual reward action for USDT
       if (prioritizedRewardContract) {
         const isSpkContext = prioritizedRewardContract.rewardToken === TOKENS.spk;
@@ -353,6 +405,17 @@ const fetchUserSuggestedActions = (
         weight: 6,
         type: 'suggested'
       });
+      // Add stUSDS suggested action for USDS holders
+      suggestedActions.push({
+        primaryToken: 'USDS',
+        secondaryToken: 'stUSDS',
+        title: t`Access stUSDS rewards`,
+        balance: usdsBalance.formatted,
+        url: `/?${Widget}=${EXPERT}&expert_module=${STUSDS}&${InputAmount}=${usdsBalance.formatted}`,
+        intent: IntentMapping.EXPERT_INTENT,
+        weight: 4,
+        type: 'suggested'
+      });
       // Create contextual reward suggestion for USDS holders
       if (prioritizedRewardContract) {
         const isSpkContext = prioritizedRewardContract.rewardToken === TOKENS.spk;
@@ -397,26 +460,35 @@ const fetchUserSuggestedActions = (
     }
   }
 
-  const isRestrictedBuild = import.meta.env.VITE_RESTRICTED_BUILD === 'true';
-  const isRestrictedMiCa = import.meta.env.VITE_RESTRICTED_BUILD_MICA === 'true';
+  // Convert Intent enums to their string mappings for comparison
+  const restrictedIntentStrings = RESTRICTED_INTENTS.map(intent => IntentMapping[intent]);
 
-  const restrictedIntents = isRestrictedBuild
-    ? [IntentMapping.REWARDS_INTENT, IntentMapping.SAVINGS_INTENT]
-    : isRestrictedMiCa
-      ? [IntentMapping.TRADE_INTENT]
-      : [];
+  const supportedIntents = CHAIN_WIDGET_MAP[chainId] || [];
 
-  // if restricted build, remove restricted actions
-  const restrictedSuggestedActions = suggestedActions.filter(
-    action => !restrictedIntents.includes(action.intent)
-  );
-  const restrictedLinkedActions = linkedActions.filter(
-    action => !restrictedIntents.includes(action.intent) && !restrictedIntents.includes(action.la)
-  );
+  const isIntentSupported = (intentString: string): boolean => {
+    const intentEnum = Object.entries(IntentMapping).find(([, value]) => value === intentString)?.[0] as
+      | Intent
+      | undefined;
+    if (!intentEnum) return false;
+    // Check if Expert intent is disabled via feature flag
+    if (intentEnum === Intent.EXPERT_INTENT && !isExpertModulesEnabled()) return false;
+    return supportedIntents.includes(intentEnum);
+  };
+
+  const filteredSuggestedActions = suggestedActions.filter(action => {
+    if (restrictedIntentStrings.includes(action.intent)) return false;
+    return isIntentSupported(action.intent);
+  });
+
+  const filteredLinkedActions = linkedActions.filter(action => {
+    if (restrictedIntentStrings.includes(action.intent) || restrictedIntentStrings.includes(action.la))
+      return false;
+    return isIntentSupported(action.intent) && isIntentSupported(action.la);
+  });
 
   return {
-    suggestedActions: restrictedSuggestedActions,
-    linkedActions: restrictedLinkedActions
+    suggestedActions: filteredSuggestedActions,
+    linkedActions: filteredLinkedActions
   };
 };
 
