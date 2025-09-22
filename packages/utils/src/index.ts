@@ -36,3 +36,4 @@ export * from './collection';
 export * from './getChainIcon';
 export * from './i18n';
 export * from './hooks/useIsTouchDevice';
+export { copyToClipboard } from './clipboard';
