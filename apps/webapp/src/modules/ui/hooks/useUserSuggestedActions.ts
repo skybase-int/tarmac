@@ -1,4 +1,10 @@
-import { IntentMapping, ExpertIntentMapping, QueryParams, CHAIN_WIDGET_MAP } from '@/lib/constants';
+import {
+  IntentMapping,
+  ExpertIntentMapping,
+  QueryParams,
+  CHAIN_WIDGET_MAP,
+  RESTRICTED_INTENTS
+} from '@/lib/constants';
 import { Intent } from '@/lib/enums';
 import {
   useTokens,
@@ -454,14 +460,8 @@ const fetchUserSuggestedActions = (
     }
   }
 
-  const isRestrictedBuild = import.meta.env.VITE_RESTRICTED_BUILD === 'true';
-  const isRestrictedMiCa = import.meta.env.VITE_RESTRICTED_BUILD_MICA === 'true';
-
-  const restrictedIntents = isRestrictedBuild
-    ? [IntentMapping.REWARDS_INTENT, IntentMapping.SAVINGS_INTENT]
-    : isRestrictedMiCa
-      ? [IntentMapping.TRADE_INTENT]
-      : [];
+  // Convert Intent enums to their string mappings for comparison
+  const restrictedIntentStrings = RESTRICTED_INTENTS.map(intent => IntentMapping[intent]);
 
   const supportedIntents = CHAIN_WIDGET_MAP[chainId] || [];
 
@@ -476,12 +476,13 @@ const fetchUserSuggestedActions = (
   };
 
   const filteredSuggestedActions = suggestedActions.filter(action => {
-    if (restrictedIntents.includes(action.intent)) return false;
+    if (restrictedIntentStrings.includes(action.intent)) return false;
     return isIntentSupported(action.intent);
   });
 
   const filteredLinkedActions = linkedActions.filter(action => {
-    if (restrictedIntents.includes(action.intent) || restrictedIntents.includes(action.la)) return false;
+    if (restrictedIntentStrings.includes(action.intent) || restrictedIntentStrings.includes(action.la))
+      return false;
     return isIntentSupported(action.intent) && isIntentSupported(action.la);
   });
 
