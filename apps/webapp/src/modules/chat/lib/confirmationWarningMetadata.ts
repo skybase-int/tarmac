@@ -5,39 +5,10 @@ import {
   skySavingsRateSpeedBump,
   skyTokenRewardsSpeedBump,
   tradeSpeedBump,
-  upgradeSpeedBump
+  upgradeSpeedBump,
+  stakingEngineSpeedBump,
+  expertModulesSpeedBump
 } from '@/data/chat/speed-bumps';
-import { SpeedBumpContent } from '@/data/chat/speed-bumps/types';
-
-// TEMPORARY: This is a temp data structure for testing purposes. Real data will be included later.
-
-const stakeSpeedBump: SpeedBumpContent = {
-  title: 'Stake',
-  functionality: 'stake',
-  slug: 'stake',
-  restrictions: ['[Placeholder: Stake restriction 1]', '[Placeholder: Stake restriction 2]'],
-  howItWorks: '[Placeholder: How stake works]',
-  associatedRisks: [
-    '[Placeholder: Stake risk 1]',
-    '[Placeholder: Stake risk 2]',
-    '[Placeholder: Stake risk 3]'
-  ]
-};
-
-const expertSpeedBump: SpeedBumpContent = {
-  title: 'Expert',
-  functionality: 'expert',
-  slug: 'expert',
-  restrictions: ['[Placeholder: Expert restriction 1]', '[Placeholder: Expert restriction 2]'],
-  howItWorks: '[Placeholder: How expert works]',
-  associatedRisks: [
-    '[Placeholder: Expert risk 1]',
-    '[Placeholder: Expert risk 2]',
-    '[Placeholder: Expert risk 3]'
-  ]
-};
-
-// TEMPORARY ^^^^
 
 export const CONFIRMATION_WARNING_METADATA: Record<
   string,
@@ -65,13 +36,13 @@ export const CONFIRMATION_WARNING_METADATA: Record<
   },
   [IntentMapping[Intent.STAKE_INTENT]]: {
     description: 'Navigate to Stake with staking details prefilled by our AI chatbot.',
-    disclaimer: stakeSpeedBump.howItWorks,
-    associatedRisks: stakeSpeedBump.associatedRisks
+    disclaimer: stakingEngineSpeedBump.howItWorks,
+    associatedRisks: stakingEngineSpeedBump.associatedRisks
   },
   [IntentMapping[Intent.EXPERT_INTENT]]: {
     description: 'Navigate to Expert modules with settings prefilled by our AI chatbot.',
-    disclaimer: expertSpeedBump.howItWorks,
-    associatedRisks: expertSpeedBump.associatedRisks
+    disclaimer: expertModulesSpeedBump.howItWorks,
+    associatedRisks: expertModulesSpeedBump.associatedRisks
   }
 };
 
