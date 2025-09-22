@@ -59,7 +59,6 @@ updates:
           - "lucide-react"
           - "embla-carousel*"
           - "tailwind-merge"
-          - "tailwind-variants"
           - "class-variance-authority"
           - "clsx"
         update-types:
