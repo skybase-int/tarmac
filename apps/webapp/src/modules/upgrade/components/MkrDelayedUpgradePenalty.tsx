@@ -1,8 +1,9 @@
 import { StatsCard } from '@/modules/ui/components/StatsCard';
 import { Text } from '@/modules/layout/components/Typography';
-import { t } from '@lingui/core/macro';
+import { Trans } from '@lingui/react/macro';
 import { useMkrSkyFee } from '@jetstreamgg/sky-hooks';
 import { math } from '@jetstreamgg/sky-utils';
+import { PopoverRateInfo } from '@jetstreamgg/sky-widgets';
 
 export function MkrDelayedUpgradePenalty() {
   const { data: mkrSkyFee, isLoading, error } = useMkrSkyFee();
@@ -12,7 +13,12 @@ export function MkrDelayedUpgradePenalty() {
 
   return (
     <StatsCard
-      title={t`MKR Delayed Upgrade Penalty`}
+      title={
+        <span className="flex items-center gap-1">
+          <Trans>MKR Delayed Upgrade Penalty</Trans>
+          <PopoverRateInfo type="delayedUpgradePenalty" />
+        </span>
+      }
       isLoading={isLoading}
       error={error}
       content={<Text>{penaltyValue} %</Text>}
