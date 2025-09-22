@@ -157,7 +157,8 @@ const PositionManagerOverviewContainer = ({
                   `${formatBigInt(existingBorrowAmount)}  ${usds.symbol}`,
                   `${formatBigInt(newBorrowAmount)}  ${usds.symbol}`
                 ]
-              : `${formatBigInt(newBorrowAmount)}  ${usds.symbol}`
+              : `${formatBigInt(newBorrowAmount)}  ${usds.symbol}`,
+          tooltipText: getTooltipById('borrow')?.tooltip || ''
         },
         minDebtNotMet
           ? []
@@ -168,7 +169,8 @@ const PositionManagerOverviewContainer = ({
               },
               {
                 label: t`Max borrowable amount`,
-                value: formattedMaxBorrowable
+                value: formattedMaxBorrowable,
+                tooltipText: getTooltipById('borrow-limit')?.tooltip || ''
               }
             ],
         {
