@@ -1,9 +1,12 @@
+2025-07-15
+
 # Example custom file
 
 ## Heading 2
 
 ### Heading 3
 
+Chatbot terms.
 This is some text.
 This is another paragraph with _italic text_.
 
