@@ -1,56 +1,93 @@
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
-import { tv, type VariantProps } from 'tailwind-variants';
+import { cva, type VariantProps } from 'class-variance-authority';
 
-const card = tv({
-  base: 'rounded-[20px] bg-card p-4 text-text text-base font-normal leading-normal',
-  // Slot styles will apply to every slot before slot variants are applied
-  slots: {
-    header: 'flex justify-between space-y-1.5',
-    title: '',
-    description: '',
-    content: '',
-    footer: ''
-  },
-  // Variants can be different things like "size", "intent", "position", and have sub-categories
+const cardVariants = cva('rounded-[20px] bg-card p-4 text-text text-base font-normal leading-normal', {
   variants: {
-    // This is called "variant" for consistency, it's arbitrary, it could be called "intent".
     variant: {
-      // Each variant can define classes for any slot
-      default: {
-        title: 'text-xl font-custom-450 leading-normal lg:text-2xl lg:leading-8',
-        content: 'p-6 pt-0'
-      },
-      pool: { base: 'leading-tight lg:px-5 lg:py-4' },
-      stats: {
-        base: 'p-5 w-full min-w-[220px]',
-        header: 'p-0',
-        title: 'text-sm font-normal leading-tight text-textSecondary',
-        content: 'pt-0'
-      },
-      statsCompact: { base: 'p-3 lg:pl-4 lg:pb-4 lg:pt-3 lg:pr-3' },
-      stepper: {
-        base: 'w-full rounded-none border text-sm'
-      },
-      spotlight: {
-        base: 'p-10 bg-[linear-gradient(0deg,_#581BE0_0%,_#2A197D_100%)]'
-      }
+      default: '',
+      pool: 'leading-tight lg:px-5 lg:py-4',
+      stats: 'p-5 w-full min-w-[220px]',
+      statsCompact: 'p-3 lg:pl-4 lg:pb-4 lg:pt-3 lg:pr-3',
+      stepper: 'w-full rounded-none border text-sm',
+      spotlight: 'p-10 bg-[linear-gradient(0deg,_#581BE0_0%,_#2A197D_100%)]'
     }
   },
-  // Default variant is applied if no other variant is specified
   defaultVariants: {
     variant: 'default'
+  }
+});
+
+const cardHeaderVariants = cva('flex justify-between space-y-1.5', {
+  variants: {
+    variant: {
+      default: '',
+      pool: '',
+      stats: 'p-0',
+      statsCompact: '',
+      stepper: '',
+      spotlight: ''
+    }
   },
-  // This matches the variant name and applies the styles to the specified slots
-  compoundSlots: [{ variant: 'stats', slots: ['base', 'header', 'title', 'content'], className: '' }]
+  defaultVariants: {
+    variant: 'default'
+  }
+});
+
+const cardTitleVariants = cva('', {
+  variants: {
+    variant: {
+      default: 'text-xl font-custom-450 leading-normal lg:text-2xl lg:leading-8',
+      pool: '',
+      stats: 'text-sm font-normal leading-tight text-textSecondary',
+      statsCompact: '',
+      stepper: '',
+      spotlight: ''
+    }
+  },
+  defaultVariants: {
+    variant: 'default'
+  }
+});
+
+const cardContentVariants = cva('', {
+  variants: {
+    variant: {
+      default: 'p-6 pt-0',
+      pool: '',
+      stats: 'pt-0',
+      statsCompact: '',
+      stepper: '',
+      spotlight: ''
+    }
+  },
+  defaultVariants: {
+    variant: 'default'
+  }
+});
+
+const cardFooterVariants = cva('flex items-center p-6 pt-0', {
+  variants: {
+    variant: {
+      default: '',
+      pool: '',
+      stats: '',
+      statsCompact: '',
+      stepper: '',
+      spotlight: ''
+    }
+  },
+  defaultVariants: {
+    variant: 'default'
+  }
 });
 
 const Card = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof card>
+  React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof cardVariants>
 >(({ className, variant, children, ...props }, ref) => (
-  <div ref={ref} className={cn(card({ variant }).base(), className)} {...props}>
+  <div ref={ref} className={cn(cardVariants({ variant }), className)} {...props}>
     {React.Children.map(children, child => {
       if (React.isValidElement(child)) {
         const childType = child.type as React.ComponentType;
@@ -60,7 +97,7 @@ const Card = React.forwardRef<
           return React.cloneElement(child, {
             ...(child.props || {}),
             variant
-          } as React.HTMLAttributes<HTMLElement> & VariantProps<typeof card>);
+          } as React.HTMLAttributes<HTMLElement> & VariantProps<typeof cardVariants>);
         }
       }
       return child;
@@ -71,10 +108,10 @@ Card.displayName = 'Card';
 
 const CardHeader = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof card>
+  React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof cardHeaderVariants>
 >(({ variant, className, children, ...props }, ref) => {
   return (
-    <div ref={ref} className={cn(card({ variant }).header(), className)} {...props}>
+    <div ref={ref} className={cn(cardHeaderVariants({ variant }), className)} {...props}>
       {React.Children.map(children, child => {
         if (React.isValidElement(child)) {
           const childType = child.type as React.ComponentType;
@@ -83,7 +120,7 @@ const CardHeader = React.forwardRef<
             return React.cloneElement(child, {
               ...(child.props || {}),
               variant
-            } as React.HTMLAttributes<HTMLElement> & VariantProps<typeof card>);
+            } as React.HTMLAttributes<HTMLElement> & VariantProps<typeof cardTitleVariants>);
           }
           return React.cloneElement(child, { ...(child.props || {}) });
         }
@@ -96,9 +133,9 @@ CardHeader.displayName = 'CardHeader';
 
 const CardTitle = React.forwardRef<
   HTMLParagraphElement,
-  React.HTMLAttributes<HTMLHeadingElement> & VariantProps<typeof card>
+  React.HTMLAttributes<HTMLHeadingElement> & VariantProps<typeof cardTitleVariants>
 >(({ variant, className, ...props }, ref) => (
-  <h3 ref={ref} className={cn(card({ variant }).title(), className)} {...props} />
+  <h3 ref={ref} className={cn(cardTitleVariants({ variant }), className)} {...props} />
 ));
 CardTitle.displayName = 'CardTitle';
 
@@ -112,17 +149,17 @@ CardDescription.displayName = 'CardDescription';
 
 const CardContent = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof card>
+  React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof cardContentVariants>
 >(({ variant, className, ...props }, ref) => (
-  <div ref={ref} className={cn(card({ variant }).content(), className)} {...props} />
+  <div ref={ref} className={cn(cardContentVariants({ variant }), className)} {...props} />
 ));
 CardContent.displayName = 'CardContent';
 
 const CardFooter = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof card>
+  React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof cardFooterVariants>
 >(({ variant, className, ...props }, ref) => (
-  <div ref={ref} className={cn(card({ variant }), 'flex items-center p-6 pt-0', className)} {...props} />
+  <div ref={ref} className={cn(cardFooterVariants({ variant }), className)} {...props} />
 ));
 CardFooter.displayName = 'CardFooter';
 
