@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 import { useChains } from 'wagmi';
+import type { Chain } from 'viem';
 import { toast } from '@/components/ui/use-toast';
 import { Text } from '@/modules/layout/components/Typography';
 import { getChainIcon, isL2ChainId } from '@jetstreamgg/sky-utils';
@@ -9,7 +10,7 @@ import { isMultichain, requiresMainnet } from '@/lib/widget-network-map';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useChainModalContext } from '@/modules/ui/context/ChainModalContext';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, type SetURLSearchParams } from 'react-router-dom';
 import { QueryParams } from '@/lib/constants';
 import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
 import { Loader2 } from 'lucide-react';
@@ -55,9 +56,13 @@ const NetworkQuickSwitchButtons = ({
 }: {
   currentChainId: number;
   currentIntent?: Intent;
-  chains: readonly any[];
-  handleSwitchChain: any;
-  setSearchParams: any;
+  chains: readonly Chain[];
+  handleSwitchChain: (params: {
+    chainId: number;
+    onSuccess?: (data: any, variables: { chainId: number }) => void;
+    onSettled?: () => void;
+  }) => void;
+  setSearchParams: SetURLSearchParams;
 }) => {
   const [switchingTo, setSwitchingTo] = useState<number | null>(null);
 
