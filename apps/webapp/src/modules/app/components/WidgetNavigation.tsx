@@ -121,10 +121,10 @@ export function WidgetNavigation({
   const laExtraHeight = isMobile ? 61 : 100; // LA Wrapper and action button height
   const baseTabContentClasses = 'lg:h-full md:flex-1';
   const tabContentClasses = isRewardsOverview
-    ? `${baseTabContentClasses} pl-6 pt-2 pr-0 pb-0 md:p-3 md:pb-3 md:pr-0 md:pt-2 xl:p-4 xl:pb-4 xl:pr-0`
+    ? `${baseTabContentClasses} pl-4 pt-2 pr-1.5 pb-0 md:pl-1.5 md:pb-3 md:pr-0 md:pt-2 xl:p-4 xl:pb-4 xl:pr-0`
     : intent === Intent.BALANCES_INTENT
-      ? `${baseTabContentClasses} pl-6 pt-2 pb-4 pr-0 md:p-3 md:pb-0 md:pr-0 md:pt-2 xl:p-4 xl:pb-0 xl:pr-0`
-      : `${baseTabContentClasses} pl-6 pt-2 pb-4 pr-0 md:pb-0 md:p-3 md:pr-0 md:pt-2 xl:p-4 xl:pr-0`;
+      ? `${baseTabContentClasses} pl-4 pt-2 pb-4 pr-1.5 md:pl-1.5 md:pb-0 md:pr-0 md:pt-2 xl:p-4 xl:pb-0 xl:pr-0`
+      : `${baseTabContentClasses} pl-4 pt-2 pb-4 pr-1.5 md:pl-1.5 md:pb-0 md:pr-0 md:pt-2 xl:p-4 xl:pr-0`;
   // If it's mobile, use the widget navigation row height + the height of the webiste header
   // as we're using 100vh for the content style, if not, just use the height of the navigation row
   // If the tab list is hidden, don't count it's height
@@ -156,7 +156,7 @@ export function WidgetNavigation({
       {/* Mobile and tablet hamburger menu */}
       {showDrawerMenu && !hideTabs && (
         <div
-          className="flex items-center justify-between p-4 pb-2 md:pl-1.5 md:pr-1 md:pt-1 lg:hidden"
+          className="flex items-center justify-between p-4 pb-2 md:pl-1.5 md:pr-2.5 md:pt-1 lg:hidden"
           ref={menuRef}
         >
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
@@ -324,7 +324,7 @@ export function WidgetNavigation({
                           animate={AnimationLabels.animate}
                           exit={AnimationLabels.exit}
                           className={cn(
-                            'flex-1 overflow-y-auto pr-4 md:pr-0 lg:overflow-hidden',
+                            'flex-1 overflow-y-auto md:pr-0 lg:overflow-hidden',
                             isMobile
                               ? showLinkedAction
                                 ? 'scroll-mt-[148px]'
