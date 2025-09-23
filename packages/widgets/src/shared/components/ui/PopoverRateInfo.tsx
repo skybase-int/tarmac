@@ -254,7 +254,7 @@ export const PopoverRateInfo = ({
   return (
     <Popover>
       <PopoverTrigger asChild onClick={e => e.stopPropagation()} className="z-10">
-        <span className="inline-flex items-center">
+        <span className="inline-flex cursor-pointer items-center">
           <Info className={iconClassName} width={width} height={height} />
         </span>
       </PopoverTrigger>
