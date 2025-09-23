@@ -257,7 +257,6 @@ export function WidgetNavigation({
                           description={description}
                           widgetIntent={widgetIntent}
                           currentChainId={currentChainId}
-                          currentIntent={intent}
                           label={label as string}
                           isMobile={isMobile}
                           disabled={options?.disabled || false}
