@@ -95,18 +95,17 @@ export function useNetworkAutoSwitch({
       const savedNetwork = getWidgetNetwork(targetIntent);
 
       // Determine if we should restore a saved network preference
-      // This happens when:
-      // 1. We're coming FROM a mainnet-only widget (previous intent requires mainnet)
-      // 2. We're going TO a multichain widget (but not Balances)
-      // 3. We have a saved preference for that widget
-      // 4. The saved network is different from current (we're on mainnet, want to go back to L2)
+      // This happens when either:
+      // Case 1: Coming FROM a mainnet-only widget TO a multichain widget with saved preference
+      // Case 2: Switching between two different multichain widgets where target has saved preference
       const shouldRestoreNetwork =
-        currentIntent &&
-        requiresMainnet(currentIntent) && // Coming from mainnet-only widget
         isMultichain(targetIntent) && // Going to multichain widget
         targetIntent !== Intent.BALANCES_INTENT &&
         savedNetwork &&
-        savedNetwork !== currentChainId; // Saved network is different (likely an L2)
+        savedNetwork !== currentChainId && // Saved network is different
+        currentIntent &&
+        (requiresMainnet(currentIntent) || // Coming from mainnet-only widget
+          (isMultichain(currentIntent) && currentIntent !== targetIntent)); // Or from different multichain widget
 
       // Check if we need to switch networks (only for non-testnets)
       if (currentChainId && requiresMainnet(targetIntent) && isL2ChainId(currentChainId)) {
