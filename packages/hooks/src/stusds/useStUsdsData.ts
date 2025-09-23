@@ -83,7 +83,7 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
       {
         address: stUsdsContractAddress,
         abi: stUsdsAbi,
-        functionName: 'ysr',
+        functionName: 'str',
         chainId
       },
       {
@@ -125,7 +125,7 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
   const totalSupply = contractData?.[1]?.result as bigint | undefined;
   const cap = contractData?.[2]?.result as bigint | undefined;
   const line = contractData?.[3]?.result as bigint | undefined;
-  const ysr = contractData?.[4]?.result as bigint | undefined;
+  const str = contractData?.[4]?.result as bigint | undefined;
   const chi = contractData?.[5]?.result as bigint | undefined;
   const userStUsdsBalance = acct ? (contractData?.[6]?.result as bigint | undefined) : undefined;
   const userMaxDeposit = acct ? (contractData?.[7]?.result as bigint | undefined) : undefined;
@@ -178,11 +178,11 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
   }, [totalAssets, stakingEngineData?.totalDaiDebt]);
 
   const liquidityBuffer = useMemo(() => {
-    if (!totalAssets || !ysr) return 0n;
+    if (!totalAssets || !str) return 0n;
     const stakingEngineDebt = stakingEngineData?.totalDaiDebt || 0n;
     const stakingDuty = stakingEngineRaw?.duty?.value || 0n;
-    return calculateLiquidityBuffer(totalAssets, ysr, stakingEngineDebt, stakingDuty);
-  }, [totalAssets, ysr, stakingEngineData?.totalDaiDebt, stakingEngineRaw?.duty]);
+    return calculateLiquidityBuffer(totalAssets, str, stakingEngineDebt, stakingDuty);
+  }, [totalAssets, str, stakingEngineData?.totalDaiDebt, stakingEngineRaw?.duty]);
 
   const userMaxWithdrawBuffered = useMemo(() => {
     if (!userMaxWithdraw || !availableLiquidity) return 0n;
@@ -220,7 +220,7 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
       userMaxDeposit: userMaxDeposit || 0n,
       userMaxWithdraw: userMaxWithdraw || 0n,
       userMaxWithdrawBuffered,
-      moduleRate: ysr || 0n,
+      moduleRate: str || 0n,
       chi: chi || 0n,
       cap: cap || 0n,
       line: line || 0n
@@ -238,7 +238,7 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     userMaxDeposit,
     userMaxWithdraw,
     userMaxWithdrawBuffered,
-    ysr,
+    str,
     chi,
     cap,
     line

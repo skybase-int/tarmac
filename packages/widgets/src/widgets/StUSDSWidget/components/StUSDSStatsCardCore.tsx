@@ -5,7 +5,7 @@ import { Text } from '@widgets/shared/components/ui/Typography';
 import { Skeleton } from '@widgets/components/ui/skeleton';
 import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
 import { positionAnimations } from '@widgets/shared/animation/presets';
-import { formatYsrAsApy } from '@jetstreamgg/sky-utils';
+import { formatStrAsApy } from '@jetstreamgg/sky-utils';
 import { useStUsdsData } from '@jetstreamgg/sky-hooks';
 import { JSX } from 'react';
 
@@ -33,7 +33,7 @@ export const StUSDSStatsCardCore = ({
             <Skeleton className="bg-textSecondary h-5 w-12" />
           ) : (
             <Text className="text-bullish">
-              {moduleRate > 0n ? `Rate: ${formatYsrAsApy(moduleRate)}` : 'Rate: --'}
+              {moduleRate > 0n ? `Rate: ${formatStrAsApy(moduleRate)}` : 'Rate: --'}
             </Text>
           )}
           <PopoverRateInfo type="stusds" onExternalLinkClicked={onExternalLinkClicked} />

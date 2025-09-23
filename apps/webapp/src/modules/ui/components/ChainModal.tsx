@@ -11,10 +11,12 @@ import { useState } from 'react';
 import { Intent } from '@/lib/enums';
 import { useChainModalContext } from '@/modules/ui/context/ChainModalContext';
 import { useSearchParams } from 'react-router-dom';
-import { mapIntentToQueryParam, QueryParams } from '@/lib/constants';
+import { mapIntentToQueryParam, mapQueryParamToIntent, QueryParams } from '@/lib/constants';
 import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
 import { useIsSafeWallet } from '@jetstreamgg/sky-utils';
 import { Trans } from '@lingui/react/macro';
+import { useNetworkSwitch } from '@/modules/ui/context/NetworkSwitchContext';
+import { isMultichain } from '@/lib/widget-network-map';
 
 enum ChainModalVariant {
   default = 'default',
@@ -42,7 +44,8 @@ export function ChainModal({
   variant = 'default',
   dataTestId = 'chain-modal-trigger',
   children,
-  nextIntent
+  nextIntent,
+  disabled = false
 }: {
   showLabel?: boolean;
   showDropdownIcon?: boolean;
@@ -50,6 +53,7 @@ export function ChainModal({
   dataTestId?: string;
   children?: React.ReactNode;
   nextIntent?: Intent;
+  disabled?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const chainId = useChainId();
@@ -62,10 +66,12 @@ export function ChainModal({
     isPending: isSwitchChainPending,
     variables: switchChainVariables
   } = useChainModalContext();
+  const { saveWidgetNetwork } = useNetworkSwitch();
+  const currentIntent = mapQueryParamToIntent(searchParams.get(QueryParams.Widget));
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+    <Dialog open={open} onOpenChange={disabled ? undefined : setOpen}>
+      <DialogTrigger asChild disabled={disabled}>
         {variant === ChainModalVariant.wrapper ? (
           <button className="h-full w-full">{children}</button>
         ) : (
@@ -90,7 +96,7 @@ export function ChainModal({
         onCloseAutoFocus={e => e.preventDefault()}
       >
         <DialogTitle>
-          <Text className="text-text pl-2 text-[28px] md:text-[32px]">{t`Switch chain`}</Text>
+          <Text className="text-text pl-2 text-[28px] md:text-[32px]">{t`Switch network`}</Text>
         </DialogTitle>
         <div className="flex flex-col items-start gap-1">
           {isSafeWallet && (
@@ -116,6 +122,15 @@ export function ChainModal({
                   handleSwitchChain({
                     chainId: chain.id,
                     onSuccess: (_, { chainId: newChainId }) => {
+                      // Track the manual network change for multichain widgets (except Balances)
+                      if (
+                        currentIntent &&
+                        isMultichain(currentIntent) &&
+                        currentIntent !== Intent.BALANCES_INTENT
+                      ) {
+                        saveWidgetNetwork(currentIntent, newChainId);
+                      }
+
                       const newChainName = chains.find(c => c.id === newChainId)?.name;
                       if (newChainName) {
                         const normalizedNewChainName = normalizeUrlParam(newChainName);
@@ -169,7 +184,7 @@ export function ChainModal({
         <DialogClose asChild>
           <Button
             variant="outline"
-            className="text-text absolute right-4 top-[26px] h-8 w-8 rounded-full p-0"
+            className="text-text absolute right-4 top-4 h-8 w-8 rounded-full p-0"
             data-testid="chain-modal-close"
           >
             <Close />

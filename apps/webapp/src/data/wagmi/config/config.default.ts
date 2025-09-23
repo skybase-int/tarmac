@@ -16,7 +16,7 @@ import { baseAccount } from './baseAccount';
 export const tenderly = {
   ...mainnet,
   id: TENDERLY_CHAIN_ID,
-  name: 'mainnet_yusds_2025_jul_13_0',
+  name: 'mainnet-fork-sep-9',
   network: 'tenderly',
   // This is used by RainbowKit to display a chain icon for small screens
   iconUrl: 'tokens/weth.svg',

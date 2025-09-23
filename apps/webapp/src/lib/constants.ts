@@ -28,9 +28,14 @@ export enum QueryParams {
 const isRestrictedBuild = import.meta.env.VITE_RESTRICTED_BUILD === 'true';
 const isRestrictedMiCa = import.meta.env.VITE_RESTRICTED_BUILD_MICA === 'true';
 
-export const restrictedIntents = isRestrictedMiCa
-  ? [Intent.TRADE_INTENT]
-  : [Intent.SAVINGS_INTENT, Intent.REWARDS_INTENT];
+export const RESTRICTED_INTENTS: Intent[] = (() => {
+  if (isRestrictedMiCa) {
+    return [Intent.TRADE_INTENT];
+  } else if (isRestrictedBuild) {
+    return [Intent.SAVINGS_INTENT, Intent.REWARDS_INTENT, Intent.EXPERT_INTENT];
+  }
+  return [];
+})();
 
 export const IntentMapping = {
   [Intent.BALANCES_INTENT]: 'balances',
@@ -67,17 +72,14 @@ export const CHAIN_WIDGET_MAP: Record<number, Intent[]> = {
     Intent.STAKE_INTENT,
     Intent.EXPERT_INTENT
   ],
-  [base.id]: [Intent.BALANCES_INTENT, Intent.REWARDS_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
-  [arbitrum.id]: [Intent.BALANCES_INTENT, Intent.REWARDS_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
-  [unichain.id]: [Intent.BALANCES_INTENT, Intent.REWARDS_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
-  [optimism.id]: [Intent.BALANCES_INTENT, Intent.REWARDS_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT]
+  [base.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
+  [arbitrum.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
+  [unichain.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
+  [optimism.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT]
 };
 
 export const COMING_SOON_MAP: Record<number, Intent[]> = {
-  [base.id]: [Intent.REWARDS_INTENT],
-  [arbitrum.id]: [Intent.REWARDS_INTENT],
-  [optimism.id]: [Intent.REWARDS_INTENT],
-  [unichain.id]: [Intent.REWARDS_INTENT]
+  // Rewards is now treated as a mainnet-only module with auto-switching
   // [base.id]: [Intent.YOUR_INTENT] // Example of how to add a coming soon intent
 };
 
@@ -111,7 +113,7 @@ export const VALID_LINKED_ACTIONS = [
 const AvailableIntentMapping = Object.entries(IntentMapping).reduce(
   (acc, [key, value]) => {
     const isRestricted = isRestrictedBuild || isRestrictedMiCa;
-    if (!isRestricted || !restrictedIntents.includes(key as Intent)) {
+    if (!isRestricted || !RESTRICTED_INTENTS.includes(key as Intent)) {
       acc[key as Intent] = value;
     }
     return acc;
@@ -123,7 +125,7 @@ export function mapIntentToQueryParam(intent: Intent): string {
   return AvailableIntentMapping[intent] || '';
 }
 
-export function mapQueryParamToIntent(queryParam: string): Intent {
+export function mapQueryParamToIntent(queryParam?: string | null): Intent {
   const intent = Object.keys(AvailableIntentMapping).find(
     key => AvailableIntentMapping[key as keyof typeof AvailableIntentMapping] === queryParam
   );
@@ -174,9 +176,10 @@ export const STAGING_URL_SKY_SUBGRAPH_UNICHAIN =
 
 export const MAX_HISTORY_LENGTH = parseInt(import.meta.env.VITE_CHATBOT_MAX_HISTORY || 8) - 1;
 export const MAX_MESSAGE_LENGTH = parseInt(import.meta.env.VITE_CHATBOT_MAX_MESSAGE_LENGTH || '500');
-export const CHAT_SUGGESTIONS_ENABLED = import.meta.env.VITE_CHAT_SUGGESTIONS_ENABLED === 'true';
-export const EXPERT_CHAT_ENABLED = import.meta.env.VITE_EXPERT_CHAT_ENABLED === 'true';
+export const CHAT_SUGGESTIONS_ENABLED = import.meta.env.VITE_CHATBOT_SUGGESTIONS_ENABLED !== 'false'; // Default true
+
 export const CHATBOT_ENABLED = import.meta.env.VITE_CHATBOT_ENABLED === 'true';
+export const CHATBOT_FEEDBACK_ENABLED = import.meta.env.VITE_CHATBOT_FEEDBACK_ENABLED === 'true';
 export const CHATBOT_DOMAIN = import.meta.env.VITE_CHATBOT_DOMAIN || 'https://staging-api.sky.money';
 export const CHATBOT_USE_TESTNET_NETWORK_NAME =
   import.meta.env.VITE_CHATBOT_USE_TESTNET_NETWORK_NAME === 'true' &&

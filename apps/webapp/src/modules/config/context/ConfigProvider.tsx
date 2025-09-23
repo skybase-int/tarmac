@@ -2,7 +2,7 @@ import { ReactElement, ReactNode, useCallback, useEffect, useMemo, useState } fr
 import { UserConfig } from '../types/user-config';
 import { RewardContract } from '@jetstreamgg/sky-hooks';
 import { ALLOWED_EXTERNAL_DOMAINS, USER_SETTINGS_KEY } from '@/lib/constants';
-import { ExpertIntent, Intent } from '@/lib/enums';
+import { ExpertIntent } from '@/lib/enums';
 import { dynamicActivate } from '@jetstreamgg/sky-utils';
 import { i18n } from '@lingui/core';
 import {
@@ -61,13 +61,6 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
     // TODO: Reenable if problem persist window.location.reload();
   };
 
-  const setIntent = (intent: Intent) => {
-    updateUserConfig({
-      ...userConfig,
-      intent: intent
-    });
-  };
-
   const updateLinkedActionConfig = useCallback(
     (config: Partial<LinkedActionConfig>) => {
       setLinkedActionConfig(prevConfig => ({
@@ -120,7 +113,6 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
         updateUserConfig,
         loaded,
         locale,
-        setIntent,
         selectedRewardContract,
         setSelectedRewardContract,
         selectedSealUrnIndex,

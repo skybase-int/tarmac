@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { LinkedAction } from '@/modules/ui/hooks/useUserSuggestedActions';
-import { ALLOWED_EXTERNAL_DOMAINS, CHAIN_WIDGET_MAP, IntentMapping, restrictedIntents } from './constants';
+import { ALLOWED_EXTERNAL_DOMAINS, CHAIN_WIDGET_MAP, IntentMapping, RESTRICTED_INTENTS } from './constants';
 import { Intent } from './enums';
 
 export function cn(...inputs: ClassValue[]) {
@@ -85,7 +85,7 @@ export function isIntentAllowed(intent: Intent, chainId: number) {
   const isRestricted = isRestrictedBuild || isRestrictedMiCa;
 
   // First check if restricted build
-  if (isRestricted && restrictedIntents.includes(intent)) {
+  if (isRestricted && RESTRICTED_INTENTS.includes(intent)) {
     return false;
   }
   // Then check if widget is supported on current chain

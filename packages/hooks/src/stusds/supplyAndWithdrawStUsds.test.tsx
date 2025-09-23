@@ -268,6 +268,35 @@ describe('stUSDS - Supply and withdraw', () => {
   });
 
   it('Should handle precision issues correctly', async () => {
+    // First, ensure the wallet has stUSDS balance by depositing
+    // Approve USDS spending
+    const { result: resultApprove } = renderHook(
+      () =>
+        useStUsdsApprove({
+          amount: parseEther('10'),
+          gas: GAS
+        }),
+      {
+        wrapper: WagmiWrapper
+      }
+    );
+
+    await waitForPreparedExecuteAndMine(resultApprove);
+
+    // Deposit USDS to get stUSDS
+    const { result: resultDeposit } = renderHook(
+      () =>
+        useStUsdsDeposit({
+          amount: parseEther('10'),
+          enabled: true,
+          gas: GAS
+        }),
+      {
+        wrapper: WagmiWrapper
+      }
+    );
+    await waitForPreparedExecuteAndMine(resultDeposit);
+
     // Get stUSDS data
     const { result: resultStUsdsData } = renderHook(() => useStUsdsData(TEST_WALLET_ADDRESS), {
       wrapper: WagmiWrapper
@@ -275,23 +304,6 @@ describe('stUSDS - Supply and withdraw', () => {
     await waitFor(
       () => {
         expect(resultStUsdsData.current.isLoading).toBe(false);
-      },
-      { timeout: 15000 }
-    );
-    const userMaxWithdrawBefore = resultStUsdsData.current.data?.userMaxWithdraw;
-
-    resultStUsdsData.current.mutate();
-
-    // Wait for mutation to happen
-    await waitFor(
-      () => {
-        expect(resultStUsdsData.current.data?.userMaxWithdraw).not.toBe(userMaxWithdrawBefore);
-      },
-      { timeout: 15000 }
-    );
-
-    await waitFor(
-      () => {
         expect(resultStUsdsData.current.data?.userMaxWithdraw).toBeGreaterThan(0n);
       },
       { timeout: 15000 }
