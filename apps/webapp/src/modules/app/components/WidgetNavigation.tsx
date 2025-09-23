@@ -246,7 +246,7 @@ export function WidgetNavigation({
             <TooltipProvider>
               <TabsList
                 className={cn(
-                  'sticky top-0 z-20 flex w-full justify-around rounded-none rounded-t-3xl border-b backdrop-blur-2xl',
+                  'sticky top-0 z-20 mt-4 flex w-full justify-around rounded-none rounded-t-3xl border-b backdrop-blur-2xl',
                   'lg:scrollbar-thin lg:static lg:h-fit lg:max-h-[calc(100vh-120px)] lg:w-auto lg:flex-col lg:justify-start lg:gap-2 lg:self-start lg:overflow-y-auto lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:pr-[10px] lg:backdrop-filter-none',
                   hideTabs && 'hidden',
                   showDrawerMenu && 'hidden',
