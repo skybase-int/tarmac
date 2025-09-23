@@ -96,7 +96,7 @@ export function ChainModal({
         onCloseAutoFocus={e => e.preventDefault()}
       >
         <DialogTitle>
-          <Text className="text-text pl-2 text-[28px] md:text-[32px]">{t`Switch chain`}</Text>
+          <Text className="text-text pl-2 text-[28px] md:text-[32px]">{t`Switch network`}</Text>
         </DialogTitle>
         <div className="flex flex-col items-start gap-1">
           {isSafeWallet && (
@@ -184,7 +184,7 @@ export function ChainModal({
         <DialogClose asChild>
           <Button
             variant="outline"
-            className="text-text absolute right-4 top-[26px] h-8 w-8 rounded-full p-0"
+            className="text-text absolute right-4 top-4 h-8 w-8 rounded-full p-0"
             data-testid="chain-modal-close"
           >
             <Close />
