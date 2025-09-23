@@ -88,7 +88,6 @@ export function useNetworkAutoSwitch({
         isMultichain(currentIntent) &&
         currentIntent !== Intent.BALANCES_INTENT
       ) {
-        console.log({ currentIntent, currentChainId, multi: isMultichain(currentIntent) });
         saveWidgetNetwork(currentIntent, currentChainId);
       }
 
