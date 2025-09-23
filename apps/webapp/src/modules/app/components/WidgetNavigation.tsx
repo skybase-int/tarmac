@@ -129,10 +129,10 @@ export function WidgetNavigation({
   const laExtraHeight = isMobile ? 61 : 100; // LA Wrapper and action button height
   const baseTabContentClasses = 'lg:h-full md:flex-1';
   const tabContentClasses = isRewardsOverview
-    ? `${baseTabContentClasses} pl-6 pt-2 pr-0 pb-0 md:p-3 md:pb-3 md:pr-0 md:pt-2 lg:py-0 xl:p-4 xl:py-0 xl:pr-0`
+    ? `${baseTabContentClasses} pl-6 pt-2 pr-0 pb-0 md:p-3 md:pb-3 md:pr-0 md:pt-2 xl:p-4 xl:pb-4 xl:pr-0`
     : intent === Intent.BALANCES_INTENT
-      ? `${baseTabContentClasses} pl-6 pt-2 pb-4 pr-0 md:p-3 md:pb-0 md:pr-0 md:pt-2 lg:py-0 xl:p-4 xl:py-0 xl:pr-0`
-      : `${baseTabContentClasses} pl-6 pt-2 pb-4 pr-0 md:pb-0 md:p-3 md:pr-0 md:pt-2 lg:py-0 xl:p-4 xl:py-0 xl:pr-0`;
+      ? `${baseTabContentClasses} pl-6 pt-2 pb-4 pr-0 md:p-3 md:pb-0 md:pr-0 md:pt-2 xl:p-4 xl:pb-0 xl:pr-0`
+      : `${baseTabContentClasses} pl-6 pt-2 pb-4 pr-0 md:pb-0 md:p-3 md:pr-0 md:pt-2 xl:p-4 xl:pr-0`;
   // If it's mobile, use the widget navigation row height + the height of the webiste header
   // as we're using 100vh for the content style, if not, just use the height of the navigation row
   // If the tab list is hidden, don't count it's height
@@ -246,7 +246,7 @@ export function WidgetNavigation({
             <TooltipProvider>
               <TabsList
                 className={cn(
-                  'sticky top-0 z-20 flex w-full justify-around rounded-none rounded-t-3xl border-b backdrop-blur-2xl',
+                  'sticky top-0 z-20 mt-4 flex w-full justify-around rounded-none rounded-t-3xl border-b backdrop-blur-2xl',
                   'lg:scrollbar-thin lg:static lg:h-fit lg:max-h-[calc(100vh-120px)] lg:w-auto lg:flex-col lg:justify-start lg:gap-2 lg:self-start lg:overflow-y-auto lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:pr-[10px] lg:backdrop-filter-none',
                   hideTabs && 'hidden',
                   showDrawerMenu && 'hidden',
