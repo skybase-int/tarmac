@@ -54,6 +54,7 @@ export type TradeWidgetProps = WidgetProps & {
   widgetTitle?: ReactNode;
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
+  tokensLocked?: boolean;
 };
 
 function TradeWidgetWrapped({
@@ -75,7 +76,8 @@ function TradeWidgetWrapped({
   referralCode,
   widgetTitle,
   batchEnabled,
-  setBatchEnabled
+  setBatchEnabled,
+  tokensLocked = false
 }: TradeWidgetProps): React.ReactElement {
   const { mutate: addToWallet } = useAddTokenToWallet();
   const [showAddToken, setShowAddToken] = useState(false);
@@ -421,7 +423,7 @@ function TradeWidgetWrapped({
         }
       }
 
-      let timeoutId: NodeJS.Timeout | undefined;
+      let timeoutId: ReturnType<typeof setTimeout> | undefined;
       // Handle amount updates
       if (externalWidgetState?.amount !== undefined) {
         const newOriginToken = tokenList.find(
@@ -853,10 +855,11 @@ function TradeWidgetWrapped({
               }}
               lastUpdated={lastUpdated}
               targetAmount={targetAmount}
-              originTokenList={originTokenList}
-              targetTokenList={targetTokenList}
+              originTokenList={tokensLocked && originToken ? [originToken] : originTokenList}
+              targetTokenList={tokensLocked && targetToken ? [targetToken] : targetTokenList}
               isBalanceError={isBalanceError}
-              canSwitchTokens={true}
+              canSwitchTokens={!tokensLocked}
+              tokensLocked={tokensLocked}
               isConnectedAndEnabled={isConnectedAndEnabled}
             />
             {!!originAmount && !!targetAmount && !isBalanceError && (
@@ -866,7 +869,7 @@ function TradeWidgetWrapped({
                 fetchingMessage={t`Fetching transaction details`}
                 transactionData={[
                   {
-                    label: t`Exchange rate`,
+                    label: t`Exchange Rate`,
                     tooltipText: getTooltipById('exchange-rate')?.tooltip || '',
                     value: (() => {
                       if (!originAmount || originAmount === 0n || !targetAmount) return '1:1';
