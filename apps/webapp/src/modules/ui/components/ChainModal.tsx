@@ -11,12 +11,10 @@ import { useState } from 'react';
 import { Intent } from '@/lib/enums';
 import { useChainModalContext } from '@/modules/ui/context/ChainModalContext';
 import { useSearchParams } from 'react-router-dom';
-import { mapIntentToQueryParam, mapQueryParamToIntent, QueryParams } from '@/lib/constants';
+import { mapIntentToQueryParam, QueryParams } from '@/lib/constants';
 import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
 import { useIsSafeWallet } from '@jetstreamgg/sky-utils';
 import { Trans } from '@lingui/react/macro';
-import { useNetworkSwitch } from '@/modules/ui/context/NetworkSwitchContext';
-import { isMultichain } from '@/lib/widget-network-map';
 
 enum ChainModalVariant {
   default = 'default',
@@ -66,8 +64,6 @@ export function ChainModal({
     isPending: isSwitchChainPending,
     variables: switchChainVariables
   } = useChainModalContext();
-  const { saveWidgetNetwork } = useNetworkSwitch();
-  const currentIntent = mapQueryParamToIntent(searchParams.get(QueryParams.Widget));
 
   return (
     <Dialog open={open} onOpenChange={disabled ? undefined : setOpen}>
@@ -122,15 +118,6 @@ export function ChainModal({
                   handleSwitchChain({
                     chainId: chain.id,
                     onSuccess: (_, { chainId: newChainId }) => {
-                      // Track the manual network change for multichain widgets (except Balances)
-                      if (
-                        currentIntent &&
-                        isMultichain(currentIntent) &&
-                        currentIntent !== Intent.BALANCES_INTENT
-                      ) {
-                        saveWidgetNetwork(currentIntent, newChainId);
-                      }
-
                       const newChainName = chains.find(c => c.id === newChainId)?.name;
                       if (newChainName) {
                         const normalizedNewChainName = normalizeUrlParam(newChainName);
