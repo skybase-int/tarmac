@@ -9,7 +9,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { cardAnimations } from '@/modules/ui/animation/presets';
 import { AnimationLabels } from '@/modules/ui/animation/constants';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
-import { isMultichain } from '@/lib/widget-network-map';
 import { LinkedActionWrapper } from '@/modules/ui/components/LinkedActionWrapper';
 import { cn } from '@/lib/utils';
 import { Menu } from 'lucide-react';
@@ -51,7 +50,7 @@ export function WidgetNavigation({
   } = useConfigContext();
   const isRewardsOverview = !selectedRewardContract && intent === Intent.REWARDS_INTENT;
 
-  const { setIsSwitchingNetwork, saveWidgetNetwork } = useNetworkSwitch();
+  const { setIsSwitchingNetwork } = useNetworkSwitch();
   const chains = useChains();
   const { showNetworkToast } = useEnhancedNetworkToast();
   const [previousChainId, setPreviousChainId] = useState<number | undefined>(currentChainId);
@@ -83,13 +82,7 @@ export function WidgetNavigation({
           currentChain: { id: currChain.id, name: currChain.name },
           currentIntent: intent,
           previousIntent: previousIntent,
-          isAutoSwitch: isAutoSwitching,
-          onNetworkSwitch: chainId => {
-            // Save the manually selected network for the current widget
-            if (intent && isMultichain(intent) && intent !== Intent.BALANCES_INTENT) {
-              saveWidgetNetwork(intent, chainId);
-            }
-          }
+          isAutoSwitch: isAutoSwitching
         });
       }
     }
@@ -100,7 +93,6 @@ export function WidgetNavigation({
     intent,
     previousIntent,
     showNetworkToast,
-    saveWidgetNetwork,
     setIsSwitchingNetwork,
     isAutoSwitching
   ]);
@@ -265,10 +257,10 @@ export function WidgetNavigation({
                           description={description}
                           widgetIntent={widgetIntent}
                           currentChainId={currentChainId}
-                          currentIntent={intent}
                           label={label as string}
                           isMobile={isMobile}
                           disabled={options?.disabled || false}
+                          isCurrentWidget={intent === widgetIntent}
                         >
                           <TabsTrigger
                             variant="icons"
