@@ -116,8 +116,8 @@ export function WidgetNavigation({
 
   const contentMarginTop = isMobile ? 0 : 8;
   const contentPaddingTop = isMobile ? 0 : 2;
-  const laExtraHeight = isMobile ? 61 : 100; // LA Wrapper and action button height
-  const tabContentClasses = 'pl-4 pt-2 pr-1.5 pb-4 md:pl-1.5 md:pr-0 md:pb-0 xl:p-4 xl:pr-0';
+  const laExtraHeight = isMobile ? 61 : showDrawerMenu ? 44 : 100; // LA Wrapper and action button height
+  const tabContentClasses = 'pl-4 pt-2 pr-1.5 pb-4 md:pl-1.5 md:pr-0 md:pb-0 lg:p-4 lg:pr-0';
   // If it's mobile, use the widget navigation row height + the height of the webiste header
   // as we're using 100vh for the content style, if not, just use the height of the navigation row
   // If the tab list is hidden, don't count it's height
@@ -126,7 +126,7 @@ export function WidgetNavigation({
   const style = isMobile
     ? { height: `calc(100dvh - ${headerHeight + (showLinkedAction ? laExtraHeight : 0)}px)` }
     : showDrawerMenu
-      ? { height: `${height - 52}px` }
+      ? { height: `${height - 52 - (showLinkedAction ? laExtraHeight : 0)}px` }
       : undefined;
   const verticalTabGlowClasses =
     'before:-left-[11px] before:absolute before:top-1/2 before:-translate-y-1/2 before:h-[120%] before:w-px before:bg-nav-light-vertical';
