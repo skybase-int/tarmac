@@ -11,6 +11,9 @@ import { IntentMapping } from '@/lib/constants';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { useUserSuggestedActions } from '@/modules/ui/hooks/useUserSuggestedActions';
 import { filterActionsByIntent } from '@/lib/utils';
+import { AboutSky } from '@/modules/ui/components/AboutSky';
+import { AboutSpk } from '@/modules/ui/components/AboutSpk';
+import { AboutSUsds } from '@/modules/ui/components/AboutSUsds';
 
 export function TradeDetails(): React.ReactElement {
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
@@ -37,9 +40,16 @@ export function TradeDetails(): React.ReactElement {
         </DetailSection>
       )}
       <DetailSection title={t`About Native Sky Protocol Tokens`}>
-        <DetailSectionRow>
+        <div>
           <AboutUsds />
-        </DetailSectionRow>
+          {import.meta.env.VITE_RESTRICTED_BUILD !== 'true' && (
+            <>
+              <AboutSUsds />
+            </>
+          )}
+          <AboutSky />
+          <AboutSpk />
+        </div>
       </DetailSection>
       <DetailSection title={t`FAQs`}>
         <DetailSectionRow>
