@@ -7,6 +7,7 @@ import { SavingsCard } from './modules/SavingsCard';
 import { TradeCard } from './modules/TradeCard';
 import { UpgradeCard } from './modules/UpgradeCard';
 import { StakingRewardsCard } from './modules/StakingRewardsCard';
+import { ExpertCard } from './modules/ExpertCard';
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
 
 export function BalancesModuleShowcase() {
@@ -55,6 +56,9 @@ export function BalancesModuleShowcase() {
             <TradeCard />
           </CarouselItem>
         )}
+        <CarouselItem>
+          <ExpertCard />
+        </CarouselItem>
       </CarouselContent>
       <CarouselControls className="absolute bottom-1 left-1/2 z-10 -translate-x-1/2 2xl:bottom-4" />
     </Carousel>
