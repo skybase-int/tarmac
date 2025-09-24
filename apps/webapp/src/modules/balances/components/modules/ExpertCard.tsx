@@ -17,7 +17,7 @@ export function ExpertCard() {
       intent={Intent.EXPERT_INTENT}
       module={t`Expert`}
       title={t`Access the stUSDS Rate`}
-      className="from-[#B55FCA] to-[#FF9B63]"
+      className="[background:linear-gradient(90deg,rgba(26,24,85,0.40)_5.85%,rgba(26,24,85,0.00)_92.78%),linear-gradient(to_bottom,#EB5EDF,#FFCD6B)]"
       notAvailable={isL2}
       logoName="expert"
       subHeading={
