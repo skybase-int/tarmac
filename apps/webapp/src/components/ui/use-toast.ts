@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import type { ToastActionElement, ToastProps } from '@/components/ui/toast';
 
-const TOAST_LIMIT = 1;
+const TOAST_LIMIT = 5;
 const TOAST_REMOVE_DELAY = 1000000;
 
 type ToasterToast = Omit<ToastProps, 'title'> & {
@@ -78,11 +78,14 @@ const addToRemoveQueue = (toastId: string) => {
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case ACTION.ADD_TOAST:
+    case ACTION.ADD_TOAST: {
+      // Filter out any existing toast with the same ID to prevent duplicates
+      const filteredToasts = state.toasts.filter(t => t.id !== action.toast.id);
       return {
         ...state,
-        toasts: [action.toast, ...state.toasts].slice(0, TOAST_LIMIT)
+        toasts: [action.toast, ...filteredToasts].slice(0, TOAST_LIMIT)
       };
+    }
 
     case ACTION.UPDATE_TOAST:
       return {
@@ -142,8 +145,8 @@ function dispatch(action: Action) {
 
 export type Toast = Omit<ToasterToast, 'id'>;
 
-function toast({ variant, ...props }: Toast) {
-  const id = genId();
+function toast({ variant, id: toastId, ...props }: Toast & { id?: string }) {
+  const id = toastId || genId();
 
   const update = (props: ToasterToast) =>
     dispatch({

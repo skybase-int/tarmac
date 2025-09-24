@@ -27,7 +27,7 @@ export function Toaster() {
           typeof description === 'string' ? truncateDescription(description) : null;
 
         return (
-          <Toast variant={variant} key={id} {...props}>
+          <Toast variant={variant} key={id} className="mt-2" {...props}>
             <div className="flex w-full gap-1">
               {variant === 'success' && <Success />}
               {variant === 'failure' && <Failure />}

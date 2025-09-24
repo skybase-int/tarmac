@@ -16,6 +16,7 @@ import { isL2ChainId } from '@jetstreamgg/sky-utils';
 import { useChainId } from 'wagmi';
 
 const generateToastConfig = ({
+  id,
   title,
   description,
   descriptionSub,
@@ -29,6 +30,7 @@ const generateToastConfig = ({
   onClick,
   rateType
 }: {
+  id?: string;
   title: string;
   description: string;
   descriptionSub: string;
@@ -43,6 +45,7 @@ const generateToastConfig = ({
   onClick: () => void;
 }) =>
   ({
+    id,
     title,
     description: (
       <HStack className="w-full justify-between">
@@ -95,6 +98,7 @@ export const useNotification = () => {
     if (isRewardsModule) {
       toast(
         generateToastConfig({
+          id: 'insufficient-balance-rewards',
           title: t`Looks like you need ${rewardContract?.supplyToken.symbol?.toUpperCase() ?? 'tokens'} to get rewards`,
           description: `${rewardContract?.name ?? 'Reward'} Reward Rate`,
           descriptionSub: rate || '',
@@ -106,6 +110,7 @@ export const useNotification = () => {
     } else if (isSavingsModule) {
       toast(
         generateToastConfig({
+          id: 'insufficient-balance-savings',
           title: t`Looks like you need USDS`,
           description: 'Sky Savings Rate',
           descriptionSub: savingsRate || '',
@@ -132,6 +137,7 @@ export const useNotification = () => {
             generateToastConfig(
               isL2
                 ? {
+                    id: 'usds-received-l2-savings',
                     title: t`Get the Sky Savings Rate`,
                     description: t`With: USDS Get: USDS`,
                     descriptionSub: savingsRate ? t`Rate: ${savingsRate}` : '',
@@ -142,6 +148,7 @@ export const useNotification = () => {
                     icon: <Savings />
                   }
                 : {
+                    id: 'usds-received-rewards',
                     title: t`Get rewards with USDS`,
                     description: t`With: USDS Get: SKY`,
                     descriptionSub: rate ? t`Rate: ${rate}` : '',
@@ -158,6 +165,7 @@ export const useNotification = () => {
         setTimeout(() => {
           toast(
             generateToastConfig({
+              id: 'dai-received-upgrade',
               title: t`Upgrade and get rewards`,
               description: t`Upgrade DAI to USDS`,
               descriptionSub: t`then get rewards`,
