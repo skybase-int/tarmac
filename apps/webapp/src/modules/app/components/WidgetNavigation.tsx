@@ -45,10 +45,8 @@ export function WidgetNavigation({
   const [height, setHeight] = useState<number>(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const {
-    selectedRewardContract,
     linkedActionConfig: { showLinkedAction }
   } = useConfigContext();
-  const isRewardsOverview = !selectedRewardContract && intent === Intent.REWARDS_INTENT;
 
   const { setIsSwitchingNetwork } = useNetworkSwitch();
   const chains = useChains();
@@ -119,20 +117,14 @@ export function WidgetNavigation({
   const contentMarginTop = isMobile ? 0 : 8;
   const contentPaddingTop = isMobile ? 0 : 2;
   const laExtraHeight = isMobile ? 61 : 100; // LA Wrapper and action button height
-  const baseTabContentClasses = 'lg:h-full md:flex-1';
-  const tabContentClasses = isRewardsOverview
-    ? `${baseTabContentClasses} pl-4 pt-2 pr-1.5 pb-0 md:pl-1.5 md:pb-3 md:pr-0 md:pt-2 xl:p-4 xl:pb-4 xl:pr-0`
-    : intent === Intent.BALANCES_INTENT
-      ? `${baseTabContentClasses} pl-4 pt-2 pb-4 pr-1.5 md:pl-1.5 md:pb-0 md:pr-0 md:pt-2 xl:p-4 xl:pb-0 xl:pr-0`
-      : `${baseTabContentClasses} pl-4 pt-2 pb-4 pr-1.5 md:pl-1.5 md:pb-0 md:pr-0 md:pt-2 xl:p-4 xl:pr-0`;
+  const tabContentClasses = 'pl-4 pt-2 pr-1.5 pb-4 md:pl-1.5 md:pr-0 md:pb-0 xl:p-4 xl:pr-0';
   // If it's mobile, use the widget navigation row height + the height of the webiste header
   // as we're using 100vh for the content style, if not, just use the height of the navigation row
   // If the tab list is hidden, don't count it's height
   const headerHeight =
     (isMobile ? (hideTabs ? 56 : 63 + 56) : 66) + (contentMarginTop + contentPaddingTop) * 4;
-  const topOffset = headerHeight;
   const style = isMobile
-    ? { height: `calc(100dvh - ${topOffset + (showLinkedAction ? laExtraHeight : 0)}px)` }
+    ? { height: `calc(100dvh - ${headerHeight + (showLinkedAction ? laExtraHeight : 0)}px)` }
     : showDrawerMenu
       ? { height: `${height - 52}px` }
       : undefined;
