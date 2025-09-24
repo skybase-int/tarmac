@@ -27,37 +27,40 @@ export function BalancesModuleShowcase() {
   // Use a ref to tell the carousel what will be the root of the mouse events
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  const allCards: CarouselCard[] = [
-    {
-      id: 'rewards',
-      component: <RewardsCard />,
-      hideInRestrictedBuild: true
-    },
-    {
-      id: 'savings',
-      component: <SavingsCard />,
-      hideInRestrictedBuild: true
-    },
-    {
-      id: 'staking',
-      component: <StakingRewardsCard />
-    },
-    {
-      id: 'upgrade',
-      component: <UpgradeCard />
-    },
-    {
-      id: 'trade',
-      component: <TradeCard />,
-      hideInMiCaRestricted: true
-    },
-    {
-      id: 'expert',
-      component: <ExpertCard />,
-      featured: true // Featured cards go first
-      //TODO: determine if this needs to be hidden in any way
-    }
-  ];
+  const allCards: CarouselCard[] = useMemo(
+    () => [
+      {
+        id: 'rewards',
+        component: <RewardsCard />,
+        hideInRestrictedBuild: true
+      },
+      {
+        id: 'savings',
+        component: <SavingsCard />,
+        hideInRestrictedBuild: true
+      },
+      {
+        id: 'staking',
+        component: <StakingRewardsCard />
+      },
+      {
+        id: 'upgrade',
+        component: <UpgradeCard />
+      },
+      {
+        id: 'trade',
+        component: <TradeCard />,
+        hideInMiCaRestricted: true
+      },
+      {
+        id: 'expert',
+        component: <ExpertCard />,
+        featured: true // Featured cards go first
+        //TODO: determine if this needs to be hidden in any way
+      }
+    ],
+    []
+  );
 
   // Filter cards based on restrictions and sort by featured status
   const visibleCards = useMemo(() => {
@@ -73,7 +76,7 @@ export function BalancesModuleShowcase() {
 
     // Combine with featured cards first, maintaining original order within each group
     return [...featuredCards, ...regularCards];
-  }, [isRestrictedBuild, isRestrictedMiCa]);
+  }, [allCards, isRestrictedBuild, isRestrictedMiCa]);
 
   return (
     <Carousel
