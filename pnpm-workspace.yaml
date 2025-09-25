@@ -68,6 +68,7 @@ catalog:
   lint-staged: ^15.5.1
   lucide-react: ^0.544.0
   openapi-fetch: ^0.14.0
+  porto: ^0.2.8
   prettier: ^3.6.1
   prettier-plugin-tailwindcss: ^0.6.14
   react: ^19.1.1
