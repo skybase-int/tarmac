@@ -1,15 +1,22 @@
-import { useEthereumTradeHistory } from './useEthereumTradeHistory';
-import { useL2TradeHistory } from '../psm/useL2TradeHistory';
-import { isL2ChainId } from '@jetstreamgg/sky-utils';
+import { useCowswapTradeHistory } from './useCowswapTradeHistory';
+import { usePsmTradeHistory } from '../psm/usePsmTradeHistory';
+import { isCowSupportedChainId } from '@jetstreamgg/sky-utils';
 import { useChainId } from 'wagmi';
 
 export function useTradeHistory(subgraphUrl?: string) {
   const chainId = useChainId();
-  const l2TradeHistory = useL2TradeHistory({ subgraphUrl, enabled: isL2ChainId(chainId) });
-  const ethereumTradeHistory = useEthereumTradeHistory({ enabled: !isL2ChainId(chainId) });
 
-  if (isL2ChainId(chainId)) {
-    return l2TradeHistory;
+  // Use CowSwap API for all chains that support it (mainnet, base, arbitrum)
+  const cowswapTradeHistory = useCowswapTradeHistory({ enabled: isCowSupportedChainId(chainId) });
+
+  // Use PSM subgraph for chains that don't support CowSwap (optimism, unichain)
+  const psmTradeHistory = usePsmTradeHistory({
+    subgraphUrl,
+    enabled: !isCowSupportedChainId(chainId)
+  });
+
+  if (isCowSupportedChainId(chainId)) {
+    return cowswapTradeHistory;
   }
-  return ethereumTradeHistory;
+  return psmTradeHistory;
 }

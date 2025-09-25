@@ -1,11 +1,5 @@
 import { ReadHook } from '../hooks';
-import {
-  ModuleEnum,
-  TENDERLY_CHAIN_ID,
-  TRUST_LEVELS,
-  TransactionTypeEnum,
-  TrustLevelEnum
-} from '../constants';
+import { ModuleEnum, TRUST_LEVELS, TransactionTypeEnum, TrustLevelEnum } from '../constants';
 import { useQuery } from '@tanstack/react-query';
 import { TradeHistory } from './trade';
 import { useAccount, useChainId } from 'wagmi';
@@ -13,19 +7,20 @@ import { cowApiClient, OrderStatus } from './constants';
 import { TokenForChain } from '../tokens/types';
 import { ETH_ADDRESS, TRADE_TOKENS } from '../tokens/tokens.constants';
 import { formatOrderStatus } from './formatOrderStatus';
-import { isTestnetId, chainId as chainIdMap } from '@jetstreamgg/sky-utils';
+import { isCowSupportedChainId } from '@jetstreamgg/sky-utils';
 
-async function fetchEthereumTradeHistory(
+async function fetchCowswapTradeHistory(
   chainId: number,
   address?: string,
   limit = 50,
   tokens?: TokenForChain[]
 ): Promise<TradeHistory | undefined> {
-  // no history on tenderly
-  if (chainId === TENDERLY_CHAIN_ID) {
-    return [];
-  }
   if (!address) return [];
+
+  // Check if we have a client configured for this chain
+  if (!cowApiClient[chainId as keyof typeof cowApiClient]) {
+    throw new Error(`CowSwap API client not configured for chain ${chainId}`);
+  }
 
   const { data: ordersData, response } = await cowApiClient[chainId as keyof typeof cowApiClient].GET(
     '/api/v1/account/{owner}/orders',
@@ -74,18 +69,21 @@ async function fetchEthereumTradeHistory(
   return parsedOrders as TradeHistory;
 }
 
-export function useEthereumTradeHistory({
+export function useCowswapTradeHistory({
   limit = 50,
   enabled = true
 }: {
   limit?: number;
   enabled?: boolean;
-}): ReadHook & { data?: TradeHistory } {
+} = {}): ReadHook & { data?: TradeHistory } {
   const { address } = useAccount();
-  const currentChainId = useChainId();
-  const chainIdToUse = isTestnetId(currentChainId) ? chainIdMap.tenderly : chainIdMap.mainnet;
-  const tokens = TRADE_TOKENS[chainIdToUse as keyof typeof TRADE_TOKENS]
-    ? Object.values(TRADE_TOKENS[chainIdToUse as keyof typeof TRADE_TOKENS])
+  const chainId = useChainId();
+
+  // Check if CowSwap supports this chain
+  const isCowSupported = isCowSupportedChainId(chainId);
+
+  const tokens = TRADE_TOKENS[chainId as keyof typeof TRADE_TOKENS]
+    ? Object.values(TRADE_TOKENS[chainId as keyof typeof TRADE_TOKENS])
     : [];
 
   const {
@@ -94,9 +92,9 @@ export function useEthereumTradeHistory({
     refetch: mutate,
     isLoading
   } = useQuery({
-    enabled: Boolean(address) && enabled,
-    queryKey: ['trade-history', address, limit, chainIdToUse],
-    queryFn: () => fetchEthereumTradeHistory(chainIdToUse, address, limit, tokens)
+    enabled: Boolean(address) && enabled && isCowSupported,
+    queryKey: ['cowswap-trade-history', address, limit, chainId],
+    queryFn: () => fetchCowswapTradeHistory(chainId, address, limit, tokens)
   });
 
   return {

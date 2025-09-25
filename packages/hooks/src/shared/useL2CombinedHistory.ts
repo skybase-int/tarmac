@@ -1,10 +1,10 @@
 import { useL2SavingsHistory } from '../psm/useL2SavingsHistory';
-import { useL2TradeHistory } from '../psm/useL2TradeHistory';
+import { usePsmTradeHistory } from '../psm/usePsmTradeHistory';
 import { useMemo } from 'react';
 
 export function useL2CombinedHistory(chainId?: number) {
   const savingsHistory = useL2SavingsHistory({ chainId });
-  const tradeHistory = useL2TradeHistory({ chainId, excludeSUsds: true });
+  const tradeHistory = usePsmTradeHistory({ chainId, excludeSUsds: true });
 
   const combinedData = useMemo(() => {
     return [...(savingsHistory.data || []), ...(tradeHistory.data || [])].sort(

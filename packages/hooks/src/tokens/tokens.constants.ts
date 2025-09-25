@@ -206,12 +206,16 @@ export const TRADE_TOKENS = {
   [base.id]: {
     usdc: { ...TOKENS.usdc, address: usdcL2Address[base.id] },
     usds: { ...TOKENS.usds, address: usdsL2Address[base.id] },
-    susds: { ...TOKENS.susds, address: sUsdsL2Address[base.id] }
+    susds: { ...TOKENS.susds, address: sUsdsL2Address[base.id] },
+    eth: { ...TOKENS.eth, address: ETH_ADDRESS },
+    weth: { ...TOKENS.weth, address: wethConfig.address[base.id] }
   },
   [arbitrum.id]: {
     usdc: { ...TOKENS.usdc, address: usdcL2Address[arbitrum.id] },
     usds: { ...TOKENS.usds, address: usdsL2Address[arbitrum.id] },
-    susds: { ...TOKENS.susds, address: sUsdsL2Address[arbitrum.id] }
+    susds: { ...TOKENS.susds, address: sUsdsL2Address[arbitrum.id] },
+    eth: { ...TOKENS.eth, address: ETH_ADDRESS },
+    weth: { ...TOKENS.weth, address: wethConfig.address[arbitrum.id] }
   },
   [optimism.id]: {
     usdc: { ...TOKENS.usdc, address: usdcL2Address[optimism.id] },
