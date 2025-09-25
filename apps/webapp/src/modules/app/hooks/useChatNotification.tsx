@@ -27,7 +27,7 @@ export const useChatNotification = (isAuthorized: boolean) => {
     if (bpi < BP['3xl']) searchParams.set(QueryParams.Details, 'false');
     setSearchParams(searchParams);
     setTimeout(() => {
-      toast.dismiss();
+      // toast.dismiss();
     }, 300);
   }, [bpi, searchParams, setSearchParams]);
 
@@ -41,7 +41,7 @@ export const useChatNotification = (isAuthorized: boolean) => {
   useEffect(() => {
     // Only show if authorized by the notification queue
     if (!isAuthorized) {
-      toast.dismiss();
+      // toast.dismiss();
       return;
     }
 

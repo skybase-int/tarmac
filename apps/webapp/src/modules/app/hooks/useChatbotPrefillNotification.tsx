@@ -9,7 +9,6 @@ export function useChatbotPrefillNotification() {
   const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const showPrefillNotification = useCallback(() => {
-    console.log('🚀🚀🚀🚀🚀 showPrefillNotification');
     // Clear any existing timeout to prevent multiple toasts
     if (toastTimeoutRef.current) {
       clearTimeout(toastTimeoutRef.current);
@@ -44,7 +43,7 @@ export function useChatbotPrefillNotification() {
 
       // Clear the ref after the toast is shown
       toastTimeoutRef.current = null;
-    }, 1000); // Small delay for better UX
+    }, 3000); // Small delay for better UX
   }, []);
 
   return { showPrefillNotification };

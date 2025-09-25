@@ -9,13 +9,13 @@ import { GOVERNANCE_MIGRATION_NOTIFICATION_KEY } from '@/lib/constants';
 export const useGovernanceMigrationToast = (isAuthorized: boolean) => {
   const onClose = useCallback(() => {
     localStorage.setItem(GOVERNANCE_MIGRATION_NOTIFICATION_KEY, 'true');
-    toast.dismiss();
+    // toast.dismiss();
   }, []);
 
   useEffect(() => {
     // Only show if authorized by the notification queue
     if (!isAuthorized) {
-      toast.dismiss();
+      // toast.dismiss();
       return;
     }
 

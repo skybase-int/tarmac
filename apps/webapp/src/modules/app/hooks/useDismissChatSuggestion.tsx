@@ -1,4 +1,3 @@
-import { toast } from '@/components/ui/use-toast';
 import { CHATBOT_ENABLED, CHAT_NOTIFICATION_KEY } from '@/lib/constants';
 import { useEffect, useState } from 'react';
 
@@ -13,7 +12,7 @@ export const useDismissChatSuggestion = () => {
         localStorage.setItem(CHAT_NOTIFICATION_KEY, 'true');
         setChatSuggested(true);
         // Dismiss all toasts since we can't filter by variant in Sonner
-        toast.dismiss();
+        // toast.dismiss();
       }
     }
   }, [chatSuggested]);

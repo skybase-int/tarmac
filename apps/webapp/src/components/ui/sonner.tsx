@@ -38,7 +38,6 @@ const Toaster = ({ className, toastOptions, ...props }: ToasterProps) => {
       expand={false}
       visibleToasts={5}
       closeButton={true}
-      // duration={4000}
       icons={{
         success: <Success />,
         error: <Failure />,

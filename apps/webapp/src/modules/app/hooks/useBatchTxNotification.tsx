@@ -35,13 +35,13 @@ export const useBatchTxNotification = (isAuthorized: boolean) => {
       console.error('Error parsing user settings', error);
     }
     setNotificationShown(true);
-    toast.dismiss();
+    // toast.dismiss();
   }, [updateUserConfig]);
 
   useEffect(() => {
     // Only show if authorized by the notification queue
     if (!isAuthorized) {
-      toast.dismiss();
+      // toast.dismiss();
       return;
     }
 

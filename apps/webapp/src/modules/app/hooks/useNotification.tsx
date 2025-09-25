@@ -7,7 +7,7 @@ import { VStack } from '@/modules/layout/components/VStack';
 import { Button } from '@/components/ui/button';
 import { capitalizeFirstLetter } from '@/lib/helpers/string/capitalizeFirstLetter';
 import { Text, TextProps } from '@/modules/layout/components/Typography';
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import { usePrepareNotification } from './usePrepareNotification';
 import { RewardsModule, Savings } from '@/modules/icons';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
@@ -54,11 +54,29 @@ const generateToastContent = ({
   </HStack>
 );
 
+const duration = 10000;
+const delay = 4000;
+const NOTIFICATION_DEBOUNCE_MS = 2000; // Prevent duplicate notifications within 2 seconds
+
 export const useNotification = () => {
   const isRestricted = import.meta.env.VITE_RESTRICTED_BUILD === 'true';
   const chainId = useChainId();
   const isL2 = isL2ChainId(chainId);
   const { linkedActionConfig } = useConfigContext();
+
+  // Track last notification to prevent duplicates
+  const lastNotificationRef = useRef<{
+    type?: NotificationType;
+    title?: string;
+    timestamp: number;
+  }>({ timestamp: 0 });
+
+  // Track internal notification handlers to prevent duplicates
+  const lastInternalNotificationRef = useRef<{
+    type: 'insufficient' | 'token-received';
+    subtype?: NotificationType;
+    timestamp: number;
+  }>({ type: 'insufficient', timestamp: 0 });
   const {
     navigate,
     action,
@@ -75,62 +93,100 @@ export const useNotification = () => {
   const handleInsufficientBalance = useCallback(() => {
     if (!action) return;
 
+    const now = Date.now();
+    const lastInternal = lastInternalNotificationRef.current;
+
+    // Prevent duplicate insufficient balance notifications
+    if (lastInternal.type === 'insufficient' && now - lastInternal.timestamp < NOTIFICATION_DEBOUNCE_MS) {
+      console.log('[useNotification] Blocking duplicate insufficient balance notification');
+      return;
+    }
+
+    lastInternalNotificationRef.current = {
+      type: 'insufficient',
+      timestamp: now
+    };
+
     const buttonTxt =
       action?.intent && (action as LinkedAction).la
         ? `${capitalizeFirstLetter(action.intent)} & ${capitalizeFirstLetter((action as LinkedAction).la)}`
         : `${capitalizeFirstLetter(action?.intent || '')}`;
 
-    if (isRewardsModule) {
-      toast.custom(
-        () => (
-          <div>
-            <Text variant="medium">
-              {t`Looks like you need ${rewardContract?.supplyToken.symbol?.toUpperCase() ?? 'tokens'} to get rewards`}
-            </Text>
-            {generateToastContent({
-              description: `${rewardContract?.name ?? 'Reward'} Reward Rate`,
-              descriptionSub: rate || '',
-              buttonTxt,
-              rateType: 'str',
-              onClick: navigate
-            })}
-          </div>
-        ),
-        {
-          id: 'insufficient-balance-rewards',
-          classNames: {
-            content: 'w-full'
+    setTimeout(() => {
+      if (isRewardsModule) {
+        toast.custom(
+          () => (
+            <div>
+              <Text variant="medium">
+                {t`Looks like you need ${rewardContract?.supplyToken.symbol?.toUpperCase() ?? 'tokens'} to get rewards`}
+              </Text>
+              {generateToastContent({
+                description: `${rewardContract?.name ?? 'Reward'} Reward Rate`,
+                descriptionSub: rate || '',
+                buttonTxt,
+                rateType: 'str',
+                onClick: navigate
+              })}
+            </div>
+          ),
+          {
+            // id: 'insufficient-balance-rewards',
+            classNames: {
+              content: 'w-full'
+            },
+            duration
           }
-        }
-      );
-    } else if (isSavingsModule) {
-      toast.custom(
-        () => (
-          <div>
-            <Text variant="medium">{t`Looks like you need USDS`}</Text>
-            {generateToastContent({
-              description: 'Sky Savings Rate',
-              descriptionSub: savingsRate || '',
-              buttonTxt,
-              rateType: 'ssr',
-              onClick: navigate
-            })}
-          </div>
-        ),
-        {
-          id: 'insufficient-balance-savings',
-          classNames: {
-            content: 'w-full'
+        );
+      } else if (isSavingsModule) {
+        toast.custom(
+          () => (
+            <div>
+              <Text variant="medium">{t`Looks like you need USDS`}</Text>
+              {generateToastContent({
+                description: 'Sky Savings Rate',
+                descriptionSub: savingsRate || '',
+                buttonTxt,
+                rateType: 'ssr',
+                onClick: navigate
+              })}
+            </div>
+          ),
+          {
+            // id: 'insufficient-balance-savings',
+            classNames: {
+              content: 'w-full'
+            },
+            duration
           }
-        }
-      );
-    }
+        );
+      }
+    }, delay); // delay for insufficient balance notifications
   }, [action, isRewardsModule, isSavingsModule, rewardContract, rate, savingsRate, navigate]);
 
   const handleTokenReceived = useCallback(
     (type: NotificationType) => {
       // Don't show the toast if the user is in a LA flow
       if (linkedActionConfig.showLinkedAction) return;
+
+      const now = Date.now();
+      const lastInternal = lastInternalNotificationRef.current;
+
+      // Prevent duplicate token received notifications of the same type
+      if (
+        lastInternal.type === 'token-received' &&
+        lastInternal.subtype === type &&
+        now - lastInternal.timestamp < NOTIFICATION_DEBOUNCE_MS
+      ) {
+        console.log('[useNotification] Blocking duplicate token received notification:', type);
+        return;
+      }
+
+      lastInternalNotificationRef.current = {
+        type: 'token-received',
+        subtype: type,
+        timestamp: now
+      };
+
       const urlL2Ready = url && isL2;
       if (
         type === NotificationType.USDS_RECEIVED &&
@@ -156,10 +212,11 @@ export const useNotification = () => {
                 </div>
               ),
               {
-                id: 'usds-received-l2-savings',
+                // id: 'usds-received-l2-savings',
                 classNames: {
                   content: 'w-full'
-                }
+                },
+                duration
               }
             );
           } else {
@@ -180,14 +237,15 @@ export const useNotification = () => {
                 </div>
               ),
               {
-                id: 'usds-received-rewards',
+                // id: 'usds-received-rewards',
                 classNames: {
                   content: 'w-full'
-                }
+                },
+                duration
               }
             );
           }
-        }, 4000);
+        }, delay);
       } else if (type === NotificationType.DAI_RECEIVED && action && isTradeModule) {
         setTimeout(() => {
           toast.custom(
@@ -209,13 +267,14 @@ export const useNotification = () => {
               </div>
             ),
             {
-              id: 'dai-received-upgrade',
+              // id: 'dai-received-upgrade',
               classNames: {
                 content: 'w-full'
-              }
+              },
+              duration
             }
           );
-        }, 4000);
+        }, delay);
       }
     },
     [isTradeModule, isUpgradeModule, action, navigate, isL2, url]
@@ -233,18 +292,39 @@ export const useNotification = () => {
       status: TxStatus;
       type?: NotificationType;
     }) => {
+      const now = Date.now();
+      const lastNotif = lastNotificationRef.current;
+
+      // Check if this is a duplicate notification (same type and title within debounce window)
+      const isDuplicate =
+        lastNotif.type === type &&
+        lastNotif.title === title &&
+        now - lastNotif.timestamp < NOTIFICATION_DEBOUNCE_MS;
+
+      if (isDuplicate) {
+        console.log('[useNotification] Blocking duplicate notification:', { type, title });
+        return; // Skip duplicate notification
+      }
+
+      // Update last notification tracking
+      lastNotificationRef.current = {
+        type,
+        title,
+        timestamp: now
+      };
+
       if (!isRestricted && type === NotificationType.INSUFFICIENT_BALANCE) {
         handleInsufficientBalance();
       } else if (type && type !== NotificationType.INSUFFICIENT_BALANCE) {
         if (status === TxStatus.SUCCESS) {
           toast.success(title, {
             description,
-            duration: 3500
+            duration
           });
         } else {
           toast.error(title, {
             description,
-            duration: 3500
+            duration
           });
         }
         handleTokenReceived(type);
