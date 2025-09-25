@@ -127,7 +127,7 @@ export function UpgradeRevert({
                 fetchingMessage={t`Fetching transaction details`}
                 transactionData={[
                   {
-                    label: t`Exchange rate`,
+                    label: t`Exchange Rate`,
                     tooltipText: getTooltipById('exchange-rate')?.tooltip || '',
                     value: (() => {
                       // Check if it's MKR to SKY conversion

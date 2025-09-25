@@ -37,7 +37,7 @@ export const useChatNotification = (isAuthorized: boolean) => {
     setChatSuggested(true);
   }, []);
 
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     // Only show if authorized by the notification queue

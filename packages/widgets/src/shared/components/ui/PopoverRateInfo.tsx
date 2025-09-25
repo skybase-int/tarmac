@@ -78,7 +78,7 @@ const getContent = (
     )
   },
   dtc: {
-    title: 'Debt Ceiling',
+    title: 'Debt ceiling',
     description: (
       <Text className="leading-5 text-white/80" variant="small">
         The debt ceiling is the maximum amount of debt or tokens that can be issued within the SKY protocol,
@@ -254,7 +254,7 @@ export const PopoverRateInfo = ({
   return (
     <Popover>
       <PopoverTrigger asChild onClick={e => e.stopPropagation()} className="z-10">
-        <span className="inline-flex items-center">
+        <span className="inline-flex cursor-pointer items-center">
           <Info className={iconClassName} width={width} height={height} />
         </span>
       </PopoverTrigger>
