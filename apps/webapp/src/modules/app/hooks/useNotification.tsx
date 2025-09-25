@@ -1,5 +1,5 @@
 import { NotificationType, TxStatus } from '@jetstreamgg/sky-widgets';
-import { Toast, toast } from '@/components/ui/use-toast';
+import { toast } from '@/components/ui/use-toast';
 import { LinkedAction } from '@/modules/ui/hooks/useUserSuggestedActions';
 import { HStack } from '@/modules/layout/components/HStack';
 import { t } from '@lingui/core/macro';
@@ -15,9 +15,7 @@ import { PopoverRateInfo as PopoverInfo } from '@jetstreamgg/sky-widgets';
 import { isL2ChainId } from '@jetstreamgg/sky-utils';
 import { useChainId } from 'wagmi';
 
-const generateToastConfig = ({
-  id,
-  title,
+const generateToastContent = ({
   description,
   descriptionSub,
   buttonTxt,
@@ -25,13 +23,9 @@ const generateToastConfig = ({
   descriptionSubVariant,
   descriptionClassName = 'text-selectActive',
   descriptionSubClassName,
-  variant = 'info',
-  icon,
   onClick,
   rateType
 }: {
-  id?: string;
-  title: string;
   description: string;
   descriptionSub: string;
   buttonTxt: string;
@@ -39,38 +33,26 @@ const generateToastConfig = ({
   descriptionSubVariant?: TextProps['variant'];
   descriptionClassName?: string;
   descriptionSubClassName?: string;
-  variant?: Toast['variant'];
-  icon?: React.ReactNode;
-  rateType?: 'ssr' | 'str';
   onClick: () => void;
-}) =>
-  ({
-    id,
-    title,
-    description: (
-      <HStack className="w-full justify-between">
-        <VStack className="mt-4">
-          <Text variant={descriptionVariant} className={descriptionClassName}>
-            {description}
-          </Text>
-          <HStack>
-            <Text variant={descriptionSubVariant} className={descriptionSubClassName}>
-              {descriptionSub}
-            </Text>
-            {!!rateType && <PopoverInfo type={rateType} />}
-          </HStack>
-        </VStack>
-        <Button className="place-self-end" variant="pill" size="xs" onClick={onClick}>
-          {buttonTxt}
-        </Button>
+  rateType?: 'ssr' | 'str';
+}) => (
+  <HStack className="w-full justify-between">
+    <VStack className="mt-4">
+      <Text variant={descriptionVariant} className={descriptionClassName}>
+        {description}
+      </Text>
+      <HStack>
+        <Text variant={descriptionSubVariant} className={descriptionSubClassName}>
+          {descriptionSub}
+        </Text>
+        {!!rateType && <PopoverInfo type={rateType} />}
       </HStack>
-    ),
-    variant,
-    icon,
-    classNames: {
-      content: 'w-full'
-    }
-  }) as Toast;
+    </VStack>
+    <Button className="place-self-end" variant="pill" size="xs" onClick={onClick}>
+      {buttonTxt}
+    </Button>
+  </HStack>
+);
 
 export const useNotification = () => {
   const isRestricted = import.meta.env.VITE_RESTRICTED_BUILD === 'true';
@@ -99,28 +81,48 @@ export const useNotification = () => {
         : `${capitalizeFirstLetter(action?.intent || '')}`;
 
     if (isRewardsModule) {
-      toast(
-        generateToastConfig({
+      toast.custom(
+        () => (
+          <div>
+            <Text variant="medium">
+              {t`Looks like you need ${rewardContract?.supplyToken.symbol?.toUpperCase() ?? 'tokens'} to get rewards`}
+            </Text>
+            {generateToastContent({
+              description: `${rewardContract?.name ?? 'Reward'} Reward Rate`,
+              descriptionSub: rate || '',
+              buttonTxt,
+              rateType: 'str',
+              onClick: navigate
+            })}
+          </div>
+        ),
+        {
           id: 'insufficient-balance-rewards',
-          title: t`Looks like you need ${rewardContract?.supplyToken.symbol?.toUpperCase() ?? 'tokens'} to get rewards`,
-          description: `${rewardContract?.name ?? 'Reward'} Reward Rate`,
-          descriptionSub: rate || '',
-          buttonTxt,
-          rateType: 'str',
-          onClick: navigate
-        })
+          classNames: {
+            content: 'w-full'
+          }
+        }
       );
     } else if (isSavingsModule) {
-      toast(
-        generateToastConfig({
+      toast.custom(
+        () => (
+          <div>
+            <Text variant="medium">{t`Looks like you need USDS`}</Text>
+            {generateToastContent({
+              description: 'Sky Savings Rate',
+              descriptionSub: savingsRate || '',
+              buttonTxt,
+              rateType: 'ssr',
+              onClick: navigate
+            })}
+          </div>
+        ),
+        {
           id: 'insufficient-balance-savings',
-          title: t`Looks like you need USDS`,
-          description: 'Sky Savings Rate',
-          descriptionSub: savingsRate || '',
-          buttonTxt,
-          rateType: 'ssr',
-          onClick: navigate
-        })
+          classNames: {
+            content: 'w-full'
+          }
+        }
       );
     }
   }, [action, isRewardsModule, isSavingsModule, rewardContract, rate, savingsRate, navigate]);
@@ -136,50 +138,82 @@ export const useNotification = () => {
         (action || urlL2Ready)
       ) {
         setTimeout(() => {
-          toast(
-            generateToastConfig(
-              isL2
-                ? {
-                    id: 'usds-received-l2-savings',
-                    title: t`Get the Sky Savings Rate`,
+          if (isL2) {
+            toast.custom(
+              () => (
+                <div>
+                  <HStack>
+                    <Savings />
+                    <Text variant="medium">{t`Get the Sky Savings Rate`}</Text>
+                  </HStack>
+                  {generateToastContent({
                     description: t`With: USDS Get: USDS`,
                     descriptionSub: savingsRate ? t`Rate: ${savingsRate}` : '',
                     rateType: savingsRate ? 'ssr' : undefined,
                     buttonTxt: t`Go to Savings`,
-                    onClick: navigate,
-                    variant: 'custom',
-                    icon: <Savings />
-                  }
-                : {
-                    id: 'usds-received-rewards',
-                    title: t`Get rewards with USDS`,
+                    onClick: navigate
+                  })}
+                </div>
+              ),
+              {
+                id: 'usds-received-l2-savings',
+                classNames: {
+                  content: 'w-full'
+                }
+              }
+            );
+          } else {
+            toast.custom(
+              () => (
+                <div>
+                  <HStack>
+                    <RewardsModule />
+                    <Text variant="medium">{t`Get rewards with USDS`}</Text>
+                  </HStack>
+                  {generateToastContent({
                     description: t`With: USDS Get: SKY`,
                     descriptionSub: rate ? t`Rate: ${rate}` : '',
                     rateType: rate ? 'str' : undefined,
                     buttonTxt: t`Go to Rewards`,
-                    onClick: navigate,
-                    variant: 'custom',
-                    icon: <RewardsModule />
-                  }
-            )
-          );
+                    onClick: navigate
+                  })}
+                </div>
+              ),
+              {
+                id: 'usds-received-rewards',
+                classNames: {
+                  content: 'w-full'
+                }
+              }
+            );
+          }
         }, 4000);
       } else if (type === NotificationType.DAI_RECEIVED && action && isTradeModule) {
         setTimeout(() => {
-          toast(
-            generateToastConfig({
+          toast.custom(
+            () => (
+              <div>
+                <HStack>
+                  <RewardsModule />
+                  <Text variant="medium">{t`Upgrade and get rewards`}</Text>
+                </HStack>
+                {generateToastContent({
+                  description: t`Upgrade DAI to USDS`,
+                  descriptionSub: t`then get rewards`,
+                  buttonTxt: t`Upgrade and get rewards`,
+                  descriptionClassName: 'text-text',
+                  descriptionSubClassName: 'text-text',
+                  descriptionSubVariant: 'small',
+                  onClick: navigate
+                })}
+              </div>
+            ),
+            {
               id: 'dai-received-upgrade',
-              title: t`Upgrade and get rewards`,
-              description: t`Upgrade DAI to USDS`,
-              descriptionSub: t`then get rewards`,
-              buttonTxt: t`Upgrade and get rewards`,
-              descriptionClassName: 'text-text',
-              descriptionSubClassName: 'text-text',
-              descriptionSubVariant: 'small',
-              onClick: navigate,
-              variant: 'custom',
-              icon: <RewardsModule />
-            })
+              classNames: {
+                content: 'w-full'
+              }
+            }
           );
         }, 4000);
       }
@@ -202,12 +236,17 @@ export const useNotification = () => {
       if (!isRestricted && type === NotificationType.INSUFFICIENT_BALANCE) {
         handleInsufficientBalance();
       } else if (type && type !== NotificationType.INSUFFICIENT_BALANCE) {
-        toast({
-          title,
-          description,
-          variant: status === TxStatus.SUCCESS ? 'success' : 'failure',
-          duration: 3500
-        });
+        if (status === TxStatus.SUCCESS) {
+          toast.success(title, {
+            description,
+            duration: 3500
+          });
+        } else {
+          toast.error(title, {
+            description,
+            duration: 3500
+          });
+        }
         handleTokenReceived(type);
       }
     },

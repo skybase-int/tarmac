@@ -195,14 +195,20 @@ export function useEnhancedNetworkToast() {
       // Set new timeout with proper cleanup reference
       toastTimeoutRef.current = setTimeout(
         () => {
-          toast({
-            title,
-            description: toastContent,
-            duration: hasQuickSwitch || hasLongTitle ? 8000 : 5000, // Extended duration for multichain widgets or longer messages
-            classNames: {
-              toast: 'md:min-w-[400px]'
+          toast.custom(
+            () => (
+              <div>
+                <Text variant="medium">{title}</Text>
+                {toastContent}
+              </div>
+            ),
+            {
+              duration: hasQuickSwitch || hasLongTitle ? 8000 : 5000, // Extended duration for multichain widgets or longer messages
+              classNames: {
+                toast: 'md:min-w-[400px]'
+              }
             }
-          });
+          );
           // Clear the ref after the toast is shown
           toastTimeoutRef.current = null;
         },
