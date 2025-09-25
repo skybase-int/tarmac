@@ -8,6 +8,7 @@ import { t } from '@lingui/core/macro';
 import { cn } from '@/lib/utils';
 import { useIsSafeWallet } from '@jetstreamgg/sky-utils';
 import { WalletIcon } from './WalletIcon';
+import { WALLET_ICONS } from '@/lib/constants';
 
 interface ConnectModalProps {
   open: boolean;
@@ -54,9 +55,10 @@ export function ConnectModal({ open, onOpenChange }: ConnectModalProps) {
         }
 
         // Try to get the connector's icon
-        if (connector.icon) {
-          setIcons(prev => ({ ...prev, [connector.uid]: connector.icon || '' }));
-        }
+        setIcons(prev => ({
+          ...prev,
+          [connector.uid]: connector.icon || WALLET_ICONS[connector.id as keyof typeof WALLET_ICONS] || ''
+        }));
       } catch (err) {
         console.warn(`Connector ${connector.name} not available:`, err);
         setReady(prev => ({ ...prev, [connector.uid]: false }));
