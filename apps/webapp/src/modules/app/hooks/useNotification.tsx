@@ -66,7 +66,10 @@ const generateToastConfig = ({
       </HStack>
     ),
     variant,
-    icon
+    icon,
+    classNames: {
+      content: 'w-full'
+    }
   }) as Toast;
 
 export const useNotification = () => {

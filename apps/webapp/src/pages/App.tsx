@@ -7,7 +7,7 @@ import { RouterProvider } from 'react-router-dom';
 import { router } from './router';
 import { I18nProvider } from '@lingui/react';
 import { i18n } from '@lingui/core';
-import { Toaster } from '@/components/ui/toaster';
+import { Toaster } from '@/components/ui/sonner';
 import { rainbowTheme } from '../themes/rainbowTheme';
 import { CustomAvatar } from '@/modules/ui/components/Avatar';
 import { TooltipProvider } from '@/components/ui/tooltip';

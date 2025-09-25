@@ -80,6 +80,9 @@ export const useChatNotification = (isAuthorized: boolean) => {
             ),
             variant: 'chat',
             duration: Infinity,
+            classNames: {
+              content: 'w-full'
+            },
             onClose
           });
         }

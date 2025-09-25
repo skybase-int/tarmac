@@ -60,6 +60,7 @@
     "embla-carousel-react": "catalog:",
     "framer-motion": "catalog:",
     "lucide-react": "catalog:",
+    "next-themes": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "react-intersection-observer": "catalog:",
@@ -68,6 +69,7 @@
     "react-router-dom": "catalog:",
     "recharts": "catalog:",
     "rehype-sanitize": "catalog:",
+    "sonner": "catalog:",
     "viem": "catalog:",
     "vite": "catalog:",
     "wagmi": "catalog:"
