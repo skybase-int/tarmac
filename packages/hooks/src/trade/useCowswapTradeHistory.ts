@@ -5,7 +5,7 @@ import { TradeHistory } from './trade';
 import { useAccount, useChainId } from 'wagmi';
 import { cowApiClient, OrderStatus } from './constants';
 import { TokenForChain } from '../tokens/types';
-import { ETH_ADDRESS, TRADE_TOKENS } from '../tokens/tokens.constants';
+import { ETH_ADDRESS, getTokensForChain } from '../tokens/tokens.constants';
 import { formatOrderStatus } from './formatOrderStatus';
 import { isCowSupportedChainId } from '@jetstreamgg/sky-utils';
 
@@ -82,9 +82,7 @@ export function useCowswapTradeHistory({
   // Check if CowSwap supports this chain
   const isCowSupported = isCowSupportedChainId(chainId);
 
-  const tokens = TRADE_TOKENS[chainId as keyof typeof TRADE_TOKENS]
-    ? Object.values(TRADE_TOKENS[chainId as keyof typeof TRADE_TOKENS])
-    : [];
+  const tokens = getTokensForChain(chainId);
 
   const {
     data,
