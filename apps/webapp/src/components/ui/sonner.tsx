@@ -33,7 +33,7 @@ const Toaster = ({ className, toastOptions, ...props }: ToasterProps) => {
 
   return (
     <Sonner
-      className={className}
+      className={cn('!z-[9999]', className)}
       position="bottom-right"
       expand={false}
       visibleToasts={5}

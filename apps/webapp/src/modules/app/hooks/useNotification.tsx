@@ -45,7 +45,7 @@ const generateToastContent = ({
         <Text variant={descriptionSubVariant} className={descriptionSubClassName}>
           {descriptionSub}
         </Text>
-        {!!rateType && <PopoverInfo type={rateType} />}
+        {!!rateType && <PopoverInfo type={rateType} popoverClassName="z-[10000]" />}
       </HStack>
     </VStack>
     <Button className="place-self-end" variant="pill" size="xs" onClick={onClick}>
