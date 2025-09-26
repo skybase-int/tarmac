@@ -8,8 +8,8 @@ import {
 import { Close } from '../icons/Close';
 import { Info } from '../icons/Info';
 import { Heading, Text } from '@widgets/shared/components/ui/Typography';
-import { ExternalLink } from '@widgets/shared/components/ExternalLink';
 import { getTooltipById } from '@widgets/data/tooltips';
+import { parseMarkdownLinks } from '@widgets/shared/utils/parseMarkdownLinks';
 
 const getContent = (onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void) => {
   // Get tooltips from centralized system
@@ -22,13 +22,17 @@ const getContent = (onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorEleme
   const delegateTooltip = getTooltipById('choose-your-delegate');
   const liquidationTooltip = getTooltipById('liquidation-price');
   const delayedUpgradeTooltip = getTooltipById('delayed-upgrade-penalty');
+  const stakingRewardsRateSrrsTooltip = getTooltipById('staking-rewards-rates-srrs');
+  const stUsdsRateTooltip = getTooltipById('stusds-rate');
+  const availableLiquidityTooltip = getTooltipById('available-liquidity');
+  const totalStakingEngineDebtTooltip = getTooltipById('total-staking-engine-debt');
 
   return {
     str: {
       title: rewardsRateTooltip?.title || '',
       description: (
         <Text variant="small" className="leading-5 text-white/80">
-          {rewardsRateTooltip?.tooltip || ''}
+          {parseMarkdownLinks(rewardsRateTooltip?.tooltip, onExternalLinkClicked)}
         </Text>
       )
     },
@@ -36,27 +40,15 @@ const getContent = (onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorEleme
       title: rateTooltip?.title || '',
       description: (
         <Text variant="small" className="leading-5 text-white/80">
-          {rateTooltip?.tooltip || ''}
+          {parseMarkdownLinks(rateTooltip?.tooltip, onExternalLinkClicked)}
         </Text>
       )
     },
     srr: {
-      title: 'Staking Rewards Rates (SRR)',
+      title: stakingRewardsRateSrrsTooltip?.title || '',
       description: (
         <Text variant="small" className="leading-5 text-white/80">
-          Staking Rewards Rates are variable and may fluctuate. They are determined by: (1) the current
-          issuance rate of the rewards set through onchain governance processes, and (2) the market price of
-          the staked SKY at the time of each calculation. The SRRs shown are estimated annual rates, updated
-          using data from a third-party provider (i.e.,{' '}
-          <ExternalLink
-            href="https://blockanalitica.com/"
-            className="hover:text-white hover:underline"
-            showIcon={false}
-            onExternalLinkClicked={onExternalLinkClicked}
-          >
-            BlockAnalitica
-          </ExternalLink>
-          ). Further, the estimates are for informational purposes only and do not guarantee future results.
+          {rateTooltip?.tooltip || ''}
         </Text>
       )
     },
@@ -64,7 +56,7 @@ const getContent = (onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorEleme
       title: debtCeilingTooltip?.title || '',
       description: (
         <Text className="leading-5 text-white/80" variant="small">
-          {debtCeilingTooltip?.tooltip || ''}
+          {parseMarkdownLinks(debtCeilingTooltip?.tooltip, onExternalLinkClicked)}
         </Text>
       )
     },
@@ -72,7 +64,7 @@ const getContent = (onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorEleme
       title: borrowRateTooltip?.title || '',
       description: (
         <Text className="leading-5 text-white/80" variant="small">
-          {borrowRateTooltip?.tooltip || ''}
+          {parseMarkdownLinks(borrowRateTooltip?.tooltip, onExternalLinkClicked)}
         </Text>
       )
     },
@@ -80,7 +72,7 @@ const getContent = (onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorEleme
       title: psmTooltip?.title || '',
       description: (
         <Text className="leading-5 text-white/80" variant="small">
-          {psmTooltip?.tooltip || ''}
+          {parseMarkdownLinks(psmTooltip?.tooltip, onExternalLinkClicked)}
         </Text>
       )
     },
@@ -99,7 +91,7 @@ const getContent = (onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorEleme
       title: borrowTooltip?.title || '',
       description: (
         <Text className="leading-5 text-white/80" variant="small">
-          {borrowTooltip?.tooltip || ''}
+          {parseMarkdownLinks(borrowTooltip?.tooltip, onExternalLinkClicked)}
         </Text>
       )
     },
@@ -107,42 +99,40 @@ const getContent = (onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorEleme
       title: delegateTooltip?.title || '',
       description: (
         <Text className="leading-5 text-white/80" variant="small">
-          {delegateTooltip?.tooltip || ''}
+          {parseMarkdownLinks(delegateTooltip?.tooltip, onExternalLinkClicked)}
         </Text>
       )
     },
     liquidation: {
       title: liquidationTooltip?.title || '',
+
       description: (
         <Text className="leading-5 text-white/80" variant="small">
-          {liquidationTooltip?.tooltip || ''}
+          {parseMarkdownLinks(liquidationTooltip?.tooltip, onExternalLinkClicked)}
         </Text>
       )
     },
     stusds: {
-      title: 'stUSDS Rate',
+      title: stUsdsRateTooltip?.title || '',
       description: (
         <Text className="leading-5 text-white/80" variant="small">
-          The stUSDS rate is the current yield earned on your stUSDS position. This rate fluctuates based on
-          vault utilization and borrowing demand from the Sky Protocol. As more USDS is borrowed from the
-          vault, the rate typically increases. The rate shown is an annualized percentage and updates in
-          real-time as market conditions change.
+          {parseMarkdownLinks(stUsdsRateTooltip?.tooltip, onExternalLinkClicked)}
         </Text>
       )
     },
     stusdsLiquidity: {
-      title: 'Available Liquidity',
+      title: availableLiquidityTooltip?.title || '',
       description: (
         <Text className="leading-5 text-white/80" variant="small">
-          TODO: Add description
+          {parseMarkdownLinks(availableLiquidityTooltip?.tooltip, onExternalLinkClicked)}
         </Text>
       )
     },
     totalStakingDebt: {
-      title: 'Total Staking Engine Debt',
+      title: totalStakingEngineDebtTooltip?.title || '',
       description: (
         <Text className="leading-5 text-white/80" variant="small">
-          TODO: Add description
+          {parseMarkdownLinks(totalStakingEngineDebtTooltip?.tooltip, onExternalLinkClicked)}
         </Text>
       )
     },
@@ -150,7 +140,7 @@ const getContent = (onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorEleme
       title: delayedUpgradeTooltip?.title || '',
       description: (
         <Text className="leading-5 text-white/80" variant="small">
-          {delayedUpgradeTooltip?.tooltip || ''}
+          {parseMarkdownLinks(delayedUpgradeTooltip?.tooltip, onExternalLinkClicked)}
         </Text>
       )
     }
