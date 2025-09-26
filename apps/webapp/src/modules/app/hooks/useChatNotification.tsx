@@ -1,4 +1,4 @@
-import { toastWithClose } from '@/components/ui/use-toast';
+import { toast, toastWithClose } from '@/components/ui/use-toast';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Text } from '@/modules/layout/components/Typography';
 import { HStack } from '@/modules/layout/components/HStack';
@@ -22,14 +22,15 @@ export const useChatNotification = (isAuthorized: boolean) => {
 
   const showChat = useMemo(() => CHATBOT_ENABLED && isAuthorized, [CHATBOT_ENABLED, isAuthorized]);
 
-  const onClickChat = useCallback(() => {
-    searchParams.set(QueryParams.Chat, 'true');
-    if (bpi < BP['3xl']) searchParams.set(QueryParams.Details, 'false');
-    setSearchParams(searchParams);
-    setTimeout(() => {
-      // toast.dismiss();
-    }, 300);
-  }, [bpi, searchParams, setSearchParams]);
+  const onClickChat = useCallback(
+    (toastId: string | number) => {
+      searchParams.set(QueryParams.Chat, 'true');
+      if (bpi < BP['3xl']) searchParams.set(QueryParams.Details, 'false');
+      setSearchParams(searchParams);
+      toast.dismiss(toastId);
+    },
+    [bpi, searchParams, setSearchParams]
+  );
 
   const onClose = useCallback(() => {
     localStorage.setItem(CHAT_NOTIFICATION_KEY, 'true');
@@ -41,7 +42,6 @@ export const useChatNotification = (isAuthorized: boolean) => {
   useEffect(() => {
     // Only show if authorized by the notification queue
     if (!isAuthorized) {
-      // toast.dismiss();
       return;
     }
 
@@ -49,32 +49,39 @@ export const useChatNotification = (isAuthorized: boolean) => {
       timerRef.current = setTimeout(() => {
         if (!chatSuggested && searchParams.get(QueryParams.Chat) !== 'true') {
           toastWithClose(
-            <div>
-              <HStack>
-                <img
-                  src="/images/chatbot_logo.svg"
-                  alt={`${CHATBOT_NAME} avatar`}
-                  className="@2xl/chat:h-8 @2xl/chat:w-8 h-5 w-5"
-                />
-                <Text variant="medium" className="text-selectActive ml-1">
-                  {CHATBOT_NAME}
-                </Text>
-              </HStack>
-              <HStack className="ml-1 w-full justify-between">
-                <VStack className="mt-4">
-                  <Text variant="medium">
-                    <Trans>Hi, {CHATBOT_NAME} here!</Trans>
+            toastId => (
+              <div>
+                <HStack>
+                  <img
+                    src="/images/chatbot_logo.svg"
+                    alt={`${CHATBOT_NAME} avatar`}
+                    className="@2xl/chat:h-8 @2xl/chat:w-8 h-5 w-5"
+                  />
+                  <Text variant="medium" className="text-selectActive ml-1">
+                    {CHATBOT_NAME}
                   </Text>
-                  <Text variant="medium">
-                    <Trans>How can I help you today?</Trans>
-                  </Text>
-                </VStack>
-                <Button className="place-self-end" variant="pill" size="xs" onClick={onClickChat}>
-                  <Chat width={16} height={16} className="mr-1" />
-                  <Trans>Start Chatting</Trans>
-                </Button>
-              </HStack>
-            </div>,
+                </HStack>
+                <HStack className="ml-1 w-full justify-between">
+                  <VStack className="mt-4">
+                    <Text variant="medium">
+                      <Trans>Hi, {CHATBOT_NAME} here!</Trans>
+                    </Text>
+                    <Text variant="medium">
+                      <Trans>How can I help you today?</Trans>
+                    </Text>
+                  </VStack>
+                  <Button
+                    className="place-self-end"
+                    variant="pill"
+                    size="xs"
+                    onClick={() => onClickChat(toastId)}
+                  >
+                    <Chat width={16} height={16} className="mr-1" />
+                    <Trans>Start Chatting</Trans>
+                  </Button>
+                </HStack>
+              </div>
+            ),
             {
               duration: Infinity,
               classNames: {
