@@ -19,8 +19,7 @@ export const ToastWithCloseButton: React.FC<ToastWithCloseButtonProps> = ({ toas
       >
         <X size={16} />
       </button>
-      {/* Content with padding to avoid overlap with close button */}
-      <div className="pr-10">{children}</div>
+      <div>{children}</div>
     </>
   );
 };

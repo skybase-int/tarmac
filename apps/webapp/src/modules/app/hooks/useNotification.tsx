@@ -98,7 +98,6 @@ export const useNotification = () => {
 
     // Prevent duplicate insufficient balance notifications
     if (lastInternal.type === 'insufficient' && now - lastInternal.timestamp < NOTIFICATION_DEBOUNCE_MS) {
-      console.log('[useNotification] Blocking duplicate insufficient balance notification');
       return;
     }
 
@@ -115,18 +114,23 @@ export const useNotification = () => {
     setTimeout(() => {
       if (isRewardsModule) {
         toastWithClose(
-          <div>
-            <Text variant="medium">
-              {t`Looks like you need ${rewardContract?.supplyToken.symbol?.toUpperCase() ?? 'tokens'} to get rewards`}
-            </Text>
-            {generateToastContent({
-              description: `${rewardContract?.name ?? 'Reward'} Reward Rate`,
-              descriptionSub: rate || '',
-              buttonTxt,
-              rateType: 'str',
-              onClick: navigate
-            })}
-          </div>,
+          toastId => (
+            <div>
+              <Text variant="medium">
+                {t`Looks like you need ${rewardContract?.supplyToken.symbol?.toUpperCase() ?? 'tokens'} to get rewards`}
+              </Text>
+              {generateToastContent({
+                description: `${rewardContract?.name ?? 'Reward'} Reward Rate`,
+                descriptionSub: rate || '',
+                buttonTxt,
+                rateType: 'str',
+                onClick: () => {
+                  navigate();
+                  toast.dismiss(toastId);
+                }
+              })}
+            </div>
+          ),
           {
             // id: 'insufficient-balance-rewards',
             classNames: {
@@ -137,16 +141,21 @@ export const useNotification = () => {
         );
       } else if (isSavingsModule) {
         toastWithClose(
-          <div>
-            <Text variant="medium">{t`Looks like you need USDS`}</Text>
-            {generateToastContent({
-              description: 'Sky Savings Rate',
-              descriptionSub: savingsRate || '',
-              buttonTxt,
-              rateType: 'ssr',
-              onClick: navigate
-            })}
-          </div>,
+          toastId => (
+            <div>
+              <Text variant="medium">{t`Looks like you need USDS`}</Text>
+              {generateToastContent({
+                description: 'Sky Savings Rate',
+                descriptionSub: savingsRate || '',
+                buttonTxt,
+                rateType: 'ssr',
+                onClick: () => {
+                  navigate();
+                  toast.dismiss(toastId);
+                }
+              })}
+            </div>
+          ),
           {
             // id: 'insufficient-balance-savings',
             classNames: {
@@ -173,7 +182,6 @@ export const useNotification = () => {
         lastInternal.subtype === type &&
         now - lastInternal.timestamp < NOTIFICATION_DEBOUNCE_MS
       ) {
-        console.log('[useNotification] Blocking duplicate token received notification:', type);
         return;
       }
 
@@ -192,19 +200,24 @@ export const useNotification = () => {
         setTimeout(() => {
           if (isL2) {
             toastWithClose(
-              <div>
-                <HStack>
-                  <Savings />
-                  <Text variant="medium">{t`Get the Sky Savings Rate`}</Text>
-                </HStack>
-                {generateToastContent({
-                  description: t`With: USDS Get: USDS`,
-                  descriptionSub: savingsRate ? t`Rate: ${savingsRate}` : '',
-                  rateType: savingsRate ? 'ssr' : undefined,
-                  buttonTxt: t`Go to Savings`,
-                  onClick: navigate
-                })}
-              </div>,
+              toastId => (
+                <div>
+                  <HStack>
+                    <Savings />
+                    <Text variant="medium">{t`Get the Sky Savings Rate`}</Text>
+                  </HStack>
+                  {generateToastContent({
+                    description: t`With: USDS Get: USDS`,
+                    descriptionSub: savingsRate ? t`Rate: ${savingsRate}` : '',
+                    rateType: savingsRate ? 'ssr' : undefined,
+                    buttonTxt: t`Go to Savings`,
+                    onClick: () => {
+                      navigate();
+                      toast.dismiss(toastId);
+                    }
+                  })}
+                </div>
+              ),
               {
                 // id: 'usds-received-l2-savings',
                 classNames: {
@@ -215,19 +228,24 @@ export const useNotification = () => {
             );
           } else {
             toastWithClose(
-              <div>
-                <HStack>
-                  <RewardsModule />
-                  <Text variant="medium">{t`Get rewards with USDS`}</Text>
-                </HStack>
-                {generateToastContent({
-                  description: t`With: USDS Get: SKY`,
-                  descriptionSub: rate ? t`Rate: ${rate}` : '',
-                  rateType: rate ? 'str' : undefined,
-                  buttonTxt: t`Go to Rewards`,
-                  onClick: navigate
-                })}
-              </div>,
+              toastId => (
+                <div>
+                  <HStack>
+                    <RewardsModule />
+                    <Text variant="medium">{t`Get rewards with USDS`}</Text>
+                  </HStack>
+                  {generateToastContent({
+                    description: t`With: USDS Get: SKY`,
+                    descriptionSub: rate ? t`Rate: ${rate}` : '',
+                    rateType: rate ? 'str' : undefined,
+                    buttonTxt: t`Go to Rewards`,
+                    onClick: () => {
+                      navigate();
+                      toast.dismiss(toastId);
+                    }
+                  })}
+                </div>
+              ),
               {
                 // id: 'usds-received-rewards',
                 classNames: {
@@ -241,21 +259,26 @@ export const useNotification = () => {
       } else if (type === NotificationType.DAI_RECEIVED && action && isTradeModule) {
         setTimeout(() => {
           toastWithClose(
-            <div>
-              <HStack>
-                <RewardsModule />
-                <Text variant="medium">{t`Upgrade and get rewards`}</Text>
-              </HStack>
-              {generateToastContent({
-                description: t`Upgrade DAI to USDS`,
-                descriptionSub: t`then get rewards`,
-                buttonTxt: t`Upgrade and get rewards`,
-                descriptionClassName: 'text-text',
-                descriptionSubClassName: 'text-text',
-                descriptionSubVariant: 'small',
-                onClick: navigate
-              })}
-            </div>,
+            toastId => (
+              <div>
+                <HStack>
+                  <RewardsModule />
+                  <Text variant="medium">{t`Upgrade and get rewards`}</Text>
+                </HStack>
+                {generateToastContent({
+                  description: t`Upgrade DAI to USDS`,
+                  descriptionSub: t`then get rewards`,
+                  buttonTxt: t`Upgrade and get rewards`,
+                  descriptionClassName: 'text-text',
+                  descriptionSubClassName: 'text-text',
+                  descriptionSubVariant: 'small',
+                  onClick: () => {
+                    navigate();
+                    toast.dismiss(toastId);
+                  }
+                })}
+              </div>
+            ),
             {
               // id: 'dai-received-upgrade',
               classNames: {
@@ -292,7 +315,6 @@ export const useNotification = () => {
         now - lastNotif.timestamp < NOTIFICATION_DEBOUNCE_MS;
 
       if (isDuplicate) {
-        console.log('[useNotification] Blocking duplicate notification:', { type, title });
         return; // Skip duplicate notification
       }
 
