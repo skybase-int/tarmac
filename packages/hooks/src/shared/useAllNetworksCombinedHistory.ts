@@ -12,13 +12,29 @@ export function useAllNetworksCombinedHistory() {
   const unichainHistory = useL2CombinedHistory(chainIdMap.unichain);
 
   const combinedData = useMemo(() => {
-    return [
+    const allData = [
       ...(baseHistory.data || []),
       ...(ethereumHistory.data || []),
       ...(arbitrumHistory.data || []),
       ...(optimismHistory.data || []),
       ...(unichainHistory.data || [])
-    ].sort((a: CombinedHistoryItem, b: CombinedHistoryItem) => b.blockTimestamp - a.blockTimestamp);
+    ];
+
+    //TODO: this shouldnt be necessary
+    // Deduplicate by transaction hash across all chains (keep first occurrence)
+    const deduplicatedData = allData.reduce((acc: CombinedHistoryItem[], current: CombinedHistoryItem) => {
+      const exists = acc.some(
+        (item: CombinedHistoryItem) => item.transactionHash === current.transactionHash
+      );
+      if (!exists) {
+        acc.push(current);
+      }
+      return acc;
+    }, [] as CombinedHistoryItem[]);
+
+    return deduplicatedData.sort(
+      (a: CombinedHistoryItem, b: CombinedHistoryItem) => b.blockTimestamp - a.blockTimestamp
+    );
   }, [
     baseHistory.data,
     ethereumHistory.data,
