@@ -1,5 +1,5 @@
 import { NotificationType, TxStatus } from '@jetstreamgg/sky-widgets';
-import { toast } from '@/components/ui/use-toast';
+import { toast, toastWithClose } from '@/components/ui/use-toast';
 import { LinkedAction } from '@/modules/ui/hooks/useUserSuggestedActions';
 import { HStack } from '@/modules/layout/components/HStack';
 import { t } from '@lingui/core/macro';
@@ -114,21 +114,19 @@ export const useNotification = () => {
 
     setTimeout(() => {
       if (isRewardsModule) {
-        toast.custom(
-          () => (
-            <div>
-              <Text variant="medium">
-                {t`Looks like you need ${rewardContract?.supplyToken.symbol?.toUpperCase() ?? 'tokens'} to get rewards`}
-              </Text>
-              {generateToastContent({
-                description: `${rewardContract?.name ?? 'Reward'} Reward Rate`,
-                descriptionSub: rate || '',
-                buttonTxt,
-                rateType: 'str',
-                onClick: navigate
-              })}
-            </div>
-          ),
+        toastWithClose(
+          <div>
+            <Text variant="medium">
+              {t`Looks like you need ${rewardContract?.supplyToken.symbol?.toUpperCase() ?? 'tokens'} to get rewards`}
+            </Text>
+            {generateToastContent({
+              description: `${rewardContract?.name ?? 'Reward'} Reward Rate`,
+              descriptionSub: rate || '',
+              buttonTxt,
+              rateType: 'str',
+              onClick: navigate
+            })}
+          </div>,
           {
             // id: 'insufficient-balance-rewards',
             classNames: {
@@ -138,19 +136,17 @@ export const useNotification = () => {
           }
         );
       } else if (isSavingsModule) {
-        toast.custom(
-          () => (
-            <div>
-              <Text variant="medium">{t`Looks like you need USDS`}</Text>
-              {generateToastContent({
-                description: 'Sky Savings Rate',
-                descriptionSub: savingsRate || '',
-                buttonTxt,
-                rateType: 'ssr',
-                onClick: navigate
-              })}
-            </div>
-          ),
+        toastWithClose(
+          <div>
+            <Text variant="medium">{t`Looks like you need USDS`}</Text>
+            {generateToastContent({
+              description: 'Sky Savings Rate',
+              descriptionSub: savingsRate || '',
+              buttonTxt,
+              rateType: 'ssr',
+              onClick: navigate
+            })}
+          </div>,
           {
             // id: 'insufficient-balance-savings',
             classNames: {
@@ -195,22 +191,20 @@ export const useNotification = () => {
       ) {
         setTimeout(() => {
           if (isL2) {
-            toast.custom(
-              () => (
-                <div>
-                  <HStack>
-                    <Savings />
-                    <Text variant="medium">{t`Get the Sky Savings Rate`}</Text>
-                  </HStack>
-                  {generateToastContent({
-                    description: t`With: USDS Get: USDS`,
-                    descriptionSub: savingsRate ? t`Rate: ${savingsRate}` : '',
-                    rateType: savingsRate ? 'ssr' : undefined,
-                    buttonTxt: t`Go to Savings`,
-                    onClick: navigate
-                  })}
-                </div>
-              ),
+            toastWithClose(
+              <div>
+                <HStack>
+                  <Savings />
+                  <Text variant="medium">{t`Get the Sky Savings Rate`}</Text>
+                </HStack>
+                {generateToastContent({
+                  description: t`With: USDS Get: USDS`,
+                  descriptionSub: savingsRate ? t`Rate: ${savingsRate}` : '',
+                  rateType: savingsRate ? 'ssr' : undefined,
+                  buttonTxt: t`Go to Savings`,
+                  onClick: navigate
+                })}
+              </div>,
               {
                 // id: 'usds-received-l2-savings',
                 classNames: {
@@ -220,22 +214,20 @@ export const useNotification = () => {
               }
             );
           } else {
-            toast.custom(
-              () => (
-                <div>
-                  <HStack>
-                    <RewardsModule />
-                    <Text variant="medium">{t`Get rewards with USDS`}</Text>
-                  </HStack>
-                  {generateToastContent({
-                    description: t`With: USDS Get: SKY`,
-                    descriptionSub: rate ? t`Rate: ${rate}` : '',
-                    rateType: rate ? 'str' : undefined,
-                    buttonTxt: t`Go to Rewards`,
-                    onClick: navigate
-                  })}
-                </div>
-              ),
+            toastWithClose(
+              <div>
+                <HStack>
+                  <RewardsModule />
+                  <Text variant="medium">{t`Get rewards with USDS`}</Text>
+                </HStack>
+                {generateToastContent({
+                  description: t`With: USDS Get: SKY`,
+                  descriptionSub: rate ? t`Rate: ${rate}` : '',
+                  rateType: rate ? 'str' : undefined,
+                  buttonTxt: t`Go to Rewards`,
+                  onClick: navigate
+                })}
+              </div>,
               {
                 // id: 'usds-received-rewards',
                 classNames: {
@@ -248,24 +240,22 @@ export const useNotification = () => {
         }, delay);
       } else if (type === NotificationType.DAI_RECEIVED && action && isTradeModule) {
         setTimeout(() => {
-          toast.custom(
-            () => (
-              <div>
-                <HStack>
-                  <RewardsModule />
-                  <Text variant="medium">{t`Upgrade and get rewards`}</Text>
-                </HStack>
-                {generateToastContent({
-                  description: t`Upgrade DAI to USDS`,
-                  descriptionSub: t`then get rewards`,
-                  buttonTxt: t`Upgrade and get rewards`,
-                  descriptionClassName: 'text-text',
-                  descriptionSubClassName: 'text-text',
-                  descriptionSubVariant: 'small',
-                  onClick: navigate
-                })}
-              </div>
-            ),
+          toastWithClose(
+            <div>
+              <HStack>
+                <RewardsModule />
+                <Text variant="medium">{t`Upgrade and get rewards`}</Text>
+              </HStack>
+              {generateToastContent({
+                description: t`Upgrade DAI to USDS`,
+                descriptionSub: t`then get rewards`,
+                buttonTxt: t`Upgrade and get rewards`,
+                descriptionClassName: 'text-text',
+                descriptionSubClassName: 'text-text',
+                descriptionSubVariant: 'small',
+                onClick: navigate
+              })}
+            </div>,
             {
               // id: 'dai-received-upgrade',
               classNames: {

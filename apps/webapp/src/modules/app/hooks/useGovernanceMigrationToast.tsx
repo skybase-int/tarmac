@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { toast } from '@/components/ui/use-toast';
+import { toastWithClose } from '@/components/ui/use-toast';
 import { Text } from '@/modules/layout/components/Typography';
 import { VStack } from '@/modules/layout/components/VStack';
 import { Button } from '@/components/ui/button';
@@ -21,34 +21,32 @@ export const useGovernanceMigrationToast = (isAuthorized: boolean) => {
 
     // Add a small delay to ensure smooth UX
     const timer = setTimeout(() => {
-      toast.custom(
-        () => (
-          <div>
-            <Text variant="medium" className="text-selectActive">
-              MKR to SKY Migration
+      toastWithClose(
+        <div>
+          <Text variant="medium" className="text-selectActive">
+            MKR to SKY Migration
+          </Text>
+          <VStack className="mt-4 gap-4">
+            <Text variant="medium">
+              Sky Ecosystem Governance has{' '}
+              <ExternalLink
+                showIcon={false}
+                href="https://vote.makerdao.com/polling/QmTVd4iq"
+                className="inline text-blue-500 hover:underline"
+              >
+                voted to make SKY the sole governance token
+              </ExternalLink>{' '}
+              of the Sky Protocol. MKR holders are encouraged to upgrade to SKY promptly to maintain the
+              ability to participate in governance, maintain access to Staking Rewards and avoid the Delayed
+              Upgrade Penalty.
             </Text>
-            <VStack className="mt-4 gap-4">
-              <Text variant="medium">
-                Sky Ecosystem Governance has{' '}
-                <ExternalLink
-                  showIcon={false}
-                  href="https://vote.makerdao.com/polling/QmTVd4iq"
-                  className="inline text-blue-500 hover:underline"
-                >
-                  voted to make SKY the sole governance token
-                </ExternalLink>{' '}
-                of the Sky Protocol. MKR holders are encouraged to upgrade to SKY promptly to maintain the
-                ability to participate in governance, maintain access to Staking Rewards and avoid the Delayed
-                Upgrade Penalty.
-              </Text>
-              <Button className="place-self-start" variant="pill" size="xs">
-                <ExternalLink href="https://upgrademkrtosky.sky.money" showIcon={false}>
-                  Visit MKR to SKY Upgrade Hub
-                </ExternalLink>
-              </Button>
-            </VStack>
-          </div>
-        ),
+            <Button className="place-self-start" variant="pill" size="xs">
+              <ExternalLink href="https://upgrademkrtosky.sky.money" showIcon={false}>
+                Visit MKR to SKY Upgrade Hub
+              </ExternalLink>
+            </Button>
+          </VStack>
+        </div>,
         {
           duration: 15000,
           dismissible: true,

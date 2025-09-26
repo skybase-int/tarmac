@@ -1,4 +1,6 @@
+import React from 'react';
 import { toast as sonnerToast, ExternalToast, Toaster } from 'sonner';
+import { ToastWithCloseButton } from '../toast/ToastWithClose';
 
 // Re-export Sonner's toast function directly
 export const toast = sonnerToast;
@@ -27,6 +29,18 @@ export function useToast() {
 
 // Re-export Sonner components
 export { Toaster };
+
+// Helper function to create toast with close button
+// Wraps content with ToastWithCloseButton component
+export function toastWithClose(
+  content: React.ReactNode | ((toastId: string | number) => React.ReactNode),
+  options?: ToastOptions
+) {
+  return sonnerToast.custom(toastId => {
+    const toastContent = typeof content === 'function' ? content(toastId) : content;
+    return React.createElement(ToastWithCloseButton, { toastId }, toastContent);
+  }, options);
+}
 
 // Re-export the entire sonnerToast for advanced usage
 export { sonnerToast };

@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { useChains } from 'wagmi';
 import type { Chain } from 'viem';
-import { toast } from '@/components/ui/use-toast';
+import { toastWithClose } from '@/components/ui/use-toast';
 import { Text } from '@/modules/layout/components/Typography';
 import { getChainIcon, isL2ChainId } from '@jetstreamgg/sky-utils';
 import { ArrowRightLong } from '@/modules/icons';
@@ -195,13 +195,11 @@ export function useEnhancedNetworkToast() {
       // Set new timeout with proper cleanup reference
       toastTimeoutRef.current = setTimeout(
         () => {
-          toast.custom(
-            () => (
-              <div>
-                <Text variant="medium">{title}</Text>
-                {toastContent}
-              </div>
-            ),
+          toastWithClose(
+            <div>
+              <Text variant="medium">{title}</Text>
+              {toastContent}
+            </div>,
             {
               duration: hasQuickSwitch || hasLongTitle ? 8000 : 5000, // Extended duration for multichain widgets or longer messages
               classNames: {

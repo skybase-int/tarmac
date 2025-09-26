@@ -1,5 +1,5 @@
 import { useCallback, useRef } from 'react';
-import { toast } from '@/components/ui/use-toast';
+import { toastWithClose } from '@/components/ui/use-toast';
 import { Text } from '@/modules/layout/components/Typography';
 import { HStack } from '@/modules/layout/components/HStack';
 import { Trans } from '@lingui/react/macro';
@@ -16,25 +16,23 @@ export function useChatbotPrefillNotification() {
 
     // Small delay to ensure widget has rendered before showing notification
     toastTimeoutRef.current = setTimeout(() => {
-      toast.custom(
-        () => (
-          <div>
-            <HStack>
-              <img src="/images/chatbot_logo.svg" alt={`${CHATBOT_NAME} avatar`} className="h-5 w-5" />
-              <Text variant="medium" className="text-selectActive ml-1">
-                {CHATBOT_NAME}
-              </Text>
-            </HStack>
-            <div className="ml-1 mt-2">
-              <Text variant="medium">
-                <Trans>I&apos;ve prefilled the transaction details based on your selection.</Trans>
-              </Text>
-              <Text variant="small" className="text-text/60 mt-1">
-                <Trans>Please review the values before proceeding.</Trans>
-              </Text>
-            </div>
+      toastWithClose(
+        <div>
+          <HStack>
+            <img src="/images/chatbot_logo.svg" alt={`${CHATBOT_NAME} avatar`} className="h-5 w-5" />
+            <Text variant="medium" className="text-selectActive ml-1">
+              {CHATBOT_NAME}
+            </Text>
+          </HStack>
+          <div className="ml-1 mt-2">
+            <Text variant="medium">
+              <Trans>I&apos;ve prefilled the transaction details based on your selection.</Trans>
+            </Text>
+            <Text variant="small" className="text-text/60 mt-1">
+              <Trans>Please review the values before proceeding.</Trans>
+            </Text>
           </div>
-        ),
+        </div>,
         {
           duration: 5000,
           dismissible: true
