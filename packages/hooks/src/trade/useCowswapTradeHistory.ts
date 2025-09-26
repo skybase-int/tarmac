@@ -71,13 +71,18 @@ async function fetchCowswapTradeHistory(
 
 export function useCowswapTradeHistory({
   limit = 50,
-  enabled = true
+  enabled = true,
+  chainId: providedChainId
 }: {
   limit?: number;
   enabled?: boolean;
+  chainId?: number;
 } = {}): ReadHook & { data?: TradeHistory } {
   const { address } = useAccount();
-  const chainId = useChainId();
+  const currentChainId = useChainId();
+
+  // Use provided chainId if available, otherwise use current chainId
+  const chainId = providedChainId ?? currentChainId;
 
   // Check if CowSwap supports this chain
   const isCowSupported = isCowSupportedChainId(chainId);
