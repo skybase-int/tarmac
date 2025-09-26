@@ -34,16 +34,14 @@ export function TradeHistory() {
     ...('cowOrderStatus' in s ? { cowOrderStatus: s.cowOrderStatus } : {})
   }));
 
-  const isCowSupported = isCowSupportedChainId(chainId);
-
   return (
     <HistoryTable
       history={history}
       error={error}
       isLoading={tradeHistoryLoading}
       transactionHeader={t`Trades`}
-      statusColumn={isCowSupported}
-      cowExplorerLink={isCowSupported}
+      statusColumn={isCowSupportedChainId(chainId)}
+      cowExplorerLink={false} // We'll handle this per-item in HistoryRow
     />
   );
 }

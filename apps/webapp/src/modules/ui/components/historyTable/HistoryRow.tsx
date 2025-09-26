@@ -128,7 +128,7 @@ const HistoryRowContent = ({
         </Text>
       </Fragment>,
       <Text key="fourth-content" className="text-right xl:text-left">
-        {row?.type || row?.cowOrderStatus}
+        {row?.type || row?.cowOrderStatus || 'Completed'}
       </Text>,
       <Fragment key="fifth-content">
         <Text variant="small" className="text-selectActive xl:hidden">
@@ -143,7 +143,7 @@ const HistoryRowContent = ({
             <TooltipTrigger>
               <ExternalLink
                 href={
-                  cowExplorerLink
+                  cowExplorerLink || row?.cowOrderStatus
                     ? getCowExplorerLink(chainId, row?.transactionHash || '')
                     : getEtherscanLink(chainId, row?.transactionHash || '', 'tx')
                 }
@@ -153,7 +153,7 @@ const HistoryRowContent = ({
             <TooltipPortal>
               <TooltipContent arrowPadding={10}>
                 <Text variant="small">
-                  {cowExplorerLink ? (
+                  {cowExplorerLink || row?.cowOrderStatus ? (
                     <Trans>View transaction on CoW Explorer</Trans>
                   ) : (
                     t`View transaction on ${explorerName}`
