@@ -32,7 +32,7 @@ export const ToastCloseAll = () => {
   return (
     <div
       className={cn(
-        'animate-in fade-in slide-in-from-bottom-2 fixed z-[10001] duration-200',
+        'animate-in fade-in slide-in-from-bottom-2 fixed z-[41] duration-200',
         // Mobile: Inside toast area (top-right corner)
         'bottom-8 right-8',
         // Desktop: Below the toast stack with more separation
