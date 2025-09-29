@@ -326,9 +326,15 @@ const NetworkDropdown = ({
     // Execute the intent action immediately
     const intent = intents[index];
     const intentWithResetParam = { ...intent, url: prepareUrlParams(intent.url, isMobile) };
+
+    // On mobile, don't retain the chat param to ensure it closes
+    const retainedParams = isMobile
+      ? defaultRetainedParams.filter(param => param !== QueryParams.Chat)
+      : defaultRetainedParams;
+
     const targetUrl = getRetainedQueryParams(
       prepareUrlParams(intent.url, isMobile) || '',
-      defaultRetainedParams,
+      retainedParams,
       searchParams
     );
     executeIntent(intentWithResetParam, targetUrl);
