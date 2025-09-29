@@ -9,7 +9,7 @@ type ToasterProps = React.ComponentProps<typeof Sonner>;
 const Toaster = ({ className, toastOptions, ...props }: ToasterProps) => {
   const defaultClassNames: ToastClassnames = {
     toast:
-      'group pointer-events-auto relative flex w-full items-start justify-between space-x-4 overflow-hidden rounded-xl bg-container text-text p-6 pr-8 shadow-lg backdrop-blur-[50px] border border-border min-w-[356px] md:min-w-[420px] max-w-[420px] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-bottom-full',
+      'group flex items-start justify-between space-x-4 rounded-xl bg-container text-text p-6 pr-8 shadow-lg backdrop-blur-[50px] border border-border min-w-[356px] md:min-w-[420px] max-w-[420px] data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-bottom-full',
     title: 'text-sm leading-none',
     description: 'text-sm opacity-90 mt-2 leading-normal',
     actionButton:
@@ -35,8 +35,8 @@ const Toaster = ({ className, toastOptions, ...props }: ToasterProps) => {
     <Sonner
       className={cn('!z-40', className)}
       position="bottom-right"
-      expand={false}
       visibleToasts={5}
+      gap={14}
       closeButton={true}
       icons={{
         success: <Success />,
@@ -45,7 +45,6 @@ const Toaster = ({ className, toastOptions, ...props }: ToasterProps) => {
         close: <X size={16} className="text-text" />
       }}
       toastOptions={{
-        unstyled: true,
         ...toastOptions,
         classNames: mergedClassNames
       }}
