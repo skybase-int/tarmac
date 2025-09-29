@@ -24,6 +24,7 @@ export default ({ mode }: { mode: modeEnum }) => {
   const RPC_PROVIDER_OPTIMISM = process.env.VITE_RPC_PROVIDER_OPTIMISM || '';
   const RPC_PROVIDER_UNICHAIN = process.env.VITE_RPC_PROVIDER_UNICHAIN || '';
 
+  // TODO: Update the githubusercontent.com url when the terms document is ready in the right location
   const CONTENT_SECURITY_POLICY = `
     default-src 'self';
     script-src 'self'
@@ -68,7 +69,6 @@ export default ({ mode }: { mode: modeEnum }) => {
       https://api.thegraph.com
       https://staging-api.sky.money
       https://api.sky.money
-      https://api.ipify.org
       https://info-sky.blockanalitica.com
       https://sky-tenderly.blockanalitica.com
       https://api.cow.fi/
