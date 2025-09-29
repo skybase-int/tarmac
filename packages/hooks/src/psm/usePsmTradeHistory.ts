@@ -25,7 +25,8 @@ async function fetchPsmTradeHistory(
   chainId: number,
   tokenAddressMap: { [address: string]: (typeof TOKENS)[keyof typeof TOKENS] },
   address?: string,
-  excludeSUsds: boolean = false
+  excludeSUsds: boolean = false,
+  maxBlockTimestamp?: number
 ): Promise<PsmTradeHistory | undefined> {
   if (!address) return [];
 
@@ -34,17 +35,23 @@ async function fetchPsmTradeHistory(
   }
 
   const sUsdsAddressForChain = TOKENS.susds.address[chainId];
-  const whereClause = excludeSUsds
-    ? `{
-      sender: "${address}",
-      receiver: "${address}",
-      assetIn_not: "${sUsdsAddressForChain.toLowerCase()}",
-      assetOut_not: "${sUsdsAddressForChain.toLowerCase()}"
-    }`
-    : `{
-      sender: "${address}",
-      receiver: "${address}"
-    }`;
+
+  let whereClause = `{
+    sender: "${address}",
+    receiver: "${address}"`;
+
+  if (excludeSUsds) {
+    whereClause += `,
+    assetIn_not: "${sUsdsAddressForChain.toLowerCase()}",
+    assetOut_not: "${sUsdsAddressForChain.toLowerCase()}"`;
+  }
+
+  if (maxBlockTimestamp) {
+    whereClause += `,
+    blockTimestamp_lte: "${maxBlockTimestamp}"`;
+  }
+
+  whereClause += '}';
 
   const query = gql`
   {
@@ -108,12 +115,14 @@ export function usePsmTradeHistory({
   subgraphUrl,
   enabled: enabledProp = true,
   excludeSUsds = false,
-  chainId
+  chainId,
+  maxBlockTimestamp
 }: {
   subgraphUrl?: string;
   enabled?: boolean;
   excludeSUsds?: boolean;
   chainId?: number;
+  maxBlockTimestamp?: number;
 } = {}): ReadHook & { data?: PsmTradeHistory } {
   const { address } = useAccount();
   const currentChainId = useChainId();
@@ -128,8 +137,16 @@ export function usePsmTradeHistory({
     isLoading
   } = useQuery({
     enabled: Boolean(urlSubgraph) && enabledProp && Boolean(tokenAddressMap) && Boolean(address),
-    queryKey: ['psm-trade-history', urlSubgraph, address, excludeSUsds, chainIdToUse],
-    queryFn: () => fetchPsmTradeHistory(urlSubgraph, chainIdToUse, tokenAddressMap, address, excludeSUsds)
+    queryKey: ['psm-trade-history', urlSubgraph, address, excludeSUsds, chainIdToUse, maxBlockTimestamp],
+    queryFn: () =>
+      fetchPsmTradeHistory(
+        urlSubgraph,
+        chainIdToUse,
+        tokenAddressMap,
+        address,
+        excludeSUsds,
+        maxBlockTimestamp
+      )
   });
 
   return {

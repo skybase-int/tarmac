@@ -27,7 +27,8 @@ export function useHybridTradeHistory({
     chainId,
     excludeSUsds,
     subgraphUrl,
-    enabled: shouldFetch
+    enabled: shouldFetch,
+    maxBlockTimestamp: cutoffDate ? Math.floor(cutoffDate.getTime() / 1000) : undefined
   });
 
   const cowswapHistory = useCowswapTradeHistory({
@@ -43,12 +44,10 @@ export function useHybridTradeHistory({
     const psmData = psmHistory.data || [];
     const cowswapData = cowswapHistory.data || [];
 
-    //TODO: do the cutoff date filtering on the backend
-    const filteredPsmData = psmData.filter(trade => trade.blockTimestamp < cutoffDate);
-
+    // PSM filtering is done on the subgraph side, CowSwap filtering done client-side
     const filteredCowswapData = cowswapData.filter(trade => trade.blockTimestamp >= cutoffDate);
 
-    return [...filteredPsmData, ...filteredCowswapData].sort(
+    return [...psmData, ...filteredCowswapData].sort(
       (a, b) => b.blockTimestamp.getTime() - a.blockTimestamp.getTime()
     );
   }, [psmHistory.data, cowswapHistory.data, cutoffDate, shouldFetch]);
