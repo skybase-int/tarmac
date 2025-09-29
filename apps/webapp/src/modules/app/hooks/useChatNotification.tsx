@@ -28,6 +28,7 @@ export const useChatNotification = (isAuthorized: boolean) => {
       if (bpi < BP['3xl']) searchParams.set(QueryParams.Details, 'false');
       setSearchParams(searchParams);
       toast.dismiss(toastId);
+      activeToastIdRef.current = null; // Clear the reference when dismissed
     },
     [bpi, searchParams, setSearchParams]
   );
@@ -35,9 +36,11 @@ export const useChatNotification = (isAuthorized: boolean) => {
   const onClose = useCallback(() => {
     localStorage.setItem(CHAT_NOTIFICATION_KEY, 'true');
     setChatSuggested(true);
+    activeToastIdRef.current = null; // Clear the reference when closed
   }, []);
 
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const activeToastIdRef = useRef<string | number | null>(null);
 
   useEffect(() => {
     // Only show if authorized by the notification queue
@@ -47,9 +50,14 @@ export const useChatNotification = (isAuthorized: boolean) => {
 
     if (showChat) {
       timerRef.current = setTimeout(() => {
-        if (!chatSuggested && searchParams.get(QueryParams.Chat) !== 'true') {
+        // Check if a toast is already active
+        if (!chatSuggested && searchParams.get(QueryParams.Chat) !== 'true' && !activeToastIdRef.current) {
+          // Create a unique ID for this toast
+          const toastId = `chat-notification-${Date.now()}`;
+          activeToastIdRef.current = toastId;
+
           toastWithClose(
-            toastId => (
+            () => (
               <div>
                 <HStack>
                   <img
@@ -83,6 +91,7 @@ export const useChatNotification = (isAuthorized: boolean) => {
               </div>
             ),
             {
+              id: toastId,
               duration: Infinity,
               classNames: {
                 content: 'w-full'
