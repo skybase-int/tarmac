@@ -128,7 +128,8 @@ const HistoryRowContent = ({
         </Text>
       </Fragment>,
       <Text key="fourth-content" className="text-right xl:text-left">
-        {row?.type || row?.cowOrderStatus || 'Completed'}
+        {row?.type || row?.cowOrderStatus || 'Completed'}{' '}
+        {/* "Completed" falback is used for psm trades on networks that now support cow swap*/}
       </Text>,
       <Fragment key="fifth-content">
         <Text variant="small" className="text-selectActive xl:hidden">

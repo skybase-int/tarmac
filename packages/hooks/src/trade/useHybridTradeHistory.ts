@@ -21,7 +21,6 @@ export function useHybridTradeHistory({
 }): ReadHook & { data?: any[] } {
   const cutoffDate = TRADE_CUTOFF_DATES[chainId];
 
-  // If not enabled or no cutoff date, disable both sub-hooks
   const shouldFetch = enabled && !!cutoffDate;
 
   const psmHistory = usePsmTradeHistory({
@@ -37,14 +36,14 @@ export function useHybridTradeHistory({
   });
 
   const mergedData = useMemo(() => {
-    // If no cutoff date or not enabled, return empty array
-    if (!cutoffDate || !shouldFetch) {
+    if (!shouldFetch) {
       return [];
     }
 
     const psmData = psmHistory.data || [];
     const cowswapData = cowswapHistory.data || [];
 
+    //TODO: do the cutoff date filtering on the backend
     const filteredPsmData = psmData.filter(trade => trade.blockTimestamp < cutoffDate);
 
     const filteredCowswapData = cowswapData.filter(trade => trade.blockTimestamp >= cutoffDate);

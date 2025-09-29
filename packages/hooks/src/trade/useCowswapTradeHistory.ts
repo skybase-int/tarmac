@@ -81,10 +81,8 @@ export function useCowswapTradeHistory({
   const { address } = useAccount();
   const currentChainId = useChainId();
 
-  // Use provided chainId if available, otherwise use current chainId
   const chainId = providedChainId ?? currentChainId;
 
-  // Check if CowSwap supports this chain
   const isCowSupported = isCowSupportedChainId(chainId);
 
   const tokens = getTokensForChain(chainId);
