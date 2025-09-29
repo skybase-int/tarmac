@@ -8,11 +8,11 @@ import { switchToL2 } from '../utils/switchToL2.ts';
 export const runCowTradeTests = async ({ networkName }: { networkName: NetworkName }) => {
   test.beforeEach(async ({ page }) => {
     await interceptAndMockCowApiCalls(page);
+    await page.goto('/');
+    await connectMockWalletAndAcceptTerms(page);
     if (networkName !== NetworkName.mainnet) {
       await switchToL2(page, networkName);
     }
-    await page.goto('/');
-    await connectMockWalletAndAcceptTerms(page);
     await page.getByRole('tab', { name: 'Trade' }).click();
   });
 
