@@ -16,13 +16,13 @@ export const runCowTradeTests = async ({ networkName }: { networkName: NetworkNa
     await page.getByRole('tab', { name: 'Trade' }).click();
   });
 
-  test('Trade USDS for SKY', async ({ page }) => {
+  test('Trade DAI for sUSDS', async ({ page }) => {
     await expect(page.getByRole('button', { name: 'Transaction overview' })).not.toBeVisible();
 
     await page.getByTestId('undefined-menu-button').first().click();
-    await page.getByRole('button', { name: 'USDS USDS USDS' }).click();
+    await page.getByRole('button', { name: '"DAI" "DAI" "DAI"' }).click();
     await page.getByRole('button', { name: 'Select token' }).click();
-    await page.getByRole('button', { name: 'SKY SKY SKY' }).click();
+    await page.getByRole('button', { name: 'sUSDS sUSDS sUSDS' }).click();
 
     await page.getByTestId('trade-input-origin').click();
     await page.getByTestId('trade-input-origin').fill('100');
@@ -35,7 +35,7 @@ export const runCowTradeTests = async ({ networkName }: { networkName: NetworkNa
     await approveOrPerformAction(page, 'Trade');
     await page.getByTestId('widget-button').getByText('Continue').first().click();
 
-    await page.locator('button', { hasText: 'Add SKY to wallet' }).first().click();
+    await page.locator('button', { hasText: 'Add sUSDS to wallet' }).first().click();
   });
 
   test('Trade is blocked if costs exceed the traded amount', async ({ page }) => {
