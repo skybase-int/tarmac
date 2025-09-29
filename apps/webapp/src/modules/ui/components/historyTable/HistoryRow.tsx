@@ -143,7 +143,7 @@ const HistoryRowContent = ({
             <TooltipTrigger>
               <ExternalLink
                 href={
-                  cowExplorerLink || row?.cowOrderStatus
+                  cowExplorerLink
                     ? getCowExplorerLink(chainId, row?.transactionHash || '')
                     : getEtherscanLink(chainId, row?.transactionHash || '', 'tx')
                 }
@@ -153,7 +153,7 @@ const HistoryRowContent = ({
             <TooltipPortal>
               <TooltipContent arrowPadding={10}>
                 <Text variant="small">
-                  {cowExplorerLink || row?.cowOrderStatus ? (
+                  {cowExplorerLink ? (
                     <Trans>View transaction on CoW Explorer</Trans>
                   ) : (
                     t`View transaction on ${explorerName}`

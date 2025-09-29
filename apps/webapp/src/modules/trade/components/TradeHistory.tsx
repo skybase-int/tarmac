@@ -41,7 +41,7 @@ export function TradeHistory() {
       isLoading={tradeHistoryLoading}
       transactionHeader={t`Trades`}
       statusColumn={isCowSupportedChainId(chainId)}
-      cowExplorerLink={false} // We'll handle this per-item in HistoryRow
+      cowExplorerLink={isCowSupportedChainId(chainId)}
     />
   );
 }
