@@ -40,7 +40,6 @@ export const useBatchTxNotification = (isAuthorized: boolean) => {
   useEffect(() => {
     // Only show if authorized by the notification queue
     if (!isAuthorized) {
-      // toast.dismiss();
       return;
     }
 

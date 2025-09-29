@@ -11,8 +11,6 @@ export const useDismissChatSuggestion = () => {
       if (!chatSuggested) {
         localStorage.setItem(CHAT_NOTIFICATION_KEY, 'true');
         setChatSuggested(true);
-        // Dismiss all toasts since we can't filter by variant in Sonner
-        // toast.dismiss();
       }
     }
   }, [chatSuggested]);
