@@ -31,7 +31,8 @@ export function TradeHistory() {
     formattedDate: formattedDates.length > index ? formattedDates[index] : '',
     rawDate: s.blockTimestamp,
     transactionHash: s.transactionHash,
-    ...('cowOrderStatus' in s ? { cowOrderStatus: s.cowOrderStatus } : {})
+    ...('cowOrderStatus' in s ? { cowOrderStatus: s.cowOrderStatus } : {}),
+    useCowExplorer: 'cowOrderStatus' in s
   }));
 
   return (
@@ -41,7 +42,6 @@ export function TradeHistory() {
       isLoading={tradeHistoryLoading}
       transactionHeader={t`Trades`}
       statusColumn={isCowSupportedChainId(chainId)}
-      cowExplorerLink={isCowSupportedChainId(chainId)}
     />
   );
 }
