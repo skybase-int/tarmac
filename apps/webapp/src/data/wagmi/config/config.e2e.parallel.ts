@@ -6,16 +6,18 @@ import {
   TENDERLY_BASE_CHAIN_ID,
   TENDERLY_CHAIN_ID
 } from './testTenderlyChain';
-import { mock, MockParameters } from 'wagmi/connectors';
-import { TEST_WALLET_ADDRESSES } from '@/test/e2e/utils/testWallets';
+import { mock } from 'wagmi/connectors';
+import { getTestWalletAddress } from '@/test/e2e/utils/testWallets';
 import { optimism, unichain } from 'viem/chains';
 
 const [tenderlyMainnet, tenderlyBase, tenderlyArbitrum, tenderlyOptimism, tenderlyUnichain] =
   getTestTenderlyChains();
 
-function extendedMock(params: MockParameters) {
+function extendedMock(getAccounts: () => [`0x${string}`, ...`0x${string}`[]]) {
   return createConnector(config => {
-    const base = mock(params)(config);
+    // Dynamically get accounts when connector is created/used
+    const accounts = getAccounts();
+    const base = mock({ accounts, features: { reconnect: true } })(config);
 
     return {
       ...base,
@@ -70,36 +72,59 @@ function extendedMock(params: MockParameters) {
   });
 }
 
-// Get the account from the injected window variable or environment
+// Get the account from the injected window variable
 function getWorkerAccount(): [`0x${string}`, ...`0x${string}`[]] {
+  console.log('getWorkerAccount called, window available:', typeof window !== 'undefined');
+
   if (typeof window !== 'undefined') {
     const testAccount = (window as any).__TEST_ACCOUNT__;
+    console.log('__TEST_ACCOUNT__ value:', testAccount);
     if (testAccount) {
-      // Return only the specific account for this worker
+      console.log('✅ Using injected test account:', testAccount);
+      // Return only the specific account for this test
       return [testAccount as `0x${string}`];
     }
   }
 
-  // Fallback to environment variable
-  const workerIndex = Number(import.meta.env.VITE_TEST_WORKER_INDEX || 0);
-  const account = TEST_WALLET_ADDRESSES[workerIndex % TEST_WALLET_ADDRESSES.length];
-  return [account];
+  // This should not happen - tests should always inject an account
+  console.warn('⚠️ WARNING: No test account injected, falling back to default');
+  // Use a default account just to avoid breaking, but log warning
+  const fallbackAccount = getTestWalletAddress(0);
+  console.log('❌ Using fallback account:', fallbackAccount);
+  return [fallbackAccount];
 }
 
 export const mockWagmiConfig = createConfig({
   chains: [tenderlyMainnet, tenderlyBase, tenderlyArbitrum, tenderlyOptimism, tenderlyUnichain],
   connectors: [
-    mock({
-      accounts: getWorkerAccount(),
-      features: {
-        reconnect: true
-      }
+    createConnector(config => {
+      const baseConnector = mock({
+        accounts: [getTestWalletAddress(0)], // Placeholder - will be overridden
+        features: { reconnect: true }
+      })(config);
+
+      return {
+        ...baseConnector,
+        // Override getAccounts to be truly lazy
+        async getAccounts() {
+          const accounts = getWorkerAccount();
+          console.log('🔍 getAccounts called, returning:', accounts);
+          return accounts;
+        }
+      };
     }),
-    extendedMock({
-      accounts: getWorkerAccount(),
-      features: {
-        reconnect: true
-      }
+    createConnector(config => {
+      const baseConnector = extendedMock(() => [getTestWalletAddress(0)])(config);
+
+      return {
+        ...baseConnector,
+        // Override getAccounts to be truly lazy
+        async getAccounts() {
+          const accounts = getWorkerAccount();
+          console.log('🔍 extendedMock getAccounts called, returning:', accounts);
+          return accounts;
+        }
+      };
     })
   ],
   transports: {

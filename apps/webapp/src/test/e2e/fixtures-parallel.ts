@@ -1,43 +1,94 @@
-import { test as baseTest, expect } from './fixtures';
-import { getTestWalletAddress } from './utils/testWallets';
-import { WorkerInfo } from '@playwright/test';
+import { test as playwrightTest, expect } from '@playwright/test';
+import { accountPool } from './utils/accountPoolManager';
+import { mockRpcCalls } from './mock-rpc-call';
+import { mockVpnCheck } from './mock-vpn-check';
 
 type TestFixtures = {
   testAccount: `0x${string}`;
-  isolatedPage: typeof baseTest.prototype.page;
+  isolatedPage: typeof playwrightTest.prototype.page;
 };
 
-// Extend the existing fixture that already handles snapshots and balances
-export const test = baseTest.extend<TestFixtures>({
-  // Each test gets the worker's account from the existing fixture setup
+/**
+ * Parallel test fixtures with account pool management.
+ * Each test gets a fresh account from the pool, ensuring complete isolation.
+ * This bypasses the base fixtures to avoid individual balance setup.
+ */
+export const test = playwrightTest.extend<TestFixtures>({
+  /**
+   * Provides a unique test account from the pool for each test.
+   * The account is permanently claimed - never released.
+   * With 100 accounts for ~52 tests, each test gets its own dedicated account.
+   */
   // eslint-disable-next-line no-empty-pattern
-  testAccount: async ({}, use, workerInfo) => {
-    const account = getTestWalletAddress(workerInfo.workerIndex).toLowerCase() as `0x${string}`;
-    await use(account);
+  testAccount: async ({}, use, testInfo) => {
+    // Generate a unique holder ID for debugging
+    const holderId = `${testInfo.workerIndex}-${testInfo.testId?.substring(0, 8) || 'unknown'}`;
+
+    let accountIndex: number | null = null;
+    let account: `0x${string}` | null = null;
+
+    try {
+      // Claim an account from the pool - NEVER RELEASE IT
+      // With 100 accounts and ~52 tests, we have plenty of accounts
+      accountIndex = await accountPool.claimAccount(holderId);
+      account = accountPool.getAccountAddress(accountIndex);
+
+      console.log(`Test "${testInfo.title}" permanently claimed account ${accountIndex}: ${account}`);
+
+      // Provide the account to the test
+      await use(account);
+    } catch (error) {
+      console.error(`Failed to claim account for test "${testInfo.title}":`, error);
+      throw error;
+    }
+    // NO FINALLY BLOCK - WE NEVER RELEASE THE ACCOUNT
+    // Each test gets its own account for the entire test run
   },
 
-  // Use the same page but ensure it uses the worker-specific account
-  isolatedPage: async ({ page }, use, workerInfo: WorkerInfo) => {
-    // The worker index is already set in process.env.VITE_TEST_WORKER_INDEX by the base fixture
-    // Just verify it's set correctly
-    const expectedIndex = String(workerInfo.workerIndex);
-    if (process.env.VITE_TEST_WORKER_INDEX !== expectedIndex) {
-      console.warn(
-        `Worker index mismatch: expected ${expectedIndex}, got ${process.env.VITE_TEST_WORKER_INDEX}`
-      );
-    }
+  /**
+   * Provides an isolated page configured with the test account.
+   * Injects the test account and sets up RPC mocking.
+   */
+  isolatedPage: async ({ browser, testAccount }, use, testInfo) => {
+    // Create a new context with the account pre-injected
+    const context = await browser.newContext({
+      // Inject the test account BEFORE any page loads
+      storageState: {
+        cookies: [],
+        origins: []
+      }
+    });
 
-    // Inject the worker-specific account into the page for client-side access
-    const account = getTestWalletAddress(workerInfo.workerIndex);
-    await page.addInitScript(
+    // Add init script to context so it runs before any page JavaScript
+    await context.addInitScript(
       data => {
         (window as any).__TEST_ACCOUNT__ = data.account;
-        (window as any).__WORKER_INDEX__ = data.index;
+        console.log('Test account injected before page load:', data.account);
       },
-      { account, index: workerInfo.workerIndex }
+      { account: testAccount }
     );
 
+    // Create page from context
+    const page = await context.newPage();
+
+    // Set up RPC call mocking (from base fixtures)
+    await page.route('https://virtual.**.rpc.tenderly.co/**', mockRpcCalls);
+
+    // Set up VPN check mocking (from base fixtures)
+    await page.route('https://vpnapi.io/**', mockVpnCheck);
+
+    // Set environment variable for server-side access (if needed)
+    process.env.VITE_TEST_ACCOUNT = testAccount;
+    process.env.VITE_TEST_WORKER_INDEX = testInfo.workerIndex.toString();
+
     await use(page);
+
+    // Cleanup
+    delete process.env.VITE_TEST_ACCOUNT;
+    delete process.env.VITE_TEST_WORKER_INDEX;
+
+    // Close context
+    await context.close();
   }
 });
 
