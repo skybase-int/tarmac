@@ -1,5 +1,6 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useChains } from 'wagmi';
+import type { Chain } from 'viem';
 import { toast } from '@/components/ui/use-toast';
 import { Text } from '@/modules/layout/components/Typography';
 import { getChainIcon, isL2ChainId } from '@jetstreamgg/sky-utils';
@@ -9,7 +10,7 @@ import { isMultichain, requiresMainnet } from '@/lib/widget-network-map';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useChainModalContext } from '@/modules/ui/context/ChainModalContext';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, type SetURLSearchParams } from 'react-router-dom';
 import { QueryParams } from '@/lib/constants';
 import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
 import { Loader2 } from 'lucide-react';
@@ -20,7 +21,6 @@ interface NetworkToastProps {
   currentChain: { id: number; name: string };
   currentIntent?: Intent;
   previousIntent?: Intent;
-  onNetworkSwitch?: (chainId: number) => void;
   isAutoSwitch?: boolean;
 }
 
@@ -50,13 +50,20 @@ const getWidgetName = (intent: Intent): string => {
 const NetworkQuickSwitchButtons = ({
   currentChainId,
   currentIntent,
-  onNetworkSwitch
+  chains,
+  handleSwitchChain,
+  setSearchParams
 }: {
   currentChainId: number;
   currentIntent?: Intent;
-  onNetworkSwitch: (chainId: number) => void;
+  chains: readonly Chain[];
+  handleSwitchChain: (params: {
+    chainId: number;
+    onSuccess?: (data: any, variables: { chainId: number }) => void;
+    onSettled?: () => void;
+  }) => void;
+  setSearchParams: SetURLSearchParams;
 }) => {
-  const chains = useChains();
   const [switchingTo, setSwitchingTo] = useState<number | null>(null);
 
   // Get supported chains for current widget
@@ -95,7 +102,18 @@ const NetworkQuickSwitchButtons = ({
             disabled={switchingTo !== null}
             onClick={() => {
               setSwitchingTo(chain.id);
-              onNetworkSwitch(chain.id);
+              handleSwitchChain({
+                chainId: chain.id,
+                onSuccess: (_: any, { chainId: newChainId }: { chainId: number }) => {
+                  const newChainName = chains.find(c => c.id === newChainId)?.name;
+                  if (newChainName) {
+                    setSearchParams((params: URLSearchParams) => {
+                      params.set(QueryParams.Network, normalizeUrlParam(newChainName));
+                      return params;
+                    });
+                  }
+                }
+              });
             }}
             title={`Switch to ${chain.name}`}
           >
@@ -115,33 +133,10 @@ export function useEnhancedNetworkToast() {
   const chains = useChains();
   const { handleSwitchChain } = useChainModalContext();
   const [, setSearchParams] = useSearchParams();
+  const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const showNetworkToast = useCallback(
-    ({
-      previousChain,
-      currentChain,
-      currentIntent,
-      previousIntent,
-      onNetworkSwitch,
-      isAutoSwitch
-    }: NetworkToastProps) => {
-      const handleQuickSwitch = (targetChainId: number) => {
-        handleSwitchChain({
-          chainId: targetChainId,
-          onSuccess: (_, { chainId: newChainId }) => {
-            const newChainName = chains.find(c => c.id === newChainId)?.name;
-            if (newChainName) {
-              setSearchParams((params: URLSearchParams) => {
-                params.set(QueryParams.Network, normalizeUrlParam(newChainName));
-                return params;
-              });
-            }
-            // Call the callback if provided (for saving widget network preference)
-            onNetworkSwitch?.(newChainId);
-          }
-        });
-      };
-
+    ({ previousChain, currentChain, currentIntent, previousIntent, isAutoSwitch }: NetworkToastProps) => {
       // Generate context-aware title
       let title = '';
 
@@ -150,22 +145,6 @@ export function useEnhancedNetworkToast() {
         if (currentIntent && requiresMainnet(currentIntent) && !isL2ChainId(currentChain.id)) {
           const widgetName = getWidgetName(currentIntent);
           title = `To access ${widgetName}, you need to be on mainnet. We've switched your network automatically.`;
-        }
-        // Check if switching BACK to L2 for a multichain widget that was previously used on L2
-        else if (
-          previousIntent &&
-          requiresMainnet(previousIntent) &&
-          currentIntent &&
-          isMultichain(currentIntent) &&
-          isL2ChainId(currentChain.id)
-        ) {
-          const widgetName = getWidgetName(currentIntent);
-          title = `We've switched you back to ${currentChain.name}, the last network you used for ${widgetName}.`;
-        }
-        // Generic auto-switch for returning to a saved network preference
-        else if (currentIntent && isMultichain(currentIntent) && previousChain) {
-          const widgetName = getWidgetName(currentIntent);
-          title = `We've switched you to ${currentChain.name}, the last network you used for ${widgetName}.`;
         }
         // Default auto-switch message
         else {
@@ -196,7 +175,9 @@ export function useEnhancedNetworkToast() {
           <NetworkQuickSwitchButtons
             currentChainId={currentChain.id}
             currentIntent={currentIntent}
-            onNetworkSwitch={handleQuickSwitch}
+            chains={chains}
+            handleSwitchChain={handleSwitchChain}
+            setSearchParams={setSearchParams}
           />
         </div>
       );
@@ -206,11 +187,24 @@ export function useEnhancedNetworkToast() {
         currentIntent && isMultichain(currentIntent) && currentIntent !== Intent.BALANCES_INTENT;
       const hasLongTitle = title.length > 50;
 
-      toast({
-        title,
-        description: toastContent,
-        duration: hasQuickSwitch || hasLongTitle ? 8000 : 5000 // Extended duration for multichain widgets or longer messages
-      });
+      // Clear any existing timeout to prevent multiple toasts
+      if (toastTimeoutRef.current) {
+        clearTimeout(toastTimeoutRef.current);
+      }
+
+      // Set new timeout with proper cleanup reference
+      toastTimeoutRef.current = setTimeout(
+        () => {
+          toast({
+            title,
+            description: toastContent,
+            duration: hasQuickSwitch || hasLongTitle ? 8000 : 5000 // Extended duration for multichain widgets or longer messages
+          });
+          // Clear the ref after the toast is shown
+          toastTimeoutRef.current = null;
+        },
+        currentIntent === previousIntent ? 700 : 0
+      );
     },
     [chains, handleSwitchChain, setSearchParams]
   );

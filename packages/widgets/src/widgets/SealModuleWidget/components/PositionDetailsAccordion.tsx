@@ -75,7 +75,7 @@ export function PositionDetailAccordion({
           {!!collateralData?.stabilityFee && (
             <motion.div className="flex justify-between" variants={positionAnimations}>
               <TextWithTooltip
-                text={getTooltipById('borrow-rate-seal')?.title || 'Borrow rate'}
+                text={getTooltipById('borrow-rate-seal')?.title || 'Borrow Rate'}
                 tooltip={getTooltipById('borrow-rate-seal')?.tooltip || ''}
                 textClassName="leading-4"
                 contentClassname="w-[400px]"
