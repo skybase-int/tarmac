@@ -105,7 +105,7 @@ export const defaultConfig: WidgetsConfig = {
       { ...mkr, address: mkrAddress[TENDERLY_CHAIN_ID] },
       { ...usds, address: usdsAddress[TENDERLY_CHAIN_ID] },
       { ...susds, address: sUsdsAddress[TENDERLY_CHAIN_ID] },
-      { ...sky, address: usdsAddress[TENDERLY_CHAIN_ID] }
+      { ...sky, address: skyAddress[TENDERLY_CHAIN_ID] }
     ],
     [base.id]: [
       { ...usdc, address: usdcL2Address[base.id] },

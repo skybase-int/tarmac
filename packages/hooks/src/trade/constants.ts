@@ -1,6 +1,7 @@
 import { arbitrum, base, mainnet } from 'wagmi/chains';
 import createClient from 'openapi-fetch';
 import { paths } from './cowApiSchema';
+import { TENDERLY_CHAIN_ID } from '../constants';
 
 export enum TradeSide {
   IN = 'IN',
@@ -56,11 +57,13 @@ export const ETH_FLOW_QUOTE_PARAMS = {
 export const gpv2VaultRelayerAddress = {
   [mainnet.id]: '0xC92E8bdf79f0507f65a392b0ab4667716BFE0110',
   [base.id]: '0xC92E8bdf79f0507f65a392b0ab4667716BFE0110',
-  [arbitrum.id]: '0xC92E8bdf79f0507f65a392b0ab4667716BFE0110'
+  [arbitrum.id]: '0xC92E8bdf79f0507f65a392b0ab4667716BFE0110',
+  [TENDERLY_CHAIN_ID]: '0xC92E8bdf79f0507f65a392b0ab4667716BFE0110'
 } as const;
 
 export const cowApiClient = {
   [mainnet.id]: createClient<paths>({ baseUrl: COW_API_ENDPOINT[mainnet.id] }),
   [base.id]: createClient<paths>({ baseUrl: COW_API_ENDPOINT[base.id] }),
-  [arbitrum.id]: createClient<paths>({ baseUrl: COW_API_ENDPOINT[arbitrum.id] })
+  [arbitrum.id]: createClient<paths>({ baseUrl: COW_API_ENDPOINT[arbitrum.id] }),
+  [TENDERLY_CHAIN_ID]: createClient<paths>({ baseUrl: COW_API_ENDPOINT[mainnet.id] })
 } as const;
