@@ -20,7 +20,7 @@ export const runCowTradeTests = async ({ networkName }: { networkName: NetworkNa
     await expect(page.getByRole('button', { name: 'Transaction overview' })).not.toBeVisible();
 
     await page.getByTestId('undefined-menu-button').first().click();
-    await page.getByRole('button', { name: '"DAI" "DAI" "DAI"' }).click();
+    await page.getByRole('button', { name: 'DAI DAI DAI' }).click();
     await page.getByRole('button', { name: 'Select token' }).click();
     await page.getByRole('button', { name: 'sUSDS sUSDS sUSDS' }).click();
 
