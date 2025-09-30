@@ -9,15 +9,14 @@ export const banners: Banner[] = [
   {
     id: 'about-expert-modules',
     title: 'About Expert modules',
-    description:
-      'Expert modules enable users to access a variable rate on USDS by participating in SKY-backed borrowing. Advanced strategies may carry increased risk. They are intended and designed for experienced users who understand the complexities of DeFi, including factors like market volatility and liquidity constraints.',
+    description: 'Expert Modules unlock high-level functionality tailored to experienced users.',
     display: ['disconnected']
   },
   {
     id: 'stusds',
     title: 'stUSDS',
     description:
-      'stUSDS is a token designed for eligible Sky Protocol expert users. When you supply USDS to the stUSDS module of the Protocol, you fund SKY-back borrowing to access the [stUSDS Rate](#tooltip-stusds-rate) and receive stUSDS tokens. The stUSDS tokens serve as a digital record of your USDS interaction with the stUSDS module and any change to the value of your position.',
+      'stUSDS is a token designed for eligible Sky Protocol expert users. When you supply USDS to the stUSDS module of the Protocol, you fund SKY-backed borrowing to access the [stUSDS Rate](#tooltip-stusds-rate) and receive stUSDS tokens. The stUSDS tokens serve as a digital record of your USDS interaction with the stUSDS module and any change to the value of your position.',
     display: ['disconnected']
   },
   {
@@ -31,7 +30,7 @@ export const banners: Banner[] = [
     id: 'stusds-2',
     title: 'stUSDS',
     description:
-      'stUSDS is a token designed for eligible Sky Protocol expert users. When you supply USDS to the stUSDS module of the Protocol, you fund SKY-back borrowing to access the [stUSDS Rate](#tooltip-stusds-rate) and receive stUSDS tokens. The stUSDS tokens serve as a digital record of your USDS interaction with the stUSDS module and any change to the value of your position.',
+      'stUSDS is a token designed for eligible Sky Protocol expert users. When you supply USDS to the stUSDS module of the Protocol, you fund SKY-backed borrowing to access the [stUSDS Rate](#tooltip-stusds-rate) and receive stUSDS tokens. The stUSDS tokens serve as a digital record of your USDS interaction with the stUSDS module and any change to the value of your position.',
     display: ['connected']
   },
   {
@@ -45,7 +44,7 @@ export const banners: Banner[] = [
     id: 'about-stusds',
     title: 'About stUSDS',
     description:
-      'stUSDS is a token designed for eligible Sky Protocol expert users. When you supply USDS to the stUSDS module of the Protocol, you fund SKY-back borrowing to access the [stUSDS Rate](#tooltip-stusds-rate) and receive stUSDS tokens. The stUSDS tokens serve as a digital record of your USDS interaction with the stUSDS module and any change to the value of your position.',
+      'stUSDS is a token designed for eligible Sky Protocol expert users. When you supply USDS to the stUSDS module of the Protocol, you fund SKY-backed borrowing to access the [stUSDS Rate](#tooltip-stusds-rate) and receive stUSDS tokens. The stUSDS tokens serve as a digital record of your USDS interaction with the stUSDS module and any change to the value of your position.',
     display: ['disconnected']
   },
   {

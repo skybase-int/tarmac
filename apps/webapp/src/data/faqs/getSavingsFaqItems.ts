@@ -45,7 +45,7 @@ The conversion rate between USDS and sUSDS is determined programmatically by sma
   },
   {
     question: 'Does it cost anything to access the Sky Savings Rate?',
-    answer: `Accessing the [Sky Savings Rate](#tooltip-sky-savings-rate) via the Sky.money web app is free. However, any time you supply or withdraw assets to/from the Sky Savings Rate module of the Sky Protocol, you will incur a transaction fee, called a [gas fee](#tooltip-gas-fee, for using the Ethereum blockchain network. That fee is neither controlled, imposed nor received by Sky.money or the Sky Protocol.
+    answer: `Accessing the [Sky Savings Rate](#tooltip-sky-savings-rate) via the Sky.money web app is free. However, any time you supply or withdraw assets to/from the Sky Savings Rate module of the Sky Protocol, you will incur a transaction fee, called a [gas fee](#tooltip-gas-fee), for using the Ethereum blockchain network. That fee is neither controlled, imposed nor received by Sky.money or the Sky Protocol.
 
 If you have shied away from the Ethereum blockchain due to the high price of gas, note that the average price of gas on Ethereum has dropped significantly as a result of the 2024 Dencun upgrade. Note, too, that. you can use the Sky.money web app to access the Sky Savings Rate on the Base network with reduced transaction costs.`,
     index: 1
