@@ -125,10 +125,12 @@ export function TradeSummary({
                 <Text variant="medium" className="text-textSecondary">
                   <Trans>Slippage</Trans>
                 </Text>
-                <InfoTooltip
-                  content={getTooltipById('slippage')?.tooltip || ''}
-                  iconClassName="text-textSecondary"
-                />
+                {getTooltipById('slippage')?.tooltip && (
+                  <InfoTooltip
+                    content={getTooltipById('slippage')?.tooltip || ''}
+                    iconClassName="text-textSecondary"
+                  />
+                )}
               </HStack>
               <Text variant="medium">{quoteData.quote.slippageTolerance.toFixed(2)}%</Text>
             </motion.div>
