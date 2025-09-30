@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useCowswapTradeHistory } from './useCowswapTradeHistory';
 import { usePsmTradeHistory } from '../psm/usePsmTradeHistory';
-import { TRADE_CUTOFF_DATES } from './tradeCutoffDates';
+import { TRADE_CUTOFF_DATES } from '@jetstreamgg/sky-utils';
 import { ReadHook } from '../hooks';
 
 /**

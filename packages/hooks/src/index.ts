@@ -228,7 +228,6 @@ export { SupportedCollateralTypes } from './vaults/vaults.constants';
 export { getIlkName } from './vaults/helpers';
 
 export { OrderQuoteSideKind, gpv2VaultRelayerAddress } from './trade/constants';
-export { TRADE_CUTOFF_DATES } from './trade/tradeCutoffDates';
 
 export {
   TOKENS,

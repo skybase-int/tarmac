@@ -1,9 +1,8 @@
 import { useCowswapTradeHistory } from './useCowswapTradeHistory';
 import { usePsmTradeHistory } from '../psm/usePsmTradeHistory';
 import { useHybridTradeHistory } from './useHybridTradeHistory';
-import { isCowSupportedChainId } from '@jetstreamgg/sky-utils';
+import { isCowSupportedChainId, TRADE_CUTOFF_DATES } from '@jetstreamgg/sky-utils';
 import { useChainId } from 'wagmi';
-import { TRADE_CUTOFF_DATES } from './tradeCutoffDates';
 
 export function useTradeHistory({
   subgraphUrl,
