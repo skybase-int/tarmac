@@ -5,7 +5,7 @@
 // Remaining 90 are deterministically generated
 export const TEST_WALLET_ADDRESSES: readonly `0x${string}`[] = [
   // Original addresses (indices 0-9)
-  '0xa80277a17c710518891519413de6cc48a5486bb8',
+
   '0x0944AB0c507A12052A5D766e43bf3a541e45A7Fc',
   '0xb4b115a488fe318d6ecc640bdcf5c2a174c8360a',
   '0xa877a5bb7f56b6ab41810d31e57213955778d3c8',
@@ -16,6 +16,7 @@ export const TEST_WALLET_ADDRESSES: readonly `0x${string}`[] = [
   '0x96e5ada0e74382196f5b57bc4f012cdcae8949fe',
   '0xbf58ed406fbee2b9c966c47a7da78ff6a291dcc6',
   '0xd42aa67d4a0a7c1b3d390ea899e7b6b9e3715bf1',
+  '0xa80277a17c710518891519413de6cc48a5486bb8',
   // Generated addresses (indices 10-99)
   '0xad45171bb82322af7A43c34F8C68e9755c1D5937',
   '0xA1C38549D834d313b746C53303232F9c39bd88D7',
