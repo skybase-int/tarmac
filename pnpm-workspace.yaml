@@ -79,6 +79,7 @@ catalog:
   recharts: ^2.15.4
   rehype-sanitize: ^6.0.0
   rollup-plugin-visualizer: ^5.14.0
+  sonner: ^2.0.7
   tailwind-merge: ^2.6.0
   tailwindcss: ^4.1.13
   tailwindcss-animate: ^1.0.7
