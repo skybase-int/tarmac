@@ -7,7 +7,12 @@ import { Trans } from '@lingui/react/macro';
 import { Button } from '@/components/ui/button';
 import { useSearchParams } from 'react-router-dom';
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
-import { CHATBOT_ENABLED, QueryParams, CHAT_NOTIFICATION_KEY } from '@/lib/constants';
+import {
+  CHATBOT_ENABLED,
+  QueryParams,
+  CHAT_NOTIFICATION_KEY,
+  CHAT_NOTIFICATION_TOAST_ID
+} from '@/lib/constants';
 import { CHATBOT_NAME } from '@/modules/chat/constants';
 import { Chat } from '@/modules/icons';
 
@@ -52,8 +57,8 @@ export const useChatNotification = (isAuthorized: boolean) => {
       timerRef.current = setTimeout(() => {
         // Check if a toast is already active
         if (!chatSuggested && searchParams.get(QueryParams.Chat) !== 'true' && !activeToastIdRef.current) {
-          // Create a unique ID for this toast
-          const toastId = `chat-notification-${Date.now()}`;
+          // Use constant toast ID so it can be dismissed from other hooks
+          const toastId = CHAT_NOTIFICATION_TOAST_ID;
           activeToastIdRef.current = toastId;
 
           toastWithClose(
