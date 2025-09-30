@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import { t } from '@lingui/core/macro';
 import { Carousel, CarouselContent, CarouselItem, CarouselControls } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
@@ -28,7 +27,6 @@ export function TradeDetails(): React.ReactElement {
 
   const { bpi } = useBreakpointIndex();
   const isMobileOrTablet = bpi < BP['2xl'];
-  const carouselRef = useRef<HTMLDivElement>(null);
 
   return (
     <DetailSectionWrapper>
@@ -50,14 +48,13 @@ export function TradeDetails(): React.ReactElement {
       )}
       <DetailSection title={t`About Sky Ecosystem Tokens`}>
         <Carousel
-          ref={carouselRef}
           opts={{ loop: true, watchDrag: isMobileOrTablet }}
           plugins={[
             Autoplay({
               delay: 5000,
-              stopOnInteraction: false,
+              stopOnInteraction: true,
               stopOnMouseEnter: true,
-              rootNode: emblaRoot => carouselRef.current || emblaRoot
+              stopOnFocusIn: true
             }),
             Fade()
           ]}
