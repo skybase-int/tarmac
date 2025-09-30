@@ -48,7 +48,7 @@ export function TradeDetails(): React.ReactElement {
           </DetailSectionRow>
         </DetailSection>
       )}
-      <DetailSection title={t`About Native Sky Protocol Tokens`}>
+      <DetailSection title={t`About Sky Ecosystem Tokens`}>
         <Carousel
           ref={carouselRef}
           opts={{ loop: true, watchDrag: isMobileOrTablet }}
