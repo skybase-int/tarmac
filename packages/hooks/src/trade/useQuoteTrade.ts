@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useAccount, useChainId } from 'wagmi';
 import { ReadHook } from '../hooks';
 import { TRUST_LEVELS, TrustLevelEnum, ZERO_ADDRESS } from '../constants';
-import { ETH_FLOW_QUOTE_PARAMS, OrderQuoteSideKind, cowApiClient } from './constants';
+import { ETH_FLOW_QUOTE_PARAMS, OrderQuoteSideKind, cowApiClient, SKY_MONEY_APP_CODE } from './constants';
 import { OrderQuoteResponse, OrderQuoteSide } from './trade';
 import { verifySlippageAndDeadline } from './helpers';
 
@@ -47,7 +47,7 @@ const getTradeQuote = async ({
       buyToken,
       from: address,
       validFor: ttl,
-      appData: '{"appCode":"sky.money","metadata":{"orderClass":{"orderClass":"market"}},"version":"1.1.0"}',
+      appData: `{"appCode":"${SKY_MONEY_APP_CODE}","metadata":{"orderClass":{"orderClass":"market"}},"version":"1.1.0"}`,
       // API defaults
       onchainOrder: false,
       priceQuality: 'verified',

@@ -1,6 +1,6 @@
-import { isArbitrumChainId, isBaseChainId } from './isL2ChainId';
 import { isMainnetId } from './isMainnetId';
+import { TRADE_CUTOFF_DATES } from './tradeCutoffDates';
 
 export const isCowSupportedChainId = (chainId: number) => {
-  return isMainnetId(chainId) || isArbitrumChainId(chainId) || isBaseChainId(chainId);
+  return isMainnetId(chainId) || chainId in TRADE_CUTOFF_DATES;
 };
