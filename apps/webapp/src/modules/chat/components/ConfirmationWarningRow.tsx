@@ -42,8 +42,7 @@ export const ConfirmationWarningRow = () => {
 
   const selectedIntentUrl = useRetainedQueryParams(selectedIntent?.url || '', [
     QueryParams.Locale,
-    QueryParams.Details,
-    QueryParams.Chat
+    QueryParams.Details
   ]);
 
   const handleConfirm = useCallback(() => {
