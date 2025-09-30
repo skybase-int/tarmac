@@ -55,8 +55,8 @@ export function BalancesModuleShowcase() {
       {
         id: 'expert',
         component: <ExpertCard />,
-        featured: true // Featured cards go first
-        //TODO: determine if this needs to be hidden in any way
+        featured: true, // Featured cards go first
+        hideInRestrictedBuild: true
       }
     ],
     []
