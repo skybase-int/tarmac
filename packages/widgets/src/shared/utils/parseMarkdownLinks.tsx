@@ -2,8 +2,10 @@ import React from 'react';
 import { ExternalLink } from '@widgets/shared/components/ExternalLink';
 
 /**
- * Parses markdown links in text and converts them to ExternalLink components
+ * Parses markdown links in text and converts them to ExternalLink components or plain anchor tags
  * Supports the pattern [text](url)
+ * - Links starting with #tooltip- are rendered as plain <a> tags (for internal tooltip anchors)
+ * - All other links are rendered as ExternalLink components
  *
  * @param text - The text containing markdown links
  * @param onExternalLinkClicked - Optional callback for external link clicks
@@ -41,17 +43,28 @@ export function parseMarkdownLinks(
     const linkText = match[1];
     const url = match[2];
 
-    parts.push(
-      <ExternalLink
-        key={`link-${keyIndex++}`}
-        href={url}
-        className="hover:text-white hover:underline"
-        showIcon={false}
-        onExternalLinkClicked={onExternalLinkClicked}
-      >
-        {linkText}
-      </ExternalLink>
-    );
+    // Check if this is a tooltip anchor link
+    if (url.startsWith('#tooltip-')) {
+      // Render as plain anchor tag for tooltip links
+      parts.push(
+        <a key={`link-${keyIndex++}`} href={url} className="text-text hover:text-white hover:underline">
+          {linkText}
+        </a>
+      );
+    } else {
+      // Render as ExternalLink for external URLs
+      parts.push(
+        <ExternalLink
+          key={`link-${keyIndex++}`}
+          href={url}
+          className="hover:text-white hover:underline"
+          showIcon={false}
+          onExternalLinkClicked={onExternalLinkClicked}
+        >
+          {linkText}
+        </ExternalLink>
+      );
+    }
 
     lastIndex = match.index + match[0].length;
   }
