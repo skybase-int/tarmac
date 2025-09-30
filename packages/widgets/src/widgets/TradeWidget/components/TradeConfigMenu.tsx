@@ -19,6 +19,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@widgets/components/ui
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { verifySlippage } from '../lib/utils';
 import { getTooltipById } from '@widgets/data/tooltips';
+import { parseMarkdownLinks } from '@widgets/shared/utils/parseMarkdownLinks';
 
 type PropTypes = {
   slippage: string;
@@ -65,7 +66,7 @@ export const TradeConfigMenu = ({
               <Trans>Slippage</Trans>
             </Heading>
             <Text variant="medium" className="text-textSecondary">
-              {getTooltipById('slippage-tolerance')?.tooltip || ''}
+              {parseMarkdownLinks(getTooltipById('slippage-tolerance')?.tooltip || '')}
             </Text>
           </div>
           <HStack className="w-full justify-between">
