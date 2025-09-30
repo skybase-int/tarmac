@@ -8,6 +8,7 @@ import { TokenForChain } from '../tokens/types';
 import { ETH_ADDRESS, getTokensForChain } from '../tokens/tokens.constants';
 import { formatOrderStatus } from './formatOrderStatus';
 import { isCowSupportedChainId } from '@jetstreamgg/sky-utils';
+import { SKY_MONEY_APP_CODE } from './constants';
 
 async function fetchCowswapTradeHistory(
   chainId: number,
@@ -46,6 +47,18 @@ async function fetchCowswapTradeHistory(
           ? tokens?.find(token => token.address?.toLowerCase() === ETH_ADDRESS.toLowerCase())
           : orderFromToken;
       const toToken = tokens?.find(token => token.address?.toLowerCase() === order.buyToken.toLowerCase());
+
+      let appCode: string | undefined;
+      if (order.fullAppData) {
+        try {
+          const appData = JSON.parse(order.fullAppData);
+          appCode = appData.appCode;
+        } catch (e) {
+          // If parsing fails, leave appCode undefined
+          console.error('Error parsing appData', e);
+        }
+      }
+
       return {
         id: order.uid,
         blockTimestamp: new Date(order.creationDate),
@@ -60,11 +73,12 @@ async function fetchCowswapTradeHistory(
         module: ModuleEnum.TRADE,
         type: TransactionTypeEnum.TRADE,
         cowOrderStatus: formatOrderStatus(order.status as OrderStatus),
-        chainId
+        chainId,
+        appCode
       };
     })
-    // Don't show history items for tokens we do not support
-    .filter(order => !!order.fromToken.id && !!order.toToken.id);
+    // Don't show history items for tokens we do not support or trades not from sky.money
+    .filter(order => !!order.fromToken.id && !!order.toToken.id && order.appCode === SKY_MONEY_APP_CODE);
 
   return parsedOrders as TradeHistory;
 }

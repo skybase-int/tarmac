@@ -32,6 +32,8 @@ export enum OrderStatus {
   expired = 'expired'
 }
 
+export const SKY_MONEY_APP_CODE = 'sky.money';
+
 export const ORDER_TYPE_FIELDS = [
   { name: 'sellToken', type: 'address' },
   { name: 'buyToken', type: 'address' },
