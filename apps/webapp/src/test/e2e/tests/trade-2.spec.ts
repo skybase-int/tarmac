@@ -84,7 +84,7 @@ test('Token approval flow triggers when not enough allowance', async ({ isolated
   await expect(isolatedPage.getByRole('button', { name: 'Confirm trade' }).last()).toBeVisible();
 });
 
-test('UI elements work and are displayed as expected', async ({ isolatedPage }) => {
+test('UI elements work and are displayed as expected', async ({ isolatedPage, testAccount }) => {
   await setErc20Balance(wethAddress[TENDERLY_CHAIN_ID], '10', 18, NetworkName.mainnet, testAccount);
   expect(isolatedPage.getByTestId('trade-input-origin-balance')).toHaveText('No wallet connected');
   expect(isolatedPage.getByTestId('trade-input-target-balance')).not.toBeVisible();

@@ -1,11 +1,11 @@
-import { test as playwrightTest, expect } from '@playwright/test';
+import { test as playwrightTest, expect, Browser, TestInfo, Page } from '@playwright/test';
 import { accountPool } from './utils/accountPoolManager';
 import { mockRpcCalls } from './mock-rpc-call';
 import { mockVpnCheck } from './mock-vpn-check';
 
 type TestFixtures = {
   testAccount: `0x${string}`;
-  isolatedPage: typeof playwrightTest.prototype.page;
+  isolatedPage: Page;
 };
 
 /**
@@ -49,7 +49,11 @@ export const test = playwrightTest.extend<TestFixtures>({
    * Provides an isolated page configured with the test account.
    * Injects the test account and sets up RPC mocking.
    */
-  isolatedPage: async ({ browser, testAccount }, use, testInfo) => {
+  isolatedPage: async (
+    { browser, testAccount }: { browser: Browser; testAccount: `0x${string}` },
+    use: (page: Page) => Promise<void>,
+    testInfo: TestInfo
+  ) => {
     // Create a new context with the account pre-injected
     const context = await browser.newContext({
       // Inject the test account BEFORE any page loads
@@ -61,7 +65,7 @@ export const test = playwrightTest.extend<TestFixtures>({
 
     // Add init script to context so it runs before any page JavaScript
     await context.addInitScript(
-      data => {
+      (data: { account: string }) => {
         (window as any).__TEST_ACCOUNT__ = data.account;
         console.log('Test account injected before page load:', data.account);
       },

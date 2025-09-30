@@ -11,7 +11,7 @@ test('Verify account is funded correctly', async ({ isolatedPage, testAccount })
 
   // Check balances using direct RPC calls
   const balances = await isolatedPage.evaluate(
-    async data => {
+    async (data: { account: string; tokens: { usds: string; dai: string; mkr: string; sky: string } }) => {
       const { account, tokens } = data;
 
       const checkBalance = async (tokenAddress: string, tokenName: string) => {
