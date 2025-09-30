@@ -57,7 +57,7 @@ export default defineConfig({
         '**/reward-2.spec.ts',
         '**/la-u-r.spec.ts',
         '**/la-u-s.spec.ts',
-        // '**/stake.spec.ts'
+        '**/stake.spec.ts',
         '**/landing.spec.ts'
         // Add more test patterns as we convert them
       ]
