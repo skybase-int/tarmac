@@ -254,7 +254,7 @@ export class AccountPoolManager {
         await fs.writeFile(initializedFile, JSON.stringify(Array.from(initialized)));
       }
     } catch (error) {
-      console.warn(`  ⚠ Error initializing account: ${error.message}`);
+      console.warn(`  ⚠ Error initializing account: ${(error as Error).message}`);
     }
   }
 

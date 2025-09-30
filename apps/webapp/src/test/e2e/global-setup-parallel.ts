@@ -268,7 +268,7 @@ async function fundAccountsOnVnet(network: NetworkName, addresses: string[]): Pr
             console.log(`  ✓ ${name} funded`);
             tokensToLog.push({ address: token, name, decimals });
           } catch (error) {
-            console.warn(`  ⚠ Failed to fund ${name}: ${error.message}`);
+            console.warn(`  ⚠ Failed to fund ${name}: ${(error as Error).message}`);
           }
         }
       }
@@ -278,13 +278,13 @@ async function fundAccountsOnVnet(network: NetworkName, addresses: string[]): Pr
       if (chainId) {
         const l2TokenFunding = [
           {
-            token: usdsL2Address[chainId],
+            token: usdsL2Address[chainId as keyof typeof usdsL2Address],
             amount: '10000',
             decimals: 18,
             name: 'USDS'
           },
           {
-            token: usdcL2Address[chainId],
+            token: usdcL2Address[chainId as keyof typeof usdcL2Address],
             amount: '10000',
             decimals: 6,
             name: 'USDC'
@@ -298,7 +298,7 @@ async function fundAccountsOnVnet(network: NetworkName, addresses: string[]): Pr
               console.log(`  ✓ ${name} funded on ${network}`);
               tokensToLog.push({ address: token, name, decimals });
             } catch (error) {
-              console.warn(`  ⚠ Failed to fund ${name} on ${network}: ${error.message}`);
+              console.warn(`  ⚠ Failed to fund ${name} on ${network}: ${(error as Error).message}`);
             }
           }
         }
