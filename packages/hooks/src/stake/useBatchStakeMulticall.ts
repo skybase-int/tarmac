@@ -55,7 +55,7 @@ export function useBatchStakeMulticall({
       args: [calldata]
     });
 
-    // Individual array of transactions, intended to be used in a batch transaction
+    // Array of individual transactions, intended to be used in a batch transaction
     const individualCalls: Call[] = calldata.map(data => ({
       to: stakeModuleAddress[chainId as keyof typeof stakeModuleAddress],
       data
