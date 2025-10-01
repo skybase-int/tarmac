@@ -1,12 +1,8 @@
-import { Button } from '@/components/ui/button';
 import { Trans } from '@lingui/react/macro';
-import { ExternalLinkIcon } from 'lucide-react';
-import { ExternalLink } from '@/modules/layout/components/ExternalLink';
-import { Heading, Text } from '@/modules/layout/components/Typography';
 import { getEtherscanLink } from '@jetstreamgg/sky-utils';
 import { useChainId } from 'wagmi';
 import { spkAddress } from '@jetstreamgg/sky-hooks';
-import { GradientShapeCard } from './GradientShapeCard';
+import { AboutCard } from './AboutCard';
 import { TokenIcon } from './TokenIcon';
 
 export const AboutSpk = ({ height }: { height?: number | undefined }) => {
@@ -19,35 +15,23 @@ export const AboutSpk = ({ height }: { height?: number | undefined }) => {
   );
 
   return (
-    <GradientShapeCard
-      colorLeft="radial-gradient(217.45% 249.6% at 116.69% 275.4%, #A273FF 0%, #4331E9 100%)"
-      colorMiddle="linear-gradient(360deg, #FA43BD 0%, #FFA930 300%)"
-      colorRight="#1e1a4b"
-      height={height}
-    >
-      <div className="w-[80%] space-y-2 self-start lg:w-2/3">
-        <Heading className="flex items-center gap-2">
+    <AboutCard
+      title={
+        <>
           <TokenIcon token={{ symbol: 'SPK' }} width={24} className="h-6 w-6" showChainIcon={false} />
           <Trans>SPK</Trans>
-        </Heading>
-        <Text variant="small">
-          <Trans>
-            SPK is the native governance and staking token of Spark. Designed with a long-term vision for
-            sustainability, decentralization, and ecosystem alignment, SPK enables protocol governance,
-            protocol security via staking, and reward distribution to participants.
-          </Trans>
-        </Text>
-      </div>
-      <ExternalLink
-        href={spkEtherscanLink}
-        showIcon={false}
-        className="mt-auto w-fit pt-3 lg:self-end lg:pt-0"
-      >
-        <Button variant="outline" className="border-border gap-2">
-          <Trans>View contract</Trans>
-          <ExternalLinkIcon size={16} />
-        </Button>
-      </ExternalLink>
-    </GradientShapeCard>
+        </>
+      }
+      description={
+        <Trans>
+          SPK is the native governance and staking token of Spark. Designed with a long-term vision for
+          sustainability, decentralization, and ecosystem alignment, SPK enables protocol governance, protocol
+          security via staking, and reward distribution to participants.
+        </Trans>
+      }
+      linkHref={spkEtherscanLink}
+      colorMiddle="linear-gradient(360deg, #FA43BD 0%, #FFA930 300%)"
+      height={height}
+    />
   );
 };
