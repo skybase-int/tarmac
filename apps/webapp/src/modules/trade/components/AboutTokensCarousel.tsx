@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { Carousel, CarouselContent, CarouselItem, CarouselControls } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import Fade from 'embla-carousel-fade';
@@ -11,20 +12,21 @@ export function AboutTokensCarousel() {
   const { bpi } = useBreakpointIndex();
   const isMobileOrTablet = bpi < BP['2xl'];
 
+  const plugins = useMemo(
+    () => [
+      Autoplay({
+        delay: 5000,
+        stopOnInteraction: true,
+        stopOnMouseEnter: true,
+        stopOnFocusIn: true
+      }),
+      Fade()
+    ],
+    []
+  );
+
   return (
-    <Carousel
-      opts={{ loop: true, watchDrag: isMobileOrTablet }}
-      plugins={[
-        Autoplay({
-          delay: 5000,
-          stopOnInteraction: true,
-          stopOnMouseEnter: true,
-          stopOnFocusIn: true
-        }),
-        Fade()
-      ]}
-      className="relative"
-    >
+    <Carousel opts={{ loop: true, watchDrag: isMobileOrTablet }} plugins={plugins} className="relative">
       <CarouselContent>
         <CarouselItem>
           <div className="pb-4">
