@@ -28,7 +28,8 @@ const TOOLTIP_ID_MAP = {
   stusdsLiquidity: 'available-liquidity',
   totalStakingDebt: 'total-staking-engine-debt',
   delayedUpgradePenalty: 'delayed-upgrade-penalty',
-  remainingCapacity: 'remaining-capacity'
+  remainingCapacity: 'remaining-capacity',
+  withdrawalLiquidity: 'withdrawal-liquidity'
 } as const;
 
 // Helper to create tooltip content with consistent styling
