@@ -3,7 +3,6 @@ import { getEtherscanLink } from '@jetstreamgg/sky-utils';
 import { useChainId } from 'wagmi';
 import { skyAddress } from '@jetstreamgg/sky-hooks';
 import { AboutCard } from './AboutCard';
-import { TokenIcon } from './TokenIcon';
 
 export const AboutSky = ({ height }: { height?: number | undefined }) => {
   const chainId = useChainId();
@@ -16,12 +15,7 @@ export const AboutSky = ({ height }: { height?: number | undefined }) => {
 
   return (
     <AboutCard
-      title={
-        <>
-          <TokenIcon token={{ symbol: 'SKY' }} width={24} className="h-6 w-6" showChainIcon={false} />
-          <Trans>SKY</Trans>
-        </>
-      }
+      tokenSymbol="SKY"
       description={
         <Trans>
           SKY is a native governance token of the decentralised Sky ecosystem and the upgraded version of MKR.

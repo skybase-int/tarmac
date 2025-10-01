@@ -5,6 +5,7 @@ export const AboutCle = () => {
   return (
     <AboutCard
       title={<Trans>Chronicle</Trans>}
+      tokenSymbol="CLE"
       description={
         <Trans>
           Chronicle Points are not a native feature of the Sky Protocol. Skybase International does not

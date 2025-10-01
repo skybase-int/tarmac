@@ -3,7 +3,6 @@ import { getEtherscanLink } from '@jetstreamgg/sky-utils';
 import { useChainId } from 'wagmi';
 import { stUsdsAddress } from '@jetstreamgg/sky-hooks';
 import { AboutCard } from './AboutCard';
-import { TokenIcon } from './TokenIcon';
 
 export const AboutStUsds = ({ isOverview = false }: { isOverview?: boolean }) => {
   const chainId = useChainId();
@@ -21,12 +20,7 @@ export const AboutStUsds = ({ isOverview = false }: { isOverview?: boolean }) =>
 
   return (
     <AboutCard
-      title={
-        <>
-          <TokenIcon token={{ symbol: 'stUSDS' }} width={24} className="h-6 w-6" showChainIcon={false} />
-          <Trans>stUSDS</Trans>
-        </>
-      }
+      tokenSymbol="stUSDS"
       description={
         <Trans>
           stUSDS is an ERC-4626 vault token that enables USDS holders to earn yield through Sky-backed lending

@@ -3,7 +3,6 @@ import { getEtherscanLink, isL2ChainId } from '@jetstreamgg/sky-utils';
 import { useChainId } from 'wagmi';
 import { sUsdsAddress, sUsdsL2Address } from '@jetstreamgg/sky-hooks';
 import { AboutCard } from './AboutCard';
-import { TokenIcon } from './TokenIcon';
 
 export const AboutSUsds = ({ height }: { height?: number | undefined }) => {
   const chainId = useChainId();
@@ -18,12 +17,7 @@ export const AboutSUsds = ({ height }: { height?: number | undefined }) => {
 
   return (
     <AboutCard
-      title={
-        <>
-          <TokenIcon token={{ symbol: 'sUSDS' }} width={24} className="h-6 w-6" showChainIcon={false} />
-          <Trans>sUSDS</Trans>
-        </>
-      }
+      tokenSymbol="sUSDS"
       description={
         <Trans>
           sUSDS is a savings token for eligible users. When you supply USDS to the Sky Savings Rate module,

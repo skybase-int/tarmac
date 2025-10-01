@@ -3,7 +3,6 @@ import { getEtherscanLink } from '@jetstreamgg/sky-utils';
 import { useChainId } from 'wagmi';
 import { spkAddress } from '@jetstreamgg/sky-hooks';
 import { AboutCard } from './AboutCard';
-import { TokenIcon } from './TokenIcon';
 
 export const AboutSpk = ({ height }: { height?: number | undefined }) => {
   const chainId = useChainId();
@@ -16,12 +15,7 @@ export const AboutSpk = ({ height }: { height?: number | undefined }) => {
 
   return (
     <AboutCard
-      title={
-        <>
-          <TokenIcon token={{ symbol: 'SPK' }} width={24} className="h-6 w-6" showChainIcon={false} />
-          <Trans>SPK</Trans>
-        </>
-      }
+      tokenSymbol="SPK"
       description={
         <Trans>
           SPK is the native governance and staking token of Spark. Designed with a long-term vision for

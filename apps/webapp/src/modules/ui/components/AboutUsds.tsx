@@ -3,7 +3,6 @@ import { getEtherscanLink, isL2ChainId } from '@jetstreamgg/sky-utils';
 import { useChainId } from 'wagmi';
 import { usdsAddress, usdsL2Address } from '@jetstreamgg/sky-hooks';
 import { AboutCard } from './AboutCard';
-import { TokenIcon } from './TokenIcon';
 
 export const AboutUsds = ({ height }: { height?: number | undefined }) => {
   const chainId = useChainId();
@@ -18,12 +17,7 @@ export const AboutUsds = ({ height }: { height?: number | undefined }) => {
 
   return (
     <AboutCard
-      title={
-        <>
-          <TokenIcon token={{ symbol: 'USDS' }} width={24} className="h-6 w-6" showChainIcon={false} />
-          <Trans>USDS</Trans>
-        </>
-      }
+      tokenSymbol="USDS"
       description={
         <Trans>
           USDS is the stablecoin of the decentralised Sky Protocol. It can be used in several ways, including
