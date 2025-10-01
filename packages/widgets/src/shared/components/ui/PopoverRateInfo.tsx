@@ -9,6 +9,7 @@ import { Close } from '../icons/Close';
 import { Info } from '../icons/Info';
 import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { ExternalLink } from '@widgets/shared/components/ExternalLink';
+import { cn } from '@widgets/lib/utils';
 
 const getContent = (
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
@@ -239,13 +240,15 @@ export const PopoverRateInfo = ({
   onExternalLinkClicked,
   iconClassName,
   width = 16,
-  height = 15
+  height = 15,
+  popoverClassName
 }: {
   type: PopoverTooltipType;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   iconClassName?: string;
   width?: number;
   height?: number;
+  popoverClassName?: string;
 }) => {
   const content = getContent(onExternalLinkClicked);
 
@@ -261,7 +264,7 @@ export const PopoverRateInfo = ({
       <PopoverContent
         align="center"
         side="top"
-        className="bg-containerDark w-80 rounded-xl backdrop-blur-[50px]"
+        className={cn('bg-containerDark w-80 rounded-xl backdrop-blur-[50px]', popoverClassName)}
       >
         <Heading variant="small" className="text-[16px] leading-6">
           {content[type].title}
