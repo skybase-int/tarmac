@@ -33,10 +33,10 @@ export function ExpertWidgetPane(sharedProps: SharedProps) {
             header={
               <div className="space-y-1">
                 <Heading variant="x-large">
-                  <Trans>Expert Modules</Trans>
+                  <Trans>Expert</Trans>
                 </Heading>
                 <Text className="text-textSecondary" variant="small">
-                  <Trans>Higher-Risk Options: For experienced users</Trans>
+                  <Trans>Higher-risk options for more experienced users</Trans>
                 </Text>
               </div>
             }

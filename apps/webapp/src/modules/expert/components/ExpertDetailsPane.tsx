@@ -21,7 +21,7 @@ export function ExpertDetailsPane() {
 
   return (
     <DetailSectionWrapper>
-      <DetailSection title={t`Expert modules overview`}>
+      <DetailSection title={t`Expert overview`}>
         <DetailSectionRow>
           <ExpertOverview />
         </DetailSectionRow>

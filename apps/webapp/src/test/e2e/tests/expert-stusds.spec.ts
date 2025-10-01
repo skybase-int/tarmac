@@ -73,9 +73,7 @@ test.describe.skip('Expert Module - stUSDS', () => {
     await page.getByRole('button', { name: 'Back to stUSDS' }).click();
 
     // Should still be in stUSDS module
-    await expect(
-      page.getByTestId('widget-container').getByRole('heading', { name: 'stUSDS Module' })
-    ).toBeVisible();
+    await expect(page.getByTestId('widget-container').getByRole('heading', { name: 'stUSDS' })).toBeVisible();
 
     // go to balance page
     await page.getByRole('tab', { name: 'Balance' }).click();
@@ -85,7 +83,7 @@ test.describe.skip('Expert Module - stUSDS', () => {
     await page.locator('a[href*="expert_module=stusds"]').first().click();
 
     // should land on the stusds balance page
-    expect(page.getByText('stUSDS Module')).toBeTruthy();
+    expect(page.getByText('stUSDS')).toBeTruthy();
   });
 
   test('Withdraw USDS from stUSDS module', async ({ page }) => {
@@ -198,13 +196,13 @@ test.describe.skip('Expert Module - stUSDS', () => {
     await expect(page.getByRole('button', { name: 'Transaction overview' })).not.toBeVisible();
   });
 
-  test('Upgrade and access rewards', async ({ page }) => {
+  test('Upgrade and access Expert rewards', async ({ page }) => {
     await setTestBalance(mcdDaiAddress[TENDERLY_CHAIN_ID], '10');
     // Navigate to Expert menu
     await page.getByRole('tab', { name: 'Expert' }).click();
 
     // Click on Upgrade button
-    await page.getByText('Upgrade and access rewards').first().click();
+    await page.getByText('Upgrade and access Expert rewards').first().click();
 
     await page.getByTestId('upgrade-input-origin').click();
     await page.getByTestId('upgrade-input-origin').fill('1');

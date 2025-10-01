@@ -27,6 +27,7 @@ const getContent = (onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorEleme
   const stUsdsRateTooltip = getTooltipById('stusds-rate');
   const availableLiquidityTooltip = getTooltipById('available-liquidity');
   const totalStakingEngineDebtTooltip = getTooltipById('total-staking-engine-debt');
+  const remainingCapacityTooltip = getTooltipById('remaining-capacity');
 
   return {
     str: {
@@ -144,6 +145,14 @@ const getContent = (onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorEleme
           {parseMarkdownLinks(delayedUpgradeTooltip?.tooltip, onExternalLinkClicked)}
         </Text>
       )
+    },
+    remainingCapacity: {
+      title: remainingCapacityTooltip?.title || '',
+      description: (
+        <Text className="leading-5 text-white/80" variant="small">
+          {parseMarkdownLinks(delayedUpgradeTooltip?.tooltip, onExternalLinkClicked)}
+        </Text>
+      )
     }
   };
 };
@@ -163,7 +172,8 @@ export const POPOVER_TOOLTIP_TYPES = [
   'stusds',
   'stusdsLiquidity',
   'totalStakingDebt',
-  'delayedUpgradePenalty'
+  'delayedUpgradePenalty',
+  'remainingCapacity'
 ] as const;
 
 // Derive the type from the constant
