@@ -9,7 +9,7 @@ import { usdsAddress, usdsL2Address } from '@jetstreamgg/sky-hooks';
 import { GradientShapeCard } from './GradientShapeCard';
 import { TokenIcon } from './TokenIcon';
 
-export const AboutUsds = () => {
+export const AboutUsds = ({ height }: { height?: number | undefined }) => {
   const chainId = useChainId();
 
   const nstEtherscanLink = getEtherscanLink(
@@ -26,8 +26,9 @@ export const AboutUsds = () => {
       colorMiddle="linear-gradient(43deg, #FFD232 -2.45%, #FF6D6D 100%)"
       colorRight="#1e1a4b"
       className="mb-6"
+      height={height}
     >
-      <div className="w-[80%] space-y-2 lg:w-2/3">
+      <div className="w-[80%] space-y-2 self-start lg:w-2/3">
         <Heading className="flex items-center gap-2">
           <TokenIcon token={{ symbol: 'USDS' }} width={24} className="h-6 w-6" showChainIcon={false} />
           <Trans>USDS</Trans>
@@ -40,7 +41,11 @@ export const AboutUsds = () => {
           </Trans>
         </Text>
       </div>
-      <ExternalLink href={nstEtherscanLink} showIcon={false} className="mt-3 w-fit lg:mt-0">
+      <ExternalLink
+        href={nstEtherscanLink}
+        showIcon={false}
+        className="mt-auto w-fit pt-3 lg:self-end lg:pt-0"
+      >
         <Button variant="outline" className="border-border gap-2">
           <Trans>View contract</Trans>
           <ExternalLinkIcon size={16} />

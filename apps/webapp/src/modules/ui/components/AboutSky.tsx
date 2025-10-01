@@ -9,7 +9,7 @@ import { skyAddress } from '@jetstreamgg/sky-hooks';
 import { GradientShapeCard } from './GradientShapeCard';
 import { TokenIcon } from './TokenIcon';
 
-export const AboutSky = () => {
+export const AboutSky = ({ height }: { height?: number | undefined }) => {
   const chainId = useChainId();
 
   const skyEtherscanLink = getEtherscanLink(
@@ -23,8 +23,9 @@ export const AboutSky = () => {
       colorLeft="radial-gradient(217.45% 249.6% at 116.69% 275.4%, #A273FF 0%, #4331E9 100%)"
       colorMiddle="linear-gradient(360deg, #6D28FF 0%, #F7A7F9 300%)"
       colorRight="#1e1a4b"
+      height={height}
     >
-      <div className="w-[80%] space-y-2 lg:w-2/3">
+      <div className="w-[80%] space-y-2 self-start lg:w-2/3">
         <Heading className="flex items-center gap-2">
           <TokenIcon token={{ symbol: 'SKY' }} width={24} className="h-6 w-6" showChainIcon={false} />
           <Trans>SKY</Trans>
@@ -37,7 +38,11 @@ export const AboutSky = () => {
           </Trans>
         </Text>
       </div>
-      <ExternalLink href={skyEtherscanLink} showIcon={false} className="mt-3 w-fit lg:mt-0">
+      <ExternalLink
+        href={skyEtherscanLink}
+        showIcon={false}
+        className="mt-auto w-fit pt-3 lg:self-end lg:pt-0"
+      >
         <Button variant="outline" className="border-border gap-2">
           <Trans>View contract</Trans>
           <ExternalLinkIcon size={16} />
