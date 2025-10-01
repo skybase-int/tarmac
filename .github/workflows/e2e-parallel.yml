@@ -43,7 +43,7 @@ jobs:
       VITE_USE_MOCK_WALLET: 'true'
       VITE_SKIP_AUTH_CHECK: 'true'
       # Parallel test configuration
-      TEST_WORKERS: ${{ github.event.inputs.workers || '2' }}
+      TEST_WORKERS: ${{ github.event.inputs.workers || '3' }}
       SKIP_FUNDING: ${{ github.event.inputs.skip_funding || 'false' }}
       FUND_NETWORKS: ${{ github.event.inputs.networks || 'mainnet,base,arbitrum,optimism,unichain' }}
 
