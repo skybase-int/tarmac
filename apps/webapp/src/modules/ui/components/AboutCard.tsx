@@ -6,6 +6,7 @@ import { Heading, Text } from '@/modules/layout/components/Typography';
 import { GradientShapeCard } from './GradientShapeCard';
 import { TokenIcon } from './TokenIcon';
 import { ReactNode } from 'react';
+import { cn } from '@/lib/utils';
 
 interface AboutCardProps {
   title?: ReactNode;
@@ -64,7 +65,7 @@ export const AboutCard = ({
       className="mb-6"
       height={height}
     >
-      <div className={`w-[80%] space-y-2 self-start lg:${contentWidth}`}>
+      <div className={cn('w-[80%] space-y-2 self-start', contentWidth === 'w-1/2' ? 'lg:w-1/2' : 'lg:w-2/3')}>
         {titleContent && <Heading className="flex items-center gap-2">{titleContent}</Heading>}
         <Text variant="small">{description}</Text>
       </div>
