@@ -24,7 +24,7 @@ export const AboutStakeModule = () => {
       colorRight="bg-card"
       className="mb-6"
     >
-      <div className="w-[80%] space-y-2 lg:w-1/2">
+      <div className="w-[80%] space-y-2 self-start lg:w-1/2">
         <Heading>
           <Trans>About Staking Rewards</Trans>
         </Heading>
@@ -36,7 +36,11 @@ export const AboutStakeModule = () => {
           </Trans>
         </Text>
       </div>
-      <ExternalLink href={stakeEtherscanLink} showIcon={false} className="mt-3 w-fit lg:mt-0">
+      <ExternalLink
+        href={stakeEtherscanLink}
+        showIcon={false}
+        className="mt-auto w-fit pt-3 lg:self-end lg:pt-0"
+      >
         <Button variant="outline" className="border-border gap-2">
           <Trans>View contract</Trans>
           <ExternalLinkIcon size={16} />

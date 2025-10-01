@@ -38,7 +38,7 @@ export const AboutStUsds = ({ isOverview = false }: { isOverview?: boolean }) =>
       colorRight={colors.colorRight}
       className="mb-6"
     >
-      <div className="w-[80%] space-y-2 lg:w-2/3">
+      <div className="w-[80%] space-y-2 self-start lg:w-2/3">
         <Heading className="flex items-center gap-2">
           <TokenIcon token={{ symbol: 'stUSDS' }} width={24} className="h-6 w-6" showChainIcon={false} />
           <Trans>stUSDS</Trans>
@@ -53,7 +53,11 @@ export const AboutStUsds = ({ isOverview = false }: { isOverview?: boolean }) =>
           </Trans>
         </Text>
       </div>
-      <ExternalLink href={stUsdsEtherscanLink} showIcon={false} className="mt-3 w-fit lg:mt-0">
+      <ExternalLink
+        href={stUsdsEtherscanLink}
+        showIcon={false}
+        className="mt-auto w-fit pt-3 lg:self-end lg:pt-0"
+      >
         <Button variant="outline" className="border-border gap-2">
           <Trans>View contract</Trans>
           <ExternalLinkIcon size={16} />
