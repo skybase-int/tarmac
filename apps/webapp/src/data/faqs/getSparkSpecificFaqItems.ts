@@ -27,7 +27,7 @@ export const getSparkSpecificFaqItems = () => {
     {
       question: 'What is the Spark Liquidity Layer?',
       answer:
-        'The Spark Liquidity Layer directly and automatically provides USDS, sUSDS and USDC liquidity across networks and DeFi markets. This enables users to access the Sky Savings Rate](#tooltip-sky-savings-rate) on their preferred network using sUSDS. Additionally, it allows Spark to automate liquidity provision into DeFi markets to optimize yield. Please see the [Spark Liquidity Layer documentation](https://docs.spark.fi/user-guides/spark-liquidity-layer) for more information.',
+        'The Spark Liquidity Layer directly and automatically provides USDS, sUSDS and USDC liquidity across networks and DeFi markets. This enables users to access the [Sky Savings Rate](#tooltip-sky-savings-rate) on their preferred network using sUSDS. Additionally, it allows Spark to automate liquidity provision into DeFi markets to optimize yield. Please see the [Spark Liquidity Layer documentation](https://docs.spark.fi/user-guides/spark-liquidity-layer) for more information.',
       index: 4
     },
     {
