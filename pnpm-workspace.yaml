@@ -64,7 +64,7 @@ catalog:
   graphql-request: ^7.2.0
   happy-dom: ^15.11.7
   husky: ^9.0.11
-  knip: ^5.63.0
+  knip: ^5.64.1
   lint-staged: ^15.5.1
   lucide-react: ^0.544.0
   openapi-fetch: ^0.14.0
