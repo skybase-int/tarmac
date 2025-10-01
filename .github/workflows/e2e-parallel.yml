@@ -76,12 +76,7 @@ jobs:
       - name: Setup Tenderly VNets
         run: |
           echo "Setting up Tenderly virtual networks..."
-          # IFS=',' read -ra NETWORKS <<< "$FUND_NETWORKS"
-          # for network in "${NETWORKS[@]}"; do
-          #   echo "Creating VNet for $network"
-          #   pnpm run vnet:fork:ci "$network"
-          # done
-          pnpm run vnet:fork:ci "$network"
+          pnpm run vnet:fork:ci
         env:
           TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
 
