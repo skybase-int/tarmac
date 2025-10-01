@@ -68,6 +68,7 @@ export const CHAIN_WIDGET_MAP: Record<number, Intent[]> = {
     Intent.REWARDS_INTENT,
     Intent.SAVINGS_INTENT,
     Intent.UPGRADE_INTENT,
+    Intent.TRADE_INTENT,
     Intent.SEAL_INTENT,
     Intent.STAKE_INTENT,
     Intent.EXPERT_INTENT

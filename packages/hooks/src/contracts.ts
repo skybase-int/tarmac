@@ -268,7 +268,8 @@ export const contracts: {
     address: {
       [mainnet.id]: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41',
       [base.id]: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41',
-      [arbitrum.id]: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41'
+      [arbitrum.id]: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41',
+      [TENDERLY_CHAIN_ID]: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41'
     }
   },
   {
@@ -276,7 +277,8 @@ export const contracts: {
     address: {
       [mainnet.id]: '0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC',
       [base.id]: '0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC',
-      [arbitrum.id]: '0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC'
+      [arbitrum.id]: '0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC',
+      [TENDERLY_CHAIN_ID]: '0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC'
     }
   }
 ];
