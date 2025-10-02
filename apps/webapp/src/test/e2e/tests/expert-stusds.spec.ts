@@ -28,7 +28,7 @@ test.describe('Expert Module - stUSDS', () => {
     // Should display Message
     await expect(page.getByTestId('expert-risk-disclaimer')).toBeVisible();
     await expect(page.getByTestId('expert-risk-disclaimer')).toContainText(
-      'Expert Modules are intended for experienced users and may function differently than modules to which ordinary users are accustomed. Please be sure you understand the unique features and the associated risks of any Expert Module before proceeding. Be sure to review the FAQs and'
+      'Expert modules are intended for experienced users and may function differently than modules to which ordinary users are accustomed. Please be sure you understand the unique features and the associated risks of any Expert Module before proceeding. Be sure to review the FAQs and'
     );
 
     // Verify User Risks hyperlink is present
