@@ -38,7 +38,7 @@ describe('StUSDS widget tests', () => {
   it('displays stUSDS header', async () => {
     renderWithWagmiWrapper(<StUSDSWidget onConnect={() => true} />);
 
-    const header = await screen.findByText('stUSDS');
+    const header = await screen.findByRole('heading', { name: 'stUSDS' });
     const description = await screen.findByText(
       'Access a variable reward rate on USDS by participating in SKY-backed borrowing'
     );
