@@ -2,12 +2,14 @@ import { Button } from '@/components/ui/button';
 import { Trans } from '@lingui/react/macro';
 import { ExternalLinkIcon } from 'lucide-react';
 import { ExternalLink } from '@/modules/layout/components/ExternalLink';
-import { Heading, Text } from '@/modules/layout/components/Typography';
+import { Heading } from '@/modules/layout/components/Typography';
 import { getEtherscanLink, isL2ChainId } from '@jetstreamgg/sky-utils';
 import { useChainId } from 'wagmi';
 import { sUsdsAddress, sUsdsL2Address } from '@jetstreamgg/sky-hooks';
 import { GradientShapeCard } from './GradientShapeCard';
 import { TokenIcon } from './TokenIcon';
+import { getBannerById } from '@/data/banners/banners';
+import { parseBannerContent } from '@/utils/bannerContentParser';
 
 export const AboutSUsds = () => {
   const chainId = useChainId();
@@ -20,6 +22,10 @@ export const AboutSUsds = () => {
     'address'
   );
 
+  const banner = getBannerById('susds');
+  const heading = banner?.title || 'sUSDS';
+  const contentText = banner?.description ? parseBannerContent(banner.description) : '';
+
   return (
     <GradientShapeCard
       colorLeft="radial-gradient(258.73% 268.92% at 116.69% 275.4%, #F7A7F9 0%, #6D28FF 100%)"
@@ -30,16 +36,9 @@ export const AboutSUsds = () => {
       <div className="w-[80%] space-y-2 lg:w-2/3">
         <Heading className="flex items-center gap-2">
           <TokenIcon token={{ symbol: 'sUSDS' }} width={24} className="h-6 w-6" showChainIcon={false} />
-          <Trans>sUSDS</Trans>
+          {heading}
         </Heading>
-        <Text variant="small">
-          <Trans>
-            sUSDS is a savings token for eligible users. When you supply USDS to the Sky Savings Rate module,
-            you access the Sky Savings Rate and may receive sUSDS tokens. These sUSDS tokens serve as a
-            digital record of your USDS interaction with the SSR module and any value accrued to your
-            position.
-          </Trans>
-        </Text>
+        {contentText}
       </div>
       <ExternalLink href={sUsdsEtherscanLink} showIcon={false} className="mt-3 w-fit lg:mt-0">
         <Button variant="outline" className="border-border gap-2">
