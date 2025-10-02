@@ -93,8 +93,11 @@ export const LinkedActionCard = ({
           ) : (
             <SavingsRate />
           )}
-          <Link to={urlWithRetainedParams} onClick={handleClick}>
-            <Button variant="light" className="w-fit px-5">
+          <Link to={urlWithRetainedParams} onClick={handleClick} className="w-fit">
+            <Button
+              variant="light"
+              className="h-auto min-h-10 w-fit max-w-full whitespace-normal text-balance px-5"
+            >
               {buttonText}
             </Button>
           </Link>
