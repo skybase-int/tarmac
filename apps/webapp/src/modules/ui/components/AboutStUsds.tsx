@@ -2,15 +2,19 @@ import { Button } from '@/components/ui/button';
 import { Trans } from '@lingui/react/macro';
 import { ExternalLinkIcon } from 'lucide-react';
 import { ExternalLink } from '@/modules/layout/components/ExternalLink';
-import { Heading, Text } from '@/modules/layout/components/Typography';
+import { Heading } from '@/modules/layout/components/Typography';
 import { getEtherscanLink } from '@jetstreamgg/sky-utils';
 import { useChainId } from 'wagmi';
 import { stUsdsAddress } from '@jetstreamgg/sky-hooks';
 import { GradientShapeCard } from './GradientShapeCard';
 import { TokenIcon } from './TokenIcon';
+import { getBannerById } from '@/data/banners/banners';
+import { parseBannerContent } from '@/utils/bannerContentParser';
+import { useConnectedContext } from '../context/ConnectedContext';
 
 export const AboutStUsds = ({ isOverview = false }: { isOverview?: boolean }) => {
   const chainId = useChainId();
+  const { isConnectedAndAcceptedTerms } = useConnectedContext();
 
   const stUsdsEtherscanLink = getEtherscanLink(
     chainId,
@@ -31,6 +35,19 @@ export const AboutStUsds = ({ isOverview = false }: { isOverview?: boolean }) =>
         colorRight: 'bg-card'
       };
 
+  // Determine banner ID based on connection status and isOverview
+  const bannerId = isOverview
+    ? isConnectedAndAcceptedTerms
+      ? 'stusds-2'
+      : 'stusds'
+    : isConnectedAndAcceptedTerms
+      ? 'stusds-4'
+      : 'stusds-3';
+
+  const banner = getBannerById(bannerId);
+  const heading = banner?.title || 'stUSDS';
+  const contentText = banner?.description ? parseBannerContent(banner.description) : '';
+
   return (
     <GradientShapeCard
       colorLeft={colors.colorLeft}
@@ -41,17 +58,9 @@ export const AboutStUsds = ({ isOverview = false }: { isOverview?: boolean }) =>
       <div className="w-[80%] space-y-2 lg:w-2/3">
         <Heading className="flex items-center gap-2">
           <TokenIcon token={{ symbol: 'stUSDS' }} width={24} className="h-6 w-6" showChainIcon={false} />
-          <Trans>stUSDS</Trans>
+          {heading}
         </Heading>
-        <Text variant="small">
-          <Trans>
-            stUSDS is an ERC-4626 vault token that enables USDS holders to earn yield through Sky-backed
-            lending activities. When you deposit USDS into the stUSDS vault, you receive stUSDS tokens
-            representing your share of the vault. The value of your stUSDS increases over time as the vault
-            earns yield from borrowers who use USDS liquidity, providing a variable rate return on your
-            deposited USDS.
-          </Trans>
-        </Text>
+        {contentText}
       </div>
       <ExternalLink href={stUsdsEtherscanLink} showIcon={false} className="mt-3 w-fit lg:mt-0">
         <Button variant="outline" className="border-border gap-2">
