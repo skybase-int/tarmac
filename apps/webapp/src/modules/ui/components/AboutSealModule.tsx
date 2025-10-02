@@ -4,7 +4,7 @@ import { useChainId } from 'wagmi';
 import { sealModuleAddress } from '@jetstreamgg/sky-hooks';
 import { AboutCard } from './AboutCard';
 
-export const AboutSealModule = () => {
+export const AboutSealModule = ({ height }: { height?: number | undefined }) => {
   const chainId = useChainId();
 
   const sealEtherscanLink = getEtherscanLink(
@@ -27,6 +27,7 @@ export const AboutSealModule = () => {
       linkHref={sealEtherscanLink}
       colorMiddle="linear-gradient(0deg, #F7A7F9 0%, #00DDFB 300%)"
       contentWidth="w-1/2"
+      height={height}
     />
   );
 };
