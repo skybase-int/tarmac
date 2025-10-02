@@ -18,7 +18,7 @@ export const AboutCle = () => {
       }
       linkHref="https://chroniclelabs.org/"
       linkLabel={<Trans>View Chronicle</Trans>}
-      colorMiddle="linear-gradient(43deg, #F7A7F9 -2.45%, #6D28FF 100%)"
+      colorMiddle="linear-gradient(43deg, #2FD05B -2.45%, #129837 100%)"
     />
   );
 };
