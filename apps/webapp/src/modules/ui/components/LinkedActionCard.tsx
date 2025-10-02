@@ -75,8 +75,8 @@ export const LinkedActionCard = ({
   return (
     <Card variant="spotlight" className="relative w-full overflow-hidden xl:flex-1">
       {<Logo logoName={(isLastStep ? intent : la) as LogoName} />}
-      <CardContent className="relative z-10">
-        <VStack className="space-between gap-4">
+      <CardContent className="relative z-10 h-full">
+        <VStack className="h-full justify-between gap-4">
           <Heading>
             <Trans>
               {intent && primaryToken && `${capitalizeFirstLetter(i18n._(intentTxt[intent]))} your `}
@@ -86,21 +86,23 @@ export const LinkedActionCard = ({
               {secondaryTagline[la]}
             </Trans>
           </Heading>
-          {la === IntentMapping.REWARDS_INTENT ? (
-            <RewardsRate token={secondaryToken} currentRewardContract={selectedRewardContract} />
-          ) : la === IntentMapping.EXPERT_INTENT ? (
-            <AdvancedRate expertModule={expertModule || undefined} />
-          ) : (
-            <SavingsRate />
-          )}
-          <Link to={urlWithRetainedParams} onClick={handleClick} className="w-fit">
-            <Button
-              variant="light"
-              className="h-auto min-h-10 w-fit max-w-full whitespace-normal text-balance px-5"
-            >
-              {buttonText}
-            </Button>
-          </Link>
+          <VStack className="space-between gap-4">
+            {la === IntentMapping.REWARDS_INTENT ? (
+              <RewardsRate token={secondaryToken} currentRewardContract={selectedRewardContract} />
+            ) : la === IntentMapping.EXPERT_INTENT ? (
+              <AdvancedRate expertModule={expertModule || undefined} />
+            ) : (
+              <SavingsRate />
+            )}
+            <Link to={urlWithRetainedParams} onClick={handleClick} className="w-fit">
+              <Button
+                variant="light"
+                className="h-auto min-h-10 w-fit max-w-full whitespace-normal text-balance px-5"
+              >
+                {buttonText}
+              </Button>
+            </Link>
+          </VStack>
         </VStack>
       </CardContent>
     </Card>
