@@ -1,11 +1,14 @@
-import { Trans } from '@lingui/react/macro';
 import { getEtherscanLink } from '@jetstreamgg/sky-utils';
 import { useChainId } from 'wagmi';
 import { stUsdsAddress } from '@jetstreamgg/sky-hooks';
+import { getBannerById } from '@/data/banners/banners';
+import { parseBannerContent } from '@/utils/bannerContentParser';
+import { useConnectedContext } from '../context/ConnectedContext';
 import { AboutCard } from './AboutCard';
 
 export const AboutStUsds = ({ isOverview = false }: { isOverview?: boolean }) => {
   const chainId = useChainId();
+  const { isConnectedAndAcceptedTerms } = useConnectedContext();
 
   const stUsdsEtherscanLink = getEtherscanLink(
     chainId,
@@ -18,17 +21,22 @@ export const AboutStUsds = ({ isOverview = false }: { isOverview?: boolean }) =>
     ? 'linear-gradient(360deg, #FDC079 0%, #EC63DA 300%)'
     : 'linear-gradient(0deg, #FDC079 0%, #EC63DA 300%)';
 
+  // Determine banner ID based on connection status and isOverview
+  const bannerId = isOverview
+    ? isConnectedAndAcceptedTerms
+      ? 'stusds-2'
+      : 'stusds'
+    : isConnectedAndAcceptedTerms
+      ? 'stusds-4'
+      : 'stusds-3';
+
+  const banner = getBannerById(bannerId);
+  const contentText = banner?.description ? parseBannerContent(banner.description) : '';
+
   return (
     <AboutCard
       tokenSymbol="stUSDS"
-      description={
-        <Trans>
-          stUSDS is an ERC-4626 vault token that enables USDS holders to earn yield through Sky-backed lending
-          activities. When you deposit USDS into the stUSDS vault, you receive stUSDS tokens representing your
-          share of the vault. The value of your stUSDS increases over time as the vault earns yield from
-          borrowers who use USDS liquidity, providing a variable rate return on your deposited USDS.
-        </Trans>
-      }
+      description={contentText}
       linkHref={stUsdsEtherscanLink}
       colorMiddle={colorMiddle}
     />

@@ -385,10 +385,10 @@ const StUSDSWidgetWrapped = ({
           )}
           <div className="space-y-1">
             <Heading variant="x-large">
-              <Trans>stUSDS Module</Trans>
+              <Trans>stUSDS</Trans>
             </Heading>
             <Text className="text-textSecondary" variant="small">
-              <Trans>Earn a variable rate on USDS by participating in SKY-backed borrowing</Trans>
+              <Trans>Access a variable reward rate on USDS by participating in SKY-backed borrowing</Trans>
             </Text>
           </div>
         </div>
