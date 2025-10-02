@@ -20,7 +20,7 @@ import { useChainId } from 'wagmi';
 const secondaryTagline: Record<string, string> = {
   [IntentMapping.SAVINGS_INTENT]: 'to get the Sky Savings Rate',
   [IntentMapping.REWARDS_INTENT]: 'to get rewards',
-  [IntentMapping.EXPERT_INTENT]: 'to access Expert Modules'
+  [IntentMapping.EXPERT_INTENT]: 'to access Expert modules'
 };
 
 export const LinkedActionCard = ({
