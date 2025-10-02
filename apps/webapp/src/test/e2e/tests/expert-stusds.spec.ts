@@ -73,7 +73,9 @@ test.describe('Expert Module - stUSDS', () => {
     await page.getByRole('button', { name: 'Back to stUSDS' }).click();
 
     // Should still be in stUSDS module
-    await expect(page.getByTestId('widget-container').getByRole('heading', { name: 'stUSDS' })).toBeVisible();
+    await expect(
+      page.getByTestId('widget-container').getByRole('heading', { name: 'stUSDS', exact: true })
+    ).toBeVisible();
 
     // go to balance page
     await page.getByRole('tab', { name: 'Balance' }).click();
