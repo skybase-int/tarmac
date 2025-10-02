@@ -1,7 +1,8 @@
-import { Trans } from '@lingui/react/macro';
 import { getEtherscanLink, isL2ChainId } from '@jetstreamgg/sky-utils';
 import { useChainId } from 'wagmi';
 import { sUsdsAddress, sUsdsL2Address } from '@jetstreamgg/sky-hooks';
+import { getBannerById } from '@/data/banners/banners';
+import { parseBannerContent } from '@/utils/bannerContentParser';
 import { AboutCard } from './AboutCard';
 
 export const AboutSUsds = ({ height }: { height?: number | undefined }) => {
@@ -15,16 +16,13 @@ export const AboutSUsds = ({ height }: { height?: number | undefined }) => {
     'address'
   );
 
+  const banner = getBannerById('susds');
+  const contentText = banner?.description ? parseBannerContent(banner.description) : '';
+
   return (
     <AboutCard
       tokenSymbol="sUSDS"
-      description={
-        <Trans>
-          sUSDS is a savings token for eligible users. When you supply USDS to the Sky Savings Rate module,
-          you access the Sky Savings Rate and may receive sUSDS tokens. These sUSDS tokens serve as a digital
-          record of your USDS interaction with the SSR module and any value accrued to your position.
-        </Trans>
-      }
+      description={contentText}
       linkHref={sUsdsEtherscanLink}
       colorMiddle="linear-gradient(0deg, #FFEF79 0%, #00C2A1 300%)"
       height={height}
