@@ -29,18 +29,18 @@ export function GradientShapeCard({
           className="absolute h-full w-[110%] lg:w-[90%]"
           style={{
             background: colorLeft,
-            clipPath: `polygon(100% 0, ${isMobileOrTablet ? '45%' : '65%'} 100%, 0 100%, 0 0)`
+            clipPath: `polygon(100% 0, ${isMobileOrTablet ? '45%' : '70%'} 100%, 0 100%, 0 0)`
           }}
         />
         <div
-          className="absolute left-[48%] h-full w-[138%] lg:left-[57%] lg:w-[35%]"
+          className="absolute left-[48%] h-full w-[138%] lg:left-[62%] lg:w-[35%]"
           style={{
             background: colorMiddle,
-            clipPath: `polygon(100% 0, 10% 100%, 0 100%, ${isMobileOrTablet ? '45%' : '65%'} 0)`
+            clipPath: `polygon(100% 0, 10% 100%, 0 100%, ${isMobileOrTablet ? '45%' : '70%'} 0)`
           }}
         />
         <div
-          className="absolute left-[55%] h-full w-[200%] lg:left-[60%] lg:w-[60%]"
+          className="absolute left-[55%] h-full w-[200%] lg:left-[65%] lg:w-[60%]"
           style={{
             background: colorRight,
             clipPath: 'polygon(100% 0, 100% 100%, 0 100%, 53% 0)'
