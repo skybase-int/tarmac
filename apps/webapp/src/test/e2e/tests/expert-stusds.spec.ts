@@ -14,7 +14,7 @@ const setTestBalance = async (tokenAddress: string, amount: string, decimals = 1
   await setErc20Balance(tokenAddress, amount, decimals, NetworkName.mainnet, address);
 };
 
-test.describe.skip('Expert Module - stUSDS', () => {
+test.describe('Expert Module - stUSDS', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
     await connectMockWalletAndAcceptTerms(page);
@@ -28,7 +28,7 @@ test.describe.skip('Expert Module - stUSDS', () => {
     // Should display Message
     await expect(page.getByTestId('expert-risk-disclaimer')).toBeVisible();
     await expect(page.getByTestId('expert-risk-disclaimer')).toContainText(
-      'Expert Modules are intended for experienced users and may function differently than modules to which ordinary users are accustomed. Please be sure you understand the unique features and the associated risks of any Expert Module before proceeding. Be sure to review the FAQs and'
+      'Expert modules are intended for experienced users and may function differently than modules to which ordinary users are accustomed. Please be sure you understand the unique features and the associated risks of any Expert Module before proceeding. Be sure to review the FAQs and'
     );
 
     // Verify User Risks hyperlink is present
@@ -43,7 +43,7 @@ test.describe.skip('Expert Module - stUSDS', () => {
     await page.getByRole('button', { name: 'Back to Expert' }).click();
 
     // Should be back at Expert menu
-    await expect(page.getByRole('heading', { name: 'Expert Modules', exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Expert', exact: true })).toBeVisible();
     await expect(page.getByTestId('stusds-stats-card')).toBeVisible();
   });
 
@@ -73,7 +73,9 @@ test.describe.skip('Expert Module - stUSDS', () => {
     await page.getByRole('button', { name: 'Back to stUSDS' }).click();
 
     // Should still be in stUSDS module
-    await expect(page.getByTestId('widget-container').getByRole('heading', { name: 'stUSDS' })).toBeVisible();
+    await expect(
+      page.getByTestId('widget-container').getByRole('heading', { name: 'stUSDS', exact: true })
+    ).toBeVisible();
 
     // go to balance page
     await page.getByRole('tab', { name: 'Balance' }).click();
@@ -239,7 +241,7 @@ test.describe.skip('Expert Module - stUSDS', () => {
 
     // Navigate away from the module
     await page.getByRole('button', { name: 'Back to Expert' }).click();
-    await expect(page.getByRole('heading', { name: 'Expert Modules', exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Expert', exact: true })).toBeVisible();
 
     // Reload the browser
     await page.reload();
