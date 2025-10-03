@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { ChatIntent } from '../types/Chat';
-import { Text } from '@/modules/layout/components/Typography';
+import { Heading, Text } from '@/modules/layout/components/Typography';
 import { useChatContext } from '../context/ChatContext';
 import { useNavigate } from 'react-router-dom';
 import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
@@ -9,6 +9,9 @@ import { QueryParams } from '@/lib/constants';
 import { useCallback } from 'react';
 import { Warning } from '@/modules/icons/Warning';
 import { getConfirmationWarningMetadata } from '../lib/confirmationWarningMetadata';
+import { ChatMarkdownRenderer } from '@/modules/ui/components/markdown/ChatMarkdownRenderer';
+import { Trans } from '@lingui/react/macro';
+import { useChatbotPrefillNotification } from '@/modules/app/hooks/useChatbotPrefillNotification';
 
 export const ConfirmationWarningRow = () => {
   const {
@@ -22,6 +25,7 @@ export const ConfirmationWarningRow = () => {
   } = useChatContext();
 
   const navigate = useNavigate();
+  const { showPrefillNotification } = useChatbotPrefillNotification();
 
   const onIntentSelected = useCallback(
     (intent: ChatIntent) => setChatHistory(prev => [...prev, intentSelectedMessage(intent)]),
@@ -38,8 +42,7 @@ export const ConfirmationWarningRow = () => {
 
   const selectedIntentUrl = useRetainedQueryParams(selectedIntent?.url || '', [
     QueryParams.Locale,
-    QueryParams.Details,
-    QueryParams.Chat
+    QueryParams.Details
   ]);
 
   const handleConfirm = useCallback(() => {
@@ -47,7 +50,11 @@ export const ConfirmationWarningRow = () => {
     if (selectedIntent && !hasShownIntent(selectedIntent)) {
       setWarningShown([...warningShown, selectedIntent]);
     }
-    if (selectedIntentUrl) navigate(selectedIntentUrl);
+    if (selectedIntentUrl) {
+      navigate(selectedIntentUrl);
+      // Show notification that inputs have been prefilled
+      showPrefillNotification();
+    }
     if (selectedIntent) onIntentSelected(selectedIntent);
   }, [
     selectedIntentUrl,
@@ -56,20 +63,32 @@ export const ConfirmationWarningRow = () => {
     selectedIntent,
     onIntentSelected,
     warningShown,
-    hasShownIntent
+    hasShownIntent,
+    showPrefillNotification
   ]);
 
   const disclaimerMetadata = getConfirmationWarningMetadata(selectedIntent);
 
   return (
     <div className="text-text mt-5 rounded-xl bg-[#0b0b0c]/60 p-5">
-      <div className="flex items-center gap-2">
-        <Warning boxSize={20} viewBox="0 0 16 16" fill="#fdc134" />
-        <Text variant="medium">{disclaimerMetadata?.description}</Text>
+      <div className="bg-white/6 @sm/chat:flex-row flex flex-col items-center gap-2 rounded-lg p-4">
+        <Warning boxSize={20} viewBox="0 0 16 16" fill="#fdc134" className="flex-shrink-0" />
+        <Text variant="medium" className="@sm/chat:text-left text-center">
+          {disclaimerMetadata?.description}
+        </Text>
       </div>
-      <Text variant="terms" className="mt-2">
-        {disclaimerMetadata?.disclaimer}
-      </Text>
+      <Heading variant="medium" tag="h4" className="mt-4">
+        <Trans>How it works:</Trans>
+      </Heading>
+      <div className="ml-4 mt-4 text-[13px]">
+        <ChatMarkdownRenderer markdown={disclaimerMetadata?.disclaimer} />
+      </div>
+      <Heading variant="medium" tag="h4" className="mt-4">
+        <Trans>Associated risks:</Trans>
+      </Heading>
+      <div className="ml-4 mt-4 text-[13px]">
+        <ChatMarkdownRenderer markdown={disclaimerMetadata?.associatedRisks?.join('\n') ?? ''} />
+      </div>
       <div className="mt-3 flex gap-5">
         <Button
           variant="pill"

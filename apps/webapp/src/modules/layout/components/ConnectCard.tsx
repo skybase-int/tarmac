@@ -28,7 +28,6 @@ export function ConnectCard({ intent, className }: { intent: Intent; className?:
     [Intent.TRADE_INTENT]: { allL2s: 'trade', default: 'about-trade' },
     [Intent.SEAL_INTENT]: { default: 'about-the-seal-engine' },
     [Intent.STAKE_INTENT]: { default: 'about-the-staking-engine' },
-    // TODO: double check this ID once it's available
     [Intent.EXPERT_INTENT]: { default: 'about-expert-modules' }
   };
 
