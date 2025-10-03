@@ -12,7 +12,8 @@ import {
   sUsdsL2Address,
   usdcL2Address,
   usdsL2Address,
-  stUsdsAddress
+  stUsdsAddress,
+  spkConfig
 } from '../generated';
 import { TokenMapping, Token, TokenForChain } from './types';
 import { TENDERLY_CHAIN_ID } from '../constants';
