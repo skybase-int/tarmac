@@ -65,11 +65,11 @@ export const AboutCard = ({
       className="mb-6"
       height={height}
     >
-      <div className={cn('w-[80%] space-y-2 self-start', contentWidth === 'w-1/2' ? 'lg:w-1/2' : 'lg:w-2/3')}>
+      <div className={cn('w-[80%] space-y-2 self-start', contentWidth === 'w-1/2' ? 'xl:w-1/2' : 'xl:w-2/3')}>
         {titleContent && <Heading className="flex items-center gap-2">{titleContent}</Heading>}
         <Text variant="small">{description}</Text>
       </div>
-      <ExternalLink href={linkHref} showIcon={false} className="mt-auto w-fit pt-3 lg:self-end lg:pt-0">
+      <ExternalLink href={linkHref} showIcon={false} className="mt-auto w-fit pt-3 xl:self-end xl:pt-0">
         <Button variant="outline" className="border-border gap-2">
           {linkLabel}
           <ExternalLinkIcon size={16} />
