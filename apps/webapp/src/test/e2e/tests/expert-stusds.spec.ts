@@ -43,7 +43,7 @@ test.describe('Expert Module - stUSDS', () => {
     await page.getByRole('button', { name: 'Back to Expert' }).click();
 
     // Should be back at Expert menu
-    await expect(page.getByRole('heading', { name: 'Expert Modules', exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Expert', exact: true })).toBeVisible();
     await expect(page.getByTestId('stusds-stats-card')).toBeVisible();
   });
 
@@ -241,7 +241,7 @@ test.describe('Expert Module - stUSDS', () => {
 
     // Navigate away from the module
     await page.getByRole('button', { name: 'Back to Expert' }).click();
-    await expect(page.getByRole('heading', { name: 'Expert Modules', exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Expert', exact: true })).toBeVisible();
 
     // Reload the browser
     await page.reload();
