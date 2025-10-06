@@ -432,6 +432,7 @@ const StUSDSWidgetWrapped = ({
               address={address}
               nstBalance={stUsdsData?.userUsdsBalance}
               userUsdsBalance={stUsdsData?.userSuppliedUsds}
+              userStUsdsBalance={stUsdsData?.userStUsdsBalance}
               withdrawableBalance={stUsdsData?.userMaxWithdrawBuffered}
               totalAssets={stUsdsData?.totalAssets}
               availableLiquidityBuffered={stUsdsData?.availableLiquidityBuffered}
