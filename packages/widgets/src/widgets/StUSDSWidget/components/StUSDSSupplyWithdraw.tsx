@@ -20,6 +20,7 @@ type StUSDSSupplyWithdrawProps = {
   address?: string;
   nstBalance?: bigint;
   userUsdsBalance?: bigint;
+  userStUsdsBalance?: bigint;
   withdrawableBalance?: bigint; // User's withdrawable USDS balance (for withdraw functionality)
   totalAssets?: bigint;
   availableLiquidityBuffered?: bigint; // Available USDS in vault for withdrawals
@@ -40,6 +41,7 @@ export const StUSDSSupplyWithdraw = ({
   address,
   nstBalance,
   userUsdsBalance,
+  userStUsdsBalance,
   withdrawableBalance,
   totalAssets,
   availableLiquidityBuffered,
@@ -158,6 +160,7 @@ export const StUSDSSupplyWithdraw = ({
             stats={{
               totalAssets: totalAssets || 0n,
               userUsdsBalance: userUsdsBalance || 0n,
+              userStUsdsBalance: userStUsdsBalance,
               availableLiquidityBuffered: availableLiquidityBuffered
             }}
             isConnectedAndEnabled={isConnectedAndEnabled}
