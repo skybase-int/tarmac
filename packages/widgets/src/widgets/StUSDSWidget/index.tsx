@@ -176,7 +176,7 @@ const StUSDSWidgetWrapped = ({
   const withdrawDisabled =
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
     isWithdrawBalanceError ||
-    !stUsdsWithdraw.prepared ||
+    (txStatus === TxStatus.IDLE && !stUsdsWithdraw.prepared) ||
     isAmountWaitingForDebounce;
 
   const batchSupplyDisabled =
