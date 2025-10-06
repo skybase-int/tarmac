@@ -14,6 +14,7 @@ import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
 export type StUSDSStats = {
   totalAssets: bigint;
   userUsdsBalance: bigint;
+  userStUsdsBalance?: bigint;
   availableLiquidityBuffered?: bigint;
 };
 
@@ -47,12 +48,17 @@ export const StUSDSStatsCard = ({
         <Text className="text-textSecondary text-sm leading-4">{t`Supplied balance`}</Text>
         {isLoading ? (
           <Skeleton className="bg-textSecondary h-6 w-20" />
-        ) : (
-          <Text dataTestId="supplied-balance">
-            {isConnectedAndEnabled && stats.userUsdsBalance !== undefined
-              ? `${formatBigInt(stats.userUsdsBalance || 0n, { unit: 18, compact: true })} USDS`
-              : '--'}
+        ) : isConnectedAndEnabled && stats.userUsdsBalance !== undefined ? (
+          <Text dataTestId="supplied-balance" className="whitespace-nowrap">
+            {formatBigInt(stats.userUsdsBalance || 0n, { unit: 18, compact: true })} USDS
+            {stats.userStUsdsBalance !== undefined && (
+              <span className="text-textSecondary ml-1 text-sm">
+                ({formatBigInt(stats.userStUsdsBalance, { compact: true, maxDecimals: 2 })} stUSDS)
+              </span>
+            )}
           </Text>
+        ) : (
+          <Text>--</Text>
         )}
       </MotionVStack>
       <MotionVStack
@@ -62,7 +68,7 @@ export const StUSDSStatsCard = ({
         data-testid="withdrawal-liquidity-container"
       >
         <div className="text-textSecondary flex w-fit items-center gap-1.5">
-          <Text className="text-textSecondary text-sm leading-4">{t`Withdrawal liquidity`}</Text>
+          <Text className="text-textSecondary whitespace-nowrap text-sm leading-4">{t`Withdrawal liquidity`}</Text>
           <PopoverRateInfo type="withdrawalLiquidity" onExternalLinkClicked={onExternalLinkClicked} />
         </div>
         {isLoading ? (
