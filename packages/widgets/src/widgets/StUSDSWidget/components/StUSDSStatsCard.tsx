@@ -62,12 +62,12 @@ export const StUSDSStatsCard = ({
         )}
       </MotionVStack>
       <MotionVStack
-        className="items-stretch justify-between text-right"
+        className="min-w-0 flex-1 items-end justify-between text-right"
         gap={2}
         variants={positionAnimations}
         data-testid="withdrawal-liquidity-container"
       >
-        <div className="text-textSecondary flex w-fit items-center gap-1.5">
+        <div className="text-textSecondary flex items-center justify-end gap-1.5">
           <Text className="text-textSecondary whitespace-nowrap text-sm leading-4">{t`Withdrawal liquidity`}</Text>
           <PopoverRateInfo type="withdrawalLiquidity" onExternalLinkClicked={onExternalLinkClicked} />
         </div>
