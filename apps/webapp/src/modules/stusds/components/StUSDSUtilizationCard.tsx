@@ -11,8 +11,9 @@ export function StUSDSUtilizationCard() {
 
   const utilizationRate = capacityData?.utilizationRate ?? 0;
 
-  const utilizationColor =
-    utilizationRate > 90 ? 'text-error' : utilizationRate > 75 ? 'text-orange-400' : '';
+  // const utilizationColor =
+  //   utilizationRate > 90 ? 'text-error' : utilizationRate > 75 ? 'text-orange-400' : '';
+  const utilizationColor = '';
 
   return (
     <StatsCard

@@ -2,9 +2,9 @@ export const getStusdsFaqsFaqItems = () => {
   const items = [
     {
       question: 'What is stUSDS?',
-      answer: `stUSDS is a senior risk capital token designed for more expert users, who wish to engage with higher-risk modules. It is structured to absorb a greater share of system risk in exchange for the potential to capture a larger portion of protocol rewards; the asset mix of stUSDS can be viewed on the [Sky Ecosystem Dashboard](https://info.sky.money/stusds).
+      answer: `stUSDS is a risk token designed for more expert users, who wish to engage with higher-risk modules. It is structured to absorb a greater share of system risk in exchange for the potential to capture a larger portion of protocol rewards; the asset mix of stUSDS can be viewed on the [Sky Ecosystem Dashboard](https://info.sky.money/stusds).
 
-stUSDS funds and supports liquidity for SKY stakers, encouraging more participation in SKY governance by active token holders, delegators and voters, leading to a more secure Sky Ecosystem. Prospective users of stUSDS are encouraged to familiarize themselves and understand the risks associated with participating in a token that takes a senior risk position before participating.`,
+stUSDS funds and supports liquidity for SKY stakers, encouraging more participation in SKY governance by active token holders, delegators and voters, leading to a more secure Sky Ecosystem. Prospective users of stUSDS are encouraged to familiarize themselves and understand the risks associated with participating in a token that takes a risk position before participating.`,
       index: 0
     },
     {
