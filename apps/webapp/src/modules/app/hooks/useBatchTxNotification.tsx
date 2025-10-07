@@ -15,7 +15,6 @@ export const useBatchTxNotification = (isAuthorized: boolean) => {
   const [batchEnabled] = useBatchToggle();
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [notificationShown, setNotificationShown] = useState(false);
-  console.log('🚀 ~ useBatchTxNotification ~ notificationShown:', notificationShown);
 
   // Use localStorage directly for notification state
   const [notificationDismissed, setNotificationDismissed] = useState(() => {
