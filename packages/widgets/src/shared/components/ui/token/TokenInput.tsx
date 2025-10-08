@@ -55,6 +55,7 @@ export interface TokenInputProps {
   limitText?: string | undefined;
   enableSearch?: boolean;
   showGauge?: boolean;
+  maxVisibleTokenRows?: number;
 }
 
 export function TokenInput({
@@ -82,7 +83,8 @@ export function TokenInput({
   limitText,
   maxIntegerDigits,
   enableSearch = false,
-  showGauge = false
+  showGauge = false,
+  maxVisibleTokenRows = 2
 }: TokenInputProps): React.ReactElement {
   const cardRef = React.useRef<HTMLDivElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -96,6 +98,12 @@ export function TokenInput({
     return token?.color || tokenColors.find(t => t.symbol === token?.symbol)?.color || '#6d7ce3';
   }, [token]);
   const isTouchDevice = useIsTouchDevice();
+
+  const TOKEN_ROW_HEIGHT = 62; // Height per token row (62px)
+  const SEARCH_BAR_COMPENSATION = 60; // Additional height when search is disabled
+  const maxTokenListHeight = Math.round(
+    TOKEN_ROW_HEIGHT * maxVisibleTokenRows + (enableSearch ? 0 : SEARCH_BAR_COMPENSATION)
+  );
 
   // The input value should be able to be changed by the user in any way, and only trigger the change when the units are correct.
   const [inputValue, setInputValue] = useState<`${number}` | ''>(
@@ -436,12 +444,9 @@ export function TokenInput({
                 </HStack>
               </motion.div>
             )}
-            {/* 185px is 3 rows of 60px, adjust height when search is enabled */}
             <VStack
-              className={cn(
-                'scrollbar-thin space-y-2 overflow-y-scroll',
-                enableSearch ? 'max-h-[155px]' : 'max-h-[215px]'
-              )}
+              className="scrollbar-thin-always space-y-2 overflow-y-scroll"
+              style={{ maxHeight: `${maxTokenListHeight}px` }}
             >
               {filteredTokenList?.map((token, index) => (
                 <TokenListItem

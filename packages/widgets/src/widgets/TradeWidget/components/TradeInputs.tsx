@@ -13,6 +13,7 @@ import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { CostWarning } from './CostWarning';
 import { getQuoteErrorForType } from '../lib/utils';
+import { useIsTouchDevice } from '@jetstreamgg/sky-utils';
 
 type TokenBalanceData = Omit<GetBalanceData, 'symbol'> & {
   symbol?: string;
@@ -100,6 +101,7 @@ export function TradeInputs({
   });
   const [lastSwitchTimestamp, setLastSwitchTimestamp] = useState<number>(0);
   const [enoughTimePassed, setEnoughTimePassed] = useState<boolean>(true);
+  const isTouchDevice = useIsTouchDevice();
 
   const updatePosition = () => {
     if (topInputRef.current && bottomInputRef.current) {
@@ -213,6 +215,7 @@ export function TradeInputs({
           showPercentageButtons={isConnectedAndEnabled}
           enabled={isConnectedAndEnabled}
           enableSearch={enableSearch}
+          maxVisibleTokenRows={isTouchDevice ? 2.5 : 4.5}
         />
       </motion.div>
       {!tokensLocked && (
@@ -272,6 +275,7 @@ export function TradeInputs({
           enabled={isConnectedAndEnabled}
           inputDisabled={originToken?.isNative}
           enableSearch={enableSearch}
+          maxVisibleTokenRows={isTouchDevice ? 2.5 : 4.5}
         />
       </motion.div>
       {quoteError && (
