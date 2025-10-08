@@ -57,8 +57,7 @@ The SKY Borrow Rate is the current interest rate charged to SKY-backed borrowers
   {
     id: 'total-staking-engine-debt',
     title: 'Total Staking Engine debt',
-    tooltip:
-      'The total amount of USDS the Sky Protocol owes to stakers as future rewards. This reflects rewards that have been committed but not yet paid out.'
+    tooltip: 'The current sum of USDS that Staking Engine borrowers owe (principal plus accrued interest).'
   },
   {
     id: 'withdrawal-liquidity',
