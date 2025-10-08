@@ -9,7 +9,9 @@ import {
   ethFlowSlippageConfig,
   ercFlowSlippageConfig,
   ETH_SLIPPAGE_STORAGE_KEY,
-  ERC_SLIPPAGE_STORAGE_KEY
+  ERC_SLIPPAGE_STORAGE_KEY,
+  l2EthFlowSlippageConfig,
+  L2_ETH_SLIPPAGE_STORAGE_KEY
 } from './lib/constants';
 import {
   useTradeApprove,
@@ -36,7 +38,8 @@ import {
   useIsSafeWallet,
   useDebounce,
   useIsSmartContractWallet,
-  getCowExplorerLink
+  getCowExplorerLink,
+  isL2ChainId
 } from '@jetstreamgg/sky-utils';
 import { useAccount, useChainId } from 'wagmi';
 import { t } from '@lingui/core/macro';
@@ -112,6 +115,7 @@ function TradeWidgetWrapped({
   const [formattedExecutedBuyAmount, setFormattedExecutedBuyAmount] = useState<string | undefined>(undefined);
 
   const chainId = useChainId();
+  const isChainL2 = isL2ChainId(chainId);
   const { address, isConnecting, isConnected } = useAccount();
   const isSafeWallet = useIsSafeWallet();
   const isSmartContractWallet = useIsSmartContractWallet();
@@ -182,13 +186,18 @@ function TradeWidgetWrapped({
   const [ethFlowSlippage, setEthFlowSlippage] = useState(
     verifySlippage(window.localStorage.getItem(ETH_SLIPPAGE_STORAGE_KEY) || '', ethFlowSlippageConfig)
   );
+  const [l2EthFlowSlippage, setL2EthFlowSlippage] = useState(
+    verifySlippage(window.localStorage.getItem(L2_ETH_SLIPPAGE_STORAGE_KEY) || '', l2EthFlowSlippageConfig)
+  );
   const [ttl, setTtl] = useState('');
 
   const [slippage, setSlippage] = useMemo(() => {
     return originToken?.isNative
-      ? [ethFlowSlippage, setEthFlowSlippage]
+      ? isChainL2
+        ? [l2EthFlowSlippage, setL2EthFlowSlippage]
+        : [ethFlowSlippage, setEthFlowSlippage]
       : [ercFlowSlippage, setErcFlowSlippage];
-  }, [originToken, ethFlowSlippage, ercFlowSlippage]);
+  }, [originToken, l2EthFlowSlippage, ethFlowSlippage, ercFlowSlippage, isChainL2]);
 
   const {
     setButtonText,

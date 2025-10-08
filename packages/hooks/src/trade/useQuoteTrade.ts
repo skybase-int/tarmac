@@ -5,6 +5,7 @@ import { TRUST_LEVELS, TrustLevelEnum, ZERO_ADDRESS } from '../constants';
 import { ETH_FLOW_QUOTE_PARAMS, OrderQuoteSideKind, cowApiClient, SKY_MONEY_APP_CODE } from './constants';
 import { OrderQuoteResponse, OrderQuoteSide } from './trade';
 import { verifySlippageAndDeadline } from './helpers';
+import { isL2ChainId } from '@jetstreamgg/sky-utils';
 
 type GetTradeQuoteParams = {
   chainId: number;
@@ -119,12 +120,14 @@ export const useQuoteTrade = ({
   enabled?: boolean;
 }): ReadHook & { data: OrderQuoteResponse | undefined | null } => {
   const chainId = useChainId();
+  const isL2 = isL2ChainId(chainId);
   const { address } = useAccount();
 
   const enabled = paramEnabled && !!sellToken && !!buyToken && !!amount;
   const { slippage, ttl } = verifySlippageAndDeadline({
     slippage: paramSlippage,
-    isEthFlow
+    isEthFlow,
+    isL2
   });
 
   const {
