@@ -66,18 +66,20 @@ export function ConnectCard({ intent, className }: { intent: Intent; className?:
       colorRight="#2A197D"
       className={className}
     >
-      <div className="w-[80%] space-y-2 lg:w-2/3" data-testid="connect-wallet-card">
+      <div className="w-[80%] space-y-2 self-start xl:w-2/3" data-testid="connect-wallet-card">
         <Heading className="mb-2">{heading}</Heading>
         {contentText}
       </div>
-      <Button
-        className="border-border mt-3 w-fit px-6 py-6 lg:mt-0"
-        variant="outline"
-        onClick={connect}
-        data-testid="connect-wallet-card-button"
-      >
-        <Trans>Connect wallet</Trans>
-      </Button>
+      <div className="mt-auto w-fit pt-3 xl:self-end xl:pt-0">
+        <Button
+          className="border-border"
+          variant="outline"
+          onClick={connect}
+          data-testid="connect-wallet-card-button"
+        >
+          <Trans>Connect wallet</Trans>
+        </Button>
+      </div>
     </GradientShapeCard>
   );
 }
