@@ -121,7 +121,13 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
       widgetState.action === TradeAction.TRADE &&
       (txStatus === TxStatus.LOADING || txStatus === TxStatus.SUCCESS)
     ) {
-      queryClient.invalidateQueries({ queryKey: ['trade-history'] });
+      setTimeout(() => {
+        if (isCowSupported) {
+          queryClient.invalidateQueries({ queryKey: ['cowswap-trade-history'] });
+        } else {
+          queryClient.invalidateQueries({ queryKey: ['psm-trade-history'] });
+        }
+      }, REFRESH_DELAY);
     }
 
     if (
@@ -132,7 +138,11 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
     ) {
       updateParamsFromTransaction(hash, wagmiConfig, setSearchParams);
       setTimeout(() => {
-        queryClient.invalidateQueries({ queryKey: ['trade-history'] });
+        if (isCowSupported) {
+          queryClient.invalidateQueries({ queryKey: ['cowswap-trade-history'] });
+        } else {
+          queryClient.invalidateQueries({ queryKey: ['psm-trade-history'] });
+        }
       }, REFRESH_DELAY);
     }
 
