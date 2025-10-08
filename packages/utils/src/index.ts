@@ -13,6 +13,8 @@ export {
   isUnichainChainId,
   isOptimismChainId
 } from './isL2ChainId';
+export { isCowSupportedChainId } from './isCowSupportedChainId';
+export { TRADE_CUTOFF_DATES } from './tradeCutoffDates';
 export { formatAddress } from './formatAddress';
 export { normalizeAddress } from './normalizeAddress';
 export { chainId } from './chainId';
