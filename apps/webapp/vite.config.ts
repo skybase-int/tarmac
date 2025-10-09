@@ -17,13 +17,13 @@ export default ({ mode }: { mode: modeEnum }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
   const RPC_PROVIDER_MAINNET = process.env.VITE_RPC_PROVIDER_MAINNET || '';
-  const RPC_PROVIDER_SEPOLIA = process.env.VITE_RPC_PROVIDER_SEPOLIA || '';
   const RPC_PROVIDER_TENDERLY = process.env.VITE_RPC_PROVIDER_TENDERLY || '';
   const RPC_PROVIDER_BASE = process.env.VITE_RPC_PROVIDER_BASE || '';
   const RPC_PROVIDER_ARBITRUM = process.env.VITE_RPC_PROVIDER_ARBITRUM || '';
   const RPC_PROVIDER_OPTIMISM = process.env.VITE_RPC_PROVIDER_OPTIMISM || '';
   const RPC_PROVIDER_UNICHAIN = process.env.VITE_RPC_PROVIDER_UNICHAIN || '';
 
+  // TODO: Update the githubusercontent.com url when the terms document is ready in the right location
   const CONTENT_SECURITY_POLICY = `
     default-src 'self';
     script-src 'self'
@@ -36,7 +36,6 @@ export default ({ mode }: { mode: modeEnum }) => {
     connect-src 'self'
       ${RPC_PROVIDER_MAINNET}
       ${RPC_PROVIDER_TENDERLY}
-      ${RPC_PROVIDER_SEPOLIA}
       ${RPC_PROVIDER_BASE}
       ${RPC_PROVIDER_ARBITRUM}
       ${RPC_PROVIDER_OPTIMISM}
@@ -51,12 +50,10 @@ export default ({ mode }: { mode: modeEnum }) => {
       https://virtual.arbitrum.eu.rpc.tenderly.co
       https://virtual.optimism.eu.rpc.tenderly.co
       https://virtual.unichain.eu.rpc.tenderly.co
-      https://rpc.sepolia.org
       https://mainnet.base.org
       https://safe-transaction-mainnet.safe.global
       https://safe-transaction-base.safe.global
       https://safe-transaction-arbitrum.safe.global
-      https://safe-transaction-sepolia.safe.global
       https://safe-transaction-optimism.safe.global
       https://safe-transaction-unichain.safe.global
       https://chain-proxy.wallet.coinbase.com
