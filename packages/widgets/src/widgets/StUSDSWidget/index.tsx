@@ -176,7 +176,7 @@ const StUSDSWidgetWrapped = ({
   const withdrawDisabled =
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
     isWithdrawBalanceError ||
-    !stUsdsWithdraw.prepared ||
+    (txStatus === TxStatus.IDLE && !stUsdsWithdraw.prepared) ||
     isAmountWaitingForDebounce;
 
   const batchSupplyDisabled =
@@ -383,15 +383,15 @@ const StUSDSWidgetWrapped = ({
               </HStack>
             </Button>
           )}
-          <div className="space-y-1">
-            <Heading variant="x-large">
-              <Trans>stUSDS Module</Trans>
-            </Heading>
-            <Text className="text-textSecondary" variant="small">
-              <Trans>Earn a variable rate on USDS by participating in SKY-backed borrowing</Trans>
-            </Text>
-          </div>
+          <Heading variant="x-large">
+            <Trans>stUSDS</Trans>
+          </Heading>
         </div>
+      }
+      subHeader={
+        <Text className="text-textSecondary" variant="small">
+          <Trans>Access a variable reward rate on USDS by participating in SKY-backed borrowing</Trans>
+        </Text>
       }
       rightHeader={rightHeaderComponent}
       footer={
@@ -432,6 +432,7 @@ const StUSDSWidgetWrapped = ({
               address={address}
               nstBalance={stUsdsData?.userUsdsBalance}
               userUsdsBalance={stUsdsData?.userSuppliedUsds}
+              userStUsdsBalance={stUsdsData?.userStUsdsBalance}
               withdrawableBalance={stUsdsData?.userMaxWithdrawBuffered}
               totalAssets={stUsdsData?.totalAssets}
               availableLiquidityBuffered={stUsdsData?.availableLiquidityBuffered}

@@ -193,7 +193,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
             withErrorBoundary(<ExpertWidgetPane {...sharedProps} />),
             false,
             undefined,
-            'Higher-Risk Options: For experienced users'
+            'Higher-risk options for more experienced users'
           ]
         ]
       : [])
