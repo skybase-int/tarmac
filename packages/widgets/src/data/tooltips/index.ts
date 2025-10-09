@@ -15,6 +15,62 @@ export const tooltips: Tooltip[] = [
 Open Safe[Wallet]`
   },
   {
+    id: 'stusds-rate',
+    title: 'stUSDS Rate',
+    tooltip: `The stUSDS rate is variable and calculated using the following formula:
+
+stUSDS Rate = Utilization * (SKY Borrow Rate - stUSDS Accessibility Reward) + (1 - Utilization) * Sky Savings Rate
+
+The rate is derived from the SKY Borrow Rate less the stUSDS Accessibility Reward on the utilized portion of your capital and the Sky Savings Rate on the unutilized portion. Utilization is the percent of funds in the stUSDS contract that are used to fund borrowing against staked SKY.
+
+The SKY Borrow Rate is the current interest rate charged to SKY-backed borrowers and is dynamic and market-driven, based on the utilization of funds within the stUSDS contract.`
+  },
+  {
+    id: 'utilization',
+    title: 'Utilization',
+    tooltip:
+      'Utilization is the percent of funds in the stUSDS contract that are used to fund borrowing against staked SKY.'
+  },
+  {
+    id: 'maximum-capacity',
+    title: 'Maximum capacity',
+    tooltip: 'The governance-set limit on how much USDS the vault will accept.'
+  },
+  {
+    id: 'stusds-debt-ceiling',
+    title: 'stUSDS debt ceiling',
+    tooltip:
+      'The stUSDS debt ceiling is the governance‑set maximum amount of USDS that can be lent from the stUSDS pool to SKY‑backed borrowers. It caps credit exposure, independent of the current pool balance. Actual borrowing at any time is limited by both available idle liquidity and the debt ceiling.'
+  },
+  {
+    id: 'available-liquidity',
+    title: 'Available liquidity',
+    tooltip:
+      'The amount of USDS currently idle in the stUSDS pool and available for immediate withdrawal or new borrowing. Higher liquidity generally means smoother and more efficient transactions.'
+  },
+  {
+    id: 'remaining-capacity',
+    title: 'Remaining capacity',
+    tooltip:
+      'Remaining capacity is the amount of additional USDS that can be deposited until the maximum capacity is reached.'
+  },
+  {
+    id: 'total-staking-engine-debt',
+    title: 'Total Staking Engine debt',
+    tooltip: 'The current sum of USDS that Staking Engine borrowers owe (principal plus accrued interest).'
+  },
+  {
+    id: 'withdrawal-liquidity',
+    title: 'Withdrawal liquidity',
+    tooltip: 'The amount of stUSDS currently available for users to withdraw from the system.'
+  },
+  {
+    id: 'staking-rewards-rates-srrs',
+    title: 'Staking Rewards Rates (SRRs)',
+    tooltip:
+      'Staking Rewards Rates are variable and may fluctuate. They are determined by: (1) the current issuance rate of the rewards set through onchain governance processes, and (2) the market price of the staked SKY at the time of each calculation. The SRRs shown are estimated annual rates, updated using data from a third-party provider (i.e., [BlockAnalitica](https://blockanalitica.com/)). Further, the estimate is for informational purposes only and does not guarantee future results.'
+  },
+  {
     id: 'staked',
     title: 'Staked',
     tooltip: 'The amount of SKY you have staked in this position.'
@@ -53,7 +109,7 @@ Open Safe[Wallet]`
     id: 'risk-level',
     title: 'Risk level',
     tooltip:
-      'Risk level indicates the likelihood of your collateral being liquidated. This is primarily determined by your Loan-to-Value (LTV) ratio, which represents the amount you’ve borrowed compared to the value of your crypto collateral. A high risk level means your collateral is close to the liquidation price threshold, and most vulnerable to market changes. A medium risk level means you have a reasonable balance between borrowing power and a safety buffer. A low risk level means you have a comparatively wider safety next against price fluctuations.'
+      'Risk level indicates the likelihood of your collateral being liquidated. This is primarily determined by your Loan-to-Value (LTV) ratio, which represents the amount you’ve borrowed compared to the value of your crypto collateral. A high risk level means that your collateral is close to the liquidation price threshold, and most vulnerable to market changes. A medium risk level means you have a reasonable balance between borrowing power and a safety buffer. A low risk level means you have a comparatively wider safety net against price fluctuations.'
   },
   {
     id: 'debt-ceiling',
@@ -65,7 +121,7 @@ Open Safe[Wallet]`
     id: 'debt-ceiling-utilization',
     title: 'Debt ceiling utilization',
     tooltip:
-      'If the debt ceiling utilization reaches 100%, no new USDS can be borrowed. The debt ceiling is a parameter determined by Sky ecosystem governance through a process of decentralized onchain voting.'
+      'If the debt ceiling utilization reaches 100%, no new USDS can be borrowed. The debt ceiling is a parameter determined by Sky Ecosystem Governance through a process of decentralized onchain voting.'
   },
   {
     id: 'choose-your-delegate',
@@ -82,10 +138,18 @@ Delegates in receipt of token voting power can never directly access any tokens 
     tooltip: 'The amount of MKR you’ve sealed in this position.'
   },
   {
-    id: 'deprecation-warning',
-    title: 'Deprecation warning',
-    tooltip:
-      'Seal Engine is being deprecated. Exit your positions now. Migration to Staking Engine coming soon.'
+    id: 'deprecation-warning-if-the-user-has-positions',
+    title: 'Deprecation warning (if the user has positions)',
+    tooltip: `Seal Engine is deprecated. Creation of new positions has been disabled. Management of existing positions remains available.
+
+Exit your positions now.`
+  },
+  {
+    id: 'deprecation-warning-if-the-user-has-no-positions',
+    title: 'Deprecation warning (if the user has no positions)',
+    tooltip: `Seal Engine is deprecated. Creation of new positions has been disabled. Management of existing positions remains available.
+
+You don't have any open positions.`
   },
   {
     id: 'delayed-upgrade-penalty',
@@ -119,7 +183,7 @@ Bundled transaction: Active`
     id: 'exchange-rate',
     title: 'Exchange Rate',
     tooltip:
-      'Exchange rate refers to the price of one cryptocurrency relative to another cryptocurrency or fiat currency at any given moment. Cryptocurrency exchange rates may be subject to price volatility and may fluctuate based on various factors. The final amount you will receive is estimated, based on your chosen slippage tolerance level.'
+      'Exchange Rate refers to the price of one cryptocurrency relative to another cryptocurrency or fiat currency at any given moment. Cryptocurrency exchange rates may be subject to price volatility and may fluctuate based on various factors. The final amount you will receive is estimated, based on your chosen slippage tolerance level.'
   },
   {
     id: 'psm',
