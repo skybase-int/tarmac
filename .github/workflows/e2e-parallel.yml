@@ -73,12 +73,30 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm -F webapp exec playwright install --with-deps chromium
 
-      - name: Setup Tenderly VNets
+      - name: Restore VNets from cache
+        id: cache-vnets
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            tenderlyTestnetData.json
+            apps/webapp/src/test/e2e/persistent-vnet-snapshots.json
+          key: persistent-vnets-${{ github.ref }}-v1
+          restore-keys: |
+            persistent-vnets-${{ github.ref }}-
+
+      - name: Create VNets (if cache miss)
+        if: steps.cache-vnets.outputs.cache-hit != 'true'
         run: |
-          echo "Setting up Tenderly virtual networks..."
+          echo "📦 Creating new Tenderly VNets (cache miss)..."
           pnpm run vnet:fork:ci
         env:
           TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
+
+      - name: Use cached VNets
+        if: steps.cache-vnets.outputs.cache-hit == 'true'
+        run: |
+          echo "✅ Using cached VNets (cache hit)"
+          echo "VNets will be reverted to snapshots by globalSetup"
 
       - name: Run parallel E2E tests
         run: |
@@ -91,6 +109,15 @@ jobs:
           cd apps/webapp && ./run-tests-with-retry.sh
         env:
           TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
+
+      - name: Save VNets to cache
+        if: always() && steps.cache-vnets.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            tenderlyTestnetData.json
+            apps/webapp/src/test/e2e/persistent-vnet-snapshots.json
+          key: persistent-vnets-${{ github.ref }}-v1
 
       - name: Upload test results (if failed)
         if: failure()
@@ -111,13 +138,18 @@ jobs:
           path: apps/webapp/test-results/
           retention-days: 3
 
+      # Cleanup VNets on main branch only (keep feature branch VNets for reuse via cache)
+      # This prevents VNet accumulation while allowing fast reruns on feature branches
       - name: Cleanup Tenderly VNets
-        if: always()
+        if: always() && github.ref == 'refs/heads/main'
         run: |
-          echo "Cleaning up Tenderly virtual networks..."
+          echo "Cleaning up Tenderly VNets (main branch only)..."
           pnpm run vnet:delete:all:ci || echo "VNet cleanup failed, continuing..."
         env:
           TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
+
+      # Feature branch VNets are kept for fast reruns
+      # They will be cleaned up when cache expires (7 days default)
 
       - name: Test Summary
         if: always()

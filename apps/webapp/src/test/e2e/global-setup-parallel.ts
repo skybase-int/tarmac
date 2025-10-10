@@ -11,11 +11,18 @@ import {
   wethAddress,
   sUsdsAddress,
   usdsL2Address,
-  usdcL2Address
+  usdcL2Address,
+  sUsdsL2Address
 } from '@jetstreamgg/sky-hooks';
 import { TENDERLY_CHAIN_ID } from '@/data/wagmi/config/testTenderlyChain';
 import { parseUnits, formatUnits } from 'viem';
 import { base, arbitrum, optimism, unichain } from 'viem/chains';
+import { promises as fs } from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /**
  * Global setup for parallel test execution.
@@ -222,6 +229,57 @@ async function checkAccountsFunded(
 }
 
 /**
+ * Create a snapshot of the VNet state (after funding)
+ */
+async function createSnapshot(network: NetworkName): Promise<string> {
+  const rpcUrl = await getRpcUrlFromFile(network);
+
+  const response = await fetch(rpcUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      id: 1,
+      jsonrpc: '2.0',
+      method: 'evm_snapshot',
+      params: []
+    })
+  });
+
+  const result = await response.json();
+  if (result.error) {
+    throw new Error(`Failed to create snapshot for ${network}: ${result.error.message}`);
+  }
+
+  console.log(`  📸 Created snapshot for ${network}: ${result.result}`);
+  return result.result;
+}
+
+/**
+ * Revert a VNet to a previous snapshot
+ */
+async function revertToSnapshot(network: NetworkName, snapshotId: string): Promise<void> {
+  const rpcUrl = await getRpcUrlFromFile(network);
+
+  const response = await fetch(rpcUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      id: 1,
+      jsonrpc: '2.0',
+      method: 'evm_revert',
+      params: [snapshotId]
+    })
+  });
+
+  const result = await response.json();
+  if (result.error) {
+    throw new Error(`Failed to revert snapshot for ${network}: ${result.error.message}`);
+  }
+
+  console.log(`  ⏮️  Reverted ${network} to snapshot: ${snapshotId}`);
+}
+
+/**
  * Pre-fund all test accounts on a specific vnet with ETH and common tokens
  */
 async function fundAccountsOnVnet(network: NetworkName, addresses: string[]): Promise<void> {
@@ -288,6 +346,18 @@ async function fundAccountsOnVnet(network: NetworkName, addresses: string[]): Pr
             amount: '10000',
             decimals: 6,
             name: 'USDC'
+          },
+          {
+            token: sUsdsL2Address[chainId as keyof typeof sUsdsL2Address],
+            amount: '10000',
+            decimals: 18,
+            name: 'sUSDS'
+          },
+          {
+            token: mcdDaiAddress[chainId as keyof typeof mcdDaiAddress],
+            amount: '10000',
+            decimals: 18,
+            name: 'DAI'
           }
         ];
 
@@ -334,8 +404,21 @@ export default async function globalSetup() {
     await accountPool.initialize(TEST_WALLET_COUNT);
     console.log(`Account pool initialized with ${TEST_WALLET_COUNT} addresses`);
 
-    // Step 3: Pre-fund accounts on vnets
-    console.log('\n3. Pre-funding accounts on vnets...');
+    // Step 3: Check for existing snapshots (for instant revert)
+    const snapshotFile = path.join(__dirname, 'persistent-vnet-snapshots.json');
+    let existingSnapshots: Record<string, string> | null = null;
+
+    try {
+      const snapshotData = await fs.readFile(snapshotFile, 'utf-8');
+      existingSnapshots = JSON.parse(snapshotData);
+      console.log('\n3. ✅ Found existing VNet snapshots!');
+      console.log('   Snapshots:', Object.keys(existingSnapshots).join(', '));
+      console.log('   Skipping funding - will revert to snapshots');
+    } catch {
+      console.log('\n3. No existing snapshots found - will fund accounts and create snapshots');
+    }
+
+    // Step 4: Determine which networks to work with
 
     // Check if we should only fund specific networks (for debugging/development)
     const targetNetworks = process.env.FUND_NETWORKS || process.env.TEST_NETWORKS;
@@ -377,13 +460,42 @@ export default async function globalSetup() {
       console.log('Funding all networks (use FUND_NETWORKS env to limit)');
     }
 
-    // Fund vnets in parallel for better performance
-    const fundingPromises = networks.map(network => fundAccountsOnVnet(network, addresses));
-    await Promise.all(fundingPromises);
+    // If snapshots exist, revert to them instead of funding
+    if (existingSnapshots) {
+      console.log('\n5. Reverting VNets to snapshots (restoring funded state)...');
+      const revertPromises = networks.map(network => {
+        const snapshotId = existingSnapshots[network];
+        if (snapshotId) {
+          return revertToSnapshot(network, snapshotId);
+        }
+        return Promise.resolve();
+      });
+      await Promise.all(revertPromises);
+      console.log('✅ All VNets reverted to funded state - ready for tests!');
+    } else {
+      // No snapshots - need to fund and create snapshots
+      console.log('\n5. Pre-funding accounts on vnets...');
+      const fundingPromises = networks.map(network => fundAccountsOnVnet(network, addresses));
+      await Promise.all(fundingPromises);
 
-    // Step 4: Display pool status
+      // Create snapshots after funding (for next run)
+      console.log('\n6. Creating VNet snapshots after funding...');
+      const snapshotPromises = networks.map(async network => {
+        const snapshotId = await createSnapshot(network);
+        return { network, snapshotId };
+      });
+      const snapshots = await Promise.all(snapshotPromises);
+
+      // Save snapshots to file for next run
+      const snapshotData = Object.fromEntries(snapshots.map(s => [s.network, s.snapshotId]));
+      await fs.writeFile(snapshotFile, JSON.stringify(snapshotData, null, 2));
+      console.log(`✅ Snapshots saved to ${snapshotFile}`);
+      console.log('💡 These snapshots will be used for all future test runs (instant setup!)');
+    }
+
+    // Step 7: Display pool status
     const status = await accountPool.getPoolStatus();
-    console.log('\n4. Account pool status:');
+    console.log('\n7. Account pool status:');
     console.log(`   - Available: ${status.available}`);
     console.log(`   - In use: ${status.inUse}`);
     console.log(`   - Total: ${status.total}`);
@@ -400,9 +512,30 @@ export async function globalTeardown() {
   console.log('=== Global Teardown ===');
 
   try {
-    // Reset the pool to clean state
+    // Step 1: Revert all VNets to snapshots (for next test run)
+    console.log('\n1. Reverting VNets to snapshots...');
+
+    const snapshotFile = path.join(__dirname, 'persistent-vnet-snapshots.json');
+    try {
+      const snapshotData = await fs.readFile(snapshotFile, 'utf-8');
+      const snapshots = JSON.parse(snapshotData);
+
+      const revertPromises = Object.entries(snapshots).map(([network, snapshotId]) =>
+        revertToSnapshot(network as NetworkName, snapshotId as string)
+      );
+
+      await Promise.all(revertPromises);
+      console.log('✅ All VNets reverted to clean snapshots');
+      console.log('🎉 VNets are ready for next test run (no funding needed)!');
+    } catch (error) {
+      console.log('ℹ️  No snapshots to revert (first run or snapshots not created)', error);
+    }
+
+    // Step 2: Reset the account pool to clean state
     await accountPool.reset();
     console.log('Account pool reset');
+
+    console.log('\n=== Global Teardown Complete ===');
   } catch (error) {
     console.error('Global teardown failed:', error);
   }
