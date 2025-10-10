@@ -58,7 +58,6 @@ export function L2TradeInputs({
   isBalanceError,
   canSwitchTokens,
   isConnectedAndEnabled = true,
-  lastUpdated,
   onUserSwitchTokens,
   onOriginInputChange,
   onTargetInputChange,
@@ -179,25 +178,13 @@ export function L2TradeInputs({
             size="icon"
             className="border-background text-tabPrimary focus:outline-hidden my-0 h-9 w-9 rounded-full bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent disabled:bg-transparent"
             onClick={() => {
-              const tempToken = originToken;
-              const prevOriginAmount = originAmount;
-              const prevTargetAmount = targetAmount;
+              const auxOriginAmount = originAmount;
+              const auxOriginToken = originToken;
+              setOriginToken(targetToken);
+              setTargetToken(auxOriginToken);
               setOriginAmount(0n);
-              setTargetAmount(0n);
-              setTimeout(() => {
-                setOriginToken(targetToken);
-                setTargetToken(tempToken);
-                setTimeout(() => {
-                  if (lastUpdated === TradeSide.IN) {
-                    setTargetAmount(prevOriginAmount);
-                    setOriginAmount(0n);
-                  } else {
-                    setOriginAmount(prevTargetAmount);
-                    setTargetAmount(0n);
-                  }
-                  onUserSwitchTokens?.(targetToken?.symbol, originToken?.symbol);
-                }, 500);
-              }, 500);
+              setTargetAmount(auxOriginAmount);
+              onUserSwitchTokens?.(targetToken?.symbol, auxOriginToken?.symbol);
             }}
             disabled={switchDisabled}
           >
