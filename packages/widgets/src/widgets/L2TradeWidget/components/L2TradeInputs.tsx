@@ -77,6 +77,7 @@ export function L2TradeInputs({
     top: '50%',
     left: '50%'
   });
+  const [isSwitchDisabled, setIsSwitchDisabled] = useState<boolean>(false);
 
   const updatePosition = () => {
     if (topInputRef.current && bottomInputRef.current) {
@@ -111,7 +112,7 @@ export function L2TradeInputs({
     [targetTokenList, originToken]
   );
 
-  const switchDisabled = !canSwitchTokens;
+  const switchDisabled = !canSwitchTokens || isSwitchDisabled;
 
   // Hide switch button when top popover is open
   useEffect(() => {
@@ -178,6 +179,7 @@ export function L2TradeInputs({
             size="icon"
             className="border-background text-tabPrimary focus:outline-hidden my-0 h-9 w-9 rounded-full bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent disabled:bg-transparent"
             onClick={() => {
+              setIsSwitchDisabled(true);
               const auxOriginAmount = originAmount;
               const auxOriginToken = originToken;
               setOriginToken(targetToken);
@@ -185,6 +187,11 @@ export function L2TradeInputs({
               setOriginAmount(0n);
               setTargetAmount(auxOriginAmount);
               onUserSwitchTokens?.(targetToken?.symbol, auxOriginToken?.symbol);
+
+              // Re-enable after 750ms
+              setTimeout(() => {
+                setIsSwitchDisabled(false);
+              }, 750);
             }}
             disabled={switchDisabled}
           >
