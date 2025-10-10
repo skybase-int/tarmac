@@ -668,7 +668,9 @@ function TradeWidgetWrapped({
         description: t`You successfully cancelled the order`,
         status: TxStatus.SUCCESS
       });
-      setTxStatus(TxStatus.CANCELLED);
+      if (widgetState.screen === TradeScreen.TRANSACTION) {
+        setTxStatus(TxStatus.CANCELLED);
+      }
       setCancelLoading(false);
     },
     onError: (error: Error) => {
@@ -700,7 +702,9 @@ function TradeWidgetWrapped({
         description: t`You successfully cancelled the order`,
         status: TxStatus.SUCCESS
       });
-      setTxStatus(TxStatus.CANCELLED);
+      if (widgetState.screen === TradeScreen.TRANSACTION) {
+        setTxStatus(TxStatus.CANCELLED);
+      }
       setCancelLoading(false);
     },
     onError: (error: Error) => {
@@ -1340,7 +1344,7 @@ function TradeWidgetWrapped({
               setBatchEnabled={setBatchEnabled}
             />
           </CardAnimationWrapper>
-        ) : txStatus !== TxStatus.IDLE ? (
+        ) : txStatus !== TxStatus.IDLE && widgetState.screen === TradeScreen.TRANSACTION ? (
           <CardAnimationWrapper key="widget-transaction-status">
             <TradeTransactionStatus
               originToken={originToken as any} // TODO fix this type
