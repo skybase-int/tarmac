@@ -844,7 +844,7 @@ function TradeWidgetWrapped({
                 });
               }}
               onUserSwitchTokens={(originSymbol, targetSymbol) => {
-                setLastUpdated(TradeSide.OUT);
+                setLastUpdated(TradeSide.IN);
                 onWidgetStateChange?.({
                   originToken: originSymbol,
                   targetToken: targetSymbol,

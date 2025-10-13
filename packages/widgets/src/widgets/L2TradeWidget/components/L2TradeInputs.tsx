@@ -139,6 +139,7 @@ export function L2TradeInputs({
     <VStack className="relative h-auto items-stretch" gap={0}>
       <motion.div variants={positionAnimations} ref={topInputRef}>
         <TradeInput
+          key={originToken?.symbol || 'no-origin-token'}
           className={`${separationMb} w-full`}
           label={t`Choose a token to trade, and enter an amount`}
           token={originToken as Token}
@@ -180,12 +181,12 @@ export function L2TradeInputs({
             className="border-background text-tabPrimary focus:outline-hidden my-0 h-9 w-9 rounded-full bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent disabled:bg-transparent"
             onClick={() => {
               setIsSwitchDisabled(true);
-              const auxOriginAmount = originAmount;
               const auxOriginToken = originToken;
               setOriginToken(targetToken);
               setTargetToken(auxOriginToken);
+              // Clear both inputs when switching
               setOriginAmount(0n);
-              setTargetAmount(auxOriginAmount);
+              setTargetAmount(0n);
               onUserSwitchTokens?.(targetToken?.symbol, auxOriginToken?.symbol);
 
               // Re-enable after 750ms
@@ -201,6 +202,7 @@ export function L2TradeInputs({
       )}
       <motion.div variants={positionAnimations} ref={bottomInputRef}>
         <TradeInput
+          key={targetToken?.symbol || 'no-target-token'}
           className="w-full"
           label={t`Choose a token to receive`}
           variant={tokensLocked ? undefined : 'bottom'}
