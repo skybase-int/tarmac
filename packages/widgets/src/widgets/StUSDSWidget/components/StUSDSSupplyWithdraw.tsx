@@ -255,14 +255,14 @@ export const StUSDSSupplyWithdraw = ({
             />
             {!isStUsdsDataLoading && availableLiquidityBuffered === 0n ? (
               <div className="ml-3 mt-2 flex items-start text-amber-400">
-                <PopoverRateInfo type="withdrawalLiquidity" iconClassName="mt-1 shrink-0" />
+                <PopoverRateInfo type="stusdsLiquidity" iconClassName="mt-1 shrink-0" />
                 <Text variant="small" className="ml-2 flex gap-2">
-                  Withdrawal liquidity exhausted. Withdrawals are temporarily unavailable.
+                  Available liquidity exhausted. Withdrawals are temporarily unavailable.
                 </Text>
               </div>
             ) : !isStUsdsDataLoading && userSuppliedExceedsLiquidity ? (
               <div className="ml-3 mt-2 flex items-start text-white">
-                <PopoverRateInfo type="withdrawalLiquidity" iconClassName="mt-1 shrink-0" />
+                <PopoverRateInfo type="stusdsLiquidity" iconClassName="mt-1 shrink-0" />
                 <Text variant="small" className="ml-2 flex gap-2">
                   You cannot withdraw your full balance due to current liquidity limits.
                 </Text>
