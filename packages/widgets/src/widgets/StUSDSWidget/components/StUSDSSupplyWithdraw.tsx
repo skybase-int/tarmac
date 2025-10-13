@@ -233,8 +233,8 @@ export const StUSDSSupplyWithdraw = ({
                   className={`ml-2 ${availableLiquidityBuffered === 0n ? 'text-amber-400' : 'text-textSecondary'}`}
                 >
                   {availableLiquidityBuffered === 0n
-                    ? 'I understand I will not be able to withdraw as long as the available liquidity is 0'
-                    : 'I understand I will not be able to withdraw if the available liquidity gets exhausted'}
+                    ? 'I understand that I will not be able to withdraw as long as the available liquidity is 0'
+                    : 'I understand that I will not be able to withdraw if the available liquidity gets exhausted'}
                 </Text>
               </div>
             )}
