@@ -167,7 +167,7 @@ export function TokenInput({
   };
 
   useEffect(() => {
-    if (value === undefined) {
+    if (value === undefined || value === 0n) {
       setInputValue('');
     } else {
       try {
