@@ -15,6 +15,7 @@ import { positionAnimations } from '@widgets/shared/animation/presets';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
+import { Checkbox } from '@widgets/components/ui/checkbox';
 
 type StUSDSSupplyWithdrawProps = {
   address?: string;
@@ -35,6 +36,8 @@ type StUSDSSupplyWithdrawProps = {
   enabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   remainingCapacityBuffered?: bigint;
+  disclaimerChecked?: boolean;
+  onDisclaimerChange?: (checked: boolean) => void;
 };
 
 export const StUSDSSupplyWithdraw = ({
@@ -55,7 +58,9 @@ export const StUSDSSupplyWithdraw = ({
   tabIndex,
   enabled = true,
   onExternalLinkClicked,
-  remainingCapacityBuffered
+  remainingCapacityBuffered,
+  disclaimerChecked = false,
+  onDisclaimerChange
 }: StUSDSSupplyWithdrawProps) => {
   const inputToken = TOKENS.usds;
   const chainId = useChainId();
@@ -219,6 +224,16 @@ export const StUSDSSupplyWithdraw = ({
               </div>
             ) : (
               <div className="mb-4" />
+            )}
+            {tabIndex === 0 && onDisclaimerChange && nstBalance !== undefined && nstBalance > 0n && (
+              <div className="flex items-center px-3 pt-2">
+                <Checkbox checked={disclaimerChecked} onCheckedChange={onDisclaimerChange} />
+                <Text variant="medium" className="text-textSecondary ml-2">
+                  {availableLiquidityBuffered === 0n
+                    ? 'I understand I will not be able to withdraw as long as the available liquidity is 0'
+                    : 'I understand I will not be able to withdraw if the available liquidity gets exhausted'}
+                </Text>
+              </div>
             )}
           </motion.div>
         </TabsContent>
