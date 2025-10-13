@@ -211,14 +211,14 @@ export const StUSDSSupplyWithdraw = ({
             {!isStUsdsDataLoading && remainingCapacityBuffered === 0n ? (
               <div className="ml-3 mt-2 flex items-start text-amber-400">
                 <PopoverRateInfo type="remainingCapacity" iconClassName="mt-1 shrink-0" />
-                <Text variant="small" className="ml-2 flex gap-2">
+                <Text variant="small" className="mb-1 ml-2 flex gap-2">
                   Supply capacity reached. Deposits are temporarily unavailable.
                 </Text>
               </div>
             ) : !isStUsdsDataLoading && userBalanceExceedsCapacity ? (
               <div className="ml-3 mt-2 flex items-start text-white">
                 <PopoverRateInfo type="remainingCapacity" iconClassName="mt-1 shrink-0" />
-                <Text variant="small" className="ml-2 flex gap-2">
+                <Text variant="small" className="mb-1 ml-2 flex gap-2">
                   You cannot supply your full balance due to current capacity limits.
                 </Text>
               </div>
@@ -226,9 +226,12 @@ export const StUSDSSupplyWithdraw = ({
               <div className="mb-4" />
             )}
             {tabIndex === 0 && onDisclaimerChange && nstBalance !== undefined && nstBalance > 0n && (
-              <div className="flex items-center px-3 pt-2">
+              <div className="flex items-center px-3 pt-1">
                 <Checkbox checked={disclaimerChecked} onCheckedChange={onDisclaimerChange} />
-                <Text variant="medium" className="text-textSecondary ml-2">
+                <Text
+                  variant="medium"
+                  className={`ml-2 ${availableLiquidityBuffered === 0n ? 'text-amber-400' : 'text-textSecondary'}`}
+                >
                   {availableLiquidityBuffered === 0n
                     ? 'I understand I will not be able to withdraw as long as the available liquidity is 0'
                     : 'I understand I will not be able to withdraw if the available liquidity gets exhausted'}
