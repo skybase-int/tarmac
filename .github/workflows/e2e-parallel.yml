@@ -92,10 +92,29 @@ jobs:
         env:
           TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
 
-      - name: Use cached VNets
+      - name: Validate cached VNets
+        id: validate-vnets
         if: steps.cache-vnets.outputs.cache-hit == 'true'
         run: |
-          echo "✅ Using cached VNets (cache hit)"
+          echo "🔍 Validating cached VNets and snapshots..."
+          cd apps/webapp && npx tsx src/test/e2e/validate-vnets.ts
+        env:
+          TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
+        continue-on-error: true
+
+      - name: Recreate VNets if validation failed
+        if: steps.cache-vnets.outputs.cache-hit == 'true' && steps.validate-vnets.outcome == 'failure'
+        run: |
+          echo "❌ VNet validation failed - recreating VNets..."
+          rm -f tenderlyTestnetData.json apps/webapp/src/test/e2e/persistent-vnet-snapshots.json
+          pnpm run vnet:fork:ci
+        env:
+          TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
+
+      - name: Use cached VNets
+        if: steps.cache-vnets.outputs.cache-hit == 'true' && steps.validate-vnets.outcome == 'success'
+        run: |
+          echo "✅ Using cached VNets (validated successfully)"
           echo "VNets will be reverted to snapshots by globalSetup"
 
       - name: Run parallel E2E tests
@@ -111,13 +130,13 @@ jobs:
           TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
 
       - name: Save VNets to cache
-        if: always() && steps.cache-vnets.outputs.cache-hit != 'true'
+        if: always() && (steps.cache-vnets.outputs.cache-hit != 'true' || steps.validate-vnets.outcome == 'failure')
         uses: actions/cache/save@v4
         with:
           path: |
             tenderlyTestnetData.json
             apps/webapp/src/test/e2e/persistent-vnet-snapshots.json
-          key: persistent-vnets-${{ github.ref }}-v1
+          key: persistent-vnets-${{ github.ref }}-v1-${{ github.run_id }}
 
       - name: Upload test results (if failed)
         if: failure()

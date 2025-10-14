@@ -16,6 +16,10 @@ fi
 # Global setup already ran, so tests will use existing funded state
 echo ""
 echo "🚀 Running remaining E2E tests in parallel..."
+# Revert VNets to snapshots before retry (clean state with funded accounts)
+echo "🔄 Reverting VNets to snapshots for clean retry..."
+npx tsx src/test/e2e/revert-vnets.ts || echo "No snapshots to revert (first run)"
+
 pnpm playwright test --config=playwright-parallel.config.ts --grep-invert="stake.spec.ts"
 
 PARALLEL_EXIT_CODE=$?
@@ -27,7 +31,7 @@ if [ $PARALLEL_EXIT_CODE -ne 0 ]; then
 
   # Revert VNets to snapshots before retry (clean state with funded accounts)
   echo "🔄 Reverting VNets to snapshots for clean retry..."
-  node src/test/e2e/revert-vnets.ts || echo "No snapshots to revert (first run)"
+  npx tsx src/test/e2e/revert-vnets.ts || echo "No snapshots to revert (first run)"
 
   # Re-run only the failed tests with a single worker
   # VNets are now in clean snapshot state with funded accounts

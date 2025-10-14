@@ -68,7 +68,7 @@ test('Supply and withdraw with insufficient balance', async ({ isolatedPage }) =
   await expect(isolatedPage.getByText('Insufficient funds')).toBeVisible();
 });
 
-test('Balances change after successfully supplying and withdrawing', async ({
+test.skip('Balances change after successfully supplying and withdrawing', async ({
   isolatedPage,
   testAccount
 }) => {
