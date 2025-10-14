@@ -11,17 +11,17 @@ Key characteristics and current conditions:
 
 • **Backed by staked SKY:** stUSDS derives its value from positions collateralized by staked SKY within the Staking Engine.
 
-• **Haircut risk: If liquidation of a borrower’s staked SKY collateral does not fully cover outstanding debt, stUSDS balances may incur a proportional haircut.
+• **Haircut risk:** If liquidation of a borrower’s staked SKY collateral does not fully cover outstanding debt, stUSDS balances may incur a proportional haircut.
 
 • **Temporary deposit illiquidity:** During the initial launch of stUSDS, deposits may be temporarily illiquid when utilization exceeds 100 percent. This condition is expected to continue until total deposits in the stUSDS module surpass 55 million USDS.
 
-• **Bootstrapping phase rate:**  To compensate participants for the added illiquidity risk during the early phase, Sky Ecosystem Governance has set the stUSDS reward rate at a 40% as a short-term bootstrapping incentive.
+• **Bootstrapping phase rate:** To compensate participants for the added illiquidity risk during the early phase, Sky Ecosystem Governance has set the stUSDS reward rate at a 40% APY as a short-term bootstrapping incentive.
 
-• **Once total deposits reach 55 million USDS:**  Utilization is expected to fall below 100 percent, allowing withdrawals of available liquidity. The temporary elevated APY will be reduced from 40% to 20%. Following the reduction, rates will dynamically adjust based on market conditions as the module transitions to normal operation.
+• **Once total deposits reach 55 million USDS:** Utilization is expected to fall below 100 percent, allowing withdrawals of available liquidity. The temporary elevated APY will be reduced from 40% to 20%. Following the reduction, rates will dynamically adjust based on market conditions as the module transitions to normal operation.
 
 • **Manual liquidations:** Automatic liquidations of staked SKY are temporarily disabled; any undercollateralized positions will be liquidated manually by Sky Ecosystem Governance to minimize market risk and liquidation malfunctions.
 
-• **[Capped OSM SKY price](#tooltip-capped-OSM-SKY-price):**  During the bootstrapping phase, the amount of leverage available to SKY stakers borrowing is significantly limited The SKY price reported by the Oracle Security Module (OSM) is capped at a governance-defined limit to prevent overvaluation during debt generation." This reduces the risk to the system while SKY liquidity is still low, and liquidations would have to be handled manually.
+• **[Capped OSM SKY price](#tooltip-capped-OSM-SKY-price):** During the bootstrapping phase, the amount of leverage available to SKY stakers borrowing is significantly limited. The SKY price reported by the Oracle Security Module (OSM) is capped at a governance-defined limit to prevent overvaluation during debt generation. This reduces the risk to the system while SKY liquidity is still low, and liquidations would have to be handled manually.
 
 As liquidity deepens and the system matures, stUSDS is expected to operate as a standard lending-market module, with dynamic rate adjustments and automated risk controls re-enabled by governance.`,
       index: 0
