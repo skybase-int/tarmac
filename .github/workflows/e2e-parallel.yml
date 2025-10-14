@@ -81,8 +81,6 @@ jobs:
             tenderlyTestnetData.json
             apps/webapp/src/test/e2e/persistent-vnet-snapshots.json
           key: persistent-vnets-${{ github.ref }}-v1
-          restore-keys: |
-            persistent-vnets-${{ github.ref }}-
 
       - name: Check cache contents
         if: steps.cache-vnets.outputs.cache-hit == 'true'
@@ -186,7 +184,7 @@ jobs:
           path: |
             tenderlyTestnetData.json
             apps/webapp/src/test/e2e/persistent-vnet-snapshots.json
-          key: persistent-vnets-${{ github.ref }}-v1-${{ github.run_id }}
+          key: persistent-vnets-${{ github.ref }}-v1
 
       - name: Upload test results (if failed)
         if: failure()
