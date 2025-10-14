@@ -233,8 +233,8 @@ export const StUSDSSupplyWithdraw = ({
                   className={`ml-2 ${availableLiquidityBuffered === 0n ? 'text-amber-400' : 'text-textSecondary'}`}
                 >
                   {availableLiquidityBuffered === 0n
-                    ? 'I understand that I will not be able to withdraw as long as the available liquidity is 0'
-                    : 'I understand that I will not be able to withdraw if the available liquidity gets exhausted'}
+                    ? 'I understand that USDS deposited into the stUSDS module is used to fund borrowing against SKY, and that I will not be able to withdraw as long as the Available Liquidity is 0'
+                    : 'I understand that USDS deposited into the stUSDS module is used to fund borrowing against SKY, and that I will not be able to withdraw if the Available Liquidity becomes exhausted'}
                 </Text>
               </div>
             )}
