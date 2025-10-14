@@ -41,18 +41,49 @@ export const TEST_WALLET_ADDRESSES: readonly `0x${string}`[] = [
 export const TEST_WALLET_COUNT = 100;
 ```
 
-### 3. Global Setup (`global-setup-parallel.ts`)
+### 3. VNet Validation (`validate-vnets.ts`)
 
-**Purpose**: Funds all 100 test accounts before any tests run.
+**Purpose**: Validates that cached VNets and snapshots are healthy before use.
+
+**Validation Checks**:
+
+- **RPC Connectivity**: Ensures VNet endpoints are accessible
+- **Snapshot Revert**: Tests that snapshots can be successfully reverted
+- **Account Balances**: Verifies test accounts have sufficient ETH and token balances
+
+**Exit Codes**:
+- `0`: All VNets healthy (use cache)
+- `1`: Some VNets unhealthy (recreate)
+
+```typescript
+// Standalone usage
+export async function validateVnets(): Promise<{
+  healthy: boolean;
+  results: ValidationResult[];
+}>
+```
+
+### 4. Global Setup (`global-setup-parallel.ts`)
+
+**Purpose**: Validates and funds all 100 test accounts before any tests run.
 
 **Process**:
 
 1. Initialize account pool state file
-2. Fund all 100 addresses with test tokens on multiple networks
-3. Set up initial balances for USDS, MKR, SKY tokens
-4. Log funding completion for verification
+2. **Validate existing VNet snapshots** (if available)
+   - Check RPC connectivity
+   - Verify snapshot revert capability
+   - Validate account balances
+3. **Decision Point**:
+   - If snapshots valid → Revert to snapshots (fast path ⚡)
+   - If snapshots invalid → Fund accounts and create new snapshots
+   - If VNets expired → Provide clear error message with fix
+4. Fund all 100 addresses with test tokens on multiple networks
+5. Set up initial balances for USDS, MKR, SKY tokens
+6. Create snapshots after funding for future reuse
+7. Log funding completion for verification
 
-### 4. Wagmi Configuration (`config.e2e.parallel.ts`)
+### 5. Wagmi Configuration (`config.e2e.parallel.ts`)
 
 **Purpose**: Creates mock wallet connectors that use test accounts.
 
@@ -70,7 +101,7 @@ async getAccounts() {
 }
 ```
 
-### 5. Test Fixtures (`fixtures-parallel.ts`)
+### 6. Test Fixtures (`fixtures-parallel.ts`)
 
 **Purpose**: Provides isolated browser contexts and test accounts to each test.
 
@@ -94,7 +125,7 @@ export const test = baseTest.extend<{
 });
 ```
 
-### 6. Helper Utilities
+### 7. Helper Utilities
 
 #### Account Initialization (`initializeTestAccount.ts`)
 
@@ -118,9 +149,16 @@ export const test = baseTest.extend<{
 ```mermaid
 graph TD
     A[Global Setup Starts] --> B[Initialize Account Pool State]
-    B --> C[Fund 100 Test Addresses]
-    C --> D[Set Token Balances USDS/MKR/SKY]
-    D --> E[All Tests Ready to Run]
+    B --> C{Snapshots Exist?}
+    C -->|Yes| D[Validate VNets]
+    C -->|No| G[Fund Accounts]
+    D -->|Healthy| E[Revert to Snapshots]
+    D -->|Unhealthy| F{VNets Expired?}
+    F -->|Yes| Z[Error: Recreate VNets]
+    F -->|No| G
+    E --> H[All Tests Ready]
+    G --> I[Create New Snapshots]
+    I --> H
 ```
 
 ### 2. Individual Test Execution
@@ -247,6 +285,16 @@ pnpm e2e:parallel:retry-serial
 
 ### 1. Common Issues
 
+**VNets Expired or Not Found**:
+
+- **Symptom**: "virtual testnet not found" error during validation
+- **Solution**: Delete cache and recreate VNets
+  ```bash
+  rm -f tenderlyTestnetData.json apps/webapp/src/test/e2e/persistent-vnet-snapshots.json
+  pnpm vnet:fork:ci
+  ```
+- **Prevention**: VNets typically expire after a few days on Tenderly
+
 **Account Pool Exhaustion**:
 
 - **Symptom**: "No available accounts" error
@@ -265,15 +313,23 @@ pnpm e2e:parallel:retry-serial
 - **Solution**: Check for zombie lock files in `/tmp`
 - **Prevention**: Automatic cleanup on process exit
 
+**Snapshot Validation Failures**:
+
+- **Symptom**: Validation detects low balances but VNets exist
+- **Solution**: Let global setup refund accounts automatically
+- **Prevention**: Run `pnpm e2e:validate-vnets` before test runs
+
 ### 2. Debugging Commands
 
 ```bash
+# Validate VNets and snapshots
+pnpm -F webapp e2e:validate-vnets
 
 # Run with verbose output
 pnpm playwright test --config playwright-parallel.config.ts --verbose
 
 # Check account pool state
-cat /tmp/account-pool-state.json
+cat /tmp/test-account-pool.json
 ```
 
 ## Monitoring and Observability
@@ -296,9 +352,10 @@ cat /tmp/account-pool-state.json
 ### 1. Potential Enhancements
 
 - **Dynamic Pool Sizing**: Auto-adjust pool size based on test count
-- **Account Health Checks**: Verify account balances before claiming
+- **Auto VNet Creation**: Optionally auto-create VNets during global setup
 - **Distributed Testing**: Support multiple test runners sharing pool
 - **Advanced Retry Logic**: Smart retry based on failure patterns
+- **Snapshot Versioning**: Track snapshot versions for better cache invalidation
 
 ### 2. Scalability Considerations
 
@@ -312,6 +369,7 @@ This parallel testing architecture provides:
 
 ✅ **Complete Test Isolation**: No test interference through unique accounts
 ✅ **High Performance**: 6x faster execution through parallelism
+✅ **Self-Healing VNets**: Automatic validation and recovery of test infrastructure
 ✅ **Reliability**: Robust retry mechanisms for flaky tests
 ✅ **Maintainability**: Clear separation of concerns and helper utilities
 ✅ **Scalability**: Easy to add more tests without account conflicts

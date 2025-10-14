@@ -4,6 +4,18 @@ This document explains all available parallel E2E testing commands and their use
 
 ## Core Commands
 
+### `pnpm -F webapp e2e:validate-vnets`
+
+**Purpose**: Validate cached VNets and snapshots are healthy
+**Usage**: `pnpm -F webapp e2e:validate-vnets`
+**Details**:
+
+- Checks RPC connectivity to all VNets
+- Verifies snapshots can be reverted
+- Validates account balances (ETH and tokens)
+- Exit code 0 = healthy, 1 = unhealthy
+- Best for: Pre-flight check before running tests
+
 ### `pnpm e2e:parallel`
 
 **Purpose**: Run all parallel E2E tests with default configuration
@@ -11,6 +23,7 @@ This document explains all available parallel E2E testing commands and their use
 **Details**:
 
 - Runs all tests in `playwright-parallel.config.ts`
+- Automatically validates VNets before running
 - Uses 6 parallel workers by default
 - Funds all test accounts across all networks
 - Best for: Full test suite execution
@@ -150,6 +163,12 @@ These environment variables control test behavior:
 ### Local Development Flow
 
 ```bash
+# First time setup - create VNets
+pnpm vnet:fork:ci
+
+# Validate VNets before testing (optional)
+pnpm -F webapp e2e:validate-vnets
+
 # First run - full setup
 pnpm e2e:parallel
 
@@ -158,6 +177,21 @@ pnpm e2e:parallel:skip-funding
 
 # Debug failures
 pnpm e2e:parallel:retry-serial
+```
+
+### When VNets Expire
+
+```bash
+# VNets typically expire after a few days. When validation fails:
+
+# 1. Delete old cache
+rm -f tenderlyTestnetData.json apps/webapp/src/test/e2e/persistent-vnet-snapshots.json
+
+# 2. Create fresh VNets
+pnpm vnet:fork:ci
+
+# 3. Run tests (will auto-fund and create snapshots)
+pnpm e2e:parallel
 ```
 
 ## Special Scripts for running all tests
@@ -179,10 +213,12 @@ Usage:
 
 ## Best Practices
 
-1. **For daily development**: Use `e2e:parallel:skip-funding` after initial run
-2. **For debugging**: Use `e2e:parallel:retry-serial` with `--headed`
-3. **For flaky tests**: Run them in isolation like stake.spec.ts
-4. **For performance**: Adjust `TEST_WORKERS` based on machine capabilities
+1. **Before testing**: Run `pnpm -F webapp e2e:validate-vnets` to check VNet health
+2. **For daily development**: Use `e2e:parallel:skip-funding` after initial run
+3. **For debugging**: Use `e2e:parallel:retry-serial` with `--headed`
+4. **For flaky tests**: Run them in isolation like stake.spec.ts
+5. **For performance**: Adjust `TEST_WORKERS` based on machine capabilities
+6. **When tests fail mysteriously**: Validate VNets first - they may have expired
 
 ## Account Pool Status
 
