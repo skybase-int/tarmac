@@ -85,6 +85,37 @@ export function StakeOverview() {
             </div>
             <div className="min-w-[250px] flex-1">
               <StatsCard
+                title={t`TVL`}
+                isLoading={isLoading}
+                error={error}
+                content={<Text className="mt-2">{`$${formatNumber(tvl)}`}</Text>}
+              />
+            </div>
+            <div className="min-w-[250px] flex-1">
+              <StatsCard
+                title={t`Staking positions`}
+                isLoading={isLoading}
+                error={error}
+                content={<Text className="mt-2">{formatNumber(numberOfUrns, { maxDecimals: 0 })}</Text>}
+              />
+            </div>
+            <div className="min-w-[250px] flex-1">
+              <StatsCard
+                title={
+                  <HStack gap={1} className="items-center">
+                    <Heading tag="h3" className="text-textSecondary text-sm font-normal leading-tight">
+                      <Trans>Borrow Rate</Trans>
+                    </Heading>
+                    <PopoverRateInfo type="sbr" />
+                  </HStack>
+                }
+                isLoading={isLoading}
+                error={error}
+                content={<Text className="mt-2">{formatDecimalPercentage(borrowRate)}</Text>}
+              />
+            </div>
+            <div className="min-w-[250px] flex-1">
+              <StatsCard
                 title={t`Total USDS borrowed`}
                 isLoading={collateralDataLoading}
                 error={collateralDataError}
@@ -116,37 +147,6 @@ export function StakeOverview() {
                     balance={formatBigInt(debtCeiling)}
                   />
                 }
-              />
-            </div>
-            <div className="min-w-[250px] flex-1">
-              <StatsCard
-                title={
-                  <HStack gap={1} className="items-center">
-                    <Heading tag="h3" className="text-textSecondary text-sm font-normal leading-tight">
-                      <Trans>Borrow Rate</Trans>
-                    </Heading>
-                    <PopoverRateInfo type="sbr" />
-                  </HStack>
-                }
-                isLoading={isLoading}
-                error={error}
-                content={<Text className="mt-2">{formatDecimalPercentage(borrowRate)}</Text>}
-              />
-            </div>
-            <div className="min-w-[250px] flex-1">
-              <StatsCard
-                title={t`TVL`}
-                isLoading={isLoading}
-                error={error}
-                content={<Text className="mt-2">{`$${formatNumber(tvl)}`}</Text>}
-              />
-            </div>
-            <div className="min-w-[250px] flex-1">
-              <StatsCard
-                title={t`Staking positions`}
-                isLoading={isLoading}
-                error={error}
-                content={<Text className="mt-2">{formatNumber(numberOfUrns, { maxDecimals: 0 })}</Text>}
               />
             </div>
             <div className="min-w-[250px] flex-1">
