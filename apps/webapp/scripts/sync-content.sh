@@ -206,6 +206,9 @@ print_status "Creating corpus version file..."
 cat > "src/data/version.ts" << EOF
 // Version of the corpus content used to generate FAQs, tooltips, banners, and speed bumps
 export const CORPUS_VERSION = '$CORPUS_TAG';
+
+// Branch name used during content extraction
+export const CORPUS_BRANCH = '$CONTENT_VERSION';
 EOF
 
 # Post-process sharedFaqItems.ts and update getBalancesFaqItems.ts
