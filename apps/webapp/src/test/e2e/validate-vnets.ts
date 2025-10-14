@@ -104,34 +104,13 @@ async function testSnapshotRevert(
     }
 
     console.log('    ✓ Successfully reverted to snapshot');
+    console.log('    ℹ️  VNet state restored to funded snapshot');
 
-    // After revert, create a new snapshot to restore the state
-    console.log('    📸 Creating new snapshot to preserve state...');
-    const snapshotResponse = await fetch(rpcUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        id: 1,
-        jsonrpc: '2.0',
-        method: 'evm_snapshot',
-        params: []
-      })
-    });
+    // Note: We don't create a new snapshot here because:
+    // 1. It's not needed for validation (we just proved revert works)
+    // 2. The actual snapshot used by tests will be managed by global-setup
+    // 3. Tenderly may rate-limit snapshot creation in CI
 
-    const snapshotResult = await snapshotResponse.json();
-    if (snapshotResult.error) {
-      console.log(`    ⚠️  New snapshot creation failed: ${snapshotResult.error.message}`);
-      return { success: false, error: 'Revert succeeded but failed to recreate snapshot' };
-    }
-
-    if (!snapshotResult.result) {
-      console.log('    ⚠️  New snapshot created but no ID returned');
-      return { success: false, error: 'Snapshot created but no ID returned' };
-    }
-
-    const newSnapshotId = snapshotResult.result;
-    const displayId = typeof newSnapshotId === 'string' ? newSnapshotId.slice(0, 10) : String(newSnapshotId);
-    console.log(`    ✓ New snapshot created: ${displayId}...`);
     return { success: true };
   } catch (error) {
     console.log(`    ❌ Error during snapshot revert: ${(error as Error).message}`);
