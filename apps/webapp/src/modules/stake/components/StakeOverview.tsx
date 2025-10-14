@@ -1,10 +1,15 @@
-import { useStakeHistoricData, useCollateralData, getIlkName } from '@jetstreamgg/sky-hooks';
+import {
+  useStakeHistoricData,
+  useCollateralData,
+  getIlkName,
+  useBorrowCapacityData
+} from '@jetstreamgg/sky-hooks';
 import { formatDecimalPercentage, formatNumber, formatBigInt } from '@jetstreamgg/sky-utils';
 import { DetailSectionRow } from '@/modules/ui/components/DetailSectionRow';
 import { DetailSectionWrapper } from '@/modules/ui/components/DetailSectionWrapper';
 import { DetailSection } from '@/modules/ui/components/DetailSection';
-import { t } from '@lingui/core/macro';
-import { Trans } from '@lingui/react/macro';
+import { msg, t } from '@lingui/core/macro';
+import { Trans, useLingui } from '@lingui/react/macro';
 import { HStack } from '@/modules/layout/components/HStack';
 import { StatsCard } from '@/modules/ui/components/StatsCard';
 import { TokenIconWithBalance } from '@/modules/ui/components/TokenIconWithBalance';
@@ -15,7 +20,7 @@ import { StakeHistory } from './StakeHistory';
 import { StakeRewardsOverview } from './StakeRewardsOverview';
 import { StakeFaq } from './StakeFaq';
 import { StakeChart } from './StakeChart';
-import { PopoverRateInfo as PopoverInfo } from '@jetstreamgg/sky-widgets';
+import { getTooltipById, PopoverRateInfo, PopoverInfo, UtilizationBar } from '@jetstreamgg/sky-widgets';
 import { useMemo } from 'react';
 import { StakeToken } from '../constants';
 
@@ -43,6 +48,21 @@ export function StakeOverview() {
   } = useCollateralData(ilkName);
   const debtCeiling = collateralData?.debtCeiling ?? 0n;
   const totalDebt = collateralData?.totalDaiDebt ?? 0n;
+
+  const { i18n } = useLingui();
+
+  // Borrow Capacity Data
+  const {
+    data: borrowCapacityData,
+    isLoading: isLoadingBorrowCapacity,
+    error: borrowCapacityError
+  } = useBorrowCapacityData();
+
+  const borrowCapacity = borrowCapacityData?.borrowCapacity ?? 0n;
+  const borrowUtilization = borrowCapacityData?.borrowUtilization ?? 0;
+
+  const borrowUtilizationColor = '';
+  const borrowTooltipContent = getTooltipById('borrow-utilization');
 
   return (
     <DetailSectionWrapper>
@@ -84,7 +104,7 @@ export function StakeOverview() {
                     <Heading tag="h3" className="text-textSecondary text-sm font-normal leading-tight">
                       <Trans>Debt ceiling</Trans>
                     </Heading>
-                    <PopoverInfo type="dtc" />
+                    <PopoverRateInfo type="dtc" />
                   </HStack>
                 }
                 isLoading={collateralDataLoading}
@@ -105,7 +125,7 @@ export function StakeOverview() {
                     <Heading tag="h3" className="text-textSecondary text-sm font-normal leading-tight">
                       <Trans>Borrow Rate</Trans>
                     </Heading>
-                    <PopoverInfo type="sbr" />
+                    <PopoverRateInfo type="sbr" />
                   </HStack>
                 }
                 isLoading={isLoading}
@@ -127,6 +147,56 @@ export function StakeOverview() {
                 isLoading={isLoading}
                 error={error}
                 content={<Text className="mt-2">{formatNumber(numberOfUrns, { maxDecimals: 0 })}</Text>}
+              />
+            </div>
+            <div className="min-w-[250px] flex-1">
+              <StatsCard
+                className="h-full"
+                isLoading={isLoadingBorrowCapacity}
+                error={borrowCapacityError}
+                title={
+                  <div className="flex items-center gap-1">
+                    <span>{i18n._(msg`Borrow Utilization`)}</span>
+                    <PopoverInfo
+                      title={i18n._(msg`${borrowTooltipContent?.title || 'Borrow Utilization'}`)}
+                      description={i18n._(
+                        msg`${borrowTooltipContent?.tooltip || 'The percentage of the debt ceiling currently being utilized for USDS borrowing.'}`
+                      )}
+                      iconClassName="text-textSecondary hover:text-white transition-colors"
+                      width={14}
+                      height={14}
+                    />
+                  </div>
+                }
+                content={
+                  <div className="mt-2">
+                    <div className="mb-2 flex items-center gap-2">
+                      <Text className={borrowUtilizationColor} variant="large">
+                        {borrowUtilization.toFixed(1)}%
+                      </Text>
+                    </div>
+                    <UtilizationBar
+                      utilizationRate={borrowUtilization}
+                      isLoading={isLoadingBorrowCapacity}
+                      showLabel={false}
+                      barHeight="h-2"
+                    />
+                  </div>
+                }
+              />
+            </div>
+            <div className="min-w-[250px] flex-1">
+              <StatsCard
+                title={t`Borrow Liquidity`}
+                isLoading={isLoadingBorrowCapacity}
+                error={borrowCapacityError}
+                content={
+                  <TokenIconWithBalance
+                    className="mt-2"
+                    token={{ name: 'USDS', symbol: 'USDS' }}
+                    balance={formatBigInt(borrowCapacity)}
+                  />
+                }
               />
             </div>
           </div>
