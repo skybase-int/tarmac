@@ -313,14 +313,18 @@ export async function validateVnets(): Promise<{
 }> {
   console.log('🔍 Validating cached VNets and snapshots...\n');
 
-  // Check if VNet data file exists
-  const vnetDataFile = path.join(__dirname, '..', '..', '..', 'tenderlyTestnetData.json');
+  // Check if VNet data file exists (at project root: apps/webapp/src/test/e2e -> project root)
+  const vnetDataFile = path.join(__dirname, '..', '..', '..', '..', '..', 'tenderlyTestnetData.json');
+  console.log(`📂 Looking for VNet data file at: ${vnetDataFile}`);
+
   try {
     await fs.access(vnetDataFile);
-    console.log('✓ Found VNet data file (tenderlyTestnetData.json)');
+    const stats = await fs.stat(vnetDataFile);
+    console.log(`✓ Found VNet data file (${stats.size} bytes)`);
   } catch {
-    console.log('❌ VNet data file not found (tenderlyTestnetData.json)');
-    console.log('   This file is required to connect to VNets');
+    console.log('❌ VNet data file not found');
+    console.log(`   Searched at: ${vnetDataFile}`);
+    console.log('   Current working directory: ' + process.cwd());
     console.log('   Run: pnpm vnet:fork:ci');
     return {
       healthy: false,
@@ -336,6 +340,8 @@ export async function validateVnets(): Promise<{
 
   // Load snapshot IDs if they exist
   const snapshotFile = path.join(__dirname, 'persistent-vnet-snapshots.json');
+  console.log(`📂 Looking for snapshot file at: ${snapshotFile}`);
+
   let snapshots: Record<string, string> = {};
 
   try {
