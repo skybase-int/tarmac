@@ -33,7 +33,6 @@ import {
 import { ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
   formatBigInt,
-  truncateStringToFourDecimals,
   getTransactionLink,
   useIsSafeWallet,
   useDebounce,
@@ -1403,9 +1402,8 @@ function TradeWidgetWrapped({
               onOriginInputChange={(newValue: bigint, userTriggered?: boolean) => {
                 if (originToken && userTriggered) {
                   const formattedValue = formatUnits(newValue, getTokenDecimals(originToken, chainId));
-                  const truncatedValue = truncateStringToFourDecimals(formattedValue);
                   onWidgetStateChange?.({
-                    originAmount: truncatedValue,
+                    originAmount: formattedValue,
                     txStatus,
                     widgetState
                   });
