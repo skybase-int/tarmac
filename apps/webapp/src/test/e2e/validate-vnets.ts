@@ -84,6 +84,8 @@ async function testSnapshotRevert(
   snapshotId: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
+    console.log(`    🔄 Attempting to revert ${network} to snapshot ${snapshotId.slice(0, 10)}...`);
+
     const response = await fetch(rpcUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -97,10 +99,14 @@ async function testSnapshotRevert(
 
     const result = await response.json();
     if (result.error) {
+      console.log(`    ❌ Snapshot revert failed: ${result.error.message}`);
       return { success: false, error: result.error.message };
     }
 
+    console.log('    ✓ Successfully reverted to snapshot');
+
     // After revert, create a new snapshot to restore the state
+    console.log('    📸 Creating new snapshot to preserve state...');
     const snapshotResponse = await fetch(rpcUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -114,11 +120,14 @@ async function testSnapshotRevert(
 
     const snapshotResult = await snapshotResponse.json();
     if (snapshotResult.error) {
+      console.log(`    ⚠️  New snapshot creation failed: ${snapshotResult.error.message}`);
       return { success: false, error: 'Revert succeeded but failed to recreate snapshot' };
     }
 
+    console.log(`    ✓ New snapshot created: ${snapshotResult.result.slice(0, 10)}...`);
     return { success: true };
   } catch (error) {
+    console.log(`    ❌ Error during snapshot revert: ${(error as Error).message}`);
     return { success: false, error: (error as Error).message };
   }
 }
@@ -235,7 +244,9 @@ async function validateVnet(network: NetworkName, snapshotId?: string): Promise<
 
   try {
     // 1. Check if VNet RPC is accessible
+    console.log(`  🔌 Checking RPC connectivity for ${network}...`);
     const rpcUrl = await getRpcUrlFromFile(network);
+    console.log(`     RPC URL: ${rpcUrl.slice(0, 50)}...`);
 
     // Test RPC connectivity with a simple call
     try {
@@ -252,25 +263,33 @@ async function validateVnet(network: NetworkName, snapshotId?: string): Promise<
 
       const result = await response.json();
       if (result.error) {
+        console.log(`  ❌ RPC error: ${result.error.message}`);
         errors.push(`RPC error: ${result.error.message}`);
         return { network, healthy: false, errors };
       }
+      console.log(`  ✓ RPC is accessible (block: ${parseInt(result.result, 16)})`);
     } catch (error) {
+      console.log(`  ❌ RPC not accessible: ${(error as Error).message}`);
       errors.push(`RPC not accessible: ${(error as Error).message}`);
       return { network, healthy: false, errors };
     }
 
     // 2. If snapshot exists, test reverting to it
     if (snapshotId) {
+      console.log(`  📸 Testing snapshot revert for ${network}...`);
       const revertResult = await testSnapshotRevert(rpcUrl, network, snapshotId);
       if (!revertResult.success) {
         errors.push(`Snapshot revert failed: ${revertResult.error}`);
         return { network, healthy: false, errors };
       }
+    } else {
+      console.log(`  ⚠️  No snapshot found for ${network} - skipping snapshot validation`);
     }
 
     // 3. Validate account balances (check first test account)
+    console.log(`  💰 Validating account balances for ${network}...`);
     const testAddresses = getTestAddresses(1);
+    console.log(`     Test account: ${testAddresses[0]}`);
     const balanceValidation = await validateAccountBalances(network, rpcUrl, testAddresses[0]);
 
     if (!balanceValidation.valid) {
@@ -294,6 +313,27 @@ export async function validateVnets(): Promise<{
 }> {
   console.log('🔍 Validating cached VNets and snapshots...\n');
 
+  // Check if VNet data file exists
+  const vnetDataFile = path.join(__dirname, '..', '..', '..', 'tenderlyTestnetData.json');
+  try {
+    await fs.access(vnetDataFile);
+    console.log('✓ Found VNet data file (tenderlyTestnetData.json)');
+  } catch {
+    console.log('❌ VNet data file not found (tenderlyTestnetData.json)');
+    console.log('   This file is required to connect to VNets');
+    console.log('   Run: pnpm vnet:fork:ci');
+    return {
+      healthy: false,
+      results: [
+        {
+          network: 'all' as NetworkName,
+          healthy: false,
+          errors: ['VNet data file (tenderlyTestnetData.json) not found - run: pnpm vnet:fork:ci']
+        }
+      ]
+    };
+  }
+
   // Load snapshot IDs if they exist
   const snapshotFile = path.join(__dirname, 'persistent-vnet-snapshots.json');
   let snapshots: Record<string, string> = {};
@@ -301,7 +341,7 @@ export async function validateVnets(): Promise<{
   try {
     const snapshotData = await fs.readFile(snapshotFile, 'utf-8');
     snapshots = JSON.parse(snapshotData);
-    console.log('Found snapshot file with snapshots for:', Object.keys(snapshots).join(', '));
+    console.log('✓ Found snapshot file with snapshots for:', Object.keys(snapshots).join(', '));
   } catch {
     console.log('⚠️  No snapshot file found - validation will check VNets without snapshots');
   }
