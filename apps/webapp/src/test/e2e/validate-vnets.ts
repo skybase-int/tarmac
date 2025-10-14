@@ -124,7 +124,14 @@ async function testSnapshotRevert(
       return { success: false, error: 'Revert succeeded but failed to recreate snapshot' };
     }
 
-    console.log(`    ✓ New snapshot created: ${snapshotResult.result.slice(0, 10)}...`);
+    if (!snapshotResult.result) {
+      console.log('    ⚠️  New snapshot created but no ID returned');
+      return { success: false, error: 'Snapshot created but no ID returned' };
+    }
+
+    const newSnapshotId = snapshotResult.result;
+    const displayId = typeof newSnapshotId === 'string' ? newSnapshotId.slice(0, 10) : String(newSnapshotId);
+    console.log(`    ✓ New snapshot created: ${displayId}...`);
     return { success: true };
   } catch (error) {
     console.log(`    ❌ Error during snapshot revert: ${(error as Error).message}`);
