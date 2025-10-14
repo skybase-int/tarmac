@@ -175,7 +175,7 @@ const PositionManagerOverviewContainer = ({
               }
             ],
         {
-          label: t`Current SKY price`,
+          label: t`OSM capped SKY price`,
           value: `$${formatBigInt(simulatedVault?.delayedPrice || 0n, { unit: WAD_PRECISION })}`
         }
       ].flat(),

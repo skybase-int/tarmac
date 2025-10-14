@@ -128,7 +128,7 @@ export function StakePositionOverview({
               content={<Text className="mt-2">${formatBigInt(vault?.liquidationPrice || 0n)}</Text>}
             />
             <StatsCard
-              title={t`Current SKY price`}
+              title={t`OSM capped SKY price`}
               isLoading={urnAddressLoading || vaultLoading}
               error={urnAddressLoading ? null : vaultError}
               content={<Text className="mt-2">${formatBigInt(vault?.delayedPrice || 0n)}</Text>}

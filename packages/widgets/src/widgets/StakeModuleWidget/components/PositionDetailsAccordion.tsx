@@ -114,7 +114,7 @@ export function PositionDetailAccordion({
           )}
           {!!delayedPrice && delayedPrice > 0n && (
             <motion.div className="flex justify-between" variants={positionAnimations}>
-              <Text className="text-textSecondary text-sm font-normal leading-4">Current SKY price</Text>
+              <Text className="text-textSecondary text-sm font-normal leading-4">OSM capped SKY price</Text>
               <Text className="text-right text-sm">${formatBigInt(delayedPrice)}</Text>
             </motion.div>
           )}
