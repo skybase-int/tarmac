@@ -324,12 +324,12 @@ const StUSDSWidgetWrapped = ({
       (widgetState.action === StUSDSAction.SUPPLY && batchSupplyDisabled) ||
       (widgetState.action === StUSDSAction.WITHDRAW && withdrawDisabled);
 
-    const isDisclaimerRequired =
+    const shouldEnforceDisclaimer =
       widgetState.action === StUSDSAction.SUPPLY &&
       widgetState.screen === StUSDSScreen.ACTION &&
-      hasUsdsWalletBalance;
+      (isStUsdsDataLoading || hasUsdsWalletBalance);
 
-    const isDisabledForDisclaimer = isDisclaimerRequired && !disclaimerChecked;
+    const isDisabledForDisclaimer = shouldEnforceDisclaimer && (isStUsdsDataLoading || !disclaimerChecked);
 
     setIsDisabled(isConnectedAndEnabled && (isDisabledForAction || isDisabledForDisclaimer));
   }, [
@@ -340,7 +340,8 @@ const StUSDSWidgetWrapped = ({
     batchSupplyDisabled,
     disclaimerChecked,
     amount,
-    hasUsdsWalletBalance
+    hasUsdsWalletBalance,
+    isStUsdsDataLoading
   ]);
 
   // Set isLoading to be consumed by WidgetButton
