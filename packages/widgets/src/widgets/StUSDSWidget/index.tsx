@@ -187,6 +187,8 @@ const StUSDSWidgetWrapped = ({
     batchStUsdsDeposit.isLoading ||
     isAmountWaitingForDebounce;
 
+  const hasUsdsWalletBalance = stUsdsData?.userUsdsBalance !== undefined && stUsdsData.userUsdsBalance > 0n;
+
   // Handle external state changes
   useEffect(() => {
     const tokenDecimals = getTokenDecimals(usds, chainId);
@@ -322,10 +324,12 @@ const StUSDSWidgetWrapped = ({
       (widgetState.action === StUSDSAction.SUPPLY && batchSupplyDisabled) ||
       (widgetState.action === StUSDSAction.WITHDRAW && withdrawDisabled);
 
-    const isDisabledForDisclaimer =
+    const isDisclaimerRequired =
       widgetState.action === StUSDSAction.SUPPLY &&
       widgetState.screen === StUSDSScreen.ACTION &&
-      !disclaimerChecked;
+      hasUsdsWalletBalance;
+
+    const isDisabledForDisclaimer = isDisclaimerRequired && !disclaimerChecked;
 
     setIsDisabled(isConnectedAndEnabled && (isDisabledForAction || isDisabledForDisclaimer));
   }, [
@@ -335,7 +339,8 @@ const StUSDSWidgetWrapped = ({
     isConnectedAndEnabled,
     batchSupplyDisabled,
     disclaimerChecked,
-    amount
+    amount,
+    hasUsdsWalletBalance
   ]);
 
   // Set isLoading to be consumed by WidgetButton
