@@ -3,6 +3,8 @@ import { useCollateralData } from '../vaults/useCollateralData';
 import { getIlkName } from '../vaults/helpers';
 import { ReadHook } from '../hooks';
 
+const BORROW_UTILIZATION_SCALE = 10000n;
+
 export type BorrowCapacityData = {
   debtCeiling: bigint; // Maximum debt ceiling
   totalDebt: bigint; // Total USDS borrowed
@@ -30,7 +32,11 @@ export function useBorrowCapacityData(): BorrowCapacityDataHook {
     // Calculate utilization rate as percentage
     // If capacity is negative, utilization is 100%
     const borrowUtilization =
-      debtCeiling === 0n ? 0 : borrowCapacity < 0n ? 100 : Number((totalDebt * 10000n) / debtCeiling) / 100; // Convert to percentage with 2 decimal places
+      debtCeiling === 0n
+        ? 0
+        : borrowCapacity < 0n
+          ? 100
+          : Number((totalDebt * BORROW_UTILIZATION_SCALE) / debtCeiling) / 100; // Convert to percentage with 2 decimal places
 
     return {
       debtCeiling,
