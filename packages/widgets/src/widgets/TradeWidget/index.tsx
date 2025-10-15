@@ -960,13 +960,10 @@ function TradeWidgetWrapped({
       externalWidgetState?.token?.toLowerCase() !== originToken?.symbol?.toLowerCase() ||
       externalWidgetState?.targetToken?.toLowerCase() !== targetToken?.symbol?.toLowerCase();
 
+    // Compare bigint values directly to avoid precision loss
     const amountHasChanged =
       externalWidgetState?.amount !== undefined &&
-      externalWidgetState?.amount !==
-        formatBigInt(originAmount, {
-          locale,
-          unit: getTokenDecimals(originToken, chainId)
-        });
+      parseUnits(externalWidgetState.amount, getTokenDecimals(originToken, chainId)) !== originAmount;
 
     if ((tokensHasChanged || amountHasChanged) && txStatus === TxStatus.IDLE) {
       // Handle "Trade to X" case
