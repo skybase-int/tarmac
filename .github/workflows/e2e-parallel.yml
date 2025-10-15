@@ -5,10 +5,9 @@ permissions:
 
 on:
   pull_request:
-    paths:
-      - 'apps/webapp/**'
-      - 'packages/**'
-      - '.github/workflows/e2e-parallel.yml'
+  push:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       skip_funding:
