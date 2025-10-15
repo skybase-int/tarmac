@@ -82,17 +82,8 @@ export const ConfirmationWarningRow = () => {
           {disclaimerMetadata?.description}
         </Text>
       </div>
-      <Heading variant="medium" tag="h4" className="@max-sm/chat:mt-2 @max-sm/chat:text-sm mt-4">
-        <Trans>How it works:</Trans>
-      </Heading>
       <div className="@max-sm/chat:ml-3 @max-sm/chat:mt-2 ml-4 mt-4 text-[13px]">
         <ChatMarkdownRenderer markdown={disclaimerMetadata?.disclaimer} />
-      </div>
-      <Heading variant="medium" tag="h4" className="@max-sm/chat:mt-2 @max-sm/chat:text-sm mt-4">
-        <Trans>Associated risks:</Trans>
-      </Heading>
-      <div className="@max-sm/chat:ml-3 @max-sm/chat:mt-2 ml-4 mt-4 text-[13px]">
-        <ChatMarkdownRenderer markdown={disclaimerMetadata?.associatedRisks?.join('\n') ?? ''} />
       </div>
       <div className="@max-sm/chat:mt-2 @max-sm/chat:gap-3 mt-3 flex gap-5">
         <Button
