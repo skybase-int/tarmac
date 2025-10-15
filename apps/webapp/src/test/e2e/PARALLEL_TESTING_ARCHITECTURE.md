@@ -52,6 +52,7 @@ export const TEST_WALLET_COUNT = 100;
 - **Account Balances**: Verifies test accounts have sufficient ETH and token balances
 
 **Exit Codes**:
+
 - `0`: All VNets healthy (use cache)
 - `1`: Some VNets unhealthy (recreate)
 
@@ -60,7 +61,7 @@ export const TEST_WALLET_COUNT = 100;
 export async function validateVnets(): Promise<{
   healthy: boolean;
   results: ValidationResult[];
-}>
+}>;
 ```
 
 ### 4. Global Setup (`global-setup-parallel.ts`)
