@@ -194,7 +194,7 @@ graph TD
 ```typescript
 export default defineConfig({
   fullyParallel: true,
-  workers: 6, // Configurable parallelism
+  workers: process.env.TEST_WORKERS ? parseInt(process.env.TEST_WORKERS) : 6, // Configurable via env
   retries: 2, // Auto-retry failed tests
   globalSetup: './src/test/e2e/global-setup-parallel.ts',
   reporter: [
@@ -213,6 +213,76 @@ export default defineConfig({
   "e2e:parallel:retry-failed": "SKIP_FUNDING=true playwright test --last-failed --config playwright-parallel.config.ts",
   "e2e:parallel:retry-serial": "SKIP_FUNDING=true playwright test --last-failed --workers=1 --config playwright-parallel.config.ts"
 }
+```
+
+## CI Integration (GitHub Actions)
+
+- Workflow: `.github/workflows/e2e-parallel.yml`
+- Purpose: Run the parallel Playwright E2E suite in CI with cached Tenderly VNets and retry logic.
+
+### Triggers
+
+This workflow runs on:
+- pull_request: any open PR
+- push: only on pushes to `main`
+- workflow_dispatch: manual run from the Actions tab
+
+Notes:
+- Pushing only a workflow file change to a feature branch will not trigger the workflow unless there is an open PR, a push to `main`, or you run it manually.
+- Commits containing "[skip ci]" will be ignored by CI providers.
+
+### Manual Run (recommended for retries)
+
+- GitHub UI: Actions → "Parallel E2E Tests" → "Run workflow" → set inputs
+- GitHub CLI example:
+
+```bash
+gh workflow run e2e-parallel.yml \
+  -f workers=6 \
+  -f skip_funding=true \
+  -f networks=mainnet,base,arbitrum,optimism,unichain
+```
+
+### Inputs and Environment
+
+- workers → TEST_WORKERS (consumed by Playwright):
+  - Default on PR/push: 3 (env fallback)
+  - Default on manual dispatch: 6 (input default)
+- skip_funding → SKIP_FUNDING (string 'true'|'false'): skips account funding when caches/snapshots are valid
+- networks → FUND_NETWORKS: comma-separated networks to prepare (e.g. `mainnet,base,arbitrum,optimism,unichain`)
+
+Playwright reads TEST_WORKERS in `apps/webapp/playwright-parallel.config.ts` to set `workers`.
+
+### Concurrency and Caching
+
+- concurrency:
+  - group: `vnets-${{ github.head_ref || github.ref_name }}` (1 run per branch at a time)
+  - cancel-in-progress: true
+- cache keys:
+  - restore: `persistent-vnets-${{ github.head_ref || github.ref_name }}-v3-` (prefix)
+  - save: `persistent-vnets-${{ github.head_ref || github.ref_name }}-v3-${{ github.run_id }}`
+- cleanup:
+  - VNets are deleted at the end of `main` runs only; feature branches keep VNets to speed reruns (cache TTL applies).
+
+### CI Job Outline
+
+1. Checkout, setup pnpm/Node 20, install deps
+2. Build packages, install Playwright browsers
+3. Restore VNet cache ⇒ validate ⇒ create/recreate if needed
+4. Run `apps/webapp/run-tests-with-retry.sh` (stake serial first, then rest in parallel, auto-retry last-failed serially)
+5. On failure: upload artifacts and traces
+6. Save updated VNet data and snapshots to cache
+
+### Enabling runs on all branch pushes (optional)
+
+If you want runs for all branches, adjust the trigger section:
+
+```yaml
+on:
+  push:
+    branches:
+      - main
+      - '**' # run on all branches
 ```
 
 ## Test Isolation Strategy
