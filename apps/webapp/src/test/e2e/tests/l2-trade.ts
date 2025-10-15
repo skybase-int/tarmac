@@ -31,7 +31,16 @@ export const runL2TradeTests = async ({ networkName }: { networkName: NetworkNam
     await isolatedPage.getByTestId('trade-input-target').click();
     await isolatedPage.getByTestId('trade-input-target').fill('10');
     await isolatedPage.waitForTimeout(2000);
+
+    // Switch clears inputs, so we need to re-enter the amount
     await isolatedPage.getByLabel('Switch token inputs').click();
+
+    // Verify both inputs are cleared after switch
+    await test.expect(isolatedPage.getByTestId('trade-input-origin')).toHaveValue('');
+    await test.expect(isolatedPage.getByTestId('trade-input-target')).toHaveValue('');
+
+    await isolatedPage.getByTestId('trade-input-origin').click();
+    await isolatedPage.getByTestId('trade-input-origin').fill('10');
 
     await performAction(isolatedPage, 'Trade');
 
@@ -65,7 +74,15 @@ export const runL2TradeTests = async ({ networkName }: { networkName: NetworkNam
     await isolatedPage.getByTestId('trade-input-target').fill('9');
     await isolatedPage.waitForTimeout(2000);
 
+    // Switch clears inputs, so we need to re-enter the amount
     await isolatedPage.getByLabel('Switch token inputs').click();
+
+    // Verify both inputs are cleared after switch
+    await test.expect(isolatedPage.getByTestId('trade-input-origin')).toHaveValue('');
+    await test.expect(isolatedPage.getByTestId('trade-input-target')).toHaveValue('');
+
+    await isolatedPage.getByTestId('trade-input-origin').click();
+    await isolatedPage.getByTestId('trade-input-origin').fill('9');
 
     await performAction(isolatedPage, 'Trade');
 
@@ -102,8 +119,14 @@ export const runL2TradeTests = async ({ networkName }: { networkName: NetworkNam
     await isolatedPage.getByRole('button', { name: 'Select token' }).click();
     await isolatedPage.getByRole('button', { name: 'sUSDS sUSDS sUSDS' }).click();
 
+    // Switch clears inputs, tokens are swapped
     await isolatedPage.getByLabel('Switch token inputs').click();
     await isolatedPage.waitForTimeout(1000);
+
+    // Verify both inputs are cleared after switch
+    await test.expect(isolatedPage.getByTestId('trade-input-origin')).toHaveValue('');
+    await test.expect(isolatedPage.getByTestId('trade-input-target')).toHaveValue('');
+
     await isolatedPage.getByTestId('trade-input-origin').click();
     await isolatedPage.getByTestId('trade-input-origin').fill('5');
 
