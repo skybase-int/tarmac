@@ -30,6 +30,10 @@ on:
         default: 'mainnet,base,arbitrum,optimism,unichain'
         type: string
 
+concurrency:
+  group: vnets-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
 jobs:
   parallel-e2e:
     runs-on: ubuntu-latest
@@ -50,6 +54,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Diagnostics refs and cache keys
+        run: |
+          echo "ref_name=$GITHUB_REF_NAME"
+          echo "head_ref=$GITHUB_HEAD_REF"
+          echo "ref=$GITHUB_REF"
+          echo "restore_prefix=persistent-vnets-${{ github.head_ref || github.ref_name }}-v3-"
+          echo "save_key=persistent-vnets-${{ github.head_ref || github.ref_name }}-v3-${{ github.run_id }}"
+          echo "concurrency_group=vnets-${{ github.head_ref || github.ref_name }}"
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -80,41 +93,37 @@ jobs:
           path: |
             tenderlyTestnetData.json
             apps/webapp/src/test/e2e/persistent-vnet-snapshots.json
-          key: persistent-vnets-${{ github.ref }}-v2-${{ github.run_id }}
+          key: persistent-vnets-${{ github.head_ref || github.ref_name }}-v3-${{ github.run_id }}
           restore-keys: |
-            persistent-vnets-${{ github.ref }}-v2-
+            persistent-vnets-${{ github.head_ref || github.ref_name }}-v3-
 
-      - name: Check cache contents
-        if: steps.cache-vnets.outputs.cache-hit == 'true'
+      - name: Check VNet files
+        id: check-files
         run: |
-          echo "📦 Cache restored. Checking contents..."
+          echo "🔍 Checking VNet cache files..."
           echo "VNet data file:"
           if [ -f "tenderlyTestnetData.json" ]; then
+            echo "have_vnet_json=true" >> $GITHUB_OUTPUT
             echo "  ✅ tenderlyTestnetData.json exists ($(wc -c < tenderlyTestnetData.json) bytes)"
             echo "  Networks: $(cat tenderlyTestnetData.json | jq -r '.[].NETWORK' | tr '\n' ', ')"
           else
+            echo "have_vnet_json=false" >> $GITHUB_OUTPUT
             echo "  ❌ tenderlyTestnetData.json NOT FOUND"
           fi
           echo ""
           echo "Snapshot file:"
           if [ -f "apps/webapp/src/test/e2e/persistent-vnet-snapshots.json" ]; then
+            echo "have_snapshots=true" >> $GITHUB_OUTPUT
             echo "  ✅ persistent-vnet-snapshots.json exists ($(wc -c < apps/webapp/src/test/e2e/persistent-vnet-snapshots.json) bytes)"
             echo "  Networks: $(cat apps/webapp/src/test/e2e/persistent-vnet-snapshots.json | jq -r 'keys[]' | tr '\n' ', ')"
           else
+            echo "have_snapshots=false" >> $GITHUB_OUTPUT
             echo "  ❌ persistent-vnet-snapshots.json NOT FOUND"
           fi
 
-      - name: Create VNets (if cache miss)
-        if: steps.cache-vnets.outputs.cache-hit != 'true'
-        run: |
-          echo "📦 Creating new Tenderly VNets (cache miss)..."
-          pnpm run vnet:fork:ci
-        env:
-          TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
-
-      - name: Validate cached VNets
+      - name: Validate VNets (if files present)
         id: validate-vnets
-        if: steps.cache-vnets.outputs.cache-hit == 'true'
+        if: steps.check-files.outputs.have_vnet_json == 'true'
         run: |
           echo "🔍 Validating cached VNets and snapshots..."
           cd apps/webapp && npx tsx src/test/e2e/validate-vnets.ts
@@ -122,47 +131,25 @@ jobs:
           TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
         continue-on-error: true
 
-      - name: Check if VNet data file exists
-        id: check-vnet-data
-        if: steps.cache-vnets.outputs.cache-hit == 'true'
-        run: |
-          echo "🔍 Checking if VNet data file exists..."
-          if [ -f "tenderlyTestnetData.json" ]; then
-            echo "vnet_data_exists=true" >> $GITHUB_OUTPUT
-            echo "✅ VNet data file found"
-          else
-            echo "vnet_data_exists=false" >> $GITHUB_OUTPUT
-            echo "❌ VNet data file missing from cache - will recreate VNets"
-          fi
-
-      - name: Recreate VNets if validation failed or data missing
-        if: steps.cache-vnets.outputs.cache-hit == 'true' && (steps.validate-vnets.outcome == 'failure' || steps.check-vnet-data.outputs.vnet_data_exists == 'false')
+      - name: Create or recreate VNets if needed
+        id: ensure-vnets
+        if: steps.check-files.outputs.have_vnet_json != 'true' || steps.validate-vnets.outcome == 'failure'
         run: |
           echo "================================================================"
-          echo "🔧 RECREATING VNETS"
+          echo "🔧 CREATING/RECREATING VNETS"
           echo "================================================================"
-          echo "Reason: Validation failed or VNet data missing"
-          echo ""
-          echo "Validation outcome: ${{ steps.validate-vnets.outcome }}"
-          echo "VNet data exists: ${{ steps.check-vnet-data.outputs.vnet_data_exists }}"
-          echo ""
-          echo "🗑️  Cleaning up old cache files..."
-          rm -f tenderlyTestnetData.json apps/webapp/src/test/e2e/persistent-vnet-snapshots.json
-          echo ""
-          echo "🔨 Creating fresh VNets..."
           pnpm run vnet:fork:ci
-          echo ""
-          echo "✅ VNet recreation complete"
+          echo "created=true" >> $GITHUB_OUTPUT
+          echo "✅ VNet creation complete"
         env:
           TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
 
       - name: Use cached VNets
-        if: steps.cache-vnets.outputs.cache-hit == 'true' && steps.validate-vnets.outcome == 'success' && steps.check-vnet-data.outputs.vnet_data_exists == 'true'
+        if: steps.check-files.outputs.have_vnet_json == 'true' && steps.validate-vnets.outcome == 'success'
         run: |
           echo "================================================================"
           echo "✅ USING CACHED VNETS"
           echo "================================================================"
-          echo "Cache validated successfully"
           echo "VNets will be reverted to snapshots by globalSetup"
           echo "This will be FAST (no funding needed)! ⚡"
           echo "================================================================"
@@ -231,7 +218,7 @@ jobs:
           fi
 
       - name: Verify snapshots before saving to cache
-        if: always() && (steps.cache-vnets.outputs.cache-hit != 'true' || steps.validate-vnets.outcome == 'failure')
+        if: always()
         run: |
           echo "================================================================"
           echo "📦 PREPARING TO SAVE VNETS TO CACHE"
@@ -258,10 +245,10 @@ jobs:
           echo "================================================================"
 
       - name: Save VNets to cache
-        if: always() && (steps.cache-vnets.outputs.cache-hit != 'true' || steps.validate-vnets.outcome == 'failure')
+        if: always()
         uses: actions/cache/save@v4
         with:
           path: |
             tenderlyTestnetData.json
             apps/webapp/src/test/e2e/persistent-vnet-snapshots.json
-          key: persistent-vnets-${{ github.ref }}-v2-${{ github.run_id }}
+          key: persistent-vnets-${{ github.head_ref || github.ref_name }}-v3-${{ github.run_id }}
