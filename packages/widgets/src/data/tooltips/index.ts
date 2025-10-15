@@ -160,11 +160,9 @@ You don't have any open positions.`
   {
     id: 'delayed-upgrade-penalty',
     title: 'Delayed Upgrade Penalty',
-    tooltip: `The Delayed Upgrade Penalty is a time-based upgrade mechanism approved by Sky Ecosystem Governance and designed to facilitate a smooth and prompt upgrade of MKR to SKY.
+    tooltip: `The Delayed Upgrade Penalty is a time-based upgrade [approved by Sky Ecosystem Governance](https://vote.sky.money/executive/template-executive-vote-delayed-upgrade-penalty-launch-agent-2-allocator-adjustment-lsev2-sky-a-liquidation-ratio-increase-first-monthly-settlement-cycle-ad-compensation-for-september-2025-atlas-core-development-usds-and-sky-payments-spark-proxy-spell-september-18-2025) and designed to facilitate a smooth and prompt upgrade of MKR to SKY.
 
-The vote to confirm the penalty will [be held on September 18, 2025](https://upgrademkrtosky.sky.money/). If the vote passes, the penalty will take effect on September 22, 2025.
-
-Once in effect, the amount of SKY received per MKR upgraded during the first three months will be reduced by 1%. The reduction will increase by an additional 1% every three months thereafter, until it reaches 100% in 25 years. The penalty will not apply to anyone upgrading their MKR to SKY before it kicks in.`
+The penalty, which took effect in September 2025, reduces the amount of SKY received per MKR upgraded by a rate of 1%. The reduction will increase by an additional 1% every three months thereafter, until it reaches 100% in 25 years.`
   },
   {
     id: 'eip-7702-bundled-transactions-not-supported',
