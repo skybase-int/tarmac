@@ -116,20 +116,6 @@ export function StakeOverview() {
             </div>
             <div className="min-w-[250px] flex-1">
               <StatsCard
-                title={t`Total USDS borrowed`}
-                isLoading={collateralDataLoading}
-                error={collateralDataError}
-                content={
-                  <TokenIconWithBalance
-                    className="mt-2"
-                    token={{ name: 'USDS', symbol: 'USDS' }}
-                    balance={formatBigInt(totalDebt)}
-                  />
-                }
-              />
-            </div>
-            <div className="min-w-[250px] flex-1">
-              <StatsCard
                 title={
                   <HStack gap={1} className="items-center">
                     <Heading tag="h3" className="text-textSecondary text-sm font-normal leading-tight">
@@ -145,6 +131,20 @@ export function StakeOverview() {
                     className="mt-2"
                     token={{ name: 'USDS', symbol: 'USDS' }}
                     balance={formatBigInt(debtCeiling)}
+                  />
+                }
+              />
+            </div>
+            <div className="min-w-[250px] flex-1">
+              <StatsCard
+                title={t`Total USDS borrowed`}
+                isLoading={collateralDataLoading}
+                error={collateralDataError}
+                content={
+                  <TokenIconWithBalance
+                    className="mt-2"
+                    token={{ name: 'USDS', symbol: 'USDS' }}
+                    balance={formatBigInt(totalDebt)}
                   />
                 }
               />
@@ -187,7 +187,7 @@ export function StakeOverview() {
             </div>
             <div className="min-w-[250px] flex-1">
               <StatsCard
-                title={t`Borrow Liquidity`}
+                title={t`Available borrow capacity`}
                 isLoading={isLoadingBorrowCapacity}
                 error={borrowCapacityError}
                 content={
