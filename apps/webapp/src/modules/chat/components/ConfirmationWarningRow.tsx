@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { ChatIntent } from '../types/Chat';
-import { Heading, Text } from '@/modules/layout/components/Typography';
+import { Text } from '@/modules/layout/components/Typography';
 import { useChatContext } from '../context/ChatContext';
 import { useNavigate } from 'react-router-dom';
 import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
@@ -10,7 +10,6 @@ import { useCallback } from 'react';
 import { Warning } from '@/modules/icons/Warning';
 import { getConfirmationWarningMetadata } from '../lib/confirmationWarningMetadata';
 import { ChatMarkdownRenderer } from '@/modules/ui/components/markdown/ChatMarkdownRenderer';
-import { Trans } from '@lingui/react/macro';
 import { useChatbotPrefillNotification } from '@/modules/app/hooks/useChatbotPrefillNotification';
 
 export const ConfirmationWarningRow = () => {
