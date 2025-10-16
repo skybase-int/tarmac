@@ -13,13 +13,7 @@ import {
   useIsBatchSupported
 } from '@jetstreamgg/sky-hooks';
 import { useContext, useEffect, useMemo, useState, ReactNode } from 'react';
-import {
-  formatBigInt,
-  formatNumber,
-  math,
-  truncateStringToFourDecimals,
-  useDebounce
-} from '@jetstreamgg/sky-utils';
+import { formatBigInt, formatNumber, math, useDebounce } from '@jetstreamgg/sky-utils';
 import { useAccount, useChainId } from 'wagmi';
 import { t } from '@lingui/core/macro';
 import { TxStatus, EPOCH_LENGTH } from '@widgets/shared/constants';
@@ -227,7 +221,24 @@ function TradeWidgetWrapped({
   }, [rho, dsr, chi]);
 
   useEffect(() => {
+    const bothAmountsZero = originAmount === 0n && targetAmount === 0n;
+    const bothDebouncedNonZero = debouncedOriginAmount !== 0n && debouncedTargetAmount !== 0n;
+
+    // Skip calculations ONLY if:
+    // - Both current amounts are 0 (just cleared by switch)
+    // - AND both debounced values are still non-zero (haven't caught up yet)
+    // This specifically detects a switch operation
+    if (bothAmountsZero && bothDebouncedNonZero) {
+      return;
+    }
+
     if (lastUpdated === TradeSide.IN) {
+      // If origin is 0, clear target immediately
+      if (debouncedOriginAmount === 0n) {
+        setTargetAmount(0n);
+        return;
+      }
+
       // stables <-> stables
       if (
         originToken?.symbol === 'USDS' &&
@@ -247,15 +258,17 @@ function TradeWidgetWrapped({
       }
 
       // stables -> sUSDS
-      if (originToken?.symbol === 'USDS' && targetToken?.symbol === 'sUSDS')
-        setTargetAmount(math.calculateSharesFromAssets(debouncedOriginAmount, updatedChiForDeposit));
+      if (originToken?.symbol === 'USDS' && targetToken?.symbol === 'sUSDS') {
+        const calculated = math.calculateSharesFromAssets(debouncedOriginAmount, updatedChiForDeposit);
+        setTargetAmount(calculated);
+      }
 
-      if (originToken?.symbol === 'USDC' && targetToken?.symbol === 'sUSDS')
-        setTargetAmount(
-          math.roundDownLastTwelveDigits(
-            math.calculateSharesFromAssets(math.convertUSDCtoWad(debouncedOriginAmount), updatedChiForDeposit)
-          )
+      if (originToken?.symbol === 'USDC' && targetToken?.symbol === 'sUSDS') {
+        const calculated = math.roundDownLastTwelveDigits(
+          math.calculateSharesFromAssets(math.convertUSDCtoWad(debouncedOriginAmount), updatedChiForDeposit)
         );
+        setTargetAmount(calculated);
+      }
 
       // sUSDS -> stables
       if (
@@ -277,6 +290,11 @@ function TradeWidgetWrapped({
     }
 
     if (lastUpdated === TradeSide.OUT) {
+      // If target is 0, clear origin immediately
+      if (debouncedTargetAmount === 0n) {
+        setOriginAmount(0n);
+        return;
+      }
       // stables <-> stables
       if (
         originToken?.symbol === 'USDS' &&
@@ -465,11 +483,14 @@ function TradeWidgetWrapped({
   // Update external widget state when the debounced origin amount is updated
   useEffect(() => {
     if (originToken) {
-      const formattedValue = formatUnits(debouncedOriginAmount, getTokenDecimals(originToken, chainId));
-      const truncatedValue = truncateStringToFourDecimals(formattedValue);
-      if (truncatedValue !== externalWidgetState?.amount) {
+      // Convert 0n to empty string to properly clear URL params
+      const formattedValue =
+        debouncedOriginAmount === 0n
+          ? ''
+          : formatUnits(debouncedOriginAmount, getTokenDecimals(originToken, chainId));
+      if (formattedValue !== externalWidgetState?.amount) {
         onWidgetStateChange?.({
-          originAmount: truncatedValue,
+          originAmount: formattedValue,
           originToken: originToken?.symbol,
           targetToken: targetToken?.symbol,
           txStatus,
@@ -844,7 +865,7 @@ function TradeWidgetWrapped({
                 });
               }}
               onUserSwitchTokens={(originSymbol, targetSymbol) => {
-                setLastUpdated(prevValue => (prevValue === TradeSide.IN ? TradeSide.OUT : TradeSide.IN));
+                setLastUpdated(TradeSide.IN);
                 onWidgetStateChange?.({
                   originToken: originSymbol,
                   targetToken: targetSymbol,
