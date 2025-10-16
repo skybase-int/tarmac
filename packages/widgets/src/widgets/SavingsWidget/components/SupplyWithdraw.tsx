@@ -11,6 +11,7 @@ import { formatBigInt, formatDecimalPercentage } from '@jetstreamgg/sky-utils';
 import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
+import { Skeleton } from '@widgets/components/ui/skeleton';
 import { useContext, useMemo } from 'react';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { SavingsFlow } from '../lib/constants';
@@ -196,12 +197,14 @@ export const SupplyWithdraw = ({
                   {
                     label: t`You will receive`,
                     value:
-                      sUsdsAmount.value > 0n
-                        ? `${formatBigInt(sUsdsAmount.value, {
-                            maxDecimals: 2,
-                            compact: true
-                          })} sUSDS`
-                        : '--'
+                      sUsdsAmount.value > 0n ? (
+                        `${formatBigInt(sUsdsAmount.value, {
+                          maxDecimals: 2,
+                          compact: true
+                        })} sUSDS`
+                      ) : (
+                        <Skeleton className="bg-textSecondary h-4 w-16" />
+                      )
                   }
                 ]
               : []),
@@ -210,12 +213,14 @@ export const SupplyWithdraw = ({
                   {
                     label: t`You will supply`,
                     value:
-                      sUsdsAmount.value > 0n
-                        ? `${formatBigInt(sUsdsAmount.value, {
-                            maxDecimals: 2,
-                            compact: true
-                          })} sUSDS`
-                        : '--'
+                      sUsdsAmount.value > 0n ? (
+                        `${formatBigInt(sUsdsAmount.value, {
+                          maxDecimals: 2,
+                          compact: true
+                        })} sUSDS`
+                      ) : (
+                        <Skeleton className="bg-textSecondary h-4 w-16" />
+                      )
                   }
                 ]
               : []),

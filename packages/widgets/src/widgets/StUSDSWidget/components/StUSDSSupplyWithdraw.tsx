@@ -10,6 +10,7 @@ import { formatBigInt, formatStrAsApy } from '@jetstreamgg/sky-utils';
 import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
+import { Skeleton } from '@widgets/components/ui/skeleton';
 import { useContext, useMemo, useId } from 'react';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { StUSDSFlow } from '../lib/constants';
@@ -341,12 +342,14 @@ export const StUSDSSupplyWithdraw = ({
                   {
                     label: t`You will receive`,
                     value:
-                      stUsdsAmount.value > 0n
-                        ? `${formatBigInt(stUsdsAmount.value, {
-                            maxDecimals: 2,
-                            compact: true
-                          })} stUSDS`
-                        : '--'
+                      stUsdsAmount.value > 0n ? (
+                        `${formatBigInt(stUsdsAmount.value, {
+                          maxDecimals: 2,
+                          compact: true
+                        })} stUSDS`
+                      ) : (
+                        <Skeleton className="bg-textSecondary h-4 w-16" />
+                      )
                   }
                 ]
               : []),
@@ -355,12 +358,14 @@ export const StUSDSSupplyWithdraw = ({
                   {
                     label: t`You will supply`,
                     value:
-                      stUsdsAmount.value > 0n
-                        ? `${formatBigInt(stUsdsAmount.value, {
-                            maxDecimals: 2,
-                            compact: true
-                          })} stUSDS`
-                        : '--'
+                      stUsdsAmount.value > 0n ? (
+                        `${formatBigInt(stUsdsAmount.value, {
+                          maxDecimals: 2,
+                          compact: true
+                        })} stUSDS`
+                      ) : (
+                        <Skeleton className="bg-textSecondary h-4 w-16" />
+                      )
                   }
                 ]
               : []),
