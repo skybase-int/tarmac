@@ -91,7 +91,7 @@ export const banners: Banner[] = [
     title: 'About the Staking Engine',
     module: 'staking-engine-banners',
     description:
-      'The Staking Engine is a module of the Sky Protocol. When you stake SKY tokens to the Staking Engine, you can access Staking Rewards and may also choose to create one or more positions, including positions that enable you to generate and [borrow](#tooltip-borrow) USDS against your supplied SKY and to delegate the voting power the SKY token provides. With Sky, you always remain in control of your assets.',
+      'The Staking Engine is a module of the Sky Protocol. When you stake SKY tokens to the Staking Engine, you can access Staking Rewards in various token forms. You may also choose to create one or more positions, including positions that enable you to generate and borrow USDS against your supplied SKY and to delegate the voting power the SKY token provides. With Sky, you always remain in control of your assets.',
     display: ['disconnected']
   },
   {
@@ -99,7 +99,7 @@ export const banners: Banner[] = [
     title: 'About Staking Rewards',
     module: 'staking-engine-banners',
     description:
-      'Staking Rewards can be accessed when SKY is supplied to the Staking Engine of the decentralized, non-custodial Sky Protocol. [Staking Rewards Rates (SRRs)](#tooltip-staking-rewards-rates-srrs) are determined by Sky Ecosystem Governance through the process of decentralized onchain voting.',
+      'Staking Rewards, available in various token forms, can be accessed when SKY is supplied to the Staking Engine of the decentralized, non-custodial Sky Protocol. [Staking Rewards Rates (SRRs)](#tooltip-staking-rewards-rates-srrs) are determined by Sky Ecosystem Governance through the process of decentralized onchain voting.',
     display: ['connected', 'disconnected']
   },
   {
@@ -240,47 +240,6 @@ export const banners: Banner[] = [
   }
 ];
 
-/**
- * Get a banner by ID. If module is provided, searches for banner with both matching ID and module.
- * Otherwise, returns the first banner with matching ID.
- */
-export function getBannerById(id: string, module?: string): Banner | undefined {
-  if (module) {
-    return banners.find(banner => banner.id === id && banner.module === module);
-  }
+export function getBannerById(id: string): Banner | undefined {
   return banners.find(banner => banner.id === id);
-}
-
-/**
- * Get a banner by both ID and module (explicit version)
- */
-export function getBannerByIdAndModule(id: string, module: string): Banner | undefined {
-  return banners.find(banner => banner.id === id && banner.module === module);
-}
-
-/**
- * Get all banners for a specific module
- */
-export function getBannersByModule(module: string): Banner[] {
-  return banners.filter(banner => banner.module === module);
-}
-
-/**
- * Filter banners based on connection status using the display property
- * @param banners - Array of banners to filter
- * @param isConnected - Whether the user is connected
- * @returns Filtered banners that should be displayed
- */
-export function filterBannersByConnectionStatus(banners: Banner[], isConnected: boolean): Banner[] {
-  const displayValue = isConnected ? 'connected' : 'disconnected';
-
-  return banners.filter(banner => {
-    // If no display property is specified, show the banner regardless of connection status
-    if (!banner.display || banner.display.length === 0) {
-      return true;
-    }
-
-    // Check if the banner should be displayed based on connection status
-    return banner.display.includes(displayValue);
-  });
 }

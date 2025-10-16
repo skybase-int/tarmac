@@ -1,7 +1,7 @@
 import { getEtherscanLink } from '@jetstreamgg/sky-utils';
 import { useChainId } from 'wagmi';
 import { stUsdsAddress } from '@jetstreamgg/sky-hooks';
-import { getBannerByIdAndModule, filterBannersByConnectionStatus } from '@/data/banners/banners';
+import { getBannerByIdAndModule, filterBannersByConnectionStatus } from '@/data/banners/helpers';
 import { parseBannerContent } from '@/utils/bannerContentParser';
 import { useConnectedContext } from '../context/ConnectedContext';
 import { AboutCard } from './AboutCard';

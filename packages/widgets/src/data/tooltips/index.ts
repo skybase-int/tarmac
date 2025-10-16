@@ -106,10 +106,10 @@ The SKY Borrow Rate is the current interest rate charged to SKY-backed borrowers
       'The ratio between the value of collateral you’ve provided and the amount you’ve borrowed against that collateral.'
   },
   {
-    id: 'liquidation-price',
-    title: 'Liquidation price',
+    id: 'liquidation-price-staking',
+    title: 'Liquidation price (Staking)',
     tooltip:
-      "If the value of your collateral (MKR or SKY) drops below the liquidation price noted here, some or all of your collateral may be auctioned to repay the amount of USDS that you borrowed. Note that a one-hour price update delay applies. In other words, when MKR or SKY drops below a user's liquidation price it will only start applying one hour later. This is called the OSM delay in technical terms, and it also applies to any legacy Maker MCD vault."
+      "If the value of your collateral (SKY) drops below the liquidation price noted here, some or all of your collateral may be auctioned to repay the amount of USDS that you borrowed. Note that a one-hour price update delay applies. In other words, when SKY drops below a user's liquidation price it will only start applying one hour later. This is called the OSM delay in technical terms, and it also applies to any legacy Maker MCD vault."
   },
   {
     id: 'risk-level',
@@ -156,6 +156,12 @@ Exit your positions now.`
     tooltip: `Seal Engine is deprecated. Creation of new positions has been disabled. Management of existing positions remains available.
 
 You don't have any open positions.`
+  },
+  {
+    id: 'liquidation-price-seal',
+    title: 'Liquidation price (Seal)',
+    tooltip:
+      "If the value of your collateral (MKR or SKY) drops below the liquidation price noted here, some or all of your collateral may be auctioned to repay the amount of USDS that you borrowed. Note that a one-hour price update delay applies. In other words, when MKR or SKY drops below a user's liquidation price it will only start applying one hour later. This is called the OSM delay in technical terms, and it also applies to any legacy Maker MCD vault."
   },
   {
     id: 'delayed-upgrade-penalty',

@@ -54,28 +54,34 @@ The SKY Borrow Rate is the current interest rate charged to SKY-backed borrowers
       index: 3
     },
     {
+      question: 'How are stUSDS rewards funded?',
+      answer:
+        'The rewards distributed to stUSDS holders come from the interest paid by SKY borrowers (the SKY Borrow Rate) and protocol revenues. The capital for SKY-backed borrowing is provided by Expert Module users who deposit USDS to access the stUSDS Rate and receive stUSDS in return. The stUSDS tokens serve as a digital record of their USDS interaction with the stUSDS module and any change to the value of their position.',
+      index: 4
+    },
+    {
       question: 'What is the SKY Borrow Rate?',
       answer:
         'The SKY Borrow Rate is the current interest rate charged to SKY-backed borrowers and is dynamic and market-driven, based on the utilization of funds within the stUSDS contract.',
-      index: 4
+      index: 5
     },
     {
       question: 'Does it cost anything to access the stUSDS Rate?',
       answer:
         'Accessing the [stUSDS Rate](#tooltip-stusds-rate) via the Sky.money web app is free and neither controlled, imposed nor received by Skybase International nor the Sky Protocol. However, any time you supply or withdraw assets to/from the stUSDS module of the Sky Protocol, you will incur a transaction fee, called a gas fee, for using the Ethereum blockchain network.',
-      index: 5
+      index: 6
     },
     {
       question: 'Is there a minimum amount of USDS I must supply to access stUSDS rewards?',
       answer:
         'No minimum supply amount is required to access the [stUSDS Rate](#tooltip-stusds-rate); however, there is a cap, set by Sky Ecosystem Governance, on how much USDS the stUSDS vault can accept. Withdrawals are available as long as the stUSDS pool has sufficient idle USDS. Since deposits fund SKY‑backed loans, withdrawal capacity depends on current [utilization](#tooltip-utilization): when most liquidity is lent out, withdrawals may be limited until repayments occur or liquidity returns.',
-      index: 6
+      index: 7
     },
     {
       question: 'What is the conversion rate for stUSDS?',
       answer:
         'The stUSDS conversion rate floats and generally increases over time as yield accrues. At launch it is typically 1.0 and rises as earnings accumulate. Loss events (e.g., liquidation shortfalls) reduce the exchange rate via a proportional haircut.',
-      index: 7
+      index: 8
     },
     {
       question: 'Can I supply/withdraw USDS to/from the stUSDS module anytime?',
@@ -83,21 +89,20 @@ The SKY Borrow Rate is the current interest rate charged to SKY-backed borrowers
 
 Liquidity availability: Withdrawals depend on the module having enough liquid USDS. If [utilization](#tooltip-utilization) is very high, you may need to wait for borrowers to repay or for liquidity to return, or withdraw partially.
 Rate/fee changes: Sky Ecosystem Governance can update parameters (rates, caps) and may impose temporary safeguards during stress.`,
-      index: 8
+      index: 9
     },
     {
       question: 'Why are the risks and the rewards associated with stUSDS different to that of sUSDS?',
       answer:
         'stUSDS holders earn yield but also take on the risk of funding SKY‑backed borrowing. If a borrower’s staked SKY collateral is liquidated and the proceeds don’t fully cover the debt, the stUSDS vault absorbs the shortfall via a proportional haircut to the vault’s exchange rate (i.e., each stUSDS redeems for fewer USDS). This design ring‑fences losses to the stUSDS module, so the broader Sky Protocol is insulated from deficits arising in the SKY‑backed borrowing facility. So, sUSDS carries protocol-level risk but not borrower-shortfall risk, whereas stUSDS does bear that shortfall risk.',
-      index: 9
+      index: 10
+    },
+    {
+      question: 'Can I trade stUSDS on the open market?',
+      answer:
+        'Yes, eligible users of the Sky.money web app can access the Trade feature to trade stUSDS via an API integration with the third-party decentralized exchange CoW Swap. stUSDS holders are also free to access any other protocol or exchange that supports stUSDS trading; however, users do so at their own risk. Sky.money is not responsible for any loss or damages incurred while using such third-party platforms. Please see the [User Risk Documentation](https://docs.sky.money/user-risks) for more information on third-party services.',
+      index: 11
     }
-    // TODO: Add this back in once enabled on Trade
-    // {
-    //   question: 'Can I trade stUSDS on the open market?',
-    //   answer:
-    //     'Yes, eligible users of the Sky.money web app can access the Trade feature to trade stUSDS via an API integration with the third-party decentralized exchange CoW Swap. stUSDS holders are also free to access any other protocol or exchange that supports stUSDS trading; however, users do so at their own risk. Sky.money is not responsible for any loss or damages incurred while using such third-party platforms. Please see the [User Risk Documentation](https://docs.sky.money/user-risks) for more information on third-party services.',
-    //   index: 8
-    // }
   ];
   return items.sort((a, b) => a.index - b.index);
 };
