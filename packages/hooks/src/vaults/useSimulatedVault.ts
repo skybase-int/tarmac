@@ -1,4 +1,4 @@
-import { formatUnits, stringToHex } from 'viem';
+import { formatUnits, parseUnits, stringToHex } from 'viem';
 import { mcdSpotAddress, mcdVatAddress, useReadMcdSpot, useReadMcdVat } from '../generated';
 import { useChainId } from 'wagmi';
 import { ReadHook } from '../hooks';
@@ -8,6 +8,7 @@ import { getEtherscanLink, math } from '@jetstreamgg/sky-utils';
 import { TRUST_LEVELS } from '../constants';
 import { SupportedCollateralTypes } from './vaults.constants';
 import { getIlkName } from './helpers';
+import { usePrices } from '../prices/usePrices';
 
 export function useSimulatedVault(
   collateralAmount: bigint,
@@ -20,6 +21,10 @@ export function useSimulatedVault(
 
   const ilkName = ilkNameParam || getIlkName(1);
   const ilkHex = stringToHex(ilkName, { size: 32 });
+
+  // Fetch market price for accurate liquidation risk calculations
+  const { data: prices } = usePrices();
+  const marketPrice = prices?.['SKY']?.price ? parseUnits(prices['SKY'].price, 18) : undefined;
 
   // MCD Vat
   const {
@@ -77,7 +82,8 @@ export function useSimulatedVault(
     ink: collateralAmount,
     par: par as bigint,
     mat: mat as bigint,
-    dust: dust as bigint
+    dust: dust as bigint,
+    marketPrice
   };
   const data = allLoaded ? calculateVaultInfo(vaultParams) : undefined;
   const dataAtMaxBorrow = allLoaded ? calculateVaultInfo({ ...vaultParams, art: desiredArt }) : undefined;
