@@ -29,7 +29,7 @@ If you still have positions open, please exit them now.`,
     {
       question: 'What happens if my borrow position is liquidated?',
       answer:
-        'Borrow positions areubject to liquidation risk in the following scenario: If at any time the value of your sealed collateral drops below the required threshold and your position becomes undercollateralized, the smart contract automatically liquidates it and auctions your collateral. Any leftover collateral can be claimed through the [Unified Auctions portal](https://unified-auctions.makerdao.com/).',
+        'Borrow positions are subject to liquidation risk in the following scenario: If at any time the value of your sealed collateral drops below the required threshold and your position becomes undercollateralized, the smart contract automatically liquidates it and auctions your collateral. Any leftover collateral can be claimed through the [Unified Auctions portal](https://unified-auctions.makerdao.com/).',
       index: 4
     },
     {
