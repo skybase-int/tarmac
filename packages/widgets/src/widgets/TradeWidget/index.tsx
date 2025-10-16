@@ -33,7 +33,6 @@ import {
 import { ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
   formatBigInt,
-  truncateStringToFourDecimals,
   getTransactionLink,
   useIsSafeWallet,
   useDebounce,
@@ -961,13 +960,10 @@ function TradeWidgetWrapped({
       externalWidgetState?.token?.toLowerCase() !== originToken?.symbol?.toLowerCase() ||
       externalWidgetState?.targetToken?.toLowerCase() !== targetToken?.symbol?.toLowerCase();
 
+    // Compare bigint values directly to avoid precision loss
     const amountHasChanged =
       externalWidgetState?.amount !== undefined &&
-      externalWidgetState?.amount !==
-        formatBigInt(originAmount, {
-          locale,
-          unit: getTokenDecimals(originToken, chainId)
-        });
+      parseUnits(externalWidgetState.amount, getTokenDecimals(originToken, chainId)) !== originAmount;
 
     if ((tokensHasChanged || amountHasChanged) && txStatus === TxStatus.IDLE) {
       // Handle "Trade to X" case
@@ -1403,9 +1399,8 @@ function TradeWidgetWrapped({
               onOriginInputChange={(newValue: bigint, userTriggered?: boolean) => {
                 if (originToken && userTriggered) {
                   const formattedValue = formatUnits(newValue, getTokenDecimals(originToken, chainId));
-                  const truncatedValue = truncateStringToFourDecimals(formattedValue);
                   onWidgetStateChange?.({
-                    originAmount: truncatedValue,
+                    originAmount: formattedValue,
                     txStatus,
                     widgetState
                   });
