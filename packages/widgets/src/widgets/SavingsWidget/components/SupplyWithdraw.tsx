@@ -1,6 +1,12 @@
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { getTokenDecimals, sUsdsAddress, TOKENS, useOverallSkyData } from '@jetstreamgg/sky-hooks';
+import {
+  getTokenDecimals,
+  sUsdsAddress,
+  TOKENS,
+  useOverallSkyData,
+  useReadSavingsUsds
+} from '@jetstreamgg/sky-hooks';
 import { formatBigInt, formatDecimalPercentage } from '@jetstreamgg/sky-utils';
 import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
@@ -70,6 +76,34 @@ export const SupplyWithdraw = ({
     widgetState.flow === SavingsFlow.SUPPLY
       ? (savingsBalance || 0n) + amount
       : (savingsBalance || 0n) - amount;
+
+  // Calculate sUSDS amount for supply (how many shares you'll receive)
+  const { data: sUsdsDepositAmount } = useReadSavingsUsds({
+    functionName: 'previewDeposit',
+    args: [amount],
+    chainId: chainId,
+    query: {
+      enabled: !!amount && amount > 0n && tabIndex === 0
+    }
+  });
+
+  // Calculate sUSDS amount for withdraw (how many shares you'll burn)
+  const { data: sUsdsWithdrawAmount } = useReadSavingsUsds({
+    functionName: 'previewRedeem',
+    args: [amount],
+    chainId: chainId,
+    query: {
+      enabled: !!amount && amount > 0n && tabIndex === 1
+    }
+  });
+
+  const sUsdsAmount = {
+    value: tabIndex === 0 ? sUsdsDepositAmount || 0n : sUsdsWithdrawAmount || 0n,
+    formatted:
+      tabIndex === 0
+        ? formatBigInt(sUsdsDepositAmount || 0n, { maxDecimals: 2, compact: true })
+        : formatBigInt(sUsdsWithdrawAmount || 0n, { maxDecimals: 2, compact: true })
+  };
 
   return (
     <MotionVStack gap={0} className="w-full" variants={positionAnimations}>
@@ -157,6 +191,28 @@ export const SupplyWithdraw = ({
                 compact: true
               })} ${inputToken?.symbol}`
             },
+            ...(tabIndex === 0 && sUsdsAmount.value > 0n
+              ? [
+                  {
+                    label: t`You will receive`,
+                    value: `${formatBigInt(sUsdsAmount.value, {
+                      maxDecimals: 2,
+                      compact: true
+                    })} sUSDS`
+                  }
+                ]
+              : []),
+            ...(tabIndex === 1 && sUsdsAmount.value > 0n
+              ? [
+                  {
+                    label: t`You will supply`,
+                    value: `${formatBigInt(sUsdsAmount.value, {
+                      maxDecimals: 2,
+                      compact: true
+                    })} sUSDS`
+                  }
+                ]
+              : []),
             {
               label: t`Rate`,
               value: stats.skySavingsRatecRate
