@@ -139,10 +139,8 @@ export const StUSDSSupplyWithdraw = ({
       ? (userUsdsBalance || 0n) + amount
       : (userUsdsBalance || 0n) - amount;
 
-  // Calculate stUSDS amount for supply (how many shares you'll receive)
   const { data: stUsdsDepositAmount } = useStUsdsPreviewDeposit(amount);
 
-  // Calculate stUSDS amount for withdraw (how many shares you'll burn)
   const { data: stUsdsWithdrawAmount } = useStUsdsPreviewWithdraw(amount);
 
   const stUsdsAmount = {

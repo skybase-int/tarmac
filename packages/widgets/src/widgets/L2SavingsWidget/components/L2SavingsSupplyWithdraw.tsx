@@ -64,7 +64,6 @@ export function L2SavingsSupplyWithdraw({
       ? (convertedBalance?.value || 0n) + originAmount
       : (convertedBalance?.value || 0n) - originAmount;
 
-  // Calculate sUSDS amount for both supply and withdraw
   const sUsdsAmount = useSsrAssetsToShares(originAmount, originToken);
 
   return (

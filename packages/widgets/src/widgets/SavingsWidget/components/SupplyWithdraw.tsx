@@ -78,7 +78,6 @@ export const SupplyWithdraw = ({
       ? (savingsBalance || 0n) + amount
       : (savingsBalance || 0n) - amount;
 
-  // Calculate sUSDS amount for supply (how many shares you'll receive)
   const { data: sUsdsDepositAmount } = useReadSavingsUsds({
     functionName: 'previewDeposit',
     args: [amount],
@@ -88,7 +87,6 @@ export const SupplyWithdraw = ({
     }
   });
 
-  // Calculate sUSDS amount for withdraw (how many shares you'll burn)
   const { data: sUsdsWithdrawAmount } = useReadSavingsUsds({
     functionName: 'previewRedeem',
     args: [amount],
