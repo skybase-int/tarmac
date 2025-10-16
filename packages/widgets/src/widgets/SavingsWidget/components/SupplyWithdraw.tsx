@@ -191,25 +191,31 @@ export const SupplyWithdraw = ({
                 compact: true
               })} ${inputToken?.symbol}`
             },
-            ...(tabIndex === 0 && sUsdsAmount.value > 0n
+            ...(tabIndex === 0
               ? [
                   {
                     label: t`You will receive`,
-                    value: `${formatBigInt(sUsdsAmount.value, {
-                      maxDecimals: 2,
-                      compact: true
-                    })} sUSDS`
+                    value:
+                      sUsdsAmount.value > 0n
+                        ? `${formatBigInt(sUsdsAmount.value, {
+                            maxDecimals: 2,
+                            compact: true
+                          })} sUSDS`
+                        : '--'
                   }
                 ]
               : []),
-            ...(tabIndex === 1 && sUsdsAmount.value > 0n
+            ...(tabIndex === 1
               ? [
                   {
                     label: t`You will supply`,
-                    value: `${formatBigInt(sUsdsAmount.value, {
-                      maxDecimals: 2,
-                      compact: true
-                    })} sUSDS`
+                    value:
+                      sUsdsAmount.value > 0n
+                        ? `${formatBigInt(sUsdsAmount.value, {
+                            maxDecimals: 2,
+                            compact: true
+                          })} sUSDS`
+                        : '--'
                   }
                 ]
               : []),
