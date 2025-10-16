@@ -1,6 +1,11 @@
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { getTokenDecimals, TOKENS } from '@jetstreamgg/sky-hooks';
+import {
+  getTokenDecimals,
+  TOKENS,
+  useStUsdsPreviewDeposit,
+  useStUsdsPreviewWithdraw
+} from '@jetstreamgg/sky-hooks';
 import { formatBigInt, formatStrAsApy } from '@jetstreamgg/sky-utils';
 import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
@@ -132,6 +137,20 @@ export const StUSDSSupplyWithdraw = ({
     widgetState.flow === StUSDSFlow.SUPPLY
       ? (userUsdsBalance || 0n) + amount
       : (userUsdsBalance || 0n) - amount;
+
+  // Calculate stUSDS amount for supply (how many shares you'll receive)
+  const { data: stUsdsDepositAmount } = useStUsdsPreviewDeposit(amount);
+
+  // Calculate stUSDS amount for withdraw (how many shares you'll burn)
+  const { data: stUsdsWithdrawAmount } = useStUsdsPreviewWithdraw(amount);
+
+  const stUsdsAmount = {
+    value: tabIndex === 0 ? stUsdsDepositAmount || 0n : stUsdsWithdrawAmount || 0n,
+    formatted:
+      tabIndex === 0
+        ? formatBigInt(stUsdsDepositAmount || 0n, { maxDecimals: 2, compact: true })
+        : formatBigInt(stUsdsWithdrawAmount || 0n, { maxDecimals: 2, compact: true })
+  };
 
   return (
     <MotionVStack gap={0} className="w-full" variants={positionAnimations}>
@@ -317,6 +336,34 @@ export const StUSDSSupplyWithdraw = ({
                 compact: true
               })} ${inputToken?.symbol}`
             },
+            ...(tabIndex === 0
+              ? [
+                  {
+                    label: t`You will receive`,
+                    value:
+                      stUsdsAmount.value > 0n
+                        ? `${formatBigInt(stUsdsAmount.value, {
+                            maxDecimals: 2,
+                            compact: true
+                          })} stUSDS`
+                        : '--'
+                  }
+                ]
+              : []),
+            ...(tabIndex === 1
+              ? [
+                  {
+                    label: t`You will supply`,
+                    value:
+                      stUsdsAmount.value > 0n
+                        ? `${formatBigInt(stUsdsAmount.value, {
+                            maxDecimals: 2,
+                            compact: true
+                          })} stUSDS`
+                        : '--'
+                  }
+                ]
+              : []),
             {
               label: t`Rate`,
               value: moduleRate !== undefined && moduleRate > 0n ? formatStrAsApy(moduleRate) : '--'
