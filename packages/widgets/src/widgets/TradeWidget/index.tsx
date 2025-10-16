@@ -33,7 +33,6 @@ import {
 import { ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
   formatBigInt,
-  truncateStringToFourDecimals,
   getTransactionLink,
   useIsSafeWallet,
   useDebounce,
@@ -805,6 +804,26 @@ function TradeWidgetWrapped({
         ? quoteData?.quote?.buyAmountAfterFee
         : quoteData?.quote?.sellAmountBeforeFee;
     setFn(newAmount || 0n);
+
+    // When target input is updated (lastUpdated === OUT), notify URL params of origin amount change
+    if (lastUpdated === TradeSide.OUT && originToken) {
+      if (!newAmount || newAmount === 0n) {
+        // If amount is 0 or undefined, clear the URL parameter
+        onWidgetStateChange?.({
+          originAmount: '',
+          txStatus,
+          widgetState
+        });
+      } else {
+        // Update URL with the new calculated amount
+        const formattedValue = formatUnits(newAmount, getTokenDecimals(originToken, chainId));
+        onWidgetStateChange?.({
+          originAmount: formattedValue,
+          txStatus,
+          widgetState
+        });
+      }
+    }
   }, [quoteData?.quote?.buyAmountAfterFee, quoteData?.quote?.sellAmountBeforeFee, lastUpdated]);
 
   // Update button state according to action and tx
@@ -961,13 +980,10 @@ function TradeWidgetWrapped({
       externalWidgetState?.token?.toLowerCase() !== originToken?.symbol?.toLowerCase() ||
       externalWidgetState?.targetToken?.toLowerCase() !== targetToken?.symbol?.toLowerCase();
 
+    // Compare bigint values directly to avoid precision loss
     const amountHasChanged =
       externalWidgetState?.amount !== undefined &&
-      externalWidgetState?.amount !==
-        formatBigInt(originAmount, {
-          locale,
-          unit: getTokenDecimals(originToken, chainId)
-        });
+      parseUnits(externalWidgetState.amount, getTokenDecimals(originToken, chainId)) !== originAmount;
 
     if ((tokensHasChanged || amountHasChanged) && txStatus === TxStatus.IDLE) {
       // Handle "Trade to X" case
@@ -1402,10 +1418,11 @@ function TradeWidgetWrapped({
               }}
               onOriginInputChange={(newValue: bigint, userTriggered?: boolean) => {
                 if (originToken && userTriggered) {
-                  const formattedValue = formatUnits(newValue, getTokenDecimals(originToken, chainId));
-                  const truncatedValue = truncateStringToFourDecimals(formattedValue);
+                  // Convert 0n to empty string to properly clear URL params
+                  const formattedValue =
+                    newValue === 0n ? '' : formatUnits(newValue, getTokenDecimals(originToken, chainId));
                   onWidgetStateChange?.({
-                    originAmount: truncatedValue,
+                    originAmount: formattedValue,
                     txStatus,
                     widgetState
                   });
