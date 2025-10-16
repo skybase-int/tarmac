@@ -82,7 +82,7 @@ export const SupplyWithdraw = ({
   const { data: sUsdsDepositAmount } = useReadSavingsUsds({
     functionName: 'previewDeposit',
     args: [amount],
-    chainId: chainId,
+    chainId: chainId as keyof typeof sUsdsAddress,
     query: {
       enabled: !!amount && amount > 0n && tabIndex === 0
     }
@@ -92,7 +92,7 @@ export const SupplyWithdraw = ({
   const { data: sUsdsWithdrawAmount } = useReadSavingsUsds({
     functionName: 'previewRedeem',
     args: [amount],
-    chainId: chainId,
+    chainId: chainId as keyof typeof sUsdsAddress,
     query: {
       enabled: !!amount && amount > 0n && tabIndex === 1
     }
