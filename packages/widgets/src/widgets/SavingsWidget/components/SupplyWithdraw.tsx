@@ -99,11 +99,7 @@ export const SupplyWithdraw = ({
   });
 
   const sUsdsAmount = {
-    value: tabIndex === 0 ? sUsdsDepositAmount || 0n : sUsdsWithdrawAmount || 0n,
-    formatted:
-      tabIndex === 0
-        ? formatBigInt(sUsdsDepositAmount || 0n, { maxDecimals: 2, compact: true })
-        : formatBigInt(sUsdsWithdrawAmount || 0n, { maxDecimals: 2, compact: true })
+    value: tabIndex === 0 ? sUsdsDepositAmount || 0n : sUsdsWithdrawAmount || 0n
   };
 
   return (

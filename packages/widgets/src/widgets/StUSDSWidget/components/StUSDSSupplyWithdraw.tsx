@@ -146,11 +146,7 @@ export const StUSDSSupplyWithdraw = ({
   const { data: stUsdsWithdrawAmount } = useStUsdsPreviewWithdraw(amount);
 
   const stUsdsAmount = {
-    value: tabIndex === 0 ? stUsdsDepositAmount || 0n : stUsdsWithdrawAmount || 0n,
-    formatted:
-      tabIndex === 0
-        ? formatBigInt(stUsdsDepositAmount || 0n, { maxDecimals: 2, compact: true })
-        : formatBigInt(stUsdsWithdrawAmount || 0n, { maxDecimals: 2, compact: true })
+    value: tabIndex === 0 ? stUsdsDepositAmount || 0n : stUsdsWithdrawAmount || 0n
   };
 
   return (
