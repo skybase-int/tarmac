@@ -13,13 +13,7 @@ import {
   useIsBatchSupported
 } from '@jetstreamgg/sky-hooks';
 import { useContext, useEffect, useMemo, useState, ReactNode } from 'react';
-import {
-  formatBigInt,
-  formatNumber,
-  math,
-  truncateStringToFourDecimals,
-  useDebounce
-} from '@jetstreamgg/sky-utils';
+import { formatBigInt, formatNumber, math, useDebounce } from '@jetstreamgg/sky-utils';
 import { useAccount, useChainId } from 'wagmi';
 import { t } from '@lingui/core/macro';
 import { TxStatus, EPOCH_LENGTH } from '@widgets/shared/constants';
@@ -490,10 +484,9 @@ function TradeWidgetWrapped({
   useEffect(() => {
     if (originToken) {
       const formattedValue = formatUnits(debouncedOriginAmount, getTokenDecimals(originToken, chainId));
-      const truncatedValue = truncateStringToFourDecimals(formattedValue);
-      if (truncatedValue !== externalWidgetState?.amount) {
+      if (formattedValue !== externalWidgetState?.amount) {
         onWidgetStateChange?.({
-          originAmount: truncatedValue,
+          originAmount: formattedValue,
           originToken: originToken?.symbol,
           targetToken: targetToken?.symbol,
           txStatus,
