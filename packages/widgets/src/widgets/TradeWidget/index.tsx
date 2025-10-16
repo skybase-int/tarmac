@@ -804,6 +804,26 @@ function TradeWidgetWrapped({
         ? quoteData?.quote?.buyAmountAfterFee
         : quoteData?.quote?.sellAmountBeforeFee;
     setFn(newAmount || 0n);
+
+    // When target input is updated (lastUpdated === OUT), notify URL params of origin amount change
+    if (lastUpdated === TradeSide.OUT && originToken) {
+      if (!newAmount || newAmount === 0n) {
+        // If amount is 0 or undefined, clear the URL parameter
+        onWidgetStateChange?.({
+          originAmount: '',
+          txStatus,
+          widgetState
+        });
+      } else {
+        // Update URL with the new calculated amount
+        const formattedValue = formatUnits(newAmount, getTokenDecimals(originToken, chainId));
+        onWidgetStateChange?.({
+          originAmount: formattedValue,
+          txStatus,
+          widgetState
+        });
+      }
+    }
   }, [quoteData?.quote?.buyAmountAfterFee, quoteData?.quote?.sellAmountBeforeFee, lastUpdated]);
 
   // Update button state according to action and tx
@@ -1398,7 +1418,9 @@ function TradeWidgetWrapped({
               }}
               onOriginInputChange={(newValue: bigint, userTriggered?: boolean) => {
                 if (originToken && userTriggered) {
-                  const formattedValue = formatUnits(newValue, getTokenDecimals(originToken, chainId));
+                  // Convert 0n to empty string to properly clear URL params
+                  const formattedValue =
+                    newValue === 0n ? '' : formatUnits(newValue, getTokenDecimals(originToken, chainId));
                   onWidgetStateChange?.({
                     originAmount: formattedValue,
                     txStatus,

@@ -483,7 +483,11 @@ function TradeWidgetWrapped({
   // Update external widget state when the debounced origin amount is updated
   useEffect(() => {
     if (originToken) {
-      const formattedValue = formatUnits(debouncedOriginAmount, getTokenDecimals(originToken, chainId));
+      // Convert 0n to empty string to properly clear URL params
+      const formattedValue =
+        debouncedOriginAmount === 0n
+          ? ''
+          : formatUnits(debouncedOriginAmount, getTokenDecimals(originToken, chainId));
       if (formattedValue !== externalWidgetState?.amount) {
         onWidgetStateChange?.({
           originAmount: formattedValue,
