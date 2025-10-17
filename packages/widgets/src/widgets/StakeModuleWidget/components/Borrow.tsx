@@ -9,7 +9,7 @@ import {
   useVault,
   Vault,
   CollateralRiskParameters,
-  useSealExitFee
+  useSkyPrice
 } from '@jetstreamgg/sky-hooks';
 import { t } from '@lingui/core/macro';
 import { useContext, useEffect, useMemo } from 'react';
@@ -131,7 +131,7 @@ const PositionManagerOverviewContainer = ({
       ? [formattedExistingMaxBorrowable, formatterSimulatedMaxBorrowable]
       : formatterSimulatedMaxBorrowable;
 
-  const { data: exitFee } = useSealExitFee();
+  const { data: skyMarketPrice } = useSkyPrice();
 
   const initialTxData = useMemo(
     () =>
@@ -175,6 +175,13 @@ const PositionManagerOverviewContainer = ({
               }
             ],
         {
+          label: t`SKY price`,
+          value:
+            skyMarketPrice !== undefined
+              ? `$${formatBigInt(skyMarketPrice, { unit: WAD_PRECISION })}`
+              : t`Not available`
+        },
+        {
           label: t`Capped OSM SKY price`,
           value: `$${formatBigInt(simulatedVault?.delayedPrice || 0n, { unit: WAD_PRECISION })}`,
           tooltipText: getTooltipById('capped-osm-sky-price')?.tooltip || ''
@@ -190,7 +197,7 @@ const PositionManagerOverviewContainer = ({
       existingColAmount,
       existingBorrowAmount,
       hasPositions,
-      exitFee
+      skyMarketPrice
     ]
   );
 
