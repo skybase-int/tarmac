@@ -14,11 +14,13 @@ type RiskSliderProps = React.ComponentProps<typeof SliderPrimitive.Root> & {
   rightLabel?: string;
   liquidationLabel?: string;
   sliderLabel?: string;
+  currentRiskFloor?: number;
+  currentRiskCeiling?: number;
 };
 
 const RISK_INDICATOR_SIZE = 10;
 
-const RiskSlider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, RiskSliderProps>(
+const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Root>, RiskSliderProps>(
   (
     {
       className,
@@ -35,6 +37,8 @@ const RiskSlider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root
       value,
       onValueChange,
       onValueCommit,
+      currentRiskFloor,
+      currentRiskCeiling,
       ...props
     },
     ref
@@ -44,6 +48,25 @@ const RiskSlider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root
     React.useEffect(() => {
       setLocalValue(value);
     }, [value]);
+
+    const handleValueChange = (v: number[]) => {
+      // If currentRiskFloor is set, prevent dragging below it (borrow mode)
+      if (currentRiskFloor !== undefined && v[0] < currentRiskFloor) {
+        const clampedValue = [currentRiskFloor];
+        setLocalValue(clampedValue);
+        onValueChange?.(clampedValue);
+        return;
+      }
+      // If currentRiskCeiling is set, prevent dragging above it (repay mode)
+      if (currentRiskCeiling !== undefined && v[0] > currentRiskCeiling) {
+        const clampedValue = [currentRiskCeiling];
+        setLocalValue(clampedValue);
+        onValueChange?.(clampedValue);
+        return;
+      }
+      setLocalValue(v);
+      onValueChange?.(v);
+    };
 
     return (
       <>
@@ -63,10 +86,7 @@ const RiskSlider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root
           ref={ref}
           value={localValue}
           className={cn('relative flex w-full touch-none select-none items-center', className)}
-          onValueChange={v => {
-            setLocalValue(v);
-            onValueChange?.(v);
-          }}
+          onValueChange={handleValueChange}
           onValueCommit={onValueCommit}
           {...props}
         >
