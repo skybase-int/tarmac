@@ -43,7 +43,6 @@ const SliderContainer = ({ vault }: { vault?: Vault }) => {
   return (
     <RiskSlider
       value={sliderValue}
-      disabled
       max={100}
       leftLabel={t`Low risk`}
       rightLabel={t`High risk`}

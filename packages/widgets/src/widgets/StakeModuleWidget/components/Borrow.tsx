@@ -48,7 +48,6 @@ const SliderContainer = ({ vault }: { vault?: Vault }) => {
       max={100}
       leftLabel={t`Low risk`}
       rightLabel={t`High risk`}
-      disabled={true}
       onValueCommit={v => {
         handleSliderChange(v[0]);
       }}
