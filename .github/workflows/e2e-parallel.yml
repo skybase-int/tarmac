@@ -194,9 +194,6 @@ jobs:
         env:
           TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
 
-      # Feature branch VNets are kept for fast reruns
-      # They will be cleaned up when cache expires (7 days default)
-
       - name: Test Summary
         if: always()
         run: |
@@ -242,7 +239,8 @@ jobs:
           fi
           echo ""
           echo "================================================================"
-
+      
+      # Feature branch VNets are kept for fast reruns
       - name: Save VNets to cache
         if: always()
         uses: actions/cache/save@v4
