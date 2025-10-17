@@ -73,6 +73,9 @@ function calculateLiquidationProximityPercentage(
   if (collateralValue === 0n && debtValue > 0n) {
     return 100;
   }
+  if (marketPrice === 0n) {
+    return 100;
+  }
 
   const proximityPercentage = Number(((marketPrice - liquidationPrice) * 100n) / marketPrice);
   return 100 - proximityPercentage;
