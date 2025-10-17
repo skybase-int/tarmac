@@ -6,7 +6,7 @@ import { Vault, VaultRaw } from './vault';
 import { calculateVaultInfo } from './calculateVaultInfo';
 import { getEtherscanLink, math } from '@jetstreamgg/sky-utils';
 import { TRUST_LEVELS } from '../constants';
-import { SupportedCollateralTypes } from './vaults.constants';
+import { COLLATERAL_PRICE_SYMBOL, SupportedCollateralTypes } from './vaults.constants';
 import { getIlkName } from './helpers';
 import { usePrices } from '../prices/usePrices';
 
@@ -24,7 +24,11 @@ export function useSimulatedVault(
 
   // Fetch market price for accurate liquidation risk calculations
   const { data: prices } = usePrices();
-  const marketPrice = prices?.['SKY']?.price ? parseUnits(prices['SKY'].price, 18) : undefined;
+  const collateralPriceSymbol = COLLATERAL_PRICE_SYMBOL[ilkName];
+  const marketPrice =
+    collateralPriceSymbol && prices?.[collateralPriceSymbol]?.price
+      ? parseUnits(prices[collateralPriceSymbol].price, 18)
+      : undefined;
 
   // MCD Vat
   const {
