@@ -119,11 +119,13 @@ const PositionManagerOverviewContainer = ({
 
   const formattedExistingMaxBorrowable = `${formatBigInt(existingVault?.maxSafeBorrowableIntAmount || 0n, {
     unit: getTokenDecimals(usds, chainId),
-    compact: true
+    compact: true,
+    maxDecimals: 0
   })} ${usds.symbol}`;
   const formatterSimulatedMaxBorrowable = `${formatBigInt(simulatedVault?.maxSafeBorrowableIntAmount || 0n, {
     unit: getTokenDecimals(usds, chainId),
-    compact: true
+    compact: true,
+    maxDecimals: 0
   })} ${usds.symbol}`;
 
   const formattedMaxBorrowable =
