@@ -59,8 +59,7 @@ jobs:
           echo "ref_name=$GITHUB_REF_NAME"
           echo "head_ref=$GITHUB_HEAD_REF"
           echo "ref=$GITHUB_REF"
-          echo "restore_prefix=persistent-vnets-${{ github.head_ref || github.ref_name }}-v3-"
-          echo "save_key=persistent-vnets-${{ github.head_ref || github.ref_name }}-v3-${{ github.run_id }}"
+          echo "cache_key=persistent-vnets-${{ github.head_ref || github.ref_name }}-v3"
           echo "concurrency_group=vnets-${{ github.head_ref || github.ref_name }}"
 
       - name: Setup pnpm
@@ -92,9 +91,7 @@ jobs:
           path: |
             tenderlyTestnetData.json
             apps/webapp/src/test/e2e/persistent-vnet-snapshots.json
-          key: persistent-vnets-${{ github.head_ref || github.ref_name }}-v3-${{ github.run_id }}
-          restore-keys: |
-            persistent-vnets-${{ github.head_ref || github.ref_name }}-v3-
+          key: persistent-vnets-${{ github.head_ref || github.ref_name }}-v3
 
       - name: Check VNet files
         id: check-files
@@ -248,4 +245,4 @@ jobs:
           path: |
             tenderlyTestnetData.json
             apps/webapp/src/test/e2e/persistent-vnet-snapshots.json
-          key: persistent-vnets-${{ github.head_ref || github.ref_name }}-v3-${{ github.run_id }}
+          key: persistent-vnets-${{ github.head_ref || github.ref_name }}-v3
