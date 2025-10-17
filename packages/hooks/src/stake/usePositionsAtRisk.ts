@@ -144,6 +144,9 @@ export function usePositionsAtRisk(): ReadHook & { data?: number[] } {
         // or can the user still take an action to avoid being liquidated?
         return i;
       }
+      if (priceForRiskCalc === 0n) {
+        return i;
+      }
       const liquidationProximityPercentage =
         100 - Number(((priceForRiskCalc - liquidationPrice) * 100n) / priceForRiskCalc);
 
