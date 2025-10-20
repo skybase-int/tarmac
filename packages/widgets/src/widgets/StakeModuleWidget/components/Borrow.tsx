@@ -36,10 +36,11 @@ const { usds } = TOKENS;
 
 const { LOW } = RiskLevel;
 
-const SliderContainer = ({ vault }: { vault?: Vault }) => {
+const SliderContainer = ({ vault, existingVault }: { vault?: Vault; existingVault?: Vault }) => {
   const { sliderValue, handleSliderChange, shouldShowSlider, currentRiskFloor, capPercentage } =
     useRiskSlider({
       vault,
+      existingVault,
       isRepayMode: false
     });
 
@@ -414,7 +415,7 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
       ) : (
         <div className="mb-4" />
       )}
-      <SliderContainer vault={simulatedVault} />
+      <SliderContainer vault={simulatedVault} existingVault={existingVault} />
 
       <PositionManagerOverviewContainer
         simulatedVault={simulatedVault}

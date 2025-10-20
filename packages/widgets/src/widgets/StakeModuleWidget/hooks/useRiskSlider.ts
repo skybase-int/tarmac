@@ -4,15 +4,16 @@ import { StakeModuleWidgetContext } from '../context/context';
 
 type UseRiskSliderProps = {
   vault?: Vault;
+  existingVault?: Vault;
   isRepayMode?: boolean;
 };
 
-export const useRiskSlider = ({ vault, isRepayMode = false }: UseRiskSliderProps) => {
+export const useRiskSlider = ({ vault, existingVault, isRepayMode = false }: UseRiskSliderProps) => {
   const { setUsdsToBorrow, setUsdsToWipe } = useContext(StakeModuleWidgetContext);
   const setValue = isRepayMode ? setUsdsToWipe : setUsdsToBorrow;
 
   const riskPercentage = vault?.liquidationProximityPercentage || 0;
-  const hasExistingDebt = (vault?.debtValue || 0n) > 0n;
+  const hasExistingDebt = (existingVault?.debtValue || 0n) > 0n;
 
   const [sliderValue, setSliderValue] = useState([Math.max(1, riskPercentage)]);
 
@@ -23,14 +24,14 @@ export const useRiskSlider = ({ vault, isRepayMode = false }: UseRiskSliderProps
 
   useEffect(() => {
     // Set the initial risk floor only once when we have valid vault data in borrow mode
-    if (initialRiskFloor === undefined && vault && !isRepayMode && hasExistingDebt) {
+    if (initialRiskFloor === undefined && !isRepayMode && hasExistingDebt) {
       setInitialRiskFloor(riskPercentage);
     }
     // Set the initial risk ceiling only once when we have valid vault data in repay mode
-    if (initialRiskCeiling === undefined && vault && isRepayMode && hasExistingDebt) {
+    if (initialRiskCeiling === undefined && isRepayMode && hasExistingDebt) {
       setInitialRiskCeiling(riskPercentage);
     }
-  }, [vault, isRepayMode, hasExistingDebt, riskPercentage, initialRiskFloor, initialRiskCeiling]);
+  }, [isRepayMode, hasExistingDebt, riskPercentage, initialRiskFloor, initialRiskCeiling]);
 
   const [maxBorrowable, maxValue] = useMemo(() => {
     const maxBorrowable = vault?.maxSafeBorrowableIntAmountNoCap || 0n;
@@ -68,7 +69,11 @@ export const useRiskSlider = ({ vault, isRepayMode = false }: UseRiskSliderProps
           ? (maxBorrowable * BigInt(Math.round(additionalBorrowPercentage * 100))) /
             BigInt(Math.round(remainingBorrowablePercentage * 100))
           : 0n;
-      setValue(newValue < maxValue ? newValue : maxValue);
+
+      // Cap the value at the capped amount if it exists
+      const cappedAmount = vault?.maxSafeBorrowableIntAmount;
+      const finalValue = cappedAmount && newValue > cappedAmount ? cappedAmount : newValue;
+      setValue(finalValue < maxValue ? finalValue : maxValue);
     } else if (isRepayMode && initialRiskCeiling !== undefined) {
       // In repay mode, calculate repayment amount from initial risk level to selected value
       // Moving left (lower risk) means repaying more debt
@@ -93,10 +98,6 @@ export const useRiskSlider = ({ vault, isRepayMode = false }: UseRiskSliderProps
     }
   };
 
-  useEffect(() => {
-    setSliderValue([riskPercentage]);
-  }, [riskPercentage]);
-
   const shouldShowSlider = isRepayMode
     ? true
     : vault?.debtValue && vault?.debtValue > 0n && vault?.collateralAmount && vault?.collateralAmount > 0n;
@@ -119,6 +120,15 @@ export const useRiskSlider = ({ vault, isRepayMode = false }: UseRiskSliderProps
 
     return undefined;
   }, [vault?.maxSafeBorrowableIntAmount, vault?.maxSafeBorrowableIntAmountNoCap, isRepayMode]);
+
+  useEffect(() => {
+    // If we're at or past the cap, clamp the slider to the cap position
+    if (capPercentage !== undefined && riskPercentage > capPercentage) {
+      setSliderValue([capPercentage]);
+    } else {
+      setSliderValue([riskPercentage]);
+    }
+  }, [riskPercentage, capPercentage]);
 
   return {
     sliderValue,
