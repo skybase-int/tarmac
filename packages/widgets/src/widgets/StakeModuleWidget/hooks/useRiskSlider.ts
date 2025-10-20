@@ -33,10 +33,10 @@ export const useRiskSlider = ({ vault, isRepayMode = false }: UseRiskSliderProps
   }, [vault, isRepayMode, hasExistingDebt, riskPercentage, initialRiskFloor, initialRiskCeiling]);
 
   const [maxBorrowable, maxValue] = useMemo(() => {
-    const maxBorrowable = vault?.maxSafeBorrowableIntAmount || 0n;
+    const maxBorrowable = vault?.maxSafeBorrowableIntAmountNoCap || 0n;
     const maxValue = maxBorrowable;
     return [maxBorrowable, maxValue];
-  }, [vault?.maxSafeBorrowableIntAmount]);
+  }, [vault?.maxSafeBorrowableIntAmountNoCap]);
 
   const handleSliderChange = (value: number) => {
     if (maxBorrowable === 0n) return;
