@@ -3,6 +3,7 @@ import { Heading, Text } from '@/modules/layout/components/Typography';
 import { HStack } from '@/modules/layout/components/HStack';
 import { PopoverRateInfo } from '@jetstreamgg/sky-widgets';
 import { Trans } from '@lingui/react/macro';
+import { t } from '@lingui/core/macro';
 import {
   lsSkySpkRewardAddress,
   lsSkyUsdsRewardAddress,
@@ -27,6 +28,9 @@ export function StakingRewardRateCard() {
   const chartDataLoading = lsSkyUsdsChartDataLoading || lsSkySpkChartDataLoading;
   const highestRewardRate = highestRateData ? parseFloat(highestRateData.rate) : null;
 
+  // Check if we have a valid rate (including 0)
+  const hasValidRate = highestRewardRate != null && !isNaN(highestRewardRate);
+
   return (
     <StatsCard
       title={
@@ -41,8 +45,14 @@ export function StakingRewardRateCard() {
       content={
         <div className="mt-2 flex items-center gap-1">
           <Text className="text-bullish">
-            <span className="text-textSecondary text-sm">up to</span>{' '}
-            {highestRewardRate ? formatDecimalPercentage(highestRewardRate) : 'N/A'}
+            {hasValidRate ? (
+              <>
+                <span className="text-textSecondary text-sm">{t`up to`}</span>{' '}
+                {formatDecimalPercentage(highestRewardRate)}
+              </>
+            ) : (
+              'N/A'
+            )}
           </Text>
         </div>
       }
