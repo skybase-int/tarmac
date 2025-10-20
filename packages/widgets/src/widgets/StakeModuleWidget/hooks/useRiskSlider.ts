@@ -9,7 +9,7 @@ type UseRiskSliderProps = {
 };
 
 export const useRiskSlider = ({ vault, existingVault, isRepayMode = false }: UseRiskSliderProps) => {
-  const { usdsToBorrow, setUsdsToBorrow, setUsdsToWipe } = useContext(StakeModuleWidgetContext);
+  const { setUsdsToBorrow, setUsdsToWipe } = useContext(StakeModuleWidgetContext);
   const setValue = isRepayMode ? setUsdsToWipe : setUsdsToBorrow;
 
   const riskPercentage = vault?.liquidationProximityPercentage || 0;
@@ -32,23 +32,6 @@ export const useRiskSlider = ({ vault, existingVault, isRepayMode = false }: Use
       setInitialRiskCeiling(riskPercentage);
     }
   }, [isRepayMode, hasExistingDebt, riskPercentage, initialRiskFloor, initialRiskCeiling]);
-
-  // Update the floor when collateral changes in borrow mode (and no borrow amount set)
-  useEffect(() => {
-    if (!isRepayMode && initialRiskFloor !== undefined && usdsToBorrow === 0n) {
-      setInitialRiskFloor(riskPercentage);
-    }
-  }, [usdsToBorrow, riskPercentage, initialRiskFloor, isRepayMode]);
-
-  // Update the ceiling when collateral changes in repay mode (and no repay amount set)
-  // Get the repay amount from context
-  const { usdsToWipe } = useContext(StakeModuleWidgetContext);
-
-  useEffect(() => {
-    if (isRepayMode && initialRiskCeiling !== undefined && usdsToWipe === 0n) {
-      setInitialRiskCeiling(riskPercentage);
-    }
-  }, [isRepayMode, usdsToWipe, riskPercentage, initialRiskCeiling]);
 
   const [maxBorrowable, maxValue] = useMemo(() => {
     const maxBorrowable = vault?.maxSafeBorrowableIntAmountNoCap || 0n;
