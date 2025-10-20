@@ -214,7 +214,7 @@ jobs:
           fi
 
       - name: Verify snapshots before saving to cache
-        if: always()
+        if: always() && github.ref != 'refs/heads/main'
         run: |
           echo "================================================================"
           echo "📦 PREPARING TO SAVE VNETS TO CACHE"
@@ -242,7 +242,7 @@ jobs:
       
       # Feature branch VNets are kept for fast reruns
       - name: Save VNets to cache
-        if: always() && (steps.check-files.outputs.have_vnet_json == 'true' || steps.check-files.outputs.have_snapshots == 'true')
+        if: always() && github.ref != 'refs/heads/main' && (steps.check-files.outputs.have_vnet_json == 'true' || steps.check-files.outputs.have_snapshots == 'true')
         uses: actions/cache/save@v4
         with:
           path: |
