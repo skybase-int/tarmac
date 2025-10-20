@@ -34,14 +34,21 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # Setup job: Creates/validates VNets and saves to cache (runs once per branch)
-  setup-vnets:
+  parallel-e2e:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
 
-    outputs:
-      cache-hit: ${{ steps.cache-vnets.outputs.cache-hit }}
-      vnets-validated: ${{ steps.validate-vnets.outcome == 'success' }}
+    env:
+      # Base environment variables
+      VITE_ENV_NAME: development
+      VITE_TERMS_LINK: '[{"url":"https://legal-terms","name":"Terms of Use"}]'
+      VITE_BATCH_TX_ENABLED: 'true'
+      VITE_USE_MOCK_WALLET: 'true'
+      VITE_SKIP_AUTH_CHECK: 'true'
+      # Parallel test configuration
+      TEST_WORKERS: ${{ github.event.inputs.workers || '3' }}
+      SKIP_FUNDING: ${{ github.event.inputs.skip_funding || 'false' }}
+      FUND_NETWORKS: ${{ github.event.inputs.networks || 'mainnet,base,arbitrum,optimism,unichain' }}
 
     steps:
       - name: Checkout code
@@ -73,6 +80,9 @@ jobs:
         run: pnpm build:packages
         env:
           NODE_OPTIONS: "--max-old-space-size=4096"
+
+      - name: Install Playwright browsers
+        run: pnpm -F webapp exec playwright install --with-deps chromium
 
       - name: Restore VNets from cache
         id: cache-vnets
@@ -140,110 +150,6 @@ jobs:
           echo "This will be FAST (no funding needed)! ⚡"
           echo "================================================================"
 
-      - name: Verify snapshots before saving to cache
-        run: |
-          echo "================================================================"
-          echo "📦 PREPARING TO SAVE VNETS TO CACHE"
-          echo "================================================================"
-          echo ""
-          echo "Checking what will be saved:"
-          echo ""
-          if [ -f "tenderlyTestnetData.json" ]; then
-            echo "✅ tenderlyTestnetData.json exists ($(wc -c < tenderlyTestnetData.json) bytes)"
-            echo "   Networks: $(cat tenderlyTestnetData.json | jq -r '.[].NETWORK' | tr '\n' ', ')"
-          else
-            echo "❌ tenderlyTestnetData.json NOT FOUND"
-          fi
-          echo ""
-          if [ -f "apps/webapp/src/test/e2e/persistent-vnet-snapshots.json" ]; then
-            echo "✅ persistent-vnet-snapshots.json exists ($(wc -c < apps/webapp/src/test/e2e/persistent-vnet-snapshots.json) bytes)"
-            echo "   Content:"
-            cat apps/webapp/src/test/e2e/persistent-vnet-snapshots.json | jq '.'
-          else
-            echo "❌ persistent-vnet-snapshots.json NOT FOUND"
-            echo "⚠️  This means snapshots were not created during global setup!"
-          fi
-          echo ""
-          echo "================================================================"
-
-      # ONLY save cache here - no race conditions because only one job saves
-      - name: Save VNets to cache
-        uses: actions/cache/save@v4
-        with:
-          path: |
-            tenderlyTestnetData.json
-            apps/webapp/src/test/e2e/persistent-vnet-snapshots.json
-          key: persistent-vnets-${{ github.head_ref || github.ref_name }}-v3
-
-  # Test job: Runs parallel tests using cached VNets (no cache save)
-  parallel-e2e:
-    needs: setup-vnets
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-
-    env:
-      # Base environment variables
-      VITE_ENV_NAME: development
-      VITE_TERMS_LINK: '[{"url":"https://legal-terms","name":"Terms of Use"}]'
-      VITE_BATCH_TX_ENABLED: 'true'
-      VITE_USE_MOCK_WALLET: 'true'
-      VITE_SKIP_AUTH_CHECK: 'true'
-      # Parallel test configuration
-      TEST_WORKERS: ${{ github.event.inputs.workers || '3' }}
-      SKIP_FUNDING: ${{ github.event.inputs.skip_funding || 'false' }}
-      FUND_NETWORKS: ${{ github.event.inputs.networks || 'mainnet,base,arbitrum,optimism,unichain' }}
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.17.0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build packages
-        run: pnpm build:packages
-        env:
-          NODE_OPTIONS: "--max-old-space-size=4096"
-
-      - name: Install Playwright browsers
-        run: pnpm -F webapp exec playwright install --with-deps chromium
-
-      # ONLY restore cache, never save (prevents race conditions)
-      - name: Restore VNets from cache
-        id: cache-vnets
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            tenderlyTestnetData.json
-            apps/webapp/src/test/e2e/persistent-vnet-snapshots.json
-          key: persistent-vnets-${{ github.head_ref || github.ref_name }}-v3
-
-      - name: Verify VNet files loaded
-        run: |
-          echo "🔍 Verifying VNet files from cache..."
-          if [ ! -f "tenderlyTestnetData.json" ]; then
-            echo "❌ ERROR: tenderlyTestnetData.json not found after cache restore!"
-            exit 1
-          fi
-          if [ ! -f "apps/webapp/src/test/e2e/persistent-vnet-snapshots.json" ]; then
-            echo "❌ ERROR: persistent-vnet-snapshots.json not found after cache restore!"
-            exit 1
-          fi
-          echo "✅ VNet files successfully loaded from cache"
-          echo "   VNet data: $(wc -c < tenderlyTestnetData.json) bytes"
-          echo "   Snapshots: $(wc -c < apps/webapp/src/test/e2e/persistent-vnet-snapshots.json) bytes"
-
       - name: Run parallel E2E tests
         run: |
           echo "Running parallel E2E tests with $TEST_WORKERS workers"
@@ -303,3 +209,40 @@ jobs:
             echo "- **Status**: ❌ Some tests failed" >> $GITHUB_STEP_SUMMARY
             echo "- **Artifacts**: Check uploaded test results and traces" >> $GITHUB_STEP_SUMMARY
           fi
+
+      - name: Verify snapshots before saving to cache
+        if: always()
+        run: |
+          echo "================================================================"
+          echo "📦 PREPARING TO SAVE VNETS TO CACHE"
+          echo "================================================================"
+          echo ""
+          echo "Checking what will be saved:"
+          echo ""
+          if [ -f "tenderlyTestnetData.json" ]; then
+            echo "✅ tenderlyTestnetData.json exists ($(wc -c < tenderlyTestnetData.json) bytes)"
+            echo "   Networks: $(cat tenderlyTestnetData.json | jq -r '.[].NETWORK' | tr '\n' ', ')"
+          else
+            echo "❌ tenderlyTestnetData.json NOT FOUND"
+          fi
+          echo ""
+          if [ -f "apps/webapp/src/test/e2e/persistent-vnet-snapshots.json" ]; then
+            echo "✅ persistent-vnet-snapshots.json exists ($(wc -c < apps/webapp/src/test/e2e/persistent-vnet-snapshots.json) bytes)"
+            echo "   Content:"
+            cat apps/webapp/src/test/e2e/persistent-vnet-snapshots.json | jq '.'
+          else
+            echo "❌ persistent-vnet-snapshots.json NOT FOUND"
+            echo "⚠️  This means snapshots were not created during global setup!"
+          fi
+          echo ""
+          echo "================================================================"
+      
+      # Feature branch VNets are kept for fast reruns
+      - name: Save VNets to cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            tenderlyTestnetData.json
+            apps/webapp/src/test/e2e/persistent-vnet-snapshots.json
+          key: persistent-vnets-${{ github.head_ref || github.ref_name }}-v3
