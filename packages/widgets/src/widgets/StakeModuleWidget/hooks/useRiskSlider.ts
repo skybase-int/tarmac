@@ -45,6 +45,13 @@ export const useRiskSlider = ({ vault, isRepayMode = false }: UseRiskSliderProps
       return;
     }
 
+    // Check if slider is at the cap position - use exact capped amount
+    if (!isRepayMode && capPercentage !== undefined && Math.abs(value - capPercentage) < 0.1) {
+      const cappedAmount = vault?.maxSafeBorrowableIntAmount || 0n;
+      setValue(cappedAmount);
+      return;
+    }
+
     // In borrow manage flow (existing debt), treat initial risk level as 0 borrow amount
     // Only allow increasing borrow by moving right from initial position
     if (!isRepayMode && initialRiskFloor !== undefined) {
@@ -94,11 +101,31 @@ export const useRiskSlider = ({ vault, isRepayMode = false }: UseRiskSliderProps
     ? true
     : vault?.debtValue && vault?.debtValue > 0n && vault?.collateralAmount && vault?.collateralAmount > 0n;
 
+  // Calculate cap percentage based on capped vs uncapped max borrowable
+  const capPercentage = useMemo(() => {
+    if (isRepayMode) return undefined;
+
+    const maxBorrowableCapped = vault?.maxSafeBorrowableIntAmount || 0n;
+    const maxBorrowableUncapped = vault?.maxSafeBorrowableIntAmountNoCap || 0n;
+
+    if (maxBorrowableUncapped === 0n) return undefined;
+
+    // Cap percentage represents where the debt ceiling limit is on the slider
+    // If capped < uncapped, there's a ceiling
+    if (maxBorrowableCapped < maxBorrowableUncapped) {
+      const ratio = Number((maxBorrowableCapped * 10000n) / maxBorrowableUncapped) / 100;
+      return ratio;
+    }
+
+    return undefined;
+  }, [vault?.maxSafeBorrowableIntAmount, vault?.maxSafeBorrowableIntAmountNoCap, isRepayMode]);
+
   return {
     sliderValue,
     handleSliderChange,
     shouldShowSlider,
     currentRiskFloor: initialRiskFloor,
-    currentRiskCeiling: initialRiskCeiling
+    currentRiskCeiling: initialRiskCeiling,
+    capPercentage
   };
 };

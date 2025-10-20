@@ -16,6 +16,7 @@ type RiskSliderProps = React.ComponentProps<typeof SliderPrimitive.Root> & {
   sliderLabel?: string;
   currentRiskFloor?: number;
   currentRiskCeiling?: number;
+  capIndicationPercentage?: number;
 };
 
 const RISK_INDICATOR_SIZE = 10;
@@ -39,6 +40,7 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
       onValueCommit,
       currentRiskFloor,
       currentRiskCeiling,
+      capIndicationPercentage,
       ...props
     },
     ref
@@ -60,6 +62,13 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
       // If currentRiskCeiling is set, prevent dragging above it (repay mode)
       if (currentRiskCeiling !== undefined && v[0] > currentRiskCeiling) {
         const clampedValue = [currentRiskCeiling];
+        setLocalValue(clampedValue);
+        onValueChange?.(clampedValue);
+        return;
+      }
+      // If capIndicationPercentage is set, prevent dragging past the cap (debt ceiling)
+      if (capIndicationPercentage !== undefined && v[0] > capIndicationPercentage) {
+        const clampedValue = [capIndicationPercentage];
         setLocalValue(clampedValue);
         onValueChange?.(clampedValue);
         return;
@@ -109,6 +118,18 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
                 backgroundColor: `${riskColor ? riskColor : 'rgb(239, 68, 68)'}`,
                 height: `${indicatorSize}px`,
                 width: `${indicatorSize}px`
+              }}
+            />
+          )}
+          {capIndicationPercentage !== undefined && (
+            <div
+              className="absolute top-1/2 -translate-y-1/2 transform rounded-full"
+              style={{
+                left: `calc(${capIndicationPercentage}% - ${indicatorSize / 2}px)`,
+                backgroundColor: 'rgb(251, 191, 36)',
+                height: `${indicatorSize}px`,
+                width: `${indicatorSize}px`,
+                border: '2px solid rgb(217, 119, 6)'
               }}
             />
           )}
