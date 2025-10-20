@@ -59,7 +59,7 @@ jobs:
           echo "ref_name=$GITHUB_REF_NAME"
           echo "head_ref=$GITHUB_HEAD_REF"
           echo "ref=$GITHUB_REF"
-          echo "cache_key=persistent-vnets-${{ github.head_ref || github.ref_name }}-v3"
+          echo "restore_key=persistent-vnets-${{ github.head_ref || github.ref_name }}-v3-"
           echo "concurrency_group=vnets-${{ github.head_ref || github.ref_name }}"
 
       - name: Setup pnpm
@@ -91,7 +91,9 @@ jobs:
           path: |
             tenderlyTestnetData.json
             apps/webapp/src/test/e2e/persistent-vnet-snapshots.json
-          key: persistent-vnets-${{ github.head_ref || github.ref_name }}-v3
+          key: persistent-vnets-${{ github.head_ref || github.ref_name }}-v3-
+          restore-keys: |
+            persistent-vnets-${{ github.head_ref || github.ref_name }}-v3-
 
       - name: Check VNet files
         id: check-files
@@ -211,7 +213,7 @@ jobs:
           fi
 
       - name: Verify snapshots before saving to cache
-        if: always()
+        if: always() && github.ref != 'refs/heads/main'
         run: |
           echo "================================================================"
           echo "📦 PREPARING TO SAVE VNETS TO CACHE"
@@ -239,10 +241,11 @@ jobs:
       
       # Feature branch VNets are kept for fast reruns
       - name: Save VNets to cache
-        if: always()
+        if: always() && github.ref != 'refs/heads/main' && (steps.check-files.outputs.have_vnet_json == 'true' || steps.check-files.outputs.have_snapshots == 'true')
         uses: actions/cache/save@v4
         with:
           path: |
             tenderlyTestnetData.json
             apps/webapp/src/test/e2e/persistent-vnet-snapshots.json
-          key: persistent-vnets-${{ github.head_ref || github.ref_name }}-v3
+          key: persistent-vnets-${{ github.head_ref || github.ref_name }}-v3-${{ hashFiles('tenderlyTestnetData.json', 'apps/webapp/src/test/e2e/persistent-vnet-snapshots.json') }}
+        continue-on-error: true
