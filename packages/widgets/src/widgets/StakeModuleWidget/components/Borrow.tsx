@@ -9,7 +9,7 @@ import {
   useVault,
   Vault,
   CollateralRiskParameters,
-  useSealExitFee
+  useSkyPrice
 } from '@jetstreamgg/sky-hooks';
 import { t } from '@lingui/core/macro';
 import { useContext, useEffect, useMemo } from 'react';
@@ -119,11 +119,13 @@ const PositionManagerOverviewContainer = ({
 
   const formattedExistingMaxBorrowable = `${formatBigInt(existingVault?.maxSafeBorrowableIntAmount || 0n, {
     unit: getTokenDecimals(usds, chainId),
-    compact: true
+    compact: true,
+    maxDecimals: 0
   })} ${usds.symbol}`;
   const formatterSimulatedMaxBorrowable = `${formatBigInt(simulatedVault?.maxSafeBorrowableIntAmount || 0n, {
     unit: getTokenDecimals(usds, chainId),
-    compact: true
+    compact: true,
+    maxDecimals: 0
   })} ${usds.symbol}`;
 
   const formattedMaxBorrowable =
@@ -131,13 +133,13 @@ const PositionManagerOverviewContainer = ({
       ? [formattedExistingMaxBorrowable, formatterSimulatedMaxBorrowable]
       : formatterSimulatedMaxBorrowable;
 
-  const { data: exitFee } = useSealExitFee();
+  const { data: skyMarketPrice } = useSkyPrice();
 
   const initialTxData = useMemo(
     () =>
       [
         {
-          label: t`You staked`,
+          label: t`Staking`,
           value:
             hasPositions && newCollateralAmount !== existingColAmount
               ? [
@@ -147,7 +149,7 @@ const PositionManagerOverviewContainer = ({
               : `${formatBigInt(newCollateralAmount, { compact: true })} SKY`
         },
         {
-          label: t`You borrowed`,
+          label: t`Borrowing`,
           value:
             hasPositions && newBorrowAmount !== existingBorrowAmount
               ? [
@@ -175,6 +177,13 @@ const PositionManagerOverviewContainer = ({
               }
             ],
         {
+          label: t`SKY price`,
+          value:
+            skyMarketPrice !== undefined
+              ? `$${formatBigInt(skyMarketPrice, { unit: WAD_PRECISION })}`
+              : t`Not available`
+        },
+        {
           label: t`Capped OSM SKY price`,
           value: `$${formatBigInt(simulatedVault?.delayedPrice || 0n, { unit: WAD_PRECISION })}`,
           tooltipText: getTooltipById('capped-osm-sky-price')?.tooltip || ''
@@ -190,7 +199,7 @@ const PositionManagerOverviewContainer = ({
       existingColAmount,
       existingBorrowAmount,
       hasPositions,
-      exitFee
+      skyMarketPrice
     ]
   );
 
