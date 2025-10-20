@@ -32,6 +32,10 @@ export function calculateVaultInfo({
   const collateralizationRatio = math.collateralizationRatio(collateralValue, debtValue);
   const liquidationPrice = math.liquidationPrice(ink, math.debtValue(art, rate), mat);
 
+  const collateralValueNoCap = math.collateralValue(ink, marketPrice || delayedPrice);
+  const maxSafeBorrowableAmountNoCap = math.daiAvailable(collateralValueNoCap, debtValue, mat);
+  const maxSafeBorrowableIntAmountNoCap = math.removeDecimalPartOfWad(maxSafeBorrowableAmountNoCap); // wad
+
   const liquidationProximityPercentage = calculateLiquidationProximityPercentage(
     debtValue,
     liquidationPrice,
@@ -54,7 +58,8 @@ export function calculateVaultInfo({
     maxSafeBorrowableAmount,
     maxSafeBorrowableIntAmount: math.removeDecimalPartOfWad(maxSafeBorrowableAmount), // wad
     liquidationProximityPercentage,
-    riskLevel
+    riskLevel,
+    maxSafeBorrowableIntAmountNoCap
   };
 }
 

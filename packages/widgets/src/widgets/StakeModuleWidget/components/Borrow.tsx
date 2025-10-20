@@ -43,11 +43,13 @@ const { usds } = TOKENS;
 
 const { LOW } = RiskLevel;
 
-const SliderContainer = ({ vault }: { vault?: Vault }) => {
-  const { sliderValue, handleSliderChange, shouldShowSlider, currentRiskFloor } = useRiskSlider({
-    vault,
-    isRepayMode: false
-  });
+const SliderContainer = ({ vault, existingVault }: { vault?: Vault; existingVault?: Vault }) => {
+  const { sliderValue, handleSliderChange, shouldShowSlider, currentRiskFloor, capPercentage } =
+    useRiskSlider({
+      vault,
+      existingVault,
+      isRepayMode: false
+    });
 
   return shouldShowSlider ? (
     <RiskSlider
@@ -61,6 +63,7 @@ const SliderContainer = ({ vault }: { vault?: Vault }) => {
       liquidationLabel={t`Liquidation`}
       sliderLabel={t`Liquidation risk meter`}
       currentRiskFloor={currentRiskFloor}
+      capIndicationPercentage={capPercentage}
     />
   ) : null;
 };
@@ -450,7 +453,7 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
       ) : (
         <div className="mb-4" />
       )}
-      <SliderContainer vault={simulatedVault} />
+      <SliderContainer vault={simulatedVault} existingVault={existingVault} />
 
       {simulatedVault && (
         <div className="flex items-center px-3 pt-1">

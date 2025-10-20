@@ -3,6 +3,7 @@ import * as SliderPrimitive from '@radix-ui/react-slider';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { cn } from '@widgets/lib/utils';
 import { HStack } from './layout/HStack';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@widgets/components/ui/tooltip';
 
 type RiskSliderProps = React.ComponentProps<typeof SliderPrimitive.Root> & {
   riskColor?: string;
@@ -16,6 +17,7 @@ type RiskSliderProps = React.ComponentProps<typeof SliderPrimitive.Root> & {
   sliderLabel?: string;
   currentRiskFloor?: number;
   currentRiskCeiling?: number;
+  capIndicationPercentage?: number;
 };
 
 const RISK_INDICATOR_SIZE = 10;
@@ -39,6 +41,7 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
       onValueCommit,
       currentRiskFloor,
       currentRiskCeiling,
+      capIndicationPercentage,
       ...props
     },
     ref
@@ -64,8 +67,24 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
         onValueChange?.(clampedValue);
         return;
       }
+      // If capIndicationPercentage is set, prevent dragging past the cap (debt ceiling)
+      if (capIndicationPercentage !== undefined && v[0] > capIndicationPercentage) {
+        const clampedValue = [capIndicationPercentage];
+        setLocalValue(clampedValue);
+        onValueChange?.(clampedValue);
+        return;
+      }
       setLocalValue(v);
       onValueChange?.(v);
+    };
+
+    // Calculate offset based on percentage (matches Radix thumb positioning)
+    // At 0% offset is +8px, at 50% offset is 0px, at 100% offset is -8px
+    const calculateOffset = (percentage: number) => {
+      const thumbSize = 16; // Radix thumb size (border-8 = 8px border = 16px total)
+      const halfThumb = thumbSize / 2;
+      // Linear interpolation: 0% -> +8px, 50% -> 0px, 100% -> -8px
+      return halfThumb - (percentage / 100) * thumbSize;
     };
 
     return (
@@ -111,6 +130,60 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
                 width: `${indicatorSize}px`
               }}
             />
+          )}
+          {capIndicationPercentage !== undefined && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div
+                  className="absolute top-1/2 -translate-y-1/2 transform rounded-full"
+                  style={{
+                    left: `calc(${capIndicationPercentage}% + ${calculateOffset(capIndicationPercentage)}px)`,
+                    transform: 'translateX(-50%)',
+                    backgroundColor: 'rgb(251, 191, 36)',
+                    height: `${indicatorSize}px`,
+                    width: `${indicatorSize}px`,
+                    border: '2px solid rgb(217, 119, 6)'
+                  }}
+                />
+              </TooltipTrigger>
+              <TooltipContent>Max permitted risk</TooltipContent>
+            </Tooltip>
+          )}
+          {currentRiskFloor !== undefined && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div
+                  className="absolute top-1/2 -translate-y-1/2 transform rounded-full"
+                  style={{
+                    left: `calc(${currentRiskFloor}% + ${calculateOffset(currentRiskFloor)}px)`,
+                    transform: 'translateX(-50%)',
+                    backgroundColor: 'rgb(74, 222, 128)',
+                    height: `${indicatorSize}px`,
+                    width: `${indicatorSize}px`,
+                    border: '2px solid rgb(34, 197, 94)'
+                  }}
+                />
+              </TooltipTrigger>
+              <TooltipContent>Risk floor</TooltipContent>
+            </Tooltip>
+          )}
+          {currentRiskCeiling !== undefined && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div
+                  className="absolute top-1/2 -translate-y-1/2 transform rounded-full"
+                  style={{
+                    left: `calc(${currentRiskCeiling}% + ${calculateOffset(currentRiskCeiling)}px)`,
+                    transform: 'translateX(-50%)',
+                    backgroundColor: 'rgb(248, 113, 113)',
+                    height: `${indicatorSize}px`,
+                    width: `${indicatorSize}px`,
+                    border: '2px solid rgb(239, 68, 68)'
+                  }}
+                />
+              </TooltipTrigger>
+              <TooltipContent>Risk ceiling</TooltipContent>
+            </Tooltip>
           )}
           {disabled ? (
             <SliderPrimitive.Thumb className="focus:outline-hidden block h-0 w-0" aria-label="Slider">

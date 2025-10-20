@@ -34,9 +34,10 @@ const { usds } = TOKENS;
 
 const { LOW } = RiskLevel;
 
-const SliderContainer = ({ vault }: { vault?: Vault }) => {
+const SliderContainer = ({ vault, existingVault }: { vault?: Vault; existingVault?: Vault }) => {
   const { sliderValue, handleSliderChange, currentRiskCeiling } = useRiskSlider({
     vault,
+    existingVault,
     isRepayMode: true
   });
 
@@ -350,7 +351,7 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
         enabled={isConnectedAndEnabled}
         disabled={!existingVault?.debtValue}
       />
-      <SliderContainer vault={simulatedVault} />
+      <SliderContainer vault={simulatedVault} existingVault={existingVault} />
 
       <PositionManagerOverviewContainer
         simulatedVault={simulatedVault}
