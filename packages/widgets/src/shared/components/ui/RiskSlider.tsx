@@ -78,6 +78,15 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
       onValueChange?.(v);
     };
 
+    // Calculate offset based on percentage (matches Radix thumb positioning)
+    // At 0% offset is +8px, at 50% offset is 0px, at 100% offset is -8px
+    const calculateOffset = (percentage: number) => {
+      const thumbSize = 16; // Radix thumb size (border-8 = 8px border = 16px total)
+      const halfThumb = thumbSize / 2;
+      // Linear interpolation: 0% -> +8px, 50% -> 0px, 100% -> -8px
+      return halfThumb - (percentage / 100) * thumbSize;
+    };
+
     return (
       <>
         {(liquidationLabel || sliderLabel) && (
@@ -128,7 +137,8 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
                 <div
                   className="absolute top-1/2 -translate-y-1/2 transform rounded-full"
                   style={{
-                    left: `calc(${capIndicationPercentage}% - ${indicatorSize / 2}px)`,
+                    left: `calc(${capIndicationPercentage}% + ${calculateOffset(capIndicationPercentage)}px)`,
+                    transform: 'translateX(-50%)',
                     backgroundColor: 'rgb(251, 191, 36)',
                     height: `${indicatorSize}px`,
                     width: `${indicatorSize}px`,
@@ -137,6 +147,42 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
                 />
               </TooltipTrigger>
               <TooltipContent>Max permitted risk</TooltipContent>
+            </Tooltip>
+          )}
+          {currentRiskFloor !== undefined && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div
+                  className="absolute top-1/2 -translate-y-1/2 transform rounded-full"
+                  style={{
+                    left: `calc(${currentRiskFloor}% + ${calculateOffset(currentRiskFloor)}px)`,
+                    transform: 'translateX(-50%)',
+                    backgroundColor: 'rgb(74, 222, 128)',
+                    height: `${indicatorSize}px`,
+                    width: `${indicatorSize}px`,
+                    border: '2px solid rgb(34, 197, 94)'
+                  }}
+                />
+              </TooltipTrigger>
+              <TooltipContent>Risk floor</TooltipContent>
+            </Tooltip>
+          )}
+          {currentRiskCeiling !== undefined && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div
+                  className="absolute top-1/2 -translate-y-1/2 transform rounded-full"
+                  style={{
+                    left: `calc(${currentRiskCeiling}% + ${calculateOffset(currentRiskCeiling)}px)`,
+                    transform: 'translateX(-50%)',
+                    backgroundColor: 'rgb(248, 113, 113)',
+                    height: `${indicatorSize}px`,
+                    width: `${indicatorSize}px`,
+                    border: '2px solid rgb(239, 68, 68)'
+                  }}
+                />
+              </TooltipTrigger>
+              <TooltipContent>Risk ceiling</TooltipContent>
             </Tooltip>
           )}
           {disabled ? (
