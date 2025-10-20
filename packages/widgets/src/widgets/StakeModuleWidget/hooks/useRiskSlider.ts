@@ -9,7 +9,7 @@ type UseRiskSliderProps = {
 };
 
 export const useRiskSlider = ({ vault, existingVault, isRepayMode = false }: UseRiskSliderProps) => {
-  const { setUsdsToBorrow, setUsdsToWipe } = useContext(StakeModuleWidgetContext);
+  const { usdsToBorrow, setUsdsToBorrow, setUsdsToWipe } = useContext(StakeModuleWidgetContext);
   const setValue = isRepayMode ? setUsdsToWipe : setUsdsToBorrow;
 
   const riskPercentage = vault?.liquidationProximityPercentage || 0;
@@ -32,6 +32,23 @@ export const useRiskSlider = ({ vault, existingVault, isRepayMode = false }: Use
       setInitialRiskCeiling(riskPercentage);
     }
   }, [isRepayMode, hasExistingDebt, riskPercentage, initialRiskFloor, initialRiskCeiling]);
+
+  // Update the floor when collateral changes in borrow mode (and no borrow amount set)
+  useEffect(() => {
+    if (!isRepayMode && initialRiskFloor !== undefined && usdsToBorrow === 0n) {
+      setInitialRiskFloor(riskPercentage);
+    }
+  }, [usdsToBorrow, riskPercentage, initialRiskFloor, isRepayMode]);
+
+  // Update the ceiling when collateral changes in repay mode (and no repay amount set)
+  // Get the repay amount from context
+  const { usdsToWipe } = useContext(StakeModuleWidgetContext);
+
+  useEffect(() => {
+    if (isRepayMode && initialRiskCeiling !== undefined && usdsToWipe === 0n) {
+      setInitialRiskCeiling(riskPercentage);
+    }
+  }, [isRepayMode, usdsToWipe, riskPercentage, initialRiskCeiling]);
 
   const [maxBorrowable, maxValue] = useMemo(() => {
     const maxBorrowable = vault?.maxSafeBorrowableIntAmountNoCap || 0n;
@@ -82,15 +99,23 @@ export const useRiskSlider = ({ vault, existingVault, isRepayMode = false }: Use
         setValue(0n);
         return;
       }
+      // Calculate repayment amount based on current debt
+      const currentDebt = existingVault?.debtValue || 0n;
+      if (currentDebt === 0n) {
+        setValue(0n);
+        return;
+      }
+
       // Calculate repayment amount from selected value to initial risk level
+      // repayPercentage represents how much of the ceiling range we're moving left
       const repayPercentage = initialRiskCeiling - value;
       const repayablePercentage = initialRiskCeiling;
       const newValue =
         repayablePercentage > 0
-          ? (maxBorrowable * BigInt(Math.round(repayPercentage * 100))) /
+          ? (currentDebt * BigInt(Math.round(repayPercentage * 100))) /
             BigInt(Math.round(repayablePercentage * 100))
           : 0n;
-      setValue(newValue < maxValue ? newValue : maxValue);
+      setValue(newValue);
     } else {
       // Original behavior for no existing debt
       const newValue = value === 0 ? 0n : (maxBorrowable * BigInt(value)) / 100n;
