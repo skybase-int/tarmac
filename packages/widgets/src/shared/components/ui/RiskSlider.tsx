@@ -3,6 +3,7 @@ import * as SliderPrimitive from '@radix-ui/react-slider';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { cn } from '@widgets/lib/utils';
 import { HStack } from './layout/HStack';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@widgets/components/ui/tooltip';
 
 type RiskSliderProps = React.ComponentProps<typeof SliderPrimitive.Root> & {
   riskColor?: string;
@@ -122,16 +123,21 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
             />
           )}
           {capIndicationPercentage !== undefined && (
-            <div
-              className="absolute top-1/2 -translate-y-1/2 transform rounded-full"
-              style={{
-                left: `calc(${capIndicationPercentage}% - ${indicatorSize / 2}px)`,
-                backgroundColor: 'rgb(251, 191, 36)',
-                height: `${indicatorSize}px`,
-                width: `${indicatorSize}px`,
-                border: '2px solid rgb(217, 119, 6)'
-              }}
-            />
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div
+                  className="absolute top-1/2 -translate-y-1/2 transform rounded-full"
+                  style={{
+                    left: `calc(${capIndicationPercentage}% - ${indicatorSize / 2}px)`,
+                    backgroundColor: 'rgb(251, 191, 36)',
+                    height: `${indicatorSize}px`,
+                    width: `${indicatorSize}px`,
+                    border: '2px solid rgb(217, 119, 6)'
+                  }}
+                />
+              </TooltipTrigger>
+              <TooltipContent>Max permitted risk</TooltipContent>
+            </Tooltip>
           )}
           {disabled ? (
             <SliderPrimitive.Thumb className="focus:outline-hidden block h-0 w-0" aria-label="Slider">
