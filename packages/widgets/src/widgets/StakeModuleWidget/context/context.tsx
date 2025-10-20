@@ -83,8 +83,8 @@ export interface StakeModuleWidgetContextProps {
   rewardContractToClaim: `0x${string}` | undefined;
   setRewardContractToClaim: Dispatch<SetStateAction<`0x${string}` | undefined>>;
 
-  wantsToDelegate: boolean;
-  setWantsToDelegate: Dispatch<SetStateAction<boolean>>;
+  wantsToDelegate: boolean | undefined;
+  setWantsToDelegate: Dispatch<SetStateAction<boolean | undefined>>;
 }
 
 export const StakeModuleWidgetContext = createContext<StakeModuleWidgetContextProps>({
@@ -138,7 +138,7 @@ export const StakeModuleWidgetContext = createContext<StakeModuleWidgetContextPr
   rewardContractToClaim: undefined,
   setRewardContractToClaim: () => undefined,
 
-  wantsToDelegate: false,
+  wantsToDelegate: undefined,
   setWantsToDelegate: () => null
 });
 
@@ -161,7 +161,7 @@ export const StakeModuleWidgetProvider = ({ children }: { children: ReactNode })
   >();
   const [indexToClaim, setIndexToClaim] = useState<bigint | undefined>();
   const [rewardContractToClaim, setRewardContractToClaim] = useState<`0x${string}` | undefined>();
-  const [wantsToDelegate, setWantsToDelegate] = useState<boolean>(false);
+  const [wantsToDelegate, setWantsToDelegate] = useState<boolean | undefined>(undefined);
 
   const { widgetState } = useContext(WidgetContext);
 

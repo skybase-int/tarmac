@@ -120,7 +120,8 @@ function StakeModuleWidgetWrapped({
     rewardContractToClaim,
     setRewardContractToClaim,
     wipeAll,
-    wantsToDelegate
+    wantsToDelegate,
+    setWantsToDelegate
   } = useContext(StakeModuleWidgetContext);
 
   const initialTabIndex = validatedExternalState?.stakeTab === StakeAction.FREE ? 1 : 0;
@@ -480,6 +481,11 @@ function StakeModuleWidgetWrapped({
       handleClickOpenPosition();
     }
   }, [externalWidgetState?.flow]);
+
+  // Reset wantsToDelegate when the active urn changes
+  useEffect(() => {
+    setWantsToDelegate(undefined);
+  }, [activeUrn?.urnIndex]);
 
   /**
    * BUTTON CLICKS ----------------------------------------------------------------------------------

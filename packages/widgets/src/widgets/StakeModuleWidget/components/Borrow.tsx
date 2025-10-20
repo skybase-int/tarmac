@@ -323,10 +323,15 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
 
   // Update wantsToDelegate when activeUrn changes
   useEffect(() => {
-    if (hasExistingDelegate) {
-      setWantsToDelegate(true);
-    } else if (widgetState.flow === StakeFlow.OPEN) {
-      // For new positions, default to unchecked
+    if (wantsToDelegate !== undefined) {
+      return;
+    }
+
+    if (widgetState.flow === StakeFlow.OPEN) {
+      setWantsToDelegate(false);
+    } else if (hasExistingDelegate !== undefined) {
+      setWantsToDelegate(hasExistingDelegate);
+    } else {
       setWantsToDelegate(false);
     }
   }, [hasExistingDelegate, widgetState.flow, activeUrn?.urnIndex, setWantsToDelegate]);
