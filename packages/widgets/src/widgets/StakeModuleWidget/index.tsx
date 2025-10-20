@@ -425,10 +425,14 @@ function StakeModuleWidgetWrapped({
       setSelectedRewardContract(undefined);
     }
 
-    if (!!externalParamVaultData && externalUrnVoteDelegate) {
+    // Set delegate and wantsToDelegate
+    if (!!externalParamVaultData && externalUrnVoteDelegate !== undefined) {
       setSelectedDelegate(externalUrnVoteDelegate);
+      // Set wantsToDelegate based on whether a delegate exists
+      setWantsToDelegate(externalUrnVoteDelegate !== ZERO_ADDRESS);
     } else {
       setSelectedDelegate(undefined);
+      setWantsToDelegate(false);
     }
 
     // Update widget state first
@@ -482,10 +486,12 @@ function StakeModuleWidgetWrapped({
     }
   }, [externalWidgetState?.flow]);
 
-  // Reset wantsToDelegate when the active urn changes
+  // Reset wantsToDelegate only when clearing the active urn (e.g., opening new position)
   useEffect(() => {
-    setWantsToDelegate(undefined);
-  }, [activeUrn?.urnIndex]);
+    if (activeUrn === undefined) {
+      setWantsToDelegate(undefined);
+    }
+  }, [activeUrn?.urnIndex, activeUrn]);
 
   /**
    * BUTTON CLICKS ----------------------------------------------------------------------------------
