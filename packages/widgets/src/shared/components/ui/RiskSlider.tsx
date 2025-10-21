@@ -112,7 +112,10 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
           {...props}
         >
           <SliderPrimitive.Track
-            className="relative h-1 w-full grow overflow-hidden rounded-full"
+            className={cn(
+              'relative h-1 w-full grow overflow-hidden rounded-full',
+              !disabled && 'cursor-pointer'
+            )}
             style={{
               background:
                 trackColor ||
@@ -202,7 +205,7 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
           ) : (
             <Tooltip>
               <TooltipTrigger asChild>
-                <SliderPrimitive.Thumb className="border-primary ring-offset-background focus-visible:ring-ring focus-visible:outline-hidden block rounded-full border-8 bg-white transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50" />
+                <SliderPrimitive.Thumb className="border-primary ring-offset-background focus-visible:ring-ring focus-visible:outline-hidden block cursor-pointer rounded-full border-8 bg-white transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50" />
               </TooltipTrigger>
               <TooltipPortal>
                 <TooltipContent arrowPadding={10} className="max-w-75">
