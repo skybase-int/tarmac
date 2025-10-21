@@ -43,14 +43,14 @@ const SliderContainer = ({
   existingVault?: Vault;
   vaultNoBorrow?: Vault;
 }) => {
-  const { sliderValue, handleSliderChange, currentRiskCeiling } = useRiskSlider({
+  const { sliderValue, handleSliderChange, shouldShowSlider, currentRiskCeiling } = useRiskSlider({
     vault,
     existingVault,
     vaultNoBorrow,
     isRepayMode: true
   });
 
-  return (
+  return shouldShowSlider ? (
     <RiskSlider
       value={sliderValue}
       max={100}
@@ -63,7 +63,7 @@ const SliderContainer = ({
       sliderLabel={t`Liquidation risk meter`}
       currentRiskCeiling={currentRiskCeiling}
     />
-  );
+  ) : null;
 };
 
 const PositionManagerOverviewContainer = ({
