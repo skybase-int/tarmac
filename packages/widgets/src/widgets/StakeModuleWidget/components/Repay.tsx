@@ -34,10 +34,19 @@ const { usds } = TOKENS;
 
 const { LOW } = RiskLevel;
 
-const SliderContainer = ({ vault, existingVault }: { vault?: Vault; existingVault?: Vault }) => {
+const SliderContainer = ({
+  vault,
+  existingVault,
+  vaultNoBorrow
+}: {
+  vault?: Vault;
+  existingVault?: Vault;
+  vaultNoBorrow?: Vault;
+}) => {
   const { sliderValue, handleSliderChange, currentRiskCeiling } = useRiskSlider({
     vault,
     existingVault,
+    vaultNoBorrow,
     isRepayMode: true
   });
 
@@ -289,6 +298,15 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
     ilkName
   );
 
+  // Simulate a new vault using only the existing debt value (not taking into account new debt)
+  // to be able to calculate risk floor and ceiling values
+  const { data: simulatedVaultNoBorrow } = useSimulatedVault(
+    newCollateralAmount > 0n ? newCollateralAmount : 0n,
+    existingVault?.debtValue || 0n,
+    existingVault?.debtValue || 0n,
+    ilkName
+  );
+
   useEffect(() => {
     // Wait for debounced amount
     setIsBorrowCompleted(debouncedUsdsToWipe === usdsToWipe && !error && !isLoading);
@@ -351,7 +369,11 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
         enabled={isConnectedAndEnabled}
         disabled={!existingVault?.debtValue}
       />
-      <SliderContainer vault={simulatedVault} existingVault={existingVault} />
+      <SliderContainer
+        vault={simulatedVault}
+        existingVault={existingVault}
+        vaultNoBorrow={simulatedVaultNoBorrow}
+      />
 
       <PositionManagerOverviewContainer
         simulatedVault={simulatedVault}

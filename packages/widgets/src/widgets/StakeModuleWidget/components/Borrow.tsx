@@ -36,11 +36,20 @@ const { usds } = TOKENS;
 
 const { LOW } = RiskLevel;
 
-const SliderContainer = ({ vault, existingVault }: { vault?: Vault; existingVault?: Vault }) => {
+const SliderContainer = ({
+  vault,
+  existingVault,
+  vaultNoBorrow
+}: {
+  vault?: Vault;
+  existingVault?: Vault;
+  vaultNoBorrow?: Vault;
+}) => {
   const { sliderValue, handleSliderChange, shouldShowSlider, currentRiskFloor, capPercentage } =
     useRiskSlider({
       vault,
       existingVault,
+      vaultNoBorrow,
       isRepayMode: false
     });
 
@@ -313,12 +322,21 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
   const newCollateralAmount = skyToLock + (existingVault?.collateralAmount || 0n);
 
   const { data: collateralData } = useCollateralData(ilkName);
-
+  console.log({ newBorrowAmount });
   const {
     data: simulatedVault,
     isLoading,
     error
   } = useSimulatedVault(newCollateralAmount, newBorrowAmount, existingVault?.debtValue || 0n, ilkName);
+
+  // Simulate a new vault using only the existing debt value (not taking into account new debt)
+  // to be able to calculate risk floor and ceiling values
+  const { data: simulatedVaultNoBorrow } = useSimulatedVault(
+    newCollateralAmount,
+    existingVault?.debtValue || 0n,
+    existingVault?.debtValue || 0n,
+    ilkName
+  );
 
   const minCollateralNotMet =
     simulatedVault?.collateralAmount !== undefined &&
@@ -417,7 +435,11 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
       ) : (
         <div className="mb-4" />
       )}
-      <SliderContainer vault={simulatedVault} existingVault={existingVault} />
+      <SliderContainer
+        vault={simulatedVault}
+        existingVault={existingVault}
+        vaultNoBorrow={simulatedVaultNoBorrow}
+      />
 
       <PositionManagerOverviewContainer
         simulatedVault={simulatedVault}
