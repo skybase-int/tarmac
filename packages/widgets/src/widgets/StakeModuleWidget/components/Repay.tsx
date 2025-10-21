@@ -320,7 +320,7 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
 
   const calculateMaxRepayable = useCallback(() => {
     if (!existingVault?.debtValue || !usdsBalance?.value) {
-      return existingVault?.debtValue || 0n;
+      return 0n;
     }
 
     const totalDebt = existingVault.debtValue;
