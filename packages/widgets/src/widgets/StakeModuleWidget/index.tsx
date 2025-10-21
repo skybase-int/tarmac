@@ -486,12 +486,19 @@ function StakeModuleWidgetWrapped({
     }
   }, [externalWidgetState?.flow]);
 
-  // Reset wantsToDelegate only when clearing the active urn (e.g., opening new position)
+  // stakestepntsToDelegate only when clearing the active urn (e.g., opening new position)
   useEffect(() => {
     if (activeUrn === undefined) {
       setWantsToDelegate(undefined);
     }
   }, [activeUrn?.urnIndex, activeUrn]);
+
+  // Reset delegate when wantsToDelegate is false and we are in the summary step before clicking confirm
+  useEffect(() => {
+    if (currentStep === StakeStep.SUMMARY && !wantsToDelegate && selectedDelegate !== undefined) {
+      setSelectedDelegate(undefined);
+    }
+  }, [wantsToDelegate, selectedDelegate, setSelectedDelegate, currentStep]);
 
   /**
    * BUTTON CLICKS ----------------------------------------------------------------------------------
