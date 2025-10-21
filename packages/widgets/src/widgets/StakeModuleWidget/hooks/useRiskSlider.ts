@@ -5,14 +5,21 @@ import { StakeModuleWidgetContext } from '../context/context';
 type UseRiskSliderProps = {
   vault?: Vault;
   existingVault?: Vault;
+  vaultNoBorrow?: Vault;
   isRepayMode?: boolean;
 };
 
-export const useRiskSlider = ({ vault, existingVault, isRepayMode = false }: UseRiskSliderProps) => {
+export const useRiskSlider = ({
+  vault,
+  existingVault,
+  vaultNoBorrow,
+  isRepayMode = false
+}: UseRiskSliderProps) => {
   const { setUsdsToBorrow, setUsdsToWipe } = useContext(StakeModuleWidgetContext);
   const setValue = isRepayMode ? setUsdsToWipe : setUsdsToBorrow;
 
   const riskPercentage = vault?.liquidationProximityPercentage || 0;
+  const riskPercentageNoBorrow = vaultNoBorrow?.liquidationProximityPercentage || 0;
   const hasExistingDebt = (existingVault?.debtValue || 0n) > 0n;
 
   const [sliderValue, setSliderValue] = useState([Math.max(1, riskPercentage)]);
@@ -23,15 +30,15 @@ export const useRiskSlider = ({ vault, existingVault, isRepayMode = false }: Use
   const [initialRiskCeiling, setInitialRiskCeiling] = useState<number | undefined>();
 
   useEffect(() => {
-    // Set the initial risk floor only once when we have valid vault data in borrow mode
-    if (initialRiskFloor === undefined && !isRepayMode && hasExistingDebt) {
-      setInitialRiskFloor(riskPercentage);
+    // Set the initial risk floor when we have valid vault data in borrow mode
+    if (!isRepayMode && hasExistingDebt && vaultNoBorrow) {
+      setInitialRiskFloor(riskPercentageNoBorrow);
     }
-    // Set the initial risk ceiling only once when we have valid vault data in repay mode
-    if (initialRiskCeiling === undefined && isRepayMode && hasExistingDebt) {
-      setInitialRiskCeiling(riskPercentage);
+    // Set the initial risk ceiling when we have valid vault data in repay mode
+    if (isRepayMode && hasExistingDebt && vaultNoBorrow) {
+      setInitialRiskCeiling(riskPercentageNoBorrow);
     }
-  }, [isRepayMode, hasExistingDebt, riskPercentage, initialRiskFloor, initialRiskCeiling]);
+  }, [isRepayMode, hasExistingDebt, vaultNoBorrow, riskPercentageNoBorrow]);
 
   const [maxBorrowable, maxValue] = useMemo(() => {
     const maxBorrowable = vault?.maxSafeBorrowableIntAmountNoCap || 0n;
