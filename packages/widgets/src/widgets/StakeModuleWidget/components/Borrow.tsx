@@ -73,6 +73,7 @@ const SliderContainer = ({
       sliderLabel={t`Liquidation risk meter`}
       currentRiskFloor={currentRiskFloor}
       capIndicationPercentage={capPercentage}
+      isRepayMode={false}
     />
   ) : null;
 };

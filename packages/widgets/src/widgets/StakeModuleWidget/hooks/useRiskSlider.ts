@@ -113,8 +113,12 @@ export const useRiskSlider = ({
     }
   };
 
+  const existingOrNewVault = existingVault || vault;
   const shouldShowSlider =
-    !!vault?.debtValue && vault?.debtValue > 0n && !!vault?.collateralAmount && vault?.collateralAmount > 0n;
+    !!existingOrNewVault?.debtValue &&
+    existingOrNewVault?.debtValue > 0n &&
+    !!existingOrNewVault?.collateralAmount &&
+    existingOrNewVault?.collateralAmount > 0n;
 
   // Calculate cap percentage based on capped vs uncapped max borrowable
   const capPercentage = useMemo(() => {

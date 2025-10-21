@@ -3,7 +3,7 @@ import * as SliderPrimitive from '@radix-ui/react-slider';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { cn } from '@widgets/lib/utils';
 import { HStack } from './layout/HStack';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@widgets/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipPortal, TooltipTrigger } from '@widgets/components/ui/tooltip';
 
 type RiskSliderProps = React.ComponentProps<typeof SliderPrimitive.Root> & {
   riskColor?: string;
@@ -18,6 +18,7 @@ type RiskSliderProps = React.ComponentProps<typeof SliderPrimitive.Root> & {
   currentRiskFloor?: number;
   currentRiskCeiling?: number;
   capIndicationPercentage?: number;
+  isRepayMode: boolean;
 };
 
 const RISK_INDICATOR_SIZE = 10;
@@ -42,6 +43,7 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
       currentRiskFloor,
       currentRiskCeiling,
       capIndicationPercentage,
+      isRepayMode,
       ...props
     },
     ref
@@ -146,7 +148,9 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
                   }}
                 />
               </TooltipTrigger>
-              <TooltipContent>Max permitted risk</TooltipContent>
+              <TooltipPortal>
+                <TooltipContent>Max permitted risk</TooltipContent>
+              </TooltipPortal>
             </Tooltip>
           )}
           {currentRiskFloor !== undefined && (
@@ -164,7 +168,9 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
                   }}
                 />
               </TooltipTrigger>
-              <TooltipContent>Risk floor</TooltipContent>
+              <TooltipPortal>
+                <TooltipContent>Risk floor</TooltipContent>
+              </TooltipPortal>
             </Tooltip>
           )}
           {currentRiskCeiling !== undefined && (
@@ -182,7 +188,9 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
                   }}
                 />
               </TooltipTrigger>
-              <TooltipContent>Risk ceiling</TooltipContent>
+              <TooltipPortal>
+                <TooltipContent>Risk ceiling</TooltipContent>
+              </TooltipPortal>
             </Tooltip>
           )}
           {disabled ? (
@@ -192,7 +200,18 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
               />
             </SliderPrimitive.Thumb>
           ) : (
-            <SliderPrimitive.Thumb className="border-primary ring-offset-background focus-visible:ring-ring focus-visible:outline-hidden block rounded-full border-8 bg-white transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50" />
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <SliderPrimitive.Thumb className="border-primary ring-offset-background focus-visible:ring-ring focus-visible:outline-hidden block rounded-full border-8 bg-white transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50" />
+              </TooltipTrigger>
+              <TooltipPortal>
+                <TooltipContent arrowPadding={10} className="max-w-75">
+                  {isRepayMode
+                    ? 'Risk can only be adjusted downwards when repaying. To adjust upwards, you can unstake SKY, or borrow more USDS on the Stake and Borrow tab.'
+                    : 'Risk can only be adjusted upwards when borrowing. To adjust downwards, you can stake more SKY, or repay USDS on the Unstake and Repay tab.'}
+                </TooltipContent>
+              </TooltipPortal>
+            </Tooltip>
           )}
         </SliderPrimitive.Root>
         <HStack className="justify-between px-4 pt-1">
