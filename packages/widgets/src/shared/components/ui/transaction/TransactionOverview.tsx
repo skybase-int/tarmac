@@ -23,7 +23,7 @@ type TransactionOverviewParams = {
   transactionData:
     | {
         label: string;
-        value: string | string[];
+        value: string | string[] | React.ReactNode;
         error?: boolean;
         className?: string;
         classNamePrev?: string;
@@ -91,7 +91,7 @@ export function TransactionOverview({
                       </HStack>
 
                       {Array.isArray(value) && value.length >= 2 ? (
-                        <HStack className="shrink-0 items-center">
+                        <HStack className="shrink-0 items-center" gap={2}>
                           <Text
                             className={`${error ? 'text-error' : classNamePrev || className} text-right text-sm`}
                           >

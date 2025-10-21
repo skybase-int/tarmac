@@ -122,11 +122,13 @@ const PositionManagerOverviewContainer = ({
 
   const formattedExistingMaxBorrowable = `${formatBigInt(existingVault?.maxSafeBorrowableIntAmount || 0n, {
     unit: getTokenDecimals(usds, chainId),
-    compact: true
+    compact: true,
+    maxDecimals: 0
   })} ${usds.symbol}`;
   const formatterSimulatedMaxBorrowable = `${formatBigInt(simulatedVault?.maxSafeBorrowableIntAmount || 0n, {
     unit: getTokenDecimals(usds, chainId),
-    compact: true
+    compact: true,
+    maxDecimals: 0
   })} ${usds.symbol}`;
 
   const formattedMaxBorrowable =
@@ -140,7 +142,7 @@ const PositionManagerOverviewContainer = ({
     () =>
       [
         {
-          label: t`You staked`,
+          label: t`Staking`,
           value:
             hasPositions && newCollateralAmount !== existingColAmount
               ? [
@@ -150,7 +152,7 @@ const PositionManagerOverviewContainer = ({
               : `${formatBigInt(newCollateralAmount, { compact: true })} SKY`
         },
         {
-          label: t`You borrowed`,
+          label: t`Borrowing`,
           value:
             hasPositions && newBorrowAmount !== existingBorrowAmount
               ? [
