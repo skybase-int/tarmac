@@ -486,7 +486,7 @@ function StakeModuleWidgetWrapped({
     }
   }, [externalWidgetState?.flow]);
 
-  // stakestepntsToDelegate only when clearing the active urn (e.g., opening new position)
+  // Reset wantsToDelegate only when clearing the active urn (e.g., opening new position)
   useEffect(() => {
     if (activeUrn === undefined) {
       setWantsToDelegate(undefined);
