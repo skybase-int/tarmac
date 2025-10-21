@@ -493,6 +493,13 @@ function StakeModuleWidgetWrapped({
     }
   }, [activeUrn?.urnIndex, activeUrn]);
 
+  // Reset delegate when wantsToDelegate is false and we are in the summary step before clicking confirm
+  useEffect(() => {
+    if (currentStep === StakeStep.SUMMARY && !wantsToDelegate && selectedDelegate !== undefined) {
+      setSelectedDelegate(undefined);
+    }
+  }, [wantsToDelegate, selectedDelegate, setSelectedDelegate, currentStep]);
+
   /**
    * BUTTON CLICKS ----------------------------------------------------------------------------------
    */
