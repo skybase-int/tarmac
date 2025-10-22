@@ -133,18 +133,22 @@ export const useRiskSlider = ({
 
     const maxBorrowableCapped = vault?.maxSafeBorrowableIntAmount || 0n;
     const maxBorrowableUncapped = vault?.maxSafeBorrowableIntAmountNoCap || 0n;
+    const existingDebtValue = vaultNoBorrow?.debtValue || 0n;
 
     if (maxBorrowableUncapped === 0n) return undefined;
 
     // Cap percentage represents where the debt ceiling limit is on the slider
     // If capped < uncapped, there's a ceiling
     if (maxBorrowableCapped < maxBorrowableUncapped) {
-      const ratio = Number((maxBorrowableCapped * 10000n) / maxBorrowableUncapped) / 100;
+      const ratio =
+        Number(
+          ((maxBorrowableCapped + existingDebtValue) * 10000n) / (maxBorrowableUncapped + existingDebtValue)
+        ) / 100;
       return ratio;
     }
 
     return undefined;
-  }, [vault?.maxSafeBorrowableIntAmount, vault?.maxSafeBorrowableIntAmountNoCap, isRepayMode]);
+  }, [vault?.maxSafeBorrowableIntAmount, vault?.maxSafeBorrowableIntAmountNoCap, isRepayMode, vaultNoBorrow]);
 
   useEffect(() => {
     // If we're at or past the cap, clamp the slider to the cap position
