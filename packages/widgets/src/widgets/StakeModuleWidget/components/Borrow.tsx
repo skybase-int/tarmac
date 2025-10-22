@@ -462,6 +462,7 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
           !isConnectedAndEnabled || minCollateralNotMet || collateralData?.debtCeilingUtilization === 1
         }
         enabled={isConnectedAndEnabled}
+        hideIcon={true}
       />
       {collateralData?.debtCeilingUtilization === 1 ? (
         <div className="ml-3 flex items-start text-amber-400">
