@@ -195,7 +195,13 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
                 />
               </TooltipTrigger>
               <TooltipPortal>
-                <TooltipContent>Max permitted risk</TooltipContent>
+                <TooltipContent side="right" className="max-w-xs">
+                  <p className="text-sm font-medium text-white">Max permitted risk</p>
+                  <p className="mt-2 text-xs text-gray-400">
+                    Risk cannot exceed the Max Permitted Risk level, determined by the capped OSM price and collateralization
+                    ratio requirements. To borrow more, stake additional SKY collateral.
+                  </p>
+                </TooltipContent>
               </TooltipPortal>
             </Tooltip>
           )}
@@ -217,7 +223,13 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
                     />
                   </TooltipTrigger>
                   <TooltipPortal>
-                    <TooltipContent>Risk floor</TooltipContent>
+                    <TooltipContent side="right" className="max-w-xs">
+                      <p className="text-sm font-medium text-white">Risk floor</p>
+                      <p className="mt-2 text-xs text-gray-400">
+                        Given the current SKY deposited and USDS borrowed in this position, risk cannot be adjusted below the Risk
+                        floor. To lower the Risk floor, you must stake more SKY or repay USDS on the Unstake and Repay tab.
+                      </p>
+                    </TooltipContent>
                   </TooltipPortal>
                 </Tooltip>
               );
@@ -240,7 +252,13 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
                     />
                   </TooltipTrigger>
                   <TooltipPortal>
-                    <TooltipContent>Risk ceiling</TooltipContent>
+                    <TooltipContent side="right" className="max-w-xs">
+                      <p className="text-sm font-medium text-white">Risk ceiling</p>
+                      <p className="mt-2 text-xs text-gray-400">
+                        Given the current SKY deposited and USDS borrowed in this position, risk cannot be increased above the Risk
+                        Ceiling. To raise the Risk Ceiling, you must unstake SKY or borrow additional USDS.
+                      </p>
+                    </TooltipContent>
                   </TooltipPortal>
                 </Tooltip>
               );
