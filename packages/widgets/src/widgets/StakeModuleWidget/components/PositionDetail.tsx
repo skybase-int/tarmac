@@ -9,7 +9,8 @@ import {
   useRewardContractTokens,
   useDelegateName,
   useDelegateOwner,
-  useStakeRewardContracts
+  useStakeRewardContracts,
+  lsSkyUsdsRewardAddress
 } from '@jetstreamgg/sky-hooks';
 import { capitalizeFirstLetter, formatBigInt, formatPercent } from '@jetstreamgg/sky-utils';
 import { positionAnimations } from '@widgets/shared/animation/presets';
@@ -22,6 +23,8 @@ import { TextWithTooltip } from '@widgets/shared/components/ui/tooltip/TextWithT
 import { PositionDetailAccordion } from './PositionDetailsAccordion';
 import { ClaimRewardsDropdown } from './ClaimRewardsDropdown';
 import { getTooltipById } from '../../../data/tooltips';
+import { useChainId } from 'wagmi';
+import { UpdateRewardSelection } from './UpdateRewardSelection';
 
 type Props = {
   collateralizationRatio?: bigint;
@@ -71,6 +74,11 @@ export function PositionDetail({
   const { data: stakeRewardContracts } = useStakeRewardContracts();
 
   const riskTextColor = getRiskTextColor(riskLevel as RiskLevel);
+
+  const chainId = useChainId();
+  const isUsdsReward =
+    selectedRewardContract?.toLowerCase() ===
+    lsSkyUsdsRewardAddress[chainId as keyof typeof lsSkyUsdsRewardAddress]?.toLowerCase();
 
   return (
     <MotionVStack variants={positionAnimations} className="mt-4 justify-between space-y-6">
@@ -176,6 +184,7 @@ export function PositionDetail({
         delayedPrice={delayedPrice}
         liquidationPrice={liquidationPrice}
       />
+      {isUsdsReward && <UpdateRewardSelection />}
       {stakeRewardContracts && urnAddress && (
         <ClaimRewardsDropdown
           stakeRewardContracts={stakeRewardContracts}
