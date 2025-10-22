@@ -9,10 +9,13 @@ import {
   useVault,
   Vault,
   CollateralRiskParameters,
-  useSkyPrice
+  useSkyPrice,
+  useStakeUrnSelectedVoteDelegate,
+  ZERO_ADDRESS
 } from '@jetstreamgg/sky-hooks';
 import { t } from '@lingui/core/macro';
-import { useContext, useEffect, useMemo } from 'react';
+import { Trans } from '@lingui/react/macro';
+import { useContext, useEffect, useMemo, useId } from 'react';
 import { StakeModuleWidgetContext } from '../context/context';
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
 import {
@@ -31,16 +34,31 @@ import { useRiskSlider } from '../hooks/useRiskSlider';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
 import { getTooltipById } from '../../../data/tooltips';
+import { Checkbox } from '@widgets/components/ui/checkbox';
+import { cn } from '@widgets/lib/utils';
+import { WidgetContext } from '@widgets/context/WidgetContext';
+import { StakeFlow } from '../lib/constants';
 
 const { usds } = TOKENS;
 
 const { LOW } = RiskLevel;
 
-const SliderContainer = ({ vault }: { vault?: Vault }) => {
-  const { sliderValue, handleSliderChange, shouldShowSlider } = useRiskSlider({
-    vault,
-    isRepayMode: false
-  });
+const SliderContainer = ({
+  vault,
+  existingVault,
+  vaultNoBorrow
+}: {
+  vault?: Vault;
+  existingVault?: Vault;
+  vaultNoBorrow?: Vault;
+}) => {
+  const { sliderValue, handleSliderChange, shouldShowSlider, currentRiskFloor, capPercentage } =
+    useRiskSlider({
+      vault,
+      existingVault,
+      vaultNoBorrow,
+      isRepayMode: false
+    });
 
   return shouldShowSlider ? (
     <RiskSlider
@@ -48,12 +66,13 @@ const SliderContainer = ({ vault }: { vault?: Vault }) => {
       max={100}
       leftLabel={t`Low risk`}
       rightLabel={t`High risk`}
-      disabled={true}
       onValueCommit={v => {
         handleSliderChange(v[0]);
       }}
       liquidationLabel={t`Liquidation`}
       sliderLabel={t`Liquidation risk meter`}
+      currentRiskFloor={currentRiskFloor}
+      capIndicationPercentage={capPercentage}
     />
   ) : null;
 };
@@ -119,11 +138,13 @@ const PositionManagerOverviewContainer = ({
 
   const formattedExistingMaxBorrowable = `${formatBigInt(existingVault?.maxSafeBorrowableIntAmount || 0n, {
     unit: getTokenDecimals(usds, chainId),
-    compact: true
+    compact: true,
+    maxDecimals: 0
   })} ${usds.symbol}`;
   const formatterSimulatedMaxBorrowable = `${formatBigInt(simulatedVault?.maxSafeBorrowableIntAmount || 0n, {
     unit: getTokenDecimals(usds, chainId),
-    compact: true
+    compact: true,
+    maxDecimals: 0
   })} ${usds.symbol}`;
 
   const formattedMaxBorrowable =
@@ -137,7 +158,7 @@ const PositionManagerOverviewContainer = ({
     () =>
       [
         {
-          label: t`You staked`,
+          label: t`Staking`,
           value:
             hasPositions && newCollateralAmount !== existingColAmount
               ? [
@@ -147,7 +168,7 @@ const PositionManagerOverviewContainer = ({
               : `${formatBigInt(newCollateralAmount, { compact: true })} SKY`
         },
         {
-          label: t`You borrowed`,
+          label: t`Borrowing`,
           value:
             hasPositions && newBorrowAmount !== existingBorrowAmount
               ? [
@@ -206,7 +227,7 @@ const PositionManagerOverviewContainer = ({
       {
         label: t`Borrow Rate`,
         value: collateralData?.stabilityFee ? formatPercent(collateralData?.stabilityFee) : '',
-        tooltipText: getTooltipById('borrow')?.tooltip || ''
+        tooltipText: getTooltipById('borrow-rate')?.tooltip || ''
       },
       {
         label: t`Collateral value`,
@@ -290,13 +311,44 @@ const PositionManagerOverviewContainer = ({
 };
 
 export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolean }) => {
-  const { setIsBorrowCompleted, usdsToBorrow, setUsdsToBorrow, activeUrn, skyToLock } =
-    useContext(StakeModuleWidgetContext);
+  const { widgetState } = useContext(WidgetContext);
+  const {
+    setIsBorrowCompleted,
+    usdsToBorrow,
+    setUsdsToBorrow,
+    activeUrn,
+    skyToLock,
+    wantsToDelegate,
+    setWantsToDelegate
+  } = useContext(StakeModuleWidgetContext);
 
   const chainId = useChainId();
   const ilkName = getIlkName(2);
 
   const { data: existingVault } = useVault(activeUrn?.urnAddress, ilkName);
+  const { data: urnSelectedVoteDelegate } = useStakeUrnSelectedVoteDelegate({
+    urn: activeUrn?.urnAddress || ZERO_ADDRESS
+  });
+
+  const delegateCheckboxId = useId();
+
+  // Determine if existing position has delegation
+  const hasExistingDelegate = urnSelectedVoteDelegate && urnSelectedVoteDelegate !== ZERO_ADDRESS;
+
+  // Update wantsToDelegate when activeUrn changes
+  useEffect(() => {
+    if (wantsToDelegate !== undefined) {
+      return;
+    }
+
+    if (widgetState.flow === StakeFlow.OPEN) {
+      setWantsToDelegate(false);
+    } else if (hasExistingDelegate !== undefined) {
+      setWantsToDelegate(hasExistingDelegate);
+    } else {
+      setWantsToDelegate(false);
+    }
+  }, [hasExistingDelegate, widgetState.flow, activeUrn?.urnIndex, setWantsToDelegate]);
 
   // Comes from user input amount
   const debouncedUsdsToBorrow = useDebounce(usdsToBorrow);
@@ -314,6 +366,15 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
     isLoading,
     error
   } = useSimulatedVault(newCollateralAmount, newBorrowAmount, existingVault?.debtValue || 0n, ilkName);
+
+  // Simulate a new vault using only the existing debt value (not taking into account new debt)
+  // to be able to calculate risk floor and ceiling values
+  const { data: simulatedVaultNoBorrow } = useSimulatedVault(
+    newCollateralAmount,
+    existingVault?.debtValue || 0n,
+    existingVault?.debtValue || 0n,
+    ilkName
+  );
 
   const minCollateralNotMet =
     simulatedVault?.collateralAmount !== undefined &&
@@ -412,7 +473,34 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
       ) : (
         <div className="mb-4" />
       )}
-      <SliderContainer vault={simulatedVault} />
+      <SliderContainer
+        vault={simulatedVault}
+        existingVault={existingVault}
+        vaultNoBorrow={simulatedVaultNoBorrow}
+      />
+
+      {simulatedVault && (
+        <div className="flex items-center px-3 pt-1">
+          <Checkbox
+            id={delegateCheckboxId}
+            checked={wantsToDelegate}
+            onCheckedChange={checked => setWantsToDelegate(checked === true)}
+            disabled={!!hasExistingDelegate}
+          />
+          <label htmlFor={delegateCheckboxId} className="ml-2">
+            <Text
+              variant="medium"
+              className={cn(hasExistingDelegate ? 'text-textSecondary' : 'text-white', 'cursor-pointer')}
+            >
+              {hasExistingDelegate ? (
+                <Trans>You are delegating voting power for this position</Trans>
+              ) : (
+                <Trans>Do you want to delegate voting power?</Trans>
+              )}
+            </Text>
+          </label>
+        </div>
+      )}
 
       <PositionManagerOverviewContainer
         simulatedVault={simulatedVault}
