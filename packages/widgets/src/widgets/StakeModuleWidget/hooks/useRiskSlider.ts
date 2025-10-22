@@ -119,7 +119,8 @@ export const useRiskSlider = ({
     }
   };
 
-  const existingOrNewVault = existingVault || vault;
+  // Use simulated vault first since it reflects current user input
+  const existingOrNewVault = vault || existingVault;
   const shouldShowSlider =
     !!existingOrNewVault?.debtValue &&
     existingOrNewVault?.debtValue > 0n &&

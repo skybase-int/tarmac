@@ -15,8 +15,6 @@ import { t } from '@lingui/core/macro';
 import { useContext, useEffect, useMemo, useCallback } from 'react';
 import { StakeModuleWidgetContext } from '../context/context';
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
-import { Text } from '@widgets/shared/components/ui/Typography';
-import { Info } from '@widgets/shared/components/icons/Info';
 import {
   WAD_PRECISION,
   capitalizeFirstLetter,
