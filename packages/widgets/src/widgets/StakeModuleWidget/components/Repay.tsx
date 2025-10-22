@@ -12,7 +12,7 @@ import {
   useSkyPrice
 } from '@jetstreamgg/sky-hooks';
 import { t } from '@lingui/core/macro';
-import { useContext, useEffect, useMemo } from 'react';
+import { useContext, useEffect, useMemo, useCallback } from 'react';
 import { StakeModuleWidgetContext } from '../context/context';
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
 import {
@@ -34,16 +34,25 @@ const { usds } = TOKENS;
 
 const { LOW } = RiskLevel;
 
-const SliderContainer = ({ vault }: { vault?: Vault }) => {
-  const { sliderValue, handleSliderChange } = useRiskSlider({
+const SliderContainer = ({
+  vault,
+  existingVault,
+  vaultNoBorrow
+}: {
+  vault?: Vault;
+  existingVault?: Vault;
+  vaultNoBorrow?: Vault;
+}) => {
+  const { sliderValue, handleSliderChange, shouldShowSlider, currentRiskCeiling } = useRiskSlider({
     vault,
+    existingVault,
+    vaultNoBorrow,
     isRepayMode: true
   });
 
-  return (
+  return shouldShowSlider ? (
     <RiskSlider
       value={sliderValue}
-      disabled
       max={100}
       leftLabel={t`Low risk`}
       rightLabel={t`High risk`}
@@ -52,8 +61,9 @@ const SliderContainer = ({ vault }: { vault?: Vault }) => {
       }}
       liquidationLabel={t`Liquidation`}
       sliderLabel={t`Liquidation risk meter`}
+      currentRiskCeiling={currentRiskCeiling}
     />
-  );
+  ) : null;
 };
 
 const PositionManagerOverviewContainer = ({
@@ -121,7 +131,7 @@ const PositionManagerOverviewContainer = ({
     () =>
       [
         {
-          label: t`You staked`,
+          label: t`Staking`,
           value:
             hasPositions && newCollateralAmount !== existingColAmount
               ? [
@@ -131,7 +141,7 @@ const PositionManagerOverviewContainer = ({
               : `${formatBigInt(newCollateralAmount, { compact: true })}  SKY`
         },
         {
-          label: t`You borrowed`,
+          label: t`Borrowing`,
           value:
             hasPositions && newBorrowAmount !== existingBorrowAmount
               ? [
@@ -186,7 +196,7 @@ const PositionManagerOverviewContainer = ({
       {
         label: t`Borrow Rate`,
         value: collateralData?.stabilityFee ? formatPercent(collateralData?.stabilityFee) : '',
-        tooltipText: getTooltipById('borrow')?.tooltip || ''
+        tooltipText: getTooltipById('borrow-rate')?.tooltip || ''
       },
       {
         label: t`Collateral value`,
@@ -288,6 +298,15 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
     ilkName
   );
 
+  // Simulate a new vault using only the existing debt value (not taking into account new debt)
+  // to be able to calculate risk floor and ceiling values
+  const { data: simulatedVaultNoBorrow } = useSimulatedVault(
+    newCollateralAmount > 0n ? newCollateralAmount : 0n,
+    existingVault?.debtValue || 0n,
+    existingVault?.debtValue || 0n,
+    ilkName
+  );
+
   useEffect(() => {
     // Wait for debounced amount
     setIsBorrowCompleted(debouncedUsdsToWipe === usdsToWipe && !error && !isLoading);
@@ -299,11 +318,6 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
   const minDebtNotMet = newBorrowAmount > 0n && newBorrowAmount < (existingVault?.dust || 0n);
   const hasEnoughBalance =
     !!usdsBalance?.value && usdsBalance.value > 0n && usdsBalance.value >= debouncedUsdsToWipe;
-
-  // The most you can repay is your dust delta, or your full debt
-  const formattedMaxRepay = `${formatBigInt(dustDelta || 0n, {
-    unit: getTokenDecimals(usds, chainId)
-  })}`;
 
   const formattedDebtValueWithSymbol = formatBigIntAsCeiledAbsoluteWithSymbol(
     existingVault?.debtValue || 0n,
@@ -321,22 +335,89 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
           ? error?.message
           : undefined;
 
+  const calculateMaxRepayable = useCallback(() => {
+    if (!existingVault?.debtValue || !usdsBalance?.value) {
+      return 0n;
+    }
+
+    const totalDebt = existingVault.debtValue;
+    const userBalance = usdsBalance.value;
+
+    if (userBalance >= totalDebt) {
+      return totalDebt;
+    }
+
+    const remainingDebt = totalDebt - userBalance;
+
+    if (remainingDebt > 0n && remainingDebt < (existingVault.dust || 0n)) {
+      const maxRepayWithoutDust = totalDebt - (existingVault.dust || 0n);
+
+      if (userBalance >= maxRepayWithoutDust && maxRepayWithoutDust > 0n) {
+        return maxRepayWithoutDust;
+      } else {
+        return 0n;
+      }
+    } else {
+      return userBalance;
+    }
+  }, [existingVault?.debtValue, existingVault?.dust, usdsBalance?.value]);
+
+  const maxRepayableAmount = calculateMaxRepayable();
+
+  const formattedLimitAmount = formatBigIntAsCeiledAbsoluteWithSymbol(
+    maxRepayableAmount,
+    getTokenDecimals(usds, chainId),
+    usds.symbol
+  );
+
+  const formattedMaxRepay = `${formatBigInt(dustDelta || 0n, {
+    unit: getTokenDecimals(usds, chainId)
+  })}`;
+
+  const isShowingDustRange = dustDelta > 0n && (usdsBalance?.value || 0n) >= (existingVault?.debtValue || 0n);
+
+  const shouldShowGauge = maxRepayableAmount < (usdsBalance?.value || 0n) && !isShowingDustRange;
+
+  const getLimitText = () => {
+    if ((existingVault?.debtValue || 0n) <= 0n) {
+      return t`You have no debt to repay`;
+    }
+
+    if (isShowingDustRange) {
+      return `Limit 0 <> ${formattedMaxRepay}, or ${formattedDebtValueWithSymbol}`;
+    }
+
+    return formattedLimitAmount;
+  };
+
+  const handleSetMax = useCallback(
+    (isMax: boolean) => {
+      if (!isMax) {
+        setWipeAll(false);
+        return;
+      }
+
+      if (maxRepayableAmount === existingVault?.debtValue && existingVault?.debtValue > 0n) {
+        setWipeAll(true);
+      } else {
+        setWipeAll(false);
+      }
+    },
+    [maxRepayableAmount, existingVault?.debtValue, setWipeAll]
+  );
+
   return (
     <div className="mb-8 space-y-2">
       <TokenInput
-        className="mb-8 w-full"
+        className="mb-4 w-full"
         label={t`How much would you like to repay?`}
         placeholder={t`Enter amount`}
         token={usds}
         tokenList={[usds]}
-        balance={existingVault?.debtValue}
-        limitText={
-          (existingVault?.debtValue || 0n) <= 0n
-            ? t`You have no debt to repay`
-            : dustDelta > 0n
-              ? `Limit 0 <> ${formattedMaxRepay}, or ${formattedDebtValueWithSymbol}`
-              : formattedDebtValueWithSymbol
-        }
+        balance={maxRepayableAmount}
+        limitText={getLimitText()}
+        showGauge={shouldShowGauge}
+        hideIcon={isShowingDustRange}
         value={debouncedUsdsToWipe}
         onChange={val => {
           setWipeAll(false);
@@ -344,13 +425,17 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
         }}
         dataTestId="repay-input-lse"
         error={errorMsg}
-        onSetMax={setWipeAll}
+        onSetMax={handleSetMax}
         showPercentageButtons={isConnectedAndEnabled}
         buttonsToShow={[100]}
         enabled={isConnectedAndEnabled}
         disabled={!existingVault?.debtValue}
       />
-      <SliderContainer vault={simulatedVault} />
+      <SliderContainer
+        vault={simulatedVault}
+        existingVault={existingVault}
+        vaultNoBorrow={simulatedVaultNoBorrow}
+      />
 
       <PositionManagerOverviewContainer
         simulatedVault={simulatedVault}
