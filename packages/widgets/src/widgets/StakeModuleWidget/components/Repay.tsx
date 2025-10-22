@@ -196,7 +196,7 @@ const PositionManagerOverviewContainer = ({
       {
         label: t`Borrow Rate`,
         value: collateralData?.stabilityFee ? formatPercent(collateralData?.stabilityFee) : '',
-        tooltipText: getTooltipById('borrow')?.tooltip || ''
+        tooltipText: getTooltipById('borrow-rate')?.tooltip || ''
       },
       {
         label: t`Collateral value`,
