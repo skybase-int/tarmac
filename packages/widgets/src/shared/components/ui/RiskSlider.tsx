@@ -1,10 +1,10 @@
 import * as React from 'react';
 import * as SliderPrimitive from '@radix-ui/react-slider';
-import { t } from '@lingui/core/macro';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { cn } from '@widgets/lib/utils';
 import { HStack } from './layout/HStack';
 import { Tooltip, TooltipContent, TooltipPortal, TooltipTrigger } from '@widgets/components/ui/tooltip';
+import { getTooltipsByIds } from '@widgets/data/tooltips';
 
 type RiskSliderProps = React.ComponentProps<typeof SliderPrimitive.Root> & {
   riskColor?: string;
@@ -68,6 +68,21 @@ const getGradientColorAtPercentage = (percentage: number): string => {
   return calculateColor(GRADIENT_COLORS[0].rgb, GRADIENT_COLORS[0].rgb, 0);
 };
 
+// Fetch tooltips for the risk slider
+const [
+  riskSliderBorrowTooltip,
+  riskSliderRepayTooltip,
+  maxPermittedRiskTooltip,
+  riskFloorTooltip,
+  riskCeilingTooltip
+] = getTooltipsByIds([
+  'risk-slider-borrow',
+  'risk-slider-repay',
+  'max-permitted-risk',
+  'risk-floor',
+  'risk-ceiling'
+]);
+
 const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Root>, RiskSliderProps>(
   (
     {
@@ -98,9 +113,9 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
     const isRepayMode = currentRiskCeiling !== undefined && currentRiskFloor === undefined;
 
     const thumbTooltipContent = isBorrowMode
-      ? t`Risk can only be adjusted upwards when borrowing. To adjust risk downwards, you can deposit more SKY, or repay USDS on the Unstake and Repay tab.`
+      ? riskSliderBorrowTooltip?.tooltip
       : isRepayMode
-        ? t`Risk can only be adjusted downwards when repaying. To adjust upwards, you can unstake SKY, or borrow more USDS on the Stake and Borrow tab.`
+        ? riskSliderRepayTooltip?.tooltip
         : undefined;
 
     const thumbClassName =
@@ -207,11 +222,8 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
               </TooltipTrigger>
               <TooltipPortal>
                 <TooltipContent side="right" className="max-w-xs">
-                  <p className="text-sm font-medium text-white">Max permitted risk</p>
-                  <p className="mt-2 text-xs text-gray-400">
-                    Risk cannot exceed the Max Permitted Risk level, determined by the capped OSM price and
-                    collateralization ratio requirements. To borrow more, stake additional SKY collateral.
-                  </p>
+                  <p className="text-sm font-medium text-white">{maxPermittedRiskTooltip?.title}</p>
+                  <p className="mt-2 text-xs text-gray-400">{maxPermittedRiskTooltip?.tooltip}</p>
                 </TooltipContent>
               </TooltipPortal>
             </Tooltip>
@@ -235,12 +247,8 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
                   </TooltipTrigger>
                   <TooltipPortal>
                     <TooltipContent side="right" className="max-w-xs">
-                      <p className="text-sm font-medium text-white">Risk floor</p>
-                      <p className="mt-2 text-xs text-gray-400">
-                        Given the current SKY deposited and USDS borrowed in this position, risk cannot be
-                        adjusted below the Risk floor. To lower the Risk floor, you must stake more SKY or
-                        repay USDS on the Unstake and Repay tab.
-                      </p>
+                      <p className="text-sm font-medium text-white">{riskFloorTooltip?.title}</p>
+                      <p className="mt-2 text-xs text-gray-400">{riskFloorTooltip?.tooltip}</p>
                     </TooltipContent>
                   </TooltipPortal>
                 </Tooltip>
@@ -265,12 +273,8 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
                   </TooltipTrigger>
                   <TooltipPortal>
                     <TooltipContent side="right" className="max-w-xs">
-                      <p className="text-sm font-medium text-white">Risk ceiling</p>
-                      <p className="mt-2 text-xs text-gray-400">
-                        Given the current SKY deposited and USDS borrowed in this position, risk cannot be
-                        increased above the Risk Ceiling. To raise the Risk Ceiling, you must unstake SKY or
-                        borrow additional USDS.
-                      </p>
+                      <p className="text-sm font-medium text-white">{riskCeilingTooltip?.title}</p>
+                      <p className="mt-2 text-xs text-gray-400">{riskCeilingTooltip?.tooltip}</p>
                     </TooltipContent>
                   </TooltipPortal>
                 </Tooltip>
@@ -298,9 +302,7 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
               </TooltipTrigger>
               <TooltipPortal>
                 <TooltipContent arrowPadding={10} className="max-w-75">
-                  {isRepayMode
-                    ? 'Risk can only be adjusted downwards when repaying. To adjust upwards, you can unstake SKY, or borrow more USDS on the Stake and Borrow tab.'
-                    : 'Risk can only be adjusted upwards when borrowing. To adjust downwards, you can stake more SKY, or repay USDS on the Unstake and Repay tab.'}
+                  {isRepayMode ? riskSliderRepayTooltip?.tooltip : riskSliderBorrowTooltip?.tooltip}
                 </TooltipContent>
               </TooltipPortal>
             </Tooltip>
