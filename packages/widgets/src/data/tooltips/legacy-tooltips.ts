@@ -115,6 +115,37 @@ export const legacyTooltips: Tooltip[] = [
     title: 'Staking Rewards',
     tooltip:
       'Staking Rewards can be accessed when SKY is supplied to the Staking Engine of the decentralized, non-custodial Sky Protocol. Currently, all Staking Rewards take the form of USDS. Staking Reward rates are determined by Sky Ecosystem Governance through the process of decentralized onchain voting.'
+  },
+  // Risk slider tooltips
+  {
+    id: 'risk-slider-borrow',
+    title: 'Risk Slider Borrow',
+    tooltip:
+      'Risk can only be adjusted upwards when borrowing. To adjust risk downwards, you can deposit more SKY, or repay USDS on the Unstake and Repay tab.'
+  },
+  {
+    id: 'risk-slider-repay',
+    title: 'Risk Slider Repay',
+    tooltip:
+      'Risk can only be adjusted downwards when repaying. To adjust upwards, you can unstake SKY, or borrow more USDS on the Stake and Borrow tab.'
+  },
+  {
+    id: 'max-permitted-risk',
+    title: 'Max permitted risk',
+    tooltip:
+      'Risk cannot exceed the Max Permitted Risk level, determined by the capped OSM price and collateralization ratio requirements. To borrow more, stake additional SKY collateral.'
+  },
+  {
+    id: 'risk-floor',
+    title: 'Risk floor',
+    tooltip:
+      'Given the current SKY deposited and USDS borrowed in this position, risk cannot be adjusted below the Risk floor. To lower the Risk floor, you must stake more SKY or repay USDS on the Unstake and Repay tab.'
+  },
+  {
+    id: 'risk-ceiling',
+    title: 'Risk ceiling',
+    tooltip:
+      'Given the current SKY deposited and USDS borrowed in this position, risk cannot be increased above the Risk Ceiling. To raise the Risk Ceiling, you must unstake SKY or borrow additional USDS.'
   }
 ];
 
