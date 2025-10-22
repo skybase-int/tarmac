@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as SliderPrimitive from '@radix-ui/react-slider';
+import { t } from '@lingui/core/macro';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { cn } from '@widgets/lib/utils';
 import { HStack } from './layout/HStack';
@@ -18,7 +19,6 @@ type RiskSliderProps = React.ComponentProps<typeof SliderPrimitive.Root> & {
   currentRiskFloor?: number;
   currentRiskCeiling?: number;
   capIndicationPercentage?: number;
-  isRepayMode?: boolean;
 };
 
 const RISK_INDICATOR_SIZE = 10;
@@ -88,12 +88,23 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
       currentRiskFloor,
       currentRiskCeiling,
       capIndicationPercentage,
-      isRepayMode,
       ...props
     },
     ref
   ) => {
     const [localValue, setLocalValue] = React.useState(value);
+
+    const isBorrowMode = currentRiskFloor !== undefined && currentRiskCeiling === undefined;
+    const isRepayMode = currentRiskCeiling !== undefined && currentRiskFloor === undefined;
+
+    const thumbTooltipContent = isBorrowMode
+      ? t`Risk can only be adjusted upwards when borrowing. To adjust risk downwards, you can deposit more SKY, or repay USDS on the Unstake and Repay tab.`
+      : isRepayMode
+        ? t`Risk can only be adjusted downwards when repaying. To adjust upwards, you can unstake SKY, or borrow more USDS on the Stake and Borrow tab.`
+        : undefined;
+
+    const thumbClassName =
+      'border-primary ring-offset-background focus-visible:ring-ring focus-visible:outline-hidden block cursor-pointer rounded-full border-8 bg-white transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50';
 
     React.useEffect(() => {
       setLocalValue(value);
@@ -198,8 +209,8 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
                 <TooltipContent side="right" className="max-w-xs">
                   <p className="text-sm font-medium text-white">Max permitted risk</p>
                   <p className="mt-2 text-xs text-gray-400">
-                    Risk cannot exceed the Max Permitted Risk level, determined by the capped OSM price and collateralization
-                    ratio requirements. To borrow more, stake additional SKY collateral.
+                    Risk cannot exceed the Max Permitted Risk level, determined by the capped OSM price and
+                    collateralization ratio requirements. To borrow more, stake additional SKY collateral.
                   </p>
                 </TooltipContent>
               </TooltipPortal>
@@ -226,8 +237,9 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
                     <TooltipContent side="right" className="max-w-xs">
                       <p className="text-sm font-medium text-white">Risk floor</p>
                       <p className="mt-2 text-xs text-gray-400">
-                        Given the current SKY deposited and USDS borrowed in this position, risk cannot be adjusted below the Risk
-                        floor. To lower the Risk floor, you must stake more SKY or repay USDS on the Unstake and Repay tab.
+                        Given the current SKY deposited and USDS borrowed in this position, risk cannot be
+                        adjusted below the Risk floor. To lower the Risk floor, you must stake more SKY or
+                        repay USDS on the Unstake and Repay tab.
                       </p>
                     </TooltipContent>
                   </TooltipPortal>
@@ -255,8 +267,9 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
                     <TooltipContent side="right" className="max-w-xs">
                       <p className="text-sm font-medium text-white">Risk ceiling</p>
                       <p className="mt-2 text-xs text-gray-400">
-                        Given the current SKY deposited and USDS borrowed in this position, risk cannot be increased above the Risk
-                        Ceiling. To raise the Risk Ceiling, you must unstake SKY or borrow additional USDS.
+                        Given the current SKY deposited and USDS borrowed in this position, risk cannot be
+                        increased above the Risk Ceiling. To raise the Risk Ceiling, you must unstake SKY or
+                        borrow additional USDS.
                       </p>
                     </TooltipContent>
                   </TooltipPortal>
@@ -269,10 +282,19 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
                 className={`absolute ${(value?.[0] || 0) > 95 ? '-left-[20px]' : ''} -top-[0.5px] h-0 w-0 border-b-[11px] border-l-[5.5px] border-r-[5.5px] border-b-white border-l-transparent border-r-transparent`}
               />
             </SliderPrimitive.Thumb>
+          ) : thumbTooltipContent ? (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <SliderPrimitive.Thumb className={thumbClassName} />
+              </TooltipTrigger>
+              <TooltipContent side="top" className="max-w-[280px] whitespace-normal text-left">
+                {thumbTooltipContent}
+              </TooltipContent>
+            </Tooltip>
           ) : (
             <Tooltip>
               <TooltipTrigger asChild>
-                <SliderPrimitive.Thumb className="border-primary ring-offset-background focus-visible:ring-ring focus-visible:outline-hidden block cursor-pointer rounded-full border-8 bg-white transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50" />
+                <SliderPrimitive.Thumb className={thumbClassName} />
               </TooltipTrigger>
               <TooltipPortal>
                 <TooltipContent arrowPadding={10} className="max-w-75">
