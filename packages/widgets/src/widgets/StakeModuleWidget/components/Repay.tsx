@@ -15,8 +15,6 @@ import { t } from '@lingui/core/macro';
 import { useContext, useEffect, useMemo, useCallback } from 'react';
 import { StakeModuleWidgetContext } from '../context/context';
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
-import { Text } from '@widgets/shared/components/ui/Typography';
-import { Info } from '@widgets/shared/components/icons/Info';
 import {
   WAD_PRECISION,
   capitalizeFirstLetter,
@@ -36,16 +34,25 @@ const { usds } = TOKENS;
 
 const { LOW } = RiskLevel;
 
-const SliderContainer = ({ vault }: { vault?: Vault }) => {
-  const { sliderValue, handleSliderChange } = useRiskSlider({
+const SliderContainer = ({
+  vault,
+  existingVault,
+  vaultNoBorrow
+}: {
+  vault?: Vault;
+  existingVault?: Vault;
+  vaultNoBorrow?: Vault;
+}) => {
+  const { sliderValue, handleSliderChange, shouldShowSlider, currentRiskCeiling } = useRiskSlider({
     vault,
+    existingVault,
+    vaultNoBorrow,
     isRepayMode: true
   });
 
-  return (
+  return shouldShowSlider ? (
     <RiskSlider
       value={sliderValue}
-      disabled
       max={100}
       leftLabel={t`Low risk`}
       rightLabel={t`High risk`}
@@ -54,8 +61,10 @@ const SliderContainer = ({ vault }: { vault?: Vault }) => {
       }}
       liquidationLabel={t`Liquidation`}
       sliderLabel={t`Liquidation risk meter`}
+      currentRiskCeiling={currentRiskCeiling}
+      isRepayMode={true}
     />
-  );
+  ) : null;
 };
 
 const PositionManagerOverviewContainer = ({
@@ -290,6 +299,15 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
     ilkName
   );
 
+  // Simulate a new vault using only the existing debt value (not taking into account new debt)
+  // to be able to calculate risk floor and ceiling values
+  const { data: simulatedVaultNoBorrow } = useSimulatedVault(
+    newCollateralAmount > 0n ? newCollateralAmount : 0n,
+    existingVault?.debtValue || 0n,
+    existingVault?.debtValue || 0n,
+    ilkName
+  );
+
   useEffect(() => {
     // Wait for debounced amount
     setIsBorrowCompleted(debouncedUsdsToWipe === usdsToWipe && !error && !isLoading);
@@ -414,23 +432,11 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
         enabled={isConnectedAndEnabled}
         disabled={!existingVault?.debtValue}
       />
-
-      {shouldShowGauge ? (
-        <div className="ml-3 mt-2 flex items-start text-white">
-          <Info height={15} width={16} className="mt-1 shrink-0" />
-          <Text variant="small" className="ml-2">
-            {t`You cannot repay your full USDS balance of ${formatBigInt(usdsBalance?.value || 0n, {
-              unit: getTokenDecimals(usds, chainId)
-            })} USDS because doing so would leave less than ${formatBigInt(existingVault?.dust || 0n, {
-              unit: getTokenDecimals(usds, chainId)
-            })} USDS outstanding.`}
-          </Text>
-        </div>
-      ) : (
-        <div className="mb-4" />
-      )}
-
-      <SliderContainer vault={simulatedVault} />
+      <SliderContainer
+        vault={simulatedVault}
+        existingVault={existingVault}
+        vaultNoBorrow={simulatedVaultNoBorrow}
+      />
 
       <PositionManagerOverviewContainer
         simulatedVault={simulatedVault}
