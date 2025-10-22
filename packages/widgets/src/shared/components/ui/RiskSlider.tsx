@@ -19,7 +19,6 @@ type RiskSliderProps = React.ComponentProps<typeof SliderPrimitive.Root> & {
   currentRiskFloor?: number;
   currentRiskCeiling?: number;
   capIndicationPercentage?: number;
-  isRepayMode?: boolean;
 };
 
 const RISK_INDICATOR_SIZE = 10;
@@ -89,7 +88,6 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
       currentRiskFloor,
       currentRiskCeiling,
       capIndicationPercentage,
-      isRepayMode,
       ...props
     },
     ref
@@ -97,6 +95,8 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
     const [localValue, setLocalValue] = React.useState(value);
 
     const isBorrowMode = currentRiskFloor !== undefined && currentRiskCeiling === undefined;
+    const isRepayMode = currentRiskCeiling !== undefined && currentRiskFloor === undefined;
+
     const thumbTooltipContent = isBorrowMode
       ? t`Risk can only be adjusted upwards when borrowing. To adjust risk downwards, you can deposit more SKY, or repay USDS on the Unstake and Repay tab.`
       : isRepayMode
@@ -104,7 +104,7 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
         : undefined;
 
     const thumbClassName =
-      'border-primary ring-offset-background focus-visible:ring-ring focus-visible:outline-hidden block rounded-full border-8 bg-white transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50';
+      'border-primary ring-offset-background focus-visible:ring-ring focus-visible:outline-hidden block cursor-pointer rounded-full border-8 bg-white transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50';
 
     React.useEffect(() => {
       setLocalValue(value);
