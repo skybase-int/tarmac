@@ -439,21 +439,6 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
         existingVault={existingVault}
         vaultNoBorrow={simulatedVaultNoBorrow}
       />
-      {shouldShowGauge ? (
-        <div className="ml-3 mt-2 flex items-start text-white">
-          <Info height={15} width={16} className="mt-1 shrink-0" />
-          <Text variant="small" className="ml-2">
-            {t`You cannot repay your full USDS balance of ${formatBigInt(usdsBalance?.value || 0n, {
-              unit: getTokenDecimals(usds, chainId)
-            })} USDS because doing so would leave less than ${formatBigInt(existingVault?.dust || 0n, {
-              unit: getTokenDecimals(usds, chainId)
-            })} USDS outstanding.`}
-          </Text>
-        </div>
-      ) : (
-        <div className="mb-4" />
-      )}
-      <SliderContainer vault={simulatedVault} />
 
       <PositionManagerOverviewContainer
         simulatedVault={simulatedVault}
