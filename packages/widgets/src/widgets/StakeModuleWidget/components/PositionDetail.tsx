@@ -25,6 +25,7 @@ import { ClaimRewardsDropdown } from './ClaimRewardsDropdown';
 import { getTooltipById } from '../../../data/tooltips';
 import { useChainId } from 'wagmi';
 import { UpdateRewardSelection } from './UpdateRewardSelection';
+import { YellowWarning } from '@widgets/shared/components/icons/YellowWarning';
 
 type Props = {
   collateralizationRatio?: bigint;
@@ -127,9 +128,12 @@ export function PositionDetail({
               <Text variant="medium" className="text-textSecondary leading-4">
                 Reward
               </Text>
-              <div className="flex items-start">
-                <TokenIcon token={rewardContractTokens.rewardsToken} width={24} className="h-6 w-6" />
-                <Text className="ml-2">{rewardContractTokens.rewardsToken.symbol}</Text>
+              <div className="flex items-center justify-start gap-1">
+                <div className="flex items-start">
+                  <TokenIcon token={rewardContractTokens.rewardsToken} width={24} className="h-6 w-6" />
+                  <Text className="ml-2">{rewardContractTokens.rewardsToken.symbol}</Text>
+                </div>
+                <UpdateRewardSelection />
               </div>
             </VStack>
           )}
@@ -175,6 +179,14 @@ export function PositionDetail({
           )}
         </VStack>
       </HStack>
+      {isUsdsReward && (
+        <HStack gap={2} className="items-center">
+          <YellowWarning boxSize={16} viewBox="0 0 16 16" className="flex-shrink-0" />
+          <Text className="text-textSecondary text-sm">
+            USDS rewards have been deprecated in favor of new SKY rewards
+          </Text>
+        </HStack>
+      )}
       <PositionDetailAccordion
         collateralizationRatio={collateralizationRatio}
         riskLevel={riskLevel}
@@ -184,7 +196,6 @@ export function PositionDetail({
         delayedPrice={delayedPrice}
         liquidationPrice={liquidationPrice}
       />
-      {isUsdsReward && <UpdateRewardSelection />}
       {stakeRewardContracts && urnAddress && (
         <ClaimRewardsDropdown
           stakeRewardContracts={stakeRewardContracts}
