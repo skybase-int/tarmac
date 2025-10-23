@@ -160,8 +160,9 @@ export const useRiskSlider = ({
       if (currentDebt === 0n) return initialRiskCeiling;
 
       // Reverse the repay calculation: value = initialRiskCeiling * (1 - usdsToWipe / currentDebt)
-      const repayFraction = Number((usdsToWipe * 10000n) / currentDebt) / 10000;
-      return initialRiskCeiling * (1 - repayFraction);
+      // Calculate position using only BigInt, then convert final percentage
+      const remainingDebtFraction = ((currentDebt - usdsToWipe) * 10000n) / currentDebt;
+      return (initialRiskCeiling * Number(remainingDebtFraction)) / 10000;
     } else if (!isRepayMode && initialRiskFloor !== undefined) {
       const maxBorrowable = vault?.maxSafeBorrowableIntAmountNoCap || 0n;
       if (maxBorrowable === 0n) return initialRiskFloor;
@@ -170,8 +171,8 @@ export const useRiskSlider = ({
       const remainingBorrowablePercentage = 100 - initialRiskFloor;
       if (remainingBorrowablePercentage === 0) return initialRiskFloor;
 
-      const borrowFraction = Number((usdsToBorrow * 10000n) / maxBorrowable) / 10000;
-      return initialRiskFloor + remainingBorrowablePercentage * borrowFraction;
+      const borrowedFraction = (usdsToBorrow * 10000n) / maxBorrowable;
+      return initialRiskFloor + (remainingBorrowablePercentage * Number(borrowedFraction)) / 10000;
     }
     return undefined;
   }, [
