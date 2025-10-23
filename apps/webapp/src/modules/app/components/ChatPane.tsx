@@ -9,7 +9,12 @@ import { useChatContext } from '@/modules/chat/context/ChatContext';
 import { useDismissChatSuggestion } from '../hooks/useDismissChatSuggestion';
 import { ConversationFeedbackPrompt } from '@/modules/chat/components/ConversationFeedbackPrompt';
 import { ConversationFeedbackModal } from '@/modules/chat/components/ConversationFeedbackModal';
-import { UserType } from '@/modules/chat/constants';
+import { UserType, MessageType } from '@/modules/chat/constants';
+
+const CONVERSATION_RATING_PREFIX = '/feedback conversation-rating-';
+// Note: for now if you don't attach a message after the part "conversation-rating-", the chatbot won't acknowledge the feedback in its response
+const CONVERSATION_RATING_POSITIVE = 'conversation-rating-positive, positive';
+const CONVERSATION_RATING_NEGATIVE = 'conversation-rating-negative, negative';
 
 export const ChatPane = ({ sendMessage }: { sendMessage: (message: string) => void }) => {
   const {
@@ -33,15 +38,22 @@ export const ChatPane = ({ sendMessage }: { sendMessage: (message: string) => vo
     }
   }, [chatHistory, shouldShowConfirmationWarning, scrollTrigger]);
 
-  // Show conversation feedback prompt after the bot has replied at least once
+  // Show conversation feedback prompt only for internal bot messages (excludes loading, error, etc.)
   useEffect(() => {
-    const hasBotReplied = chatHistory.some((msg, index) => index > 0 && msg.user === UserType.bot);
+    const lastMessage = chatHistory[chatHistory.length - 1];
+    const isLastMessageBot = lastMessage?.user === UserType.bot;
+    const isLoadingMessage = lastMessage?.type === MessageType.loading;
+    const isNotInitialMessage = chatHistory.length > 1;
+    const isLongEnoughConversation = chatHistory.length >= 5;
+    const shouldShowFeedback =
+      isNotInitialMessage && isLastMessageBot && !isLoadingMessage && isLongEnoughConversation;
+
     const hasRecentConversationFeedback = chatHistory.some(
-      msg => msg.user === UserType.user && msg.message.startsWith('/feedback conversation-rating-')
+      msg => msg.user === UserType.user && msg.message.startsWith(CONVERSATION_RATING_PREFIX)
     );
 
-    // Show feedback if bot has replied and no recent conversation feedback was given
-    if (hasBotReplied && !hasRecentConversationFeedback) {
+    // Show feedback when last message is internal bot message and no recent conversation feedback was given
+    if (shouldShowFeedback && !hasRecentConversationFeedback) {
       setShowConversationFeedback(true);
     } else if (hasRecentConversationFeedback) {
       // Hide feedback prompt if conversation feedback was just submitted
@@ -55,7 +67,7 @@ export const ChatPane = ({ sendMessage }: { sendMessage: (message: string) => vo
   };
 
   const handleFeedbackSubmit = (rating: 'positive' | 'negative') => {
-    const topic = rating === 'positive' ? 'conversation-rating-positive' : 'conversation-rating-negative';
+    const topic = rating === 'positive' ? CONVERSATION_RATING_POSITIVE : CONVERSATION_RATING_NEGATIVE;
     const feedbackMessage = `/feedback ${topic}`;
     sendMessage(feedbackMessage);
     setIsConversationFeedbackModalOpen(false);
@@ -112,11 +124,9 @@ export const ChatPane = ({ sendMessage }: { sendMessage: (message: string) => vo
               })}
 
               {/* Conversation Feedback Prompt */}
-              {showConversationFeedback && (
-                <div className="w-full">
-                  <ConversationFeedbackPrompt onRatingClick={handleRatingClick} disabled={isLoading} />
-                </div>
-              )}
+              <div className={`w-full ${showConversationFeedback ? '' : 'invisible'}`}>
+                <ConversationFeedbackPrompt onRatingClick={handleRatingClick} disabled={isLoading} />
+              </div>
             </div>
             <ChatInput sendMessage={sendMessage} />
           </div>
