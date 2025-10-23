@@ -37,23 +37,16 @@ export const useRiskSlider = ({
 
   useEffect(() => {
     // Set the initial risk floor when we have valid vault data in borrow mode
-    // Only set once when undefined to preserve the true "initial" state
-    if (!isRepayMode && hasExistingDebt && vaultNoBorrow && initialRiskFloor === undefined) {
+    // Updates whenever collateral changes (via riskPercentageNoBorrow from vaultNoBorrow)
+    if (!isRepayMode && hasExistingDebt && vaultNoBorrow) {
       setInitialRiskFloor(riskPercentageNoBorrow);
     }
     // Set the initial risk ceiling when we have valid vault data in repay mode
-    // Only set once when undefined to preserve the true "initial" state
-    if (isRepayMode && hasExistingDebt && vaultNoBorrow && initialRiskCeiling === undefined) {
+    // Updates whenever collateral changes (via riskPercentageNoBorrow from vaultNoBorrow)
+    if (isRepayMode && hasExistingDebt && vaultNoBorrow) {
       setInitialRiskCeiling(riskPercentageNoBorrow);
     }
-  }, [
-    isRepayMode,
-    hasExistingDebt,
-    vaultNoBorrow,
-    riskPercentageNoBorrow,
-    initialRiskFloor,
-    initialRiskCeiling
-  ]);
+  }, [isRepayMode, hasExistingDebt, vaultNoBorrow, riskPercentageNoBorrow]);
 
   const [maxBorrowable, maxValue] = useMemo(() => {
     const maxBorrowable = vault?.maxSafeBorrowableIntAmountNoCap || 0n;
