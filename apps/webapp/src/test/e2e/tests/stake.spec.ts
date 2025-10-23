@@ -25,6 +25,9 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
   await page.getByTestId('supply-first-input-lse').fill('2400000');
   await page.getByTestId('borrow-input-lse').fill('38000');
 
+  // check the delegation checkbox to enable delegate selection
+  await page.getByText('Do you want to delegate voting power?').click();
+
   // // TODO: check all the params
   await expect(page.getByTestId('widget-button').first()).toBeEnabled({ timeout: 10000 });
   await page.getByTestId('widget-button').first().click();
@@ -68,6 +71,13 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ pa
   await page.getByRole('button', { name: 'Manage Position' }).last().click();
   await expect(page.getByText('Your position 1')).toBeVisible();
   await expect(page.getByTestId('borrow-input-lse-balance')).toHaveText(/Limit 0 <> .+ USDS/);
+
+  // verify the delegate checkbox is selected and disabled (since delegate was already chosen)
+  const delegateCheckbox = page.getByRole('checkbox', {
+    name: /You are delegating voting power for this position/i
+  });
+  await expect(delegateCheckbox).toBeChecked();
+  await expect(delegateCheckbox).toBeDisabled();
 
   // borrow more and skip rewards and delegate selection
   await page.getByTestId('borrow-input-lse').fill('100');
@@ -155,6 +165,9 @@ test('Batch - Lock SKY, select rewards, select delegate, and open position', asy
   await page.getByTestId('supply-first-input-lse').fill('2400000');
   await page.getByTestId('borrow-input-lse').fill('38000');
 
+  // check the delegation checkbox to enable delegate selection
+  await page.getByText('Do you want to delegate voting power?').click();
+
   // // TODO: check all the params
   await expect(page.getByTestId('widget-button').first()).toBeEnabled({ timeout: 10000 });
   await page.getByTestId('widget-button').first().click();
@@ -188,4 +201,137 @@ test('Batch - Lock SKY, select rewards, select delegate, and open position', asy
   await expect(
     page.getByText("You've borrowed 38,000 USDS by staking 2,400,000 SKY. Your new position is open.")
   ).toBeVisible();
+});
+
+test('Checkbox unchecked - Delegate screen should not appear', async ({ page }) => {
+  await expect(page.getByTestId('supply-first-input-lse-balance')).toHaveText('100,000,000 SKY');
+
+  // fill seal and borrow inputs
+  await page.getByTestId('supply-first-input-lse').fill('2400000');
+  await page.getByTestId('borrow-input-lse').fill('38000');
+
+  // verify checkbox is unchecked by default
+  const checkbox = page.getByRole('checkbox', { name: /Do you want to delegate voting power?/i });
+  await expect(checkbox).not.toBeChecked();
+
+  // click next without checking the delegation checkbox
+  await expect(page.getByTestId('widget-button').first()).toBeEnabled({ timeout: 10000 });
+  await page.getByTestId('widget-button').first().click();
+
+  // select rewards
+  await expect(page.getByText('Choose your reward token')).toBeVisible();
+  await page.getByTestId('stake-reward-card').first().click();
+  await expect(page.getByTestId('widget-button').first()).toBeEnabled();
+  await page.getByTestId('widget-button').first().click();
+
+  // verify delegate screen is skipped and we go directly to position summary
+  await expect(page.getByText('Choose your delegate')).not.toBeVisible();
+  await expect(page.getByText('Confirm your position').nth(0)).toBeVisible({ timeout: 10000 });
+
+  // verify position details are correct
+  await expect(page.getByTestId('position-summary-card').getByText('Staking').first()).toBeVisible();
+  await expect(page.getByText('2.4M SKY')).toBeVisible();
+  await expect(page.getByTestId('position-summary-card').getByText('Borrowing')).toBeVisible();
+  await expect(page.getByText('38K USDS')).toBeVisible();
+  await expect(page.getByTestId('position-summary-card').getByText('Staking reward')).toBeVisible();
+
+  // confirm position without delegate
+  await approveOrPerformAction(page, 'Open a position', { review: false });
+
+  await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible({ timeout: 10000 });
+  await expect(
+    page.getByText("You've borrowed 38,000 USDS by staking 2,400,000 SKY. Your new position is open.")
+  ).toBeVisible();
+});
+
+test('Checkbox toggled off after delegate selection - Delegate should be cleared', async ({ page }) => {
+  await expect(page.getByTestId('supply-first-input-lse-balance')).toHaveText('100,000,000 SKY');
+
+  // fill seal and borrow inputs
+  await page.getByTestId('supply-first-input-lse').fill('2400000');
+  await page.getByTestId('borrow-input-lse').fill('38000');
+
+  // check the delegation checkbox to enable delegate selection
+  await page.getByText('Do you want to delegate voting power?').click();
+  const checkbox = page.getByRole('checkbox', { name: /Do you want to delegate voting power?/i });
+  await expect(checkbox).toBeChecked();
+
+  // proceed to next screen
+  await expect(page.getByTestId('widget-button').first()).toBeEnabled({ timeout: 10000 });
+  await page.getByTestId('widget-button').first().click();
+
+  // select rewards
+  await expect(page.getByText('Choose your reward token')).toBeVisible();
+  await page.getByTestId('stake-reward-card').first().click();
+  await expect(page.getByTestId('widget-button').first()).toBeEnabled();
+  await page.getByTestId('widget-button').first().click();
+
+  // select a delegate
+  await expect(page.getByText('Choose your delegate')).toBeVisible();
+  await page
+    .getByTestId(/^delegate-card-/)
+    .first()
+    .click();
+  await expect(page.getByTestId('widget-button').first()).toBeEnabled();
+
+  // go back to the initial screen using back button
+  await page.getByRole('button', { name: 'back' }).click();
+  await expect(page.getByText('Choose your reward token')).toBeVisible();
+  await page.getByRole('button', { name: 'back' }).click();
+  await expect(page.getByTestId('supply-first-input-lse-balance')).toHaveText('100,000,000 SKY');
+
+  // uncheck the delegation checkbox
+  await page.getByText('Do you want to delegate voting power?').click();
+  await expect(checkbox).not.toBeChecked();
+
+  // proceed forward again
+  await expect(page.getByTestId('widget-button').first()).toBeEnabled({ timeout: 10000 });
+  await page.getByTestId('widget-button').first().click();
+
+  // select rewards again
+  await expect(page.getByText('Choose your reward token')).toBeVisible();
+  // await page.getByTestId('stake-reward-card').first().click();
+  await expect(page.getByTestId('widget-button').first()).toBeEnabled();
+  await page.getByTestId('widget-button').first().click();
+
+  // verify delegate screen is now skipped
+  await expect(page.getByText('Choose your delegate')).not.toBeVisible();
+  await expect(page.getByText('Confirm your position').nth(0)).toBeVisible({ timeout: 10000 });
+
+  // verify position summary does NOT show any delegate information
+  await expect(page.getByTestId('position-summary-card').getByText('Staking').first()).toBeVisible();
+  await expect(page.getByText('2.4M SKY')).toBeVisible();
+  await expect(page.getByTestId('position-summary-card').getByText('Borrowing')).toBeVisible();
+  await expect(page.getByText('38K USDS')).toBeVisible();
+  await expect(page.getByTestId('position-summary-card').getByText('Staking reward')).toBeVisible();
+  // verify no delegate section appears in summary
+  await expect(page.getByTestId('position-summary-card').getByText('BLUE')).not.toBeVisible();
+
+  // confirm position
+  await approveOrPerformAction(page, 'Open a position', { review: false });
+
+  await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible({ timeout: 10000 });
+  await expect(
+    page.getByText("You've borrowed 38,000 USDS by staking 2,400,000 SKY. Your new position is open.")
+  ).toBeVisible();
+
+  // navigate to positions overview and verify the position was created without delegate
+  await page.getByRole('button', { name: 'Manage your position(s)' }).click();
+  await expect(page.getByText('Position 1')).toBeVisible();
+
+  // verify no delegate information is shown in the position card
+  const positionCard = page.getByRole('button', { name: 'Manage Position' }).last().locator('..');
+  await expect(positionCard.getByText('BLUE')).not.toBeVisible();
+  await expect(positionCard.getByText('Delegate')).not.toBeVisible();
+
+  // manage position to verify no delegate is set
+  await page.getByRole('button', { name: 'Manage Position' }).last().click();
+  await expect(page.getByText('Your position 1')).toBeVisible();
+
+  // verify the delegate checkbox is NOT checked and is enabled (no delegate was set)
+  const manageDelegateCheckbox = page.getByRole('checkbox', {
+    name: /Do you want to delegate voting power?/i
+  });
+  await expect(manageDelegateCheckbox).not.toBeChecked();
+  await expect(manageDelegateCheckbox).toBeEnabled();
 });
