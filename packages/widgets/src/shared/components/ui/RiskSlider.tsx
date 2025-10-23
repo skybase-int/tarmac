@@ -76,13 +76,7 @@ const [
   maxPermittedRiskTooltip,
   riskFloorTooltip,
   riskCeilingTooltip
-] = getTooltipsByIds([
-  'risk-slider-borrow',
-  'risk-slider-repay',
-  'max-permitted-risk',
-  'risk-floor',
-  'risk-ceiling'
-]);
+] = getTooltipsByIds(['risk-borrow', 'risk-repay', 'max-permitted-risk', 'risk-floor', 'risk-ceiling']);
 
 const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Root>, RiskSliderProps>(
   (
