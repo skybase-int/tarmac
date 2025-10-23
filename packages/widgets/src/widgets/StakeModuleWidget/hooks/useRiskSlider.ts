@@ -53,7 +53,7 @@ export const useRiskSlider = ({
   }, [vault?.maxSafeBorrowableIntAmountNoCap]);
 
   const handleSliderChange = (value: number) => {
-    if (maxBorrowable === 0n) return;
+    if (!isRepayMode && maxBorrowable === 0n) return;
     if (value < 0 || value > 100) {
       console.warn('Slider value out of valid percentage range (0-100)');
       return;
