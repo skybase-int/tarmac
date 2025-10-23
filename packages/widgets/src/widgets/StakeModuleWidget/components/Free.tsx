@@ -37,7 +37,8 @@ export const Free = ({
     // Collateral amounts must be > 0
     newCollateralAmount > 0n ? newCollateralAmount : 0n,
     newDebtValue > 0n ? newDebtValue : 0n,
-    existingVault?.debtValue || 0n
+    existingVault?.debtValue || 0n,
+    ilkName
   );
 
   const isLiquidationError =
