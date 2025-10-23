@@ -5,6 +5,7 @@ import { cn } from '@widgets/lib/utils';
 import { HStack } from './layout/HStack';
 import { Tooltip, TooltipContent, TooltipPortal, TooltipTrigger } from '@widgets/components/ui/tooltip';
 import { getTooltipsByIds } from '@widgets/data/tooltips';
+import { DragArrows } from '../icons/DragArrows';
 
 type RiskSliderProps = React.ComponentProps<typeof SliderPrimitive.Root> & {
   riskColor?: string;
@@ -122,7 +123,7 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
           : undefined;
 
     const thumbClassName =
-      'border-primary ring-offset-background focus-visible:ring-ring focus-visible:outline-hidden block cursor-pointer rounded-full border-8 bg-white transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50';
+      'border-primary ring-offset-background focus-visible:ring-ring focus-visible:outline-hidden block cursor-pointer rounded-full bg-white transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 w-5 h-5';
 
     React.useEffect(() => {
       setLocalValue(value);
@@ -157,7 +158,7 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
     // Calculate offset based on percentage (matches Radix thumb positioning)
     // At 0% offset is +8px, at 50% offset is 0px, at 100% offset is -8px
     const calculateOffset = (percentage: number) => {
-      const thumbSize = 16; // Radix thumb size (border-8 = 8px border = 16px total)
+      const thumbSize = 20; // Radix thumb size
       const halfThumb = thumbSize / 2;
       // Linear interpolation: 0% -> +8px, 50% -> 0px, 100% -> -8px
       return halfThumb - (percentage / 100) * thumbSize;
@@ -292,18 +293,24 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
           ) : thumbTooltipContent ? (
             <Tooltip>
               <TooltipTrigger asChild>
-                <SliderPrimitive.Thumb className={thumbClassName} />
+                <SliderPrimitive.Thumb className={thumbClassName}>
+                  <DragArrows width={20} height={20} />
+                </SliderPrimitive.Thumb>
               </TooltipTrigger>
               <TooltipContent side="top" className="max-w-[280px] whitespace-normal text-left">
                 {thumbTooltipContent}
               </TooltipContent>
             </Tooltip>
           ) : isCreateMode ? (
-            <SliderPrimitive.Thumb className={thumbClassName} />
+            <SliderPrimitive.Thumb className={thumbClassName}>
+              <DragArrows width={20} height={20} />
+            </SliderPrimitive.Thumb>
           ) : (
             <Tooltip>
               <TooltipTrigger asChild>
-                <SliderPrimitive.Thumb className={thumbClassName} />
+                <SliderPrimitive.Thumb className={thumbClassName}>
+                  <DragArrows width={20} height={20} />
+                </SliderPrimitive.Thumb>
               </TooltipTrigger>
               <TooltipPortal>
                 <TooltipContent arrowPadding={10} className="max-w-75">
