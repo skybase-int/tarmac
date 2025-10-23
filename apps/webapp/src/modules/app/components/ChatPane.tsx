@@ -44,9 +44,20 @@ export const ChatPane = ({ sendMessage }: { sendMessage: (message: string) => vo
     const isLastMessageBot = lastMessage?.user === UserType.bot;
     const isLoadingMessage = lastMessage?.type === MessageType.loading;
     const isNotInitialMessage = chatHistory.length > 1;
-    const isLongEnoughConversation = chatHistory.length >= 5;
+    const isLongEnoughConversation = chatHistory.length >= 7;
+
+    // Check if total bot message content exceeds 1000 characters
+    const totalBotMessageLength = chatHistory
+      .filter(msg => msg.user === UserType.bot)
+      .reduce((total, msg) => total + msg.message.length, 0);
+    const hasSufficientBotContent = totalBotMessageLength > 1000;
+
     const shouldShowFeedback =
-      isNotInitialMessage && isLastMessageBot && !isLoadingMessage && isLongEnoughConversation;
+      isNotInitialMessage &&
+      isLastMessageBot &&
+      !isLoadingMessage &&
+      isLongEnoughConversation &&
+      hasSufficientBotContent;
 
     // Check only the last 10 messages for recent conversation feedback
     const recentMessages = chatHistory.slice(-10);
