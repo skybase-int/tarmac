@@ -111,12 +111,15 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
 
     const isBorrowMode = currentRiskFloor !== undefined && currentRiskCeiling === undefined;
     const isRepayMode = currentRiskCeiling !== undefined && currentRiskFloor === undefined;
+    const isCreateMode = !isBorrowMode && !isRepayMode;
 
-    const thumbTooltipContent = isBorrowMode
-      ? riskSliderBorrowTooltip?.tooltip
-      : isRepayMode
-        ? riskSliderRepayTooltip?.tooltip
-        : undefined;
+    const thumbTooltipContent = isCreateMode
+      ? undefined // no tooltip for create mode
+      : isBorrowMode
+        ? riskSliderBorrowTooltip?.tooltip
+        : isRepayMode
+          ? riskSliderRepayTooltip?.tooltip
+          : undefined;
 
     const thumbClassName =
       'border-primary ring-offset-background focus-visible:ring-ring focus-visible:outline-hidden block cursor-pointer rounded-full border-8 bg-white transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50';
@@ -295,6 +298,8 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
                 {thumbTooltipContent}
               </TooltipContent>
             </Tooltip>
+          ) : isCreateMode ? (
+            <SliderPrimitive.Thumb className={thumbClassName} />
           ) : (
             <Tooltip>
               <TooltipTrigger asChild>
