@@ -37,14 +37,23 @@ export const useRiskSlider = ({
 
   useEffect(() => {
     // Set the initial risk floor when we have valid vault data in borrow mode
-    if (!isRepayMode && hasExistingDebt && vaultNoBorrow) {
+    // Only set once when undefined to preserve the true "initial" state
+    if (!isRepayMode && hasExistingDebt && vaultNoBorrow && initialRiskFloor === undefined) {
       setInitialRiskFloor(riskPercentageNoBorrow);
     }
     // Set the initial risk ceiling when we have valid vault data in repay mode
-    if (isRepayMode && hasExistingDebt && vaultNoBorrow) {
+    // Only set once when undefined to preserve the true "initial" state
+    if (isRepayMode && hasExistingDebt && vaultNoBorrow && initialRiskCeiling === undefined) {
       setInitialRiskCeiling(riskPercentageNoBorrow);
     }
-  }, [isRepayMode, hasExistingDebt, vaultNoBorrow, riskPercentageNoBorrow]);
+  }, [
+    isRepayMode,
+    hasExistingDebt,
+    vaultNoBorrow,
+    riskPercentageNoBorrow,
+    initialRiskFloor,
+    initialRiskCeiling
+  ]);
 
   const [maxBorrowable, maxValue] = useMemo(() => {
     const maxBorrowable = vault?.maxSafeBorrowableIntAmountNoCap || 0n;
@@ -150,14 +159,24 @@ export const useRiskSlider = ({
     return undefined;
   }, [vault?.maxSafeBorrowableIntAmount, vault?.maxSafeBorrowableIntAmountNoCap, isRepayMode, vaultNoBorrow]);
 
+  // Sync slider in borrow mode - depends on riskPercentage from simulated vault
   useEffect(() => {
+    if (isRepayMode) return;
+
     // If we're at or past the cap, clamp the slider to the cap position
     if (capPercentage !== undefined && riskPercentage > capPercentage) {
       setSliderValue([capPercentage]);
     } else {
       setSliderValue([riskPercentage]);
     }
-  }, [riskPercentage, capPercentage]);
+  }, [riskPercentage, capPercentage, isRepayMode]);
+
+  // Sync slider in repay mode - depends on riskPercentageNoBorrow to avoid feedback loop
+  useEffect(() => {
+    if (!isRepayMode) return;
+
+    setSliderValue([riskPercentageNoBorrow]);
+  }, [riskPercentageNoBorrow, isRepayMode]);
 
   return {
     sliderValue,
