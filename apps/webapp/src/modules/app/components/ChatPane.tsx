@@ -48,7 +48,9 @@ export const ChatPane = ({ sendMessage }: { sendMessage: (message: string) => vo
     const shouldShowFeedback =
       isNotInitialMessage && isLastMessageBot && !isLoadingMessage && isLongEnoughConversation;
 
-    const hasRecentConversationFeedback = chatHistory.some(
+    // Check only the last 10 messages for recent conversation feedback
+    const recentMessages = chatHistory.slice(-10);
+    const hasRecentConversationFeedback = recentMessages.some(
       msg => msg.user === UserType.user && msg.message.startsWith(CONVERSATION_RATING_PREFIX)
     );
 
