@@ -15,7 +15,7 @@ export const useRiskSlider = ({
   vaultNoBorrow,
   isRepayMode = false
 }: UseRiskSliderProps) => {
-  const { setUsdsToBorrow, setUsdsToWipe } = useContext(StakeModuleWidgetContext);
+  const { setUsdsToBorrow, setUsdsToWipe, usdsToWipe, usdsToBorrow } = useContext(StakeModuleWidgetContext);
   const setValue = isRepayMode ? setUsdsToWipe : setUsdsToBorrow;
 
   const riskPercentage = vault?.liquidationProximityPercentage || 0;
@@ -37,10 +37,12 @@ export const useRiskSlider = ({
 
   useEffect(() => {
     // Set the initial risk floor when we have valid vault data in borrow mode
+    // Updates whenever collateral changes (via riskPercentageNoBorrow from vaultNoBorrow)
     if (!isRepayMode && hasExistingDebt && vaultNoBorrow) {
       setInitialRiskFloor(riskPercentageNoBorrow);
     }
     // Set the initial risk ceiling when we have valid vault data in repay mode
+    // Updates whenever collateral changes (via riskPercentageNoBorrow from vaultNoBorrow)
     if (isRepayMode && hasExistingDebt && vaultNoBorrow) {
       setInitialRiskCeiling(riskPercentageNoBorrow);
     }
@@ -150,14 +152,68 @@ export const useRiskSlider = ({
     return undefined;
   }, [vault?.maxSafeBorrowableIntAmount, vault?.maxSafeBorrowableIntAmountNoCap, isRepayMode, vaultNoBorrow]);
 
-  useEffect(() => {
-    // If we're at or past the cap, clamp the slider to the cap position
-    if (capPercentage !== undefined && riskPercentage > capPercentage) {
-      setSliderValue([capPercentage]);
-    } else {
-      setSliderValue([riskPercentage]);
+  // Calculate the correct slider position based on current repay/borrow amount
+  // This reverses the calculation in handleSliderChange to maintain two-way sync
+  const calculatedSliderPosition = useMemo(() => {
+    if (isRepayMode && initialRiskCeiling !== undefined) {
+      const currentDebt = existingVault?.debtValue || 0n;
+      if (currentDebt === 0n) return initialRiskCeiling;
+
+      // Reverse the repay calculation: value = initialRiskCeiling * (1 - usdsToWipe / currentDebt)
+      const repayFraction = Number((usdsToWipe * 10000n) / currentDebt) / 10000;
+      return initialRiskCeiling * (1 - repayFraction);
+    } else if (!isRepayMode && initialRiskFloor !== undefined) {
+      const maxBorrowable = vault?.maxSafeBorrowableIntAmountNoCap || 0n;
+      if (maxBorrowable === 0n) return initialRiskFloor;
+
+      // Reverse the borrow calculation
+      const remainingBorrowablePercentage = 100 - initialRiskFloor;
+      if (remainingBorrowablePercentage === 0) return initialRiskFloor;
+
+      const borrowFraction = Number((usdsToBorrow * 10000n) / maxBorrowable) / 10000;
+      return initialRiskFloor + remainingBorrowablePercentage * borrowFraction;
     }
-  }, [riskPercentage, capPercentage]);
+    return undefined;
+  }, [
+    isRepayMode,
+    initialRiskCeiling,
+    initialRiskFloor,
+    usdsToWipe,
+    usdsToBorrow,
+    existingVault?.debtValue,
+    vault?.maxSafeBorrowableIntAmountNoCap
+  ]);
+
+  // Sync slider in borrow mode
+  useEffect(() => {
+    if (isRepayMode) return;
+
+    // If we have a calculated position (existing debt scenario), use that for two-way sync
+    if (calculatedSliderPosition !== undefined) {
+      if (capPercentage !== undefined && calculatedSliderPosition > capPercentage) {
+        setSliderValue([capPercentage]);
+      } else {
+        setSliderValue([calculatedSliderPosition]);
+      }
+    } else {
+      // Otherwise use riskPercentage (new vault scenario)
+      if (capPercentage !== undefined && riskPercentage > capPercentage) {
+        setSliderValue([capPercentage]);
+      } else {
+        setSliderValue([riskPercentage]);
+      }
+    }
+  }, [riskPercentage, capPercentage, isRepayMode, calculatedSliderPosition]);
+
+  // Sync slider in repay mode - use calculated position for two-way sync
+  useEffect(() => {
+    if (!isRepayMode) return;
+
+    // Use calculated position if available, otherwise fall back to riskPercentageNoBorrow
+    const position =
+      calculatedSliderPosition !== undefined ? calculatedSliderPosition : riskPercentageNoBorrow;
+    setSliderValue([position]);
+  }, [isRepayMode, calculatedSliderPosition, riskPercentageNoBorrow]);
 
   return {
     sliderValue,
