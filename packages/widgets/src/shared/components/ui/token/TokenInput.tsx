@@ -364,7 +364,7 @@ export function TokenInput({
                               <Wallet height={20} width={20} className="text-textDesaturated" />
                             </div>
                           )
-                        ) : !hideIcon && !isConnectedAndEnabled ? (
+                        ) : !hideIcon && (!limitText || !isConnectedAndEnabled) ? (
                           <div>
                             <Wallet height={20} width={20} className="text-textDesaturated" />
                           </div>

@@ -4,6 +4,9 @@ import { Text } from '@widgets/shared/components/ui/Typography';
 import { cn } from '@widgets/lib/utils';
 import { HStack } from './layout/HStack';
 import { Tooltip, TooltipContent, TooltipPortal, TooltipTrigger } from '@widgets/components/ui/tooltip';
+import { getTooltipsByIds } from '@widgets/data/tooltips';
+import { DragArrows } from '../icons/DragArrows';
+import { RISK_LEVEL_THRESHOLDS, RiskLevel } from '@jetstreamgg/sky-hooks';
 
 type RiskSliderProps = React.ComponentProps<typeof SliderPrimitive.Root> & {
   riskColor?: string;
@@ -18,16 +21,26 @@ type RiskSliderProps = React.ComponentProps<typeof SliderPrimitive.Root> & {
   currentRiskFloor?: number;
   currentRiskCeiling?: number;
   capIndicationPercentage?: number;
-  isRepayMode?: boolean;
 };
 
 const RISK_INDICATOR_SIZE = 10;
 
+// Extract risk level thresholds in a single pass
+const riskThresholds = RISK_LEVEL_THRESHOLDS.reduce(
+  (acc, { level, threshold }) => {
+    acc[level] = threshold;
+    return acc;
+  },
+  {} as Record<RiskLevel, number>
+);
+
+// Map risk level thresholds to gradient colors
+// LOW (0-25) -> green, MEDIUM (25-40) -> amber, HIGH (40-80) -> orange, LIQUIDATION (80-100) -> red
 const GRADIENT_COLORS = [
-  { stop: 0, rgb: { r: 74, g: 222, b: 128 } }, // green
-  { stop: 40, rgb: { r: 251, g: 191, b: 36 } }, // amber
-  { stop: 80, rgb: { r: 248, g: 113, b: 113 } }, // orange
-  { stop: 100, rgb: { r: 239, g: 68, b: 68 } } // red
+  { stop: riskThresholds[RiskLevel.LOW], rgb: { r: 74, g: 222, b: 128 } }, // green
+  { stop: riskThresholds[RiskLevel.MEDIUM], rgb: { r: 251, g: 191, b: 36 } }, // amber
+  { stop: riskThresholds[RiskLevel.HIGH], rgb: { r: 248, g: 113, b: 113 } }, // orange
+  { stop: riskThresholds[RiskLevel.LIQUIDATION], rgb: { r: 239, g: 68, b: 68 } } // red
 ];
 
 const rgbToString = (rgb: { r: number; g: number; b: number }) => `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
@@ -68,6 +81,15 @@ const getGradientColorAtPercentage = (percentage: number): string => {
   return calculateColor(GRADIENT_COLORS[0].rgb, GRADIENT_COLORS[0].rgb, 0);
 };
 
+// Fetch tooltips for the risk slider
+const [
+  riskSliderBorrowTooltip,
+  riskSliderRepayTooltip,
+  maxPermittedRiskTooltip,
+  riskFloorTooltip,
+  riskCeilingTooltip
+] = getTooltipsByIds(['risk-borrow', 'risk-repay', 'max-permitted-risk', 'risk-floor', 'risk-ceiling']);
+
 const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Root>, RiskSliderProps>(
   (
     {
@@ -88,12 +110,26 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
       currentRiskFloor,
       currentRiskCeiling,
       capIndicationPercentage,
-      isRepayMode,
       ...props
     },
     ref
   ) => {
     const [localValue, setLocalValue] = React.useState(value);
+
+    const isBorrowMode = currentRiskFloor !== undefined && currentRiskCeiling === undefined;
+    const isRepayMode = currentRiskCeiling !== undefined && currentRiskFloor === undefined;
+    const isCreateMode = !isBorrowMode && !isRepayMode;
+
+    const thumbTooltipContent = isCreateMode
+      ? undefined // no tooltip for create mode
+      : isBorrowMode
+        ? riskSliderBorrowTooltip?.tooltip
+        : isRepayMode
+          ? riskSliderRepayTooltip?.tooltip
+          : undefined;
+
+    const thumbClassName =
+      'border-primary ring-offset-background focus-visible:ring-ring focus-visible:outline-hidden block cursor-pointer rounded-full bg-white transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 w-5 h-5';
 
     React.useEffect(() => {
       setLocalValue(value);
@@ -128,7 +164,7 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
     // Calculate offset based on percentage (matches Radix thumb positioning)
     // At 0% offset is +8px, at 50% offset is 0px, at 100% offset is -8px
     const calculateOffset = (percentage: number) => {
-      const thumbSize = 16; // Radix thumb size (border-8 = 8px border = 16px total)
+      const thumbSize = 20; // Radix thumb size
       const halfThumb = thumbSize / 2;
       // Linear interpolation: 0% -> +8px, 50% -> 0px, 100% -> -8px
       return halfThumb - (percentage / 100) * thumbSize;
@@ -196,11 +232,8 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
               </TooltipTrigger>
               <TooltipPortal>
                 <TooltipContent side="right" className="max-w-xs">
-                  <p className="text-sm font-medium text-white">Max permitted risk</p>
-                  <p className="mt-2 text-xs text-gray-400">
-                    Risk cannot exceed the Max Permitted Risk level, determined by the capped OSM price and collateralization
-                    ratio requirements. To borrow more, stake additional SKY collateral.
-                  </p>
+                  <p className="text-sm font-medium text-white">{maxPermittedRiskTooltip?.title}</p>
+                  <p className="mt-2 text-xs text-gray-400">{maxPermittedRiskTooltip?.tooltip}</p>
                 </TooltipContent>
               </TooltipPortal>
             </Tooltip>
@@ -224,11 +257,8 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
                   </TooltipTrigger>
                   <TooltipPortal>
                     <TooltipContent side="right" className="max-w-xs">
-                      <p className="text-sm font-medium text-white">Risk floor</p>
-                      <p className="mt-2 text-xs text-gray-400">
-                        Given the current SKY deposited and USDS borrowed in this position, risk cannot be adjusted below the Risk
-                        floor. To lower the Risk floor, you must stake more SKY or repay USDS on the Unstake and Repay tab.
-                      </p>
+                      <p className="text-sm font-medium text-white">{riskFloorTooltip?.title}</p>
+                      <p className="mt-2 text-xs text-gray-400">{riskFloorTooltip?.tooltip}</p>
                     </TooltipContent>
                   </TooltipPortal>
                 </Tooltip>
@@ -253,11 +283,8 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
                   </TooltipTrigger>
                   <TooltipPortal>
                     <TooltipContent side="right" className="max-w-xs">
-                      <p className="text-sm font-medium text-white">Risk ceiling</p>
-                      <p className="mt-2 text-xs text-gray-400">
-                        Given the current SKY deposited and USDS borrowed in this position, risk cannot be increased above the Risk
-                        Ceiling. To raise the Risk Ceiling, you must unstake SKY or borrow additional USDS.
-                      </p>
+                      <p className="text-sm font-medium text-white">{riskCeilingTooltip?.title}</p>
+                      <p className="mt-2 text-xs text-gray-400">{riskCeilingTooltip?.tooltip}</p>
                     </TooltipContent>
                   </TooltipPortal>
                 </Tooltip>
@@ -269,16 +296,31 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
                 className={`absolute ${(value?.[0] || 0) > 95 ? '-left-[20px]' : ''} -top-[0.5px] h-0 w-0 border-b-[11px] border-l-[5.5px] border-r-[5.5px] border-b-white border-l-transparent border-r-transparent`}
               />
             </SliderPrimitive.Thumb>
+          ) : thumbTooltipContent ? (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <SliderPrimitive.Thumb className={thumbClassName}>
+                  <DragArrows width={20} height={20} />
+                </SliderPrimitive.Thumb>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="max-w-[280px] whitespace-normal text-left">
+                {thumbTooltipContent}
+              </TooltipContent>
+            </Tooltip>
+          ) : isCreateMode ? (
+            <SliderPrimitive.Thumb className={thumbClassName}>
+              <DragArrows width={20} height={20} />
+            </SliderPrimitive.Thumb>
           ) : (
             <Tooltip>
               <TooltipTrigger asChild>
-                <SliderPrimitive.Thumb className="border-primary ring-offset-background focus-visible:ring-ring focus-visible:outline-hidden block cursor-pointer rounded-full border-8 bg-white transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50" />
+                <SliderPrimitive.Thumb className={thumbClassName}>
+                  <DragArrows width={20} height={20} />
+                </SliderPrimitive.Thumb>
               </TooltipTrigger>
               <TooltipPortal>
                 <TooltipContent arrowPadding={10} className="max-w-75">
-                  {isRepayMode
-                    ? 'Risk can only be adjusted downwards when repaying. To adjust upwards, you can unstake SKY, or borrow more USDS on the Stake and Borrow tab.'
-                    : 'Risk can only be adjusted upwards when borrowing. To adjust downwards, you can stake more SKY, or repay USDS on the Unstake and Repay tab.'}
+                  {isRepayMode ? riskSliderRepayTooltip?.tooltip : riskSliderBorrowTooltip?.tooltip}
                 </TooltipContent>
               </TooltipPortal>
             </Tooltip>

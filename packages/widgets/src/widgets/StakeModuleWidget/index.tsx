@@ -495,10 +495,21 @@ function StakeModuleWidgetWrapped({
 
   // Reset delegate when wantsToDelegate is false and we are in the summary step before clicking confirm
   useEffect(() => {
-    if (currentStep === StakeStep.SUMMARY && !wantsToDelegate && selectedDelegate !== undefined) {
-      setSelectedDelegate(undefined);
+    if (currentStep === StakeStep.SUMMARY && !wantsToDelegate) {
+      if (widgetState.flow === StakeFlow.OPEN && selectedDelegate !== undefined)
+        setSelectedDelegate(undefined);
+      else if (widgetState.flow === StakeFlow.MANAGE) {
+        setSelectedDelegate(activeUrnVoteDelegate);
+      }
     }
-  }, [wantsToDelegate, selectedDelegate, setSelectedDelegate, currentStep]);
+  }, [
+    wantsToDelegate,
+    selectedDelegate,
+    setSelectedDelegate,
+    currentStep,
+    widgetState.flow,
+    activeUrnVoteDelegate
+  ]);
 
   /**
    * BUTTON CLICKS ----------------------------------------------------------------------------------

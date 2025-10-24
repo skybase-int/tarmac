@@ -73,7 +73,6 @@ const SliderContainer = ({
       sliderLabel={t`Liquidation risk meter`}
       currentRiskFloor={currentRiskFloor}
       capIndicationPercentage={capPercentage}
-      isRepayMode={false}
     />
   ) : null;
 };
@@ -228,7 +227,7 @@ const PositionManagerOverviewContainer = ({
       {
         label: t`Borrow Rate`,
         value: collateralData?.stabilityFee ? formatPercent(collateralData?.stabilityFee) : '',
-        tooltipText: getTooltipById('borrow')?.tooltip || ''
+        tooltipText: getTooltipById('borrow-rate')?.tooltip || ''
       },
       {
         label: t`Collateral value`,
@@ -463,6 +462,7 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
           !isConnectedAndEnabled || minCollateralNotMet || collateralData?.debtCeilingUtilization === 1
         }
         enabled={isConnectedAndEnabled}
+        hideIcon={isConnectedAndEnabled}
       />
       {collateralData?.debtCeilingUtilization === 1 ? (
         <div className="ml-3 flex items-start text-amber-400">
