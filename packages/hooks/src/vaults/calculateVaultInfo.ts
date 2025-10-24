@@ -29,10 +29,9 @@ export function calculateVaultInfo({
   const minSafeCollateralAmount = math.minSafeCollateralAmount(debtValue, mat, delayedPrice);
   const collateralValue = math.collateralValue(ink, math.delayedPrice(par, spot, mat));
   const maxSafeBorrowableAmount = math.daiAvailable(collateralValue, debtValue, mat);
-  const collateralizationRatio = math.collateralizationRatio(collateralValue, debtValue);
   const liquidationPrice = math.liquidationPrice(ink, math.debtValue(art, rate), mat);
-
   const collateralValueNoCap = math.collateralValue(ink, marketPrice || delayedPrice);
+  const collateralizationRatio = math.collateralizationRatio(collateralValueNoCap, debtValue);
   const maxSafeBorrowableAmountNoCap = math.daiAvailable(collateralValueNoCap, debtValue, mat);
   const maxSafeBorrowableIntAmountNoCap = math.removeDecimalPartOfWad(maxSafeBorrowableAmountNoCap); // wad
 
