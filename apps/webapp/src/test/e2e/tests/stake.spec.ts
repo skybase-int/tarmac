@@ -414,3 +414,120 @@ test('Slider interaction - Move slider and verify borrow amount changes', async 
     console.log(`Increase: ${newBorrowAmount - initialBorrowAmount} USDS`);
   }
 });
+
+test('Slider respects risk floor in borrow mode', async ({ page }) => {
+  // Create position with initial borrowing
+  await expect(page.getByTestId('supply-first-input-lse-balance')).toHaveText('100,000,000 SKY');
+
+  await page.getByTestId('supply-first-input-lse').fill('2400000');
+  await page.getByTestId('borrow-input-lse').fill('50000');
+
+  await expect(page.getByTestId('widget-button').first()).toBeEnabled({ timeout: 10000 });
+  await page.getByTestId('widget-button').first().click();
+
+  await expect(page.getByText('Choose your reward token')).toBeVisible();
+  await page.getByTestId('stake-reward-card').first().click();
+  await expect(page.getByTestId('widget-button').first()).toBeEnabled();
+  await page.getByTestId('widget-button').first().click();
+
+  await expect(page.getByText('Confirm your position').nth(0)).toBeVisible();
+  await approveOrPerformAction(page, 'Open a position', { review: false });
+  await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible({ timeout: 10000 });
+
+  // Navigate to manage position
+  await page.getByRole('button', { name: 'Manage your position(s)' }).click();
+  await expect(page.getByText('Position 1')).toBeVisible();
+  await page.getByRole('button', { name: 'Manage Position' }).last().click();
+  await expect(page.getByText('Your position 1')).toBeVisible();
+
+  // Clear the borrow input to reset to risk floor
+  await page.getByTestId('borrow-input-lse').clear();
+  await page.waitForTimeout(500);
+
+  // Find the slider and verify it's at the risk floor
+  const slider = page.locator('[role="slider"]').first();
+  await expect(slider).toBeVisible();
+
+  const sliderBox = await slider.boundingBox();
+  expect(sliderBox).not.toBeNull();
+
+  if (sliderBox) {
+    // Try to drag slider to the far left (0% position)
+    const targetX = sliderBox.x;
+    const targetY = sliderBox.y + sliderBox.height / 2;
+
+    await slider.hover();
+    await page.mouse.down();
+    await page.mouse.move(targetX, targetY);
+    await page.mouse.up();
+
+    await page.waitForTimeout(500);
+
+    // Verify borrow amount is 0 (can't go below risk floor)
+    const borrowInput = await page.getByTestId('borrow-input-lse').inputValue();
+    const borrowAmount = Number(borrowInput);
+    expect(borrowAmount).toBe(0);
+
+    console.log(`Risk floor constraint working: Borrow amount stayed at ${borrowAmount} USDS`);
+  }
+});
+
+test('Two-way sync - Input field updates slider position', async ({ page }) => {
+  // Create position with collateral
+  await expect(page.getByTestId('supply-first-input-lse-balance')).toHaveText('100,000,000 SKY');
+
+  await page.getByTestId('supply-first-input-lse').fill('2400000');
+  await page.getByTestId('borrow-input-lse').fill('10000');
+
+  await expect(page.getByTestId('widget-button').first()).toBeEnabled({ timeout: 10000 });
+  await page.getByTestId('widget-button').first().click();
+
+  await expect(page.getByText('Choose your reward token')).toBeVisible();
+  await page.getByTestId('stake-reward-card').first().click();
+  await expect(page.getByTestId('widget-button').first()).toBeEnabled();
+  await page.getByTestId('widget-button').first().click();
+
+  await expect(page.getByText('Confirm your position').nth(0)).toBeVisible();
+  await approveOrPerformAction(page, 'Open a position', { review: false });
+  await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible({ timeout: 10000 });
+
+  // Navigate to manage position
+  await page.getByRole('button', { name: 'Manage your position(s)' }).click();
+  await expect(page.getByText('Position 1')).toBeVisible();
+  await page.getByRole('button', { name: 'Manage Position' }).last().click();
+  await expect(page.getByText('Your position 1')).toBeVisible();
+
+  // Find the slider
+  const slider = page.locator('[role="slider"]').first();
+  await expect(slider).toBeVisible();
+
+  // Get initial slider position
+  const initialSliderValue = await slider.getAttribute('aria-valuenow');
+  console.log(`Initial slider position: ${initialSliderValue}%`);
+
+  // Type increasing borrow amounts and verify slider moves right
+  await page.getByTestId('borrow-input-lse').fill('25000');
+  await page.waitForTimeout(500);
+  const sliderValue1 = await slider.getAttribute('aria-valuenow');
+  console.log(`After 25K USDS, slider position: ${sliderValue1}%`);
+
+  await page.getByTestId('borrow-input-lse').fill('50000');
+  await page.waitForTimeout(500);
+  const sliderValue2 = await slider.getAttribute('aria-valuenow');
+  console.log(`After 50K USDS, slider position: ${sliderValue2}%`);
+
+  await page.getByTestId('borrow-input-lse').fill('75000');
+  await page.waitForTimeout(500);
+  const sliderValue3 = await slider.getAttribute('aria-valuenow');
+  console.log(`After 75K USDS, slider position: ${sliderValue3}%`);
+
+  // Verify slider moved right with each increase
+  expect(Number(sliderValue1)).toBeGreaterThan(Number(initialSliderValue));
+  expect(Number(sliderValue2)).toBeGreaterThan(Number(sliderValue1));
+  expect(Number(sliderValue3)).toBeGreaterThan(Number(sliderValue2));
+
+  // Verify position overview contains risk level information
+  // Use the widget container to be more specific
+  const widgetContainer = page.getByTestId('widget-container');
+  await expect(widgetContainer.getByText('Risk level')).toBeVisible();
+});
