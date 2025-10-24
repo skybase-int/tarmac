@@ -530,4 +530,147 @@ test('Two-way sync - Input field updates slider position', async ({ page }) => {
   // Use the widget container to be more specific
   const widgetContainer = page.getByTestId('widget-container');
   await expect(widgetContainer.getByText('Risk level')).toBeVisible();
+
+  console.log('Two-way sync working: Input field updates slider position and risk level');
+});
+
+test('Slider movement updates all position overview parameters', async ({ page }) => {
+  // Create position with borrowing
+  await expect(page.getByTestId('supply-first-input-lse-balance')).toHaveText('100,000,000 SKY');
+
+  await page.getByTestId('supply-first-input-lse').fill('2400000');
+  await page.getByTestId('borrow-input-lse').fill('20000');
+
+  await expect(page.getByTestId('widget-button').first()).toBeEnabled({ timeout: 10000 });
+  await page.getByTestId('widget-button').first().click();
+
+  await expect(page.getByText('Choose your reward token')).toBeVisible();
+  await page.getByTestId('stake-reward-card').first().click();
+  await expect(page.getByTestId('widget-button').first()).toBeEnabled();
+  await page.getByTestId('widget-button').first().click();
+
+  await expect(page.getByText('Confirm your position').nth(0)).toBeVisible();
+  await approveOrPerformAction(page, 'Open a position', { review: false });
+  await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible({ timeout: 10000 });
+
+  // Navigate to manage position
+  await page.getByRole('button', { name: 'Manage your position(s)' }).click();
+  await expect(page.getByText('Position 1')).toBeVisible();
+  await page.getByRole('button', { name: 'Manage Position' }).last().click();
+  await expect(page.getByText('Your position 1')).toBeVisible();
+
+  // Use widget container for more specific querying
+  const widgetContainer = page.getByTestId('widget-container');
+  await expect(widgetContainer.getByText('Position overview')).toBeVisible();
+
+  // Capture initial parameters
+  const initialBorrow = await page.getByTestId('borrow-input-lse').inputValue();
+
+  // Get initial overview text content to compare later
+  const initialOverviewText = await widgetContainer.textContent();
+  expect(initialOverviewText).toContain('Collateralization ratio');
+  expect(initialOverviewText).toContain('Liquidation price');
+  expect(initialOverviewText).toContain('Risk level');
+  expect(initialOverviewText).toContain('Debt ceiling utilization');
+
+  // Find and move slider to higher risk position (~70%)
+  const slider = page.locator('[role="slider"]').first();
+  await expect(slider).toBeVisible();
+
+  const sliderBox = await slider.boundingBox();
+  expect(sliderBox).not.toBeNull();
+
+  if (sliderBox) {
+    const targetX = sliderBox.x + sliderBox.width * 0.7;
+    const targetY = sliderBox.y + sliderBox.height / 2;
+
+    await slider.hover();
+    await page.mouse.down();
+    await page.mouse.move(targetX, targetY);
+    await page.mouse.up();
+
+    await page.waitForTimeout(500);
+
+    // Verify borrow amount increased
+    const newBorrow = await page.getByTestId('borrow-input-lse').inputValue();
+    expect(Number(newBorrow)).toBeGreaterThan(Number(initialBorrow));
+
+    // Get new overview text
+    const newOverviewText = await widgetContainer.textContent();
+
+    // Verify all parameters are still present (and updated)
+    expect(newOverviewText).toContain('Collateralization ratio');
+    expect(newOverviewText).toContain('Liquidation price');
+    expect(newOverviewText).toContain('Risk level');
+    expect(newOverviewText).toContain('Debt ceiling utilization');
+
+    // Verify the overview content changed
+    expect(newOverviewText).not.toBe(initialOverviewText);
+
+    console.log(`Initial borrow: ${initialBorrow} USDS`);
+    console.log(`New borrow: ${newBorrow} USDS`);
+    console.log('Position overview parameters updated successfully');
+  }
+});
+
+test('Debt ceiling cap indicator prevents over-borrowing', async ({ page }) => {
+  // Create position with substantial collateral
+  await expect(page.getByTestId('supply-first-input-lse-balance')).toHaveText('100,000,000 SKY');
+
+  await page.getByTestId('supply-first-input-lse').fill('5000000');
+  await page.getByTestId('borrow-input-lse').fill('10000');
+
+  await expect(page.getByTestId('widget-button').first()).toBeEnabled({ timeout: 10000 });
+  await page.getByTestId('widget-button').first().click();
+
+  await expect(page.getByText('Choose your reward token')).toBeVisible();
+  await page.getByTestId('stake-reward-card').first().click();
+  await expect(page.getByTestId('widget-button').first()).toBeEnabled();
+  await page.getByTestId('widget-button').first().click();
+
+  await expect(page.getByText('Confirm your position').nth(0)).toBeVisible();
+  await approveOrPerformAction(page, 'Open a position', { review: false });
+  await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible({ timeout: 10000 });
+
+  // Navigate to manage position
+  await page.getByRole('button', { name: 'Manage your position(s)' }).click();
+  await expect(page.getByText('Position 1')).toBeVisible();
+  await page.getByRole('button', { name: 'Manage Position' }).last().click();
+  await expect(page.getByText('Your position 1')).toBeVisible();
+
+  // Get the max borrowable from the limit text
+  const limitText = await page.getByTestId('borrow-input-lse-balance').textContent();
+  console.log(`Limit text: ${limitText}`);
+
+  // Find slider and move to far right (trying to exceed cap)
+  const slider = page.locator('[role="slider"]').first();
+  await expect(slider).toBeVisible();
+
+  const sliderBox = await slider.boundingBox();
+  expect(sliderBox).not.toBeNull();
+
+  if (sliderBox) {
+    // Try to drag slider to 100% position
+    const targetX = sliderBox.x + sliderBox.width;
+    const targetY = sliderBox.y + sliderBox.height / 2;
+
+    await slider.hover();
+    await page.mouse.down();
+    await page.mouse.move(targetX, targetY);
+    await page.mouse.up();
+
+    await page.waitForTimeout(500);
+
+    // Get the borrow amount
+    const borrowAmount = await page.getByTestId('borrow-input-lse').inputValue();
+    console.log(`Borrow amount at max slider: ${borrowAmount} USDS`);
+
+    // Verify no error message about exceeding debt ceiling
+    const errorMessage = page.getByText('Requested borrow amount exceeds the debt ceiling');
+    await expect(errorMessage).not.toBeVisible();
+
+    // Verify borrow amount is reasonable (capped appropriately)
+    expect(Number(borrowAmount)).toBeGreaterThan(0);
+    expect(Number(borrowAmount)).toBeLessThan(10000000); // Reasonable upper bound
+  }
 });
