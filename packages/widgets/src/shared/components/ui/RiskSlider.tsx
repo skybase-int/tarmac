@@ -6,6 +6,7 @@ import { HStack } from './layout/HStack';
 import { Tooltip, TooltipContent, TooltipPortal, TooltipTrigger } from '@widgets/components/ui/tooltip';
 import { getTooltipsByIds } from '@widgets/data/tooltips';
 import { DragArrows } from '../icons/DragArrows';
+import { RISK_LEVEL_THRESHOLDS, RiskLevel } from '@jetstreamgg/sky-hooks';
 
 type RiskSliderProps = React.ComponentProps<typeof SliderPrimitive.Root> & {
   riskColor?: string;
@@ -24,11 +25,22 @@ type RiskSliderProps = React.ComponentProps<typeof SliderPrimitive.Root> & {
 
 const RISK_INDICATOR_SIZE = 10;
 
+// Extract risk level thresholds in a single pass
+const riskThresholds = RISK_LEVEL_THRESHOLDS.reduce(
+  (acc, { level, threshold }) => {
+    acc[level] = threshold;
+    return acc;
+  },
+  {} as Record<RiskLevel, number>
+);
+
+// Map risk level thresholds to gradient colors
+// LOW (0-25) -> green, MEDIUM (25-40) -> amber, HIGH (40-80) -> orange, LIQUIDATION (80-100) -> red
 const GRADIENT_COLORS = [
-  { stop: 0, rgb: { r: 74, g: 222, b: 128 } }, // green
-  { stop: 40, rgb: { r: 251, g: 191, b: 36 } }, // amber
-  { stop: 80, rgb: { r: 248, g: 113, b: 113 } }, // orange
-  { stop: 100, rgb: { r: 239, g: 68, b: 68 } } // red
+  { stop: riskThresholds[RiskLevel.LOW], rgb: { r: 74, g: 222, b: 128 } }, // green
+  { stop: riskThresholds[RiskLevel.MEDIUM], rgb: { r: 251, g: 191, b: 36 } }, // amber
+  { stop: riskThresholds[RiskLevel.HIGH], rgb: { r: 248, g: 113, b: 113 } }, // orange
+  { stop: riskThresholds[RiskLevel.LIQUIDATION], rgb: { r: 239, g: 68, b: 68 } } // red
 ];
 
 const rgbToString = (rgb: { r: number; g: number; b: number }) => `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
