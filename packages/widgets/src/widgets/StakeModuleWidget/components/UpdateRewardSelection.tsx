@@ -1,5 +1,10 @@
 import { Button } from '@widgets/components/ui/button';
-import { lsSkyUsdsRewardAddress, useStakeRewardContracts } from '@jetstreamgg/sky-hooks';
+import {
+  lsSkyUsdsRewardAddress,
+  useStakeRewardContracts,
+  useStakeUrnSelectedRewardContract,
+  ZERO_ADDRESS
+} from '@jetstreamgg/sky-hooks';
 import { useCallback, useContext, useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '@widgets/components/ui/popover';
 import { useChainId } from 'wagmi';
@@ -39,6 +44,10 @@ export const UpdateRewardSelection = ({
     setIsSelectRewardContractCompleted,
     setIsSelectDelegateCompleted
   } = useContext(StakeModuleWidgetContext);
+
+  const { data: urnSelectedRewardContract } = useStakeUrnSelectedRewardContract({
+    urn: urnAddress || ZERO_ADDRESS
+  });
 
   const { data: rewardContracts } = useStakeRewardContracts();
   const filteredRewardContracts = rewardContracts?.filter(
@@ -97,6 +106,7 @@ export const UpdateRewardSelection = ({
             <StakeRewardsCardCompact
               key={contractAddress}
               contractAddress={contractAddress}
+              urnSelectedRewardContract={urnSelectedRewardContract}
               handleCardClick={handleSelectRewardContract}
             />
           ))}

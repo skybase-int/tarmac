@@ -15,12 +15,15 @@ import { useMemo } from 'react';
 import { useChainId } from 'wagmi';
 import { Card } from '@widgets/components/ui/card';
 import { formatEther } from 'viem';
+import { cn } from '@widgets/lib/utils';
 
 export const StakeRewardsCardCompact = ({
   contractAddress,
+  urnSelectedRewardContract,
   handleCardClick
 }: {
   contractAddress: `0x${string}`;
+  urnSelectedRewardContract?: `0x${string}`;
   handleCardClick?: (contractAddress: `0x${string}`) => void;
 }) => {
   const chainId = useChainId();
@@ -68,9 +71,15 @@ export const StakeRewardsCardCompact = ({
   const isTvlLoading = isRewardContractInfoLoading || stakeHistoricIsLoading;
   const tvlError = rewardContractInfoError || stakeHistoricError;
 
+  const isRewardContractSelected = contractAddress.toLowerCase() === urnSelectedRewardContract?.toLowerCase();
+
   return (
     <Card
-      className="bg-radial-(--gradient-position) from-card to-card hover:from-primary-start/40 hover:to-primary-end/40 flex cursor-pointer items-center justify-between transition-colors"
+      className={cn(
+        'bg-radial-(--gradient-position) from-card to-card hover:from-primary-start/40 hover:to-primary-end/40 flex cursor-pointer items-center justify-between transition-colors',
+        isRewardContractSelected && 'pointer-events-none opacity-50'
+      )}
+      aria-disabled={isRewardContractSelected}
       onClick={() => handleCardClick?.(contractAddress)}
     >
       <MotionHStack className="items-center gap-3 space-x-0" variants={positionAnimations}>
