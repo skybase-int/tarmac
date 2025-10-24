@@ -26,6 +26,7 @@ import { getTooltipById } from '../../../data/tooltips';
 import { useChainId } from 'wagmi';
 import { UpdateRewardSelection } from './UpdateRewardSelection';
 import { YellowWarning } from '@widgets/shared/components/icons/YellowWarning';
+import { OnStakeUrnChange } from '..';
 
 type Props = {
   collateralizationRatio?: bigint;
@@ -49,6 +50,7 @@ type Props = {
   claimAllExecute: () => void;
   batchEnabledAndSupported: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  onStakeUrnChange?: OnStakeUrnChange;
 };
 
 // Copied from TransactionDetail, it could be reusable
@@ -69,7 +71,8 @@ export function PositionDetail({
   claimAllPrepared,
   claimAllExecute,
   batchEnabledAndSupported,
-  onExternalLinkClicked
+  onExternalLinkClicked,
+  onStakeUrnChange
 }: Props) {
   const { data: rewardContractTokens } = useRewardContractTokens(selectedRewardContract);
   const { data: selectedDelegateName } = useDelegateName(selectedVoteDelegate);
@@ -135,7 +138,13 @@ export function PositionDetail({
                   <TokenIcon token={rewardContractTokens.rewardsToken} width={24} className="h-6 w-6" />
                   <Text className="ml-2">{rewardContractTokens.rewardsToken.symbol}</Text>
                 </div>
-                <UpdateRewardSelection onExternalLinkClicked={onExternalLinkClicked} />
+                <UpdateRewardSelection
+                  urnAddress={urnAddress}
+                  index={index}
+                  selectedVoteDelegate={selectedVoteDelegate}
+                  onExternalLinkClicked={onExternalLinkClicked}
+                  onStakeUrnChange={onStakeUrnChange}
+                />
               </div>
             </VStack>
           )}

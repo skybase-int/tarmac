@@ -11,18 +11,17 @@ import {
   useStakeHistoricData
 } from '@jetstreamgg/sky-hooks';
 import { formatDecimalPercentage, formatNumber } from '@jetstreamgg/sky-utils';
-import { Dispatch, SetStateAction, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useChainId } from 'wagmi';
 import { Card } from '@widgets/components/ui/card';
 import { formatEther } from 'viem';
 
 export const StakeRewardsCardCompact = ({
-  contractAddress
-  // setSelectedRewardContract
+  contractAddress,
+  handleCardClick
 }: {
   contractAddress: `0x${string}`;
-  selectedRewardContract?: `0x${string}` | undefined;
-  setSelectedRewardContract?: Dispatch<SetStateAction<`0x${string}` | undefined>>;
+  handleCardClick?: (contractAddress: `0x${string}`) => void;
 }) => {
   const chainId = useChainId();
   const {
@@ -49,12 +48,6 @@ export const StakeRewardsCardCompact = ({
     [rewardsChartInfoData]
   );
 
-  // const handleSelectRewardContract = () => {
-  //   setSelectedRewardContract?.(prevRewardContract =>
-  //     prevRewardContract === contractAddress ? undefined : contractAddress
-  //   );
-  // };
-
   const {
     data: stakeHistoricData,
     isLoading: stakeHistoricIsLoading,
@@ -76,7 +69,10 @@ export const StakeRewardsCardCompact = ({
   const tvlError = rewardContractInfoError || stakeHistoricError;
 
   return (
-    <Card className="bg-radial-(--gradient-position) from-card to-card hover:from-primary-start/40 hover:to-primary-end/40 flex cursor-pointer items-center justify-between transition-colors">
+    <Card
+      className="bg-radial-(--gradient-position) from-card to-card hover:from-primary-start/40 hover:to-primary-end/40 flex cursor-pointer items-center justify-between transition-colors"
+      onClick={() => handleCardClick?.(contractAddress)}
+    >
       <MotionHStack className="items-center gap-3 space-x-0" variants={positionAnimations}>
         {rewardContractTokens ? (
           <TokenIcon token={rewardContractTokens.rewardsToken} className="h-8 w-8" />

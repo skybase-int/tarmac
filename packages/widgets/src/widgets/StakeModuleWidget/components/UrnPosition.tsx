@@ -133,6 +133,7 @@ export const UrnPosition: React.FC<UrnPositionProps> = ({
         claimAllExecute={claimAllExecute}
         batchEnabledAndSupported={batchEnabledAndSupported}
         onExternalLinkClicked={onExternalLinkClicked}
+        onStakeUrnChange={onStakeUrnChange}
       />
     </Card>
   );
