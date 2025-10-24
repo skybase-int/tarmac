@@ -3,10 +3,16 @@ import { lsSkyUsdsRewardAddress, useStakeRewardContracts } from '@jetstreamgg/sk
 import { useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '@widgets/components/ui/popover';
 import { useChainId } from 'wagmi';
-import { SaRewardsCard } from './SaRewardsCard';
 import { ChevronDown } from 'lucide-react';
+import { StakeRewardsCardCompact } from './StakeRewardsCardCompact';
+import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
+import { Text } from '@widgets/shared/components/ui/Typography';
 
-export const UpdateRewardSelection = () => {
+export const UpdateRewardSelection = ({
+  onExternalLinkClicked
+}: {
+  onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const chainId = useChainId();
 
@@ -25,16 +31,23 @@ export const UpdateRewardSelection = () => {
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="bg-container w-80 rounded-xl border-0 p-2 backdrop-blur-[50px]"
+        className="bg-container w-88 rounded-xl border-0 p-2 backdrop-blur-[50px]"
         sideOffset={8}
       >
         <div className="flex flex-col gap-2">
+          <div className="px-3">
+            <Text className="mb-1 text-sm">Choose your reward token</Text>
+            <div className="flex items-center gap-1">
+              <Text className="text-textSecondary text-xs">About Staking Reward Rates</Text>
+              <PopoverRateInfo
+                type="srr"
+                onExternalLinkClicked={onExternalLinkClicked}
+                iconClassName="text-textSecondary h-3 w-3"
+              />
+            </div>
+          </div>
           {filteredRewardContracts?.map(({ contractAddress }) => (
-            <SaRewardsCard
-              key={contractAddress}
-              contractAddress={contractAddress}
-              // onExternalLinkClicked={onExternalLinkClicked}
-            />
+            <StakeRewardsCardCompact key={contractAddress} contractAddress={contractAddress} />
           ))}
         </div>
       </PopoverContent>
