@@ -335,3 +335,84 @@ test('Checkbox toggled off after delegate selection - Delegate should be cleared
   await expect(manageDelegateCheckbox).not.toBeChecked();
   await expect(manageDelegateCheckbox).toBeEnabled();
 });
+
+test('Slider interaction - Move slider and verify borrow amount changes', async ({ page }) => {
+  // Setup: Create a position with collateral and some initial borrowing
+  await expect(page.getByTestId('supply-first-input-lse-balance')).toHaveText('100,000,000 SKY');
+
+  // Lock collateral and borrow a small amount
+  await page.getByTestId('supply-first-input-lse').fill('2400000');
+  await page.getByTestId('borrow-input-lse').fill('10000');
+
+  await expect(page.getByTestId('widget-button').first()).toBeEnabled({ timeout: 10000 });
+  await page.getByTestId('widget-button').first().click();
+
+  // select rewards
+  await expect(page.getByText('Choose your reward token')).toBeVisible();
+  await page.getByTestId('stake-reward-card').first().click();
+  await expect(page.getByTestId('widget-button').first()).toBeEnabled();
+  await page.getByTestId('widget-button').first().click();
+
+  // Skip delegate selection
+  await expect(page.getByText('Choose your delegate')).toBeVisible();
+  await page.getByRole('button', { name: 'skip' }).first().click();
+
+  // Confirm position
+  await expect(page.getByText('Confirm your position').nth(0)).toBeVisible();
+  await approveOrPerformAction(page, 'Open a position', { review: false });
+  await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible({ timeout: 10000 });
+
+  // Navigate to manage position
+  await page.getByRole('button', { name: 'Manage your position(s)' }).click();
+  await expect(page.getByText('Position 1')).toBeVisible();
+  await page.getByRole('button', { name: 'Manage Position' }).last().click();
+  await expect(page.getByText('Your position 1')).toBeVisible();
+
+  // Capture initial state before slider interaction
+  const initialBorrowInput = await page.getByTestId('borrow-input-lse').inputValue();
+  const initialBorrowAmount = Number(initialBorrowInput);
+
+  // Get initial risk level from the position overview
+  const positionOverview = page.getByText('Position overview').locator('..');
+  await expect(positionOverview).toBeVisible();
+
+  // Find and interact with the slider
+  const slider = page.locator('[role="slider"]').first();
+  await expect(slider).toBeVisible();
+
+  // Get the slider's bounding box to calculate positions
+  const sliderBox = await slider.boundingBox();
+  expect(sliderBox).not.toBeNull();
+
+  if (sliderBox) {
+    // Move slider to approximately 50% position (middle of the slider)
+    // This should increase the borrow amount since we started at a low value
+    const targetX = sliderBox.x + sliderBox.width * 0.5;
+    const targetY = sliderBox.y + sliderBox.height / 2;
+
+    // Click and drag the slider to the new position
+    await slider.hover();
+    await page.mouse.down();
+    await page.mouse.move(targetX, targetY);
+    await page.mouse.up();
+
+    // Wait for debouncing and state updates
+    await page.waitForTimeout(500);
+
+    // Verify that the borrow amount has changed
+    const newBorrowInput = await page.getByTestId('borrow-input-lse').inputValue();
+    const newBorrowAmount = Number(newBorrowInput);
+
+    // The borrow amount should have increased since we moved the slider right
+    expect(newBorrowAmount).toBeGreaterThan(initialBorrowAmount);
+
+    // Verify the amount is reasonable (not zero, not exceeding max borrowable)
+    expect(newBorrowAmount).toBeGreaterThan(0);
+    expect(newBorrowAmount).toBeLessThan(1000000); // Reasonable upper bound
+
+    // Log the values for debugging
+    console.log(`Initial borrow amount: ${initialBorrowAmount} USDS`);
+    console.log(`New borrow amount: ${newBorrowAmount} USDS`);
+    console.log(`Increase: ${newBorrowAmount - initialBorrowAmount} USDS`);
+  }
+});
