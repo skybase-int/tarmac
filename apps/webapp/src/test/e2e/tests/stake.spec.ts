@@ -347,15 +347,13 @@ test('Slider interaction - Move slider and verify borrow amount changes', async 
   await expect(page.getByTestId('widget-button').first()).toBeEnabled({ timeout: 10000 });
   await page.getByTestId('widget-button').first().click();
 
-  // select rewards
+  // Must select rewards
   await expect(page.getByText('Choose your reward token')).toBeVisible();
   await page.getByTestId('stake-reward-card').first().click();
   await expect(page.getByTestId('widget-button').first()).toBeEnabled();
   await page.getByTestId('widget-button').first().click();
 
-  // Skip delegate selection
-  await expect(page.getByText('Choose your delegate')).toBeVisible();
-  await page.getByRole('button', { name: 'skip' }).first().click();
+  // No delegate selection -- checkbox wasn't enabled
 
   // Confirm position
   await expect(page.getByText('Confirm your position').nth(0)).toBeVisible();
