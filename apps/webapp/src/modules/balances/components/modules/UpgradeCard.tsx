@@ -5,13 +5,19 @@ import { HStack } from '@/modules/layout/components/HStack';
 import { PairTokenIcons, PopoverRateInfo } from '@jetstreamgg/sky-widgets';
 import { Text } from '@/modules/layout/components/Typography';
 
-import { isL2ChainId } from '@jetstreamgg/sky-utils';
+import { isL2ChainId, math } from '@jetstreamgg/sky-utils';
 import { useChainId } from 'wagmi';
 import { mainnet } from 'viem/chains';
+import { useMkrSkyFee } from '@jetstreamgg/sky-hooks';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export function UpgradeCard() {
   const chainId = useChainId();
   const isL2 = isL2ChainId(chainId);
+
+  const { data: mkrSkyFee, isLoading: isFeeLoading } = useMkrSkyFee();
+  // Calculate the upgrade penalty percentage for display
+  const upgradePenalty = math.calculateUpgradePenalty(mkrSkyFee);
 
   return (
     <ModuleCard
@@ -34,10 +40,17 @@ export function UpgradeCard() {
         </div>
       }
       emphasisText={
-        <Text className="text-2xl lg:text-[32px]">
-          <span className="text-lg">Delayed Upgrade Penalty starting</span> September 2025
-          <PopoverRateInfo type="delayedUpgradePenalty" iconClassName="mt-auto -translate-y-1/4 ml-2" />
-        </Text>
+        isFeeLoading ? (
+          <Skeleton className="h-12 w-80" />
+        ) : (
+          <Text className="text-2xl lg:text-[32px]">
+            <span className="text-lg">
+              Delayed Upgrade Penalty
+              <PopoverRateInfo type="delayedUpgradePenalty" iconClassName="  ml-1" />:
+            </span>{' '}
+            {upgradePenalty}%
+          </Text>
+        )
       }
     />
   );
