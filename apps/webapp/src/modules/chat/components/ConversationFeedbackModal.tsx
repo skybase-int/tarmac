@@ -58,10 +58,10 @@ export const ConversationFeedbackModal = ({
                 <Button
                   variant="ghost"
                   onClick={() => setRating('positive')}
-                  className={`flex h-14 w-24 items-center justify-center gap-2 border transition-colors ${
+                  className={`flex h-14 w-24 items-center justify-center gap-2 transition-all ${
                     rating === 'positive'
-                      ? 'border-gray-600 bg-gray-700 text-white hover:bg-gray-600'
-                      : 'hover:bg-gray-750 border-gray-700 bg-gray-800 text-gray-400 hover:border-gray-600 hover:text-gray-300'
+                      ? 'border-brandLight bg-brandLight/10 hover:bg-brandLight/20 border-[1.5px] text-white shadow-md shadow-violet-500/50'
+                      : 'hover:bg-gray-750 border border-gray-700 bg-gray-800 text-gray-400 hover:border-gray-600 hover:text-gray-300'
                   }`}
                 >
                   <ThumbsUp size={24} />
@@ -69,18 +69,20 @@ export const ConversationFeedbackModal = ({
                 <Button
                   variant="ghost"
                   onClick={() => setRating('negative')}
-                  className={`flex h-14 w-24 items-center justify-center gap-2 border transition-colors ${
+                  className={`flex h-14 w-24 items-center justify-center gap-2 transition-all ${
                     rating === 'negative'
-                      ? 'border-gray-600 bg-gray-700 text-white hover:bg-gray-600'
-                      : 'hover:bg-gray-750 border-gray-700 bg-gray-800 text-gray-400 hover:border-gray-600 hover:text-gray-300'
+                      ? 'border-brandLight bg-brandLight/10 hover:bg-brandLight/20 border-[1.5px] text-white shadow-md shadow-violet-500/50'
+                      : 'hover:bg-gray-750 border border-gray-700 bg-gray-800 text-gray-400 hover:border-gray-600 hover:text-gray-300'
                   }`}
                 >
                   <ThumbsDown size={24} />
                 </Button>
               </HStack>
               {rating && (
-                <Text variant="small" className="text-center text-xs text-violet-200/80">
-                  {rating === 'positive' ? <Trans>Overall positive</Trans> : <Trans>Overall negative</Trans>}
+                <Text variant="small" className="mt-2 text-center text-xs text-violet-200/80">
+                  <Trans>
+                    Your selection: {rating === 'positive' ? 'Overall positive' : 'Overall negative'}
+                  </Trans>
                 </Text>
               )}
             </VStack>
