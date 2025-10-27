@@ -4,19 +4,43 @@ import { getMakerSubgraphUrl } from '../helpers/getSubgraphUrl';
 import { useQuery } from '@tanstack/react-query';
 import { TRUST_LEVELS, TrustLevelEnum } from '../constants';
 import { ReadHook } from '../hooks';
-import { stakeModuleAbi, stakeModuleAddress } from '../generated';
+import {
+  stakeModuleAbi,
+  stakeModuleAddress,
+  lsSkyUsdsRewardAddress,
+  lsSkySpkRewardAddress,
+  lsSkySkyRewardAddress
+} from '../generated';
 import { readContracts } from '@wagmi/core';
 import type { Config } from '@wagmi/core';
 
-// Hardcoded fallback reward contracts (lsSky rewards)
-const HARDCODED_REWARD_CONTRACTS: { contractAddress: `0x${string}` }[] = [
-  { contractAddress: '0x38E4254bD82ED5Ee97CD1C4278FAae748d998865' }, // lsSkyUsdsReward
-  { contractAddress: '0x99cBC0e4E6427F6939536eD24d1275B95ff77404' }, // lsSkySpkReward
-  { contractAddress: '0xB44C2Fb4181D7Cb06bdFf34A46FdFe4a259B40Fc' } // lsSkySkyReward
-];
-
 // FarmStatus enum: 0 = INACTIVE, 1 = ACTIVE
 const FARM_STATUS_ACTIVE = 1;
+
+// Get hardcoded fallback reward contracts for a specific chainId (lsSky rewards)
+function getHardcodedRewardContracts(chainId: number): { contractAddress: `0x${string}` }[] {
+  const contracts: { contractAddress: `0x${string}` }[] = [];
+
+  // lsSkyUsdsReward
+  const usdsRewardAddr = lsSkyUsdsRewardAddress[chainId as keyof typeof lsSkyUsdsRewardAddress];
+  if (usdsRewardAddr) {
+    contracts.push({ contractAddress: usdsRewardAddr });
+  }
+
+  // lsSkySpkReward
+  const spkRewardAddr = lsSkySpkRewardAddress[chainId as keyof typeof lsSkySpkRewardAddress];
+  if (spkRewardAddr) {
+    contracts.push({ contractAddress: spkRewardAddr });
+  }
+
+  // lsSkySkyReward
+  const skyRewardAddr = lsSkySkyRewardAddress[chainId as keyof typeof lsSkySkyRewardAddress];
+  if (skyRewardAddr) {
+    contracts.push({ contractAddress: skyRewardAddr });
+  }
+
+  return contracts;
+}
 
 async function fetchStakeRewardContracts(urlSubgraph: string) {
   const query = gql`
@@ -40,14 +64,15 @@ async function fetchStakeRewardContracts(urlSubgraph: string) {
 
 async function validateHardcodedContracts(config: Config, chainId: number) {
   const moduleAddress = stakeModuleAddress[chainId as keyof typeof stakeModuleAddress];
+  const hardcodedContracts = getHardcodedRewardContracts(chainId);
 
-  if (!moduleAddress) {
+  if (!moduleAddress || hardcodedContracts.length === 0) {
     return [];
   }
 
   // Query farm status for all hardcoded contracts in parallel
   const results = await readContracts(config, {
-    contracts: HARDCODED_REWARD_CONTRACTS.map(({ contractAddress }) => ({
+    contracts: hardcodedContracts.map(({ contractAddress }) => ({
       address: moduleAddress,
       abi: stakeModuleAbi,
       functionName: 'farms',
@@ -57,7 +82,7 @@ async function validateHardcodedContracts(config: Config, chainId: number) {
   });
 
   // Filter to only include contracts with ACTIVE status
-  return HARDCODED_REWARD_CONTRACTS.filter((_, index) => {
+  return hardcodedContracts.filter((_, index) => {
     const result = results[index];
     return result.status === 'success' && Number(result.result) === FARM_STATUS_ACTIVE;
   });
@@ -72,6 +97,9 @@ export function useStakeRewardContracts({
   const config = useConfig();
   const urlSubgraph = subgraphUrl ? subgraphUrl : getMakerSubgraphUrl(chainId) || '';
 
+  // Get chainId-specific hardcoded contracts for placeholder
+  const hardcodedContracts = getHardcodedRewardContracts(chainId);
+
   // Primary query: GraphQL endpoint with hardcoded placeholder
   const {
     data: graphqlData,
@@ -82,7 +110,7 @@ export function useStakeRewardContracts({
     queryKey: ['stakeRewardContracts', urlSubgraph],
     queryFn: () => fetchStakeRewardContracts(urlSubgraph),
     enabled: !!urlSubgraph,
-    placeholderData: HARDCODED_REWARD_CONTRACTS
+    placeholderData: hardcodedContracts
   });
 
   // Fallback query: On-chain validation (only runs when GraphQL fails)
