@@ -7,11 +7,10 @@ import { useEffect, useRef, useState } from 'react';
 import { formatMessage } from '@/modules/chat/lib/formatMessage';
 import { useChatContext } from '@/modules/chat/context/ChatContext';
 import { useDismissChatSuggestion } from '../hooks/useDismissChatSuggestion';
+import { useConversationFeedback } from '@/modules/chat/hooks/useConversationFeedback';
 import { ConversationFeedbackPrompt } from '@/modules/chat/components/ConversationFeedbackPrompt';
 import { ConversationFeedbackModal } from '@/modules/chat/components/ConversationFeedbackModal';
-import { UserType, MessageType } from '@/modules/chat/constants';
 
-const CONVERSATION_RATING_PREFIX = '/feedback conversation-rating-';
 // Note: for now if you don't attach a message after the part "conversation-rating-", the chatbot won't acknowledge the feedback in its response
 const CONVERSATION_RATING_POSITIVE = 'conversation-rating-positive, positive';
 const CONVERSATION_RATING_NEGATIVE = 'conversation-rating-negative, negative';
@@ -38,41 +37,8 @@ export const ChatPane = ({ sendMessage }: { sendMessage: (message: string) => vo
     }
   }, [chatHistory, shouldShowConfirmationWarning, scrollTrigger]);
 
-  // Show conversation feedback prompt only for internal bot messages (excludes loading, error, etc.)
-  useEffect(() => {
-    const lastMessage = chatHistory[chatHistory.length - 1];
-    const isLastMessageBot = lastMessage?.user === UserType.bot;
-    const isLoadingMessage = lastMessage?.type === MessageType.loading;
-    const isNotInitialMessage = chatHistory.length > 1;
-    const isLongEnoughConversation = chatHistory.length >= 7;
-
-    // Check if total bot message content exceeds 1000 characters
-    const totalBotMessageLength = chatHistory
-      .filter(msg => msg.user === UserType.bot)
-      .reduce((total, msg) => total + msg.message.length, 0);
-    const hasSufficientBotContent = totalBotMessageLength > 1000;
-
-    const shouldShowFeedback =
-      isNotInitialMessage &&
-      isLastMessageBot &&
-      !isLoadingMessage &&
-      isLongEnoughConversation &&
-      hasSufficientBotContent;
-
-    // Check only the last 10 messages for recent conversation feedback
-    const recentMessages = chatHistory.slice(-10);
-    const hasRecentConversationFeedback = recentMessages.some(
-      msg => msg.user === UserType.user && msg.message.startsWith(CONVERSATION_RATING_PREFIX)
-    );
-
-    // Show feedback when last message is internal bot message and no recent conversation feedback was given
-    if (shouldShowFeedback && !hasRecentConversationFeedback) {
-      setShowConversationFeedback(true);
-    } else if (hasRecentConversationFeedback) {
-      // Hide feedback prompt if conversation feedback was just submitted
-      setShowConversationFeedback(false);
-    }
-  }, [chatHistory, setShowConversationFeedback]);
+  // Manage conversation feedback prompt visibility
+  useConversationFeedback({ chatHistory, setShowConversationFeedback });
 
   const handleRatingClick = (rating: 'positive' | 'negative') => {
     setSelectedRating(rating);
