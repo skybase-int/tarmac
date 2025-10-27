@@ -130,6 +130,36 @@ The SKY Borrow Rate is the current interest rate charged to SKY-backed borrowers
       'If the debt ceiling utilization reaches 100%, no new USDS can be borrowed. The debt ceiling is a parameter determined by Sky Ecosystem Governance through a process of decentralized onchain voting.'
   },
   {
+    id: 'max-permitted-risk',
+    title: 'Max permitted risk',
+    tooltip:
+      'Risk cannot exceed the Max permitted risk level, determined by the capped OSM price and collateralization ratio requirements. To borrow more, stake additional SKY collateral.'
+  },
+  {
+    id: 'risk-floor',
+    title: 'Risk floor',
+    tooltip:
+      'Given the current amount of SKY deposited and USDS borrowed in this position, risk cannot be adjusted below the Risk floor. To lower the Risk floor, you must stake more SKY or repay USDS on the Unstake and Repay tab.'
+  },
+  {
+    id: 'risk-ceiling',
+    title: 'Risk ceiling',
+    tooltip:
+      'Given the current amount of SKY deposited and USDS borrowed in this position, risk cannot be increased above the Risk ceiling. To raise the Risk ceiling, you must unstake SKY or borrow additional USDS.'
+  },
+  {
+    id: 'risk-borrow',
+    title: 'Risk (borrow)',
+    tooltip:
+      'Risk can only be adjusted upward when borrowing. To adjust downward, you can stake more SKY or repay USDS on the Unstake and Repay tab.'
+  },
+  {
+    id: 'risk-repay',
+    title: 'Risk (repay)',
+    tooltip:
+      'Risk can only be adjusted downward when repaying. To adjust upward, you can unstake SKY or borrow more USDS on the Stake and Borrow tab.'
+  },
+  {
     id: 'choose-your-delegate',
     title: 'Choose your delegate',
     tooltip: `When you hold SKY tokens, you maintain the right to participate in the process of Sky Ecosystem Governance voting. That means that you have the ability to contribute to the community-driven, decentralized ecosystem decision-making process, which occurs through onchain voting.
@@ -243,4 +273,9 @@ export function getTooltipById(id: string): Tooltip | undefined {
 
   // If not found, fallback to legacy tooltips
   return getLegacyTooltipById(id);
+}
+
+// Helper function to get multiple tooltips by IDs and return them as an array
+export function getTooltipsByIds(ids: string[]): Tooltip[] {
+  return ids.map(id => getTooltipById(id)).filter((tooltip): tooltip is Tooltip => tooltip !== undefined);
 }
