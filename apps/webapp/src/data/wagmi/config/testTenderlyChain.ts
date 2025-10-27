@@ -7,7 +7,7 @@ export const TENDERLY_CHAIN_ID = 314310;
 
 // only works if hardcoded, cannot be set via env variable. Corresponds to the public RPC of `mainnet-fork-sep-9-2025`
 export const TENDERLY_RPC_URL =
-  'https://virtual.mainnet.eu.rpc.tenderly.co/810c7b6b-8e8a-4f8d-ae5a-4c3adbd346b2';
+  'https://virtual.mainnet.eu.rpc.tenderly.co/7f1bbe9c-f9b9-4350-95ce-5a969f32568b';
 
 export const getTestTenderlyChains = () => {
   const mainnetData = tenderlyTestnetData.find(data => data.NETWORK === NetworkName.mainnet);
