@@ -31,7 +31,7 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ is
   await isolatedPage.getByTestId('borrow-input-lse').fill(USDS_AMOUNT_TO_BORROW);
 
   // check the delegation checkbox to enable delegate selection
-  await page.getByText('Do you want to delegate voting power?').click();
+  await isolatedPage.getByText('Do you want to delegate voting power?').click();
 
   // // TODO: check all the params
   await expect(isolatedPage.getByTestId('widget-button').first()).toBeEnabled({ timeout: 10000 });
@@ -82,7 +82,7 @@ test('Lock SKY, select rewards, select delegate, and open position', async ({ is
   await expect(isolatedPage.getByTestId('borrow-input-lse-balance')).toHaveText(/Limit 0 <> .+ USDS/);
 
   // verify the delegate checkbox is selected and disabled (since delegate was already chosen)
-  const delegateCheckbox = page.getByRole('checkbox', {
+  const delegateCheckbox = isolatedPage.getByRole('checkbox', {
     name: /You are delegating voting power for this position/i
   });
   await expect(delegateCheckbox).toBeChecked();
@@ -185,7 +185,7 @@ test.skip('Batch - Lock SKY, select rewards, select delegate, and open position'
   await isolatedPage.getByTestId('borrow-input-lse').fill('38000');
 
   // check the delegation checkbox to enable delegate selection
-  await page.getByText('Do you want to delegate voting power?').click();
+  await isolatedPage.getByText('Do you want to delegate voting power?').click();
 
   // // TODO: check all the params
   await expect(isolatedPage.getByTestId('widget-button').first()).toBeEnabled({ timeout: 10000 });
@@ -255,7 +255,7 @@ test('Checkbox unchecked - Delegate screen should not appear', async ({ page }) 
   await expect(page.getByTestId('position-summary-card').getByText('Staking reward')).toBeVisible();
 
   // confirm position without delegate
-  await approveOrPerformAction(page, 'Open a position', { review: false });
+  await performAction(page, 'Open a position', { review: false });
 
   await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible({ timeout: 10000 });
   await expect(
@@ -327,7 +327,7 @@ test('Checkbox toggled off after delegate selection - Delegate should be cleared
   await expect(page.getByTestId('position-summary-card').getByText('BLUE')).not.toBeVisible();
 
   // confirm position
-  await approveOrPerformAction(page, 'Open a position', { review: false });
+  await performAction(page, 'Open a position', { review: false });
 
   await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible({ timeout: 10000 });
   await expect(
@@ -376,7 +376,7 @@ test('Slider interaction - Move slider and verify borrow amount changes', async 
 
   // Confirm position
   await expect(page.getByText('Confirm your position').nth(0)).toBeVisible();
-  await approveOrPerformAction(page, 'Open a position', { review: false });
+  await performAction(page, 'Open a position', { review: false });
   await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible({ timeout: 10000 });
 
   // Navigate to manage position
@@ -450,7 +450,7 @@ test('Slider respects risk floor in borrow mode', async ({ page }) => {
   await page.getByTestId('widget-button').first().click();
 
   await expect(page.getByText('Confirm your position').nth(0)).toBeVisible();
-  await approveOrPerformAction(page, 'Open a position', { review: false });
+  await performAction(page, 'Open a position', { review: false });
   await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible({ timeout: 10000 });
 
   // Navigate to manage position
@@ -507,7 +507,7 @@ test('Two-way sync - Input field updates slider position', async ({ page }) => {
   await page.getByTestId('widget-button').first().click();
 
   await expect(page.getByText('Confirm your position').nth(0)).toBeVisible();
-  await approveOrPerformAction(page, 'Open a position', { review: false });
+  await performAction(page, 'Open a position', { review: false });
   await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible({ timeout: 10000 });
 
   // Navigate to manage position
@@ -569,7 +569,7 @@ test('Slider movement updates all position overview parameters', async ({ page }
   await page.getByTestId('widget-button').first().click();
 
   await expect(page.getByText('Confirm your position').nth(0)).toBeVisible();
-  await approveOrPerformAction(page, 'Open a position', { review: false });
+  await performAction(page, 'Open a position', { review: false });
   await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible({ timeout: 10000 });
 
   // Navigate to manage position
@@ -648,7 +648,7 @@ test('Debt ceiling cap indicator prevents over-borrowing', async ({ page }) => {
   await page.getByTestId('widget-button').first().click();
 
   await expect(page.getByText('Confirm your position').nth(0)).toBeVisible();
-  await approveOrPerformAction(page, 'Open a position', { review: false });
+  await performAction(page, 'Open a position', { review: false });
   await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible({ timeout: 10000 });
 
   // Navigate to manage position
