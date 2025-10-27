@@ -30,7 +30,7 @@ import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { ArrowDown } from '@widgets/shared/components/icons/ArrowDown';
 import { JazziconComponent } from './Jazzicon';
-import { InfoTooltip } from '@widgets/shared/components/ui/tooltip/InfoTooltip';
+import { PopoverInfo } from '@widgets/shared/components/ui/PopoverInfo';
 import { getTooltipById } from '../../../data/tooltips';
 import {
   StakeFlow,
@@ -68,12 +68,14 @@ const LineItem = ({
   value,
   icon,
   className,
+  tooltipTitle,
   tooltipText
 }: {
   label: string;
   value?: string | (string | undefined)[] | string[];
   icon?: JSX.Element | (JSX.Element | null)[] | null;
   className?: string | string[];
+  tooltipTitle?: string;
   tooltipText?: string;
 }) => {
   return (
@@ -87,7 +89,15 @@ const LineItem = ({
             </span>
           )}
         </Text>
-        {tooltipText && <InfoTooltip content={tooltipText} iconClassName="text-textSecondary" />}
+        {tooltipText && (
+          <PopoverInfo
+            title={tooltipTitle || ''}
+            description={tooltipText}
+            iconClassName="text-textSecondary"
+            width={13}
+            height={13}
+          />
+        )}
       </HStack>
       {Array.isArray(value) && value.length >= 2 ? (
         <HStack className="shrink-0 items-center">
@@ -271,6 +281,7 @@ export const PositionSummary = ({
               : `${formatBigInt(updatedVault?.debtValue || 0n, { compact: true })} ${usds.symbol}`,
         icon: <TokenIcon token={usds} className="h-5 w-5" />,
         hideIfNoDebt: true,
+        tooltipTitle: getTooltipById('borrow')?.title || '',
         tooltipText: getTooltipById('borrow')?.tooltip || ''
       },
       {
@@ -288,6 +299,7 @@ export const PositionSummary = ({
             : hasPositions
               ? `${formatPercent(existingVault?.collateralizationRatio || 0n)}`
               : `${formatPercent(updatedVault?.collateralizationRatio || 0n)}`,
+        tooltipTitle: getTooltipById('collateralization-ratio')?.title || '',
         tooltipText: getTooltipById('collateralization-ratio')?.tooltip || '',
         className:
           hasPositions &&
@@ -305,11 +317,13 @@ export const PositionSummary = ({
         label: t`Borrow Rate`,
         value: collateralData?.stabilityFee ? formatPercent(collateralData?.stabilityFee) : undefined,
         hideIfNoDebt: true,
+        tooltipTitle: getTooltipById('borrow-rate')?.title || '',
         tooltipText: getTooltipById('borrow-rate')?.tooltip || ''
       },
       {
         label: t`Capped OSM SKY price`,
         value: `$${formatBigInt(updatedVault?.delayedPrice || 0n, { unit: WAD_PRECISION })}`,
+        tooltipTitle: getTooltipById('capped-osm-sky-price')?.title || '',
         tooltipText: getTooltipById('capped-osm-sky-price')?.tooltip || ''
       },
       {
@@ -325,6 +339,7 @@ export const PositionSummary = ({
                 `$${formatBigInt(updatedLiquidationPrice, { unit: WAD_PRECISION })}`
               ]
             : `$${formatBigInt(updatedLiquidationPrice, { unit: WAD_PRECISION })}`,
+        tooltipTitle: getTooltipById('liquidation-price')?.title || '',
         tooltipText: getTooltipById('liquidation-price')?.tooltip || '',
         hideIfNoDebt: true
       },
@@ -340,6 +355,7 @@ export const PositionSummary = ({
         className: isRiskLevelUpdated
           ? [getRiskTextColor(existingVault?.riskLevel), getRiskTextColor(updatedVault?.riskLevel)]
           : getRiskTextColor(vaultToDisplay?.riskLevel),
+        tooltipTitle: getTooltipById('risk-level')?.title || '',
         tooltipText: getTooltipById('risk-level')?.tooltip || '',
         hideIfNoDebt: true
       },
@@ -489,12 +505,13 @@ export const PositionSummary = ({
             </Text>
             {lineItemsFiltered
               .filter(item => !item.updated && !!item.value)
-              .map(({ label, value, icon, className, tooltipText }) => {
+              .map(({ label, value, icon, className, tooltipTitle, tooltipText }) => {
                 return (
                   <LineItem
                     key={label}
                     label={label}
                     value={value}
+                    tooltipTitle={tooltipTitle}
                     tooltipText={tooltipText}
                     icon={icon}
                     className={className}
@@ -511,12 +528,13 @@ export const PositionSummary = ({
               <Text variant="medium" className="mb-1 font-medium">
                 Position changes
               </Text>
-              {lineItemsUpdated.map(({ label, value, icon, className, tooltipText }) => {
+              {lineItemsUpdated.map(({ label, value, icon, className, tooltipTitle, tooltipText }) => {
                 return (
                   <LineItem
                     key={label}
                     label={label}
                     value={value}
+                    tooltipTitle={tooltipTitle}
                     tooltipText={tooltipText}
                     icon={icon}
                     className={className}

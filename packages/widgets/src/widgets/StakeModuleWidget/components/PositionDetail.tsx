@@ -18,7 +18,7 @@ import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack'
 import { Warning } from '@widgets/shared/components/icons/Warning';
 import { ExternalLink } from '@widgets/shared/components/ExternalLink';
 import { JazziconComponent } from './Jazzicon';
-import { TextWithTooltip } from '@widgets/shared/components/ui/tooltip/TextWithTooltip';
+import { PopoverInfo } from '@widgets/shared/components/ui/PopoverInfo';
 import { PositionDetailAccordion } from './PositionDetailsAccordion';
 import { ClaimRewardsDropdown } from './ClaimRewardsDropdown';
 import { getTooltipById } from '../../../data/tooltips';
@@ -97,14 +97,16 @@ export function PositionDetail({
           {/* only display collateralization ratio when > 0 */}
           {collateralizationRatio !== undefined && collateralizationRatio !== 0n && (
             <VStack gap={3}>
-              <TextWithTooltip
-                text={getTooltipById('collateralization-ratio')?.title || 'Collateralization ratio'}
-                tooltip={getTooltipById('collateralization-ratio')?.tooltip || ''}
-                contentClassname="w-[400px]"
-                textClassName="leading-4"
-                gap={1}
-                iconClassName="text-textSecondary"
-              />
+              <Text variant="medium" className="text-textSecondary leading-4">
+                Collateralization ratio
+                <PopoverInfo
+                  title={getTooltipById('collateralization-ratio')?.title || 'Collateralization ratio'}
+                  description={getTooltipById('collateralization-ratio')?.tooltip || ''}
+                  iconClassName="text-textSecondary ml-1"
+                  width={13}
+                  height={13}
+                />
+              </Text>
               <Text className={`${riskTextColor}`}>{formatPercent(collateralizationRatio)}</Text>
             </VStack>
           )}
@@ -130,14 +132,16 @@ export function PositionDetail({
           {/* only display risk level when active debt/borrow amount is > 0 */}
           {!!riskLevel && borrowedAmount !== undefined && borrowedAmount > 0n && (
             <VStack gap={3}>
-              <TextWithTooltip
-                text={getTooltipById('risk-level')?.title || 'Risk level'}
-                tooltip={getTooltipById('risk-level')?.tooltip || ''}
-                textClassName="leading-4"
-                contentClassname="w-[400px]"
-                gap={1}
-                iconClassName="text-textSecondary"
-              />
+              <Text variant="medium" className="text-textSecondary leading-4">
+                Risk level
+                <PopoverInfo
+                  title={getTooltipById('risk-level')?.title || 'Risk level'}
+                  description={getTooltipById('risk-level')?.tooltip || ''}
+                  iconClassName="text-textSecondary ml-1"
+                  width={13}
+                  height={13}
+                />
+              </Text>
               {liquidationData?.isInLiquidatedState ? (
                 <Text className={'text-error text-right text-sm'}>Liquidated</Text>
               ) : (
