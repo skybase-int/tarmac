@@ -15,8 +15,6 @@ export function FooterLinks() {
           if (!url) return null;
           const key = url || `link-${i}`;
 
-          console.log(link);
-
           if (link.highlight === 'true') {
             return (
               <Button key={key} variant="primaryAlt" size="xs" className="px-4 py-2" asChild>
