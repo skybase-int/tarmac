@@ -145,8 +145,6 @@ export function StakePositionOverview({
                   <span>{t`Capped OSM SKY price`}</span>
                   {osmCappedSkyPriceTooltip && (
                     <PopoverInfo
-                      width={13}
-                      height={13}
                       iconClassName="text-textSecondary"
                       title={osmCappedSkyPriceTooltip.title}
                       description={osmCappedSkyPriceTooltip.tooltip}

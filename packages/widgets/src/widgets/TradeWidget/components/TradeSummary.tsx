@@ -129,7 +129,7 @@ export function TradeSummary({
                   <PopoverInfo
                     title={getTooltipById('slippage')?.title || ''}
                     description={getTooltipById('slippage')?.tooltip || ''}
-                    iconClassName="text-textSecondary w-3.5 h-3.5"
+                    iconClassName="text-textSecondary"
                   />
                 )}
               </HStack>
@@ -201,8 +201,6 @@ export function TradeSummary({
                     <HStack className="gap-1 space-x-0">
                       <Text className="text-[13px]">Bundle transactions</Text>
                       <PopoverInfo
-                        width={13}
-                        height={13}
                         title="Bundle transactions"
                         description={
                           <>

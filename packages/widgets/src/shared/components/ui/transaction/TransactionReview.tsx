@@ -77,8 +77,6 @@ export function TransactionReview({
                     <HStack className="gap-1 space-x-0">
                       <Text className="text-[13px]">Bundle transactions</Text>
                       <PopoverInfo
-                        width={13}
-                        height={13}
                         title="Bundle transactions"
                         description={
                           <>

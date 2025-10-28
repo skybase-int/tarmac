@@ -46,8 +46,6 @@ export function PositionDetailAccordion({ delayedPrice, liquidationPrice }: Prop
                   title={getTooltipById('borrow-rate')?.title || 'Borrow Rate'}
                   description={getTooltipById('borrow-rate')?.tooltip || ''}
                   iconClassName="text-textSecondary ml-1"
-                  width={13}
-                  height={13}
                 />
               </Text>
               <Text className="text-right text-sm">{formatPercent(collateralData.stabilityFee)}</Text>
@@ -61,8 +59,6 @@ export function PositionDetailAccordion({ delayedPrice, liquidationPrice }: Prop
                   title={getTooltipById('liquidation-price')?.title || 'Liquidation price'}
                   description={getTooltipById('liquidation-price')?.tooltip || ''}
                   iconClassName="text-textSecondary ml-1"
-                  width={13}
-                  height={13}
                 />
               </Text>
               <Text className="text-right text-sm">${formatBigInt(liquidationPrice)}</Text>
@@ -76,8 +72,6 @@ export function PositionDetailAccordion({ delayedPrice, liquidationPrice }: Prop
                   title={getTooltipById('capped-osm-sky-price')?.title || 'Capped OSM SKY price'}
                   description={getTooltipById('capped-osm-sky-price')?.tooltip || ''}
                   iconClassName="text-textSecondary ml-1"
-                  width={13}
-                  height={13}
                 />
               </Text>
               <Text className="text-right text-sm">${formatBigInt(delayedPrice)}</Text>

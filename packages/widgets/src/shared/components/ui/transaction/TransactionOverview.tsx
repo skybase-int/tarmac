@@ -100,8 +100,6 @@ export function TransactionOverview({
                             title={tooltipTitle || ''}
                             description={tooltipText}
                             iconClassName="text-textSecondary"
-                            width={13}
-                            height={13}
                           />
                         )}
                       </HStack>

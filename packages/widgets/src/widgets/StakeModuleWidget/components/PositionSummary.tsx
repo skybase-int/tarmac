@@ -94,8 +94,6 @@ const LineItem = ({
             title={tooltipTitle || ''}
             description={tooltipText}
             iconClassName="text-textSecondary"
-            width={13}
-            height={13}
           />
         )}
       </HStack>

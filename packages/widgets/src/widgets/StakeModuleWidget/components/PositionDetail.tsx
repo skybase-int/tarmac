@@ -103,8 +103,6 @@ export function PositionDetail({
                   title={getTooltipById('collateralization-ratio')?.title || 'Collateralization ratio'}
                   description={getTooltipById('collateralization-ratio')?.tooltip || ''}
                   iconClassName="text-textSecondary ml-1"
-                  width={13}
-                  height={13}
                 />
               </Text>
               <Text className={`${riskTextColor}`}>{formatPercent(collateralizationRatio)}</Text>
@@ -138,8 +136,6 @@ export function PositionDetail({
                   title={getTooltipById('risk-level')?.title || 'Risk level'}
                   description={getTooltipById('risk-level')?.tooltip || ''}
                   iconClassName="text-textSecondary ml-1"
-                  width={13}
-                  height={13}
                 />
               </Text>
               {liquidationData?.isInLiquidatedState ? (
