@@ -452,6 +452,7 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
   const showMinButton =
     isConnectedAndEnabled &&
     collateralData?.debtCeilingUtilization !== 1 &&
+    !minCollateralNotMet &&
     (existingVault?.debtValue || 0n) === 0n &&
     simulatedVault?.dust &&
     simulatedVault.dust > 0n;
