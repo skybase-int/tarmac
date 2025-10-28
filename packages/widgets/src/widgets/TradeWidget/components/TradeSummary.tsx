@@ -130,6 +130,7 @@ export function TradeSummary({
                     title={getTooltipById('slippage')?.title || ''}
                     description={getTooltipById('slippage')?.tooltip || ''}
                     iconClassName="text-textSecondary"
+                    iconSize="large"
                   />
                 )}
               </HStack>
