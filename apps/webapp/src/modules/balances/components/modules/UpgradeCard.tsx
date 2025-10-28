@@ -15,9 +15,11 @@ export function UpgradeCard() {
   const chainId = useChainId();
   const isL2 = isL2ChainId(chainId);
 
-  const { data: mkrSkyFee, isLoading: isFeeLoading } = useMkrSkyFee();
-  // Calculate the upgrade penalty percentage for display
-  const upgradePenalty = math.calculateUpgradePenalty(mkrSkyFee);
+  const { data: mkrSkyFee, isLoading: isFeeLoading, error: feeError } = useMkrSkyFee();
+
+  // Only calculate the penalty when we have a fee value and no loading errors
+  const upgradePenalty =
+    !feeError && mkrSkyFee !== undefined ? math.calculateUpgradePenalty(mkrSkyFee) : undefined;
 
   return (
     <ModuleCard
@@ -42,7 +44,9 @@ export function UpgradeCard() {
       emphasisText={
         isFeeLoading ? (
           <Skeleton className="h-12 w-80" />
-        ) : (
+        ) : feeError ? (
+          <></>
+        ) : upgradePenalty !== undefined ? (
           <Text className="text-2xl lg:text-[32px]">
             <span className="text-lg">
               Delayed Upgrade Penalty
@@ -50,6 +54,8 @@ export function UpgradeCard() {
             </span>{' '}
             {upgradePenalty}%
           </Text>
+        ) : (
+          <></>
         )
       }
     />
