@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useAccount, useChainId, useReadContracts, useReadContract } from 'wagmi';
 import { useTokenBalance } from '../tokens/useTokenBalance';
-import { usdsAddress, stUsdsAddress, stUsdsAbi } from '../generated';
+import { usdsAddress, stUsdsAddress, stUsdsAbi, useReadClipperDue } from '../generated';
 import { TRUST_LEVELS, TrustLevelEnum } from '../constants';
 import { DataSource, ReadHook } from '../hooks';
 import { getEtherscanLink, isTestnetId } from '@jetstreamgg/sky-utils';
@@ -47,6 +47,11 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     isLoading: isLoadingStakingEngine,
     mutate: refetchStakingEngine
   } = useCollateralData(stakingEngineIlk);
+
+  // Get pending liquidations debt
+  const { data: clipperDue, refetch: refetchClipperDue } = useReadClipperDue({
+    chainId
+  });
 
   // Batch all contract reads into a single multicall
   const {
@@ -173,9 +178,11 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
 
   const availableLiquidity = useMemo(() => {
     const stakingEngineDebt = stakingEngineData?.totalDaiDebt || 0n;
+    const pendingLiquidations = clipperDue || 0n;
     const assets = totalAssets || 0n;
-    return assets > stakingEngineDebt ? assets - stakingEngineDebt : 0n;
-  }, [totalAssets, stakingEngineData?.totalDaiDebt]);
+    const totalDebt = stakingEngineDebt + pendingLiquidations;
+    return assets > totalDebt ? assets - totalDebt : 0n;
+  }, [totalAssets, stakingEngineData?.totalDaiDebt, clipperDue]);
 
   const liquidityBuffer = useMemo(() => {
     if (!totalAssets || !str) return 0n;
@@ -262,6 +269,7 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
       mutateConvertToAssets();
       mutateUserUsdsBalance();
       refetchStakingEngine();
+      refetchClipperDue();
     },
     dataSources
   };
