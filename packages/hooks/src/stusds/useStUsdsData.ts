@@ -48,9 +48,15 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     mutate: refetchStakingEngine
   } = useCollateralData(stakingEngineIlk);
 
+  const stUsdsContract = {
+    address: stUsdsContractAddress,
+    abi: stUsdsImplementationAbi,
+    chainId
+  } as const;
+
   // Batch all contract reads into a single multicall
   const {
-    data: contractData,
+    data: readData,
     isLoading: isContractLoading,
     error: contractError,
     refetch: mutateContractData
@@ -58,79 +64,63 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     allowFailure: false,
     contracts: [
       {
-        address: stUsdsContractAddress,
-        abi: stUsdsImplementationAbi,
-        functionName: 'totalAssets',
-        chainId
+        ...stUsdsContract,
+        functionName: 'totalAssets'
       },
       {
-        address: stUsdsContractAddress,
-        abi: stUsdsImplementationAbi,
-        functionName: 'totalSupply',
-        chainId
+        ...stUsdsContract,
+        functionName: 'totalSupply'
       },
       {
-        address: stUsdsContractAddress,
-        abi: stUsdsImplementationAbi,
-        functionName: 'cap',
-        chainId
+        ...stUsdsContract,
+        functionName: 'cap'
       },
       {
-        address: stUsdsContractAddress,
-        abi: stUsdsImplementationAbi,
-        functionName: 'line',
-        chainId
+        ...stUsdsContract,
+        functionName: 'line'
       },
       {
-        address: stUsdsContractAddress,
-        abi: stUsdsImplementationAbi,
-        functionName: 'str',
-        chainId
+        ...stUsdsContract,
+        functionName: 'str'
       },
       {
-        address: stUsdsContractAddress,
-        abi: stUsdsImplementationAbi,
-        functionName: 'chi',
-        chainId
+        ...stUsdsContract,
+        functionName: 'chi'
       },
       ...(acct
         ? [
             {
-              address: stUsdsContractAddress,
-              abi: stUsdsImplementationAbi,
+              ...stUsdsContract,
               functionName: 'balanceOf',
-              args: [acct],
-              chainId
+              args: [acct]
             },
             {
-              address: stUsdsContractAddress,
-              abi: stUsdsImplementationAbi,
+              ...stUsdsContract,
               functionName: 'maxDeposit',
-              args: [acct],
-              chainId
+              args: [acct]
             },
             {
-              address: stUsdsContractAddress,
-              abi: stUsdsImplementationAbi,
+              ...stUsdsContract,
               functionName: 'maxWithdraw',
-              args: [acct],
-              chainId
+              args: [acct]
             }
           ]
         : [])
     ]
   });
 
+  const contractData = readData as (bigint | undefined)[] | undefined;
+
   // Extract results from multicall
-  const totalAssets = contractData?.[0] as bigint | undefined;
-  const totalSupply = contractData?.[1] as bigint | undefined;
-  const cap = contractData?.[2] as bigint | undefined;
-  const line = contractData?.[3] as bigint | undefined;
-  const str = contractData?.[4] as bigint | undefined;
-  const chi = contractData?.[5] as bigint | undefined;
-  const userStUsdsBalance = acct ? (contractData?.[6] as bigint | undefined) : undefined;
-  const userMaxDeposit = acct ? (contractData?.[7] as bigint | undefined) : undefined;
-  const userMaxWithdraw = acct ? (contractData?.[8] as bigint | undefined) : undefined;
+  const totalAssets = contractData?.[0];
+  const totalSupply = contractData?.[1];
+  const cap = contractData?.[2];
+  const line = contractData?.[3];
+  const str = contractData?.[4];
+  const chi = contractData?.[5];
+  const userStUsdsBalance = acct ? contractData?.[6] : undefined;
+  const userMaxDeposit = acct ? contractData?.[7] : undefined;
+  const userMaxWithdraw = acct ? contractData?.[8] : undefined;
 
   const { data: userConvertedAssets, refetch: mutateConvertToAssets } = useReadContract({
     address: stUsdsContractAddress,
