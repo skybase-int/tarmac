@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useAccount, useChainId, useReadContracts, useReadContract } from 'wagmi';
 import { useTokenBalance } from '../tokens/useTokenBalance';
-import { usdsAddress, stUsdsAddress, stUsdsAbi } from '../generated';
+import { usdsAddress, stUsdsAddress, stUsdsImplementationAbi } from '../generated';
 import { TRUST_LEVELS, TrustLevelEnum } from '../constants';
 import { DataSource, ReadHook } from '../hooks';
 import { getEtherscanLink, isTestnetId } from '@jetstreamgg/sky-utils';
@@ -58,37 +58,37 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     contracts: [
       {
         address: stUsdsContractAddress,
-        abi: stUsdsAbi,
+        abi: stUsdsImplementationAbi,
         functionName: 'totalAssets',
         chainId
       },
       {
         address: stUsdsContractAddress,
-        abi: stUsdsAbi,
+        abi: stUsdsImplementationAbi,
         functionName: 'totalSupply',
         chainId
       },
       {
         address: stUsdsContractAddress,
-        abi: stUsdsAbi,
+        abi: stUsdsImplementationAbi,
         functionName: 'cap',
         chainId
       },
       {
         address: stUsdsContractAddress,
-        abi: stUsdsAbi,
+        abi: stUsdsImplementationAbi,
         functionName: 'line',
         chainId
       },
       {
         address: stUsdsContractAddress,
-        abi: stUsdsAbi,
+        abi: stUsdsImplementationAbi,
         functionName: 'str',
         chainId
       },
       {
         address: stUsdsContractAddress,
-        abi: stUsdsAbi,
+        abi: stUsdsImplementationAbi,
         functionName: 'chi',
         chainId
       },
@@ -96,21 +96,21 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
         ? [
             {
               address: stUsdsContractAddress,
-              abi: stUsdsAbi,
+              abi: stUsdsImplementationAbi,
               functionName: 'balanceOf',
               args: [acct],
               chainId
             },
             {
               address: stUsdsContractAddress,
-              abi: stUsdsAbi,
+              abi: stUsdsImplementationAbi,
               functionName: 'maxDeposit',
               args: [acct],
               chainId
             },
             {
               address: stUsdsContractAddress,
-              abi: stUsdsAbi,
+              abi: stUsdsImplementationAbi,
               functionName: 'maxWithdraw',
               args: [acct],
               chainId
@@ -133,7 +133,7 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
 
   const { data: userConvertedAssets, refetch: mutateConvertToAssets } = useReadContract({
     address: stUsdsContractAddress,
-    abi: stUsdsAbi,
+    abi: stUsdsImplementationAbi,
     functionName: 'convertToAssets',
     args: userStUsdsBalance ? [userStUsdsBalance] : [0n],
     chainId
