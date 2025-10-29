@@ -303,9 +303,11 @@ const RiskSlider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Ro
                   <DragArrows width={20} height={20} />
                 </SliderPrimitive.Thumb>
               </TooltipTrigger>
-              <TooltipContent side="top" className="max-w-[280px] whitespace-normal text-left">
-                {thumbTooltipContent}
-              </TooltipContent>
+              <TooltipPortal>
+                <TooltipContent side="top" className="max-w-[280px] whitespace-normal text-left">
+                  {thumbTooltipContent}
+                </TooltipContent>
+              </TooltipPortal>
             </Tooltip>
           ) : isCreateMode ? (
             <SliderPrimitive.Thumb className={thumbClassName}>
