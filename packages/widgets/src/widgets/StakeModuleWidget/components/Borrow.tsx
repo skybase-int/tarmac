@@ -38,6 +38,7 @@ import { Checkbox } from '@widgets/components/ui/checkbox';
 import { cn } from '@widgets/lib/utils';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { StakeFlow } from '../lib/constants';
+import { Button } from '@widgets/components/ui/button';
 
 const { usds } = TOKENS;
 
@@ -452,6 +453,19 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
           })} USDS`
         : `Limit ${formattedMinBorrowable.slice(0, -5)} <> ${formattedMaxBorrowable}`;
 
+  const handleMinClick = () => {
+    const minAmount = (existingVault?.debtValue || 0n) > 0n ? 0n : simulatedVault?.dust || 0n;
+    setUsdsToBorrow(minAmount);
+  };
+
+  const showMinButton =
+    isConnectedAndEnabled &&
+    collateralData?.debtCeilingUtilization !== 1 &&
+    !minCollateralNotMet &&
+    (existingVault?.debtValue || 0n) === 0n &&
+    simulatedVault?.dust &&
+    simulatedVault.dust > 0n;
+
   return (
     <div className="mb-8 space-y-2">
       <TokenInput
@@ -472,6 +486,13 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
         }
         enabled={isConnectedAndEnabled}
         hideIcon={isConnectedAndEnabled}
+        customActionButtons={
+          showMinButton ? (
+            <Button size="input" variant="input" onClick={handleMinClick} data-testid="borrow-input-min">
+              Min
+            </Button>
+          ) : undefined
+        }
       />
       {collateralData?.debtCeilingUtilization === 1 ? (
         <div className="ml-3 flex items-start text-amber-400">
