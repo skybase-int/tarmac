@@ -55,6 +55,7 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     error: contractError,
     refetch: mutateContractData
   } = useReadContracts({
+    allowFailure: false,
     contracts: [
       {
         address: stUsdsContractAddress,
@@ -121,15 +122,15 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
   });
 
   // Extract results from multicall
-  const totalAssets = contractData?.[0]?.result as bigint | undefined;
-  const totalSupply = contractData?.[1]?.result as bigint | undefined;
-  const cap = contractData?.[2]?.result as bigint | undefined;
-  const line = contractData?.[3]?.result as bigint | undefined;
-  const str = contractData?.[4]?.result as bigint | undefined;
-  const chi = contractData?.[5]?.result as bigint | undefined;
-  const userStUsdsBalance = acct ? (contractData?.[6]?.result as bigint | undefined) : undefined;
-  const userMaxDeposit = acct ? (contractData?.[7]?.result as bigint | undefined) : undefined;
-  const userMaxWithdraw = acct ? (contractData?.[8]?.result as bigint | undefined) : undefined;
+  const totalAssets = contractData?.[0] as bigint | undefined;
+  const totalSupply = contractData?.[1] as bigint | undefined;
+  const cap = contractData?.[2] as bigint | undefined;
+  const line = contractData?.[3] as bigint | undefined;
+  const str = contractData?.[4] as bigint | undefined;
+  const chi = contractData?.[5] as bigint | undefined;
+  const userStUsdsBalance = acct ? (contractData?.[6] as bigint | undefined) : undefined;
+  const userMaxDeposit = acct ? (contractData?.[7] as bigint | undefined) : undefined;
+  const userMaxWithdraw = acct ? (contractData?.[8] as bigint | undefined) : undefined;
 
   const { data: userConvertedAssets, refetch: mutateConvertToAssets } = useReadContract({
     address: stUsdsContractAddress,
