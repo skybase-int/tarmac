@@ -359,11 +359,11 @@ function StakeModuleWidgetWrapped({
   }, [widgetState.flow]);
 
   useEffect(() => {
-    // Scroll to top when the flow or step changes
+    // Scroll to top when the flow, action, or step changes
     if (containerRef.current) {
       containerRef.current.scrollTo({ top: 0, behavior: 'instant' });
     }
-  }, [widgetState.flow, currentStep]);
+  }, [widgetState.flow, widgetState.action, currentStep]);
 
   const showStep = !!widgetState.action && widgetState.action !== StakeAction.OVERVIEW;
 
