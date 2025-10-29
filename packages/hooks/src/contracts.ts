@@ -262,6 +262,15 @@ export const contracts: {
     }
   },
 
+  // Liquidation
+  {
+    name: 'clipper',
+    address: {
+      [mainnet.id]: '0x836F56750517b1528B5078Cba4Ac4B94fBE4A399',
+      [TENDERLY_CHAIN_ID]: '0x836F56750517b1528B5078Cba4Ac4B94fBE4A399'
+    }
+  },
+
   // CoW Protocol
   {
     name: 'gPv2Settlement',
