@@ -57,7 +57,7 @@ export function StakingRewardsCard() {
           <Text className="text-2xl lg:text-[32px]">
             Rates <span className="text-lg">up to</span>{' '}
             {mostRecentRateNumber ? formatDecimalPercentage(mostRecentRateNumber) : '0%'}
-            <PopoverRateInfo type="str" iconClassName="mt-auto -translate-y-1/4 ml-2" />
+            <PopoverRateInfo type="srr" iconClassName="mt-auto -translate-y-1/4 ml-2" />
           </Text>
         )
       }
