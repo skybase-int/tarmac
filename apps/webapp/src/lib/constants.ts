@@ -149,7 +149,8 @@ export const ALLOWED_EXTERNAL_DOMAINS = [
   'sky.money',
   'app.sky.money',
   'docs.sky.money',
-  'upgrademkrtosky.sky.money'
+  'upgrademkrtosky.sky.money',
+  'jobs.ashbyhq.com'
 ];
 
 export const PROD_URL_SKY_SUBGRAPH_MAINNET =
