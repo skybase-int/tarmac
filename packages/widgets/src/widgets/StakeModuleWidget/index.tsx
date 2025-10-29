@@ -354,15 +354,16 @@ function StakeModuleWidgetWrapped({
       setUsdsToBorrow(0n);
       setSelectedDelegate(undefined);
       setSelectedRewardContract(undefined);
+      setRewardContractToClaim(undefined);
     }
   }, [widgetState.flow]);
 
   useEffect(() => {
-    // Scroll to top when the flow or step changes
+    // Scroll to top when the flow, action, or step changes
     if (containerRef.current) {
       containerRef.current.scrollTo({ top: 0, behavior: 'instant' });
     }
-  }, [widgetState.flow, currentStep]);
+  }, [widgetState.flow, widgetState.action, currentStep]);
 
   const showStep = !!widgetState.action && widgetState.action !== StakeAction.OVERVIEW;
 
@@ -569,6 +570,7 @@ function StakeModuleWidgetWrapped({
     setUsdsToWipe(0n);
     setUsdsToBorrow(0n);
     setTabIndex(0);
+    setRewardContractToClaim(undefined);
 
     onWidgetStateChange?.({
       widgetState,
@@ -644,6 +646,7 @@ function StakeModuleWidgetWrapped({
     setUsdsToWipe(0n);
     setUsdsToBorrow(0n);
     setTabIndex(0);
+    setRewardContractToClaim(undefined);
 
     onWidgetStateChange?.({
       widgetState,
