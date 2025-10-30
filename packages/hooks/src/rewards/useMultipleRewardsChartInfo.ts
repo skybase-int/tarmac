@@ -45,29 +45,44 @@ function transformBaLabsChartData(results: RewardsChartInfo[]): RewardsChartInfo
 }
 
 async function fetchRewardsChartInfo(urls: URL[]): Promise<RewardsChartInfoParsed[][]> {
-  try {
-    const responses = await Promise.all(
-      urls.map(url =>
-        fetch(url, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-      )
-    );
+  const results = urls.map(() => [] as RewardsChartInfoParsed[]);
 
-    const parsedResponses: { results: RewardsChartInfo[] }[] = await Promise.all(
-      responses.map(response => response.json())
-    );
+  const settledResponses = await Promise.allSettled(
+    urls.map(url =>
+      fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+    )
+  );
 
-    const result = parsedResponses.map(data => transformBaLabsChartData(data?.results || []));
+  await Promise.all(
+    settledResponses.map(async (response, index) => {
+      if (response.status !== 'fulfilled') {
+        console.warn('Failed to fetch BaLabs data', { url: urls[index]?.href, error: response.reason });
+        return;
+      }
 
-    return result;
-  } catch (error) {
-    console.error('Error fetching BaLabs data:', error);
-    return [];
-  }
+      if (!response.value.ok) {
+        console.warn('Received non-ok response from BaLabs', {
+          url: urls[index]?.href,
+          status: response.value.status
+        });
+        return;
+      }
+
+      try {
+        const parsed: { results: RewardsChartInfo[] } = await response.value.json();
+        results[index] = transformBaLabsChartData(parsed?.results || []);
+      } catch (error) {
+        console.warn('Failed to parse BaLabs response', { url: urls[index]?.href, error });
+      }
+    })
+  );
+
+  return results;
 }
 
 export function useMultipleRewardsChartInfo({
