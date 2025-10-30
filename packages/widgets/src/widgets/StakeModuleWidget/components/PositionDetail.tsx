@@ -1,7 +1,6 @@
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { Text } from '@widgets/shared/components/ui/Typography';
-import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
 import { TokenIconWithBalance } from '@widgets/shared/components/ui/token/TokenIconWithBalance';
 import {
   RiskLevel,
@@ -133,12 +132,9 @@ export function PositionDetail({
               <Text variant="medium" className="text-textSecondary leading-4">
                 Reward
               </Text>
-              <div className="flex items-center justify-start gap-1">
-                <div className="flex items-start">
-                  <TokenIcon token={rewardContractTokens.rewardsToken} width={24} className="h-6 w-6" />
-                  <Text className="ml-2">{rewardContractTokens.rewardsToken.symbol}</Text>
-                </div>
+              <div className="ml-8 flex items-center justify-start gap-1">
                 <UpdateRewardSelection
+                  rewardToken={rewardContractTokens.rewardsToken}
                   urnAddress={urnAddress}
                   index={index}
                   selectedVoteDelegate={selectedVoteDelegate}
