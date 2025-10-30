@@ -373,9 +373,9 @@ async function main() {
   console.log('=== Funding Test Accounts ===\n');
 
   try {
-    // Step 1: Validate VNets
-    console.log('1. Validating VNets...');
-    const validationResult = await validateVnets();
+    // Step 1: Validate VNets (skip balance check since we're about to fund them)
+    console.log('1. Validating VNets (checking connectivity, not balances)...');
+    const validationResult = await validateVnets(true); // skipBalanceCheck = true
 
     if (!validationResult.healthy) {
       console.error('❌ VNet validation failed!');
@@ -394,7 +394,7 @@ async function main() {
       process.exit(1);
     }
 
-    console.log('✅ VNets validated\n');
+    console.log('✅ VNets validated (connectivity OK)\n');
 
     // Step 2: Generate test addresses
     console.log('2. Generating test addresses...');
