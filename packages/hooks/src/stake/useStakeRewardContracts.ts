@@ -2,7 +2,7 @@ import request, { gql } from 'graphql-request';
 import { useChainId, useConfig } from 'wagmi';
 import { getMakerSubgraphUrl } from '../helpers/getSubgraphUrl';
 import { useQuery } from '@tanstack/react-query';
-import { TRUST_LEVELS, TrustLevelEnum } from '../constants';
+import { TENDERLY_CHAIN_ID, TRUST_LEVELS, TrustLevelEnum } from '../constants';
 import { ReadHook } from '../hooks';
 import {
   stakeModuleAbi,
@@ -13,6 +13,7 @@ import {
 } from '../generated';
 import { readContracts } from '@wagmi/core';
 import type { Config } from '@wagmi/core';
+import { mainnet } from 'viem/chains';
 
 // FarmStatus enum: 0 = INACTIVE, 1 = ACTIVE
 const FARM_STATUS_ACTIVE = 1;
@@ -93,7 +94,8 @@ export function useStakeRewardContracts({
 }: {
   subgraphUrl?: string;
 } = {}): ReadHook & { data: { contractAddress: `0x${string}` }[] | undefined } {
-  const chainId = useChainId();
+  const walletChainId = useChainId();
+  const chainId = walletChainId === TENDERLY_CHAIN_ID ? walletChainId : mainnet.id;
   const config = useConfig();
   const urlSubgraph = subgraphUrl ? subgraphUrl : getMakerSubgraphUrl(chainId) || '';
 
