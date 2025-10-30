@@ -49,7 +49,11 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
   } = useCollateralData(stakingEngineIlk);
 
   // Get pending liquidations debt
-  const { data: clipperDue, refetch: refetchClipperDue } = useReadClipperDue({
+  const {
+    data: clipperDue,
+    refetch: refetchClipperDue,
+    isLoading: isLoadingClipperDue
+  } = useReadClipperDue({
     chainId
   });
 
@@ -201,7 +205,8 @@ export function useStUsdsData(address?: `0x${string}`): StUsdsHook {
     return availableLiquidity > liquidityBuffer ? availableLiquidity - liquidityBuffer : 0n;
   }, [availableLiquidity, liquidityBuffer]);
 
-  const isLoading = isContractLoading || (!!acct && userUsdsLoading) || isLoadingStakingEngine;
+  const isLoading =
+    isContractLoading || (!!acct && userUsdsLoading) || isLoadingStakingEngine || isLoadingClipperDue;
 
   const data: StUsdsHookData | undefined = useMemo(() => {
     if (!contractData) return undefined;
