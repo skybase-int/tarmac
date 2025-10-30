@@ -52,17 +52,19 @@ export function WidgetNavigation({
   } = useConfigContext();
 
   // Scroll hint for vertical menu
-  const { shouldShowHint } = useScrollHint(tabsListRef, {
+  const { shouldShowHint, isOverflowing } = useScrollHint(tabsListRef, {
     enabled: !showDrawerMenu && !hideTabs
   });
 
   // Scroll active tab into view when intent changes
   useEffect(() => {
     if (!showDrawerMenu && activeTabRef.current && tabsListRef.current) {
-      activeTabRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest'
-      });
+      setTimeout(() => {
+        activeTabRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest'
+        });
+      }, 100);
     }
   }, [intent, showDrawerMenu]);
 
@@ -252,7 +254,7 @@ export function WidgetNavigation({
                 <TabsList
                   ref={tabsListRef}
                   className={cn(
-                    'scrollbar-hidden flex h-fit max-h-[calc(100vh-120px)] flex-col justify-start gap-2 overflow-y-auto py-1 pl-1 pr-[10px]'
+                    `scrollbar-hidden flex h-fit max-h-[calc(100vh-120px)] flex-col justify-start gap-2 py-1 pl-1 pr-[10px] ${isOverflowing ? 'overflow-y-scroll' : 'overflow-y-clip'}`
                   )}
                   data-testid="widget-navigation"
                 >

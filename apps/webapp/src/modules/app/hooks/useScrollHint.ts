@@ -9,6 +9,7 @@ interface UseScrollHintOptions {
 interface UseScrollHintReturn {
   shouldShowHint: boolean;
   dismissHint: () => void;
+  isOverflowing: boolean;
 }
 
 /**
@@ -20,6 +21,7 @@ export function useScrollHint(
   { enabled }: UseScrollHintOptions
 ): UseScrollHintReturn {
   const [shouldShowHint, setShouldShowHint] = useState(false);
+  const [isOverflowing, setIsOverflowing] = useState(false);
 
   useEffect(() => {
     if (!enabled || !scrollableRef.current) return;
@@ -27,13 +29,15 @@ export function useScrollHint(
     const element = scrollableRef.current;
 
     // Check if hint has been seen in this session
-    const hasSeenHint = sessionStorage.getItem(SCROLL_HINT_STORAGE_KEY) === 'true';
-    if (hasSeenHint) return;
+    // if (hasSeenHint) return;
 
     // Check if content overflows
     const checkOverflow = () => {
-      const hasOverflow = element.scrollHeight > element.clientHeight;
-      setShouldShowHint(hasOverflow);
+      const hasSeenHint = sessionStorage.getItem(SCROLL_HINT_STORAGE_KEY) === 'true';
+      const hasOverflow =
+        element.scrollHeight > element.clientHeight && element.scrollHeight - element.clientHeight > 20;
+      setShouldShowHint(hasOverflow && !hasSeenHint);
+      setIsOverflowing(hasOverflow);
     };
 
     // Initial check
@@ -72,6 +76,7 @@ export function useScrollHint(
 
   return {
     shouldShowHint,
+    isOverflowing,
     dismissHint
   };
 }
