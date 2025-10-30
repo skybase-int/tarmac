@@ -56,6 +56,19 @@ function extendedMock(params: MockParameters) {
                   return params.accounts;
                 }
 
+                // Handle eth_chainId method
+                // if (args.method === 'eth_chainId') {
+                //   // Return the current chain ID as hex
+                //   const chainIdHex = `0x${TENDERLY_CHAIN_ID.toString(16)}`;
+                //   console.log(
+                //     'eth_chainId returning:',
+                //     chainIdHex,
+                //     'for TENDERLY_CHAIN_ID:',
+                //     TENDERLY_CHAIN_ID
+                //   );
+                //   return chainIdHex;
+                // }
+
                 // Handle wallet_sendCalls method
                 if (args.method === 'wallet_sendCalls') {
                   // Get the original parameters
@@ -64,14 +77,14 @@ function extendedMock(params: MockParameters) {
                   const from = params[0].from;
                   console.log('wallet_sendCalls params:', params);
                   // change from address to the first account in the worker accounts
-                  const workerIndex = Number(import.meta.env.VITE_TEST_WORKER_INDEX || 0);
-                  const account = TEST_WALLET_ADDRESSES[workerIndex % TEST_WALLET_ADDRESSES.length];
+                  // const workerIndex = Number(import.meta.env.VITE_TEST_WORKER_INDEX || 0);
+                  // const account = TEST_WALLET_ADDRESSES[workerIndex % TEST_WALLET_ADDRESSES.length];
 
                   // Create modified parameters with 'from' address included
                   const modifiedParams = [
                     {
                       ...params[0],
-                      from: account,
+                      // from: account,
                       calls: calls.map((call: any) => ({
                         ...call,
                         ...(typeof from !== 'undefined' ? { from } : {})

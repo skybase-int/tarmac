@@ -314,7 +314,7 @@ async function fundAccountsOnVnet(network: NetworkName, addresses: string[]): Pr
         { token: mcdDaiAddress[TENDERLY_CHAIN_ID], amount: '900', decimals: 18, name: 'DAI' },
         { token: usdcAddress[TENDERLY_CHAIN_ID], amount: '900', decimals: 6, name: 'USDC' },
         { token: mkrAddress[TENDERLY_CHAIN_ID], amount: '900', decimals: 18, name: 'MKR' },
-        { token: skyAddress[TENDERLY_CHAIN_ID], amount: '900', decimals: 18, name: 'SKY' },
+        { token: skyAddress[TENDERLY_CHAIN_ID], amount: '100000000', decimals: 18, name: 'SKY' },
         { token: wethAddress[TENDERLY_CHAIN_ID], amount: '900', decimals: 18, name: 'WETH' },
         { token: sUsdsAddress[TENDERLY_CHAIN_ID], amount: '900', decimals: 18, name: 'sUSDS' }
       ];
