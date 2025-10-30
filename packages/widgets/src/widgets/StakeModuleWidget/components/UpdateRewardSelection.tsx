@@ -17,17 +17,22 @@ import { WidgetState } from '@widgets/shared/types/widgetState';
 import { StakeAction, StakeStep } from '../lib/constants';
 import { OnStakeUrnChange } from '..';
 import { WidgetContext } from '@widgets/context/WidgetContext';
+import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
+import { Token } from '@jetstreamgg/sky-hooks';
+import { cn } from '@widgets/lib/utils';
 
 export const UpdateRewardSelection = ({
   urnAddress,
   index,
   selectedVoteDelegate,
+  rewardToken,
   onExternalLinkClicked,
   onStakeUrnChange
 }: {
   urnAddress?: `0x${string}`;
   index: bigint;
   selectedVoteDelegate?: `0x${string}`;
+  rewardToken: Token;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   onStakeUrnChange?: OnStakeUrnChange;
 }) => {
@@ -83,7 +88,11 @@ export const UpdateRewardSelection = ({
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         <Button variant="ghost" className="h-6 w-6 p-0">
-          <ChevronDown />
+          <div className="flex items-start">
+            <TokenIcon token={rewardToken} width={24} className="h-6 w-6" />
+            <Text className="ml-2">{rewardToken.symbol}</Text>
+            <ChevronDown className={cn('transition-transform', isOpen && 'rotate-180')} />
+          </div>
         </Button>
       </PopoverTrigger>
       <PopoverContent
