@@ -76,11 +76,17 @@ export const StakeRewardsCardCompact = ({
   return (
     <Card
       className={cn(
-        'bg-radial-(--gradient-position) from-card to-card hover:from-primary-start/40 hover:to-primary-end/40 flex cursor-pointer items-center justify-between transition-colors',
-        isRewardContractSelected && 'pointer-events-none opacity-50'
+        'bg-radial-(--gradient-position) flex items-center justify-between transition-colors',
+        isRewardContractSelected
+          ? 'from-primary-start/100 to-primary-end/100 cursor-default'
+          : 'from-card to-card hover:from-primary-start/40 hover:to-primary-end/40 cursor-pointer'
       )}
-      aria-disabled={isRewardContractSelected}
-      onClick={() => handleCardClick?.(contractAddress)}
+      aria-selected={isRewardContractSelected}
+      onClick={() => {
+        if (!isRewardContractSelected) {
+          handleCardClick?.(contractAddress);
+        }
+      }}
     >
       <MotionHStack className="items-center gap-3 space-x-0" variants={positionAnimations}>
         {rewardContractTokens ? (
