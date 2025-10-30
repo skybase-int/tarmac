@@ -309,7 +309,8 @@ export {
   useReadPsm3L2PreviewSwapExactOut,
   lsMkrUsdsRewardAddress,
   lsSkyUsdsRewardAddress,
-  lsSkySpkRewardAddress
+  lsSkySpkRewardAddress,
+  useReadClipperDue
 } from './generated';
 export { contracts, /*tenderlyContracts,*/ l2Contracts } from './contracts';
 
