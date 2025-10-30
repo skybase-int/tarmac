@@ -226,14 +226,12 @@ jobs:
         with:
           name: vnet-data
 
-      - name: Move VNet snapshot to correct location
-        run: |
-          mv persistent-vnet-snapshots.json apps/webapp/src/test/e2e/persistent-vnet-snapshots.json
-
       - name: Verify VNet files
         run: |
           echo "🔍 Verifying VNet files for shard ${{ matrix.shard }}..."
+          echo "Checking tenderlyTestnetData.json:"
           ls -lh tenderlyTestnetData.json
+          echo "Checking persistent-vnet-snapshots.json:"
           ls -lh apps/webapp/src/test/e2e/persistent-vnet-snapshots.json
           echo "✅ VNet files ready"
 
