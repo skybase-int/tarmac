@@ -24,7 +24,6 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
 
   // Find the highest rate
   const highestRateData = useHighestRateFromChartData(stakeRewardsChartsInfoData || []);
-  console.log({ highestRateData });
 
   const totalStakedValue =
     stakeBalance && pricesData?.SKY
