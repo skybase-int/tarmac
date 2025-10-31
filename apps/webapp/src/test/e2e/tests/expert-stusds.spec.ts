@@ -47,7 +47,7 @@ test.describe('Expert Module - stUSDS', () => {
     await expect(userRisksLink).toHaveAttribute('target', '_blank');
   });
 
-  test.only('Supply USDS', async ({ isolatedPage }) => {
+  test('Supply USDS', async ({ isolatedPage }) => {
     // Should be on Supply tab by default
     await expect(isolatedPage.getByRole('tab', { name: 'Supply', selected: true })).toBeVisible();
 
@@ -130,7 +130,7 @@ test.describe('Expert Module - stUSDS', () => {
 
     // Check that input is filled with balance
     const inputValue = await isolatedPage.getByTestId('supply-input-stusds').inputValue();
-    expect(parseFloat(inputValue)).toBe(100);
+    expect(parseFloat(inputValue)).toBe(900);
 
     // Transaction overview should be visible
     await expect(isolatedPage.getByRole('button', { name: 'Transaction overview' })).toBeVisible();
@@ -163,7 +163,7 @@ test.describe('Expert Module - stUSDS', () => {
   test('Supply with insufficient USDS balance shows error', async ({ isolatedPage }) => {
     // Try to supply more than balance
     await isolatedPage.getByTestId('supply-input-stusds').click();
-    await isolatedPage.getByTestId('supply-input-stusds').fill('105');
+    await isolatedPage.getByTestId('supply-input-stusds').fill('905');
 
     // Should show insufficient funds error
     await expect(isolatedPage.getByText('Insufficient funds')).toBeVisible();
