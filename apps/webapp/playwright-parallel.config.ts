@@ -58,7 +58,8 @@ export default defineConfig({
         '**/la-u-r.spec.ts',
         '**/la-u-s.spec.ts',
         '**/stake.spec.ts',
-        '**/landing.spec.ts'
+        '**/landing.spec.ts',
+        '**/expert-stusds.spec.ts'
         // Add more test patterns as we convert them
       ]
     }
