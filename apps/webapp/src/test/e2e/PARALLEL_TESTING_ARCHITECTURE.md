@@ -223,11 +223,13 @@ export default defineConfig({
 ### Triggers
 
 This workflow runs on:
+
 - pull_request: any open PR
 - push: only on pushes to `main`
 - workflow_dispatch: manual run from the Actions tab
 
 Notes:
+
 - Pushing only a workflow file change to a feature branch will not trigger the workflow unless there is an open PR, a push to `main`, or you run it manually.
 - Commits containing "[skip ci]" will be ignored by CI providers.
 
