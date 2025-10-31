@@ -33,8 +33,8 @@ test.describe('Expert Module - stUSDS', () => {
     await expect(isolatedPage.getByTestId('stusds-stats-card')).toBeVisible();
 
     // Should display Message
-    await expect(isolatedPage.getByTestId('expert-risk-disclaimer')).toBeVisible();
-    await expect(isolatedPage.getByTestId('expert-risk-disclaimer')).toContainText(
+    await expect(isolatedPage.getByTestId('expert-risk-disclaimer').first()).toBeVisible();
+    await expect(isolatedPage.getByTestId('expert-risk-disclaimer').first()).toContainText(
       'Expert modules are intended for experienced users and may function differently than modules to which ordinary users are accustomed. Please be sure you understand the unique features and the associated risks of any Expert Module before proceeding. Be sure to review the FAQs and'
     );
 
@@ -112,7 +112,7 @@ test.describe('Expert Module - stUSDS', () => {
     // Check transaction overview
     await expect(isolatedPage.getByRole('button', { name: 'Transaction overview' })).toBeVisible();
     await expect(isolatedPage.getByText('You will withdraw')).toBeVisible();
-    await expect(isolatedPage.getByText('5 USDS')).toBeVisible();
+    await expect(isolatedPage.getByText('5 USDS').first()).toBeVisible();
 
     // Perform withdrawal
     await performAction(isolatedPage, 'Withdraw');
@@ -270,7 +270,7 @@ test.describe('Expert Module - stUSDS', () => {
     await expect(isolatedPage.getByRole('heading', { name: 'Expert', exact: true })).toBeVisible();
 
     // Verify expert risk modal is initially visible
-    await expect(isolatedPage.getByTestId('expert-risk-disclaimer')).toBeVisible();
+    await expect(isolatedPage.getByTestId('expert-risk-disclaimer').first()).toBeVisible();
 
     // Wait for the dismiss button to be stable and click it
     const dismissButton = isolatedPage.getByTestId('expert-risk-dismiss');
@@ -278,7 +278,7 @@ test.describe('Expert Module - stUSDS', () => {
     await dismissButton.click({ force: true });
 
     // Verify modal is dismissed
-    await expect(isolatedPage.getByTestId('expert-risk-disclaimer')).not.toBeVisible();
+    await expect(isolatedPage.getByTestId('expert-risk-disclaimer').first()).not.toBeVisible();
 
     // Reload the browser
     await isolatedPage.reload();
@@ -291,6 +291,6 @@ test.describe('Expert Module - stUSDS', () => {
     await isolatedPage.getByTestId('stusds-stats-card').click();
 
     // Verify the risk modal is still dismissed (not visible)
-    await expect(isolatedPage.getByTestId('expert-risk-disclaimer')).not.toBeVisible();
+    await expect(isolatedPage.getByTestId('expert-risk-disclaimer').first()).not.toBeVisible();
   });
 });
