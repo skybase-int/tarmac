@@ -5,6 +5,8 @@ import { mock, MockParameters } from 'wagmi/connectors';
 import { TEST_WALLET_ADDRESSES, getTestWalletAddress } from '@/test/e2e/utils/testWallets';
 import { arbitrum, base, optimism, unichain } from 'viem/chains';
 
+const useMock = import.meta.env.VITE_USE_MOCK_WALLET === 'true';
+
 const [tenderlyMainnet, tenderlyBase, tenderlyArbitrum, tenderlyOptimism, tenderlyUnichain] =
   getTestTenderlyChains();
 
@@ -143,7 +145,7 @@ function getWorkerAccounts(): [`0x${string}`, ...`0x${string}`[]] {
 }
 
 // Clear old wagmi storage to prevent cached address issues
-if (typeof window !== 'undefined' && window.localStorage) {
+if (useMock && typeof window !== 'undefined' && window.localStorage) {
   // Clear ALL localStorage to ensure no cached state
   console.log('Clearing all localStorage to prevent cached addresses');
   window.localStorage.clear();
