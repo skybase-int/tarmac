@@ -153,6 +153,8 @@ export const ALLOWED_EXTERNAL_DOMAINS = [
   'jobs.ashbyhq.com'
 ];
 
+export const IS_PRODUCTION_ENV = import.meta.env.VITE_ENV_NAME === 'production';
+
 export const PROD_URL_SKY_SUBGRAPH_MAINNET =
   'https://query-subgraph.sky.money/subgraphs/name/jetstreamgg/sky-subgraph-mainnet';
 export const STAGING_URL_SKY_SUBGRAPH_MAINNET =
