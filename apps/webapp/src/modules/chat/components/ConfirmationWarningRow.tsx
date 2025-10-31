@@ -9,6 +9,8 @@ import { QueryParams } from '@/lib/constants';
 import { useCallback } from 'react';
 import { Warning } from '@/modules/icons/Warning';
 import { getConfirmationWarningMetadata } from '../lib/confirmationWarningMetadata';
+import { ChatMarkdownRenderer } from '@/modules/ui/components/markdown/ChatMarkdownRenderer';
+import { useChatbotPrefillNotification } from '@/modules/app/hooks/useChatbotPrefillNotification';
 
 export const ConfirmationWarningRow = () => {
   const {
@@ -22,6 +24,7 @@ export const ConfirmationWarningRow = () => {
   } = useChatContext();
 
   const navigate = useNavigate();
+  const { showPrefillNotification } = useChatbotPrefillNotification();
 
   const onIntentSelected = useCallback(
     (intent: ChatIntent) => setChatHistory(prev => [...prev, intentSelectedMessage(intent)]),
@@ -38,8 +41,7 @@ export const ConfirmationWarningRow = () => {
 
   const selectedIntentUrl = useRetainedQueryParams(selectedIntent?.url || '', [
     QueryParams.Locale,
-    QueryParams.Details,
-    QueryParams.Chat
+    QueryParams.Details
   ]);
 
   const handleConfirm = useCallback(() => {
@@ -47,7 +49,11 @@ export const ConfirmationWarningRow = () => {
     if (selectedIntent && !hasShownIntent(selectedIntent)) {
       setWarningShown([...warningShown, selectedIntent]);
     }
-    if (selectedIntentUrl) navigate(selectedIntentUrl);
+    if (selectedIntentUrl) {
+      navigate(selectedIntentUrl);
+      // Show notification that inputs have been prefilled
+      showPrefillNotification();
+    }
     if (selectedIntent) onIntentSelected(selectedIntent);
   }, [
     selectedIntentUrl,
@@ -56,21 +62,29 @@ export const ConfirmationWarningRow = () => {
     selectedIntent,
     onIntentSelected,
     warningShown,
-    hasShownIntent
+    hasShownIntent,
+    showPrefillNotification
   ]);
 
   const disclaimerMetadata = getConfirmationWarningMetadata(selectedIntent);
 
   return (
-    <div className="text-text mt-5 rounded-xl bg-[#0b0b0c]/60 p-5">
-      <div className="flex items-center gap-2">
-        <Warning boxSize={20} viewBox="0 0 16 16" fill="#fdc134" />
-        <Text variant="medium">{disclaimerMetadata?.description}</Text>
+    <div className="text-text @max-sm/chat:mt-3 @max-sm/chat:p-3 mt-5 rounded-xl bg-[#0b0b0c]/60 p-5">
+      <div className="bg-white/6 @sm/chat:flex-row @max-sm/chat:gap-1.5 @max-sm/chat:p-3 flex flex-col items-center gap-2 rounded-lg p-4">
+        <Warning
+          boxSize={20}
+          viewBox="0 0 16 16"
+          fill="#fdc134"
+          className="@max-sm/chat:h-4 @max-sm/chat:w-4 flex-shrink-0"
+        />
+        <Text variant="medium" className="@sm/chat:text-left @max-sm/chat:text-sm text-center">
+          {disclaimerMetadata?.description}
+        </Text>
       </div>
-      <Text variant="terms" className="mt-2">
-        {disclaimerMetadata?.disclaimer}
-      </Text>
-      <div className="mt-3 flex gap-5">
+      <div className="@max-sm/chat:ml-3 @max-sm/chat:mt-2 ml-4 mt-4 text-[13px]">
+        <ChatMarkdownRenderer markdown={disclaimerMetadata?.disclaimer} />
+      </div>
+      <div className="@max-sm/chat:mt-2 @max-sm/chat:gap-3 mt-3 flex gap-5">
         <Button
           variant="pill"
           size="xs"

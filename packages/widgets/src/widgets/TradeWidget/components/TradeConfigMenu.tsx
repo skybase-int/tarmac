@@ -6,7 +6,9 @@ import {
   TradeScreen,
   ethFlowSlippageConfig,
   ETH_SLIPPAGE_STORAGE_KEY,
-  ERC_SLIPPAGE_STORAGE_KEY
+  ERC_SLIPPAGE_STORAGE_KEY,
+  l2EthFlowSlippageConfig,
+  L2_ETH_SLIPPAGE_STORAGE_KEY
 } from '../lib/constants';
 import { Settings as SettingsIcon } from '@widgets/shared/components/icons/Icons';
 import { t } from '@lingui/core/macro';
@@ -18,6 +20,10 @@ import { Popover, PopoverArrow, PopoverContent, PopoverTrigger } from '@widgets/
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { verifySlippage } from '../lib/utils';
+import { getTooltipById } from '@widgets/data/tooltips';
+import { parseMarkdownLinks } from '@widgets/shared/utils/parseMarkdownLinks';
+import { isL2ChainId } from '@jetstreamgg/sky-utils';
+import { useChainId } from 'wagmi';
 
 type PropTypes = {
   slippage: string;
@@ -33,8 +39,18 @@ export const TradeConfigMenu = ({
   isEthFlow
 }: PropTypes): React.ReactElement | null => {
   const { widgetState } = useContext(WidgetContext);
-  const slippageConfig = isEthFlow ? ethFlowSlippageConfig : ercFlowSlippageConfig;
-  const SLIPPAGE_STORAGE_KEY = isEthFlow ? ETH_SLIPPAGE_STORAGE_KEY : ERC_SLIPPAGE_STORAGE_KEY;
+  const chainId = useChainId();
+  const isChainL2 = isL2ChainId(chainId);
+  const slippageConfig = isEthFlow
+    ? isChainL2
+      ? l2EthFlowSlippageConfig
+      : ethFlowSlippageConfig
+    : ercFlowSlippageConfig;
+  const SLIPPAGE_STORAGE_KEY = isEthFlow
+    ? isChainL2
+      ? L2_ETH_SLIPPAGE_STORAGE_KEY
+      : ETH_SLIPPAGE_STORAGE_KEY
+    : ERC_SLIPPAGE_STORAGE_KEY;
 
   const handleSlippageChange = (value: string) => {
     // Parse value and apply precision figures
@@ -64,20 +80,7 @@ export const TradeConfigMenu = ({
               <Trans>Slippage</Trans>
             </Heading>
             <Text variant="medium" className="text-textSecondary">
-              <Trans>
-                By setting your slippage tolerance level, you control the degree of token price fluctuation
-                that you will accept between the time you initiate a trade transaction and its execution on
-                the blockchain.
-              </Trans>
-            </Text>
-            <Text variant="medium" className="text-textSecondary">
-              <Trans>
-                If the actual slippage is greater than your chosen tolerance level, the transaction will fail
-                and be reverted.
-              </Trans>
-            </Text>
-            <Text variant="medium" className="text-textSecondary">
-              <Trans>Note that reverted transactions may still incur gas fees.</Trans>
+              {parseMarkdownLinks(getTooltipById('slippage-tolerance')?.tooltip || '')}
             </Text>
           </div>
           <HStack className="w-full justify-between">

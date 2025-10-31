@@ -1,15 +1,18 @@
-import { Button } from '@/components/ui/button';
-import { Trans } from '@lingui/react/macro';
-import { ExternalLinkIcon } from 'lucide-react';
-import { ExternalLink } from '@/modules/layout/components/ExternalLink';
-import { Heading, Text } from '@/modules/layout/components/Typography';
 import { getEtherscanLink } from '@jetstreamgg/sky-utils';
 import { useChainId } from 'wagmi';
 import { stUsdsAddress } from '@jetstreamgg/sky-hooks';
-import { GradientShapeCard } from './GradientShapeCard';
+import { getBannerByIdAndModule, filterBannersByConnectionStatus } from '@/data/banners/helpers';
+import { parseBannerContent } from '@/utils/bannerContentParser';
+import { useConnectedContext } from '../context/ConnectedContext';
+import { AboutCard } from './AboutCard';
 
-export const AboutStUsds = ({ isOverview = false }: { isOverview?: boolean }) => {
+interface AboutStUsdsProps {
+  module: string;
+}
+
+export const AboutStUsds = ({ module }: AboutStUsdsProps) => {
   const chainId = useChainId();
+  const { isConnectedAndAcceptedTerms } = useConnectedContext();
 
   const stUsdsEtherscanLink = getEtherscanLink(
     chainId,
@@ -17,46 +20,39 @@ export const AboutStUsds = ({ isOverview = false }: { isOverview?: boolean }) =>
     'address'
   );
 
-  // Use SKY-like colors for overview, original colors for details
-  const colors = isOverview
-    ? {
-        colorLeft: 'radial-gradient(217.45% 249.6% at 116.69% 275.4%, #A273FF 0%, #4331E9 100%)',
-        colorMiddle: 'linear-gradient(360deg, #FFD2B9 0%, #FF6D6D 300%)',
-        colorRight: '#1e1a4b'
-      }
-    : {
-        colorLeft: 'radial-gradient(258.73% 268.92% at 116.69% 275.4%, #F7A7F9 0%, #6D28FF 100%)',
-        colorMiddle: 'linear-gradient(0deg, #F7A7F9 0%, #00DDFB 300%)',
-        colorRight: 'bg-card'
-      };
+  // expert-modules-banners is the overview page, use different gradient direction
+  const isOverview = module === 'expert-modules-banners';
+  const colorMiddle = isOverview
+    ? 'linear-gradient(360deg, #F38FAA 0%, #EB63D9 300%)'
+    : 'linear-gradient(0deg, #F38FAA 0%, #EB63D9 300%)';
+
+  // Determine banner ID based on module and connection status
+  // For overview + disconnected, try 'about-stusds' first, fall back to 'stusds'
+  let banner = null;
+
+  if (isOverview && !isConnectedAndAcceptedTerms) {
+    banner = getBannerByIdAndModule('about-stusds', module);
+  }
+
+  // Fall back to 'stusds' if 'about-stusds' not found or not in overview mode
+  if (!banner) {
+    banner = getBannerByIdAndModule('stusds', module);
+  }
+
+  // Filter by connection status if banner has display property
+  if (banner?.display) {
+    const filtered = filterBannersByConnectionStatus([banner], isConnectedAndAcceptedTerms);
+    banner = filtered.length > 0 ? filtered[0] : null;
+  }
+
+  const contentText = banner?.description ? parseBannerContent(banner.description) : '';
 
   return (
-    <GradientShapeCard
-      colorLeft={colors.colorLeft}
-      colorMiddle={colors.colorMiddle}
-      colorRight={colors.colorRight}
-      className="mb-6"
-    >
-      <div className="w-[80%] space-y-2 lg:w-2/3">
-        <Heading>
-          <Trans>stUSDS</Trans>
-        </Heading>
-        <Text variant="small">
-          <Trans>
-            stUSDS is an ERC-4626 vault token that enables USDS holders to earn yield through Sky-backed
-            lending activities. When you deposit USDS into the stUSDS vault, you receive stUSDS tokens
-            representing your share of the vault. The value of your stUSDS increases over time as the vault
-            earns yield from borrowers who use USDS liquidity, providing a variable rate return on your
-            deposited USDS.
-          </Trans>
-        </Text>
-      </div>
-      <ExternalLink href={stUsdsEtherscanLink} showIcon={false} className="mt-3 w-fit lg:mt-0">
-        <Button variant="outline" className="border-border gap-2">
-          <Trans>View contract</Trans>
-          <ExternalLinkIcon size={16} />
-        </Button>
-      </ExternalLink>
-    </GradientShapeCard>
+    <AboutCard
+      tokenSymbol="stUSDS"
+      description={contentText}
+      linkHref={stUsdsEtherscanLink}
+      colorMiddle={colorMiddle}
+    />
   );
 };

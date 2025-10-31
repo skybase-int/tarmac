@@ -20,7 +20,10 @@ TOOLTIPS_SOURCE_PATH="output/webapp/tooltips"
 TOOLTIPS_DESTINATION_PATH="../../packages/widgets/src/data/tooltips"
 BANNERS_SOURCE_PATH="output/webapp/banner"
 BANNERS_DESTINATION_PATH="src/data/banners"
+SPEED_BUMPS_SOURCE_PATH="output/webapp/speed-bumps"
+SPEED_BUMPS_DESTINATION_PATH="src/data/chat/speed-bumps"
 EXTRACT_SCRIPT="scripts/extract_webapp_faqs.js"
+SPEED_BUMP_EXTRACT_SCRIPT="scripts/extract_speed_bump_copy.js"
 
 # Function to print colored output
 print_status() {
@@ -77,6 +80,10 @@ fi
 # Navigate to the temp directory
 cd "$TEMP_DIR"
 
+# Fetch all tags from the remote repository
+print_status "Fetching all tags from repository..."
+git fetch --tags --quiet 2>/dev/null
+
 # Checkout the specific version
 print_status "Checking out version: $CONTENT_VERSION"
 git checkout --quiet "$CONTENT_VERSION" 2>/dev/null
@@ -89,6 +96,20 @@ if [ $? -ne 0 ]; then
     rm -rf "$TEMP_DIR"
     exit 0
 fi
+
+# Get the latest tag pointing to the current HEAD
+print_status "Finding latest tag for the HEAD of branch: $CONTENT_VERSION"
+# First try to get exact tag match, then get the most recent tag reachable from HEAD
+CORPUS_TAG=$(git describe --tags --exact-match HEAD 2>/dev/null)
+if [ -z "$CORPUS_TAG" ]; then
+    # If no exact match, get the most recent tag reachable from HEAD
+    CORPUS_TAG=$(git describe --tags --abbrev=0 HEAD 2>/dev/null)
+fi
+# If still no tag found, use "untagged" as fallback
+if [ -z "$CORPUS_TAG" ]; then
+    CORPUS_TAG="untagged"
+fi
+print_status "Corpus version tag: $CORPUS_TAG"
 
 # Check if the extract script exists
 if [ ! -f "$EXTRACT_SCRIPT" ]; then
@@ -134,6 +155,24 @@ if [ $EXTRACT_EXIT_CODE -ne 0 ]; then
     exit 1
 fi
 
+# Run the speed bump extraction script if it exists
+if [ -f "$SPEED_BUMP_EXTRACT_SCRIPT" ]; then
+    print_status "Running speed bump extraction script..."
+
+    # Run the speed bump extraction script
+    node "$SPEED_BUMP_EXTRACT_SCRIPT"
+    SPEED_BUMP_EXIT_CODE=$?
+
+    # Check if the speed bump extraction script succeeded
+    if [ $SPEED_BUMP_EXIT_CODE -ne 0 ]; then
+        print_warning "Speed bump extraction script failed, continuing without speed bump content"
+    else
+        print_status "Speed bump extraction completed successfully"
+    fi
+else
+    print_warning "Speed bump extraction script not found, skipping speed bump extraction"
+fi
+
 # Check if output was generated
 if [ ! -d "$OUTPUT_SOURCE_PATH" ]; then
     print_error "Expected output directory '$OUTPUT_SOURCE_PATH' was not created!"
@@ -161,6 +200,16 @@ else
     print_warning "rsync not found, using cp instead"
     cp -r "$TEMP_DIR/$OUTPUT_SOURCE_PATH/"* "$DESTINATION_PATH/"
 fi
+
+# Create version.ts file in src/data directory
+print_status "Creating corpus version file..."
+cat > "src/data/version.ts" << EOF
+// Version of the corpus content used to generate FAQs, tooltips, banners, and speed bumps
+export const CORPUS_VERSION = '$CORPUS_TAG';
+
+// Branch name used during content extraction
+export const CORPUS_BRANCH = '$CONTENT_VERSION';
+EOF
 
 # Post-process sharedFaqItems.ts and update getBalancesFaqItems.ts
 print_status "Processing sharedFaqItems and updating getBalancesFaqItems..."
@@ -494,6 +543,11 @@ export function getTooltipById(id: string): Tooltip | undefined {
   // If not found, fallback to legacy tooltips
   return getLegacyTooltipById(id);
 }
+
+// Helper function to get multiple tooltips by IDs and return them as an array
+export function getTooltipsByIds(ids: string[]): Tooltip[] {
+  return ids.map(id => getTooltipById(id)).filter((tooltip): tooltip is Tooltip => tooltip !== undefined);
+}
 EOF
         
         # Replace the original file
@@ -510,21 +564,49 @@ fi
 # Copy banners if they exist
 if [ -d "$TEMP_DIR/$BANNERS_SOURCE_PATH" ]; then
     print_status "Syncing banners to webapp..."
-    
+
     # Check if banners.ts exists in the output
     if [ -f "$TEMP_DIR/$BANNERS_SOURCE_PATH/banners.ts" ]; then
         # Ensure destination directory exists
         mkdir -p "$BANNERS_DESTINATION_PATH"
-        
+
         # Copy the banners file
         cp "$TEMP_DIR/$BANNERS_SOURCE_PATH/banners.ts" "$BANNERS_DESTINATION_PATH/banners.ts"
-        
+
         print_status "Banners synced successfully to $BANNERS_DESTINATION_PATH/banners.ts"
     else
         print_warning "No banners.ts file found in corpus output"
     fi
 else
     print_warning "No banners directory found in corpus output"
+fi
+
+# Copy speed bumps if they exist
+if [ -d "$TEMP_DIR/$SPEED_BUMPS_SOURCE_PATH" ]; then
+    print_status "Syncing speed bumps to webapp chat directory..."
+
+    # Ensure destination directory exists
+    mkdir -p "$SPEED_BUMPS_DESTINATION_PATH"
+
+    # Copy all files from speed-bumps directory
+    if command -v rsync &> /dev/null; then
+        rsync -av "$TEMP_DIR/$SPEED_BUMPS_SOURCE_PATH/" "$SPEED_BUMPS_DESTINATION_PATH/"
+    else
+        # Fallback to cp if rsync is not available
+        print_warning "rsync not found, using cp instead"
+        cp -r "$TEMP_DIR/$SPEED_BUMPS_SOURCE_PATH/"* "$SPEED_BUMPS_DESTINATION_PATH/" 2>/dev/null || true
+    fi
+
+    # Count copied files
+    SPEED_BUMP_COUNT=$(find "$SPEED_BUMPS_DESTINATION_PATH" -type f \( -name "*.ts" -o -name "*.json" \) 2>/dev/null | wc -l | tr -d ' ')
+
+    if [ "$SPEED_BUMP_COUNT" -gt 0 ]; then
+        print_status "Speed bumps synced successfully ($SPEED_BUMP_COUNT files) to $SPEED_BUMPS_DESTINATION_PATH"
+    else
+        print_warning "No speed bump files found to copy"
+    fi
+else
+    print_warning "No speed bumps directory found in corpus output"
 fi
 
 # Track all generated files for formatting
@@ -539,6 +621,11 @@ for file in "$DESTINATION_PATH"/*.ts; do
     fi
 done
 
+# Add version file
+if [ -f "src/data/version.ts" ]; then
+    GENERATED_FILES+=("apps/webapp/src/data/version.ts")
+fi
+
 # Add tooltip file if it exists
 if [ -f "$TOOLTIPS_DESTINATION_PATH/index.ts" ]; then
     GENERATED_FILES+=("packages/widgets/src/data/tooltips/index.ts")
@@ -547,6 +634,16 @@ fi
 # Add banner file if it exists
 if [ -f "$BANNERS_DESTINATION_PATH/banners.ts" ]; then
     GENERATED_FILES+=("apps/webapp/$BANNERS_DESTINATION_PATH/banners.ts")
+fi
+
+# Add speed bump files if they exist
+if [ -d "$SPEED_BUMPS_DESTINATION_PATH" ]; then
+    for file in "$SPEED_BUMPS_DESTINATION_PATH"/*.ts "$SPEED_BUMPS_DESTINATION_PATH"/*.json; do
+        if [ -f "$file" ]; then
+            # Convert to path relative to monorepo root
+            GENERATED_FILES+=("apps/webapp/$file")
+        fi
+    done
 fi
 
 # Format only the generated files
@@ -579,8 +676,16 @@ print_status "Content sync completed successfully!"
 echo ""
 print_status "Synced files:"
 
+# Show corpus version
+if [ -f "src/data/version.ts" ]; then
+    echo ""
+    print_status "Corpus version: $CORPUS_TAG"
+    echo "  - src/data/version.ts"
+fi
+
 # List FAQ files
 if [ -d "$DESTINATION_PATH" ]; then
+    echo ""
     print_status "FAQ files:"
     find "$DESTINATION_PATH" -type f \( -name "*.ts" -o -name "*.json" -o -name "*.md" \) | sort | while read file; do
         echo "  - $file"
@@ -593,3 +698,25 @@ if [ -f "$TOOLTIPS_DESTINATION_PATH/index.ts" ]; then
     print_status "Tooltip files:"
     echo "  - $TOOLTIPS_DESTINATION_PATH/index.ts"
 fi
+
+# List banner files
+if [ -f "$BANNERS_DESTINATION_PATH/banners.ts" ]; then
+    echo ""
+    print_status "Banner files:"
+    echo "  - $BANNERS_DESTINATION_PATH/banners.ts"
+fi
+
+# List speed bump files
+if [ -d "$SPEED_BUMPS_DESTINATION_PATH" ]; then
+    SPEED_BUMP_FILES=$(find "$SPEED_BUMPS_DESTINATION_PATH" -type f \( -name "*.ts" -o -name "*.json" \) 2>/dev/null)
+    if [ -n "$SPEED_BUMP_FILES" ]; then
+        echo ""
+        print_status "Speed bump files:"
+        echo "$SPEED_BUMP_FILES" | sort | while read file; do
+            echo "  - $file"
+        done
+    fi
+fi
+
+echo ""
+print_status "All content synced with corpus version: $CORPUS_TAG"

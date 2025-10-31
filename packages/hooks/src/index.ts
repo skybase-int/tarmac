@@ -119,7 +119,7 @@ export { useMigrationStats } from './upgrade/useMigrationStats';
 
 // Trade
 export { useTradeHistory } from './trade/useTradeHistory';
-export { useEthereumTradeHistory } from './trade/useEthereumTradeHistory';
+export { useCowswapTradeHistory } from './trade/useCowswapTradeHistory';
 export { useQuoteTrade } from './trade/useQuoteTrade';
 export { useSignAndCreateTradeOrder } from './trade/useSignAndCreateTradeOrder';
 export { useCreateEthTradeOrder } from './trade/useCreateEthTradeOrder';
@@ -136,6 +136,7 @@ export { useOracles } from './oracles/useOracles';
 
 // Prices
 export { usePrices } from './prices/usePrices';
+export { useSkyPrice } from './prices/useSkyPrice';
 export { useLsMkrPrice } from './prices/useLsMkrPrice';
 
 // Seal Module
@@ -187,6 +188,7 @@ export { useStakeRewardsData } from './stake/useStakeRewardsData';
 export { useStakePosition } from './stake/useStakePosition';
 export { useBatchStakeMulticall } from './stake/useBatchStakeMulticall';
 export { useHighestRateFromChartData } from './stake/useHighestRateFromChartData';
+export { useBorrowCapacityData } from './stake/useBorrowCapacityData';
 export * from './stake/calldata';
 
 //Vaults
@@ -208,7 +210,7 @@ export { usePsmSwapExactOut } from './psm/usePsmSwapExactOut';
 export { useBatchPsmSwapExactIn } from './psm/useBatchPsmSwapExactIn';
 export { useBatchPsmSwapExactOut } from './psm/useBatchPsmSwapExactOut';
 export { useL2SavingsHistory } from './psm/useL2SavingsHistory';
-export { useL2TradeHistory } from './psm/useL2TradeHistory';
+export { usePsmTradeHistory } from './psm/usePsmTradeHistory';
 export { usePsmLiquidity } from './psm/usePsmLiquidity';
 export { usePreviewSwapExactIn } from './psm/usePreviewSwapExactIn';
 export { usePreviewSwapExactOut } from './psm/usePreviewSwapExactOut';
@@ -262,6 +264,7 @@ export type { RewardsChartInfoParsed } from './rewards/useRewardsChartInfo';
 export type { Vault, CollateralRiskParameters } from './vaults/vault';
 export type { SealHistoryKick } from './seal/sealModule';
 export type { DelegateInfo } from './delegates/delegate';
+export type { BorrowCapacityData, BorrowCapacityDataHook } from './stake/useBorrowCapacityData';
 
 // Generated hooks and contracts data
 export {
@@ -287,10 +290,6 @@ export {
   usdcAddress,
   usdtAddress,
   spkAddress,
-  wethSepoliaAddress,
-  usdcSepoliaAddress,
-  usdtSepoliaAddress,
-  mcdDaiSepoliaAddress,
   sealModuleAddress,
   stakeModuleAddress,
   usdcL2Address,
@@ -311,7 +310,7 @@ export {
   lsSkyUsdsRewardAddress,
   lsSkySpkRewardAddress
 } from './generated';
-export { contracts, /*tenderlyContracts,*/ sepoliaContracts, l2Contracts } from './contracts';
+export { contracts, /*tenderlyContracts,*/ l2Contracts } from './contracts';
 
 export { useTransactionFlow } from './shared/useTransactionFlow';
 export { getWriteContractCall } from './shared/getWriteContractCall';
