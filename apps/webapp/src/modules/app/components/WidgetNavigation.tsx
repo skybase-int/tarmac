@@ -58,14 +58,18 @@ export function WidgetNavigation({
 
   // Scroll active tab into view when intent changes
   useEffect(() => {
-    if (!showDrawerMenu && activeTabRef.current && tabsListRef.current) {
-      setTimeout(() => {
-        activeTabRef.current?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest'
-        });
-      }, 100);
-    }
+    if (showDrawerMenu || !activeTabRef.current || !tabsListRef.current) return;
+
+    const timeoutId = window.setTimeout(() => {
+      activeTabRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest'
+      });
+    }, 100);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
   }, [intent, showDrawerMenu]);
 
   const { setIsSwitchingNetwork } = useNetworkSwitch();
