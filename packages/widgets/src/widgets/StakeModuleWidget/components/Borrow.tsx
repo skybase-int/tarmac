@@ -518,11 +518,11 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
             onCheckedChange={checked => setWantsToDelegate(checked === true)}
             disabled={!!hasExistingDelegate}
           />
-          <label htmlFor={delegateCheckboxId} className="ml-2">
-            <Text
-              variant="medium"
-              className={cn(hasExistingDelegate ? 'text-textSecondary' : 'text-white', 'cursor-pointer')}
-            >
+          <label
+            htmlFor={delegateCheckboxId}
+            className={cn('ml-2', hasExistingDelegate ? 'cursor-not-allowed' : 'cursor-pointer')}
+          >
+            <Text variant="medium" className={cn(hasExistingDelegate ? 'text-textSecondary' : 'text-white')}>
               {hasExistingDelegate ? (
                 <Trans>You are delegating voting power for this position</Trans>
               ) : (
