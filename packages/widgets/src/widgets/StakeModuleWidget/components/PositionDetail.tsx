@@ -188,10 +188,11 @@ export function PositionDetail({
       </HStack>
       {isUsdsReward && (
         <HStack gap={2} className="items-center">
-          <YellowWarning boxSize={16} viewBox="0 0 16 16" className="flex-shrink-0" />
+          <YellowWarning boxSize={16} viewBox="0 0 16 16" className="mt-1 flex-shrink-0 self-start" />
           <Text className="text-textSecondary text-sm">
-            <span className="font-bold text-white">Upgrade your reward selection.</span> USDS rewards are no
-            longer available in favor of new SKY rewards.
+            Please <span className="font-bold text-white">choose another reward.</span> The USDS rewards are
+            disabled as a Staking Reward option, and the USDS rate set to zero. The pool of USDS will remain
+            forever so that you can claim your rewards anytime.
           </Text>
         </HStack>
       )}
