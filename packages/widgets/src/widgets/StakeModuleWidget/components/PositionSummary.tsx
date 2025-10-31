@@ -56,6 +56,13 @@ const getBorrowLabel = (prev: bigint | undefined, next: bigint | undefined) => {
   return next > prev ? t`Borrowing` : next < prev ? t`Repaying` : t`Borrowed`;
 };
 
+const normalizeDelegate = (delegate: string | undefined): string => {
+  if (!delegate || delegate === ZERO_ADDRESS) {
+    return ZERO_ADDRESS;
+  }
+  return delegate.toLowerCase();
+};
+
 const LineItem = ({
   label,
   value,
@@ -263,7 +270,8 @@ export const PositionSummary = ({
               ? `${formatBigInt(existingVault?.debtValue || 0n, { compact: true })} ${usds.symbol}`
               : `${formatBigInt(updatedVault?.debtValue || 0n, { compact: true })} ${usds.symbol}`,
         icon: <TokenIcon token={usds} className="h-5 w-5" />,
-        hideIfNoDebt: true
+        hideIfNoDebt: true,
+        tooltipText: getTooltipById('borrow')?.tooltip || ''
       },
       {
         label: t`Collateralization ratio`,
@@ -297,11 +305,12 @@ export const PositionSummary = ({
         label: t`Borrow Rate`,
         value: collateralData?.stabilityFee ? formatPercent(collateralData?.stabilityFee) : undefined,
         hideIfNoDebt: true,
-        tooltipText: getTooltipById('borrow')?.tooltip || ''
+        tooltipText: getTooltipById('borrow-rate')?.tooltip || ''
       },
       {
-        label: t`Current SKY price`,
-        value: `$${formatBigInt(updatedVault?.delayedPrice || 0n, { unit: WAD_PRECISION })}`
+        label: t`Capped OSM SKY price`,
+        value: `$${formatBigInt(updatedVault?.delayedPrice || 0n, { unit: WAD_PRECISION })}`,
+        tooltipText: getTooltipById('capped-osm-sky-price')?.tooltip || ''
       },
       {
         label: t`Liquidation price`,
@@ -379,9 +388,11 @@ export const PositionSummary = ({
       {
         label: t`Delegate`,
         updated:
-          hasPositions && existingSelectedVoteDelegate?.toLowerCase() !== selectedDelegate?.toLowerCase(),
+          hasPositions &&
+          normalizeDelegate(existingSelectedVoteDelegate) !== normalizeDelegate(selectedDelegate),
         value:
-          hasPositions && existingSelectedVoteDelegate?.toLowerCase() !== selectedDelegate?.toLowerCase()
+          hasPositions &&
+          normalizeDelegate(existingSelectedVoteDelegate) !== normalizeDelegate(selectedDelegate)
             ? [
                 !!existingSelectedVoteDelegate &&
                 existingDelegateName &&
@@ -406,7 +417,7 @@ export const PositionSummary = ({
         icon:
           selectedDelegate &&
           hasPositions &&
-          existingSelectedVoteDelegate?.toLowerCase() !== selectedDelegate.toLowerCase() ? (
+          normalizeDelegate(existingSelectedVoteDelegate) !== normalizeDelegate(selectedDelegate) ? (
             [
               loadingExistingDelegateOwner ? (
                 <Skeleton key="loading-existing-delegate" className="w-30 h-5" />

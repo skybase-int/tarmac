@@ -78,6 +78,7 @@ const StUSDSWidgetWrapped = ({
   const initialTabIndex = validatedExternalState?.flow === StUSDSFlow.WITHDRAW ? 1 : 0;
   const [tabIndex, setTabIndex] = useState<0 | 1>(initialTabIndex);
   const [max, setMax] = useState<boolean>(false);
+  const [disclaimerChecked, setDisclaimerChecked] = useState<boolean>(false);
   const linguiCtx = useLingui();
   const usds = TOKENS.usds;
   const { data: batchSupported } = useIsBatchSupported();
@@ -176,7 +177,7 @@ const StUSDSWidgetWrapped = ({
   const withdrawDisabled =
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
     isWithdrawBalanceError ||
-    !stUsdsWithdraw.prepared ||
+    (txStatus === TxStatus.IDLE && !stUsdsWithdraw.prepared) ||
     isAmountWaitingForDebounce;
 
   const batchSupplyDisabled =
@@ -185,6 +186,8 @@ const StUSDSWidgetWrapped = ({
     !batchStUsdsDeposit.prepared ||
     batchStUsdsDeposit.isLoading ||
     isAmountWaitingForDebounce;
+
+  const hasUsdsWalletBalance = stUsdsData?.userUsdsBalance !== undefined && stUsdsData.userUsdsBalance > 0n;
 
   // Handle external state changes
   useEffect(() => {
@@ -317,12 +320,29 @@ const StUSDSWidgetWrapped = ({
 
   // Set widget button to be disabled depending on which action we're in
   useEffect(() => {
-    setIsDisabled(
-      isConnectedAndEnabled &&
-        ((widgetState.action === StUSDSAction.SUPPLY && batchSupplyDisabled) ||
-          (widgetState.action === StUSDSAction.WITHDRAW && withdrawDisabled))
-    );
-  }, [widgetState.action, withdrawDisabled, isConnectedAndEnabled, batchSupplyDisabled]);
+    const isDisabledForAction =
+      (widgetState.action === StUSDSAction.SUPPLY && batchSupplyDisabled) ||
+      (widgetState.action === StUSDSAction.WITHDRAW && withdrawDisabled);
+
+    const shouldEnforceDisclaimer =
+      widgetState.action === StUSDSAction.SUPPLY &&
+      widgetState.screen === StUSDSScreen.ACTION &&
+      (isStUsdsDataLoading || hasUsdsWalletBalance);
+
+    const isDisabledForDisclaimer = shouldEnforceDisclaimer && (isStUsdsDataLoading || !disclaimerChecked);
+
+    setIsDisabled(isConnectedAndEnabled && (isDisabledForAction || isDisabledForDisclaimer));
+  }, [
+    widgetState.action,
+    widgetState.screen,
+    withdrawDisabled,
+    isConnectedAndEnabled,
+    batchSupplyDisabled,
+    disclaimerChecked,
+    amount,
+    hasUsdsWalletBalance,
+    isStUsdsDataLoading
+  ]);
 
   // Set isLoading to be consumed by WidgetButton
   useEffect(() => {
@@ -383,15 +403,15 @@ const StUSDSWidgetWrapped = ({
               </HStack>
             </Button>
           )}
-          <div className="space-y-1">
-            <Heading variant="x-large">
-              <Trans>stUSDS Module</Trans>
-            </Heading>
-            <Text className="text-textSecondary" variant="small">
-              <Trans>Earn a variable rate on USDS by participating in SKY-backed borrowing</Trans>
-            </Text>
-          </div>
+          <Heading variant="x-large">
+            <Trans>stUSDS</Trans>
+          </Heading>
         </div>
+      }
+      subHeader={
+        <Text className="text-textSecondary" variant="small">
+          <Trans>Access a variable reward rate on USDS by participating in SKY-backed borrowing</Trans>
+        </Text>
       }
       rightHeader={rightHeaderComponent}
       footer={
@@ -432,6 +452,7 @@ const StUSDSWidgetWrapped = ({
               address={address}
               nstBalance={stUsdsData?.userUsdsBalance}
               userUsdsBalance={stUsdsData?.userSuppliedUsds}
+              userStUsdsBalance={stUsdsData?.userStUsdsBalance}
               withdrawableBalance={stUsdsData?.userMaxWithdrawBuffered}
               totalAssets={stUsdsData?.totalAssets}
               availableLiquidityBuffered={stUsdsData?.availableLiquidityBuffered}
@@ -458,6 +479,8 @@ const StUSDSWidgetWrapped = ({
               tabIndex={tabIndex}
               enabled={enabled}
               onExternalLinkClicked={onExternalLinkClicked}
+              disclaimerChecked={disclaimerChecked}
+              onDisclaimerChange={setDisclaimerChecked}
             />
           </CardAnimationWrapper>
         )}

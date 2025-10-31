@@ -2,7 +2,7 @@ import { RewardsModule, Savings, Trade, Upgrade, Seal, Expert } from '@/modules/
 import { ExpertIntent, Intent } from './enums';
 import { msg } from '@lingui/core/macro';
 import { MessageDescriptor } from '@lingui/core';
-import { base, mainnet, sepolia, arbitrum, unichain, optimism } from 'viem/chains';
+import { base, mainnet, arbitrum, unichain, optimism } from 'viem/chains';
 import { tenderly } from '@/data/wagmi/config/config.default';
 
 export enum QueryParams {
@@ -68,13 +68,13 @@ export const CHAIN_WIDGET_MAP: Record<number, Intent[]> = {
     Intent.REWARDS_INTENT,
     Intent.SAVINGS_INTENT,
     Intent.UPGRADE_INTENT,
+    Intent.TRADE_INTENT,
     Intent.SEAL_INTENT,
     Intent.STAKE_INTENT,
     Intent.EXPERT_INTENT
   ],
   [base.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
   [arbitrum.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
-  [sepolia.id]: [Intent.BALANCES_INTENT, Intent.TRADE_INTENT],
   [unichain.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
   [optimism.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT]
 };
@@ -149,7 +149,8 @@ export const ALLOWED_EXTERNAL_DOMAINS = [
   'sky.money',
   'app.sky.money',
   'docs.sky.money',
-  'upgrademkrtosky.sky.money'
+  'upgrademkrtosky.sky.money',
+  'jobs.ashbyhq.com'
 ];
 
 export const PROD_URL_SKY_SUBGRAPH_MAINNET =
@@ -177,9 +178,10 @@ export const STAGING_URL_SKY_SUBGRAPH_UNICHAIN =
 
 export const MAX_HISTORY_LENGTH = parseInt(import.meta.env.VITE_CHATBOT_MAX_HISTORY || 8) - 1;
 export const MAX_MESSAGE_LENGTH = parseInt(import.meta.env.VITE_CHATBOT_MAX_MESSAGE_LENGTH || '500');
-export const CHAT_SUGGESTIONS_ENABLED = import.meta.env.VITE_CHAT_SUGGESTIONS_ENABLED === 'true';
-export const EXPERT_CHAT_ENABLED = import.meta.env.VITE_EXPERT_CHAT_ENABLED === 'true';
+export const CHAT_SUGGESTIONS_ENABLED = import.meta.env.VITE_CHATBOT_SUGGESTIONS_ENABLED !== 'false'; // Default true
+
 export const CHATBOT_ENABLED = import.meta.env.VITE_CHATBOT_ENABLED === 'true';
+export const CHATBOT_FEEDBACK_ENABLED = import.meta.env.VITE_CHATBOT_FEEDBACK_ENABLED === 'true';
 export const CHATBOT_DOMAIN = import.meta.env.VITE_CHATBOT_DOMAIN || 'https://staging-api.sky.money';
 export const CHATBOT_USE_TESTNET_NETWORK_NAME =
   import.meta.env.VITE_CHATBOT_USE_TESTNET_NETWORK_NAME === 'true' &&
@@ -195,3 +197,5 @@ export const USER_SETTINGS_KEY = 'user-settings';
 export const BATCH_TX_NOTIFICATION_KEY = 'batch-tx-notification-shown';
 export const CHAT_NOTIFICATION_KEY = 'chat-notification-suggested';
 export const GOVERNANCE_MIGRATION_NOTIFICATION_KEY = 'governance-migration-notice-shown';
+
+export const CHAT_NOTIFICATION_TOAST_ID = 'chat-notification-toast';

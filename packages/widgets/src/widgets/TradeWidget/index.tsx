@@ -9,7 +9,9 @@ import {
   ethFlowSlippageConfig,
   ercFlowSlippageConfig,
   ETH_SLIPPAGE_STORAGE_KEY,
-  ERC_SLIPPAGE_STORAGE_KEY
+  ERC_SLIPPAGE_STORAGE_KEY,
+  l2EthFlowSlippageConfig,
+  L2_ETH_SLIPPAGE_STORAGE_KEY
 } from './lib/constants';
 import {
   useTradeApprove,
@@ -31,11 +33,12 @@ import {
 import { ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
   formatBigInt,
-  truncateStringToFourDecimals,
   getTransactionLink,
   useIsSafeWallet,
   useDebounce,
-  useIsSmartContractWallet
+  useIsSmartContractWallet,
+  getCowExplorerLink,
+  isL2ChainId
 } from '@jetstreamgg/sky-utils';
 import { useAccount, useChainId } from 'wagmi';
 import { t } from '@lingui/core/macro';
@@ -56,7 +59,6 @@ import { useAddTokenToWallet } from '@widgets/shared/hooks/useAddTokenToWallet';
 import { AnimatePresence } from 'framer-motion';
 import { CardAnimationWrapper } from '@widgets/shared/animation/Wrappers';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
-import { sepolia } from 'viem/chains';
 import { useTokenImage } from '@widgets/shared/hooks/useTokenImage';
 import { withWidgetProvider } from '@widgets/shared/hocs/withWidgetProvider';
 
@@ -112,6 +114,7 @@ function TradeWidgetWrapped({
   const [formattedExecutedBuyAmount, setFormattedExecutedBuyAmount] = useState<string | undefined>(undefined);
 
   const chainId = useChainId();
+  const isChainL2 = isL2ChainId(chainId);
   const { address, isConnecting, isConnected } = useAccount();
   const isSafeWallet = useIsSafeWallet();
   const isSmartContractWallet = useIsSmartContractWallet();
@@ -182,13 +185,18 @@ function TradeWidgetWrapped({
   const [ethFlowSlippage, setEthFlowSlippage] = useState(
     verifySlippage(window.localStorage.getItem(ETH_SLIPPAGE_STORAGE_KEY) || '', ethFlowSlippageConfig)
   );
+  const [l2EthFlowSlippage, setL2EthFlowSlippage] = useState(
+    verifySlippage(window.localStorage.getItem(L2_ETH_SLIPPAGE_STORAGE_KEY) || '', l2EthFlowSlippageConfig)
+  );
   const [ttl, setTtl] = useState('');
 
   const [slippage, setSlippage] = useMemo(() => {
     return originToken?.isNative
-      ? [ethFlowSlippage, setEthFlowSlippage]
+      ? isChainL2
+        ? [l2EthFlowSlippage, setL2EthFlowSlippage]
+        : [ethFlowSlippage, setEthFlowSlippage]
       : [ercFlowSlippage, setErcFlowSlippage];
-  }, [originToken, ethFlowSlippage, ercFlowSlippage]);
+  }, [originToken, l2EthFlowSlippage, ethFlowSlippage, ercFlowSlippage, isChainL2]);
 
   const {
     setButtonText,
@@ -440,7 +448,7 @@ function TradeWidgetWrapped({
     order: quoteData,
     onStart: (orderId: string) => {
       setOrderId(orderId as `0x${string}`);
-      setExternalLink(`https://explorer.cow.fi/${chainId === sepolia.id ? 'sepolia/' : ''}orders/${orderId}`);
+      setExternalLink(getCowExplorerLink(chainId, orderId));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash: orderId, widgetState, txStatus: TxStatus.LOADING });
       setCancelButtonText(t`Cancel order`);
@@ -500,7 +508,7 @@ function TradeWidgetWrapped({
     order: quoteData,
     onStart: (orderId: string) => {
       setOrderId(orderId as `0x${string}`);
-      setExternalLink(`https://explorer.cow.fi/${chainId === sepolia.id ? 'sepolia/' : ''}orders/${orderId}`);
+      setExternalLink(getCowExplorerLink(chainId, orderId));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash: orderId, widgetState, txStatus: TxStatus.LOADING });
       setCancelButtonText(t`Cancel order`);
@@ -591,7 +599,7 @@ function TradeWidgetWrapped({
       setEthFlowTxStatus(EthFlowTxStatus.CREATING_ORDER);
     },
     onOrderCreated: (orderId: string) => {
-      setExternalLink(`https://explorer.cow.fi/${chainId === sepolia.id ? 'sepolia/' : ''}orders/${orderId}`);
+      setExternalLink(getCowExplorerLink(chainId, orderId));
       setEthFlowTxStatus(EthFlowTxStatus.ORDER_CREATED);
       onWidgetStateChange?.({ widgetState, txStatus: TxStatus.LOADING });
     },
@@ -659,7 +667,9 @@ function TradeWidgetWrapped({
         description: t`You successfully cancelled the order`,
         status: TxStatus.SUCCESS
       });
-      setTxStatus(TxStatus.CANCELLED);
+      if (widgetState.screen === TradeScreen.TRANSACTION) {
+        setTxStatus(TxStatus.CANCELLED);
+      }
       setCancelLoading(false);
     },
     onError: (error: Error) => {
@@ -691,7 +701,9 @@ function TradeWidgetWrapped({
         description: t`You successfully cancelled the order`,
         status: TxStatus.SUCCESS
       });
-      setTxStatus(TxStatus.CANCELLED);
+      if (widgetState.screen === TradeScreen.TRANSACTION) {
+        setTxStatus(TxStatus.CANCELLED);
+      }
       setCancelLoading(false);
     },
     onError: (error: Error) => {
@@ -751,6 +763,7 @@ function TradeWidgetWrapped({
     (originToken.isNative && !ethTradePrepared) ||
     (originToken.isNative && isEthTradeLoading) ||
     allowanceLoading ||
+    needsAllowance ||
     isAmountWaitingForDebounce;
 
   useEffect(() => {
@@ -795,6 +808,26 @@ function TradeWidgetWrapped({
         ? quoteData?.quote?.buyAmountAfterFee
         : quoteData?.quote?.sellAmountBeforeFee;
     setFn(newAmount || 0n);
+
+    // When target input is updated (lastUpdated === OUT), notify URL params of origin amount change
+    if (lastUpdated === TradeSide.OUT && originToken) {
+      if (!newAmount || newAmount === 0n) {
+        // If amount is 0 or undefined, clear the URL parameter
+        onWidgetStateChange?.({
+          originAmount: '',
+          txStatus,
+          widgetState
+        });
+      } else {
+        // Update URL with the new calculated amount
+        const formattedValue = formatUnits(newAmount, getTokenDecimals(originToken, chainId));
+        onWidgetStateChange?.({
+          originAmount: formattedValue,
+          txStatus,
+          widgetState
+        });
+      }
+    }
   }, [quoteData?.quote?.buyAmountAfterFee, quoteData?.quote?.sellAmountBeforeFee, lastUpdated]);
 
   // Update button state according to action and tx
@@ -866,7 +899,8 @@ function TradeWidgetWrapped({
       const shouldDisable =
         isConnectedAndEnabled &&
         !!(
-          (widgetState.action === TradeAction.APPROVE && approveDisabled && txStatus !== TxStatus.SUCCESS) ||
+          (widgetState.action === TradeAction.APPROVE &&
+            (txStatus === TxStatus.SUCCESS ? tradeDisabled : approveDisabled)) ||
           (widgetState.action === TradeAction.TRADE && tradeDisabled && txStatus !== TxStatus.SUCCESS)
         );
 
@@ -950,13 +984,10 @@ function TradeWidgetWrapped({
       externalWidgetState?.token?.toLowerCase() !== originToken?.symbol?.toLowerCase() ||
       externalWidgetState?.targetToken?.toLowerCase() !== targetToken?.symbol?.toLowerCase();
 
+    // Compare bigint values directly to avoid precision loss
     const amountHasChanged =
       externalWidgetState?.amount !== undefined &&
-      externalWidgetState?.amount !==
-        formatBigInt(originAmount, {
-          locale,
-          unit: getTokenDecimals(originToken, chainId)
-        });
+      parseUnits(externalWidgetState.amount, getTokenDecimals(originToken, chainId)) !== originAmount;
 
     if ((tokensHasChanged || amountHasChanged) && txStatus === TxStatus.IDLE) {
       // Handle "Trade to X" case
@@ -1329,7 +1360,7 @@ function TradeWidgetWrapped({
               setBatchEnabled={setBatchEnabled}
             />
           </CardAnimationWrapper>
-        ) : txStatus !== TxStatus.IDLE ? (
+        ) : txStatus !== TxStatus.IDLE && widgetState.screen === TradeScreen.TRANSACTION ? (
           <CardAnimationWrapper key="widget-transaction-status">
             <TradeTransactionStatus
               originToken={originToken as any} // TODO fix this type
@@ -1391,10 +1422,11 @@ function TradeWidgetWrapped({
               }}
               onOriginInputChange={(newValue: bigint, userTriggered?: boolean) => {
                 if (originToken && userTriggered) {
-                  const formattedValue = formatUnits(newValue, getTokenDecimals(originToken, chainId));
-                  const truncatedValue = truncateStringToFourDecimals(formattedValue);
+                  // Convert 0n to empty string to properly clear URL params
+                  const formattedValue =
+                    newValue === 0n ? '' : formatUnits(newValue, getTokenDecimals(originToken, chainId));
                   onWidgetStateChange?.({
-                    originAmount: truncatedValue,
+                    originAmount: formattedValue,
                     txStatus,
                     widgetState
                   });

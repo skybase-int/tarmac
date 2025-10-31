@@ -14,7 +14,7 @@ const setTestBalance = async (tokenAddress: string, amount: string, decimals = 1
   await setErc20Balance(tokenAddress, amount, decimals, NetworkName.mainnet, address);
 };
 
-test.describe.skip('Expert Module - stUSDS', () => {
+test.describe('Expert Module - stUSDS', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
     await connectMockWalletAndAcceptTerms(page);
@@ -25,10 +25,17 @@ test.describe.skip('Expert Module - stUSDS', () => {
   });
 
   test('Navigate back to Expert menu', async ({ page }) => {
+    // Click back button
+    await page.getByRole('button', { name: 'Back to Expert' }).click();
+
+    // Should be back at Expert menu
+    await expect(page.getByRole('heading', { name: 'Expert', exact: true })).toBeVisible();
+    await expect(page.getByTestId('stusds-stats-card')).toBeVisible();
+
     // Should display Message
     await expect(page.getByTestId('expert-risk-disclaimer')).toBeVisible();
     await expect(page.getByTestId('expert-risk-disclaimer')).toContainText(
-      'Expert Modules are intended for experienced users and may function differently than modules to which ordinary users are accustomed. Please be sure you understand the unique features and the associated risks of any Expert Module before proceeding. Be sure to review the FAQs and'
+      'Expert modules are intended for experienced users and may function differently than modules to which ordinary users are accustomed. Please be sure you understand the unique features and the associated risks of any Expert Module before proceeding. Be sure to review the FAQs and'
     );
 
     // Verify User Risks hyperlink is present
@@ -38,13 +45,6 @@ test.describe.skip('Expert Module - stUSDS', () => {
     await expect(userRisksLink).toBeVisible();
     await expect(userRisksLink).toHaveAttribute('href', 'https://docs.sky.money/user-risks');
     await expect(userRisksLink).toHaveAttribute('target', '_blank');
-
-    // Click back button
-    await page.getByRole('button', { name: 'Back to Expert' }).click();
-
-    // Should be back at Expert menu
-    await expect(page.getByRole('heading', { name: 'Expert Modules', exact: true })).toBeVisible();
-    await expect(page.getByTestId('stusds-stats-card')).toBeVisible();
   });
 
   test('Supply USDS', async ({ page }) => {
@@ -63,6 +63,9 @@ test.describe.skip('Expert Module - stUSDS', () => {
     await expect(page.getByText('You will supply')).toBeVisible();
     await expect(page.getByText('10 USDS')).toBeVisible();
 
+    // Check the disclaimer checkbox
+    await page.getByRole('checkbox').click();
+
     // Perform the supply action (handles approval if needed)
     await approveOrPerformAction(page, 'Supply');
 
@@ -74,7 +77,7 @@ test.describe.skip('Expert Module - stUSDS', () => {
 
     // Should still be in stUSDS module
     await expect(
-      page.getByTestId('widget-container').getByRole('heading', { name: 'stUSDS Module' })
+      page.getByTestId('widget-container').getByRole('heading', { name: 'stUSDS', exact: true })
     ).toBeVisible();
 
     // go to balance page
@@ -85,13 +88,14 @@ test.describe.skip('Expert Module - stUSDS', () => {
     await page.locator('a[href*="expert_module=stusds"]').first().click();
 
     // should land on the stusds balance page
-    expect(page.getByText('stUSDS Module')).toBeTruthy();
+    expect(page.getByText('stUSDS')).toBeTruthy();
   });
 
   test('Withdraw USDS from stUSDS module', async ({ page }) => {
     // Supply first
     await page.getByTestId('supply-input-stusds').click();
     await page.getByTestId('supply-input-stusds').fill('20');
+    await page.getByRole('checkbox').click();
     await approveOrPerformAction(page, 'Supply');
     await page.getByRole('button', { name: 'Back to stUSDS' }).click();
 
@@ -130,11 +134,15 @@ test.describe.skip('Expert Module - stUSDS', () => {
 
     // Transaction overview should be visible
     await expect(page.getByRole('button', { name: 'Transaction overview' })).toBeVisible();
+
+    // Disclaimer checkbox should be visible
+    await expect(page.getByRole('checkbox')).toBeVisible();
   });
 
   test('Use max button for withdrawal', async ({ page }) => {
     await page.getByTestId('supply-input-stusds').click();
     await page.getByTestId('supply-input-stusds').fill('30');
+    await page.getByRole('checkbox').click();
     await approveOrPerformAction(page, 'Supply');
     await page.getByRole('button', { name: 'Back to stUSDS' }).click();
 
@@ -198,13 +206,13 @@ test.describe.skip('Expert Module - stUSDS', () => {
     await expect(page.getByRole('button', { name: 'Transaction overview' })).not.toBeVisible();
   });
 
-  test('Upgrade and access rewards', async ({ page }) => {
+  test('Upgrade and access Expert rewards', async ({ page }) => {
     await setTestBalance(mcdDaiAddress[TENDERLY_CHAIN_ID], '10');
     // Navigate to Expert menu
     await page.getByRole('tab', { name: 'Expert' }).click();
 
     // Click on Upgrade button
-    await page.getByText('Upgrade and access rewards').first().click();
+    await page.getByText('Upgrade and access Expert rewards').first().click();
 
     await page.getByTestId('upgrade-input-origin').click();
     await page.getByTestId('upgrade-input-origin').fill('1');
@@ -220,6 +228,9 @@ test.describe.skip('Expert Module - stUSDS', () => {
     await expect(page.getByRole('button', { name: 'Transaction overview' })).toBeVisible();
     await expect(page.getByText('You will supply')).toBeVisible();
 
+    // Check the disclaimer checkbox
+    await page.getByRole('checkbox').click();
+
     // Perform the supply action (handles approval if needed)
     await approveOrPerformAction(page, 'Supply');
 
@@ -227,7 +238,37 @@ test.describe.skip('Expert Module - stUSDS', () => {
     await expect(page.getByText("You've supplied 1 USDS to the stUSDS module")).toBeVisible();
   });
 
+  test('Review button disabled when disclaimer not checked', async ({ page }) => {
+    // Enter amount to supply
+    await page.getByTestId('supply-input-stusds').click();
+    await page.getByTestId('supply-input-stusds').fill('10');
+
+    // Transaction overview should be visible
+    await expect(page.getByRole('button', { name: 'Transaction overview' })).toBeVisible();
+
+    // Disclaimer checkbox should be visible and unchecked
+    const checkbox = page.getByRole('checkbox');
+    await expect(checkbox).toBeVisible();
+    await expect(checkbox).not.toBeChecked();
+
+    // Review button should be disabled
+    const reviewButton = page.getByTestId('widget-button');
+    await expect(reviewButton).toHaveText('Review');
+    await expect(reviewButton).toBeDisabled();
+
+    // Check the disclaimer checkbox
+    await checkbox.click();
+    await expect(checkbox).toBeChecked();
+
+    // Review button should now be enabled
+    await expect(reviewButton).toBeEnabled();
+  });
+
   test('Expert risk modal dismissal persists after reload and navigation', async ({ page }) => {
+    // Navigate away from the module
+    await page.getByRole('button', { name: 'Back to Expert' }).click();
+    await expect(page.getByRole('heading', { name: 'Expert', exact: true })).toBeVisible();
+
     // Verify expert risk modal is initially visible
     await expect(page.getByTestId('expert-risk-disclaimer')).toBeVisible();
 
@@ -238,10 +279,6 @@ test.describe.skip('Expert Module - stUSDS', () => {
 
     // Verify modal is dismissed
     await expect(page.getByTestId('expert-risk-disclaimer')).not.toBeVisible();
-
-    // Navigate away from the module
-    await page.getByRole('button', { name: 'Back to Expert' }).click();
-    await expect(page.getByRole('heading', { name: 'Expert Modules', exact: true })).toBeVisible();
 
     // Reload the browser
     await page.reload();
