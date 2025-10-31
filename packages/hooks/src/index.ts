@@ -310,6 +310,7 @@ export {
   lsMkrUsdsRewardAddress,
   lsSkyUsdsRewardAddress,
   lsSkySpkRewardAddress,
+  lsSkySkyRewardAddress,
   useReadClipperDue
 } from './generated';
 export { contracts, /*tenderlyContracts,*/ l2Contracts } from './contracts';
