@@ -28,9 +28,6 @@ export function useScrollHint(
 
     const element = scrollableRef.current;
 
-    // Check if hint has been seen in this session
-    // if (hasSeenHint) return;
-
     // Check if content overflows
     const checkOverflow = () => {
       const hasSeenHint = sessionStorage.getItem(SCROLL_HINT_STORAGE_KEY) === 'true';
