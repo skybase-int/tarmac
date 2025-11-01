@@ -116,7 +116,11 @@ export function useStakeRewardContracts({
   });
 
   // Fallback query: On-chain validation (only runs when GraphQL fails)
-  const { data: validatedData, isLoading: isValidationLoading } = useQuery({
+  const {
+    data: validatedData,
+    isLoading: isValidationLoading,
+    error: validatedDataError
+  } = useQuery({
     queryKey: ['stakeRewardContracts', 'validated', chainId],
     queryFn: () => validateHardcodedContracts(config, chainId),
     enabled: !!graphqlError,
@@ -151,7 +155,7 @@ export function useStakeRewardContracts({
   return {
     isLoading,
     data,
-    error: graphqlError,
+    error: graphqlError ? validatedDataError : graphqlError,
     mutate,
     dataSources
   };
