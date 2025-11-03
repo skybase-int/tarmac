@@ -7,7 +7,7 @@ packages:
 catalog:
   '@changesets/cli': ^2.29.7
   '@eslint/eslintrc': ^3.3.1
-  '@eslint/js': ^9.36.0
+  '@eslint/js': ^9.39.0
   '@lingui/cli': ^5.5.2
   '@lingui/conf': ^5.5.2
   '@lingui/core': ^5.5.2
@@ -54,7 +54,7 @@ catalog:
   embla-carousel-autoplay: ^8.6.0
   embla-carousel-fade: ^8.6.0
   embla-carousel-react: ^8.6.0
-  eslint: ^9.36.0
+  eslint: ^9.39.0
   eslint-plugin-react: ^7.37.5
   eslint-plugin-testing-library: ^7.13.3
   ethers: ^6.15.0
