@@ -57,6 +57,7 @@ type StakeModuleWidgetProps = WidgetProps & {
   addRecentTransaction: any;
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
+  disclaimer?: React.ReactNode;
 };
 
 function StakeModuleWidgetWrapped({
@@ -73,7 +74,8 @@ function StakeModuleWidgetWrapped({
   legalBatchTxUrl,
   referralCode,
   batchEnabled,
-  setBatchEnabled
+  setBatchEnabled,
+  disclaimer
 }: StakeModuleWidgetProps) {
   const validatedExternalState = getValidatedState(externalWidgetState);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -777,6 +779,7 @@ function StakeModuleWidgetWrapped({
                       setBatchEnabled={setBatchEnabled}
                       isBatchTransaction={shouldUseBatch}
                       legalBatchTxUrl={legalBatchTxUrl}
+                      disclaimer={disclaimer}
                     />
                   )}
                   {widgetState.flow === StakeFlow.OPEN && (
