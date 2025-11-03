@@ -98,13 +98,17 @@ export const UpdateDelegateSelection = ({
     [urnAddress, index, selectedRewardContract]
   );
 
+  const hasDelegateSelected = selectedVoteDelegate && selectedVoteDelegate !== ZERO_ADDRESS;
+
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <Button variant="ghost" className="h-6 w-6 p-0">
+        <Button variant="ghost" className="h-6 w-auto p-0">
           <div className="flex items-start">
-            <JazziconComponent address={selectedDelegateOwner} />
-            <Text className="ml-2">{selectedDelegateName}</Text>
+            <div className="flex gap-2">
+              <JazziconComponent address={selectedDelegateOwner} />
+              <Text>{hasDelegateSelected ? selectedDelegateName : 'No delegate'}</Text>
+            </div>
             <ChevronDown className={cn('transition-transform', isOpen && 'rotate-180')} />
           </div>
         </Button>

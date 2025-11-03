@@ -6,10 +6,8 @@ import {
   RiskLevel,
   TOKENS,
   useRewardContractTokens,
-  useDelegateName,
   useStakeRewardContracts,
-  lsSkyUsdsRewardAddress,
-  useDelegateOwner
+  lsSkyUsdsRewardAddress
 } from '@jetstreamgg/sky-hooks';
 import { capitalizeFirstLetter, formatBigInt, formatPercent } from '@jetstreamgg/sky-utils';
 import { positionAnimations } from '@widgets/shared/animation/presets';
@@ -74,8 +72,6 @@ export function PositionDetail({
   onStakeUrnChange
 }: Props) {
   const { data: rewardContractTokens } = useRewardContractTokens(selectedRewardContract);
-  const { data: selectedDelegateName } = useDelegateName(selectedVoteDelegate);
-  const { data: selectedDelegateOwner } = useDelegateOwner(selectedVoteDelegate);
   const { data: stakeRewardContracts } = useStakeRewardContracts();
 
   const riskTextColor = getRiskTextColor(riskLevel as RiskLevel);
@@ -172,28 +168,25 @@ export function PositionDetail({
               <TokenIconWithBalance token={TOKENS.usds} balance={formatBigInt(borrowedAmount)} />
             </VStack>
           )}
-
-          {selectedDelegateOwner && selectedDelegateName && (
-            <VStack gap={3}>
-              <Text variant="medium" className="text-textSecondary leading-4">
-                Delegate
-              </Text>
-              <div className="ml-8 flex items-center justify-start gap-1">
-                <UpdateDelegateSelection
-                  urnAddress={urnAddress}
-                  index={index}
-                  selectedRewardContract={selectedRewardContract}
-                  selectedVoteDelegate={selectedVoteDelegate}
-                  onStakeUrnChange={onStakeUrnChange}
-                />
-              </div>
-            </VStack>
-          )}
+          <VStack gap={3}>
+            <Text variant="medium" className="text-textSecondary leading-4">
+              Delegate
+            </Text>
+            <div className="flex items-center justify-start gap-1">
+              <UpdateDelegateSelection
+                urnAddress={urnAddress}
+                index={index}
+                selectedRewardContract={selectedRewardContract}
+                selectedVoteDelegate={selectedVoteDelegate}
+                onStakeUrnChange={onStakeUrnChange}
+              />
+            </div>
+          </VStack>
         </VStack>
       </HStack>
       {isUsdsReward && (
         <HStack gap={2} className="items-center">
-          <YellowWarning boxSize={16} viewBox="0 0 16 16" className="mt-1 flex-shrink-0 self-start" />
+          <YellowWarning boxSize={16} viewBox="0 0 16 16" className="mt-1 shrink-0 self-start" />
           <Text className="text-textSecondary text-sm">
             Please <span className="font-bold text-white">choose another reward.</span> The USDS rewards are
             disabled as a Staking Reward option, and the USDS rate set to zero. The pool of USDS will remain
