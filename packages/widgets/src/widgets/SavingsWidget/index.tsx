@@ -141,8 +141,12 @@ const SavingsWidgetWrapped = ({
   }, [tabIndex, isConnectedAndEnabled]);
 
   useEffect(() => {
-    setShowStepIndicator(widgetState.flow === SavingsFlow.SUPPLY);
-  }, [widgetState.flow]);
+    if (widgetState.flow === SavingsFlow.SUPPLY && needsAllowance) {
+      setShowStepIndicator(true);
+    } else if (widgetState.flow === SavingsFlow.WITHDRAW) {
+      setShowStepIndicator(false);
+    }
+  }, [widgetState.flow, needsAllowance, setShowStepIndicator]);
 
   const isSupplyBalanceError =
     txStatus === TxStatus.IDLE &&
@@ -202,6 +206,8 @@ const SavingsWidgetWrapped = ({
     setTxStatus(TxStatus.IDLE);
     setAmount(0n);
 
+    setShowStepIndicator(false);
+
     setWidgetState((prev: WidgetState) => ({
       ...prev,
       action: prev.flow === SavingsFlow.WITHDRAW ? SavingsAction.WITHDRAW : SavingsAction.SUPPLY,
@@ -225,6 +231,9 @@ const SavingsWidgetWrapped = ({
 
   const onClickBack = () => {
     setTxStatus(TxStatus.IDLE);
+
+    setShowStepIndicator(false);
+
     setWidgetState((prev: WidgetState) => ({
       ...prev,
       screen: SavingsScreen.ACTION

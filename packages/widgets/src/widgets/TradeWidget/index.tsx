@@ -1084,8 +1084,10 @@ function TradeWidgetWrapped({
   }, [externalWidgetState, txStatus]);
 
   useEffect(() => {
-    setShowStepIndicator(!originToken?.isNative);
-  }, [originToken?.isNative]);
+    if (!originToken?.isNative && needsAllowance) {
+      setShowStepIndicator(true);
+    }
+  }, [originToken?.isNative, needsAllowance, setShowStepIndicator]);
 
   useEffect(() => {
     if (targetToken === undefined) {
@@ -1134,6 +1136,8 @@ function TradeWidgetWrapped({
   const nextOnClick = () => {
     setEthFlowTxStatus(EthFlowTxStatus.IDLE);
     setTxStatus(TxStatus.IDLE);
+
+    setShowStepIndicator(false);
 
     // After a successful trade, reset everything to initial state
     if (widgetState.action !== TradeAction.APPROVE) {
@@ -1188,6 +1192,9 @@ function TradeWidgetWrapped({
     } else {
       setTxStatus(TxStatus.IDLE);
       setEthFlowTxStatus(EthFlowTxStatus.IDLE);
+
+      setShowStepIndicator(false);
+
       setWidgetState((prev: WidgetState) => ({
         ...prev,
         screen: TradeScreen.ACTION

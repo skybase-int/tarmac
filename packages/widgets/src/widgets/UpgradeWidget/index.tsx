@@ -153,7 +153,8 @@ export function UpgradeWidgetWrapped({
     setTxStatus,
     setExternalLink,
     widgetState,
-    setWidgetState
+    setWidgetState,
+    setShowStepIndicator
   } = useContext(WidgetContext);
 
   useNotifyWidgetState({
@@ -224,6 +225,12 @@ export function UpgradeWidgetWrapped({
   });
 
   useEffect(() => {
+    if (!hasAllowance) {
+      setShowStepIndicator(true);
+    }
+  }, [hasAllowance, setShowStepIndicator]);
+
+  useEffect(() => {
     if (widgetState.screen === UpgradeScreen.TRANSACTION || widgetState.screen === UpgradeScreen.REVIEW)
       return;
     const flow = validatedExternalState?.flow || (tabIndex === 0 ? UpgradeFlow.UPGRADE : UpgradeFlow.REVERT);
@@ -276,6 +283,8 @@ export function UpgradeWidgetWrapped({
     setTxStatus(TxStatus.IDLE);
     setOriginAmount(0n);
 
+    setShowStepIndicator(false);
+
     setWidgetState((prev: WidgetState) => ({
       ...prev,
       action: UpgradeAction.UPGRADE,
@@ -323,6 +332,9 @@ export function UpgradeWidgetWrapped({
   const onClickBack = () => {
     shouldAllowExternalUpdate.current = true;
     setTxStatus(TxStatus.IDLE);
+
+    setShowStepIndicator(false);
+
     setWidgetState((prev: WidgetState) => ({ ...prev, screen: UpgradeScreen.ACTION }));
   };
 
