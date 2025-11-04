@@ -145,8 +145,12 @@ const RewardsWidgetWrapped = ({
 
   const needsAllowance = !!(!allowance || allowance < amount);
   useEffect(() => {
-    if (txStatus === TxStatus.IDLE) {
-      setShowStepIndicator(widgetState.action === RewardsAction.SUPPLY && needsAllowance);
+    // Check claim actions first - txStatus won't be idle when claim is triggered
+    if (widgetState.action === RewardsAction.CLAIM || widgetState.action === RewardsAction.CLAIM_ALL) {
+      setShowStepIndicator(false);
+    } else if (txStatus === TxStatus.IDLE) {
+      const shouldShow = widgetState.action === RewardsAction.SUPPLY && needsAllowance;
+      setShowStepIndicator(shouldShow);
     }
   }, [txStatus, widgetState.action, needsAllowance, setShowStepIndicator]);
   const shouldUseBatch =
