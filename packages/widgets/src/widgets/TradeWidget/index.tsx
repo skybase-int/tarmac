@@ -161,8 +161,13 @@ function TradeWidgetWrapped({
     if (tokenBalances && pricesData) {
       tokenBalances.forEach(balance => {
         const price = pricesData[balance.symbol]?.price || '0';
-        const usdValue = parseFloat(balance.formatted) * parseFloat(price);
-        values.set(balance.symbol, usdValue);
+        const balanceNum = parseFloat(balance.formatted);
+        const priceNum = parseFloat(price);
+
+        if (!isNaN(balanceNum) && !isNaN(priceNum)) {
+          const usdValue = balanceNum * priceNum;
+          values.set(balance.symbol, usdValue);
+        }
       });
     }
 
