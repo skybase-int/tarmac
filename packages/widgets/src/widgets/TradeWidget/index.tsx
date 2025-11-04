@@ -1190,7 +1190,6 @@ function TradeWidgetWrapped({
     } else {
       setTxStatus(TxStatus.IDLE);
       setEthFlowTxStatus(EthFlowTxStatus.IDLE);
-
       setWidgetState((prev: WidgetState) => ({
         ...prev,
         screen: TradeScreen.ACTION

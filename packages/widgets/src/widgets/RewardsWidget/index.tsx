@@ -144,7 +144,6 @@ const RewardsWidgetWrapped = ({
   useNotifyWidgetState({ widgetState, txStatus, onWidgetStateChange });
 
   const needsAllowance = !!(!allowance || allowance < amount);
-
   useEffect(() => {
     if (txStatus === TxStatus.IDLE) {
       setShowStepIndicator(widgetState.action === RewardsAction.SUPPLY && needsAllowance);
@@ -282,7 +281,6 @@ const RewardsWidgetWrapped = ({
 
   const onClickBack = () => {
     setTxStatus(TxStatus.IDLE);
-
     setWidgetState((prev: WidgetState) => ({
       ...prev,
       action:

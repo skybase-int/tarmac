@@ -312,7 +312,6 @@ const SavingsWidgetWrapped = ({
 
   const onClickBack = () => {
     setTxStatus(TxStatus.IDLE);
-
     setWidgetState((prev: WidgetState) => ({
       ...prev,
       screen: SavingsScreen.ACTION

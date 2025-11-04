@@ -239,7 +239,6 @@ const StUSDSWidgetWrapped = ({
 
   const onClickBack = () => {
     setTxStatus(TxStatus.IDLE);
-
     setWidgetState((prev: WidgetState) => ({
       ...prev,
       screen: StUSDSScreen.ACTION

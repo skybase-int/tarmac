@@ -707,7 +707,6 @@ function TradeWidgetWrapped({
       nextOnClick();
     } else {
       setTxStatus(TxStatus.IDLE);
-
       setWidgetState((prev: WidgetState) => ({
         ...prev,
         screen: TradeScreen.ACTION

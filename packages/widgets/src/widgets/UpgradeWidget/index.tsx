@@ -330,7 +330,6 @@ export function UpgradeWidgetWrapped({
   const onClickBack = () => {
     shouldAllowExternalUpdate.current = true;
     setTxStatus(TxStatus.IDLE);
-
     setWidgetState((prev: WidgetState) => ({ ...prev, screen: UpgradeScreen.ACTION }));
   };
 
