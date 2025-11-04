@@ -552,8 +552,9 @@ export default async function globalSetup() {
     // If snapshots exist, revert to them instead of funding
     if (existingSnapshots) {
       console.log('\n5. Reverting VNets to snapshots (restoring funded state)...');
+      const snapshots = existingSnapshots; // Store in const for TypeScript
       const revertPromises = networks.map(network => {
-        const snapshotId = existingSnapshots[network];
+        const snapshotId = snapshots[network];
         if (snapshotId) {
           return revertToSnapshot(network, snapshotId);
         }
