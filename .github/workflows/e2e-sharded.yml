@@ -125,6 +125,13 @@ jobs:
         if: steps.check-files.outputs.have_vnet_json != 'true' || steps.validate-vnets.outcome == 'failure'
         run: |
           echo "🔧 CREATING/RECREATING VNETS"
+
+          # Remove old snapshot file if it exists (stale snapshot IDs won't work with new VNets)
+          if [ -f "apps/webapp/src/test/e2e/persistent-vnet-snapshots.json" ]; then
+            echo "🗑️  Removing old snapshot file (will be recreated after funding)"
+            rm apps/webapp/src/test/e2e/persistent-vnet-snapshots.json
+          fi
+
           pnpm run vnet:fork:ci
           echo "created=true" >> $GITHUB_OUTPUT
           echo "✅ VNet creation complete"
