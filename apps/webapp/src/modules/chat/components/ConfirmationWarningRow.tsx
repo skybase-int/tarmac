@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { ChatIntent } from '../types/Chat';
-import { Heading, Text } from '@/modules/layout/components/Typography';
+import { Text } from '@/modules/layout/components/Typography';
 import { useChatContext } from '../context/ChatContext';
 import { useNavigate } from 'react-router-dom';
 import { useRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
@@ -10,7 +10,7 @@ import { useCallback } from 'react';
 import { Warning } from '@/modules/icons/Warning';
 import { getConfirmationWarningMetadata } from '../lib/confirmationWarningMetadata';
 import { ChatMarkdownRenderer } from '@/modules/ui/components/markdown/ChatMarkdownRenderer';
-import { Trans } from '@lingui/react/macro';
+import { useChatbotPrefillNotification } from '@/modules/app/hooks/useChatbotPrefillNotification';
 
 export const ConfirmationWarningRow = () => {
   const {
@@ -24,6 +24,7 @@ export const ConfirmationWarningRow = () => {
   } = useChatContext();
 
   const navigate = useNavigate();
+  const { showPrefillNotification } = useChatbotPrefillNotification();
 
   const onIntentSelected = useCallback(
     (intent: ChatIntent) => setChatHistory(prev => [...prev, intentSelectedMessage(intent)]),
@@ -40,8 +41,7 @@ export const ConfirmationWarningRow = () => {
 
   const selectedIntentUrl = useRetainedQueryParams(selectedIntent?.url || '', [
     QueryParams.Locale,
-    QueryParams.Details,
-    QueryParams.Chat
+    QueryParams.Details
   ]);
 
   const handleConfirm = useCallback(() => {
@@ -49,7 +49,11 @@ export const ConfirmationWarningRow = () => {
     if (selectedIntent && !hasShownIntent(selectedIntent)) {
       setWarningShown([...warningShown, selectedIntent]);
     }
-    if (selectedIntentUrl) navigate(selectedIntentUrl);
+    if (selectedIntentUrl) {
+      navigate(selectedIntentUrl);
+      // Show notification that inputs have been prefilled
+      showPrefillNotification();
+    }
     if (selectedIntent) onIntentSelected(selectedIntent);
   }, [
     selectedIntentUrl,
@@ -58,32 +62,29 @@ export const ConfirmationWarningRow = () => {
     selectedIntent,
     onIntentSelected,
     warningShown,
-    hasShownIntent
+    hasShownIntent,
+    showPrefillNotification
   ]);
 
   const disclaimerMetadata = getConfirmationWarningMetadata(selectedIntent);
 
   return (
-    <div className="text-text mt-5 rounded-xl bg-[#0b0b0c]/60 p-5">
-      <div className="bg-white/6 @sm/chat:flex-row flex flex-col items-center gap-2 rounded-lg p-4">
-        <Warning boxSize={20} viewBox="0 0 16 16" fill="#fdc134" className="flex-shrink-0" />
-        <Text variant="medium" className="@sm/chat:text-left text-center">
+    <div className="text-text mt-5 rounded-xl bg-[#0b0b0c]/60 p-5 @max-sm/chat:mt-3 @max-sm/chat:p-3">
+      <div className="flex flex-col items-center gap-2 rounded-lg bg-white/6 p-4 @max-sm/chat:gap-1.5 @max-sm/chat:p-3 @sm/chat:flex-row">
+        <Warning
+          boxSize={20}
+          viewBox="0 0 16 16"
+          fill="#fdc134"
+          className="flex-shrink-0 @max-sm/chat:h-4 @max-sm/chat:w-4"
+        />
+        <Text variant="medium" className="text-center @max-sm/chat:text-sm @sm/chat:text-left">
           {disclaimerMetadata?.description}
         </Text>
       </div>
-      <Heading variant="medium" tag="h4" className="mt-4">
-        <Trans>How it works:</Trans>
-      </Heading>
-      <div className="ml-4 mt-4 text-[13px]">
+      <div className="mt-4 ml-4 text-[13px] @max-sm/chat:mt-2 @max-sm/chat:ml-3">
         <ChatMarkdownRenderer markdown={disclaimerMetadata?.disclaimer} />
       </div>
-      <Heading variant="medium" tag="h4" className="mt-4">
-        <Trans>Associated risks:</Trans>
-      </Heading>
-      <div className="ml-4 mt-4 text-[13px]">
-        <ChatMarkdownRenderer markdown={disclaimerMetadata?.associatedRisks?.join('\n') ?? ''} />
-      </div>
-      <div className="mt-3 flex gap-5">
+      <div className="mt-3 flex gap-5 @max-sm/chat:mt-2 @max-sm/chat:gap-3">
         <Button
           variant="pill"
           size="xs"
