@@ -5,9 +5,9 @@ permissions:
 
 on:
   pull_request:
-  push:
-    branches:
-      - chore/shard  # Only on this branch for testing
+  # push:
+  #   branches:
+  #     - chore/shard  # Only on this branch for testing
   workflow_dispatch:
     inputs:
       shards:
