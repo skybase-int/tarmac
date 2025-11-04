@@ -225,10 +225,10 @@ export function UpgradeWidgetWrapped({
   });
 
   useEffect(() => {
-    if (!hasAllowance) {
-      setShowStepIndicator(true);
+    if (txStatus === TxStatus.IDLE) {
+      setShowStepIndicator(!hasAllowance);
     }
-  }, [hasAllowance, setShowStepIndicator]);
+  }, [txStatus, hasAllowance, setShowStepIndicator]);
 
   useEffect(() => {
     if (widgetState.screen === UpgradeScreen.TRANSACTION || widgetState.screen === UpgradeScreen.REVIEW)
@@ -283,8 +283,6 @@ export function UpgradeWidgetWrapped({
     setTxStatus(TxStatus.IDLE);
     setOriginAmount(0n);
 
-    setShowStepIndicator(false);
-
     setWidgetState((prev: WidgetState) => ({
       ...prev,
       action: UpgradeAction.UPGRADE,
@@ -332,8 +330,6 @@ export function UpgradeWidgetWrapped({
   const onClickBack = () => {
     shouldAllowExternalUpdate.current = true;
     setTxStatus(TxStatus.IDLE);
-
-    setShowStepIndicator(false);
 
     setWidgetState((prev: WidgetState) => ({ ...prev, screen: UpgradeScreen.ACTION }));
   };

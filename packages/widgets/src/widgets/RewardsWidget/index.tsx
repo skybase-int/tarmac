@@ -146,16 +146,10 @@ const RewardsWidgetWrapped = ({
   const needsAllowance = !!(!allowance || allowance < amount);
 
   useEffect(() => {
-    if (widgetState.action === RewardsAction.SUPPLY && needsAllowance) {
-      setShowStepIndicator(true);
-    } else if (
-      widgetState.action === RewardsAction.WITHDRAW ||
-      widgetState.action === RewardsAction.CLAIM ||
-      widgetState.action === RewardsAction.CLAIM_ALL
-    ) {
-      setShowStepIndicator(false);
+    if (txStatus === TxStatus.IDLE) {
+      setShowStepIndicator(widgetState.action === RewardsAction.SUPPLY && needsAllowance);
     }
-  }, [widgetState.action, needsAllowance, setShowStepIndicator]);
+  }, [txStatus, widgetState.action, needsAllowance, setShowStepIndicator]);
   const shouldUseBatch =
     !!batchEnabled && !!batchSupported && needsAllowance && widgetState.flow === RewardsFlow.SUPPLY;
 
@@ -267,8 +261,6 @@ const RewardsWidgetWrapped = ({
     setTxStatus(TxStatus.IDLE);
     setAmount(0n);
 
-    setShowStepIndicator(false);
-
     setWidgetState((prev: WidgetState) => ({
       ...prev,
       action:
@@ -290,8 +282,6 @@ const RewardsWidgetWrapped = ({
 
   const onClickBack = () => {
     setTxStatus(TxStatus.IDLE);
-
-    setShowStepIndicator(false);
 
     setWidgetState((prev: WidgetState) => ({
       ...prev,

@@ -149,12 +149,10 @@ const StUSDSWidgetWrapped = ({
   }, [tabIndex, isConnectedAndEnabled]);
 
   useEffect(() => {
-    if (widgetState.flow === StUSDSFlow.SUPPLY && needsAllowance) {
-      setShowStepIndicator(true);
-    } else if (widgetState.flow === StUSDSFlow.WITHDRAW) {
-      setShowStepIndicator(false);
+    if (txStatus === TxStatus.IDLE) {
+      setShowStepIndicator(widgetState.flow === StUSDSFlow.SUPPLY && needsAllowance);
     }
-  }, [widgetState.flow, needsAllowance, setShowStepIndicator]);
+  }, [txStatus, widgetState.flow, needsAllowance, setShowStepIndicator]);
 
   const remainingCapacityBuffered = capacityData?.remainingCapacityBuffered || 0n;
 
@@ -218,8 +216,6 @@ const StUSDSWidgetWrapped = ({
     setTxStatus(TxStatus.IDLE);
     setAmount(0n);
 
-    setShowStepIndicator(false);
-
     setWidgetState((prev: WidgetState) => ({
       ...prev,
       action: prev.flow === StUSDSFlow.WITHDRAW ? StUSDSAction.WITHDRAW : StUSDSAction.SUPPLY,
@@ -243,8 +239,6 @@ const StUSDSWidgetWrapped = ({
 
   const onClickBack = () => {
     setTxStatus(TxStatus.IDLE);
-
-    setShowStepIndicator(false);
 
     setWidgetState((prev: WidgetState) => ({
       ...prev,
