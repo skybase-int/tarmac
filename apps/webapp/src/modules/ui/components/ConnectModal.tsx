@@ -131,7 +131,7 @@ export function ConnectModal({ open, onOpenChange }: ConnectModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="bg-containerDark p-0 sm:min-w-[440px] sm:max-w-[440px]"
+        className="bg-containerDark p-0 sm:max-w-[440px] sm:min-w-[440px]"
         onOpenAutoFocus={e => e.preventDefault()}
         onCloseAutoFocus={e => e.preventDefault()}
       >
@@ -160,7 +160,7 @@ export function ConnectModal({ open, onOpenChange }: ConnectModalProps) {
 
           {suggestedWallets.length > 0 && (
             <>
-              <Text className="text-textSecondary mb-2 mt-4 text-sm font-medium uppercase">
+              <Text className="text-textSecondary mt-4 mb-2 text-sm font-medium uppercase">
                 {t`Suggested Wallets`}
               </Text>
               <div className="flex flex-col gap-2">{suggestedWallets.map(renderConnectorButton)}</div>
