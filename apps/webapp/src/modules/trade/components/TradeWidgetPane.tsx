@@ -17,7 +17,7 @@ import { useSearchParams } from 'react-router-dom';
 import { updateParamsFromTransaction } from '@/modules/utils/updateParamsFromTransaction';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import { getChainSpecificText, isL2ChainId } from '@jetstreamgg/sky-utils';
+import { getChainSpecificText, isCowSupportedChainId } from '@jetstreamgg/sky-utils';
 import { useChatContext } from '@/modules/chat/context/ChatContext';
 import { Intent } from '@/lib/enums';
 import { useBatchToggle } from '@/modules/ui/hooks/useBatchToggle';
@@ -32,7 +32,7 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const { onNavigate, setCustomHref, customNavLabel, setCustomNavLabel } = useCustomNavigation();
-  const isL2 = isL2ChainId(chainId);
+  const isCowSupported = isCowSupportedChainId(chainId);
   const { setShouldDisableActionButtons } = useChatContext();
 
   const [batchEnabled, setBatchEnabled] = useBatchToggle();
@@ -55,39 +55,57 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
 
     // Update search params
     if (originAmount && originAmount !== '0') {
-      setSearchParams(prev => {
-        prev.set(QueryParams.InputAmount, originAmount);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.set(QueryParams.InputAmount, originAmount);
+          return prev;
+        },
+        { replace: true }
+      );
     } else if (originAmount === '') {
-      setSearchParams(prev => {
-        prev.delete(QueryParams.InputAmount);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.delete(QueryParams.InputAmount);
+          return prev;
+        },
+        { replace: true }
+      );
     }
 
     if (originToken) {
-      setSearchParams(prev => {
-        prev.set(QueryParams.SourceToken, originToken);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.set(QueryParams.SourceToken, originToken);
+          return prev;
+        },
+        { replace: true }
+      );
     } else if (originToken === '') {
-      setSearchParams(prev => {
-        prev.delete(QueryParams.SourceToken);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.delete(QueryParams.SourceToken);
+          return prev;
+        },
+        { replace: true }
+      );
     }
 
     if (targetToken) {
-      setSearchParams(prev => {
-        prev.set(QueryParams.TargetToken, targetToken);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.set(QueryParams.TargetToken, targetToken);
+          return prev;
+        },
+        { replace: true }
+      );
     } else if (targetToken === '') {
-      setSearchParams(prev => {
-        prev.delete(QueryParams.TargetToken);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.delete(QueryParams.TargetToken);
+          return prev;
+        },
+        { replace: true }
+      );
     }
 
     // After a successful trade, set the linked action step to "success"
@@ -103,7 +121,13 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
       widgetState.action === TradeAction.TRADE &&
       (txStatus === TxStatus.LOADING || txStatus === TxStatus.SUCCESS)
     ) {
-      queryClient.invalidateQueries({ queryKey: ['trade-history'] });
+      setTimeout(() => {
+        if (isCowSupported) {
+          queryClient.invalidateQueries({ queryKey: ['cowswap-trade-history'] });
+        } else {
+          queryClient.invalidateQueries({ queryKey: ['psm-trade-history'] });
+        }
+      }, REFRESH_DELAY);
     }
 
     if (
@@ -114,7 +138,11 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
     ) {
       updateParamsFromTransaction(hash, wagmiConfig, setSearchParams);
       setTimeout(() => {
-        queryClient.invalidateQueries({ queryKey: ['trade-history'] });
+        if (isCowSupported) {
+          queryClient.invalidateQueries({ queryKey: ['cowswap-trade-history'] });
+        } else {
+          queryClient.invalidateQueries({ queryKey: ['psm-trade-history'] });
+        }
       }, REFRESH_DELAY);
     }
 
@@ -129,8 +157,11 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
       const reward = linkedActionConfig.rewardContract
         ? `&${QueryParams.Reward}=${linkedActionConfig.rewardContract}`
         : '';
+      const expertModule = linkedActionConfig.expertModule
+        ? `&${QueryParams.ExpertModule}=${linkedActionConfig.expertModule}`
+        : '';
       setCustomHref(
-        `/?${QueryParams.Widget}=${widget}&${QueryParams.InputAmount}=${executedBuyAmount}&${QueryParams.LinkedAction}=${widget}${reward}`
+        `/?${QueryParams.Widget}=${widget}&${QueryParams.InputAmount}=${executedBuyAmount}&${QueryParams.LinkedAction}=${widget}${reward}${expertModule}`
       );
       setCustomNavLabel(`Go to ${capitalizeFirstLetter(linkedActionConfig.linkedAction)}`);
     } else {
@@ -149,8 +180,12 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
     [linkedActionConfig]
   );
 
-  const Widget = isL2 ? L2TradeWidget : TradeWidget;
+  const Widget = isCowSupported ? TradeWidget : L2TradeWidget;
 
+  const shouldLockTokens =
+    linkedActionConfig.showLinkedAction &&
+    !!linkedActionConfig.sourceToken &&
+    !!linkedActionConfig.targetToken;
   return (
     <Widget
       key={externalWidgetState.timestamp}
@@ -173,6 +208,7 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
       )}
       batchEnabled={batchEnabled}
       setBatchEnabled={setBatchEnabled}
+      tokensLocked={shouldLockTokens}
     />
   );
 }

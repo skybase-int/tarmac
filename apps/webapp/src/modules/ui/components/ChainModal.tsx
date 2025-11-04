@@ -7,7 +7,6 @@ import { MainnetChain, BaseChain, ArbitrumChain, Close, OptimismChain, UnichainC
 import { cn } from '@/lib/utils';
 import { base, arbitrum, optimism, unichain } from 'viem/chains';
 import { ChevronDown } from 'lucide-react';
-import { tenderlyBase, tenderlyArbitrum } from '@/data/wagmi/config/config.default';
 import { useState } from 'react';
 import { Intent } from '@/lib/enums';
 import { useChainModalContext } from '@/modules/ui/context/ChainModalContext';
@@ -25,9 +24,9 @@ enum ChainModalVariant {
 
 //TODO: handle optimism and unichain
 const getChainIcon = (chainId: number, className?: string) =>
-  [base.id, tenderlyBase.id].includes(chainId) ? (
+  base.id === chainId ? (
     <BaseChain className={className} />
-  ) : [arbitrum.id, tenderlyArbitrum.id].includes(chainId) ? (
+  ) : arbitrum.id === chainId ? (
     <ArbitrumChain className={className} />
   ) : chainId === optimism.id ? (
     <OptimismChain className={className} />
@@ -43,7 +42,8 @@ export function ChainModal({
   variant = 'default',
   dataTestId = 'chain-modal-trigger',
   children,
-  nextIntent
+  nextIntent,
+  disabled = false
 }: {
   showLabel?: boolean;
   showDropdownIcon?: boolean;
@@ -51,13 +51,14 @@ export function ChainModal({
   dataTestId?: string;
   children?: React.ReactNode;
   nextIntent?: Intent;
+  disabled?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const chainId = useChainId();
   const client = useClient();
   const chains = useChains();
   const isSafeWallet = useIsSafeWallet();
-  const [, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const {
     handleSwitchChain,
     isPending: isSwitchChainPending,
@@ -65,8 +66,8 @@ export function ChainModal({
   } = useChainModalContext();
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+    <Dialog open={open} onOpenChange={disabled ? undefined : setOpen}>
+      <DialogTrigger asChild disabled={disabled}>
         {variant === ChainModalVariant.wrapper ? (
           <button className="h-full w-full">{children}</button>
         ) : (
@@ -91,7 +92,7 @@ export function ChainModal({
         onCloseAutoFocus={e => e.preventDefault()}
       >
         <DialogTitle>
-          <Text className="text-text pl-2 text-[28px] md:text-[32px]">{t`Switch chain`}</Text>
+          <Text className="text-text pl-2 text-[28px] md:text-[32px]">{t`Switch network`}</Text>
         </DialogTitle>
         <div className="flex flex-col items-start gap-1">
           {isSafeWallet && (
@@ -119,13 +120,23 @@ export function ChainModal({
                     onSuccess: (_, { chainId: newChainId }) => {
                       const newChainName = chains.find(c => c.id === newChainId)?.name;
                       if (newChainName) {
-                        setSearchParams((params: URLSearchParams) => {
-                          params.set(QueryParams.Network, normalizeUrlParam(newChainName));
-                          if (nextIntent) {
-                            params.set(QueryParams.Widget, mapIntentToQueryParam(nextIntent));
-                          }
-                          return params;
-                        });
+                        const normalizedNewChainName = normalizeUrlParam(newChainName);
+                        const currentNetwork = searchParams.get(QueryParams.Network);
+                        // Only update if the network actually changed
+                        if (currentNetwork !== normalizedNewChainName) {
+                          setSearchParams(
+                            (params: URLSearchParams) => {
+                              if (currentNetwork !== normalizedNewChainName) {
+                                params.set(QueryParams.Network, normalizedNewChainName);
+                              }
+                              if (nextIntent) {
+                                params.set(QueryParams.Widget, mapIntentToQueryParam(nextIntent));
+                              }
+                              return params;
+                            },
+                            { replace: true }
+                          );
+                        }
                       }
                     },
                     onSettled: () => setOpen(false)
@@ -160,7 +171,7 @@ export function ChainModal({
         <DialogClose asChild>
           <Button
             variant="outline"
-            className="text-text absolute right-4 top-[26px] h-8 w-8 rounded-full p-0"
+            className="text-text absolute right-4 top-4 h-8 w-8 rounded-full p-0"
             data-testid="chain-modal-close"
           >
             <Close />

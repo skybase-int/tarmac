@@ -12,21 +12,23 @@ import { AnimationLabels } from '@widgets/shared/animation/constants';
 import { PopoverRateInfo } from '../PopoverRateInfo';
 import { HStack } from '../layout/HStack';
 import { ArrowDown } from '../../icons/ArrowDown';
-import { InfoTooltip } from '../tooltip/InfoTooltip';
+import { PopoverInfo } from '../PopoverInfo';
+import React from 'react';
 
 type TransactionOverviewParams = {
   title: string;
   isFetching: boolean;
   fetchingMessage: string;
-  rateType?: 'str' | 'ssr' | 'srr' | 'dtc';
+  rateType?: 'str' | 'ssr' | 'srr' | 'dtc' | 'stusds';
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   transactionData:
     | {
         label: string;
-        value: string | string[];
+        value: string | string[] | React.ReactNode;
         error?: boolean;
         className?: string;
         classNamePrev?: string;
+        tooltipTitle?: string;
         tooltipText?: string | React.ReactNode;
       }[]
     | undefined;
@@ -53,7 +55,12 @@ export function TransactionOverview({
           <FetchingSpinner message={fetchingMessage} />
         </motion.div>
       ) : !transactionData ? null : (
-        <motion.div key="fetched" variants={positionAnimations}>
+        <motion.div
+          key="fetched"
+          variants={positionAnimations}
+          initial={AnimationLabels.initial}
+          animate={AnimationLabels.animate}
+        >
           <Accordion type="single" collapsible className="p-4" defaultValue="item-1">
             <AccordionItem value="item-1">
               <AccordionTrigger className="py-1">
@@ -63,7 +70,15 @@ export function TransactionOverview({
               </AccordionTrigger>
               <AccordionContent className="space-y-4 pt-4">
                 {transactionData.map(
-                  ({ label, value, tooltipText, error = false, className = '', classNamePrev }) => (
+                  ({
+                    label,
+                    value,
+                    tooltipTitle,
+                    tooltipText,
+                    error = false,
+                    className = '',
+                    classNamePrev
+                  }) => (
                     <motion.div key={label} className="flex justify-between" variants={positionAnimations}>
                       <HStack className="items-center" gap={1}>
                         <Text
@@ -71,7 +86,7 @@ export function TransactionOverview({
                         >
                           {label}
                         </Text>
-                        {label === 'Rate' && rateType && (
+                        {(label === 'Rate' || label === 'stUSDS Rate') && rateType && (
                           <span className="mt-1">
                             <PopoverRateInfo
                               type={rateType}
@@ -81,12 +96,16 @@ export function TransactionOverview({
                           </span>
                         )}
                         {tooltipText && (
-                          <InfoTooltip content={tooltipText} iconClassName="text-textSecondary" />
+                          <PopoverInfo
+                            title={tooltipTitle || ''}
+                            description={tooltipText}
+                            iconClassName="text-textSecondary"
+                          />
                         )}
                       </HStack>
 
                       {Array.isArray(value) && value.length >= 2 ? (
-                        <HStack className="shrink-0 items-center">
+                        <HStack className="shrink-0 items-center" gap={2}>
                           <Text
                             className={`${error ? 'text-error' : classNamePrev || className} text-right text-sm`}
                           >

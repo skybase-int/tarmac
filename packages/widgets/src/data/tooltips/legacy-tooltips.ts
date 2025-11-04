@@ -32,7 +32,7 @@ export const legacyTooltips: Tooltip[] = [
   },
   {
     id: 'borrow-rate',
-    title: 'Borrow rate',
+    title: 'Borrow Rate',
     tooltip:
       'The Borrow Rate is determined by Sky Ecosystem Governance through a process of community-driven, decentralized onchain voting.'
   },
@@ -106,9 +106,15 @@ export const legacyTooltips: Tooltip[] = [
   },
   {
     id: 'borrow-rate-seal',
-    title: 'Borrow rate',
+    title: 'Borrow Rate',
     tooltip:
       'The Borrow Rate is determined by Sky Ecosystem Governance through a process of community-driven, decentralized onchain voting.'
+  },
+  {
+    id: 'staking-rewards',
+    title: 'Staking Rewards',
+    tooltip:
+      'Staking Rewards can be accessed when SKY is supplied to the Staking Engine of the decentralized, non-custodial Sky Protocol. Currently, all Staking Rewards take the form of USDS. Staking Reward rates are determined by Sky Ecosystem Governance through the process of decentralized onchain voting.'
   }
 ];
 

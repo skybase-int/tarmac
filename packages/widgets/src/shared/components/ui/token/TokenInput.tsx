@@ -12,6 +12,7 @@ import { Text } from '@widgets/shared/components/ui/Typography';
 import { VStack } from '../layout/VStack';
 import { createSvgCardMask } from '@widgets/lib/svgMask';
 import { Wallet } from '../../icons/Wallet';
+import { Gauge } from '../../icons/Gauge';
 import { tokenColors } from '@widgets/shared/constants';
 import { Trans } from '@lingui/react/macro';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -23,6 +24,7 @@ import { TokenSelector } from './TokenSelector';
 import { useChainId } from 'wagmi';
 import { Search } from '../../icons/Search';
 import { Close } from '../../icons/Close';
+import { useIsTouchDevice } from '@jetstreamgg/sky-utils';
 
 export interface TokenInputProps {
   label?: string;
@@ -48,10 +50,14 @@ export interface TokenInputProps {
   showPercentageButtons?: boolean;
   buttonsToShow?: number[];
   extraPadding?: boolean;
+  hideIcon?: boolean;
   enabled?: boolean;
   maxIntegerDigits?: number;
-  borrowLimitText?: string | undefined;
+  limitText?: string | undefined;
   enableSearch?: boolean;
+  showGauge?: boolean;
+  maxVisibleTokenRows?: number;
+  customActionButtons?: React.ReactNode;
 }
 
 export function TokenInput({
@@ -75,21 +81,33 @@ export function TokenInput({
   showPercentageButtons = true,
   buttonsToShow = [25, 50, 100],
   extraPadding = false,
+  hideIcon = false,
   enabled = true,
-  borrowLimitText,
+  limitText,
   maxIntegerDigits,
-  enableSearch = false
+  enableSearch = false,
+  showGauge = false,
+  maxVisibleTokenRows = 2,
+  customActionButtons
 }: TokenInputProps): React.ReactElement {
   const cardRef = React.useRef<HTMLDivElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
+  const tokenSelectorRef = React.useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const chainId = useChainId();
-  const decimals = token ? getTokenDecimals(token, chainId) : 18;
+  const decimals = getTokenDecimals(token, chainId);
   const color = useMemo(() => {
     return token?.color || tokenColors.find(t => t.symbol === token?.symbol)?.color || '#6d7ce3';
   }, [token]);
+  const isTouchDevice = useIsTouchDevice();
+
+  const TOKEN_ROW_HEIGHT = 62; // Height per token row (62px)
+  const SEARCH_BAR_COMPENSATION = 60; // Additional height when search is disabled
+  const maxTokenListHeight = Math.round(
+    TOKEN_ROW_HEIGHT * maxVisibleTokenRows + (enableSearch ? 0 : SEARCH_BAR_COMPENSATION)
+  );
 
   // The input value should be able to be changed by the user in any way, and only trigger the change when the units are correct.
   const [inputValue, setInputValue] = useState<`${number}` | ''>(
@@ -279,7 +297,15 @@ export function TokenInput({
             background: `radial-gradient(100% 333.15% at 0% 100%, rgba(255, 255, 255, 0) 0%, ${color}1A 100%) ${color}0D`,
             backgroundBlendMode: 'overlay'
           }}
-          onClick={() => inputRef.current?.focus()}
+          onClick={e => {
+            // Don't focus input if clicking on the token selector (popover trigger)
+            const target = e.target as HTMLElement;
+            const isClickingTokenSelector = tokenSelectorRef.current?.contains(target);
+
+            if (!isClickingTokenSelector) {
+              inputRef.current?.focus();
+            }
+          }}
         >
           <MotionCardContent className={`p-0 ${token ? '' : 'max-h-[59px]'}`}>
             <Text className="text-text text-sm font-normal leading-none">{label}</Text>
@@ -308,11 +334,13 @@ export function TokenInput({
                       type="number"
                       placeholder={placeholder || 'Enter amount'}
                       rightElement={
-                        <TokenSelector
-                          token={token}
-                          disabled={disabled || tokenList.length <= 1}
-                          showChevron={tokenList.length > 1}
-                        />
+                        <div ref={tokenSelectorRef}>
+                          <TokenSelector
+                            token={token}
+                            disabled={disabled || tokenList.length <= 1}
+                            showChevron={tokenList.length > 1}
+                          />
+                        </div>
                       }
                       error={shownError}
                       errorTooltip={errorTooltip}
@@ -328,16 +356,26 @@ export function TokenInput({
                         className={`text-selectActive ${'w-full'} items-center overflow-clip`}
                         title={balanceText}
                       >
-                        {(!borrowLimitText || !isConnectedAndEnabled) && (
+                        {!hideIcon && limitText && isConnectedAndEnabled ? (
+                          showGauge ? (
+                            <div>
+                              <Gauge height={20} width={20} className="text-textDesaturated" />
+                            </div>
+                          ) : (
+                            <div>
+                              <Wallet height={20} width={20} className="text-textDesaturated" />
+                            </div>
+                          )
+                        ) : !hideIcon && (!limitText || !isConnectedAndEnabled) ? (
                           <div>
                             <Wallet height={20} width={20} className="text-textDesaturated" />
                           </div>
-                        )}
+                        ) : null}
                         <Text
                           className="text-textDesaturated text-nowrap text-sm leading-none"
                           dataTestId={`${dataTestId}-balance`}
                         >
-                          {borrowLimitText && isConnectedAndEnabled ? borrowLimitText : balanceText}
+                          {limitText && isConnectedAndEnabled ? limitText : balanceText}
                         </Text>
                       </HStack>
                       {showPercentageButtons && (
@@ -356,6 +394,11 @@ export function TokenInput({
                           ))}
                         </HStack>
                       )}
+                      {customActionButtons && (
+                        <HStack gap={2} className="text-selectActive items-center">
+                          {customActionButtons}
+                        </HStack>
+                      )}
                     </HStack>
                   </motion.div>
                 </motion.div>
@@ -365,6 +408,7 @@ export function TokenInput({
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.25, ease: easeOutExpo }}
                   key="no-token"
+                  ref={tokenSelectorRef}
                 >
                   <TokenSelector token={token} disabled={disabled} extraBottomPadding={extraPadding} />
                 </motion.div>
@@ -379,6 +423,12 @@ export function TokenInput({
           sideOffset={4}
           avoidCollisions={true}
           style={{ width: `${width}px` }}
+          onOpenAutoFocus={event => {
+            // Prevent autofocus on mobile devices (touch-capable devices)
+            if (isTouchDevice) {
+              event.preventDefault();
+            }
+          }}
         >
           <VStack className="w-full space-y-2">
             <motion.div variants={positionAnimations}>
@@ -409,12 +459,9 @@ export function TokenInput({
                 </HStack>
               </motion.div>
             )}
-            {/* 185px is 3 rows of 60px, adjust height when search is enabled */}
             <VStack
-              className={cn(
-                'scrollbar-thin space-y-2 overflow-y-scroll',
-                enableSearch ? 'max-h-[125px]' : 'max-h-[185px]'
-              )}
+              className="scrollbar-thin-always space-y-2 overflow-y-scroll"
+              style={{ maxHeight: `${maxTokenListHeight}px` }}
             >
               {filteredTokenList?.map((token, index) => (
                 <TokenListItem

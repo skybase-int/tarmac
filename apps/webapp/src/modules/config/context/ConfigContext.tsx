@@ -2,7 +2,7 @@ import { createContext } from 'react';
 import { SiteConfig } from '../types/site-config';
 import { UserConfig } from '../types/user-config';
 import { defaultConfig as siteConfig } from '../default-config';
-import { Intent } from '@/lib/enums';
+import { ExpertIntent } from '@/lib/enums';
 import { RewardContract } from '@jetstreamgg/sky-hooks';
 import { SealToken } from '@/modules/seal/constants';
 import { StakeToken } from '@/modules/stake/constants';
@@ -15,6 +15,7 @@ export type LinkedActionConfig = {
   sourceToken?: string;
   targetToken?: string;
   rewardContract?: string;
+  expertModule?: string;
   step: number;
   timestamp?: string;
 };
@@ -47,10 +48,11 @@ export const StepMap: Record<LinkedActionSteps, StepIndicatorStates[]> = {
 // Default user config
 export const defaultUserConfig: UserConfig = {
   locale: undefined,
-  intent: Intent.BALANCES_INTENT,
   sealToken: SealToken.MKR,
   stakeToken: StakeToken.SKY,
-  batchEnabled: false // Default to false to show activation prompt
+  batchEnabled: false, // Default to false to show activation prompt
+  expertRiskDisclaimerShown: false,
+  stakingRewardsDisclaimerShown: false
 };
 
 export const defaultLinkedActionConfig = {
@@ -64,7 +66,6 @@ export interface ConfigContextProps {
   loaded: boolean;
   locale: string;
   updateUserConfig: (config: UserConfig) => void;
-  setIntent: (intent: Intent) => void;
   selectedRewardContract?: RewardContract;
   setSelectedRewardContract: (rewardContract?: RewardContract) => void;
   selectedSealUrnIndex: number | undefined;
@@ -79,6 +80,12 @@ export interface ConfigContextProps {
   externalLinkModalUrl: string;
   setExternalLinkModalUrl: (val: string) => void;
   onExternalLinkClicked: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  selectedExpertOption: ExpertIntent | undefined;
+  setSelectedExpertOption: (intent: ExpertIntent | undefined) => void;
+  expertRiskDisclaimerShown: boolean;
+  setExpertRiskDisclaimerShown: (shown: boolean) => void;
+  stakingRewardsDisclaimerShown: boolean;
+  setStakingRewardsDisclaimerShown: (shown: boolean) => void;
 }
 
 // Zod schema for validating user settings
@@ -95,7 +102,6 @@ export const ConfigContext = createContext<ConfigContextProps>({
   updateUserConfig: () => {
     // do nothing.
   },
-  setIntent: () => {},
   selectedRewardContract: undefined,
   setSelectedRewardContract: () => {},
   selectedSealUrnIndex: undefined,
@@ -109,5 +115,11 @@ export const ConfigContext = createContext<ConfigContextProps>({
   setExternalLinkModalOpened: () => {},
   externalLinkModalUrl: '',
   setExternalLinkModalUrl: () => {},
-  onExternalLinkClicked: () => {}
+  onExternalLinkClicked: () => {},
+  selectedExpertOption: undefined,
+  setSelectedExpertOption: () => {},
+  expertRiskDisclaimerShown: false,
+  setExpertRiskDisclaimerShown: () => {},
+  stakingRewardsDisclaimerShown: false,
+  setStakingRewardsDisclaimerShown: () => {}
 });

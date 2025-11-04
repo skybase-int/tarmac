@@ -13,13 +13,7 @@ import {
   useIsBatchSupported
 } from '@jetstreamgg/sky-hooks';
 import { useContext, useEffect, useMemo, useState, ReactNode } from 'react';
-import {
-  formatBigInt,
-  formatNumber,
-  math,
-  truncateStringToFourDecimals,
-  useDebounce
-} from '@jetstreamgg/sky-utils';
+import { formatBigInt, formatNumber, math, useDebounce } from '@jetstreamgg/sky-utils';
 import { useAccount, useChainId } from 'wagmi';
 import { t } from '@lingui/core/macro';
 import { TxStatus, EPOCH_LENGTH } from '@widgets/shared/constants';
@@ -45,6 +39,7 @@ import { useL2TradeTransactions } from './hooks/useL2TradeTransactions';
 import { useMaxInForWithdraw } from './hooks/useMaxInForWithdraw';
 import { useMaxOutForDeposit } from './hooks/useMaxOutForDeposit';
 import { Trans } from '@lingui/react/macro';
+import { getTooltipById } from '../../data/tooltips';
 
 export type TradeWidgetProps = WidgetProps & {
   customTokenList?: TokenForChain[];
@@ -53,6 +48,7 @@ export type TradeWidgetProps = WidgetProps & {
   widgetTitle?: ReactNode;
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
+  tokensLocked?: boolean;
 };
 
 function TradeWidgetWrapped({
@@ -74,7 +70,8 @@ function TradeWidgetWrapped({
   referralCode,
   widgetTitle,
   batchEnabled,
-  setBatchEnabled
+  setBatchEnabled,
+  tokensLocked = false
 }: TradeWidgetProps): React.ReactElement {
   const { mutate: addToWallet } = useAddTokenToWallet();
   const [showAddToken, setShowAddToken] = useState(false);
@@ -139,7 +136,7 @@ function TradeWidgetWrapped({
 
   const initialOriginAmount = parseUnits(
     validatedExternalState?.amount || '0',
-    originToken ? getTokenDecimals(originToken, chainId) : 18
+    getTokenDecimals(originToken, chainId)
   );
 
   const [originAmount, setOriginAmount] = useState(initialOriginAmount);
@@ -147,7 +144,7 @@ function TradeWidgetWrapped({
 
   const initialTargetAmount = parseUnits(
     validatedExternalState?.amount || '0',
-    targetToken ? getTokenDecimals(targetToken, chainId) : 18
+    getTokenDecimals(targetToken, chainId)
   );
 
   const [targetAmount, setTargetAmount] = useState(initialTargetAmount);
@@ -224,7 +221,24 @@ function TradeWidgetWrapped({
   }, [rho, dsr, chi]);
 
   useEffect(() => {
+    const bothAmountsZero = originAmount === 0n && targetAmount === 0n;
+    const bothDebouncedNonZero = debouncedOriginAmount !== 0n && debouncedTargetAmount !== 0n;
+
+    // Skip calculations ONLY if:
+    // - Both current amounts are 0 (just cleared by switch)
+    // - AND both debounced values are still non-zero (haven't caught up yet)
+    // This specifically detects a switch operation
+    if (bothAmountsZero && bothDebouncedNonZero) {
+      return;
+    }
+
     if (lastUpdated === TradeSide.IN) {
+      // If origin is 0, clear target immediately
+      if (debouncedOriginAmount === 0n) {
+        setTargetAmount(0n);
+        return;
+      }
+
       // stables <-> stables
       if (
         originToken?.symbol === 'USDS' &&
@@ -244,15 +258,17 @@ function TradeWidgetWrapped({
       }
 
       // stables -> sUSDS
-      if (originToken?.symbol === 'USDS' && targetToken?.symbol === 'sUSDS')
-        setTargetAmount(math.calculateSharesFromAssets(debouncedOriginAmount, updatedChiForDeposit));
+      if (originToken?.symbol === 'USDS' && targetToken?.symbol === 'sUSDS') {
+        const calculated = math.calculateSharesFromAssets(debouncedOriginAmount, updatedChiForDeposit);
+        setTargetAmount(calculated);
+      }
 
-      if (originToken?.symbol === 'USDC' && targetToken?.symbol === 'sUSDS')
-        setTargetAmount(
-          math.roundDownLastTwelveDigits(
-            math.calculateSharesFromAssets(math.convertUSDCtoWad(debouncedOriginAmount), updatedChiForDeposit)
-          )
+      if (originToken?.symbol === 'USDC' && targetToken?.symbol === 'sUSDS') {
+        const calculated = math.roundDownLastTwelveDigits(
+          math.calculateSharesFromAssets(math.convertUSDCtoWad(debouncedOriginAmount), updatedChiForDeposit)
         );
+        setTargetAmount(calculated);
+      }
 
       // sUSDS -> stables
       if (
@@ -274,6 +290,11 @@ function TradeWidgetWrapped({
     }
 
     if (lastUpdated === TradeSide.OUT) {
+      // If target is 0, clear origin immediately
+      if (debouncedTargetAmount === 0n) {
+        setOriginAmount(0n);
+        return;
+      }
       // stables <-> stables
       if (
         originToken?.symbol === 'USDS' &&
@@ -350,7 +371,7 @@ function TradeWidgetWrapped({
       externalWidgetState?.amount !==
         formatBigInt(originAmount, {
           locale,
-          unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+          unit: getTokenDecimals(originToken, chainId)
         });
 
     if ((tokensHasChanged || amountHasChanged) && txStatus === TxStatus.IDLE) {
@@ -420,7 +441,7 @@ function TradeWidgetWrapped({
         }
       }
 
-      let timeoutId: NodeJS.Timeout | undefined;
+      let timeoutId: ReturnType<typeof setTimeout> | undefined;
       // Handle amount updates
       if (externalWidgetState?.amount !== undefined) {
         const newOriginToken = tokenList.find(
@@ -462,11 +483,14 @@ function TradeWidgetWrapped({
   // Update external widget state when the debounced origin amount is updated
   useEffect(() => {
     if (originToken) {
-      const formattedValue = formatUnits(debouncedOriginAmount, getTokenDecimals(originToken, chainId));
-      const truncatedValue = truncateStringToFourDecimals(formattedValue);
-      if (truncatedValue !== externalWidgetState?.amount) {
+      // Convert 0n to empty string to properly clear URL params
+      const formattedValue =
+        debouncedOriginAmount === 0n
+          ? ''
+          : formatUnits(debouncedOriginAmount, getTokenDecimals(originToken, chainId));
+      if (formattedValue !== externalWidgetState?.amount) {
         onWidgetStateChange?.({
-          originAmount: truncatedValue,
+          originAmount: formattedValue,
           originToken: originToken?.symbol,
           targetToken: targetToken?.symbol,
           txStatus,
@@ -841,7 +865,7 @@ function TradeWidgetWrapped({
                 });
               }}
               onUserSwitchTokens={(originSymbol, targetSymbol) => {
-                setLastUpdated(prevValue => (prevValue === TradeSide.IN ? TradeSide.OUT : TradeSide.IN));
+                setLastUpdated(TradeSide.IN);
                 onWidgetStateChange?.({
                   originToken: originSymbol,
                   targetToken: targetSymbol,
@@ -852,10 +876,11 @@ function TradeWidgetWrapped({
               }}
               lastUpdated={lastUpdated}
               targetAmount={targetAmount}
-              originTokenList={originTokenList}
-              targetTokenList={targetTokenList}
+              originTokenList={tokensLocked && originToken ? [originToken] : originTokenList}
+              targetTokenList={tokensLocked && targetToken ? [targetToken] : targetTokenList}
               isBalanceError={isBalanceError}
-              canSwitchTokens={true}
+              canSwitchTokens={!tokensLocked}
+              tokensLocked={tokensLocked}
               isConnectedAndEnabled={isConnectedAndEnabled}
             />
             {!!originAmount && !!targetAmount && !isBalanceError && (
@@ -865,12 +890,22 @@ function TradeWidgetWrapped({
                 fetchingMessage={t`Fetching transaction details`}
                 transactionData={[
                   {
-                    label: t`Exchange rate`,
+                    label: t`Exchange Rate`,
+                    tooltipTitle: getTooltipById('exchange-rate')?.title || '',
+                    tooltipText: getTooltipById('exchange-rate')?.tooltip || '',
                     value: (() => {
-                      if (!originAmount || originAmount === 0n || !targetAmount) return '1:1';
+                      if (
+                        !originAmount ||
+                        originAmount === 0n ||
+                        !targetAmount ||
+                        !originToken ||
+                        !targetToken
+                      ) {
+                        return '1:1';
+                      }
 
-                      const originDecimals = getTokenDecimals(originToken as Token, chainId);
-                      const targetDecimals = getTokenDecimals(targetToken as Token, chainId);
+                      const originDecimals = getTokenDecimals(originToken, chainId);
+                      const targetDecimals = getTokenDecimals(targetToken, chainId);
 
                       // Convert to decimal values
                       const originValue = Number(formatUnits(originAmount, originDecimals));
@@ -890,22 +925,24 @@ function TradeWidgetWrapped({
                   },
                   {
                     label: t`Tokens to receive`,
-                    value: `${formatBigInt(targetAmount, {
-                      unit: getTokenDecimals(targetToken as Token, chainId),
-                      compact: true
-                    })} ${targetToken?.symbol}`
+                    value: targetToken
+                      ? `${formatBigInt(targetAmount, {
+                          unit: getTokenDecimals(targetToken, chainId),
+                          compact: true
+                        })} ${targetToken.symbol}`
+                      : '--'
                   },
                   {
                     label: t`Your wallet ${originToken?.symbol || ''} balance`,
                     value:
-                      originBalance?.value !== undefined && originAmount > 0n
+                      originBalance?.value !== undefined && originAmount > 0n && originToken
                         ? [
                             formatBigInt(originBalance.value, {
-                              unit: getTokenDecimals(originToken as Token, chainId),
+                              unit: getTokenDecimals(originToken, chainId),
                               compact: true
                             }),
                             formatBigInt(originBalance.value - originAmount, {
-                              unit: getTokenDecimals(originToken as Token, chainId),
+                              unit: getTokenDecimals(originToken, chainId),
                               compact: true
                             })
                           ]
@@ -914,14 +951,14 @@ function TradeWidgetWrapped({
                   {
                     label: t`Your wallet ${targetToken?.symbol || ''} balance`,
                     value:
-                      targetBalance?.value !== undefined && targetAmount > 0n
+                      targetBalance?.value !== undefined && targetAmount > 0n && targetToken
                         ? [
                             formatBigInt(targetBalance.value, {
-                              unit: getTokenDecimals(targetToken as Token, chainId),
+                              unit: getTokenDecimals(targetToken, chainId),
                               compact: true
                             }),
                             formatBigInt(targetBalance.value + targetAmount, {
-                              unit: getTokenDecimals(targetToken as Token, chainId),
+                              unit: getTokenDecimals(targetToken, chainId),
                               compact: true
                             })
                           ]

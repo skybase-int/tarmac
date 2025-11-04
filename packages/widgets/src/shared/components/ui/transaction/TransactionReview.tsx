@@ -8,7 +8,7 @@ import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { Switch } from '@widgets/components/ui/switch';
 import { useContext } from 'react';
 import { WidgetContext } from '@widgets/context/WidgetContext';
-import { InfoTooltip } from '../tooltip/InfoTooltip';
+import { PopoverInfo } from '../PopoverInfo';
 import { useIsBatchSupported } from '@jetstreamgg/sky-hooks';
 import { StepIndicator } from './StepIndicator';
 import { TxStatus } from '@widgets/shared/constants';
@@ -71,7 +71,7 @@ export function TransactionReview({
             ))}
           {transactionDetail ?? <TransactionDetail />}
         </CardContent>
-        {batchEnabled !== undefined && !!setBatchEnabled && !!batchSupported && (
+        {batchEnabled !== undefined && !!setBatchEnabled && !!batchSupported && showStepIndicator && (
           <motion.div variants={positionAnimations}>
             <CardFooter className="border-selectActive border-t pt-5">
               <div>
@@ -79,12 +79,10 @@ export function TransactionReview({
                   <HStack className="flex-wrap gap-1 space-x-0">
                     <HStack className="gap-1 space-x-0">
                       <Text className="text-[13px]">Bundle transactions</Text>
-                      <InfoTooltip
-                        contentClassname="max-w-[350px]"
-                        iconClassName="text-[13px]"
-                        content={
+                      <PopoverInfo
+                        title="Bundle transactions"
+                        description={
                           <>
-                            <Text className="text-[13px]">Bundle transactions</Text>
                             <Text className="text-[13px] text-white/60">
                               Bundled transactions are set &apos;on&apos; by default to complete transactions
                               in a single step. Combining actions improves the user experience and reduces gas

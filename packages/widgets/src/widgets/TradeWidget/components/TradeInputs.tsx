@@ -13,6 +13,7 @@ import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { CostWarning } from './CostWarning';
 import { getQuoteErrorForType } from '../lib/utils';
+import { useMediaQuery } from '@jetstreamgg/sky-utils';
 
 type TokenBalanceData = Omit<GetBalanceData, 'symbol'> & {
   symbol?: string;
@@ -48,6 +49,7 @@ type TradeInputsProps = {
   onTargetTokenChange?: (token: TokenForChain) => void;
   onOriginInputChange?: (val: bigint, userTriggered?: boolean) => void;
   enableSearch?: boolean;
+  tokensLocked?: boolean;
 };
 
 export function TradeInput(props: TokenInputProps) {
@@ -86,7 +88,8 @@ export function TradeInputs({
   onOriginTokenChange,
   onTargetTokenChange,
   onOriginInputChange,
-  enableSearch = false
+  enableSearch = false,
+  tokensLocked = false
 }: TradeInputsProps) {
   const separationPx = 12;
   const separationMb = 'mb-[12px]';
@@ -96,8 +99,10 @@ export function TradeInputs({
     top: '50%',
     left: '50%'
   });
-  const [lastSwitchTimestamp, setLastSwitchTimestamp] = useState<number>(0);
-  const [enoughTimePassed, setEnoughTimePassed] = useState<boolean>(true);
+  const isSmallScreen = useMediaQuery('(max-height: 900px)');
+
+  // Use shorter token list on smaller screens to prevent overflow
+  const maxVisibleTokenRows = isSmallScreen ? 2.5 : 4.5;
 
   const updatePosition = () => {
     if (topInputRef.current && bottomInputRef.current) {
@@ -159,26 +164,13 @@ export function TradeInputs({
     }
   }, [topInputRef]);
 
-  useEffect(() => {
-    const MIN_TIME = 500; // 0.5s
-    const interval = setInterval(() => {
-      if (Date.now() - lastSwitchTimestamp > MIN_TIME) {
-        setEnoughTimePassed(true);
-        clearInterval(interval); // Clear the interval once the condition is met
-      } else {
-        setEnoughTimePassed(false);
-      }
-    }, 100); // Check every 100ms
-
-    return () => clearInterval(interval); // Cleanup function to clear the interval
-  }, [lastSwitchTimestamp]);
-
-  const switchDisabled = !canSwitchTokens || isQuoteLoading || !enoughTimePassed;
+  const switchDisabled = !canSwitchTokens || isQuoteLoading;
 
   return (
     <VStack className="relative h-auto items-stretch" gap={0}>
       <motion.div variants={positionAnimations} ref={topInputRef}>
         <TradeInput
+          key={originToken?.symbol || 'no-origin-token'}
           className={`${separationMb} w-full`}
           label={t`Choose a token to trade, and enter an amount`}
           token={originToken as Token}
@@ -206,50 +198,53 @@ export function TradeInputs({
             onOriginTokenChange?.(option as TokenForChain);
           }}
           error={isBalanceError ? t`Insufficient funds` : undefined}
-          variant="top"
-          extraPadding={true}
+          variant={tokensLocked ? undefined : 'top'}
+          extraPadding={!tokensLocked}
           showPercentageButtons={isConnectedAndEnabled}
           enabled={isConnectedAndEnabled}
           enableSearch={enableSearch}
+          maxVisibleTokenRows={maxVisibleTokenRows}
         />
       </motion.div>
-      <div
-        className="flex justify-center"
-        style={{
-          position: 'absolute',
-          zIndex: 10,
-          left: switchPosition.left,
-          top: switchPosition.top,
-          transform: 'translate(-50%, -50%)',
-          visibility: isSwitchVisible ? 'visible' : 'hidden',
-          cursor: switchDisabled ? 'not-allowed' : 'pointer'
-        }}
-      >
-        <Button
-          aria-label="Switch token inputs"
-          size="icon"
-          className="border-background text-tabPrimary focus:outline-hidden my-0 h-9 w-9 rounded-full bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent disabled:bg-transparent"
-          onClick={() => {
-            setLastSwitchTimestamp(Date.now());
-            const auxOriginAmount = originAmount;
-            const auxOriginToken = originToken;
-            setLastUpdated(TradeSide.OUT);
-            setOriginToken(targetToken);
-            setTargetToken(auxOriginToken);
-            setOriginAmount(0n);
-            setTargetAmount(auxOriginAmount);
-            onUserSwitchTokens?.(targetToken?.symbol, auxOriginToken?.symbol);
+      {!tokensLocked && (
+        <div
+          className="flex justify-center"
+          style={{
+            position: 'absolute',
+            zIndex: 10,
+            left: switchPosition.left,
+            top: switchPosition.top,
+            transform: 'translate(-50%, -50%)',
+            visibility: isSwitchVisible ? 'visible' : 'hidden',
+            cursor: switchDisabled ? 'not-allowed' : 'pointer'
           }}
-          disabled={switchDisabled}
         >
-          <ShiftArrow height={24} className="text-textDesaturated" />
-        </Button>
-      </div>
+          <Button
+            aria-label="Switch token inputs"
+            size="icon"
+            className="border-background text-tabPrimary focus:outline-hidden my-0 h-9 w-9 rounded-full bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent disabled:bg-transparent"
+            onClick={() => {
+              const auxOriginToken = originToken;
+              setLastUpdated(TradeSide.IN);
+              setOriginToken(targetToken);
+              setTargetToken(auxOriginToken);
+              // Clear both inputs when switching
+              setOriginAmount(0n);
+              setTargetAmount(0n);
+              onUserSwitchTokens?.(targetToken?.symbol, auxOriginToken?.symbol);
+            }}
+            disabled={switchDisabled}
+          >
+            <ShiftArrow height={24} className="text-textDesaturated" />
+          </Button>
+        </div>
+      )}
       <motion.div variants={positionAnimations} ref={bottomInputRef}>
         <TradeInput
+          key={targetToken?.symbol || 'no-target-token'}
           className="w-full"
           label={t`Choose a token to receive`}
-          variant="bottom"
+          variant={tokensLocked ? undefined : 'bottom'}
           token={targetToken as Token}
           balance={targetBalance?.value}
           onChange={newValue => {
@@ -268,6 +263,7 @@ export function TradeInputs({
           enabled={isConnectedAndEnabled}
           inputDisabled={originToken?.isNative}
           enableSearch={enableSearch}
+          maxVisibleTokenRows={maxVisibleTokenRows}
         />
       </motion.div>
       {quoteError && (

@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { HStack } from '@/modules/layout/components/HStack';
 import { formatNumber } from '@jetstreamgg/sky-utils';
-import { useMemo, useState, useRef, useEffect } from 'react';
+import { useMemo, useState, useRef, useEffect, useId } from 'react';
 import { Area, AreaChart, XAxis, ResponsiveContainer, Tooltip, YAxis } from 'recharts';
 import { format } from 'date-fns';
 import { Text } from '@/modules/layout/components/Typography';
@@ -28,10 +28,9 @@ import { VStack } from '@/modules/layout/components/VStack';
 import { Warning } from '@/modules/icons/Warning';
 
 const dateFormat = 'MMM d';
-const timeFormat = 'HH:mm';
-const monthFormat = 'MMM';
+const monthFormat = 'MMM y';
 
-export type TimeFrame = 'd' | 'w' | 'm' | 'y' | 'all';
+export type TimeFrame = 'w' | 'm' | 'y' | 'all';
 
 const TimeframeControls = ({
   activeTimeframe,
@@ -46,7 +45,7 @@ const TimeframeControls = ({
   bpi: BP;
   compact: boolean;
 }) => {
-  const keys: TimeFrame[] = ['d', 'w', 'm', 'y', 'all'];
+  const keys: TimeFrame[] = ['w', 'm', 'y', 'all'];
 
   if (bpi < BP.lg || compact) {
     return (
@@ -171,22 +170,12 @@ const formatedXAxis = (data: Data[], tf: TimeFrame, bpi: BP) => {
 
   filteredData.push(data[data.length - 1]); // Always include the last element
 
-  let finalFormat = dateFormat;
-  if (tf === 'd') {
-    finalFormat = timeFormat;
-  } else if (tf === 'y') {
-    finalFormat = monthFormat;
-  }
+  const finalFormat = ['y', 'all'].includes(tf) ? monthFormat : dateFormat;
   return filteredData.map(item => format(new Date(item.date?.toISOString()), finalFormat));
 };
 
 const formatDate = (date: Date, tf: TimeFrame) => {
-  let finalFormat = dateFormat;
-  if (tf === 'd') {
-    finalFormat = timeFormat;
-  } else if (tf === 'y') {
-    finalFormat = monthFormat;
-  }
+  const finalFormat = ['y', 'all'].includes(tf) ? monthFormat : dateFormat;
   return format(date, finalFormat);
 };
 
@@ -304,6 +293,8 @@ function ChartContent({
   error?: Error | null;
 }) {
   const { bpi } = useBreakpointIndex();
+  const gradientId = useId();
+
   return (
     <LoadingErrorWrapper
       isLoading={isLoading}
@@ -324,14 +315,7 @@ function ChartContent({
           margin={{ top: isLarge ? 12 : 30, right: 0, bottom: isLarge ? 22 : 0, left: 0 }}
         >
           <defs>
-            <linearGradient
-              id="gradientGreen"
-              x1="0"
-              y1="0"
-              x2="0"
-              y2="100%"
-              gradientUnits="objectBoundingBox"
-            >
+            <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="100%" gradientUnits="objectBoundingBox">
               <stop offset="5%" stopColor="#1DD9BA" stopOpacity={0.25} />
               <stop offset="75%" stopColor="#00A167" stopOpacity="0" />
             </linearGradient>
@@ -356,7 +340,7 @@ function ChartContent({
             stroke={'#1DD9BA'}
             strokeWidth={2.5}
             type="monotone"
-            fill="url(#gradientGreen)"
+            fill={`url(#${gradientId})`}
             label={<CustomizedLabel /*data={data} stroke="var(--transparent-white-40)"*/ />}
             dot={<CustomizedDot data={data} stroke="#1DD9BA" />}
           />
@@ -384,14 +368,14 @@ export function Chart({
       return 0;
     }
 
-    const offset = 1; // to prevent Infinity values. maybe it should be a smaller number
+    const offset = isPercentage ? 0.001 : 1;
     const first = data[0].value + offset;
-    const last = data[data.length - 1].value;
+    const last = data[data.length - 1].value + offset;
 
     return ((last - first) / first) * 100;
-  }, [data]);
+  }, [data, isPercentage]);
   const formattedPercentage = formatPercentage(percentage, isLarge);
-  const isZeroPercentage = formattedPercentage.replace('-', '').replace('%', '') === '0';
+  const isZeroPercentage = formattedPercentage.replace('-', '').replace(/%/g, '') === '0';
   const [activeTimeframe, setActiveTimeframe] = useState<TimeFrame>('w');
   const [width, setWidth] = useState<number>(0);
   const dateAxis = formatedXAxis(data, activeTimeframe, bpi);
@@ -461,7 +445,7 @@ export function Chart({
       </Card>
       <HStack className="mt-3 justify-between">
         {dateAxis.map((date, index) => (
-          <Text className="text-selectActive leading-none" variant="small" key={`${date}+${index}`}>
+          <Text className="text-selectActive" variant="small" key={`${date}+${index}`}>
             {date}
           </Text>
         ))}

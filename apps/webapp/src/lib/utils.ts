@@ -1,15 +1,17 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { LinkedAction } from '@/modules/ui/hooks/useUserSuggestedActions';
-import { ALLOWED_EXTERNAL_DOMAINS, CHAIN_WIDGET_MAP, restrictedIntents } from './constants';
+import { ALLOWED_EXTERNAL_DOMAINS, CHAIN_WIDGET_MAP, IntentMapping, RESTRICTED_INTENTS } from './constants';
 import { Intent } from './enums';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function getFooterLinks(): { url: string; name: string }[] {
-  let footerLinks: { url: string; name: string }[] = [
+export type FooterLink = { url: string; name: string; highlight?: string };
+
+export function getFooterLinks(): FooterLink[] {
+  let footerLinks: FooterLink[] = [
     { url: '', name: '' },
     { url: '', name: '' },
     { url: '', name: '' }
@@ -24,7 +26,20 @@ export function getFooterLinks(): { url: string; name: string }[] {
 }
 
 export function filterActionsByIntent(actions: LinkedAction[], intent: string) {
-  return actions.filter(x => x.intent === intent || (x as LinkedAction)?.la === intent);
+  // For expert module intents (like 'stusds'), also include actions with la='expert'
+  const isExpertModuleIntent = ['stusds'].includes(intent);
+
+  return actions.filter(x => {
+    // Direct match on intent or linked action
+    if (x.intent === intent || (x as LinkedAction)?.la === intent) {
+      return true;
+    }
+    // For advanced module pages (stusds), show actions that lead to advanced modules
+    if (isExpertModuleIntent && (x as LinkedAction)?.la === IntentMapping[Intent.EXPERT_INTENT]) {
+      return true;
+    }
+    return false;
+  });
 }
 
 /**
@@ -72,7 +87,7 @@ export function isIntentAllowed(intent: Intent, chainId: number) {
   const isRestricted = isRestrictedBuild || isRestrictedMiCa;
 
   // First check if restricted build
-  if (isRestricted && restrictedIntents.includes(intent)) {
+  if (isRestricted && RESTRICTED_INTENTS.includes(intent)) {
     return false;
   }
   // Then check if widget is supported on current chain

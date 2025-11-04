@@ -60,11 +60,14 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
   // Update URL when token changes
   useEffect(() => {
     if (currentToken && currentToken !== sourceToken) {
-      setSearchParams(prevParams => {
-        const params = new URLSearchParams(prevParams);
-        params.set(QueryParams.SourceToken, currentToken);
-        return params;
-      });
+      setSearchParams(
+        prevParams => {
+          const params = new URLSearchParams(prevParams);
+          params.set(QueryParams.SourceToken, currentToken);
+          return params;
+        },
+        { replace: true }
+      );
     }
   }, [currentToken, sourceToken, setSearchParams]);
 
@@ -85,34 +88,49 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
 
     // Set flow search param based on widgetState.flow
     if (widgetState.flow) {
-      setSearchParams(prev => {
-        prev.set(QueryParams.Flow, widgetState.flow);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.set(QueryParams.Flow, widgetState.flow);
+          return prev;
+        },
+        { replace: true }
+      );
     }
 
     if (originToken) {
-      setSearchParams(prev => {
-        prev.set(QueryParams.SourceToken, originToken);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.set(QueryParams.SourceToken, originToken);
+          return prev;
+        },
+        { replace: true }
+      );
     } else if (originToken === '') {
-      setSearchParams(prev => {
-        prev.delete(QueryParams.SourceToken);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.delete(QueryParams.SourceToken);
+          return prev;
+        },
+        { replace: true }
+      );
     }
 
     if (originAmount && originAmount !== '0') {
-      setSearchParams(prev => {
-        prev.set(QueryParams.InputAmount, originAmount);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.set(QueryParams.InputAmount, originAmount);
+          return prev;
+        },
+        { replace: true }
+      );
     } else if (originAmount === '') {
-      setSearchParams(prev => {
-        prev.delete(QueryParams.InputAmount);
-        return prev;
-      });
+      setSearchParams(
+        prev => {
+          prev.delete(QueryParams.InputAmount);
+          return prev;
+        },
+        { replace: true }
+      );
     }
 
     // Update currentToken if originToken changes and is different from the sourceToken param
@@ -150,7 +168,7 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
       linkedActionConfig.step === LinkedActionSteps.SUCCESS_FUTURE
     ) {
       setCustomHref(
-        `/?${QueryParams.Widget}=${linkedActionConfig.linkedAction}&${QueryParams.InputAmount}=${linkedActionConfig?.inputAmount}&${QueryParams.LinkedAction}=${linkedActionConfig.linkedAction}${linkedActionConfig.rewardContract ? `&${QueryParams.Reward}=${linkedActionConfig.rewardContract}` : ''}`
+        `/?${QueryParams.Widget}=${linkedActionConfig.linkedAction}&${QueryParams.InputAmount}=${linkedActionConfig?.inputAmount}&${QueryParams.LinkedAction}=${linkedActionConfig.linkedAction}${linkedActionConfig.rewardContract ? `&${QueryParams.Reward}=${linkedActionConfig.rewardContract}` : ''}${linkedActionConfig.expertModule ? `&${QueryParams.ExpertModule}=${linkedActionConfig.expertModule}` : ''}`
       );
       setCustomNavLabel(`Go to ${capitalizeFirstLetter(linkedActionConfig.linkedAction)}`);
     } else {
@@ -164,15 +182,18 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
       widgetState.flow === UpgradeFlow.REVERT &&
       widgetState.screen === UpgradeScreen.TRANSACTION
     ) {
-      setSearchParams(prevParams => {
-        const sourceTokenParam = prevParams.get(QueryParams.SourceToken);
-        const params = deleteSearchParams(prevParams);
-        // Keep the source token param, otherwise the revert flow will break after approving
-        if (sourceTokenParam) {
-          params.set(QueryParams.SourceToken, sourceTokenParam);
-        }
-        return params;
-      });
+      setSearchParams(
+        prevParams => {
+          const sourceTokenParam = prevParams.get(QueryParams.SourceToken);
+          const params = deleteSearchParams(prevParams);
+          // Keep the source token param, otherwise the revert flow will break after approving
+          if (sourceTokenParam) {
+            params.set(QueryParams.SourceToken, sourceTokenParam);
+          }
+          return params;
+        },
+        { replace: true }
+      );
       exitLinkedActionMode();
     }
 
@@ -185,13 +206,21 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
       targetToken &&
       targetToken !== targetTokenFromSourceToken(linkedActionConfig.sourceToken)
     ) {
-      setSearchParams(prevParams => {
-        const params = deleteSearchParams(prevParams);
-        return params;
-      });
+      setSearchParams(
+        prevParams => {
+          const params = deleteSearchParams(prevParams);
+          return params;
+        },
+        { replace: true }
+      );
       exitLinkedActionMode();
     }
   };
+
+  const disallowedFlow =
+    linkedActionConfig.showLinkedAction && linkedActionConfig.sourceToken
+      ? UpgradeFlow.REVERT // If in linked action, disallow revert
+      : undefined;
 
   return (
     <UpgradeWidget
@@ -209,7 +238,12 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
       onWidgetStateChange={onUpgradeWidgetStateChange}
       customNavigationLabel={customNavLabel}
       onCustomNavigation={onNavigate}
-      upgradeOptions={[TOKENS.dai, TOKENS.mkr]}
+      upgradeOptions={
+        linkedActionConfig.showLinkedAction && linkedActionConfig.sourceToken
+          ? [linkedActionConfig.sourceToken]
+          : [TOKENS.dai, TOKENS.mkr]
+      }
+      disallowedFlow={disallowedFlow}
       batchEnabled={batchEnabled}
       setBatchEnabled={setBatchEnabled}
     />

@@ -1,5 +1,5 @@
 import { TransactionTypeEnum, ModuleEnum } from '@jetstreamgg/sky-hooks';
-import { captitalizeFirstLetter } from '@jetstreamgg/sky-utils';
+import { capitalizeFirstLetter } from '@jetstreamgg/sky-utils';
 import { t } from '@lingui/core/macro';
 
 export const getTitle = ({ type, module }: { type: TransactionTypeEnum; module: ModuleEnum }) => {
@@ -17,6 +17,8 @@ export const getTitle = ({ type, module }: { type: TransactionTypeEnum; module: 
         return t`Rewards Supply`;
       } else if (module === ModuleEnum.SAVINGS) {
         return t`Savings Supply`;
+      } else if (module === ModuleEnum.STUSDS) {
+        return t`stUSDS Supply`;
       }
       return t`Supply`;
     case TransactionTypeEnum.WITHDRAW:
@@ -24,6 +26,8 @@ export const getTitle = ({ type, module }: { type: TransactionTypeEnum; module: 
         return t`Rewards Withdraw `;
       } else if (module === ModuleEnum.SAVINGS) {
         return t`Savings Withdraw`;
+      } else if (module === ModuleEnum.STUSDS) {
+        return t`stUSDS Withdraw`;
       }
       return t`Withdraw`;
     case TransactionTypeEnum.REWARD:
@@ -47,6 +51,6 @@ export const getTitle = ({ type, module }: { type: TransactionTypeEnum; module: 
     case TransactionTypeEnum.UNSTAKE_KICK:
       return t`Liquidation`;
     default:
-      return captitalizeFirstLetter((type || module).toLowerCase().replace('_', ' '));
+      return capitalizeFirstLetter((type || module).toLowerCase().replace('_', ' '));
   }
 };

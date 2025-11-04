@@ -1,4 +1,6 @@
 name: Packages
+permissions:
+  contents: read
 
 on:
   pull_request:
@@ -17,7 +19,7 @@ jobs:
     strategy:
       matrix:
         node-version: [20]
-        pnpm-version: [9.9.0]
+        pnpm-version: [10.17.0]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -50,7 +52,7 @@ jobs:
     strategy:
       matrix:
         node-version: [20]
-        pnpm-version: [9.9.0]
+        pnpm-version: [10.17.0]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -84,8 +86,8 @@ jobs:
     strategy:
       matrix:
         node-version: [20]
-        pnpm-version: [9.9.0]
-        react-version: [18]
+        pnpm-version: [10.17.0]
+        react-version: [19]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -118,7 +120,7 @@ jobs:
           REACT_VERSION: ${{ matrix.react-version }}
 
       - name: Delete Tenderly virtual testnet fork
-        run: pnpm vnet:delete:ci
+        run: pnpm vnet:delete:all:ci
         env:
           TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
         if: always()

@@ -1,5 +1,33 @@
 # @jetstreamgg/sky-widgets
 
+## 2.0.0
+
+### Major Changes
+
+- ad09570: Migrate to pnpm catalogs
+
+### Patch Changes
+
+- 47a8c84: Add limit param to historic endpoint fetching hooks to limit the amount of data fetched
+- 0718c5a: Introduce support for chain agnostic token and history icons
+- Updated dependencies [47a8c84]
+- Updated dependencies [ad09570]
+  - @jetstreamgg/sky-hooks@2.0.0
+  - @jetstreamgg/sky-utils@2.0.0
+
+## 1.1.0
+
+### Minor Changes
+
+- 54eaeb5: Unify the transaction flows, so the higher order transaction hooks are now in charge to execute a list of transactions either sequentially or in batch, depending on the wallet support and user selection
+
+### Patch Changes
+
+- 9dd90ae: Standardize transaction handling and component structure across all major widgets
+- Updated dependencies [905f893]
+- Updated dependencies [54eaeb5]
+  - @jetstreamgg/sky-hooks@1.1.0
+
 ## 1.0.2
 
 ### Patch Changes

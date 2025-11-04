@@ -31,7 +31,7 @@ export function TransactionDetail() {
             <TokenIconWithBalance
               token={originToken}
               balance={formatBigInt(originAmount, {
-                unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+                unit: getTokenDecimals(originToken, chainId)
               })}
               textLarge
             />
@@ -41,7 +41,7 @@ export function TransactionDetail() {
                 <TokenIconWithBalance
                   token={targetToken}
                   balance={formatBigInt(targetAmount, {
-                    unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18
+                    unit: getTokenDecimals(targetToken, chainId)
                   })}
                   textLarge
                 />
@@ -86,7 +86,7 @@ export function BatchTransactionStatus({
       <motion.div variants={positionAnimations} className="my-3 w-full">
         <Card
           data-status={flowSuccess && 'success'}
-          className="ease-out-expo from-primary-start/0 to-primary-end/0 data-[status=success]:from-primary-start/100 data-[status=success]:to-primary-end/100 w-full transition duration-500"
+          className="ease-out-expo from-primary-start/0 to-primary-end/0 data-[status=success]:from-primary-start/100 data-[status=success]:to-primary-end/100 w-full transition-[background-color,background-image] duration-500"
         >
           <CardHeader>
             <motion.div variants={positionAnimations} className="flex gap-4">

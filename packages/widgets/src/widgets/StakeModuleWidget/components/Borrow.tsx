@@ -9,15 +9,18 @@ import {
   useVault,
   Vault,
   CollateralRiskParameters,
-  useSealExitFee
+  useSkyPrice,
+  useStakeUrnSelectedVoteDelegate,
+  ZERO_ADDRESS
 } from '@jetstreamgg/sky-hooks';
 import { t } from '@lingui/core/macro';
-import { useContext, useEffect, useMemo } from 'react';
+import { Trans } from '@lingui/react/macro';
+import { useContext, useEffect, useMemo, useId } from 'react';
 import { StakeModuleWidgetContext } from '../context/context';
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
 import {
   WAD_PRECISION,
-  captitalizeFirstLetter,
+  capitalizeFirstLetter,
   formatBigInt,
   formatPercent,
   useDebounce,
@@ -31,16 +34,32 @@ import { useRiskSlider } from '../hooks/useRiskSlider';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
 import { getTooltipById } from '../../../data/tooltips';
+import { Checkbox } from '@widgets/components/ui/checkbox';
+import { cn } from '@widgets/lib/utils';
+import { WidgetContext } from '@widgets/context/WidgetContext';
+import { StakeFlow } from '../lib/constants';
+import { Button } from '@widgets/components/ui/button';
 
 const { usds } = TOKENS;
 
 const { LOW } = RiskLevel;
 
-const SliderContainer = ({ vault }: { vault?: Vault }) => {
-  const { sliderValue, handleSliderChange, shouldShowSlider } = useRiskSlider({
-    vault,
-    isRepayMode: false
-  });
+const SliderContainer = ({
+  vault,
+  existingVault,
+  vaultNoBorrow
+}: {
+  vault?: Vault;
+  existingVault?: Vault;
+  vaultNoBorrow?: Vault;
+}) => {
+  const { sliderValue, handleSliderChange, shouldShowSlider, currentRiskFloor, capPercentage } =
+    useRiskSlider({
+      vault,
+      existingVault,
+      vaultNoBorrow,
+      isRepayMode: false
+    });
 
   return shouldShowSlider ? (
     <RiskSlider
@@ -48,12 +67,13 @@ const SliderContainer = ({ vault }: { vault?: Vault }) => {
       max={100}
       leftLabel={t`Low risk`}
       rightLabel={t`High risk`}
-      disabled={true}
       onValueCommit={v => {
         handleSliderChange(v[0]);
       }}
       liquidationLabel={t`Liquidation`}
       sliderLabel={t`Liquidation risk meter`}
+      currentRiskFloor={currentRiskFloor}
+      capIndicationPercentage={capPercentage}
     />
   ) : null;
 };
@@ -119,11 +139,13 @@ const PositionManagerOverviewContainer = ({
 
   const formattedExistingMaxBorrowable = `${formatBigInt(existingVault?.maxSafeBorrowableIntAmount || 0n, {
     unit: getTokenDecimals(usds, chainId),
-    compact: true
+    compact: true,
+    maxDecimals: 0
   })} ${usds.symbol}`;
   const formatterSimulatedMaxBorrowable = `${formatBigInt(simulatedVault?.maxSafeBorrowableIntAmount || 0n, {
     unit: getTokenDecimals(usds, chainId),
-    compact: true
+    compact: true,
+    maxDecimals: 0
   })} ${usds.symbol}`;
 
   const formattedMaxBorrowable =
@@ -131,13 +153,13 @@ const PositionManagerOverviewContainer = ({
       ? [formattedExistingMaxBorrowable, formatterSimulatedMaxBorrowable]
       : formatterSimulatedMaxBorrowable;
 
-  const { data: exitFee } = useSealExitFee();
+  const { data: skyMarketPrice } = useSkyPrice();
 
   const initialTxData = useMemo(
     () =>
       [
         {
-          label: t`You staked`,
+          label: t`Staking`,
           value:
             hasPositions && newCollateralAmount !== existingColAmount
               ? [
@@ -147,17 +169,24 @@ const PositionManagerOverviewContainer = ({
               : `${formatBigInt(newCollateralAmount, { compact: true })} SKY`
         },
         {
-          label: t`You borrowed`,
+          label: t`Borrowing`,
           value:
             hasPositions && newBorrowAmount !== existingBorrowAmount
               ? [
                   `${formatBigInt(existingBorrowAmount, { compact: true })} ${usds.symbol}`,
                   `${formatBigInt(newBorrowAmount, { compact: true })} ${usds.symbol}`
                 ]
-              : `${formatBigInt(newBorrowAmount, { compact: true })} ${usds.symbol}`
+              : `${formatBigInt(newBorrowAmount, { compact: true })} ${usds.symbol}`,
+          tooltipTitle: getTooltipById('borrow')?.title || '',
+          tooltipText: getTooltipById('borrow')?.tooltip || ''
         },
         minCollateralNotMet
-          ? { label: 'Borrow limit', value: t`Not enough collateral to borrow` }
+          ? {
+              label: 'Borrow limit',
+              value: t`Not enough collateral to borrow`,
+              tooltipTitle: getTooltipById('borrow-limit')?.title || '',
+              tooltipText: getTooltipById('borrow-limit')?.tooltip || ''
+            }
           : [
               {
                 label: t`Min borrowable amount`,
@@ -165,12 +194,23 @@ const PositionManagerOverviewContainer = ({
               },
               {
                 label: t`Max borrowable amount`,
-                value: formattedMaxBorrowable
+                value: formattedMaxBorrowable,
+                tooltipTitle: getTooltipById('borrow-limit')?.title || '',
+                tooltipText: getTooltipById('borrow-limit')?.tooltip || ''
               }
             ],
         {
-          label: t`Current SKY price`,
-          value: `$${formatBigInt(simulatedVault?.delayedPrice || 0n, { unit: WAD_PRECISION })}`
+          label: t`SKY price`,
+          value:
+            skyMarketPrice !== undefined
+              ? `$${formatBigInt(skyMarketPrice, { unit: WAD_PRECISION })}`
+              : t`Not available`
+        },
+        {
+          label: t`Capped OSM SKY price`,
+          value: `$${formatBigInt(simulatedVault?.delayedPrice || 0n, { unit: WAD_PRECISION })}`,
+          tooltipTitle: getTooltipById('capped-osm-sky-price')?.title || '',
+          tooltipText: getTooltipById('capped-osm-sky-price')?.tooltip || ''
         }
       ].flat(),
     [
@@ -183,16 +223,17 @@ const PositionManagerOverviewContainer = ({
       existingColAmount,
       existingBorrowAmount,
       hasPositions,
-      exitFee
+      skyMarketPrice
     ]
   );
 
   const txData = useMemo(
     () => [
       {
-        label: t`Borrow rate`,
+        label: t`Borrow Rate`,
         value: collateralData?.stabilityFee ? formatPercent(collateralData?.stabilityFee) : '',
-        tooltipText: getTooltipById('borrow')?.tooltip || ''
+        tooltipTitle: getTooltipById('borrow-rate')?.title || '',
+        tooltipText: getTooltipById('borrow-rate')?.tooltip || ''
       },
       {
         label: t`Collateral value`,
@@ -208,12 +249,14 @@ const PositionManagerOverviewContainer = ({
         label: t`Liquidation price`,
         value:
           hasPositions && existingLiqPrice !== newLiqPrice ? [existingLiqPrice, newLiqPrice] : newLiqPrice,
+        tooltipTitle: getTooltipById('liquidation-price')?.title || '',
         tooltipText: getTooltipById('liquidation-price')?.tooltip || ''
       },
       {
         label: t`Collateralization ratio`,
         value:
           hasPositions && existingColRatio !== newColRatio ? [existingColRatio, newColRatio] : newColRatio,
+        tooltipTitle: getTooltipById('collateralization-ratio')?.title || '',
         tooltipText: getTooltipById('collateralization-ratio')?.tooltip || ''
       },
       {
@@ -225,10 +268,11 @@ const PositionManagerOverviewContainer = ({
         value:
           hasPositions && simulatedVault?.riskLevel !== existingVault?.riskLevel
             ? [
-                `${captitalizeFirstLetter(existingVault?.riskLevel?.toLowerCase() || '')}`,
-                `${captitalizeFirstLetter(simulatedVault?.riskLevel?.toLowerCase() || '')}`
+                `${capitalizeFirstLetter(existingVault?.riskLevel?.toLowerCase() || '')}`,
+                `${capitalizeFirstLetter(simulatedVault?.riskLevel?.toLowerCase() || '')}`
               ]
-            : `${captitalizeFirstLetter(simulatedVault?.riskLevel?.toLowerCase() || '')}`,
+            : `${capitalizeFirstLetter(simulatedVault?.riskLevel?.toLowerCase() || '')}`,
+        tooltipTitle: getTooltipById('risk-level')?.title || '',
         tooltipText: getTooltipById('risk-level')?.tooltip || '',
         classNamePrev: existingRiskTextColor,
         className: riskTextColor
@@ -242,6 +286,7 @@ const PositionManagerOverviewContainer = ({
                 `${Math.ceil(newDebtCeilingUtilization * 100)}%`
               ]
             : `${Math.ceil(newDebtCeilingUtilization * 100)}%`,
+        tooltipTitle: getTooltipById('debt-ceiling-utilization')?.title || '',
         tooltipText: getTooltipById('debt-ceiling-utilization')?.tooltip || '',
         classNamePrev: existingCeilingRiskTextColor,
         className: newCeilingTextColor
@@ -276,13 +321,44 @@ const PositionManagerOverviewContainer = ({
 };
 
 export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolean }) => {
-  const { setIsBorrowCompleted, usdsToBorrow, setUsdsToBorrow, activeUrn, skyToLock } =
-    useContext(StakeModuleWidgetContext);
+  const { widgetState } = useContext(WidgetContext);
+  const {
+    setIsBorrowCompleted,
+    usdsToBorrow,
+    setUsdsToBorrow,
+    activeUrn,
+    skyToLock,
+    wantsToDelegate,
+    setWantsToDelegate
+  } = useContext(StakeModuleWidgetContext);
 
   const chainId = useChainId();
   const ilkName = getIlkName(2);
 
   const { data: existingVault } = useVault(activeUrn?.urnAddress, ilkName);
+  const { data: urnSelectedVoteDelegate } = useStakeUrnSelectedVoteDelegate({
+    urn: activeUrn?.urnAddress || ZERO_ADDRESS
+  });
+
+  const delegateCheckboxId = useId();
+
+  // Determine if existing position has delegation
+  const hasExistingDelegate = urnSelectedVoteDelegate && urnSelectedVoteDelegate !== ZERO_ADDRESS;
+
+  // Update wantsToDelegate when activeUrn changes
+  useEffect(() => {
+    if (wantsToDelegate !== undefined) {
+      return;
+    }
+
+    if (widgetState.flow === StakeFlow.OPEN) {
+      setWantsToDelegate(false);
+    } else if (hasExistingDelegate !== undefined) {
+      setWantsToDelegate(hasExistingDelegate);
+    } else {
+      setWantsToDelegate(false);
+    }
+  }, [hasExistingDelegate, widgetState.flow, activeUrn?.urnIndex, setWantsToDelegate]);
 
   // Comes from user input amount
   const debouncedUsdsToBorrow = useDebounce(usdsToBorrow);
@@ -300,6 +376,15 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
     isLoading,
     error
   } = useSimulatedVault(newCollateralAmount, newBorrowAmount, existingVault?.debtValue || 0n, ilkName);
+
+  // Simulate a new vault using only the existing debt value (not taking into account new debt)
+  // to be able to calculate risk floor and ceiling values
+  const { data: simulatedVaultNoBorrow } = useSimulatedVault(
+    newCollateralAmount,
+    existingVault?.debtValue || 0n,
+    existingVault?.debtValue || 0n,
+    ilkName
+  );
 
   const minCollateralNotMet =
     simulatedVault?.collateralAmount !== undefined &&
@@ -368,6 +453,19 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
           })} USDS`
         : `Limit ${formattedMinBorrowable.slice(0, -5)} <> ${formattedMaxBorrowable}`;
 
+  const handleMinClick = () => {
+    const minAmount = (existingVault?.debtValue || 0n) > 0n ? 0n : simulatedVault?.dust || 0n;
+    setUsdsToBorrow(minAmount);
+  };
+
+  const showMinButton =
+    isConnectedAndEnabled &&
+    collateralData?.debtCeilingUtilization !== 1 &&
+    !minCollateralNotMet &&
+    (existingVault?.debtValue || 0n) === 0n &&
+    simulatedVault?.dust &&
+    simulatedVault.dust > 0n;
+
   return (
     <div className="mb-8 space-y-2">
       <TokenInput
@@ -377,7 +475,7 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
         token={usds}
         tokenList={[usds]}
         balance={availableBorrowBalance}
-        borrowLimitText={inputText}
+        limitText={inputText}
         value={debouncedUsdsToBorrow}
         onChange={setUsdsToBorrow}
         dataTestId="borrow-input-lse"
@@ -387,6 +485,14 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
           !isConnectedAndEnabled || minCollateralNotMet || collateralData?.debtCeilingUtilization === 1
         }
         enabled={isConnectedAndEnabled}
+        hideIcon={isConnectedAndEnabled}
+        customActionButtons={
+          showMinButton ? (
+            <Button size="input" variant="input" onClick={handleMinClick} data-testid="borrow-input-min">
+              Min
+            </Button>
+          ) : undefined
+        }
       />
       {collateralData?.debtCeilingUtilization === 1 ? (
         <div className="ml-3 flex items-start text-amber-400">
@@ -398,7 +504,34 @@ export const Borrow = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boole
       ) : (
         <div className="mb-4" />
       )}
-      <SliderContainer vault={simulatedVault} />
+      <SliderContainer
+        vault={simulatedVault}
+        existingVault={existingVault}
+        vaultNoBorrow={simulatedVaultNoBorrow}
+      />
+
+      {simulatedVault && (
+        <div className="flex items-center px-3 pt-1">
+          <Checkbox
+            id={delegateCheckboxId}
+            checked={wantsToDelegate}
+            onCheckedChange={checked => setWantsToDelegate(checked === true)}
+            disabled={!!hasExistingDelegate}
+          />
+          <label
+            htmlFor={delegateCheckboxId}
+            className={cn('ml-2', hasExistingDelegate ? 'cursor-not-allowed' : 'cursor-pointer')}
+          >
+            <Text variant="medium" className={cn(hasExistingDelegate ? 'text-textSecondary' : 'text-white')}>
+              {hasExistingDelegate ? (
+                <Trans>You are delegating voting power for this position</Trans>
+              ) : (
+                <Trans>Do you want to delegate voting power?</Trans>
+              )}
+            </Text>
+          </label>
+        </div>
+      )}
 
       <PositionManagerOverviewContainer
         simulatedVault={simulatedVault}

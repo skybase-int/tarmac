@@ -19,6 +19,42 @@ export { useMultiChainSavingsBalances } from './savings/useMultiChainSavingsBala
 export { useBatchSavingsSupply } from './savings/useBatchSavingsSupply';
 export { useBatchUpgradeAndSavingsSupply } from './savings/useBatchUpgradeAndSavingsSupply';
 
+// stUSDS
+export {
+  useStUsdsData,
+  useStUsdsDeposit,
+  useBatchStUsdsDeposit,
+  useStUsdsWithdraw,
+  useStUsdsAllowance,
+  useStUsdsApprove,
+  useStUsdsConvertToShares,
+  useStUsdsConvertToAssets,
+  useStUsdsPreviewDeposit,
+  useStUsdsPreviewWithdraw,
+  useStUsdsRateData,
+  useStUsdsCapacityData,
+  useStUsdsHistory,
+  useStUsdsChartInfo
+} from './stusds';
+
+export type {
+  StUsdsHookData,
+  StUsdsHook,
+  StUsdsAllowanceHookResponse,
+  StUsdsConvertToSharesHookResponse,
+  StUsdsConvertToAssetsHookResponse,
+  StUsdsPreviewDepositHookResponse,
+  StUsdsPreviewWithdrawHookResponse,
+  StUsdsRateData,
+  StUsdsRateDataHook,
+  StUsdsCapacityData,
+  StUsdsCapacityDataHook,
+  StUsdsHistoryHook,
+  StUsdsHistoryItem,
+  StUsdsVaultMetrics,
+  StUsdsUserMetrics
+} from './stusds';
+
 // Authentication
 export { useRestrictedAddressCheck } from './authentication/useRestrictedAddressCheck';
 export { useVpnCheck } from './authentication/useVpnCheck';
@@ -26,6 +62,7 @@ export { useVpnCheck } from './authentication/useVpnCheck';
 // Tokens
 export { useTokenAllowance } from './tokens/useTokenAllowance';
 export { useApproveToken } from './tokens/useApproveToken';
+export { useBatchUsdtApprove } from './tokens/useBatchUsdtApprove';
 export { useTokens } from './tokens/useTokens';
 export { useTokenBalance, useTokenBalances, type TokenItem } from './tokens/useTokenBalance';
 export { useTokenChartInfo } from './tokens/useTokenChartInfo';
@@ -38,10 +75,12 @@ export { useRewardContractsInfo } from './rewards/useRewardContractsInfo';
 export { useRewardsUserHistory } from './rewards/useRewardsUserHistory';
 export { useAllRewardsUserHistory } from './rewards/useAllRewardsUserHistory';
 export { useRewardsChartInfo } from './rewards/useRewardsChartInfo';
+export { useMultipleRewardsChartInfo } from './rewards/useMultipleRewardsChartInfo';
 export { useRewardContractTokens } from './rewards/useRewardContractTokens';
 export { useUserRewardsBalance } from './rewards/useUserRewardsBalance';
 export { useRewardsWithUserBalance } from './rewards/useRewardsWithUserBalance';
 export { useBatchRewardsSupply } from './rewards/useBatchRewardsSupply';
+export { useBatchClaimAllRewards } from './rewards/useBatchClaimAllRewards';
 
 // Rewards
 export { useRewardsSupply } from './rewards/useRewardsSupply';
@@ -77,10 +116,12 @@ export { useDaiUsdsApprove } from './upgrade/useDaiUsdsApprove';
 export { useMkrSkyApprove } from './upgrade/useMkrSkyApprove';
 export { useUpgradeHistory } from './upgrade/useUpgradeHistory';
 export { useUpgradeTotals } from './upgrade/useUpgradeTotals';
+export { useMkrSkyFee } from './upgrade/useMkrSkyFee';
+export { useMigrationStats } from './upgrade/useMigrationStats';
 
 // Trade
 export { useTradeHistory } from './trade/useTradeHistory';
-export { useEthereumTradeHistory } from './trade/useEthereumTradeHistory';
+export { useCowswapTradeHistory } from './trade/useCowswapTradeHistory';
 export { useQuoteTrade } from './trade/useQuoteTrade';
 export { useSignAndCreateTradeOrder } from './trade/useSignAndCreateTradeOrder';
 export { useCreateEthTradeOrder } from './trade/useCreateEthTradeOrder';
@@ -97,6 +138,7 @@ export { useOracles } from './oracles/useOracles';
 
 // Prices
 export { usePrices } from './prices/usePrices';
+export { useSkyPrice } from './prices/useSkyPrice';
 export { useLsMkrPrice } from './prices/useLsMkrPrice';
 
 // Seal Module
@@ -110,7 +152,6 @@ export { useUrnSelectedVoteDelegate } from './seal/useUrnSelectedVoteDelegate';
 export { useLockMkr } from './seal/useLockMkr';
 export { useLockSky } from './seal/useLockSky';
 export { useFreeMkr } from './seal/useFreeMkr';
-export { useFreeSky } from './seal/useFreeSky';
 export { useSaMkrAllowance, useSaNgtAllowance, useSaNstAllowance } from './seal/useSaAllowance';
 export { useSaMkrApprove, useSaNgtApprove, useSaNstApprove } from './seal/useSaApprove';
 export { useClaimRewards } from './seal/useClaimRewards';
@@ -144,11 +185,12 @@ export { useUrnSelectedVoteDelegate as useStakeUrnSelectedVoteDelegate } from '.
 export { useStakeSkyAllowance, useStakeUsdsAllowance } from './stake/useStakeAllowance';
 export { useStakeSkyApprove, useStakeUsdsApprove } from './stake/useStakeApprove';
 export { useClaimRewards as useStakeClaimRewards } from './stake/useClaimRewards';
-export { useBatchClaimAllRewards as useBatchStakeClaimAllRewards } from './stake/useBatchClaimAllRewards';
+export { useBatchStakeClaimAllRewards } from './stake/useBatchStakeClaimAllRewards';
 export { useStakeRewardsData } from './stake/useStakeRewardsData';
 export { useStakePosition } from './stake/useStakePosition';
 export { useBatchStakeMulticall } from './stake/useBatchStakeMulticall';
 export { useHighestRateFromChartData } from './stake/useHighestRateFromChartData';
+export { useBorrowCapacityData } from './stake/useBorrowCapacityData';
 export * from './stake/calldata';
 
 //Vaults
@@ -170,7 +212,7 @@ export { usePsmSwapExactOut } from './psm/usePsmSwapExactOut';
 export { useBatchPsmSwapExactIn } from './psm/useBatchPsmSwapExactIn';
 export { useBatchPsmSwapExactOut } from './psm/useBatchPsmSwapExactOut';
 export { useL2SavingsHistory } from './psm/useL2SavingsHistory';
-export { useL2TradeHistory } from './psm/useL2TradeHistory';
+export { usePsmTradeHistory } from './psm/usePsmTradeHistory';
 export { usePsmLiquidity } from './psm/usePsmLiquidity';
 export { usePreviewSwapExactIn } from './psm/usePreviewSwapExactIn';
 export { usePreviewSwapExactOut } from './psm/usePreviewSwapExactOut';
@@ -189,7 +231,7 @@ export {
 export { SupportedCollateralTypes } from './vaults/vaults.constants';
 export { getIlkName } from './vaults/helpers';
 
-export { OrderQuoteSideKind } from './trade/constants';
+export { OrderQuoteSideKind, gpv2VaultRelayerAddress } from './trade/constants';
 
 export {
   TOKENS,
@@ -224,6 +266,7 @@ export type { RewardsChartInfoParsed } from './rewards/useRewardsChartInfo';
 export type { Vault, CollateralRiskParameters } from './vaults/vault';
 export type { SealHistoryKick } from './seal/sealModule';
 export type { DelegateInfo } from './delegates/delegate';
+export type { BorrowCapacityData, BorrowCapacityDataHook } from './stake/useBorrowCapacityData';
 
 // Generated hooks and contracts data
 export {
@@ -249,14 +292,11 @@ export {
   usdcAddress,
   usdtAddress,
   spkAddress,
-  wethSepoliaAddress,
-  usdcSepoliaAddress,
-  usdtSepoliaAddress,
-  mcdDaiSepoliaAddress,
   sealModuleAddress,
   stakeModuleAddress,
   usdcL2Address,
   usdsL2Address,
+  stUsdsAddress,
   sUsdsL2Address,
   psm3L2Address,
   useReadPsm3L2ConvertToShares,
@@ -270,9 +310,11 @@ export {
   useReadPsm3L2PreviewSwapExactOut,
   lsMkrUsdsRewardAddress,
   lsSkyUsdsRewardAddress,
-  lsSkySpkRewardAddress
+  lsSkySpkRewardAddress,
+  lsSkySkyRewardAddress,
+  useReadClipperDue
 } from './generated';
-export { contracts, /*tenderlyContracts,*/ sepoliaContracts, l2Contracts } from './contracts';
+export { contracts, /*tenderlyContracts,*/ l2Contracts } from './contracts';
 
 export { useTransactionFlow } from './shared/useTransactionFlow';
 export { getWriteContractCall } from './shared/getWriteContractCall';

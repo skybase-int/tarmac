@@ -1,73 +1,123 @@
-import { useRef, useEffect, useState, useCallback, JSX } from 'react';
+import React, { useRef, useEffect, useState, useCallback, JSX } from 'react';
 import { Intent } from '../../../lib/enums';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../../components/ui/tabs';
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
-import { Text } from '@/modules/layout/components/Typography';
+import { Heading, Text } from '@/modules/layout/components/Typography';
 import { Trans } from '@lingui/react/macro';
-import { WidgetContent } from './WidgetPane';
+import { WidgetContent } from '../types/Widgets';
 import { AnimatePresence, motion } from 'framer-motion';
 import { cardAnimations } from '@/modules/ui/animation/presets';
 import { AnimationLabels } from '@/modules/ui/animation/constants';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
-import { QueryParams, mapIntentToQueryParam } from '@/lib/constants';
 import { LinkedActionWrapper } from '@/modules/ui/components/LinkedActionWrapper';
-import { useSearchParams } from 'react-router-dom';
-import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
 import { cn } from '@/lib/utils';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-  TooltipPortal
-} from '@/components/ui/tooltip';
+import { Menu, ChevronDown } from 'lucide-react';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Button } from '@/components/ui/button';
+import { DualSwitcher } from '@/components/DualSwitcher';
+import { useNetworkSwitch } from '@/modules/ui/context/NetworkSwitchContext';
+import { useChains } from 'wagmi';
+import { useEnhancedNetworkToast } from '@/modules/app/hooks/useEnhancedNetworkToast';
+import { useNetworkAutoSwitch } from '@/modules/app/hooks/useNetworkAutoSwitch';
+import { WidgetMenuItemTooltip } from '@/modules/app/components/WidgetMenuItemTooltip';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import { useScrollHint } from '@/modules/app/hooks/useScrollHint';
 
 interface WidgetNavigationProps {
   widgetContent: WidgetContent;
   intent?: Intent;
   children?: React.ReactNode;
   hideTabs?: boolean;
+  currentChainId?: number;
 }
 
 export function WidgetNavigation({
   widgetContent,
   intent,
   children,
-  hideTabs
+  hideTabs,
+  currentChainId
 }: WidgetNavigationProps): JSX.Element {
   const { bpi } = useBreakpointIndex();
   const isMobile = bpi < BP.md;
+  const showDrawerMenu = bpi < BP.lg; // Show drawer menu on mobile and tablet
   const containerRef = useRef<HTMLDivElement>(null);
-  const widgetRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const tabsListRef = useRef<HTMLDivElement>(null);
+  const activeTabRef = useRef<HTMLButtonElement>(null);
   const [height, setHeight] = useState<number>(0);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const {
-    selectedRewardContract,
     linkedActionConfig: { showLinkedAction }
   } = useConfigContext();
-  const isRewardsOverview = !selectedRewardContract && intent === Intent.REWARDS_INTENT;
 
-  const [, setSearchParams] = useSearchParams();
+  // Scroll hint for vertical menu
+  const { shouldShowHint, isOverflowing } = useScrollHint(tabsListRef, {
+    enabled: !showDrawerMenu && !hideTabs
+  });
+
+  // Scroll active tab into view when intent changes
+  useEffect(() => {
+    if (showDrawerMenu || !activeTabRef.current || !tabsListRef.current) return;
+
+    const timeoutId = window.setTimeout(() => {
+      activeTabRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest'
+      });
+    }, 100);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [intent, showDrawerMenu]);
+
+  const { setIsSwitchingNetwork } = useNetworkSwitch();
+  const chains = useChains();
+  const { showNetworkToast } = useEnhancedNetworkToast();
+  const [previousChainId, setPreviousChainId] = useState<number | undefined>(currentChainId);
+
+  // Use the new network auto-switch hook
+  const { handleWidgetNavigation, isAutoSwitching, previousIntent } = useNetworkAutoSwitch({
+    currentChainId,
+    currentIntent: intent
+  });
 
   const handleWidgetChange = (value: string) => {
-    const queryParam = mapIntentToQueryParam(value as Intent);
-
-    setSearchParams(prevParams => {
-      // delete the query params when we navigate to a different widget by tab click
-      const searchParams = deleteSearchParams(prevParams);
-
-      // set the new widget parameter
-      searchParams.set(QueryParams.Widget, queryParam);
-
-      // I think this part needs to move too
-      if (value === Intent.REWARDS_INTENT) {
-        if (selectedRewardContract?.contractAddress)
-          searchParams.set(QueryParams.Reward, selectedRewardContract.contractAddress);
-      } else {
-        searchParams.delete(QueryParams.Reward);
-      }
-      return searchParams;
-    });
+    const targetIntent = value as Intent;
+    handleWidgetNavigation(targetIntent);
   };
+
+  // Track network changes and show enhanced toast
+  useEffect(() => {
+    if (currentChainId && previousChainId && currentChainId !== previousChainId) {
+      const prevChain = chains.find(c => c.id === previousChainId);
+      const currChain = chains.find(c => c.id === currentChainId);
+
+      if (prevChain && currChain) {
+        // Reset switching state when network change completes
+        setIsSwitchingNetwork(false);
+
+        // Show enhanced network toast with quick switch options
+        showNetworkToast({
+          previousChain: { id: prevChain.id, name: prevChain.name },
+          currentChain: { id: currChain.id, name: currChain.name },
+          currentIntent: intent,
+          previousIntent: previousIntent,
+          isAutoSwitch: isAutoSwitching
+        });
+      }
+    }
+    setPreviousChainId(currentChainId);
+  }, [
+    currentChainId,
+    chains,
+    intent,
+    previousIntent,
+    showNetworkToast,
+    setIsSwitchingNetwork,
+    isAutoSwitching
+  ]);
 
   useEffect(() => {
     const containerElement = containerRef.current;
@@ -90,27 +140,25 @@ export function WidgetNavigation({
 
   const contentMarginTop = isMobile ? 0 : 8;
   const contentPaddingTop = isMobile ? 0 : 2;
-  const laExtraHeight = isMobile ? 61 : 100; // LA Wrapper and action button height
-  const baseTabContentClasses = 'md:h-full md:flex-1';
-  const tabContentClasses = isRewardsOverview
-    ? `${baseTabContentClasses} p-6 pr-3.5 pb-0 md:p-3 md:pb-3 md:pr-0.5 md:pt-2 xl:p-4 xl:pb-4 xl:pr-1.5`
-    : `${baseTabContentClasses} p-6 pr-3.5 md:p-3 md:pr-0.5 md:pt-2 xl:p-4 xl:pr-1.5`;
+  const laExtraHeight = isMobile ? 61 : showDrawerMenu ? 44 : 100; // LA Wrapper and action button height
+  const tabContentClasses = 'pl-4 pt-2 pr-1.5 pb-4 md:pl-1.5 md:pr-0 md:pb-1 lg:py-1 lg:pr-0';
   // If it's mobile, use the widget navigation row height + the height of the webiste header
   // as we're using 100vh for the content style, if not, just use the height of the navigation row
   // If the tab list is hidden, don't count it's height
   const headerHeight =
     (isMobile ? (hideTabs ? 56 : 63 + 56) : 66) + (contentMarginTop + contentPaddingTop) * 4;
-  const topOffset = headerHeight;
   const style = isMobile
-    ? { height: `calc(100dvh - ${topOffset + (showLinkedAction ? laExtraHeight : 0)}px)` }
-    : { height: `${height - topOffset - (showLinkedAction ? laExtraHeight : 0)}px` };
-  const tabGlowClasses =
-    'before:top-[-13px] xl:before:top-[-17px] before:absolute before:left-1/2 before:-translate-x-1/2 before:w-[120%] before:h-px before:bg-nav-light';
+    ? { height: `calc(100dvh - ${headerHeight + (showLinkedAction ? laExtraHeight : 0)}px)` }
+    : showDrawerMenu
+      ? { height: `${height - 52 - (showLinkedAction ? laExtraHeight : 0)}px` }
+      : undefined;
+  const verticalTabGlowClasses =
+    'before:-left-[17px] before:absolute before:top-1/2 before:-translate-y-1/2 before:h-[120%] before:w-px before:bg-nav-light-vertical';
 
   // Memoized scroll function
   const scrollToTop = useCallback(() => {
     if (isMobile) {
-      widgetRef.current?.scrollIntoView(true);
+      menuRef.current?.scrollIntoView();
     }
   }, [isMobile]);
 
@@ -120,94 +168,216 @@ export function WidgetNavigation({
   }, [intent, scrollToTop]);
 
   return (
-    <Tabs
-      ref={containerRef}
-      className="w-full md:flex md:min-w-[352px] md:max-w-[440px] md:flex-col lg:min-w-[416px] lg:max-w-[416px] xl:p-1"
-      defaultValue={Intent.BALANCES_INTENT}
-      onValueChange={handleWidgetChange}
-      value={intent}
-      asChild
-      activationMode="manual"
-    >
-      <motion.div layout transition={{ layout: { duration: 0 } }}>
-        {/* TODO justify-around only when restricted */}
-        <TabsList
-          className={`sticky top-0 z-20 flex w-full justify-around rounded-none rounded-t-3xl border-b p-3 backdrop-blur-2xl md:border-none md:p-0 md:backdrop-filter-none ${hideTabs ? 'hidden' : ''}`}
-          data-testid="widget-navigation"
+    <div ref={containerRef} className={`${showDrawerMenu ? 'w-full' : 'lg:flex lg:h-full'}`}>
+      {/* Mobile and tablet hamburger menu */}
+      {showDrawerMenu && !hideTabs && (
+        <div
+          className="flex items-center justify-between p-4 pb-2 md:pl-1.5 md:pr-2.5 md:pt-1 lg:hidden"
+          ref={menuRef}
         >
-          <TooltipProvider>
-            {widgetContent.map(([widgetIntent, label, icon, , comingSoon, options, description]) => (
-              <div key={widgetIntent} className="flex grow basis-[15%] justify-center">
-                <TabsTrigger
-                  variant="icons"
-                  value={widgetIntent}
-                  className={cn(
-                    'text-textSecondary data-[state=active]:text-text w-full px-1 md:px-2',
-                    'before:opacity-0',
-                    'disabled:cursor-not-allowed disabled:text-[rgba(198,194,255,0.4)] disabled:before:opacity-0 disabled:hover:before:opacity-0',
-                    tabGlowClasses,
-                    intent === widgetIntent && 'before:opacity-100 hover:before:opacity-100'
-                  )}
-                  disabled={options?.disabled || false}
-                >
-                  <Tooltip delayDuration={150}>
-                    <TooltipTrigger asChild>
-                      <div className="flex flex-col items-center justify-center gap-1">
-                        {!isMobile && icon({ color: 'inherit' })}
-                        <Text variant="small" className="leading-4 text-inherit">
+          <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                className="bg-bgPrimary border-borderPrimary rounded-xl"
+                aria-label="Toggle menu"
+              >
+                <Menu size={24} className="text-text" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent
+              side="left"
+              className="border-borderPrimary w-[280px] bg-black/10 p-0 backdrop-blur-xl"
+              closeButtonClassName="text-white"
+              closeIconClassName="size-[22px]"
+            >
+              <div className="flex h-full flex-col">
+                <div className="p-6 pb-4">
+                  <Heading>
+                    <Trans>Menu</Trans>
+                  </Heading>
+                </div>
+                <div className="mt-10 flex-1 overflow-y-auto px-3 pb-6">
+                  {widgetContent.map(group =>
+                    group.items.map(([widgetIntent, label, icon, , comingSoon, options]) => (
+                      <Button
+                        key={widgetIntent}
+                        onClick={() => {
+                          handleWidgetChange(widgetIntent);
+                          setIsMobileMenuOpen(false);
+                        }}
+                        disabled={options?.disabled || false}
+                        variant="ghost"
+                        className={cn(
+                          'text-textSecondary mb-2 h-auto w-full justify-start gap-3 px-3 py-3 transition-colors',
+                          'hover:bg-bgHover disabled:cursor-not-allowed disabled:text-[rgba(198,194,255,0.4)]',
+                          intent === widgetIntent && 'bg-bgActive text-text hover:bg-bgActive'
+                        )}
+                      >
+                        {icon({ color: 'inherit' })}
+                        <Text variant="large" className="flex-1 text-left leading-4 text-inherit">
                           <Trans>{label}</Trans>
                         </Text>
-                      </div>
-                    </TooltipTrigger>
-                    {description && !isMobile && (
-                      <TooltipPortal>
-                        <TooltipContent>
-                          <p className="max-w-xs text-sm">{description}</p>
-                        </TooltipContent>
-                      </TooltipPortal>
-                    )}
-                  </Tooltip>
-                  {comingSoon && (
-                    <Text
-                      variant="small"
-                      className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 text-textSecondary absolute left-1/2 top-0 rounded-full px-1.5 py-0 md:px-2 md:py-1"
-                    >
-                      <Trans>Soon</Trans>
-                    </Text>
+                        {comingSoon && (
+                          <Text
+                            variant="small"
+                            className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 text-textSecondary rounded-full px-1.5 py-0.5 text-[10px]"
+                          >
+                            <Trans>Soon</Trans>
+                          </Text>
+                        )}
+                      </Button>
+                    ))
                   )}
-                </TabsTrigger>
+                </div>
               </div>
-            ))}
-          </TooltipProvider>
-        </TabsList>
-        <LinkedActionWrapper />
-        <AnimatePresence initial={false} mode="popLayout">
-          {widgetContent.map(
-            ([int, , , content]) =>
-              intent === int && (
-                <TabsContent key={int} value={int} className={tabContentClasses} style={style} asChild>
-                  <motion.div
-                    variants={cardAnimations}
-                    initial={AnimationLabels.initial}
-                    animate={AnimationLabels.animate}
-                    exit={AnimationLabels.exit}
-                    ref={widgetRef}
-                    className={
-                      isMobile
-                        ? showLinkedAction
-                          ? 'scroll-mt-[148px]'
-                          : 'scroll-mt-[87px]'
-                        : 'scroll-mt-[0px]'
-                    }
-                  >
-                    {content}
-                  </motion.div>
-                </TabsContent>
-              )
-          )}
-          {children}
-        </AnimatePresence>
-      </motion.div>
-    </Tabs>
+            </SheetContent>
+            {/* Only show the dual switcher in this row for mobile and tablet in portrait mode */}
+            <DualSwitcher className="flex lg:hidden" />
+          </Sheet>
+        </div>
+      )}
+
+      {/* Main content with tabs */}
+      <Tabs
+        className="w-full lg:flex lg:flex-row"
+        defaultValue={Intent.BALANCES_INTENT}
+        onValueChange={handleWidgetChange}
+        value={intent}
+        asChild
+        activationMode="manual"
+      >
+        <motion.div layout transition={{ layout: { duration: 0 } }} className="lg:flex lg:w-full lg:flex-row">
+          {/* Desktop vertical tabs, hidden on mobile and tablet */}
+          <div className="relative">
+            <TooltipProvider>
+              {/* Outer container with overflow-visible for tooltips */}
+              <div className={cn('overflow-visible', hideTabs && 'hidden', showDrawerMenu && 'hidden')}>
+                {/* Inner scrollable container */}
+                <TabsList
+                  ref={tabsListRef}
+                  className={cn(
+                    `scrollbar-hidden flex h-fit max-h-[calc(100vh-120px)] flex-col justify-start gap-2 py-1 pl-1 pr-[10px] ${isOverflowing ? 'overflow-y-scroll' : 'overflow-y-clip'}`
+                  )}
+                  data-testid="widget-navigation"
+                >
+                  {widgetContent.map((group, groupIndex) => (
+                    <React.Fragment key={group.id}>
+                      {group.items.map(([widgetIntent, label, icon, , comingSoon, options, description]) => (
+                        <div
+                          key={widgetIntent}
+                          className="flex grow basis-[15%] justify-center md:w-full md:basis-auto md:justify-start"
+                        >
+                          <WidgetMenuItemTooltip
+                            description={description}
+                            widgetIntent={widgetIntent}
+                            currentChainId={currentChainId}
+                            label={label as string}
+                            isMobile={isMobile}
+                            disabled={options?.disabled || false}
+                            isCurrentWidget={intent === widgetIntent}
+                          >
+                            <TabsTrigger
+                              ref={intent === widgetIntent ? activeTabRef : null}
+                              variant="icons"
+                              value={widgetIntent}
+                              className={cn(
+                                'text-textSecondary data-[state=active]:text-text relative h-[78px] w-full px-1',
+                                'lg:justify-start lg:gap-1.5 lg:bg-transparent lg:py-2 lg:hover:bg-transparent',
+                                'lg:data-[state=active]:text-text lg:data-[state=active]:bg-transparent',
+                                'disabled:cursor-not-allowed disabled:text-[rgba(198,194,255,0.4)]',
+                                !showDrawerMenu && intent === widgetIntent && verticalTabGlowClasses,
+                                showDrawerMenu &&
+                                  intent === widgetIntent &&
+                                  'before:opacity-100 hover:before:opacity-100'
+                              )}
+                              disabled={options?.disabled || false}
+                            >
+                              <div className="flex h-full flex-col items-center justify-center gap-1">
+                                {!isMobile && icon({ color: 'inherit' })}
+                                <Text variant="small" className="leading-4 text-inherit">
+                                  <Trans>{label}</Trans>
+                                </Text>
+                              </div>
+                              {comingSoon && (
+                                <Text
+                                  variant="small"
+                                  className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 text-textSecondary absolute left-1/2 top-0 -mt-2 rounded-full px-1.5 py-0 lg:static lg:px-1.5 lg:py-0.5 lg:text-[10px]"
+                                >
+                                  <Trans>Soon</Trans>
+                                </Text>
+                              )}
+                            </TabsTrigger>
+                          </WidgetMenuItemTooltip>
+                        </div>
+                      ))}
+                      {groupIndex < widgetContent.length - 1 && !showDrawerMenu && (
+                        <div className="lg:border-b-1 hidden lg:my-2 lg:block lg:h-px lg:w-full" />
+                      )}
+                    </React.Fragment>
+                  ))}
+                </TabsList>
+              </div>
+            </TooltipProvider>
+            {/* Scroll hint indicator */}
+            <AnimatePresence>
+              {shouldShowHint && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3, ease: 'easeOut' }}
+                  className="bg-textSecondary/20 absolute bottom-4 left-1/2 translate-x-[-21px] rounded-full p-2"
+                >
+                  <ChevronDown
+                    className="scroll-hint-indicator text-textSecondary"
+                    size={20}
+                    strokeWidth={2.5}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+          <div className="md:min-w-[352px] md:max-w-[440px] lg:flex lg:min-w-[416px] lg:max-w-[416px] lg:flex-1 lg:flex-col lg:overflow-hidden">
+            <LinkedActionWrapper />
+            <AnimatePresence initial={false} mode="popLayout">
+              {widgetContent.map(group =>
+                group.items.map(
+                  ([int, , , content]) =>
+                    intent === int && (
+                      <TabsContent
+                        key={int}
+                        value={int}
+                        className={cn(tabContentClasses, 'flex flex-col')}
+                        style={style}
+                        asChild
+                      >
+                        <motion.div
+                          variants={cardAnimations}
+                          initial={AnimationLabels.initial}
+                          animate={AnimationLabels.animate}
+                          exit={AnimationLabels.exit}
+                          className={cn(
+                            'flex-1 overflow-y-auto md:pr-0 lg:overflow-hidden',
+                            isMobile
+                              ? showLinkedAction
+                                ? 'scroll-mt-[148px]'
+                                : 'scroll-mt-[87px]'
+                              : 'scroll-mt-[0px]'
+                          )}
+                        >
+                          {content}
+                        </motion.div>
+                      </TabsContent>
+                    )
+                )
+              )}
+              {children}
+            </AnimatePresence>
+          </div>
+        </motion.div>
+      </Tabs>
+    </div>
   );
 }

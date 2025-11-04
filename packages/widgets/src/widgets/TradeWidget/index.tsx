@@ -9,7 +9,9 @@ import {
   ethFlowSlippageConfig,
   ercFlowSlippageConfig,
   ETH_SLIPPAGE_STORAGE_KEY,
-  ERC_SLIPPAGE_STORAGE_KEY
+  ERC_SLIPPAGE_STORAGE_KEY,
+  l2EthFlowSlippageConfig,
+  L2_ETH_SLIPPAGE_STORAGE_KEY
 } from './lib/constants';
 import {
   useTradeApprove,
@@ -24,16 +26,19 @@ import {
   TokenForChain,
   getTokenDecimals,
   useCreatePreSignTradeOrder,
-  useOnChainCancelOrder
+  useOnChainCancelOrder,
+  useBatchUsdtApprove,
+  gpv2VaultRelayerAddress
 } from '@jetstreamgg/sky-hooks';
 import { ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
   formatBigInt,
-  truncateStringToFourDecimals,
   getTransactionLink,
   useIsSafeWallet,
   useDebounce,
-  useIsSmartContractWallet
+  useIsSmartContractWallet,
+  getCowExplorerLink,
+  isL2ChainId
 } from '@jetstreamgg/sky-utils';
 import { useAccount, useChainId } from 'wagmi';
 import { t } from '@lingui/core/macro';
@@ -45,7 +50,7 @@ import { TradeInputs } from './components/TradeInputs';
 import { getAllowedTargetTokens, getQuoteErrorForType, verifySlippage } from './lib/utils';
 import { defaultConfig } from '@widgets/config/default-config';
 import { useLingui } from '@lingui/react';
-import { TradeHeader, TradeSubHeader, TradePoweredBy, TradeWarning } from './components/TradeHeader';
+import { TradeHeader, TradeSubHeader, TradePoweredBy } from './components/TradeHeader';
 import { formatUnits, parseUnits } from 'viem';
 import { getValidatedState } from '@widgets/lib/utils';
 import { TradeSummary } from './components/TradeSummary';
@@ -54,7 +59,6 @@ import { useAddTokenToWallet } from '@widgets/shared/hooks/useAddTokenToWallet';
 import { AnimatePresence } from 'framer-motion';
 import { CardAnimationWrapper } from '@widgets/shared/animation/Wrappers';
 import { useNotifyWidgetState } from '@widgets/shared/hooks/useNotifyWidgetState';
-import { sepolia } from 'viem/chains';
 import { useTokenImage } from '@widgets/shared/hooks/useTokenImage';
 import { withWidgetProvider } from '@widgets/shared/hocs/withWidgetProvider';
 
@@ -63,6 +67,9 @@ export type TradeWidgetProps = WidgetProps & {
   disallowedPairs?: Record<string, SUPPORTED_TOKEN_SYMBOLS[]>;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   widgetTitle?: ReactNode;
+  tokensLocked?: boolean;
+  batchEnabled?: boolean;
+  setBatchEnabled?: (enabled: boolean) => void;
 };
 
 function TradeWidgetWrapped({
@@ -79,13 +86,22 @@ function TradeWidgetWrapped({
   onCustomNavigation,
   customNavigationLabel,
   onExternalLinkClicked,
-  enabled = true
+  enabled = true,
+  tokensLocked = false,
+  batchEnabled: initialBatchEnabled = true,
+  setBatchEnabled: externalSetBatchEnabled
 }: TradeWidgetProps): React.ReactElement {
   const { mutate: addToWallet } = useAddTokenToWallet();
   const [showAddToken, setShowAddToken] = useState(false);
   const [tradeAnyway, setTradeAnyway] = useState(false);
   const [cancelLoading, setCancelLoading] = useState(false);
   const [ethFlowTxStatus, setEthFlowTxStatus] = useState<EthFlowTxStatus>(EthFlowTxStatus.IDLE);
+  const [internalBatchEnabled, setInternalBatchEnabled] = useState(initialBatchEnabled);
+  const [isUsdtResetFlow, setIsUsdtResetFlow] = useState(false);
+
+  // Use external setter if provided, otherwise use internal state
+  const batchEnabled = externalSetBatchEnabled ? initialBatchEnabled : internalBatchEnabled;
+  const setBatchEnabled = externalSetBatchEnabled || setInternalBatchEnabled;
   const validatedExternalState = getValidatedState(externalWidgetState);
 
   useEffect(() => {
@@ -98,6 +114,7 @@ function TradeWidgetWrapped({
   const [formattedExecutedBuyAmount, setFormattedExecutedBuyAmount] = useState<string | undefined>(undefined);
 
   const chainId = useChainId();
+  const isChainL2 = isL2ChainId(chainId);
   const { address, isConnecting, isConnected } = useAccount();
   const isSafeWallet = useIsSafeWallet();
   const isSmartContractWallet = useIsSmartContractWallet();
@@ -149,13 +166,13 @@ function TradeWidgetWrapped({
   const [targetToken, setTargetToken] = useState<TokenForChain | undefined>(initialTargetToken);
   const initialOriginAmount = parseUnits(
     validatedExternalState?.amount || '0',
-    originToken ? getTokenDecimals(originToken, chainId) : 18
+    getTokenDecimals(originToken, chainId)
   );
   const [originAmount, setOriginAmount] = useState(initialOriginAmount);
   const debouncedOriginAmount = useDebounce(originAmount);
   const initialTargetAmount = parseUnits(
     validatedExternalState?.targetAmount || '0',
-    targetToken ? getTokenDecimals(targetToken, chainId) : 18
+    getTokenDecimals(targetToken, chainId)
   );
   const [targetAmount, setTargetAmount] = useState(initialTargetAmount);
   const debouncedTargetAmount = useDebounce(targetAmount);
@@ -168,13 +185,18 @@ function TradeWidgetWrapped({
   const [ethFlowSlippage, setEthFlowSlippage] = useState(
     verifySlippage(window.localStorage.getItem(ETH_SLIPPAGE_STORAGE_KEY) || '', ethFlowSlippageConfig)
   );
+  const [l2EthFlowSlippage, setL2EthFlowSlippage] = useState(
+    verifySlippage(window.localStorage.getItem(L2_ETH_SLIPPAGE_STORAGE_KEY) || '', l2EthFlowSlippageConfig)
+  );
   const [ttl, setTtl] = useState('');
 
   const [slippage, setSlippage] = useMemo(() => {
     return originToken?.isNative
-      ? [ethFlowSlippage, setEthFlowSlippage]
+      ? isChainL2
+        ? [l2EthFlowSlippage, setL2EthFlowSlippage]
+        : [ethFlowSlippage, setEthFlowSlippage]
       : [ercFlowSlippage, setErcFlowSlippage];
-  }, [originToken, ethFlowSlippage, ercFlowSlippage]);
+  }, [originToken, l2EthFlowSlippage, ethFlowSlippage, ercFlowSlippage, isChainL2]);
 
   const {
     setButtonText,
@@ -292,6 +314,87 @@ function TradeWidgetWrapped({
     !originToken.isNative &&
     !!(!allowance || allowance < quoteData.quote.sellAmountToSign);
 
+  // Check if this is USDT and needs allowance reset
+  const isUsdt = originToken?.symbol === 'USDT';
+  const needsUsdtReset =
+    isUsdt &&
+    allowance !== undefined &&
+    quoteData?.quote.sellAmountToSign !== undefined &&
+    allowance > 0n &&
+    allowance < quoteData.quote.sellAmountToSign;
+
+  // capture when we're in a USDT reset flow
+  useEffect(() => {
+    if (
+      needsUsdtReset &&
+      widgetState.action === TradeAction.APPROVE &&
+      widgetState.screen === TradeScreen.TRANSACTION
+    ) {
+      setIsUsdtResetFlow(true);
+    } else if (
+      // Only reset when we exit the approve action entirely
+      widgetState.action !== TradeAction.APPROVE ||
+      txStatus === TxStatus.ERROR ||
+      // Or when we move to a different screen that's not transaction
+      (widgetState.action === TradeAction.APPROVE && widgetState.screen !== TradeScreen.TRANSACTION)
+    ) {
+      setIsUsdtResetFlow(false);
+    }
+  }, [needsUsdtReset, widgetState.action, widgetState.screen, txStatus]);
+
+  // Get the trade spender address (same as used in useTradeApprove)
+  const tradeSpenderAddress = useMemo(() => {
+    return gpv2VaultRelayerAddress[chainId as keyof typeof gpv2VaultRelayerAddress];
+  }, [chainId]);
+
+  // Use batched USDT approve for USDT tokens that need reset
+  const {
+    execute: batchUsdtApproveExecute,
+    prepared: batchUsdtApprovePrepared,
+    isLoading: batchUsdtApproveIsLoading,
+    error: batchUsdtApproveError
+  } = useBatchUsdtApprove({
+    tokenAddress: originTokenAddress,
+    spender: tradeSpenderAddress,
+    amount: quoteData?.quote.sellAmountToSign,
+    shouldUseBatch: batchEnabled,
+    onStart: () => {
+      setTxStatus(TxStatus.LOADING);
+      onWidgetStateChange?.({ widgetState, txStatus: TxStatus.LOADING });
+    },
+    onSuccess: (hash: string | undefined) => {
+      onNotification?.({
+        title: t`Approve successful`,
+        description: t`You approved ${originToken?.symbol ?? ''}`,
+        status: TxStatus.SUCCESS
+      });
+      setTxStatus(TxStatus.SUCCESS);
+      mutateAllowance();
+      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
+      if (hash) {
+        setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
+      }
+    },
+    onError: (error: Error, hash: string | undefined) => {
+      onNotification?.({
+        title: t`Approval failed`,
+        description: t`We could not approve your token allowance.`,
+        status: TxStatus.ERROR
+      });
+      setTxStatus(TxStatus.ERROR);
+      mutateAllowance();
+      onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
+      console.log(error);
+    },
+    enabled:
+      needsUsdtReset &&
+      widgetState.action === TradeAction.APPROVE &&
+      allowance !== undefined &&
+      originToken &&
+      !originToken.isNative
+  });
+
+  // Use regular approve for non-USDT tokens or USDT that doesn't need reset
   const {
     execute: approveExecute,
     prepareError: approvePrepareError,
@@ -305,7 +408,7 @@ function TradeWidgetWrapped({
         hash,
         description: t`Approving ${formatBigInt(debouncedOriginAmount, {
           locale,
-          unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+          unit: getTokenDecimals(originToken, chainId)
         })} ${originToken?.symbol ?? ''}`
       });
       setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
@@ -337,14 +440,15 @@ function TradeWidgetWrapped({
       widgetState.action === TradeAction.APPROVE &&
       allowance !== undefined &&
       originToken &&
-      !originToken.isNative
+      !originToken.isNative &&
+      !needsUsdtReset
   });
 
   const { execute: tradeExecute } = useSignAndCreateTradeOrder({
     order: quoteData,
     onStart: (orderId: string) => {
       setOrderId(orderId as `0x${string}`);
-      setExternalLink(`https://explorer.cow.fi/${chainId === sepolia.id ? 'sepolia/' : ''}orders/${orderId}`);
+      setExternalLink(getCowExplorerLink(chainId, orderId));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash: orderId, widgetState, txStatus: TxStatus.LOADING });
       setCancelButtonText(t`Cancel order`);
@@ -353,11 +457,11 @@ function TradeWidgetWrapped({
       //hardcoding the locale used for the externalized widget state because the widget consumer expects a constistent formatting
       const executedSellAmountEnUs = formatBigInt(executedSellAmount, {
         locale: 'en-US',
-        unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+        unit: getTokenDecimals(originToken, chainId)
       });
       const executedBuyAmountEnUs = formatBigInt(executedBuyAmount, {
         locale: 'en-US',
-        unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18
+        unit: getTokenDecimals(targetToken, chainId)
       });
       setFormattedExecutedSellAmount(executedSellAmountEnUs);
       setFormattedExecutedBuyAmount(executedBuyAmountEnUs);
@@ -367,10 +471,10 @@ function TradeWidgetWrapped({
         title: t`Trade successful`,
         description: t`You traded ${formatBigInt(executedSellAmount, {
           locale,
-          unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+          unit: getTokenDecimals(originToken, chainId)
         })} ${originToken?.symbol ?? ''} for ${formatBigInt(executedBuyAmount, {
           locale,
-          unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18
+          unit: getTokenDecimals(targetToken, chainId)
         })} ${targetToken?.symbol ?? ''}`,
         status: TxStatus.SUCCESS,
         type: notificationTypeMaping[targetToken?.symbol?.toUpperCase() || 'none']
@@ -404,7 +508,7 @@ function TradeWidgetWrapped({
     order: quoteData,
     onStart: (orderId: string) => {
       setOrderId(orderId as `0x${string}`);
-      setExternalLink(`https://explorer.cow.fi/${chainId === sepolia.id ? 'sepolia/' : ''}orders/${orderId}`);
+      setExternalLink(getCowExplorerLink(chainId, orderId));
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash: orderId, widgetState, txStatus: TxStatus.LOADING });
       setCancelButtonText(t`Cancel order`);
@@ -413,11 +517,11 @@ function TradeWidgetWrapped({
       //hardcoding the locale used for the externalized widget state because the widget consumer expects a constistent formatting
       const executedSellAmountEnUs = formatBigInt(executedSellAmount, {
         locale: 'en-US',
-        unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+        unit: getTokenDecimals(originToken, chainId)
       });
       const executedBuyAmountEnUs = formatBigInt(executedBuyAmount, {
         locale: 'en-US',
-        unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18
+        unit: getTokenDecimals(targetToken, chainId)
       });
       setFormattedExecutedSellAmount(executedSellAmountEnUs);
       setFormattedExecutedBuyAmount(executedBuyAmountEnUs);
@@ -427,10 +531,10 @@ function TradeWidgetWrapped({
         title: t`Trade successful`,
         description: t`You traded ${formatBigInt(executedSellAmount, {
           locale,
-          unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+          unit: getTokenDecimals(originToken, chainId)
         })} ${originToken?.symbol ?? ''} for ${formatBigInt(executedBuyAmount, {
           locale,
-          unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18
+          unit: getTokenDecimals(targetToken, chainId)
         })} ${targetToken?.symbol ?? ''}`,
         status: TxStatus.SUCCESS,
         type: notificationTypeMaping[targetToken?.symbol?.toUpperCase() || 'none']
@@ -483,7 +587,7 @@ function TradeWidgetWrapped({
         hash,
         description: t`Sending ${formatBigInt(debouncedOriginAmount, {
           locale,
-          unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+          unit: getTokenDecimals(originToken, chainId)
         })} ${originToken?.symbol ?? ''} to the EthFlow contract`
       });
       setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
@@ -495,7 +599,7 @@ function TradeWidgetWrapped({
       setEthFlowTxStatus(EthFlowTxStatus.CREATING_ORDER);
     },
     onOrderCreated: (orderId: string) => {
-      setExternalLink(`https://explorer.cow.fi/${chainId === sepolia.id ? 'sepolia/' : ''}orders/${orderId}`);
+      setExternalLink(getCowExplorerLink(chainId, orderId));
       setEthFlowTxStatus(EthFlowTxStatus.ORDER_CREATED);
       onWidgetStateChange?.({ widgetState, txStatus: TxStatus.LOADING });
     },
@@ -503,11 +607,11 @@ function TradeWidgetWrapped({
       //hardcoding the locale used for the externalized widget state because the widget consumer expects a constistent formatting
       const executedSellAmountEnUs = formatBigInt(executedSellAmount, {
         locale: 'en-US',
-        unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+        unit: getTokenDecimals(originToken, chainId)
       });
       const executedBuyAmountEnUs = formatBigInt(executedBuyAmount, {
         locale: 'en-US',
-        unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18
+        unit: getTokenDecimals(targetToken, chainId)
       });
       setFormattedExecutedSellAmount(executedSellAmountEnUs);
       setFormattedExecutedBuyAmount(executedBuyAmountEnUs);
@@ -517,10 +621,10 @@ function TradeWidgetWrapped({
         title: t`Trade successful`,
         description: t`You traded ${formatBigInt(executedSellAmount, {
           locale,
-          unit: originToken ? getTokenDecimals(originToken, chainId) : 18
+          unit: getTokenDecimals(originToken, chainId)
         })} ${originToken?.symbol ?? ''} for ${formatBigInt(executedBuyAmount, {
           locale,
-          unit: targetToken ? getTokenDecimals(targetToken, chainId) : 18
+          unit: getTokenDecimals(targetToken, chainId)
         })} ${targetToken?.symbol ?? ''}`,
         status: TxStatus.SUCCESS,
         type: notificationTypeMaping[targetToken?.symbol?.toUpperCase() || 'none']
@@ -563,7 +667,9 @@ function TradeWidgetWrapped({
         description: t`You successfully cancelled the order`,
         status: TxStatus.SUCCESS
       });
-      setTxStatus(TxStatus.CANCELLED);
+      if (widgetState.screen === TradeScreen.TRANSACTION) {
+        setTxStatus(TxStatus.CANCELLED);
+      }
       setCancelLoading(false);
     },
     onError: (error: Error) => {
@@ -595,7 +701,9 @@ function TradeWidgetWrapped({
         description: t`You successfully cancelled the order`,
         status: TxStatus.SUCCESS
       });
-      setTxStatus(TxStatus.CANCELLED);
+      if (widgetState.screen === TradeScreen.TRANSACTION) {
+        setTxStatus(TxStatus.CANCELLED);
+      }
       setCancelLoading(false);
     },
     onError: (error: Error) => {
@@ -617,7 +725,7 @@ function TradeWidgetWrapped({
     }
   }, [isSmartContractWallet, onChainCancelExecute, offChainCancelExecute]);
 
-  const prepareError = approvePrepareError || ethTradePrepareError;
+  const prepareError = approvePrepareError || ethTradePrepareError || batchUsdtApproveError;
 
   const isAmountWaitingForDebounce =
     debouncedOriginAmount !== originAmount || debouncedTargetAmount !== targetAmount;
@@ -628,12 +736,15 @@ function TradeWidgetWrapped({
     !tradeAnyway &&
     txStatus === TxStatus.IDLE;
 
+  const approvalPrepared = needsUsdtReset ? batchUsdtApprovePrepared : approvePrepared;
+  const approvalLoading = needsUsdtReset ? batchUsdtApproveIsLoading : approveIsLoading;
+
   const approveDisabled =
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
     isBalanceError ||
-    (!originToken?.isNative && !approvePrepared) ||
+    (!originToken?.isNative && !approvalPrepared) ||
     (originToken?.isNative && !ethTradePrepared) ||
-    approveIsLoading ||
+    approvalLoading ||
     isQuoteLoading ||
     !pairValid ||
     disabledDueToHighCosts ||
@@ -652,6 +763,7 @@ function TradeWidgetWrapped({
     (originToken.isNative && !ethTradePrepared) ||
     (originToken.isNative && isEthTradeLoading) ||
     allowanceLoading ||
+    needsAllowance ||
     isAmountWaitingForDebounce;
 
   useEffect(() => {
@@ -696,6 +808,26 @@ function TradeWidgetWrapped({
         ? quoteData?.quote?.buyAmountAfterFee
         : quoteData?.quote?.sellAmountBeforeFee;
     setFn(newAmount || 0n);
+
+    // When target input is updated (lastUpdated === OUT), notify URL params of origin amount change
+    if (lastUpdated === TradeSide.OUT && originToken) {
+      if (!newAmount || newAmount === 0n) {
+        // If amount is 0 or undefined, clear the URL parameter
+        onWidgetStateChange?.({
+          originAmount: '',
+          txStatus,
+          widgetState
+        });
+      } else {
+        // Update URL with the new calculated amount
+        const formattedValue = formatUnits(newAmount, getTokenDecimals(originToken, chainId));
+        onWidgetStateChange?.({
+          originAmount: formattedValue,
+          txStatus,
+          widgetState
+        });
+      }
+    }
   }, [quoteData?.quote?.buyAmountAfterFee, quoteData?.quote?.sellAmountBeforeFee, lastUpdated]);
 
   // Update button state according to action and tx
@@ -748,14 +880,49 @@ function TradeWidgetWrapped({
 
   // set widget button to be disabled depending on which action we're performing
   useEffect(() => {
-    setIsDisabled(
-      isConnectedAndEnabled &&
+    // For review screen, only check basic conditions
+    if (widgetState.screen === TradeScreen.ACTION) {
+      const reviewDisabled =
+        isConnectedAndEnabled &&
+        (isBalanceError ||
+          !pairValid ||
+          disabledDueToHighCosts ||
+          !originToken ||
+          !targetToken ||
+          originAmount === 0n ||
+          !quoteData ||
+          isQuoteLoading ||
+          allowanceLoading ||
+          isAmountWaitingForDebounce);
+      setIsDisabled(reviewDisabled);
+    } else {
+      const shouldDisable =
+        isConnectedAndEnabled &&
         !!(
-          (widgetState.action === TradeAction.APPROVE && approveDisabled) ||
-          (widgetState.action === TradeAction.TRADE && tradeDisabled)
-        )
-    );
-  }, [isQuoteLoading, isConnectedAndEnabled, approveDisabled, tradeDisabled, widgetState.action]);
+          (widgetState.action === TradeAction.APPROVE &&
+            (txStatus === TxStatus.SUCCESS ? tradeDisabled : approveDisabled)) ||
+          (widgetState.action === TradeAction.TRADE && tradeDisabled && txStatus !== TxStatus.SUCCESS)
+        );
+
+      setIsDisabled(shouldDisable);
+    }
+  }, [
+    isQuoteLoading,
+    isConnectedAndEnabled,
+    approveDisabled,
+    tradeDisabled,
+    widgetState.action,
+    widgetState.screen,
+    isBalanceError,
+    pairValid,
+    disabledDueToHighCosts,
+    originToken,
+    targetToken,
+    originAmount,
+    quoteData,
+    allowanceLoading,
+    isAmountWaitingForDebounce
+  ]);
 
   // set isLoading to be consumed by WidgetButton
   useEffect(() => {
@@ -817,13 +984,10 @@ function TradeWidgetWrapped({
       externalWidgetState?.token?.toLowerCase() !== originToken?.symbol?.toLowerCase() ||
       externalWidgetState?.targetToken?.toLowerCase() !== targetToken?.symbol?.toLowerCase();
 
+    // Compare bigint values directly to avoid precision loss
     const amountHasChanged =
       externalWidgetState?.amount !== undefined &&
-      externalWidgetState?.amount !==
-        formatBigInt(originAmount, {
-          locale,
-          unit: originToken ? getTokenDecimals(originToken, chainId) : 18
-        });
+      parseUnits(externalWidgetState.amount, getTokenDecimals(originToken, chainId)) !== originAmount;
 
     if ((tokensHasChanged || amountHasChanged) && txStatus === TxStatus.IDLE) {
       // Handle "Trade to X" case
@@ -940,7 +1104,13 @@ function TradeWidgetWrapped({
     }));
     setTxStatus(TxStatus.INITIALIZED);
     setExternalLink(undefined);
-    approveExecute();
+
+    // Use appropriate approve function based on USDT reset requirement
+    if (needsUsdtReset) {
+      batchUsdtApproveExecute();
+    } else {
+      approveExecute();
+    }
   };
 
   const tradeOnClick = () => {
@@ -1175,7 +1345,6 @@ function TradeWidgetWrapped({
     >
       <div className="mt-[-16px] space-y-0">
         <TradePoweredBy onExternalLinkClicked={onExternalLinkClicked} />
-        <TradeWarning originToken={originToken} />
       </div>
       <AnimatePresence mode="popLayout" initial={false}>
         {widgetState.screen === TradeScreen.REVIEW && quoteData && originToken && targetToken ? (
@@ -1186,9 +1355,12 @@ function TradeWidgetWrapped({
               originToken={originToken}
               targetToken={targetToken}
               priceImpact={priceImpact}
+              allowance={allowance}
+              batchEnabled={batchEnabled}
+              setBatchEnabled={setBatchEnabled}
             />
           </CardAnimationWrapper>
-        ) : txStatus !== TxStatus.IDLE ? (
+        ) : txStatus !== TxStatus.IDLE && widgetState.screen === TradeScreen.TRANSACTION ? (
           <CardAnimationWrapper key="widget-transaction-status">
             <TradeTransactionStatus
               originToken={originToken as any} // TODO fix this type
@@ -1199,6 +1371,9 @@ function TradeWidgetWrapped({
               isEthFlow={!!originToken?.isNative}
               ethFlowTxStatus={ethFlowTxStatus}
               onExternalLinkClicked={onExternalLinkClicked}
+              needsUsdtReset={needsUsdtReset}
+              isUsdtResetFlow={isUsdtResetFlow}
+              isBatchTransaction={batchEnabled}
             />
           </CardAnimationWrapper>
         ) : (
@@ -1218,11 +1393,11 @@ function TradeWidgetWrapped({
               targetAmount={targetAmount}
               quoteData={quoteData}
               quoteError={quoteError}
-              originTokenList={originTokenList}
-              targetTokenList={targetTokenList}
+              originTokenList={tokensLocked && originToken ? [originToken] : originTokenList}
+              targetTokenList={tokensLocked && targetToken ? [targetToken] : targetTokenList}
               isBalanceError={isBalanceError}
               isQuoteLoading={isQuoteLoading}
-              canSwitchTokens={true}
+              canSwitchTokens={!tokensLocked}
               priceImpact={priceImpact}
               feePercentage={feePercentage}
               isConnectedAndEnabled={isConnectedAndEnabled}
@@ -1230,6 +1405,7 @@ function TradeWidgetWrapped({
               tradeAnyway={tradeAnyway}
               setTradeAnyway={setTradeAnyway}
               enableSearch={true}
+              tokensLocked={tokensLocked}
               onOriginTokenChange={(token: TokenForChain) => {
                 onWidgetStateChange?.({
                   originToken: token.symbol,
@@ -1246,10 +1422,11 @@ function TradeWidgetWrapped({
               }}
               onOriginInputChange={(newValue: bigint, userTriggered?: boolean) => {
                 if (originToken && userTriggered) {
-                  const formattedValue = formatUnits(newValue, getTokenDecimals(originToken, chainId));
-                  const truncatedValue = truncateStringToFourDecimals(formattedValue);
+                  // Convert 0n to empty string to properly clear URL params
+                  const formattedValue =
+                    newValue === 0n ? '' : formatUnits(newValue, getTokenDecimals(originToken, chainId));
                   onWidgetStateChange?.({
-                    originAmount: truncatedValue,
+                    originAmount: formattedValue,
                     txStatus,
                     widgetState
                   });

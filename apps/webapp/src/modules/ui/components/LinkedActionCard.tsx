@@ -7,7 +7,7 @@ import { useRetainedQueryParams } from '../hooks/useRetainedQueryParams';
 import { useLingui } from '@lingui/react';
 import { Button } from '@/components/ui/button';
 import { VStack } from '@/modules/layout/components/VStack';
-import { RewardsRate, SavingsRate } from './HighlightRate';
+import { RewardsRate, SavingsRate, AdvancedRate } from './HighlightRate';
 import { Logo, LogoName } from './HighlightLogo';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { LinkedActionSteps } from '@/modules/config/context/ConfigContext';
@@ -17,9 +17,10 @@ import { useEffect, useState } from 'react';
 import { useAvailableTokenRewardContracts } from '@jetstreamgg/sky-hooks';
 import { useChainId } from 'wagmi';
 
-const secondaryTagline = {
+const secondaryTagline: Record<string, string> = {
   [IntentMapping.SAVINGS_INTENT]: 'to get the Sky Savings Rate',
-  [IntentMapping.REWARDS_INTENT]: 'to get rewards'
+  [IntentMapping.REWARDS_INTENT]: 'to get rewards',
+  [IntentMapping.EXPERT_INTENT]: 'to access Expert modules'
 };
 
 export const LinkedActionCard = ({
@@ -49,16 +50,19 @@ export const LinkedActionCard = ({
   const chainId = useChainId();
   const rewardContracts = useAvailableTokenRewardContracts(chainId);
 
-  // Extract reward contract address
+  // Extract reward contract address and advanced module
   const urlObj = new URL(urlWithRetainedParams, window.location.origin);
   const rewardContractAddress = urlObj.searchParams.get(QueryParams.Reward);
+  const expertModule = urlObj.searchParams.get(QueryParams.ExpertModule);
   const selectedRewardContract = rewardContracts.find(
     contract => contract.contractAddress?.toLowerCase() === rewardContractAddress?.toLowerCase()
   );
 
   const handleClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     event.preventDefault();
-    updateLinkedActionConfig({ step: LinkedActionSteps.CURRENT_FUTURE });
+    updateLinkedActionConfig({
+      step: LinkedActionSteps.CURRENT_FUTURE
+    });
     const modifiedUrl = `${urlWithRetainedParams}${urlWithRetainedParams.includes('widget=trade') ? `&${QueryParams.Timestamp}=${new Date().getTime()}` : ''}`;
     navigate(modifiedUrl);
   };
@@ -71,8 +75,8 @@ export const LinkedActionCard = ({
   return (
     <Card variant="spotlight" className="relative w-full overflow-hidden xl:flex-1">
       {<Logo logoName={(isLastStep ? intent : la) as LogoName} />}
-      <CardContent className="relative z-10">
-        <VStack className="space-between gap-4">
+      <CardContent className="relative z-10 h-full">
+        <VStack className="h-full justify-between gap-4">
           <Heading>
             <Trans>
               {intent && primaryToken && `${capitalizeFirstLetter(i18n._(intentTxt[intent]))} your `}
@@ -82,16 +86,23 @@ export const LinkedActionCard = ({
               {secondaryTagline[la]}
             </Trans>
           </Heading>
-          {la === IntentMapping.REWARDS_INTENT ? (
-            <RewardsRate token={secondaryToken} currentRewardContract={selectedRewardContract} />
-          ) : (
-            <SavingsRate />
-          )}
-          <Link to={urlWithRetainedParams} onClick={handleClick}>
-            <Button variant="light" className="w-fit px-5">
-              {buttonText}
-            </Button>
-          </Link>
+          <VStack className="space-between gap-4">
+            {la === IntentMapping.REWARDS_INTENT ? (
+              <RewardsRate token={secondaryToken} currentRewardContract={selectedRewardContract} />
+            ) : la === IntentMapping.EXPERT_INTENT ? (
+              <AdvancedRate expertModule={expertModule || undefined} />
+            ) : (
+              <SavingsRate />
+            )}
+            <Link to={urlWithRetainedParams} onClick={handleClick} className="w-fit">
+              <Button
+                variant="light"
+                className="h-auto min-h-10 w-fit max-w-full whitespace-normal text-balance px-5"
+              >
+                {buttonText}
+              </Button>
+            </Link>
+          </VStack>
         </VStack>
       </CardContent>
     </Card>

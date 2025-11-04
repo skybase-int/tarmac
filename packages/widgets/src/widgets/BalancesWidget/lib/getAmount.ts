@@ -17,7 +17,7 @@ export const getAmount = ({
     case ModuleEnum.TRADE:
       return formatBigInt(absBigInt('fromAmount' in item ? item.fromAmount : 0n), {
         compact: true,
-        unit: 'fromToken' in item ? getTokenDecimals(item.fromToken as Token, chainId) : 18
+        unit: getTokenDecimals('fromToken' in item ? (item.fromToken as Token) : undefined, chainId)
       });
     case ModuleEnum.UPGRADE:
       switch (item.type) {
@@ -36,9 +36,10 @@ export const getAmount = ({
         ? ''
         : formatBigInt(absBigInt('amount' in item ? item.amount : 0n), { compact: true });
     case ModuleEnum.SAVINGS:
+    case ModuleEnum.STUSDS:
       return formatBigInt(absBigInt('assets' in item ? item.assets : 0n), {
         compact: true,
-        unit: 'token' in item ? getTokenDecimals(item.token, chainId) : 18
+        unit: getTokenDecimals('token' in item ? item.token : undefined, chainId)
       });
   }
 };

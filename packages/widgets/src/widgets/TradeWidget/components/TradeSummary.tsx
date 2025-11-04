@@ -1,21 +1,23 @@
-import { Card, CardContent, CardHeader } from '@widgets/components/ui/card';
+import { Card, CardContent, CardHeader, CardFooter } from '@widgets/components/ui/card';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { getTokenDecimals, OrderQuoteResponse } from '@jetstreamgg/sky-hooks';
 import { formatNumber } from '@jetstreamgg/sky-utils';
-import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { ArrowRight } from 'lucide-react';
 import { TradeSide } from '../lib/constants';
 import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
-import { InfoTooltip } from '@widgets/shared/components/ui/tooltip/InfoTooltip';
+import { PopoverInfo } from '@widgets/shared/components/ui/PopoverInfo';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { MotionHStack } from '@widgets/shared/components/ui/layout/MotionHStack';
 import { formatUnits } from 'viem';
 import { TokenForChain } from '@jetstreamgg/sky-hooks';
 import { useChainId } from 'wagmi';
+import { Switch } from '@widgets/components/ui/switch';
+import { useIsBatchSupported } from '@jetstreamgg/sky-hooks';
+import { getTooltipById } from '@widgets/data/tooltips';
 
 type TradeSummaryProps = {
   quoteData: OrderQuoteResponse;
@@ -23,6 +25,9 @@ type TradeSummaryProps = {
   originToken: TokenForChain;
   targetToken: TokenForChain;
   priceImpact: number | undefined;
+  allowance?: bigint;
+  batchEnabled?: boolean;
+  setBatchEnabled?: (enabled: boolean) => void;
 };
 
 export function TradeSummary({
@@ -30,9 +35,23 @@ export function TradeSummary({
   lastUpdated,
   originToken,
   targetToken,
-  priceImpact
+  priceImpact,
+  allowance,
+  batchEnabled = true,
+  setBatchEnabled
 }: TradeSummaryProps) {
   const chainId = useChainId();
+  const { data: batchSupported } = useIsBatchSupported();
+
+  // Check if USDT reset is needed;
+  const needsReset =
+    originToken?.symbol === 'USDT' &&
+    allowance !== undefined &&
+    quoteData.quote.sellAmountToSign !== undefined &&
+    quoteData.quote.sellAmountToSign > 0n &&
+    allowance > 0n &&
+    allowance < quoteData.quote.sellAmountToSign;
+
   if (priceImpact === undefined) {
     return null;
   }
@@ -106,10 +125,14 @@ export function TradeSummary({
                 <Text variant="medium" className="text-textSecondary">
                   <Trans>Slippage</Trans>
                 </Text>
-                <InfoTooltip
-                  content={t`This reflects your slippage tolerance.`}
-                  iconClassName="text-textSecondary"
-                />
+                {getTooltipById('slippage')?.tooltip && (
+                  <PopoverInfo
+                    title={getTooltipById('slippage')?.title || ''}
+                    description={getTooltipById('slippage')?.tooltip || ''}
+                    iconClassName="text-textSecondary"
+                    iconSize="large"
+                  />
+                )}
               </HStack>
               <Text variant="medium">{quoteData.quote.slippageTolerance.toFixed(2)}%</Text>
             </motion.div>
@@ -163,8 +186,6 @@ export function TradeSummary({
                 <Text variant="medium" className="text-textSecondary">
                   {exactInput ? <Trans>Minimum output</Trans> : <Trans>Maximum input</Trans>}
                 </Text>
-                {/* TODO: Add tooltip content */}
-                <InfoTooltip content={'Minimum output / maximum input'} iconClassName="text-textSecondary" />
               </HStack>
               <Text variant="medium">
                 {slippageAdjustedQuote} {token.symbol}
@@ -172,6 +193,48 @@ export function TradeSummary({
             </motion.div>
           </VStack>
         </CardContent>
+        {needsReset && batchEnabled !== undefined && !!setBatchEnabled && !!batchSupported && (
+          <motion.div variants={positionAnimations}>
+            <CardFooter className="border-selectActive mt-4 border-t pt-5">
+              <div className="w-full">
+                <HStack className="w-full items-center justify-between">
+                  <HStack className="flex-wrap gap-1 space-x-0">
+                    <HStack className="gap-1 space-x-0">
+                      <Text className="text-[13px]">Bundle transactions</Text>
+                      <PopoverInfo
+                        title="Bundle transactions"
+                        description={
+                          <>
+                            <Text className="text-[13px] text-white/60">
+                              Bundled transactions are set &apos;on&apos; by default to complete transactions
+                              in a single step. Combining actions improves the user experience and reduces gas
+                              fees. Manually toggle off to cancel this feature.
+                            </Text>
+                          </>
+                        }
+                      />
+                    </HStack>
+                    <Text className="text-textSecondary text-[13px]">(toggled on by default)</Text>
+                  </HStack>
+                  <Switch checked={batchEnabled} onCheckedChange={setBatchEnabled} />
+                </HStack>
+                <Text className="mt-2 text-[13px] text-white/60">
+                  {batchEnabled ? (
+                    <Trans>
+                      USDT allowance will be reset to 0 and then set to the required amount in a single
+                      bundled transaction.
+                    </Trans>
+                  ) : (
+                    <Trans>
+                      USDT allowance will be reset to 0 and then set to the required amount in two sequential
+                      transactions.
+                    </Trans>
+                  )}
+                </Text>
+              </div>
+            </CardFooter>
+          </motion.div>
+        )}
       </Card>
       <motion.div variants={positionAnimations}>
         <Text className="text-textSecondary text-balance text-center">

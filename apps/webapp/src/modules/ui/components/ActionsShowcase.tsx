@@ -19,11 +19,11 @@ export function ActionsShowcase({
   // we can create an algorithm to sort the actions by relevance
   // for now, just sorting by weight
   // but in future, may want to consider the module the action is related to and create a mix
-  const linkedActions = (data?.linkedActions || []).sort((a, b) => b.weight - a.weight).slice(0, 6);
-  const filteredActions = filterActionsByIntent(linkedActions, widget);
+  const linkedActions = filterActionsByIntent(data?.linkedActions || [], widget);
+  const filteredActions = linkedActions.sort((a, b) => b.weight - a.weight).slice(0, 6);
   if (isLoading) {
     return (
-      <HStack gap={0} className="scrollbar-thin w-full flex-col gap-4 overflow-auto xl:flex-row">
+      <HStack gap={0} className="w-full flex-col gap-4 overflow-auto xl:flex-row">
         {Array.from({ length: 2 }).map((_, i) => (
           <LoadingActionCard key={i} />
         ))}
@@ -32,7 +32,7 @@ export function ActionsShowcase({
   }
 
   return (
-    <div className="scrollbar-thin flex w-full flex-col gap-3 overflow-auto xl:flex-row">
+    <div className="flex w-full flex-col gap-3 overflow-auto xl:flex-row">
       {/* Take the top two ranked actions */}
       {filteredActions.slice(0, 2).map(action => {
         return (

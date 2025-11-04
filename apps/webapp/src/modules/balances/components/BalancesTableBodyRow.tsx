@@ -43,15 +43,15 @@ export function BalancesTableBodyRow({
         />
       </TableCell>
       <TableCell className="h-auto px-4 py-2">
-        <Text>{formatNumber(parseFloat(tokenBalance.formatted), { maxDecimals: 0, compact: true })}</Text>
+        <Text>{formatNumber(parseFloat(tokenBalance.formatted), { maxDecimals: 2, compact: true })}</Text>
       </TableCell>
-      <TableCell className="h-auto px-4 py-2">
+      <TableCell className="h-auto px-4 py-2 [@container(width<375px)]:hidden">
         <OracleInfo
           isLoading={isLoading}
           info={`$${formatNumber(
             parseFloat(formatUnits(tokenBalance?.value || 0n, tokenBalance?.decimals || 18)) *
               parseFloat(price || '0'),
-            { maxDecimals: 0, compact: true }
+            { maxDecimals: 2, compact: true }
           )}`}
           error={error}
         />

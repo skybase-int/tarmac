@@ -37,6 +37,7 @@ import { positionAnimations } from '@widgets/shared/animation/presets';
 import { RewardsTransactionReview } from './components/RewardsTransactionReview';
 import { useRewardsTransactions } from './hooks/useRewardsTransactions';
 import { withWidgetProvider } from '@widgets/shared/hocs/withWidgetProvider';
+import { RewardsClaimAllTransactionStatus } from './components/RewardsClaimAllTransactionStatus';
 
 export type RewardsWidgetProps = WidgetProps & {
   onRewardContractChange?: (rewardContract?: RewardContract) => void;
@@ -150,7 +151,7 @@ const RewardsWidgetWrapped = ({
   const shouldUseBatch =
     !!batchEnabled && !!batchSupported && needsAllowance && widgetState.flow === RewardsFlow.SUPPLY;
 
-  const { batchSupply, withdraw, claim } = useRewardsTransactions({
+  const { batchSupply, withdraw, claim, claimAll } = useRewardsTransactions({
     selectedRewardContract,
     amount,
     referralCode,
@@ -173,11 +174,13 @@ const RewardsWidgetWrapped = ({
       action:
         widgetState.action === RewardsAction.CLAIM
           ? RewardsAction.CLAIM
-          : selectedRewardContract
-            ? tabIndex === 1
-              ? RewardsAction.WITHDRAW
-              : RewardsAction.SUPPLY
-            : RewardsAction.OVERVIEW,
+          : widgetState.action === RewardsAction.CLAIM_ALL
+            ? RewardsAction.CLAIM_ALL
+            : selectedRewardContract
+              ? tabIndex === 1
+                ? RewardsAction.WITHDRAW
+                : RewardsAction.SUPPLY
+              : RewardsAction.OVERVIEW,
       screen: RewardsScreen.ACTION
     });
     //for some reason without the widgetState.flow dependency, the action can be stuck in approve even when we're in the withdraw flow
@@ -258,7 +261,12 @@ const RewardsWidgetWrapped = ({
 
     setWidgetState((prev: WidgetState) => ({
       ...prev,
-      action: prev.flow === RewardsFlow.WITHDRAW ? RewardsAction.WITHDRAW : RewardsAction.SUPPLY,
+      action:
+        prev.action === RewardsAction.CLAIM_ALL
+          ? RewardsAction.OVERVIEW
+          : prev.flow === RewardsFlow.WITHDRAW
+            ? RewardsAction.WITHDRAW
+            : RewardsAction.SUPPLY,
       screen: RewardsScreen.ACTION
     }));
   };
@@ -274,7 +282,12 @@ const RewardsWidgetWrapped = ({
     setTxStatus(TxStatus.IDLE);
     setWidgetState((prev: WidgetState) => ({
       ...prev,
-      action: prev.flow === RewardsFlow.SUPPLY ? RewardsAction.SUPPLY : RewardsAction.WITHDRAW,
+      action:
+        prev.action === RewardsAction.CLAIM_ALL
+          ? RewardsAction.OVERVIEW
+          : prev.flow === RewardsFlow.SUPPLY
+            ? RewardsAction.SUPPLY
+            : RewardsAction.WITHDRAW,
       screen: RewardsScreen.ACTION
     }));
   };
@@ -285,9 +298,11 @@ const RewardsWidgetWrapped = ({
       ? batchSupply.execute()
       : widgetState.action === RewardsAction.WITHDRAW
         ? withdraw.execute()
-        : widgetState.action === RewardsAction.CLAIM
-          ? claim.execute()
-          : undefined;
+        : widgetState.action === RewardsAction.CLAIM_ALL
+          ? claimAll.execute()
+          : widgetState.action === RewardsAction.CLAIM
+            ? claim.execute()
+            : undefined;
   };
 
   const onClickAction = !isConnectedAndEnabled
@@ -445,6 +460,9 @@ const RewardsWidgetWrapped = ({
               onSelectRewardContract={onSelectRewardContract}
               isConnectedAndEnabled={isConnectedAndEnabled}
               onExternalLinkClicked={onExternalLinkClicked}
+              claimAllExecute={claimAll.execute}
+              claimAllPrepared={claimAll.prepared}
+              batchEnabledAndSupported={!!batchEnabled && !!batchSupported}
             />
           </CardAnimationWrapper>
         ) : txStatus !== TxStatus.IDLE && selectedRewardContract ? (
@@ -461,6 +479,10 @@ const RewardsWidgetWrapped = ({
               isBatchTransaction={shouldUseBatch}
               needsAllowance={needsAllowance}
             />
+          </CardAnimationWrapper>
+        ) : txStatus !== TxStatus.IDLE && widgetState.action === RewardsAction.CLAIM_ALL ? (
+          <CardAnimationWrapper key="widget-transaction-status">
+            <RewardsClaimAllTransactionStatus onExternalLinkClicked={onExternalLinkClicked} />
           </CardAnimationWrapper>
         ) : widgetState.screen === RewardsScreen.REVIEW && selectedRewardContract ? (
           <CardAnimationWrapper key="widget-transaction-review">

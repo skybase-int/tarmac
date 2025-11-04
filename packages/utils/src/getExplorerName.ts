@@ -17,17 +17,14 @@ export const getExplorerName = (chainId: number, isSafeWallet: boolean) => {
 
   switch (chainId) {
     case chainIdMap.base:
-    case chainIdMap.tenderlyBase:
       return ExplorerName.BASESCAN;
     case chainIdMap.arbitrum:
-    case chainIdMap.tenderlyArbitrum:
       return ExplorerName.ARBITRUM_EXPLORER;
     case chainIdMap.optimism:
       return ExplorerName.OPTIMISTIC_ETHERSCAN;
     case chainIdMap.unichain:
       return ExplorerName.UNISCAN;
     case chainIdMap.mainnet:
-    case chainIdMap.sepolia:
     case chainIdMap.tenderly:
     default:
       return ExplorerName.ETHERSCAN;

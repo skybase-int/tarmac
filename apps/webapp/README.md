@@ -31,11 +31,8 @@ Create a `.env` file in the root directory of the project. You can use the `.env
 
 - `VITE_RPC_PROVIDER_MAINNET`: URL for the Ethereum mainnet RPC provider
 - `VITE_RPC_PROVIDER_TENDERLY`: URL for the Tenderly RPC provider (used for testing and development)
-- `VITE_RPC_PROVIDER_SEPOLIA`: URL for the Sepolia network RPC provider (used for testing and development)
 - `VITE_RPC_PROVIDER_BASE`: URL for the Base RPC provider
-- `VITE_RPC_PROVIDER_TENDERLY_BASE`: URL for the Tenderly Base RPC provider (used for testing and development)
 - `VITE_RPC_PROVIDER_ARBITRUM`: URL for the Arbitrum RPC provider
-- `VITE_RPC_PROVIDER_TENDERLY_ARBITRUM`: URL for the Tenderly Arbitrum RPC provider (used for testing and development)
 - `VITE_RPC_PROVIDER_OPTIMISM`: URL for the Optimism RPC provider
 - `VITE_RPC_PROVIDER_UNICHAIN`: URL for the Unichain provider
 - `VITE_TESTNET_CONFIG`: Boolean flag to determine network config to use, should be `false` in production
@@ -44,7 +41,6 @@ Create a `.env` file in the root directory of the project. You can use the `.env
 - `VITE_RESTRICTED_BUILD_MICA`: Boolean flag to enable certain restrictions for MiCa compliance
 - `VITE_WALLETCONNECT_PROJECT_ID`: Project ID for WalletConnect integration
 - `VITE_SKIP_AUTH_CHECK`: Boolean flag to bypass authentication checks during development
-- `NPM_TOKEN`: Token for accessing private npm packages or registries
 - `TENDERLY_API_KEY`: API key for Tenderly (used for forking and managing virtual networks for testing)
 - `VITE_USE_MOCK_WALLET`: Boolean flag to enable the use of a mock wallet for testing purposes
 - `VITE_TERMS_ENDPOINT`: URL endpoint for submitting and checking terms acceptance
@@ -52,20 +48,26 @@ Create a `.env` file in the root directory of the project. You can use the `.env
 - `VITE_FOOTER_LINKS`: Array containing footer links with their URLs and names
 - `VITE_TERMS_MESSAGE_TO_SIGN`: Message that users need to sign to accept the terms and conditions
 - `VITE_TERMS_CHECKBOX_TEXT`: The text displayed next to the checkbox in the terms acceptance modal
+- `VITE_TERMS_MARKDOWN_FILE`: (Optional) Name of a custom terms markdown file in the `/src/content/` directory (e.g., `/src/content/custom-terms.md`). If not specified, uses the default `terms.md` file. This allows external teams to provide their own terms file that will be bundled into the application
 - `VITE_BATCH_TX_ENABLED`: Boolean flag to enable the use of EIP-7702 batch transactions in widgets
 - `VITE_ENV_NAME`: (Optional) Environment name (e.g., 'development', 'staging', 'production')
 - `VITE_CF_PAGES_COMMIT_SHA`: (Optional) Git commit hash of the current build
 - `VITE_REFERRAL_CODE`: (Optional) Referral code for the app
-- `VITE_CHATBOT_ENABLED`: If set to `'true`, enables the chatbot functionality
+- `VITE_CHATBOT_TERMS_MARKDOWN_FILE`: (Optional) Name of a custom chatbot terms markdown file in the `/src/content/` directory (e.g., `/src/content/custom-chatbot-terms.md`). If not specified, uses the default `chatbot_terms.md` file. This allows external teams to provide their own chatbot-specific terms file
+- `VITE_CHATBOT_ENABLED`: If set to `'true'`, enables the chatbot functionality
+- `VITE_CHATBOT_FEEDBACK_ENABLED`: If set to `'true'`, enables the chatbot feedback functionality
 - `VITE_CHATBOT_USE_TESTNET_NETWORK_NAME`: If set to `'true'` replaces network names for their testnet counterpart. Only in development or staging.
-- `VITE_ADVANCED_CHAT_ENABLED`: If set to `'true`, enables advanced chat features
-- `VITE_CHAT_SUGGESTIONS_ENABLED`: If set to `'true`, enables chat suggestions functionality, set to 'true' to enable
+- `VITE_CHATBOT_SUGGESTIONS_ENABLED`: Chat suggestions are enabled by default. Set to `'false'` to disable
 - `VITE_CHATBOT_NAME`: The name of the chatbot
 - `VITE_CHATBOT_DOMAIN`: The base URL for the chatbot backend API
 - `VITE_CHATBOT_MAX_HISTORY`: Maximum number of previous messages to include in chat context.
 - `VITE_CHATBOT_MAX_MESSAGE_LENGTH`: Maximum character length for user input messages.
 - `VITE_CHATBOT_CF_ACCESS_CLIENT_ID`: (Optional) Cloudflare Access client ID for authentication headers in development/staging environments
 - `VITE_CHATBOT_CF_ACCESS_CLIENT_SECRET`: (Optional) Cloudflare Access client secret for authentication headers in development/staging environments
+- `VITE_CHATBOT_SUGGESTED_QUESTIONS`: (Optional) Array of suggested questions displayed when the chatbot first loads (e.g., `'["Question 1", "Question 2"]'`). If not provided, default questions will be shown
+- `VITE_CHATBOT_CHECKBOX_LABEL`: (Optional) Additional instructional text displayed above the terms acceptance checkboxes in the chatbot terms modal.
+- `VITE_CHATBOT_CHECKBOX_TERMS_LABEL`: (Optional) Custom label for the terms checkbox in the chatbot terms modal. Supports markdown formatting.
+- `VITE_CHATBOT_CHECKBOX_PRIVACY_LABEL`: (Optional) Custom label for the privacy checkbox in the chatbot terms modal. Supports markdown formatting.
 
 ## Running the App
 

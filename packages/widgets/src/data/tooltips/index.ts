@@ -15,13 +15,74 @@ export const tooltips: Tooltip[] = [
 Open Safe[Wallet]`
   },
   {
+    id: 'stusds-rate',
+    title: 'stUSDS Rate',
+    tooltip: `The stUSDS rate is variable and calculated using the following formula:
+
+stUSDS Rate = Utilization * (SKY Borrow Rate - stUSDS Accessibility Reward) + (1 - Utilization) * Sky Savings Rate
+
+The rate is derived from the SKY Borrow Rate less the stUSDS Accessibility Reward on the utilized portion of your capital and the Sky Savings Rate on the unutilized portion. Utilization is the percent of funds in the stUSDS contract that are used to fund borrowing against staked SKY.
+
+The SKY Borrow Rate is the current interest rate charged to SKY-backed borrowers and is dynamic and market-driven, based on the utilization of funds within the stUSDS contract.`
+  },
+  {
+    id: 'utilization',
+    title: 'Utilization',
+    tooltip:
+      'Utilization is the percent of funds in the stUSDS contract that are used to fund borrowing against staked SKY.'
+  },
+  {
+    id: 'maximum-capacity',
+    title: 'Maximum capacity',
+    tooltip: 'The governance-set limit on how much USDS the vault will accept.'
+  },
+  {
+    id: 'stusds-debt-ceiling',
+    title: 'stUSDS debt ceiling',
+    tooltip:
+      'The stUSDS debt ceiling is the governance‑set maximum amount of USDS that can be lent from the stUSDS pool to SKY‑backed borrowers. It caps credit exposure, independent of the current pool balance. Actual borrowing at any time is limited by both available idle liquidity and the debt ceiling.'
+  },
+  {
+    id: 'available-liquidity',
+    title: 'Available liquidity',
+    tooltip:
+      'The amount of USDS currently idle in the stUSDS pool and available for immediate withdrawal or new borrowing. Higher liquidity generally means smoother and more efficient transactions.'
+  },
+  {
+    id: 'remaining-capacity',
+    title: 'Remaining capacity',
+    tooltip:
+      'Remaining capacity is the amount of additional USDS that can be deposited until the maximum capacity is reached.'
+  },
+  {
+    id: 'total-staking-engine-debt',
+    title: 'Total Staking Engine debt',
+    tooltip: 'The current sum of USDS that Staking Engine borrowers owe (principal plus accrued interest).'
+  },
+  {
+    id: 'withdrawal-liquidity',
+    title: 'Withdrawal liquidity',
+    tooltip: 'The amount of stUSDS currently available for users to withdraw from the system.'
+  },
+  {
+    id: 'staking-rewards-rates-srrs',
+    title: 'Staking Rewards Rates (SRRs)',
+    tooltip:
+      'Staking Rewards Rates are variable and may fluctuate. They are determined by: (1) the current issuance rate of the rewards set through onchain governance processes, and (2) the market price of the staked SKY at the time of each calculation. The SRRs shown are estimated annual rates, updated using data from a third-party provider (i.e., [BlockAnalitica](https://blockanalitica.com/)). Further, the estimate is for informational purposes only and does not guarantee future results.'
+  },
+  {
     id: 'staked',
     title: 'Staked',
     tooltip: 'The amount of SKY you have staked in this position.'
   },
   {
+    id: 'borrow-utilization',
+    title: 'Borrow utilization',
+    tooltip: 'The percentage of the debt ceiling currently being utilized for USDS borrowing.'
+  },
+  {
     id: 'borrow-rate',
-    title: 'Borrow rate',
+    title: 'Borrow Rate',
     tooltip:
       'The Borrow Rate is determined by Sky Ecosystem Governance through a process of community-driven, decentralized onchain voting.'
   },
@@ -38,22 +99,28 @@ Open Safe[Wallet]`
       'The USDS limit is determined by the amount SKY locked in the Staking Engine, the current market price of SKY, and the amount of USDS borrowed.'
   },
   {
+    id: 'capped-osm-sky-price',
+    title: 'Capped OSM SKY price',
+    tooltip:
+      'The SKY price reported by the Oracle Security Module (OSM), capped at a governance-defined limit to prevent overvaluation during debt generation.'
+  },
+  {
     id: 'collateralization-ratio',
     title: 'Collateralization ratio',
     tooltip:
       'The ratio between the value of collateral you’ve provided and the amount you’ve borrowed against that collateral.'
   },
   {
-    id: 'liquidation-price',
-    title: 'Liquidation price',
+    id: 'liquidation-price-staking',
+    title: 'Liquidation price (Staking)',
     tooltip:
-      "If the value of your collateral (MKR or SKY) drops below the liquidation price noted here, some or all of your collateral may be auctioned to repay the amount of USDS that you borrowed. Note that a one-hour price update delay applies. In other words, when MKR or SKY drops below a user's liquidation price it will only start applying one hour later. This is called the OSM delay in technical terms, and it also applies to any legacy Maker MCD vault."
+      "If the value of your collateral (SKY) drops below the liquidation price noted here, some or all of your collateral may be auctioned to repay the amount of USDS that you borrowed. Note that a one-hour price update delay applies. In other words, when SKY drops below a user's liquidation price it will only start applying one hour later. This is called the OSM delay in technical terms, and it also applies to any legacy Maker MCD vault."
   },
   {
     id: 'risk-level',
     title: 'Risk level',
     tooltip:
-      'Risk level indicates the likelihood of your collateral being liquidated. This is primarily determined by your Loan-to-Value (LTV) ratio, which represents the amount you’ve borrowed compared to the value of your crypto collateral. A high risk level means your collateral is close to the liquidation price threshold, and most vulnerable to market changes. A medium risk level means you have a reasonable balance between borrowing power and a safety buffer. A low risk level means you have a comparatively wider safety next against price fluctuations.'
+      'Risk level indicates the likelihood of your collateral being liquidated. This is primarily determined by your Loan-to-Value (LTV) ratio, which represents the amount you’ve borrowed compared to the value of your crypto collateral. A high risk level means that your collateral is close to the liquidation price threshold, and most vulnerable to market changes. A medium risk level means you have a reasonable balance between borrowing power and a safety buffer. A low risk level means you have a comparatively wider safety net against price fluctuations.'
   },
   {
     id: 'debt-ceiling',
@@ -65,7 +132,37 @@ Open Safe[Wallet]`
     id: 'debt-ceiling-utilization',
     title: 'Debt ceiling utilization',
     tooltip:
-      'If the debt ceiling utilization reaches 100%, no new USDS can be borrowed. The debt ceiling is a parameter determined by Sky ecosystem governance through a process of decentralized onchain voting.'
+      'If the debt ceiling utilization reaches 100%, no new USDS can be borrowed. The debt ceiling is a parameter determined by Sky Ecosystem Governance through a process of decentralized onchain voting.'
+  },
+  {
+    id: 'max-permitted-risk',
+    title: 'Max permitted risk',
+    tooltip:
+      'Risk cannot exceed the Max permitted risk level, determined by the capped OSM price and collateralization ratio requirements. To borrow more, stake additional SKY collateral.'
+  },
+  {
+    id: 'risk-floor',
+    title: 'Risk floor',
+    tooltip:
+      'Given the current amount of SKY deposited and USDS borrowed in this position, risk cannot be adjusted below the Risk floor. To lower the Risk floor, you must stake more SKY or repay USDS on the Unstake and Repay tab.'
+  },
+  {
+    id: 'risk-ceiling',
+    title: 'Risk ceiling',
+    tooltip:
+      'Given the current amount of SKY deposited and USDS borrowed in this position, risk cannot be increased above the Risk ceiling. To raise the Risk ceiling, you must unstake SKY or borrow additional USDS.'
+  },
+  {
+    id: 'risk-borrow',
+    title: 'Risk (borrow)',
+    tooltip:
+      'Risk can only be adjusted upward when borrowing. To adjust downward, you can stake more SKY or repay USDS on the Unstake and Repay tab.'
+  },
+  {
+    id: 'risk-repay',
+    title: 'Risk (repay)',
+    tooltip:
+      'Risk can only be adjusted downward when repaying. To adjust upward, you can unstake SKY or borrow more USDS on the Stake and Borrow tab.'
   },
   {
     id: 'choose-your-delegate',
@@ -82,17 +179,31 @@ Delegates in receipt of token voting power can never directly access any tokens 
     tooltip: 'The amount of MKR you’ve sealed in this position.'
   },
   {
-    id: 'deprecation-warning',
-    title: 'Deprecation warning',
+    id: 'deprecation-warning-if-the-user-has-positions',
+    title: 'Deprecation warning (if the user has positions)',
+    tooltip: `Seal Engine is deprecated. Creation of new positions has been disabled. Management of existing positions remains available.
+
+Exit your positions now.`
+  },
+  {
+    id: 'deprecation-warning-if-the-user-has-no-positions',
+    title: 'Deprecation warning (if the user has no positions)',
+    tooltip: `Seal Engine is deprecated. Creation of new positions has been disabled. Management of existing positions remains available.
+
+You don't have any open positions.`
+  },
+  {
+    id: 'liquidation-price-seal',
+    title: 'Liquidation price (Seal)',
     tooltip:
-      'Seal Engine is being deprecated. Exit your positions now. Migration to Staking Engine coming soon.'
+      "If the value of your collateral (MKR or SKY) drops below the liquidation price noted here, some or all of your collateral may be auctioned to repay the amount of USDS that you borrowed. Note that a one-hour price update delay applies. In other words, when MKR or SKY drops below a user's liquidation price it will only start applying one hour later. This is called the OSM delay in technical terms, and it also applies to any legacy Maker MCD vault."
   },
   {
     id: 'delayed-upgrade-penalty',
     title: 'Delayed Upgrade Penalty',
-    tooltip: `The Delayed Upgrade Penalty is a time-based upgrade mechanism, approved by Sky Ecosystem Governance, which is designed to facilitate a smooth and prompt upgrade of MKR to SKY.
+    tooltip: `The Delayed Upgrade Penalty is a time-based upgrade [approved by Sky Ecosystem Governance](https://vote.sky.money/executive/template-executive-vote-delayed-upgrade-penalty-launch-agent-2-allocator-adjustment-lsev2-sky-a-liquidation-ratio-increase-first-monthly-settlement-cycle-ad-compensation-for-september-2025-atlas-core-development-usds-and-sky-payments-spark-proxy-spell-september-18-2025) and designed to facilitate a smooth and prompt upgrade of MKR to SKY.
 
-The penalty, which will begin sometime in September 2025, reduces the amount of SKY received per MKR upgraded at a rate of 1%, and increases by 1% every three months thereafter until it reaches 100% in 25 years. The penalty will not apply to anyone upgrading their MKR to SKY before it kicks in`
+The penalty, which took effect in September 2025, reduces the amount of SKY received per MKR upgraded by a rate of 1%. The reduction will increase by an additional 1% every three months thereafter, until it reaches 100% in 25 years.`
   },
   {
     id: 'eip-7702-bundled-transactions-not-supported',
@@ -117,7 +228,7 @@ Bundled transaction: Active`
     id: 'exchange-rate',
     title: 'Exchange Rate',
     tooltip:
-      'Exchange rate refers to the price of one cryptocurrency relative to another cryptocurrency or fiat currency at any given moment. Cryptocurrency exchange rates may be subject to price volatility and may fluctuate based on various factors. The final amount you will receive is estimated, based on your chosen slippage tolerance level.'
+      'Exchange Rate refers to the price of one cryptocurrency relative to another cryptocurrency or fiat currency at any given moment. Cryptocurrency exchange rates may be subject to price volatility and may fluctuate based on various factors. The final amount you will receive is estimated, based on your chosen slippage tolerance level.'
   },
   {
     id: 'psm',
@@ -131,22 +242,16 @@ Bundled transaction: Active`
     tooltip: 'This reflects your slippage tolerance level.'
   },
   {
-    id: 'slippage-tolerancee',
-    title: 'Slippage Tolerancee',
+    id: 'slippage-tolerance',
+    title: 'Slippage Tolerance',
     tooltip:
       'By setting your slippage tolerance level, you control the degree of token price fluctuation that you will accept between the time you initiate a trade transaction and its execution on the blockchain. If the actual slippage is greater than your chosen tolerance level, the transaction will fail and be reverted. Note that reverted transactions may still incur gas fees.'
   },
   {
-    id: 'rate',
-    title: 'Rate',
+    id: 'sky-savings-rate',
+    title: 'Sky Savings Rate',
     tooltip:
       'The Sky Savings Rate is variable, determined by decentralized, onchain Sky Ecosystem Governance, and configured on the Ethereum blockchain. Sky Ecosystem Governance is able to adapt the SSR and other relevant parameters at any time at its discretion and without notice, based on market conditions, protocol surplus and other factors. The rate shown here is an estimate of the Sky Savings Rate representing the expected compounded rate per annum. It should be automatically updated every 5 minutes, and is powered by data provided by a third party ([Block Analitica](https://blockanalitica.com/)). This figure does not promise or guarantee future results.'
-  },
-  {
-    id: 'rewards-info-lock',
-    title: 'Rewards Info [Lock]',
-    tooltip:
-      'Wallet connection required. To access detailed Sky Token Rewards information, please connect your wallet.'
   },
   {
     id: 'rewards-rate',
@@ -173,4 +278,9 @@ export function getTooltipById(id: string): Tooltip | undefined {
 
   // If not found, fallback to legacy tooltips
   return getLegacyTooltipById(id);
+}
+
+// Helper function to get multiple tooltips by IDs and return them as an array
+export function getTooltipsByIds(ids: string[]): Tooltip[] {
+  return ids.map(id => getTooltipById(id)).filter((tooltip): tooltip is Tooltip => tooltip !== undefined);
 }
