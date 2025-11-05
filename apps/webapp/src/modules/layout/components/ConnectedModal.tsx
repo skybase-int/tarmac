@@ -26,6 +26,8 @@ import { ExternalLink as ExternalLinkComponent } from '@/modules/layout/componen
 import { absBigInt } from '@/modules/utils/math';
 import { Stake, Trade, Upgrade, Seal, Savings, RewardsModule, Expert } from '@/modules/icons';
 
+const MAX_TRANSACTIONS = 6;
+
 interface ConnectedModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
@@ -62,7 +64,7 @@ export function ConnectedModal({
   // Filter to current chain and take only the 5 most recent
   const recentTransactions = useMemo(() => {
     if (!allHistory) return [];
-    return allHistory.filter(tx => tx.chainId === chainId).slice(0, 10);
+    return allHistory.filter(tx => tx.chainId === chainId).slice(0, MAX_TRANSACTIONS);
   }, [allHistory, chainId]);
 
   // Format dates using the same pattern as history tables
@@ -386,7 +388,7 @@ export function ConnectedModal({
                     href={getExplorerLink(tx)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:bg-containerLight flex items-center justify-between gap-2 rounded px-2 py-2 transition-colors"
+                    className="hover:bg-brandLight/20 active:bg-brandLight/10 flex items-center justify-between gap-2 rounded-md px-2 py-2 transition-colors"
                   >
                     <div className="flex min-w-0 flex-1 items-start gap-2">
                       <div className="text-textSecondary mt-1">{getTransactionIcon(tx)}</div>
