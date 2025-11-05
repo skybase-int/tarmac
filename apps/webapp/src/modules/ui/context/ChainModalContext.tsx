@@ -1,6 +1,11 @@
 import React, { createContext, useContext, useCallback } from 'react';
 import { useSwitchChain, useAccount, useChains } from 'wagmi';
-import { toast } from '@/components/ui/use-toast';
+import { toastWithClose } from '@/components/ui/use-toast';
+import { HStack } from '@/modules/layout/components/HStack';
+import { VStack } from '@/modules/layout/components/VStack';
+import { Text } from '@/modules/layout/components/Typography';
+import { Trans } from '@lingui/react/macro';
+import { Failure } from '@/modules/icons';
 
 type ChainModalContextType = {
   handleSwitchChain: ({
@@ -26,6 +31,7 @@ export const ChainModalProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const { switchChain, isPending, variables } = useSwitchChain();
   const { connector } = useAccount();
   const chains = useChains();
+  const duration = 10000;
 
   const handleSwitchChain = useCallback(
     ({
@@ -58,17 +64,49 @@ export const ChainModalProvider: React.FC<{ children: React.ReactNode }> = ({ ch
               errorMessage.includes('Unsupported chain');
 
             if (isUnsupportedChain) {
-              toast({
-                title: 'Chain not supported',
-                description: `${walletName} does not support ${chainName}. Please switch to a supported network or use a different wallet.`,
-                variant: 'failure'
-              });
+              toastWithClose(
+                () => (
+                  <HStack className="items-start gap-2">
+                    <Failure className="mt-0.5 shrink-0" width={20} height={20} />
+                    <VStack className="gap-2">
+                      <Text variant="medium">
+                        <Trans>Chain not supported</Trans>
+                      </Text>
+                      <Text variant="small" className="text-textSecondary">
+                        {`${walletName} does not support ${chainName}. Please switch to a supported network or use a different wallet.`}
+                      </Text>
+                    </VStack>
+                  </HStack>
+                ),
+                {
+                  classNames: {
+                    content: 'w-full'
+                  },
+                  duration
+                }
+              );
             } else {
-              toast({
-                title: 'Failed to switch network',
-                description: `Unable to switch to ${chainName}. Please try again.`,
-                variant: 'failure'
-              });
+              toastWithClose(
+                () => (
+                  <HStack className="items-start gap-2">
+                    <Failure className="mt-0.5 shrink-0" width={20} height={20} />
+                    <VStack className="gap-2">
+                      <Text variant="medium">
+                        <Trans>Failed to switch network</Trans>
+                      </Text>
+                      <Text variant="small" className="text-textSecondary">
+                        {`Unable to switch to ${chainName}. Please try again.`}
+                      </Text>
+                    </VStack>
+                  </HStack>
+                ),
+                {
+                  classNames: {
+                    content: 'w-full'
+                  },
+                  duration
+                }
+              );
             }
           }
         }

@@ -16,7 +16,7 @@
 @import 'tailwindcss';
 
 /* This forces tailwind to scan imported components for classes  */
-@source "../node_modules/@jetstreamgg/sky-widgets";
+@source '../node_modules/@jetstreamgg/sky-widgets';
 
 @plugin 'tailwindcss-animate';
 
@@ -320,11 +320,46 @@
   }
 }
 
+@utility scrollbar-thin-always {
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  scrollbar-gutter: stable;
+
+  &::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 10px 10px var(--transparent-white-15);
+    border: solid 3px transparent;
+    border-radius: 5px;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 10px 10px var(--transparent-white-20);
+  }
+}
+
 @utility chevron-down {
   [data-state='open'] & {
     transform: rotate(180deg);
     transition: transform 0.2s ease-in-out; /* Smooth transition */
   }
+}
+
+@keyframes scroll-hint-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+@utility scroll-hint-indicator {
+  animation: scroll-hint-bounce 1.5s ease-in-out infinite;
+  pointer-events: none;
 }
 
 @utility hide-spin-button {

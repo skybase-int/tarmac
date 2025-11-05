@@ -3,13 +3,12 @@ import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { getTokenDecimals, OrderQuoteResponse } from '@jetstreamgg/sky-hooks';
 import { formatNumber } from '@jetstreamgg/sky-utils';
-import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { ArrowRight } from 'lucide-react';
 import { TradeSide } from '../lib/constants';
 import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
-import { InfoTooltip } from '@widgets/shared/components/ui/tooltip/InfoTooltip';
+import { PopoverInfo } from '@widgets/shared/components/ui/PopoverInfo';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { MotionHStack } from '@widgets/shared/components/ui/layout/MotionHStack';
@@ -18,6 +17,7 @@ import { TokenForChain } from '@jetstreamgg/sky-hooks';
 import { useChainId } from 'wagmi';
 import { Switch } from '@widgets/components/ui/switch';
 import { useIsBatchSupported } from '@jetstreamgg/sky-hooks';
+import { getTooltipById } from '@widgets/data/tooltips';
 
 type TradeSummaryProps = {
   quoteData: OrderQuoteResponse;
@@ -125,10 +125,14 @@ export function TradeSummary({
                 <Text variant="medium" className="text-textSecondary">
                   <Trans>Slippage</Trans>
                 </Text>
-                <InfoTooltip
-                  content={t`This reflects your slippage tolerance.`}
-                  iconClassName="text-textSecondary"
-                />
+                {getTooltipById('slippage')?.tooltip && (
+                  <PopoverInfo
+                    title={getTooltipById('slippage')?.title || ''}
+                    description={getTooltipById('slippage')?.tooltip || ''}
+                    iconClassName="text-textSecondary"
+                    iconSize="large"
+                  />
+                )}
               </HStack>
               <Text variant="medium">{quoteData.quote.slippageTolerance.toFixed(2)}%</Text>
             </motion.div>
@@ -182,8 +186,6 @@ export function TradeSummary({
                 <Text variant="medium" className="text-textSecondary">
                   {exactInput ? <Trans>Minimum output</Trans> : <Trans>Maximum input</Trans>}
                 </Text>
-                {/* TODO: Add tooltip content */}
-                <InfoTooltip content={'Minimum output / maximum input'} iconClassName="text-textSecondary" />
               </HStack>
               <Text variant="medium">
                 {slippageAdjustedQuote} {token.symbol}
@@ -199,12 +201,10 @@ export function TradeSummary({
                   <HStack className="flex-wrap gap-1 space-x-0">
                     <HStack className="gap-1 space-x-0">
                       <Text className="text-[13px]">Bundle transactions</Text>
-                      <InfoTooltip
-                        contentClassname="max-w-[350px]"
-                        iconClassName="text-[13px]"
-                        content={
+                      <PopoverInfo
+                        title="Bundle transactions"
+                        description={
                           <>
-                            <Text className="text-[13px]">Bundle transactions</Text>
                             <Text className="text-[13px] text-white/60">
                               Bundled transactions are set &apos;on&apos; by default to complete transactions
                               in a single step. Combining actions improves the user experience and reduces gas

@@ -153,7 +153,7 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
                   Staking Engine.
                 </Trans>
               </Text>
-              <Text className="text-text mb-8 mt-8">
+              <Text className="text-text mt-8 mb-8">
                 <Trans>
                   Please connect your wallet to Ethereum Mainnet to start the migration of your positions.
                 </Trans>

@@ -9,7 +9,6 @@ import { UpgradeCard } from './modules/UpgradeCard';
 import { StakingRewardsCard } from './modules/StakingRewardsCard';
 import { ExpertCard } from './modules/ExpertCard';
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
-import { isExpertModulesEnabled } from '@/lib/feature-flags';
 
 type CarouselCard = {
   id: string;
@@ -42,7 +41,8 @@ export function BalancesModuleShowcase() {
       },
       {
         id: 'staking',
-        component: <StakingRewardsCard />
+        component: <StakingRewardsCard />,
+        featured: true // Featured cards go first
       },
       {
         id: 'upgrade',
@@ -56,8 +56,7 @@ export function BalancesModuleShowcase() {
       {
         id: 'expert',
         component: <ExpertCard />,
-        featured: true // Featured cards go first
-        //TODO: determine if this needs to be hidden in any way
+        hideInRestrictedBuild: true
       }
     ],
     []
@@ -68,7 +67,6 @@ export function BalancesModuleShowcase() {
     const filtered = allCards.filter(card => {
       if (card.hideInRestrictedBuild && isRestrictedBuild) return false;
       if (card.hideInMiCaRestricted && isRestrictedMiCa) return false;
-      if (card.id === 'expert' && !isExpertModulesEnabled()) return false;
       return true;
     });
 
