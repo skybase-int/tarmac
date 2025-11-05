@@ -1,5 +1,5 @@
 import { TermsModal } from '../../ui/components/TermsModal';
-import { useAccount, useDisconnect, useEnsName, useEnsAvatar } from 'wagmi';
+import { useAccount, useDisconnect, useEnsName, useEnsAvatar, useChainId } from 'wagmi';
 import { Button } from '@/components/ui/button';
 import { t } from '@lingui/core/macro';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
@@ -14,6 +14,7 @@ import { ConnectedModal } from './ConnectedModal';
 export function CustomConnectButton() {
   const { openConnectModal } = useConnectModal();
   const { isConnected, address, connector } = useAccount();
+  const chainId = useChainId();
   const { disconnect } = useDisconnect();
   const { data: ensName } = useEnsName({ address });
   const { data: ensAvatar } = useEnsAvatar({ name: ensName! });
@@ -63,6 +64,7 @@ export function CustomConnectButton() {
         isOpen={showAccountMenu}
         onOpenChange={setShowAccountMenu}
         address={address}
+        chainId={chainId}
         ensName={ensName}
         ensAvatar={ensAvatar}
         connectorName={connector?.name}
