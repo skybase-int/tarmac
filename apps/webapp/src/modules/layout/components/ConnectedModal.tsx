@@ -171,6 +171,16 @@ export function ConnectedModal({
       }
     }
 
+    // Savings module - natural language descriptions
+    if (module === ModuleEnum.SAVINGS) {
+      if (tx.type === TransactionTypeEnum.SUPPLY) {
+        return amount ? `Supplied ${amount} to Savings` : 'Supplied to Savings';
+      }
+      if (tx.type === TransactionTypeEnum.WITHDRAW) {
+        return amount ? `Withdrew ${amount} from Savings` : 'Withdrew from Savings';
+      }
+    }
+
     // Other modules - keeping old format for now
     const typeDescriptions: Record<string, string> = {
       [TransactionTypeEnum.SUPPLY]: amount ? `${amount} - ${prefix} Supply` : `${prefix}: Supply`,
