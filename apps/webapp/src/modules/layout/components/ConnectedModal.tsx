@@ -4,17 +4,27 @@ import { t } from '@lingui/core/macro';
 import { X } from 'lucide-react';
 import { Text } from '@/modules/layout/components/Typography';
 import { CustomAvatar } from '@/modules/ui/components/Avatar';
-import { getEtherscanLink, formatBigInt, useFormatDates } from '@jetstreamgg/sky-utils';
+import {
+  getEtherscanLink,
+  formatBigInt,
+  useFormatDates,
+  formatNumber,
+  getCowExplorerLink
+} from '@jetstreamgg/sky-utils';
 import {
   useAllNetworksCombinedHistory,
   TransactionTypeEnum,
   ModuleEnum,
-  useAvailableTokenRewardContractsForChains
+  useAvailableTokenRewardContractsForChains,
+  getTokenDecimals,
+  TokenForChain
 } from '@jetstreamgg/sky-hooks';
+import { formatUnits } from 'viem';
 import { useEffect, useMemo } from 'react';
 import { useLingui } from '@lingui/react';
 import { ExternalLink as ExternalLinkComponent } from '@/modules/layout/components/ExternalLink';
 import { absBigInt } from '@/modules/utils/math';
+import { Stake, Trade, Upgrade, Seal, Savings, RewardsModule } from '@/modules/icons';
 
 interface ConnectedModalProps {
   isOpen: boolean;
@@ -52,7 +62,7 @@ export function ConnectedModal({
   // Filter to current chain and take only the 5 most recent
   const recentTransactions = useMemo(() => {
     if (!allHistory) return [];
-    return allHistory.filter(tx => tx.chainId === chainId).slice(0, 10);
+    return allHistory.filter(tx => tx.chainId === chainId).slice(10, 20);
   }, [allHistory, chainId]);
 
   // Format dates using the same pattern as history tables
@@ -153,6 +163,37 @@ export function ConnectedModal({
     return null;
   };
 
+  const getTransactionIcon = (tx: any) => {
+    const iconProps = { width: 16, height: 16 };
+
+    // Use simple module-level icons
+    switch (tx.module) {
+      case ModuleEnum.REWARDS:
+        return <RewardsModule {...iconProps} />;
+      case ModuleEnum.SAVINGS:
+        return <Savings {...iconProps} />;
+      case ModuleEnum.STAKE:
+        return <Stake {...iconProps} />;
+      case ModuleEnum.TRADE:
+        return <Trade {...iconProps} />;
+      case ModuleEnum.UPGRADE:
+        return <Upgrade {...iconProps} />;
+      case ModuleEnum.SEAL:
+        return <Seal {...iconProps} />;
+      default:
+        return null;
+    }
+  };
+
+  const getExplorerLink = (tx: any): string => {
+    // Use CoW Explorer for trade transactions that have cowOrderStatus
+    if (tx.module === ModuleEnum.TRADE && 'cowOrderStatus' in tx) {
+      return getCowExplorerLink(chainId, tx.transactionHash);
+    }
+    // Default to Etherscan for all other transactions
+    return getEtherscanLink(chainId, tx.transactionHash, 'tx');
+  };
+
   const getTransactionDescription = (tx: any): string => {
     const module = tx.module;
     const prefix = getModulePrefix(module);
@@ -179,6 +220,75 @@ export function ConnectedModal({
       if (tx.type === TransactionTypeEnum.WITHDRAW) {
         return amount ? `Withdrew ${amount} from Savings` : 'Withdrew from Savings';
       }
+    }
+
+    // Stake module - natural language descriptions
+    if (module === ModuleEnum.STAKE) {
+      if (tx.type === TransactionTypeEnum.STAKE) {
+        return amount ? `Staked ${amount}` : 'Staked SKY';
+      }
+      if (tx.type === TransactionTypeEnum.UNSTAKE) {
+        return amount ? `Unstaked ${amount}` : 'Unstaked SKY';
+      }
+      if (tx.type === TransactionTypeEnum.STAKE_BORROW) {
+        return amount ? `Borrowed ${amount}` : 'Borrowed USDS';
+      }
+      if (tx.type === TransactionTypeEnum.STAKE_REPAY) {
+        return amount ? `Repaid ${amount}` : 'Repaid USDS';
+      }
+      if (tx.type === TransactionTypeEnum.STAKE_REWARD) {
+        return amount ? `Claimed ${amount} in staking rewards` : 'Claimed staking rewards';
+      }
+      if (tx.type === TransactionTypeEnum.STAKE_OPEN) {
+        return 'Opened staking position';
+      }
+      if (tx.type === TransactionTypeEnum.STAKE_SELECT_DELEGATE) {
+        return 'Selected delegate';
+      }
+      if (tx.type === TransactionTypeEnum.STAKE_SELECT_REWARD) {
+        return 'Selected reward contract';
+      }
+      if (tx.type === TransactionTypeEnum.UNSTAKE_KICK) {
+        return amount ? `Liquidated ${amount}` : 'Position liquidated';
+      }
+    }
+
+    // Upgrade module - natural language descriptions
+    if (module === ModuleEnum.UPGRADE) {
+      if (tx.type === TransactionTypeEnum.DAI_TO_USDS) {
+        return amount ? `Upgraded ${amount} to USDS` : 'Upgraded DAI to USDS';
+      }
+      if (tx.type === TransactionTypeEnum.USDS_TO_DAI) {
+        return amount ? `Downgraded ${amount} to DAI` : 'Downgraded USDS to DAI';
+      }
+      if (tx.type === TransactionTypeEnum.MKR_TO_SKY) {
+        return amount ? `Upgraded ${amount} to SKY` : 'Upgraded MKR to SKY';
+      }
+      if (tx.type === TransactionTypeEnum.SKY_TO_MKR) {
+        return amount ? `Downgraded ${amount} to MKR` : 'Downgraded SKY to MKR';
+      }
+    }
+
+    // Trade module - natural language descriptions
+    if (module === ModuleEnum.TRADE) {
+      if (tx.fromAmount && tx.toAmount && tx.fromToken && tx.toToken) {
+        // Format trade amounts with proper decimals like TradeHistory does
+        const formatTradeAmount = (input: bigint, token: any): string => {
+          const decimals = getTokenDecimals(token as TokenForChain, chainId);
+          return formatNumber(parseFloat(formatUnits(input, decimals)), {
+            locale: i18n.locale,
+            compact: true
+          });
+        };
+
+        const fromAmount = `${formatTradeAmount(tx.fromAmount, tx.fromToken)} ${tx.fromToken.symbol}`;
+        const toAmount = `${formatTradeAmount(tx.toAmount, tx.toToken)} ${tx.toToken.symbol}`;
+
+        // Add CoW order status if available
+        const statusSuffix = 'cowOrderStatus' in tx ? ` - ${tx.cowOrderStatus}` : '';
+        return `Traded ${fromAmount} for ${toAmount}${statusSuffix}`;
+      }
+      return 'Traded tokens';
     }
 
     // Other modules - keeping old format for now
@@ -254,21 +364,21 @@ export function ConnectedModal({
                 {recentTransactions.map((tx, index) => (
                   <a
                     key={tx.transactionHash}
-                    href={getEtherscanLink(chainId, tx.transactionHash, 'tx')}
+                    href={getExplorerLink(tx)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:bg-containerLight flex items-center justify-between gap-2 rounded px-2 py-2 transition-colors"
                   >
-                    <div className="min-w-0 flex-1">
-                      <Text className="text-text truncate">{getTransactionDescription(tx)}</Text>
-                      <Text variant="small" className="text-textSecondary">
-                        {formattedDates.length > index ? formattedDates[index] : ''}
-                      </Text>
+                    <div className="flex min-w-0 flex-1 items-start gap-2">
+                      <div className="text-textSecondary mt-1">{getTransactionIcon(tx)}</div>
+                      <div className="min-w-0 flex-1">
+                        <Text className="text-text truncate">{getTransactionDescription(tx)}</Text>
+                        <Text variant="small" className="text-textSecondary">
+                          {formattedDates.length > index ? formattedDates[index] : ''}
+                        </Text>
+                      </div>
                     </div>
-                    <ExternalLinkComponent
-                      href={getEtherscanLink(chainId, tx.transactionHash, 'tx')}
-                      iconSize={13}
-                    />
+                    <ExternalLinkComponent href={getExplorerLink(tx)} iconSize={13} />
                   </a>
                 ))}
               </div>
