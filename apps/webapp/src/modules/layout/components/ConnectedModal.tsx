@@ -26,6 +26,9 @@ import { ExternalLink as ExternalLinkComponent } from '@/modules/layout/componen
 import { absBigInt } from '@/modules/utils/math';
 import { Stake, Trade, Upgrade, Seal, Savings, RewardsModule, Expert } from '@/modules/icons';
 import { useBreakpointIndex, BP } from '@/modules/ui/hooks/useBreakpointIndex';
+import { CopyToClipboard } from '@/modules/ui/components/CopyToClipboard';
+import { HStack } from './HStack';
+import { VStack } from './VStack';
 
 const MAX_TRANSACTIONS = 6;
 
@@ -74,7 +77,10 @@ export function ConnectedModal({
   const memoizedDates = useMemo(() => recentTransactions.map(tx => tx.blockTimestamp), [recentTransactions]);
   const formattedDates = useFormatDates(memoizedDates, i18n.locale, 'MMM d, yyyy, h:mm a');
 
-  const formatAddress = (addr: string) => {
+  const formatAddress = (addr: string, format: 'short' | 'long' = 'short') => {
+    if (format === 'long') {
+      return `${addr.slice(0, 10)}...${addr.slice(-8)}`;
+    }
     return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
   };
 
@@ -361,13 +367,20 @@ export function ConnectedModal({
             ) : (
               <CustomAvatar address={address} size={80} />
             )}
-            <div className="text-center">
-              <div className="text-text text-lg font-medium">{ensName || formatAddress(address)}</div>
-              {ensName && <div className="text-textSecondary mt-1 text-sm">{formatAddress(address)}</div>}
+            <VStack className="text-center">
+              <HStack className="w-fit items-center self-center">
+                <div className="text-text text-lg font-medium">{ensName || formatAddress(address)}</div>
+                <div className="cursor-pointer">
+                  <CopyToClipboard text={address} />
+                </div>
+              </HStack>
+              {ensName && (
+                <div className="text-textSecondary mt-1 text-sm">{formatAddress(address, 'long')}</div>
+              )}
               {connectorName && (
                 <div className="text-textSecondary mt-2 text-sm">Connected with {connectorName}</div>
               )}
-            </div>
+            </VStack>
           </div>
 
           {/* Recent Transactions Section */}
