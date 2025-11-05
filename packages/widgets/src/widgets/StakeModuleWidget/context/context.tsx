@@ -85,8 +85,8 @@ export interface StakeModuleWidgetContextProps {
   indexToClaim: bigint | undefined;
   setIndexToClaim: Dispatch<SetStateAction<bigint | undefined>>;
 
-  rewardContractToClaim: `0x${string}` | undefined;
-  setRewardContractToClaim: Dispatch<SetStateAction<`0x${string}` | undefined>>;
+  rewardContractsToClaim: `0x${string}`[] | undefined;
+  setRewardContractsToClaim: Dispatch<SetStateAction<`0x${string}`[] | undefined>>;
 
   wantsToDelegate: boolean | undefined;
   setWantsToDelegate: Dispatch<SetStateAction<boolean | undefined>>;
@@ -148,8 +148,8 @@ export const StakeModuleWidgetContext = createContext<StakeModuleWidgetContextPr
   indexToClaim: undefined,
   setIndexToClaim: () => undefined,
 
-  rewardContractToClaim: undefined,
-  setRewardContractToClaim: () => undefined,
+  rewardContractsToClaim: undefined,
+  setRewardContractsToClaim: () => undefined,
 
   wantsToDelegate: undefined,
   setWantsToDelegate: () => null,
@@ -182,7 +182,7 @@ export const StakeModuleWidgetProvider = ({ children }: { children: ReactNode })
     { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined } | undefined
   >();
   const [indexToClaim, setIndexToClaim] = useState<bigint | undefined>();
-  const [rewardContractToClaim, setRewardContractToClaim] = useState<`0x${string}` | undefined>();
+  const [rewardContractsToClaim, setRewardContractsToClaim] = useState<`0x${string}`[] | undefined>();
   const [wantsToDelegate, setWantsToDelegate] = useState<boolean | undefined>(undefined);
   const [restakeSkyRewards, setRestakeSkyRewards] = useState<boolean>(false);
   const [restakeSkyAmount, setRestakeSkyAmount] = useState<bigint>(0n);
@@ -253,7 +253,12 @@ export const StakeModuleWidgetProvider = ({ children }: { children: ReactNode })
       // SKY to lock
       const lockSkyCalldata =
         totalSkyLockAmount > 0n
-          ? getStakeLockCalldata({ ownerAddress, urnIndex, amount: totalSkyLockAmount, refCode: referralCode })
+          ? getStakeLockCalldata({
+              ownerAddress,
+              urnIndex,
+              amount: totalSkyLockAmount,
+              refCode: referralCode
+            })
           : undefined;
 
       // USDS to wipe
@@ -310,14 +315,17 @@ export const StakeModuleWidgetProvider = ({ children }: { children: ReactNode })
         : undefined;
 
       // Claim rewards
-      const claimRewardsCalldata = !restakeSkyRewards && rewardContractToClaim
-        ? getStakeGetRewardCalldata({
-            ownerAddress,
-            urnIndex,
-            rewardContractAddress: rewardContractToClaim,
-            toAddress: ownerAddress
-          })
-        : undefined;
+      const claimRewardsCalldatas =
+        !restakeSkyRewards && rewardContractsToClaim
+          ? rewardContractsToClaim.map(rewardContractToClaim =>
+              getStakeGetRewardCalldata({
+                ownerAddress,
+                urnIndex,
+                rewardContractAddress: rewardContractToClaim,
+                toAddress: ownerAddress
+              })
+            )
+          : undefined;
 
       const restakeClaimCalldata =
         restakeSkyRewards &&
@@ -356,7 +364,7 @@ export const StakeModuleWidgetProvider = ({ children }: { children: ReactNode })
               selectDelegateCalldata,
               lockSkyCalldata,
               borrowUsdsCalldata,
-              claimRewardsCalldata
+              ...(claimRewardsCalldatas || [])
             ];
 
       // Filter out undefined calldata
@@ -373,7 +381,7 @@ export const StakeModuleWidgetProvider = ({ children }: { children: ReactNode })
       selectedDelegate,
       urnSelectedRewardContract,
       urnSelectedVoteDelegate,
-      rewardContractToClaim,
+      rewardContractsToClaim,
       activeUrn,
       widgetState.flow,
       restakeSkyRewards,
@@ -417,8 +425,8 @@ export const StakeModuleWidgetProvider = ({ children }: { children: ReactNode })
         setActiveUrn,
         indexToClaim,
         setIndexToClaim,
-        rewardContractToClaim,
-        setRewardContractToClaim,
+        rewardContractsToClaim,
+        setRewardContractsToClaim,
         wantsToDelegate,
         setWantsToDelegate,
         restakeSkyRewards,

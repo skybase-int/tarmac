@@ -119,8 +119,8 @@ function StakeModuleWidgetWrapped({
     activeUrn,
     indexToClaim,
     setIndexToClaim,
-    rewardContractToClaim,
-    setRewardContractToClaim,
+    rewardContractsToClaim,
+    setRewardContractsToClaim,
     wipeAll,
     wantsToDelegate,
     setWantsToDelegate,
@@ -188,9 +188,9 @@ function StakeModuleWidgetWrapped({
     allStepsComplete,
     indexToClaim,
     setIndexToClaim,
-    rewardContractToClaim,
+    rewardContractsToClaim,
     shouldUseBatch: !!batchEnabled && !!batchSupported && (needsAllowance || calldata.length > 1),
-    setRewardContractToClaim,
+    setRewardContractsToClaim,
     setRestakeSkyRewards,
     setRestakeSkyAmount,
     mutateStakeSkyAllowance,
@@ -390,7 +390,7 @@ function StakeModuleWidgetWrapped({
       setUsdsToBorrow(0n);
       setSelectedDelegate(undefined);
       setSelectedRewardContract(undefined);
-      setRewardContractToClaim(undefined);
+      setRewardContractsToClaim(undefined);
       setRestakeSkyRewards(false);
       setRestakeSkyAmount(0n);
     }
@@ -579,7 +579,7 @@ function StakeModuleWidgetWrapped({
     } else {
       if (widgetState.action === StakeAction.CLAIM) {
         setIndexToClaim(undefined);
-        setRewardContractToClaim(undefined);
+        setRewardContractsToClaim(undefined);
         setRestakeSkyRewards(false);
         setRestakeSkyAmount(0n);
       }
@@ -610,7 +610,7 @@ function StakeModuleWidgetWrapped({
     setUsdsToWipe(0n);
     setUsdsToBorrow(0n);
     setTabIndex(0);
-    setRewardContractToClaim(undefined);
+    setRewardContractsToClaim(undefined);
     setRestakeSkyRewards(false);
     setRestakeSkyAmount(0n);
 
@@ -642,8 +642,10 @@ function StakeModuleWidgetWrapped({
         ? batchMulticall.execute
         : shouldOpenFromWidgetButton
           ? handleClickOpenPosition
-          : widgetState.flow === StakeFlow.MANAGE && widgetState.action === StakeAction.CLAIM
-            ? rewardContractToClaim
+          : widgetState.flow === StakeFlow.MANAGE &&
+              widgetState.action === StakeAction.CLAIM &&
+              rewardContractsToClaim
+            ? rewardContractsToClaim.length === 1
               ? claimRewards.execute
               : claimAllRewards.execute
             : widgetState.flow === StakeFlow.OPEN || widgetState.flow === StakeFlow.MANAGE
@@ -688,7 +690,7 @@ function StakeModuleWidgetWrapped({
     setUsdsToWipe(0n);
     setUsdsToBorrow(0n);
     setTabIndex(0);
-    setRewardContractToClaim(undefined);
+    setRewardContractsToClaim(undefined);
     setRestakeSkyRewards(false);
     setRestakeSkyAmount(0n);
 

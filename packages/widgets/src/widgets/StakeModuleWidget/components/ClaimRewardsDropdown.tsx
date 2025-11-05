@@ -4,7 +4,7 @@ import { WidgetContext } from '@widgets/context/WidgetContext';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { useRewardContractsToClaim } from '@jetstreamgg/sky-hooks';
 import { formatBigInt } from '@jetstreamgg/sky-utils';
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useContext, useMemo, useState } from 'react';
 import { useChainId } from 'wagmi';
 import { WidgetState } from '@widgets/shared/types/widgetState';
 import { StakeAction, StakeStep } from '../lib/constants';
@@ -37,8 +37,8 @@ export function ClaimRewardsDropdown({
   const { setWidgetState } = useContext(WidgetContext);
   const {
     indexToClaim,
-    rewardContractToClaim,
-    setRewardContractToClaim,
+    rewardContractsToClaim,
+    setRewardContractsToClaim,
     setActiveUrn,
     setCurrentStep,
     setSelectedRewardContract,
@@ -52,14 +52,14 @@ export function ClaimRewardsDropdown({
   const chainId = useChainId();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data: rewardContractsToClaim } = useRewardContractsToClaim({
+  const { data: claimableRewardContracts } = useRewardContractsToClaim({
     rewardContractAddresses: stakeRewardContracts.map(({ contractAddress }) => contractAddress),
     userAddress: urnAddress,
     chainId
   });
 
   const handleSelectOption = useCallback(
-    (option: `0x${string}` | 'all') => {
+    (option: `0x${string}`[] | undefined) => {
       setIsOpen(false);
 
       setWidgetState((prev: WidgetState) => ({
@@ -72,9 +72,7 @@ export function ClaimRewardsDropdown({
 
       setSelectedRewardContract(selectedReward);
       setSelectedDelegate(selectedVoteDelegate);
-      if (option !== 'all') {
-        setRewardContractToClaim(option);
-      }
+      setRewardContractsToClaim(option);
 
       setIsLockCompleted(true);
       setIsBorrowCompleted(true);
@@ -84,13 +82,18 @@ export function ClaimRewardsDropdown({
     [urnAddress, index, selectedVoteDelegate, selectedReward]
   );
 
-  const isDisabled = !!rewardContractToClaim && indexToClaim !== undefined;
+  const claimableRewardContractAddresses = useMemo(
+    () => claimableRewardContracts?.map(({ contractAddress }) => contractAddress),
+    [claimableRewardContracts]
+  );
 
-  if (!rewardContractsToClaim || rewardContractsToClaim.length === 0) return null;
-  if (rewardContractsToClaim.length === 1)
+  const isDisabled = !!rewardContractsToClaim?.length && indexToClaim !== undefined;
+
+  if (!claimableRewardContracts || claimableRewardContracts.length === 0) return null;
+  if (claimableRewardContracts.length === 1)
     return (
       <ClaimRewardsButton
-        rewardContract={rewardContractsToClaim[0].contractAddress}
+        rewardContract={claimableRewardContracts[0].contractAddress}
         urnAddress={urnAddress}
         handleSelectOption={handleSelectOption}
       />
@@ -98,9 +101,9 @@ export function ClaimRewardsDropdown({
 
   return (
     <div className="flex">
-      <Button variant="secondary" className="flex-1 rounded-r-none border-r-0">
+      <div className="border-textSecondary flex h-10 flex-1 items-center justify-center rounded-[12px] rounded-r-none border border-r-0 px-4 py-2">
         <Text className="text-text">Select reward to claim</Text>
-      </Button>
+      </div>
 
       <Popover open={isOpen} onOpenChange={setIsOpen}>
         <PopoverTrigger asChild>
@@ -118,11 +121,11 @@ export function ClaimRewardsDropdown({
           sideOffset={8}
         >
           <VStack className="space-y-1">
-            {rewardContractsToClaim.map(({ contractAddress, claimBalance, rewardSymbol }) => (
+            {claimableRewardContracts.map(({ contractAddress, claimBalance, rewardSymbol }) => (
               <Button
                 key={contractAddress}
                 variant={null}
-                onClick={() => handleSelectOption(contractAddress)}
+                onClick={() => handleSelectOption([contractAddress])}
                 className={cn(
                   'text-text flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
                   'bg-transparent hover:bg-[#FFFFFF0D]'
@@ -134,7 +137,7 @@ export function ClaimRewardsDropdown({
             {batchEnabledAndSupported && (
               <Button
                 variant={null}
-                onClick={() => handleSelectOption('all')}
+                onClick={() => handleSelectOption(claimableRewardContractAddresses)}
                 className={cn(
                   'text-text flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
                   'bg-transparent hover:bg-[#FFFFFF0D]'

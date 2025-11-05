@@ -11,7 +11,7 @@ export function ClaimRewardsButton({
 }: {
   rewardContract: `0x${string}`;
   urnAddress: `0x${string}`;
-  handleSelectOption: (option: `0x${string}` | 'all') => void;
+  handleSelectOption: (option: `0x${string}`[]) => void;
 }) {
   const chainId = useChainId();
 
@@ -26,7 +26,7 @@ export function ClaimRewardsButton({
   if (!rewardsBalance || !rewardContractTokens) return null;
 
   return (
-    <Button variant="secondary" onClick={() => handleSelectOption(rewardContract)}>
+    <Button variant="secondary" onClick={() => handleSelectOption([rewardContract])}>
       <Text>
         Claim {formatBigInt(rewardsBalance)} {rewardContractTokens.rewardsToken.symbol}
       </Text>

@@ -88,7 +88,7 @@ const LineItem = ({
         <Text className={'text-textSecondary flex items-center text-sm'}>
           {label}
           {label === 'Rate' && (
-            <span className="ml-2 mt-1">
+            <span className="mt-1 ml-2">
               <PopoverRateInfo type="ssr" />
             </span>
           )}
@@ -164,8 +164,8 @@ export const PositionSummary = ({
     usdsToWipe,
     selectedDelegate,
     selectedRewardContract,
-    rewardContractToClaim,
-    setRewardContractToClaim,
+    rewardContractsToClaim,
+    setRewardContractsToClaim,
     restakeSkyRewards,
     setRestakeSkyRewards,
     restakeSkyAmount,
@@ -212,20 +212,20 @@ export const PositionSummary = ({
   const { data: selectedRewardContractTokens, isLoading: isSelectedContractTokensLoading } =
     useRewardContractTokens(selectedRewardContract);
 
-  const { data: rewardContractsToClaim } = useRewardContractsToClaim({
+  const { data: claimableRewardContracts } = useRewardContractsToClaim({
     rewardContractAddresses: existingRewardContract ? [existingRewardContract] : [],
     userAddress: activeUrn?.urnAddress,
     chainId
   });
 
-  const selectedRewardContractRewards = rewardContractsToClaim?.find(
+  const selectedRewardContractRewards = claimableRewardContracts?.find(
     ({ contractAddress }) => contractAddress.toLowerCase() === existingRewardContract?.toLowerCase()
   );
 
   const handleClaimToggle = () => {
     setRestakeSkyRewards(false);
-    setRewardContractToClaim(prevContract =>
-      !prevContract && !!existingRewardContract ? existingRewardContract : undefined
+    setRewardContractsToClaim(prevContracts =>
+      !prevContracts?.length && !!existingRewardContract ? [existingRewardContract] : undefined
     );
   };
 
@@ -263,7 +263,7 @@ export const PositionSummary = ({
     setRestakeSkyRewards(checked);
 
     if (checked) {
-      setRewardContractToClaim(undefined);
+      setRewardContractsToClaim(undefined);
     }
   };
 
@@ -430,7 +430,7 @@ export const PositionSummary = ({
           isUpdatedValue(existingRewardContract?.toLowerCase(), selectedRewardContract?.toLowerCase()) ? (
             [
               isRewardContractTokensLoading ? (
-                <Skeleton key="loading-existing-rewards" className="w-30 h-5" />
+                <Skeleton key="loading-existing-rewards" className="h-5 w-30" />
               ) : existingRewardContractTokens ? (
                 <TokenIcon
                   key="existing-rewards-token"
@@ -439,7 +439,7 @@ export const PositionSummary = ({
                 />
               ) : null,
               isSelectedContractTokensLoading ? (
-                <Skeleton key="loading-selected-rewards" className="w-30 h-5" />
+                <Skeleton key="loading-selected-rewards" className="h-5 w-30" />
               ) : selectedRewardContractTokens ? (
                 <TokenIcon
                   key="selected-rewards-icon"
@@ -449,7 +449,7 @@ export const PositionSummary = ({
               ) : null
             ]
           ) : isRewardContractTokensLoading ? (
-            <Skeleton className="w-30 h-5" />
+            <Skeleton className="h-5 w-30" />
           ) : rewardsTokensToDisplay ? (
             <TokenIcon token={rewardsTokensToDisplay?.rewardsToken} className="h-5 w-5" />
           ) : null
@@ -489,7 +489,7 @@ export const PositionSummary = ({
           normalizeDelegate(existingSelectedVoteDelegate) !== normalizeDelegate(selectedDelegate) ? (
             [
               loadingExistingDelegateOwner ? (
-                <Skeleton key="loading-existing-delegate" className="w-30 h-5" />
+                <Skeleton key="loading-existing-delegate" className="h-5 w-30" />
               ) : existingDelegateOwner ? (
                 <JazziconComponent
                   key="existing-delegate-icon"
@@ -498,7 +498,7 @@ export const PositionSummary = ({
                 />
               ) : null,
               loadingSelectedDelegateOwner ? (
-                <Skeleton key="loading-selected-delegate" className="w-30 h-5" />
+                <Skeleton key="loading-selected-delegate" className="h-5 w-30" />
               ) : selectedDelegateOwner ? (
                 <JazziconComponent
                   key="selected-delegate-icon"
@@ -508,7 +508,7 @@ export const PositionSummary = ({
               ) : null
             ]
           ) : isDelegateLoading ? (
-            <Skeleton className="w-30 h-5" />
+            <Skeleton className="h-5 w-30" />
           ) : delegateOwnerToDisplay ? (
             <JazziconComponent address={delegateOwnerToDisplay} diameter={20} />
           ) : null
@@ -625,7 +625,7 @@ export const PositionSummary = ({
                       <div className="flex flex-col">
                         <Text className="text-sm font-medium">Claim &amp; Restake</Text>
                         <Text className="text-textSecondary mt-1 text-xs">
-                          Use your accrued SKY rewards to increase this position's staked SKY balance
+                          Use your accrued SKY rewards to increase this position&apos;s staked SKY balance
                           immediately.
                         </Text>
                         {batchSupported === false && (
@@ -653,7 +653,7 @@ export const PositionSummary = ({
                         </Text>
                       </div>
                       <Switch
-                        checked={!!rewardContractToClaim}
+                        checked={!!rewardContractsToClaim}
                         onCheckedChange={handleClaimToggle}
                         disabled={restakeSkyRewards}
                       />

@@ -9,7 +9,7 @@ interface UseStakeTransactionCallbacksParameters
   extends Pick<WidgetProps, 'addRecentTransaction' | 'onWidgetStateChange' | 'onNotification'> {
   lockAmount: bigint;
   setIndexToClaim: React.Dispatch<React.SetStateAction<bigint | undefined>>;
-  setRewardContractToClaim: React.Dispatch<React.SetStateAction<`0x${string}` | undefined>>;
+  setRewardContractsToClaim: React.Dispatch<React.SetStateAction<`0x${string}`[] | undefined>>;
   setRestakeSkyRewards: React.Dispatch<React.SetStateAction<boolean>>;
   setRestakeSkyAmount: React.Dispatch<React.SetStateAction<bigint>>;
   mutateStakeUsdsAllowance: () => void;
@@ -19,7 +19,7 @@ interface UseStakeTransactionCallbacksParameters
 export const useStakeTransactionCallbacks = ({
   lockAmount,
   setIndexToClaim,
-  setRewardContractToClaim,
+  setRewardContractsToClaim,
   setRestakeSkyRewards,
   setRestakeSkyAmount,
   mutateStakeSkyAllowance,
@@ -99,7 +99,7 @@ export const useStakeTransactionCallbacks = ({
         // do we need to invalidate it again here?
         // mutateRewardsBalance();
         setIndexToClaim(undefined);
-        setRewardContractToClaim(undefined);
+        setRewardContractsToClaim(undefined);
         setRestakeSkyRewards(false);
         setRestakeSkyAmount(0n);
       },
@@ -121,7 +121,7 @@ export const useStakeTransactionCallbacks = ({
       handleOnStart,
       handleOnSuccess,
       setIndexToClaim,
-      setRewardContractToClaim,
+      setRewardContractsToClaim,
       setRestakeSkyAmount,
       setRestakeSkyRewards
     ]
