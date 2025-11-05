@@ -25,6 +25,7 @@ import { useLingui } from '@lingui/react';
 import { ExternalLink as ExternalLinkComponent } from '@/modules/layout/components/ExternalLink';
 import { absBigInt } from '@/modules/utils/math';
 import { Stake, Trade, Upgrade, Seal, Savings, RewardsModule, Expert } from '@/modules/icons';
+import { useBreakpointIndex, BP } from '@/modules/ui/hooks/useBreakpointIndex';
 
 const MAX_TRANSACTIONS = 6;
 
@@ -50,6 +51,8 @@ export function ConnectedModal({
   onDisconnect
 }: ConnectedModalProps) {
   const { i18n } = useLingui();
+  const { bpi } = useBreakpointIndex();
+  const isMobile = bpi < BP.md;
 
   // Fetch all transaction history from subgraphs across all networks
   const { data: allHistory, mutate } = useAllNetworksCombinedHistory();
@@ -205,7 +208,7 @@ export function ConnectedModal({
     return getEtherscanLink(chainId, tx.transactionHash, 'tx');
   };
 
-  const getTransactionDescription = (tx: any): string => {
+  const getTransactionDescription = (tx: any, isMobile: boolean = false): string => {
     const module = tx.module;
     const prefix = getModulePrefix(module);
     const amount = getAmount(tx);
@@ -213,33 +216,33 @@ export function ConnectedModal({
     // Rewards module - natural language descriptions
     if (module === ModuleEnum.REWARDS) {
       if (tx.type === TransactionTypeEnum.REWARD) {
-        return amount ? `Claimed ${amount} in Rewards` : 'Claimed rewards';
+        return amount ? `Claimed ${amount}${isMobile ? '' : ' in Rewards'}` : 'Claimed rewards';
       }
       if (tx.type === TransactionTypeEnum.SUPPLY) {
-        return amount ? `Supplied ${amount} to Rewards` : 'Supplied to Rewards';
+        return amount ? `Supplied ${amount}${isMobile ? '' : ' to Rewards'}` : 'Supplied to Rewards';
       }
       if (tx.type === TransactionTypeEnum.WITHDRAW) {
-        return amount ? `Withdrew ${amount} from Rewards` : 'Withdrew from Rewards';
+        return amount ? `Withdrew ${amount}${isMobile ? '' : ' from Rewards'}` : 'Withdrew from Rewards';
       }
     }
 
     // Savings module - natural language descriptions
     if (module === ModuleEnum.SAVINGS) {
       if (tx.type === TransactionTypeEnum.SUPPLY) {
-        return amount ? `Supplied ${amount} to Savings` : 'Supplied to Savings';
+        return amount ? `Supplied ${amount}${isMobile ? '' : ' to Savings'}` : 'Supplied to Savings';
       }
       if (tx.type === TransactionTypeEnum.WITHDRAW) {
-        return amount ? `Withdrew ${amount} from Savings` : 'Withdrew from Savings';
+        return amount ? `Withdrew ${amount}${isMobile ? '' : ' from Savings'}` : 'Withdrew from Savings';
       }
     }
 
     // stUSDS module - natural language descriptions
     if (module === ModuleEnum.STUSDS) {
       if (tx.type === TransactionTypeEnum.SUPPLY) {
-        return amount ? `Supplied ${amount} to stUSDS` : 'Supplied to stUSDS';
+        return amount ? `Supplied ${amount}${isMobile ? '' : ' to stUSDS'}` : 'Supplied to stUSDS';
       }
       if (tx.type === TransactionTypeEnum.WITHDRAW) {
-        return amount ? `Withdrew ${amount} from stUSDS` : 'Withdrew from stUSDS';
+        return amount ? `Withdrew ${amount}${isMobile ? '' : ' from stUSDS'}` : 'Withdrew from stUSDS';
       }
     }
 
@@ -371,30 +374,32 @@ export function ConnectedModal({
           {recentTransactions.length > 0 && (
             <div className="mb-6">
               <div className="mb-2 flex items-center justify-between">
-                <Text className="text-textSecondary text-sm font-medium">{t`Recent Transactions`}</Text>
+                <Text className="text-textSecondary text-xs font-medium md:text-sm">{t`Recent Transactions`}</Text>
                 <a
                   href={getEtherscanLink(chainId, address, 'address')}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-textSecondary hover:text-text text-xs transition-colors"
+                  className="text-textSecondary hover:text-text text-[10px] transition-colors md:text-xs"
                 >
                   {t`View all`} →
                 </a>
               </div>
-              <div className="space-y-1">
+              <div className="scrollbar-thin-always scrollbar-thin scrollbar-track-transparent scrollbar-thumb-borderPrimary hover:scrollbar-thumb-textSecondary max-h-[40vh] space-y-1 overflow-y-auto pr-1">
                 {recentTransactions.map((tx, index) => (
                   <a
                     key={tx.transactionHash}
                     href={getExplorerLink(tx)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:bg-brandLight/20 active:bg-brandLight/10 flex items-center justify-between gap-2 rounded-md px-2 py-2 transition-colors"
+                    className="hover:bg-brandLight/20 active:bg-brandLight/10 flex items-center justify-between gap-2 rounded-lg px-2 py-2 transition-colors"
                   >
                     <div className="flex min-w-0 flex-1 items-start gap-2">
                       <div className="text-textSecondary mt-1">{getTransactionIcon(tx)}</div>
                       <div className="min-w-0 flex-1">
-                        <Text className="text-text truncate">{getTransactionDescription(tx)}</Text>
-                        <Text variant="small" className="text-textSecondary">
+                        <Text className="text-text truncate text-sm md:text-base">
+                          {getTransactionDescription(tx, isMobile)}
+                        </Text>
+                        <Text variant="small" className="text-textSecondary text-xs md:text-sm">
                           {formattedDates.length > index ? formattedDates[index] : ''}
                         </Text>
                       </div>
