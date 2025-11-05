@@ -252,7 +252,7 @@ function StakeModuleWidgetWrapped({
           if (shouldUseBatch) {
             setButtonText(t`Confirm claim & restake`);
           } else if (needsAllowance) {
-            setButtonText(t`Confirm approvals & restake`);
+            setButtonText(t`Confirm approval & restake`);
           } else {
             setButtonText(t`Confirm restake`);
           }
@@ -315,6 +315,12 @@ function StakeModuleWidgetWrapped({
       return;
     }
 
+    // Enable the button after successful transaction
+    if (txStatus === TxStatus.SUCCESS) {
+      setIsDisabled(false);
+      return;
+    }
+
     // Disable the button if the exit fee hasn't been accepted
     if (shouldOpenFromWidgetButton) {
       setIsDisabled(false);
@@ -344,7 +350,8 @@ function StakeModuleWidgetWrapped({
     isSelectDelegateCompleted,
     isBorrowCompleted,
     shouldOpenFromWidgetButton,
-    batchMulticallDisabled
+    batchMulticallDisabled,
+    txStatus
   ]);
 
   useEffect(() => {

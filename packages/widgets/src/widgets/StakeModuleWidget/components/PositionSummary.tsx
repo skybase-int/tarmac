@@ -29,6 +29,7 @@ import { cn } from '@widgets/lib/utils';
 import { getRiskTextColor } from '../lib/utils';
 import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
+import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { ArrowDown } from '@widgets/shared/components/icons/ArrowDown';
 import { JazziconComponent } from './Jazzicon';
 import { PopoverInfo } from '@widgets/shared/components/ui/PopoverInfo';
@@ -597,68 +598,70 @@ export const PositionSummary = ({
               })}
             </motion.div>
           )}
-          {hasPositions && isSkyRewardPosition && (
-            <motion.div
-              key="restake-rewards"
-              variants={positionAnimations}
-              className="border-selectActive mt-3 border-t pt-7"
-            >
-              <div className="flex w-full items-start justify-between gap-4 py-2">
-                <div className="flex flex-col">
-                  <Text className="text-textSecondary text-sm font-medium">
-                    Claim &amp; restake SKY rewards
-                  </Text>
-                  <Text className="text-textSecondary mt-1 text-xs">
-                    Use your accrued SKY rewards to increase this position immediately.
-                  </Text>
-                  <Text className="text-textSecondary mt-2 text-xs">
-                    Available rewards: {formatBigInt(restakeAvailable)} SKY
-                  </Text>
-                  {restakeSkyRewards && (
-                    <Text className="text-textSecondary mt-2 text-xs">
-                      {formatBigInt(skyToLock, { compact: true })} SKY +{' '}
-                      {formatBigInt(restakeContribution, { compact: true })} SKY ={' '}
-                      {formatBigInt(totalSkyToLock, { compact: true })} SKY
-                    </Text>
-                  )}
-                  {batchSupported === false && (
-                    <Text className="text-textSecondary mt-2 text-xs">
-                      Your wallet will confirm claim and lock separately.
-                    </Text>
-                  )}
-                  {isRewardChanging && (
-                    <Text className="text-destructive mt-2 text-xs">
-                      Restake is unavailable while changing reward contracts.
-                    </Text>
-                  )}
-                </div>
-                <Switch
-                  checked={restakeSkyRewards}
-                  onCheckedChange={handleRestakeToggle}
-                  disabled={restakeToggleDisabled}
-                />
-              </div>
-            </motion.div>
-          )}
-          {selectedRewardContractRewards && selectedRewardContractRewards.claimBalance > 0n && (
-            <motion.div
-              key="claim-rewards"
-              variants={positionAnimations}
-              className="border-selectActive mt-3 border-t pt-7"
-            >
-              <div className="flex w-full justify-between py-2">
-                <Text className="text-textSecondary text-sm">
-                  Claim {formatBigInt(selectedRewardContractRewards.claimBalance)}{' '}
-                  {selectedRewardContractRewards.rewardSymbol} rewards
+          {hasPositions &&
+            isSkyRewardPosition &&
+            selectedRewardContractRewards &&
+            selectedRewardContractRewards.claimBalance > 0n && (
+              <motion.div
+                key="rewards-actions"
+                variants={positionAnimations}
+                className="border-selectActive mt-3 border-t pt-7"
+              >
+                <Text variant="medium" className="mb-3 font-medium">
+                  Rewards actions
                 </Text>
-                <Switch
-                  checked={!!rewardContractToClaim}
-                  onCheckedChange={handleClaimToggle}
-                  disabled={restakeSkyRewards}
-                />
-              </div>
-            </motion.div>
-          )}
+                <VStack gap={4}>
+                  <div className="flex items-center justify-between py-2">
+                    <Text className="text-textSecondary text-sm">Available SKY rewards</Text>
+                    <div className="flex items-center gap-2">
+                      <TokenIcon token={TOKENS.sky} className="h-5 w-5" />
+                      <Text className="text-sm font-medium">
+                        {formatBigInt(selectedRewardContractRewards.claimBalance)} SKY
+                      </Text>
+                    </div>
+                  </div>
+                  <VStack gap={3}>
+                    <div className="flex w-full items-start justify-between gap-4">
+                      <div className="flex flex-col">
+                        <Text className="text-sm font-medium">Claim &amp; Restake</Text>
+                        <Text className="text-textSecondary mt-1 text-xs">
+                          Use your accrued SKY rewards to increase this position's staked SKY balance
+                          immediately.
+                        </Text>
+                        {batchSupported === false && (
+                          <Text className="text-textSecondary mt-2 text-xs">
+                            Your wallet will confirm claim and lock separately.
+                          </Text>
+                        )}
+                        {isRewardChanging && (
+                          <Text className="text-destructive mt-2 text-xs">
+                            Restake is unavailable while changing reward contracts.
+                          </Text>
+                        )}
+                      </div>
+                      <Switch
+                        checked={restakeSkyRewards}
+                        onCheckedChange={handleRestakeToggle}
+                        disabled={restakeToggleDisabled}
+                      />
+                    </div>
+                    <div className="flex w-full items-start justify-between gap-4">
+                      <div className="flex flex-col">
+                        <Text className="text-sm font-medium">Claim Only</Text>
+                        <Text className="text-textSecondary mt-1 text-xs">
+                          Claim your SKY rewards directly to your wallet without staking.
+                        </Text>
+                      </div>
+                      <Switch
+                        checked={!!rewardContractToClaim}
+                        onCheckedChange={handleClaimToggle}
+                        disabled={restakeSkyRewards}
+                      />
+                    </div>
+                  </VStack>
+                </VStack>
+              </motion.div>
+            )}
         </MotionVStack>
       }
     />
