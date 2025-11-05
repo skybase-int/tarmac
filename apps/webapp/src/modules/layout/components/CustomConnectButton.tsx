@@ -10,6 +10,7 @@ import { useConnectModal } from '@/modules/ui/context/ConnectModalContext';
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { ConnectedModal } from './ConnectedModal';
+import { Text } from './Typography';
 
 export function CustomConnectButton() {
   const { openConnectModal } = useConnectModal();
@@ -54,9 +55,9 @@ export function CustomConnectButton() {
     <>
       <Button variant="connect" onClick={() => setShowAccountMenu(true)} className="flex items-center gap-2">
         <CustomAvatar address={address} size={24} />
-        <span className="text-text hidden sm:inline">
+        <Text className="hidden sm:inline">
           {ensName ? `${ensName} (${formatAddress(address)})` : formatAddress(address)}
-        </span>
+        </Text>
         <ChevronDown className="h-4 w-4" />
       </Button>
 
