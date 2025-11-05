@@ -21,6 +21,8 @@ interface UseStakeTransactionsParameters
   rewardContractToClaim: `0x${string}` | undefined;
   shouldUseBatch: boolean;
   setRewardContractToClaim: React.Dispatch<React.SetStateAction<`0x${string}` | undefined>>;
+  setRestakeSkyRewards: React.Dispatch<React.SetStateAction<boolean>>;
+  setRestakeSkyAmount: React.Dispatch<React.SetStateAction<bigint>>;
   mutateStakeSkyAllowance: () => void;
   mutateStakeUsdsAllowance: () => void;
 }
@@ -35,6 +37,8 @@ export const useStakeTransactions = ({
   rewardContractToClaim,
   shouldUseBatch,
   setRewardContractToClaim,
+  setRestakeSkyRewards,
+  setRestakeSkyAmount,
   mutateStakeSkyAllowance,
   mutateStakeUsdsAllowance,
   addRecentTransaction,
@@ -47,6 +51,8 @@ export const useStakeTransactions = ({
     lockAmount,
     setIndexToClaim,
     setRewardContractToClaim,
+    setRestakeSkyRewards,
+    setRestakeSkyAmount,
     mutateStakeSkyAllowance,
     mutateStakeUsdsAllowance,
     addRecentTransaction,

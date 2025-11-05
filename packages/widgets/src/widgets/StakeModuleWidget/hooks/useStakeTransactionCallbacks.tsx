@@ -10,6 +10,8 @@ interface UseStakeTransactionCallbacksParameters
   lockAmount: bigint;
   setIndexToClaim: React.Dispatch<React.SetStateAction<bigint | undefined>>;
   setRewardContractToClaim: React.Dispatch<React.SetStateAction<`0x${string}` | undefined>>;
+  setRestakeSkyRewards: React.Dispatch<React.SetStateAction<boolean>>;
+  setRestakeSkyAmount: React.Dispatch<React.SetStateAction<bigint>>;
   mutateStakeUsdsAllowance: () => void;
   mutateStakeSkyAllowance: () => void;
 }
@@ -18,6 +20,8 @@ export const useStakeTransactionCallbacks = ({
   lockAmount,
   setIndexToClaim,
   setRewardContractToClaim,
+  setRestakeSkyRewards,
+  setRestakeSkyAmount,
   mutateStakeSkyAllowance,
   mutateStakeUsdsAllowance,
   addRecentTransaction,
@@ -48,6 +52,8 @@ export const useStakeTransactionCallbacks = ({
           notificationDescription: t`You approved ${formatBigInt(lockAmount)} SKY` /* TODO fix copy */
         });
         mutateStakeSkyAllowance();
+        setRestakeSkyRewards(false);
+        setRestakeSkyAmount(0n);
         // TODO Mutate balances here
       },
       onError: (error, hash) => {
@@ -59,6 +65,8 @@ export const useStakeTransactionCallbacks = ({
           notificationDescription: t`We could not approve your token allowance.`
         });
         mutateStakeSkyAllowance();
+        setRestakeSkyRewards(false);
+        setRestakeSkyAmount(0n);
       }
     }),
     [
@@ -68,7 +76,9 @@ export const useStakeTransactionCallbacks = ({
       handleOnSuccess,
       lockAmount,
       mutateStakeSkyAllowance,
-      mutateStakeUsdsAllowance
+      mutateStakeUsdsAllowance,
+      setRestakeSkyAmount,
+      setRestakeSkyRewards
     ]
   );
 
@@ -90,6 +100,8 @@ export const useStakeTransactionCallbacks = ({
         // mutateRewardsBalance();
         setIndexToClaim(undefined);
         setRewardContractToClaim(undefined);
+        setRestakeSkyRewards(false);
+        setRestakeSkyAmount(0n);
       },
       onError: (error, hash) => {
         //TODO: Update copy
@@ -99,9 +111,20 @@ export const useStakeTransactionCallbacks = ({
           notificationTitle: t`Claim failed`,
           notificationDescription: t`We could not claim your rewards.`
         });
+        setRestakeSkyRewards(false);
+        setRestakeSkyAmount(0n);
       }
     }),
-    [handleOnError, handleOnMutate, handleOnStart, handleOnSuccess, setIndexToClaim, setRewardContractToClaim]
+    [
+      handleOnError,
+      handleOnMutate,
+      handleOnStart,
+      handleOnSuccess,
+      setIndexToClaim,
+      setRewardContractToClaim,
+      setRestakeSkyAmount,
+      setRestakeSkyRewards
+    ]
   );
 
   return { multicallTransactionCallbacks, claimTransactionCallbacks };

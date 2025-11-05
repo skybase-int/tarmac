@@ -164,7 +164,11 @@ export const PositionSummary = ({
     selectedDelegate,
     selectedRewardContract,
     rewardContractToClaim,
-    setRewardContractToClaim
+    setRewardContractToClaim,
+    restakeSkyRewards,
+    setRestakeSkyRewards,
+    restakeSkyAmount,
+    isSkyRewardPosition
   } = useContext(StakeModuleWidgetContext);
   const { setTxTitle, setTxSubtitle, setStepTwoTitle, widgetState } = useContext(WidgetContext);
   const { flow, action, screen } = widgetState;
@@ -218,6 +222,7 @@ export const PositionSummary = ({
   );
 
   const handleClaimToggle = () => {
+    setRestakeSkyRewards(false);
     setRewardContractToClaim(prevContract =>
       !prevContract && !!existingRewardContract ? existingRewardContract : undefined
     );
@@ -240,11 +245,38 @@ export const PositionSummary = ({
 
   const hasPositions = !!existingVault;
 
+  const restakeContribution = restakeSkyRewards && isSkyRewardPosition ? restakeSkyAmount : 0n;
+  const totalSkyToLock = skyToLock + restakeContribution;
+  const restakeAvailable = isSkyRewardPosition ? restakeSkyAmount : 0n;
+  const isRewardChanging =
+    !!selectedRewardContract &&
+    !!existingRewardContract &&
+    selectedRewardContract.toLowerCase() !== existingRewardContract.toLowerCase();
+  const restakeToggleDisabled = restakeAvailable === 0n || !hasPositions || isRewardChanging;
+
+  const handleRestakeToggle = (checked: boolean) => {
+    if (checked && restakeToggleDisabled) {
+      return;
+    }
+
+    setRestakeSkyRewards(checked);
+
+    if (checked) {
+      setRewardContractToClaim(undefined);
+    }
+  };
+
+  useEffect(() => {
+    if (isRewardChanging && restakeSkyRewards) {
+      setRestakeSkyRewards(false);
+    }
+  }, [isRewardChanging, restakeSkyRewards, setRestakeSkyRewards]);
+
   // Calculated total amount user will have borrowed based on existing debt plus the user input
   const newBorrowAmount = usdsToBorrow + (existingVault?.debtValue || 0n) - usdsToWipe;
 
   // Calculated total amount user will have locked based on existing collateral locked plus user input
-  const newCollateralAmount = skyToLock + (existingVault?.collateralAmount || 0n) - skyToFree;
+  const newCollateralAmount = totalSkyToLock + (existingVault?.collateralAmount || 0n) - skyToFree;
 
   const { data: updatedVault } = useSimulatedVault(
     newCollateralAmount,
@@ -496,7 +528,9 @@ export const PositionSummary = ({
     selectedDelegateName,
     selectedDelegateOwner,
     isDelegateLoading,
-    exitFee
+    exitFee,
+    restakeContribution,
+    totalSkyToLock
   ]);
 
   // If there's no borrowing, filter out items related to it
@@ -563,6 +597,49 @@ export const PositionSummary = ({
               })}
             </motion.div>
           )}
+          {hasPositions && isSkyRewardPosition && (
+            <motion.div
+              key="restake-rewards"
+              variants={positionAnimations}
+              className="border-selectActive mt-3 border-t pt-7"
+            >
+              <div className="flex w-full items-start justify-between gap-4 py-2">
+                <div className="flex flex-col">
+                  <Text className="text-textSecondary text-sm font-medium">
+                    Claim &amp; restake SKY rewards
+                  </Text>
+                  <Text className="text-textSecondary mt-1 text-xs">
+                    Use your accrued SKY rewards to increase this position immediately.
+                  </Text>
+                  <Text className="text-textSecondary mt-2 text-xs">
+                    Available rewards: {formatBigInt(restakeAvailable)} SKY
+                  </Text>
+                  {restakeSkyRewards && (
+                    <Text className="text-textSecondary mt-2 text-xs">
+                      {formatBigInt(skyToLock, { compact: true })} SKY +{' '}
+                      {formatBigInt(restakeContribution, { compact: true })} SKY ={' '}
+                      {formatBigInt(totalSkyToLock, { compact: true })} SKY
+                    </Text>
+                  )}
+                  {batchSupported === false && (
+                    <Text className="text-textSecondary mt-2 text-xs">
+                      Your wallet will confirm claim and lock separately.
+                    </Text>
+                  )}
+                  {isRewardChanging && (
+                    <Text className="text-destructive mt-2 text-xs">
+                      Restake is unavailable while changing reward contracts.
+                    </Text>
+                  )}
+                </div>
+                <Switch
+                  checked={restakeSkyRewards}
+                  onCheckedChange={handleRestakeToggle}
+                  disabled={restakeToggleDisabled}
+                />
+              </div>
+            </motion.div>
+          )}
           {selectedRewardContractRewards && selectedRewardContractRewards.claimBalance > 0n && (
             <motion.div
               key="claim-rewards"
@@ -574,7 +651,11 @@ export const PositionSummary = ({
                   Claim {formatBigInt(selectedRewardContractRewards.claimBalance)}{' '}
                   {selectedRewardContractRewards.rewardSymbol} rewards
                 </Text>
-                <Switch checked={!!rewardContractToClaim} onCheckedChange={handleClaimToggle} />
+                <Switch
+                  checked={!!rewardContractToClaim}
+                  onCheckedChange={handleClaimToggle}
+                  disabled={restakeSkyRewards}
+                />
               </div>
             </motion.div>
           )}
