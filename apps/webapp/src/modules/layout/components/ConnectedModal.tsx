@@ -24,7 +24,7 @@ import { useEffect, useMemo } from 'react';
 import { useLingui } from '@lingui/react';
 import { ExternalLink as ExternalLinkComponent } from '@/modules/layout/components/ExternalLink';
 import { absBigInt } from '@/modules/utils/math';
-import { Stake, Trade, Upgrade, Seal, Savings, RewardsModule } from '@/modules/icons';
+import { Stake, Trade, Upgrade, Seal, Savings, RewardsModule, Expert } from '@/modules/icons';
 
 interface ConnectedModalProps {
   isOpen: boolean;
@@ -62,7 +62,7 @@ export function ConnectedModal({
   // Filter to current chain and take only the 5 most recent
   const recentTransactions = useMemo(() => {
     if (!allHistory) return [];
-    return allHistory.filter(tx => tx.chainId === chainId).slice(10, 20);
+    return allHistory.filter(tx => tx.chainId === chainId).slice(0, 10);
   }, [allHistory, chainId]);
 
   // Format dates using the same pattern as history tables
@@ -77,6 +77,8 @@ export function ConnectedModal({
     switch (module) {
       case ModuleEnum.SAVINGS:
         return 'Savings';
+      case ModuleEnum.STUSDS:
+        return 'stUSDS';
       case ModuleEnum.STAKE:
         return 'Stake';
       case ModuleEnum.SEAL:
@@ -151,6 +153,11 @@ export function ConnectedModal({
       return `${formatBigInt(absBigInt(tx.amount), { compact: true })} ${token}`;
     }
 
+    // stUSDS (Expert) transactions: assets field with USDS token
+    if (tx.assets && tx.module === ModuleEnum.STUSDS) {
+      return `${formatBigInt(absBigInt(tx.assets), { compact: true })} USDS`;
+    }
+
     // Stake kick: wad field with SKY token
     if (
       tx.wad &&
@@ -172,6 +179,8 @@ export function ConnectedModal({
         return <RewardsModule {...iconProps} />;
       case ModuleEnum.SAVINGS:
         return <Savings {...iconProps} />;
+      case ModuleEnum.STUSDS:
+        return <Expert {...iconProps} />;
       case ModuleEnum.STAKE:
         return <Stake {...iconProps} />;
       case ModuleEnum.TRADE:
@@ -219,6 +228,16 @@ export function ConnectedModal({
       }
       if (tx.type === TransactionTypeEnum.WITHDRAW) {
         return amount ? `Withdrew ${amount} from Savings` : 'Withdrew from Savings';
+      }
+    }
+
+    // stUSDS module - natural language descriptions
+    if (module === ModuleEnum.STUSDS) {
+      if (tx.type === TransactionTypeEnum.SUPPLY) {
+        return amount ? `Supplied ${amount} to stUSDS` : 'Supplied to stUSDS';
+      }
+      if (tx.type === TransactionTypeEnum.WITHDRAW) {
+        return amount ? `Withdrew ${amount} from stUSDS` : 'Withdrew from stUSDS';
       }
     }
 
