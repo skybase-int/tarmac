@@ -416,9 +416,21 @@ async function shardedSetup(addresses: string[], shardIndex: number, totalShards
   console.log(`\n2. Running in SHARD MODE (Shard ${shardIndex + 1}/${totalShards})`);
 
   // Calculate account partition for this shard
-  const accountsPerShard = Math.ceil(TEST_WALLET_COUNT / totalShards);
-  const startIndex = shardIndex * accountsPerShard;
-  const endIndex = Math.min(startIndex + accountsPerShard, TEST_WALLET_COUNT);
+  const totalAccounts = TEST_WALLET_COUNT;
+  const basePerShard = Math.floor(totalAccounts / totalShards);
+  const remainder = totalAccounts % totalShards;
+  const extra = shardIndex < remainder ? 1 : 0;
+  const startIndex =
+    shardIndex * basePerShard + Math.min(shardIndex, remainder);
+  const partitionSize = basePerShard + extra;
+
+  if (partitionSize === 0) {
+    throw new Error(
+      `Shard ${shardIndex + 1}/${totalShards} has no account allocation. Increase TEST_WALLET_COUNT or reduce total shards.`
+    );
+  }
+
+  const endIndex = Math.min(startIndex + partitionSize, totalAccounts);
 
   console.log(
     `   This shard will use accounts ${startIndex}-${endIndex - 1} (${endIndex - startIndex} accounts)`
