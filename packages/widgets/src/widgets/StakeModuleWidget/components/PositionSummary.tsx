@@ -17,7 +17,8 @@ import {
   useCollateralData,
   Token,
   useIsBatchSupported,
-  useRewardContractsToClaim
+  useRewardContractsToClaim,
+  useStakeRewardContracts
 } from '@jetstreamgg/sky-hooks';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
@@ -46,9 +47,13 @@ import { useLingui } from '@lingui/react/macro';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { BatchStatus } from '@widgets/shared/constants';
 import { useChainId } from 'wagmi';
-import { Switch } from '@widgets/components/ui/switch';
+import { Checkbox } from '@widgets/components/ui/checkbox';
 
 const { usds } = TOKENS;
+const TOKENS_BY_SYMBOL = Object.values(TOKENS).reduce<Record<string, Token>>((accumulator, token) => {
+  accumulator[token.symbol.toUpperCase()] = token;
+  return accumulator;
+}, {});
 
 const isUpdatedValue = (prev: any, next: any) => prev !== undefined && next !== undefined && prev !== next;
 const getStakeLabel = (prev: bigint | undefined, next: bigint | undefined) => {
@@ -88,7 +93,7 @@ const LineItem = ({
         <Text className={'text-textSecondary flex items-center text-sm'}>
           {label}
           {label === 'Rate' && (
-            <span className="mt-1 ml-2">
+            <span className="ml-2 mt-1">
               <PopoverRateInfo type="ssr" />
             </span>
           )}
@@ -173,6 +178,7 @@ export const PositionSummary = ({
   } = useContext(StakeModuleWidgetContext);
   const { setTxTitle, setTxSubtitle, setStepTwoTitle, widgetState } = useContext(WidgetContext);
   const { flow, action, screen } = widgetState;
+  const { data: stakeRewardContracts } = useStakeRewardContracts();
 
   // Sets the title and subtitle of the card
   useEffect(() => {
@@ -212,8 +218,13 @@ export const PositionSummary = ({
   const { data: selectedRewardContractTokens, isLoading: isSelectedContractTokensLoading } =
     useRewardContractTokens(selectedRewardContract);
 
+  const rewardContractAddresses = useMemo<`0x${string}`[]>(
+    () => stakeRewardContracts?.map(({ contractAddress }) => contractAddress) ?? [],
+    [stakeRewardContracts]
+  );
+
   const { data: claimableRewardContracts } = useRewardContractsToClaim({
-    rewardContractAddresses: existingRewardContract ? [existingRewardContract] : [],
+    rewardContractAddresses,
     userAddress: activeUrn?.urnAddress,
     chainId
   });
@@ -222,11 +233,54 @@ export const PositionSummary = ({
     ({ contractAddress }) => contractAddress.toLowerCase() === existingRewardContract?.toLowerCase()
   );
 
-  const handleClaimToggle = () => {
-    setRestakeSkyRewards(false);
-    setRewardContractsToClaim(prevContracts =>
-      !prevContracts?.length && !!existingRewardContract ? [existingRewardContract] : undefined
-    );
+  const claimableSkyReward = useMemo(
+    () =>
+      claimableRewardContracts?.find(
+        ({ rewardSymbol }) => typeof rewardSymbol === 'string' && rewardSymbol.toUpperCase() === 'SKY'
+      ),
+    [claimableRewardContracts]
+  );
+  const hasUnclaimedSkyRewards = !!claimableSkyReward;
+
+  const sortedClaimableRewardContracts = useMemo(() => {
+    if (!claimableRewardContracts) return undefined;
+
+    return [...claimableRewardContracts].sort((a, b) => {
+      const aIsSky = a.rewardSymbol?.toUpperCase?.() === 'SKY';
+      const bIsSky = b.rewardSymbol?.toUpperCase?.() === 'SKY';
+
+      if (aIsSky && !bIsSky) return -1;
+      if (!aIsSky && bIsSky) return 1;
+      return 0;
+    });
+  }, [claimableRewardContracts]);
+
+  const rewardContractsSelected = useMemo(
+    () => new Set((rewardContractsToClaim ?? []).map(contract => contract.toLowerCase())),
+    [rewardContractsToClaim]
+  );
+
+  const handleRewardCheckboxChange = (
+    contractAddress: `0x${string}`,
+    checked: boolean | 'indeterminate'
+  ) => {
+    const isChecked = checked === true;
+
+    setRewardContractsToClaim(previousContracts => {
+      const previous = previousContracts ?? [];
+      const normalizedAddress = contractAddress.toLowerCase();
+      const hasAddress = previous.some(address => address.toLowerCase() === normalizedAddress);
+
+      if (isChecked) {
+        if (hasAddress) {
+          return previous;
+        }
+        return [...previous, contractAddress];
+      }
+
+      const filtered = previous.filter(address => address.toLowerCase() !== normalizedAddress);
+      return filtered.length > 0 ? filtered : undefined;
+    });
   };
 
   const { data: existingSelectedVoteDelegate, isLoading: isDelegateLoading } =
@@ -262,8 +316,19 @@ export const PositionSummary = ({
 
     setRestakeSkyRewards(checked);
 
-    if (checked) {
-      setRewardContractsToClaim(undefined);
+    if (checked && claimableSkyReward) {
+      const skyContractAddress = claimableSkyReward.contractAddress;
+      setRewardContractsToClaim(previousContracts => {
+        const previous = previousContracts ?? [];
+        const normalizedSkyAddress = skyContractAddress.toLowerCase();
+        const hasSkyAddress = previous.some(address => address.toLowerCase() === normalizedSkyAddress);
+
+        if (hasSkyAddress) {
+          return previous;
+        }
+
+        return [...previous, skyContractAddress];
+      });
     }
   };
 
@@ -430,7 +495,7 @@ export const PositionSummary = ({
           isUpdatedValue(existingRewardContract?.toLowerCase(), selectedRewardContract?.toLowerCase()) ? (
             [
               isRewardContractTokensLoading ? (
-                <Skeleton key="loading-existing-rewards" className="h-5 w-30" />
+                <Skeleton key="loading-existing-rewards" className="w-30 h-5" />
               ) : existingRewardContractTokens ? (
                 <TokenIcon
                   key="existing-rewards-token"
@@ -439,7 +504,7 @@ export const PositionSummary = ({
                 />
               ) : null,
               isSelectedContractTokensLoading ? (
-                <Skeleton key="loading-selected-rewards" className="h-5 w-30" />
+                <Skeleton key="loading-selected-rewards" className="w-30 h-5" />
               ) : selectedRewardContractTokens ? (
                 <TokenIcon
                   key="selected-rewards-icon"
@@ -449,7 +514,7 @@ export const PositionSummary = ({
               ) : null
             ]
           ) : isRewardContractTokensLoading ? (
-            <Skeleton className="h-5 w-30" />
+            <Skeleton className="w-30 h-5" />
           ) : rewardsTokensToDisplay ? (
             <TokenIcon token={rewardsTokensToDisplay?.rewardsToken} className="h-5 w-5" />
           ) : null
@@ -489,7 +554,7 @@ export const PositionSummary = ({
           normalizeDelegate(existingSelectedVoteDelegate) !== normalizeDelegate(selectedDelegate) ? (
             [
               loadingExistingDelegateOwner ? (
-                <Skeleton key="loading-existing-delegate" className="h-5 w-30" />
+                <Skeleton key="loading-existing-delegate" className="w-30 h-5" />
               ) : existingDelegateOwner ? (
                 <JazziconComponent
                   key="existing-delegate-icon"
@@ -498,7 +563,7 @@ export const PositionSummary = ({
                 />
               ) : null,
               loadingSelectedDelegateOwner ? (
-                <Skeleton key="loading-selected-delegate" className="h-5 w-30" />
+                <Skeleton key="loading-selected-delegate" className="w-30 h-5" />
               ) : selectedDelegateOwner ? (
                 <JazziconComponent
                   key="selected-delegate-icon"
@@ -508,7 +573,7 @@ export const PositionSummary = ({
               ) : null
             ]
           ) : isDelegateLoading ? (
-            <Skeleton className="h-5 w-30" />
+            <Skeleton className="w-30 h-5" />
           ) : delegateOwnerToDisplay ? (
             <JazziconComponent address={delegateOwnerToDisplay} diameter={20} />
           ) : null
@@ -607,24 +672,17 @@ export const PositionSummary = ({
                 variants={positionAnimations}
                 className="border-selectActive mt-3 border-t pt-7"
               >
-                <Text variant="medium" className="mb-3 font-medium">
-                  Rewards actions
-                </Text>
-                <VStack gap={4}>
-                  <div className="flex items-center justify-between py-2">
-                    <Text className="text-textSecondary text-sm">Available SKY rewards</Text>
-                    <div className="flex items-center gap-2">
-                      <TokenIcon token={TOKENS.sky} className="h-5 w-5" />
-                      <Text className="text-sm font-medium">
-                        {formatBigInt(selectedRewardContractRewards.claimBalance)} SKY
-                      </Text>
-                    </div>
-                  </div>
-                  <VStack gap={3}>
+                <VStack gap={3}>
+                  <Text variant="medium" className="font-medium">
+                    Rewards actions
+                  </Text>
+                  {hasUnclaimedSkyRewards && (
                     <div className="flex w-full items-start justify-between gap-4">
                       <div className="flex flex-col">
-                        <Text className="text-sm font-medium">Claim &amp; Restake</Text>
-                        <Text className="text-textSecondary mt-1 text-xs">
+                        <Text className="text-sm font-medium" id="restake-sky-label">
+                          Claim &amp; Restake SKY
+                        </Text>
+                        <Text className="text-textSecondary mt-1 text-xs" id="restake-sky-description">
                           Use your accrued SKY rewards to increase this position&apos;s staked SKY balance
                           immediately.
                         </Text>
@@ -639,25 +697,50 @@ export const PositionSummary = ({
                           </Text>
                         )}
                       </div>
-                      <Switch
+                      <Checkbox
+                        aria-labelledby="restake-sky-label restake-sky-description"
                         checked={restakeSkyRewards}
-                        onCheckedChange={handleRestakeToggle}
                         disabled={restakeToggleDisabled}
+                        onCheckedChange={checked => handleRestakeToggle(checked === true)}
                       />
                     </div>
-                    <div className="flex w-full items-start justify-between gap-4">
-                      <div className="flex flex-col">
-                        <Text className="text-sm font-medium">Claim Only</Text>
-                        <Text className="text-textSecondary mt-1 text-xs">
-                          Claim your SKY rewards directly to your wallet without staking.
-                        </Text>
-                      </div>
-                      <Switch
-                        checked={!!rewardContractsToClaim}
-                        onCheckedChange={handleClaimToggle}
-                        disabled={restakeSkyRewards}
-                      />
-                    </div>
+                  )}
+                  <VStack gap={2} className="w-full">
+                    {sortedClaimableRewardContracts?.map(({ contractAddress, claimBalance, rewardSymbol }) => {
+                      const rewardSymbolUpper = rewardSymbol?.toUpperCase?.() ?? '';
+                      const rewardToken = rewardSymbolUpper ? TOKENS_BY_SYMBOL[rewardSymbolUpper] : undefined;
+                      const normalizedAddress = contractAddress.toLowerCase();
+                      const isSkyRewardRow = rewardSymbolUpper === 'SKY';
+                      const isChecked =
+                        rewardContractsSelected.has(normalizedAddress) || (isSkyRewardRow && restakeSkyRewards);
+                      const checkboxDisabled = isSkyRewardRow && restakeSkyRewards;
+                      const checkboxId = `claim-${contractAddress}`;
+
+                      return (
+                        <div key={contractAddress} className="flex items-center justify-between gap-4">
+                          <div className="flex items-center gap-2">
+                            <Checkbox
+                              id={checkboxId}
+                              checked={isChecked}
+                              disabled={checkboxDisabled}
+                              onCheckedChange={checked => handleRewardCheckboxChange(contractAddress, checked)}
+                            />
+                            <label
+                              htmlFor={checkboxId}
+                              className="text-textSecondary cursor-pointer select-none text-sm"
+                            >
+                              {`Claim ${rewardSymbolUpper}`}
+                            </label>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            {rewardToken && <TokenIcon token={rewardToken} className="h-5 w-5" />}
+                            <Text className="text-sm font-medium">
+                              {formatBigInt(claimBalance)} {rewardSymbolUpper}
+                            </Text>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </VStack>
                 </VStack>
               </motion.div>
