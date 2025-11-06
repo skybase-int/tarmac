@@ -26,14 +26,12 @@ import { fromHex, trim } from 'viem';
 
 interface UrnPositionProps {
   index: bigint;
-  batchEnabledAndSupported: boolean;
   onStakeUrnChange?: OnStakeUrnChange;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 }
 
 export const UrnPosition: React.FC<UrnPositionProps> = ({
   index,
-  batchEnabledAndSupported,
   onStakeUrnChange,
   onExternalLinkClicked
 }) => {
@@ -119,7 +117,6 @@ export const UrnPosition: React.FC<UrnPositionProps> = ({
         liquidationData={liquidationData}
         urnAddress={urnAddress}
         index={index}
-        batchEnabledAndSupported={batchEnabledAndSupported}
         onExternalLinkClicked={onExternalLinkClicked}
         onStakeUrnChange={onStakeUrnChange}
       />

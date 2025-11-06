@@ -43,7 +43,6 @@ type Props = {
   liquidationPrice?: bigint;
   urnAddress?: `0x${string}`;
   index: bigint;
-  batchEnabledAndSupported: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   onStakeUrnChange?: OnStakeUrnChange;
 };
@@ -61,7 +60,6 @@ export function PositionDetail({
   liquidationPrice,
   urnAddress,
   index,
-  batchEnabledAndSupported,
   onExternalLinkClicked,
   onStakeUrnChange
 }: Props) {
@@ -202,7 +200,6 @@ export function PositionDetail({
           stakeRewardContracts={stakeRewardContracts}
           urnAddress={urnAddress}
           index={index}
-          batchEnabledAndSupported={batchEnabledAndSupported}
           selectedReward={selectedRewardContract}
           selectedVoteDelegate={selectedVoteDelegate}
           onStakeUrnChange={onStakeUrnChange}

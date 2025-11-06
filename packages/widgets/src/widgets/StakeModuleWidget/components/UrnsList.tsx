@@ -6,12 +6,10 @@ import { Trans } from '@lingui/react/macro';
 import { OnStakeUrnChange } from '..';
 
 export const UrnsList = ({
-  batchEnabledAndSupported,
   onStakeUrnChange,
   onExternalLinkClicked,
   disclaimer
 }: {
-  batchEnabledAndSupported: boolean;
   onStakeUrnChange?: OnStakeUrnChange;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   disclaimer?: React.ReactNode;
@@ -34,7 +32,6 @@ export const UrnsList = ({
             <UrnPosition
               key={index}
               index={BigInt(index)}
-              batchEnabledAndSupported={batchEnabledAndSupported}
               onStakeUrnChange={onStakeUrnChange}
               onExternalLinkClicked={onExternalLinkClicked}
             />

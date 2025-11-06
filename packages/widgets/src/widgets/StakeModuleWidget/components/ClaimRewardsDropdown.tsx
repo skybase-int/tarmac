@@ -19,7 +19,6 @@ export function ClaimRewardsDropdown({
   stakeRewardContracts,
   urnAddress,
   index,
-  batchEnabledAndSupported,
   selectedReward,
   selectedVoteDelegate,
   onStakeUrnChange
@@ -29,7 +28,6 @@ export function ClaimRewardsDropdown({
   }[];
   urnAddress: `0x${string}`;
   index: bigint;
-  batchEnabledAndSupported: boolean;
   selectedReward: `0x${string}` | undefined;
   selectedVoteDelegate: `0x${string}` | undefined;
   onStakeUrnChange?: OnStakeUrnChange;
@@ -162,7 +160,7 @@ export function ClaimRewardsDropdown({
           sideOffset={8}
         >
           <VStack className="space-y-1">
-            {hasSkyReward && hasMultipleRewards && skyContractAddress && batchEnabledAndSupported && (
+            {hasSkyReward && hasMultipleRewards && skyContractAddress && (
               <Button
                 variant={null}
                 onClick={() =>
@@ -213,24 +211,22 @@ export function ClaimRewardsDropdown({
                 <Text>{`Claim only ${formatBigInt(claimBalance)} ${rewardSymbol}`}</Text>
               </Button>
             ))}
-            {batchEnabledAndSupported && (
-              <Button
-                variant={null}
-                onClick={() =>
-                  handleSelectOption({
-                    contracts: claimableRewardContractAddresses.length
-                      ? claimableRewardContractAddresses
-                      : undefined
-                  })
-                }
-                className={cn(
-                  'text-text flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
-                  'bg-transparent hover:bg-[#FFFFFF0D]'
-                )}
-              >
-                <Text>Claim all rewards</Text>
-              </Button>
-            )}
+            <Button
+              variant={null}
+              onClick={() =>
+                handleSelectOption({
+                  contracts: claimableRewardContractAddresses.length
+                    ? claimableRewardContractAddresses
+                    : undefined
+                })
+              }
+              className={cn(
+                'text-text flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
+                'bg-transparent hover:bg-[#FFFFFF0D]'
+              )}
+            >
+              <Text>Claim all rewards</Text>
+            </Button>
           </VStack>
         </PopoverContent>
       </Popover>
