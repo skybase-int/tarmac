@@ -293,6 +293,7 @@ export {
   spkAddress,
   sealModuleAddress,
   stakeModuleAddress,
+  stakeModuleAbi,
   usdcL2Address,
   usdsL2Address,
   stUsdsAddress,

@@ -4,9 +4,9 @@ import {
   useStakeRewardContracts,
   useMultipleRewardsChartInfo,
   useRewardContractsToClaim,
-  stakeModuleAddress
+  stakeModuleAddress,
+  stakeModuleAbi
 } from '@jetstreamgg/sky-hooks';
-import { stakeModuleAbi } from '@jetstreamgg/sky-hooks/generated';
 import { formatBigInt, formatDecimalPercentage, formatNumber } from '@jetstreamgg/sky-utils';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
