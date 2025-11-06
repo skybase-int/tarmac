@@ -17,7 +17,8 @@ import {
   useCollateralData,
   Token,
   useIsBatchSupported,
-  useRewardContractsToClaim
+  useRewardContractsToClaim,
+  useStakeRewardContracts
 } from '@jetstreamgg/sky-hooks';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
@@ -49,6 +50,10 @@ import { useChainId } from 'wagmi';
 import { Switch } from '@widgets/components/ui/switch';
 
 const { usds } = TOKENS;
+const TOKENS_BY_SYMBOL = Object.values(TOKENS).reduce<Record<string, Token>>((accumulator, token) => {
+  accumulator[token.symbol.toUpperCase()] = token;
+  return accumulator;
+}, {});
 
 const isUpdatedValue = (prev: any, next: any) => prev !== undefined && next !== undefined && prev !== next;
 const getStakeLabel = (prev: bigint | undefined, next: bigint | undefined) => {
@@ -88,7 +93,7 @@ const LineItem = ({
         <Text className={'text-textSecondary flex items-center text-sm'}>
           {label}
           {label === 'Rate' && (
-            <span className="mt-1 ml-2">
+            <span className="ml-2 mt-1">
               <PopoverRateInfo type="ssr" />
             </span>
           )}
@@ -173,6 +178,7 @@ export const PositionSummary = ({
   } = useContext(StakeModuleWidgetContext);
   const { setTxTitle, setTxSubtitle, setStepTwoTitle, widgetState } = useContext(WidgetContext);
   const { flow, action, screen } = widgetState;
+  const { data: stakeRewardContracts } = useStakeRewardContracts();
 
   // Sets the title and subtitle of the card
   useEffect(() => {
@@ -212,8 +218,13 @@ export const PositionSummary = ({
   const { data: selectedRewardContractTokens, isLoading: isSelectedContractTokensLoading } =
     useRewardContractTokens(selectedRewardContract);
 
+  const rewardContractAddresses = useMemo<`0x${string}`[]>(
+    () => stakeRewardContracts?.map(({ contractAddress }) => contractAddress) ?? [],
+    [stakeRewardContracts]
+  );
+
   const { data: claimableRewardContracts } = useRewardContractsToClaim({
-    rewardContractAddresses: existingRewardContract ? [existingRewardContract] : [],
+    rewardContractAddresses,
     userAddress: activeUrn?.urnAddress,
     chainId
   });
@@ -221,6 +232,15 @@ export const PositionSummary = ({
   const selectedRewardContractRewards = claimableRewardContracts?.find(
     ({ contractAddress }) => contractAddress.toLowerCase() === existingRewardContract?.toLowerCase()
   );
+
+  const claimableSkyReward = useMemo(
+    () =>
+      claimableRewardContracts?.find(
+        ({ rewardSymbol }) => typeof rewardSymbol === 'string' && rewardSymbol.toUpperCase() === 'SKY'
+      ),
+    [claimableRewardContracts]
+  );
+  const hasUnclaimedSkyRewards = !!claimableSkyReward;
 
   const handleClaimToggle = () => {
     setRestakeSkyRewards(false);
@@ -430,7 +450,7 @@ export const PositionSummary = ({
           isUpdatedValue(existingRewardContract?.toLowerCase(), selectedRewardContract?.toLowerCase()) ? (
             [
               isRewardContractTokensLoading ? (
-                <Skeleton key="loading-existing-rewards" className="h-5 w-30" />
+                <Skeleton key="loading-existing-rewards" className="w-30 h-5" />
               ) : existingRewardContractTokens ? (
                 <TokenIcon
                   key="existing-rewards-token"
@@ -439,7 +459,7 @@ export const PositionSummary = ({
                 />
               ) : null,
               isSelectedContractTokensLoading ? (
-                <Skeleton key="loading-selected-rewards" className="h-5 w-30" />
+                <Skeleton key="loading-selected-rewards" className="w-30 h-5" />
               ) : selectedRewardContractTokens ? (
                 <TokenIcon
                   key="selected-rewards-icon"
@@ -449,7 +469,7 @@ export const PositionSummary = ({
               ) : null
             ]
           ) : isRewardContractTokensLoading ? (
-            <Skeleton className="h-5 w-30" />
+            <Skeleton className="w-30 h-5" />
           ) : rewardsTokensToDisplay ? (
             <TokenIcon token={rewardsTokensToDisplay?.rewardsToken} className="h-5 w-5" />
           ) : null
@@ -489,7 +509,7 @@ export const PositionSummary = ({
           normalizeDelegate(existingSelectedVoteDelegate) !== normalizeDelegate(selectedDelegate) ? (
             [
               loadingExistingDelegateOwner ? (
-                <Skeleton key="loading-existing-delegate" className="h-5 w-30" />
+                <Skeleton key="loading-existing-delegate" className="w-30 h-5" />
               ) : existingDelegateOwner ? (
                 <JazziconComponent
                   key="existing-delegate-icon"
@@ -498,7 +518,7 @@ export const PositionSummary = ({
                 />
               ) : null,
               loadingSelectedDelegateOwner ? (
-                <Skeleton key="loading-selected-delegate" className="h-5 w-30" />
+                <Skeleton key="loading-selected-delegate" className="w-30 h-5" />
               ) : selectedDelegateOwner ? (
                 <JazziconComponent
                   key="selected-delegate-icon"
@@ -508,7 +528,7 @@ export const PositionSummary = ({
               ) : null
             ]
           ) : isDelegateLoading ? (
-            <Skeleton className="h-5 w-30" />
+            <Skeleton className="w-30 h-5" />
           ) : delegateOwnerToDisplay ? (
             <JazziconComponent address={delegateOwnerToDisplay} diameter={20} />
           ) : null
@@ -608,43 +628,56 @@ export const PositionSummary = ({
                 className="border-selectActive mt-3 border-t pt-7"
               >
                 <Text variant="medium" className="mb-3 font-medium">
-                  Rewards actions
+                  Available rewards
                 </Text>
                 <VStack gap={4}>
-                  <div className="flex items-center justify-between py-2">
-                    <Text className="text-textSecondary text-sm">Available SKY rewards</Text>
-                    <div className="flex items-center gap-2">
-                      <TokenIcon token={TOKENS.sky} className="h-5 w-5" />
-                      <Text className="text-sm font-medium">
-                        {formatBigInt(selectedRewardContractRewards.claimBalance)} SKY
-                      </Text>
-                    </div>
-                  </div>
-                  <VStack gap={3}>
-                    <div className="flex w-full items-start justify-between gap-4">
-                      <div className="flex flex-col">
-                        <Text className="text-sm font-medium">Claim &amp; Restake</Text>
-                        <Text className="text-textSecondary mt-1 text-xs">
-                          Use your accrued SKY rewards to increase this position&apos;s staked SKY balance
-                          immediately.
+                  {claimableRewardContracts?.map(({ contractAddress, claimBalance, rewardSymbol }) => {
+                    const rewardToken = TOKENS_BY_SYMBOL[rewardSymbol.toUpperCase()];
+
+                    return (
+                      <div key={contractAddress} className="flex items-center justify-between">
+                        <Text className="text-textSecondary text-sm">
+                          {`Available ${rewardSymbol.toUpperCase()} rewards`}
                         </Text>
-                        {batchSupported === false && (
-                          <Text className="text-textSecondary mt-2 text-xs">
-                            Your wallet will confirm claim and lock separately.
+                        <div className="flex items-center gap-2">
+                          {rewardToken && <TokenIcon token={rewardToken} className="h-5 w-5" />}
+                          <Text className="text-sm font-medium">
+                            {formatBigInt(claimBalance)} {rewardSymbol.toUpperCase()}
                           </Text>
-                        )}
-                        {isRewardChanging && (
-                          <Text className="text-destructive mt-2 text-xs">
-                            Restake is unavailable while changing reward contracts.
-                          </Text>
-                        )}
+                        </div>
                       </div>
-                      <Switch
-                        checked={restakeSkyRewards}
-                        onCheckedChange={handleRestakeToggle}
-                        disabled={restakeToggleDisabled}
-                      />
-                    </div>
+                    );
+                  })}
+                  <VStack gap={3}>
+                    <Text variant="medium" className="font-medium">
+                      Rewards actions
+                    </Text>
+                    {hasUnclaimedSkyRewards && (
+                      <div className="flex w-full items-start justify-between gap-4">
+                        <div className="flex flex-col">
+                          <Text className="text-sm font-medium">Claim &amp; Restake SKY</Text>
+                          <Text className="text-textSecondary mt-1 text-xs">
+                            Use your accrued SKY rewards to increase this position&apos;s staked SKY balance
+                            immediately.
+                          </Text>
+                          {batchSupported === false && (
+                            <Text className="text-textSecondary mt-2 text-xs">
+                              Your wallet will confirm claim and lock separately.
+                            </Text>
+                          )}
+                          {isRewardChanging && (
+                            <Text className="text-destructive mt-2 text-xs">
+                              Restake is unavailable while changing reward contracts.
+                            </Text>
+                          )}
+                        </div>
+                        <Switch
+                          checked={restakeSkyRewards}
+                          onCheckedChange={handleRestakeToggle}
+                          disabled={restakeToggleDisabled}
+                        />
+                      </div>
+                    )}
                     <div className="flex w-full items-start justify-between gap-4">
                       <div className="flex flex-col">
                         <Text className="text-sm font-medium">Claim Only</Text>
