@@ -252,7 +252,9 @@ export function ClaimRewardsDropdown({
           }
           className="h-fit px-2 py-1.5"
         >
-          <Text variant="medium">Claim all</Text>
+          <Text variant="medium" className="leading-4">
+            Claim all
+          </Text>
         </Button>
         <Rewards className="h-9 w-9" />
       </div>

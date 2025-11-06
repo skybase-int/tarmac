@@ -42,7 +42,9 @@ export function ClaimRewardsButton({
           onClick={() => handleSelectOption({ contracts: [rewardContract] })}
           className="h-fit px-2 py-1.5"
         >
-          <Text variant="medium">Claim</Text>
+          <Text variant="medium" className="leading-4">
+            Claim
+          </Text>
         </Button>
         <Rewards className="h-9 w-9" />
       </div>
