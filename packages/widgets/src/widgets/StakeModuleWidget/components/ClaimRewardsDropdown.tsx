@@ -4,128 +4,106 @@ import { WidgetContext } from '@widgets/context/WidgetContext';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { useRewardContractsToClaim } from '@jetstreamgg/sky-hooks';
 import { formatBigInt } from '@jetstreamgg/sky-utils';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useMemo, useState } from 'react';
 import { useChainId } from 'wagmi';
-import { TxStatus } from '@widgets/shared/constants';
 import { WidgetState } from '@widgets/shared/types/widgetState';
-import { StakeAction, StakeScreen } from '../lib/constants';
+import { StakeAction, StakeStep } from '../lib/constants';
 import { StakeModuleWidgetContext } from '../context/context';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@widgets/lib/utils';
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { ClaimRewardsButton } from './ClaimRewardsButton';
+import { OnStakeUrnChange } from '..';
 
 export function ClaimRewardsDropdown({
   stakeRewardContracts,
   urnAddress,
   index,
-  claimPrepared,
-  claimExecute,
-  claimAllPrepared,
-  claimAllExecute,
-  batchEnabledAndSupported
+  batchEnabledAndSupported,
+  selectedReward,
+  selectedVoteDelegate,
+  onStakeUrnChange
 }: {
   stakeRewardContracts: {
     contractAddress: `0x${string}`;
   }[];
   urnAddress: `0x${string}`;
   index: bigint;
-  claimPrepared: boolean;
-  claimExecute: () => void;
-  claimAllPrepared: boolean;
-  claimAllExecute: () => void;
   batchEnabledAndSupported: boolean;
+  selectedReward: `0x${string}` | undefined;
+  selectedVoteDelegate: `0x${string}` | undefined;
+  onStakeUrnChange?: OnStakeUrnChange;
 }) {
-  const { setTxStatus, setExternalLink, setShowStepIndicator, setWidgetState } = useContext(WidgetContext);
-  const { indexToClaim, setIndexToClaim, rewardContractToClaim, setRewardContractToClaim } =
-    useContext(StakeModuleWidgetContext);
+  const { setWidgetState } = useContext(WidgetContext);
+  const {
+    indexToClaim,
+    rewardContractsToClaim,
+    setRewardContractsToClaim,
+    setActiveUrn,
+    setCurrentStep,
+    setSelectedRewardContract,
+    setSelectedDelegate,
+    setIsLockCompleted,
+    setIsBorrowCompleted,
+    setIsSelectRewardContractCompleted,
+    setIsSelectDelegateCompleted
+  } = useContext(StakeModuleWidgetContext);
 
   const chainId = useChainId();
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedContract, setSelectedContract] = useState<`0x${string}` | 'all' | null>(null);
 
-  const { data: rewardContractsToClaim } = useRewardContractsToClaim({
+  const { data: claimableRewardContracts } = useRewardContractsToClaim({
     rewardContractAddresses: stakeRewardContracts.map(({ contractAddress }) => contractAddress),
     userAddress: urnAddress,
     chainId
   });
 
-  const selectedRewardToClaim = useMemo(() => {
-    if (selectedContract === 'all') return selectedContract;
-    return rewardContractsToClaim?.find(({ contractAddress }) => contractAddress === selectedContract);
-  }, [rewardContractsToClaim, selectedContract]);
+  const handleSelectOption = useCallback(
+    (option: `0x${string}`[] | undefined) => {
+      setIsOpen(false);
 
-  const handleClaimClick = () => {
-    if (selectedContract) {
-      setIndexToClaim(index);
-      if (selectedContract !== 'all') {
-        setRewardContractToClaim(selectedContract);
-      }
-    }
-  };
-
-  const handleOptionSelect = (option: `0x${string}` | 'all') => {
-    setSelectedContract(option);
-    setIsOpen(false);
-  };
-
-  useEffect(() => {
-    if (
-      indexToClaim === index &&
-      selectedContract &&
-      ((rewardContractToClaim === selectedContract && claimPrepared) ||
-        (selectedContract === 'all' && claimAllPrepared))
-    ) {
-      setShowStepIndicator(false);
       setWidgetState((prev: WidgetState) => ({
         ...prev,
-        action: StakeAction.CLAIM,
-        screen: StakeScreen.TRANSACTION
+        action: StakeAction.MULTICALL
       }));
-      setTxStatus(TxStatus.INITIALIZED);
-      setExternalLink(undefined);
-      if (selectedContract === 'all') {
-        claimAllExecute();
-      } else {
-        claimExecute();
-      }
-    }
-  }, [indexToClaim, index, rewardContractToClaim, selectedContract, claimPrepared, claimAllPrepared]);
 
-  const isProcessing =
-    indexToClaim === index && selectedContract && rewardContractToClaim === selectedContract;
-  const isDisabled = !!rewardContractToClaim && indexToClaim !== undefined;
+      setActiveUrn({ urnAddress, urnIndex: index }, onStakeUrnChange ?? (() => {}));
+      setCurrentStep(StakeStep.SUMMARY);
 
-  if (!rewardContractsToClaim || rewardContractsToClaim.length === 0) return null;
-  if (rewardContractsToClaim.length === 1)
+      setSelectedRewardContract(selectedReward);
+      setSelectedDelegate(selectedVoteDelegate);
+      setRewardContractsToClaim(option);
+
+      setIsLockCompleted(true);
+      setIsBorrowCompleted(true);
+      setIsSelectRewardContractCompleted(true);
+      setIsSelectDelegateCompleted(true);
+    },
+    [urnAddress, index, selectedVoteDelegate, selectedReward]
+  );
+
+  const claimableRewardContractAddresses = useMemo(
+    () => claimableRewardContracts?.map(({ contractAddress }) => contractAddress),
+    [claimableRewardContracts]
+  );
+
+  const isDisabled = !!rewardContractsToClaim?.length && indexToClaim !== undefined;
+
+  if (!claimableRewardContracts || claimableRewardContracts.length === 0) return null;
+  if (claimableRewardContracts.length === 1)
     return (
       <ClaimRewardsButton
-        rewardContract={rewardContractsToClaim[0].contractAddress}
+        rewardContract={claimableRewardContracts[0].contractAddress}
         urnAddress={urnAddress}
-        index={index}
-        claimPrepared={claimPrepared}
-        claimExecute={claimExecute}
+        handleSelectOption={handleSelectOption}
       />
     );
 
   return (
     <div className="flex">
-      <Button
-        variant="secondary"
-        onClick={handleClaimClick}
-        disabled={isDisabled || !selectedRewardToClaim}
-        className="flex-1 rounded-r-none border-r-0"
-      >
-        <Text>
-          {isProcessing
-            ? 'Preparing your claim transaction...'
-            : selectedRewardToClaim
-              ? selectedRewardToClaim === 'all'
-                ? 'Claim all rewards'
-                : `Claim ${formatBigInt(selectedRewardToClaim.claimBalance)} ${selectedRewardToClaim.rewardSymbol}`
-              : 'Select reward to claim'}
-        </Text>
-      </Button>
+      <div className="border-textSecondary flex h-10 flex-1 items-center justify-center rounded-[12px] rounded-r-none border border-r-0 px-4 py-2">
+        <Text className="text-text">Select reward to claim</Text>
+      </div>
 
       <Popover open={isOpen} onOpenChange={setIsOpen}>
         <PopoverTrigger asChild>
@@ -143,14 +121,14 @@ export function ClaimRewardsDropdown({
           sideOffset={8}
         >
           <VStack className="space-y-1">
-            {rewardContractsToClaim.map(({ contractAddress, claimBalance, rewardSymbol }) => (
+            {claimableRewardContracts.map(({ contractAddress, claimBalance, rewardSymbol }) => (
               <Button
                 key={contractAddress}
                 variant={null}
-                onClick={() => handleOptionSelect(contractAddress)}
+                onClick={() => handleSelectOption([contractAddress])}
                 className={cn(
                   'text-text flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
-                  selectedContract === contractAddress ? 'bg-surface' : 'bg-transparent hover:bg-[#FFFFFF0D]'
+                  'bg-transparent hover:bg-[#FFFFFF0D]'
                 )}
               >
                 <Text>{`Claim ${formatBigInt(claimBalance)} ${rewardSymbol}`}</Text>
@@ -159,10 +137,10 @@ export function ClaimRewardsDropdown({
             {batchEnabledAndSupported && (
               <Button
                 variant={null}
-                onClick={() => handleOptionSelect('all')}
+                onClick={() => handleSelectOption(claimableRewardContractAddresses)}
                 className={cn(
                   'text-text flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
-                  selectedContract === 'all' ? 'bg-surface' : 'bg-transparent hover:bg-[#FFFFFF0D]'
+                  'bg-transparent hover:bg-[#FFFFFF0D]'
                 )}
               >
                 <Text>Claim all rewards</Text>

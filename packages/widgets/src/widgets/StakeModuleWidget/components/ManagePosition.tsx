@@ -12,10 +12,6 @@ export const ManagePosition = ({
   currentAction,
   onClickTrigger,
   tabSide,
-  claimPrepared,
-  claimExecute,
-  claimAllPrepared,
-  claimAllExecute,
   batchEnabledAndSupported,
   onStakeUrnChange,
   onWidgetStateChange,
@@ -33,10 +29,6 @@ export const ManagePosition = ({
   currentAction: StakeAction;
   onClickTrigger: any;
   tabSide: 'left' | 'right';
-  claimPrepared: boolean;
-  claimExecute: () => void;
-  claimAllPrepared: boolean;
-  claimAllExecute: () => void;
   batchEnabledAndSupported: boolean;
   onStakeUrnChange?: OnStakeUrnChange;
   onWidgetStateChange?: (params: WidgetStateChangeParams) => void;
@@ -50,10 +42,6 @@ export const ManagePosition = ({
 }) => {
   return currentAction === StakeAction.OVERVIEW ? (
     <UrnsList
-      claimPrepared={claimPrepared}
-      claimExecute={claimExecute}
-      claimAllPrepared={claimAllPrepared}
-      claimAllExecute={claimAllExecute}
       batchEnabledAndSupported={batchEnabledAndSupported}
       onStakeUrnChange={onStakeUrnChange}
       onExternalLinkClicked={onExternalLinkClicked}
