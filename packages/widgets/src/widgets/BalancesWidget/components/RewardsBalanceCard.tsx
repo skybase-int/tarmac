@@ -15,7 +15,7 @@ import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
 import { formatUnits } from 'viem';
 import { CardProps } from './ModulesBalances';
 import { useChainId, useAccount } from 'wagmi';
-import { isTestnetId } from '@jetstreamgg/sky-utils';
+import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
 
 export const RewardsBalanceCard = ({
   url,
@@ -25,7 +25,8 @@ export const RewardsBalanceCard = ({
 }: CardProps) => {
   const { address } = useAccount();
   const currentChainId = useChainId();
-  const chainId = isTestnetId(currentChainId) ? 314310 : 1; //TODO: update once we add non-mainnet rewards
+  // Always use mainnet (1) for rewards unless on Tenderly
+  const chainId = currentChainId === 314310 ? 314310 : 1;
   const rewardContracts = useAvailableTokenRewardContracts(chainId);
 
   const usdsSkyRewardContract = rewardContracts.find(
@@ -64,14 +65,21 @@ export const RewardsBalanceCard = ({
     enabled: !!address
   });
 
-  // Calculate total unclaimed rewards value in USD
-  const totalUnclaimedRewardsValue = unclaimedRewardsData
-    ? unclaimedRewardsData.reduce((total, reward) => {
-        const price = pricesData?.[reward.rewardSymbol]?.price || '0';
-        const rewardAmount = parseFloat(formatUnits(reward.claimBalance, 18));
-        return total + rewardAmount * parseFloat(price);
-      }, 0)
-    : 0;
+  // Calculate total unclaimed rewards value in USD and get unique token symbols
+  const { totalUnclaimedRewardsValue, uniqueRewardTokens } = unclaimedRewardsData
+    ? unclaimedRewardsData.reduce(
+        (acc, reward) => {
+          const price = pricesData?.[reward.rewardSymbol]?.price || '0';
+          const rewardAmount = parseFloat(formatUnits(reward.claimBalance, 18));
+          acc.totalUnclaimedRewardsValue += rewardAmount * parseFloat(price);
+          if (!acc.uniqueRewardTokens.includes(reward.rewardSymbol)) {
+            acc.uniqueRewardTokens.push(reward.rewardSymbol);
+          }
+          return acc;
+        },
+        { totalUnclaimedRewardsValue: 0, uniqueRewardTokens: [] as string[] }
+      )
+    : { totalUnclaimedRewardsValue: 0, uniqueRewardTokens: [] as string[] };
 
   const chartDataLoading = usdsSkyChartDataLoading || usdsSpkChartDataLoading;
   const mostRecentRateNumber = highestRateData ? parseFloat(highestRateData.rate) : null;
@@ -90,7 +98,7 @@ export const RewardsBalanceCard = ({
         )
       }
       footer={
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1">
           {chartDataLoading ? (
             <Skeleton className="h-4 w-20" />
           ) : mostRecentRateNumber && mostRecentRateNumber > 0 ? (
@@ -107,34 +115,45 @@ export const RewardsBalanceCard = ({
           ) : (
             <></>
           )}
-          {unclaimedRewardsLoading ? (
-            <Skeleton className="h-4 w-20" />
-          ) : totalUnclaimedRewardsValue > 0 ? (
-            <div className="flex w-full items-center justify-between">
+          {totalUnclaimedRewardsValue > 0 && (
+            <div className="flex items-center gap-1.5">
               <Text variant="small" className="text-textSecondary">
                 {t`Unclaimed rewards`}
               </Text>
-              <Text variant="small" className="text-textPrimary">
-                ${formatNumber(totalUnclaimedRewardsValue, { maxDecimals: 2 })}
-              </Text>
+              <div className="flex items-center -space-x-0.5">
+                {uniqueRewardTokens.map((tokenSymbol, index) => (
+                  <div key={tokenSymbol} style={{ zIndex: uniqueRewardTokens.length - index }}>
+                    <TokenIcon token={{ symbol: tokenSymbol }} width={16} className="h-4 w-4" noChain />
+                  </div>
+                ))}
+              </div>
             </div>
-          ) : null}
+          )}
         </div>
       }
       footerRightContent={
-        loading || pricesLoading ? (
+        loading || pricesLoading || unclaimedRewardsLoading ? (
           <Skeleton className="h-[13px] w-20" />
-        ) : totalUserRewardsSupplied !== undefined && !!pricesData?.USDS ? (
-          <Text variant="small" className="text-textSecondary">
-            $
-            {formatNumber(
-              parseFloat(formatUnits(totalUserRewardsSupplied, 18)) * parseFloat(pricesData.USDS.price),
-              {
-                maxDecimals: 2
-              }
+        ) : (
+          <div className="flex flex-col items-end gap-1">
+            {totalUserRewardsSupplied !== undefined && !!pricesData?.USDS && (
+              <Text variant="small" className="text-textSecondary">
+                $
+                {formatNumber(
+                  parseFloat(formatUnits(totalUserRewardsSupplied, 18)) * parseFloat(pricesData.USDS.price),
+                  {
+                    maxDecimals: 2
+                  }
+                )}
+              </Text>
             )}
-          </Text>
-        ) : undefined
+            {totalUnclaimedRewardsValue > 0 && (
+              <Text variant="small" className="text-textPrimary">
+                ${formatNumber(totalUnclaimedRewardsValue, { maxDecimals: 2 })}
+              </Text>
+            )}
+          </div>
+        )
       }
       url={url}
     />

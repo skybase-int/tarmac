@@ -3,10 +3,10 @@ import {
   useHighestRateFromChartData,
   useStakeRewardContracts,
   useMultipleRewardsChartInfo,
-  useCurrentUrnIndex,
-  useStakeUrnAddress,
-  useRewardContractsToClaim
+  useRewardContractsToClaim,
+  stakeModuleAddress
 } from '@jetstreamgg/sky-hooks';
+import { stakeModuleAbi } from '@jetstreamgg/sky-hooks/generated';
 import { formatBigInt, formatDecimalPercentage, formatNumber } from '@jetstreamgg/sky-utils';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
@@ -15,11 +15,16 @@ import { Skeleton } from '@widgets/components/ui/skeleton';
 import { formatUnits } from 'viem';
 import { CardProps } from './ModulesBalances';
 import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
-import { useChainId } from 'wagmi';
+import { useChainId, useAccount, useReadContract } from 'wagmi';
+import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
 
 export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkClicked }: CardProps) => {
   const currentChainId = useChainId();
+  const { address } = useAccount();
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
+
+  // Always use mainnet (1) for staking rewards unless on Tenderly
+  const stakingChainId = currentChainId === 314310 ? 314310 : 1;
 
   // Fetch chart data for all stake reward contracts
   const { data: stakeRewardContracts } = useStakeRewardContracts();
@@ -27,18 +32,64 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
     rewardContractAddresses: stakeRewardContracts?.map(({ contractAddress }) => contractAddress) || []
   });
 
-  // Get user's URN count and addresses for staking rewards
-  const { data: currentUrnIndex } = useCurrentUrnIndex();
+  // Get user's URN count directly from mainnet
+  const { data: currentUrnIndex } = useReadContract({
+    chainId: stakingChainId,
+    address: stakeModuleAddress[stakingChainId as keyof typeof stakeModuleAddress],
+    abi: stakeModuleAbi,
+    functionName: 'ownerUrnsCount',
+    args: [address!],
+    query: {
+      enabled: !!address
+    }
+  });
+
   const urnCount = Number(currentUrnIndex || 0n);
 
-  // Check multiple URNs for rewards (since user has 4 URNs) - using useStakeUrnAddress
-  const { data: urn0Address } = useStakeUrnAddress(urnCount > 0 ? BigInt(0) : undefined);
-  const { data: urn1Address } = useStakeUrnAddress(urnCount > 1 ? BigInt(1) : undefined);
-  const { data: urn2Address } = useStakeUrnAddress(urnCount > 2 ? BigInt(2) : undefined);
-  const { data: urn3Address } = useStakeUrnAddress(urnCount > 3 ? BigInt(3) : undefined);
+  // Get URN addresses directly from mainnet
+  const { data: urn0Address } = useReadContract({
+    chainId: stakingChainId,
+    address: stakeModuleAddress[stakingChainId as keyof typeof stakeModuleAddress],
+    abi: stakeModuleAbi,
+    functionName: 'ownerUrns',
+    args: [address!, BigInt(0)],
+    query: {
+      enabled: !!address && urnCount > 0
+    }
+  });
 
-  // Use current chainId (supports Tenderly)
-  const stakingChainId = currentChainId;
+  const { data: urn1Address } = useReadContract({
+    chainId: stakingChainId,
+    address: stakeModuleAddress[stakingChainId as keyof typeof stakeModuleAddress],
+    abi: stakeModuleAbi,
+    functionName: 'ownerUrns',
+    args: [address!, BigInt(1)],
+    query: {
+      enabled: !!address && urnCount > 1
+    }
+  });
+
+  const { data: urn2Address } = useReadContract({
+    chainId: stakingChainId,
+    address: stakeModuleAddress[stakingChainId as keyof typeof stakeModuleAddress],
+    abi: stakeModuleAbi,
+    functionName: 'ownerUrns',
+    args: [address!, BigInt(2)],
+    query: {
+      enabled: !!address && urnCount > 2
+    }
+  });
+
+  const { data: urn3Address } = useReadContract({
+    chainId: stakingChainId,
+    address: stakeModuleAddress[stakingChainId as keyof typeof stakeModuleAddress],
+    abi: stakeModuleAbi,
+    functionName: 'ownerUrns',
+    args: [address!, BigInt(3)],
+    query: {
+      enabled: !!address && urnCount > 3
+    }
+  });
 
   // Fetch unclaimed rewards for the first URN from all staking reward contracts
   const stakeContractAddresses = (stakeRewardContracts?.map(c => c.contractAddress) as `0x${string}`[]) || [];
@@ -88,15 +139,22 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
       ? parseFloat(formatUnits(stakeBalance, 18)) * parseFloat(pricesData.SKY.price)
       : 0;
 
-  // Calculate total unclaimed rewards value in USD from all URNs
-  const totalUnclaimedRewardsValue =
+  // Calculate total unclaimed rewards value in USD from all URNs and get unique token symbols
+  const { totalUnclaimedRewardsValue, uniqueRewardTokens } =
     allUnclaimedRewardsData.length > 0
-      ? allUnclaimedRewardsData.reduce((total, reward) => {
-          const price = pricesData?.[reward.rewardSymbol]?.price || '0';
-          const rewardAmount = parseFloat(formatUnits(reward.claimBalance, 18));
-          return total + rewardAmount * parseFloat(price);
-        }, 0)
-      : 0;
+      ? allUnclaimedRewardsData.reduce(
+          (acc, reward) => {
+            const price = pricesData?.[reward.rewardSymbol]?.price || '0';
+            const rewardAmount = parseFloat(formatUnits(reward.claimBalance, 18));
+            acc.totalUnclaimedRewardsValue += rewardAmount * parseFloat(price);
+            if (!acc.uniqueRewardTokens.includes(reward.rewardSymbol)) {
+              acc.uniqueRewardTokens.push(reward.rewardSymbol);
+            }
+            return acc;
+          },
+          { totalUnclaimedRewardsValue: 0, uniqueRewardTokens: [] as string[] }
+        )
+      : { totalUnclaimedRewardsValue: 0, uniqueRewardTokens: [] as string[] };
 
   return (
     <InteractiveStatsCard
@@ -110,7 +168,7 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
         )
       }
       footer={
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1">
           <div className="z-[99999] flex w-fit items-center gap-1.5">
             <Text variant="small" className="text-bullish leading-4">
               {`Rates up to: ${formatDecimalPercentage(parseFloat(highestRateData?.rate || '0'))}`}
@@ -121,29 +179,42 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
               iconClassName="h-[13px] w-[13px]"
             />
           </div>
-          {totalUnclaimedRewardsValue > 0 ? (
-            <div className="flex w-full items-center justify-between">
+          {totalUnclaimedRewardsValue > 0 && (
+            <div className="flex items-center gap-1.5">
               <Text variant="small" className="text-textSecondary">
                 {t`Unclaimed rewards`}
               </Text>
-              <Text variant="small" className="text-textPrimary">
-                ${formatNumber(totalUnclaimedRewardsValue, { maxDecimals: 2 })}
-              </Text>
+              <div className="flex items-center -space-x-0.5">
+                {uniqueRewardTokens.map((tokenSymbol, index) => (
+                  <div key={tokenSymbol} style={{ zIndex: uniqueRewardTokens.length - index }}>
+                    <TokenIcon token={{ symbol: tokenSymbol }} width={16} className="h-4 w-4" noChain />
+                  </div>
+                ))}
+              </div>
             </div>
-          ) : null}
+          )}
         </div>
       }
       footerRightContent={
         loading || pricesLoading ? (
           <Skeleton className="h-[13px] w-20" />
-        ) : stakeBalance !== undefined && !!pricesData?.SKY ? (
-          <Text variant="small" className="text-textSecondary">
-            $
-            {formatNumber(totalStakedValue, {
-              maxDecimals: 2
-            })}
-          </Text>
-        ) : undefined
+        ) : (
+          <div className="flex flex-col items-end gap-1">
+            {stakeBalance !== undefined && !!pricesData?.SKY && (
+              <Text variant="small" className="text-textSecondary">
+                $
+                {formatNumber(totalStakedValue, {
+                  maxDecimals: 2
+                })}
+              </Text>
+            )}
+            {totalUnclaimedRewardsValue > 0 && (
+              <Text variant="small" className="text-textPrimary">
+                ${formatNumber(totalUnclaimedRewardsValue, { maxDecimals: 2 })}
+              </Text>
+            )}
+          </div>
+        )
       }
       url={url}
     />
