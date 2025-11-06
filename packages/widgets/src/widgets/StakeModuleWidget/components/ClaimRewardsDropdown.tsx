@@ -46,7 +46,8 @@ export function ClaimRewardsDropdown({
     setIsLockCompleted,
     setIsBorrowCompleted,
     setIsSelectRewardContractCompleted,
-    setIsSelectDelegateCompleted
+    setIsSelectDelegateCompleted,
+    setRestakeSkyRewards
   } = useContext(StakeModuleWidgetContext);
 
   const chainId = useChainId();
@@ -59,7 +60,7 @@ export function ClaimRewardsDropdown({
   });
 
   const handleSelectOption = useCallback(
-    (option: `0x${string}`[] | undefined) => {
+    ({ contracts, restakeSky = false }: { contracts: `0x${string}`[] | undefined; restakeSky?: boolean }) => {
       setIsOpen(false);
 
       setWidgetState((prev: WidgetState) => ({
@@ -72,20 +73,60 @@ export function ClaimRewardsDropdown({
 
       setSelectedRewardContract(selectedReward);
       setSelectedDelegate(selectedVoteDelegate);
-      setRewardContractsToClaim(option);
+      setRewardContractsToClaim(contracts);
+      setRestakeSkyRewards(restakeSky);
 
       setIsLockCompleted(true);
       setIsBorrowCompleted(true);
       setIsSelectRewardContractCompleted(true);
       setIsSelectDelegateCompleted(true);
     },
-    [urnAddress, index, selectedVoteDelegate, selectedReward]
+    [
+      urnAddress,
+      index,
+      selectedVoteDelegate,
+      selectedReward,
+      setWidgetState,
+      setActiveUrn,
+      onStakeUrnChange,
+      setCurrentStep,
+      setSelectedRewardContract,
+      setSelectedDelegate,
+      setRewardContractsToClaim,
+      setRestakeSkyRewards,
+      setIsLockCompleted,
+      setIsBorrowCompleted,
+      setIsSelectRewardContractCompleted,
+      setIsSelectDelegateCompleted
+    ]
   );
 
+  const sortedClaimableRewardContracts = useMemo(() => {
+    if (!claimableRewardContracts) return [];
+
+    return [...claimableRewardContracts].sort((a, b) => {
+      const aIsSky = a.rewardSymbol?.toUpperCase?.() === 'SKY';
+      const bIsSky = b.rewardSymbol?.toUpperCase?.() === 'SKY';
+
+      if (aIsSky && !bIsSky) return -1;
+      if (!aIsSky && bIsSky) return 1;
+      return 0;
+    });
+  }, [claimableRewardContracts]);
+
   const claimableRewardContractAddresses = useMemo(
-    () => claimableRewardContracts?.map(({ contractAddress }) => contractAddress),
-    [claimableRewardContracts]
+    () => sortedClaimableRewardContracts.map(({ contractAddress }) => contractAddress),
+    [sortedClaimableRewardContracts]
   );
+
+  const skyReward = useMemo(
+    () => sortedClaimableRewardContracts.find(({ rewardSymbol }) => rewardSymbol?.toUpperCase?.() === 'SKY'),
+    [sortedClaimableRewardContracts]
+  );
+  const skyContractAddress = skyReward?.contractAddress;
+  const hasSkyReward = !!skyReward;
+  const hasMultipleRewards = sortedClaimableRewardContracts.length > 1;
+  const skySymbol = skyReward?.rewardSymbol?.toUpperCase?.() ?? 'SKY';
 
   const isDisabled = !!rewardContractsToClaim?.length && indexToClaim !== undefined;
 
@@ -121,23 +162,67 @@ export function ClaimRewardsDropdown({
           sideOffset={8}
         >
           <VStack className="space-y-1">
-            {claimableRewardContracts.map(({ contractAddress, claimBalance, rewardSymbol }) => (
+            {hasSkyReward && hasMultipleRewards && skyContractAddress && batchEnabledAndSupported && (
               <Button
-                key={contractAddress}
                 variant={null}
-                onClick={() => handleSelectOption([contractAddress])}
+                onClick={() =>
+                  handleSelectOption({
+                    contracts: claimableRewardContractAddresses.length
+                      ? claimableRewardContractAddresses
+                      : undefined,
+                    restakeSky: true
+                  })
+                }
                 className={cn(
                   'text-text flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
                   'bg-transparent hover:bg-[#FFFFFF0D]'
                 )}
               >
-                <Text>{`Claim ${formatBigInt(claimBalance)} ${rewardSymbol}`}</Text>
+                <Text>Claim all &amp; Restake {skySymbol}</Text>
+              </Button>
+            )}
+            {hasSkyReward && hasMultipleRewards && skyContractAddress && (
+              <Button
+                variant={null}
+                onClick={() =>
+                  handleSelectOption({
+                    contracts: [skyContractAddress],
+                    restakeSky: true
+                  })
+                }
+                className={cn(
+                  'text-text flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
+                  'bg-transparent hover:bg-[#FFFFFF0D]'
+                )}
+              >
+                <Text>
+                  Claim {formatBigInt(skyReward?.claimBalance ?? 0n)} {skySymbol} &amp; Restake
+                </Text>
+              </Button>
+            )}
+            {sortedClaimableRewardContracts.map(({ contractAddress, claimBalance, rewardSymbol }) => (
+              <Button
+                key={contractAddress}
+                variant={null}
+                onClick={() => handleSelectOption({ contracts: [contractAddress] })}
+                className={cn(
+                  'text-text flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
+                  'bg-transparent hover:bg-[#FFFFFF0D]'
+                )}
+              >
+                <Text>{`Claim only ${formatBigInt(claimBalance)} ${rewardSymbol}`}</Text>
               </Button>
             ))}
             {batchEnabledAndSupported && (
               <Button
                 variant={null}
-                onClick={() => handleSelectOption(claimableRewardContractAddresses)}
+                onClick={() =>
+                  handleSelectOption({
+                    contracts: claimableRewardContractAddresses.length
+                      ? claimableRewardContractAddresses
+                      : undefined
+                  })
+                }
                 className={cn(
                   'text-text flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
                   'bg-transparent hover:bg-[#FFFFFF0D]'
