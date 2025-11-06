@@ -157,8 +157,16 @@ function StakeModuleWidgetWrapped({
     wipeAll && usdsToWipe ? (usdsToWipe * WIPE_BUFFER_MULTIPLIER) / WIPE_BUFFER_DIVISOR : usdsToWipe
   );
 
-  const { data: stakeSkyAllowance, mutate: mutateStakeSkyAllowance } = useStakeSkyAllowance();
-  const { data: stakeUsdsAllowance, mutate: mutateStakeUsdsAllowance } = useStakeUsdsAllowance();
+  const {
+    data: stakeSkyAllowance,
+    mutate: mutateStakeSkyAllowance,
+    isLoading: isLoadingSkyAllowance
+  } = useStakeSkyAllowance();
+  const {
+    data: stakeUsdsAllowance,
+    mutate: mutateStakeUsdsAllowance,
+    isLoading: isLoadingUsdsAllowance
+  } = useStakeUsdsAllowance();
 
   useNotifyWidgetState({ widgetState, txStatus, onWidgetStateChange });
 
@@ -199,8 +207,8 @@ function StakeModuleWidgetWrapped({
    */
 
   useEffect(() => {
-    setShowStepIndicator(widgetState.flow !== StakeFlow.CLAIM);
-  }, [setShowStepIndicator, widgetState.flow]);
+    setShowStepIndicator(widgetState.flow !== StakeFlow.CLAIM && needsAllowance);
+  }, [setShowStepIndicator, widgetState.flow, needsAllowance]);
 
   useEffect(() => {
     setTabIndex(initialTabIndex);
@@ -272,8 +280,31 @@ function StakeModuleWidgetWrapped({
 
   // Set isLoading to be consumed by WidgetButton
   useEffect(() => {
-    setIsLoading(isConnecting || txStatus === TxStatus.LOADING || txStatus === TxStatus.INITIALIZED);
-  }, [isConnecting, txStatus]);
+    // Show loading spinner when on SUMMARY step with MULTICALL action but batch isn't prepared yet
+    const isPreparingBatch =
+      currentStep === StakeStep.SUMMARY &&
+      widgetState.action === StakeAction.MULTICALL &&
+      !batchMulticall.prepared;
+
+    setIsLoading(
+      isConnecting ||
+        txStatus === TxStatus.LOADING ||
+        txStatus === TxStatus.INITIALIZED ||
+        batchMulticall.isLoading ||
+        isLoadingSkyAllowance ||
+        isLoadingUsdsAllowance ||
+        isPreparingBatch
+    );
+  }, [
+    isConnecting,
+    txStatus,
+    batchMulticall.isLoading,
+    isLoadingSkyAllowance,
+    isLoadingUsdsAllowance,
+    currentStep,
+    widgetState.action,
+    batchMulticall.prepared
+  ]);
 
   const batchMulticallDisabled =
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
