@@ -7,7 +7,13 @@ import {
   stakeModuleAddress,
   stakeModuleAbi
 } from '@jetstreamgg/sky-hooks';
-import { formatBigInt, formatDecimalPercentage, formatNumber } from '@jetstreamgg/sky-utils';
+import {
+  formatBigInt,
+  formatDecimalPercentage,
+  formatNumber,
+  isMainnetId,
+  chainId
+} from '@jetstreamgg/sky-utils';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
 import { InteractiveStatsCard } from '@widgets/shared/components/ui/card/InteractiveStatsCard';
@@ -23,16 +29,14 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
   const { address } = useAccount();
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
 
-  // Always use mainnet (1) for staking rewards unless on Tenderly
-  const stakingChainId = currentChainId === 314310 ? 314310 : 1;
+  // Use current chain if it's mainnet or tenderly, otherwise default to mainnet
+  const stakingChainId = isMainnetId(currentChainId) ? currentChainId : chainId.mainnet;
 
-  // Fetch chart data for all stake reward contracts
   const { data: stakeRewardContracts } = useStakeRewardContracts();
   const { data: stakeRewardsChartsInfoData } = useMultipleRewardsChartInfo({
     rewardContractAddresses: stakeRewardContracts?.map(({ contractAddress }) => contractAddress) || []
   });
 
-  // Get user's URN count directly from mainnet
   const { data: currentUrnIndex } = useReadContract({
     chainId: stakingChainId,
     address: stakeModuleAddress[stakingChainId as keyof typeof stakeModuleAddress],
@@ -46,7 +50,6 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
 
   const urnCount = Number(currentUrnIndex || 0n);
 
-  // Get URN addresses directly from mainnet
   const { data: urn0Address } = useReadContract({
     chainId: stakingChainId,
     address: stakeModuleAddress[stakingChainId as keyof typeof stakeModuleAddress],
@@ -91,10 +94,8 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
     }
   });
 
-  // Fetch unclaimed rewards for the first URN from all staking reward contracts
   const stakeContractAddresses = (stakeRewardContracts?.map(c => c.contractAddress) as `0x${string}`[]) || [];
 
-  // Check rewards for each URN
   const { data: rewards0 } = useRewardContractsToClaim({
     rewardContractAddresses: stakeContractAddresses,
     userAddress: urn0Address,
@@ -123,7 +124,6 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
     enabled: !!urn3Address && stakeContractAddresses.length > 0
   });
 
-  // Combine all rewards from all URNs
   const allUnclaimedRewardsData = [
     ...(rewards0 || []),
     ...(rewards1 || []),
@@ -131,7 +131,6 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
     ...(rewards3 || [])
   ];
 
-  // Find the highest rate
   const highestRateData = useHighestRateFromChartData(stakeRewardsChartsInfoData || []);
 
   const totalStakedValue =
@@ -139,7 +138,6 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
       ? parseFloat(formatUnits(stakeBalance, 18)) * parseFloat(pricesData.SKY.price)
       : 0;
 
-  // Calculate total unclaimed rewards value in USD from all URNs and get unique token symbols
   const { totalUnclaimedRewardsValue, uniqueRewardTokens } =
     allUnclaimedRewardsData.length > 0
       ? allUnclaimedRewardsData.reduce(

@@ -6,7 +6,13 @@ import {
   useHighestRateFromChartData,
   useRewardContractsToClaim
 } from '@jetstreamgg/sky-hooks';
-import { formatBigInt, formatDecimalPercentage, formatNumber } from '@jetstreamgg/sky-utils';
+import {
+  formatBigInt,
+  formatDecimalPercentage,
+  formatNumber,
+  isMainnetId,
+  chainId
+} from '@jetstreamgg/sky-utils';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
 import { InteractiveStatsCard } from '@widgets/shared/components/ui/card/InteractiveStatsCard';
@@ -25,9 +31,9 @@ export const RewardsBalanceCard = ({
 }: CardProps) => {
   const { address } = useAccount();
   const currentChainId = useChainId();
-  // Always use mainnet (1) for rewards unless on Tenderly
-  const chainId = currentChainId === 314310 ? 314310 : 1;
-  const rewardContracts = useAvailableTokenRewardContracts(chainId);
+  // Use current chain if it's mainnet or tenderly, otherwise default to mainnet
+  const rewardChainId = isMainnetId(currentChainId) ? currentChainId : chainId.mainnet;
+  const rewardContracts = useAvailableTokenRewardContracts(rewardChainId);
 
   const usdsSkyRewardContract = rewardContracts.find(
     f => f.supplyToken.symbol === TOKENS.usds.symbol && f.rewardToken.symbol === TOKENS.sky.symbol
@@ -53,7 +59,6 @@ export const RewardsBalanceCard = ({
 
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
 
-  // Fetch unclaimed rewards for all rewards contracts
   const rewardContractAddresses = rewardContracts
     .filter(c => c.supplyToken.symbol === TOKENS.usds.symbol)
     .map(c => c.contractAddress) as `0x${string}`[];
@@ -61,11 +66,10 @@ export const RewardsBalanceCard = ({
   const { data: unclaimedRewardsData, isLoading: unclaimedRewardsLoading } = useRewardContractsToClaim({
     rewardContractAddresses,
     userAddress: address,
-    chainId,
+    chainId: rewardChainId,
     enabled: !!address
   });
 
-  // Calculate total unclaimed rewards value in USD and get unique token symbols
   const { totalUnclaimedRewardsValue, uniqueRewardTokens } = unclaimedRewardsData
     ? unclaimedRewardsData.reduce(
         (acc, reward) => {
