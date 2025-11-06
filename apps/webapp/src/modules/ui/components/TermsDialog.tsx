@@ -61,7 +61,6 @@ export const TermsDialog: React.FC<TermsDialogProps> = ({
       onAccept();
     }
   };
-  // making a change to test linter
 
   const dialogContent = showLoadingState ? (
     <DialogContent className="bg-containerDark max-w-[300px]">
