@@ -14,6 +14,9 @@ import { cn } from '@widgets/lib/utils';
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { ClaimRewardsButton } from './ClaimRewardsButton';
 import { OnStakeUrnChange } from '..';
+import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
+import { Rewards } from '@widgets/shared/components/icons/Rewards';
+import { RewardWithTokenIcon } from './RewardWithTokenIcon';
 
 export function ClaimRewardsDropdown({
   stakeRewardContracts,
@@ -172,10 +175,11 @@ export function ClaimRewardsDropdown({
                   })
                 }
                 className={cn(
-                  'text-text flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
+                  'text-text flex h-12.5 w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
                   'bg-transparent hover:bg-[#FFFFFF0D]'
                 )}
               >
+                <RewardWithTokenIcon token={{ symbol: skySymbol }} className="h-7 w-7" />
                 <Text>Claim all &amp; Restake {skySymbol}</Text>
               </Button>
             )}
@@ -189,10 +193,11 @@ export function ClaimRewardsDropdown({
                   })
                 }
                 className={cn(
-                  'text-text flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
+                  'text-text flex h-12.5 w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
                   'bg-transparent hover:bg-[#FFFFFF0D]'
                 )}
               >
+                <TokenIcon token={{ symbol: skySymbol }} className="h-7 w-7" />
                 <Text>
                   Claim {formatBigInt(skyReward?.claimBalance ?? 0n)} {skySymbol} &amp; Restake
                 </Text>
@@ -204,10 +209,11 @@ export function ClaimRewardsDropdown({
                 variant={null}
                 onClick={() => handleSelectOption({ contracts: [contractAddress] })}
                 className={cn(
-                  'text-text flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
+                  'text-text flex h-12.5 w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
                   'bg-transparent hover:bg-[#FFFFFF0D]'
                 )}
               >
+                <TokenIcon token={{ symbol: rewardSymbol }} className="h-7 w-7" />
                 <Text>{`Claim only ${formatBigInt(claimBalance)} ${rewardSymbol}`}</Text>
               </Button>
             ))}
@@ -221,10 +227,11 @@ export function ClaimRewardsDropdown({
                 })
               }
               className={cn(
-                'text-text flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
+                'text-text flex h-12.5 w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
                 'bg-transparent hover:bg-[#FFFFFF0D]'
               )}
             >
+              <Rewards className="h-7 w-7" />
               <Text>Claim all rewards</Text>
             </Button>
           </VStack>
