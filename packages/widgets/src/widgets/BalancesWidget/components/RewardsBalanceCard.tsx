@@ -3,7 +3,8 @@ import {
   useRewardsChartInfo,
   TOKENS,
   usePrices,
-  useHighestRateFromChartData
+  useHighestRateFromChartData,
+  useRewardContractsToClaim
 } from '@jetstreamgg/sky-hooks';
 import { formatBigInt, formatDecimalPercentage, formatNumber } from '@jetstreamgg/sky-utils';
 import { Text } from '@widgets/shared/components/ui/Typography';
@@ -13,7 +14,7 @@ import { Skeleton } from '@widgets/components/ui/skeleton';
 import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
 import { formatUnits } from 'viem';
 import { CardProps } from './ModulesBalances';
-import { useChainId } from 'wagmi';
+import { useChainId, useAccount } from 'wagmi';
 import { isTestnetId } from '@jetstreamgg/sky-utils';
 
 export const RewardsBalanceCard = ({
@@ -22,6 +23,7 @@ export const RewardsBalanceCard = ({
   loading,
   totalUserRewardsSupplied
 }: CardProps) => {
+  const { address } = useAccount();
   const currentChainId = useChainId();
   const chainId = isTestnetId(currentChainId) ? 314310 : 1; //TODO: update once we add non-mainnet rewards
   const rewardContracts = useAvailableTokenRewardContracts(chainId);
@@ -50,6 +52,27 @@ export const RewardsBalanceCard = ({
 
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
 
+  // Fetch unclaimed rewards for all rewards contracts
+  const rewardContractAddresses = rewardContracts
+    .filter(c => c.supplyToken.symbol === TOKENS.usds.symbol)
+    .map(c => c.contractAddress) as `0x${string}`[];
+
+  const { data: unclaimedRewardsData, isLoading: unclaimedRewardsLoading } = useRewardContractsToClaim({
+    rewardContractAddresses,
+    userAddress: address,
+    chainId,
+    enabled: !!address
+  });
+
+  // Calculate total unclaimed rewards value in USD
+  const totalUnclaimedRewardsValue = unclaimedRewardsData
+    ? unclaimedRewardsData.reduce((total, reward) => {
+        const price = pricesData?.[reward.rewardSymbol]?.price || '0';
+        const rewardAmount = parseFloat(formatUnits(reward.claimBalance, 18));
+        return total + rewardAmount * parseFloat(price);
+      }, 0)
+    : 0;
+
   const chartDataLoading = usdsSkyChartDataLoading || usdsSpkChartDataLoading;
   const mostRecentRateNumber = highestRateData ? parseFloat(highestRateData.rate) : null;
 
@@ -67,22 +90,36 @@ export const RewardsBalanceCard = ({
         )
       }
       footer={
-        chartDataLoading ? (
-          <Skeleton className="h-4 w-20" />
-        ) : mostRecentRateNumber && mostRecentRateNumber > 0 ? (
-          <div className="flex w-fit items-center gap-1.5">
-            <Text variant="small" className="text-bullish leading-4">
-              {`Rates up to: ${mostRecentRateNumber ? formatDecimalPercentage(mostRecentRateNumber) : '0%'}`}
-            </Text>
-            <PopoverRateInfo
-              type="str"
-              onExternalLinkClicked={onExternalLinkClicked}
-              iconClassName="h-[13px] w-[13px]"
-            />
-          </div>
-        ) : (
-          <></>
-        )
+        <div className="flex flex-col gap-2">
+          {chartDataLoading ? (
+            <Skeleton className="h-4 w-20" />
+          ) : mostRecentRateNumber && mostRecentRateNumber > 0 ? (
+            <div className="flex w-fit items-center gap-1.5">
+              <Text variant="small" className="text-bullish leading-4">
+                {`Rates up to: ${mostRecentRateNumber ? formatDecimalPercentage(mostRecentRateNumber) : '0%'}`}
+              </Text>
+              <PopoverRateInfo
+                type="str"
+                onExternalLinkClicked={onExternalLinkClicked}
+                iconClassName="h-[13px] w-[13px]"
+              />
+            </div>
+          ) : (
+            <></>
+          )}
+          {unclaimedRewardsLoading ? (
+            <Skeleton className="h-4 w-20" />
+          ) : totalUnclaimedRewardsValue > 0 ? (
+            <div className="flex w-full items-center justify-between">
+              <Text variant="small" className="text-textSecondary">
+                {t`Unclaimed rewards`}
+              </Text>
+              <Text variant="small" className="text-textPrimary">
+                ${formatNumber(totalUnclaimedRewardsValue, { maxDecimals: 2 })}
+              </Text>
+            </div>
+          ) : null}
+        </div>
       }
       footerRightContent={
         loading || pricesLoading ? (
