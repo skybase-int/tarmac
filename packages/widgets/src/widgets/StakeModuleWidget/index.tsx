@@ -844,7 +844,6 @@ function StakeModuleWidgetWrapped({
                       currentAction={widgetState.action}
                       onClickTrigger={onClickTab}
                       tabSide={tabSide}
-                      batchEnabledAndSupported={!!batchEnabled && !!batchSupported}
                       onStakeUrnChange={onStakeUrnChange}
                       onWidgetStateChange={onWidgetStateChange}
                       needsAllowance={needsAllowance}

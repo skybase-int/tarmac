@@ -12,7 +12,6 @@ export const ManagePosition = ({
   currentAction,
   onClickTrigger,
   tabSide,
-  batchEnabledAndSupported,
   onStakeUrnChange,
   onWidgetStateChange,
   needsAllowance,
@@ -29,7 +28,6 @@ export const ManagePosition = ({
   currentAction: StakeAction;
   onClickTrigger: any;
   tabSide: 'left' | 'right';
-  batchEnabledAndSupported: boolean;
   onStakeUrnChange?: OnStakeUrnChange;
   onWidgetStateChange?: (params: WidgetStateChangeParams) => void;
   needsAllowance: boolean;
@@ -42,7 +40,6 @@ export const ManagePosition = ({
 }) => {
   return currentAction === StakeAction.OVERVIEW ? (
     <UrnsList
-      batchEnabledAndSupported={batchEnabledAndSupported}
       onStakeUrnChange={onStakeUrnChange}
       onExternalLinkClicked={onExternalLinkClicked}
       disclaimer={disclaimer}

@@ -212,7 +212,7 @@ export const StakeModuleWidgetProvider = ({ children }: { children: ReactNode })
     [urnSelectedRewardContract]
   );
 
-  const { data: activeUrnRewardClaims } = useRewardContractsToClaim({
+  const { data: activeUrnRewardClaims, isLoading: activeUrnRewardClaimsLoading } = useRewardContractsToClaim({
     rewardContractAddresses: rewardContractsForActiveUrn,
     userAddress: activeUrn?.urnAddress,
     chainId,
@@ -237,10 +237,16 @@ export const StakeModuleWidgetProvider = ({ children }: { children: ReactNode })
     const nextAmount = activeSkyReward?.claimBalance ?? 0n;
     setRestakeSkyAmount(nextAmount);
 
-    if (nextAmount === 0n && restakeSkyRewards) {
+    if (nextAmount === 0n && restakeSkyRewards && !activeUrnRewardClaimsLoading) {
       setRestakeSkyRewards(false);
     }
-  }, [activeSkyReward, restakeSkyRewards, setRestakeSkyAmount, setRestakeSkyRewards]);
+  }, [
+    activeSkyReward,
+    restakeSkyRewards,
+    setRestakeSkyAmount,
+    setRestakeSkyRewards,
+    activeUrnRewardClaimsLoading
+  ]);
 
   const generateAllCalldata = useCallback(
     (ownerAddress: `0x${string}`, urnIndex: bigint, referralCode: number = 0) => {
@@ -315,31 +321,16 @@ export const StakeModuleWidgetProvider = ({ children }: { children: ReactNode })
         : undefined;
 
       // Claim rewards
-      const claimRewardsCalldatas =
-        !restakeSkyRewards && rewardContractsToClaim
-          ? rewardContractsToClaim.map(rewardContractToClaim =>
-              getStakeGetRewardCalldata({
-                ownerAddress,
-                urnIndex,
-                rewardContractAddress: rewardContractToClaim,
-                toAddress: ownerAddress
-              })
-            )
-          : undefined;
-
-      const restakeClaimCalldata =
-        restakeSkyRewards &&
-        restakeSkyAmount > 0n &&
-        isSkyRewardPosition &&
-        urnSelectedRewardContract &&
-        urnSelectedRewardContract !== ZERO_ADDRESS
-          ? getStakeGetRewardCalldata({
+      const claimRewardsCalldatas = rewardContractsToClaim
+        ? rewardContractsToClaim.map(rewardContractToClaim =>
+            getStakeGetRewardCalldata({
               ownerAddress,
               urnIndex,
-              rewardContractAddress: urnSelectedRewardContract,
+              rewardContractAddress: rewardContractToClaim,
               toAddress: ownerAddress
             })
-          : undefined;
+          )
+        : undefined;
 
       // Order calldata based on the flow
       const sortedCalldata =
@@ -359,12 +350,11 @@ export const StakeModuleWidgetProvider = ({ children }: { children: ReactNode })
               repayCalldata,
               repayAllCalldata,
               freeSkyCalldata,
-              restakeClaimCalldata,
+              ...(claimRewardsCalldatas || []),
               selectRewardContractCalldata,
               selectDelegateCalldata,
               lockSkyCalldata,
-              borrowUsdsCalldata,
-              ...(claimRewardsCalldatas || [])
+              borrowUsdsCalldata
             ];
 
       // Filter out undefined calldata
