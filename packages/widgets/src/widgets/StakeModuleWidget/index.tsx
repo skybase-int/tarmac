@@ -641,6 +641,7 @@ function StakeModuleWidgetWrapped({
     setUsdsToWipe(0n);
     setUsdsToBorrow(0n);
     setTabIndex(0);
+    setIndexToClaim(undefined);
     setRewardContractsToClaim(undefined);
     setRestakeSkyRewards(false);
     setRestakeSkyAmount(0n);
@@ -721,6 +722,7 @@ function StakeModuleWidgetWrapped({
     setUsdsToWipe(0n);
     setUsdsToBorrow(0n);
     setTabIndex(0);
+    setIndexToClaim(undefined);
     setRewardContractsToClaim(undefined);
     setRestakeSkyRewards(false);
     setRestakeSkyAmount(0n);

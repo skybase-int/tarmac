@@ -52,6 +52,8 @@ export const useStakeTransactionCallbacks = ({
           notificationDescription: t`You approved ${formatBigInt(lockAmount)} SKY` /* TODO fix copy */
         });
         mutateStakeSkyAllowance();
+        setIndexToClaim(undefined);
+        setRewardContractsToClaim(undefined);
         setRestakeSkyRewards(false);
         setRestakeSkyAmount(0n);
         // TODO Mutate balances here
@@ -65,6 +67,8 @@ export const useStakeTransactionCallbacks = ({
           notificationDescription: t`We could not approve your token allowance.`
         });
         mutateStakeSkyAllowance();
+        setIndexToClaim(undefined);
+        setRewardContractsToClaim(undefined);
         setRestakeSkyRewards(false);
         setRestakeSkyAmount(0n);
       }
@@ -77,6 +81,8 @@ export const useStakeTransactionCallbacks = ({
       lockAmount,
       mutateStakeSkyAllowance,
       mutateStakeUsdsAllowance,
+      setIndexToClaim,
+      setRewardContractsToClaim,
       setRestakeSkyAmount,
       setRestakeSkyRewards
     ]
