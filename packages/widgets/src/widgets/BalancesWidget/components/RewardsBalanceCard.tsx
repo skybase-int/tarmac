@@ -18,11 +18,11 @@ import { Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
 import { InteractiveStatsCard } from '@widgets/shared/components/ui/card/InteractiveStatsCard';
 import { Skeleton } from '@widgets/components/ui/skeleton';
-import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
 import { formatUnits } from 'viem';
 import { CardProps } from './ModulesBalances';
 import { useChainId, useAccount } from 'wagmi';
-import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
+import { RateLineWithArrow } from '@widgets/shared/components/ui/RateLineWithArrow';
+import { UnclaimedRewards } from '@widgets/shared/components/ui/UnclaimedRewards';
 
 export const RewardsBalanceCard = ({
   url,
@@ -110,33 +110,15 @@ export const RewardsBalanceCard = ({
           {chartDataLoading ? (
             <Skeleton className="h-4 w-20" />
           ) : mostRecentRateNumber && mostRecentRateNumber > 0 ? (
-            <div className="flex w-fit items-center gap-1.5">
-              <Text variant="small" className="text-bullish leading-4">
-                {`Rates up to: ${mostRecentRateNumber ? formatDecimalPercentage(mostRecentRateNumber) : '0%'}`}
-              </Text>
-              <PopoverRateInfo
-                type="str"
-                onExternalLinkClicked={onExternalLinkClicked}
-                iconClassName="h-[13px] w-[13px]"
-              />
-            </div>
+            <RateLineWithArrow
+              rateText={`Rates up to: ${mostRecentRateNumber ? formatDecimalPercentage(mostRecentRateNumber) : '0%'}`}
+              popoverType="str"
+              onExternalLinkClicked={onExternalLinkClicked}
+            />
           ) : (
             <></>
           )}
-          {totalUnclaimedRewardsValue > 0 && (
-            <div className="flex items-center gap-1.5">
-              <Text variant="small" className="text-textSecondary">
-                {t`Unclaimed rewards`}
-              </Text>
-              <div className="flex items-center -space-x-0.5">
-                {uniqueRewardTokens.map((tokenSymbol, index) => (
-                  <div key={tokenSymbol} style={{ zIndex: uniqueRewardTokens.length - index }}>
-                    <TokenIcon token={{ symbol: tokenSymbol }} width={16} className="h-4 w-4" noChain />
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          {totalUnclaimedRewardsValue > 0 && <UnclaimedRewards uniqueRewardTokens={uniqueRewardTokens} />}
         </div>
       }
       footerRightContent={

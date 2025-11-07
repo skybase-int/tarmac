@@ -21,9 +21,9 @@ import { InteractiveStatsCard } from '@widgets/shared/components/ui/card/Interac
 import { Skeleton } from '@widgets/components/ui/skeleton';
 import { formatUnits } from 'viem';
 import { CardProps } from './ModulesBalances';
-import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
 import { useChainId, useAccount } from 'wagmi';
-import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
+import { RateLineWithArrow } from '@widgets/shared/components/ui/RateLineWithArrow';
+import { UnclaimedRewards } from '@widgets/shared/components/ui/UnclaimedRewards';
 
 export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkClicked }: CardProps) => {
   const currentChainId = useChainId();
@@ -88,30 +88,12 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
       }
       footer={
         <div className="flex flex-col gap-1">
-          <div className="z-[99999] flex w-fit items-center gap-1.5">
-            <Text variant="small" className="text-bullish leading-4">
-              {`Rates up to: ${formatDecimalPercentage(parseFloat(highestRateData?.rate || '0'))}`}
-            </Text>
-            <PopoverRateInfo
-              type="srr"
-              onExternalLinkClicked={onExternalLinkClicked}
-              iconClassName="h-[13px] w-[13px]"
-            />
-          </div>
-          {totalUnclaimedRewardsValue > 0 && (
-            <div className="flex items-center gap-1.5">
-              <Text variant="small" className="text-textSecondary">
-                {t`Unclaimed rewards`}
-              </Text>
-              <div className="flex items-center -space-x-0.5">
-                {uniqueRewardTokens.map((tokenSymbol, index) => (
-                  <div key={tokenSymbol} style={{ zIndex: uniqueRewardTokens.length - index }}>
-                    <TokenIcon token={{ symbol: tokenSymbol }} width={16} className="h-4 w-4" noChain />
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          <RateLineWithArrow
+            rateText={`Rates up to: ${formatDecimalPercentage(parseFloat(highestRateData?.rate || '0'))}`}
+            popoverType="srr"
+            onExternalLinkClicked={onExternalLinkClicked}
+          />
+          {totalUnclaimedRewardsValue > 0 && <UnclaimedRewards uniqueRewardTokens={uniqueRewardTokens} />}
         </div>
       }
       footerRightContent={

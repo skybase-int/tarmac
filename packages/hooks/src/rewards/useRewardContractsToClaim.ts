@@ -20,7 +20,7 @@ export type UseRewardContractsToClaimResponse = ReadHook & {
  */
 export const useRewardContractsToClaim = ({
   rewardContractAddresses,
-  addresses,
+  addresses, // single address or array of addresses
   chainId,
   enabled = true
 }: {
@@ -29,7 +29,6 @@ export const useRewardContractsToClaim = ({
   chainId: number;
   enabled?: boolean;
 }): UseRewardContractsToClaimResponse => {
-  // Convert single address to array for consistent handling
   const addressArray = Array.isArray(addresses) ? addresses : addresses ? [addresses] : [];
   // Fetch earned balances and reward tokens for all address/contract combinations
   const {
