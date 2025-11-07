@@ -28,7 +28,7 @@ export function ClaimRewardsButton({
   if (!rewardsBalance || !rewardContractTokens) return null;
 
   return (
-    <div className="flex h-14 items-center justify-between rounded-2xl border px-5 py-4">
+    <div className="bg-radial-(--gradient-position) flex h-14 items-center justify-between rounded-2xl from-[#403570] to-[#4B337B] px-5 py-4">
       <div className="flex items-center gap-2">
         <TokenIcon token={{ symbol: rewardContractTokens.rewardsToken.symbol }} className="h-7 w-7" />
         <Text variant="medium">
@@ -40,7 +40,7 @@ export function ClaimRewardsButton({
         <Button
           variant="chip"
           onClick={() => handleSelectOption({ contracts: [rewardContract] })}
-          className="h-fit px-2 py-1.5"
+          className="bg-brandLight/50 h-fit px-2 py-1.5"
         >
           <Text variant="medium" className="leading-4">
             Claim

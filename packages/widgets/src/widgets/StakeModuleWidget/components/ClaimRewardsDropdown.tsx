@@ -142,7 +142,7 @@ export function ClaimRewardsDropdown({
     );
 
   return (
-    <div className="bg-radial-(--gradient-position) flex h-14 items-center justify-between rounded-2xl from-[#F2A4FF]/0 to-[#6D28FF]/70 px-5 py-4">
+    <div className="bg-radial-(--gradient-position) flex h-14 items-center justify-between rounded-2xl from-[#403570] to-[#4B337B] px-5 py-4">
       <div className="flex items-center">
         <Text variant="medium" className="text-[#f2dcfc]">
           Select reward
@@ -250,7 +250,7 @@ export function ClaimRewardsDropdown({
                 : undefined
             })
           }
-          className="h-fit px-2 py-1.5"
+          className="bg-brandLight/50 h-fit px-2 py-1.5"
         >
           <Text variant="medium" className="leading-4">
             Claim all
