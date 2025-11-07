@@ -93,7 +93,7 @@ const LineItem = ({
         <Text className={'text-textSecondary flex items-center text-sm'}>
           {label}
           {label === 'Rate' && (
-            <span className="mt-1 ml-2">
+            <span className="ml-2 mt-1">
               <PopoverRateInfo type="ssr" />
             </span>
           )}
@@ -147,7 +147,8 @@ export const PositionSummary = ({
   batchEnabled,
   setBatchEnabled,
   isBatchTransaction,
-  legalBatchTxUrl
+  legalBatchTxUrl,
+  onNoChangesDetected
 }: {
   needsAllowance: boolean;
   allowanceToken?: Token;
@@ -155,6 +156,7 @@ export const PositionSummary = ({
   setBatchEnabled?: (enabled: boolean) => void;
   isBatchTransaction: boolean;
   legalBatchTxUrl?: string;
+  onNoChangesDetected?: (hasNoChanges: boolean) => void;
 }) => {
   const ilkName = getIlkName(2);
   const { i18n } = useLingui();
@@ -478,7 +480,7 @@ export const PositionSummary = ({
           isUpdatedValue(existingRewardContract?.toLowerCase(), selectedRewardContract?.toLowerCase()) ? (
             [
               isRewardContractTokensLoading ? (
-                <Skeleton key="loading-existing-rewards" className="h-5 w-30" />
+                <Skeleton key="loading-existing-rewards" className="w-30 h-5" />
               ) : existingRewardContractTokens ? (
                 <TokenIcon
                   key="existing-rewards-token"
@@ -487,7 +489,7 @@ export const PositionSummary = ({
                 />
               ) : null,
               isSelectedContractTokensLoading ? (
-                <Skeleton key="loading-selected-rewards" className="h-5 w-30" />
+                <Skeleton key="loading-selected-rewards" className="w-30 h-5" />
               ) : selectedRewardContractTokens ? (
                 <TokenIcon
                   key="selected-rewards-icon"
@@ -497,7 +499,7 @@ export const PositionSummary = ({
               ) : null
             ]
           ) : isRewardContractTokensLoading ? (
-            <Skeleton className="h-5 w-30" />
+            <Skeleton className="w-30 h-5" />
           ) : rewardsTokensToDisplay ? (
             <TokenIcon token={rewardsTokensToDisplay?.rewardsToken} className="h-5 w-5" />
           ) : null
@@ -537,7 +539,7 @@ export const PositionSummary = ({
           normalizeDelegate(existingSelectedVoteDelegate) !== normalizeDelegate(selectedDelegate) ? (
             [
               loadingExistingDelegateOwner ? (
-                <Skeleton key="loading-existing-delegate" className="h-5 w-30" />
+                <Skeleton key="loading-existing-delegate" className="w-30 h-5" />
               ) : existingDelegateOwner ? (
                 <JazziconComponent
                   key="existing-delegate-icon"
@@ -546,7 +548,7 @@ export const PositionSummary = ({
                 />
               ) : null,
               loadingSelectedDelegateOwner ? (
-                <Skeleton key="loading-selected-delegate" className="h-5 w-30" />
+                <Skeleton key="loading-selected-delegate" className="w-30 h-5" />
               ) : selectedDelegateOwner ? (
                 <JazziconComponent
                   key="selected-delegate-icon"
@@ -556,7 +558,7 @@ export const PositionSummary = ({
               ) : null
             ]
           ) : isDelegateLoading ? (
-            <Skeleton className="h-5 w-30" />
+            <Skeleton className="w-30 h-5" />
           ) : delegateOwnerToDisplay ? (
             <JazziconComponent address={delegateOwnerToDisplay} diameter={20} />
           ) : null
@@ -589,6 +591,12 @@ export const PositionSummary = ({
       ? lineItems.filter(item => !item.hideIfNoDebt)
       : lineItems;
   const lineItemsUpdated = lineItemsFiltered.filter(item => item.updated);
+
+  // Notify parent component if no changes
+  useEffect(() => {
+    const hasNoChanges = hasPositions && lineItemsUpdated.length === 0 && !rewardContractsToClaim;
+    onNoChangesDetected?.(hasNoChanges);
+  }, [hasPositions, lineItemsUpdated.length, rewardContractsToClaim, onNoChangesDetected]);
 
   return (
     <TransactionReview
@@ -702,7 +710,7 @@ export const PositionSummary = ({
                           />
                           <label
                             htmlFor={checkboxId}
-                            className="text-textSecondary cursor-pointer text-sm select-none"
+                            className="text-textSecondary cursor-pointer select-none text-sm"
                           >
                             {`Claim ${rewardSymbolUpper}`}
                           </label>

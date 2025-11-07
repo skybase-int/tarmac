@@ -247,6 +247,9 @@ function StakeModuleWidgetWrapped({
 
   const isDelegateSkippable = selectedDelegate?.toLowerCase() === activeUrnVoteDelegate?.toLowerCase();
 
+  // Track if there are no changes for button text
+  const [hasNoChanges, setHasNoChanges] = useState(false);
+
   // Update button state according to action and tx
   // Ref: https://lingui.dev/tutorials/react-patterns#memoization-pitfall
   useEffect(() => {
@@ -256,7 +259,9 @@ function StakeModuleWidgetWrapped({
       } else if (txStatus === TxStatus.ERROR) {
         setButtonText(t`Retry`);
       } else if (currentStep === StakeStep.SUMMARY) {
-        if (restakeSkyRewards && isSkyRewardPosition) {
+        if (hasNoChanges && widgetState.flow === StakeFlow.MANAGE) {
+          setButtonText(t`No changes`);
+        } else if (restakeSkyRewards && isSkyRewardPosition) {
           if (shouldUseBatch) {
             setButtonText(t`Confirm claim & restake`);
           } else if (needsAllowance) {
@@ -301,6 +306,7 @@ function StakeModuleWidgetWrapped({
     needsAllowance,
     isDelegateSkippable,
     shouldUseBatch,
+    hasNoChanges,
     restakeSkyRewards,
     isSkyRewardPosition
   ]);
@@ -314,13 +320,14 @@ function StakeModuleWidgetWrapped({
       !batchMulticall.prepared;
 
     setIsLoading(
-      isConnecting ||
+      (isConnecting ||
         txStatus === TxStatus.LOADING ||
         txStatus === TxStatus.INITIALIZED ||
         batchMulticall.isLoading ||
         isLoadingSkyAllowance ||
         isLoadingUsdsAllowance ||
-        isPreparingBatch
+        isPreparingBatch) &&
+        !(hasNoChanges && widgetState.flow === StakeFlow.MANAGE)
     );
   }, [
     isConnecting,
@@ -330,7 +337,9 @@ function StakeModuleWidgetWrapped({
     isLoadingUsdsAllowance,
     currentStep,
     widgetState.action,
-    batchMulticall.prepared
+    batchMulticall.prepared,
+    hasNoChanges,
+    widgetState.flow
   ]);
 
   const batchMulticallDisabled =
@@ -369,7 +378,8 @@ function StakeModuleWidgetWrapped({
         (currentStep === StakeStep.DELEGATE && !isSelectDelegateCompleted) ||
         (currentStep === StakeStep.SUMMARY &&
           widgetState.action === StakeAction.MULTICALL &&
-          batchMulticallDisabled)
+          batchMulticallDisabled) ||
+        (hasNoChanges && widgetState.flow === StakeFlow.MANAGE)
     );
   }, [
     currentStep,
@@ -382,6 +392,7 @@ function StakeModuleWidgetWrapped({
     isBorrowCompleted,
     shouldOpenFromWidgetButton,
     batchMulticallDisabled,
+    hasNoChanges,
     txStatus
   ]);
 
@@ -857,6 +868,7 @@ function StakeModuleWidgetWrapped({
                       isBatchTransaction={shouldUseBatch}
                       legalBatchTxUrl={legalBatchTxUrl}
                       disclaimer={disclaimer}
+                      onNoChangesDetected={setHasNoChanges}
                     />
                   )}
                   {widgetState.flow === StakeFlow.OPEN && (
