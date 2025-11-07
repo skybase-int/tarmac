@@ -229,10 +229,6 @@ export const PositionSummary = ({
     chainId
   });
 
-  const selectedRewardContractRewards = claimableRewardContracts?.find(
-    ({ contractAddress }) => contractAddress.toLowerCase() === existingRewardContract?.toLowerCase()
-  );
-
   const claimableSkyReward = useMemo(
     () =>
       claimableRewardContracts?.find(
@@ -650,90 +646,80 @@ export const PositionSummary = ({
               })}
             </motion.div>
           )}
-          {hasPositions &&
-            isSkyRewardPosition &&
-            selectedRewardContractRewards &&
-            selectedRewardContractRewards.claimBalance > 0n && (
-              <motion.div
-                key="rewards-actions"
-                variants={positionAnimations}
-                className="border-selectActive mt-3 border-t pt-7"
-              >
-                <VStack gap={3}>
-                  <Text variant="medium" className="font-medium">
-                    Rewards actions
-                  </Text>
-                  {hasUnclaimedSkyRewards && (
-                    <div className="flex w-full items-start justify-between gap-4">
-                      <div className="flex flex-col">
-                        <Text className="text-sm font-medium" id="restake-sky-label">
-                          Claim &amp; Restake SKY
+          {hasPositions && sortedClaimableRewardContracts?.length && (
+            <motion.div
+              key="rewards-actions"
+              variants={positionAnimations}
+              className="border-selectActive mt-3 border-t pt-7"
+            >
+              <VStack gap={3}>
+                <Text variant="medium" className="font-medium">
+                  Rewards actions
+                </Text>
+                {hasUnclaimedSkyRewards && (
+                  <div className="flex w-full items-start justify-between gap-4">
+                    <div className="flex flex-col">
+                      <Text className="text-sm font-medium" id="restake-sky-label">
+                        Claim &amp; Restake SKY
+                      </Text>
+                      <Text className="text-textSecondary mt-1 text-xs" id="restake-sky-description">
+                        Use your accrued SKY rewards to increase this position&apos;s staked SKY balance
+                        immediately.
+                      </Text>
+                      {batchSupported === false && (
+                        <Text className="text-textSecondary mt-2 text-xs">
+                          Your wallet will confirm claim and lock separately.
                         </Text>
-                        <Text className="text-textSecondary mt-1 text-xs" id="restake-sky-description">
-                          Use your accrued SKY rewards to increase this position&apos;s staked SKY balance
-                          immediately.
-                        </Text>
-                        {batchSupported === false && (
-                          <Text className="text-textSecondary mt-2 text-xs">
-                            Your wallet will confirm claim and lock separately.
-                          </Text>
-                        )}
-                      </div>
-                      <Checkbox
-                        aria-labelledby="restake-sky-label restake-sky-description"
-                        checked={restakeSkyRewards}
-                        disabled={restakeToggleDisabled}
-                        onCheckedChange={checked => handleRestakeToggle(checked === true)}
-                      />
+                      )}
                     </div>
-                  )}
-                  <VStack gap={2} className="w-full">
-                    {sortedClaimableRewardContracts?.map(
-                      ({ contractAddress, claimBalance, rewardSymbol }) => {
-                        const rewardSymbolUpper = rewardSymbol?.toUpperCase?.() ?? '';
-                        const rewardToken = rewardSymbolUpper
-                          ? TOKENS_BY_SYMBOL[rewardSymbolUpper]
-                          : undefined;
-                        const normalizedAddress = contractAddress.toLowerCase();
-                        const isSkyRewardRow = rewardSymbolUpper === 'SKY';
-                        const isChecked =
-                          rewardContractsSelected.has(normalizedAddress) ||
-                          (isSkyRewardRow && restakeSkyRewards);
-                        const checkboxDisabled = isSkyRewardRow && restakeSkyRewards;
-                        const checkboxId = `claim-${contractAddress}`;
+                    <Checkbox
+                      aria-labelledby="restake-sky-label restake-sky-description"
+                      checked={restakeSkyRewards}
+                      disabled={restakeToggleDisabled}
+                      onCheckedChange={checked => handleRestakeToggle(checked === true)}
+                    />
+                  </div>
+                )}
+                <VStack gap={2} className="w-full">
+                  {sortedClaimableRewardContracts?.map(({ contractAddress, claimBalance, rewardSymbol }) => {
+                    const rewardSymbolUpper = rewardSymbol?.toUpperCase?.() ?? '';
+                    const rewardToken = rewardSymbolUpper ? TOKENS_BY_SYMBOL[rewardSymbolUpper] : undefined;
+                    const normalizedAddress = contractAddress.toLowerCase();
+                    const isSkyRewardRow = rewardSymbolUpper === 'SKY';
+                    const isChecked =
+                      rewardContractsSelected.has(normalizedAddress) || (isSkyRewardRow && restakeSkyRewards);
+                    const checkboxDisabled = isSkyRewardRow && restakeSkyRewards;
+                    const checkboxId = `claim-${contractAddress}`;
 
-                        return (
-                          <div key={contractAddress} className="flex items-center justify-between gap-4">
-                            <div className="flex items-center gap-2">
-                              <Checkbox
-                                id={checkboxId}
-                                checked={isChecked}
-                                disabled={checkboxDisabled}
-                                onCheckedChange={checked =>
-                                  handleRewardCheckboxChange(contractAddress, checked)
-                                }
-                              />
-                              <label
-                                htmlFor={checkboxId}
-                                className="text-textSecondary cursor-pointer text-sm select-none"
-                              >
-                                {`Claim ${rewardSymbolUpper}`}
-                              </label>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              {rewardToken && <TokenIcon token={rewardToken} className="h-5 w-5" />}
-                              <Text className="text-sm font-medium">
-                                {formatBigInt(claimBalance)} {rewardSymbolUpper}
-                              </Text>
-                            </div>
-                          </div>
-                        );
-                      }
-                    )}
-                  </VStack>
+                    return (
+                      <div key={contractAddress} className="flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-2">
+                          <Checkbox
+                            id={checkboxId}
+                            checked={isChecked}
+                            disabled={checkboxDisabled}
+                            onCheckedChange={checked => handleRewardCheckboxChange(contractAddress, checked)}
+                          />
+                          <label
+                            htmlFor={checkboxId}
+                            className="text-textSecondary cursor-pointer text-sm select-none"
+                          >
+                            {`Claim ${rewardSymbolUpper}`}
+                          </label>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {rewardToken && <TokenIcon token={rewardToken} className="h-5 w-5" />}
+                          <Text className="text-sm font-medium">
+                            {formatBigInt(claimBalance)} {rewardSymbolUpper}
+                          </Text>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </VStack>
-              </motion.div>
-            )}
+              </VStack>
+            </motion.div>
+          )}
         </MotionVStack>
       }
     />
