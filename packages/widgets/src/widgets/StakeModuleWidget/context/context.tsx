@@ -190,13 +190,16 @@ export const StakeModuleWidgetProvider = ({ children }: { children: ReactNode })
 
   const { widgetState } = useContext(WidgetContext);
 
-  const setActiveUrn = (
-    urn: { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined } | undefined,
-    onStakeUrnChange: OnStakeUrnChange
-  ) => {
-    setActiveUrnState(urn);
-    onStakeUrnChange?.(urn);
-  };
+  const setActiveUrn = useCallback(
+    (
+      urn: { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined } | undefined,
+      onStakeUrnChange: OnStakeUrnChange
+    ) => {
+      setActiveUrnState(urn);
+      onStakeUrnChange?.(urn);
+    },
+    []
+  );
 
   const { data: urnSelectedRewardContract } = useStakeUrnSelectedRewardContract({
     urn: activeUrn?.urnAddress || ZERO_ADDRESS
