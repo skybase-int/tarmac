@@ -1,11 +1,12 @@
 import { Text } from './Typography';
 import { PopoverRateInfo } from './PopoverRateInfo';
 import { ArrowRight } from 'lucide-react';
+import React from 'react';
 
 interface RateLineWithArrowProps {
   rateText: string;
   popoverType: 'ssr' | 'srr' | 'str' | 'stusds';
-  onExternalLinkClicked?: () => void;
+  onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   showArrow?: boolean;
 }
 
