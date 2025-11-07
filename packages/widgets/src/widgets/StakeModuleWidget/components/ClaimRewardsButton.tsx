@@ -40,7 +40,7 @@ export function ClaimRewardsButton({
         <Button
           variant="chip"
           onClick={() => handleSelectOption({ contracts: [rewardContract] })}
-          className="bg-brandLight/50 h-fit px-2 py-1.5"
+          className="h-fit px-2 py-1.5"
         >
           <Text variant="medium" className="leading-4">
             Claim
