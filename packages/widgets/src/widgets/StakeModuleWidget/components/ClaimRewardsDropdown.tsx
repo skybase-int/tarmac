@@ -142,7 +142,7 @@ export function ClaimRewardsDropdown({
     );
 
   return (
-    <div className="bg-radial-(--gradient-position) flex h-14 items-center justify-between rounded-2xl from-[#403570] to-[#4B337B] px-5 py-4">
+    <div className="flex h-14 items-center justify-between rounded-2xl bg-linear-to-r from-[#403570] to-[#4B337B] px-5 py-4">
       <div className="flex items-center">
         <Text variant="medium" className="text-[#f2dcfc]">
           Select reward
@@ -161,10 +161,8 @@ export function ClaimRewardsDropdown({
             align="end"
             sideOffset={8}
           >
-            <VStack className="space-y-1">
-              <div className="px-3">
-                <Text className="mb-1 text-sm">Accrued Staking rewards</Text>
-              </div>
+            <Text className="mb-1.5 px-2 text-sm">Accrued Staking rewards</Text>
+            <VStack className="space-y-2.5">
               {hasSkyReward && hasMultipleRewards && skyContractAddress && (
                 <Button
                   variant={null}
@@ -177,8 +175,8 @@ export function ClaimRewardsDropdown({
                     })
                   }
                   className={cn(
-                    'text-text h-12.5 flex w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm transition-colors',
-                    'bg-radial-(--gradient-position) from-card to-card hover:from-primary-start/100 hover:to-primary-end/100'
+                    'text-text flex h-12.5 w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm transition-colors',
+                    'from-card to-card hover:from-primary-start hover:to-primary-end bg-radial-(--gradient-position)'
                   )}
                 >
                   <RewardWithTokenIcon token={{ symbol: skySymbol }} className="h-7 w-7" />
@@ -195,8 +193,8 @@ export function ClaimRewardsDropdown({
                     })
                   }
                   className={cn(
-                    'text-text h-12.5 flex w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm transition-colors',
-                    'bg-radial-(--gradient-position) from-card to-card hover:from-primary-start/100 hover:to-primary-end/100'
+                    'text-text flex h-12.5 w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm transition-colors',
+                    'from-card to-card hover:from-primary-start hover:to-primary-end bg-radial-(--gradient-position)'
                   )}
                 >
                   <TokenIcon token={{ symbol: skySymbol }} className="h-7 w-7" />
@@ -211,8 +209,8 @@ export function ClaimRewardsDropdown({
                   variant={null}
                   onClick={() => handleSelectOption({ contracts: [contractAddress] })}
                   className={cn(
-                    'text-text h-12.5 flex w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm transition-colors',
-                    'bg-radial-(--gradient-position) from-card to-card hover:from-primary-start/100 hover:to-primary-end/100'
+                    'text-text flex h-12.5 w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm transition-colors',
+                    'from-card to-card hover:from-primary-start hover:to-primary-end bg-radial-(--gradient-position)'
                   )}
                 >
                   <TokenIcon token={{ symbol: rewardSymbol }} className="h-7 w-7" />
@@ -229,8 +227,8 @@ export function ClaimRewardsDropdown({
                   })
                 }
                 className={cn(
-                  'text-text h-12.5 flex w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm transition-colors',
-                  'bg-radial-(--gradient-position) from-card to-card hover:from-primary-start/100 hover:to-primary-end/100'
+                  'text-text flex h-12.5 w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm transition-colors',
+                  'from-card to-card hover:from-primary-start hover:to-primary-end bg-radial-(--gradient-position)'
                 )}
               >
                 <Rewards className="h-7 w-7" />
