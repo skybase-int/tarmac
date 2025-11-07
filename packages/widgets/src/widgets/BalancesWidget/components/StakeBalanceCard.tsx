@@ -88,7 +88,7 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
         ) : (
           <div className="flex flex-col items-end gap-1">
             {stakeBalance !== undefined && !!pricesData?.SKY && (
-              <Text variant="small" className="text-textSecondary">
+              <Text variant="small" className="text-textSecondary leading-4">
                 $
                 {formatNumber(totalStakedValue, {
                   maxDecimals: 2
@@ -96,7 +96,7 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
               </Text>
             )}
             {totalUnclaimedRewardsValue > 0 && (
-              <Text variant="small" className="text-textPrimary">
+              <Text variant="small" className="text-textPrimary leading-4">
                 ${formatNumber(totalUnclaimedRewardsValue, { maxDecimals: 2 })}
               </Text>
             )}

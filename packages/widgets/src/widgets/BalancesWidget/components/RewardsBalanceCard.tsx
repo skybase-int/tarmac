@@ -115,7 +115,7 @@ export const RewardsBalanceCard = ({
         ) : (
           <div className="flex flex-col items-end gap-1">
             {totalUserRewardsSupplied !== undefined && !!pricesData?.USDS && (
-              <Text variant="small" className="text-textSecondary">
+              <Text variant="small" className="text-textSecondary leading-4">
                 $
                 {formatNumber(
                   parseFloat(formatUnits(totalUserRewardsSupplied, 18)) * parseFloat(pricesData.USDS.price),
@@ -126,7 +126,7 @@ export const RewardsBalanceCard = ({
               </Text>
             )}
             {totalUnclaimedRewardsValue > 0 && (
-              <Text variant="small" className="text-textPrimary">
+              <Text variant="small" className="text-textPrimary leading-4">
                 ${formatNumber(totalUnclaimedRewardsValue, { maxDecimals: 2 })}
               </Text>
             )}
