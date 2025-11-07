@@ -3,6 +3,8 @@ import { Text } from '@widgets/shared/components/ui/Typography';
 import { useRewardContractTokens, useRewardsRewardsBalance } from '@jetstreamgg/sky-hooks';
 import { formatBigInt } from '@jetstreamgg/sky-utils';
 import { useChainId } from 'wagmi';
+import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
+import { Rewards } from '@widgets/shared/components/icons/Rewards';
 
 export function ClaimRewardsButton({
   rewardContract,
@@ -26,13 +28,26 @@ export function ClaimRewardsButton({
   if (!rewardsBalance || !rewardContractTokens) return null;
 
   return (
-    <Button
-      variant="secondary"
-      onClick={() => handleSelectOption({ contracts: [rewardContract] })}
-    >
-      <Text>
-        Claim {formatBigInt(rewardsBalance)} {rewardContractTokens.rewardsToken.symbol}
-      </Text>
-    </Button>
+    <div className="bg-radial-(--gradient-position) flex h-14 items-center justify-between rounded-2xl from-[#403570] to-[#4B337B] px-5 py-4">
+      <div className="flex items-center gap-2">
+        <TokenIcon token={{ symbol: rewardContractTokens.rewardsToken.symbol }} className="h-7 w-7" />
+        <Text variant="medium">
+          {formatBigInt(rewardsBalance)} {rewardContractTokens.rewardsToken.symbol}{' '}
+          <span className="text-[#f2dcfc]">Rewards</span>
+        </Text>
+      </div>
+      <div className="flex items-center gap-2">
+        <Button
+          variant="chip"
+          onClick={() => handleSelectOption({ contracts: [rewardContract] })}
+          className="h-fit px-2 py-1.5"
+        >
+          <Text variant="medium" className="leading-4">
+            Claim
+          </Text>
+        </Button>
+        <Rewards className="h-9 w-9" />
+      </div>
+    </div>
   );
 }

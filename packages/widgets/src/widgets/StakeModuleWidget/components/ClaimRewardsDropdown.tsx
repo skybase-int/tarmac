@@ -14,6 +14,9 @@ import { cn } from '@widgets/lib/utils';
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { ClaimRewardsButton } from './ClaimRewardsButton';
 import { OnStakeUrnChange } from '..';
+import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
+import { Rewards } from '@widgets/shared/components/icons/Rewards';
+import { RewardWithTokenIcon } from './RewardWithTokenIcon';
 
 export function ClaimRewardsDropdown({
   stakeRewardContracts,
@@ -139,97 +142,122 @@ export function ClaimRewardsDropdown({
     );
 
   return (
-    <div className="flex">
-      <div className="border-textSecondary flex h-10 flex-1 items-center justify-center rounded-[12px] rounded-r-none border border-r-0 px-4 py-2">
-        <Text className="text-text">Select reward to claim</Text>
-      </div>
-
-      <Popover open={isOpen} onOpenChange={setIsOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="secondary"
-            disabled={isDisabled}
-            className="border-l-textSecondary rounded-l-none border-l px-3"
+    <div className="bg-radial-(--gradient-position) flex h-14 items-center justify-between rounded-2xl from-[#403570] to-[#4B337B] px-5 py-4">
+      <div className="flex items-center">
+        <Text variant="medium" className="text-[#f2dcfc]">
+          Select reward
+        </Text>
+        <Popover open={isOpen} onOpenChange={setIsOpen}>
+          <PopoverTrigger asChild>
+            <Button variant="ghost" disabled={isDisabled} className="h-fit px-2">
+              <Text variant="medium" className="text-text">
+                to claim
+              </Text>
+              <ChevronDown className={cn('h-4 w-4 transition-transform', isOpen && 'rotate-180')} />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent
+            className="bg-container w-auto rounded-xl border-0 p-2 backdrop-blur-[50px]"
+            align="end"
+            sideOffset={8}
           >
-            <ChevronDown className={cn('h-4 w-4 transition-transform', isOpen && 'rotate-180')} />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent
-          className="bg-container w-auto rounded-xl border-0 p-2 backdrop-blur-[50px]"
-          align="end"
-          sideOffset={8}
-        >
-          <VStack className="space-y-1">
-            {hasSkyReward && hasMultipleRewards && skyContractAddress && (
+            <VStack className="space-y-1">
+              <div className="px-3">
+                <Text className="mb-1 text-sm">Accrued Staking rewards</Text>
+              </div>
+              {hasSkyReward && hasMultipleRewards && skyContractAddress && (
+                <Button
+                  variant={null}
+                  onClick={() =>
+                    handleSelectOption({
+                      contracts: claimableRewardContractAddresses.length
+                        ? claimableRewardContractAddresses
+                        : undefined,
+                      restakeSky: true
+                    })
+                  }
+                  className={cn(
+                    'text-text h-12.5 flex w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm transition-colors',
+                    'bg-radial-(--gradient-position) from-card to-card hover:from-primary-start/100 hover:to-primary-end/100'
+                  )}
+                >
+                  <RewardWithTokenIcon token={{ symbol: skySymbol }} className="h-7 w-7" />
+                  <Text>Claim all &amp; Restake {skySymbol}</Text>
+                </Button>
+              )}
+              {hasSkyReward && hasMultipleRewards && skyContractAddress && (
+                <Button
+                  variant={null}
+                  onClick={() =>
+                    handleSelectOption({
+                      contracts: [skyContractAddress],
+                      restakeSky: true
+                    })
+                  }
+                  className={cn(
+                    'text-text h-12.5 flex w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm transition-colors',
+                    'bg-radial-(--gradient-position) from-card to-card hover:from-primary-start/100 hover:to-primary-end/100'
+                  )}
+                >
+                  <TokenIcon token={{ symbol: skySymbol }} className="h-7 w-7" />
+                  <Text>
+                    Claim {formatBigInt(skyReward?.claimBalance ?? 0n)} {skySymbol} &amp; Restake
+                  </Text>
+                </Button>
+              )}
+              {sortedClaimableRewardContracts.map(({ contractAddress, claimBalance, rewardSymbol }) => (
+                <Button
+                  key={contractAddress}
+                  variant={null}
+                  onClick={() => handleSelectOption({ contracts: [contractAddress] })}
+                  className={cn(
+                    'text-text h-12.5 flex w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm transition-colors',
+                    'bg-radial-(--gradient-position) from-card to-card hover:from-primary-start/100 hover:to-primary-end/100'
+                  )}
+                >
+                  <TokenIcon token={{ symbol: rewardSymbol }} className="h-7 w-7" />
+                  <Text>{`Claim only ${formatBigInt(claimBalance)} ${rewardSymbol}`}</Text>
+                </Button>
+              ))}
               <Button
                 variant={null}
                 onClick={() =>
                   handleSelectOption({
                     contracts: claimableRewardContractAddresses.length
                       ? claimableRewardContractAddresses
-                      : undefined,
-                    restakeSky: true
+                      : undefined
                   })
                 }
                 className={cn(
-                  'text-text flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
-                  'bg-transparent hover:bg-[#FFFFFF0D]'
+                  'text-text h-12.5 flex w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm transition-colors',
+                  'bg-radial-(--gradient-position) from-card to-card hover:from-primary-start/100 hover:to-primary-end/100'
                 )}
               >
-                <Text>Claim all &amp; Restake {skySymbol}</Text>
+                <Rewards className="h-7 w-7" />
+                <Text>Claim all rewards</Text>
               </Button>
-            )}
-            {hasSkyReward && hasMultipleRewards && skyContractAddress && (
-              <Button
-                variant={null}
-                onClick={() =>
-                  handleSelectOption({
-                    contracts: [skyContractAddress],
-                    restakeSky: true
-                  })
-                }
-                className={cn(
-                  'text-text flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
-                  'bg-transparent hover:bg-[#FFFFFF0D]'
-                )}
-              >
-                <Text>
-                  Claim {formatBigInt(skyReward?.claimBalance ?? 0n)} {skySymbol} &amp; Restake
-                </Text>
-              </Button>
-            )}
-            {sortedClaimableRewardContracts.map(({ contractAddress, claimBalance, rewardSymbol }) => (
-              <Button
-                key={contractAddress}
-                variant={null}
-                onClick={() => handleSelectOption({ contracts: [contractAddress] })}
-                className={cn(
-                  'text-text flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
-                  'bg-transparent hover:bg-[#FFFFFF0D]'
-                )}
-              >
-                <Text>{`Claim only ${formatBigInt(claimBalance)} ${rewardSymbol}`}</Text>
-              </Button>
-            ))}
-            <Button
-              variant={null}
-              onClick={() =>
-                handleSelectOption({
-                  contracts: claimableRewardContractAddresses.length
-                    ? claimableRewardContractAddresses
-                    : undefined
-                })
-              }
-              className={cn(
-                'text-text flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
-                'bg-transparent hover:bg-[#FFFFFF0D]'
-              )}
-            >
-              <Text>Claim all rewards</Text>
-            </Button>
-          </VStack>
-        </PopoverContent>
-      </Popover>
+            </VStack>
+          </PopoverContent>
+        </Popover>
+      </div>
+      <div className="flex items-center gap-2">
+        <Button
+          variant="chip"
+          onClick={() =>
+            handleSelectOption({
+              contracts: claimableRewardContractAddresses.length
+                ? claimableRewardContractAddresses
+                : undefined
+            })
+          }
+          className="h-fit px-2 py-1.5"
+        >
+          <Text variant="medium" className="leading-4">
+            Claim all
+          </Text>
+        </Button>
+        <Rewards className="h-9 w-9" />
+      </div>
     </div>
   );
 }
