@@ -177,8 +177,8 @@ export function ClaimRewardsDropdown({
                     })
                   }
                   className={cn(
-                    'text-text flex h-12.5 w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
-                    'bg-transparent hover:bg-[#FFFFFF0D]'
+                    'text-text flex h-12.5 w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm transition-colors',
+                    'bg-radial-(--gradient-position) from-card to-card hover:from-primary-start/100 hover:to-primary-end/100'
                   )}
                 >
                   <RewardWithTokenIcon token={{ symbol: skySymbol }} className="h-7 w-7" />
@@ -195,8 +195,8 @@ export function ClaimRewardsDropdown({
                     })
                   }
                   className={cn(
-                    'text-text flex h-12.5 w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
-                    'bg-transparent hover:bg-[#FFFFFF0D]'
+                    'text-text flex h-12.5 w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm transition-colors',
+                    'bg-radial-(--gradient-position) from-card to-card hover:from-primary-start/100 hover:to-primary-end/100'
                   )}
                 >
                   <TokenIcon token={{ symbol: skySymbol }} className="h-7 w-7" />
@@ -211,8 +211,8 @@ export function ClaimRewardsDropdown({
                   variant={null}
                   onClick={() => handleSelectOption({ contracts: [contractAddress] })}
                   className={cn(
-                    'text-text flex h-12.5 w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
-                    'bg-transparent hover:bg-[#FFFFFF0D]'
+                    'text-text flex h-12.5 w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm transition-colors',
+                    'bg-radial-(--gradient-position) from-card to-card hover:from-primary-start/100 hover:to-primary-end/100'
                   )}
                 >
                   <TokenIcon token={{ symbol: rewardSymbol }} className="h-7 w-7" />
@@ -229,8 +229,8 @@ export function ClaimRewardsDropdown({
                   })
                 }
                 className={cn(
-                  'text-text flex h-12.5 w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm bg-blend-overlay transition',
-                  'bg-transparent hover:bg-[#FFFFFF0D]'
+                  'text-text flex h-12.5 w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm transition-colors',
+                  'bg-radial-(--gradient-position) from-card to-card hover:from-primary-start/100 hover:to-primary-end/100'
                 )}
               >
                 <Rewards className="h-7 w-7" />
