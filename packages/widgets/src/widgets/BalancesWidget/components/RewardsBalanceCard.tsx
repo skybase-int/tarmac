@@ -65,7 +65,7 @@ export const RewardsBalanceCard = ({
 
   const { data: unclaimedRewardsData, isLoading: unclaimedRewardsLoading } = useRewardContractsToClaim({
     rewardContractAddresses,
-    addresses: address ? [address] : [],
+    addresses: address,
     chainId: rewardChainId,
     enabled: !!address
   });

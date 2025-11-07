@@ -20,15 +20,17 @@ export type UseRewardContractsToClaimResponse = ReadHook & {
  */
 export const useRewardContractsToClaim = ({
   rewardContractAddresses,
-  addresses = [],
+  addresses,
   chainId,
   enabled = true
 }: {
   rewardContractAddresses: `0x${string}`[];
-  addresses?: `0x${string}`[];
+  addresses?: `0x${string}` | `0x${string}`[];
   chainId: number;
   enabled?: boolean;
 }): UseRewardContractsToClaimResponse => {
+  // Convert single address to array for consistent handling
+  const addressArray = Array.isArray(addresses) ? addresses : addresses ? [addresses] : [];
   // Fetch earned balances and reward tokens for all address/contract combinations
   const {
     data: earnedAndTokenData,
@@ -36,7 +38,7 @@ export const useRewardContractsToClaim = ({
     error: earnedError,
     refetch
   } = useReadContracts({
-    contracts: addresses.flatMap(addr =>
+    contracts: addressArray.flatMap(addr =>
       rewardContractAddresses.flatMap(contractAddress => [
         {
           address: contractAddress,
@@ -55,7 +57,7 @@ export const useRewardContractsToClaim = ({
     ),
     allowFailure: false,
     query: {
-      enabled: enabled && addresses.length > 0 && rewardContractAddresses.length > 0
+      enabled: enabled && addressArray.length > 0 && rewardContractAddresses.length > 0
     }
   });
 
@@ -69,7 +71,7 @@ export const useRewardContractsToClaim = ({
         }> = [];
 
         let dataIndex = 0;
-        for (let addressIndex = 0; addressIndex < addresses.length; addressIndex++) {
+        for (let addressIndex = 0; addressIndex < addressArray.length; addressIndex++) {
           for (const contractAddress of rewardContractAddresses) {
             const earned = earnedAndTokenData[dataIndex] as bigint;
             const tokenAddress = earnedAndTokenData[dataIndex + 1] as `0x${string}`;

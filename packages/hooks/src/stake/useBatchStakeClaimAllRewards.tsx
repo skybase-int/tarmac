@@ -24,7 +24,7 @@ export function useBatchStakeClaimAllRewards({
   const { data: stakeRewardContracts } = useStakeRewardContracts();
   const { data: rewardContractsToClaim } = useRewardContractsToClaim({
     rewardContractAddresses: stakeRewardContracts?.map(({ contractAddress }) => contractAddress) || [],
-    addresses: urnAddress ? [urnAddress] : [],
+    addresses: urnAddress,
     chainId,
     enabled: !!stakeRewardContracts && !!urnAddress
   });
