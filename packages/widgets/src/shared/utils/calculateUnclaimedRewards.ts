@@ -21,21 +21,29 @@ export const calculateUnclaimedRewards = (
     return { totalUnclaimedRewardsValue: 0, uniqueRewardTokens: [] };
   }
 
-  return unclaimedRewardsData.reduce(
-    (acc, reward) => {
-      const price = pricesData[reward.rewardSymbol]?.price || '0';
-      const tokenSymbol = reward.rewardSymbol.toLowerCase() as keyof typeof TOKENS;
-      const token = TOKENS[tokenSymbol];
-      const decimals = getTokenDecimals(token, chainId);
-      const rewardAmount = parseFloat(formatUnits(reward.claimBalance, decimals));
-      acc.totalUnclaimedRewardsValue += rewardAmount * parseFloat(price);
+  const uniqueTokensSet = new Set<string>();
+  let totalValue = 0;
 
-      if (!acc.uniqueRewardTokens.includes(reward.rewardSymbol)) {
-        acc.uniqueRewardTokens.push(reward.rewardSymbol);
-      }
+  for (const reward of unclaimedRewardsData) {
+    const price = pricesData[reward.rewardSymbol]?.price || '0';
+    const tokenSymbol = reward.rewardSymbol.toLowerCase() as keyof typeof TOKENS;
+    const token = TOKENS[tokenSymbol];
 
-      return acc;
-    },
-    { totalUnclaimedRewardsValue: 0, uniqueRewardTokens: [] as string[] }
-  );
+    if (!token) {
+      console.warn(`Token ${reward.rewardSymbol} not found in TOKENS`);
+      uniqueTokensSet.add(reward.rewardSymbol); // Still track the token for display
+      continue;
+    }
+
+    const decimals = getTokenDecimals(token, chainId);
+    const rewardAmount = parseFloat(formatUnits(reward.claimBalance, decimals));
+    totalValue += rewardAmount * parseFloat(price);
+
+    uniqueTokensSet.add(reward.rewardSymbol);
+  }
+
+  return {
+    totalUnclaimedRewardsValue: totalValue,
+    uniqueRewardTokens: Array.from(uniqueTokensSet)
+  };
 };

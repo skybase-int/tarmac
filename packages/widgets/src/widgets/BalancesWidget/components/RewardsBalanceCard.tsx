@@ -106,7 +106,7 @@ export const RewardsBalanceCard = ({
           ) : (
             <></>
           )}
-          {totalUnclaimedRewardsValue > 0 && <UnclaimedRewards uniqueRewardTokens={uniqueRewardTokens} />}
+          {uniqueRewardTokens.length > 0 && <UnclaimedRewards uniqueRewardTokens={uniqueRewardTokens} />}
         </div>
       }
       footerRightContent={

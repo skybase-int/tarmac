@@ -79,7 +79,7 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
             popoverType="srr"
             onExternalLinkClicked={onExternalLinkClicked}
           />
-          {totalUnclaimedRewardsValue > 0 && <UnclaimedRewards uniqueRewardTokens={uniqueRewardTokens} />}
+          {uniqueRewardTokens.length > 0 && <UnclaimedRewards uniqueRewardTokens={uniqueRewardTokens} />}
         </div>
       }
       footerRightContent={
