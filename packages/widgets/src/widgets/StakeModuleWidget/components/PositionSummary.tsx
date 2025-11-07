@@ -209,7 +209,7 @@ export const PositionSummary = ({
 
   const { data: rewardContractsToClaim } = useRewardContractsToClaim({
     rewardContractAddresses: existingRewardContract ? [existingRewardContract] : [],
-    userAddress: activeUrn?.urnAddress,
+    addresses: activeUrn?.urnAddress ? [activeUrn.urnAddress] : [],
     chainId
   });
 

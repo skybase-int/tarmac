@@ -3,9 +3,8 @@ import {
   useHighestRateFromChartData,
   useStakeRewardContracts,
   useMultipleRewardsChartInfo,
-  useRewardContractsToClaim,
-  stakeModuleAddress,
-  stakeModuleAbi
+  useAllStakeUrnAddresses,
+  useRewardContractsToClaim
 } from '@jetstreamgg/sky-hooks';
 import {
   formatBigInt,
@@ -21,7 +20,7 @@ import { Skeleton } from '@widgets/components/ui/skeleton';
 import { formatUnits } from 'viem';
 import { CardProps } from './ModulesBalances';
 import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
-import { useChainId, useAccount, useReadContract } from 'wagmi';
+import { useChainId, useAccount } from 'wagmi';
 import { TokenIcon } from '@widgets/shared/components/ui/token/TokenIcon';
 
 export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkClicked }: CardProps) => {
@@ -29,107 +28,21 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
   const { address } = useAccount();
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
 
-  // Use current chain if it's mainnet or tenderly, otherwise default to mainnet
-  const stakingChainId = isMainnetId(currentChainId) ? currentChainId : chainId.mainnet;
-
   const { data: stakeRewardContracts } = useStakeRewardContracts();
   const { data: stakeRewardsChartsInfoData } = useMultipleRewardsChartInfo({
     rewardContractAddresses: stakeRewardContracts?.map(({ contractAddress }) => contractAddress) || []
   });
 
-  const { data: currentUrnIndex } = useReadContract({
-    chainId: stakingChainId,
-    address: stakeModuleAddress[stakingChainId as keyof typeof stakeModuleAddress],
-    abi: stakeModuleAbi,
-    functionName: 'ownerUrnsCount',
-    args: [address!],
-    query: {
-      enabled: !!address
-    }
-  });
-
-  const urnCount = Number(currentUrnIndex || 0n);
-
-  const { data: urn0Address } = useReadContract({
-    chainId: stakingChainId,
-    address: stakeModuleAddress[stakingChainId as keyof typeof stakeModuleAddress],
-    abi: stakeModuleAbi,
-    functionName: 'ownerUrns',
-    args: [address!, BigInt(0)],
-    query: {
-      enabled: !!address && urnCount > 0
-    }
-  });
-
-  const { data: urn1Address } = useReadContract({
-    chainId: stakingChainId,
-    address: stakeModuleAddress[stakingChainId as keyof typeof stakeModuleAddress],
-    abi: stakeModuleAbi,
-    functionName: 'ownerUrns',
-    args: [address!, BigInt(1)],
-    query: {
-      enabled: !!address && urnCount > 1
-    }
-  });
-
-  const { data: urn2Address } = useReadContract({
-    chainId: stakingChainId,
-    address: stakeModuleAddress[stakingChainId as keyof typeof stakeModuleAddress],
-    abi: stakeModuleAbi,
-    functionName: 'ownerUrns',
-    args: [address!, BigInt(2)],
-    query: {
-      enabled: !!address && urnCount > 2
-    }
-  });
-
-  const { data: urn3Address } = useReadContract({
-    chainId: stakingChainId,
-    address: stakeModuleAddress[stakingChainId as keyof typeof stakeModuleAddress],
-    abi: stakeModuleAbi,
-    functionName: 'ownerUrns',
-    args: [address!, BigInt(3)],
-    query: {
-      enabled: !!address && urnCount > 3
-    }
-  });
-
   const stakeContractAddresses = (stakeRewardContracts?.map(c => c.contractAddress) as `0x${string}`[]) || [];
 
-  const { data: rewards0 } = useRewardContractsToClaim({
-    rewardContractAddresses: stakeContractAddresses,
-    userAddress: urn0Address,
-    chainId: stakingChainId,
-    enabled: !!urn0Address && stakeContractAddresses.length > 0
-  });
+  const { data: urnAddresses } = useAllStakeUrnAddresses(address);
 
-  const { data: rewards1 } = useRewardContractsToClaim({
+  const { data: allUnclaimedRewardsData } = useRewardContractsToClaim({
     rewardContractAddresses: stakeContractAddresses,
-    userAddress: urn1Address,
-    chainId: stakingChainId,
-    enabled: !!urn1Address && stakeContractAddresses.length > 0
+    addresses: urnAddresses,
+    chainId: isMainnetId(currentChainId) ? currentChainId : chainId.mainnet,
+    enabled: urnAddresses.length > 0 && stakeContractAddresses.length > 0
   });
-
-  const { data: rewards2 } = useRewardContractsToClaim({
-    rewardContractAddresses: stakeContractAddresses,
-    userAddress: urn2Address,
-    chainId: stakingChainId,
-    enabled: !!urn2Address && stakeContractAddresses.length > 0
-  });
-
-  const { data: rewards3 } = useRewardContractsToClaim({
-    rewardContractAddresses: stakeContractAddresses,
-    userAddress: urn3Address,
-    chainId: stakingChainId,
-    enabled: !!urn3Address && stakeContractAddresses.length > 0
-  });
-
-  const allUnclaimedRewardsData = [
-    ...(rewards0 || []),
-    ...(rewards1 || []),
-    ...(rewards2 || []),
-    ...(rewards3 || [])
-  ];
 
   const highestRateData = useHighestRateFromChartData(stakeRewardsChartsInfoData || []);
 
@@ -139,7 +52,7 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
       : 0;
 
   const { totalUnclaimedRewardsValue, uniqueRewardTokens } =
-    allUnclaimedRewardsData.length > 0
+    allUnclaimedRewardsData && allUnclaimedRewardsData.length > 0
       ? allUnclaimedRewardsData.reduce(
           (acc, reward) => {
             const price = pricesData?.[reward.rewardSymbol]?.price || '0';
