@@ -161,7 +161,9 @@ export function ClaimRewardsDropdown({
             align="end"
             sideOffset={8}
           >
-            <Text className="mb-1.5 px-2 text-sm">Accrued Staking rewards</Text>
+            <Text className="mb-1.5 px-2" variant="small">
+              Accrued Staking rewards
+            </Text>
             <VStack className="space-y-2.5">
               {hasSkyReward && hasMultipleRewards && skyContractAddress && (
                 <Button
@@ -175,12 +177,12 @@ export function ClaimRewardsDropdown({
                     })
                   }
                   className={cn(
-                    'text-text flex h-12.5 w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm transition-colors',
+                    'text-text flex h-13.5 w-full items-center justify-start gap-2.5 rounded-lg px-4 py-3 text-sm transition-colors',
                     'from-card to-card hover:from-primary-start hover:to-primary-end bg-radial-(--gradient-position)'
                   )}
                 >
                   <RewardWithTokenIcon token={{ symbol: skySymbol }} className="h-7 w-7" />
-                  <Text>Claim all &amp; Restake {skySymbol}</Text>
+                  <Text variant="medium">Claim all &amp; Restake {skySymbol}</Text>
                 </Button>
               )}
               {hasSkyReward && hasMultipleRewards && skyContractAddress && (
@@ -193,12 +195,12 @@ export function ClaimRewardsDropdown({
                     })
                   }
                   className={cn(
-                    'text-text flex h-12.5 w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm transition-colors',
+                    'text-text flex h-13.5 w-full items-center justify-start gap-2.5 rounded-lg px-4 py-3 text-sm transition-colors',
                     'from-card to-card hover:from-primary-start hover:to-primary-end bg-radial-(--gradient-position)'
                   )}
                 >
                   <TokenIcon token={{ symbol: skySymbol }} className="h-7 w-7" />
-                  <Text>
+                  <Text variant="medium">
                     Claim {formatBigInt(skyReward?.claimBalance ?? 0n)} {skySymbol} &amp; Restake
                   </Text>
                 </Button>
@@ -209,12 +211,12 @@ export function ClaimRewardsDropdown({
                   variant={null}
                   onClick={() => handleSelectOption({ contracts: [contractAddress] })}
                   className={cn(
-                    'text-text flex h-12.5 w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm transition-colors',
+                    'text-text flex h-13.5 w-full items-center justify-start gap-2.5 rounded-lg px-4 py-3 text-sm transition-colors',
                     'from-card to-card hover:from-primary-start hover:to-primary-end bg-radial-(--gradient-position)'
                   )}
                 >
                   <TokenIcon token={{ symbol: rewardSymbol }} className="h-7 w-7" />
-                  <Text>{`Claim only ${formatBigInt(claimBalance)} ${rewardSymbol}`}</Text>
+                  <Text variant="medium">{`Claim only ${formatBigInt(claimBalance)} ${rewardSymbol}`}</Text>
                 </Button>
               ))}
               <Button
@@ -227,12 +229,12 @@ export function ClaimRewardsDropdown({
                   })
                 }
                 className={cn(
-                  'text-text flex h-12.5 w-full items-center justify-start gap-2 rounded-lg px-4 py-3 text-sm transition-colors',
+                  'text-text flex h-13.5 w-full items-center justify-start gap-2.5 rounded-lg px-4 py-3 text-sm transition-colors',
                   'from-card to-card hover:from-primary-start hover:to-primary-end bg-radial-(--gradient-position)'
                 )}
               >
                 <Rewards className="h-7 w-7" />
-                <Text>Claim all rewards</Text>
+                <Text variant="medium">Claim all rewards</Text>
               </Button>
             </VStack>
           </PopoverContent>
