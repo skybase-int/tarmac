@@ -9,6 +9,7 @@ import {
   getStakeWipeAllCalldata,
   getStakeWipeCalldata,
   useRewardContractsToClaim,
+  useStakeRewardContracts,
   useStakeUrnSelectedRewardContract,
   useStakeUrnSelectedVoteDelegate,
   ZERO_ADDRESS
@@ -204,12 +205,11 @@ export const StakeModuleWidgetProvider = ({ children }: { children: ReactNode })
     urn: activeUrn?.urnAddress || ZERO_ADDRESS
   });
 
+  const { data: stakeRewardContracts } = useStakeRewardContracts();
+
   const rewardContractsForActiveUrn = useMemo<`0x${string}`[]>(
-    () =>
-      urnSelectedRewardContract && urnSelectedRewardContract !== ZERO_ADDRESS
-        ? [urnSelectedRewardContract]
-        : [],
-    [urnSelectedRewardContract]
+    () => stakeRewardContracts?.map(({ contractAddress }) => contractAddress) || [],
+    [stakeRewardContracts]
   );
 
   const { data: activeUrnRewardClaims, isLoading: activeUrnRewardClaimsLoading } = useRewardContractsToClaim({
