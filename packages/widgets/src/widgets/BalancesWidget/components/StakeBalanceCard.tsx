@@ -4,9 +4,7 @@ import {
   useStakeRewardContracts,
   useMultipleRewardsChartInfo,
   useAllStakeUrnAddresses,
-  useRewardContractsToClaim,
-  TOKENS,
-  getTokenDecimals
+  useRewardContractsToClaim
 } from '@jetstreamgg/sky-hooks';
 import {
   formatBigInt,
@@ -24,6 +22,7 @@ import { CardProps } from './ModulesBalances';
 import { useChainId, useAccount } from 'wagmi';
 import { RateLineWithArrow } from '@widgets/shared/components/ui/RateLineWithArrow';
 import { UnclaimedRewards } from '@widgets/shared/components/ui/UnclaimedRewards';
+import { calculateUnclaimedRewards } from '@widgets/shared/utils/calculateUnclaimedRewards';
 
 export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkClicked }: CardProps) => {
   const currentChainId = useChainId();
@@ -56,24 +55,11 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
       ? parseFloat(formatUnits(stakeBalance, 18)) * parseFloat(pricesData.SKY.price)
       : 0;
 
-  const { totalUnclaimedRewardsValue, uniqueRewardTokens } =
-    allUnclaimedRewardsData && allUnclaimedRewardsData.length > 0
-      ? allUnclaimedRewardsData.reduce(
-          (acc, reward) => {
-            const price = pricesData?.[reward.rewardSymbol]?.price || '0';
-            const tokenSymbol = reward.rewardSymbol.toLowerCase() as keyof typeof TOKENS;
-            const token = TOKENS[tokenSymbol];
-            const decimals = getTokenDecimals(token, stakeChainId);
-            const rewardAmount = parseFloat(formatUnits(reward.claimBalance, decimals));
-            acc.totalUnclaimedRewardsValue += rewardAmount * parseFloat(price);
-            if (!acc.uniqueRewardTokens.includes(reward.rewardSymbol)) {
-              acc.uniqueRewardTokens.push(reward.rewardSymbol);
-            }
-            return acc;
-          },
-          { totalUnclaimedRewardsValue: 0, uniqueRewardTokens: [] as string[] }
-        )
-      : { totalUnclaimedRewardsValue: 0, uniqueRewardTokens: [] as string[] };
+  const { totalUnclaimedRewardsValue, uniqueRewardTokens } = calculateUnclaimedRewards(
+    allUnclaimedRewardsData,
+    pricesData,
+    stakeChainId
+  );
 
   return (
     <InteractiveStatsCard

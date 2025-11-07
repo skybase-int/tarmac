@@ -4,8 +4,7 @@ import {
   TOKENS,
   usePrices,
   useHighestRateFromChartData,
-  useRewardContractsToClaim,
-  getTokenDecimals
+  useRewardContractsToClaim
 } from '@jetstreamgg/sky-hooks';
 import {
   formatBigInt,
@@ -23,6 +22,7 @@ import { CardProps } from './ModulesBalances';
 import { useChainId, useAccount } from 'wagmi';
 import { RateLineWithArrow } from '@widgets/shared/components/ui/RateLineWithArrow';
 import { UnclaimedRewards } from '@widgets/shared/components/ui/UnclaimedRewards';
+import { calculateUnclaimedRewards } from '@widgets/shared/utils/calculateUnclaimedRewards';
 
 export const RewardsBalanceCard = ({
   url,
@@ -71,23 +71,11 @@ export const RewardsBalanceCard = ({
     enabled: !!address
   });
 
-  const { totalUnclaimedRewardsValue, uniqueRewardTokens } = unclaimedRewardsData
-    ? unclaimedRewardsData.reduce(
-        (acc, reward) => {
-          const price = pricesData?.[reward.rewardSymbol]?.price || '0';
-          const tokenSymbol = reward.rewardSymbol.toLowerCase() as keyof typeof TOKENS;
-          const token = TOKENS[tokenSymbol];
-          const decimals = getTokenDecimals(token, rewardChainId);
-          const rewardAmount = parseFloat(formatUnits(reward.claimBalance, decimals));
-          acc.totalUnclaimedRewardsValue += rewardAmount * parseFloat(price);
-          if (!acc.uniqueRewardTokens.includes(reward.rewardSymbol)) {
-            acc.uniqueRewardTokens.push(reward.rewardSymbol);
-          }
-          return acc;
-        },
-        { totalUnclaimedRewardsValue: 0, uniqueRewardTokens: [] as string[] }
-      )
-    : { totalUnclaimedRewardsValue: 0, uniqueRewardTokens: [] as string[] };
+  const { totalUnclaimedRewardsValue, uniqueRewardTokens } = calculateUnclaimedRewards(
+    unclaimedRewardsData,
+    pricesData,
+    rewardChainId
+  );
 
   const chartDataLoading = usdsSkyChartDataLoading || usdsSpkChartDataLoading;
   const mostRecentRateNumber = highestRateData ? parseFloat(highestRateData.rate) : null;
