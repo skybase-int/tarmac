@@ -44,16 +44,9 @@ function getHardcodedRewardContracts(chainId: number): { contractAddress: `0x${s
 }
 
 async function fetchStakeRewardContracts(urlSubgraph: string) {
-  // const query = gql`
-  //   {
-  //     rewards(where: { stakingEngineActive: true }) {
-  //       id
-  //     }
-  //   }
-  // `;
   const query = gql`
     {
-      rewards() {
+      rewards(where: { stakingEngineActive: true }) {
         id
       }
     }
