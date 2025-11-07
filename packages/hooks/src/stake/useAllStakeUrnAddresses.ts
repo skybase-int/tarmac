@@ -10,9 +10,7 @@ export type UseAllStakeUrnAddressesResponse = ReadHook & {
   data: `0x${string}`[];
 };
 
-/**
- * Fetches all staking urn addresses that a user owns
- */
+// Fetches all staking urn addresses that a user owns
 export const useAllStakeUrnAddresses = (userAddress?: `0x${string}`): UseAllStakeUrnAddressesResponse => {
   const currentChainId = useChainId();
   const stakingChainId = isMainnetId(currentChainId) ? currentChainId : chainId.mainnet;

@@ -4,7 +4,9 @@ import {
   useStakeRewardContracts,
   useMultipleRewardsChartInfo,
   useAllStakeUrnAddresses,
-  useRewardContractsToClaim
+  useRewardContractsToClaim,
+  TOKENS,
+  getTokenDecimals
 } from '@jetstreamgg/sky-hooks';
 import {
   formatBigInt,
@@ -28,6 +30,9 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
   const { address } = useAccount();
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
 
+  // Use current chain if it's mainnet or tenderly, otherwise default to mainnet
+  const stakeChainId = isMainnetId(currentChainId) ? currentChainId : chainId.mainnet;
+
   const { data: stakeRewardContracts } = useStakeRewardContracts();
   const { data: stakeRewardsChartsInfoData } = useMultipleRewardsChartInfo({
     rewardContractAddresses: stakeRewardContracts?.map(({ contractAddress }) => contractAddress) || []
@@ -40,7 +45,7 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
   const { data: allUnclaimedRewardsData } = useRewardContractsToClaim({
     rewardContractAddresses: stakeContractAddresses,
     addresses: urnAddresses,
-    chainId: isMainnetId(currentChainId) ? currentChainId : chainId.mainnet,
+    chainId: stakeChainId,
     enabled: urnAddresses.length > 0 && stakeContractAddresses.length > 0
   });
 
@@ -56,7 +61,10 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
       ? allUnclaimedRewardsData.reduce(
           (acc, reward) => {
             const price = pricesData?.[reward.rewardSymbol]?.price || '0';
-            const rewardAmount = parseFloat(formatUnits(reward.claimBalance, 18));
+            const tokenSymbol = reward.rewardSymbol.toLowerCase() as keyof typeof TOKENS;
+            const token = TOKENS[tokenSymbol];
+            const decimals = getTokenDecimals(token, stakeChainId);
+            const rewardAmount = parseFloat(formatUnits(reward.claimBalance, decimals));
             acc.totalUnclaimedRewardsValue += rewardAmount * parseFloat(price);
             if (!acc.uniqueRewardTokens.includes(reward.rewardSymbol)) {
               acc.uniqueRewardTokens.push(reward.rewardSymbol);

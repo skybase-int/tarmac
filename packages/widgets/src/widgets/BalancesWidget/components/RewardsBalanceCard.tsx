@@ -4,7 +4,8 @@ import {
   TOKENS,
   usePrices,
   useHighestRateFromChartData,
-  useRewardContractsToClaim
+  useRewardContractsToClaim,
+  getTokenDecimals
 } from '@jetstreamgg/sky-hooks';
 import {
   formatBigInt,
@@ -74,7 +75,10 @@ export const RewardsBalanceCard = ({
     ? unclaimedRewardsData.reduce(
         (acc, reward) => {
           const price = pricesData?.[reward.rewardSymbol]?.price || '0';
-          const rewardAmount = parseFloat(formatUnits(reward.claimBalance, 18));
+          const tokenSymbol = reward.rewardSymbol.toLowerCase() as keyof typeof TOKENS;
+          const token = TOKENS[tokenSymbol];
+          const decimals = getTokenDecimals(token, rewardChainId);
+          const rewardAmount = parseFloat(formatUnits(reward.claimBalance, decimals));
           acc.totalUnclaimedRewardsValue += rewardAmount * parseFloat(price);
           if (!acc.uniqueRewardTokens.includes(reward.rewardSymbol)) {
             acc.uniqueRewardTokens.push(reward.rewardSymbol);
