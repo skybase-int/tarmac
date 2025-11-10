@@ -93,7 +93,7 @@ const LineItem = ({
         <Text className={'text-textSecondary flex items-center text-sm'}>
           {label}
           {label === 'Rate' && (
-            <span className="ml-2 mt-1">
+            <span className="mt-1 ml-2">
               <PopoverRateInfo type="ssr" />
             </span>
           )}
@@ -480,7 +480,7 @@ export const PositionSummary = ({
           isUpdatedValue(existingRewardContract?.toLowerCase(), selectedRewardContract?.toLowerCase()) ? (
             [
               isRewardContractTokensLoading ? (
-                <Skeleton key="loading-existing-rewards" className="w-30 h-5" />
+                <Skeleton key="loading-existing-rewards" className="h-5 w-30" />
               ) : existingRewardContractTokens ? (
                 <TokenIcon
                   key="existing-rewards-token"
@@ -489,7 +489,7 @@ export const PositionSummary = ({
                 />
               ) : null,
               isSelectedContractTokensLoading ? (
-                <Skeleton key="loading-selected-rewards" className="w-30 h-5" />
+                <Skeleton key="loading-selected-rewards" className="h-5 w-30" />
               ) : selectedRewardContractTokens ? (
                 <TokenIcon
                   key="selected-rewards-icon"
@@ -499,7 +499,7 @@ export const PositionSummary = ({
               ) : null
             ]
           ) : isRewardContractTokensLoading ? (
-            <Skeleton className="w-30 h-5" />
+            <Skeleton className="h-5 w-30" />
           ) : rewardsTokensToDisplay ? (
             <TokenIcon token={rewardsTokensToDisplay?.rewardsToken} className="h-5 w-5" />
           ) : null
@@ -539,7 +539,7 @@ export const PositionSummary = ({
           normalizeDelegate(existingSelectedVoteDelegate) !== normalizeDelegate(selectedDelegate) ? (
             [
               loadingExistingDelegateOwner ? (
-                <Skeleton key="loading-existing-delegate" className="w-30 h-5" />
+                <Skeleton key="loading-existing-delegate" className="h-5 w-30" />
               ) : existingDelegateOwner ? (
                 <JazziconComponent
                   key="existing-delegate-icon"
@@ -548,7 +548,7 @@ export const PositionSummary = ({
                 />
               ) : null,
               loadingSelectedDelegateOwner ? (
-                <Skeleton key="loading-selected-delegate" className="w-30 h-5" />
+                <Skeleton key="loading-selected-delegate" className="h-5 w-30" />
               ) : selectedDelegateOwner ? (
                 <JazziconComponent
                   key="selected-delegate-icon"
@@ -558,7 +558,7 @@ export const PositionSummary = ({
               ) : null
             ]
           ) : isDelegateLoading ? (
-            <Skeleton className="w-30 h-5" />
+            <Skeleton className="h-5 w-30" />
           ) : delegateOwnerToDisplay ? (
             <JazziconComponent address={delegateOwnerToDisplay} diameter={20} />
           ) : null
@@ -710,7 +710,7 @@ export const PositionSummary = ({
                           />
                           <label
                             htmlFor={checkboxId}
-                            className="text-textSecondary cursor-pointer select-none text-sm"
+                            className="text-textSecondary cursor-pointer text-sm select-none"
                           >
                             {`Claim ${rewardSymbolUpper}`}
                           </label>
