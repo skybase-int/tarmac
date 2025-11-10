@@ -20,7 +20,8 @@ export const ManagePosition = ({
   setBatchEnabled,
   isBatchTransaction,
   legalBatchTxUrl,
-  disclaimer
+  disclaimer,
+  onNoChangesDetected
 }: {
   isConnectedAndEnabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
@@ -37,6 +38,7 @@ export const ManagePosition = ({
   isBatchTransaction: boolean;
   legalBatchTxUrl?: string;
   disclaimer?: React.ReactNode;
+  onNoChangesDetected?: (hasNoChanges: boolean) => void;
 }) => {
   return currentAction === StakeAction.OVERVIEW ? (
     <UrnsList
@@ -58,6 +60,7 @@ export const ManagePosition = ({
       setBatchEnabled={setBatchEnabled}
       isBatchTransaction={isBatchTransaction}
       legalBatchTxUrl={legalBatchTxUrl}
+      onNoChangesDetected={onNoChangesDetected}
     />
   );
 };
