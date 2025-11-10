@@ -618,6 +618,10 @@ function StakeModuleWidgetWrapped({
     // const previousStep = getPreviousStep(widgetState.action);
     if (widgetState.screen !== StakeScreen.TRANSACTION) {
       setCurrentStep(getPreviousStep(currentStep, !wantsToDelegate));
+      // Reset hasNoChanges when navigating back from summary screen
+      if (currentStep === StakeStep.SUMMARY) {
+        setHasNoChanges(false);
+      }
     } else {
       if (widgetState.action === StakeAction.CLAIM) {
         setIndexToClaim(undefined);
