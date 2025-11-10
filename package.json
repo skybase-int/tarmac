@@ -48,8 +48,8 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "pnpm prettier",
-      "pnpm lint"
+      "prettier --write --cache",
+      "eslint --cache --fix"
     ]
   },
   "main": "index.js",

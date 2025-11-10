@@ -420,8 +420,7 @@ async function shardedSetup(addresses: string[], shardIndex: number, totalShards
   const basePerShard = Math.floor(totalAccounts / totalShards);
   const remainder = totalAccounts % totalShards;
   const extra = shardIndex < remainder ? 1 : 0;
-  const startIndex =
-    shardIndex * basePerShard + Math.min(shardIndex, remainder);
+  const startIndex = shardIndex * basePerShard + Math.min(shardIndex, remainder);
   const partitionSize = basePerShard + extra;
 
   if (partitionSize === 0) {
