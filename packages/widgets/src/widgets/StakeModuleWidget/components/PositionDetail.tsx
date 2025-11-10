@@ -41,11 +41,6 @@ type Props = {
   liquidationPrice?: bigint;
   urnAddress?: `0x${string}`;
   index: bigint;
-  claimPrepared: boolean;
-  claimExecute: () => void;
-  claimAllPrepared: boolean;
-  claimAllExecute: () => void;
-  batchEnabledAndSupported: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   onStakeUrnChange?: OnStakeUrnChange;
 };
@@ -63,11 +58,6 @@ export function PositionDetail({
   liquidationPrice,
   urnAddress,
   index,
-  claimPrepared,
-  claimExecute,
-  claimAllPrepared,
-  claimAllExecute,
-  batchEnabledAndSupported,
   onExternalLinkClicked,
   onStakeUrnChange
 }: Props) {
@@ -208,11 +198,9 @@ export function PositionDetail({
           stakeRewardContracts={stakeRewardContracts}
           urnAddress={urnAddress}
           index={index}
-          claimPrepared={claimPrepared}
-          claimExecute={claimExecute}
-          claimAllPrepared={claimAllPrepared}
-          claimAllExecute={claimAllExecute}
-          batchEnabledAndSupported={batchEnabledAndSupported}
+          selectedReward={selectedRewardContract}
+          selectedVoteDelegate={selectedVoteDelegate}
+          onStakeUrnChange={onStakeUrnChange}
         />
       )}
     </MotionVStack>
