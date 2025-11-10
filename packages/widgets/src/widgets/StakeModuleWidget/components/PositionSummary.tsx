@@ -147,7 +147,8 @@ export const PositionSummary = ({
   batchEnabled,
   setBatchEnabled,
   isBatchTransaction,
-  legalBatchTxUrl
+  legalBatchTxUrl,
+  onNoChangesDetected
 }: {
   needsAllowance: boolean;
   allowanceToken?: Token;
@@ -155,6 +156,7 @@ export const PositionSummary = ({
   setBatchEnabled?: (enabled: boolean) => void;
   isBatchTransaction: boolean;
   legalBatchTxUrl?: string;
+  onNoChangesDetected?: (hasNoChanges: boolean) => void;
 }) => {
   const ilkName = getIlkName(2);
   const { i18n } = useLingui();
@@ -589,6 +591,12 @@ export const PositionSummary = ({
       ? lineItems.filter(item => !item.hideIfNoDebt)
       : lineItems;
   const lineItemsUpdated = lineItemsFiltered.filter(item => item.updated);
+
+  // Notify parent component if no changes
+  useEffect(() => {
+    const hasNoChanges = hasPositions && lineItemsUpdated.length === 0 && !rewardContractsToClaim;
+    onNoChangesDetected?.(hasNoChanges);
+  }, [hasPositions, lineItemsUpdated.length, rewardContractsToClaim, onNoChangesDetected]);
 
   return (
     <TransactionReview
