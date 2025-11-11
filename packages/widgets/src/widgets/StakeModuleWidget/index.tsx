@@ -329,7 +329,8 @@ function StakeModuleWidgetWrapped({
         isLoadingSkyAllowance ||
         isLoadingUsdsAllowance ||
         isPreparingBatch) &&
-        !(hasNoChanges && widgetState.flow === StakeFlow.MANAGE)
+        !(hasNoChanges && widgetState.flow === StakeFlow.MANAGE) &&
+        txStatus !== TxStatus.SUCCESS
     );
   }, [
     isConnecting,
