@@ -9,7 +9,8 @@ import {
   formatBigInt,
   useFormatDates,
   formatNumber,
-  getCowExplorerLink
+  getCowExplorerLink,
+  getChainIcon
 } from '@jetstreamgg/sky-utils';
 import {
   useAllNetworksCombinedHistory,
@@ -17,7 +18,8 @@ import {
   ModuleEnum,
   useAvailableTokenRewardContractsForChains,
   getTokenDecimals,
-  TokenForChain
+  TokenForChain,
+  TOKENS
 } from '@jetstreamgg/sky-hooks';
 import { formatUnits } from 'viem';
 import { useEffect, useMemo } from 'react';
@@ -37,7 +39,6 @@ interface ConnectedModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   address: string;
-  chainId: number;
   ensName?: string | null;
   ensAvatar?: string | null;
   connectorName?: string;
@@ -48,7 +49,6 @@ export function ConnectedModal({
   isOpen,
   onOpenChange,
   address,
-  chainId,
   ensName,
   ensAvatar,
   connectorName,
@@ -68,11 +68,11 @@ export function ConnectedModal({
     mutate();
   }, [isOpen]);
 
-  // Filter to current chain and take only the 5 most recent
+  // Take only the most recent transactions across all chains
   const recentTransactions = useMemo(() => {
     if (!allHistory) return [];
-    return allHistory.filter(tx => tx.chainId === chainId).slice(0, MAX_TRANSACTIONS);
-  }, [allHistory, chainId]);
+    return allHistory.slice(0, MAX_TRANSACTIONS);
+  }, [allHistory]);
 
   // Format dates using the same pattern as history tables
   const memoizedDates = useMemo(() => recentTransactions.map(tx => tx.blockTimestamp), [recentTransactions]);
@@ -110,7 +110,8 @@ export function ConnectedModal({
     // Savings transactions: assets field
     if (tx.module === ModuleEnum.SAVINGS && tx.assets) {
       const token = tx.token?.symbol || '';
-      return `${formatBigInt(absBigInt(tx.assets), { compact: true })} ${token}`;
+      const decimals = getTokenDecimals(tx.token, tx.chainId);
+      return `${formatBigInt(absBigInt(tx.assets), { compact: true, unit: decimals })} ${token}`;
     }
 
     // Upgrade transactions (DAI/USDS): wad field
@@ -118,16 +119,19 @@ export function ConnectedModal({
       tx.wad &&
       (tx.type === TransactionTypeEnum.DAI_TO_USDS || tx.type === TransactionTypeEnum.USDS_TO_DAI)
     ) {
-      const token = tx.type === TransactionTypeEnum.DAI_TO_USDS ? 'DAI' : 'USDS';
-      return `${formatBigInt(absBigInt(tx.wad), { compact: true })} ${token}`;
+      const token = tx.type === TransactionTypeEnum.DAI_TO_USDS ? TOKENS.dai : TOKENS.usds;
+      const decimals = getTokenDecimals(token, tx.chainId);
+      return `${formatBigInt(absBigInt(tx.wad), { compact: true, unit: decimals })} ${token.symbol}`;
     }
 
     // Upgrade transactions (MKR/SKY): mkrAmt or skyAmt
     if (tx.mkrAmt && tx.type === TransactionTypeEnum.MKR_TO_SKY) {
-      return `${formatBigInt(absBigInt(tx.mkrAmt), { compact: true })} MKR`;
+      const decimals = getTokenDecimals(TOKENS.mkr, tx.chainId);
+      return `${formatBigInt(absBigInt(tx.mkrAmt), { compact: true, unit: decimals })} ${TOKENS.mkr.symbol}`;
     }
     if (tx.skyAmt && tx.type === TransactionTypeEnum.SKY_TO_MKR) {
-      return `${formatBigInt(absBigInt(tx.skyAmt), { compact: true })} SKY`;
+      const decimals = getTokenDecimals(TOKENS.sky, tx.chainId);
+      return `${formatBigInt(absBigInt(tx.skyAmt), { compact: true, unit: decimals })} ${TOKENS.sky.symbol}`;
     }
 
     // Rewards transactions: amount field
@@ -141,33 +145,37 @@ export function ConnectedModal({
       if (rewardContract) {
         // Use rewardToken for claims, supplyToken for supply/withdraw
         const token =
-          tx.type === TransactionTypeEnum.REWARD
-            ? rewardContract.rewardToken.symbol
-            : rewardContract.supplyToken.symbol;
-        return `${formatBigInt(absBigInt(tx.amount), { compact: true })} ${token}`;
+          tx.type === TransactionTypeEnum.REWARD ? rewardContract.rewardToken : rewardContract.supplyToken;
+        const decimals = getTokenDecimals(token, tx.chainId);
+        return `${formatBigInt(absBigInt(tx.amount), { compact: true, unit: decimals })} ${token.symbol}`;
       }
 
       // Fallback if contract not found
       const token = tx.token?.symbol || '';
-      return `${formatBigInt(absBigInt(tx.amount), { compact: true })} ${token}`;
+      const decimals = getTokenDecimals(tx.token, tx.chainId);
+      return `${formatBigInt(absBigInt(tx.amount), { compact: true, unit: decimals })} ${token}`;
     }
 
     // Stake transactions: amount field with SKY token
     if (tx.amount && tx.module === ModuleEnum.STAKE) {
       // Borrowed USDS for stake borrow, otherwise SKY
-      const token = tx.type === TransactionTypeEnum.STAKE_BORROW ? 'USDS' : 'SKY';
-      return `${formatBigInt(absBigInt(tx.amount), { compact: true })} ${token}`;
+      const token = tx.type === TransactionTypeEnum.STAKE_BORROW ? TOKENS.usds : TOKENS.sky;
+      const decimals = getTokenDecimals(token, tx.chainId);
+      return `${formatBigInt(absBigInt(tx.amount), { compact: true, unit: decimals })} ${token.symbol}`;
     }
 
     // Seal transactions: amount field with MKR token
     if (tx.amount && tx.module === ModuleEnum.SEAL) {
-      const token = tx.type === TransactionTypeEnum.SEAL_REWARD ? 'NST' : 'MKR';
-      return `${formatBigInt(absBigInt(tx.amount), { compact: true })} ${token}`;
+      // NST is the old name for USDS
+      const token = tx.type === TransactionTypeEnum.SEAL_REWARD ? TOKENS.usds : TOKENS.mkr;
+      const decimals = getTokenDecimals(token, tx.chainId);
+      return `${formatBigInt(absBigInt(tx.amount), { compact: true, unit: decimals })} ${token.symbol}`;
     }
 
     // stUSDS (Expert) transactions: assets field with USDS token
     if (tx.assets && tx.module === ModuleEnum.STUSDS) {
-      return `${formatBigInt(absBigInt(tx.assets), { compact: true })} USDS`;
+      const decimals = getTokenDecimals(TOKENS.usds, tx.chainId);
+      return `${formatBigInt(absBigInt(tx.assets), { compact: true, unit: decimals })} ${TOKENS.usds.symbol}`;
     }
 
     // Stake kick: wad field with SKY token
@@ -176,14 +184,15 @@ export function ConnectedModal({
       tx.type !== TransactionTypeEnum.DAI_TO_USDS &&
       tx.type !== TransactionTypeEnum.USDS_TO_DAI
     ) {
-      return `${formatBigInt(absBigInt(tx.wad), { compact: true })} SKY`;
+      const decimals = getTokenDecimals(TOKENS.sky, tx.chainId);
+      return `${formatBigInt(absBigInt(tx.wad), { compact: true, unit: decimals })} ${TOKENS.sky.symbol}`;
     }
 
     return null;
   };
 
   const getTransactionIcon = (tx: any) => {
-    const iconProps = { width: 16, height: 16 };
+    const iconProps = { width: 24, height: 24 };
 
     // Use simple module-level icons
     switch (tx.module) {
@@ -209,10 +218,10 @@ export function ConnectedModal({
   const getExplorerLink = (tx: any): string => {
     // Use CoW Explorer for trade transactions that have cowOrderStatus
     if (tx.module === ModuleEnum.TRADE && 'cowOrderStatus' in tx) {
-      return getCowExplorerLink(chainId, tx.transactionHash);
+      return getCowExplorerLink(tx.chainId, tx.transactionHash);
     }
     // Default to Etherscan for all other transactions
-    return getEtherscanLink(chainId, tx.transactionHash, 'tx');
+    return getEtherscanLink(tx.chainId, tx.transactionHash, 'tx');
   };
 
   const getTransactionDescription = (tx: any, isMobile: boolean = false): string => {
@@ -305,7 +314,7 @@ export function ConnectedModal({
       if (tx.fromAmount && tx.toAmount && tx.fromToken && tx.toToken) {
         // Format trade amounts with proper decimals like TradeHistory does
         const formatTradeAmount = (input: bigint, token: any): string => {
-          const decimals = getTokenDecimals(token as TokenForChain, chainId);
+          const decimals = getTokenDecimals(token as TokenForChain, tx.chainId);
           return formatNumber(parseFloat(formatUnits(input, decimals)), {
             locale: i18n.locale,
             compact: true
@@ -407,7 +416,12 @@ export function ConnectedModal({
                     className="hover:bg-brandLight/20 active:bg-brandLight/10 flex items-center justify-between gap-2 rounded-lg px-2 py-2 transition-colors"
                   >
                     <div className="flex min-w-0 flex-1 items-start gap-2">
-                      <div className="text-textSecondary mt-1">{getTransactionIcon(tx)}</div>
+                      <div className="relative mt-1">
+                        <div className="text-textSecondary">{getTransactionIcon(tx)}</div>
+                        <div className="bg-containerDark absolute -right-1.5 -bottom-1 h-4.5 w-4.5 rounded-full p-0.5">
+                          {getChainIcon(tx.chainId, 'h-full w-full')}
+                        </div>
+                      </div>
                       <div className="min-w-0 flex-1">
                         <Text className="text-text truncate text-sm md:text-base">
                           {getTransactionDescription(tx, isMobile)}
