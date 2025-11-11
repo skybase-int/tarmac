@@ -119,11 +119,16 @@ function StakeModuleWidgetWrapped({
     activeUrn,
     indexToClaim,
     setIndexToClaim,
-    rewardContractToClaim,
-    setRewardContractToClaim,
+    rewardContractsToClaim,
+    setRewardContractsToClaim,
     wipeAll,
     wantsToDelegate,
-    setWantsToDelegate
+    setWantsToDelegate,
+    restakeSkyRewards,
+    setRestakeSkyRewards,
+    restakeSkyAmount,
+    setRestakeSkyAmount,
+    isSkyRewardPosition
   } = useContext(StakeModuleWidgetContext);
 
   const initialTabIndex = validatedExternalState?.stakeTab === StakeAction.FREE ? 1 : 0;
@@ -149,6 +154,8 @@ function StakeModuleWidgetWrapped({
 
   const urnIndexForTransaction = activeUrn?.urnIndex ?? currentUrnIndex;
   const debouncedLockAmount = useDebounce(skyToLock);
+  const restakeContribution = restakeSkyRewards && isSkyRewardPosition ? restakeSkyAmount : 0n;
+  const effectiveLockAmount = debouncedLockAmount + restakeContribution;
   const WIPE_BUFFER_MULTIPLIER = 100005n;
   const WIPE_BUFFER_DIVISOR = 100000n;
   // Approve a 0.005% extra amount of USDS to give users a time margin to pay the debt
@@ -177,21 +184,23 @@ function StakeModuleWidgetWrapped({
   const allStepsComplete =
     isLockCompleted && isBorrowCompleted && isSelectRewardContractCompleted && isSelectDelegateCompleted;
 
-  const needsLockAllowance = !!(stakeSkyAllowance === undefined || stakeSkyAllowance < debouncedLockAmount);
+  const needsLockAllowance = !!(stakeSkyAllowance === undefined || stakeSkyAllowance < effectiveLockAmount);
   const needsUsdsAllowance = !!(stakeUsdsAllowance === undefined || stakeUsdsAllowance < debouncedUsdsAmount);
   const needsAllowance = needsLockAllowance || needsUsdsAllowance;
   const shouldUseBatch = !!batchEnabled && !!batchSupported && needsAllowance;
 
   const { batchMulticall, claimRewards, claimAllRewards } = useStakeTransactions({
-    lockAmount: debouncedLockAmount,
+    lockAmount: effectiveLockAmount,
     usdsAmount: debouncedUsdsAmount,
     calldata,
     allStepsComplete,
     indexToClaim,
     setIndexToClaim,
-    rewardContractToClaim,
+    rewardContractsToClaim,
     shouldUseBatch: !!batchEnabled && !!batchSupported && (needsAllowance || calldata.length > 1),
-    setRewardContractToClaim,
+    setRewardContractsToClaim,
+    setRestakeSkyRewards,
+    setRestakeSkyAmount,
     mutateStakeSkyAllowance,
     mutateStakeUsdsAllowance,
     addRecentTransaction,
@@ -201,6 +210,14 @@ function StakeModuleWidgetWrapped({
 
   const shouldOpenFromWidgetButton =
     currentUrnIndex && currentUrnIndex > 0n && widgetState.action === StakeAction.OVERVIEW;
+
+  useEffect(() => {
+    if (restakeSkyRewards && batchSupported === false) {
+      console.info(
+        'Claim & restake SKY is enabled; executing via contract multicall because wallet batching is unavailable.'
+      );
+    }
+  }, [batchSupported, restakeSkyRewards]);
 
   /**
    * USEEFFECTS ----------------------------------------------------------------------------------
@@ -230,6 +247,9 @@ function StakeModuleWidgetWrapped({
 
   const isDelegateSkippable = selectedDelegate?.toLowerCase() === activeUrnVoteDelegate?.toLowerCase();
 
+  // Track if there are no changes for button text
+  const [hasNoChanges, setHasNoChanges] = useState(false);
+
   // Update button state according to action and tx
   // Ref: https://lingui.dev/tutorials/react-patterns#memoization-pitfall
   useEffect(() => {
@@ -239,7 +259,17 @@ function StakeModuleWidgetWrapped({
       } else if (txStatus === TxStatus.ERROR) {
         setButtonText(t`Retry`);
       } else if (currentStep === StakeStep.SUMMARY) {
-        if (shouldUseBatch) {
+        if (hasNoChanges && widgetState.flow === StakeFlow.MANAGE) {
+          setButtonText(t`No changes`);
+        } else if (restakeSkyRewards && isSkyRewardPosition) {
+          if (shouldUseBatch) {
+            setButtonText(t`Confirm claim & restake`);
+          } else if (needsAllowance) {
+            setButtonText(t`Confirm approval & restake`);
+          } else {
+            setButtonText(t`Confirm restake`);
+          }
+        } else if (shouldUseBatch) {
           setButtonText(t`Confirm bundled transaction`);
         } else if (needsAllowance) {
           setButtonText(t`Confirm 2 transactions`);
@@ -275,7 +305,10 @@ function StakeModuleWidgetWrapped({
     currentStep,
     needsAllowance,
     isDelegateSkippable,
-    shouldUseBatch
+    shouldUseBatch,
+    hasNoChanges,
+    restakeSkyRewards,
+    isSkyRewardPosition
   ]);
 
   // Set isLoading to be consumed by WidgetButton
@@ -287,13 +320,14 @@ function StakeModuleWidgetWrapped({
       !batchMulticall.prepared;
 
     setIsLoading(
-      isConnecting ||
+      (isConnecting ||
         txStatus === TxStatus.LOADING ||
         txStatus === TxStatus.INITIALIZED ||
         batchMulticall.isLoading ||
         isLoadingSkyAllowance ||
         isLoadingUsdsAllowance ||
-        isPreparingBatch
+        isPreparingBatch) &&
+        !(hasNoChanges && widgetState.flow === StakeFlow.MANAGE)
     );
   }, [
     isConnecting,
@@ -303,7 +337,9 @@ function StakeModuleWidgetWrapped({
     isLoadingUsdsAllowance,
     currentStep,
     widgetState.action,
-    batchMulticall.prepared
+    batchMulticall.prepared,
+    hasNoChanges,
+    widgetState.flow
   ]);
 
   const batchMulticallDisabled =
@@ -315,6 +351,12 @@ function StakeModuleWidgetWrapped({
   useEffect(() => {
     // Enable the button if not connected so the user can connect their wallet
     if (!isConnectedAndEnabled) {
+      setIsDisabled(false);
+      return;
+    }
+
+    // Enable the button after successful transaction
+    if (txStatus === TxStatus.SUCCESS) {
       setIsDisabled(false);
       return;
     }
@@ -336,7 +378,8 @@ function StakeModuleWidgetWrapped({
         (currentStep === StakeStep.DELEGATE && !isSelectDelegateCompleted) ||
         (currentStep === StakeStep.SUMMARY &&
           widgetState.action === StakeAction.MULTICALL &&
-          batchMulticallDisabled)
+          batchMulticallDisabled) ||
+        (hasNoChanges && widgetState.flow === StakeFlow.MANAGE)
     );
   }, [
     currentStep,
@@ -348,7 +391,9 @@ function StakeModuleWidgetWrapped({
     isSelectDelegateCompleted,
     isBorrowCompleted,
     shouldOpenFromWidgetButton,
-    batchMulticallDisabled
+    batchMulticallDisabled,
+    hasNoChanges,
+    txStatus
   ]);
 
   useEffect(() => {
@@ -387,9 +432,11 @@ function StakeModuleWidgetWrapped({
       setUsdsToBorrow(0n);
       setSelectedDelegate(undefined);
       setSelectedRewardContract(undefined);
-      setRewardContractToClaim(undefined);
+      setRewardContractsToClaim(undefined);
+      setRestakeSkyRewards(false);
+      setRestakeSkyAmount(0n);
     }
-  }, [widgetState.flow]);
+  }, [widgetState.flow, onStakeUrnChange, setActiveUrn, setRestakeSkyAmount, setRestakeSkyRewards]);
 
   useEffect(() => {
     // Scroll to top when the flow, action, or step changes
@@ -571,10 +618,16 @@ function StakeModuleWidgetWrapped({
     // const previousStep = getPreviousStep(widgetState.action);
     if (widgetState.screen !== StakeScreen.TRANSACTION) {
       setCurrentStep(getPreviousStep(currentStep, !wantsToDelegate));
+      // Reset hasNoChanges when navigating back from summary screen
+      if (currentStep === StakeStep.SUMMARY) {
+        setHasNoChanges(false);
+      }
     } else {
       if (widgetState.action === StakeAction.CLAIM) {
         setIndexToClaim(undefined);
-        setRewardContractToClaim(undefined);
+        setRewardContractsToClaim(undefined);
+        setRestakeSkyRewards(false);
+        setRestakeSkyAmount(0n);
       }
       setWidgetState((prev: WidgetState) => ({
         ...prev,
@@ -603,7 +656,10 @@ function StakeModuleWidgetWrapped({
     setUsdsToWipe(0n);
     setUsdsToBorrow(0n);
     setTabIndex(0);
-    setRewardContractToClaim(undefined);
+    setIndexToClaim(undefined);
+    setRewardContractsToClaim(undefined);
+    setRestakeSkyRewards(false);
+    setRestakeSkyAmount(0n);
 
     onWidgetStateChange?.({
       widgetState,
@@ -633,8 +689,10 @@ function StakeModuleWidgetWrapped({
         ? batchMulticall.execute
         : shouldOpenFromWidgetButton
           ? handleClickOpenPosition
-          : widgetState.flow === StakeFlow.MANAGE && widgetState.action === StakeAction.CLAIM
-            ? rewardContractToClaim
+          : widgetState.flow === StakeFlow.MANAGE &&
+              widgetState.action === StakeAction.CLAIM &&
+              rewardContractsToClaim
+            ? rewardContractsToClaim.length === 1
               ? claimRewards.execute
               : claimAllRewards.execute
             : widgetState.flow === StakeFlow.OPEN || widgetState.flow === StakeFlow.MANAGE
@@ -679,7 +737,10 @@ function StakeModuleWidgetWrapped({
     setUsdsToWipe(0n);
     setUsdsToBorrow(0n);
     setTabIndex(0);
-    setRewardContractToClaim(undefined);
+    setIndexToClaim(undefined);
+    setRewardContractsToClaim(undefined);
+    setRestakeSkyRewards(false);
+    setRestakeSkyAmount(0n);
 
     onWidgetStateChange?.({
       widgetState,
@@ -800,11 +861,6 @@ function StakeModuleWidgetWrapped({
                       currentAction={widgetState.action}
                       onClickTrigger={onClickTab}
                       tabSide={tabSide}
-                      claimPrepared={claimRewards.prepared}
-                      claimExecute={claimRewards.execute}
-                      claimAllPrepared={claimAllRewards.prepared}
-                      claimAllExecute={claimAllRewards.execute}
-                      batchEnabledAndSupported={!!batchEnabled && !!batchSupported}
                       onStakeUrnChange={onStakeUrnChange}
                       onWidgetStateChange={onWidgetStateChange}
                       needsAllowance={needsAllowance}
@@ -816,6 +872,7 @@ function StakeModuleWidgetWrapped({
                       isBatchTransaction={shouldUseBatch}
                       legalBatchTxUrl={legalBatchTxUrl}
                       disclaimer={disclaimer}
+                      onNoChangesDetected={setHasNoChanges}
                     />
                   )}
                   {widgetState.flow === StakeFlow.OPEN && (
