@@ -26,7 +26,7 @@ export const ChatPane = ({ sendMessage }: { sendMessage: (message: string) => vo
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const [isConversationFeedbackModalOpen, setIsConversationFeedbackModalOpen] = useState(false);
   const [selectedRating, setSelectedRating] = useState<'positive' | 'negative' | undefined>(undefined);
-  const { showFeedbackSuccess, showFeedbackError } = useChatbotFeedbackNotification();
+  const { showFeedbackSuccess } = useChatbotFeedbackNotification();
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -46,21 +46,15 @@ export const ChatPane = ({ sendMessage }: { sendMessage: (message: string) => vo
   };
 
   const handleFeedbackSubmit = async (rating: 'positive' | 'negative', comment: string | null) => {
-    try {
-      await submitFeedback({
-        feedback_type: rating === 'positive' ? FEEDBACK_TYPE.THUMBS_UP : FEEDBACK_TYPE.THUMBS_DOWN,
-        comment,
-        session_id: sessionId
-      });
+    await submitFeedback({
+      feedback_type: rating === 'positive' ? FEEDBACK_TYPE.THUMBS_UP : FEEDBACK_TYPE.THUMBS_DOWN,
+      comment,
+      session_id: sessionId
+    });
 
-      showFeedbackSuccess(rating);
-    } catch (error) {
-      console.error('Failed to submit feedback:', error);
-      showFeedbackError();
-      // Don't re-throw - let the modal close via finally block
-    } finally {
-      setShowConversationFeedback(false);
-    }
+    // Only hide prompt and show success notification on successful submission
+    showFeedbackSuccess(rating);
+    setShowConversationFeedback(false);
   };
 
   useDismissChatSuggestion();

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Text, Heading } from '@/modules/layout/components/Typography';
 import { VStack } from '@/modules/layout/components/VStack';
 import { HStack } from '@/modules/layout/components/HStack';
-import { ThumbsUp, ThumbsDown } from 'lucide-react';
+import { ThumbsUp, ThumbsDown, AlertCircle } from 'lucide-react';
 import { Trans } from '@lingui/react/macro';
 import { t } from '@lingui/core/macro';
 
@@ -27,6 +27,7 @@ export const ConversationFeedbackModal = ({
   const [rating, setRating] = useState<'positive' | 'negative' | null>(initialRating || null);
   const [comment, setComment] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -34,6 +35,7 @@ export const ConversationFeedbackModal = ({
       setRating(initialRating || null);
       setComment('');
       setIsSubmitting(false);
+      setError(null);
     }
   }, [isOpen, initialRating]);
 
@@ -50,17 +52,19 @@ export const ConversationFeedbackModal = ({
   const handleSubmit = async () => {
     if (rating && !isSubmitting) {
       setIsSubmitting(true);
+      setError(null);
       try {
         await onSubmit(rating, comment.trim() || null);
-      } catch (error) {
-        // Error handling is done in parent component with toast
-        console.error('Failed to submit feedback:', error);
-      } finally {
-        // Always close the modal and reset state, whether success or error
+        // Only close and reset on success
         setRating(null);
         setComment('');
-        setIsSubmitting(false);
         onClose();
+      } catch (err) {
+        // Show error in modal, keep it open for retry
+        console.error('Failed to submit feedback:', err);
+        setError('Something went wrong. Please try again.');
+      } finally {
+        setIsSubmitting(false);
       }
     }
   };
@@ -136,6 +140,16 @@ export const ConversationFeedbackModal = ({
               </VStack>
             )}
           </VStack>
+
+          {/* Error Message */}
+          {error && (
+            <HStack className="items-start gap-2 rounded-lg border border-red-500/20 bg-red-500/10 p-3">
+              <AlertCircle size={16} className="mt-0.5 flex-shrink-0 text-red-500" />
+              <Text variant="small" className="text-red-400">
+                {error}
+              </Text>
+            </HStack>
+          )}
 
           <HStack className="justify-end gap-2">
             <Button
