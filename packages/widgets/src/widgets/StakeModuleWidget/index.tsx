@@ -189,7 +189,7 @@ function StakeModuleWidgetWrapped({
   const needsAllowance = needsLockAllowance || needsUsdsAllowance;
   const shouldUseBatch = !!batchEnabled && !!batchSupported && needsAllowance;
 
-  const { batchMulticall, claimRewards, claimAllRewards } = useStakeTransactions({
+  const { batchMulticall } = useStakeTransactions({
     lockAmount: effectiveLockAmount,
     usdsAmount: debouncedUsdsAmount,
     calldata,
@@ -363,11 +363,6 @@ function StakeModuleWidgetWrapped({
 
     // Disable the button if the exit fee hasn't been accepted
     if (shouldOpenFromWidgetButton) {
-      setIsDisabled(false);
-      return;
-    }
-
-    if (widgetState.action === StakeAction.CLAIM) {
       setIsDisabled(false);
       return;
     }
@@ -623,15 +618,8 @@ function StakeModuleWidgetWrapped({
         setHasNoChanges(false);
       }
     } else {
-      if (widgetState.action === StakeAction.CLAIM) {
-        setIndexToClaim(undefined);
-        setRewardContractsToClaim(undefined);
-        setRestakeSkyRewards(false);
-        setRestakeSkyAmount(0n);
-      }
       setWidgetState((prev: WidgetState) => ({
         ...prev,
-        action: prev.action === StakeAction.CLAIM ? StakeAction.OVERVIEW : prev.action,
         screen: StakeScreen.ACTION
       }));
     }
@@ -689,15 +677,9 @@ function StakeModuleWidgetWrapped({
         ? batchMulticall.execute
         : shouldOpenFromWidgetButton
           ? handleClickOpenPosition
-          : widgetState.flow === StakeFlow.MANAGE &&
-              widgetState.action === StakeAction.CLAIM &&
-              rewardContractsToClaim
-            ? rewardContractsToClaim.length === 1
-              ? claimRewards.execute
-              : claimAllRewards.execute
-            : widgetState.flow === StakeFlow.OPEN || widgetState.flow === StakeFlow.MANAGE
-              ? nextOnClick
-              : undefined;
+          : widgetState.flow === StakeFlow.OPEN || widgetState.flow === StakeFlow.MANAGE
+            ? nextOnClick
+            : undefined;
 
   const [stepIndex, totalSteps] = useMemo(
     () => [getStepIndex(currentStep, widgetState.flow) + 1, getTotalSteps(widgetState.flow)],
