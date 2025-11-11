@@ -29,6 +29,7 @@ import { useBreakpointIndex, BP } from '@/modules/ui/hooks/useBreakpointIndex';
 import { CopyToClipboard } from '@/modules/ui/components/CopyToClipboard';
 import { HStack } from './HStack';
 import { VStack } from './VStack';
+import { Link } from 'react-router-dom';
 
 const MAX_TRANSACTIONS = 6;
 
@@ -388,14 +389,13 @@ export function ConnectedModal({
             <div className="mb-6">
               <div className="mb-2 flex items-center justify-between">
                 <Text className="text-textSecondary text-xs font-medium md:text-sm">{t`Recent Transactions`}</Text>
-                <a
-                  href={getEtherscanLink(chainId, address, 'address')}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  to="/?widget=balances&flow=tx_history"
+                  onClick={() => onOpenChange(false)}
                   className="text-textSecondary hover:text-text text-[10px] transition-colors md:text-xs"
                 >
                   {t`View all`} →
-                </a>
+                </Link>
               </div>
               <div className="scrollbar-thin-always scrollbar-thin scrollbar-track-transparent scrollbar-thumb-borderPrimary hover:scrollbar-thumb-textSecondary max-h-[40vh] space-y-1 overflow-y-auto pr-1">
                 {recentTransactions.map((tx, index) => (
