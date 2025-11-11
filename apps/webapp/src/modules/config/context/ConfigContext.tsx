@@ -52,7 +52,8 @@ export const defaultUserConfig: UserConfig = {
   stakeToken: StakeToken.SKY,
   batchEnabled: false, // Default to false to show activation prompt
   expertRiskDisclaimerShown: false,
-  stakingRewardsDisclaimerShown: false
+  expertRiskDisclaimerDismissed: false,
+  stakingRewardsDisclaimerDismissed: false
 };
 
 export const defaultLinkedActionConfig = {
@@ -84,8 +85,10 @@ export interface ConfigContextProps {
   setSelectedExpertOption: (intent: ExpertIntent | undefined) => void;
   expertRiskDisclaimerShown: boolean;
   setExpertRiskDisclaimerShown: (shown: boolean) => void;
-  stakingRewardsDisclaimerShown: boolean;
-  setStakingRewardsDisclaimerShown: (shown: boolean) => void;
+  expertRiskDisclaimerDismissed: boolean;
+  setExpertRiskDisclaimerDismissed: (dismissed: boolean) => void;
+  stakingRewardsDisclaimerDismissed: boolean;
+  setStakingRewardsDisclaimerDismissed: (dismissed: boolean) => void;
 }
 
 // Zod schema for validating user settings
@@ -120,6 +123,8 @@ export const ConfigContext = createContext<ConfigContextProps>({
   setSelectedExpertOption: () => {},
   expertRiskDisclaimerShown: false,
   setExpertRiskDisclaimerShown: () => {},
-  stakingRewardsDisclaimerShown: false,
-  setStakingRewardsDisclaimerShown: () => {}
+  expertRiskDisclaimerDismissed: false,
+  setExpertRiskDisclaimerDismissed: () => {},
+  stakingRewardsDisclaimerDismissed: false,
+  setStakingRewardsDisclaimerDismissed: () => {}
 });
