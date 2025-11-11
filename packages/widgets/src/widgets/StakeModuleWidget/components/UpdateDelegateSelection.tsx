@@ -35,7 +35,6 @@ export const UpdateDelegateSelection = ({
   index: bigint;
   selectedRewardContract?: `0x${string}`;
   selectedVoteDelegate?: `0x${string}`;
-  onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   onStakeUrnChange?: OnStakeUrnChange;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -95,7 +94,7 @@ export const UpdateDelegateSelection = ({
       setIsSelectRewardContractCompleted(true);
       setIsSelectDelegateCompleted(true);
     },
-    [urnAddress, index, selectedRewardContract]
+    [urnAddress, index, selectedRewardContract, onStakeUrnChange]
   );
 
   const hasDelegateSelected = selectedVoteDelegate && selectedVoteDelegate !== ZERO_ADDRESS;

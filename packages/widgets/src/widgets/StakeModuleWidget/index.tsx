@@ -503,9 +503,10 @@ function StakeModuleWidgetWrapped({
     if (widgetState.flow !== StakeFlow.MANAGE || widgetState.action !== StakeAction.MULTICALL) {
       if (!!externalParamVaultData && externalUrnRewardContract) {
         setSelectedRewardContract(externalUrnRewardContract);
+        const hasDelegate = !!externalUrnVoteDelegate && externalUrnVoteDelegate !== ZERO_ADDRESS;
         setSelectedDelegate(externalUrnVoteDelegate);
         // Set wantsToDelegate based on whether a delegate exists
-        setWantsToDelegate(externalUrnVoteDelegate !== ZERO_ADDRESS);
+        setWantsToDelegate(hasDelegate);
       } else {
         setSelectedRewardContract(undefined);
         setSelectedDelegate(undefined);
