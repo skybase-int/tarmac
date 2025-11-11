@@ -25,7 +25,7 @@ import { useActionForToken } from '../hooks/useActionForToken';
 import { getRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { defaultConfig } from '@/modules/config/default-config';
-import { useAccount, useChainId } from 'wagmi';
+import { useChainId } from 'wagmi';
 import { BalancesWidgetPane } from '@/modules/balances/components/BalancesWidgetPane';
 import { StakeWidgetPane } from '@/modules/stake/components/StakeWidgetPane';
 import { getSupportedChainIds, getMainnetChainName } from '@/data/wagmi/config/config.default';
@@ -35,7 +35,6 @@ import { useBalanceFilters } from '@/modules/ui/context/BalanceFiltersContext';
 import { WidgetContent, WidgetItem } from '../types/Widgets';
 import { isL2ChainId } from '@jetstreamgg/sky-utils';
 import { ExpertWidgetPane } from '@/modules/expert/components/ExpertWidgetPane';
-import { useRecentTransactions } from '@/modules/layout/hooks/useRecentTransactions';
 
 type WidgetPaneProps = {
   intent: Intent;
@@ -45,18 +44,10 @@ type WidgetPaneProps = {
 export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
   const { i18n } = useLingui();
   const chainId = useChainId();
-  const { address } = useAccount();
   const onConnect = useCustomConnectModal();
-  const { addTransaction } = useRecentTransactions(address, chainId);
 
-  const addRecentTransaction = (transaction: { hash: string; description: string }) => {
-    console.log('🚀 ~ ENTRO addRecentTransaction ~ transaction:', transaction);
-    addTransaction({
-      hash: transaction.hash,
-      description: transaction.description,
-      chainId
-    });
-  };
+  // No-op: ConnectedModal now uses subgraph data instead of localStorage
+  const addRecentTransaction = () => {};
 
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
   const onNotification = useNotification();

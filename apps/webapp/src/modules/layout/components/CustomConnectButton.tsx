@@ -1,5 +1,5 @@
 import { TermsModal } from '../../ui/components/TermsModal';
-import { useAccount, useDisconnect, useEnsName, useEnsAvatar, useChainId } from 'wagmi';
+import { useAccount, useDisconnect, useEnsName, useEnsAvatar } from 'wagmi';
 import { Button } from '@/components/ui/button';
 import { t } from '@lingui/core/macro';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
@@ -10,11 +10,11 @@ import { useConnectModal } from '@/modules/ui/context/ConnectModalContext';
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { ConnectedModal } from './ConnectedModal';
+import { Text } from './Typography';
 
 export function CustomConnectButton() {
   const { openConnectModal } = useConnectModal();
   const { isConnected, address, connector } = useAccount();
-  const chainId = useChainId();
   const { disconnect } = useDisconnect();
   const { data: ensName } = useEnsName({ address });
   const { data: ensAvatar } = useEnsAvatar({ name: ensName! });
@@ -54,9 +54,9 @@ export function CustomConnectButton() {
     <>
       <Button variant="connect" onClick={() => setShowAccountMenu(true)} className="flex items-center gap-2">
         <CustomAvatar address={address} size={24} />
-        <span className="text-text hidden sm:inline">
+        <Text className="hidden sm:inline">
           {ensName ? `${ensName} (${formatAddress(address)})` : formatAddress(address)}
-        </span>
+        </Text>
         <ChevronDown className="h-4 w-4" />
       </Button>
 
@@ -64,7 +64,6 @@ export function CustomConnectButton() {
         isOpen={showAccountMenu}
         onOpenChange={setShowAccountMenu}
         address={address}
-        chainId={chainId}
         ensName={ensName}
         ensAvatar={ensAvatar}
         connectorName={connector?.name}
