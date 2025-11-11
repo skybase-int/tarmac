@@ -15,6 +15,9 @@ import {
 import { formatBigInt } from '@jetstreamgg/sky-utils';
 import { TxStatus } from '@widgets/shared/constants';
 import {
+  claimLoadingButtonText,
+  claimSubtitle,
+  claimTitle,
   StakeAction,
   StakeFlow,
   stakeLoadingButtonText,
@@ -250,6 +253,11 @@ export const StakeModuleTransactionStatus = ({
           })
         )
       );
+    } else if (action === StakeAction.CLAIM && screen === StakeScreen.TRANSACTION) {
+      setLoadingText(i18n._(claimLoadingButtonText({ txStatus })));
+      setTxTitle(i18n._(claimTitle[txStatus]));
+      setTxSubtitle(i18n._(claimSubtitle[txStatus]));
+      setStep(2);
     }
   }, [txStatus, screen, flow, action, i18n.locale, needsAllowance]);
 

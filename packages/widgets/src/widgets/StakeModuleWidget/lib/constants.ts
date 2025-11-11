@@ -1,6 +1,7 @@
 import { msg } from '@lingui/core/macro';
 import { MessageDescriptor } from '@lingui/core';
 import { BatchStatus, TxStatus } from '@widgets/shared/constants';
+import { TxCardCopyText } from '@widgets/shared/types/txCardCopyText';
 
 export enum StakeFlow {
   OPEN = 'open',
@@ -23,7 +24,9 @@ export enum StakeAction {
   REPAY = 'repay',
 
   REWARDS = 'rewards',
-  DELEGATE = 'delegate'
+  DELEGATE = 'delegate',
+
+  CLAIM = 'claim'
 }
 
 export enum StakeStep {
@@ -199,6 +202,31 @@ export function stakeLoadingButtonText({
         : flow === StakeFlow.MANAGE
           ? msg`Changing position`
           : msg`Loading`;
+    default:
+      return msg`Loading`;
+  }
+}
+
+export const claimTitle: TxCardCopyText = {
+  [TxStatus.INITIALIZED]: msg`Claim your rewards`,
+  [TxStatus.LOADING]: msg`In progress`,
+  [TxStatus.SUCCESS]: msg`Successfully claimed your rewards`,
+  [TxStatus.ERROR]: msg`Error`
+};
+
+export const claimSubtitle: TxCardCopyText = {
+  [TxStatus.INITIALIZED]: msg`Please confirm that you want to claim your rewards directly to your wallet.`,
+  [TxStatus.LOADING]: msg`Your claim is being processed on the blockchain. Please wait.`,
+  [TxStatus.SUCCESS]: msg`You’ve claimed your rewards`,
+  [TxStatus.ERROR]: msg`An error occurred while claiming your rewards`
+};
+
+export function claimLoadingButtonText({ txStatus }: { txStatus: TxStatus }): MessageDescriptor {
+  switch (txStatus) {
+    case TxStatus.INITIALIZED:
+      return msg`Waiting for confirmation`;
+    case TxStatus.LOADING:
+      return msg`Claiming rewards`;
     default:
       return msg`Loading`;
   }
