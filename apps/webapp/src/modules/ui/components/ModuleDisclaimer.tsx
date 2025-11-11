@@ -45,7 +45,7 @@ export function ModuleDisclaimer({
     <Card className="relative bg-black/65 p-5">
       <button
         onClick={onDismissDisclaimer}
-        className="text-textSecondary hover:text-text absolute right-4 top-4 transition-colors"
+        className="text-textSecondary hover:text-text absolute top-4 right-4 transition-colors"
         aria-label="Dismiss risk warning"
         data-testid={dismissButtonTestId}
       >
