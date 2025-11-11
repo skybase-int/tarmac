@@ -44,7 +44,8 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
           // If the feature flag is enabled, but the local storage item is not set, default to enabled
           import.meta.env.VITE_BATCH_TX_ENABLED === 'true' ? (parsed.batchEnabled ?? true) : undefined,
         expertRiskDisclaimerShown: parsed.expertRiskDisclaimerShown ?? false,
-        stakingRewardsDisclaimerShown: parsed.stakingRewardsDisclaimerShown ?? false
+        expertRiskDisclaimerDismissed: parsed.expertRiskDisclaimerDismissed ?? false,
+        stakingRewardsDisclaimerDismissed: parsed.stakingRewardsDisclaimerDismissed ?? false
       });
     } catch (e) {
       console.log('Error parsing user settings', e);
@@ -106,10 +107,17 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
     });
   };
 
-  const setStakingRewardsDisclaimerShown = (shown: boolean) => {
+  const setExpertRiskDisclaimerDismissed = (dismissed: boolean) => {
     updateUserConfig({
       ...userConfig,
-      stakingRewardsDisclaimerShown: shown
+      expertRiskDisclaimerDismissed: dismissed
+    });
+  };
+
+  const setStakingRewardsDisclaimerDismissed = (dismissed: boolean) => {
+    updateUserConfig({
+      ...userConfig,
+      stakingRewardsDisclaimerDismissed: dismissed
     });
   };
 
@@ -139,8 +147,10 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
         setSelectedExpertOption,
         expertRiskDisclaimerShown: userConfig.expertRiskDisclaimerShown ?? false,
         setExpertRiskDisclaimerShown,
-        stakingRewardsDisclaimerShown: userConfig.stakingRewardsDisclaimerShown ?? false,
-        setStakingRewardsDisclaimerShown
+        expertRiskDisclaimerDismissed: userConfig.expertRiskDisclaimerDismissed ?? false,
+        setExpertRiskDisclaimerDismissed,
+        stakingRewardsDisclaimerDismissed: userConfig.stakingRewardsDisclaimerDismissed ?? false,
+        setStakingRewardsDisclaimerDismissed
       }}
     >
       {children}
