@@ -36,7 +36,7 @@ export const submitFeedback = async (feedback: FeedbackRequest): Promise<Feedbac
     headers['CF-Access-Client-Secret'] = cfAccessClientSecret;
   }
 
-  const response = await fetch(`${CHATBOT_DOMAIN}/feedback`, {
+  const response = await fetch(`${CHATBOT_DOMAIN}/chatbot/feedback`, {
     method: 'POST',
     headers,
     credentials: 'include',
