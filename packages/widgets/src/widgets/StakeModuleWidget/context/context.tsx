@@ -217,7 +217,7 @@ export const StakeModuleWidgetProvider = ({ children }: { children: ReactNode })
 
   const { data: activeUrnRewardClaims, isLoading: activeUrnRewardClaimsLoading } = useRewardContractsToClaim({
     rewardContractAddresses: rewardContractsForActiveUrn,
-    userAddress: activeUrn?.urnAddress,
+    addresses: activeUrn?.urnAddress,
     chainId,
     enabled:
       rewardContractsForActiveUrn.length > 0 &&
