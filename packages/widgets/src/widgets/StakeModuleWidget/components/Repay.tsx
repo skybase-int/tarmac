@@ -386,7 +386,10 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
 
   const isShowingDustRange = dustDelta > 0n && (usdsBalance?.value || 0n) >= (existingVault?.debtValue || 0n);
 
-  const shouldShowGauge = maxRepayableAmount < (usdsBalance?.value || 0n) && !isShowingDustRange;
+  const shouldShowGauge =
+    (existingVault?.debtValue || 0n) > 0n &&
+    maxRepayableAmount < (usdsBalance?.value || 0n) &&
+    !isShowingDustRange;
 
   const getLimitText = () => {
     if ((existingVault?.debtValue || 0n) <= 0n) {
