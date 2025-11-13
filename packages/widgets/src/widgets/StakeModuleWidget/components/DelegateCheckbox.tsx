@@ -24,20 +24,27 @@ export const DelegateCheckbox = ({ isVisible = true }: DelegateCheckboxProps) =>
   // Determine if existing position has delegation
   const hasExistingDelegate = urnSelectedVoteDelegate && urnSelectedVoteDelegate !== ZERO_ADDRESS;
 
-  // Update wantsToDelegate when activeUrn changes
+  // Reset wantsToDelegate when activeUrn changes
   useEffect(() => {
-    if (wantsToDelegate !== undefined) {
+    if (activeUrn?.urnAddress) {
+      setWantsToDelegate(undefined);
+    }
+  }, [activeUrn?.urnAddress, setWantsToDelegate]);
+
+  // Update wantsToDelegate based on flow and delegate data
+  useEffect(() => {
+    // For OPEN flow, always default to false
+    if (widgetState.flow === StakeFlow.OPEN) {
+      setWantsToDelegate(false);
       return;
     }
 
-    if (widgetState.flow === StakeFlow.OPEN) {
-      setWantsToDelegate(false);
-    } else if (hasExistingDelegate !== undefined) {
+    // For MANAGE flow, wait for delegate data to load
+    if (hasExistingDelegate !== undefined && wantsToDelegate === undefined) {
       setWantsToDelegate(hasExistingDelegate);
-    } else {
-      setWantsToDelegate(false);
     }
-  }, [hasExistingDelegate, widgetState.flow, activeUrn?.urnIndex, setWantsToDelegate, wantsToDelegate]);
+    // Don't set a default value while data is loading
+  }, [hasExistingDelegate, widgetState.flow, wantsToDelegate, setWantsToDelegate]);
 
   if (!isVisible) {
     return null;
