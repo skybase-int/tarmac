@@ -56,7 +56,7 @@ export const getSparkSpecificFaqItems = () => {
       index: 8
     },
     {
-      question: 'Where can find the Spark Analytics Dashboard?',
+      question: 'Where can I find the Spark Analytics Dashboard?',
       answer:
         'View the most comprehensive information and data about Spark on the [Spark Analytics Dashboard](https://spark.blockanalitica.com/).',
       index: 9

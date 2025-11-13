@@ -87,7 +87,7 @@ Your SKY, as well as any Staking Rewards that you accumulate, are supplied to a 
     },
     {
       question: "What will happen to the MKR and/or SKY I've supplied to the Seal Engine?",
-      answer: `If you have one or more positions in the Seal Engine, you can migrate to the Staking Engine. Your sealed MKR will be upgraded to SKY during the Seal to Staking migration process. The process via the Sky.money web app makes manually exiting your Seal positions and creating new positions in the Staking Engine as simple as possible .
+      answer: `If you have one or more positions in the Seal Engine, you can migrate to the Staking Engine. Your sealed MKR will be upgraded to SKY during the Seal to Staking migration process. The process via the Sky.money web app makes manually exiting your Seal positions and creating new positions in the Staking Engine as simple as possible.
 
 For MKR to SKY upgrade details and step-by-step upgrade instructions, please visit the [MKR to SKY Upgrade Hub](https://upgrademkrtosky.sky.money).`,
       index: 10

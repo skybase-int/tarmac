@@ -80,7 +80,7 @@ L2 solutions usually work by processing transactions on their own blockchain, an
 
 Moving assets between L1 and L2 networks requires specialized protocols called bridges. While bridges can be designed to connect any two blockchain networks, L2 networks operate on top of L1s, inheriting their security, while delivering improved efficiency.
 
-L2s used with Ethereum not only offer userslower fees and faster speeds (transactions can be near-instant), they can enable users to transact using the wallets and tools they are already familiar with. There is a tradeoff, however, as users bridging their assets between L1 and L2 networks generally must pay a transaction fee. For users making multiple transactions, the savings may outweigh that cost and you must use your own discretion. Also, L1 networks may provide stronger security guarantees compared to L2s, which often rely on centralized components and actors, which could potentially introduce points of failure.`,
+L2s used with Ethereum not only offer users lower fees and faster speeds (transactions can be near-instant), they can enable users to transact using the wallets and tools they are already familiar with. There is a tradeoff, however, as users bridging their assets between L1 and L2 networks generally must pay a transaction fee. For users making multiple transactions, the savings may outweigh that cost and you must use your own discretion. Also, L1 networks may provide stronger security guarantees compared to L2s, which often rely on centralized components and actors, which could potentially introduce points of failure.`,
     index: 5
   },
   {
@@ -94,7 +94,7 @@ L2s used with Ethereum not only offer userslower fees and faster speeds (transac
 const L2TradeFaqItems = [
   {
     question: 'Which tokens can I trade on supported L2s?',
-    answer: `Supported trading pairs vary by network,depending also on your location and other criteria:
+    answer: `Supported trading pairs vary by network, depending also on your location and other criteria:
 
 • **Ethereum Mainnet:** USDC, USDT, ETH, WETH, DAI, MKR, USDS, sUSDS, SKY, SPK
 
