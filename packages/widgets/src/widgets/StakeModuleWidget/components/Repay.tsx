@@ -427,7 +427,7 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
         balance={maxRepayableAmount}
         limitText={getLimitText()}
         showGauge={shouldShowGauge}
-        hideIcon={isShowingDustRange}
+        hideIcon={isShowingDustRange || (existingVault?.debtValue || 0n) <= 0n}
         value={debouncedUsdsToWipe}
         onChange={val => {
           setWipeAll(false);
