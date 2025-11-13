@@ -31,6 +31,7 @@ import { getRiskTextColor } from '../lib/utils';
 import { useAccount, useChainId } from 'wagmi';
 import { useRiskSlider } from '../hooks/useRiskSlider';
 import { getTooltipById } from '../../../data/tooltips';
+import { DelegateCheckbox } from './DelegateCheckbox';
 
 const { usds } = TOKENS;
 
@@ -461,6 +462,8 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
         existingVault={existingVault}
         vaultNoBorrow={simulatedVaultNoBorrow}
       />
+
+      <DelegateCheckbox isVisible={!!simulatedVault} />
 
       <PositionManagerOverviewContainer
         simulatedVault={simulatedVault}
