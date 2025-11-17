@@ -16,7 +16,7 @@ import {
 import {
   CHATBOT_DOMAIN,
   CHATBOT_ENABLED,
-  CHATBOT_DISABLE_PREFILL,
+  CHATBOT_PREFILL_FILTERING_ENABLED,
   IS_PRODUCTION_ENV,
   MAX_HISTORY_LENGTH
 } from '@/lib/constants';
@@ -151,8 +151,8 @@ export const useSendMessage = () => {
           const intents = data.intents
             ?.filter(chatIntent => isChatIntentAllowed(chatIntent))
             ?.filter(chatIntent => {
-              // Filter out intents with pre-fill parameters if MICA compliance is enabled
-              return !CHATBOT_DISABLE_PREFILL || !hasPreFillParameters(chatIntent);
+              // Filter out intents with pre-fill parameters if filtering is enabled
+              return !CHATBOT_PREFILL_FILTERING_ENABLED || !hasPreFillParameters(chatIntent);
             })
             .map(intent => {
               const processedUrl = processNetworkNameInUrl(intent.url);
