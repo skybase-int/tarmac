@@ -33,15 +33,18 @@ export const DelegateCheckbox = ({ isVisible = true }: DelegateCheckboxProps) =>
 
   // Update wantsToDelegate based on flow and delegate data
   useEffect(() => {
-    // For OPEN flow, always default to false
-    if (widgetState.flow === StakeFlow.OPEN) {
-      setWantsToDelegate(false);
-      return;
-    }
+    // Only set initial state if wantsToDelegate is undefined
+    if (wantsToDelegate === undefined) {
+      // For open flow, default to false
+      if (widgetState.flow === StakeFlow.OPEN) {
+        setWantsToDelegate(false);
+        return;
+      }
 
-    // For MANAGE flow, wait for delegate data to load
-    if (hasExistingDelegate !== undefined && wantsToDelegate === undefined) {
-      setWantsToDelegate(hasExistingDelegate);
+      // For manage flow, wait for delegate data to load
+      if (hasExistingDelegate !== undefined) {
+        setWantsToDelegate(hasExistingDelegate);
+      }
     }
     // Don't set a default value while data is loading
   }, [hasExistingDelegate, widgetState.flow, wantsToDelegate, setWantsToDelegate]);
