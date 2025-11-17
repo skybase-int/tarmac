@@ -367,7 +367,7 @@ describe('useSendMessage - Intent Filtering Integration', () => {
     });
   });
 
-  describe('MICA compliance validation', () => {
+  describe('filtering behavior validation', () => {
     it('ensures no amounts pass through when filtering is enabled', () => {
       const CHATBOT_DISABLE_PREFILL = true;
 

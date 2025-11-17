@@ -129,7 +129,7 @@ export const intentModifiesState = (intent?: ChatIntent): boolean => {
 
 /**
  * Checks if an intent contains pre-fill parameters that would automatically
- * populate form fields. Used to filter intents for MICA compliance.
+ * populate form fields. Used to filter intents.
  *
  * @param intent - The chat intent to check
  * @returns true if the intent has pre-fill parameters, false otherwise
@@ -148,8 +148,7 @@ export const hasPreFillParameters = (intent?: ChatIntent): boolean => {
       urlObj.searchParams.has(QueryParams.TargetToken)
     );
   } catch {
-    // SAFETY: If URL parsing fails, assume it HAS pre-fill parameters to be safe for MICA compliance
-    // Better to filter out a potentially valid intent than allow non-compliant content
+    // If URL parsing fails, assume it HAS pre-fill parameters
     return true;
   }
 };

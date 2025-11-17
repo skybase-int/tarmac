@@ -211,11 +211,11 @@ describe('hasPreFillParameters', () => {
       expect(hasPreFillParameters(intent)).toBe(false);
     });
 
-    it('has safety-first error handling (MICA compliance)', () => {
+    it('has safety-first error handling for intent filtering', () => {
       // NOTE: The URL constructor is very forgiving and rarely throws errors.
       // In production, backend URLs will always be well-formed.
       // This test documents the safety-first behavior: if parsing somehow fails,
-      // we assume the URL has pre-fill params to avoid compliance risk.
+      // we assume the URL has pre-fill params.
 
       // The URL constructor handles most invalid strings gracefully:
       const intent: ChatIntent = {
