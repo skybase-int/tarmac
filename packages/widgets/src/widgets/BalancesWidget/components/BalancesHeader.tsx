@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useAccount, useBalance } from 'wagmi';
+import { useConnection, useBalance } from 'wagmi';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { Skeleton } from '@widgets/components/ui/skeleton';
 import { Tabs, TabsContent } from '@widgets/components/ui/tabs';
@@ -31,7 +31,7 @@ export const BalancesHeader = ({
   onToggle: (number: 0 | 1) => void;
 }): React.ReactElement => {
   const chainId = useChainId();
-  const { address } = useAccount();
+  const { address } = useConnection();
   const { data: ethBalance, isLoading: isEthBalanceLoading } = useBalance({ address });
   const truncatedAddress = useMemo(
     () => address && address.slice(0, 7) + '...' + address.slice(-5),

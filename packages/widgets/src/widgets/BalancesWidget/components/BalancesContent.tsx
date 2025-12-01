@@ -24,7 +24,7 @@ import { BalancesFlow } from '../constants';
 import { BalancesFilter } from './BalancesFilter';
 import { useState } from 'react';
 import { defaultConfig } from '@widgets/config/default-config';
-import { useAccount, useChainId } from 'wagmi';
+import { useConnection, useChainId } from 'wagmi';
 import { useAvailableTokenRewardContracts } from '@jetstreamgg/sky-hooks';
 import { useRewardsSuppliedBalance } from '@jetstreamgg/sky-hooks';
 import { isTestnetId, isMainnetId } from '@jetstreamgg/sky-utils';
@@ -86,7 +86,7 @@ export const BalancesContent = ({
   const setShowAllNetworks = setShowAllNetworksProp ?? setShowAllNetworksInternal;
   const setHideZeroBalances = setHideZeroBalancesProp ?? setHideZeroBalancesInternal;
 
-  const { address } = useAccount();
+  const { address } = useConnection();
   const chainId = useChainId();
   const chainsToQuery = chainIds ?? [chainId];
 
@@ -324,7 +324,7 @@ export const BalancesContent = ({
               isLoading={isLoading}
             />
             {hideModules && hideTokenBalances && (
-              <VStack gap={3} className="items-center pb-3 pt-6">
+              <VStack gap={3} className="items-center pt-6 pb-3">
                 <NoResults />
                 <Text className="text-textSecondary text-center">
                   <Trans>No balances found</Trans>

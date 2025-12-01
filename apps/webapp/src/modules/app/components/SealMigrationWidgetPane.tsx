@@ -22,7 +22,7 @@ import {
 } from '@jetstreamgg/sky-widgets';
 import { useSealCurrentIndex } from '@jetstreamgg/sky-hooks';
 import { isL2ChainId } from '@jetstreamgg/sky-utils';
-import { useAccount, useChainId, useSwitchChain } from 'wagmi';
+import { useConnection, useChainId, useSwitchChain } from 'wagmi';
 
 import { IntentMapping } from '@/lib/constants';
 import { QueryParams } from '@/lib/constants';
@@ -49,7 +49,7 @@ export const SealMigrationWidgetPane = ({ children }: WidgetPaneProps) => {
   const isL2 = isL2ChainId(chainId);
   const [searchParams, setSearchParams] = useSearchParams();
   const { switchChain } = useSwitchChain();
-  const { isConnected } = useAccount();
+  const { isConnected } = useConnection();
   const referralCode = Number(import.meta.env.VITE_REFERRAL_CODE) || 0; // fallback to 0 if invalid
 
   const rightHeaderComponent = <DetailsSwitcher />;

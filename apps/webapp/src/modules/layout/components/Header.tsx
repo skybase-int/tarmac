@@ -19,7 +19,7 @@ import { BatchTransactionsToggle } from '@/components/BatchTransactionsToggle';
 //   usdsAddress
 // } from '@jetstreamgg/sky-hooks';
 // import { mainnet } from 'viem/chains';
-// import { useAccount } from 'wagmi';
+// import { useConnection } from 'wagmi';
 // import { Button } from '@/components/ui/button';
 
 const useMock = import.meta.env.VITE_USE_MOCK_WALLET === 'true';
@@ -27,7 +27,7 @@ const useMock = import.meta.env.VITE_USE_MOCK_WALLET === 'true';
 export function Header(): React.ReactElement {
   const { bpi } = useBreakpointIndex();
   const isMobile = bpi < BP.md;
-  // const { address: connectedAddress, isConnected } = useAccount();
+  // const { address: connectedAddress, isConnected } = useConnection();
 
   // const amount = parseEther('2');
 

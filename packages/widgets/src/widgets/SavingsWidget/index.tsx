@@ -17,7 +17,7 @@ import { WidgetProps, WidgetState } from '@widgets/shared/types/widgetState';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { useLingui } from '@lingui/react';
-import { useAccount, useChainId } from 'wagmi';
+import { useConnection, useChainId } from 'wagmi';
 import { formatUnits, parseUnits } from 'viem';
 import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { getValidatedState } from '@widgets/lib/utils';
@@ -58,7 +58,7 @@ const SavingsWidgetWrapped = ({
   }, [onStateValidated, validatedExternalState]);
 
   const chainId = useChainId();
-  const { address, isConnecting, isConnected } = useAccount();
+  const { address, isConnecting, isConnected } = useConnection();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
   const { mutate: mutateSavings, data: savingsData, isLoading: isSavingsDataLoading } = useSavingsData();
   const { data: allowance, mutate: mutateAllowance } = useSavingsAllowance();
