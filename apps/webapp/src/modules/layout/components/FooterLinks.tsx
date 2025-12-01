@@ -2,10 +2,21 @@ import { ExternalLink } from './ExternalLink';
 import { Text } from './Typography';
 import { getFooterLinks, sanitizeUrl } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { Trans } from '@lingui/react/macro';
+import { useSearchParams } from 'react-router-dom';
 
 export function FooterLinks() {
   const footerLinks = getFooterLinks();
   const externalClass = 'hover:text-white hover:underline hover:underline-offset-4';
+  const [, setSearchParams] = useSearchParams();
+
+  const handlePrivacySettingsClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setSearchParams(params => {
+      params.set('privacy-settings', 'true');
+      return params;
+    });
+  };
 
   return (
     <div className={'flex w-full pt-2'}>
@@ -33,6 +44,11 @@ export function FooterLinks() {
             </ExternalLink>
           );
         })}
+        <a href="#" onClick={handlePrivacySettingsClick} className={externalClass}>
+          <Text variant="captionSm" className="text-white">
+            <Trans>Cookie Preferences</Trans>
+          </Text>
+        </a>
       </div>
     </div>
   );

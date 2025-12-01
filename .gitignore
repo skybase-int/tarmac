@@ -86,3 +86,5 @@ apps/webapp/test-results.json
 # locales
 packages/utils/src/locales/*.po
 packages/utils/src/locales/*.ts
+
+.pnpm-store/
