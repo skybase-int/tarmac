@@ -133,7 +133,9 @@ export default ({ mode }: { mode: modeEnum }) => {
     optimizeDeps: {
       // Optimize safe-apps-provider dependency to get rid of the Safe connector issue
       // and be able to connect Safe apps
-      include: ['wagmi > @safe-global/safe-apps-provider']
+      include: ['wagmi > @safe-global/safe-apps-provider'],
+      // Exclude utils package from dependency pre-bundling to avoid issues with dynamic imports in i18n
+      exclude: ['@jetstreamgg/sky-utils']
     },
     plugins: [
       simpleHtmlPlugin({
