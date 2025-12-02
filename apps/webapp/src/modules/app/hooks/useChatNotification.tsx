@@ -77,10 +77,10 @@ export const useChatNotification = (isAuthorized: boolean) => {
                 <HStack className="ml-1 w-full justify-between">
                   <VStack className="mt-4">
                     <Text variant="medium">
-                      <Trans>Hi, {CHATBOT_NAME} here!</Trans>
+                      <Trans>Hi, I&apos;m {CHATBOT_NAME}, your AI-powered assistant.</Trans>
                     </Text>
                     <Text variant="medium">
-                      <Trans>How can I help you today?</Trans>
+                      <Trans>How can I help you?</Trans>
                     </Text>
                   </VStack>
                   <Button

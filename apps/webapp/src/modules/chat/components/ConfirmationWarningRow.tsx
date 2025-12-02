@@ -11,6 +11,7 @@ import { Warning } from '@/modules/icons/Warning';
 import { getConfirmationWarningMetadata } from '../lib/confirmationWarningMetadata';
 import { ChatMarkdownRenderer } from '@/modules/ui/components/markdown/ChatMarkdownRenderer';
 import { useChatbotPrefillNotification } from '@/modules/app/hooks/useChatbotPrefillNotification';
+import { hasPreFillParameters } from '../lib/intentUtils';
 
 export const ConfirmationWarningRow = () => {
   const {
@@ -51,8 +52,10 @@ export const ConfirmationWarningRow = () => {
     }
     if (selectedIntentUrl) {
       navigate(selectedIntentUrl);
-      // Show notification that inputs have been prefilled
-      showPrefillNotification();
+      // Show notification only if the intent has pre-fill parameters
+      if (selectedIntent && hasPreFillParameters(selectedIntent)) {
+        showPrefillNotification();
+      }
     }
     if (selectedIntent) onIntentSelected(selectedIntent);
   }, [

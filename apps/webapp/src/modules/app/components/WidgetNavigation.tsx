@@ -222,7 +222,7 @@ export function WidgetNavigation({
                         {comingSoon && (
                           <Text
                             variant="small"
-                            className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 text-textSecondary rounded-full px-1.5 py-0.5 text-[10px]"
+                            className="from-primary-start/100 to-primary-end/100 text-textSecondary bg-radial-(--gradient-position) rounded-full px-1.5 py-0.5 text-[10px]"
                           >
                             <Trans>Soon</Trans>
                           </Text>
@@ -303,7 +303,7 @@ export function WidgetNavigation({
                               {comingSoon && (
                                 <Text
                                   variant="small"
-                                  className="bg-radial-(--gradient-position) from-primary-start/100 to-primary-end/100 text-textSecondary absolute left-1/2 top-0 -mt-2 rounded-full px-1.5 py-0 lg:static lg:px-1.5 lg:py-0.5 lg:text-[10px]"
+                                  className="from-primary-start/100 to-primary-end/100 text-textSecondary bg-radial-(--gradient-position) absolute left-1/2 top-0 -mt-2 rounded-full px-1.5 py-0 lg:static lg:px-1.5 lg:py-0.5 lg:text-[10px]"
                                 >
                                   <Trans>Soon</Trans>
                                 </Text>
