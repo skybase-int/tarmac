@@ -24,7 +24,6 @@ updates:
           - "viem"
           - "wagmi"
           - "@wagmi/*"
-          - "@rainbow-me/rainbowkit"
           - "ethers"
           - "@base-org/account"
           - "@coinbase/wallet-sdk"

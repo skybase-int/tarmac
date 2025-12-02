@@ -60,7 +60,6 @@
     "@radix-ui/react-toast": "catalog:",
     "@radix-ui/react-toggle": "catalog:",
     "@radix-ui/react-tooltip": "catalog:",
-    "@rainbow-me/rainbowkit": "catalog:",
     "@safe-global/safe-apps-provider": "catalog:",
     "@safe-global/safe-apps-sdk": "catalog:",
     "@tanstack/react-query": "catalog:",
