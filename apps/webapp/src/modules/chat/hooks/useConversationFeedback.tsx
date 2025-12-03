@@ -24,11 +24,16 @@ export const useConversationFeedback = ({
 }: UseConversationFeedbackParams): void => {
   useEffect(() => {
     const lastMessage = chatHistory[chatHistory.length - 1];
+
     const isLastMessageBot = lastMessage?.user === UserType.bot;
-    const isLoadingMessage = lastMessage?.type === MessageType.loading;
+    const isValidAnswer =
+      lastMessage?.type !== MessageType.loading &&
+      lastMessage?.type !== MessageType.error &&
+      lastMessage?.type !== MessageType.canceled &&
+      lastMessage?.type !== MessageType.authError;
     const hasEnoughMessages = chatHistory.length >= 3; // greeting message, first user message, last bot message
 
-    const shouldShowFeedback = hasEnoughMessages && isLastMessageBot && !isLoadingMessage;
+    const shouldShowFeedback = hasEnoughMessages && isLastMessageBot && isValidAnswer;
 
     // Show feedback when conditions are met
     // Once shown, it stays visible (no logic to hide it)
