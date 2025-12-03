@@ -1,0 +1,48 @@
+import { mainnet } from 'wagmi/chains';
+import { TENDERLY_CHAIN_ID } from '../../constants';
+import type { StUsdsRateComparisonConfig } from './types';
+
+/**
+ * Configuration for provider selection and rate comparison.
+ */
+export const STUSDS_PROVIDER_CONFIG: StUsdsRateComparisonConfig = {
+  /** Minimum rate difference (basis points) to prefer one provider over another */
+  rateSwitchThresholdBps: 10, // 0.1%
+
+  /** Maximum acceptable slippage for Curve swaps (basis points) */
+  maxSlippageBps: 50, // 0.5%
+
+  /** Buffer to apply on quotes for price movement protection (basis points) */
+  quoteBufferBps: 5 // 0.05%
+} as const;
+
+/**
+ * Curve USDS/stUSDS pool addresses by chain.
+ * Reference: https://docs.curve.finance/cryptoswap-exchange/cryptoswap/pools/crypto-pool/
+ */
+export const CURVE_STUSDS_USDS_POOL: Record<number, `0x${string}`> = {
+  [mainnet.id]: '0x2C7C98A3b1582D83c43987202aEFf638312478aE',
+  [TENDERLY_CHAIN_ID]: '0x2C7C98A3b1582D83c43987202aEFf638312478aE'
+} as const;
+
+/**
+ * Token indices in the Curve USDS/stUSDS pool.
+ * These need to be verified by calling coins(0) and coins(1) on the pool contract.
+ * TODO: Verify these indices match the actual pool configuration.
+ */
+export const CURVE_POOL_TOKEN_INDICES = {
+  /** Index of USDS token in the Curve pool */
+  USDS: 0,
+  /** Index of stUSDS token in the Curve pool */
+  STUSDS: 1
+} as const;
+
+/**
+ * Precision constants for rate calculations.
+ */
+export const RATE_PRECISION = {
+  /** Standard ERC20/DeFi precision (1e18) */
+  WAD: 10n ** 18n,
+  /** Basis points divisor */
+  BPS_DIVISOR: 10000n
+} as const;
