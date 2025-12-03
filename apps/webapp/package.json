@@ -41,6 +41,8 @@
     "bump-content-version": "./scripts/bump-content-version.sh"
   },
   "dependencies": {
+    "@base-org/account": "catalog:",
+    "@coinbase/wallet-sdk": "catalog:",
     "@jetstreamgg/sky-hooks": "workspace:^",
     "@jetstreamgg/sky-utils": "workspace:^",
     "@jetstreamgg/sky-widgets": "workspace:^",
@@ -63,6 +65,7 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@wagmi/core": "catalog:",
+    "@walletconnect/ethereum-provider": "catalog:",
     "class-variance-authority": "catalog:",
     "clsx": "catalog:",
     "date-fns": "catalog:",
