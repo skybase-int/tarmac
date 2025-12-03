@@ -4,7 +4,9 @@ import {
   useStUsdsAllowance,
   useStUsdsData,
   useStUsdsCapacityData,
-  useIsBatchSupported
+  useIsBatchSupported,
+  useStUsdsProviderSelection,
+  StUsdsProviderType
 } from '@jetstreamgg/sky-hooks';
 import { useDebounce } from '@jetstreamgg/sky-utils';
 import { useContext, useEffect, useMemo, useState } from 'react';
@@ -83,6 +85,12 @@ const StUSDSWidgetWrapped = ({
   const usds = TOKENS.usds;
   const { data: batchSupported } = useIsBatchSupported();
 
+  // Provider selection for automatic routing between native and Curve
+  const providerSelection = useStUsdsProviderSelection({
+    amount: debouncedAmount,
+    direction: tabIndex === 0 ? 'deposit' : 'withdraw'
+  });
+
   useEffect(() => {
     setAmount(initialAmount);
   }, [initialAmount]);
@@ -118,7 +126,9 @@ const StUSDSWidgetWrapped = ({
     mutateStUsds,
     addRecentTransaction,
     onWidgetStateChange,
-    onNotification
+    onNotification,
+    selectedProvider: providerSelection.selectedProvider,
+    expectedOutput: providerSelection.selectedQuote?.outputAmount ?? 0n
   });
 
   useEffect(() => {
@@ -156,12 +166,24 @@ const StUSDSWidgetWrapped = ({
 
   const remainingCapacityBuffered = capacityData?.remainingCapacityBuffered || 0n;
 
+  // Use provider-aware max amounts when available
+  const maxSupplyAmount = providerSelection.selectedQuote?.isValid
+    ? (providerSelection.nativeProvider?.state?.maxDeposit ?? remainingCapacityBuffered)
+    : remainingCapacityBuffered;
+
+  const maxWithdrawAmount = providerSelection.selectedQuote?.isValid
+    ? providerSelection.selectedProvider === StUsdsProviderType.CURVE
+      ? (providerSelection.curveProvider?.state?.maxWithdraw ?? stUsdsData?.userMaxWithdrawBuffered ?? 0n)
+      : (stUsdsData?.userMaxWithdrawBuffered ?? 0n)
+    : (stUsdsData?.userMaxWithdrawBuffered ?? 0n);
+
   const isSupplyBalanceError =
     txStatus === TxStatus.IDLE &&
     address &&
     amount !== 0n && //don't wait for debouncing on default state
     ((stUsdsData?.userUsdsBalance !== undefined && debouncedAmount > stUsdsData.userUsdsBalance) ||
-      (remainingCapacityBuffered !== undefined && debouncedAmount > remainingCapacityBuffered))
+      (providerSelection.allProvidersBlocked && debouncedAmount > 0n) ||
+      (maxSupplyAmount !== undefined && debouncedAmount > maxSupplyAmount))
       ? true
       : false;
 
@@ -169,8 +191,9 @@ const StUSDSWidgetWrapped = ({
     txStatus === TxStatus.IDLE &&
     address &&
     amount !== 0n && //don't wait for debouncing on default state
-    stUsdsData?.userMaxWithdrawBuffered !== undefined &&
-    debouncedAmount > stUsdsData.userMaxWithdrawBuffered
+    ((stUsdsData?.userStUsdsBalance !== undefined && debouncedAmount > stUsdsData.userStUsdsBalance) ||
+      (providerSelection.allProvidersBlocked && debouncedAmount > 0n) ||
+      (maxWithdrawAmount !== undefined && debouncedAmount > maxWithdrawAmount))
       ? true
       : false;
 
@@ -270,14 +293,16 @@ const StUSDSWidgetWrapped = ({
 
   const showSecondaryButton = txStatus === TxStatus.ERROR || widgetState.screen === StUSDSScreen.REVIEW;
 
+  // Handle prepare errors for native withdraw hook (Curve swaps don't have prepareError)
+  const withdrawPrepareError = 'prepareError' in stUsdsWithdraw ? stUsdsWithdraw.prepareError : null;
   useEffect(() => {
-    if (stUsdsWithdraw.prepareError) {
-      console.log(stUsdsWithdraw.prepareError);
+    if (withdrawPrepareError) {
+      console.log(withdrawPrepareError);
 
       // Check for specific error types
-      const errorMessage = stUsdsWithdraw.prepareError.message;
+      const errorMessage = (withdrawPrepareError as Error).message;
       let title = t`Error preparing transaction`;
-      let description = stUsdsWithdraw.prepareError.message;
+      let description = (withdrawPrepareError as Error).message;
 
       if (errorMessage.includes('YUsds/insufficient-unused-funds')) {
         title = t`Insufficient liquidity`;
@@ -290,7 +315,7 @@ const StUSDSWidgetWrapped = ({
         status: TxStatus.ERROR
       });
     }
-  }, [stUsdsWithdraw.prepareError]);
+  }, [withdrawPrepareError]);
 
   // Update button state according to action and tx
   // Ref: https://lingui.dev/tutorials/react-patterns#memoization-pitfall
@@ -435,6 +460,7 @@ const StUSDSWidgetWrapped = ({
               onExternalLinkClicked={onExternalLinkClicked}
               isBatchTransaction={shouldUseBatch}
               needsAllowance={needsAllowance}
+              isCurve={providerSelection.selectedProvider === StUsdsProviderType.CURVE}
             />
           </CardAnimationWrapper>
         ) : widgetState.screen === StUSDSScreen.REVIEW ? (
@@ -461,6 +487,7 @@ const StUSDSWidgetWrapped = ({
               moduleRate={stUsdsData?.moduleRate}
               isStUsdsDataLoading={isStUsdsDataLoading}
               remainingCapacityBuffered={remainingCapacityBuffered}
+              providerSelection={providerSelection}
               onChange={(newValue: bigint, userTriggered?: boolean) => {
                 setAmount(newValue);
                 if (userTriggered) {

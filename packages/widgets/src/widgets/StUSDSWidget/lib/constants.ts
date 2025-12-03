@@ -14,6 +14,38 @@ export enum StUSDSAction {
   WITHDRAW = 'withdraw'
 }
 
+// Provider types for display
+export enum StUSDSProvider {
+  NATIVE = 'native',
+  CURVE = 'curve'
+}
+
+// Provider selection reason messages
+export const providerMessages = {
+  nativeProvider: msg`Native stUSDS contract`,
+  curveProvider: msg`Curve pool`,
+  usingCurveBetterRate: msg`Using Curve pool for better rate`,
+  usingCurveNativeDepositBlocked: msg`Using Curve pool - native deposits unavailable`,
+  usingCurveNativeWithdrawBlocked: msg`Using Curve pool - native withdrawals unavailable`,
+  allProvidersBlocked: msg`Both native and Curve routes are temporarily unavailable`,
+  rateDifference: msg`Rate difference`
+};
+
+export function getProviderReasonMessage(reason: string, flow: StUSDSFlow): MessageDescriptor {
+  switch (reason) {
+    case 'curve_only_available':
+      return flow === StUSDSFlow.SUPPLY
+        ? providerMessages.usingCurveNativeDepositBlocked
+        : providerMessages.usingCurveNativeWithdrawBlocked;
+    case 'curve_better_rate':
+      return providerMessages.usingCurveBetterRate;
+    case 'all_blocked':
+      return providerMessages.allProvidersBlocked;
+    default:
+      return providerMessages.nativeProvider;
+  }
+}
+
 export enum StUSDSScreen {
   ACTION = 'action',
   REVIEW = 'review',
@@ -85,13 +117,34 @@ export function stusdsSupplySubtitle({
   txStatus,
   amount,
   symbol,
-  needsAllowance
+  needsAllowance,
+  isCurve = false
 }: {
   txStatus: TxStatus;
   amount: string;
   symbol: string;
   needsAllowance: boolean;
+  isCurve?: boolean;
 }): MessageDescriptor {
+  if (isCurve) {
+    switch (txStatus) {
+      case TxStatus.INITIALIZED:
+        return needsAllowance
+          ? msg`Please allow this app to access your ${symbol} and swap it via Curve pool.`
+          : msg`Almost done!`;
+      case TxStatus.LOADING:
+        return needsAllowance
+          ? msg`Your token approval and swap are being processed on the blockchain. Please wait.`
+          : msg`Your swap via Curve is being processed on the blockchain. Please wait.`;
+      case TxStatus.SUCCESS:
+        return msg`You've swapped ${amount} ${symbol} for stUSDS via Curve pool`;
+      case TxStatus.ERROR:
+        return msg`An error occurred during the Curve swap.`;
+      default:
+        return msg``;
+    }
+  }
+
   switch (txStatus) {
     case TxStatus.INITIALIZED:
       return needsAllowance
@@ -113,13 +166,34 @@ export function stusdsWithdrawSubtitle({
   txStatus,
   amount,
   symbol,
-  needsAllowance
+  needsAllowance,
+  isCurve = false
 }: {
   txStatus: TxStatus;
   amount: string;
   symbol: string;
   needsAllowance: boolean;
+  isCurve?: boolean;
 }): MessageDescriptor {
+  if (isCurve) {
+    switch (txStatus) {
+      case TxStatus.INITIALIZED:
+        return needsAllowance
+          ? msg`Please allow this app to access your stUSDS and swap it via Curve pool.`
+          : msg`Almost done!`;
+      case TxStatus.LOADING:
+        return needsAllowance
+          ? msg`Your token approval and swap are being processed on the blockchain. Please wait.`
+          : msg`Your swap via Curve is being processed on the blockchain. Please wait.`;
+      case TxStatus.SUCCESS:
+        return msg`You've swapped your stUSDS for ${amount} ${symbol} via Curve pool.`;
+      case TxStatus.ERROR:
+        return msg`An error occurred during the Curve swap.`;
+      default:
+        return msg``;
+    }
+  }
+
   switch (txStatus) {
     case TxStatus.INITIALIZED:
       return needsAllowance

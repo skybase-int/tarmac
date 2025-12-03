@@ -1,11 +1,6 @@
 import { useMemo } from 'react';
 import { useChainId, useReadContracts } from 'wagmi';
-import {
-  curveStUsdsUsdsPoolAddress,
-  curveStUsdsUsdsPoolAbi,
-  usdsAddress,
-  stUsdsAddress
-} from '../../generated';
+import { curveStUsdsUsdsPoolAddress, curveStUsdsUsdsPoolAbi, usdsAddress } from '../../generated';
 import { isTestnetId } from '@jetstreamgg/sky-utils';
 import { CURVE_POOL_TOKEN_INDICES } from './constants';
 
@@ -54,7 +49,6 @@ export function useCurvePoolData(): CurvePoolDataHookResult {
 
   const poolAddress = curveStUsdsUsdsPoolAddress[chainId as keyof typeof curveStUsdsUsdsPoolAddress];
   const expectedUsdsAddress = usdsAddress[chainId as keyof typeof usdsAddress];
-  const expectedStUsdsAddress = stUsdsAddress[chainId as keyof typeof stUsdsAddress];
 
   const poolContract = {
     address: poolAddress,

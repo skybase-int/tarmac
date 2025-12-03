@@ -4,7 +4,6 @@ import { useStUsdsCapacityData } from '../useStUsdsCapacityData';
 import { useStUsdsPreviewDeposit } from '../useStUsdsPreviewDeposit';
 import { useStUsdsPreviewWithdraw } from '../useStUsdsPreviewWithdraw';
 import { calculateEffectiveRate } from './rateComparison';
-import { RATE_PRECISION } from './constants';
 import {
   StUsdsProviderType,
   StUsdsProviderStatus,

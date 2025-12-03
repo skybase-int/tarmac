@@ -4,7 +4,9 @@ import {
   getTokenDecimals,
   TOKENS,
   useStUsdsPreviewDeposit,
-  useStUsdsPreviewWithdraw
+  useStUsdsPreviewWithdraw,
+  StUsdsProviderType,
+  StUsdsProviderSelectionResult
 } from '@jetstreamgg/sky-hooks';
 import { formatBigInt, formatStrAsApy } from '@jetstreamgg/sky-utils';
 import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
@@ -15,6 +17,7 @@ import { useContext, useMemo, useId } from 'react';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { StUSDSFlow } from '../lib/constants';
 import { StUSDSStatsCard } from './StUSDSStatsCard';
+import { ProviderIndicator } from './ProviderIndicator';
 import { useAccount, useChainId } from 'wagmi';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
@@ -45,6 +48,8 @@ type StUSDSSupplyWithdrawProps = {
   remainingCapacityBuffered?: bigint;
   disclaimerChecked?: boolean;
   onDisclaimerChange?: (checked: boolean) => void;
+  // Provider selection data
+  providerSelection?: StUsdsProviderSelectionResult;
 };
 
 export const StUSDSSupplyWithdraw = ({
@@ -67,10 +72,22 @@ export const StUSDSSupplyWithdraw = ({
   onExternalLinkClicked,
   remainingCapacityBuffered,
   disclaimerChecked = false,
-  onDisclaimerChange
+  onDisclaimerChange,
+  providerSelection
 }: StUSDSSupplyWithdrawProps) => {
   const inputToken = TOKENS.usds;
   const chainId = useChainId();
+
+  // Provider selection helpers
+  const isCurveSelected = providerSelection?.selectedProvider === StUsdsProviderType.CURVE;
+  const allProvidersBlocked = providerSelection?.allProvidersBlocked ?? false;
+  const isProviderLoading = providerSelection?.isLoading ?? false;
+
+  // Determine if inputs should be disabled based on provider availability
+  // Only disable if BOTH native and Curve are blocked
+  const isSupplyDisabled = allProvidersBlocked && !isStUsdsDataLoading && !isProviderLoading;
+  const isWithdrawDisabled = allProvidersBlocked && !isStUsdsDataLoading && !isProviderLoading;
+
   // Determine specific error message for supply
   const getSupplyErrorMessage = () => {
     if (!error || !amount) return undefined;
@@ -221,18 +238,37 @@ export const StUSDSSupplyWithdraw = ({
               error={getSupplyErrorMessage()}
               showPercentageButtons={isConnectedAndEnabled}
               enabled={isConnectedAndEnabled}
-              disabled={!isStUsdsDataLoading && remainingCapacityBuffered === 0n}
+              disabled={isSupplyDisabled}
               showGauge={true}
             />
-            {!isStUsdsDataLoading && remainingCapacityBuffered === 0n ? (
-              <div className="ml-3 mt-2 flex items-start text-amber-400">
+            {/* Provider indicator - show when Curve is being used */}
+            {providerSelection && !isProviderLoading && amount > 0n && (
+              <div className="mt-2 px-1">
+                <ProviderIndicator
+                  selectedProvider={providerSelection.selectedProvider}
+                  selectionReason={providerSelection.selectionReason}
+                  rateDifferencePercent={providerSelection.rateDifferencePercent}
+                  flow={StUSDSFlow.SUPPLY}
+                  isLoading={isProviderLoading}
+                />
+              </div>
+            )}
+            {isSupplyDisabled ? (
+              <div className="mt-2 ml-3 flex items-start text-amber-400">
                 <PopoverRateInfo type="remainingCapacity" iconClassName="mt-1 shrink-0" />
                 <Text variant="small" className="mb-1 ml-2 flex gap-2">
-                  Supply capacity reached. Deposits are temporarily unavailable.
+                  Both native and Curve routes are unavailable. Deposits are temporarily unavailable.
+                </Text>
+              </div>
+            ) : !isStUsdsDataLoading && remainingCapacityBuffered === 0n && !isCurveSelected ? (
+              <div className="mt-2 ml-3 flex items-start text-amber-400">
+                <PopoverRateInfo type="remainingCapacity" iconClassName="mt-1 shrink-0" />
+                <Text variant="small" className="mb-1 ml-2 flex gap-2">
+                  Native supply capacity reached. Using Curve pool.
                 </Text>
               </div>
             ) : !isStUsdsDataLoading && userBalanceExceedsCapacity ? (
-              <div className="ml-3 mt-2 flex items-start text-white">
+              <div className="mt-2 ml-3 flex items-start text-white">
                 <PopoverRateInfo type="remainingCapacity" iconClassName="mt-1 shrink-0" />
                 <Text variant="small" className="mb-1 ml-2 flex gap-2">
                   You cannot supply your full balance due to current capacity limits.
@@ -293,18 +329,37 @@ export const StUSDSSupplyWithdraw = ({
               dataTestId="withdraw-input-stusds"
               showPercentageButtons={isConnectedAndEnabled}
               enabled={isConnectedAndEnabled}
-              disabled={!isStUsdsDataLoading && availableLiquidityBuffered === 0n}
+              disabled={isWithdrawDisabled}
               showGauge={true}
             />
-            {!isStUsdsDataLoading && availableLiquidityBuffered === 0n ? (
-              <div className="ml-3 mt-2 flex items-start text-amber-400">
+            {/* Provider indicator - show when Curve is being used */}
+            {providerSelection && !isProviderLoading && amount > 0n && (
+              <div className="mt-2 px-1">
+                <ProviderIndicator
+                  selectedProvider={providerSelection.selectedProvider}
+                  selectionReason={providerSelection.selectionReason}
+                  rateDifferencePercent={providerSelection.rateDifferencePercent}
+                  flow={StUSDSFlow.WITHDRAW}
+                  isLoading={isProviderLoading}
+                />
+              </div>
+            )}
+            {isWithdrawDisabled ? (
+              <div className="mt-2 ml-3 flex items-start text-amber-400">
                 <PopoverRateInfo type="stusdsLiquidity" iconClassName="mt-1 shrink-0" />
                 <Text variant="small" className="ml-2 flex gap-2">
-                  Available liquidity exhausted. Withdrawals are temporarily unavailable.
+                  Both native and Curve routes are unavailable. Withdrawals are temporarily unavailable.
+                </Text>
+              </div>
+            ) : !isStUsdsDataLoading && availableLiquidityBuffered === 0n && !isCurveSelected ? (
+              <div className="mt-2 ml-3 flex items-start text-amber-400">
+                <PopoverRateInfo type="stusdsLiquidity" iconClassName="mt-1 shrink-0" />
+                <Text variant="small" className="ml-2 flex gap-2">
+                  Native liquidity exhausted. Using Curve pool.
                 </Text>
               </div>
             ) : !isStUsdsDataLoading && userSuppliedExceedsLiquidity ? (
-              <div className="ml-3 mt-2 flex items-start text-white">
+              <div className="mt-2 ml-3 flex items-start text-white">
                 <PopoverRateInfo type="stusdsLiquidity" iconClassName="mt-1 shrink-0" />
                 <Text variant="small" className="ml-2 flex gap-2">
                   You cannot withdraw your full balance due to current liquidity limits.

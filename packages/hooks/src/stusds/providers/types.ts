@@ -148,6 +148,8 @@ export type StUsdsProviderSelectionResult = {
   selectedProvider: StUsdsProviderType;
   /** Why this provider was selected */
   selectionReason: StUsdsSelectionReason;
+  /** Quote from the selected provider (convenience accessor) */
+  selectedQuote: StUsdsQuote | undefined;
   /** Data from native provider */
   nativeProvider: StUsdsProviderData | undefined;
   /** Data from Curve provider */

@@ -24,7 +24,7 @@ import {
  * @returns Selection result with recommended provider and reasoning
  */
 export function useStUsdsProviderSelection(params: StUsdsQuoteParams): StUsdsProviderSelectionResult {
-  const { amount, direction } = params;
+  const { direction } = params;
 
   // Get data from both providers
   const {
@@ -110,9 +110,14 @@ export function useStUsdsProviderSelection(params: StUsdsQuoteParams): StUsdsPro
     refetchCurve();
   };
 
+  // Get the quote from the selected provider
+  const selectedQuote =
+    selection.selectedProvider === StUsdsProviderType.CURVE ? curveData?.quote : nativeData?.quote;
+
   return {
     selectedProvider: selection.selectedProvider,
     selectionReason: selection.selectionReason,
+    selectedQuote,
     nativeProvider: nativeData,
     curveProvider: curveData,
     allProvidersBlocked: selection.allProvidersBlocked,
