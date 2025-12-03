@@ -74,12 +74,14 @@ export function useCurveStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvide
 
     // Max amounts are the pool reserves (minus some buffer for slippage)
     const maxDeposit = canDeposit
-      ? (poolData.stUsdsReserve * (RATE_PRECISION.BPS_DIVISOR - BigInt(STUSDS_PROVIDER_CONFIG.maxSlippageBps))) /
+      ? (poolData.stUsdsReserve *
+          (RATE_PRECISION.BPS_DIVISOR - BigInt(STUSDS_PROVIDER_CONFIG.maxSlippageBps))) /
         RATE_PRECISION.BPS_DIVISOR
       : 0n;
 
     const maxWithdraw = canWithdraw
-      ? (poolData.usdsReserve * (RATE_PRECISION.BPS_DIVISOR - BigInt(STUSDS_PROVIDER_CONFIG.maxSlippageBps))) /
+      ? (poolData.usdsReserve *
+          (RATE_PRECISION.BPS_DIVISOR - BigInt(STUSDS_PROVIDER_CONFIG.maxSlippageBps))) /
         RATE_PRECISION.BPS_DIVISOR
       : 0n;
 

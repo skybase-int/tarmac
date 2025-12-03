@@ -63,7 +63,7 @@ export function useCurvePoolData(): CurvePoolDataHookResult {
     error,
     refetch
   } = useReadContracts({
-    allowFailure: false,
+    allowFailure: true,
     contracts: [
       {
         ...poolContract,
@@ -85,7 +85,8 @@ export function useCurvePoolData(): CurvePoolDataHookResult {
       },
       {
         ...poolContract,
-        functionName: 'price_oracle'
+        functionName: 'price_oracle',
+        args: [BigInt(0)]
       },
       {
         ...poolContract,
@@ -100,16 +101,36 @@ export function useCurvePoolData(): CurvePoolDataHookResult {
     ]
   });
 
+  // console.log('useCurvePoolData debug:', {
+  //   connectedChainId,
+  //   chainId,
+  //   poolAddress,
+  //   readData,
+  //   error,
+  //   isLoading
+  // });
+
   const data: CurvePoolData | undefined = useMemo(() => {
     if (!readData) return undefined;
 
-    const balance0 = readData[0] as bigint;
-    const balance1 = readData[1] as bigint;
-    const fee = readData[2] as bigint;
-    const adminFee = readData[3] as bigint;
-    const priceOracle = readData[4] as bigint;
-    const coin0 = readData[5] as `0x${string}`;
-    const coin1 = readData[6] as `0x${string}`;
+    // // With allowFailure: true, results are { result, status } objects
+    // // Check if all calls succeeded
+    // const allSucceeded = readData.every(r => r.status === 'success');
+    // if (!allSucceeded) {
+    //   console.log(
+    //     'useCurvePoolData: Some calls failed',
+    //     readData.map((r, i) => ({ index: i, status: r.status, error: r.status === 'failure' ? r.error : null }))
+    //   );
+    //   return undefined;
+    // }
+
+    const balance0 = readData[0].result as bigint;
+    const balance1 = readData[1].result as bigint;
+    const fee = readData[2].result as bigint;
+    const adminFee = readData[3].result as bigint;
+    const priceOracle = readData[4].result as bigint;
+    const coin0 = readData[5].result as `0x${string}`;
+    const coin1 = readData[6].result as `0x${string}`;
 
     // Determine token indices by matching addresses
     // Start with default values, then verify against actual pool configuration
