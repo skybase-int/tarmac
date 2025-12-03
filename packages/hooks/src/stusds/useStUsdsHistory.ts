@@ -11,8 +11,8 @@ import { isTestnetId } from '@jetstreamgg/sky-utils';
 import { chainId as chainIdMap } from '@jetstreamgg/sky-utils';
 import { CURVE_POOL_TOKEN_INDICES } from './providers/constants';
 
-async function fetchStusdsHistory(urlSubgraph: string, chainId: number, address?: string) {
-  if (!address) return [];
+// Fetch native stUSDS history (deposits and withdrawals)
+async function fetchNativeStusdsHistory(urlSubgraph: string, chainId: number, address: string) {
   const query = gql`
     {
       stusdsDeposits(where: {owner: "${address}"}) {
@@ -25,6 +25,42 @@ async function fetchStusdsHistory(urlSubgraph: string, chainId: number, address?
         blockTimestamp
         transactionHash
       }
+    }
+  `;
+
+  const response = (await request(urlSubgraph, query)) as any;
+
+  console.log('Native stUSDS history subgraph response:', response);
+
+  const supplies = (response.stusdsDeposits || []).map((d: any) => ({
+    assets: BigInt(d.assets),
+    blockTimestamp: new Date(parseInt(d.blockTimestamp) * 1000),
+    transactionHash: d.transactionHash,
+    module: ModuleEnum.STUSDS,
+    type: TransactionTypeEnum.SUPPLY,
+    token: TOKENS.usds,
+    chainId,
+    provider: 'native' as const
+  }));
+
+  const withdraws = (response.stusdsWithdraws || []).map((w: any) => ({
+    assets: -BigInt(w.assets),
+    blockTimestamp: new Date(parseInt(w.blockTimestamp) * 1000),
+    transactionHash: w.transactionHash,
+    module: ModuleEnum.STUSDS,
+    type: TransactionTypeEnum.WITHDRAW,
+    token: TOKENS.usds,
+    chainId,
+    provider: 'native' as const
+  }));
+
+  return [...supplies, ...withdraws];
+}
+
+// Fetch Curve pool swap history (optional, may not exist in subgraph yet)
+async function fetchCurveStusdsHistory(urlSubgraph: string, chainId: number, address: string) {
+  const query = gql`
+    {
       curveTokenExchanges(where: {buyer: "${address}"}) {
         soldId
         amountSold
@@ -38,32 +74,9 @@ async function fetchStusdsHistory(urlSubgraph: string, chainId: number, address?
 
   const response = (await request(urlSubgraph, query)) as any;
 
-  // Native stUSDS deposits
-  const supplies = response.stusdsDeposits.map((d: any) => ({
-    assets: BigInt(d.assets),
-    blockTimestamp: new Date(parseInt(d.blockTimestamp) * 1000),
-    transactionHash: d.transactionHash,
-    module: ModuleEnum.STUSDS,
-    type: TransactionTypeEnum.SUPPLY,
-    token: TOKENS.usds,
-    chainId,
-    provider: 'native' as const
-  }));
+  console.log('Curve history subgraph response:', response);
 
-  // Native stUSDS withdrawals
-  const withdraws = response.stusdsWithdraws.map((w: any) => ({
-    assets: -BigInt(w.assets), //make withdrawals negative
-    blockTimestamp: new Date(parseInt(w.blockTimestamp) * 1000),
-    transactionHash: w.transactionHash,
-    module: ModuleEnum.STUSDS,
-    type: TransactionTypeEnum.WITHDRAW,
-    token: TOKENS.usds,
-    chainId,
-    provider: 'native' as const
-  }));
-
-  // Curve pool swaps
-  const curveSwaps = (response.curveTokenExchanges || []).map((c: any) => {
+  return (response.curveTokenExchanges || []).map((c: any) => {
     const soldId = parseInt(c.soldId);
     // If user sold USDS (index 0), it's a supply (USDS → stUSDS)
     // If user sold stUSDS (index 1), it's a withdraw (stUSDS → USDS)
@@ -82,8 +95,34 @@ async function fetchStusdsHistory(urlSubgraph: string, chainId: number, address?
       provider: 'curve' as const
     };
   });
+}
 
-  const combined = [...supplies, ...withdraws, ...curveSwaps];
+async function fetchStusdsHistory(urlSubgraph: string, chainId: number, address?: string) {
+  if (!address) return [];
+
+  console.log('Fetching stUSDS history for address:', address, 'chainId:', chainId);
+
+  // Fetch native history first (required)
+  let nativeHistory: any[] = [];
+  try {
+    nativeHistory = await fetchNativeStusdsHistory(urlSubgraph, chainId, address);
+    console.log('Native history fetched:', nativeHistory.length, 'items');
+  } catch (err) {
+    console.error('Error fetching native stUSDS history:', err);
+  }
+
+  // Try to fetch Curve history (optional - graceful degradation if not available)
+  let curveHistory: any[] = [];
+  try {
+    curveHistory = await fetchCurveStusdsHistory(urlSubgraph, chainId, address);
+    console.log('Curve history fetched:', curveHistory.length, 'items');
+  } catch (err) {
+    // Curve history not available yet in subgraph, continue with just native history
+    console.debug('Curve history not available in subgraph:', err);
+  }
+
+  const combined = [...nativeHistory, ...curveHistory];
+  console.log('Combined history:', combined.length, 'items');
   return combined.sort((a, b) => b.blockTimestamp.getTime() - a.blockTimestamp.getTime());
 }
 
