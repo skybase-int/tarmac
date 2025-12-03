@@ -224,8 +224,10 @@ function StakeModuleWidgetWrapped({
    */
 
   useEffect(() => {
-    setShowStepIndicator(widgetState.flow !== StakeFlow.CLAIM && needsAllowance);
-  }, [setShowStepIndicator, widgetState.flow, needsAllowance]);
+    if (txStatus === TxStatus.IDLE) {
+      setShowStepIndicator(widgetState.flow !== StakeFlow.CLAIM && needsAllowance);
+    }
+  }, [txStatus, setShowStepIndicator, widgetState.flow, needsAllowance]);
 
   useEffect(() => {
     setTabIndex(initialTabIndex);
@@ -327,7 +329,8 @@ function StakeModuleWidgetWrapped({
         isLoadingSkyAllowance ||
         isLoadingUsdsAllowance ||
         isPreparingBatch) &&
-        !(hasNoChanges && widgetState.flow === StakeFlow.MANAGE)
+        !(hasNoChanges && widgetState.flow === StakeFlow.MANAGE) &&
+        txStatus !== TxStatus.SUCCESS
     );
   }, [
     isConnecting,
