@@ -20,7 +20,8 @@ export const StUSDSTransactionReview = ({
   isBatchTransaction,
   originToken,
   originAmount,
-  needsAllowance
+  needsAllowance,
+  isCurve = false
 }: {
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
@@ -28,6 +29,7 @@ export const StUSDSTransactionReview = ({
   originToken: Token;
   originAmount: bigint;
   needsAllowance: boolean;
+  isCurve?: boolean;
 }) => {
   const { i18n } = useLingui();
   const { data: batchSupported } = useIsBatchSupported();
@@ -51,7 +53,7 @@ export const StUSDSTransactionReview = ({
   // Sets the title and subtitle of the card
   useEffect(() => {
     if (flow === StUSDSFlow.SUPPLY) {
-      setStepTwoTitle(t`Supply`);
+      setStepTwoTitle(isCurve ? t`Swap` : t`Supply`);
       setTxTitle(i18n._(stusdsSupplyReviewTitle));
       setTxSubtitle(
         i18n._(
@@ -63,7 +65,7 @@ export const StUSDSTransactionReview = ({
         )
       );
     } else if (flow === StUSDSFlow.WITHDRAW) {
-      setStepTwoTitle(t`Withdraw`);
+      setStepTwoTitle(isCurve ? t`Swap` : t`Withdraw`);
       setTxTitle(i18n._(stusdsWithdrawReviewTitle));
       setTxSubtitle(
         i18n._(
@@ -76,7 +78,7 @@ export const StUSDSTransactionReview = ({
       );
     }
     setTxDescription(i18n._(stusdsActionDescription({ flow, action, txStatus, needsAllowance })));
-  }, [flow, action, screen, i18n.locale, isBatchTransaction, batchSupported, batchEnabled]);
+  }, [flow, action, screen, i18n.locale, isBatchTransaction, batchSupported, batchEnabled, isCurve]);
 
   return <TransactionReview batchEnabled={batchEnabled} setBatchEnabled={setBatchEnabled} />;
 };

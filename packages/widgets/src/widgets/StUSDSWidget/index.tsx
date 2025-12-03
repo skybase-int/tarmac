@@ -472,6 +472,7 @@ const StUSDSWidgetWrapped = ({
               originToken={usds}
               originAmount={debouncedAmount}
               needsAllowance={needsAllowance}
+              isCurve={providerSelection.selectedProvider === StUsdsProviderType.CURVE}
             />
           </CardAnimationWrapper>
         ) : (
