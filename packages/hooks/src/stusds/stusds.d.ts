@@ -6,6 +6,8 @@ export interface StUsdsHistoryItem {
   transactionHash: string;
   timestamp: number;
   referral?: number;
+  /** Provider that executed this transaction (native or curve) */
+  provider?: 'native' | 'curve';
 }
 
 export interface StUsdsVaultMetrics {

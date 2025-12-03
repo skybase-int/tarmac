@@ -9,6 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import { TRUST_LEVELS, TrustLevelEnum } from '../constants';
 import { isTestnetId } from '@jetstreamgg/sky-utils';
 import { chainId as chainIdMap } from '@jetstreamgg/sky-utils';
+import { CURVE_POOL_TOKEN_INDICES } from './providers/constants';
 
 async function fetchStusdsHistory(urlSubgraph: string, chainId: number, address?: string) {
   if (!address) return [];
@@ -24,10 +25,20 @@ async function fetchStusdsHistory(urlSubgraph: string, chainId: number, address?
         blockTimestamp
         transactionHash
       }
+      curveTokenExchanges(where: {buyer: "${address}"}) {
+        soldId
+        amountSold
+        boughtId
+        amountBought
+        blockTimestamp
+        transactionHash
+      }
     }
   `;
 
   const response = (await request(urlSubgraph, query)) as any;
+
+  // Native stUSDS deposits
   const supplies = response.stusdsDeposits.map((d: any) => ({
     assets: BigInt(d.assets),
     blockTimestamp: new Date(parseInt(d.blockTimestamp) * 1000),
@@ -35,9 +46,11 @@ async function fetchStusdsHistory(urlSubgraph: string, chainId: number, address?
     module: ModuleEnum.STUSDS,
     type: TransactionTypeEnum.SUPPLY,
     token: TOKENS.usds,
-    chainId
+    chainId,
+    provider: 'native' as const
   }));
 
+  // Native stUSDS withdrawals
   const withdraws = response.stusdsWithdraws.map((w: any) => ({
     assets: -BigInt(w.assets), //make withdrawals negative
     blockTimestamp: new Date(parseInt(w.blockTimestamp) * 1000),
@@ -45,10 +58,32 @@ async function fetchStusdsHistory(urlSubgraph: string, chainId: number, address?
     module: ModuleEnum.STUSDS,
     type: TransactionTypeEnum.WITHDRAW,
     token: TOKENS.usds,
-    chainId
+    chainId,
+    provider: 'native' as const
   }));
 
-  const combined = [...supplies, ...withdraws];
+  // Curve pool swaps
+  const curveSwaps = (response.curveTokenExchanges || []).map((c: any) => {
+    const soldId = parseInt(c.soldId);
+    // If user sold USDS (index 0), it's a supply (USDS → stUSDS)
+    // If user sold stUSDS (index 1), it's a withdraw (stUSDS → USDS)
+    const isSupply = soldId === CURVE_POOL_TOKEN_INDICES.USDS;
+
+    return {
+      // For supply: positive USDS amount sold
+      // For withdraw: negative USDS amount received
+      assets: isSupply ? BigInt(c.amountSold) : -BigInt(c.amountBought),
+      blockTimestamp: new Date(parseInt(c.blockTimestamp) * 1000),
+      transactionHash: c.transactionHash,
+      module: ModuleEnum.STUSDS,
+      type: isSupply ? TransactionTypeEnum.SUPPLY : TransactionTypeEnum.WITHDRAW,
+      token: TOKENS.usds,
+      chainId,
+      provider: 'curve' as const
+    };
+  });
+
+  const combined = [...supplies, ...withdraws, ...curveSwaps];
   return combined.sort((a, b) => b.blockTimestamp.getTime() - a.blockTimestamp.getTime());
 }
 

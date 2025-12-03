@@ -37,6 +37,7 @@ import { Expert } from './Expert';
 import { Delegate } from './Delegate';
 import { Borrow } from './Borrow';
 import { ClaimRewards } from './ClaimRewards';
+import { CurveSavingsSupply } from './CurveSavingsSupply';
 import { Liquidated } from './Liquidated';
 import { Repaid } from './Repaid';
 import { SelectRewards } from './SelectRewards';
@@ -81,6 +82,7 @@ export {
   Delegate,
   Borrow,
   ClaimRewards,
+  CurveSavingsSupply,
   Liquidated,
   Repaid,
   SelectRewards

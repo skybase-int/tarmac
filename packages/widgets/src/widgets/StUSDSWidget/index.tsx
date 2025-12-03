@@ -168,7 +168,9 @@ const StUSDSWidgetWrapped = ({
 
   // Use provider-aware max amounts when available
   const maxSupplyAmount = providerSelection.selectedQuote?.isValid
-    ? (providerSelection.nativeProvider?.state?.maxDeposit ?? remainingCapacityBuffered)
+    ? providerSelection.selectedProvider === StUsdsProviderType.CURVE
+      ? (providerSelection.curveProvider?.state?.maxDeposit ?? remainingCapacityBuffered)
+      : (providerSelection.nativeProvider?.state?.maxDeposit ?? remainingCapacityBuffered)
     : remainingCapacityBuffered;
 
   const maxWithdrawAmount = providerSelection.selectedQuote?.isValid
