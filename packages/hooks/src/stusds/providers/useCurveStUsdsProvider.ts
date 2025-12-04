@@ -72,17 +72,23 @@ export function useCurveStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvide
       status = canWithdraw ? StUsdsProviderStatus.AVAILABLE : StUsdsProviderStatus.BLOCKED;
     }
 
-    // Max amounts are the pool reserves (minus some buffer for slippage)
+    // Max amounts need to account for the exchange rate between USDS and stUSDS.
+    // The priceOracle returns the price of stUSDS in terms of USDS (scaled by 1e18).
+    // For deposits (USDS → stUSDS): maxDeposit = stUsdsReserve * priceOracle / WAD
+    // For withdrawals (stUSDS → USDS): maxWithdraw = usdsReserve * WAD / priceOracle
+    const slippageMultiplier = RATE_PRECISION.BPS_DIVISOR - BigInt(STUSDS_PROVIDER_CONFIG.maxSlippageBps);
+
+    // Use price oracle if available, otherwise fall back to 1:1
+    const priceOracle = poolData.priceOracle || RATE_PRECISION.WAD;
+
     const maxDeposit = canDeposit
-      ? (poolData.stUsdsReserve *
-          (RATE_PRECISION.BPS_DIVISOR - BigInt(STUSDS_PROVIDER_CONFIG.maxSlippageBps))) /
-        RATE_PRECISION.BPS_DIVISOR
+      ? (poolData.stUsdsReserve * priceOracle * slippageMultiplier) /
+        (RATE_PRECISION.WAD * RATE_PRECISION.BPS_DIVISOR)
       : 0n;
 
     const maxWithdraw = canWithdraw
-      ? (poolData.usdsReserve *
-          (RATE_PRECISION.BPS_DIVISOR - BigInt(STUSDS_PROVIDER_CONFIG.maxSlippageBps))) /
-        RATE_PRECISION.BPS_DIVISOR
+      ? (poolData.usdsReserve * RATE_PRECISION.WAD * slippageMultiplier) /
+        (priceOracle * RATE_PRECISION.BPS_DIVISOR)
       : 0n;
 
     return {
