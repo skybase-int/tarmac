@@ -10,6 +10,7 @@ import { BatchWriteHook, BatchWriteHookParams } from '../../hooks';
 import { getWriteContractCall } from '../../shared/getWriteContractCall';
 import { useTransactionFlow } from '../../shared/useTransactionFlow';
 import { isTestnetId } from '@jetstreamgg/sky-utils';
+import { TENDERLY_CHAIN_ID } from '../../constants';
 import { useCurveAllowance } from './useCurveAllowance';
 import { useCurvePoolData } from './useCurvePoolData';
 import { calculateMinOutputWithSlippage } from './rateComparison';
@@ -47,7 +48,7 @@ export function useBatchCurveSwap({
 }: BatchCurveSwapParams): BatchWriteHook {
   const { address: connectedAddress, isConnected } = useAccount();
   const connectedChainId = useChainId();
-  const chainId = isTestnetId(connectedChainId) ? 314310 : 1;
+  const chainId = isTestnetId(connectedChainId) ? TENDERLY_CHAIN_ID : 1;
 
   // Determine which token needs approval based on direction
   const inputToken = direction === 'deposit' ? 'USDS' : 'stUSDS';
@@ -67,10 +68,10 @@ export function useBatchCurveSwap({
 
   // Determine input/output indices based on direction
   const inputIndex =
-    direction === 'deposit' ? poolData?.tokenIndices.usds ?? 0 : poolData?.tokenIndices.stUsds ?? 1;
+    direction === 'deposit' ? (poolData?.tokenIndices.usds ?? 0) : (poolData?.tokenIndices.stUsds ?? 1);
 
   const outputIndex =
-    direction === 'deposit' ? poolData?.tokenIndices.stUsds ?? 1 : poolData?.tokenIndices.usds ?? 0;
+    direction === 'deposit' ? (poolData?.tokenIndices.stUsds ?? 1) : (poolData?.tokenIndices.usds ?? 0);
 
   // Calculate minimum output with slippage protection
   const minOutput = calculateMinOutputWithSlippage(expectedOutput, slippageBps);

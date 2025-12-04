@@ -1,7 +1,7 @@
 import { msg } from '@lingui/core/macro';
+import { MessageDescriptor } from '@lingui/core';
 import { BatchStatus, TxStatus } from '@widgets/shared/constants';
 import { TxCardCopyText } from '@widgets/shared/types/txCardCopyText';
-import { MessageDescriptor } from '@lingui/core';
 
 export enum StUSDSFlow {
   SUPPLY = 'supply',
@@ -12,12 +12,6 @@ export enum StUSDSAction {
   APPROVE = 'approve',
   SUPPLY = 'supply',
   WITHDRAW = 'withdraw'
-}
-
-// Provider types for display
-export enum StUSDSProvider {
-  NATIVE = 'native',
-  CURVE = 'curve'
 }
 
 // Provider selection reason messages
@@ -32,21 +26,6 @@ export const providerMessages = {
   allProvidersBlocked: msg`Both native and Curve routes are temporarily unavailable`,
   rateDifference: msg`Rate difference`
 };
-
-export function getProviderReasonMessage(reason: string, flow: StUSDSFlow): MessageDescriptor {
-  switch (reason) {
-    case 'curve_only_available':
-      return flow === StUSDSFlow.SUPPLY
-        ? providerMessages.usingCurveNativeDepositBlocked
-        : providerMessages.usingCurveNativeWithdrawBlocked;
-    case 'curve_better_rate':
-      return providerMessages.usingCurveBetterRate;
-    case 'all_blocked':
-      return providerMessages.allProvidersBlocked;
-    default:
-      return providerMessages.nativeProvider;
-  }
-}
 
 export enum StUSDSScreen {
   ACTION = 'action',
@@ -73,12 +52,28 @@ export const stusdsWithdrawReviewTitle = msg`Begin the withdraw process`;
 export function getStUSDSSupplyReviewSubtitle({
   batchStatus,
   symbol,
-  needsAllowance
+  needsAllowance,
+  isCurve = false
 }: {
   batchStatus: BatchStatus;
   symbol: string;
   needsAllowance: boolean;
+  isCurve?: boolean;
 }): MessageDescriptor {
+  if (isCurve) {
+    if (!needsAllowance) {
+      return msg`You will swap your ${symbol} for stUSDS via the Curve pool.`;
+    }
+    switch (batchStatus) {
+      case BatchStatus.ENABLED:
+        return msg`You're allowing this app to access your ${symbol} and swap it for stUSDS via Curve pool in one bundled transaction.`;
+      case BatchStatus.DISABLED:
+        return msg`You're allowing this app to access your ${symbol} and swap it for stUSDS via Curve pool in multiple transactions.`;
+      default:
+        return msg``;
+    }
+  }
+
   if (!needsAllowance) {
     return msg`You will supply your ${symbol} to the stUSDS module to earn a rate through SKY-backed borrowing.`;
   }
@@ -95,12 +90,28 @@ export function getStUSDSSupplyReviewSubtitle({
 export function getStUSDSWithdrawReviewSubtitle({
   batchStatus,
   symbol,
-  needsAllowance
+  needsAllowance,
+  isCurve = false
 }: {
   batchStatus: BatchStatus;
   symbol: string;
   needsAllowance: boolean;
+  isCurve?: boolean;
 }): MessageDescriptor {
+  if (isCurve) {
+    if (!needsAllowance) {
+      return msg`You will swap your stUSDS for ${symbol} via the Curve pool.`;
+    }
+    switch (batchStatus) {
+      case BatchStatus.ENABLED:
+        return msg`You're allowing this app to access your stUSDS and swap it for ${symbol} via Curve pool in one bundled transaction.`;
+      case BatchStatus.DISABLED:
+        return msg`You're allowing this app to access your stUSDS and swap it for ${symbol} via Curve pool in multiple transactions.`;
+      default:
+        return msg``;
+    }
+  }
+
   if (!needsAllowance) {
     return msg`You will withdraw your ${symbol} from the stUSDS module. Withdrawals may be delayed during periods of high utilization.`;
   }

@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useChainId } from 'wagmi';
 import { useReadCurveStUsdsUsdsPoolGetDy } from '../../generated';
 import { isTestnetId } from '@jetstreamgg/sky-utils';
+import { TENDERLY_CHAIN_ID } from '../../constants';
 import { useCurvePoolData } from './useCurvePoolData';
 import { RATE_PRECISION } from './constants';
 
@@ -50,7 +51,7 @@ export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
   const { inputToken, inputAmount, enabled = true } = params;
 
   const connectedChainId = useChainId();
-  const chainId = isTestnetId(connectedChainId) ? 314310 : 1;
+  const chainId = isTestnetId(connectedChainId) ? TENDERLY_CHAIN_ID : 1;
 
   // Get pool data to determine token indices
   const { data: poolData, isLoading: isPoolLoading } = useCurvePoolData();
@@ -87,14 +88,25 @@ export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
     // Calculate effective rate (output / input) scaled by 1e18
     const effectiveRate = (outputAmount * RATE_PRECISION.WAD) / inputAmount;
 
-    // Calculate approximate price impact
-    // Compare against the oracle price for a rough estimate
+    // Calculate price impact using the oracle price
+    // The oracle price represents the EMA price of stUSDS in terms of USDS (scaled by 1e18)
+    // i.e., priceOracle = how many USDS per 1 stUSDS
     let priceImpactBps = 0;
     if (poolData?.priceOracle && poolData.priceOracle > 0n) {
-      // Oracle price is stUSDS per USDS (or vice versa depending on pool config)
-      // For simplicity, we compare the effective rate to what we'd expect from a 1:1 rate
-      // A more accurate calculation would use the oracle price directly
-      const expectedRate = RATE_PRECISION.WAD; // 1:1 baseline
+      let expectedRate: bigint;
+
+      if (inputToken === 'USDS') {
+        // USDS -> stUSDS: We expect to receive less stUSDS per USDS (inverse of oracle)
+        // Expected rate = WAD / priceOracle (stUSDS per USDS)
+        expectedRate = (RATE_PRECISION.WAD * RATE_PRECISION.WAD) / poolData.priceOracle;
+      } else {
+        // stUSDS -> USDS: We expect to receive priceOracle USDS per stUSDS
+        // Expected rate = priceOracle (USDS per stUSDS)
+        expectedRate = poolData.priceOracle;
+      }
+
+      // Price impact is the difference between expected and actual rate
+      // Positive impact means we're getting less than expected (negative for user)
       if (effectiveRate < expectedRate) {
         const impact = ((expectedRate - effectiveRate) * RATE_PRECISION.BPS_DIVISOR) / expectedRate;
         priceImpactBps = Number(impact);
@@ -106,7 +118,7 @@ export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
       priceImpactBps,
       effectiveRate
     };
-  }, [outputAmount, inputAmount, poolData?.priceOracle]);
+  }, [outputAmount, inputAmount, poolData?.priceOracle, inputToken]);
 
   return {
     data,

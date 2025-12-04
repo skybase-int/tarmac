@@ -294,20 +294,30 @@ const StUSDSWidgetWrapped = ({
 
   const showSecondaryButton = txStatus === TxStatus.ERROR || widgetState.screen === StUSDSScreen.REVIEW;
 
-  // Handle prepare errors for native withdraw hook (Curve swaps don't have prepareError)
+  // Handle prepare errors for native and Curve hooks
   const withdrawPrepareError = 'prepareError' in stUsdsWithdraw ? stUsdsWithdraw.prepareError : null;
+  const supplyError = batchStUsdsDeposit.error;
+  const withdrawError = stUsdsWithdraw.error;
+
   useEffect(() => {
-    if (withdrawPrepareError) {
-      console.log(withdrawPrepareError);
-
-      // Check for specific error types
-      const errorMessage = (withdrawPrepareError as Error).message;
+    const error = withdrawPrepareError || withdrawError;
+    if (error && widgetState.flow === StUSDSFlow.WITHDRAW) {
+      const errorMessage = (error as Error).message || '';
       let title = t`Error preparing transaction`;
-      let description = (withdrawPrepareError as Error).message;
+      let description = (error as Error).message;
 
+      // Native stUSDS errors
       if (errorMessage.includes('YUsds/insufficient-unused-funds')) {
         title = t`Insufficient liquidity`;
         description = t`The vault does not have enough available USDS for withdrawal. Please try a smaller amount or wait for liquidity to become available.`;
+      }
+      // Curve-specific errors
+      else if (errorMessage.includes('Exchange resulted in fewer coins')) {
+        title = t`Slippage exceeded`;
+        description = t`The swap would result in less output than the minimum acceptable amount. Try reducing the amount or waiting for better rates.`;
+      } else if (errorMessage.includes('Insufficient balance')) {
+        title = t`Insufficient pool liquidity`;
+        description = t`The Curve pool does not have enough liquidity for this swap. Please try a smaller amount.`;
       }
 
       onNotification?.({
@@ -316,7 +326,30 @@ const StUSDSWidgetWrapped = ({
         status: TxStatus.ERROR
       });
     }
-  }, [withdrawPrepareError]);
+  }, [withdrawPrepareError, withdrawError, widgetState.flow]);
+
+  useEffect(() => {
+    if (supplyError && widgetState.flow === StUSDSFlow.SUPPLY) {
+      const errorMessage = (supplyError as Error).message || '';
+      let title = t`Error preparing transaction`;
+      let description = (supplyError as Error).message;
+
+      // Curve-specific errors
+      if (errorMessage.includes('Exchange resulted in fewer coins')) {
+        title = t`Slippage exceeded`;
+        description = t`The swap would result in less output than the minimum acceptable amount. Try reducing the amount or waiting for better rates.`;
+      } else if (errorMessage.includes('Insufficient balance')) {
+        title = t`Insufficient pool liquidity`;
+        description = t`The Curve pool does not have enough liquidity for this swap. Please try a smaller amount.`;
+      }
+
+      onNotification?.({
+        title,
+        description,
+        status: TxStatus.ERROR
+      });
+    }
+  }, [supplyError, widgetState.flow]);
 
   // Update button state according to action and tx
   // Ref: https://lingui.dev/tutorials/react-patterns#memoization-pitfall

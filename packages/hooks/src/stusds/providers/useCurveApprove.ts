@@ -3,6 +3,7 @@ import { usdsAddress, stUsdsAddress, curveStUsdsUsdsPoolAddress } from '../../ge
 import { WriteHook, WriteHookParams } from '../../hooks';
 import { useApproveToken } from '../../tokens/useApproveToken';
 import { isTestnetId } from '@jetstreamgg/sky-utils';
+import { TENDERLY_CHAIN_ID } from '../../constants';
 
 export type CurveApproveParams = WriteHookParams & {
   /** Which token to approve */
@@ -27,7 +28,7 @@ export function useCurveApprove({
   onStart = () => null
 }: CurveApproveParams): WriteHook {
   const connectedChainId = useChainId();
-  const chainId = isTestnetId(connectedChainId) ? 314310 : 1;
+  const chainId = isTestnetId(connectedChainId) ? TENDERLY_CHAIN_ID : 1;
 
   // Determine which token contract to approve
   const tokenAddress =

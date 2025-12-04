@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useChainId, useReadContracts } from 'wagmi';
 import { curveStUsdsUsdsPoolAddress, curveStUsdsUsdsPoolAbi, usdsAddress } from '../../generated';
 import { isTestnetId } from '@jetstreamgg/sky-utils';
+import { TENDERLY_CHAIN_ID } from '../../constants';
 import { CURVE_POOL_TOKEN_INDICES } from './constants';
 
 /**
@@ -45,7 +46,7 @@ export type CurvePoolDataHookResult = {
  */
 export function useCurvePoolData(): CurvePoolDataHookResult {
   const connectedChainId = useChainId();
-  const chainId = isTestnetId(connectedChainId) ? 314310 : 1;
+  const chainId = isTestnetId(connectedChainId) ? TENDERLY_CHAIN_ID : 1;
 
   const poolAddress = curveStUsdsUsdsPoolAddress[chainId as keyof typeof curveStUsdsUsdsPoolAddress];
   const expectedUsdsAddress = usdsAddress[chainId as keyof typeof usdsAddress];
@@ -101,28 +102,15 @@ export function useCurvePoolData(): CurvePoolDataHookResult {
     ]
   });
 
-  // console.log('useCurvePoolData debug:', {
-  //   connectedChainId,
-  //   chainId,
-  //   poolAddress,
-  //   readData,
-  //   error,
-  //   isLoading
-  // });
-
   const data: CurvePoolData | undefined = useMemo(() => {
     if (!readData) return undefined;
 
-    // // With allowFailure: true, results are { result, status } objects
-    // // Check if all calls succeeded
-    // const allSucceeded = readData.every(r => r.status === 'success');
-    // if (!allSucceeded) {
-    //   console.log(
-    //     'useCurvePoolData: Some calls failed',
-    //     readData.map((r, i) => ({ index: i, status: r.status, error: r.status === 'failure' ? r.error : null }))
-    //   );
-    //   return undefined;
-    // }
+    // With allowFailure: true, results are { result, status } objects
+    // Check if all calls succeeded
+    const allSucceeded = readData.every(r => r.status === 'success');
+    if (!allSucceeded) {
+      return undefined;
+    }
 
     const balance0 = readData[0].result as bigint;
     const balance1 = readData[1].result as bigint;

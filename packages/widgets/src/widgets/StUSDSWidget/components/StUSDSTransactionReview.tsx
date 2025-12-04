@@ -60,7 +60,8 @@ export const StUSDSTransactionReview = ({
           getStUSDSSupplyReviewSubtitle({
             batchStatus: !!batchSupported && batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
             symbol: originToken.symbol,
-            needsAllowance
+            needsAllowance,
+            isCurve
           })
         )
       );
@@ -72,7 +73,8 @@ export const StUSDSTransactionReview = ({
           getStUSDSWithdrawReviewSubtitle({
             batchStatus: !!batchSupported && batchEnabled ? BatchStatus.ENABLED : BatchStatus.DISABLED,
             symbol: 'USDS',
-            needsAllowance
+            needsAllowance,
+            isCurve
           })
         )
       );
