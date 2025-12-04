@@ -3,7 +3,7 @@ import {
   createUseWriteContract,
   createUseSimulateContract,
   createUseWatchContractEvent
-} from 'wagmi/codegen'
+} from 'wagmi/codegen';
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // cleReward
@@ -320,7 +320,7 @@ export const cleRewardAbi = [
     outputs: [],
     stateMutability: 'nonpayable'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x10ab606B067C9C461d8893c47C7512472E19e2Ce)
@@ -328,12 +328,12 @@ export const cleRewardAbi = [
 export const cleRewardAddress = {
   1: '0x10ab606B067C9C461d8893c47C7512472E19e2Ce',
   314310: '0x10ab606B067C9C461d8893c47C7512472E19e2Ce'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x10ab606B067C9C461d8893c47C7512472E19e2Ce)
  */
-export const cleRewardConfig = { address: cleRewardAddress, abi: cleRewardAbi } as const
+export const cleRewardConfig = { address: cleRewardAddress, abi: cleRewardAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // clipper
@@ -683,7 +683,7 @@ export const clipperAbi = [
     outputs: [],
     stateMutability: 'nonpayable'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x836F56750517b1528B5078Cba4Ac4B94fBE4A399)
@@ -691,12 +691,12 @@ export const clipperAbi = [
 export const clipperAddress = {
   1: '0x836F56750517b1528B5078Cba4Ac4B94fBE4A399',
   314310: '0x836F56750517b1528B5078Cba4Ac4B94fBE4A399'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x836F56750517b1528B5078Cba4Ac4B94fBE4A399)
  */
-export const clipperConfig = { address: clipperAddress, abi: clipperAbi } as const
+export const clipperConfig = { address: clipperAddress, abi: clipperAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // curveStUsdsUsdsPool
@@ -1371,7 +1371,7 @@ export const curveStUsdsUsdsPoolAbi = [
     outputs: [{ name: '', type: 'bytes32' }],
     stateMutability: 'view'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2C7C98A3b1582D83c43987202aEFf638312478aE)
@@ -1379,7 +1379,7 @@ export const curveStUsdsUsdsPoolAbi = [
 export const curveStUsdsUsdsPoolAddress = {
   1: '0x2C7C98A3b1582D83c43987202aEFf638312478aE',
   314310: '0x2C7C98A3b1582D83c43987202aEFf638312478aE'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2C7C98A3b1582D83c43987202aEFf638312478aE)
@@ -1387,7 +1387,7 @@ export const curveStUsdsUsdsPoolAddress = {
 export const curveStUsdsUsdsPoolConfig = {
   address: curveStUsdsUsdsPoolAddress,
   abi: curveStUsdsUsdsPoolAbi
-} as const
+} as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // daiUsds
@@ -1473,7 +1473,7 @@ export const daiUsdsAbi = [
     outputs: [],
     stateMutability: 'nonpayable'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3225737a9Bbb6473CB4a45b7244ACa2BeFdB276A)
@@ -1481,12 +1481,12 @@ export const daiUsdsAbi = [
 export const daiUsdsAddress = {
   1: '0x3225737a9Bbb6473CB4a45b7244ACa2BeFdB276A',
   314310: '0x3225737a9Bbb6473CB4a45b7244ACa2BeFdB276A'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3225737a9Bbb6473CB4a45b7244ACa2BeFdB276A)
  */
-export const daiUsdsConfig = { address: daiUsdsAddress, abi: daiUsdsAbi } as const
+export const daiUsdsConfig = { address: daiUsdsAddress, abi: daiUsdsAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // dsProxy
@@ -1609,7 +1609,7 @@ export const dsProxyAbi = [
     inputs: [{ name: 'owner', type: 'address', indexed: true }],
     name: 'LogSetOwner'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7Ac6E2b9ea61e2E587A06e083E4373918071dCfc)
@@ -1617,12 +1617,12 @@ export const dsProxyAbi = [
 export const dsProxyAddress = {
   1: '0x7Ac6E2b9ea61e2E587A06e083E4373918071dCfc',
   314310: '0x7Ac6E2b9ea61e2E587A06e083E4373918071dCfc'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7Ac6E2b9ea61e2E587A06e083E4373918071dCfc)
  */
-export const dsProxyConfig = { address: dsProxyAddress, abi: dsProxyAbi } as const
+export const dsProxyConfig = { address: dsProxyAddress, abi: dsProxyAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ethFlow
@@ -1833,7 +1833,7 @@ export const ethFlowAbi = [
     stateMutability: 'view'
   },
   { type: 'receive', stateMutability: 'payable' }
-] as const
+] as const;
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC)
@@ -1845,14 +1845,14 @@ export const ethFlowAddress = {
   8453: '0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC',
   42161: '0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC',
   314310: '0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC'
-} as const
+} as const;
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC)
  */
-export const ethFlowConfig = { address: ethFlowAddress, abi: ethFlowAbi } as const
+export const ethFlowConfig = { address: ethFlowAddress, abi: ethFlowAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // gPv2Settlement
@@ -2102,7 +2102,7 @@ export const gPv2SettlementAbi = [
     stateMutability: 'view'
   },
   { type: 'receive', stateMutability: 'payable' }
-] as const
+] as const;
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
@@ -2114,14 +2114,14 @@ export const gPv2SettlementAddress = {
   8453: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41',
   42161: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41',
   314310: '0x9008D19f58AAbD9eD0D60971565AA8510560ab41'
-} as const
+} as const;
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9008D19f58AAbD9eD0D60971565AA8510560ab41)
  */
-export const gPv2SettlementConfig = { address: gPv2SettlementAddress, abi: gPv2SettlementAbi } as const
+export const gPv2SettlementConfig = { address: gPv2SettlementAddress, abi: gPv2SettlementAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // lsMkr
@@ -2288,7 +2288,7 @@ export const lsMkrAbi = [
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xb4e0e45e142101dc3ed768bac219fc35edbed295)
@@ -2296,12 +2296,12 @@ export const lsMkrAbi = [
 export const lsMkrAddress = {
   1: '0xb4e0e45e142101dC3Ed768bac219fC35EDBED295',
   314310: '0xb4e0e45e142101dC3Ed768bac219fC35EDBED295'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xb4e0e45e142101dc3ed768bac219fc35edbed295)
  */
-export const lsMkrConfig = { address: lsMkrAddress, abi: lsMkrAbi } as const
+export const lsMkrConfig = { address: lsMkrAddress, abi: lsMkrAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // lsMkrUsdsReward
@@ -2618,7 +2618,7 @@ export const lsMkrUsdsRewardAbi = [
     outputs: [],
     stateMutability: 'nonpayable'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x92282235a39be957ff1f37619fd22a9ae5507cb1)
@@ -2626,12 +2626,12 @@ export const lsMkrUsdsRewardAbi = [
 export const lsMkrUsdsRewardAddress = {
   1: '0x92282235a39bE957fF1f37619fD22A9aE5507CB1',
   314310: '0x92282235a39bE957fF1f37619fD22A9aE5507CB1'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x92282235a39be957ff1f37619fd22a9ae5507cb1)
  */
-export const lsMkrUsdsRewardConfig = { address: lsMkrUsdsRewardAddress, abi: lsMkrUsdsRewardAbi } as const
+export const lsMkrUsdsRewardConfig = { address: lsMkrUsdsRewardAddress, abi: lsMkrUsdsRewardAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // lsSky
@@ -2798,7 +2798,7 @@ export const lsSkyAbi = [
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xf9A9cfD3229E985B91F99Bc866d42938044FFa1C)
@@ -2806,12 +2806,12 @@ export const lsSkyAbi = [
 export const lsSkyAddress = {
   1: '0xf9A9cfD3229E985B91F99Bc866d42938044FFa1C',
   314310: '0xf9A9cfD3229E985B91F99Bc866d42938044FFa1C'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xf9A9cfD3229E985B91F99Bc866d42938044FFa1C)
  */
-export const lsSkyConfig = { address: lsSkyAddress, abi: lsSkyAbi } as const
+export const lsSkyConfig = { address: lsSkyAddress, abi: lsSkyAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // lsSkySkyReward
@@ -3128,7 +3128,7 @@ export const lsSkySkyRewardAbi = [
     outputs: [],
     stateMutability: 'nonpayable'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB44C2Fb4181D7Cb06bdFf34A46FdFe4a259B40Fc)
@@ -3136,12 +3136,12 @@ export const lsSkySkyRewardAbi = [
 export const lsSkySkyRewardAddress = {
   1: '0xB44C2Fb4181D7Cb06bdFf34A46FdFe4a259B40Fc',
   314310: '0xB44C2Fb4181D7Cb06bdFf34A46FdFe4a259B40Fc'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB44C2Fb4181D7Cb06bdFf34A46FdFe4a259B40Fc)
  */
-export const lsSkySkyRewardConfig = { address: lsSkySkyRewardAddress, abi: lsSkySkyRewardAbi } as const
+export const lsSkySkyRewardConfig = { address: lsSkySkyRewardAddress, abi: lsSkySkyRewardAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // lsSkySpkReward
@@ -3458,7 +3458,7 @@ export const lsSkySpkRewardAbi = [
     outputs: [],
     stateMutability: 'nonpayable'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
@@ -3466,12 +3466,12 @@ export const lsSkySpkRewardAbi = [
 export const lsSkySpkRewardAddress = {
   1: '0x99cBC0e4E6427F6939536eD24d1275B95ff77404',
   314310: '0x99cBC0e4E6427F6939536eD24d1275B95ff77404'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99cBC0e4E6427F6939536eD24d1275B95ff77404)
  */
-export const lsSkySpkRewardConfig = { address: lsSkySpkRewardAddress, abi: lsSkySpkRewardAbi } as const
+export const lsSkySpkRewardConfig = { address: lsSkySpkRewardAddress, abi: lsSkySpkRewardAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // lsSkyUsdsReward
@@ -3788,7 +3788,7 @@ export const lsSkyUsdsRewardAbi = [
     outputs: [],
     stateMutability: 'nonpayable'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
@@ -3796,12 +3796,12 @@ export const lsSkyUsdsRewardAbi = [
 export const lsSkyUsdsRewardAddress = {
   1: '0x38E4254bD82ED5Ee97CD1C4278FAae748d998865',
   314310: '0x38E4254bD82ED5Ee97CD1C4278FAae748d998865'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x38E4254bD82ED5Ee97CD1C4278FAae748d998865)
  */
-export const lsSkyUsdsRewardConfig = { address: lsSkyUsdsRewardAddress, abi: lsSkyUsdsRewardAbi } as const
+export const lsSkyUsdsRewardConfig = { address: lsSkyUsdsRewardAddress, abi: lsSkyUsdsRewardAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // mcdDai
@@ -4087,7 +4087,7 @@ export const mcdDaiAbi = [
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view'
   }
-] as const
+] as const;
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
@@ -4099,14 +4099,14 @@ export const mcdDaiAddress = {
   8453: '0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb',
   42161: '0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1',
   314310: '0x6B175474E89094C44Da98b954EedeAC495271d0F'
-} as const
+} as const;
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6b175474e89094c44da98b954eedeac495271d0f)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
-export const mcdDaiConfig = { address: mcdDaiAddress, abi: mcdDaiAbi } as const
+export const mcdDaiConfig = { address: mcdDaiAddress, abi: mcdDaiAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // mcdJug
@@ -4255,7 +4255,7 @@ export const mcdJugAbi = [
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x19c0976f590d67707e62397c87829d896dc0f1f1)
@@ -4263,12 +4263,12 @@ export const mcdJugAbi = [
 export const mcdJugAddress = {
   1: '0x19c0976f590D67707E62397C87829d896Dc0f1F1',
   314310: '0x19c0976f590D67707E62397C87829d896Dc0f1F1'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x19c0976f590d67707e62397c87829d896dc0f1f1)
  */
-export const mcdJugConfig = { address: mcdJugAddress, abi: mcdJugAbi } as const
+export const mcdJugConfig = { address: mcdJugAddress, abi: mcdJugAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // mcdPot
@@ -4455,7 +4455,7 @@ export const mcdPotAbi = [
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x197E90f9FAD81970bA7976f33CbD77088E5D7cf7)
@@ -4463,12 +4463,12 @@ export const mcdPotAbi = [
 export const mcdPotAddress = {
   1: '0x197E90f9FAD81970bA7976f33CbD77088E5D7cf7',
   314310: '0x197E90f9FAD81970bA7976f33CbD77088E5D7cf7'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x197E90f9FAD81970bA7976f33CbD77088E5D7cf7)
  */
-export const mcdPotConfig = { address: mcdPotAddress, abi: mcdPotAbi } as const
+export const mcdPotConfig = { address: mcdPotAddress, abi: mcdPotAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // mcdSpot
@@ -4628,7 +4628,7 @@ export const mcdSpotAbi = [
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x65c79fcb50ca1594b025960e539ed7a9a6d434a3)
@@ -4636,12 +4636,12 @@ export const mcdSpotAbi = [
 export const mcdSpotAddress = {
   1: '0x65C79fcB50Ca1594B025960e539eD7A9a6D434A3',
   314310: '0x65C79fcB50Ca1594B025960e539eD7A9a6D434A3'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x65c79fcb50ca1594b025960e539ed7a9a6d434a3)
  */
-export const mcdSpotConfig = { address: mcdSpotAddress, abi: mcdSpotAbi } as const
+export const mcdSpotConfig = { address: mcdSpotAddress, abi: mcdSpotAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // mcdVat
@@ -4982,7 +4982,7 @@ export const mcdVatAbi = [
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x35d1b3f3d7966a1dfe207aa4514c12a259a0492b)
@@ -4990,12 +4990,12 @@ export const mcdVatAbi = [
 export const mcdVatAddress = {
   1: '0x35D1b3F3D7966A1DFe207aa4514C12a259A0492B',
   314310: '0x35D1b3F3D7966A1DFe207aa4514C12a259A0492B'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x35d1b3f3d7966a1dfe207aa4514c12a259a0492b)
  */
-export const mcdVatConfig = { address: mcdVatAddress, abi: mcdVatAbi } as const
+export const mcdVatConfig = { address: mcdVatAddress, abi: mcdVatAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // merkleDistributor
@@ -5056,7 +5056,7 @@ export const merkleDistributorAbi = [
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
     stateMutability: 'view'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xca9eF7F3404B23C77A2a0Dee8ab54B3338d35eAe)
@@ -5064,7 +5064,7 @@ export const merkleDistributorAbi = [
 export const merkleDistributorAddress = {
   1: '0xca9eF7F3404B23C77A2a0Dee8ab54B3338d35eAe',
   314310: '0xca9eF7F3404B23C77A2a0Dee8ab54B3338d35eAe'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xca9eF7F3404B23C77A2a0Dee8ab54B3338d35eAe)
@@ -5072,7 +5072,7 @@ export const merkleDistributorAddress = {
 export const merkleDistributorConfig = {
   address: merkleDistributorAddress,
   abi: merkleDistributorAbi
-} as const
+} as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // mkr
@@ -5405,7 +5405,7 @@ export const mkrAbi = [
     ],
     name: 'Approval'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2)
@@ -5413,12 +5413,12 @@ export const mkrAbi = [
 export const mkrAddress = {
   1: '0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2',
   314310: '0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2)
  */
-export const mkrConfig = { address: mkrAddress, abi: mkrAbi } as const
+export const mkrConfig = { address: mkrAddress, abi: mkrAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // mkrSky
@@ -5575,7 +5575,7 @@ export const mkrSkyAbi = [
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xA1Ea1bA18E88C381C724a75F23a130420C403f9a)
@@ -5583,12 +5583,12 @@ export const mkrSkyAbi = [
 export const mkrSkyAddress = {
   1: '0xA1Ea1bA18E88C381C724a75F23a130420C403f9a',
   314310: '0xA1Ea1bA18E88C381C724a75F23a130420C403f9a'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xA1Ea1bA18E88C381C724a75F23a130420C403f9a)
  */
-export const mkrSkyConfig = { address: mkrSkyAddress, abi: mkrSkyAbi } as const
+export const mkrSkyConfig = { address: mkrSkyAddress, abi: mkrSkyAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // proxyActions
@@ -6166,7 +6166,7 @@ export const proxyActionsAbi = [
     outputs: [],
     stateMutability: 'nonpayable'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x82ecd135dce65fbc6dbdd0e4237e0af93ffd5038)
@@ -6174,12 +6174,12 @@ export const proxyActionsAbi = [
 export const proxyActionsAddress = {
   1: '0x82ecD135Dce65Fbc6DbdD0e4237E0AF93FFD5038',
   314310: '0x82ecD135Dce65Fbc6DbdD0e4237E0AF93FFD5038'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x82ecd135dce65fbc6dbdd0e4237e0af93ffd5038)
  */
-export const proxyActionsConfig = { address: proxyActionsAddress, abi: proxyActionsAbi } as const
+export const proxyActionsConfig = { address: proxyActionsAddress, abi: proxyActionsAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // proxyRegistry
@@ -6222,7 +6222,7 @@ export const proxyRegistryAbi = [
     inputs: [{ name: 'factory_', type: 'address' }],
     stateMutability: 'nonpayable'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x4678f0a6958e4D2Bc4F1BAF7Bc52E8F3564f3fE4)
@@ -6230,12 +6230,12 @@ export const proxyRegistryAbi = [
 export const proxyRegistryAddress = {
   1: '0x4678f0a6958e4D2Bc4F1BAF7Bc52E8F3564f3fE4',
   314310: '0x4678f0a6958e4D2Bc4F1BAF7Bc52E8F3564f3fE4'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x4678f0a6958e4D2Bc4F1BAF7Bc52E8F3564f3fE4)
  */
-export const proxyRegistryConfig = { address: proxyRegistryAddress, abi: proxyRegistryAbi } as const
+export const proxyRegistryConfig = { address: proxyRegistryAddress, abi: proxyRegistryAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // psm3L2
@@ -6533,7 +6533,7 @@ export const psm3L2Abi = [
     outputs: [{ name: 'assetsWithdrawn', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'nonpayable'
   }
-] as const
+] as const;
 
 /**
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xe0F9978b907853F354d79188A3dEfbD41978af62)
@@ -6546,7 +6546,7 @@ export const psm3L2Address = {
   130: '0x7b42Ed932f26509465F7cE3FAF76FfCe1275312f',
   8453: '0x1601843c5E9bC251A3272907010AFa41Fa18347E',
   42161: '0x2B05F8e1cACC6974fD79A673a341Fe1f58d27266'
-} as const
+} as const;
 
 /**
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xe0F9978b907853F354d79188A3dEfbD41978af62)
@@ -6554,7 +6554,7 @@ export const psm3L2Address = {
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x2B05F8e1cACC6974fD79A673a341Fe1f58d27266)
  */
-export const psm3L2Config = { address: psm3L2Address, abi: psm3L2Abi } as const
+export const psm3L2Config = { address: psm3L2Address, abi: psm3L2Abi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // sUsds
@@ -6591,7 +6591,7 @@ export const sUsdsAbi = [
     name: 'Upgraded'
   },
   { type: 'fallback', stateMutability: 'payable' }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD)
@@ -6599,12 +6599,12 @@ export const sUsdsAbi = [
 export const sUsdsAddress = {
   1: '0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD',
   314310: '0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD)
  */
-export const sUsdsConfig = { address: sUsdsAddress, abi: sUsdsAbi } as const
+export const sUsdsConfig = { address: sUsdsAddress, abi: sUsdsAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // sUsdsImplementation
@@ -7137,7 +7137,7 @@ export const sUsdsImplementationAbi = [
     outputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'nonpayable'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x4e7991e5C547ce825BdEb665EE14a3274f9F61e0)
@@ -7145,7 +7145,7 @@ export const sUsdsImplementationAbi = [
 export const sUsdsImplementationAddress = {
   1: '0x4e7991e5C547ce825BdEb665EE14a3274f9F61e0',
   314310: '0x4e7991e5C547ce825BdEb665EE14a3274f9F61e0'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x4e7991e5C547ce825BdEb665EE14a3274f9F61e0)
@@ -7153,7 +7153,7 @@ export const sUsdsImplementationAddress = {
 export const sUsdsImplementationConfig = {
   address: sUsdsImplementationAddress,
   abi: sUsdsImplementationAbi
-} as const
+} as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // sUsdsL2
@@ -7193,7 +7193,7 @@ export const sUsdsL2Abi = [
     name: 'Upgraded'
   },
   { type: 'fallback', stateMutability: 'payable' }
-] as const
+] as const;
 
 /**
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xb5B2dc7fd34C249F4be7fB1fCea07950784229e0)
@@ -7206,7 +7206,7 @@ export const sUsdsL2Address = {
   130: '0xA06b10Db9F390990364A3984C04FaDf1c13691b5',
   8453: '0x5875eEE11Cf8398102FdAd704C9E96607675467a',
   42161: '0xdDb46999F8891663a8F2828d25298f70416d7610'
-} as const
+} as const;
 
 /**
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xb5B2dc7fd34C249F4be7fB1fCea07950784229e0)
@@ -7214,7 +7214,7 @@ export const sUsdsL2Address = {
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x5875eEE11Cf8398102FdAd704C9E96607675467a)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xdDb46999F8891663a8F2828d25298f70416d7610)
  */
-export const sUsdsL2Config = { address: sUsdsL2Address, abi: sUsdsL2Abi } as const
+export const sUsdsL2Config = { address: sUsdsL2Address, abi: sUsdsL2Abi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // sealModule
@@ -7863,7 +7863,7 @@ export const sealModuleAbi = [
     outputs: [{ name: 'wad', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'nonpayable'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2b16c07d5fd5cc701a0a871eae2aad6da5fc8f12)
@@ -7871,12 +7871,12 @@ export const sealModuleAbi = [
 export const sealModuleAddress = {
   1: '0x2b16C07D5fD5cC701a0a871eae2aad6DA5fc8f12',
   314310: '0x2b16C07D5fD5cC701a0a871eae2aad6DA5fc8f12'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2b16c07d5fd5cc701a0a871eae2aad6da5fc8f12)
  */
-export const sealModuleConfig = { address: sealModuleAddress, abi: sealModuleAbi } as const
+export const sealModuleConfig = { address: sealModuleAddress, abi: sealModuleAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // sky
@@ -8099,7 +8099,7 @@ export const skyAbi = [
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x56072C95FAA701256059aa122697B133aDEd9279)
@@ -8107,12 +8107,12 @@ export const skyAbi = [
 export const skyAddress = {
   1: '0x56072C95FAA701256059aa122697B133aDEd9279',
   314310: '0x56072C95FAA701256059aa122697B133aDEd9279'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x56072C95FAA701256059aa122697B133aDEd9279)
  */
-export const skyConfig = { address: skyAddress, abi: skyAbi } as const
+export const skyConfig = { address: skyAddress, abi: skyAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // spk
@@ -8361,7 +8361,7 @@ export const spkAbi = [
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
@@ -8369,12 +8369,12 @@ export const spkAbi = [
 export const spkAddress = {
   1: '0xc20059e0317DE91738d13af027DfC4a50781b066',
   314310: '0xc20059e0317DE91738d13af027DfC4a50781b066'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const spkConfig = { address: spkAddress, abi: spkAbi } as const
+export const spkConfig = { address: spkAddress, abi: spkAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ssrAuthOracle
@@ -8639,7 +8639,7 @@ export const ssrAuthOracleAbi = [
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
     stateMutability: 'view'
   }
-] as const
+] as const;
 
 /**
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x6E53585449142A5E6D5fC918AE6BEa341dC81C68)
@@ -8652,7 +8652,7 @@ export const ssrAuthOracleAddress = {
   130: '0x1566BFA55D95686a823751298533D42651183988',
   8453: '0x65d946e533748A998B1f0E430803e39A6388f7a1',
   42161: '0xEE2816c1E1eed14d444552654Ed3027abC033A36'
-} as const
+} as const;
 
 /**
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x6E53585449142A5E6D5fC918AE6BEa341dC81C68)
@@ -8660,7 +8660,7 @@ export const ssrAuthOracleAddress = {
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x65d946e533748A998B1f0E430803e39A6388f7a1)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xEE2816c1E1eed14d444552654Ed3027abC033A36)
  */
-export const ssrAuthOracleConfig = { address: ssrAuthOracleAddress, abi: ssrAuthOracleAbi } as const
+export const ssrAuthOracleConfig = { address: ssrAuthOracleAddress, abi: ssrAuthOracleAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // stUsds
@@ -8697,7 +8697,7 @@ export const stUsdsAbi = [
     name: 'Upgraded'
   },
   { type: 'fallback', stateMutability: 'payable' }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99CD4Ec3f88A45940936F469E4bB72A2A701EEB9)
@@ -8705,12 +8705,12 @@ export const stUsdsAbi = [
 export const stUsdsAddress = {
   1: '0x99CD4Ec3f88A45940936F469E4bB72A2A701EEB9',
   314310: '0x99CD4Ec3f88A45940936F469E4bB72A2A701EEB9'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x99CD4Ec3f88A45940936F469E4bB72A2A701EEB9)
  */
-export const stUsdsConfig = { address: stUsdsAddress, abi: stUsdsAbi } as const
+export const stUsdsConfig = { address: stUsdsAddress, abi: stUsdsAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // stUsdsImplementation
@@ -9297,7 +9297,7 @@ export const stUsdsImplementationAbi = [
     outputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'nonpayable'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
@@ -9305,7 +9305,7 @@ export const stUsdsImplementationAbi = [
 export const stUsdsImplementationAddress = {
   1: '0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22',
   314310: '0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7A61B7adCFD493f7CF0F86dFCECB94b72c227F22)
@@ -9313,7 +9313,7 @@ export const stUsdsImplementationAddress = {
 export const stUsdsImplementationConfig = {
   address: stUsdsImplementationAddress,
   abi: stUsdsImplementationAbi
-} as const
+} as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // stakeModule
@@ -9876,7 +9876,7 @@ export const stakeModuleAbi = [
     outputs: [{ name: 'wad', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'nonpayable'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xCe01C90dE7FD1bcFa39e237FE6D8D9F569e8A6a3)
@@ -9884,12 +9884,12 @@ export const stakeModuleAbi = [
 export const stakeModuleAddress = {
   1: '0xCe01C90dE7FD1bcFa39e237FE6D8D9F569e8A6a3',
   314310: '0xCe01C90dE7FD1bcFa39e237FE6D8D9F569e8A6a3'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xCe01C90dE7FD1bcFa39e237FE6D8D9F569e8A6a3)
  */
-export const stakeModuleConfig = { address: stakeModuleAddress, abi: stakeModuleAbi } as const
+export const stakeModuleConfig = { address: stakeModuleAddress, abi: stakeModuleAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // usdc
@@ -9969,7 +9969,7 @@ export const usdcAbi = [
     inputs: [{ name: 'implementation', type: 'address', indexed: false }],
     name: 'Upgraded'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48)
@@ -9977,12 +9977,12 @@ export const usdcAbi = [
 export const usdcAddress = {
   1: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
   314310: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48)
  */
-export const usdcConfig = { address: usdcAddress, abi: usdcAbi } as const
+export const usdcConfig = { address: usdcAddress, abi: usdcAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // usdcL2
@@ -10054,7 +10054,7 @@ export const usdcL2Abi = [
     outputs: [],
     stateMutability: 'payable'
   }
-] as const
+] as const;
 
 /**
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85)
@@ -10067,7 +10067,7 @@ export const usdcL2Address = {
   130: '0x078D782b760474a361dDA0AF3839290b0EF57AD6',
   8453: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
   42161: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831'
-} as const
+} as const;
 
 /**
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85)
@@ -10075,7 +10075,7 @@ export const usdcL2Address = {
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
-export const usdcL2Config = { address: usdcL2Address, abi: usdcL2Abi } as const
+export const usdcL2Config = { address: usdcL2Address, abi: usdcL2Abi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // usds
@@ -10112,7 +10112,7 @@ export const usdsAbi = [
     name: 'Upgraded'
   },
   { type: 'fallback', stateMutability: 'payable' }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdC035D45d973E3EC169d2276DDab16f1e407384F)
@@ -10120,12 +10120,12 @@ export const usdsAbi = [
 export const usdsAddress = {
   1: '0xdC035D45d973E3EC169d2276DDab16f1e407384F',
   314310: '0xdC035D45d973E3EC169d2276DDab16f1e407384F'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdC035D45d973E3EC169d2276DDab16f1e407384F)
  */
-export const usdsConfig = { address: usdsAddress, abi: usdsAbi } as const
+export const usdsConfig = { address: usdsAddress, abi: usdsAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // usdsL2
@@ -10165,7 +10165,7 @@ export const usdsL2Abi = [
     name: 'Upgraded'
   },
   { type: 'fallback', stateMutability: 'payable' }
-] as const
+] as const;
 
 /**
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x4F13a96EC5C4Cf34e442b46Bbd98a0791F20edC3)
@@ -10178,7 +10178,7 @@ export const usdsL2Address = {
   130: '0x7E10036Acc4B56d4dFCa3b77810356CE52313F9C',
   8453: '0x820C137fa70C8691f0e44Dc420a5e53c168921Dc',
   42161: '0x6491c05A82219b8D1479057361ff1654749b876b'
-} as const
+} as const;
 
 /**
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x4F13a96EC5C4Cf34e442b46Bbd98a0791F20edC3)
@@ -10186,7 +10186,7 @@ export const usdsL2Address = {
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x820C137fa70C8691f0e44Dc420a5e53c168921Dc)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x6491c05A82219b8D1479057361ff1654749b876b)
  */
-export const usdsL2Config = { address: usdsL2Address, abi: usdsL2Abi } as const
+export const usdsL2Config = { address: usdsL2Address, abi: usdsL2Abi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // usdsSkyReward
@@ -10503,7 +10503,7 @@ export const usdsSkyRewardAbi = [
     outputs: [],
     stateMutability: 'nonpayable'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
@@ -10511,12 +10511,12 @@ export const usdsSkyRewardAbi = [
 export const usdsSkyRewardAddress = {
   1: '0x0650CAF159C5A49f711e8169D4336ECB9b950275',
   314310: '0x0650CAF159C5A49f711e8169D4336ECB9b950275'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0650CAF159C5A49f711e8169D4336ECB9b950275)
  */
-export const usdsSkyRewardConfig = { address: usdsSkyRewardAddress, abi: usdsSkyRewardAbi } as const
+export const usdsSkyRewardConfig = { address: usdsSkyRewardAddress, abi: usdsSkyRewardAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // usdsSpkReward
@@ -10833,7 +10833,7 @@ export const usdsSpkRewardAbi = [
     outputs: [],
     stateMutability: 'nonpayable'
   }
-] as const
+] as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
@@ -10841,12 +10841,12 @@ export const usdsSpkRewardAbi = [
 export const usdsSpkRewardAddress = {
   1: '0x173e314C7635B45322cd8Cb14f44b312e079F3af',
   314310: '0x173e314C7635B45322cd8Cb14f44b312e079F3af'
-} as const
+} as const;
 
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x173e314C7635B45322cd8Cb14f44b312e079F3af)
  */
-export const usdsSpkRewardConfig = { address: usdsSpkRewardAddress, abi: usdsSpkRewardAbi } as const
+export const usdsSpkRewardConfig = { address: usdsSpkRewardAddress, abi: usdsSpkRewardAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // usdt
@@ -11246,7 +11246,7 @@ export const usdtAbi = [
   },
   { type: 'event', anonymous: false, inputs: [], name: 'Pause' },
   { type: 'event', anonymous: false, inputs: [], name: 'Unpause' }
-] as const
+] as const;
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
@@ -11258,14 +11258,14 @@ export const usdtAddress = {
   8453: '0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2',
   42161: '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9',
   314310: '0xdAC17F958D2ee523a2206206994597C13D831ec7'
-} as const
+} as const;
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
-export const usdtConfig = { address: usdtAddress, abi: usdtAbi } as const
+export const usdtConfig = { address: usdtAddress, abi: usdtAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // weth
@@ -11428,7 +11428,7 @@ export const wethAbi = [
     ],
     name: 'Withdrawal'
   }
-] as const
+] as const;
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
@@ -11440,14 +11440,14 @@ export const wethAddress = {
   8453: '0x4200000000000000000000000000000000000006',
   42161: '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1',
   314310: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
-} as const
+} as const;
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
-export const wethConfig = { address: wethAddress, abi: wethAbi } as const
+export const wethConfig = { address: wethAddress, abi: wethAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // React
@@ -11461,7 +11461,7 @@ export const wethConfig = { address: wethAddress, abi: wethAbi } as const
 export const useReadCleReward = /*#__PURE__*/ createUseReadContract({
   abi: cleRewardAbi,
   address: cleRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"balanceOf"`
@@ -11472,7 +11472,7 @@ export const useReadCleRewardBalanceOf = /*#__PURE__*/ createUseReadContract({
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'balanceOf'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"earned"`
@@ -11483,7 +11483,7 @@ export const useReadCleRewardEarned = /*#__PURE__*/ createUseReadContract({
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'earned'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"getRewardForDuration"`
@@ -11494,7 +11494,7 @@ export const useReadCleRewardGetRewardForDuration = /*#__PURE__*/ createUseReadC
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'getRewardForDuration'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"lastPauseTime"`
@@ -11505,7 +11505,7 @@ export const useReadCleRewardLastPauseTime = /*#__PURE__*/ createUseReadContract
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'lastPauseTime'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"lastTimeRewardApplicable"`
@@ -11516,7 +11516,7 @@ export const useReadCleRewardLastTimeRewardApplicable = /*#__PURE__*/ createUseR
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'lastTimeRewardApplicable'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"lastUpdateTime"`
@@ -11527,7 +11527,7 @@ export const useReadCleRewardLastUpdateTime = /*#__PURE__*/ createUseReadContrac
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'lastUpdateTime'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"nominatedOwner"`
@@ -11538,7 +11538,7 @@ export const useReadCleRewardNominatedOwner = /*#__PURE__*/ createUseReadContrac
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'nominatedOwner'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"owner"`
@@ -11549,7 +11549,7 @@ export const useReadCleRewardOwner = /*#__PURE__*/ createUseReadContract({
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'owner'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"paused"`
@@ -11560,7 +11560,7 @@ export const useReadCleRewardPaused = /*#__PURE__*/ createUseReadContract({
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'paused'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"periodFinish"`
@@ -11571,7 +11571,7 @@ export const useReadCleRewardPeriodFinish = /*#__PURE__*/ createUseReadContract(
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'periodFinish'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"rewardPerToken"`
@@ -11582,7 +11582,7 @@ export const useReadCleRewardRewardPerToken = /*#__PURE__*/ createUseReadContrac
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'rewardPerToken'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"rewardPerTokenStored"`
@@ -11593,7 +11593,7 @@ export const useReadCleRewardRewardPerTokenStored = /*#__PURE__*/ createUseReadC
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'rewardPerTokenStored'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"rewardRate"`
@@ -11604,7 +11604,7 @@ export const useReadCleRewardRewardRate = /*#__PURE__*/ createUseReadContract({
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'rewardRate'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"rewards"`
@@ -11615,7 +11615,7 @@ export const useReadCleRewardRewards = /*#__PURE__*/ createUseReadContract({
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'rewards'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"rewardsDistribution"`
@@ -11626,7 +11626,7 @@ export const useReadCleRewardRewardsDistribution = /*#__PURE__*/ createUseReadCo
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'rewardsDistribution'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"rewardsDuration"`
@@ -11637,7 +11637,7 @@ export const useReadCleRewardRewardsDuration = /*#__PURE__*/ createUseReadContra
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'rewardsDuration'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"rewardsToken"`
@@ -11648,7 +11648,7 @@ export const useReadCleRewardRewardsToken = /*#__PURE__*/ createUseReadContract(
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'rewardsToken'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"stakingToken"`
@@ -11659,7 +11659,7 @@ export const useReadCleRewardStakingToken = /*#__PURE__*/ createUseReadContract(
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'stakingToken'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"totalSupply"`
@@ -11670,7 +11670,7 @@ export const useReadCleRewardTotalSupply = /*#__PURE__*/ createUseReadContract({
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'totalSupply'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"userRewardPerTokenPaid"`
@@ -11681,7 +11681,7 @@ export const useReadCleRewardUserRewardPerTokenPaid = /*#__PURE__*/ createUseRea
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'userRewardPerTokenPaid'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cleRewardAbi}__
@@ -11691,7 +11691,7 @@ export const useReadCleRewardUserRewardPerTokenPaid = /*#__PURE__*/ createUseRea
 export const useWriteCleReward = /*#__PURE__*/ createUseWriteContract({
   abi: cleRewardAbi,
   address: cleRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"acceptOwnership"`
@@ -11702,7 +11702,7 @@ export const useWriteCleRewardAcceptOwnership = /*#__PURE__*/ createUseWriteCont
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'acceptOwnership'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"exit"`
@@ -11713,7 +11713,7 @@ export const useWriteCleRewardExit = /*#__PURE__*/ createUseWriteContract({
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'exit'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"getReward"`
@@ -11724,7 +11724,7 @@ export const useWriteCleRewardGetReward = /*#__PURE__*/ createUseWriteContract({
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'getReward'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"nominateNewOwner"`
@@ -11735,7 +11735,7 @@ export const useWriteCleRewardNominateNewOwner = /*#__PURE__*/ createUseWriteCon
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'nominateNewOwner'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"notifyRewardAmount"`
@@ -11746,7 +11746,7 @@ export const useWriteCleRewardNotifyRewardAmount = /*#__PURE__*/ createUseWriteC
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'notifyRewardAmount'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"recoverERC20"`
@@ -11757,7 +11757,7 @@ export const useWriteCleRewardRecoverErc20 = /*#__PURE__*/ createUseWriteContrac
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'recoverERC20'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"setPaused"`
@@ -11768,7 +11768,7 @@ export const useWriteCleRewardSetPaused = /*#__PURE__*/ createUseWriteContract({
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'setPaused'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"setRewardsDistribution"`
@@ -11779,7 +11779,7 @@ export const useWriteCleRewardSetRewardsDistribution = /*#__PURE__*/ createUseWr
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'setRewardsDistribution'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"setRewardsDuration"`
@@ -11790,7 +11790,7 @@ export const useWriteCleRewardSetRewardsDuration = /*#__PURE__*/ createUseWriteC
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'setRewardsDuration'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"stake"`
@@ -11801,7 +11801,7 @@ export const useWriteCleRewardStake = /*#__PURE__*/ createUseWriteContract({
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'stake'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"withdraw"`
@@ -11812,7 +11812,7 @@ export const useWriteCleRewardWithdraw = /*#__PURE__*/ createUseWriteContract({
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'withdraw'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cleRewardAbi}__
@@ -11822,7 +11822,7 @@ export const useWriteCleRewardWithdraw = /*#__PURE__*/ createUseWriteContract({
 export const useSimulateCleReward = /*#__PURE__*/ createUseSimulateContract({
   abi: cleRewardAbi,
   address: cleRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"acceptOwnership"`
@@ -11833,7 +11833,7 @@ export const useSimulateCleRewardAcceptOwnership = /*#__PURE__*/ createUseSimula
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'acceptOwnership'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"exit"`
@@ -11844,7 +11844,7 @@ export const useSimulateCleRewardExit = /*#__PURE__*/ createUseSimulateContract(
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'exit'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"getReward"`
@@ -11855,7 +11855,7 @@ export const useSimulateCleRewardGetReward = /*#__PURE__*/ createUseSimulateCont
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'getReward'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"nominateNewOwner"`
@@ -11866,7 +11866,7 @@ export const useSimulateCleRewardNominateNewOwner = /*#__PURE__*/ createUseSimul
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'nominateNewOwner'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"notifyRewardAmount"`
@@ -11877,7 +11877,7 @@ export const useSimulateCleRewardNotifyRewardAmount = /*#__PURE__*/ createUseSim
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'notifyRewardAmount'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"recoverERC20"`
@@ -11888,7 +11888,7 @@ export const useSimulateCleRewardRecoverErc20 = /*#__PURE__*/ createUseSimulateC
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'recoverERC20'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"setPaused"`
@@ -11899,7 +11899,7 @@ export const useSimulateCleRewardSetPaused = /*#__PURE__*/ createUseSimulateCont
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'setPaused'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"setRewardsDistribution"`
@@ -11910,7 +11910,7 @@ export const useSimulateCleRewardSetRewardsDistribution = /*#__PURE__*/ createUs
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'setRewardsDistribution'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"setRewardsDuration"`
@@ -11921,7 +11921,7 @@ export const useSimulateCleRewardSetRewardsDuration = /*#__PURE__*/ createUseSim
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'setRewardsDuration'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"stake"`
@@ -11932,7 +11932,7 @@ export const useSimulateCleRewardStake = /*#__PURE__*/ createUseSimulateContract
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'stake'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cleRewardAbi}__ and `functionName` set to `"withdraw"`
@@ -11943,7 +11943,7 @@ export const useSimulateCleRewardWithdraw = /*#__PURE__*/ createUseSimulateContr
   abi: cleRewardAbi,
   address: cleRewardAddress,
   functionName: 'withdraw'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cleRewardAbi}__
@@ -11953,7 +11953,7 @@ export const useSimulateCleRewardWithdraw = /*#__PURE__*/ createUseSimulateContr
 export const useWatchCleReward = /*#__PURE__*/ createUseWatchContractEvent({
   abi: cleRewardAbi,
   address: cleRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cleRewardAbi}__ and `eventName` set to `"OwnerChanged"`
@@ -11964,7 +11964,7 @@ export const useWatchCleRewardOwnerChanged = /*#__PURE__*/ createUseWatchContrac
   abi: cleRewardAbi,
   address: cleRewardAddress,
   eventName: 'OwnerChanged'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cleRewardAbi}__ and `eventName` set to `"OwnerNominated"`
@@ -11975,7 +11975,7 @@ export const useWatchCleRewardOwnerNominated = /*#__PURE__*/ createUseWatchContr
   abi: cleRewardAbi,
   address: cleRewardAddress,
   eventName: 'OwnerNominated'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cleRewardAbi}__ and `eventName` set to `"PauseChanged"`
@@ -11986,7 +11986,7 @@ export const useWatchCleRewardPauseChanged = /*#__PURE__*/ createUseWatchContrac
   abi: cleRewardAbi,
   address: cleRewardAddress,
   eventName: 'PauseChanged'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cleRewardAbi}__ and `eventName` set to `"Recovered"`
@@ -11997,7 +11997,7 @@ export const useWatchCleRewardRecovered = /*#__PURE__*/ createUseWatchContractEv
   abi: cleRewardAbi,
   address: cleRewardAddress,
   eventName: 'Recovered'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cleRewardAbi}__ and `eventName` set to `"Referral"`
@@ -12008,7 +12008,7 @@ export const useWatchCleRewardReferral = /*#__PURE__*/ createUseWatchContractEve
   abi: cleRewardAbi,
   address: cleRewardAddress,
   eventName: 'Referral'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cleRewardAbi}__ and `eventName` set to `"RewardAdded"`
@@ -12019,7 +12019,7 @@ export const useWatchCleRewardRewardAdded = /*#__PURE__*/ createUseWatchContract
   abi: cleRewardAbi,
   address: cleRewardAddress,
   eventName: 'RewardAdded'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cleRewardAbi}__ and `eventName` set to `"RewardPaid"`
@@ -12030,7 +12030,7 @@ export const useWatchCleRewardRewardPaid = /*#__PURE__*/ createUseWatchContractE
   abi: cleRewardAbi,
   address: cleRewardAddress,
   eventName: 'RewardPaid'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cleRewardAbi}__ and `eventName` set to `"RewardsDistributionUpdated"`
@@ -12041,7 +12041,7 @@ export const useWatchCleRewardRewardsDistributionUpdated = /*#__PURE__*/ createU
   abi: cleRewardAbi,
   address: cleRewardAddress,
   eventName: 'RewardsDistributionUpdated'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cleRewardAbi}__ and `eventName` set to `"RewardsDurationUpdated"`
@@ -12052,7 +12052,7 @@ export const useWatchCleRewardRewardsDurationUpdated = /*#__PURE__*/ createUseWa
   abi: cleRewardAbi,
   address: cleRewardAddress,
   eventName: 'RewardsDurationUpdated'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cleRewardAbi}__ and `eventName` set to `"Staked"`
@@ -12063,7 +12063,7 @@ export const useWatchCleRewardStaked = /*#__PURE__*/ createUseWatchContractEvent
   abi: cleRewardAbi,
   address: cleRewardAddress,
   eventName: 'Staked'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cleRewardAbi}__ and `eventName` set to `"Withdrawn"`
@@ -12074,7 +12074,7 @@ export const useWatchCleRewardWithdrawn = /*#__PURE__*/ createUseWatchContractEv
   abi: cleRewardAbi,
   address: cleRewardAddress,
   eventName: 'Withdrawn'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link clipperAbi}__
@@ -12084,7 +12084,7 @@ export const useWatchCleRewardWithdrawn = /*#__PURE__*/ createUseWatchContractEv
 export const useReadClipper = /*#__PURE__*/ createUseReadContract({
   abi: clipperAbi,
   address: clipperAddress
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"Due"`
@@ -12095,7 +12095,7 @@ export const useReadClipperDue = /*#__PURE__*/ createUseReadContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'Due'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"active"`
@@ -12106,7 +12106,7 @@ export const useReadClipperActive = /*#__PURE__*/ createUseReadContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'active'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"buf"`
@@ -12117,7 +12117,7 @@ export const useReadClipperBuf = /*#__PURE__*/ createUseReadContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'buf'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"calc"`
@@ -12128,7 +12128,7 @@ export const useReadClipperCalc = /*#__PURE__*/ createUseReadContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'calc'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"chip"`
@@ -12139,7 +12139,7 @@ export const useReadClipperChip = /*#__PURE__*/ createUseReadContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'chip'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"chost"`
@@ -12150,7 +12150,7 @@ export const useReadClipperChost = /*#__PURE__*/ createUseReadContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'chost'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"count"`
@@ -12161,7 +12161,7 @@ export const useReadClipperCount = /*#__PURE__*/ createUseReadContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'count'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"cusp"`
@@ -12172,7 +12172,7 @@ export const useReadClipperCusp = /*#__PURE__*/ createUseReadContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'cusp'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"cuttee"`
@@ -12183,7 +12183,7 @@ export const useReadClipperCuttee = /*#__PURE__*/ createUseReadContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'cuttee'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"dog"`
@@ -12194,7 +12194,7 @@ export const useReadClipperDog = /*#__PURE__*/ createUseReadContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'dog'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"engine"`
@@ -12205,7 +12205,7 @@ export const useReadClipperEngine = /*#__PURE__*/ createUseReadContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'engine'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"getStatus"`
@@ -12216,7 +12216,7 @@ export const useReadClipperGetStatus = /*#__PURE__*/ createUseReadContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'getStatus'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"ilk"`
@@ -12227,7 +12227,7 @@ export const useReadClipperIlk = /*#__PURE__*/ createUseReadContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'ilk'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"kicks"`
@@ -12238,7 +12238,7 @@ export const useReadClipperKicks = /*#__PURE__*/ createUseReadContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'kicks'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"list"`
@@ -12249,7 +12249,7 @@ export const useReadClipperList = /*#__PURE__*/ createUseReadContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'list'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"sales"`
@@ -12260,7 +12260,7 @@ export const useReadClipperSales = /*#__PURE__*/ createUseReadContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'sales'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"spotter"`
@@ -12271,7 +12271,7 @@ export const useReadClipperSpotter = /*#__PURE__*/ createUseReadContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'spotter'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"stopped"`
@@ -12282,7 +12282,7 @@ export const useReadClipperStopped = /*#__PURE__*/ createUseReadContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'stopped'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"tail"`
@@ -12293,7 +12293,7 @@ export const useReadClipperTail = /*#__PURE__*/ createUseReadContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'tail'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"tip"`
@@ -12304,7 +12304,7 @@ export const useReadClipperTip = /*#__PURE__*/ createUseReadContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'tip'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"vat"`
@@ -12315,7 +12315,7 @@ export const useReadClipperVat = /*#__PURE__*/ createUseReadContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'vat'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"vow"`
@@ -12326,7 +12326,7 @@ export const useReadClipperVow = /*#__PURE__*/ createUseReadContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'vow'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"wards"`
@@ -12337,7 +12337,7 @@ export const useReadClipperWards = /*#__PURE__*/ createUseReadContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'wards'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link clipperAbi}__
@@ -12347,7 +12347,7 @@ export const useReadClipperWards = /*#__PURE__*/ createUseReadContract({
 export const useWriteClipper = /*#__PURE__*/ createUseWriteContract({
   abi: clipperAbi,
   address: clipperAddress
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"deny"`
@@ -12358,7 +12358,7 @@ export const useWriteClipperDeny = /*#__PURE__*/ createUseWriteContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"file"`
@@ -12369,7 +12369,7 @@ export const useWriteClipperFile = /*#__PURE__*/ createUseWriteContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'file'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"kick"`
@@ -12380,7 +12380,7 @@ export const useWriteClipperKick = /*#__PURE__*/ createUseWriteContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'kick'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"redo"`
@@ -12391,7 +12391,7 @@ export const useWriteClipperRedo = /*#__PURE__*/ createUseWriteContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'redo'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"rely"`
@@ -12402,7 +12402,7 @@ export const useWriteClipperRely = /*#__PURE__*/ createUseWriteContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"take"`
@@ -12413,7 +12413,7 @@ export const useWriteClipperTake = /*#__PURE__*/ createUseWriteContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'take'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"upchost"`
@@ -12424,7 +12424,7 @@ export const useWriteClipperUpchost = /*#__PURE__*/ createUseWriteContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'upchost'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"yank"`
@@ -12435,7 +12435,7 @@ export const useWriteClipperYank = /*#__PURE__*/ createUseWriteContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'yank'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link clipperAbi}__
@@ -12445,7 +12445,7 @@ export const useWriteClipperYank = /*#__PURE__*/ createUseWriteContract({
 export const useSimulateClipper = /*#__PURE__*/ createUseSimulateContract({
   abi: clipperAbi,
   address: clipperAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"deny"`
@@ -12456,7 +12456,7 @@ export const useSimulateClipperDeny = /*#__PURE__*/ createUseSimulateContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"file"`
@@ -12467,7 +12467,7 @@ export const useSimulateClipperFile = /*#__PURE__*/ createUseSimulateContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'file'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"kick"`
@@ -12478,7 +12478,7 @@ export const useSimulateClipperKick = /*#__PURE__*/ createUseSimulateContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'kick'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"redo"`
@@ -12489,7 +12489,7 @@ export const useSimulateClipperRedo = /*#__PURE__*/ createUseSimulateContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'redo'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"rely"`
@@ -12500,7 +12500,7 @@ export const useSimulateClipperRely = /*#__PURE__*/ createUseSimulateContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"take"`
@@ -12511,7 +12511,7 @@ export const useSimulateClipperTake = /*#__PURE__*/ createUseSimulateContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'take'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"upchost"`
@@ -12522,7 +12522,7 @@ export const useSimulateClipperUpchost = /*#__PURE__*/ createUseSimulateContract
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'upchost'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link clipperAbi}__ and `functionName` set to `"yank"`
@@ -12533,7 +12533,7 @@ export const useSimulateClipperYank = /*#__PURE__*/ createUseSimulateContract({
   abi: clipperAbi,
   address: clipperAddress,
   functionName: 'yank'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link clipperAbi}__
@@ -12543,7 +12543,7 @@ export const useSimulateClipperYank = /*#__PURE__*/ createUseSimulateContract({
 export const useWatchClipper = /*#__PURE__*/ createUseWatchContractEvent({
   abi: clipperAbi,
   address: clipperAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link clipperAbi}__ and `eventName` set to `"Deny"`
@@ -12554,7 +12554,7 @@ export const useWatchClipperDeny = /*#__PURE__*/ createUseWatchContractEvent({
   abi: clipperAbi,
   address: clipperAddress,
   eventName: 'Deny'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link clipperAbi}__ and `eventName` set to `"File"`
@@ -12565,7 +12565,7 @@ export const useWatchClipperFile = /*#__PURE__*/ createUseWatchContractEvent({
   abi: clipperAbi,
   address: clipperAddress,
   eventName: 'File'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link clipperAbi}__ and `eventName` set to `"Kick"`
@@ -12576,7 +12576,7 @@ export const useWatchClipperKick = /*#__PURE__*/ createUseWatchContractEvent({
   abi: clipperAbi,
   address: clipperAddress,
   eventName: 'Kick'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link clipperAbi}__ and `eventName` set to `"Redo"`
@@ -12587,7 +12587,7 @@ export const useWatchClipperRedo = /*#__PURE__*/ createUseWatchContractEvent({
   abi: clipperAbi,
   address: clipperAddress,
   eventName: 'Redo'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link clipperAbi}__ and `eventName` set to `"Rely"`
@@ -12598,7 +12598,7 @@ export const useWatchClipperRely = /*#__PURE__*/ createUseWatchContractEvent({
   abi: clipperAbi,
   address: clipperAddress,
   eventName: 'Rely'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link clipperAbi}__ and `eventName` set to `"Take"`
@@ -12609,7 +12609,7 @@ export const useWatchClipperTake = /*#__PURE__*/ createUseWatchContractEvent({
   abi: clipperAbi,
   address: clipperAddress,
   eventName: 'Take'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link clipperAbi}__ and `eventName` set to `"Yank"`
@@ -12620,7 +12620,7 @@ export const useWatchClipperYank = /*#__PURE__*/ createUseWatchContractEvent({
   abi: clipperAbi,
   address: clipperAddress,
   eventName: 'Yank'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__
@@ -12630,7 +12630,7 @@ export const useWatchClipperYank = /*#__PURE__*/ createUseWatchContractEvent({
 export const useReadCurveStUsdsUsdsPool = /*#__PURE__*/ createUseReadContract({
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"last_price"`
@@ -12641,7 +12641,7 @@ export const useReadCurveStUsdsUsdsPoolLastPrice = /*#__PURE__*/ createUseReadCo
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'last_price'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"ema_price"`
@@ -12652,7 +12652,7 @@ export const useReadCurveStUsdsUsdsPoolEmaPrice = /*#__PURE__*/ createUseReadCon
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'ema_price'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"get_p"`
@@ -12663,7 +12663,7 @@ export const useReadCurveStUsdsUsdsPoolGetP = /*#__PURE__*/ createUseReadContrac
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'get_p'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"price_oracle"`
@@ -12674,7 +12674,7 @@ export const useReadCurveStUsdsUsdsPoolPriceOracle = /*#__PURE__*/ createUseRead
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'price_oracle'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"D_oracle"`
@@ -12685,7 +12685,7 @@ export const useReadCurveStUsdsUsdsPoolDOracle = /*#__PURE__*/ createUseReadCont
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'D_oracle'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"DOMAIN_SEPARATOR"`
@@ -12696,7 +12696,7 @@ export const useReadCurveStUsdsUsdsPoolDomainSeparator = /*#__PURE__*/ createUse
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'DOMAIN_SEPARATOR'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"get_dx"`
@@ -12707,7 +12707,7 @@ export const useReadCurveStUsdsUsdsPoolGetDx = /*#__PURE__*/ createUseReadContra
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'get_dx'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"get_dy"`
@@ -12718,7 +12718,7 @@ export const useReadCurveStUsdsUsdsPoolGetDy = /*#__PURE__*/ createUseReadContra
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'get_dy'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"calc_withdraw_one_coin"`
@@ -12729,7 +12729,7 @@ export const useReadCurveStUsdsUsdsPoolCalcWithdrawOneCoin = /*#__PURE__*/ creat
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'calc_withdraw_one_coin'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"totalSupply"`
@@ -12740,7 +12740,7 @@ export const useReadCurveStUsdsUsdsPoolTotalSupply = /*#__PURE__*/ createUseRead
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'totalSupply'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"get_virtual_price"`
@@ -12751,7 +12751,7 @@ export const useReadCurveStUsdsUsdsPoolGetVirtualPrice = /*#__PURE__*/ createUse
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'get_virtual_price'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"calc_token_amount"`
@@ -12762,7 +12762,7 @@ export const useReadCurveStUsdsUsdsPoolCalcTokenAmount = /*#__PURE__*/ createUse
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'calc_token_amount'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"A"`
@@ -12773,7 +12773,7 @@ export const useReadCurveStUsdsUsdsPoolA = /*#__PURE__*/ createUseReadContract({
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'A'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"A_precise"`
@@ -12784,7 +12784,7 @@ export const useReadCurveStUsdsUsdsPoolAPrecise = /*#__PURE__*/ createUseReadCon
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'A_precise'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"balances"`
@@ -12795,7 +12795,7 @@ export const useReadCurveStUsdsUsdsPoolBalances = /*#__PURE__*/ createUseReadCon
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'balances'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"get_balances"`
@@ -12806,7 +12806,7 @@ export const useReadCurveStUsdsUsdsPoolGetBalances = /*#__PURE__*/ createUseRead
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'get_balances'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"stored_rates"`
@@ -12817,7 +12817,7 @@ export const useReadCurveStUsdsUsdsPoolStoredRates = /*#__PURE__*/ createUseRead
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'stored_rates'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"dynamic_fee"`
@@ -12828,7 +12828,7 @@ export const useReadCurveStUsdsUsdsPoolDynamicFee = /*#__PURE__*/ createUseReadC
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'dynamic_fee'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"N_COINS"`
@@ -12839,7 +12839,7 @@ export const useReadCurveStUsdsUsdsPoolNCoins = /*#__PURE__*/ createUseReadContr
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'N_COINS'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"coins"`
@@ -12850,7 +12850,7 @@ export const useReadCurveStUsdsUsdsPoolCoins = /*#__PURE__*/ createUseReadContra
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'coins'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"fee"`
@@ -12861,7 +12861,7 @@ export const useReadCurveStUsdsUsdsPoolFee = /*#__PURE__*/ createUseReadContract
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'fee'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"offpeg_fee_multiplier"`
@@ -12872,7 +12872,7 @@ export const useReadCurveStUsdsUsdsPoolOffpegFeeMultiplier = /*#__PURE__*/ creat
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'offpeg_fee_multiplier'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"admin_fee"`
@@ -12883,7 +12883,7 @@ export const useReadCurveStUsdsUsdsPoolAdminFee = /*#__PURE__*/ createUseReadCon
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'admin_fee'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"initial_A"`
@@ -12894,7 +12894,7 @@ export const useReadCurveStUsdsUsdsPoolInitialA = /*#__PURE__*/ createUseReadCon
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'initial_A'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"future_A"`
@@ -12905,7 +12905,7 @@ export const useReadCurveStUsdsUsdsPoolFutureA = /*#__PURE__*/ createUseReadCont
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'future_A'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"initial_A_time"`
@@ -12916,7 +12916,7 @@ export const useReadCurveStUsdsUsdsPoolInitialATime = /*#__PURE__*/ createUseRea
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'initial_A_time'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"future_A_time"`
@@ -12927,7 +12927,7 @@ export const useReadCurveStUsdsUsdsPoolFutureATime = /*#__PURE__*/ createUseRead
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'future_A_time'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"admin_balances"`
@@ -12938,7 +12938,7 @@ export const useReadCurveStUsdsUsdsPoolAdminBalances = /*#__PURE__*/ createUseRe
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'admin_balances'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"ma_exp_time"`
@@ -12949,7 +12949,7 @@ export const useReadCurveStUsdsUsdsPoolMaExpTime = /*#__PURE__*/ createUseReadCo
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'ma_exp_time'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"D_ma_time"`
@@ -12960,7 +12960,7 @@ export const useReadCurveStUsdsUsdsPoolDMaTime = /*#__PURE__*/ createUseReadCont
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'D_ma_time'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"ma_last_time"`
@@ -12971,7 +12971,7 @@ export const useReadCurveStUsdsUsdsPoolMaLastTime = /*#__PURE__*/ createUseReadC
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'ma_last_time'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"name"`
@@ -12982,7 +12982,7 @@ export const useReadCurveStUsdsUsdsPoolName = /*#__PURE__*/ createUseReadContrac
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'name'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"symbol"`
@@ -12993,7 +12993,7 @@ export const useReadCurveStUsdsUsdsPoolSymbol = /*#__PURE__*/ createUseReadContr
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'symbol'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"decimals"`
@@ -13004,7 +13004,7 @@ export const useReadCurveStUsdsUsdsPoolDecimals = /*#__PURE__*/ createUseReadCon
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'decimals'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"version"`
@@ -13015,7 +13015,7 @@ export const useReadCurveStUsdsUsdsPoolVersion = /*#__PURE__*/ createUseReadCont
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'version'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"balanceOf"`
@@ -13026,7 +13026,7 @@ export const useReadCurveStUsdsUsdsPoolBalanceOf = /*#__PURE__*/ createUseReadCo
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'balanceOf'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"allowance"`
@@ -13037,7 +13037,7 @@ export const useReadCurveStUsdsUsdsPoolAllowance = /*#__PURE__*/ createUseReadCo
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'allowance'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"nonces"`
@@ -13048,7 +13048,7 @@ export const useReadCurveStUsdsUsdsPoolNonces = /*#__PURE__*/ createUseReadContr
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'nonces'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"salt"`
@@ -13059,7 +13059,7 @@ export const useReadCurveStUsdsUsdsPoolSalt = /*#__PURE__*/ createUseReadContrac
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'salt'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__
@@ -13069,7 +13069,7 @@ export const useReadCurveStUsdsUsdsPoolSalt = /*#__PURE__*/ createUseReadContrac
 export const useWriteCurveStUsdsUsdsPool = /*#__PURE__*/ createUseWriteContract({
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"exchange"`
@@ -13080,7 +13080,7 @@ export const useWriteCurveStUsdsUsdsPoolExchange = /*#__PURE__*/ createUseWriteC
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'exchange'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"exchange_received"`
@@ -13091,7 +13091,7 @@ export const useWriteCurveStUsdsUsdsPoolExchangeReceived = /*#__PURE__*/ createU
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'exchange_received'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"add_liquidity"`
@@ -13102,7 +13102,7 @@ export const useWriteCurveStUsdsUsdsPoolAddLiquidity = /*#__PURE__*/ createUseWr
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'add_liquidity'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"remove_liquidity_one_coin"`
@@ -13113,7 +13113,7 @@ export const useWriteCurveStUsdsUsdsPoolRemoveLiquidityOneCoin = /*#__PURE__*/ c
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'remove_liquidity_one_coin'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"remove_liquidity_imbalance"`
@@ -13124,7 +13124,7 @@ export const useWriteCurveStUsdsUsdsPoolRemoveLiquidityImbalance = /*#__PURE__*/
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'remove_liquidity_imbalance'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"remove_liquidity"`
@@ -13135,7 +13135,7 @@ export const useWriteCurveStUsdsUsdsPoolRemoveLiquidity = /*#__PURE__*/ createUs
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'remove_liquidity'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"withdraw_admin_fees"`
@@ -13146,7 +13146,7 @@ export const useWriteCurveStUsdsUsdsPoolWithdrawAdminFees = /*#__PURE__*/ create
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'withdraw_admin_fees'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"transfer"`
@@ -13157,7 +13157,7 @@ export const useWriteCurveStUsdsUsdsPoolTransfer = /*#__PURE__*/ createUseWriteC
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'transfer'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"transferFrom"`
@@ -13168,7 +13168,7 @@ export const useWriteCurveStUsdsUsdsPoolTransferFrom = /*#__PURE__*/ createUseWr
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'transferFrom'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"approve"`
@@ -13179,7 +13179,7 @@ export const useWriteCurveStUsdsUsdsPoolApprove = /*#__PURE__*/ createUseWriteCo
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'approve'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"permit"`
@@ -13190,7 +13190,7 @@ export const useWriteCurveStUsdsUsdsPoolPermit = /*#__PURE__*/ createUseWriteCon
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'permit'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"ramp_A"`
@@ -13201,7 +13201,7 @@ export const useWriteCurveStUsdsUsdsPoolRampA = /*#__PURE__*/ createUseWriteCont
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'ramp_A'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"stop_ramp_A"`
@@ -13212,7 +13212,7 @@ export const useWriteCurveStUsdsUsdsPoolStopRampA = /*#__PURE__*/ createUseWrite
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'stop_ramp_A'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"set_new_fee"`
@@ -13223,7 +13223,7 @@ export const useWriteCurveStUsdsUsdsPoolSetNewFee = /*#__PURE__*/ createUseWrite
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'set_new_fee'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"set_ma_exp_time"`
@@ -13234,7 +13234,7 @@ export const useWriteCurveStUsdsUsdsPoolSetMaExpTime = /*#__PURE__*/ createUseWr
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'set_ma_exp_time'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__
@@ -13244,7 +13244,7 @@ export const useWriteCurveStUsdsUsdsPoolSetMaExpTime = /*#__PURE__*/ createUseWr
 export const useSimulateCurveStUsdsUsdsPool = /*#__PURE__*/ createUseSimulateContract({
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"exchange"`
@@ -13255,7 +13255,7 @@ export const useSimulateCurveStUsdsUsdsPoolExchange = /*#__PURE__*/ createUseSim
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'exchange'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"exchange_received"`
@@ -13266,7 +13266,7 @@ export const useSimulateCurveStUsdsUsdsPoolExchangeReceived = /*#__PURE__*/ crea
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'exchange_received'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"add_liquidity"`
@@ -13277,7 +13277,7 @@ export const useSimulateCurveStUsdsUsdsPoolAddLiquidity = /*#__PURE__*/ createUs
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'add_liquidity'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"remove_liquidity_one_coin"`
@@ -13288,7 +13288,7 @@ export const useSimulateCurveStUsdsUsdsPoolRemoveLiquidityOneCoin = /*#__PURE__*
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'remove_liquidity_one_coin'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"remove_liquidity_imbalance"`
@@ -13301,7 +13301,7 @@ export const useSimulateCurveStUsdsUsdsPoolRemoveLiquidityImbalance = /*#__PURE_
     address: curveStUsdsUsdsPoolAddress,
     functionName: 'remove_liquidity_imbalance'
   }
-)
+);
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"remove_liquidity"`
@@ -13312,7 +13312,7 @@ export const useSimulateCurveStUsdsUsdsPoolRemoveLiquidity = /*#__PURE__*/ creat
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'remove_liquidity'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"withdraw_admin_fees"`
@@ -13323,7 +13323,7 @@ export const useSimulateCurveStUsdsUsdsPoolWithdrawAdminFees = /*#__PURE__*/ cre
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'withdraw_admin_fees'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"transfer"`
@@ -13334,7 +13334,7 @@ export const useSimulateCurveStUsdsUsdsPoolTransfer = /*#__PURE__*/ createUseSim
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'transfer'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"transferFrom"`
@@ -13345,7 +13345,7 @@ export const useSimulateCurveStUsdsUsdsPoolTransferFrom = /*#__PURE__*/ createUs
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'transferFrom'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"approve"`
@@ -13356,7 +13356,7 @@ export const useSimulateCurveStUsdsUsdsPoolApprove = /*#__PURE__*/ createUseSimu
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'approve'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"permit"`
@@ -13367,7 +13367,7 @@ export const useSimulateCurveStUsdsUsdsPoolPermit = /*#__PURE__*/ createUseSimul
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'permit'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"ramp_A"`
@@ -13378,7 +13378,7 @@ export const useSimulateCurveStUsdsUsdsPoolRampA = /*#__PURE__*/ createUseSimula
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'ramp_A'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"stop_ramp_A"`
@@ -13389,7 +13389,7 @@ export const useSimulateCurveStUsdsUsdsPoolStopRampA = /*#__PURE__*/ createUseSi
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'stop_ramp_A'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"set_new_fee"`
@@ -13400,7 +13400,7 @@ export const useSimulateCurveStUsdsUsdsPoolSetNewFee = /*#__PURE__*/ createUseSi
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'set_new_fee'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `functionName` set to `"set_ma_exp_time"`
@@ -13411,7 +13411,7 @@ export const useSimulateCurveStUsdsUsdsPoolSetMaExpTime = /*#__PURE__*/ createUs
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   functionName: 'set_ma_exp_time'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__
@@ -13421,7 +13421,7 @@ export const useSimulateCurveStUsdsUsdsPoolSetMaExpTime = /*#__PURE__*/ createUs
 export const useWatchCurveStUsdsUsdsPool = /*#__PURE__*/ createUseWatchContractEvent({
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `eventName` set to `"Transfer"`
@@ -13432,7 +13432,7 @@ export const useWatchCurveStUsdsUsdsPoolTransfer = /*#__PURE__*/ createUseWatchC
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   eventName: 'Transfer'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `eventName` set to `"Approval"`
@@ -13443,7 +13443,7 @@ export const useWatchCurveStUsdsUsdsPoolApproval = /*#__PURE__*/ createUseWatchC
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   eventName: 'Approval'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `eventName` set to `"TokenExchange"`
@@ -13454,7 +13454,7 @@ export const useWatchCurveStUsdsUsdsPoolTokenExchange = /*#__PURE__*/ createUseW
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   eventName: 'TokenExchange'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `eventName` set to `"TokenExchangeUnderlying"`
@@ -13465,7 +13465,7 @@ export const useWatchCurveStUsdsUsdsPoolTokenExchangeUnderlying = /*#__PURE__*/ 
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   eventName: 'TokenExchangeUnderlying'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `eventName` set to `"AddLiquidity"`
@@ -13476,7 +13476,7 @@ export const useWatchCurveStUsdsUsdsPoolAddLiquidity = /*#__PURE__*/ createUseWa
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   eventName: 'AddLiquidity'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `eventName` set to `"RemoveLiquidity"`
@@ -13487,7 +13487,7 @@ export const useWatchCurveStUsdsUsdsPoolRemoveLiquidity = /*#__PURE__*/ createUs
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   eventName: 'RemoveLiquidity'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `eventName` set to `"RemoveLiquidityOne"`
@@ -13498,7 +13498,7 @@ export const useWatchCurveStUsdsUsdsPoolRemoveLiquidityOne = /*#__PURE__*/ creat
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   eventName: 'RemoveLiquidityOne'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `eventName` set to `"RemoveLiquidityImbalance"`
@@ -13509,7 +13509,7 @@ export const useWatchCurveStUsdsUsdsPoolRemoveLiquidityImbalance = /*#__PURE__*/
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   eventName: 'RemoveLiquidityImbalance'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `eventName` set to `"RampA"`
@@ -13520,7 +13520,7 @@ export const useWatchCurveStUsdsUsdsPoolRampA = /*#__PURE__*/ createUseWatchCont
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   eventName: 'RampA'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `eventName` set to `"StopRampA"`
@@ -13531,7 +13531,7 @@ export const useWatchCurveStUsdsUsdsPoolStopRampA = /*#__PURE__*/ createUseWatch
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   eventName: 'StopRampA'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `eventName` set to `"ApplyNewFee"`
@@ -13542,7 +13542,7 @@ export const useWatchCurveStUsdsUsdsPoolApplyNewFee = /*#__PURE__*/ createUseWat
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   eventName: 'ApplyNewFee'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link curveStUsdsUsdsPoolAbi}__ and `eventName` set to `"SetNewMATime"`
@@ -13553,7 +13553,7 @@ export const useWatchCurveStUsdsUsdsPoolSetNewMaTime = /*#__PURE__*/ createUseWa
   abi: curveStUsdsUsdsPoolAbi,
   address: curveStUsdsUsdsPoolAddress,
   eventName: 'SetNewMATime'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link daiUsdsAbi}__
@@ -13563,7 +13563,7 @@ export const useWatchCurveStUsdsUsdsPoolSetNewMaTime = /*#__PURE__*/ createUseWa
 export const useReadDaiUsds = /*#__PURE__*/ createUseReadContract({
   abi: daiUsdsAbi,
   address: daiUsdsAddress
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link daiUsdsAbi}__ and `functionName` set to `"dai"`
@@ -13574,7 +13574,7 @@ export const useReadDaiUsdsDai = /*#__PURE__*/ createUseReadContract({
   abi: daiUsdsAbi,
   address: daiUsdsAddress,
   functionName: 'dai'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link daiUsdsAbi}__ and `functionName` set to `"daiJoin"`
@@ -13585,7 +13585,7 @@ export const useReadDaiUsdsDaiJoin = /*#__PURE__*/ createUseReadContract({
   abi: daiUsdsAbi,
   address: daiUsdsAddress,
   functionName: 'daiJoin'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link daiUsdsAbi}__ and `functionName` set to `"usds"`
@@ -13596,7 +13596,7 @@ export const useReadDaiUsdsUsds = /*#__PURE__*/ createUseReadContract({
   abi: daiUsdsAbi,
   address: daiUsdsAddress,
   functionName: 'usds'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link daiUsdsAbi}__ and `functionName` set to `"usdsJoin"`
@@ -13607,7 +13607,7 @@ export const useReadDaiUsdsUsdsJoin = /*#__PURE__*/ createUseReadContract({
   abi: daiUsdsAbi,
   address: daiUsdsAddress,
   functionName: 'usdsJoin'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link daiUsdsAbi}__
@@ -13617,7 +13617,7 @@ export const useReadDaiUsdsUsdsJoin = /*#__PURE__*/ createUseReadContract({
 export const useWriteDaiUsds = /*#__PURE__*/ createUseWriteContract({
   abi: daiUsdsAbi,
   address: daiUsdsAddress
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link daiUsdsAbi}__ and `functionName` set to `"daiToUsds"`
@@ -13628,7 +13628,7 @@ export const useWriteDaiUsdsDaiToUsds = /*#__PURE__*/ createUseWriteContract({
   abi: daiUsdsAbi,
   address: daiUsdsAddress,
   functionName: 'daiToUsds'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link daiUsdsAbi}__ and `functionName` set to `"usdsToDai"`
@@ -13639,7 +13639,7 @@ export const useWriteDaiUsdsUsdsToDai = /*#__PURE__*/ createUseWriteContract({
   abi: daiUsdsAbi,
   address: daiUsdsAddress,
   functionName: 'usdsToDai'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link daiUsdsAbi}__
@@ -13649,7 +13649,7 @@ export const useWriteDaiUsdsUsdsToDai = /*#__PURE__*/ createUseWriteContract({
 export const useSimulateDaiUsds = /*#__PURE__*/ createUseSimulateContract({
   abi: daiUsdsAbi,
   address: daiUsdsAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link daiUsdsAbi}__ and `functionName` set to `"daiToUsds"`
@@ -13660,7 +13660,7 @@ export const useSimulateDaiUsdsDaiToUsds = /*#__PURE__*/ createUseSimulateContra
   abi: daiUsdsAbi,
   address: daiUsdsAddress,
   functionName: 'daiToUsds'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link daiUsdsAbi}__ and `functionName` set to `"usdsToDai"`
@@ -13671,7 +13671,7 @@ export const useSimulateDaiUsdsUsdsToDai = /*#__PURE__*/ createUseSimulateContra
   abi: daiUsdsAbi,
   address: daiUsdsAddress,
   functionName: 'usdsToDai'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link daiUsdsAbi}__
@@ -13681,7 +13681,7 @@ export const useSimulateDaiUsdsUsdsToDai = /*#__PURE__*/ createUseSimulateContra
 export const useWatchDaiUsds = /*#__PURE__*/ createUseWatchContractEvent({
   abi: daiUsdsAbi,
   address: daiUsdsAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link daiUsdsAbi}__ and `eventName` set to `"DaiToUsds"`
@@ -13692,7 +13692,7 @@ export const useWatchDaiUsdsDaiToUsds = /*#__PURE__*/ createUseWatchContractEven
   abi: daiUsdsAbi,
   address: daiUsdsAddress,
   eventName: 'DaiToUsds'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link daiUsdsAbi}__ and `eventName` set to `"UsdsToDai"`
@@ -13703,7 +13703,7 @@ export const useWatchDaiUsdsUsdsToDai = /*#__PURE__*/ createUseWatchContractEven
   abi: daiUsdsAbi,
   address: daiUsdsAddress,
   eventName: 'UsdsToDai'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link dsProxyAbi}__
@@ -13713,7 +13713,7 @@ export const useWatchDaiUsdsUsdsToDai = /*#__PURE__*/ createUseWatchContractEven
 export const useReadDsProxy = /*#__PURE__*/ createUseReadContract({
   abi: dsProxyAbi,
   address: dsProxyAddress
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link dsProxyAbi}__ and `functionName` set to `"cache"`
@@ -13724,7 +13724,7 @@ export const useReadDsProxyCache = /*#__PURE__*/ createUseReadContract({
   abi: dsProxyAbi,
   address: dsProxyAddress,
   functionName: 'cache'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link dsProxyAbi}__ and `functionName` set to `"owner"`
@@ -13735,7 +13735,7 @@ export const useReadDsProxyOwner = /*#__PURE__*/ createUseReadContract({
   abi: dsProxyAbi,
   address: dsProxyAddress,
   functionName: 'owner'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link dsProxyAbi}__ and `functionName` set to `"authority"`
@@ -13746,7 +13746,7 @@ export const useReadDsProxyAuthority = /*#__PURE__*/ createUseReadContract({
   abi: dsProxyAbi,
   address: dsProxyAddress,
   functionName: 'authority'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link dsProxyAbi}__
@@ -13756,7 +13756,7 @@ export const useReadDsProxyAuthority = /*#__PURE__*/ createUseReadContract({
 export const useWriteDsProxy = /*#__PURE__*/ createUseWriteContract({
   abi: dsProxyAbi,
   address: dsProxyAddress
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link dsProxyAbi}__ and `functionName` set to `"setOwner"`
@@ -13767,7 +13767,7 @@ export const useWriteDsProxySetOwner = /*#__PURE__*/ createUseWriteContract({
   abi: dsProxyAbi,
   address: dsProxyAddress,
   functionName: 'setOwner'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link dsProxyAbi}__ and `functionName` set to `"execute"`
@@ -13778,7 +13778,7 @@ export const useWriteDsProxyExecute = /*#__PURE__*/ createUseWriteContract({
   abi: dsProxyAbi,
   address: dsProxyAddress,
   functionName: 'execute'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link dsProxyAbi}__ and `functionName` set to `"setAuthority"`
@@ -13789,7 +13789,7 @@ export const useWriteDsProxySetAuthority = /*#__PURE__*/ createUseWriteContract(
   abi: dsProxyAbi,
   address: dsProxyAddress,
   functionName: 'setAuthority'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link dsProxyAbi}__ and `functionName` set to `"setCache"`
@@ -13800,7 +13800,7 @@ export const useWriteDsProxySetCache = /*#__PURE__*/ createUseWriteContract({
   abi: dsProxyAbi,
   address: dsProxyAddress,
   functionName: 'setCache'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link dsProxyAbi}__
@@ -13810,7 +13810,7 @@ export const useWriteDsProxySetCache = /*#__PURE__*/ createUseWriteContract({
 export const useSimulateDsProxy = /*#__PURE__*/ createUseSimulateContract({
   abi: dsProxyAbi,
   address: dsProxyAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link dsProxyAbi}__ and `functionName` set to `"setOwner"`
@@ -13821,7 +13821,7 @@ export const useSimulateDsProxySetOwner = /*#__PURE__*/ createUseSimulateContrac
   abi: dsProxyAbi,
   address: dsProxyAddress,
   functionName: 'setOwner'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link dsProxyAbi}__ and `functionName` set to `"execute"`
@@ -13832,7 +13832,7 @@ export const useSimulateDsProxyExecute = /*#__PURE__*/ createUseSimulateContract
   abi: dsProxyAbi,
   address: dsProxyAddress,
   functionName: 'execute'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link dsProxyAbi}__ and `functionName` set to `"setAuthority"`
@@ -13843,7 +13843,7 @@ export const useSimulateDsProxySetAuthority = /*#__PURE__*/ createUseSimulateCon
   abi: dsProxyAbi,
   address: dsProxyAddress,
   functionName: 'setAuthority'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link dsProxyAbi}__ and `functionName` set to `"setCache"`
@@ -13854,7 +13854,7 @@ export const useSimulateDsProxySetCache = /*#__PURE__*/ createUseSimulateContrac
   abi: dsProxyAbi,
   address: dsProxyAddress,
   functionName: 'setCache'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link dsProxyAbi}__
@@ -13864,7 +13864,7 @@ export const useSimulateDsProxySetCache = /*#__PURE__*/ createUseSimulateContrac
 export const useWatchDsProxy = /*#__PURE__*/ createUseWatchContractEvent({
   abi: dsProxyAbi,
   address: dsProxyAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link dsProxyAbi}__ and `eventName` set to `"LogNote"`
@@ -13875,7 +13875,7 @@ export const useWatchDsProxyLogNote = /*#__PURE__*/ createUseWatchContractEvent(
   abi: dsProxyAbi,
   address: dsProxyAddress,
   eventName: 'LogNote'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link dsProxyAbi}__ and `eventName` set to `"LogSetAuthority"`
@@ -13886,7 +13886,7 @@ export const useWatchDsProxyLogSetAuthority = /*#__PURE__*/ createUseWatchContra
   abi: dsProxyAbi,
   address: dsProxyAddress,
   eventName: 'LogSetAuthority'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link dsProxyAbi}__ and `eventName` set to `"LogSetOwner"`
@@ -13897,7 +13897,7 @@ export const useWatchDsProxyLogSetOwner = /*#__PURE__*/ createUseWatchContractEv
   abi: dsProxyAbi,
   address: dsProxyAddress,
   eventName: 'LogSetOwner'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ethFlowAbi}__
@@ -13909,7 +13909,7 @@ export const useWatchDsProxyLogSetOwner = /*#__PURE__*/ createUseWatchContractEv
 export const useReadEthFlow = /*#__PURE__*/ createUseReadContract({
   abi: ethFlowAbi,
   address: ethFlowAddress
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ethFlowAbi}__ and `functionName` set to `"cowSwapSettlement"`
@@ -13922,7 +13922,7 @@ export const useReadEthFlowCowSwapSettlement = /*#__PURE__*/ createUseReadContra
   abi: ethFlowAbi,
   address: ethFlowAddress,
   functionName: 'cowSwapSettlement'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ethFlowAbi}__ and `functionName` set to `"isValidSignature"`
@@ -13935,7 +13935,7 @@ export const useReadEthFlowIsValidSignature = /*#__PURE__*/ createUseReadContrac
   abi: ethFlowAbi,
   address: ethFlowAddress,
   functionName: 'isValidSignature'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ethFlowAbi}__ and `functionName` set to `"orders"`
@@ -13948,7 +13948,7 @@ export const useReadEthFlowOrders = /*#__PURE__*/ createUseReadContract({
   abi: ethFlowAbi,
   address: ethFlowAddress,
   functionName: 'orders'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ethFlowAbi}__ and `functionName` set to `"wrappedNativeToken"`
@@ -13961,7 +13961,7 @@ export const useReadEthFlowWrappedNativeToken = /*#__PURE__*/ createUseReadContr
   abi: ethFlowAbi,
   address: ethFlowAddress,
   functionName: 'wrappedNativeToken'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ethFlowAbi}__
@@ -13973,7 +13973,7 @@ export const useReadEthFlowWrappedNativeToken = /*#__PURE__*/ createUseReadContr
 export const useWriteEthFlow = /*#__PURE__*/ createUseWriteContract({
   abi: ethFlowAbi,
   address: ethFlowAddress
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ethFlowAbi}__ and `functionName` set to `"createOrder"`
@@ -13986,7 +13986,7 @@ export const useWriteEthFlowCreateOrder = /*#__PURE__*/ createUseWriteContract({
   abi: ethFlowAbi,
   address: ethFlowAddress,
   functionName: 'createOrder'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ethFlowAbi}__ and `functionName` set to `"invalidateOrder"`
@@ -13999,7 +13999,7 @@ export const useWriteEthFlowInvalidateOrder = /*#__PURE__*/ createUseWriteContra
   abi: ethFlowAbi,
   address: ethFlowAddress,
   functionName: 'invalidateOrder'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ethFlowAbi}__ and `functionName` set to `"invalidateOrdersIgnoringNotAllowed"`
@@ -14012,7 +14012,7 @@ export const useWriteEthFlowInvalidateOrdersIgnoringNotAllowed = /*#__PURE__*/ c
   abi: ethFlowAbi,
   address: ethFlowAddress,
   functionName: 'invalidateOrdersIgnoringNotAllowed'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ethFlowAbi}__ and `functionName` set to `"unwrap"`
@@ -14025,7 +14025,7 @@ export const useWriteEthFlowUnwrap = /*#__PURE__*/ createUseWriteContract({
   abi: ethFlowAbi,
   address: ethFlowAddress,
   functionName: 'unwrap'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ethFlowAbi}__ and `functionName` set to `"wrap"`
@@ -14038,7 +14038,7 @@ export const useWriteEthFlowWrap = /*#__PURE__*/ createUseWriteContract({
   abi: ethFlowAbi,
   address: ethFlowAddress,
   functionName: 'wrap'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ethFlowAbi}__ and `functionName` set to `"wrapAll"`
@@ -14051,7 +14051,7 @@ export const useWriteEthFlowWrapAll = /*#__PURE__*/ createUseWriteContract({
   abi: ethFlowAbi,
   address: ethFlowAddress,
   functionName: 'wrapAll'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ethFlowAbi}__
@@ -14063,7 +14063,7 @@ export const useWriteEthFlowWrapAll = /*#__PURE__*/ createUseWriteContract({
 export const useSimulateEthFlow = /*#__PURE__*/ createUseSimulateContract({
   abi: ethFlowAbi,
   address: ethFlowAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ethFlowAbi}__ and `functionName` set to `"createOrder"`
@@ -14076,7 +14076,7 @@ export const useSimulateEthFlowCreateOrder = /*#__PURE__*/ createUseSimulateCont
   abi: ethFlowAbi,
   address: ethFlowAddress,
   functionName: 'createOrder'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ethFlowAbi}__ and `functionName` set to `"invalidateOrder"`
@@ -14089,7 +14089,7 @@ export const useSimulateEthFlowInvalidateOrder = /*#__PURE__*/ createUseSimulate
   abi: ethFlowAbi,
   address: ethFlowAddress,
   functionName: 'invalidateOrder'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ethFlowAbi}__ and `functionName` set to `"invalidateOrdersIgnoringNotAllowed"`
@@ -14102,7 +14102,7 @@ export const useSimulateEthFlowInvalidateOrdersIgnoringNotAllowed = /*#__PURE__*
   abi: ethFlowAbi,
   address: ethFlowAddress,
   functionName: 'invalidateOrdersIgnoringNotAllowed'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ethFlowAbi}__ and `functionName` set to `"unwrap"`
@@ -14115,7 +14115,7 @@ export const useSimulateEthFlowUnwrap = /*#__PURE__*/ createUseSimulateContract(
   abi: ethFlowAbi,
   address: ethFlowAddress,
   functionName: 'unwrap'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ethFlowAbi}__ and `functionName` set to `"wrap"`
@@ -14128,7 +14128,7 @@ export const useSimulateEthFlowWrap = /*#__PURE__*/ createUseSimulateContract({
   abi: ethFlowAbi,
   address: ethFlowAddress,
   functionName: 'wrap'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ethFlowAbi}__ and `functionName` set to `"wrapAll"`
@@ -14141,7 +14141,7 @@ export const useSimulateEthFlowWrapAll = /*#__PURE__*/ createUseSimulateContract
   abi: ethFlowAbi,
   address: ethFlowAddress,
   functionName: 'wrapAll'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ethFlowAbi}__
@@ -14153,7 +14153,7 @@ export const useSimulateEthFlowWrapAll = /*#__PURE__*/ createUseSimulateContract
 export const useWatchEthFlow = /*#__PURE__*/ createUseWatchContractEvent({
   abi: ethFlowAbi,
   address: ethFlowAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ethFlowAbi}__ and `eventName` set to `"OrderInvalidation"`
@@ -14166,7 +14166,7 @@ export const useWatchEthFlowOrderInvalidation = /*#__PURE__*/ createUseWatchCont
   abi: ethFlowAbi,
   address: ethFlowAddress,
   eventName: 'OrderInvalidation'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ethFlowAbi}__ and `eventName` set to `"OrderPlacement"`
@@ -14179,7 +14179,7 @@ export const useWatchEthFlowOrderPlacement = /*#__PURE__*/ createUseWatchContrac
   abi: ethFlowAbi,
   address: ethFlowAddress,
   eventName: 'OrderPlacement'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ethFlowAbi}__ and `eventName` set to `"OrderRefund"`
@@ -14192,7 +14192,7 @@ export const useWatchEthFlowOrderRefund = /*#__PURE__*/ createUseWatchContractEv
   abi: ethFlowAbi,
   address: ethFlowAddress,
   eventName: 'OrderRefund'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link gPv2SettlementAbi}__
@@ -14204,7 +14204,7 @@ export const useWatchEthFlowOrderRefund = /*#__PURE__*/ createUseWatchContractEv
 export const useReadGPv2Settlement = /*#__PURE__*/ createUseReadContract({
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"authenticator"`
@@ -14217,7 +14217,7 @@ export const useReadGPv2SettlementAuthenticator = /*#__PURE__*/ createUseReadCon
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   functionName: 'authenticator'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"domainSeparator"`
@@ -14230,7 +14230,7 @@ export const useReadGPv2SettlementDomainSeparator = /*#__PURE__*/ createUseReadC
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   functionName: 'domainSeparator'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"filledAmount"`
@@ -14243,7 +14243,7 @@ export const useReadGPv2SettlementFilledAmount = /*#__PURE__*/ createUseReadCont
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   functionName: 'filledAmount'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"getStorageAt"`
@@ -14256,7 +14256,7 @@ export const useReadGPv2SettlementGetStorageAt = /*#__PURE__*/ createUseReadCont
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   functionName: 'getStorageAt'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"preSignature"`
@@ -14269,7 +14269,7 @@ export const useReadGPv2SettlementPreSignature = /*#__PURE__*/ createUseReadCont
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   functionName: 'preSignature'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"vault"`
@@ -14282,7 +14282,7 @@ export const useReadGPv2SettlementVault = /*#__PURE__*/ createUseReadContract({
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   functionName: 'vault'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"vaultRelayer"`
@@ -14295,7 +14295,7 @@ export const useReadGPv2SettlementVaultRelayer = /*#__PURE__*/ createUseReadCont
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   functionName: 'vaultRelayer'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementAbi}__
@@ -14307,7 +14307,7 @@ export const useReadGPv2SettlementVaultRelayer = /*#__PURE__*/ createUseReadCont
 export const useWriteGPv2Settlement = /*#__PURE__*/ createUseWriteContract({
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"freeFilledAmountStorage"`
@@ -14320,7 +14320,7 @@ export const useWriteGPv2SettlementFreeFilledAmountStorage = /*#__PURE__*/ creat
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   functionName: 'freeFilledAmountStorage'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"freePreSignatureStorage"`
@@ -14333,7 +14333,7 @@ export const useWriteGPv2SettlementFreePreSignatureStorage = /*#__PURE__*/ creat
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   functionName: 'freePreSignatureStorage'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"invalidateOrder"`
@@ -14346,7 +14346,7 @@ export const useWriteGPv2SettlementInvalidateOrder = /*#__PURE__*/ createUseWrit
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   functionName: 'invalidateOrder'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"setPreSignature"`
@@ -14359,7 +14359,7 @@ export const useWriteGPv2SettlementSetPreSignature = /*#__PURE__*/ createUseWrit
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   functionName: 'setPreSignature'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"settle"`
@@ -14372,7 +14372,7 @@ export const useWriteGPv2SettlementSettle = /*#__PURE__*/ createUseWriteContract
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   functionName: 'settle'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"simulateDelegatecall"`
@@ -14385,7 +14385,7 @@ export const useWriteGPv2SettlementSimulateDelegatecall = /*#__PURE__*/ createUs
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   functionName: 'simulateDelegatecall'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"simulateDelegatecallInternal"`
@@ -14398,7 +14398,7 @@ export const useWriteGPv2SettlementSimulateDelegatecallInternal = /*#__PURE__*/ 
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   functionName: 'simulateDelegatecallInternal'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"swap"`
@@ -14411,7 +14411,7 @@ export const useWriteGPv2SettlementSwap = /*#__PURE__*/ createUseWriteContract({
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   functionName: 'swap'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementAbi}__
@@ -14423,7 +14423,7 @@ export const useWriteGPv2SettlementSwap = /*#__PURE__*/ createUseWriteContract({
 export const useSimulateGPv2Settlement = /*#__PURE__*/ createUseSimulateContract({
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"freeFilledAmountStorage"`
@@ -14436,7 +14436,7 @@ export const useSimulateGPv2SettlementFreeFilledAmountStorage = /*#__PURE__*/ cr
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   functionName: 'freeFilledAmountStorage'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"freePreSignatureStorage"`
@@ -14449,7 +14449,7 @@ export const useSimulateGPv2SettlementFreePreSignatureStorage = /*#__PURE__*/ cr
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   functionName: 'freePreSignatureStorage'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"invalidateOrder"`
@@ -14462,7 +14462,7 @@ export const useSimulateGPv2SettlementInvalidateOrder = /*#__PURE__*/ createUseS
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   functionName: 'invalidateOrder'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"setPreSignature"`
@@ -14475,7 +14475,7 @@ export const useSimulateGPv2SettlementSetPreSignature = /*#__PURE__*/ createUseS
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   functionName: 'setPreSignature'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"settle"`
@@ -14488,7 +14488,7 @@ export const useSimulateGPv2SettlementSettle = /*#__PURE__*/ createUseSimulateCo
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   functionName: 'settle'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"simulateDelegatecall"`
@@ -14501,7 +14501,7 @@ export const useSimulateGPv2SettlementSimulateDelegatecall = /*#__PURE__*/ creat
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   functionName: 'simulateDelegatecall'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"simulateDelegatecallInternal"`
@@ -14514,7 +14514,7 @@ export const useSimulateGPv2SettlementSimulateDelegatecallInternal = /*#__PURE__
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   functionName: 'simulateDelegatecallInternal'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `functionName` set to `"swap"`
@@ -14527,7 +14527,7 @@ export const useSimulateGPv2SettlementSwap = /*#__PURE__*/ createUseSimulateCont
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   functionName: 'swap'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link gPv2SettlementAbi}__
@@ -14539,7 +14539,7 @@ export const useSimulateGPv2SettlementSwap = /*#__PURE__*/ createUseSimulateCont
 export const useWatchGPv2Settlement = /*#__PURE__*/ createUseWatchContractEvent({
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `eventName` set to `"Interaction"`
@@ -14552,7 +14552,7 @@ export const useWatchGPv2SettlementInteraction = /*#__PURE__*/ createUseWatchCon
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   eventName: 'Interaction'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `eventName` set to `"OrderInvalidated"`
@@ -14565,7 +14565,7 @@ export const useWatchGPv2SettlementOrderInvalidated = /*#__PURE__*/ createUseWat
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   eventName: 'OrderInvalidated'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `eventName` set to `"PreSignature"`
@@ -14578,7 +14578,7 @@ export const useWatchGPv2SettlementPreSignature = /*#__PURE__*/ createUseWatchCo
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   eventName: 'PreSignature'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `eventName` set to `"Settlement"`
@@ -14591,7 +14591,7 @@ export const useWatchGPv2SettlementSettlement = /*#__PURE__*/ createUseWatchCont
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   eventName: 'Settlement'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link gPv2SettlementAbi}__ and `eventName` set to `"Trade"`
@@ -14604,14 +14604,14 @@ export const useWatchGPv2SettlementTrade = /*#__PURE__*/ createUseWatchContractE
   abi: gPv2SettlementAbi,
   address: gPv2SettlementAddress,
   eventName: 'Trade'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xb4e0e45e142101dc3ed768bac219fc35edbed295)
  */
-export const useReadLsMkr = /*#__PURE__*/ createUseReadContract({ abi: lsMkrAbi, address: lsMkrAddress })
+export const useReadLsMkr = /*#__PURE__*/ createUseReadContract({ abi: lsMkrAbi, address: lsMkrAddress });
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrAbi}__ and `functionName` set to `"allowance"`
@@ -14622,7 +14622,7 @@ export const useReadLsMkrAllowance = /*#__PURE__*/ createUseReadContract({
   abi: lsMkrAbi,
   address: lsMkrAddress,
   functionName: 'allowance'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrAbi}__ and `functionName` set to `"balanceOf"`
@@ -14633,7 +14633,7 @@ export const useReadLsMkrBalanceOf = /*#__PURE__*/ createUseReadContract({
   abi: lsMkrAbi,
   address: lsMkrAddress,
   functionName: 'balanceOf'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrAbi}__ and `functionName` set to `"decimals"`
@@ -14644,7 +14644,7 @@ export const useReadLsMkrDecimals = /*#__PURE__*/ createUseReadContract({
   abi: lsMkrAbi,
   address: lsMkrAddress,
   functionName: 'decimals'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrAbi}__ and `functionName` set to `"name"`
@@ -14655,7 +14655,7 @@ export const useReadLsMkrName = /*#__PURE__*/ createUseReadContract({
   abi: lsMkrAbi,
   address: lsMkrAddress,
   functionName: 'name'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrAbi}__ and `functionName` set to `"symbol"`
@@ -14666,7 +14666,7 @@ export const useReadLsMkrSymbol = /*#__PURE__*/ createUseReadContract({
   abi: lsMkrAbi,
   address: lsMkrAddress,
   functionName: 'symbol'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrAbi}__ and `functionName` set to `"totalSupply"`
@@ -14677,7 +14677,7 @@ export const useReadLsMkrTotalSupply = /*#__PURE__*/ createUseReadContract({
   abi: lsMkrAbi,
   address: lsMkrAddress,
   functionName: 'totalSupply'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrAbi}__ and `functionName` set to `"version"`
@@ -14688,7 +14688,7 @@ export const useReadLsMkrVersion = /*#__PURE__*/ createUseReadContract({
   abi: lsMkrAbi,
   address: lsMkrAddress,
   functionName: 'version'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrAbi}__ and `functionName` set to `"wards"`
@@ -14699,14 +14699,14 @@ export const useReadLsMkrWards = /*#__PURE__*/ createUseReadContract({
   abi: lsMkrAbi,
   address: lsMkrAddress,
   functionName: 'wards'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsMkrAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xb4e0e45e142101dc3ed768bac219fc35edbed295)
  */
-export const useWriteLsMkr = /*#__PURE__*/ createUseWriteContract({ abi: lsMkrAbi, address: lsMkrAddress })
+export const useWriteLsMkr = /*#__PURE__*/ createUseWriteContract({ abi: lsMkrAbi, address: lsMkrAddress });
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsMkrAbi}__ and `functionName` set to `"approve"`
@@ -14717,7 +14717,7 @@ export const useWriteLsMkrApprove = /*#__PURE__*/ createUseWriteContract({
   abi: lsMkrAbi,
   address: lsMkrAddress,
   functionName: 'approve'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsMkrAbi}__ and `functionName` set to `"burn"`
@@ -14728,7 +14728,7 @@ export const useWriteLsMkrBurn = /*#__PURE__*/ createUseWriteContract({
   abi: lsMkrAbi,
   address: lsMkrAddress,
   functionName: 'burn'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsMkrAbi}__ and `functionName` set to `"deny"`
@@ -14739,7 +14739,7 @@ export const useWriteLsMkrDeny = /*#__PURE__*/ createUseWriteContract({
   abi: lsMkrAbi,
   address: lsMkrAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsMkrAbi}__ and `functionName` set to `"mint"`
@@ -14750,7 +14750,7 @@ export const useWriteLsMkrMint = /*#__PURE__*/ createUseWriteContract({
   abi: lsMkrAbi,
   address: lsMkrAddress,
   functionName: 'mint'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsMkrAbi}__ and `functionName` set to `"rely"`
@@ -14761,7 +14761,7 @@ export const useWriteLsMkrRely = /*#__PURE__*/ createUseWriteContract({
   abi: lsMkrAbi,
   address: lsMkrAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsMkrAbi}__ and `functionName` set to `"transfer"`
@@ -14772,7 +14772,7 @@ export const useWriteLsMkrTransfer = /*#__PURE__*/ createUseWriteContract({
   abi: lsMkrAbi,
   address: lsMkrAddress,
   functionName: 'transfer'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsMkrAbi}__ and `functionName` set to `"transferFrom"`
@@ -14783,7 +14783,7 @@ export const useWriteLsMkrTransferFrom = /*#__PURE__*/ createUseWriteContract({
   abi: lsMkrAbi,
   address: lsMkrAddress,
   functionName: 'transferFrom'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsMkrAbi}__
@@ -14793,7 +14793,7 @@ export const useWriteLsMkrTransferFrom = /*#__PURE__*/ createUseWriteContract({
 export const useSimulateLsMkr = /*#__PURE__*/ createUseSimulateContract({
   abi: lsMkrAbi,
   address: lsMkrAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsMkrAbi}__ and `functionName` set to `"approve"`
@@ -14804,7 +14804,7 @@ export const useSimulateLsMkrApprove = /*#__PURE__*/ createUseSimulateContract({
   abi: lsMkrAbi,
   address: lsMkrAddress,
   functionName: 'approve'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsMkrAbi}__ and `functionName` set to `"burn"`
@@ -14815,7 +14815,7 @@ export const useSimulateLsMkrBurn = /*#__PURE__*/ createUseSimulateContract({
   abi: lsMkrAbi,
   address: lsMkrAddress,
   functionName: 'burn'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsMkrAbi}__ and `functionName` set to `"deny"`
@@ -14826,7 +14826,7 @@ export const useSimulateLsMkrDeny = /*#__PURE__*/ createUseSimulateContract({
   abi: lsMkrAbi,
   address: lsMkrAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsMkrAbi}__ and `functionName` set to `"mint"`
@@ -14837,7 +14837,7 @@ export const useSimulateLsMkrMint = /*#__PURE__*/ createUseSimulateContract({
   abi: lsMkrAbi,
   address: lsMkrAddress,
   functionName: 'mint'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsMkrAbi}__ and `functionName` set to `"rely"`
@@ -14848,7 +14848,7 @@ export const useSimulateLsMkrRely = /*#__PURE__*/ createUseSimulateContract({
   abi: lsMkrAbi,
   address: lsMkrAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsMkrAbi}__ and `functionName` set to `"transfer"`
@@ -14859,7 +14859,7 @@ export const useSimulateLsMkrTransfer = /*#__PURE__*/ createUseSimulateContract(
   abi: lsMkrAbi,
   address: lsMkrAddress,
   functionName: 'transfer'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsMkrAbi}__ and `functionName` set to `"transferFrom"`
@@ -14870,7 +14870,7 @@ export const useSimulateLsMkrTransferFrom = /*#__PURE__*/ createUseSimulateContr
   abi: lsMkrAbi,
   address: lsMkrAddress,
   functionName: 'transferFrom'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsMkrAbi}__
@@ -14880,7 +14880,7 @@ export const useSimulateLsMkrTransferFrom = /*#__PURE__*/ createUseSimulateContr
 export const useWatchLsMkr = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsMkrAbi,
   address: lsMkrAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsMkrAbi}__ and `eventName` set to `"Approval"`
@@ -14891,7 +14891,7 @@ export const useWatchLsMkrApproval = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsMkrAbi,
   address: lsMkrAddress,
   eventName: 'Approval'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsMkrAbi}__ and `eventName` set to `"Deny"`
@@ -14902,7 +14902,7 @@ export const useWatchLsMkrDeny = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsMkrAbi,
   address: lsMkrAddress,
   eventName: 'Deny'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsMkrAbi}__ and `eventName` set to `"Rely"`
@@ -14913,7 +14913,7 @@ export const useWatchLsMkrRely = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsMkrAbi,
   address: lsMkrAddress,
   eventName: 'Rely'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsMkrAbi}__ and `eventName` set to `"Transfer"`
@@ -14924,7 +14924,7 @@ export const useWatchLsMkrTransfer = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsMkrAbi,
   address: lsMkrAddress,
   eventName: 'Transfer'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__
@@ -14934,7 +14934,7 @@ export const useWatchLsMkrTransfer = /*#__PURE__*/ createUseWatchContractEvent({
 export const useReadLsMkrUsdsReward = /*#__PURE__*/ createUseReadContract({
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"balanceOf"`
@@ -14945,7 +14945,7 @@ export const useReadLsMkrUsdsRewardBalanceOf = /*#__PURE__*/ createUseReadContra
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'balanceOf'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"earned"`
@@ -14956,7 +14956,7 @@ export const useReadLsMkrUsdsRewardEarned = /*#__PURE__*/ createUseReadContract(
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'earned'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"getRewardForDuration"`
@@ -14967,7 +14967,7 @@ export const useReadLsMkrUsdsRewardGetRewardForDuration = /*#__PURE__*/ createUs
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'getRewardForDuration'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"lastPauseTime"`
@@ -14978,7 +14978,7 @@ export const useReadLsMkrUsdsRewardLastPauseTime = /*#__PURE__*/ createUseReadCo
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'lastPauseTime'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"lastTimeRewardApplicable"`
@@ -14989,7 +14989,7 @@ export const useReadLsMkrUsdsRewardLastTimeRewardApplicable = /*#__PURE__*/ crea
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'lastTimeRewardApplicable'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"lastUpdateTime"`
@@ -15000,7 +15000,7 @@ export const useReadLsMkrUsdsRewardLastUpdateTime = /*#__PURE__*/ createUseReadC
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'lastUpdateTime'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"nominatedOwner"`
@@ -15011,7 +15011,7 @@ export const useReadLsMkrUsdsRewardNominatedOwner = /*#__PURE__*/ createUseReadC
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'nominatedOwner'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"owner"`
@@ -15022,7 +15022,7 @@ export const useReadLsMkrUsdsRewardOwner = /*#__PURE__*/ createUseReadContract({
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'owner'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"paused"`
@@ -15033,7 +15033,7 @@ export const useReadLsMkrUsdsRewardPaused = /*#__PURE__*/ createUseReadContract(
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'paused'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"periodFinish"`
@@ -15044,7 +15044,7 @@ export const useReadLsMkrUsdsRewardPeriodFinish = /*#__PURE__*/ createUseReadCon
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'periodFinish'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"rewardPerToken"`
@@ -15055,7 +15055,7 @@ export const useReadLsMkrUsdsRewardRewardPerToken = /*#__PURE__*/ createUseReadC
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'rewardPerToken'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"rewardPerTokenStored"`
@@ -15066,7 +15066,7 @@ export const useReadLsMkrUsdsRewardRewardPerTokenStored = /*#__PURE__*/ createUs
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'rewardPerTokenStored'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"rewardRate"`
@@ -15077,7 +15077,7 @@ export const useReadLsMkrUsdsRewardRewardRate = /*#__PURE__*/ createUseReadContr
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'rewardRate'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"rewards"`
@@ -15088,7 +15088,7 @@ export const useReadLsMkrUsdsRewardRewards = /*#__PURE__*/ createUseReadContract
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'rewards'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"rewardsDistribution"`
@@ -15099,7 +15099,7 @@ export const useReadLsMkrUsdsRewardRewardsDistribution = /*#__PURE__*/ createUse
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'rewardsDistribution'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"rewardsDuration"`
@@ -15110,7 +15110,7 @@ export const useReadLsMkrUsdsRewardRewardsDuration = /*#__PURE__*/ createUseRead
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'rewardsDuration'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"rewardsToken"`
@@ -15121,7 +15121,7 @@ export const useReadLsMkrUsdsRewardRewardsToken = /*#__PURE__*/ createUseReadCon
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'rewardsToken'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"stakingToken"`
@@ -15132,7 +15132,7 @@ export const useReadLsMkrUsdsRewardStakingToken = /*#__PURE__*/ createUseReadCon
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'stakingToken'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"totalSupply"`
@@ -15143,7 +15143,7 @@ export const useReadLsMkrUsdsRewardTotalSupply = /*#__PURE__*/ createUseReadCont
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'totalSupply'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"userRewardPerTokenPaid"`
@@ -15154,7 +15154,7 @@ export const useReadLsMkrUsdsRewardUserRewardPerTokenPaid = /*#__PURE__*/ create
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'userRewardPerTokenPaid'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__
@@ -15164,7 +15164,7 @@ export const useReadLsMkrUsdsRewardUserRewardPerTokenPaid = /*#__PURE__*/ create
 export const useWriteLsMkrUsdsReward = /*#__PURE__*/ createUseWriteContract({
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"acceptOwnership"`
@@ -15175,7 +15175,7 @@ export const useWriteLsMkrUsdsRewardAcceptOwnership = /*#__PURE__*/ createUseWri
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'acceptOwnership'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"exit"`
@@ -15186,7 +15186,7 @@ export const useWriteLsMkrUsdsRewardExit = /*#__PURE__*/ createUseWriteContract(
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'exit'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"getReward"`
@@ -15197,7 +15197,7 @@ export const useWriteLsMkrUsdsRewardGetReward = /*#__PURE__*/ createUseWriteCont
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'getReward'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"nominateNewOwner"`
@@ -15208,7 +15208,7 @@ export const useWriteLsMkrUsdsRewardNominateNewOwner = /*#__PURE__*/ createUseWr
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'nominateNewOwner'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"notifyRewardAmount"`
@@ -15219,7 +15219,7 @@ export const useWriteLsMkrUsdsRewardNotifyRewardAmount = /*#__PURE__*/ createUse
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'notifyRewardAmount'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"recoverERC20"`
@@ -15230,7 +15230,7 @@ export const useWriteLsMkrUsdsRewardRecoverErc20 = /*#__PURE__*/ createUseWriteC
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'recoverERC20'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"setPaused"`
@@ -15241,7 +15241,7 @@ export const useWriteLsMkrUsdsRewardSetPaused = /*#__PURE__*/ createUseWriteCont
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'setPaused'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"setRewardsDistribution"`
@@ -15252,7 +15252,7 @@ export const useWriteLsMkrUsdsRewardSetRewardsDistribution = /*#__PURE__*/ creat
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'setRewardsDistribution'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"setRewardsDuration"`
@@ -15263,7 +15263,7 @@ export const useWriteLsMkrUsdsRewardSetRewardsDuration = /*#__PURE__*/ createUse
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'setRewardsDuration'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"stake"`
@@ -15274,7 +15274,7 @@ export const useWriteLsMkrUsdsRewardStake = /*#__PURE__*/ createUseWriteContract
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'stake'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"withdraw"`
@@ -15285,7 +15285,7 @@ export const useWriteLsMkrUsdsRewardWithdraw = /*#__PURE__*/ createUseWriteContr
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'withdraw'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__
@@ -15295,7 +15295,7 @@ export const useWriteLsMkrUsdsRewardWithdraw = /*#__PURE__*/ createUseWriteContr
 export const useSimulateLsMkrUsdsReward = /*#__PURE__*/ createUseSimulateContract({
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"acceptOwnership"`
@@ -15306,7 +15306,7 @@ export const useSimulateLsMkrUsdsRewardAcceptOwnership = /*#__PURE__*/ createUse
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'acceptOwnership'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"exit"`
@@ -15317,7 +15317,7 @@ export const useSimulateLsMkrUsdsRewardExit = /*#__PURE__*/ createUseSimulateCon
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'exit'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"getReward"`
@@ -15328,7 +15328,7 @@ export const useSimulateLsMkrUsdsRewardGetReward = /*#__PURE__*/ createUseSimula
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'getReward'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"nominateNewOwner"`
@@ -15339,7 +15339,7 @@ export const useSimulateLsMkrUsdsRewardNominateNewOwner = /*#__PURE__*/ createUs
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'nominateNewOwner'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"notifyRewardAmount"`
@@ -15350,7 +15350,7 @@ export const useSimulateLsMkrUsdsRewardNotifyRewardAmount = /*#__PURE__*/ create
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'notifyRewardAmount'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"recoverERC20"`
@@ -15361,7 +15361,7 @@ export const useSimulateLsMkrUsdsRewardRecoverErc20 = /*#__PURE__*/ createUseSim
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'recoverERC20'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"setPaused"`
@@ -15372,7 +15372,7 @@ export const useSimulateLsMkrUsdsRewardSetPaused = /*#__PURE__*/ createUseSimula
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'setPaused'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"setRewardsDistribution"`
@@ -15383,7 +15383,7 @@ export const useSimulateLsMkrUsdsRewardSetRewardsDistribution = /*#__PURE__*/ cr
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'setRewardsDistribution'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"setRewardsDuration"`
@@ -15394,7 +15394,7 @@ export const useSimulateLsMkrUsdsRewardSetRewardsDuration = /*#__PURE__*/ create
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'setRewardsDuration'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"stake"`
@@ -15405,7 +15405,7 @@ export const useSimulateLsMkrUsdsRewardStake = /*#__PURE__*/ createUseSimulateCo
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'stake'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `functionName` set to `"withdraw"`
@@ -15416,7 +15416,7 @@ export const useSimulateLsMkrUsdsRewardWithdraw = /*#__PURE__*/ createUseSimulat
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   functionName: 'withdraw'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__
@@ -15426,7 +15426,7 @@ export const useSimulateLsMkrUsdsRewardWithdraw = /*#__PURE__*/ createUseSimulat
 export const useWatchLsMkrUsdsReward = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `eventName` set to `"OwnerChanged"`
@@ -15437,7 +15437,7 @@ export const useWatchLsMkrUsdsRewardOwnerChanged = /*#__PURE__*/ createUseWatchC
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   eventName: 'OwnerChanged'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `eventName` set to `"OwnerNominated"`
@@ -15448,7 +15448,7 @@ export const useWatchLsMkrUsdsRewardOwnerNominated = /*#__PURE__*/ createUseWatc
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   eventName: 'OwnerNominated'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `eventName` set to `"PauseChanged"`
@@ -15459,7 +15459,7 @@ export const useWatchLsMkrUsdsRewardPauseChanged = /*#__PURE__*/ createUseWatchC
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   eventName: 'PauseChanged'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `eventName` set to `"Recovered"`
@@ -15470,7 +15470,7 @@ export const useWatchLsMkrUsdsRewardRecovered = /*#__PURE__*/ createUseWatchCont
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   eventName: 'Recovered'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `eventName` set to `"Referral"`
@@ -15481,7 +15481,7 @@ export const useWatchLsMkrUsdsRewardReferral = /*#__PURE__*/ createUseWatchContr
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   eventName: 'Referral'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `eventName` set to `"RewardAdded"`
@@ -15492,7 +15492,7 @@ export const useWatchLsMkrUsdsRewardRewardAdded = /*#__PURE__*/ createUseWatchCo
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   eventName: 'RewardAdded'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `eventName` set to `"RewardPaid"`
@@ -15503,7 +15503,7 @@ export const useWatchLsMkrUsdsRewardRewardPaid = /*#__PURE__*/ createUseWatchCon
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   eventName: 'RewardPaid'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `eventName` set to `"RewardsDistributionUpdated"`
@@ -15514,7 +15514,7 @@ export const useWatchLsMkrUsdsRewardRewardsDistributionUpdated = /*#__PURE__*/ c
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   eventName: 'RewardsDistributionUpdated'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `eventName` set to `"RewardsDurationUpdated"`
@@ -15525,7 +15525,7 @@ export const useWatchLsMkrUsdsRewardRewardsDurationUpdated = /*#__PURE__*/ creat
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   eventName: 'RewardsDurationUpdated'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `eventName` set to `"Staked"`
@@ -15536,7 +15536,7 @@ export const useWatchLsMkrUsdsRewardStaked = /*#__PURE__*/ createUseWatchContrac
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   eventName: 'Staked'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsMkrUsdsRewardAbi}__ and `eventName` set to `"Withdrawn"`
@@ -15547,14 +15547,14 @@ export const useWatchLsMkrUsdsRewardWithdrawn = /*#__PURE__*/ createUseWatchCont
   abi: lsMkrUsdsRewardAbi,
   address: lsMkrUsdsRewardAddress,
   eventName: 'Withdrawn'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xf9A9cfD3229E985B91F99Bc866d42938044FFa1C)
  */
-export const useReadLsSky = /*#__PURE__*/ createUseReadContract({ abi: lsSkyAbi, address: lsSkyAddress })
+export const useReadLsSky = /*#__PURE__*/ createUseReadContract({ abi: lsSkyAbi, address: lsSkyAddress });
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"allowance"`
@@ -15565,7 +15565,7 @@ export const useReadLsSkyAllowance = /*#__PURE__*/ createUseReadContract({
   abi: lsSkyAbi,
   address: lsSkyAddress,
   functionName: 'allowance'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"balanceOf"`
@@ -15576,7 +15576,7 @@ export const useReadLsSkyBalanceOf = /*#__PURE__*/ createUseReadContract({
   abi: lsSkyAbi,
   address: lsSkyAddress,
   functionName: 'balanceOf'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"decimals"`
@@ -15587,7 +15587,7 @@ export const useReadLsSkyDecimals = /*#__PURE__*/ createUseReadContract({
   abi: lsSkyAbi,
   address: lsSkyAddress,
   functionName: 'decimals'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"name"`
@@ -15598,7 +15598,7 @@ export const useReadLsSkyName = /*#__PURE__*/ createUseReadContract({
   abi: lsSkyAbi,
   address: lsSkyAddress,
   functionName: 'name'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"symbol"`
@@ -15609,7 +15609,7 @@ export const useReadLsSkySymbol = /*#__PURE__*/ createUseReadContract({
   abi: lsSkyAbi,
   address: lsSkyAddress,
   functionName: 'symbol'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"totalSupply"`
@@ -15620,7 +15620,7 @@ export const useReadLsSkyTotalSupply = /*#__PURE__*/ createUseReadContract({
   abi: lsSkyAbi,
   address: lsSkyAddress,
   functionName: 'totalSupply'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"version"`
@@ -15631,7 +15631,7 @@ export const useReadLsSkyVersion = /*#__PURE__*/ createUseReadContract({
   abi: lsSkyAbi,
   address: lsSkyAddress,
   functionName: 'version'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"wards"`
@@ -15642,14 +15642,14 @@ export const useReadLsSkyWards = /*#__PURE__*/ createUseReadContract({
   abi: lsSkyAbi,
   address: lsSkyAddress,
   functionName: 'wards'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xf9A9cfD3229E985B91F99Bc866d42938044FFa1C)
  */
-export const useWriteLsSky = /*#__PURE__*/ createUseWriteContract({ abi: lsSkyAbi, address: lsSkyAddress })
+export const useWriteLsSky = /*#__PURE__*/ createUseWriteContract({ abi: lsSkyAbi, address: lsSkyAddress });
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"approve"`
@@ -15660,7 +15660,7 @@ export const useWriteLsSkyApprove = /*#__PURE__*/ createUseWriteContract({
   abi: lsSkyAbi,
   address: lsSkyAddress,
   functionName: 'approve'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"burn"`
@@ -15671,7 +15671,7 @@ export const useWriteLsSkyBurn = /*#__PURE__*/ createUseWriteContract({
   abi: lsSkyAbi,
   address: lsSkyAddress,
   functionName: 'burn'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"deny"`
@@ -15682,7 +15682,7 @@ export const useWriteLsSkyDeny = /*#__PURE__*/ createUseWriteContract({
   abi: lsSkyAbi,
   address: lsSkyAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"mint"`
@@ -15693,7 +15693,7 @@ export const useWriteLsSkyMint = /*#__PURE__*/ createUseWriteContract({
   abi: lsSkyAbi,
   address: lsSkyAddress,
   functionName: 'mint'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"rely"`
@@ -15704,7 +15704,7 @@ export const useWriteLsSkyRely = /*#__PURE__*/ createUseWriteContract({
   abi: lsSkyAbi,
   address: lsSkyAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"transfer"`
@@ -15715,7 +15715,7 @@ export const useWriteLsSkyTransfer = /*#__PURE__*/ createUseWriteContract({
   abi: lsSkyAbi,
   address: lsSkyAddress,
   functionName: 'transfer'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"transferFrom"`
@@ -15726,7 +15726,7 @@ export const useWriteLsSkyTransferFrom = /*#__PURE__*/ createUseWriteContract({
   abi: lsSkyAbi,
   address: lsSkyAddress,
   functionName: 'transferFrom'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyAbi}__
@@ -15736,7 +15736,7 @@ export const useWriteLsSkyTransferFrom = /*#__PURE__*/ createUseWriteContract({
 export const useSimulateLsSky = /*#__PURE__*/ createUseSimulateContract({
   abi: lsSkyAbi,
   address: lsSkyAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"approve"`
@@ -15747,7 +15747,7 @@ export const useSimulateLsSkyApprove = /*#__PURE__*/ createUseSimulateContract({
   abi: lsSkyAbi,
   address: lsSkyAddress,
   functionName: 'approve'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"burn"`
@@ -15758,7 +15758,7 @@ export const useSimulateLsSkyBurn = /*#__PURE__*/ createUseSimulateContract({
   abi: lsSkyAbi,
   address: lsSkyAddress,
   functionName: 'burn'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"deny"`
@@ -15769,7 +15769,7 @@ export const useSimulateLsSkyDeny = /*#__PURE__*/ createUseSimulateContract({
   abi: lsSkyAbi,
   address: lsSkyAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"mint"`
@@ -15780,7 +15780,7 @@ export const useSimulateLsSkyMint = /*#__PURE__*/ createUseSimulateContract({
   abi: lsSkyAbi,
   address: lsSkyAddress,
   functionName: 'mint'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"rely"`
@@ -15791,7 +15791,7 @@ export const useSimulateLsSkyRely = /*#__PURE__*/ createUseSimulateContract({
   abi: lsSkyAbi,
   address: lsSkyAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"transfer"`
@@ -15802,7 +15802,7 @@ export const useSimulateLsSkyTransfer = /*#__PURE__*/ createUseSimulateContract(
   abi: lsSkyAbi,
   address: lsSkyAddress,
   functionName: 'transfer'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyAbi}__ and `functionName` set to `"transferFrom"`
@@ -15813,7 +15813,7 @@ export const useSimulateLsSkyTransferFrom = /*#__PURE__*/ createUseSimulateContr
   abi: lsSkyAbi,
   address: lsSkyAddress,
   functionName: 'transferFrom'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkyAbi}__
@@ -15823,7 +15823,7 @@ export const useSimulateLsSkyTransferFrom = /*#__PURE__*/ createUseSimulateContr
 export const useWatchLsSky = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsSkyAbi,
   address: lsSkyAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkyAbi}__ and `eventName` set to `"Approval"`
@@ -15834,7 +15834,7 @@ export const useWatchLsSkyApproval = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsSkyAbi,
   address: lsSkyAddress,
   eventName: 'Approval'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkyAbi}__ and `eventName` set to `"Deny"`
@@ -15845,7 +15845,7 @@ export const useWatchLsSkyDeny = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsSkyAbi,
   address: lsSkyAddress,
   eventName: 'Deny'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkyAbi}__ and `eventName` set to `"Rely"`
@@ -15856,7 +15856,7 @@ export const useWatchLsSkyRely = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsSkyAbi,
   address: lsSkyAddress,
   eventName: 'Rely'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkyAbi}__ and `eventName` set to `"Transfer"`
@@ -15867,7 +15867,7 @@ export const useWatchLsSkyTransfer = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsSkyAbi,
   address: lsSkyAddress,
   eventName: 'Transfer'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__
@@ -15877,7 +15877,7 @@ export const useWatchLsSkyTransfer = /*#__PURE__*/ createUseWatchContractEvent({
 export const useReadLsSkySkyReward = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"balanceOf"`
@@ -15888,7 +15888,7 @@ export const useReadLsSkySkyRewardBalanceOf = /*#__PURE__*/ createUseReadContrac
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'balanceOf'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"earned"`
@@ -15899,7 +15899,7 @@ export const useReadLsSkySkyRewardEarned = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'earned'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"getRewardForDuration"`
@@ -15910,7 +15910,7 @@ export const useReadLsSkySkyRewardGetRewardForDuration = /*#__PURE__*/ createUse
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'getRewardForDuration'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"lastPauseTime"`
@@ -15921,7 +15921,7 @@ export const useReadLsSkySkyRewardLastPauseTime = /*#__PURE__*/ createUseReadCon
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'lastPauseTime'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"lastTimeRewardApplicable"`
@@ -15932,7 +15932,7 @@ export const useReadLsSkySkyRewardLastTimeRewardApplicable = /*#__PURE__*/ creat
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'lastTimeRewardApplicable'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"lastUpdateTime"`
@@ -15943,7 +15943,7 @@ export const useReadLsSkySkyRewardLastUpdateTime = /*#__PURE__*/ createUseReadCo
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'lastUpdateTime'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"nominatedOwner"`
@@ -15954,7 +15954,7 @@ export const useReadLsSkySkyRewardNominatedOwner = /*#__PURE__*/ createUseReadCo
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'nominatedOwner'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"owner"`
@@ -15965,7 +15965,7 @@ export const useReadLsSkySkyRewardOwner = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'owner'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"paused"`
@@ -15976,7 +15976,7 @@ export const useReadLsSkySkyRewardPaused = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'paused'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"periodFinish"`
@@ -15987,7 +15987,7 @@ export const useReadLsSkySkyRewardPeriodFinish = /*#__PURE__*/ createUseReadCont
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'periodFinish'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"rewardPerToken"`
@@ -15998,7 +15998,7 @@ export const useReadLsSkySkyRewardRewardPerToken = /*#__PURE__*/ createUseReadCo
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'rewardPerToken'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"rewardPerTokenStored"`
@@ -16009,7 +16009,7 @@ export const useReadLsSkySkyRewardRewardPerTokenStored = /*#__PURE__*/ createUse
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'rewardPerTokenStored'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"rewardRate"`
@@ -16020,7 +16020,7 @@ export const useReadLsSkySkyRewardRewardRate = /*#__PURE__*/ createUseReadContra
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'rewardRate'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"rewards"`
@@ -16031,7 +16031,7 @@ export const useReadLsSkySkyRewardRewards = /*#__PURE__*/ createUseReadContract(
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'rewards'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"rewardsDistribution"`
@@ -16042,7 +16042,7 @@ export const useReadLsSkySkyRewardRewardsDistribution = /*#__PURE__*/ createUseR
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'rewardsDistribution'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"rewardsDuration"`
@@ -16053,7 +16053,7 @@ export const useReadLsSkySkyRewardRewardsDuration = /*#__PURE__*/ createUseReadC
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'rewardsDuration'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"rewardsToken"`
@@ -16064,7 +16064,7 @@ export const useReadLsSkySkyRewardRewardsToken = /*#__PURE__*/ createUseReadCont
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'rewardsToken'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"stakingToken"`
@@ -16075,7 +16075,7 @@ export const useReadLsSkySkyRewardStakingToken = /*#__PURE__*/ createUseReadCont
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'stakingToken'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"totalSupply"`
@@ -16086,7 +16086,7 @@ export const useReadLsSkySkyRewardTotalSupply = /*#__PURE__*/ createUseReadContr
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'totalSupply'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"userRewardPerTokenPaid"`
@@ -16097,7 +16097,7 @@ export const useReadLsSkySkyRewardUserRewardPerTokenPaid = /*#__PURE__*/ createU
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'userRewardPerTokenPaid'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__
@@ -16107,7 +16107,7 @@ export const useReadLsSkySkyRewardUserRewardPerTokenPaid = /*#__PURE__*/ createU
 export const useWriteLsSkySkyReward = /*#__PURE__*/ createUseWriteContract({
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"acceptOwnership"`
@@ -16118,7 +16118,7 @@ export const useWriteLsSkySkyRewardAcceptOwnership = /*#__PURE__*/ createUseWrit
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'acceptOwnership'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"exit"`
@@ -16129,7 +16129,7 @@ export const useWriteLsSkySkyRewardExit = /*#__PURE__*/ createUseWriteContract({
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'exit'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"getReward"`
@@ -16140,7 +16140,7 @@ export const useWriteLsSkySkyRewardGetReward = /*#__PURE__*/ createUseWriteContr
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'getReward'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"nominateNewOwner"`
@@ -16151,7 +16151,7 @@ export const useWriteLsSkySkyRewardNominateNewOwner = /*#__PURE__*/ createUseWri
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'nominateNewOwner'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"notifyRewardAmount"`
@@ -16162,7 +16162,7 @@ export const useWriteLsSkySkyRewardNotifyRewardAmount = /*#__PURE__*/ createUseW
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'notifyRewardAmount'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"recoverERC20"`
@@ -16173,7 +16173,7 @@ export const useWriteLsSkySkyRewardRecoverErc20 = /*#__PURE__*/ createUseWriteCo
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'recoverERC20'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"setPaused"`
@@ -16184,7 +16184,7 @@ export const useWriteLsSkySkyRewardSetPaused = /*#__PURE__*/ createUseWriteContr
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'setPaused'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"setRewardsDistribution"`
@@ -16195,7 +16195,7 @@ export const useWriteLsSkySkyRewardSetRewardsDistribution = /*#__PURE__*/ create
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'setRewardsDistribution'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"setRewardsDuration"`
@@ -16206,7 +16206,7 @@ export const useWriteLsSkySkyRewardSetRewardsDuration = /*#__PURE__*/ createUseW
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'setRewardsDuration'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"stake"`
@@ -16217,7 +16217,7 @@ export const useWriteLsSkySkyRewardStake = /*#__PURE__*/ createUseWriteContract(
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'stake'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"withdraw"`
@@ -16228,7 +16228,7 @@ export const useWriteLsSkySkyRewardWithdraw = /*#__PURE__*/ createUseWriteContra
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'withdraw'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__
@@ -16238,7 +16238,7 @@ export const useWriteLsSkySkyRewardWithdraw = /*#__PURE__*/ createUseWriteContra
 export const useSimulateLsSkySkyReward = /*#__PURE__*/ createUseSimulateContract({
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"acceptOwnership"`
@@ -16249,7 +16249,7 @@ export const useSimulateLsSkySkyRewardAcceptOwnership = /*#__PURE__*/ createUseS
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'acceptOwnership'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"exit"`
@@ -16260,7 +16260,7 @@ export const useSimulateLsSkySkyRewardExit = /*#__PURE__*/ createUseSimulateCont
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'exit'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"getReward"`
@@ -16271,7 +16271,7 @@ export const useSimulateLsSkySkyRewardGetReward = /*#__PURE__*/ createUseSimulat
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'getReward'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"nominateNewOwner"`
@@ -16282,7 +16282,7 @@ export const useSimulateLsSkySkyRewardNominateNewOwner = /*#__PURE__*/ createUse
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'nominateNewOwner'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"notifyRewardAmount"`
@@ -16293,7 +16293,7 @@ export const useSimulateLsSkySkyRewardNotifyRewardAmount = /*#__PURE__*/ createU
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'notifyRewardAmount'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"recoverERC20"`
@@ -16304,7 +16304,7 @@ export const useSimulateLsSkySkyRewardRecoverErc20 = /*#__PURE__*/ createUseSimu
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'recoverERC20'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"setPaused"`
@@ -16315,7 +16315,7 @@ export const useSimulateLsSkySkyRewardSetPaused = /*#__PURE__*/ createUseSimulat
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'setPaused'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"setRewardsDistribution"`
@@ -16326,7 +16326,7 @@ export const useSimulateLsSkySkyRewardSetRewardsDistribution = /*#__PURE__*/ cre
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'setRewardsDistribution'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"setRewardsDuration"`
@@ -16337,7 +16337,7 @@ export const useSimulateLsSkySkyRewardSetRewardsDuration = /*#__PURE__*/ createU
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'setRewardsDuration'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"stake"`
@@ -16348,7 +16348,7 @@ export const useSimulateLsSkySkyRewardStake = /*#__PURE__*/ createUseSimulateCon
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'stake'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `functionName` set to `"withdraw"`
@@ -16359,7 +16359,7 @@ export const useSimulateLsSkySkyRewardWithdraw = /*#__PURE__*/ createUseSimulate
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   functionName: 'withdraw'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySkyRewardAbi}__
@@ -16369,7 +16369,7 @@ export const useSimulateLsSkySkyRewardWithdraw = /*#__PURE__*/ createUseSimulate
 export const useWatchLsSkySkyReward = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `eventName` set to `"OwnerChanged"`
@@ -16380,7 +16380,7 @@ export const useWatchLsSkySkyRewardOwnerChanged = /*#__PURE__*/ createUseWatchCo
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   eventName: 'OwnerChanged'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `eventName` set to `"OwnerNominated"`
@@ -16391,7 +16391,7 @@ export const useWatchLsSkySkyRewardOwnerNominated = /*#__PURE__*/ createUseWatch
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   eventName: 'OwnerNominated'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `eventName` set to `"PauseChanged"`
@@ -16402,7 +16402,7 @@ export const useWatchLsSkySkyRewardPauseChanged = /*#__PURE__*/ createUseWatchCo
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   eventName: 'PauseChanged'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `eventName` set to `"Recovered"`
@@ -16413,7 +16413,7 @@ export const useWatchLsSkySkyRewardRecovered = /*#__PURE__*/ createUseWatchContr
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   eventName: 'Recovered'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `eventName` set to `"Referral"`
@@ -16424,7 +16424,7 @@ export const useWatchLsSkySkyRewardReferral = /*#__PURE__*/ createUseWatchContra
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   eventName: 'Referral'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `eventName` set to `"RewardAdded"`
@@ -16435,7 +16435,7 @@ export const useWatchLsSkySkyRewardRewardAdded = /*#__PURE__*/ createUseWatchCon
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   eventName: 'RewardAdded'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `eventName` set to `"RewardPaid"`
@@ -16446,7 +16446,7 @@ export const useWatchLsSkySkyRewardRewardPaid = /*#__PURE__*/ createUseWatchCont
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   eventName: 'RewardPaid'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `eventName` set to `"RewardsDistributionUpdated"`
@@ -16457,7 +16457,7 @@ export const useWatchLsSkySkyRewardRewardsDistributionUpdated = /*#__PURE__*/ cr
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   eventName: 'RewardsDistributionUpdated'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `eventName` set to `"RewardsDurationUpdated"`
@@ -16468,7 +16468,7 @@ export const useWatchLsSkySkyRewardRewardsDurationUpdated = /*#__PURE__*/ create
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   eventName: 'RewardsDurationUpdated'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `eventName` set to `"Staked"`
@@ -16479,7 +16479,7 @@ export const useWatchLsSkySkyRewardStaked = /*#__PURE__*/ createUseWatchContract
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   eventName: 'Staked'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySkyRewardAbi}__ and `eventName` set to `"Withdrawn"`
@@ -16490,7 +16490,7 @@ export const useWatchLsSkySkyRewardWithdrawn = /*#__PURE__*/ createUseWatchContr
   abi: lsSkySkyRewardAbi,
   address: lsSkySkyRewardAddress,
   eventName: 'Withdrawn'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__
@@ -16500,7 +16500,7 @@ export const useWatchLsSkySkyRewardWithdrawn = /*#__PURE__*/ createUseWatchContr
 export const useReadLsSkySpkReward = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"balanceOf"`
@@ -16511,7 +16511,7 @@ export const useReadLsSkySpkRewardBalanceOf = /*#__PURE__*/ createUseReadContrac
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'balanceOf'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"earned"`
@@ -16522,7 +16522,7 @@ export const useReadLsSkySpkRewardEarned = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'earned'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"getRewardForDuration"`
@@ -16533,7 +16533,7 @@ export const useReadLsSkySpkRewardGetRewardForDuration = /*#__PURE__*/ createUse
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'getRewardForDuration'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"lastPauseTime"`
@@ -16544,7 +16544,7 @@ export const useReadLsSkySpkRewardLastPauseTime = /*#__PURE__*/ createUseReadCon
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'lastPauseTime'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"lastTimeRewardApplicable"`
@@ -16555,7 +16555,7 @@ export const useReadLsSkySpkRewardLastTimeRewardApplicable = /*#__PURE__*/ creat
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'lastTimeRewardApplicable'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"lastUpdateTime"`
@@ -16566,7 +16566,7 @@ export const useReadLsSkySpkRewardLastUpdateTime = /*#__PURE__*/ createUseReadCo
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'lastUpdateTime'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"nominatedOwner"`
@@ -16577,7 +16577,7 @@ export const useReadLsSkySpkRewardNominatedOwner = /*#__PURE__*/ createUseReadCo
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'nominatedOwner'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"owner"`
@@ -16588,7 +16588,7 @@ export const useReadLsSkySpkRewardOwner = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'owner'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"paused"`
@@ -16599,7 +16599,7 @@ export const useReadLsSkySpkRewardPaused = /*#__PURE__*/ createUseReadContract({
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'paused'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"periodFinish"`
@@ -16610,7 +16610,7 @@ export const useReadLsSkySpkRewardPeriodFinish = /*#__PURE__*/ createUseReadCont
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'periodFinish'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"rewardPerToken"`
@@ -16621,7 +16621,7 @@ export const useReadLsSkySpkRewardRewardPerToken = /*#__PURE__*/ createUseReadCo
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'rewardPerToken'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"rewardPerTokenStored"`
@@ -16632,7 +16632,7 @@ export const useReadLsSkySpkRewardRewardPerTokenStored = /*#__PURE__*/ createUse
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'rewardPerTokenStored'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"rewardRate"`
@@ -16643,7 +16643,7 @@ export const useReadLsSkySpkRewardRewardRate = /*#__PURE__*/ createUseReadContra
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'rewardRate'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"rewards"`
@@ -16654,7 +16654,7 @@ export const useReadLsSkySpkRewardRewards = /*#__PURE__*/ createUseReadContract(
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'rewards'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"rewardsDistribution"`
@@ -16665,7 +16665,7 @@ export const useReadLsSkySpkRewardRewardsDistribution = /*#__PURE__*/ createUseR
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'rewardsDistribution'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"rewardsDuration"`
@@ -16676,7 +16676,7 @@ export const useReadLsSkySpkRewardRewardsDuration = /*#__PURE__*/ createUseReadC
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'rewardsDuration'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"rewardsToken"`
@@ -16687,7 +16687,7 @@ export const useReadLsSkySpkRewardRewardsToken = /*#__PURE__*/ createUseReadCont
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'rewardsToken'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"stakingToken"`
@@ -16698,7 +16698,7 @@ export const useReadLsSkySpkRewardStakingToken = /*#__PURE__*/ createUseReadCont
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'stakingToken'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"totalSupply"`
@@ -16709,7 +16709,7 @@ export const useReadLsSkySpkRewardTotalSupply = /*#__PURE__*/ createUseReadContr
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'totalSupply'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"userRewardPerTokenPaid"`
@@ -16720,7 +16720,7 @@ export const useReadLsSkySpkRewardUserRewardPerTokenPaid = /*#__PURE__*/ createU
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'userRewardPerTokenPaid'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__
@@ -16730,7 +16730,7 @@ export const useReadLsSkySpkRewardUserRewardPerTokenPaid = /*#__PURE__*/ createU
 export const useWriteLsSkySpkReward = /*#__PURE__*/ createUseWriteContract({
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"acceptOwnership"`
@@ -16741,7 +16741,7 @@ export const useWriteLsSkySpkRewardAcceptOwnership = /*#__PURE__*/ createUseWrit
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'acceptOwnership'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"exit"`
@@ -16752,7 +16752,7 @@ export const useWriteLsSkySpkRewardExit = /*#__PURE__*/ createUseWriteContract({
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'exit'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"getReward"`
@@ -16763,7 +16763,7 @@ export const useWriteLsSkySpkRewardGetReward = /*#__PURE__*/ createUseWriteContr
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'getReward'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"nominateNewOwner"`
@@ -16774,7 +16774,7 @@ export const useWriteLsSkySpkRewardNominateNewOwner = /*#__PURE__*/ createUseWri
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'nominateNewOwner'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"notifyRewardAmount"`
@@ -16785,7 +16785,7 @@ export const useWriteLsSkySpkRewardNotifyRewardAmount = /*#__PURE__*/ createUseW
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'notifyRewardAmount'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"recoverERC20"`
@@ -16796,7 +16796,7 @@ export const useWriteLsSkySpkRewardRecoverErc20 = /*#__PURE__*/ createUseWriteCo
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'recoverERC20'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"setPaused"`
@@ -16807,7 +16807,7 @@ export const useWriteLsSkySpkRewardSetPaused = /*#__PURE__*/ createUseWriteContr
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'setPaused'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"setRewardsDistribution"`
@@ -16818,7 +16818,7 @@ export const useWriteLsSkySpkRewardSetRewardsDistribution = /*#__PURE__*/ create
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'setRewardsDistribution'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"setRewardsDuration"`
@@ -16829,7 +16829,7 @@ export const useWriteLsSkySpkRewardSetRewardsDuration = /*#__PURE__*/ createUseW
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'setRewardsDuration'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"stake"`
@@ -16840,7 +16840,7 @@ export const useWriteLsSkySpkRewardStake = /*#__PURE__*/ createUseWriteContract(
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'stake'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"withdraw"`
@@ -16851,7 +16851,7 @@ export const useWriteLsSkySpkRewardWithdraw = /*#__PURE__*/ createUseWriteContra
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'withdraw'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__
@@ -16861,7 +16861,7 @@ export const useWriteLsSkySpkRewardWithdraw = /*#__PURE__*/ createUseWriteContra
 export const useSimulateLsSkySpkReward = /*#__PURE__*/ createUseSimulateContract({
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"acceptOwnership"`
@@ -16872,7 +16872,7 @@ export const useSimulateLsSkySpkRewardAcceptOwnership = /*#__PURE__*/ createUseS
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'acceptOwnership'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"exit"`
@@ -16883,7 +16883,7 @@ export const useSimulateLsSkySpkRewardExit = /*#__PURE__*/ createUseSimulateCont
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'exit'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"getReward"`
@@ -16894,7 +16894,7 @@ export const useSimulateLsSkySpkRewardGetReward = /*#__PURE__*/ createUseSimulat
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'getReward'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"nominateNewOwner"`
@@ -16905,7 +16905,7 @@ export const useSimulateLsSkySpkRewardNominateNewOwner = /*#__PURE__*/ createUse
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'nominateNewOwner'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"notifyRewardAmount"`
@@ -16916,7 +16916,7 @@ export const useSimulateLsSkySpkRewardNotifyRewardAmount = /*#__PURE__*/ createU
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'notifyRewardAmount'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"recoverERC20"`
@@ -16927,7 +16927,7 @@ export const useSimulateLsSkySpkRewardRecoverErc20 = /*#__PURE__*/ createUseSimu
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'recoverERC20'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"setPaused"`
@@ -16938,7 +16938,7 @@ export const useSimulateLsSkySpkRewardSetPaused = /*#__PURE__*/ createUseSimulat
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'setPaused'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"setRewardsDistribution"`
@@ -16949,7 +16949,7 @@ export const useSimulateLsSkySpkRewardSetRewardsDistribution = /*#__PURE__*/ cre
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'setRewardsDistribution'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"setRewardsDuration"`
@@ -16960,7 +16960,7 @@ export const useSimulateLsSkySpkRewardSetRewardsDuration = /*#__PURE__*/ createU
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'setRewardsDuration'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"stake"`
@@ -16971,7 +16971,7 @@ export const useSimulateLsSkySpkRewardStake = /*#__PURE__*/ createUseSimulateCon
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'stake'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `functionName` set to `"withdraw"`
@@ -16982,7 +16982,7 @@ export const useSimulateLsSkySpkRewardWithdraw = /*#__PURE__*/ createUseSimulate
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   functionName: 'withdraw'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySpkRewardAbi}__
@@ -16992,7 +16992,7 @@ export const useSimulateLsSkySpkRewardWithdraw = /*#__PURE__*/ createUseSimulate
 export const useWatchLsSkySpkReward = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `eventName` set to `"OwnerChanged"`
@@ -17003,7 +17003,7 @@ export const useWatchLsSkySpkRewardOwnerChanged = /*#__PURE__*/ createUseWatchCo
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   eventName: 'OwnerChanged'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `eventName` set to `"OwnerNominated"`
@@ -17014,7 +17014,7 @@ export const useWatchLsSkySpkRewardOwnerNominated = /*#__PURE__*/ createUseWatch
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   eventName: 'OwnerNominated'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `eventName` set to `"PauseChanged"`
@@ -17025,7 +17025,7 @@ export const useWatchLsSkySpkRewardPauseChanged = /*#__PURE__*/ createUseWatchCo
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   eventName: 'PauseChanged'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `eventName` set to `"Recovered"`
@@ -17036,7 +17036,7 @@ export const useWatchLsSkySpkRewardRecovered = /*#__PURE__*/ createUseWatchContr
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   eventName: 'Recovered'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `eventName` set to `"Referral"`
@@ -17047,7 +17047,7 @@ export const useWatchLsSkySpkRewardReferral = /*#__PURE__*/ createUseWatchContra
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   eventName: 'Referral'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `eventName` set to `"RewardAdded"`
@@ -17058,7 +17058,7 @@ export const useWatchLsSkySpkRewardRewardAdded = /*#__PURE__*/ createUseWatchCon
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   eventName: 'RewardAdded'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `eventName` set to `"RewardPaid"`
@@ -17069,7 +17069,7 @@ export const useWatchLsSkySpkRewardRewardPaid = /*#__PURE__*/ createUseWatchCont
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   eventName: 'RewardPaid'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `eventName` set to `"RewardsDistributionUpdated"`
@@ -17080,7 +17080,7 @@ export const useWatchLsSkySpkRewardRewardsDistributionUpdated = /*#__PURE__*/ cr
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   eventName: 'RewardsDistributionUpdated'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `eventName` set to `"RewardsDurationUpdated"`
@@ -17091,7 +17091,7 @@ export const useWatchLsSkySpkRewardRewardsDurationUpdated = /*#__PURE__*/ create
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   eventName: 'RewardsDurationUpdated'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `eventName` set to `"Staked"`
@@ -17102,7 +17102,7 @@ export const useWatchLsSkySpkRewardStaked = /*#__PURE__*/ createUseWatchContract
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   eventName: 'Staked'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkySpkRewardAbi}__ and `eventName` set to `"Withdrawn"`
@@ -17113,7 +17113,7 @@ export const useWatchLsSkySpkRewardWithdrawn = /*#__PURE__*/ createUseWatchContr
   abi: lsSkySpkRewardAbi,
   address: lsSkySpkRewardAddress,
   eventName: 'Withdrawn'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__
@@ -17123,7 +17123,7 @@ export const useWatchLsSkySpkRewardWithdrawn = /*#__PURE__*/ createUseWatchContr
 export const useReadLsSkyUsdsReward = /*#__PURE__*/ createUseReadContract({
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"balanceOf"`
@@ -17134,7 +17134,7 @@ export const useReadLsSkyUsdsRewardBalanceOf = /*#__PURE__*/ createUseReadContra
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'balanceOf'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"earned"`
@@ -17145,7 +17145,7 @@ export const useReadLsSkyUsdsRewardEarned = /*#__PURE__*/ createUseReadContract(
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'earned'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"getRewardForDuration"`
@@ -17156,7 +17156,7 @@ export const useReadLsSkyUsdsRewardGetRewardForDuration = /*#__PURE__*/ createUs
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'getRewardForDuration'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"lastPauseTime"`
@@ -17167,7 +17167,7 @@ export const useReadLsSkyUsdsRewardLastPauseTime = /*#__PURE__*/ createUseReadCo
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'lastPauseTime'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"lastTimeRewardApplicable"`
@@ -17178,7 +17178,7 @@ export const useReadLsSkyUsdsRewardLastTimeRewardApplicable = /*#__PURE__*/ crea
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'lastTimeRewardApplicable'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"lastUpdateTime"`
@@ -17189,7 +17189,7 @@ export const useReadLsSkyUsdsRewardLastUpdateTime = /*#__PURE__*/ createUseReadC
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'lastUpdateTime'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"nominatedOwner"`
@@ -17200,7 +17200,7 @@ export const useReadLsSkyUsdsRewardNominatedOwner = /*#__PURE__*/ createUseReadC
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'nominatedOwner'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"owner"`
@@ -17211,7 +17211,7 @@ export const useReadLsSkyUsdsRewardOwner = /*#__PURE__*/ createUseReadContract({
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'owner'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"paused"`
@@ -17222,7 +17222,7 @@ export const useReadLsSkyUsdsRewardPaused = /*#__PURE__*/ createUseReadContract(
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'paused'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"periodFinish"`
@@ -17233,7 +17233,7 @@ export const useReadLsSkyUsdsRewardPeriodFinish = /*#__PURE__*/ createUseReadCon
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'periodFinish'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"rewardPerToken"`
@@ -17244,7 +17244,7 @@ export const useReadLsSkyUsdsRewardRewardPerToken = /*#__PURE__*/ createUseReadC
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'rewardPerToken'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"rewardPerTokenStored"`
@@ -17255,7 +17255,7 @@ export const useReadLsSkyUsdsRewardRewardPerTokenStored = /*#__PURE__*/ createUs
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'rewardPerTokenStored'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"rewardRate"`
@@ -17266,7 +17266,7 @@ export const useReadLsSkyUsdsRewardRewardRate = /*#__PURE__*/ createUseReadContr
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'rewardRate'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"rewards"`
@@ -17277,7 +17277,7 @@ export const useReadLsSkyUsdsRewardRewards = /*#__PURE__*/ createUseReadContract
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'rewards'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"rewardsDistribution"`
@@ -17288,7 +17288,7 @@ export const useReadLsSkyUsdsRewardRewardsDistribution = /*#__PURE__*/ createUse
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'rewardsDistribution'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"rewardsDuration"`
@@ -17299,7 +17299,7 @@ export const useReadLsSkyUsdsRewardRewardsDuration = /*#__PURE__*/ createUseRead
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'rewardsDuration'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"rewardsToken"`
@@ -17310,7 +17310,7 @@ export const useReadLsSkyUsdsRewardRewardsToken = /*#__PURE__*/ createUseReadCon
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'rewardsToken'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"stakingToken"`
@@ -17321,7 +17321,7 @@ export const useReadLsSkyUsdsRewardStakingToken = /*#__PURE__*/ createUseReadCon
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'stakingToken'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"totalSupply"`
@@ -17332,7 +17332,7 @@ export const useReadLsSkyUsdsRewardTotalSupply = /*#__PURE__*/ createUseReadCont
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'totalSupply'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"userRewardPerTokenPaid"`
@@ -17343,7 +17343,7 @@ export const useReadLsSkyUsdsRewardUserRewardPerTokenPaid = /*#__PURE__*/ create
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'userRewardPerTokenPaid'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__
@@ -17353,7 +17353,7 @@ export const useReadLsSkyUsdsRewardUserRewardPerTokenPaid = /*#__PURE__*/ create
 export const useWriteLsSkyUsdsReward = /*#__PURE__*/ createUseWriteContract({
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"acceptOwnership"`
@@ -17364,7 +17364,7 @@ export const useWriteLsSkyUsdsRewardAcceptOwnership = /*#__PURE__*/ createUseWri
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'acceptOwnership'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"exit"`
@@ -17375,7 +17375,7 @@ export const useWriteLsSkyUsdsRewardExit = /*#__PURE__*/ createUseWriteContract(
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'exit'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"getReward"`
@@ -17386,7 +17386,7 @@ export const useWriteLsSkyUsdsRewardGetReward = /*#__PURE__*/ createUseWriteCont
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'getReward'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"nominateNewOwner"`
@@ -17397,7 +17397,7 @@ export const useWriteLsSkyUsdsRewardNominateNewOwner = /*#__PURE__*/ createUseWr
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'nominateNewOwner'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"notifyRewardAmount"`
@@ -17408,7 +17408,7 @@ export const useWriteLsSkyUsdsRewardNotifyRewardAmount = /*#__PURE__*/ createUse
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'notifyRewardAmount'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"recoverERC20"`
@@ -17419,7 +17419,7 @@ export const useWriteLsSkyUsdsRewardRecoverErc20 = /*#__PURE__*/ createUseWriteC
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'recoverERC20'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"setPaused"`
@@ -17430,7 +17430,7 @@ export const useWriteLsSkyUsdsRewardSetPaused = /*#__PURE__*/ createUseWriteCont
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'setPaused'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"setRewardsDistribution"`
@@ -17441,7 +17441,7 @@ export const useWriteLsSkyUsdsRewardSetRewardsDistribution = /*#__PURE__*/ creat
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'setRewardsDistribution'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"setRewardsDuration"`
@@ -17452,7 +17452,7 @@ export const useWriteLsSkyUsdsRewardSetRewardsDuration = /*#__PURE__*/ createUse
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'setRewardsDuration'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"stake"`
@@ -17463,7 +17463,7 @@ export const useWriteLsSkyUsdsRewardStake = /*#__PURE__*/ createUseWriteContract
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'stake'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"withdraw"`
@@ -17474,7 +17474,7 @@ export const useWriteLsSkyUsdsRewardWithdraw = /*#__PURE__*/ createUseWriteContr
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'withdraw'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__
@@ -17484,7 +17484,7 @@ export const useWriteLsSkyUsdsRewardWithdraw = /*#__PURE__*/ createUseWriteContr
 export const useSimulateLsSkyUsdsReward = /*#__PURE__*/ createUseSimulateContract({
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"acceptOwnership"`
@@ -17495,7 +17495,7 @@ export const useSimulateLsSkyUsdsRewardAcceptOwnership = /*#__PURE__*/ createUse
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'acceptOwnership'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"exit"`
@@ -17506,7 +17506,7 @@ export const useSimulateLsSkyUsdsRewardExit = /*#__PURE__*/ createUseSimulateCon
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'exit'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"getReward"`
@@ -17517,7 +17517,7 @@ export const useSimulateLsSkyUsdsRewardGetReward = /*#__PURE__*/ createUseSimula
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'getReward'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"nominateNewOwner"`
@@ -17528,7 +17528,7 @@ export const useSimulateLsSkyUsdsRewardNominateNewOwner = /*#__PURE__*/ createUs
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'nominateNewOwner'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"notifyRewardAmount"`
@@ -17539,7 +17539,7 @@ export const useSimulateLsSkyUsdsRewardNotifyRewardAmount = /*#__PURE__*/ create
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'notifyRewardAmount'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"recoverERC20"`
@@ -17550,7 +17550,7 @@ export const useSimulateLsSkyUsdsRewardRecoverErc20 = /*#__PURE__*/ createUseSim
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'recoverERC20'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"setPaused"`
@@ -17561,7 +17561,7 @@ export const useSimulateLsSkyUsdsRewardSetPaused = /*#__PURE__*/ createUseSimula
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'setPaused'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"setRewardsDistribution"`
@@ -17572,7 +17572,7 @@ export const useSimulateLsSkyUsdsRewardSetRewardsDistribution = /*#__PURE__*/ cr
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'setRewardsDistribution'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"setRewardsDuration"`
@@ -17583,7 +17583,7 @@ export const useSimulateLsSkyUsdsRewardSetRewardsDuration = /*#__PURE__*/ create
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'setRewardsDuration'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"stake"`
@@ -17594,7 +17594,7 @@ export const useSimulateLsSkyUsdsRewardStake = /*#__PURE__*/ createUseSimulateCo
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'stake'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `functionName` set to `"withdraw"`
@@ -17605,7 +17605,7 @@ export const useSimulateLsSkyUsdsRewardWithdraw = /*#__PURE__*/ createUseSimulat
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   functionName: 'withdraw'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__
@@ -17615,7 +17615,7 @@ export const useSimulateLsSkyUsdsRewardWithdraw = /*#__PURE__*/ createUseSimulat
 export const useWatchLsSkyUsdsReward = /*#__PURE__*/ createUseWatchContractEvent({
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `eventName` set to `"OwnerChanged"`
@@ -17626,7 +17626,7 @@ export const useWatchLsSkyUsdsRewardOwnerChanged = /*#__PURE__*/ createUseWatchC
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   eventName: 'OwnerChanged'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `eventName` set to `"OwnerNominated"`
@@ -17637,7 +17637,7 @@ export const useWatchLsSkyUsdsRewardOwnerNominated = /*#__PURE__*/ createUseWatc
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   eventName: 'OwnerNominated'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `eventName` set to `"PauseChanged"`
@@ -17648,7 +17648,7 @@ export const useWatchLsSkyUsdsRewardPauseChanged = /*#__PURE__*/ createUseWatchC
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   eventName: 'PauseChanged'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `eventName` set to `"Recovered"`
@@ -17659,7 +17659,7 @@ export const useWatchLsSkyUsdsRewardRecovered = /*#__PURE__*/ createUseWatchCont
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   eventName: 'Recovered'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `eventName` set to `"Referral"`
@@ -17670,7 +17670,7 @@ export const useWatchLsSkyUsdsRewardReferral = /*#__PURE__*/ createUseWatchContr
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   eventName: 'Referral'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `eventName` set to `"RewardAdded"`
@@ -17681,7 +17681,7 @@ export const useWatchLsSkyUsdsRewardRewardAdded = /*#__PURE__*/ createUseWatchCo
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   eventName: 'RewardAdded'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `eventName` set to `"RewardPaid"`
@@ -17692,7 +17692,7 @@ export const useWatchLsSkyUsdsRewardRewardPaid = /*#__PURE__*/ createUseWatchCon
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   eventName: 'RewardPaid'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `eventName` set to `"RewardsDistributionUpdated"`
@@ -17703,7 +17703,7 @@ export const useWatchLsSkyUsdsRewardRewardsDistributionUpdated = /*#__PURE__*/ c
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   eventName: 'RewardsDistributionUpdated'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `eventName` set to `"RewardsDurationUpdated"`
@@ -17714,7 +17714,7 @@ export const useWatchLsSkyUsdsRewardRewardsDurationUpdated = /*#__PURE__*/ creat
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   eventName: 'RewardsDurationUpdated'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `eventName` set to `"Staked"`
@@ -17725,7 +17725,7 @@ export const useWatchLsSkyUsdsRewardStaked = /*#__PURE__*/ createUseWatchContrac
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   eventName: 'Staked'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lsSkyUsdsRewardAbi}__ and `eventName` set to `"Withdrawn"`
@@ -17736,7 +17736,7 @@ export const useWatchLsSkyUsdsRewardWithdrawn = /*#__PURE__*/ createUseWatchCont
   abi: lsSkyUsdsRewardAbi,
   address: lsSkyUsdsRewardAddress,
   eventName: 'Withdrawn'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdDaiAbi}__
@@ -17745,7 +17745,7 @@ export const useWatchLsSkyUsdsRewardWithdrawn = /*#__PURE__*/ createUseWatchCont
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
-export const useReadMcdDai = /*#__PURE__*/ createUseReadContract({ abi: mcdDaiAbi, address: mcdDaiAddress })
+export const useReadMcdDai = /*#__PURE__*/ createUseReadContract({ abi: mcdDaiAbi, address: mcdDaiAddress });
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"DOMAIN_SEPARATOR"`
@@ -17758,7 +17758,7 @@ export const useReadMcdDaiDomainSeparator = /*#__PURE__*/ createUseReadContract(
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'DOMAIN_SEPARATOR'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"PERMIT_TYPEHASH"`
@@ -17771,7 +17771,7 @@ export const useReadMcdDaiPermitTypehash = /*#__PURE__*/ createUseReadContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'PERMIT_TYPEHASH'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"allowance"`
@@ -17784,7 +17784,7 @@ export const useReadMcdDaiAllowance = /*#__PURE__*/ createUseReadContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'allowance'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"balanceOf"`
@@ -17797,7 +17797,7 @@ export const useReadMcdDaiBalanceOf = /*#__PURE__*/ createUseReadContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'balanceOf'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"decimals"`
@@ -17810,7 +17810,7 @@ export const useReadMcdDaiDecimals = /*#__PURE__*/ createUseReadContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'decimals'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"name"`
@@ -17823,7 +17823,7 @@ export const useReadMcdDaiName = /*#__PURE__*/ createUseReadContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'name'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"nonces"`
@@ -17836,7 +17836,7 @@ export const useReadMcdDaiNonces = /*#__PURE__*/ createUseReadContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'nonces'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"symbol"`
@@ -17849,7 +17849,7 @@ export const useReadMcdDaiSymbol = /*#__PURE__*/ createUseReadContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'symbol'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"totalSupply"`
@@ -17862,7 +17862,7 @@ export const useReadMcdDaiTotalSupply = /*#__PURE__*/ createUseReadContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'totalSupply'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"version"`
@@ -17875,7 +17875,7 @@ export const useReadMcdDaiVersion = /*#__PURE__*/ createUseReadContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'version'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"wards"`
@@ -17888,7 +17888,7 @@ export const useReadMcdDaiWards = /*#__PURE__*/ createUseReadContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'wards'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdDaiAbi}__
@@ -17897,7 +17897,10 @@ export const useReadMcdDaiWards = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1)
  */
-export const useWriteMcdDai = /*#__PURE__*/ createUseWriteContract({ abi: mcdDaiAbi, address: mcdDaiAddress })
+export const useWriteMcdDai = /*#__PURE__*/ createUseWriteContract({
+  abi: mcdDaiAbi,
+  address: mcdDaiAddress
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"approve"`
@@ -17910,7 +17913,7 @@ export const useWriteMcdDaiApprove = /*#__PURE__*/ createUseWriteContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'approve'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"burn"`
@@ -17923,7 +17926,7 @@ export const useWriteMcdDaiBurn = /*#__PURE__*/ createUseWriteContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'burn'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"deny"`
@@ -17936,7 +17939,7 @@ export const useWriteMcdDaiDeny = /*#__PURE__*/ createUseWriteContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"mint"`
@@ -17949,7 +17952,7 @@ export const useWriteMcdDaiMint = /*#__PURE__*/ createUseWriteContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'mint'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"move"`
@@ -17962,7 +17965,7 @@ export const useWriteMcdDaiMove = /*#__PURE__*/ createUseWriteContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'move'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"permit"`
@@ -17975,7 +17978,7 @@ export const useWriteMcdDaiPermit = /*#__PURE__*/ createUseWriteContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'permit'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"pull"`
@@ -17988,7 +17991,7 @@ export const useWriteMcdDaiPull = /*#__PURE__*/ createUseWriteContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'pull'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"push"`
@@ -18001,7 +18004,7 @@ export const useWriteMcdDaiPush = /*#__PURE__*/ createUseWriteContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'push'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"rely"`
@@ -18014,7 +18017,7 @@ export const useWriteMcdDaiRely = /*#__PURE__*/ createUseWriteContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"transfer"`
@@ -18027,7 +18030,7 @@ export const useWriteMcdDaiTransfer = /*#__PURE__*/ createUseWriteContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'transfer'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"transferFrom"`
@@ -18040,7 +18043,7 @@ export const useWriteMcdDaiTransferFrom = /*#__PURE__*/ createUseWriteContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'transferFrom'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdDaiAbi}__
@@ -18052,7 +18055,7 @@ export const useWriteMcdDaiTransferFrom = /*#__PURE__*/ createUseWriteContract({
 export const useSimulateMcdDai = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"approve"`
@@ -18065,7 +18068,7 @@ export const useSimulateMcdDaiApprove = /*#__PURE__*/ createUseSimulateContract(
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'approve'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"burn"`
@@ -18078,7 +18081,7 @@ export const useSimulateMcdDaiBurn = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'burn'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"deny"`
@@ -18091,7 +18094,7 @@ export const useSimulateMcdDaiDeny = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"mint"`
@@ -18104,7 +18107,7 @@ export const useSimulateMcdDaiMint = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'mint'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"move"`
@@ -18117,7 +18120,7 @@ export const useSimulateMcdDaiMove = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'move'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"permit"`
@@ -18130,7 +18133,7 @@ export const useSimulateMcdDaiPermit = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'permit'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"pull"`
@@ -18143,7 +18146,7 @@ export const useSimulateMcdDaiPull = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'pull'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"push"`
@@ -18156,7 +18159,7 @@ export const useSimulateMcdDaiPush = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'push'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"rely"`
@@ -18169,7 +18172,7 @@ export const useSimulateMcdDaiRely = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"transfer"`
@@ -18182,7 +18185,7 @@ export const useSimulateMcdDaiTransfer = /*#__PURE__*/ createUseSimulateContract
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'transfer'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdDaiAbi}__ and `functionName` set to `"transferFrom"`
@@ -18195,7 +18198,7 @@ export const useSimulateMcdDaiTransferFrom = /*#__PURE__*/ createUseSimulateCont
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   functionName: 'transferFrom'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mcdDaiAbi}__
@@ -18207,7 +18210,7 @@ export const useSimulateMcdDaiTransferFrom = /*#__PURE__*/ createUseSimulateCont
 export const useWatchMcdDai = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mcdDaiAbi,
   address: mcdDaiAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mcdDaiAbi}__ and `eventName` set to `"Approval"`
@@ -18220,7 +18223,7 @@ export const useWatchMcdDaiApproval = /*#__PURE__*/ createUseWatchContractEvent(
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   eventName: 'Approval'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mcdDaiAbi}__ and `eventName` set to `"LogNote"`
@@ -18233,7 +18236,7 @@ export const useWatchMcdDaiLogNote = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   eventName: 'LogNote'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mcdDaiAbi}__ and `eventName` set to `"Transfer"`
@@ -18246,14 +18249,14 @@ export const useWatchMcdDaiTransfer = /*#__PURE__*/ createUseWatchContractEvent(
   abi: mcdDaiAbi,
   address: mcdDaiAddress,
   eventName: 'Transfer'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdJugAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x19c0976f590d67707e62397c87829d896dc0f1f1)
  */
-export const useReadMcdJug = /*#__PURE__*/ createUseReadContract({ abi: mcdJugAbi, address: mcdJugAddress })
+export const useReadMcdJug = /*#__PURE__*/ createUseReadContract({ abi: mcdJugAbi, address: mcdJugAddress });
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdJugAbi}__ and `functionName` set to `"base"`
@@ -18264,7 +18267,7 @@ export const useReadMcdJugBase = /*#__PURE__*/ createUseReadContract({
   abi: mcdJugAbi,
   address: mcdJugAddress,
   functionName: 'base'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdJugAbi}__ and `functionName` set to `"ilks"`
@@ -18275,7 +18278,7 @@ export const useReadMcdJugIlks = /*#__PURE__*/ createUseReadContract({
   abi: mcdJugAbi,
   address: mcdJugAddress,
   functionName: 'ilks'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdJugAbi}__ and `functionName` set to `"vat"`
@@ -18286,7 +18289,7 @@ export const useReadMcdJugVat = /*#__PURE__*/ createUseReadContract({
   abi: mcdJugAbi,
   address: mcdJugAddress,
   functionName: 'vat'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdJugAbi}__ and `functionName` set to `"vow"`
@@ -18297,7 +18300,7 @@ export const useReadMcdJugVow = /*#__PURE__*/ createUseReadContract({
   abi: mcdJugAbi,
   address: mcdJugAddress,
   functionName: 'vow'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdJugAbi}__ and `functionName` set to `"wards"`
@@ -18308,14 +18311,17 @@ export const useReadMcdJugWards = /*#__PURE__*/ createUseReadContract({
   abi: mcdJugAbi,
   address: mcdJugAddress,
   functionName: 'wards'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdJugAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x19c0976f590d67707e62397c87829d896dc0f1f1)
  */
-export const useWriteMcdJug = /*#__PURE__*/ createUseWriteContract({ abi: mcdJugAbi, address: mcdJugAddress })
+export const useWriteMcdJug = /*#__PURE__*/ createUseWriteContract({
+  abi: mcdJugAbi,
+  address: mcdJugAddress
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdJugAbi}__ and `functionName` set to `"deny"`
@@ -18326,7 +18332,7 @@ export const useWriteMcdJugDeny = /*#__PURE__*/ createUseWriteContract({
   abi: mcdJugAbi,
   address: mcdJugAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdJugAbi}__ and `functionName` set to `"drip"`
@@ -18337,7 +18343,7 @@ export const useWriteMcdJugDrip = /*#__PURE__*/ createUseWriteContract({
   abi: mcdJugAbi,
   address: mcdJugAddress,
   functionName: 'drip'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdJugAbi}__ and `functionName` set to `"file"`
@@ -18348,7 +18354,7 @@ export const useWriteMcdJugFile = /*#__PURE__*/ createUseWriteContract({
   abi: mcdJugAbi,
   address: mcdJugAddress,
   functionName: 'file'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdJugAbi}__ and `functionName` set to `"init"`
@@ -18359,7 +18365,7 @@ export const useWriteMcdJugInit = /*#__PURE__*/ createUseWriteContract({
   abi: mcdJugAbi,
   address: mcdJugAddress,
   functionName: 'init'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdJugAbi}__ and `functionName` set to `"rely"`
@@ -18370,7 +18376,7 @@ export const useWriteMcdJugRely = /*#__PURE__*/ createUseWriteContract({
   abi: mcdJugAbi,
   address: mcdJugAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdJugAbi}__
@@ -18380,7 +18386,7 @@ export const useWriteMcdJugRely = /*#__PURE__*/ createUseWriteContract({
 export const useSimulateMcdJug = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdJugAbi,
   address: mcdJugAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdJugAbi}__ and `functionName` set to `"deny"`
@@ -18391,7 +18397,7 @@ export const useSimulateMcdJugDeny = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdJugAbi,
   address: mcdJugAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdJugAbi}__ and `functionName` set to `"drip"`
@@ -18402,7 +18408,7 @@ export const useSimulateMcdJugDrip = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdJugAbi,
   address: mcdJugAddress,
   functionName: 'drip'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdJugAbi}__ and `functionName` set to `"file"`
@@ -18413,7 +18419,7 @@ export const useSimulateMcdJugFile = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdJugAbi,
   address: mcdJugAddress,
   functionName: 'file'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdJugAbi}__ and `functionName` set to `"init"`
@@ -18424,7 +18430,7 @@ export const useSimulateMcdJugInit = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdJugAbi,
   address: mcdJugAddress,
   functionName: 'init'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdJugAbi}__ and `functionName` set to `"rely"`
@@ -18435,7 +18441,7 @@ export const useSimulateMcdJugRely = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdJugAbi,
   address: mcdJugAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mcdJugAbi}__
@@ -18445,7 +18451,7 @@ export const useSimulateMcdJugRely = /*#__PURE__*/ createUseSimulateContract({
 export const useWatchMcdJug = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mcdJugAbi,
   address: mcdJugAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mcdJugAbi}__ and `eventName` set to `"LogNote"`
@@ -18456,14 +18462,14 @@ export const useWatchMcdJugLogNote = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mcdJugAbi,
   address: mcdJugAddress,
   eventName: 'LogNote'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdPotAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x197E90f9FAD81970bA7976f33CbD77088E5D7cf7)
  */
-export const useReadMcdPot = /*#__PURE__*/ createUseReadContract({ abi: mcdPotAbi, address: mcdPotAddress })
+export const useReadMcdPot = /*#__PURE__*/ createUseReadContract({ abi: mcdPotAbi, address: mcdPotAddress });
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdPotAbi}__ and `functionName` set to `"Pie"`
@@ -18474,7 +18480,7 @@ export const useReadMcdPotPie = /*#__PURE__*/ createUseReadContract({
   abi: mcdPotAbi,
   address: mcdPotAddress,
   functionName: 'Pie'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdPotAbi}__ and `functionName` set to `"chi"`
@@ -18485,7 +18491,7 @@ export const useReadMcdPotChi = /*#__PURE__*/ createUseReadContract({
   abi: mcdPotAbi,
   address: mcdPotAddress,
   functionName: 'chi'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdPotAbi}__ and `functionName` set to `"dsr"`
@@ -18496,7 +18502,7 @@ export const useReadMcdPotDsr = /*#__PURE__*/ createUseReadContract({
   abi: mcdPotAbi,
   address: mcdPotAddress,
   functionName: 'dsr'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdPotAbi}__ and `functionName` set to `"live"`
@@ -18507,7 +18513,7 @@ export const useReadMcdPotLive = /*#__PURE__*/ createUseReadContract({
   abi: mcdPotAbi,
   address: mcdPotAddress,
   functionName: 'live'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdPotAbi}__ and `functionName` set to `"pie"`
@@ -18518,7 +18524,7 @@ export const useReadMcdPotPie_2 = /*#__PURE__*/ createUseReadContract({
   abi: mcdPotAbi,
   address: mcdPotAddress,
   functionName: 'pie'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdPotAbi}__ and `functionName` set to `"rho"`
@@ -18529,7 +18535,7 @@ export const useReadMcdPotRho = /*#__PURE__*/ createUseReadContract({
   abi: mcdPotAbi,
   address: mcdPotAddress,
   functionName: 'rho'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdPotAbi}__ and `functionName` set to `"vat"`
@@ -18540,7 +18546,7 @@ export const useReadMcdPotVat = /*#__PURE__*/ createUseReadContract({
   abi: mcdPotAbi,
   address: mcdPotAddress,
   functionName: 'vat'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdPotAbi}__ and `functionName` set to `"vow"`
@@ -18551,7 +18557,7 @@ export const useReadMcdPotVow = /*#__PURE__*/ createUseReadContract({
   abi: mcdPotAbi,
   address: mcdPotAddress,
   functionName: 'vow'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdPotAbi}__ and `functionName` set to `"wards"`
@@ -18562,14 +18568,17 @@ export const useReadMcdPotWards = /*#__PURE__*/ createUseReadContract({
   abi: mcdPotAbi,
   address: mcdPotAddress,
   functionName: 'wards'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdPotAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x197E90f9FAD81970bA7976f33CbD77088E5D7cf7)
  */
-export const useWriteMcdPot = /*#__PURE__*/ createUseWriteContract({ abi: mcdPotAbi, address: mcdPotAddress })
+export const useWriteMcdPot = /*#__PURE__*/ createUseWriteContract({
+  abi: mcdPotAbi,
+  address: mcdPotAddress
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdPotAbi}__ and `functionName` set to `"cage"`
@@ -18580,7 +18589,7 @@ export const useWriteMcdPotCage = /*#__PURE__*/ createUseWriteContract({
   abi: mcdPotAbi,
   address: mcdPotAddress,
   functionName: 'cage'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdPotAbi}__ and `functionName` set to `"deny"`
@@ -18591,7 +18600,7 @@ export const useWriteMcdPotDeny = /*#__PURE__*/ createUseWriteContract({
   abi: mcdPotAbi,
   address: mcdPotAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdPotAbi}__ and `functionName` set to `"drip"`
@@ -18602,7 +18611,7 @@ export const useWriteMcdPotDrip = /*#__PURE__*/ createUseWriteContract({
   abi: mcdPotAbi,
   address: mcdPotAddress,
   functionName: 'drip'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdPotAbi}__ and `functionName` set to `"exit"`
@@ -18613,7 +18622,7 @@ export const useWriteMcdPotExit = /*#__PURE__*/ createUseWriteContract({
   abi: mcdPotAbi,
   address: mcdPotAddress,
   functionName: 'exit'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdPotAbi}__ and `functionName` set to `"file"`
@@ -18624,7 +18633,7 @@ export const useWriteMcdPotFile = /*#__PURE__*/ createUseWriteContract({
   abi: mcdPotAbi,
   address: mcdPotAddress,
   functionName: 'file'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdPotAbi}__ and `functionName` set to `"join"`
@@ -18635,7 +18644,7 @@ export const useWriteMcdPotJoin = /*#__PURE__*/ createUseWriteContract({
   abi: mcdPotAbi,
   address: mcdPotAddress,
   functionName: 'join'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdPotAbi}__ and `functionName` set to `"rely"`
@@ -18646,7 +18655,7 @@ export const useWriteMcdPotRely = /*#__PURE__*/ createUseWriteContract({
   abi: mcdPotAbi,
   address: mcdPotAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdPotAbi}__
@@ -18656,7 +18665,7 @@ export const useWriteMcdPotRely = /*#__PURE__*/ createUseWriteContract({
 export const useSimulateMcdPot = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdPotAbi,
   address: mcdPotAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdPotAbi}__ and `functionName` set to `"cage"`
@@ -18667,7 +18676,7 @@ export const useSimulateMcdPotCage = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdPotAbi,
   address: mcdPotAddress,
   functionName: 'cage'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdPotAbi}__ and `functionName` set to `"deny"`
@@ -18678,7 +18687,7 @@ export const useSimulateMcdPotDeny = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdPotAbi,
   address: mcdPotAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdPotAbi}__ and `functionName` set to `"drip"`
@@ -18689,7 +18698,7 @@ export const useSimulateMcdPotDrip = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdPotAbi,
   address: mcdPotAddress,
   functionName: 'drip'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdPotAbi}__ and `functionName` set to `"exit"`
@@ -18700,7 +18709,7 @@ export const useSimulateMcdPotExit = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdPotAbi,
   address: mcdPotAddress,
   functionName: 'exit'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdPotAbi}__ and `functionName` set to `"file"`
@@ -18711,7 +18720,7 @@ export const useSimulateMcdPotFile = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdPotAbi,
   address: mcdPotAddress,
   functionName: 'file'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdPotAbi}__ and `functionName` set to `"join"`
@@ -18722,7 +18731,7 @@ export const useSimulateMcdPotJoin = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdPotAbi,
   address: mcdPotAddress,
   functionName: 'join'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdPotAbi}__ and `functionName` set to `"rely"`
@@ -18733,7 +18742,7 @@ export const useSimulateMcdPotRely = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdPotAbi,
   address: mcdPotAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mcdPotAbi}__
@@ -18743,7 +18752,7 @@ export const useSimulateMcdPotRely = /*#__PURE__*/ createUseSimulateContract({
 export const useWatchMcdPot = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mcdPotAbi,
   address: mcdPotAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mcdPotAbi}__ and `eventName` set to `"LogNote"`
@@ -18754,7 +18763,7 @@ export const useWatchMcdPotLogNote = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mcdPotAbi,
   address: mcdPotAddress,
   eventName: 'LogNote'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdSpotAbi}__
@@ -18764,7 +18773,7 @@ export const useWatchMcdPotLogNote = /*#__PURE__*/ createUseWatchContractEvent({
 export const useReadMcdSpot = /*#__PURE__*/ createUseReadContract({
   abi: mcdSpotAbi,
   address: mcdSpotAddress
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdSpotAbi}__ and `functionName` set to `"ilks"`
@@ -18775,7 +18784,7 @@ export const useReadMcdSpotIlks = /*#__PURE__*/ createUseReadContract({
   abi: mcdSpotAbi,
   address: mcdSpotAddress,
   functionName: 'ilks'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdSpotAbi}__ and `functionName` set to `"live"`
@@ -18786,7 +18795,7 @@ export const useReadMcdSpotLive = /*#__PURE__*/ createUseReadContract({
   abi: mcdSpotAbi,
   address: mcdSpotAddress,
   functionName: 'live'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdSpotAbi}__ and `functionName` set to `"par"`
@@ -18797,7 +18806,7 @@ export const useReadMcdSpotPar = /*#__PURE__*/ createUseReadContract({
   abi: mcdSpotAbi,
   address: mcdSpotAddress,
   functionName: 'par'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdSpotAbi}__ and `functionName` set to `"vat"`
@@ -18808,7 +18817,7 @@ export const useReadMcdSpotVat = /*#__PURE__*/ createUseReadContract({
   abi: mcdSpotAbi,
   address: mcdSpotAddress,
   functionName: 'vat'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdSpotAbi}__ and `functionName` set to `"wards"`
@@ -18819,7 +18828,7 @@ export const useReadMcdSpotWards = /*#__PURE__*/ createUseReadContract({
   abi: mcdSpotAbi,
   address: mcdSpotAddress,
   functionName: 'wards'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdSpotAbi}__
@@ -18829,7 +18838,7 @@ export const useReadMcdSpotWards = /*#__PURE__*/ createUseReadContract({
 export const useWriteMcdSpot = /*#__PURE__*/ createUseWriteContract({
   abi: mcdSpotAbi,
   address: mcdSpotAddress
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdSpotAbi}__ and `functionName` set to `"cage"`
@@ -18840,7 +18849,7 @@ export const useWriteMcdSpotCage = /*#__PURE__*/ createUseWriteContract({
   abi: mcdSpotAbi,
   address: mcdSpotAddress,
   functionName: 'cage'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdSpotAbi}__ and `functionName` set to `"deny"`
@@ -18851,7 +18860,7 @@ export const useWriteMcdSpotDeny = /*#__PURE__*/ createUseWriteContract({
   abi: mcdSpotAbi,
   address: mcdSpotAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdSpotAbi}__ and `functionName` set to `"file"`
@@ -18862,7 +18871,7 @@ export const useWriteMcdSpotFile = /*#__PURE__*/ createUseWriteContract({
   abi: mcdSpotAbi,
   address: mcdSpotAddress,
   functionName: 'file'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdSpotAbi}__ and `functionName` set to `"poke"`
@@ -18873,7 +18882,7 @@ export const useWriteMcdSpotPoke = /*#__PURE__*/ createUseWriteContract({
   abi: mcdSpotAbi,
   address: mcdSpotAddress,
   functionName: 'poke'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdSpotAbi}__ and `functionName` set to `"rely"`
@@ -18884,7 +18893,7 @@ export const useWriteMcdSpotRely = /*#__PURE__*/ createUseWriteContract({
   abi: mcdSpotAbi,
   address: mcdSpotAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdSpotAbi}__
@@ -18894,7 +18903,7 @@ export const useWriteMcdSpotRely = /*#__PURE__*/ createUseWriteContract({
 export const useSimulateMcdSpot = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdSpotAbi,
   address: mcdSpotAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdSpotAbi}__ and `functionName` set to `"cage"`
@@ -18905,7 +18914,7 @@ export const useSimulateMcdSpotCage = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdSpotAbi,
   address: mcdSpotAddress,
   functionName: 'cage'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdSpotAbi}__ and `functionName` set to `"deny"`
@@ -18916,7 +18925,7 @@ export const useSimulateMcdSpotDeny = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdSpotAbi,
   address: mcdSpotAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdSpotAbi}__ and `functionName` set to `"file"`
@@ -18927,7 +18936,7 @@ export const useSimulateMcdSpotFile = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdSpotAbi,
   address: mcdSpotAddress,
   functionName: 'file'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdSpotAbi}__ and `functionName` set to `"poke"`
@@ -18938,7 +18947,7 @@ export const useSimulateMcdSpotPoke = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdSpotAbi,
   address: mcdSpotAddress,
   functionName: 'poke'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdSpotAbi}__ and `functionName` set to `"rely"`
@@ -18949,7 +18958,7 @@ export const useSimulateMcdSpotRely = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdSpotAbi,
   address: mcdSpotAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mcdSpotAbi}__
@@ -18959,7 +18968,7 @@ export const useSimulateMcdSpotRely = /*#__PURE__*/ createUseSimulateContract({
 export const useWatchMcdSpot = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mcdSpotAbi,
   address: mcdSpotAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mcdSpotAbi}__ and `eventName` set to `"LogNote"`
@@ -18970,7 +18979,7 @@ export const useWatchMcdSpotLogNote = /*#__PURE__*/ createUseWatchContractEvent(
   abi: mcdSpotAbi,
   address: mcdSpotAddress,
   eventName: 'LogNote'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mcdSpotAbi}__ and `eventName` set to `"Poke"`
@@ -18981,14 +18990,14 @@ export const useWatchMcdSpotPoke = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mcdSpotAbi,
   address: mcdSpotAddress,
   eventName: 'Poke'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdVatAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x35d1b3f3d7966a1dfe207aa4514c12a259a0492b)
  */
-export const useReadMcdVat = /*#__PURE__*/ createUseReadContract({ abi: mcdVatAbi, address: mcdVatAddress })
+export const useReadMcdVat = /*#__PURE__*/ createUseReadContract({ abi: mcdVatAbi, address: mcdVatAddress });
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"Line"`
@@ -18999,7 +19008,7 @@ export const useReadMcdVatLine = /*#__PURE__*/ createUseReadContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'Line'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"can"`
@@ -19010,7 +19019,7 @@ export const useReadMcdVatCan = /*#__PURE__*/ createUseReadContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'can'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"dai"`
@@ -19021,7 +19030,7 @@ export const useReadMcdVatDai = /*#__PURE__*/ createUseReadContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'dai'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"debt"`
@@ -19032,7 +19041,7 @@ export const useReadMcdVatDebt = /*#__PURE__*/ createUseReadContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'debt'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"gem"`
@@ -19043,7 +19052,7 @@ export const useReadMcdVatGem = /*#__PURE__*/ createUseReadContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'gem'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"ilks"`
@@ -19054,7 +19063,7 @@ export const useReadMcdVatIlks = /*#__PURE__*/ createUseReadContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'ilks'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"live"`
@@ -19065,7 +19074,7 @@ export const useReadMcdVatLive = /*#__PURE__*/ createUseReadContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'live'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"sin"`
@@ -19076,7 +19085,7 @@ export const useReadMcdVatSin = /*#__PURE__*/ createUseReadContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'sin'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"urns"`
@@ -19087,7 +19096,7 @@ export const useReadMcdVatUrns = /*#__PURE__*/ createUseReadContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'urns'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"vice"`
@@ -19098,7 +19107,7 @@ export const useReadMcdVatVice = /*#__PURE__*/ createUseReadContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'vice'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"wards"`
@@ -19109,14 +19118,17 @@ export const useReadMcdVatWards = /*#__PURE__*/ createUseReadContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'wards'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdVatAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x35d1b3f3d7966a1dfe207aa4514c12a259a0492b)
  */
-export const useWriteMcdVat = /*#__PURE__*/ createUseWriteContract({ abi: mcdVatAbi, address: mcdVatAddress })
+export const useWriteMcdVat = /*#__PURE__*/ createUseWriteContract({
+  abi: mcdVatAbi,
+  address: mcdVatAddress
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"cage"`
@@ -19127,7 +19139,7 @@ export const useWriteMcdVatCage = /*#__PURE__*/ createUseWriteContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'cage'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"deny"`
@@ -19138,7 +19150,7 @@ export const useWriteMcdVatDeny = /*#__PURE__*/ createUseWriteContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"file"`
@@ -19149,7 +19161,7 @@ export const useWriteMcdVatFile = /*#__PURE__*/ createUseWriteContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'file'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"flux"`
@@ -19160,7 +19172,7 @@ export const useWriteMcdVatFlux = /*#__PURE__*/ createUseWriteContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'flux'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"fold"`
@@ -19171,7 +19183,7 @@ export const useWriteMcdVatFold = /*#__PURE__*/ createUseWriteContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'fold'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"fork"`
@@ -19182,7 +19194,7 @@ export const useWriteMcdVatFork = /*#__PURE__*/ createUseWriteContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'fork'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"frob"`
@@ -19193,7 +19205,7 @@ export const useWriteMcdVatFrob = /*#__PURE__*/ createUseWriteContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'frob'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"grab"`
@@ -19204,7 +19216,7 @@ export const useWriteMcdVatGrab = /*#__PURE__*/ createUseWriteContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'grab'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"heal"`
@@ -19215,7 +19227,7 @@ export const useWriteMcdVatHeal = /*#__PURE__*/ createUseWriteContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'heal'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"hope"`
@@ -19226,7 +19238,7 @@ export const useWriteMcdVatHope = /*#__PURE__*/ createUseWriteContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'hope'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"init"`
@@ -19237,7 +19249,7 @@ export const useWriteMcdVatInit = /*#__PURE__*/ createUseWriteContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'init'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"move"`
@@ -19248,7 +19260,7 @@ export const useWriteMcdVatMove = /*#__PURE__*/ createUseWriteContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'move'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"nope"`
@@ -19259,7 +19271,7 @@ export const useWriteMcdVatNope = /*#__PURE__*/ createUseWriteContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'nope'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"rely"`
@@ -19270,7 +19282,7 @@ export const useWriteMcdVatRely = /*#__PURE__*/ createUseWriteContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"slip"`
@@ -19281,7 +19293,7 @@ export const useWriteMcdVatSlip = /*#__PURE__*/ createUseWriteContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'slip'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"suck"`
@@ -19292,7 +19304,7 @@ export const useWriteMcdVatSuck = /*#__PURE__*/ createUseWriteContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'suck'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdVatAbi}__
@@ -19302,7 +19314,7 @@ export const useWriteMcdVatSuck = /*#__PURE__*/ createUseWriteContract({
 export const useSimulateMcdVat = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdVatAbi,
   address: mcdVatAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"cage"`
@@ -19313,7 +19325,7 @@ export const useSimulateMcdVatCage = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'cage'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"deny"`
@@ -19324,7 +19336,7 @@ export const useSimulateMcdVatDeny = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"file"`
@@ -19335,7 +19347,7 @@ export const useSimulateMcdVatFile = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'file'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"flux"`
@@ -19346,7 +19358,7 @@ export const useSimulateMcdVatFlux = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'flux'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"fold"`
@@ -19357,7 +19369,7 @@ export const useSimulateMcdVatFold = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'fold'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"fork"`
@@ -19368,7 +19380,7 @@ export const useSimulateMcdVatFork = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'fork'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"frob"`
@@ -19379,7 +19391,7 @@ export const useSimulateMcdVatFrob = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'frob'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"grab"`
@@ -19390,7 +19402,7 @@ export const useSimulateMcdVatGrab = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'grab'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"heal"`
@@ -19401,7 +19413,7 @@ export const useSimulateMcdVatHeal = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'heal'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"hope"`
@@ -19412,7 +19424,7 @@ export const useSimulateMcdVatHope = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'hope'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"init"`
@@ -19423,7 +19435,7 @@ export const useSimulateMcdVatInit = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'init'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"move"`
@@ -19434,7 +19446,7 @@ export const useSimulateMcdVatMove = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'move'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"nope"`
@@ -19445,7 +19457,7 @@ export const useSimulateMcdVatNope = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'nope'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"rely"`
@@ -19456,7 +19468,7 @@ export const useSimulateMcdVatRely = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"slip"`
@@ -19467,7 +19479,7 @@ export const useSimulateMcdVatSlip = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'slip'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mcdVatAbi}__ and `functionName` set to `"suck"`
@@ -19478,7 +19490,7 @@ export const useSimulateMcdVatSuck = /*#__PURE__*/ createUseSimulateContract({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   functionName: 'suck'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mcdVatAbi}__
@@ -19488,7 +19500,7 @@ export const useSimulateMcdVatSuck = /*#__PURE__*/ createUseSimulateContract({
 export const useWatchMcdVat = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mcdVatAbi,
   address: mcdVatAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mcdVatAbi}__ and `eventName` set to `"LogNote"`
@@ -19499,7 +19511,7 @@ export const useWatchMcdVatLogNote = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mcdVatAbi,
   address: mcdVatAddress,
   eventName: 'LogNote'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link merkleDistributorAbi}__
@@ -19509,7 +19521,7 @@ export const useWatchMcdVatLogNote = /*#__PURE__*/ createUseWatchContractEvent({
 export const useReadMerkleDistributor = /*#__PURE__*/ createUseReadContract({
   abi: merkleDistributorAbi,
   address: merkleDistributorAddress
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link merkleDistributorAbi}__ and `functionName` set to `"isClaimed"`
@@ -19520,7 +19532,7 @@ export const useReadMerkleDistributorIsClaimed = /*#__PURE__*/ createUseReadCont
   abi: merkleDistributorAbi,
   address: merkleDistributorAddress,
   functionName: 'isClaimed'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link merkleDistributorAbi}__ and `functionName` set to `"merkleRoot"`
@@ -19531,7 +19543,7 @@ export const useReadMerkleDistributorMerkleRoot = /*#__PURE__*/ createUseReadCon
   abi: merkleDistributorAbi,
   address: merkleDistributorAddress,
   functionName: 'merkleRoot'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link merkleDistributorAbi}__ and `functionName` set to `"token"`
@@ -19542,7 +19554,7 @@ export const useReadMerkleDistributorToken = /*#__PURE__*/ createUseReadContract
   abi: merkleDistributorAbi,
   address: merkleDistributorAddress,
   functionName: 'token'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link merkleDistributorAbi}__
@@ -19552,7 +19564,7 @@ export const useReadMerkleDistributorToken = /*#__PURE__*/ createUseReadContract
 export const useWriteMerkleDistributor = /*#__PURE__*/ createUseWriteContract({
   abi: merkleDistributorAbi,
   address: merkleDistributorAddress
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link merkleDistributorAbi}__ and `functionName` set to `"claim"`
@@ -19563,7 +19575,7 @@ export const useWriteMerkleDistributorClaim = /*#__PURE__*/ createUseWriteContra
   abi: merkleDistributorAbi,
   address: merkleDistributorAddress,
   functionName: 'claim'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link merkleDistributorAbi}__
@@ -19573,7 +19585,7 @@ export const useWriteMerkleDistributorClaim = /*#__PURE__*/ createUseWriteContra
 export const useSimulateMerkleDistributor = /*#__PURE__*/ createUseSimulateContract({
   abi: merkleDistributorAbi,
   address: merkleDistributorAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link merkleDistributorAbi}__ and `functionName` set to `"claim"`
@@ -19584,7 +19596,7 @@ export const useSimulateMerkleDistributorClaim = /*#__PURE__*/ createUseSimulate
   abi: merkleDistributorAbi,
   address: merkleDistributorAddress,
   functionName: 'claim'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link merkleDistributorAbi}__
@@ -19594,7 +19606,7 @@ export const useSimulateMerkleDistributorClaim = /*#__PURE__*/ createUseSimulate
 export const useWatchMerkleDistributor = /*#__PURE__*/ createUseWatchContractEvent({
   abi: merkleDistributorAbi,
   address: merkleDistributorAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link merkleDistributorAbi}__ and `eventName` set to `"Claimed"`
@@ -19605,14 +19617,14 @@ export const useWatchMerkleDistributorClaimed = /*#__PURE__*/ createUseWatchCont
   abi: merkleDistributorAbi,
   address: merkleDistributorAddress,
   eventName: 'Claimed'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mkrAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2)
  */
-export const useReadMkr = /*#__PURE__*/ createUseReadContract({ abi: mkrAbi, address: mkrAddress })
+export const useReadMkr = /*#__PURE__*/ createUseReadContract({ abi: mkrAbi, address: mkrAddress });
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"name"`
@@ -19623,7 +19635,7 @@ export const useReadMkrName = /*#__PURE__*/ createUseReadContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'name'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"totalSupply"`
@@ -19634,7 +19646,7 @@ export const useReadMkrTotalSupply = /*#__PURE__*/ createUseReadContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'totalSupply'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"decimals"`
@@ -19645,7 +19657,7 @@ export const useReadMkrDecimals = /*#__PURE__*/ createUseReadContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'decimals'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"balanceOf"`
@@ -19656,7 +19668,7 @@ export const useReadMkrBalanceOf = /*#__PURE__*/ createUseReadContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'balanceOf'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"stopped"`
@@ -19667,7 +19679,7 @@ export const useReadMkrStopped = /*#__PURE__*/ createUseReadContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'stopped'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"owner"`
@@ -19678,7 +19690,7 @@ export const useReadMkrOwner = /*#__PURE__*/ createUseReadContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'owner'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"symbol"`
@@ -19689,7 +19701,7 @@ export const useReadMkrSymbol = /*#__PURE__*/ createUseReadContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'symbol'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"authority"`
@@ -19700,7 +19712,7 @@ export const useReadMkrAuthority = /*#__PURE__*/ createUseReadContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'authority'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"allowance"`
@@ -19711,14 +19723,14 @@ export const useReadMkrAllowance = /*#__PURE__*/ createUseReadContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'allowance'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mkrAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2)
  */
-export const useWriteMkr = /*#__PURE__*/ createUseWriteContract({ abi: mkrAbi, address: mkrAddress })
+export const useWriteMkr = /*#__PURE__*/ createUseWriteContract({ abi: mkrAbi, address: mkrAddress });
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"stop"`
@@ -19729,7 +19741,7 @@ export const useWriteMkrStop = /*#__PURE__*/ createUseWriteContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'stop'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"approve"`
@@ -19740,7 +19752,7 @@ export const useWriteMkrApprove = /*#__PURE__*/ createUseWriteContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'approve'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"setOwner"`
@@ -19751,7 +19763,7 @@ export const useWriteMkrSetOwner = /*#__PURE__*/ createUseWriteContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'setOwner'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"transferFrom"`
@@ -19762,7 +19774,7 @@ export const useWriteMkrTransferFrom = /*#__PURE__*/ createUseWriteContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'transferFrom'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"mint"`
@@ -19773,7 +19785,7 @@ export const useWriteMkrMint = /*#__PURE__*/ createUseWriteContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'mint'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"burn"`
@@ -19784,7 +19796,7 @@ export const useWriteMkrBurn = /*#__PURE__*/ createUseWriteContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'burn'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"setName"`
@@ -19795,7 +19807,7 @@ export const useWriteMkrSetName = /*#__PURE__*/ createUseWriteContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'setName'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"setAuthority"`
@@ -19806,7 +19818,7 @@ export const useWriteMkrSetAuthority = /*#__PURE__*/ createUseWriteContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'setAuthority'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"transfer"`
@@ -19817,7 +19829,7 @@ export const useWriteMkrTransfer = /*#__PURE__*/ createUseWriteContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'transfer'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"push"`
@@ -19828,7 +19840,7 @@ export const useWriteMkrPush = /*#__PURE__*/ createUseWriteContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'push'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"move"`
@@ -19839,7 +19851,7 @@ export const useWriteMkrMove = /*#__PURE__*/ createUseWriteContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'move'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"start"`
@@ -19850,7 +19862,7 @@ export const useWriteMkrStart = /*#__PURE__*/ createUseWriteContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'start'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"pull"`
@@ -19861,14 +19873,14 @@ export const useWriteMkrPull = /*#__PURE__*/ createUseWriteContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'pull'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mkrAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2)
  */
-export const useSimulateMkr = /*#__PURE__*/ createUseSimulateContract({ abi: mkrAbi, address: mkrAddress })
+export const useSimulateMkr = /*#__PURE__*/ createUseSimulateContract({ abi: mkrAbi, address: mkrAddress });
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"stop"`
@@ -19879,7 +19891,7 @@ export const useSimulateMkrStop = /*#__PURE__*/ createUseSimulateContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'stop'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"approve"`
@@ -19890,7 +19902,7 @@ export const useSimulateMkrApprove = /*#__PURE__*/ createUseSimulateContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'approve'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"setOwner"`
@@ -19901,7 +19913,7 @@ export const useSimulateMkrSetOwner = /*#__PURE__*/ createUseSimulateContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'setOwner'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"transferFrom"`
@@ -19912,7 +19924,7 @@ export const useSimulateMkrTransferFrom = /*#__PURE__*/ createUseSimulateContrac
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'transferFrom'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"mint"`
@@ -19923,7 +19935,7 @@ export const useSimulateMkrMint = /*#__PURE__*/ createUseSimulateContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'mint'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"burn"`
@@ -19934,7 +19946,7 @@ export const useSimulateMkrBurn = /*#__PURE__*/ createUseSimulateContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'burn'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"setName"`
@@ -19945,7 +19957,7 @@ export const useSimulateMkrSetName = /*#__PURE__*/ createUseSimulateContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'setName'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"setAuthority"`
@@ -19956,7 +19968,7 @@ export const useSimulateMkrSetAuthority = /*#__PURE__*/ createUseSimulateContrac
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'setAuthority'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"transfer"`
@@ -19967,7 +19979,7 @@ export const useSimulateMkrTransfer = /*#__PURE__*/ createUseSimulateContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'transfer'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"push"`
@@ -19978,7 +19990,7 @@ export const useSimulateMkrPush = /*#__PURE__*/ createUseSimulateContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'push'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"move"`
@@ -19989,7 +20001,7 @@ export const useSimulateMkrMove = /*#__PURE__*/ createUseSimulateContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'move'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"start"`
@@ -20000,7 +20012,7 @@ export const useSimulateMkrStart = /*#__PURE__*/ createUseSimulateContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'start'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mkrAbi}__ and `functionName` set to `"pull"`
@@ -20011,14 +20023,14 @@ export const useSimulateMkrPull = /*#__PURE__*/ createUseSimulateContract({
   abi: mkrAbi,
   address: mkrAddress,
   functionName: 'pull'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mkrAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2)
  */
-export const useWatchMkr = /*#__PURE__*/ createUseWatchContractEvent({ abi: mkrAbi, address: mkrAddress })
+export const useWatchMkr = /*#__PURE__*/ createUseWatchContractEvent({ abi: mkrAbi, address: mkrAddress });
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mkrAbi}__ and `eventName` set to `"Mint"`
@@ -20029,7 +20041,7 @@ export const useWatchMkrMint = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mkrAbi,
   address: mkrAddress,
   eventName: 'Mint'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mkrAbi}__ and `eventName` set to `"Burn"`
@@ -20040,7 +20052,7 @@ export const useWatchMkrBurn = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mkrAbi,
   address: mkrAddress,
   eventName: 'Burn'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mkrAbi}__ and `eventName` set to `"LogSetAuthority"`
@@ -20051,7 +20063,7 @@ export const useWatchMkrLogSetAuthority = /*#__PURE__*/ createUseWatchContractEv
   abi: mkrAbi,
   address: mkrAddress,
   eventName: 'LogSetAuthority'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mkrAbi}__ and `eventName` set to `"LogSetOwner"`
@@ -20062,7 +20074,7 @@ export const useWatchMkrLogSetOwner = /*#__PURE__*/ createUseWatchContractEvent(
   abi: mkrAbi,
   address: mkrAddress,
   eventName: 'LogSetOwner'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mkrAbi}__ and `eventName` set to `"LogNote"`
@@ -20073,7 +20085,7 @@ export const useWatchMkrLogNote = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mkrAbi,
   address: mkrAddress,
   eventName: 'LogNote'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mkrAbi}__ and `eventName` set to `"Transfer"`
@@ -20084,7 +20096,7 @@ export const useWatchMkrTransfer = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mkrAbi,
   address: mkrAddress,
   eventName: 'Transfer'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mkrAbi}__ and `eventName` set to `"Approval"`
@@ -20095,14 +20107,14 @@ export const useWatchMkrApproval = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mkrAbi,
   address: mkrAddress,
   eventName: 'Approval'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mkrSkyAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xA1Ea1bA18E88C381C724a75F23a130420C403f9a)
  */
-export const useReadMkrSky = /*#__PURE__*/ createUseReadContract({ abi: mkrSkyAbi, address: mkrSkyAddress })
+export const useReadMkrSky = /*#__PURE__*/ createUseReadContract({ abi: mkrSkyAbi, address: mkrSkyAddress });
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mkrSkyAbi}__ and `functionName` set to `"fee"`
@@ -20113,7 +20125,7 @@ export const useReadMkrSkyFee = /*#__PURE__*/ createUseReadContract({
   abi: mkrSkyAbi,
   address: mkrSkyAddress,
   functionName: 'fee'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mkrSkyAbi}__ and `functionName` set to `"mkr"`
@@ -20124,7 +20136,7 @@ export const useReadMkrSkyMkr = /*#__PURE__*/ createUseReadContract({
   abi: mkrSkyAbi,
   address: mkrSkyAddress,
   functionName: 'mkr'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mkrSkyAbi}__ and `functionName` set to `"rate"`
@@ -20135,7 +20147,7 @@ export const useReadMkrSkyRate = /*#__PURE__*/ createUseReadContract({
   abi: mkrSkyAbi,
   address: mkrSkyAddress,
   functionName: 'rate'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mkrSkyAbi}__ and `functionName` set to `"sky"`
@@ -20146,7 +20158,7 @@ export const useReadMkrSkySky = /*#__PURE__*/ createUseReadContract({
   abi: mkrSkyAbi,
   address: mkrSkyAddress,
   functionName: 'sky'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mkrSkyAbi}__ and `functionName` set to `"take"`
@@ -20157,7 +20169,7 @@ export const useReadMkrSkyTake = /*#__PURE__*/ createUseReadContract({
   abi: mkrSkyAbi,
   address: mkrSkyAddress,
   functionName: 'take'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link mkrSkyAbi}__ and `functionName` set to `"wards"`
@@ -20168,14 +20180,17 @@ export const useReadMkrSkyWards = /*#__PURE__*/ createUseReadContract({
   abi: mkrSkyAbi,
   address: mkrSkyAddress,
   functionName: 'wards'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mkrSkyAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xA1Ea1bA18E88C381C724a75F23a130420C403f9a)
  */
-export const useWriteMkrSky = /*#__PURE__*/ createUseWriteContract({ abi: mkrSkyAbi, address: mkrSkyAddress })
+export const useWriteMkrSky = /*#__PURE__*/ createUseWriteContract({
+  abi: mkrSkyAbi,
+  address: mkrSkyAddress
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mkrSkyAbi}__ and `functionName` set to `"burn"`
@@ -20186,7 +20201,7 @@ export const useWriteMkrSkyBurn = /*#__PURE__*/ createUseWriteContract({
   abi: mkrSkyAbi,
   address: mkrSkyAddress,
   functionName: 'burn'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mkrSkyAbi}__ and `functionName` set to `"collect"`
@@ -20197,7 +20212,7 @@ export const useWriteMkrSkyCollect = /*#__PURE__*/ createUseWriteContract({
   abi: mkrSkyAbi,
   address: mkrSkyAddress,
   functionName: 'collect'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mkrSkyAbi}__ and `functionName` set to `"deny"`
@@ -20208,7 +20223,7 @@ export const useWriteMkrSkyDeny = /*#__PURE__*/ createUseWriteContract({
   abi: mkrSkyAbi,
   address: mkrSkyAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mkrSkyAbi}__ and `functionName` set to `"file"`
@@ -20219,7 +20234,7 @@ export const useWriteMkrSkyFile = /*#__PURE__*/ createUseWriteContract({
   abi: mkrSkyAbi,
   address: mkrSkyAddress,
   functionName: 'file'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mkrSkyAbi}__ and `functionName` set to `"mkrToSky"`
@@ -20230,7 +20245,7 @@ export const useWriteMkrSkyMkrToSky = /*#__PURE__*/ createUseWriteContract({
   abi: mkrSkyAbi,
   address: mkrSkyAddress,
   functionName: 'mkrToSky'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mkrSkyAbi}__ and `functionName` set to `"rely"`
@@ -20241,7 +20256,7 @@ export const useWriteMkrSkyRely = /*#__PURE__*/ createUseWriteContract({
   abi: mkrSkyAbi,
   address: mkrSkyAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mkrSkyAbi}__
@@ -20251,7 +20266,7 @@ export const useWriteMkrSkyRely = /*#__PURE__*/ createUseWriteContract({
 export const useSimulateMkrSky = /*#__PURE__*/ createUseSimulateContract({
   abi: mkrSkyAbi,
   address: mkrSkyAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mkrSkyAbi}__ and `functionName` set to `"burn"`
@@ -20262,7 +20277,7 @@ export const useSimulateMkrSkyBurn = /*#__PURE__*/ createUseSimulateContract({
   abi: mkrSkyAbi,
   address: mkrSkyAddress,
   functionName: 'burn'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mkrSkyAbi}__ and `functionName` set to `"collect"`
@@ -20273,7 +20288,7 @@ export const useSimulateMkrSkyCollect = /*#__PURE__*/ createUseSimulateContract(
   abi: mkrSkyAbi,
   address: mkrSkyAddress,
   functionName: 'collect'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mkrSkyAbi}__ and `functionName` set to `"deny"`
@@ -20284,7 +20299,7 @@ export const useSimulateMkrSkyDeny = /*#__PURE__*/ createUseSimulateContract({
   abi: mkrSkyAbi,
   address: mkrSkyAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mkrSkyAbi}__ and `functionName` set to `"file"`
@@ -20295,7 +20310,7 @@ export const useSimulateMkrSkyFile = /*#__PURE__*/ createUseSimulateContract({
   abi: mkrSkyAbi,
   address: mkrSkyAddress,
   functionName: 'file'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mkrSkyAbi}__ and `functionName` set to `"mkrToSky"`
@@ -20306,7 +20321,7 @@ export const useSimulateMkrSkyMkrToSky = /*#__PURE__*/ createUseSimulateContract
   abi: mkrSkyAbi,
   address: mkrSkyAddress,
   functionName: 'mkrToSky'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mkrSkyAbi}__ and `functionName` set to `"rely"`
@@ -20317,7 +20332,7 @@ export const useSimulateMkrSkyRely = /*#__PURE__*/ createUseSimulateContract({
   abi: mkrSkyAbi,
   address: mkrSkyAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mkrSkyAbi}__
@@ -20327,7 +20342,7 @@ export const useSimulateMkrSkyRely = /*#__PURE__*/ createUseSimulateContract({
 export const useWatchMkrSky = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mkrSkyAbi,
   address: mkrSkyAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mkrSkyAbi}__ and `eventName` set to `"Burn"`
@@ -20338,7 +20353,7 @@ export const useWatchMkrSkyBurn = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mkrSkyAbi,
   address: mkrSkyAddress,
   eventName: 'Burn'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mkrSkyAbi}__ and `eventName` set to `"Collect"`
@@ -20349,7 +20364,7 @@ export const useWatchMkrSkyCollect = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mkrSkyAbi,
   address: mkrSkyAddress,
   eventName: 'Collect'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mkrSkyAbi}__ and `eventName` set to `"Deny"`
@@ -20360,7 +20375,7 @@ export const useWatchMkrSkyDeny = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mkrSkyAbi,
   address: mkrSkyAddress,
   eventName: 'Deny'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mkrSkyAbi}__ and `eventName` set to `"File"`
@@ -20371,7 +20386,7 @@ export const useWatchMkrSkyFile = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mkrSkyAbi,
   address: mkrSkyAddress,
   eventName: 'File'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mkrSkyAbi}__ and `eventName` set to `"MkrToSky"`
@@ -20382,7 +20397,7 @@ export const useWatchMkrSkyMkrToSky = /*#__PURE__*/ createUseWatchContractEvent(
   abi: mkrSkyAbi,
   address: mkrSkyAddress,
   eventName: 'MkrToSky'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mkrSkyAbi}__ and `eventName` set to `"Rely"`
@@ -20393,7 +20408,7 @@ export const useWatchMkrSkyRely = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mkrSkyAbi,
   address: mkrSkyAddress,
   eventName: 'Rely'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__
@@ -20403,7 +20418,7 @@ export const useWatchMkrSkyRely = /*#__PURE__*/ createUseWatchContractEvent({
 export const useWriteProxyActions = /*#__PURE__*/ createUseWriteContract({
   abi: proxyActionsAbi,
   address: proxyActionsAddress
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"cdpAllow"`
@@ -20414,7 +20429,7 @@ export const useWriteProxyActionsCdpAllow = /*#__PURE__*/ createUseWriteContract
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'cdpAllow'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"daiJoin_join"`
@@ -20425,7 +20440,7 @@ export const useWriteProxyActionsDaiJoinJoin = /*#__PURE__*/ createUseWriteContr
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'daiJoin_join'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"draw"`
@@ -20436,7 +20451,7 @@ export const useWriteProxyActionsDraw = /*#__PURE__*/ createUseWriteContract({
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'draw'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"enter"`
@@ -20447,7 +20462,7 @@ export const useWriteProxyActionsEnter = /*#__PURE__*/ createUseWriteContract({
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'enter'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"ethJoin_join"`
@@ -20458,7 +20473,7 @@ export const useWriteProxyActionsEthJoinJoin = /*#__PURE__*/ createUseWriteContr
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'ethJoin_join'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"exitETH"`
@@ -20469,7 +20484,7 @@ export const useWriteProxyActionsExitEth = /*#__PURE__*/ createUseWriteContract(
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'exitETH'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"exitGem"`
@@ -20480,7 +20495,7 @@ export const useWriteProxyActionsExitGem = /*#__PURE__*/ createUseWriteContract(
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'exitGem'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"flux"`
@@ -20491,7 +20506,7 @@ export const useWriteProxyActionsFlux = /*#__PURE__*/ createUseWriteContract({
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'flux'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"freeETH"`
@@ -20502,7 +20517,7 @@ export const useWriteProxyActionsFreeEth = /*#__PURE__*/ createUseWriteContract(
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'freeETH'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"freeGem"`
@@ -20513,7 +20528,7 @@ export const useWriteProxyActionsFreeGem = /*#__PURE__*/ createUseWriteContract(
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'freeGem'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"frob"`
@@ -20524,7 +20539,7 @@ export const useWriteProxyActionsFrob = /*#__PURE__*/ createUseWriteContract({
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'frob'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"gemJoin_join"`
@@ -20535,7 +20550,7 @@ export const useWriteProxyActionsGemJoinJoin = /*#__PURE__*/ createUseWriteContr
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'gemJoin_join'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"give"`
@@ -20546,7 +20561,7 @@ export const useWriteProxyActionsGive = /*#__PURE__*/ createUseWriteContract({
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'give'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"giveToProxy"`
@@ -20557,7 +20572,7 @@ export const useWriteProxyActionsGiveToProxy = /*#__PURE__*/ createUseWriteContr
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'giveToProxy'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"hope"`
@@ -20568,7 +20583,7 @@ export const useWriteProxyActionsHope = /*#__PURE__*/ createUseWriteContract({
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'hope'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"lockETH"`
@@ -20579,7 +20594,7 @@ export const useWriteProxyActionsLockEth = /*#__PURE__*/ createUseWriteContract(
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'lockETH'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"lockETHAndDraw"`
@@ -20590,7 +20605,7 @@ export const useWriteProxyActionsLockEthAndDraw = /*#__PURE__*/ createUseWriteCo
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'lockETHAndDraw'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"lockGem"`
@@ -20601,7 +20616,7 @@ export const useWriteProxyActionsLockGem = /*#__PURE__*/ createUseWriteContract(
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'lockGem'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"lockGemAndDraw"`
@@ -20612,7 +20627,7 @@ export const useWriteProxyActionsLockGemAndDraw = /*#__PURE__*/ createUseWriteCo
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'lockGemAndDraw'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"makeGemBag"`
@@ -20623,7 +20638,7 @@ export const useWriteProxyActionsMakeGemBag = /*#__PURE__*/ createUseWriteContra
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'makeGemBag'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"move"`
@@ -20634,7 +20649,7 @@ export const useWriteProxyActionsMove = /*#__PURE__*/ createUseWriteContract({
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'move'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"nope"`
@@ -20645,7 +20660,7 @@ export const useWriteProxyActionsNope = /*#__PURE__*/ createUseWriteContract({
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'nope'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"open"`
@@ -20656,7 +20671,7 @@ export const useWriteProxyActionsOpen = /*#__PURE__*/ createUseWriteContract({
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'open'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"openLockETHAndDraw"`
@@ -20667,7 +20682,7 @@ export const useWriteProxyActionsOpenLockEthAndDraw = /*#__PURE__*/ createUseWri
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'openLockETHAndDraw'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"openLockGNTAndDraw"`
@@ -20678,7 +20693,7 @@ export const useWriteProxyActionsOpenLockGntAndDraw = /*#__PURE__*/ createUseWri
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'openLockGNTAndDraw'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"openLockGemAndDraw"`
@@ -20689,7 +20704,7 @@ export const useWriteProxyActionsOpenLockGemAndDraw = /*#__PURE__*/ createUseWri
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'openLockGemAndDraw'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"quit"`
@@ -20700,7 +20715,7 @@ export const useWriteProxyActionsQuit = /*#__PURE__*/ createUseWriteContract({
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'quit'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"safeLockETH"`
@@ -20711,7 +20726,7 @@ export const useWriteProxyActionsSafeLockEth = /*#__PURE__*/ createUseWriteContr
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'safeLockETH'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"safeLockGem"`
@@ -20722,7 +20737,7 @@ export const useWriteProxyActionsSafeLockGem = /*#__PURE__*/ createUseWriteContr
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'safeLockGem'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"safeWipe"`
@@ -20733,7 +20748,7 @@ export const useWriteProxyActionsSafeWipe = /*#__PURE__*/ createUseWriteContract
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'safeWipe'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"safeWipeAll"`
@@ -20744,7 +20759,7 @@ export const useWriteProxyActionsSafeWipeAll = /*#__PURE__*/ createUseWriteContr
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'safeWipeAll'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"shift"`
@@ -20755,7 +20770,7 @@ export const useWriteProxyActionsShift = /*#__PURE__*/ createUseWriteContract({
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'shift'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"transfer"`
@@ -20766,7 +20781,7 @@ export const useWriteProxyActionsTransfer = /*#__PURE__*/ createUseWriteContract
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'transfer'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"urnAllow"`
@@ -20777,7 +20792,7 @@ export const useWriteProxyActionsUrnAllow = /*#__PURE__*/ createUseWriteContract
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'urnAllow'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"wipe"`
@@ -20788,7 +20803,7 @@ export const useWriteProxyActionsWipe = /*#__PURE__*/ createUseWriteContract({
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'wipe'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"wipeAll"`
@@ -20799,7 +20814,7 @@ export const useWriteProxyActionsWipeAll = /*#__PURE__*/ createUseWriteContract(
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'wipeAll'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"wipeAllAndFreeETH"`
@@ -20810,7 +20825,7 @@ export const useWriteProxyActionsWipeAllAndFreeEth = /*#__PURE__*/ createUseWrit
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'wipeAllAndFreeETH'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"wipeAllAndFreeGem"`
@@ -20821,7 +20836,7 @@ export const useWriteProxyActionsWipeAllAndFreeGem = /*#__PURE__*/ createUseWrit
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'wipeAllAndFreeGem'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"wipeAndFreeETH"`
@@ -20832,7 +20847,7 @@ export const useWriteProxyActionsWipeAndFreeEth = /*#__PURE__*/ createUseWriteCo
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'wipeAndFreeETH'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"wipeAndFreeGem"`
@@ -20843,7 +20858,7 @@ export const useWriteProxyActionsWipeAndFreeGem = /*#__PURE__*/ createUseWriteCo
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'wipeAndFreeGem'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__
@@ -20853,7 +20868,7 @@ export const useWriteProxyActionsWipeAndFreeGem = /*#__PURE__*/ createUseWriteCo
 export const useSimulateProxyActions = /*#__PURE__*/ createUseSimulateContract({
   abi: proxyActionsAbi,
   address: proxyActionsAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"cdpAllow"`
@@ -20864,7 +20879,7 @@ export const useSimulateProxyActionsCdpAllow = /*#__PURE__*/ createUseSimulateCo
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'cdpAllow'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"daiJoin_join"`
@@ -20875,7 +20890,7 @@ export const useSimulateProxyActionsDaiJoinJoin = /*#__PURE__*/ createUseSimulat
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'daiJoin_join'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"draw"`
@@ -20886,7 +20901,7 @@ export const useSimulateProxyActionsDraw = /*#__PURE__*/ createUseSimulateContra
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'draw'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"enter"`
@@ -20897,7 +20912,7 @@ export const useSimulateProxyActionsEnter = /*#__PURE__*/ createUseSimulateContr
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'enter'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"ethJoin_join"`
@@ -20908,7 +20923,7 @@ export const useSimulateProxyActionsEthJoinJoin = /*#__PURE__*/ createUseSimulat
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'ethJoin_join'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"exitETH"`
@@ -20919,7 +20934,7 @@ export const useSimulateProxyActionsExitEth = /*#__PURE__*/ createUseSimulateCon
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'exitETH'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"exitGem"`
@@ -20930,7 +20945,7 @@ export const useSimulateProxyActionsExitGem = /*#__PURE__*/ createUseSimulateCon
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'exitGem'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"flux"`
@@ -20941,7 +20956,7 @@ export const useSimulateProxyActionsFlux = /*#__PURE__*/ createUseSimulateContra
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'flux'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"freeETH"`
@@ -20952,7 +20967,7 @@ export const useSimulateProxyActionsFreeEth = /*#__PURE__*/ createUseSimulateCon
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'freeETH'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"freeGem"`
@@ -20963,7 +20978,7 @@ export const useSimulateProxyActionsFreeGem = /*#__PURE__*/ createUseSimulateCon
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'freeGem'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"frob"`
@@ -20974,7 +20989,7 @@ export const useSimulateProxyActionsFrob = /*#__PURE__*/ createUseSimulateContra
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'frob'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"gemJoin_join"`
@@ -20985,7 +21000,7 @@ export const useSimulateProxyActionsGemJoinJoin = /*#__PURE__*/ createUseSimulat
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'gemJoin_join'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"give"`
@@ -20996,7 +21011,7 @@ export const useSimulateProxyActionsGive = /*#__PURE__*/ createUseSimulateContra
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'give'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"giveToProxy"`
@@ -21007,7 +21022,7 @@ export const useSimulateProxyActionsGiveToProxy = /*#__PURE__*/ createUseSimulat
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'giveToProxy'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"hope"`
@@ -21018,7 +21033,7 @@ export const useSimulateProxyActionsHope = /*#__PURE__*/ createUseSimulateContra
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'hope'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"lockETH"`
@@ -21029,7 +21044,7 @@ export const useSimulateProxyActionsLockEth = /*#__PURE__*/ createUseSimulateCon
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'lockETH'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"lockETHAndDraw"`
@@ -21040,7 +21055,7 @@ export const useSimulateProxyActionsLockEthAndDraw = /*#__PURE__*/ createUseSimu
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'lockETHAndDraw'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"lockGem"`
@@ -21051,7 +21066,7 @@ export const useSimulateProxyActionsLockGem = /*#__PURE__*/ createUseSimulateCon
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'lockGem'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"lockGemAndDraw"`
@@ -21062,7 +21077,7 @@ export const useSimulateProxyActionsLockGemAndDraw = /*#__PURE__*/ createUseSimu
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'lockGemAndDraw'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"makeGemBag"`
@@ -21073,7 +21088,7 @@ export const useSimulateProxyActionsMakeGemBag = /*#__PURE__*/ createUseSimulate
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'makeGemBag'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"move"`
@@ -21084,7 +21099,7 @@ export const useSimulateProxyActionsMove = /*#__PURE__*/ createUseSimulateContra
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'move'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"nope"`
@@ -21095,7 +21110,7 @@ export const useSimulateProxyActionsNope = /*#__PURE__*/ createUseSimulateContra
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'nope'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"open"`
@@ -21106,7 +21121,7 @@ export const useSimulateProxyActionsOpen = /*#__PURE__*/ createUseSimulateContra
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'open'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"openLockETHAndDraw"`
@@ -21117,7 +21132,7 @@ export const useSimulateProxyActionsOpenLockEthAndDraw = /*#__PURE__*/ createUse
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'openLockETHAndDraw'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"openLockGNTAndDraw"`
@@ -21128,7 +21143,7 @@ export const useSimulateProxyActionsOpenLockGntAndDraw = /*#__PURE__*/ createUse
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'openLockGNTAndDraw'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"openLockGemAndDraw"`
@@ -21139,7 +21154,7 @@ export const useSimulateProxyActionsOpenLockGemAndDraw = /*#__PURE__*/ createUse
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'openLockGemAndDraw'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"quit"`
@@ -21150,7 +21165,7 @@ export const useSimulateProxyActionsQuit = /*#__PURE__*/ createUseSimulateContra
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'quit'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"safeLockETH"`
@@ -21161,7 +21176,7 @@ export const useSimulateProxyActionsSafeLockEth = /*#__PURE__*/ createUseSimulat
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'safeLockETH'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"safeLockGem"`
@@ -21172,7 +21187,7 @@ export const useSimulateProxyActionsSafeLockGem = /*#__PURE__*/ createUseSimulat
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'safeLockGem'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"safeWipe"`
@@ -21183,7 +21198,7 @@ export const useSimulateProxyActionsSafeWipe = /*#__PURE__*/ createUseSimulateCo
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'safeWipe'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"safeWipeAll"`
@@ -21194,7 +21209,7 @@ export const useSimulateProxyActionsSafeWipeAll = /*#__PURE__*/ createUseSimulat
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'safeWipeAll'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"shift"`
@@ -21205,7 +21220,7 @@ export const useSimulateProxyActionsShift = /*#__PURE__*/ createUseSimulateContr
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'shift'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"transfer"`
@@ -21216,7 +21231,7 @@ export const useSimulateProxyActionsTransfer = /*#__PURE__*/ createUseSimulateCo
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'transfer'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"urnAllow"`
@@ -21227,7 +21242,7 @@ export const useSimulateProxyActionsUrnAllow = /*#__PURE__*/ createUseSimulateCo
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'urnAllow'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"wipe"`
@@ -21238,7 +21253,7 @@ export const useSimulateProxyActionsWipe = /*#__PURE__*/ createUseSimulateContra
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'wipe'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"wipeAll"`
@@ -21249,7 +21264,7 @@ export const useSimulateProxyActionsWipeAll = /*#__PURE__*/ createUseSimulateCon
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'wipeAll'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"wipeAllAndFreeETH"`
@@ -21260,7 +21275,7 @@ export const useSimulateProxyActionsWipeAllAndFreeEth = /*#__PURE__*/ createUseS
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'wipeAllAndFreeETH'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"wipeAllAndFreeGem"`
@@ -21271,7 +21286,7 @@ export const useSimulateProxyActionsWipeAllAndFreeGem = /*#__PURE__*/ createUseS
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'wipeAllAndFreeGem'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"wipeAndFreeETH"`
@@ -21282,7 +21297,7 @@ export const useSimulateProxyActionsWipeAndFreeEth = /*#__PURE__*/ createUseSimu
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'wipeAndFreeETH'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyActionsAbi}__ and `functionName` set to `"wipeAndFreeGem"`
@@ -21293,7 +21308,7 @@ export const useSimulateProxyActionsWipeAndFreeGem = /*#__PURE__*/ createUseSimu
   abi: proxyActionsAbi,
   address: proxyActionsAddress,
   functionName: 'wipeAndFreeGem'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link proxyRegistryAbi}__
@@ -21303,7 +21318,7 @@ export const useSimulateProxyActionsWipeAndFreeGem = /*#__PURE__*/ createUseSimu
 export const useReadProxyRegistry = /*#__PURE__*/ createUseReadContract({
   abi: proxyRegistryAbi,
   address: proxyRegistryAddress
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link proxyRegistryAbi}__ and `functionName` set to `"proxies"`
@@ -21314,7 +21329,7 @@ export const useReadProxyRegistryProxies = /*#__PURE__*/ createUseReadContract({
   abi: proxyRegistryAbi,
   address: proxyRegistryAddress,
   functionName: 'proxies'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyRegistryAbi}__
@@ -21324,7 +21339,7 @@ export const useReadProxyRegistryProxies = /*#__PURE__*/ createUseReadContract({
 export const useWriteProxyRegistry = /*#__PURE__*/ createUseWriteContract({
   abi: proxyRegistryAbi,
   address: proxyRegistryAddress
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link proxyRegistryAbi}__ and `functionName` set to `"build"`
@@ -21335,7 +21350,7 @@ export const useWriteProxyRegistryBuild = /*#__PURE__*/ createUseWriteContract({
   abi: proxyRegistryAbi,
   address: proxyRegistryAddress,
   functionName: 'build'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyRegistryAbi}__
@@ -21345,7 +21360,7 @@ export const useWriteProxyRegistryBuild = /*#__PURE__*/ createUseWriteContract({
 export const useSimulateProxyRegistry = /*#__PURE__*/ createUseSimulateContract({
   abi: proxyRegistryAbi,
   address: proxyRegistryAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link proxyRegistryAbi}__ and `functionName` set to `"build"`
@@ -21356,7 +21371,7 @@ export const useSimulateProxyRegistryBuild = /*#__PURE__*/ createUseSimulateCont
   abi: proxyRegistryAbi,
   address: proxyRegistryAddress,
   functionName: 'build'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__
@@ -21366,7 +21381,7 @@ export const useSimulateProxyRegistryBuild = /*#__PURE__*/ createUseSimulateCont
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x2B05F8e1cACC6974fD79A673a341Fe1f58d27266)
  */
-export const useReadPsm3L2 = /*#__PURE__*/ createUseReadContract({ abi: psm3L2Abi, address: psm3L2Address })
+export const useReadPsm3L2 = /*#__PURE__*/ createUseReadContract({ abi: psm3L2Abi, address: psm3L2Address });
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"convertToAssetValue"`
@@ -21380,7 +21395,7 @@ export const useReadPsm3L2ConvertToAssetValue = /*#__PURE__*/ createUseReadContr
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'convertToAssetValue'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"convertToAssets"`
@@ -21394,7 +21409,7 @@ export const useReadPsm3L2ConvertToAssets = /*#__PURE__*/ createUseReadContract(
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'convertToAssets'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"convertToShares"`
@@ -21408,7 +21423,7 @@ export const useReadPsm3L2ConvertToShares = /*#__PURE__*/ createUseReadContract(
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'convertToShares'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"owner"`
@@ -21422,7 +21437,7 @@ export const useReadPsm3L2Owner = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'owner'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"pocket"`
@@ -21436,7 +21451,7 @@ export const useReadPsm3L2Pocket = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'pocket'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"previewDeposit"`
@@ -21450,7 +21465,7 @@ export const useReadPsm3L2PreviewDeposit = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'previewDeposit'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"previewSwapExactIn"`
@@ -21464,7 +21479,7 @@ export const useReadPsm3L2PreviewSwapExactIn = /*#__PURE__*/ createUseReadContra
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'previewSwapExactIn'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"previewSwapExactOut"`
@@ -21478,7 +21493,7 @@ export const useReadPsm3L2PreviewSwapExactOut = /*#__PURE__*/ createUseReadContr
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'previewSwapExactOut'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"previewWithdraw"`
@@ -21492,7 +21507,7 @@ export const useReadPsm3L2PreviewWithdraw = /*#__PURE__*/ createUseReadContract(
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'previewWithdraw'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"rateProvider"`
@@ -21506,7 +21521,7 @@ export const useReadPsm3L2RateProvider = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'rateProvider'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"shares"`
@@ -21520,7 +21535,7 @@ export const useReadPsm3L2Shares = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'shares'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"susds"`
@@ -21534,7 +21549,7 @@ export const useReadPsm3L2Susds = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'susds'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"totalAssets"`
@@ -21548,7 +21563,7 @@ export const useReadPsm3L2TotalAssets = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'totalAssets'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"totalShares"`
@@ -21562,7 +21577,7 @@ export const useReadPsm3L2TotalShares = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'totalShares'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"usdc"`
@@ -21576,7 +21591,7 @@ export const useReadPsm3L2Usdc = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'usdc'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"usds"`
@@ -21590,7 +21605,7 @@ export const useReadPsm3L2Usds = /*#__PURE__*/ createUseReadContract({
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'usds'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link psm3L2Abi}__
@@ -21600,7 +21615,10 @@ export const useReadPsm3L2Usds = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x1601843c5E9bC251A3272907010AFa41Fa18347E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x2B05F8e1cACC6974fD79A673a341Fe1f58d27266)
  */
-export const useWritePsm3L2 = /*#__PURE__*/ createUseWriteContract({ abi: psm3L2Abi, address: psm3L2Address })
+export const useWritePsm3L2 = /*#__PURE__*/ createUseWriteContract({
+  abi: psm3L2Abi,
+  address: psm3L2Address
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"deposit"`
@@ -21614,7 +21632,7 @@ export const useWritePsm3L2Deposit = /*#__PURE__*/ createUseWriteContract({
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'deposit'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"renounceOwnership"`
@@ -21628,7 +21646,7 @@ export const useWritePsm3L2RenounceOwnership = /*#__PURE__*/ createUseWriteContr
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'renounceOwnership'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"setPocket"`
@@ -21642,7 +21660,7 @@ export const useWritePsm3L2SetPocket = /*#__PURE__*/ createUseWriteContract({
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'setPocket'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"swapExactIn"`
@@ -21656,7 +21674,7 @@ export const useWritePsm3L2SwapExactIn = /*#__PURE__*/ createUseWriteContract({
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'swapExactIn'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"swapExactOut"`
@@ -21670,7 +21688,7 @@ export const useWritePsm3L2SwapExactOut = /*#__PURE__*/ createUseWriteContract({
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'swapExactOut'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"transferOwnership"`
@@ -21684,7 +21702,7 @@ export const useWritePsm3L2TransferOwnership = /*#__PURE__*/ createUseWriteContr
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'transferOwnership'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"withdraw"`
@@ -21698,7 +21716,7 @@ export const useWritePsm3L2Withdraw = /*#__PURE__*/ createUseWriteContract({
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'withdraw'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link psm3L2Abi}__
@@ -21711,7 +21729,7 @@ export const useWritePsm3L2Withdraw = /*#__PURE__*/ createUseWriteContract({
 export const useSimulatePsm3L2 = /*#__PURE__*/ createUseSimulateContract({
   abi: psm3L2Abi,
   address: psm3L2Address
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"deposit"`
@@ -21725,7 +21743,7 @@ export const useSimulatePsm3L2Deposit = /*#__PURE__*/ createUseSimulateContract(
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'deposit'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"renounceOwnership"`
@@ -21739,7 +21757,7 @@ export const useSimulatePsm3L2RenounceOwnership = /*#__PURE__*/ createUseSimulat
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'renounceOwnership'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"setPocket"`
@@ -21753,7 +21771,7 @@ export const useSimulatePsm3L2SetPocket = /*#__PURE__*/ createUseSimulateContrac
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'setPocket'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"swapExactIn"`
@@ -21767,7 +21785,7 @@ export const useSimulatePsm3L2SwapExactIn = /*#__PURE__*/ createUseSimulateContr
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'swapExactIn'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"swapExactOut"`
@@ -21781,7 +21799,7 @@ export const useSimulatePsm3L2SwapExactOut = /*#__PURE__*/ createUseSimulateCont
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'swapExactOut'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"transferOwnership"`
@@ -21795,7 +21813,7 @@ export const useSimulatePsm3L2TransferOwnership = /*#__PURE__*/ createUseSimulat
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'transferOwnership'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link psm3L2Abi}__ and `functionName` set to `"withdraw"`
@@ -21809,7 +21827,7 @@ export const useSimulatePsm3L2Withdraw = /*#__PURE__*/ createUseSimulateContract
   abi: psm3L2Abi,
   address: psm3L2Address,
   functionName: 'withdraw'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link psm3L2Abi}__
@@ -21822,7 +21840,7 @@ export const useSimulatePsm3L2Withdraw = /*#__PURE__*/ createUseSimulateContract
 export const useWatchPsm3L2 = /*#__PURE__*/ createUseWatchContractEvent({
   abi: psm3L2Abi,
   address: psm3L2Address
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link psm3L2Abi}__ and `eventName` set to `"Deposit"`
@@ -21836,7 +21854,7 @@ export const useWatchPsm3L2Deposit = /*#__PURE__*/ createUseWatchContractEvent({
   abi: psm3L2Abi,
   address: psm3L2Address,
   eventName: 'Deposit'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link psm3L2Abi}__ and `eventName` set to `"OwnershipTransferred"`
@@ -21850,7 +21868,7 @@ export const useWatchPsm3L2OwnershipTransferred = /*#__PURE__*/ createUseWatchCo
   abi: psm3L2Abi,
   address: psm3L2Address,
   eventName: 'OwnershipTransferred'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link psm3L2Abi}__ and `eventName` set to `"PocketSet"`
@@ -21864,7 +21882,7 @@ export const useWatchPsm3L2PocketSet = /*#__PURE__*/ createUseWatchContractEvent
   abi: psm3L2Abi,
   address: psm3L2Address,
   eventName: 'PocketSet'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link psm3L2Abi}__ and `eventName` set to `"Swap"`
@@ -21878,7 +21896,7 @@ export const useWatchPsm3L2Swap = /*#__PURE__*/ createUseWatchContractEvent({
   abi: psm3L2Abi,
   address: psm3L2Address,
   eventName: 'Swap'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link psm3L2Abi}__ and `eventName` set to `"Withdraw"`
@@ -21892,7 +21910,7 @@ export const useWatchPsm3L2Withdraw = /*#__PURE__*/ createUseWatchContractEvent(
   abi: psm3L2Abi,
   address: psm3L2Address,
   eventName: 'Withdraw'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sUsdsAbi}__
@@ -21902,7 +21920,7 @@ export const useWatchPsm3L2Withdraw = /*#__PURE__*/ createUseWatchContractEvent(
 export const useWatchSUsds = /*#__PURE__*/ createUseWatchContractEvent({
   abi: sUsdsAbi,
   address: sUsdsAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sUsdsAbi}__ and `eventName` set to `"Upgraded"`
@@ -21913,7 +21931,7 @@ export const useWatchSUsdsUpgraded = /*#__PURE__*/ createUseWatchContractEvent({
   abi: sUsdsAbi,
   address: sUsdsAddress,
   eventName: 'Upgraded'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__
@@ -21923,7 +21941,7 @@ export const useWatchSUsdsUpgraded = /*#__PURE__*/ createUseWatchContractEvent({
 export const useReadSUsdsImplementation = /*#__PURE__*/ createUseReadContract({
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"DOMAIN_SEPARATOR"`
@@ -21934,7 +21952,7 @@ export const useReadSUsdsImplementationDomainSeparator = /*#__PURE__*/ createUse
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'DOMAIN_SEPARATOR'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"PERMIT_TYPEHASH"`
@@ -21945,7 +21963,7 @@ export const useReadSUsdsImplementationPermitTypehash = /*#__PURE__*/ createUseR
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'PERMIT_TYPEHASH'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"UPGRADE_INTERFACE_VERSION"`
@@ -21956,7 +21974,7 @@ export const useReadSUsdsImplementationUpgradeInterfaceVersion = /*#__PURE__*/ c
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'UPGRADE_INTERFACE_VERSION'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"allowance"`
@@ -21967,7 +21985,7 @@ export const useReadSUsdsImplementationAllowance = /*#__PURE__*/ createUseReadCo
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'allowance'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"asset"`
@@ -21978,7 +21996,7 @@ export const useReadSUsdsImplementationAsset = /*#__PURE__*/ createUseReadContra
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'asset'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"balanceOf"`
@@ -21989,7 +22007,7 @@ export const useReadSUsdsImplementationBalanceOf = /*#__PURE__*/ createUseReadCo
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'balanceOf'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"chi"`
@@ -22000,7 +22018,7 @@ export const useReadSUsdsImplementationChi = /*#__PURE__*/ createUseReadContract
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'chi'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"convertToAssets"`
@@ -22011,7 +22029,7 @@ export const useReadSUsdsImplementationConvertToAssets = /*#__PURE__*/ createUse
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'convertToAssets'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"convertToShares"`
@@ -22022,7 +22040,7 @@ export const useReadSUsdsImplementationConvertToShares = /*#__PURE__*/ createUse
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'convertToShares'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"decimals"`
@@ -22033,7 +22051,7 @@ export const useReadSUsdsImplementationDecimals = /*#__PURE__*/ createUseReadCon
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'decimals'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"getImplementation"`
@@ -22044,7 +22062,7 @@ export const useReadSUsdsImplementationGetImplementation = /*#__PURE__*/ createU
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'getImplementation'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"maxDeposit"`
@@ -22055,7 +22073,7 @@ export const useReadSUsdsImplementationMaxDeposit = /*#__PURE__*/ createUseReadC
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'maxDeposit'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"maxMint"`
@@ -22066,7 +22084,7 @@ export const useReadSUsdsImplementationMaxMint = /*#__PURE__*/ createUseReadCont
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'maxMint'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"maxRedeem"`
@@ -22077,7 +22095,7 @@ export const useReadSUsdsImplementationMaxRedeem = /*#__PURE__*/ createUseReadCo
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'maxRedeem'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"maxWithdraw"`
@@ -22088,7 +22106,7 @@ export const useReadSUsdsImplementationMaxWithdraw = /*#__PURE__*/ createUseRead
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'maxWithdraw'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"name"`
@@ -22099,7 +22117,7 @@ export const useReadSUsdsImplementationName = /*#__PURE__*/ createUseReadContrac
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'name'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"nonces"`
@@ -22110,7 +22128,7 @@ export const useReadSUsdsImplementationNonces = /*#__PURE__*/ createUseReadContr
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'nonces'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"previewDeposit"`
@@ -22121,7 +22139,7 @@ export const useReadSUsdsImplementationPreviewDeposit = /*#__PURE__*/ createUseR
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'previewDeposit'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"previewMint"`
@@ -22132,7 +22150,7 @@ export const useReadSUsdsImplementationPreviewMint = /*#__PURE__*/ createUseRead
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'previewMint'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"previewRedeem"`
@@ -22143,7 +22161,7 @@ export const useReadSUsdsImplementationPreviewRedeem = /*#__PURE__*/ createUseRe
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'previewRedeem'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"previewWithdraw"`
@@ -22154,7 +22172,7 @@ export const useReadSUsdsImplementationPreviewWithdraw = /*#__PURE__*/ createUse
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'previewWithdraw'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"proxiableUUID"`
@@ -22165,7 +22183,7 @@ export const useReadSUsdsImplementationProxiableUuid = /*#__PURE__*/ createUseRe
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'proxiableUUID'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"rho"`
@@ -22176,7 +22194,7 @@ export const useReadSUsdsImplementationRho = /*#__PURE__*/ createUseReadContract
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'rho'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"ssr"`
@@ -22187,7 +22205,7 @@ export const useReadSUsdsImplementationSsr = /*#__PURE__*/ createUseReadContract
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'ssr'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"symbol"`
@@ -22198,7 +22216,7 @@ export const useReadSUsdsImplementationSymbol = /*#__PURE__*/ createUseReadContr
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'symbol'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"totalAssets"`
@@ -22209,7 +22227,7 @@ export const useReadSUsdsImplementationTotalAssets = /*#__PURE__*/ createUseRead
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'totalAssets'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"totalSupply"`
@@ -22220,7 +22238,7 @@ export const useReadSUsdsImplementationTotalSupply = /*#__PURE__*/ createUseRead
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'totalSupply'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"usds"`
@@ -22231,7 +22249,7 @@ export const useReadSUsdsImplementationUsds = /*#__PURE__*/ createUseReadContrac
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'usds'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"usdsJoin"`
@@ -22242,7 +22260,7 @@ export const useReadSUsdsImplementationUsdsJoin = /*#__PURE__*/ createUseReadCon
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'usdsJoin'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"vat"`
@@ -22253,7 +22271,7 @@ export const useReadSUsdsImplementationVat = /*#__PURE__*/ createUseReadContract
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'vat'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"version"`
@@ -22264,7 +22282,7 @@ export const useReadSUsdsImplementationVersion = /*#__PURE__*/ createUseReadCont
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'version'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"vow"`
@@ -22275,7 +22293,7 @@ export const useReadSUsdsImplementationVow = /*#__PURE__*/ createUseReadContract
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'vow'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"wards"`
@@ -22286,7 +22304,7 @@ export const useReadSUsdsImplementationWards = /*#__PURE__*/ createUseReadContra
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'wards'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__
@@ -22296,7 +22314,7 @@ export const useReadSUsdsImplementationWards = /*#__PURE__*/ createUseReadContra
 export const useWriteSUsdsImplementation = /*#__PURE__*/ createUseWriteContract({
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"approve"`
@@ -22307,7 +22325,7 @@ export const useWriteSUsdsImplementationApprove = /*#__PURE__*/ createUseWriteCo
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'approve'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"deny"`
@@ -22318,7 +22336,7 @@ export const useWriteSUsdsImplementationDeny = /*#__PURE__*/ createUseWriteContr
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"deposit"`
@@ -22329,7 +22347,7 @@ export const useWriteSUsdsImplementationDeposit = /*#__PURE__*/ createUseWriteCo
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'deposit'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"drip"`
@@ -22340,7 +22358,7 @@ export const useWriteSUsdsImplementationDrip = /*#__PURE__*/ createUseWriteContr
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'drip'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"file"`
@@ -22351,7 +22369,7 @@ export const useWriteSUsdsImplementationFile = /*#__PURE__*/ createUseWriteContr
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'file'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"initialize"`
@@ -22362,7 +22380,7 @@ export const useWriteSUsdsImplementationInitialize = /*#__PURE__*/ createUseWrit
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'initialize'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"mint"`
@@ -22373,7 +22391,7 @@ export const useWriteSUsdsImplementationMint = /*#__PURE__*/ createUseWriteContr
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'mint'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"permit"`
@@ -22384,7 +22402,7 @@ export const useWriteSUsdsImplementationPermit = /*#__PURE__*/ createUseWriteCon
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'permit'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"redeem"`
@@ -22395,7 +22413,7 @@ export const useWriteSUsdsImplementationRedeem = /*#__PURE__*/ createUseWriteCon
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'redeem'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"rely"`
@@ -22406,7 +22424,7 @@ export const useWriteSUsdsImplementationRely = /*#__PURE__*/ createUseWriteContr
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"transfer"`
@@ -22417,7 +22435,7 @@ export const useWriteSUsdsImplementationTransfer = /*#__PURE__*/ createUseWriteC
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'transfer'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"transferFrom"`
@@ -22428,7 +22446,7 @@ export const useWriteSUsdsImplementationTransferFrom = /*#__PURE__*/ createUseWr
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'transferFrom'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"upgradeToAndCall"`
@@ -22439,7 +22457,7 @@ export const useWriteSUsdsImplementationUpgradeToAndCall = /*#__PURE__*/ createU
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'upgradeToAndCall'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"withdraw"`
@@ -22450,7 +22468,7 @@ export const useWriteSUsdsImplementationWithdraw = /*#__PURE__*/ createUseWriteC
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'withdraw'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__
@@ -22460,7 +22478,7 @@ export const useWriteSUsdsImplementationWithdraw = /*#__PURE__*/ createUseWriteC
 export const useSimulateSUsdsImplementation = /*#__PURE__*/ createUseSimulateContract({
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"approve"`
@@ -22471,7 +22489,7 @@ export const useSimulateSUsdsImplementationApprove = /*#__PURE__*/ createUseSimu
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'approve'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"deny"`
@@ -22482,7 +22500,7 @@ export const useSimulateSUsdsImplementationDeny = /*#__PURE__*/ createUseSimulat
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"deposit"`
@@ -22493,7 +22511,7 @@ export const useSimulateSUsdsImplementationDeposit = /*#__PURE__*/ createUseSimu
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'deposit'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"drip"`
@@ -22504,7 +22522,7 @@ export const useSimulateSUsdsImplementationDrip = /*#__PURE__*/ createUseSimulat
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'drip'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"file"`
@@ -22515,7 +22533,7 @@ export const useSimulateSUsdsImplementationFile = /*#__PURE__*/ createUseSimulat
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'file'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"initialize"`
@@ -22526,7 +22544,7 @@ export const useSimulateSUsdsImplementationInitialize = /*#__PURE__*/ createUseS
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'initialize'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"mint"`
@@ -22537,7 +22555,7 @@ export const useSimulateSUsdsImplementationMint = /*#__PURE__*/ createUseSimulat
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'mint'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"permit"`
@@ -22548,7 +22566,7 @@ export const useSimulateSUsdsImplementationPermit = /*#__PURE__*/ createUseSimul
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'permit'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"redeem"`
@@ -22559,7 +22577,7 @@ export const useSimulateSUsdsImplementationRedeem = /*#__PURE__*/ createUseSimul
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'redeem'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"rely"`
@@ -22570,7 +22588,7 @@ export const useSimulateSUsdsImplementationRely = /*#__PURE__*/ createUseSimulat
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"transfer"`
@@ -22581,7 +22599,7 @@ export const useSimulateSUsdsImplementationTransfer = /*#__PURE__*/ createUseSim
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'transfer'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"transferFrom"`
@@ -22592,7 +22610,7 @@ export const useSimulateSUsdsImplementationTransferFrom = /*#__PURE__*/ createUs
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'transferFrom'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"upgradeToAndCall"`
@@ -22603,7 +22621,7 @@ export const useSimulateSUsdsImplementationUpgradeToAndCall = /*#__PURE__*/ crea
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'upgradeToAndCall'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `functionName` set to `"withdraw"`
@@ -22614,7 +22632,7 @@ export const useSimulateSUsdsImplementationWithdraw = /*#__PURE__*/ createUseSim
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   functionName: 'withdraw'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sUsdsImplementationAbi}__
@@ -22624,7 +22642,7 @@ export const useSimulateSUsdsImplementationWithdraw = /*#__PURE__*/ createUseSim
 export const useWatchSUsdsImplementation = /*#__PURE__*/ createUseWatchContractEvent({
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `eventName` set to `"Approval"`
@@ -22635,7 +22653,7 @@ export const useWatchSUsdsImplementationApproval = /*#__PURE__*/ createUseWatchC
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   eventName: 'Approval'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `eventName` set to `"Deny"`
@@ -22646,7 +22664,7 @@ export const useWatchSUsdsImplementationDeny = /*#__PURE__*/ createUseWatchContr
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   eventName: 'Deny'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `eventName` set to `"Deposit"`
@@ -22657,7 +22675,7 @@ export const useWatchSUsdsImplementationDeposit = /*#__PURE__*/ createUseWatchCo
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   eventName: 'Deposit'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `eventName` set to `"Drip"`
@@ -22668,7 +22686,7 @@ export const useWatchSUsdsImplementationDrip = /*#__PURE__*/ createUseWatchContr
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   eventName: 'Drip'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `eventName` set to `"File"`
@@ -22679,7 +22697,7 @@ export const useWatchSUsdsImplementationFile = /*#__PURE__*/ createUseWatchContr
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   eventName: 'File'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `eventName` set to `"Initialized"`
@@ -22690,7 +22708,7 @@ export const useWatchSUsdsImplementationInitialized = /*#__PURE__*/ createUseWat
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   eventName: 'Initialized'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `eventName` set to `"Referral"`
@@ -22701,7 +22719,7 @@ export const useWatchSUsdsImplementationReferral = /*#__PURE__*/ createUseWatchC
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   eventName: 'Referral'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `eventName` set to `"Rely"`
@@ -22712,7 +22730,7 @@ export const useWatchSUsdsImplementationRely = /*#__PURE__*/ createUseWatchContr
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   eventName: 'Rely'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `eventName` set to `"Transfer"`
@@ -22723,7 +22741,7 @@ export const useWatchSUsdsImplementationTransfer = /*#__PURE__*/ createUseWatchC
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   eventName: 'Transfer'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `eventName` set to `"Upgraded"`
@@ -22734,7 +22752,7 @@ export const useWatchSUsdsImplementationUpgraded = /*#__PURE__*/ createUseWatchC
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   eventName: 'Upgraded'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sUsdsImplementationAbi}__ and `eventName` set to `"Withdraw"`
@@ -22745,7 +22763,7 @@ export const useWatchSUsdsImplementationWithdraw = /*#__PURE__*/ createUseWatchC
   abi: sUsdsImplementationAbi,
   address: sUsdsImplementationAddress,
   eventName: 'Withdraw'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sUsdsL2Abi}__
@@ -22758,7 +22776,7 @@ export const useWatchSUsdsImplementationWithdraw = /*#__PURE__*/ createUseWatchC
 export const useWatchSUsdsL2 = /*#__PURE__*/ createUseWatchContractEvent({
   abi: sUsdsL2Abi,
   address: sUsdsL2Address
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sUsdsL2Abi}__ and `eventName` set to `"Upgraded"`
@@ -22772,7 +22790,7 @@ export const useWatchSUsdsL2Upgraded = /*#__PURE__*/ createUseWatchContractEvent
   abi: sUsdsL2Abi,
   address: sUsdsL2Address,
   eventName: 'Upgraded'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sealModuleAbi}__
@@ -22782,7 +22800,7 @@ export const useWatchSUsdsL2Upgraded = /*#__PURE__*/ createUseWatchContractEvent
 export const useReadSealModule = /*#__PURE__*/ createUseReadContract({
   abi: sealModuleAbi,
   address: sealModuleAddress
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"farms"`
@@ -22793,7 +22811,7 @@ export const useReadSealModuleFarms = /*#__PURE__*/ createUseReadContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'farms'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"fee"`
@@ -22804,7 +22822,7 @@ export const useReadSealModuleFee = /*#__PURE__*/ createUseReadContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'fee'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"ilk"`
@@ -22815,7 +22833,7 @@ export const useReadSealModuleIlk = /*#__PURE__*/ createUseReadContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'ilk'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"isUrnAuth"`
@@ -22826,7 +22844,7 @@ export const useReadSealModuleIsUrnAuth = /*#__PURE__*/ createUseReadContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'isUrnAuth'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"jug"`
@@ -22837,7 +22855,7 @@ export const useReadSealModuleJug = /*#__PURE__*/ createUseReadContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'jug'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"lsmkr"`
@@ -22848,7 +22866,7 @@ export const useReadSealModuleLsmkr = /*#__PURE__*/ createUseReadContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'lsmkr'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"mkr"`
@@ -22859,7 +22877,7 @@ export const useReadSealModuleMkr = /*#__PURE__*/ createUseReadContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'mkr'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"mkrSky"`
@@ -22870,7 +22888,7 @@ export const useReadSealModuleMkrSky = /*#__PURE__*/ createUseReadContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'mkrSky'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"mkrSkyRate"`
@@ -22881,7 +22899,7 @@ export const useReadSealModuleMkrSkyRate = /*#__PURE__*/ createUseReadContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'mkrSkyRate'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"ownerUrns"`
@@ -22892,7 +22910,7 @@ export const useReadSealModuleOwnerUrns = /*#__PURE__*/ createUseReadContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'ownerUrns'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"ownerUrnsCount"`
@@ -22903,7 +22921,7 @@ export const useReadSealModuleOwnerUrnsCount = /*#__PURE__*/ createUseReadContra
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'ownerUrnsCount'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"sky"`
@@ -22914,7 +22932,7 @@ export const useReadSealModuleSky = /*#__PURE__*/ createUseReadContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'sky'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"urnAuctions"`
@@ -22925,7 +22943,7 @@ export const useReadSealModuleUrnAuctions = /*#__PURE__*/ createUseReadContract(
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'urnAuctions'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"urnCan"`
@@ -22936,7 +22954,7 @@ export const useReadSealModuleUrnCan = /*#__PURE__*/ createUseReadContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'urnCan'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"urnFarms"`
@@ -22947,7 +22965,7 @@ export const useReadSealModuleUrnFarms = /*#__PURE__*/ createUseReadContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'urnFarms'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"urnImplementation"`
@@ -22958,7 +22976,7 @@ export const useReadSealModuleUrnImplementation = /*#__PURE__*/ createUseReadCon
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'urnImplementation'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"urnOwners"`
@@ -22969,7 +22987,7 @@ export const useReadSealModuleUrnOwners = /*#__PURE__*/ createUseReadContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'urnOwners'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"urnVoteDelegates"`
@@ -22980,7 +22998,7 @@ export const useReadSealModuleUrnVoteDelegates = /*#__PURE__*/ createUseReadCont
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'urnVoteDelegates'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"usds"`
@@ -22991,7 +23009,7 @@ export const useReadSealModuleUsds = /*#__PURE__*/ createUseReadContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'usds'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"usdsJoin"`
@@ -23002,7 +23020,7 @@ export const useReadSealModuleUsdsJoin = /*#__PURE__*/ createUseReadContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'usdsJoin'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"vat"`
@@ -23013,7 +23031,7 @@ export const useReadSealModuleVat = /*#__PURE__*/ createUseReadContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'vat'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"voteDelegateFactory"`
@@ -23024,7 +23042,7 @@ export const useReadSealModuleVoteDelegateFactory = /*#__PURE__*/ createUseReadC
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'voteDelegateFactory'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"wards"`
@@ -23035,7 +23053,7 @@ export const useReadSealModuleWards = /*#__PURE__*/ createUseReadContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'wards'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sealModuleAbi}__
@@ -23045,7 +23063,7 @@ export const useReadSealModuleWards = /*#__PURE__*/ createUseReadContract({
 export const useWriteSealModule = /*#__PURE__*/ createUseWriteContract({
   abi: sealModuleAbi,
   address: sealModuleAddress
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"addFarm"`
@@ -23056,7 +23074,7 @@ export const useWriteSealModuleAddFarm = /*#__PURE__*/ createUseWriteContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'addFarm'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"delFarm"`
@@ -23067,7 +23085,7 @@ export const useWriteSealModuleDelFarm = /*#__PURE__*/ createUseWriteContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'delFarm'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"deny"`
@@ -23078,7 +23096,7 @@ export const useWriteSealModuleDeny = /*#__PURE__*/ createUseWriteContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"draw"`
@@ -23089,7 +23107,7 @@ export const useWriteSealModuleDraw = /*#__PURE__*/ createUseWriteContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'draw'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"file"`
@@ -23100,7 +23118,7 @@ export const useWriteSealModuleFile = /*#__PURE__*/ createUseWriteContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'file'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"free"`
@@ -23111,7 +23129,7 @@ export const useWriteSealModuleFree = /*#__PURE__*/ createUseWriteContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'free'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"freeNoFee"`
@@ -23122,7 +23140,7 @@ export const useWriteSealModuleFreeNoFee = /*#__PURE__*/ createUseWriteContract(
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'freeNoFee'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"freeSky"`
@@ -23133,7 +23151,7 @@ export const useWriteSealModuleFreeSky = /*#__PURE__*/ createUseWriteContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'freeSky'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"getReward"`
@@ -23144,7 +23162,7 @@ export const useWriteSealModuleGetReward = /*#__PURE__*/ createUseWriteContract(
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'getReward'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"hope"`
@@ -23155,7 +23173,7 @@ export const useWriteSealModuleHope = /*#__PURE__*/ createUseWriteContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'hope'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"lock"`
@@ -23166,7 +23184,7 @@ export const useWriteSealModuleLock = /*#__PURE__*/ createUseWriteContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'lock'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"lockSky"`
@@ -23177,7 +23195,7 @@ export const useWriteSealModuleLockSky = /*#__PURE__*/ createUseWriteContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'lockSky'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"multicall"`
@@ -23188,7 +23206,7 @@ export const useWriteSealModuleMulticall = /*#__PURE__*/ createUseWriteContract(
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'multicall'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"nope"`
@@ -23199,7 +23217,7 @@ export const useWriteSealModuleNope = /*#__PURE__*/ createUseWriteContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'nope'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"onKick"`
@@ -23210,7 +23228,7 @@ export const useWriteSealModuleOnKick = /*#__PURE__*/ createUseWriteContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'onKick'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"onRemove"`
@@ -23221,7 +23239,7 @@ export const useWriteSealModuleOnRemove = /*#__PURE__*/ createUseWriteContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'onRemove'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"onTake"`
@@ -23232,7 +23250,7 @@ export const useWriteSealModuleOnTake = /*#__PURE__*/ createUseWriteContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'onTake'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"open"`
@@ -23243,7 +23261,7 @@ export const useWriteSealModuleOpen = /*#__PURE__*/ createUseWriteContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'open'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"rely"`
@@ -23254,7 +23272,7 @@ export const useWriteSealModuleRely = /*#__PURE__*/ createUseWriteContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"selectFarm"`
@@ -23265,7 +23283,7 @@ export const useWriteSealModuleSelectFarm = /*#__PURE__*/ createUseWriteContract
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'selectFarm'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"selectVoteDelegate"`
@@ -23276,7 +23294,7 @@ export const useWriteSealModuleSelectVoteDelegate = /*#__PURE__*/ createUseWrite
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'selectVoteDelegate'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"wipe"`
@@ -23287,7 +23305,7 @@ export const useWriteSealModuleWipe = /*#__PURE__*/ createUseWriteContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'wipe'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"wipeAll"`
@@ -23298,7 +23316,7 @@ export const useWriteSealModuleWipeAll = /*#__PURE__*/ createUseWriteContract({
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'wipeAll'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sealModuleAbi}__
@@ -23308,7 +23326,7 @@ export const useWriteSealModuleWipeAll = /*#__PURE__*/ createUseWriteContract({
 export const useSimulateSealModule = /*#__PURE__*/ createUseSimulateContract({
   abi: sealModuleAbi,
   address: sealModuleAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"addFarm"`
@@ -23319,7 +23337,7 @@ export const useSimulateSealModuleAddFarm = /*#__PURE__*/ createUseSimulateContr
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'addFarm'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"delFarm"`
@@ -23330,7 +23348,7 @@ export const useSimulateSealModuleDelFarm = /*#__PURE__*/ createUseSimulateContr
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'delFarm'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"deny"`
@@ -23341,7 +23359,7 @@ export const useSimulateSealModuleDeny = /*#__PURE__*/ createUseSimulateContract
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"draw"`
@@ -23352,7 +23370,7 @@ export const useSimulateSealModuleDraw = /*#__PURE__*/ createUseSimulateContract
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'draw'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"file"`
@@ -23363,7 +23381,7 @@ export const useSimulateSealModuleFile = /*#__PURE__*/ createUseSimulateContract
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'file'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"free"`
@@ -23374,7 +23392,7 @@ export const useSimulateSealModuleFree = /*#__PURE__*/ createUseSimulateContract
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'free'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"freeNoFee"`
@@ -23385,7 +23403,7 @@ export const useSimulateSealModuleFreeNoFee = /*#__PURE__*/ createUseSimulateCon
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'freeNoFee'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"freeSky"`
@@ -23396,7 +23414,7 @@ export const useSimulateSealModuleFreeSky = /*#__PURE__*/ createUseSimulateContr
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'freeSky'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"getReward"`
@@ -23407,7 +23425,7 @@ export const useSimulateSealModuleGetReward = /*#__PURE__*/ createUseSimulateCon
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'getReward'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"hope"`
@@ -23418,7 +23436,7 @@ export const useSimulateSealModuleHope = /*#__PURE__*/ createUseSimulateContract
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'hope'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"lock"`
@@ -23429,7 +23447,7 @@ export const useSimulateSealModuleLock = /*#__PURE__*/ createUseSimulateContract
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'lock'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"lockSky"`
@@ -23440,7 +23458,7 @@ export const useSimulateSealModuleLockSky = /*#__PURE__*/ createUseSimulateContr
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'lockSky'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"multicall"`
@@ -23451,7 +23469,7 @@ export const useSimulateSealModuleMulticall = /*#__PURE__*/ createUseSimulateCon
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'multicall'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"nope"`
@@ -23462,7 +23480,7 @@ export const useSimulateSealModuleNope = /*#__PURE__*/ createUseSimulateContract
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'nope'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"onKick"`
@@ -23473,7 +23491,7 @@ export const useSimulateSealModuleOnKick = /*#__PURE__*/ createUseSimulateContra
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'onKick'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"onRemove"`
@@ -23484,7 +23502,7 @@ export const useSimulateSealModuleOnRemove = /*#__PURE__*/ createUseSimulateCont
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'onRemove'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"onTake"`
@@ -23495,7 +23513,7 @@ export const useSimulateSealModuleOnTake = /*#__PURE__*/ createUseSimulateContra
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'onTake'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"open"`
@@ -23506,7 +23524,7 @@ export const useSimulateSealModuleOpen = /*#__PURE__*/ createUseSimulateContract
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'open'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"rely"`
@@ -23517,7 +23535,7 @@ export const useSimulateSealModuleRely = /*#__PURE__*/ createUseSimulateContract
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"selectFarm"`
@@ -23528,7 +23546,7 @@ export const useSimulateSealModuleSelectFarm = /*#__PURE__*/ createUseSimulateCo
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'selectFarm'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"selectVoteDelegate"`
@@ -23539,7 +23557,7 @@ export const useSimulateSealModuleSelectVoteDelegate = /*#__PURE__*/ createUseSi
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'selectVoteDelegate'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"wipe"`
@@ -23550,7 +23568,7 @@ export const useSimulateSealModuleWipe = /*#__PURE__*/ createUseSimulateContract
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'wipe'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link sealModuleAbi}__ and `functionName` set to `"wipeAll"`
@@ -23561,7 +23579,7 @@ export const useSimulateSealModuleWipeAll = /*#__PURE__*/ createUseSimulateContr
   abi: sealModuleAbi,
   address: sealModuleAddress,
   functionName: 'wipeAll'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sealModuleAbi}__
@@ -23571,7 +23589,7 @@ export const useSimulateSealModuleWipeAll = /*#__PURE__*/ createUseSimulateContr
 export const useWatchSealModule = /*#__PURE__*/ createUseWatchContractEvent({
   abi: sealModuleAbi,
   address: sealModuleAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sealModuleAbi}__ and `eventName` set to `"AddFarm"`
@@ -23582,7 +23600,7 @@ export const useWatchSealModuleAddFarm = /*#__PURE__*/ createUseWatchContractEve
   abi: sealModuleAbi,
   address: sealModuleAddress,
   eventName: 'AddFarm'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sealModuleAbi}__ and `eventName` set to `"DelFarm"`
@@ -23593,7 +23611,7 @@ export const useWatchSealModuleDelFarm = /*#__PURE__*/ createUseWatchContractEve
   abi: sealModuleAbi,
   address: sealModuleAddress,
   eventName: 'DelFarm'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sealModuleAbi}__ and `eventName` set to `"Deny"`
@@ -23604,7 +23622,7 @@ export const useWatchSealModuleDeny = /*#__PURE__*/ createUseWatchContractEvent(
   abi: sealModuleAbi,
   address: sealModuleAddress,
   eventName: 'Deny'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sealModuleAbi}__ and `eventName` set to `"Draw"`
@@ -23615,7 +23633,7 @@ export const useWatchSealModuleDraw = /*#__PURE__*/ createUseWatchContractEvent(
   abi: sealModuleAbi,
   address: sealModuleAddress,
   eventName: 'Draw'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sealModuleAbi}__ and `eventName` set to `"File"`
@@ -23626,7 +23644,7 @@ export const useWatchSealModuleFile = /*#__PURE__*/ createUseWatchContractEvent(
   abi: sealModuleAbi,
   address: sealModuleAddress,
   eventName: 'File'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sealModuleAbi}__ and `eventName` set to `"Free"`
@@ -23637,7 +23655,7 @@ export const useWatchSealModuleFree = /*#__PURE__*/ createUseWatchContractEvent(
   abi: sealModuleAbi,
   address: sealModuleAddress,
   eventName: 'Free'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sealModuleAbi}__ and `eventName` set to `"FreeNoFee"`
@@ -23648,7 +23666,7 @@ export const useWatchSealModuleFreeNoFee = /*#__PURE__*/ createUseWatchContractE
   abi: sealModuleAbi,
   address: sealModuleAddress,
   eventName: 'FreeNoFee'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sealModuleAbi}__ and `eventName` set to `"FreeSky"`
@@ -23659,7 +23677,7 @@ export const useWatchSealModuleFreeSky = /*#__PURE__*/ createUseWatchContractEve
   abi: sealModuleAbi,
   address: sealModuleAddress,
   eventName: 'FreeSky'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sealModuleAbi}__ and `eventName` set to `"GetReward"`
@@ -23670,7 +23688,7 @@ export const useWatchSealModuleGetReward = /*#__PURE__*/ createUseWatchContractE
   abi: sealModuleAbi,
   address: sealModuleAddress,
   eventName: 'GetReward'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sealModuleAbi}__ and `eventName` set to `"Hope"`
@@ -23681,7 +23699,7 @@ export const useWatchSealModuleHope = /*#__PURE__*/ createUseWatchContractEvent(
   abi: sealModuleAbi,
   address: sealModuleAddress,
   eventName: 'Hope'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sealModuleAbi}__ and `eventName` set to `"Lock"`
@@ -23692,7 +23710,7 @@ export const useWatchSealModuleLock = /*#__PURE__*/ createUseWatchContractEvent(
   abi: sealModuleAbi,
   address: sealModuleAddress,
   eventName: 'Lock'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sealModuleAbi}__ and `eventName` set to `"LockSky"`
@@ -23703,7 +23721,7 @@ export const useWatchSealModuleLockSky = /*#__PURE__*/ createUseWatchContractEve
   abi: sealModuleAbi,
   address: sealModuleAddress,
   eventName: 'LockSky'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sealModuleAbi}__ and `eventName` set to `"Nope"`
@@ -23714,7 +23732,7 @@ export const useWatchSealModuleNope = /*#__PURE__*/ createUseWatchContractEvent(
   abi: sealModuleAbi,
   address: sealModuleAddress,
   eventName: 'Nope'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sealModuleAbi}__ and `eventName` set to `"OnKick"`
@@ -23725,7 +23743,7 @@ export const useWatchSealModuleOnKick = /*#__PURE__*/ createUseWatchContractEven
   abi: sealModuleAbi,
   address: sealModuleAddress,
   eventName: 'OnKick'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sealModuleAbi}__ and `eventName` set to `"OnRemove"`
@@ -23736,7 +23754,7 @@ export const useWatchSealModuleOnRemove = /*#__PURE__*/ createUseWatchContractEv
   abi: sealModuleAbi,
   address: sealModuleAddress,
   eventName: 'OnRemove'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sealModuleAbi}__ and `eventName` set to `"OnTake"`
@@ -23747,7 +23765,7 @@ export const useWatchSealModuleOnTake = /*#__PURE__*/ createUseWatchContractEven
   abi: sealModuleAbi,
   address: sealModuleAddress,
   eventName: 'OnTake'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sealModuleAbi}__ and `eventName` set to `"Open"`
@@ -23758,7 +23776,7 @@ export const useWatchSealModuleOpen = /*#__PURE__*/ createUseWatchContractEvent(
   abi: sealModuleAbi,
   address: sealModuleAddress,
   eventName: 'Open'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sealModuleAbi}__ and `eventName` set to `"Rely"`
@@ -23769,7 +23787,7 @@ export const useWatchSealModuleRely = /*#__PURE__*/ createUseWatchContractEvent(
   abi: sealModuleAbi,
   address: sealModuleAddress,
   eventName: 'Rely'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sealModuleAbi}__ and `eventName` set to `"SelectFarm"`
@@ -23780,7 +23798,7 @@ export const useWatchSealModuleSelectFarm = /*#__PURE__*/ createUseWatchContract
   abi: sealModuleAbi,
   address: sealModuleAddress,
   eventName: 'SelectFarm'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sealModuleAbi}__ and `eventName` set to `"SelectVoteDelegate"`
@@ -23791,7 +23809,7 @@ export const useWatchSealModuleSelectVoteDelegate = /*#__PURE__*/ createUseWatch
   abi: sealModuleAbi,
   address: sealModuleAddress,
   eventName: 'SelectVoteDelegate'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link sealModuleAbi}__ and `eventName` set to `"Wipe"`
@@ -23802,14 +23820,14 @@ export const useWatchSealModuleWipe = /*#__PURE__*/ createUseWatchContractEvent(
   abi: sealModuleAbi,
   address: sealModuleAddress,
   eventName: 'Wipe'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x56072C95FAA701256059aa122697B133aDEd9279)
  */
-export const useReadSky = /*#__PURE__*/ createUseReadContract({ abi: skyAbi, address: skyAddress })
+export const useReadSky = /*#__PURE__*/ createUseReadContract({ abi: skyAbi, address: skyAddress });
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"DOMAIN_SEPARATOR"`
@@ -23820,7 +23838,7 @@ export const useReadSkyDomainSeparator = /*#__PURE__*/ createUseReadContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'DOMAIN_SEPARATOR'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"PERMIT_TYPEHASH"`
@@ -23831,7 +23849,7 @@ export const useReadSkyPermitTypehash = /*#__PURE__*/ createUseReadContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'PERMIT_TYPEHASH'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"allowance"`
@@ -23842,7 +23860,7 @@ export const useReadSkyAllowance = /*#__PURE__*/ createUseReadContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'allowance'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"balanceOf"`
@@ -23853,7 +23871,7 @@ export const useReadSkyBalanceOf = /*#__PURE__*/ createUseReadContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'balanceOf'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"decimals"`
@@ -23864,7 +23882,7 @@ export const useReadSkyDecimals = /*#__PURE__*/ createUseReadContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'decimals'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"deploymentChainId"`
@@ -23875,7 +23893,7 @@ export const useReadSkyDeploymentChainId = /*#__PURE__*/ createUseReadContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'deploymentChainId'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"name"`
@@ -23886,7 +23904,7 @@ export const useReadSkyName = /*#__PURE__*/ createUseReadContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'name'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"nonces"`
@@ -23897,7 +23915,7 @@ export const useReadSkyNonces = /*#__PURE__*/ createUseReadContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'nonces'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"symbol"`
@@ -23908,7 +23926,7 @@ export const useReadSkySymbol = /*#__PURE__*/ createUseReadContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'symbol'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"totalSupply"`
@@ -23919,7 +23937,7 @@ export const useReadSkyTotalSupply = /*#__PURE__*/ createUseReadContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'totalSupply'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"version"`
@@ -23930,7 +23948,7 @@ export const useReadSkyVersion = /*#__PURE__*/ createUseReadContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'version'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"wards"`
@@ -23941,14 +23959,14 @@ export const useReadSkyWards = /*#__PURE__*/ createUseReadContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'wards'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link skyAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x56072C95FAA701256059aa122697B133aDEd9279)
  */
-export const useWriteSky = /*#__PURE__*/ createUseWriteContract({ abi: skyAbi, address: skyAddress })
+export const useWriteSky = /*#__PURE__*/ createUseWriteContract({ abi: skyAbi, address: skyAddress });
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"approve"`
@@ -23959,7 +23977,7 @@ export const useWriteSkyApprove = /*#__PURE__*/ createUseWriteContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'approve'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"burn"`
@@ -23970,7 +23988,7 @@ export const useWriteSkyBurn = /*#__PURE__*/ createUseWriteContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'burn'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"deny"`
@@ -23981,7 +23999,7 @@ export const useWriteSkyDeny = /*#__PURE__*/ createUseWriteContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"mint"`
@@ -23992,7 +24010,7 @@ export const useWriteSkyMint = /*#__PURE__*/ createUseWriteContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'mint'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"permit"`
@@ -24003,7 +24021,7 @@ export const useWriteSkyPermit = /*#__PURE__*/ createUseWriteContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'permit'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"rely"`
@@ -24014,7 +24032,7 @@ export const useWriteSkyRely = /*#__PURE__*/ createUseWriteContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"transfer"`
@@ -24025,7 +24043,7 @@ export const useWriteSkyTransfer = /*#__PURE__*/ createUseWriteContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'transfer'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"transferFrom"`
@@ -24036,14 +24054,14 @@ export const useWriteSkyTransferFrom = /*#__PURE__*/ createUseWriteContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'transferFrom'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link skyAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x56072C95FAA701256059aa122697B133aDEd9279)
  */
-export const useSimulateSky = /*#__PURE__*/ createUseSimulateContract({ abi: skyAbi, address: skyAddress })
+export const useSimulateSky = /*#__PURE__*/ createUseSimulateContract({ abi: skyAbi, address: skyAddress });
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"approve"`
@@ -24054,7 +24072,7 @@ export const useSimulateSkyApprove = /*#__PURE__*/ createUseSimulateContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'approve'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"burn"`
@@ -24065,7 +24083,7 @@ export const useSimulateSkyBurn = /*#__PURE__*/ createUseSimulateContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'burn'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"deny"`
@@ -24076,7 +24094,7 @@ export const useSimulateSkyDeny = /*#__PURE__*/ createUseSimulateContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"mint"`
@@ -24087,7 +24105,7 @@ export const useSimulateSkyMint = /*#__PURE__*/ createUseSimulateContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'mint'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"permit"`
@@ -24098,7 +24116,7 @@ export const useSimulateSkyPermit = /*#__PURE__*/ createUseSimulateContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'permit'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"rely"`
@@ -24109,7 +24127,7 @@ export const useSimulateSkyRely = /*#__PURE__*/ createUseSimulateContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"transfer"`
@@ -24120,7 +24138,7 @@ export const useSimulateSkyTransfer = /*#__PURE__*/ createUseSimulateContract({
   abi: skyAbi,
   address: skyAddress,
   functionName: 'transfer'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link skyAbi}__ and `functionName` set to `"transferFrom"`
@@ -24131,14 +24149,14 @@ export const useSimulateSkyTransferFrom = /*#__PURE__*/ createUseSimulateContrac
   abi: skyAbi,
   address: skyAddress,
   functionName: 'transferFrom'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link skyAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x56072C95FAA701256059aa122697B133aDEd9279)
  */
-export const useWatchSky = /*#__PURE__*/ createUseWatchContractEvent({ abi: skyAbi, address: skyAddress })
+export const useWatchSky = /*#__PURE__*/ createUseWatchContractEvent({ abi: skyAbi, address: skyAddress });
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link skyAbi}__ and `eventName` set to `"Approval"`
@@ -24149,7 +24167,7 @@ export const useWatchSkyApproval = /*#__PURE__*/ createUseWatchContractEvent({
   abi: skyAbi,
   address: skyAddress,
   eventName: 'Approval'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link skyAbi}__ and `eventName` set to `"Deny"`
@@ -24160,7 +24178,7 @@ export const useWatchSkyDeny = /*#__PURE__*/ createUseWatchContractEvent({
   abi: skyAbi,
   address: skyAddress,
   eventName: 'Deny'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link skyAbi}__ and `eventName` set to `"Rely"`
@@ -24171,7 +24189,7 @@ export const useWatchSkyRely = /*#__PURE__*/ createUseWatchContractEvent({
   abi: skyAbi,
   address: skyAddress,
   eventName: 'Rely'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link skyAbi}__ and `eventName` set to `"Transfer"`
@@ -24182,14 +24200,14 @@ export const useWatchSkyTransfer = /*#__PURE__*/ createUseWatchContractEvent({
   abi: skyAbi,
   address: skyAddress,
   eventName: 'Transfer'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useReadSpk = /*#__PURE__*/ createUseReadContract({ abi: spkAbi, address: spkAddress })
+export const useReadSpk = /*#__PURE__*/ createUseReadContract({ abi: spkAbi, address: spkAddress });
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"DOMAIN_SEPARATOR"`
@@ -24200,7 +24218,7 @@ export const useReadSpkDomainSeparator = /*#__PURE__*/ createUseReadContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'DOMAIN_SEPARATOR'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"PERMIT_TYPEHASH"`
@@ -24211,7 +24229,7 @@ export const useReadSpkPermitTypehash = /*#__PURE__*/ createUseReadContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'PERMIT_TYPEHASH'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"allowance"`
@@ -24222,7 +24240,7 @@ export const useReadSpkAllowance = /*#__PURE__*/ createUseReadContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'allowance'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"balanceOf"`
@@ -24233,7 +24251,7 @@ export const useReadSpkBalanceOf = /*#__PURE__*/ createUseReadContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'balanceOf'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"decimals"`
@@ -24244,7 +24262,7 @@ export const useReadSpkDecimals = /*#__PURE__*/ createUseReadContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'decimals'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"deploymentChainId"`
@@ -24255,7 +24273,7 @@ export const useReadSpkDeploymentChainId = /*#__PURE__*/ createUseReadContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'deploymentChainId'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"name"`
@@ -24266,7 +24284,7 @@ export const useReadSpkName = /*#__PURE__*/ createUseReadContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'name'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"nonces"`
@@ -24277,7 +24295,7 @@ export const useReadSpkNonces = /*#__PURE__*/ createUseReadContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'nonces'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"symbol"`
@@ -24288,7 +24306,7 @@ export const useReadSpkSymbol = /*#__PURE__*/ createUseReadContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'symbol'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"totalSupply"`
@@ -24299,7 +24317,7 @@ export const useReadSpkTotalSupply = /*#__PURE__*/ createUseReadContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'totalSupply'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"version"`
@@ -24310,7 +24328,7 @@ export const useReadSpkVersion = /*#__PURE__*/ createUseReadContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'version'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"wards"`
@@ -24321,14 +24339,14 @@ export const useReadSpkWards = /*#__PURE__*/ createUseReadContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'wards'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useWriteSpk = /*#__PURE__*/ createUseWriteContract({ abi: spkAbi, address: spkAddress })
+export const useWriteSpk = /*#__PURE__*/ createUseWriteContract({ abi: spkAbi, address: spkAddress });
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"approve"`
@@ -24339,7 +24357,7 @@ export const useWriteSpkApprove = /*#__PURE__*/ createUseWriteContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'approve'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"burn"`
@@ -24350,7 +24368,7 @@ export const useWriteSpkBurn = /*#__PURE__*/ createUseWriteContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'burn'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"deny"`
@@ -24361,7 +24379,7 @@ export const useWriteSpkDeny = /*#__PURE__*/ createUseWriteContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"file"`
@@ -24372,7 +24390,7 @@ export const useWriteSpkFile = /*#__PURE__*/ createUseWriteContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'file'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"mint"`
@@ -24383,7 +24401,7 @@ export const useWriteSpkMint = /*#__PURE__*/ createUseWriteContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'mint'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"permit"`
@@ -24394,7 +24412,7 @@ export const useWriteSpkPermit = /*#__PURE__*/ createUseWriteContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'permit'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"rely"`
@@ -24405,7 +24423,7 @@ export const useWriteSpkRely = /*#__PURE__*/ createUseWriteContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"transfer"`
@@ -24416,7 +24434,7 @@ export const useWriteSpkTransfer = /*#__PURE__*/ createUseWriteContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'transfer'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"transferFrom"`
@@ -24427,14 +24445,14 @@ export const useWriteSpkTransferFrom = /*#__PURE__*/ createUseWriteContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'transferFrom'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useSimulateSpk = /*#__PURE__*/ createUseSimulateContract({ abi: spkAbi, address: spkAddress })
+export const useSimulateSpk = /*#__PURE__*/ createUseSimulateContract({ abi: spkAbi, address: spkAddress });
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"approve"`
@@ -24445,7 +24463,7 @@ export const useSimulateSpkApprove = /*#__PURE__*/ createUseSimulateContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'approve'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"burn"`
@@ -24456,7 +24474,7 @@ export const useSimulateSpkBurn = /*#__PURE__*/ createUseSimulateContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'burn'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"deny"`
@@ -24467,7 +24485,7 @@ export const useSimulateSpkDeny = /*#__PURE__*/ createUseSimulateContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"file"`
@@ -24478,7 +24496,7 @@ export const useSimulateSpkFile = /*#__PURE__*/ createUseSimulateContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'file'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"mint"`
@@ -24489,7 +24507,7 @@ export const useSimulateSpkMint = /*#__PURE__*/ createUseSimulateContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'mint'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"permit"`
@@ -24500,7 +24518,7 @@ export const useSimulateSpkPermit = /*#__PURE__*/ createUseSimulateContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'permit'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"rely"`
@@ -24511,7 +24529,7 @@ export const useSimulateSpkRely = /*#__PURE__*/ createUseSimulateContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"transfer"`
@@ -24522,7 +24540,7 @@ export const useSimulateSpkTransfer = /*#__PURE__*/ createUseSimulateContract({
   abi: spkAbi,
   address: spkAddress,
   functionName: 'transfer'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link spkAbi}__ and `functionName` set to `"transferFrom"`
@@ -24533,14 +24551,14 @@ export const useSimulateSpkTransferFrom = /*#__PURE__*/ createUseSimulateContrac
   abi: spkAbi,
   address: spkAddress,
   functionName: 'transferFrom'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xc20059e0317DE91738d13af027DfC4a50781b066)
  */
-export const useWatchSpk = /*#__PURE__*/ createUseWatchContractEvent({ abi: spkAbi, address: spkAddress })
+export const useWatchSpk = /*#__PURE__*/ createUseWatchContractEvent({ abi: spkAbi, address: spkAddress });
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkAbi}__ and `eventName` set to `"Approval"`
@@ -24551,7 +24569,7 @@ export const useWatchSpkApproval = /*#__PURE__*/ createUseWatchContractEvent({
   abi: spkAbi,
   address: spkAddress,
   eventName: 'Approval'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkAbi}__ and `eventName` set to `"Deny"`
@@ -24562,7 +24580,7 @@ export const useWatchSpkDeny = /*#__PURE__*/ createUseWatchContractEvent({
   abi: spkAbi,
   address: spkAddress,
   eventName: 'Deny'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkAbi}__ and `eventName` set to `"File"`
@@ -24573,7 +24591,7 @@ export const useWatchSpkFile = /*#__PURE__*/ createUseWatchContractEvent({
   abi: spkAbi,
   address: spkAddress,
   eventName: 'File'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkAbi}__ and `eventName` set to `"Rely"`
@@ -24584,7 +24602,7 @@ export const useWatchSpkRely = /*#__PURE__*/ createUseWatchContractEvent({
   abi: spkAbi,
   address: spkAddress,
   eventName: 'Rely'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link spkAbi}__ and `eventName` set to `"Transfer"`
@@ -24595,7 +24613,7 @@ export const useWatchSpkTransfer = /*#__PURE__*/ createUseWatchContractEvent({
   abi: spkAbi,
   address: spkAddress,
   eventName: 'Transfer'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__
@@ -24608,7 +24626,7 @@ export const useWatchSpkTransfer = /*#__PURE__*/ createUseWatchContractEvent({
 export const useReadSsrAuthOracle = /*#__PURE__*/ createUseReadContract({
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"DATA_PROVIDER_ROLE"`
@@ -24622,7 +24640,7 @@ export const useReadSsrAuthOracleDataProviderRole = /*#__PURE__*/ createUseReadC
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   functionName: 'DATA_PROVIDER_ROLE'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"DEFAULT_ADMIN_ROLE"`
@@ -24636,7 +24654,7 @@ export const useReadSsrAuthOracleDefaultAdminRole = /*#__PURE__*/ createUseReadC
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   functionName: 'DEFAULT_ADMIN_ROLE'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"getAPR"`
@@ -24650,7 +24668,7 @@ export const useReadSsrAuthOracleGetApr = /*#__PURE__*/ createUseReadContract({
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   functionName: 'getAPR'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"getChi"`
@@ -24664,7 +24682,7 @@ export const useReadSsrAuthOracleGetChi = /*#__PURE__*/ createUseReadContract({
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   functionName: 'getChi'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"getConversionRate"`
@@ -24678,7 +24696,7 @@ export const useReadSsrAuthOracleGetConversionRate = /*#__PURE__*/ createUseRead
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   functionName: 'getConversionRate'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"getConversionRateBinomialApprox"`
@@ -24692,7 +24710,7 @@ export const useReadSsrAuthOracleGetConversionRateBinomialApprox = /*#__PURE__*/
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   functionName: 'getConversionRateBinomialApprox'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"getConversionRateLinearApprox"`
@@ -24706,7 +24724,7 @@ export const useReadSsrAuthOracleGetConversionRateLinearApprox = /*#__PURE__*/ c
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   functionName: 'getConversionRateLinearApprox'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"getRho"`
@@ -24720,7 +24738,7 @@ export const useReadSsrAuthOracleGetRho = /*#__PURE__*/ createUseReadContract({
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   functionName: 'getRho'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"getRoleAdmin"`
@@ -24734,7 +24752,7 @@ export const useReadSsrAuthOracleGetRoleAdmin = /*#__PURE__*/ createUseReadContr
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   functionName: 'getRoleAdmin'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"getSSR"`
@@ -24748,7 +24766,7 @@ export const useReadSsrAuthOracleGetSsr = /*#__PURE__*/ createUseReadContract({
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   functionName: 'getSSR'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"getSUSDSData"`
@@ -24762,7 +24780,7 @@ export const useReadSsrAuthOracleGetSusdsData = /*#__PURE__*/ createUseReadContr
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   functionName: 'getSUSDSData'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"hasRole"`
@@ -24776,7 +24794,7 @@ export const useReadSsrAuthOracleHasRole = /*#__PURE__*/ createUseReadContract({
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   functionName: 'hasRole'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"maxSSR"`
@@ -24790,7 +24808,7 @@ export const useReadSsrAuthOracleMaxSsr = /*#__PURE__*/ createUseReadContract({
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   functionName: 'maxSSR'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"supportsInterface"`
@@ -24804,7 +24822,7 @@ export const useReadSsrAuthOracleSupportsInterface = /*#__PURE__*/ createUseRead
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   functionName: 'supportsInterface'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__
@@ -24817,7 +24835,7 @@ export const useReadSsrAuthOracleSupportsInterface = /*#__PURE__*/ createUseRead
 export const useWriteSsrAuthOracle = /*#__PURE__*/ createUseWriteContract({
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"grantRole"`
@@ -24831,7 +24849,7 @@ export const useWriteSsrAuthOracleGrantRole = /*#__PURE__*/ createUseWriteContra
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   functionName: 'grantRole'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"renounceRole"`
@@ -24845,7 +24863,7 @@ export const useWriteSsrAuthOracleRenounceRole = /*#__PURE__*/ createUseWriteCon
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   functionName: 'renounceRole'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"revokeRole"`
@@ -24859,7 +24877,7 @@ export const useWriteSsrAuthOracleRevokeRole = /*#__PURE__*/ createUseWriteContr
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   functionName: 'revokeRole'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"setMaxSSR"`
@@ -24873,7 +24891,7 @@ export const useWriteSsrAuthOracleSetMaxSsr = /*#__PURE__*/ createUseWriteContra
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   functionName: 'setMaxSSR'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"setSUSDSData"`
@@ -24887,7 +24905,7 @@ export const useWriteSsrAuthOracleSetSusdsData = /*#__PURE__*/ createUseWriteCon
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   functionName: 'setSUSDSData'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__
@@ -24900,7 +24918,7 @@ export const useWriteSsrAuthOracleSetSusdsData = /*#__PURE__*/ createUseWriteCon
 export const useSimulateSsrAuthOracle = /*#__PURE__*/ createUseSimulateContract({
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"grantRole"`
@@ -24914,7 +24932,7 @@ export const useSimulateSsrAuthOracleGrantRole = /*#__PURE__*/ createUseSimulate
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   functionName: 'grantRole'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"renounceRole"`
@@ -24928,7 +24946,7 @@ export const useSimulateSsrAuthOracleRenounceRole = /*#__PURE__*/ createUseSimul
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   functionName: 'renounceRole'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"revokeRole"`
@@ -24942,7 +24960,7 @@ export const useSimulateSsrAuthOracleRevokeRole = /*#__PURE__*/ createUseSimulat
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   functionName: 'revokeRole'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"setMaxSSR"`
@@ -24956,7 +24974,7 @@ export const useSimulateSsrAuthOracleSetMaxSsr = /*#__PURE__*/ createUseSimulate
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   functionName: 'setMaxSSR'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `functionName` set to `"setSUSDSData"`
@@ -24970,7 +24988,7 @@ export const useSimulateSsrAuthOracleSetSusdsData = /*#__PURE__*/ createUseSimul
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   functionName: 'setSUSDSData'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ssrAuthOracleAbi}__
@@ -24983,7 +25001,7 @@ export const useSimulateSsrAuthOracleSetSusdsData = /*#__PURE__*/ createUseSimul
 export const useWatchSsrAuthOracle = /*#__PURE__*/ createUseWatchContractEvent({
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `eventName` set to `"RoleAdminChanged"`
@@ -24997,7 +25015,7 @@ export const useWatchSsrAuthOracleRoleAdminChanged = /*#__PURE__*/ createUseWatc
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   eventName: 'RoleAdminChanged'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `eventName` set to `"RoleGranted"`
@@ -25011,7 +25029,7 @@ export const useWatchSsrAuthOracleRoleGranted = /*#__PURE__*/ createUseWatchCont
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   eventName: 'RoleGranted'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `eventName` set to `"RoleRevoked"`
@@ -25025,7 +25043,7 @@ export const useWatchSsrAuthOracleRoleRevoked = /*#__PURE__*/ createUseWatchCont
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   eventName: 'RoleRevoked'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `eventName` set to `"SetMaxSSR"`
@@ -25039,7 +25057,7 @@ export const useWatchSsrAuthOracleSetMaxSsr = /*#__PURE__*/ createUseWatchContra
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   eventName: 'SetMaxSSR'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ssrAuthOracleAbi}__ and `eventName` set to `"SetSUSDSData"`
@@ -25053,7 +25071,7 @@ export const useWatchSsrAuthOracleSetSusdsData = /*#__PURE__*/ createUseWatchCon
   abi: ssrAuthOracleAbi,
   address: ssrAuthOracleAddress,
   eventName: 'SetSUSDSData'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsAbi}__
@@ -25063,7 +25081,7 @@ export const useWatchSsrAuthOracleSetSusdsData = /*#__PURE__*/ createUseWatchCon
 export const useWatchStUsds = /*#__PURE__*/ createUseWatchContractEvent({
   abi: stUsdsAbi,
   address: stUsdsAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsAbi}__ and `eventName` set to `"Upgraded"`
@@ -25074,7 +25092,7 @@ export const useWatchStUsdsUpgraded = /*#__PURE__*/ createUseWatchContractEvent(
   abi: stUsdsAbi,
   address: stUsdsAddress,
   eventName: 'Upgraded'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__
@@ -25084,7 +25102,7 @@ export const useWatchStUsdsUpgraded = /*#__PURE__*/ createUseWatchContractEvent(
 export const useReadStUsdsImplementation = /*#__PURE__*/ createUseReadContract({
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"DOMAIN_SEPARATOR"`
@@ -25095,7 +25113,7 @@ export const useReadStUsdsImplementationDomainSeparator = /*#__PURE__*/ createUs
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'DOMAIN_SEPARATOR'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"PERMIT_TYPEHASH"`
@@ -25106,7 +25124,7 @@ export const useReadStUsdsImplementationPermitTypehash = /*#__PURE__*/ createUse
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'PERMIT_TYPEHASH'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"UPGRADE_INTERFACE_VERSION"`
@@ -25117,7 +25135,7 @@ export const useReadStUsdsImplementationUpgradeInterfaceVersion = /*#__PURE__*/ 
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'UPGRADE_INTERFACE_VERSION'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"allowance"`
@@ -25128,7 +25146,7 @@ export const useReadStUsdsImplementationAllowance = /*#__PURE__*/ createUseReadC
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'allowance'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"asset"`
@@ -25139,7 +25157,7 @@ export const useReadStUsdsImplementationAsset = /*#__PURE__*/ createUseReadContr
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'asset'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"balanceOf"`
@@ -25150,7 +25168,7 @@ export const useReadStUsdsImplementationBalanceOf = /*#__PURE__*/ createUseReadC
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'balanceOf'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"cap"`
@@ -25161,7 +25179,7 @@ export const useReadStUsdsImplementationCap = /*#__PURE__*/ createUseReadContrac
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'cap'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"chi"`
@@ -25172,7 +25190,7 @@ export const useReadStUsdsImplementationChi = /*#__PURE__*/ createUseReadContrac
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'chi'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"clip"`
@@ -25183,7 +25201,7 @@ export const useReadStUsdsImplementationClip = /*#__PURE__*/ createUseReadContra
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'clip'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"convertToAssets"`
@@ -25194,7 +25212,7 @@ export const useReadStUsdsImplementationConvertToAssets = /*#__PURE__*/ createUs
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'convertToAssets'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"convertToShares"`
@@ -25205,7 +25223,7 @@ export const useReadStUsdsImplementationConvertToShares = /*#__PURE__*/ createUs
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'convertToShares'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"decimals"`
@@ -25216,7 +25234,7 @@ export const useReadStUsdsImplementationDecimals = /*#__PURE__*/ createUseReadCo
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'decimals'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"getImplementation"`
@@ -25227,7 +25245,7 @@ export const useReadStUsdsImplementationGetImplementation = /*#__PURE__*/ create
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'getImplementation'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"ilk"`
@@ -25238,7 +25256,7 @@ export const useReadStUsdsImplementationIlk = /*#__PURE__*/ createUseReadContrac
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'ilk'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"jug"`
@@ -25249,7 +25267,7 @@ export const useReadStUsdsImplementationJug = /*#__PURE__*/ createUseReadContrac
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'jug'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"line"`
@@ -25260,7 +25278,7 @@ export const useReadStUsdsImplementationLine = /*#__PURE__*/ createUseReadContra
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'line'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"maxDeposit"`
@@ -25271,7 +25289,7 @@ export const useReadStUsdsImplementationMaxDeposit = /*#__PURE__*/ createUseRead
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'maxDeposit'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"maxMint"`
@@ -25282,7 +25300,7 @@ export const useReadStUsdsImplementationMaxMint = /*#__PURE__*/ createUseReadCon
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'maxMint'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"maxRedeem"`
@@ -25293,7 +25311,7 @@ export const useReadStUsdsImplementationMaxRedeem = /*#__PURE__*/ createUseReadC
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'maxRedeem'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"maxWithdraw"`
@@ -25304,7 +25322,7 @@ export const useReadStUsdsImplementationMaxWithdraw = /*#__PURE__*/ createUseRea
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'maxWithdraw'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"name"`
@@ -25315,7 +25333,7 @@ export const useReadStUsdsImplementationName = /*#__PURE__*/ createUseReadContra
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'name'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"nonces"`
@@ -25326,7 +25344,7 @@ export const useReadStUsdsImplementationNonces = /*#__PURE__*/ createUseReadCont
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'nonces'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"previewDeposit"`
@@ -25337,7 +25355,7 @@ export const useReadStUsdsImplementationPreviewDeposit = /*#__PURE__*/ createUse
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'previewDeposit'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"previewMint"`
@@ -25348,7 +25366,7 @@ export const useReadStUsdsImplementationPreviewMint = /*#__PURE__*/ createUseRea
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'previewMint'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"previewRedeem"`
@@ -25359,7 +25377,7 @@ export const useReadStUsdsImplementationPreviewRedeem = /*#__PURE__*/ createUseR
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'previewRedeem'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"previewWithdraw"`
@@ -25370,7 +25388,7 @@ export const useReadStUsdsImplementationPreviewWithdraw = /*#__PURE__*/ createUs
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'previewWithdraw'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"proxiableUUID"`
@@ -25381,7 +25399,7 @@ export const useReadStUsdsImplementationProxiableUuid = /*#__PURE__*/ createUseR
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'proxiableUUID'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"rho"`
@@ -25392,7 +25410,7 @@ export const useReadStUsdsImplementationRho = /*#__PURE__*/ createUseReadContrac
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'rho'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"str"`
@@ -25403,7 +25421,7 @@ export const useReadStUsdsImplementationStr = /*#__PURE__*/ createUseReadContrac
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'str'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"symbol"`
@@ -25414,7 +25432,7 @@ export const useReadStUsdsImplementationSymbol = /*#__PURE__*/ createUseReadCont
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'symbol'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"totalAssets"`
@@ -25425,7 +25443,7 @@ export const useReadStUsdsImplementationTotalAssets = /*#__PURE__*/ createUseRea
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'totalAssets'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"totalSupply"`
@@ -25436,7 +25454,7 @@ export const useReadStUsdsImplementationTotalSupply = /*#__PURE__*/ createUseRea
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'totalSupply'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"usds"`
@@ -25447,7 +25465,7 @@ export const useReadStUsdsImplementationUsds = /*#__PURE__*/ createUseReadContra
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'usds'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"usdsJoin"`
@@ -25458,7 +25476,7 @@ export const useReadStUsdsImplementationUsdsJoin = /*#__PURE__*/ createUseReadCo
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'usdsJoin'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"vat"`
@@ -25469,7 +25487,7 @@ export const useReadStUsdsImplementationVat = /*#__PURE__*/ createUseReadContrac
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'vat'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"version"`
@@ -25480,7 +25498,7 @@ export const useReadStUsdsImplementationVersion = /*#__PURE__*/ createUseReadCon
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'version'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"vow"`
@@ -25491,7 +25509,7 @@ export const useReadStUsdsImplementationVow = /*#__PURE__*/ createUseReadContrac
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'vow'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"wards"`
@@ -25502,7 +25520,7 @@ export const useReadStUsdsImplementationWards = /*#__PURE__*/ createUseReadContr
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'wards'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__
@@ -25512,7 +25530,7 @@ export const useReadStUsdsImplementationWards = /*#__PURE__*/ createUseReadContr
 export const useWriteStUsdsImplementation = /*#__PURE__*/ createUseWriteContract({
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"approve"`
@@ -25523,7 +25541,7 @@ export const useWriteStUsdsImplementationApprove = /*#__PURE__*/ createUseWriteC
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'approve'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"cut"`
@@ -25534,7 +25552,7 @@ export const useWriteStUsdsImplementationCut = /*#__PURE__*/ createUseWriteContr
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'cut'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"deny"`
@@ -25545,7 +25563,7 @@ export const useWriteStUsdsImplementationDeny = /*#__PURE__*/ createUseWriteCont
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"deposit"`
@@ -25556,7 +25574,7 @@ export const useWriteStUsdsImplementationDeposit = /*#__PURE__*/ createUseWriteC
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'deposit'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"drip"`
@@ -25567,7 +25585,7 @@ export const useWriteStUsdsImplementationDrip = /*#__PURE__*/ createUseWriteCont
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'drip'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"file"`
@@ -25578,7 +25596,7 @@ export const useWriteStUsdsImplementationFile = /*#__PURE__*/ createUseWriteCont
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'file'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"initialize"`
@@ -25589,7 +25607,7 @@ export const useWriteStUsdsImplementationInitialize = /*#__PURE__*/ createUseWri
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'initialize'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"mint"`
@@ -25600,7 +25618,7 @@ export const useWriteStUsdsImplementationMint = /*#__PURE__*/ createUseWriteCont
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'mint'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"permit"`
@@ -25611,7 +25629,7 @@ export const useWriteStUsdsImplementationPermit = /*#__PURE__*/ createUseWriteCo
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'permit'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"redeem"`
@@ -25622,7 +25640,7 @@ export const useWriteStUsdsImplementationRedeem = /*#__PURE__*/ createUseWriteCo
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'redeem'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"rely"`
@@ -25633,7 +25651,7 @@ export const useWriteStUsdsImplementationRely = /*#__PURE__*/ createUseWriteCont
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"transfer"`
@@ -25644,7 +25662,7 @@ export const useWriteStUsdsImplementationTransfer = /*#__PURE__*/ createUseWrite
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'transfer'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"transferFrom"`
@@ -25655,7 +25673,7 @@ export const useWriteStUsdsImplementationTransferFrom = /*#__PURE__*/ createUseW
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'transferFrom'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"upgradeToAndCall"`
@@ -25666,7 +25684,7 @@ export const useWriteStUsdsImplementationUpgradeToAndCall = /*#__PURE__*/ create
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'upgradeToAndCall'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"withdraw"`
@@ -25677,7 +25695,7 @@ export const useWriteStUsdsImplementationWithdraw = /*#__PURE__*/ createUseWrite
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'withdraw'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__
@@ -25687,7 +25705,7 @@ export const useWriteStUsdsImplementationWithdraw = /*#__PURE__*/ createUseWrite
 export const useSimulateStUsdsImplementation = /*#__PURE__*/ createUseSimulateContract({
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"approve"`
@@ -25698,7 +25716,7 @@ export const useSimulateStUsdsImplementationApprove = /*#__PURE__*/ createUseSim
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'approve'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"cut"`
@@ -25709,7 +25727,7 @@ export const useSimulateStUsdsImplementationCut = /*#__PURE__*/ createUseSimulat
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'cut'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"deny"`
@@ -25720,7 +25738,7 @@ export const useSimulateStUsdsImplementationDeny = /*#__PURE__*/ createUseSimula
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"deposit"`
@@ -25731,7 +25749,7 @@ export const useSimulateStUsdsImplementationDeposit = /*#__PURE__*/ createUseSim
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'deposit'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"drip"`
@@ -25742,7 +25760,7 @@ export const useSimulateStUsdsImplementationDrip = /*#__PURE__*/ createUseSimula
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'drip'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"file"`
@@ -25753,7 +25771,7 @@ export const useSimulateStUsdsImplementationFile = /*#__PURE__*/ createUseSimula
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'file'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"initialize"`
@@ -25764,7 +25782,7 @@ export const useSimulateStUsdsImplementationInitialize = /*#__PURE__*/ createUse
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'initialize'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"mint"`
@@ -25775,7 +25793,7 @@ export const useSimulateStUsdsImplementationMint = /*#__PURE__*/ createUseSimula
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'mint'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"permit"`
@@ -25786,7 +25804,7 @@ export const useSimulateStUsdsImplementationPermit = /*#__PURE__*/ createUseSimu
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'permit'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"redeem"`
@@ -25797,7 +25815,7 @@ export const useSimulateStUsdsImplementationRedeem = /*#__PURE__*/ createUseSimu
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'redeem'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"rely"`
@@ -25808,7 +25826,7 @@ export const useSimulateStUsdsImplementationRely = /*#__PURE__*/ createUseSimula
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"transfer"`
@@ -25819,7 +25837,7 @@ export const useSimulateStUsdsImplementationTransfer = /*#__PURE__*/ createUseSi
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'transfer'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"transferFrom"`
@@ -25830,7 +25848,7 @@ export const useSimulateStUsdsImplementationTransferFrom = /*#__PURE__*/ createU
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'transferFrom'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"upgradeToAndCall"`
@@ -25841,7 +25859,7 @@ export const useSimulateStUsdsImplementationUpgradeToAndCall = /*#__PURE__*/ cre
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'upgradeToAndCall'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `functionName` set to `"withdraw"`
@@ -25852,7 +25870,7 @@ export const useSimulateStUsdsImplementationWithdraw = /*#__PURE__*/ createUseSi
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   functionName: 'withdraw'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__
@@ -25862,7 +25880,7 @@ export const useSimulateStUsdsImplementationWithdraw = /*#__PURE__*/ createUseSi
 export const useWatchStUsdsImplementation = /*#__PURE__*/ createUseWatchContractEvent({
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `eventName` set to `"Approval"`
@@ -25873,7 +25891,7 @@ export const useWatchStUsdsImplementationApproval = /*#__PURE__*/ createUseWatch
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   eventName: 'Approval'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `eventName` set to `"Cut"`
@@ -25884,7 +25902,7 @@ export const useWatchStUsdsImplementationCut = /*#__PURE__*/ createUseWatchContr
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   eventName: 'Cut'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `eventName` set to `"Deny"`
@@ -25895,7 +25913,7 @@ export const useWatchStUsdsImplementationDeny = /*#__PURE__*/ createUseWatchCont
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   eventName: 'Deny'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `eventName` set to `"Deposit"`
@@ -25906,7 +25924,7 @@ export const useWatchStUsdsImplementationDeposit = /*#__PURE__*/ createUseWatchC
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   eventName: 'Deposit'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `eventName` set to `"Drip"`
@@ -25917,7 +25935,7 @@ export const useWatchStUsdsImplementationDrip = /*#__PURE__*/ createUseWatchCont
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   eventName: 'Drip'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `eventName` set to `"File"`
@@ -25928,7 +25946,7 @@ export const useWatchStUsdsImplementationFile = /*#__PURE__*/ createUseWatchCont
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   eventName: 'File'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `eventName` set to `"Initialized"`
@@ -25939,7 +25957,7 @@ export const useWatchStUsdsImplementationInitialized = /*#__PURE__*/ createUseWa
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   eventName: 'Initialized'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `eventName` set to `"Referral"`
@@ -25950,7 +25968,7 @@ export const useWatchStUsdsImplementationReferral = /*#__PURE__*/ createUseWatch
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   eventName: 'Referral'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `eventName` set to `"Rely"`
@@ -25961,7 +25979,7 @@ export const useWatchStUsdsImplementationRely = /*#__PURE__*/ createUseWatchCont
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   eventName: 'Rely'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `eventName` set to `"Transfer"`
@@ -25972,7 +25990,7 @@ export const useWatchStUsdsImplementationTransfer = /*#__PURE__*/ createUseWatch
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   eventName: 'Transfer'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `eventName` set to `"Upgraded"`
@@ -25983,7 +26001,7 @@ export const useWatchStUsdsImplementationUpgraded = /*#__PURE__*/ createUseWatch
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   eventName: 'Upgraded'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stUsdsImplementationAbi}__ and `eventName` set to `"Withdraw"`
@@ -25994,7 +26012,7 @@ export const useWatchStUsdsImplementationWithdraw = /*#__PURE__*/ createUseWatch
   abi: stUsdsImplementationAbi,
   address: stUsdsImplementationAddress,
   eventName: 'Withdraw'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__
@@ -26004,7 +26022,7 @@ export const useWatchStUsdsImplementationWithdraw = /*#__PURE__*/ createUseWatch
 export const useReadStakeModule = /*#__PURE__*/ createUseReadContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"farms"`
@@ -26015,7 +26033,7 @@ export const useReadStakeModuleFarms = /*#__PURE__*/ createUseReadContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'farms'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"fee"`
@@ -26026,7 +26044,7 @@ export const useReadStakeModuleFee = /*#__PURE__*/ createUseReadContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'fee'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"ilk"`
@@ -26037,7 +26055,7 @@ export const useReadStakeModuleIlk = /*#__PURE__*/ createUseReadContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'ilk'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"isUrnAuth"`
@@ -26048,7 +26066,7 @@ export const useReadStakeModuleIsUrnAuth = /*#__PURE__*/ createUseReadContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'isUrnAuth'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"jug"`
@@ -26059,7 +26077,7 @@ export const useReadStakeModuleJug = /*#__PURE__*/ createUseReadContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'jug'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"lssky"`
@@ -26070,7 +26088,7 @@ export const useReadStakeModuleLssky = /*#__PURE__*/ createUseReadContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'lssky'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"ownerUrns"`
@@ -26081,7 +26099,7 @@ export const useReadStakeModuleOwnerUrns = /*#__PURE__*/ createUseReadContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'ownerUrns'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"ownerUrnsCount"`
@@ -26092,7 +26110,7 @@ export const useReadStakeModuleOwnerUrnsCount = /*#__PURE__*/ createUseReadContr
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'ownerUrnsCount'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"sky"`
@@ -26103,7 +26121,7 @@ export const useReadStakeModuleSky = /*#__PURE__*/ createUseReadContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'sky'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"urnAuctions"`
@@ -26114,7 +26132,7 @@ export const useReadStakeModuleUrnAuctions = /*#__PURE__*/ createUseReadContract
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'urnAuctions'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"urnCan"`
@@ -26125,7 +26143,7 @@ export const useReadStakeModuleUrnCan = /*#__PURE__*/ createUseReadContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'urnCan'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"urnFarms"`
@@ -26136,7 +26154,7 @@ export const useReadStakeModuleUrnFarms = /*#__PURE__*/ createUseReadContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'urnFarms'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"urnImplementation"`
@@ -26147,7 +26165,7 @@ export const useReadStakeModuleUrnImplementation = /*#__PURE__*/ createUseReadCo
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'urnImplementation'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"urnOwners"`
@@ -26158,7 +26176,7 @@ export const useReadStakeModuleUrnOwners = /*#__PURE__*/ createUseReadContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'urnOwners'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"urnVoteDelegates"`
@@ -26169,7 +26187,7 @@ export const useReadStakeModuleUrnVoteDelegates = /*#__PURE__*/ createUseReadCon
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'urnVoteDelegates'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"usds"`
@@ -26180,7 +26198,7 @@ export const useReadStakeModuleUsds = /*#__PURE__*/ createUseReadContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'usds'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"usdsJoin"`
@@ -26191,7 +26209,7 @@ export const useReadStakeModuleUsdsJoin = /*#__PURE__*/ createUseReadContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'usdsJoin'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"vat"`
@@ -26202,7 +26220,7 @@ export const useReadStakeModuleVat = /*#__PURE__*/ createUseReadContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'vat'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"voteDelegateFactory"`
@@ -26213,7 +26231,7 @@ export const useReadStakeModuleVoteDelegateFactory = /*#__PURE__*/ createUseRead
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'voteDelegateFactory'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"wards"`
@@ -26224,7 +26242,7 @@ export const useReadStakeModuleWards = /*#__PURE__*/ createUseReadContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'wards'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__
@@ -26234,7 +26252,7 @@ export const useReadStakeModuleWards = /*#__PURE__*/ createUseReadContract({
 export const useWriteStakeModule = /*#__PURE__*/ createUseWriteContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"addFarm"`
@@ -26245,7 +26263,7 @@ export const useWriteStakeModuleAddFarm = /*#__PURE__*/ createUseWriteContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'addFarm'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"delFarm"`
@@ -26256,7 +26274,7 @@ export const useWriteStakeModuleDelFarm = /*#__PURE__*/ createUseWriteContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'delFarm'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"deny"`
@@ -26267,7 +26285,7 @@ export const useWriteStakeModuleDeny = /*#__PURE__*/ createUseWriteContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"draw"`
@@ -26278,7 +26296,7 @@ export const useWriteStakeModuleDraw = /*#__PURE__*/ createUseWriteContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'draw'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"file"`
@@ -26289,7 +26307,7 @@ export const useWriteStakeModuleFile = /*#__PURE__*/ createUseWriteContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'file'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"free"`
@@ -26300,7 +26318,7 @@ export const useWriteStakeModuleFree = /*#__PURE__*/ createUseWriteContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'free'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"freeNoFee"`
@@ -26311,7 +26329,7 @@ export const useWriteStakeModuleFreeNoFee = /*#__PURE__*/ createUseWriteContract
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'freeNoFee'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"getReward"`
@@ -26322,7 +26340,7 @@ export const useWriteStakeModuleGetReward = /*#__PURE__*/ createUseWriteContract
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'getReward'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"hope"`
@@ -26333,7 +26351,7 @@ export const useWriteStakeModuleHope = /*#__PURE__*/ createUseWriteContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'hope'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"lock"`
@@ -26344,7 +26362,7 @@ export const useWriteStakeModuleLock = /*#__PURE__*/ createUseWriteContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'lock'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"multicall"`
@@ -26355,7 +26373,7 @@ export const useWriteStakeModuleMulticall = /*#__PURE__*/ createUseWriteContract
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'multicall'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"nope"`
@@ -26366,7 +26384,7 @@ export const useWriteStakeModuleNope = /*#__PURE__*/ createUseWriteContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'nope'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"onKick"`
@@ -26377,7 +26395,7 @@ export const useWriteStakeModuleOnKick = /*#__PURE__*/ createUseWriteContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'onKick'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"onRemove"`
@@ -26388,7 +26406,7 @@ export const useWriteStakeModuleOnRemove = /*#__PURE__*/ createUseWriteContract(
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'onRemove'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"onTake"`
@@ -26399,7 +26417,7 @@ export const useWriteStakeModuleOnTake = /*#__PURE__*/ createUseWriteContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'onTake'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"open"`
@@ -26410,7 +26428,7 @@ export const useWriteStakeModuleOpen = /*#__PURE__*/ createUseWriteContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'open'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"rely"`
@@ -26421,7 +26439,7 @@ export const useWriteStakeModuleRely = /*#__PURE__*/ createUseWriteContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"selectFarm"`
@@ -26432,7 +26450,7 @@ export const useWriteStakeModuleSelectFarm = /*#__PURE__*/ createUseWriteContrac
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'selectFarm'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"selectVoteDelegate"`
@@ -26443,7 +26461,7 @@ export const useWriteStakeModuleSelectVoteDelegate = /*#__PURE__*/ createUseWrit
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'selectVoteDelegate'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"wipe"`
@@ -26454,7 +26472,7 @@ export const useWriteStakeModuleWipe = /*#__PURE__*/ createUseWriteContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'wipe'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"wipeAll"`
@@ -26465,7 +26483,7 @@ export const useWriteStakeModuleWipeAll = /*#__PURE__*/ createUseWriteContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'wipeAll'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__
@@ -26475,7 +26493,7 @@ export const useWriteStakeModuleWipeAll = /*#__PURE__*/ createUseWriteContract({
 export const useSimulateStakeModule = /*#__PURE__*/ createUseSimulateContract({
   abi: stakeModuleAbi,
   address: stakeModuleAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"addFarm"`
@@ -26486,7 +26504,7 @@ export const useSimulateStakeModuleAddFarm = /*#__PURE__*/ createUseSimulateCont
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'addFarm'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"delFarm"`
@@ -26497,7 +26515,7 @@ export const useSimulateStakeModuleDelFarm = /*#__PURE__*/ createUseSimulateCont
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'delFarm'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"deny"`
@@ -26508,7 +26526,7 @@ export const useSimulateStakeModuleDeny = /*#__PURE__*/ createUseSimulateContrac
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'deny'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"draw"`
@@ -26519,7 +26537,7 @@ export const useSimulateStakeModuleDraw = /*#__PURE__*/ createUseSimulateContrac
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'draw'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"file"`
@@ -26530,7 +26548,7 @@ export const useSimulateStakeModuleFile = /*#__PURE__*/ createUseSimulateContrac
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'file'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"free"`
@@ -26541,7 +26559,7 @@ export const useSimulateStakeModuleFree = /*#__PURE__*/ createUseSimulateContrac
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'free'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"freeNoFee"`
@@ -26552,7 +26570,7 @@ export const useSimulateStakeModuleFreeNoFee = /*#__PURE__*/ createUseSimulateCo
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'freeNoFee'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"getReward"`
@@ -26563,7 +26581,7 @@ export const useSimulateStakeModuleGetReward = /*#__PURE__*/ createUseSimulateCo
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'getReward'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"hope"`
@@ -26574,7 +26592,7 @@ export const useSimulateStakeModuleHope = /*#__PURE__*/ createUseSimulateContrac
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'hope'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"lock"`
@@ -26585,7 +26603,7 @@ export const useSimulateStakeModuleLock = /*#__PURE__*/ createUseSimulateContrac
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'lock'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"multicall"`
@@ -26596,7 +26614,7 @@ export const useSimulateStakeModuleMulticall = /*#__PURE__*/ createUseSimulateCo
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'multicall'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"nope"`
@@ -26607,7 +26625,7 @@ export const useSimulateStakeModuleNope = /*#__PURE__*/ createUseSimulateContrac
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'nope'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"onKick"`
@@ -26618,7 +26636,7 @@ export const useSimulateStakeModuleOnKick = /*#__PURE__*/ createUseSimulateContr
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'onKick'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"onRemove"`
@@ -26629,7 +26647,7 @@ export const useSimulateStakeModuleOnRemove = /*#__PURE__*/ createUseSimulateCon
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'onRemove'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"onTake"`
@@ -26640,7 +26658,7 @@ export const useSimulateStakeModuleOnTake = /*#__PURE__*/ createUseSimulateContr
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'onTake'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"open"`
@@ -26651,7 +26669,7 @@ export const useSimulateStakeModuleOpen = /*#__PURE__*/ createUseSimulateContrac
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'open'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"rely"`
@@ -26662,7 +26680,7 @@ export const useSimulateStakeModuleRely = /*#__PURE__*/ createUseSimulateContrac
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'rely'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"selectFarm"`
@@ -26673,7 +26691,7 @@ export const useSimulateStakeModuleSelectFarm = /*#__PURE__*/ createUseSimulateC
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'selectFarm'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"selectVoteDelegate"`
@@ -26684,7 +26702,7 @@ export const useSimulateStakeModuleSelectVoteDelegate = /*#__PURE__*/ createUseS
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'selectVoteDelegate'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"wipe"`
@@ -26695,7 +26713,7 @@ export const useSimulateStakeModuleWipe = /*#__PURE__*/ createUseSimulateContrac
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'wipe'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link stakeModuleAbi}__ and `functionName` set to `"wipeAll"`
@@ -26706,7 +26724,7 @@ export const useSimulateStakeModuleWipeAll = /*#__PURE__*/ createUseSimulateCont
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   functionName: 'wipeAll'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__
@@ -26716,7 +26734,7 @@ export const useSimulateStakeModuleWipeAll = /*#__PURE__*/ createUseSimulateCont
 export const useWatchStakeModule = /*#__PURE__*/ createUseWatchContractEvent({
   abi: stakeModuleAbi,
   address: stakeModuleAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"AddFarm"`
@@ -26727,7 +26745,7 @@ export const useWatchStakeModuleAddFarm = /*#__PURE__*/ createUseWatchContractEv
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   eventName: 'AddFarm'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"DelFarm"`
@@ -26738,7 +26756,7 @@ export const useWatchStakeModuleDelFarm = /*#__PURE__*/ createUseWatchContractEv
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   eventName: 'DelFarm'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"Deny"`
@@ -26749,7 +26767,7 @@ export const useWatchStakeModuleDeny = /*#__PURE__*/ createUseWatchContractEvent
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   eventName: 'Deny'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"Draw"`
@@ -26760,7 +26778,7 @@ export const useWatchStakeModuleDraw = /*#__PURE__*/ createUseWatchContractEvent
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   eventName: 'Draw'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"File"`
@@ -26771,7 +26789,7 @@ export const useWatchStakeModuleFile = /*#__PURE__*/ createUseWatchContractEvent
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   eventName: 'File'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"Free"`
@@ -26782,7 +26800,7 @@ export const useWatchStakeModuleFree = /*#__PURE__*/ createUseWatchContractEvent
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   eventName: 'Free'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"FreeNoFee"`
@@ -26793,7 +26811,7 @@ export const useWatchStakeModuleFreeNoFee = /*#__PURE__*/ createUseWatchContract
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   eventName: 'FreeNoFee'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"GetReward"`
@@ -26804,7 +26822,7 @@ export const useWatchStakeModuleGetReward = /*#__PURE__*/ createUseWatchContract
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   eventName: 'GetReward'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"Hope"`
@@ -26815,7 +26833,7 @@ export const useWatchStakeModuleHope = /*#__PURE__*/ createUseWatchContractEvent
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   eventName: 'Hope'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"Lock"`
@@ -26826,7 +26844,7 @@ export const useWatchStakeModuleLock = /*#__PURE__*/ createUseWatchContractEvent
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   eventName: 'Lock'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"Nope"`
@@ -26837,7 +26855,7 @@ export const useWatchStakeModuleNope = /*#__PURE__*/ createUseWatchContractEvent
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   eventName: 'Nope'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"OnKick"`
@@ -26848,7 +26866,7 @@ export const useWatchStakeModuleOnKick = /*#__PURE__*/ createUseWatchContractEve
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   eventName: 'OnKick'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"OnRemove"`
@@ -26859,7 +26877,7 @@ export const useWatchStakeModuleOnRemove = /*#__PURE__*/ createUseWatchContractE
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   eventName: 'OnRemove'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"OnTake"`
@@ -26870,7 +26888,7 @@ export const useWatchStakeModuleOnTake = /*#__PURE__*/ createUseWatchContractEve
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   eventName: 'OnTake'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"Open"`
@@ -26881,7 +26899,7 @@ export const useWatchStakeModuleOpen = /*#__PURE__*/ createUseWatchContractEvent
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   eventName: 'Open'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"Rely"`
@@ -26892,7 +26910,7 @@ export const useWatchStakeModuleRely = /*#__PURE__*/ createUseWatchContractEvent
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   eventName: 'Rely'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"SelectFarm"`
@@ -26903,7 +26921,7 @@ export const useWatchStakeModuleSelectFarm = /*#__PURE__*/ createUseWatchContrac
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   eventName: 'SelectFarm'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"SelectVoteDelegate"`
@@ -26914,7 +26932,7 @@ export const useWatchStakeModuleSelectVoteDelegate = /*#__PURE__*/ createUseWatc
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   eventName: 'SelectVoteDelegate'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link stakeModuleAbi}__ and `eventName` set to `"Wipe"`
@@ -26925,14 +26943,14 @@ export const useWatchStakeModuleWipe = /*#__PURE__*/ createUseWatchContractEvent
   abi: stakeModuleAbi,
   address: stakeModuleAddress,
   eventName: 'Wipe'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdcAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48)
  */
-export const useReadUsdc = /*#__PURE__*/ createUseReadContract({ abi: usdcAbi, address: usdcAddress })
+export const useReadUsdc = /*#__PURE__*/ createUseReadContract({ abi: usdcAbi, address: usdcAddress });
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdcAbi}__ and `functionName` set to `"implementation"`
@@ -26943,7 +26961,7 @@ export const useReadUsdcImplementation = /*#__PURE__*/ createUseReadContract({
   abi: usdcAbi,
   address: usdcAddress,
   functionName: 'implementation'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdcAbi}__ and `functionName` set to `"admin"`
@@ -26954,14 +26972,14 @@ export const useReadUsdcAdmin = /*#__PURE__*/ createUseReadContract({
   abi: usdcAbi,
   address: usdcAddress,
   functionName: 'admin'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdcAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48)
  */
-export const useWriteUsdc = /*#__PURE__*/ createUseWriteContract({ abi: usdcAbi, address: usdcAddress })
+export const useWriteUsdc = /*#__PURE__*/ createUseWriteContract({ abi: usdcAbi, address: usdcAddress });
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdcAbi}__ and `functionName` set to `"upgradeTo"`
@@ -26972,7 +26990,7 @@ export const useWriteUsdcUpgradeTo = /*#__PURE__*/ createUseWriteContract({
   abi: usdcAbi,
   address: usdcAddress,
   functionName: 'upgradeTo'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdcAbi}__ and `functionName` set to `"upgradeToAndCall"`
@@ -26983,7 +27001,7 @@ export const useWriteUsdcUpgradeToAndCall = /*#__PURE__*/ createUseWriteContract
   abi: usdcAbi,
   address: usdcAddress,
   functionName: 'upgradeToAndCall'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdcAbi}__ and `functionName` set to `"changeAdmin"`
@@ -26994,14 +27012,17 @@ export const useWriteUsdcChangeAdmin = /*#__PURE__*/ createUseWriteContract({
   abi: usdcAbi,
   address: usdcAddress,
   functionName: 'changeAdmin'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdcAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48)
  */
-export const useSimulateUsdc = /*#__PURE__*/ createUseSimulateContract({ abi: usdcAbi, address: usdcAddress })
+export const useSimulateUsdc = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdcAbi,
+  address: usdcAddress
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdcAbi}__ and `functionName` set to `"upgradeTo"`
@@ -27012,7 +27033,7 @@ export const useSimulateUsdcUpgradeTo = /*#__PURE__*/ createUseSimulateContract(
   abi: usdcAbi,
   address: usdcAddress,
   functionName: 'upgradeTo'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdcAbi}__ and `functionName` set to `"upgradeToAndCall"`
@@ -27023,7 +27044,7 @@ export const useSimulateUsdcUpgradeToAndCall = /*#__PURE__*/ createUseSimulateCo
   abi: usdcAbi,
   address: usdcAddress,
   functionName: 'upgradeToAndCall'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdcAbi}__ and `functionName` set to `"changeAdmin"`
@@ -27034,14 +27055,14 @@ export const useSimulateUsdcChangeAdmin = /*#__PURE__*/ createUseSimulateContrac
   abi: usdcAbi,
   address: usdcAddress,
   functionName: 'changeAdmin'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdcAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48)
  */
-export const useWatchUsdc = /*#__PURE__*/ createUseWatchContractEvent({ abi: usdcAbi, address: usdcAddress })
+export const useWatchUsdc = /*#__PURE__*/ createUseWatchContractEvent({ abi: usdcAbi, address: usdcAddress });
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdcAbi}__ and `eventName` set to `"AdminChanged"`
@@ -27052,7 +27073,7 @@ export const useWatchUsdcAdminChanged = /*#__PURE__*/ createUseWatchContractEven
   abi: usdcAbi,
   address: usdcAddress,
   eventName: 'AdminChanged'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdcAbi}__ and `eventName` set to `"Upgraded"`
@@ -27063,7 +27084,7 @@ export const useWatchUsdcUpgraded = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdcAbi,
   address: usdcAddress,
   eventName: 'Upgraded'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdcL2Abi}__
@@ -27073,7 +27094,7 @@ export const useWatchUsdcUpgraded = /*#__PURE__*/ createUseWatchContractEvent({
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
-export const useReadUsdcL2 = /*#__PURE__*/ createUseReadContract({ abi: usdcL2Abi, address: usdcL2Address })
+export const useReadUsdcL2 = /*#__PURE__*/ createUseReadContract({ abi: usdcL2Abi, address: usdcL2Address });
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdcL2Abi}__ and `functionName` set to `"admin"`
@@ -27087,7 +27108,7 @@ export const useReadUsdcL2Admin = /*#__PURE__*/ createUseReadContract({
   abi: usdcL2Abi,
   address: usdcL2Address,
   functionName: 'admin'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdcL2Abi}__ and `functionName` set to `"implementation"`
@@ -27101,7 +27122,7 @@ export const useReadUsdcL2Implementation = /*#__PURE__*/ createUseReadContract({
   abi: usdcL2Abi,
   address: usdcL2Address,
   functionName: 'implementation'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdcL2Abi}__
@@ -27111,7 +27132,10 @@ export const useReadUsdcL2Implementation = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
  */
-export const useWriteUsdcL2 = /*#__PURE__*/ createUseWriteContract({ abi: usdcL2Abi, address: usdcL2Address })
+export const useWriteUsdcL2 = /*#__PURE__*/ createUseWriteContract({
+  abi: usdcL2Abi,
+  address: usdcL2Address
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdcL2Abi}__ and `functionName` set to `"changeAdmin"`
@@ -27125,7 +27149,7 @@ export const useWriteUsdcL2ChangeAdmin = /*#__PURE__*/ createUseWriteContract({
   abi: usdcL2Abi,
   address: usdcL2Address,
   functionName: 'changeAdmin'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdcL2Abi}__ and `functionName` set to `"upgradeTo"`
@@ -27139,7 +27163,7 @@ export const useWriteUsdcL2UpgradeTo = /*#__PURE__*/ createUseWriteContract({
   abi: usdcL2Abi,
   address: usdcL2Address,
   functionName: 'upgradeTo'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdcL2Abi}__ and `functionName` set to `"upgradeToAndCall"`
@@ -27153,7 +27177,7 @@ export const useWriteUsdcL2UpgradeToAndCall = /*#__PURE__*/ createUseWriteContra
   abi: usdcL2Abi,
   address: usdcL2Address,
   functionName: 'upgradeToAndCall'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdcL2Abi}__
@@ -27166,7 +27190,7 @@ export const useWriteUsdcL2UpgradeToAndCall = /*#__PURE__*/ createUseWriteContra
 export const useSimulateUsdcL2 = /*#__PURE__*/ createUseSimulateContract({
   abi: usdcL2Abi,
   address: usdcL2Address
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdcL2Abi}__ and `functionName` set to `"changeAdmin"`
@@ -27180,7 +27204,7 @@ export const useSimulateUsdcL2ChangeAdmin = /*#__PURE__*/ createUseSimulateContr
   abi: usdcL2Abi,
   address: usdcL2Address,
   functionName: 'changeAdmin'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdcL2Abi}__ and `functionName` set to `"upgradeTo"`
@@ -27194,7 +27218,7 @@ export const useSimulateUsdcL2UpgradeTo = /*#__PURE__*/ createUseSimulateContrac
   abi: usdcL2Abi,
   address: usdcL2Address,
   functionName: 'upgradeTo'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdcL2Abi}__ and `functionName` set to `"upgradeToAndCall"`
@@ -27208,7 +27232,7 @@ export const useSimulateUsdcL2UpgradeToAndCall = /*#__PURE__*/ createUseSimulate
   abi: usdcL2Abi,
   address: usdcL2Address,
   functionName: 'upgradeToAndCall'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdcL2Abi}__
@@ -27221,7 +27245,7 @@ export const useSimulateUsdcL2UpgradeToAndCall = /*#__PURE__*/ createUseSimulate
 export const useWatchUsdcL2 = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdcL2Abi,
   address: usdcL2Address
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdcL2Abi}__ and `eventName` set to `"AdminChanged"`
@@ -27235,7 +27259,7 @@ export const useWatchUsdcL2AdminChanged = /*#__PURE__*/ createUseWatchContractEv
   abi: usdcL2Abi,
   address: usdcL2Address,
   eventName: 'AdminChanged'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdcL2Abi}__ and `eventName` set to `"Upgraded"`
@@ -27249,14 +27273,14 @@ export const useWatchUsdcL2Upgraded = /*#__PURE__*/ createUseWatchContractEvent(
   abi: usdcL2Abi,
   address: usdcL2Address,
   eventName: 'Upgraded'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xdC035D45d973E3EC169d2276DDab16f1e407384F)
  */
-export const useWatchUsds = /*#__PURE__*/ createUseWatchContractEvent({ abi: usdsAbi, address: usdsAddress })
+export const useWatchUsds = /*#__PURE__*/ createUseWatchContractEvent({ abi: usdsAbi, address: usdsAddress });
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsAbi}__ and `eventName` set to `"Upgraded"`
@@ -27267,7 +27291,7 @@ export const useWatchUsdsUpgraded = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdsAbi,
   address: usdsAddress,
   eventName: 'Upgraded'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsL2Abi}__
@@ -27280,7 +27304,7 @@ export const useWatchUsdsUpgraded = /*#__PURE__*/ createUseWatchContractEvent({
 export const useWatchUsdsL2 = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdsL2Abi,
   address: usdsL2Address
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsL2Abi}__ and `eventName` set to `"Upgraded"`
@@ -27294,7 +27318,7 @@ export const useWatchUsdsL2Upgraded = /*#__PURE__*/ createUseWatchContractEvent(
   abi: usdsL2Abi,
   address: usdsL2Address,
   eventName: 'Upgraded'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__
@@ -27304,7 +27328,7 @@ export const useWatchUsdsL2Upgraded = /*#__PURE__*/ createUseWatchContractEvent(
 export const useReadUsdsSkyReward = /*#__PURE__*/ createUseReadContract({
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"balanceOf"`
@@ -27315,7 +27339,7 @@ export const useReadUsdsSkyRewardBalanceOf = /*#__PURE__*/ createUseReadContract
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'balanceOf'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"earned"`
@@ -27326,7 +27350,7 @@ export const useReadUsdsSkyRewardEarned = /*#__PURE__*/ createUseReadContract({
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'earned'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"getRewardForDuration"`
@@ -27337,7 +27361,7 @@ export const useReadUsdsSkyRewardGetRewardForDuration = /*#__PURE__*/ createUseR
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'getRewardForDuration'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"lastPauseTime"`
@@ -27348,7 +27372,7 @@ export const useReadUsdsSkyRewardLastPauseTime = /*#__PURE__*/ createUseReadCont
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'lastPauseTime'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"lastTimeRewardApplicable"`
@@ -27359,7 +27383,7 @@ export const useReadUsdsSkyRewardLastTimeRewardApplicable = /*#__PURE__*/ create
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'lastTimeRewardApplicable'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"lastUpdateTime"`
@@ -27370,7 +27394,7 @@ export const useReadUsdsSkyRewardLastUpdateTime = /*#__PURE__*/ createUseReadCon
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'lastUpdateTime'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"nominatedOwner"`
@@ -27381,7 +27405,7 @@ export const useReadUsdsSkyRewardNominatedOwner = /*#__PURE__*/ createUseReadCon
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'nominatedOwner'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"owner"`
@@ -27392,7 +27416,7 @@ export const useReadUsdsSkyRewardOwner = /*#__PURE__*/ createUseReadContract({
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'owner'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"paused"`
@@ -27403,7 +27427,7 @@ export const useReadUsdsSkyRewardPaused = /*#__PURE__*/ createUseReadContract({
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'paused'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"periodFinish"`
@@ -27414,7 +27438,7 @@ export const useReadUsdsSkyRewardPeriodFinish = /*#__PURE__*/ createUseReadContr
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'periodFinish'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"rewardPerToken"`
@@ -27425,7 +27449,7 @@ export const useReadUsdsSkyRewardRewardPerToken = /*#__PURE__*/ createUseReadCon
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'rewardPerToken'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"rewardPerTokenStored"`
@@ -27436,7 +27460,7 @@ export const useReadUsdsSkyRewardRewardPerTokenStored = /*#__PURE__*/ createUseR
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'rewardPerTokenStored'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"rewardRate"`
@@ -27447,7 +27471,7 @@ export const useReadUsdsSkyRewardRewardRate = /*#__PURE__*/ createUseReadContrac
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'rewardRate'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"rewards"`
@@ -27458,7 +27482,7 @@ export const useReadUsdsSkyRewardRewards = /*#__PURE__*/ createUseReadContract({
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'rewards'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"rewardsDistribution"`
@@ -27469,7 +27493,7 @@ export const useReadUsdsSkyRewardRewardsDistribution = /*#__PURE__*/ createUseRe
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'rewardsDistribution'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"rewardsDuration"`
@@ -27480,7 +27504,7 @@ export const useReadUsdsSkyRewardRewardsDuration = /*#__PURE__*/ createUseReadCo
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'rewardsDuration'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"rewardsToken"`
@@ -27491,7 +27515,7 @@ export const useReadUsdsSkyRewardRewardsToken = /*#__PURE__*/ createUseReadContr
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'rewardsToken'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"stakingToken"`
@@ -27502,7 +27526,7 @@ export const useReadUsdsSkyRewardStakingToken = /*#__PURE__*/ createUseReadContr
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'stakingToken'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"totalSupply"`
@@ -27513,7 +27537,7 @@ export const useReadUsdsSkyRewardTotalSupply = /*#__PURE__*/ createUseReadContra
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'totalSupply'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"userRewardPerTokenPaid"`
@@ -27524,7 +27548,7 @@ export const useReadUsdsSkyRewardUserRewardPerTokenPaid = /*#__PURE__*/ createUs
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'userRewardPerTokenPaid'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__
@@ -27534,7 +27558,7 @@ export const useReadUsdsSkyRewardUserRewardPerTokenPaid = /*#__PURE__*/ createUs
 export const useWriteUsdsSkyReward = /*#__PURE__*/ createUseWriteContract({
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"acceptOwnership"`
@@ -27545,7 +27569,7 @@ export const useWriteUsdsSkyRewardAcceptOwnership = /*#__PURE__*/ createUseWrite
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'acceptOwnership'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"exit"`
@@ -27556,7 +27580,7 @@ export const useWriteUsdsSkyRewardExit = /*#__PURE__*/ createUseWriteContract({
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'exit'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"getReward"`
@@ -27567,7 +27591,7 @@ export const useWriteUsdsSkyRewardGetReward = /*#__PURE__*/ createUseWriteContra
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'getReward'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"nominateNewOwner"`
@@ -27578,7 +27602,7 @@ export const useWriteUsdsSkyRewardNominateNewOwner = /*#__PURE__*/ createUseWrit
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'nominateNewOwner'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"notifyRewardAmount"`
@@ -27589,7 +27613,7 @@ export const useWriteUsdsSkyRewardNotifyRewardAmount = /*#__PURE__*/ createUseWr
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'notifyRewardAmount'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"recoverERC20"`
@@ -27600,7 +27624,7 @@ export const useWriteUsdsSkyRewardRecoverErc20 = /*#__PURE__*/ createUseWriteCon
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'recoverERC20'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"setPaused"`
@@ -27611,7 +27635,7 @@ export const useWriteUsdsSkyRewardSetPaused = /*#__PURE__*/ createUseWriteContra
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'setPaused'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"setRewardsDistribution"`
@@ -27622,7 +27646,7 @@ export const useWriteUsdsSkyRewardSetRewardsDistribution = /*#__PURE__*/ createU
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'setRewardsDistribution'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"setRewardsDuration"`
@@ -27633,7 +27657,7 @@ export const useWriteUsdsSkyRewardSetRewardsDuration = /*#__PURE__*/ createUseWr
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'setRewardsDuration'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"stake"`
@@ -27644,7 +27668,7 @@ export const useWriteUsdsSkyRewardStake = /*#__PURE__*/ createUseWriteContract({
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'stake'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"withdraw"`
@@ -27655,7 +27679,7 @@ export const useWriteUsdsSkyRewardWithdraw = /*#__PURE__*/ createUseWriteContrac
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'withdraw'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__
@@ -27665,7 +27689,7 @@ export const useWriteUsdsSkyRewardWithdraw = /*#__PURE__*/ createUseWriteContrac
 export const useSimulateUsdsSkyReward = /*#__PURE__*/ createUseSimulateContract({
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"acceptOwnership"`
@@ -27676,7 +27700,7 @@ export const useSimulateUsdsSkyRewardAcceptOwnership = /*#__PURE__*/ createUseSi
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'acceptOwnership'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"exit"`
@@ -27687,7 +27711,7 @@ export const useSimulateUsdsSkyRewardExit = /*#__PURE__*/ createUseSimulateContr
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'exit'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"getReward"`
@@ -27698,7 +27722,7 @@ export const useSimulateUsdsSkyRewardGetReward = /*#__PURE__*/ createUseSimulate
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'getReward'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"nominateNewOwner"`
@@ -27709,7 +27733,7 @@ export const useSimulateUsdsSkyRewardNominateNewOwner = /*#__PURE__*/ createUseS
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'nominateNewOwner'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"notifyRewardAmount"`
@@ -27720,7 +27744,7 @@ export const useSimulateUsdsSkyRewardNotifyRewardAmount = /*#__PURE__*/ createUs
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'notifyRewardAmount'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"recoverERC20"`
@@ -27731,7 +27755,7 @@ export const useSimulateUsdsSkyRewardRecoverErc20 = /*#__PURE__*/ createUseSimul
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'recoverERC20'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"setPaused"`
@@ -27742,7 +27766,7 @@ export const useSimulateUsdsSkyRewardSetPaused = /*#__PURE__*/ createUseSimulate
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'setPaused'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"setRewardsDistribution"`
@@ -27753,7 +27777,7 @@ export const useSimulateUsdsSkyRewardSetRewardsDistribution = /*#__PURE__*/ crea
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'setRewardsDistribution'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"setRewardsDuration"`
@@ -27764,7 +27788,7 @@ export const useSimulateUsdsSkyRewardSetRewardsDuration = /*#__PURE__*/ createUs
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'setRewardsDuration'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"stake"`
@@ -27775,7 +27799,7 @@ export const useSimulateUsdsSkyRewardStake = /*#__PURE__*/ createUseSimulateCont
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'stake'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `functionName` set to `"withdraw"`
@@ -27786,7 +27810,7 @@ export const useSimulateUsdsSkyRewardWithdraw = /*#__PURE__*/ createUseSimulateC
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   functionName: 'withdraw'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSkyRewardAbi}__
@@ -27796,7 +27820,7 @@ export const useSimulateUsdsSkyRewardWithdraw = /*#__PURE__*/ createUseSimulateC
 export const useWatchUsdsSkyReward = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `eventName` set to `"OwnerChanged"`
@@ -27807,7 +27831,7 @@ export const useWatchUsdsSkyRewardOwnerChanged = /*#__PURE__*/ createUseWatchCon
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   eventName: 'OwnerChanged'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `eventName` set to `"OwnerNominated"`
@@ -27818,7 +27842,7 @@ export const useWatchUsdsSkyRewardOwnerNominated = /*#__PURE__*/ createUseWatchC
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   eventName: 'OwnerNominated'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `eventName` set to `"PauseChanged"`
@@ -27829,7 +27853,7 @@ export const useWatchUsdsSkyRewardPauseChanged = /*#__PURE__*/ createUseWatchCon
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   eventName: 'PauseChanged'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `eventName` set to `"Recovered"`
@@ -27840,7 +27864,7 @@ export const useWatchUsdsSkyRewardRecovered = /*#__PURE__*/ createUseWatchContra
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   eventName: 'Recovered'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `eventName` set to `"Referral"`
@@ -27851,7 +27875,7 @@ export const useWatchUsdsSkyRewardReferral = /*#__PURE__*/ createUseWatchContrac
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   eventName: 'Referral'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `eventName` set to `"RewardAdded"`
@@ -27862,7 +27886,7 @@ export const useWatchUsdsSkyRewardRewardAdded = /*#__PURE__*/ createUseWatchCont
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   eventName: 'RewardAdded'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `eventName` set to `"RewardPaid"`
@@ -27873,7 +27897,7 @@ export const useWatchUsdsSkyRewardRewardPaid = /*#__PURE__*/ createUseWatchContr
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   eventName: 'RewardPaid'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `eventName` set to `"RewardsDistributionUpdated"`
@@ -27884,7 +27908,7 @@ export const useWatchUsdsSkyRewardRewardsDistributionUpdated = /*#__PURE__*/ cre
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   eventName: 'RewardsDistributionUpdated'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `eventName` set to `"RewardsDurationUpdated"`
@@ -27895,7 +27919,7 @@ export const useWatchUsdsSkyRewardRewardsDurationUpdated = /*#__PURE__*/ createU
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   eventName: 'RewardsDurationUpdated'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `eventName` set to `"Staked"`
@@ -27906,7 +27930,7 @@ export const useWatchUsdsSkyRewardStaked = /*#__PURE__*/ createUseWatchContractE
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   eventName: 'Staked'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSkyRewardAbi}__ and `eventName` set to `"Withdrawn"`
@@ -27917,7 +27941,7 @@ export const useWatchUsdsSkyRewardWithdrawn = /*#__PURE__*/ createUseWatchContra
   abi: usdsSkyRewardAbi,
   address: usdsSkyRewardAddress,
   eventName: 'Withdrawn'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__
@@ -27927,7 +27951,7 @@ export const useWatchUsdsSkyRewardWithdrawn = /*#__PURE__*/ createUseWatchContra
 export const useReadUsdsSpkReward = /*#__PURE__*/ createUseReadContract({
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"balanceOf"`
@@ -27938,7 +27962,7 @@ export const useReadUsdsSpkRewardBalanceOf = /*#__PURE__*/ createUseReadContract
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'balanceOf'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"earned"`
@@ -27949,7 +27973,7 @@ export const useReadUsdsSpkRewardEarned = /*#__PURE__*/ createUseReadContract({
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'earned'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"getRewardForDuration"`
@@ -27960,7 +27984,7 @@ export const useReadUsdsSpkRewardGetRewardForDuration = /*#__PURE__*/ createUseR
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'getRewardForDuration'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"lastPauseTime"`
@@ -27971,7 +27995,7 @@ export const useReadUsdsSpkRewardLastPauseTime = /*#__PURE__*/ createUseReadCont
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'lastPauseTime'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"lastTimeRewardApplicable"`
@@ -27982,7 +28006,7 @@ export const useReadUsdsSpkRewardLastTimeRewardApplicable = /*#__PURE__*/ create
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'lastTimeRewardApplicable'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"lastUpdateTime"`
@@ -27993,7 +28017,7 @@ export const useReadUsdsSpkRewardLastUpdateTime = /*#__PURE__*/ createUseReadCon
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'lastUpdateTime'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"nominatedOwner"`
@@ -28004,7 +28028,7 @@ export const useReadUsdsSpkRewardNominatedOwner = /*#__PURE__*/ createUseReadCon
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'nominatedOwner'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"owner"`
@@ -28015,7 +28039,7 @@ export const useReadUsdsSpkRewardOwner = /*#__PURE__*/ createUseReadContract({
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'owner'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"paused"`
@@ -28026,7 +28050,7 @@ export const useReadUsdsSpkRewardPaused = /*#__PURE__*/ createUseReadContract({
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'paused'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"periodFinish"`
@@ -28037,7 +28061,7 @@ export const useReadUsdsSpkRewardPeriodFinish = /*#__PURE__*/ createUseReadContr
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'periodFinish'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"rewardPerToken"`
@@ -28048,7 +28072,7 @@ export const useReadUsdsSpkRewardRewardPerToken = /*#__PURE__*/ createUseReadCon
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'rewardPerToken'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"rewardPerTokenStored"`
@@ -28059,7 +28083,7 @@ export const useReadUsdsSpkRewardRewardPerTokenStored = /*#__PURE__*/ createUseR
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'rewardPerTokenStored'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"rewardRate"`
@@ -28070,7 +28094,7 @@ export const useReadUsdsSpkRewardRewardRate = /*#__PURE__*/ createUseReadContrac
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'rewardRate'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"rewards"`
@@ -28081,7 +28105,7 @@ export const useReadUsdsSpkRewardRewards = /*#__PURE__*/ createUseReadContract({
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'rewards'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"rewardsDistribution"`
@@ -28092,7 +28116,7 @@ export const useReadUsdsSpkRewardRewardsDistribution = /*#__PURE__*/ createUseRe
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'rewardsDistribution'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"rewardsDuration"`
@@ -28103,7 +28127,7 @@ export const useReadUsdsSpkRewardRewardsDuration = /*#__PURE__*/ createUseReadCo
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'rewardsDuration'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"rewardsToken"`
@@ -28114,7 +28138,7 @@ export const useReadUsdsSpkRewardRewardsToken = /*#__PURE__*/ createUseReadContr
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'rewardsToken'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"stakingToken"`
@@ -28125,7 +28149,7 @@ export const useReadUsdsSpkRewardStakingToken = /*#__PURE__*/ createUseReadContr
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'stakingToken'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"totalSupply"`
@@ -28136,7 +28160,7 @@ export const useReadUsdsSpkRewardTotalSupply = /*#__PURE__*/ createUseReadContra
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'totalSupply'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"userRewardPerTokenPaid"`
@@ -28147,7 +28171,7 @@ export const useReadUsdsSpkRewardUserRewardPerTokenPaid = /*#__PURE__*/ createUs
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'userRewardPerTokenPaid'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__
@@ -28157,7 +28181,7 @@ export const useReadUsdsSpkRewardUserRewardPerTokenPaid = /*#__PURE__*/ createUs
 export const useWriteUsdsSpkReward = /*#__PURE__*/ createUseWriteContract({
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"acceptOwnership"`
@@ -28168,7 +28192,7 @@ export const useWriteUsdsSpkRewardAcceptOwnership = /*#__PURE__*/ createUseWrite
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'acceptOwnership'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"exit"`
@@ -28179,7 +28203,7 @@ export const useWriteUsdsSpkRewardExit = /*#__PURE__*/ createUseWriteContract({
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'exit'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"getReward"`
@@ -28190,7 +28214,7 @@ export const useWriteUsdsSpkRewardGetReward = /*#__PURE__*/ createUseWriteContra
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'getReward'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"nominateNewOwner"`
@@ -28201,7 +28225,7 @@ export const useWriteUsdsSpkRewardNominateNewOwner = /*#__PURE__*/ createUseWrit
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'nominateNewOwner'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"notifyRewardAmount"`
@@ -28212,7 +28236,7 @@ export const useWriteUsdsSpkRewardNotifyRewardAmount = /*#__PURE__*/ createUseWr
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'notifyRewardAmount'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"recoverERC20"`
@@ -28223,7 +28247,7 @@ export const useWriteUsdsSpkRewardRecoverErc20 = /*#__PURE__*/ createUseWriteCon
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'recoverERC20'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"setPaused"`
@@ -28234,7 +28258,7 @@ export const useWriteUsdsSpkRewardSetPaused = /*#__PURE__*/ createUseWriteContra
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'setPaused'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"setRewardsDistribution"`
@@ -28245,7 +28269,7 @@ export const useWriteUsdsSpkRewardSetRewardsDistribution = /*#__PURE__*/ createU
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'setRewardsDistribution'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"setRewardsDuration"`
@@ -28256,7 +28280,7 @@ export const useWriteUsdsSpkRewardSetRewardsDuration = /*#__PURE__*/ createUseWr
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'setRewardsDuration'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"stake"`
@@ -28267,7 +28291,7 @@ export const useWriteUsdsSpkRewardStake = /*#__PURE__*/ createUseWriteContract({
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'stake'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"withdraw"`
@@ -28278,7 +28302,7 @@ export const useWriteUsdsSpkRewardWithdraw = /*#__PURE__*/ createUseWriteContrac
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'withdraw'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__
@@ -28288,7 +28312,7 @@ export const useWriteUsdsSpkRewardWithdraw = /*#__PURE__*/ createUseWriteContrac
 export const useSimulateUsdsSpkReward = /*#__PURE__*/ createUseSimulateContract({
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"acceptOwnership"`
@@ -28299,7 +28323,7 @@ export const useSimulateUsdsSpkRewardAcceptOwnership = /*#__PURE__*/ createUseSi
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'acceptOwnership'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"exit"`
@@ -28310,7 +28334,7 @@ export const useSimulateUsdsSpkRewardExit = /*#__PURE__*/ createUseSimulateContr
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'exit'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"getReward"`
@@ -28321,7 +28345,7 @@ export const useSimulateUsdsSpkRewardGetReward = /*#__PURE__*/ createUseSimulate
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'getReward'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"nominateNewOwner"`
@@ -28332,7 +28356,7 @@ export const useSimulateUsdsSpkRewardNominateNewOwner = /*#__PURE__*/ createUseS
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'nominateNewOwner'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"notifyRewardAmount"`
@@ -28343,7 +28367,7 @@ export const useSimulateUsdsSpkRewardNotifyRewardAmount = /*#__PURE__*/ createUs
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'notifyRewardAmount'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"recoverERC20"`
@@ -28354,7 +28378,7 @@ export const useSimulateUsdsSpkRewardRecoverErc20 = /*#__PURE__*/ createUseSimul
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'recoverERC20'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"setPaused"`
@@ -28365,7 +28389,7 @@ export const useSimulateUsdsSpkRewardSetPaused = /*#__PURE__*/ createUseSimulate
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'setPaused'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"setRewardsDistribution"`
@@ -28376,7 +28400,7 @@ export const useSimulateUsdsSpkRewardSetRewardsDistribution = /*#__PURE__*/ crea
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'setRewardsDistribution'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"setRewardsDuration"`
@@ -28387,7 +28411,7 @@ export const useSimulateUsdsSpkRewardSetRewardsDuration = /*#__PURE__*/ createUs
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'setRewardsDuration'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"stake"`
@@ -28398,7 +28422,7 @@ export const useSimulateUsdsSpkRewardStake = /*#__PURE__*/ createUseSimulateCont
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'stake'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `functionName` set to `"withdraw"`
@@ -28409,7 +28433,7 @@ export const useSimulateUsdsSpkRewardWithdraw = /*#__PURE__*/ createUseSimulateC
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   functionName: 'withdraw'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSpkRewardAbi}__
@@ -28419,7 +28443,7 @@ export const useSimulateUsdsSpkRewardWithdraw = /*#__PURE__*/ createUseSimulateC
 export const useWatchUsdsSpkReward = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `eventName` set to `"OwnerChanged"`
@@ -28430,7 +28454,7 @@ export const useWatchUsdsSpkRewardOwnerChanged = /*#__PURE__*/ createUseWatchCon
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   eventName: 'OwnerChanged'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `eventName` set to `"OwnerNominated"`
@@ -28441,7 +28465,7 @@ export const useWatchUsdsSpkRewardOwnerNominated = /*#__PURE__*/ createUseWatchC
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   eventName: 'OwnerNominated'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `eventName` set to `"PauseChanged"`
@@ -28452,7 +28476,7 @@ export const useWatchUsdsSpkRewardPauseChanged = /*#__PURE__*/ createUseWatchCon
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   eventName: 'PauseChanged'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `eventName` set to `"Recovered"`
@@ -28463,7 +28487,7 @@ export const useWatchUsdsSpkRewardRecovered = /*#__PURE__*/ createUseWatchContra
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   eventName: 'Recovered'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `eventName` set to `"Referral"`
@@ -28474,7 +28498,7 @@ export const useWatchUsdsSpkRewardReferral = /*#__PURE__*/ createUseWatchContrac
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   eventName: 'Referral'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `eventName` set to `"RewardAdded"`
@@ -28485,7 +28509,7 @@ export const useWatchUsdsSpkRewardRewardAdded = /*#__PURE__*/ createUseWatchCont
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   eventName: 'RewardAdded'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `eventName` set to `"RewardPaid"`
@@ -28496,7 +28520,7 @@ export const useWatchUsdsSpkRewardRewardPaid = /*#__PURE__*/ createUseWatchContr
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   eventName: 'RewardPaid'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `eventName` set to `"RewardsDistributionUpdated"`
@@ -28507,7 +28531,7 @@ export const useWatchUsdsSpkRewardRewardsDistributionUpdated = /*#__PURE__*/ cre
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   eventName: 'RewardsDistributionUpdated'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `eventName` set to `"RewardsDurationUpdated"`
@@ -28518,7 +28542,7 @@ export const useWatchUsdsSpkRewardRewardsDurationUpdated = /*#__PURE__*/ createU
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   eventName: 'RewardsDurationUpdated'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `eventName` set to `"Staked"`
@@ -28529,7 +28553,7 @@ export const useWatchUsdsSpkRewardStaked = /*#__PURE__*/ createUseWatchContractE
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   eventName: 'Staked'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdsSpkRewardAbi}__ and `eventName` set to `"Withdrawn"`
@@ -28540,7 +28564,7 @@ export const useWatchUsdsSpkRewardWithdrawn = /*#__PURE__*/ createUseWatchContra
   abi: usdsSpkRewardAbi,
   address: usdsSpkRewardAddress,
   eventName: 'Withdrawn'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__
@@ -28549,7 +28573,7 @@ export const useWatchUsdsSpkRewardWithdrawn = /*#__PURE__*/ createUseWatchContra
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
-export const useReadUsdt = /*#__PURE__*/ createUseReadContract({ abi: usdtAbi, address: usdtAddress })
+export const useReadUsdt = /*#__PURE__*/ createUseReadContract({ abi: usdtAbi, address: usdtAddress });
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"name"`
@@ -28562,7 +28586,7 @@ export const useReadUsdtName = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'name'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"deprecated"`
@@ -28575,7 +28599,7 @@ export const useReadUsdtDeprecated = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'deprecated'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"totalSupply"`
@@ -28588,7 +28612,7 @@ export const useReadUsdtTotalSupply = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'totalSupply'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"upgradedAddress"`
@@ -28601,7 +28625,7 @@ export const useReadUsdtUpgradedAddress = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'upgradedAddress'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"balances"`
@@ -28614,7 +28638,7 @@ export const useReadUsdtBalances = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'balances'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"decimals"`
@@ -28627,7 +28651,7 @@ export const useReadUsdtDecimals = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'decimals'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"maximumFee"`
@@ -28640,7 +28664,7 @@ export const useReadUsdtMaximumFee = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'maximumFee'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"_totalSupply"`
@@ -28653,7 +28677,7 @@ export const useReadUsdtTotalSupply_2 = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: '_totalSupply'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"getBlackListStatus"`
@@ -28666,7 +28690,7 @@ export const useReadUsdtGetBlackListStatus = /*#__PURE__*/ createUseReadContract
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'getBlackListStatus'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"allowed"`
@@ -28679,7 +28703,7 @@ export const useReadUsdtAllowed = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'allowed'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"paused"`
@@ -28692,7 +28716,7 @@ export const useReadUsdtPaused = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'paused'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"balanceOf"`
@@ -28705,7 +28729,7 @@ export const useReadUsdtBalanceOf = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'balanceOf'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"getOwner"`
@@ -28718,7 +28742,7 @@ export const useReadUsdtGetOwner = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'getOwner'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"owner"`
@@ -28731,7 +28755,7 @@ export const useReadUsdtOwner = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'owner'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"symbol"`
@@ -28744,7 +28768,7 @@ export const useReadUsdtSymbol = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'symbol'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"allowance"`
@@ -28757,7 +28781,7 @@ export const useReadUsdtAllowance = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'allowance'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"basisPointsRate"`
@@ -28770,7 +28794,7 @@ export const useReadUsdtBasisPointsRate = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'basisPointsRate'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"isBlackListed"`
@@ -28783,7 +28807,7 @@ export const useReadUsdtIsBlackListed = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'isBlackListed'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"MAX_UINT"`
@@ -28796,7 +28820,7 @@ export const useReadUsdtMaxUint = /*#__PURE__*/ createUseReadContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'MAX_UINT'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__
@@ -28805,7 +28829,7 @@ export const useReadUsdtMaxUint = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
-export const useWriteUsdt = /*#__PURE__*/ createUseWriteContract({ abi: usdtAbi, address: usdtAddress })
+export const useWriteUsdt = /*#__PURE__*/ createUseWriteContract({ abi: usdtAbi, address: usdtAddress });
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"deprecate"`
@@ -28818,7 +28842,7 @@ export const useWriteUsdtDeprecate = /*#__PURE__*/ createUseWriteContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'deprecate'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"approve"`
@@ -28831,7 +28855,7 @@ export const useWriteUsdtApprove = /*#__PURE__*/ createUseWriteContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'approve'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"addBlackList"`
@@ -28844,7 +28868,7 @@ export const useWriteUsdtAddBlackList = /*#__PURE__*/ createUseWriteContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'addBlackList'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"transferFrom"`
@@ -28857,7 +28881,7 @@ export const useWriteUsdtTransferFrom = /*#__PURE__*/ createUseWriteContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'transferFrom'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"unpause"`
@@ -28870,7 +28894,7 @@ export const useWriteUsdtUnpause = /*#__PURE__*/ createUseWriteContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'unpause'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"pause"`
@@ -28883,7 +28907,7 @@ export const useWriteUsdtPause = /*#__PURE__*/ createUseWriteContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'pause'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"transfer"`
@@ -28896,7 +28920,7 @@ export const useWriteUsdtTransfer = /*#__PURE__*/ createUseWriteContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'transfer'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"setParams"`
@@ -28909,7 +28933,7 @@ export const useWriteUsdtSetParams = /*#__PURE__*/ createUseWriteContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'setParams'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"issue"`
@@ -28922,7 +28946,7 @@ export const useWriteUsdtIssue = /*#__PURE__*/ createUseWriteContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'issue'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"redeem"`
@@ -28935,7 +28959,7 @@ export const useWriteUsdtRedeem = /*#__PURE__*/ createUseWriteContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'redeem'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"removeBlackList"`
@@ -28948,7 +28972,7 @@ export const useWriteUsdtRemoveBlackList = /*#__PURE__*/ createUseWriteContract(
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'removeBlackList'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"transferOwnership"`
@@ -28961,7 +28985,7 @@ export const useWriteUsdtTransferOwnership = /*#__PURE__*/ createUseWriteContrac
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'transferOwnership'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"destroyBlackFunds"`
@@ -28974,7 +28998,7 @@ export const useWriteUsdtDestroyBlackFunds = /*#__PURE__*/ createUseWriteContrac
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'destroyBlackFunds'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__
@@ -28983,7 +29007,10 @@ export const useWriteUsdtDestroyBlackFunds = /*#__PURE__*/ createUseWriteContrac
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
-export const useSimulateUsdt = /*#__PURE__*/ createUseSimulateContract({ abi: usdtAbi, address: usdtAddress })
+export const useSimulateUsdt = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdtAbi,
+  address: usdtAddress
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"deprecate"`
@@ -28996,7 +29023,7 @@ export const useSimulateUsdtDeprecate = /*#__PURE__*/ createUseSimulateContract(
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'deprecate'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"approve"`
@@ -29009,7 +29036,7 @@ export const useSimulateUsdtApprove = /*#__PURE__*/ createUseSimulateContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'approve'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"addBlackList"`
@@ -29022,7 +29049,7 @@ export const useSimulateUsdtAddBlackList = /*#__PURE__*/ createUseSimulateContra
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'addBlackList'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"transferFrom"`
@@ -29035,7 +29062,7 @@ export const useSimulateUsdtTransferFrom = /*#__PURE__*/ createUseSimulateContra
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'transferFrom'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"unpause"`
@@ -29048,7 +29075,7 @@ export const useSimulateUsdtUnpause = /*#__PURE__*/ createUseSimulateContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'unpause'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"pause"`
@@ -29061,7 +29088,7 @@ export const useSimulateUsdtPause = /*#__PURE__*/ createUseSimulateContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'pause'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"transfer"`
@@ -29074,7 +29101,7 @@ export const useSimulateUsdtTransfer = /*#__PURE__*/ createUseSimulateContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'transfer'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"setParams"`
@@ -29087,7 +29114,7 @@ export const useSimulateUsdtSetParams = /*#__PURE__*/ createUseSimulateContract(
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'setParams'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"issue"`
@@ -29100,7 +29127,7 @@ export const useSimulateUsdtIssue = /*#__PURE__*/ createUseSimulateContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'issue'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"redeem"`
@@ -29113,7 +29140,7 @@ export const useSimulateUsdtRedeem = /*#__PURE__*/ createUseSimulateContract({
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'redeem'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"removeBlackList"`
@@ -29126,7 +29153,7 @@ export const useSimulateUsdtRemoveBlackList = /*#__PURE__*/ createUseSimulateCon
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'removeBlackList'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"transferOwnership"`
@@ -29139,7 +29166,7 @@ export const useSimulateUsdtTransferOwnership = /*#__PURE__*/ createUseSimulateC
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'transferOwnership'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtAbi}__ and `functionName` set to `"destroyBlackFunds"`
@@ -29152,7 +29179,7 @@ export const useSimulateUsdtDestroyBlackFunds = /*#__PURE__*/ createUseSimulateC
   abi: usdtAbi,
   address: usdtAddress,
   functionName: 'destroyBlackFunds'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtAbi}__
@@ -29161,7 +29188,7 @@ export const useSimulateUsdtDestroyBlackFunds = /*#__PURE__*/ createUseSimulateC
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9)
  */
-export const useWatchUsdt = /*#__PURE__*/ createUseWatchContractEvent({ abi: usdtAbi, address: usdtAddress })
+export const useWatchUsdt = /*#__PURE__*/ createUseWatchContractEvent({ abi: usdtAbi, address: usdtAddress });
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtAbi}__ and `eventName` set to `"Issue"`
@@ -29174,7 +29201,7 @@ export const useWatchUsdtIssue = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdtAbi,
   address: usdtAddress,
   eventName: 'Issue'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtAbi}__ and `eventName` set to `"Redeem"`
@@ -29187,7 +29214,7 @@ export const useWatchUsdtRedeem = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdtAbi,
   address: usdtAddress,
   eventName: 'Redeem'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtAbi}__ and `eventName` set to `"Deprecate"`
@@ -29200,7 +29227,7 @@ export const useWatchUsdtDeprecate = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdtAbi,
   address: usdtAddress,
   eventName: 'Deprecate'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtAbi}__ and `eventName` set to `"Params"`
@@ -29213,7 +29240,7 @@ export const useWatchUsdtParams = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdtAbi,
   address: usdtAddress,
   eventName: 'Params'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtAbi}__ and `eventName` set to `"DestroyedBlackFunds"`
@@ -29226,7 +29253,7 @@ export const useWatchUsdtDestroyedBlackFunds = /*#__PURE__*/ createUseWatchContr
   abi: usdtAbi,
   address: usdtAddress,
   eventName: 'DestroyedBlackFunds'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtAbi}__ and `eventName` set to `"AddedBlackList"`
@@ -29239,7 +29266,7 @@ export const useWatchUsdtAddedBlackList = /*#__PURE__*/ createUseWatchContractEv
   abi: usdtAbi,
   address: usdtAddress,
   eventName: 'AddedBlackList'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtAbi}__ and `eventName` set to `"RemovedBlackList"`
@@ -29252,7 +29279,7 @@ export const useWatchUsdtRemovedBlackList = /*#__PURE__*/ createUseWatchContract
   abi: usdtAbi,
   address: usdtAddress,
   eventName: 'RemovedBlackList'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtAbi}__ and `eventName` set to `"Approval"`
@@ -29265,7 +29292,7 @@ export const useWatchUsdtApproval = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdtAbi,
   address: usdtAddress,
   eventName: 'Approval'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtAbi}__ and `eventName` set to `"Transfer"`
@@ -29278,7 +29305,7 @@ export const useWatchUsdtTransfer = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdtAbi,
   address: usdtAddress,
   eventName: 'Transfer'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtAbi}__ and `eventName` set to `"Pause"`
@@ -29291,7 +29318,7 @@ export const useWatchUsdtPause = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdtAbi,
   address: usdtAddress,
   eventName: 'Pause'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtAbi}__ and `eventName` set to `"Unpause"`
@@ -29304,7 +29331,7 @@ export const useWatchUsdtUnpause = /*#__PURE__*/ createUseWatchContractEvent({
   abi: usdtAbi,
   address: usdtAddress,
   eventName: 'Unpause'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link wethAbi}__
@@ -29313,7 +29340,7 @@ export const useWatchUsdtUnpause = /*#__PURE__*/ createUseWatchContractEvent({
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
-export const useReadWeth = /*#__PURE__*/ createUseReadContract({ abi: wethAbi, address: wethAddress })
+export const useReadWeth = /*#__PURE__*/ createUseReadContract({ abi: wethAbi, address: wethAddress });
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"name"`
@@ -29326,7 +29353,7 @@ export const useReadWethName = /*#__PURE__*/ createUseReadContract({
   abi: wethAbi,
   address: wethAddress,
   functionName: 'name'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"totalSupply"`
@@ -29339,7 +29366,7 @@ export const useReadWethTotalSupply = /*#__PURE__*/ createUseReadContract({
   abi: wethAbi,
   address: wethAddress,
   functionName: 'totalSupply'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"decimals"`
@@ -29352,7 +29379,7 @@ export const useReadWethDecimals = /*#__PURE__*/ createUseReadContract({
   abi: wethAbi,
   address: wethAddress,
   functionName: 'decimals'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"balanceOf"`
@@ -29365,7 +29392,7 @@ export const useReadWethBalanceOf = /*#__PURE__*/ createUseReadContract({
   abi: wethAbi,
   address: wethAddress,
   functionName: 'balanceOf'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"symbol"`
@@ -29378,7 +29405,7 @@ export const useReadWethSymbol = /*#__PURE__*/ createUseReadContract({
   abi: wethAbi,
   address: wethAddress,
   functionName: 'symbol'
-})
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"allowance"`
@@ -29391,7 +29418,7 @@ export const useReadWethAllowance = /*#__PURE__*/ createUseReadContract({
   abi: wethAbi,
   address: wethAddress,
   functionName: 'allowance'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wethAbi}__
@@ -29400,7 +29427,7 @@ export const useReadWethAllowance = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
-export const useWriteWeth = /*#__PURE__*/ createUseWriteContract({ abi: wethAbi, address: wethAddress })
+export const useWriteWeth = /*#__PURE__*/ createUseWriteContract({ abi: wethAbi, address: wethAddress });
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"approve"`
@@ -29413,7 +29440,7 @@ export const useWriteWethApprove = /*#__PURE__*/ createUseWriteContract({
   abi: wethAbi,
   address: wethAddress,
   functionName: 'approve'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"transferFrom"`
@@ -29426,7 +29453,7 @@ export const useWriteWethTransferFrom = /*#__PURE__*/ createUseWriteContract({
   abi: wethAbi,
   address: wethAddress,
   functionName: 'transferFrom'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"withdraw"`
@@ -29439,7 +29466,7 @@ export const useWriteWethWithdraw = /*#__PURE__*/ createUseWriteContract({
   abi: wethAbi,
   address: wethAddress,
   functionName: 'withdraw'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"transfer"`
@@ -29452,7 +29479,7 @@ export const useWriteWethTransfer = /*#__PURE__*/ createUseWriteContract({
   abi: wethAbi,
   address: wethAddress,
   functionName: 'transfer'
-})
+});
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"deposit"`
@@ -29465,7 +29492,7 @@ export const useWriteWethDeposit = /*#__PURE__*/ createUseWriteContract({
   abi: wethAbi,
   address: wethAddress,
   functionName: 'deposit'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wethAbi}__
@@ -29474,7 +29501,10 @@ export const useWriteWethDeposit = /*#__PURE__*/ createUseWriteContract({
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
-export const useSimulateWeth = /*#__PURE__*/ createUseSimulateContract({ abi: wethAbi, address: wethAddress })
+export const useSimulateWeth = /*#__PURE__*/ createUseSimulateContract({
+  abi: wethAbi,
+  address: wethAddress
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"approve"`
@@ -29487,7 +29517,7 @@ export const useSimulateWethApprove = /*#__PURE__*/ createUseSimulateContract({
   abi: wethAbi,
   address: wethAddress,
   functionName: 'approve'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"transferFrom"`
@@ -29500,7 +29530,7 @@ export const useSimulateWethTransferFrom = /*#__PURE__*/ createUseSimulateContra
   abi: wethAbi,
   address: wethAddress,
   functionName: 'transferFrom'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"withdraw"`
@@ -29513,7 +29543,7 @@ export const useSimulateWethWithdraw = /*#__PURE__*/ createUseSimulateContract({
   abi: wethAbi,
   address: wethAddress,
   functionName: 'withdraw'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"transfer"`
@@ -29526,7 +29556,7 @@ export const useSimulateWethTransfer = /*#__PURE__*/ createUseSimulateContract({
   abi: wethAbi,
   address: wethAddress,
   functionName: 'transfer'
-})
+});
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wethAbi}__ and `functionName` set to `"deposit"`
@@ -29539,7 +29569,7 @@ export const useSimulateWethDeposit = /*#__PURE__*/ createUseSimulateContract({
   abi: wethAbi,
   address: wethAddress,
   functionName: 'deposit'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wethAbi}__
@@ -29548,7 +29578,7 @@ export const useSimulateWethDeposit = /*#__PURE__*/ createUseSimulateContract({
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4200000000000000000000000000000000000006)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
  */
-export const useWatchWeth = /*#__PURE__*/ createUseWatchContractEvent({ abi: wethAbi, address: wethAddress })
+export const useWatchWeth = /*#__PURE__*/ createUseWatchContractEvent({ abi: wethAbi, address: wethAddress });
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wethAbi}__ and `eventName` set to `"Approval"`
@@ -29561,7 +29591,7 @@ export const useWatchWethApproval = /*#__PURE__*/ createUseWatchContractEvent({
   abi: wethAbi,
   address: wethAddress,
   eventName: 'Approval'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wethAbi}__ and `eventName` set to `"Transfer"`
@@ -29574,7 +29604,7 @@ export const useWatchWethTransfer = /*#__PURE__*/ createUseWatchContractEvent({
   abi: wethAbi,
   address: wethAddress,
   eventName: 'Transfer'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wethAbi}__ and `eventName` set to `"Deposit"`
@@ -29587,7 +29617,7 @@ export const useWatchWethDeposit = /*#__PURE__*/ createUseWatchContractEvent({
   abi: wethAbi,
   address: wethAddress,
   eventName: 'Deposit'
-})
+});
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wethAbi}__ and `eventName` set to `"Withdrawal"`
@@ -29600,4 +29630,4 @@ export const useWatchWethWithdrawal = /*#__PURE__*/ createUseWatchContractEvent(
   abi: wethAbi,
   address: wethAddress,
   eventName: 'Withdrawal'
-})
+});
