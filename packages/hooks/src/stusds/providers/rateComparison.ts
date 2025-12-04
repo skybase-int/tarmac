@@ -121,7 +121,8 @@ export function compareRates(
   let betterProvider: StUsdsProviderType | null = null;
 
   if (isSignificant) {
-    betterProvider = differencePercent > 0 ? ('curve' as StUsdsProviderType) : ('native' as StUsdsProviderType);
+    betterProvider =
+      differencePercent > 0 ? ('curve' as StUsdsProviderType) : ('native' as StUsdsProviderType);
   }
 
   return {
@@ -129,16 +130,4 @@ export function compareRates(
     differencePercent,
     isSignificantDifference: isSignificant
   };
-}
-
-/**
- * Apply a buffer percentage to an amount (for price movement protection).
- *
- * @param amount - Original amount
- * @param bufferBps - Buffer in basis points to subtract
- * @returns Amount reduced by the buffer percentage
- */
-export function applyBuffer(amount: bigint, bufferBps: number): bigint {
-  const bufferMultiplier = RATE_PRECISION.BPS_DIVISOR - BigInt(bufferBps);
-  return (amount * bufferMultiplier) / RATE_PRECISION.BPS_DIVISOR;
 }

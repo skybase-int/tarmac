@@ -151,7 +151,10 @@ export function useCurveStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvide
     }
 
     // Check for excessive price impact
-    if (quoteData.priceImpactBps > STUSDS_PROVIDER_CONFIG.maxSlippageBps) {
+    // Note: Price impact threshold is separate from slippage tolerance.
+    // Price impact measures how the trade affects pool price (size-dependent),
+    // while slippage is the acceptable deviation during execution (time-dependent).
+    if (quoteData.priceImpactBps > STUSDS_PROVIDER_CONFIG.maxPriceImpactBps) {
       isValid = false;
       invalidReason = 'Price impact too high';
     }

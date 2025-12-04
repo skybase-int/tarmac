@@ -172,8 +172,15 @@ export type StUsdsProviderSelectionResult = {
 export type StUsdsRateComparisonConfig = {
   /** Minimum rate difference (basis points) to prefer one provider over another */
   rateSwitchThresholdBps: number;
-  /** Maximum acceptable slippage for swaps (basis points) */
+  /**
+   * Maximum acceptable slippage for swaps (basis points).
+   * Slippage = deviation from quoted price during execution due to price movement.
+   */
   maxSlippageBps: number;
-  /** Buffer to apply on quotes for price movement protection (basis points) */
-  quoteBufferBps: number;
+  /**
+   * Maximum acceptable price impact for swaps (basis points).
+   * Price impact = how much the trade size affects the pool price.
+   * Typically higher than slippage as larger trades naturally have more impact.
+   */
+  maxPriceImpactBps: number;
 };
