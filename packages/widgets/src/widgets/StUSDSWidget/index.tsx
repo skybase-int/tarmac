@@ -166,17 +166,16 @@ const StUSDSWidgetWrapped = ({
 
   const remainingCapacityBuffered = capacityData?.remainingCapacityBuffered || 0n;
 
-  // Use provider-aware max amounts when available
-  const maxSupplyAmount = providerSelection.selectedQuote?.isValid
-    ? providerSelection.selectedProvider === StUsdsProviderType.CURVE
-      ? (providerSelection.curveProvider?.state?.maxDeposit ?? remainingCapacityBuffered)
-      : (providerSelection.nativeProvider?.state?.maxDeposit ?? remainingCapacityBuffered)
-    : remainingCapacityBuffered;
+  // Use provider-aware max amounts based on selected provider
+  // When Curve is selected, use Curve's limits; when native is selected, use native limits
+  const isCurveSelected = providerSelection.selectedProvider === StUsdsProviderType.CURVE;
 
-  const maxWithdrawAmount = providerSelection.selectedQuote?.isValid
-    ? providerSelection.selectedProvider === StUsdsProviderType.CURVE
-      ? (providerSelection.curveProvider?.state?.maxWithdraw ?? stUsdsData?.userMaxWithdrawBuffered ?? 0n)
-      : (stUsdsData?.userMaxWithdrawBuffered ?? 0n)
+  const maxSupplyAmount = isCurveSelected
+    ? (providerSelection.curveProvider?.state?.maxDeposit ?? undefined)
+    : (providerSelection.nativeProvider?.state?.maxDeposit ?? remainingCapacityBuffered);
+
+  const maxWithdrawAmount = isCurveSelected
+    ? (providerSelection.curveProvider?.state?.maxWithdraw ?? stUsdsData?.userMaxWithdrawBuffered ?? 0n)
     : (stUsdsData?.userMaxWithdrawBuffered ?? 0n);
 
   const isSupplyBalanceError =

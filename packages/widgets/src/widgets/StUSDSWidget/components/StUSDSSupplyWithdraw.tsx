@@ -246,8 +246,8 @@ export const StUSDSSupplyWithdraw = ({
               disabled={isSupplyDisabled}
               showGauge={true}
             />
-            {/* Provider indicator - show when Curve is being used */}
-            {providerSelection && !isProviderLoading && amount > 0n && (
+            {/* Provider indicator - show when Curve is selected or when native is blocked */}
+            {providerSelection && !isProviderLoading && isCurveSelected && (
               <div className="mt-2 px-1">
                 <ProviderIndicator
                   selectedProvider={providerSelection.selectedProvider}
@@ -255,6 +255,7 @@ export const StUSDSSupplyWithdraw = ({
                   rateDifferencePercent={providerSelection.rateDifferencePercent}
                   flow={StUSDSFlow.SUPPLY}
                   isLoading={isProviderLoading}
+                  nativeBlockedReason={providerSelection.nativeProvider?.state?.errorMessage}
                 />
               </div>
             )}
@@ -265,13 +266,6 @@ export const StUSDSSupplyWithdraw = ({
                   Both native and Curve routes are unavailable. Deposits are temporarily unavailable.
                 </Text>
               </div>
-            ) : !isStUsdsDataLoading && remainingCapacityBuffered === 0n && !isCurveSelected ? (
-              <div className="mt-2 ml-3 flex items-start text-amber-400">
-                <PopoverRateInfo type="remainingCapacity" iconClassName="mt-1 shrink-0" />
-                <Text variant="small" className="mb-1 ml-2 flex gap-2">
-                  Native supply capacity reached. Using Curve pool.
-                </Text>
-              </div>
             ) : !isStUsdsDataLoading && !isCurveSelected && userBalanceExceedsCapacity ? (
               <div className="mt-2 ml-3 flex items-start text-white">
                 <PopoverRateInfo type="remainingCapacity" iconClassName="mt-1 shrink-0" />
@@ -279,9 +273,9 @@ export const StUSDSSupplyWithdraw = ({
                   You cannot supply your full balance due to current capacity limits.
                 </Text>
               </div>
-            ) : (
+            ) : !isCurveSelected ? (
               <div className="mb-4" />
-            )}
+            ) : null}
             {tabIndex === 0 && onDisclaimerChange && nstBalance !== undefined && nstBalance > 0n && (
               <div className="flex items-center px-3 pt-1">
                 <Checkbox
@@ -338,8 +332,8 @@ export const StUSDSSupplyWithdraw = ({
               disabled={isWithdrawDisabled}
               showGauge={true}
             />
-            {/* Provider indicator - show when Curve is being used */}
-            {providerSelection && !isProviderLoading && amount > 0n && (
+            {/* Provider indicator - show when Curve is selected or when native is blocked */}
+            {providerSelection && !isProviderLoading && isCurveSelected && (
               <div className="mt-2 px-1">
                 <ProviderIndicator
                   selectedProvider={providerSelection.selectedProvider}
@@ -347,6 +341,7 @@ export const StUSDSSupplyWithdraw = ({
                   rateDifferencePercent={providerSelection.rateDifferencePercent}
                   flow={StUSDSFlow.WITHDRAW}
                   isLoading={isProviderLoading}
+                  nativeBlockedReason={providerSelection.nativeProvider?.state?.errorMessage}
                 />
               </div>
             )}
@@ -357,13 +352,6 @@ export const StUSDSSupplyWithdraw = ({
                   Both native and Curve routes are unavailable. Withdrawals are temporarily unavailable.
                 </Text>
               </div>
-            ) : !isStUsdsDataLoading && availableLiquidityBuffered === 0n && !isCurveSelected ? (
-              <div className="mt-2 ml-3 flex items-start text-amber-400">
-                <PopoverRateInfo type="stusdsLiquidity" iconClassName="mt-1 shrink-0" />
-                <Text variant="small" className="ml-2 flex gap-2">
-                  Native liquidity exhausted. Using Curve pool.
-                </Text>
-              </div>
             ) : !isStUsdsDataLoading && !isCurveSelected && userSuppliedExceedsLiquidity ? (
               <div className="mt-2 ml-3 flex items-start text-white">
                 <PopoverRateInfo type="stusdsLiquidity" iconClassName="mt-1 shrink-0" />
@@ -371,9 +359,9 @@ export const StUSDSSupplyWithdraw = ({
                   You cannot withdraw your full balance due to current liquidity limits.
                 </Text>
               </div>
-            ) : (
+            ) : !isCurveSelected ? (
               <div className="mb-4" />
-            )}
+            ) : null}
           </motion.div>
         </TabsContent>
       </Tabs>

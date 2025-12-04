@@ -27,6 +27,8 @@ export const providerMessages = {
   usingCurveBetterRate: msg`Using Curve pool for better rate`,
   usingCurveNativeDepositBlocked: msg`Using Curve pool - native deposits unavailable`,
   usingCurveNativeWithdrawBlocked: msg`Using Curve pool - native withdrawals unavailable`,
+  usingCurveSupplyCapReached: msg`Using Curve pool - supply cap reached`,
+  usingCurveLiquidityExhausted: msg`Using Curve pool - liquidity exhausted`,
   allProvidersBlocked: msg`Both native and Curve routes are temporarily unavailable`,
   rateDifference: msg`Rate difference`
 };

@@ -10,6 +10,8 @@ export type ProviderIndicatorProps = {
   rateDifferencePercent: number;
   flow: StUSDSFlow;
   isLoading?: boolean;
+  /** Specific reason why native is blocked (e.g., "Supply capacity reached") */
+  nativeBlockedReason?: string;
 };
 
 /**
@@ -21,7 +23,8 @@ export function ProviderIndicator({
   selectionReason,
   rateDifferencePercent,
   flow,
-  isLoading = false
+  isLoading = false,
+  nativeBlockedReason
 }: ProviderIndicatorProps) {
   const { i18n } = useLingui();
 
@@ -52,10 +55,17 @@ export function ProviderIndicator({
     const rateText = Math.abs(rateDifferencePercent).toFixed(2);
     message = `${i18n._(providerMessages.usingCurveBetterRate)} (+${rateText}%)`;
   } else if (isCurve && isBlocked) {
-    message =
-      flow === StUSDSFlow.SUPPLY
-        ? i18n._(providerMessages.usingCurveNativeDepositBlocked)
-        : i18n._(providerMessages.usingCurveNativeWithdrawBlocked);
+    // Use specific reason if provided
+    if (nativeBlockedReason?.toLowerCase().includes('capacity')) {
+      message = i18n._(providerMessages.usingCurveSupplyCapReached);
+    } else if (nativeBlockedReason?.toLowerCase().includes('liquidity')) {
+      message = i18n._(providerMessages.usingCurveLiquidityExhausted);
+    } else {
+      message =
+        flow === StUSDSFlow.SUPPLY
+          ? i18n._(providerMessages.usingCurveNativeDepositBlocked)
+          : i18n._(providerMessages.usingCurveNativeWithdrawBlocked);
+    }
   } else {
     message = i18n._(providerMessages.curveProvider);
   }
