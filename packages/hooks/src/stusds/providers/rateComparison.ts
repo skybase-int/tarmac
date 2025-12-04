@@ -1,5 +1,6 @@
 import { RATE_PRECISION } from './constants';
-import type { StUsdsProviderType, StUsdsQuote, StUsdsRateComparisonConfig } from './types';
+import { StUsdsProviderType } from './types';
+import type { StUsdsQuote, StUsdsRateComparisonConfig } from './types';
 
 /**
  * Result of comparing rates between two providers.
@@ -96,7 +97,7 @@ export function compareRates(
 
   if (!nativeQuote?.isValid) {
     return {
-      betterProvider: 'curve' as StUsdsProviderType,
+      betterProvider: StUsdsProviderType.CURVE,
       differencePercent: 100, // Curve is infinitely better (native unavailable)
       isSignificantDifference: true
     };
@@ -104,7 +105,7 @@ export function compareRates(
 
   if (!curveQuote?.isValid) {
     return {
-      betterProvider: 'native' as StUsdsProviderType,
+      betterProvider: StUsdsProviderType.NATIVE,
       differencePercent: -100, // Native is infinitely better (curve unavailable)
       isSignificantDifference: true
     };
@@ -121,8 +122,7 @@ export function compareRates(
   let betterProvider: StUsdsProviderType | null = null;
 
   if (isSignificant) {
-    betterProvider =
-      differencePercent > 0 ? ('curve' as StUsdsProviderType) : ('native' as StUsdsProviderType);
+    betterProvider = differencePercent > 0 ? StUsdsProviderType.CURVE : StUsdsProviderType.NATIVE;
   }
 
   return {
