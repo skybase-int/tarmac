@@ -49,6 +49,61 @@ export function useStUsdsProviderSelection(params: StUsdsQuoteParams): StUsdsPro
     let allProvidersBlocked = false;
     let rateDifferencePercent = 0;
 
+    // Log exchange rates for debugging
+    if (nativeData?.quote || curveData?.quote) {
+      const nativeQuote = nativeData?.quote;
+      const curveQuote = curveData?.quote;
+
+      console.group('📊 stUSDS Exchange Rate Comparison');
+      console.log(`Direction: ${direction}`);
+      console.log(`Input Amount: ${params.amount.toString()}`);
+      console.log('---');
+
+      if (nativeQuote) {
+        const nativeRate = nativeQuote.rateInfo.effectiveRate;
+        const nativeRateDecimal = Number(nativeRate) / 1e18;
+        console.log(
+          `🏦 NATIVE: ${nativeQuote.inputAmount.toString()} → ${nativeQuote.outputAmount.toString()} (rate: ${nativeRateDecimal.toFixed(6)})`
+        );
+        console.log(
+          `   Status: ${nativeData?.state.status}, Can${direction === 'deposit' ? 'Deposit' : 'Withdraw'}: ${direction === 'deposit' ? nativeData?.state.canDeposit : nativeData?.state.canWithdraw}`
+        );
+      } else {
+        console.log('🏦 NATIVE: No quote available');
+        console.log(`   Status: ${nativeData?.state.status ?? 'unknown'}`);
+      }
+
+      if (curveQuote) {
+        const curveRate = curveQuote.rateInfo.effectiveRate;
+        const curveRateDecimal = Number(curveRate) / 1e18;
+        console.log(
+          `🔄 CURVE:  ${curveQuote.inputAmount.toString()} → ${curveQuote.outputAmount.toString()} (rate: ${curveRateDecimal.toFixed(6)})`
+        );
+        console.log(
+          `   Status: ${curveData?.state.status}, Can${direction === 'deposit' ? 'Deposit' : 'Withdraw'}: ${direction === 'deposit' ? curveData?.state.canDeposit : curveData?.state.canWithdraw}`
+        );
+        console.log(`   Price Impact: ${curveQuote.rateInfo.priceImpactBps} bps`);
+      } else {
+        console.log('🔄 CURVE:  No quote available');
+        console.log(`   Status: ${curveData?.state.status ?? 'unknown'}`);
+      }
+
+      // Show which provider has better rate (regardless of availability)
+      if (nativeQuote && curveQuote) {
+        const nativeRate = Number(nativeQuote.rateInfo.effectiveRate);
+        const curveRate = Number(curveQuote.rateInfo.effectiveRate);
+        const diff = ((curveRate - nativeRate) / nativeRate) * 100;
+        const betterProvider = curveRate > nativeRate ? 'CURVE' : nativeRate > curveRate ? 'NATIVE' : 'EQUAL';
+        const diffAbs = Math.abs(diff).toFixed(4);
+        console.log('---');
+        console.log(
+          `💰 Better Rate: ${betterProvider}${betterProvider !== 'EQUAL' ? ` (+${diffAbs}% better)` : ''}`
+        );
+      }
+
+      console.groupEnd();
+    }
+
     // Check availability based on direction
     const isNativeAvailable =
       nativeData?.state.status === StUsdsProviderStatus.AVAILABLE &&
@@ -94,13 +149,20 @@ export function useStUsdsProviderSelection(params: StUsdsQuoteParams): StUsdsPro
       }
     }
 
+    // Log selection result
+    if (nativeData?.quote || curveData?.quote) {
+      console.log(
+        `✅ Selected: ${selectedProvider.toUpperCase()} (reason: ${selectionReason}, rateDiff: ${rateDifferencePercent.toFixed(4)}%)`
+      );
+    }
+
     return {
       selectedProvider,
       selectionReason,
       allProvidersBlocked,
       rateDifferencePercent
     };
-  }, [nativeData, curveData, direction]);
+  }, [nativeData, curveData, direction, params.amount]);
 
   const isLoading = isNativeLoading || isCurveLoading;
   const error = nativeError || curveError;
