@@ -12,7 +12,7 @@ import { TxStatus } from '@widgets/shared/constants';
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
-import { useAccount, useChainId } from 'wagmi';
+import { useConnection, useChainId } from 'wagmi';
 import { getStepTitle, StakeAction, StakeFlow, StakeScreen, StakeStep } from './lib/constants';
 import { getNextStep, getPreviousStep, getStepIndex, getTotalSteps } from './lib/utils';
 import { StepperBar } from './components/StepperBar';
@@ -92,7 +92,7 @@ function StakeModuleWidgetWrapped({
   } = useContext(WidgetContext);
   const { i18n } = useLingui();
   const chainId = useChainId();
-  const { isConnected, isConnecting, address } = useAccount();
+  const { isConnected, isConnecting, address } = useConnection();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
   const { data: batchSupported } = useIsBatchSupported();
   const {

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Header } from './Header';
 import { ConfigContext } from '../../config/context/ConfigContext';
 import { ErrorBoundary } from './ErrorBoundary';
-import { useAccount } from 'wagmi';
+import { useConnection } from 'wagmi';
 import { AuthWrapper } from './AuthWrapper';
 import { VStack } from './VStack';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
@@ -20,7 +20,7 @@ export function Layout({
   metaDescription?: string;
 }): React.ReactElement {
   const { siteConfig } = useContext(ConfigContext);
-  const { chain } = useAccount();
+  const { chain } = useConnection();
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
   const { bpi } = useBreakpointIndex();
 

@@ -1,4 +1,4 @@
-import { useAccount, useChainId } from 'wagmi';
+import { useConnection, useChainId } from 'wagmi';
 import { BatchWriteHook, BatchWriteHookParams } from '../hooks';
 import { skyAddress, stakeModuleAbi, stakeModuleAddress, usdsAddress } from '../generated';
 import { useStakeSkyAllowance, useStakeUsdsAllowance } from './useStakeAllowance';
@@ -22,7 +22,7 @@ export function useBatchStakeMulticall({
   usdsAmount: bigint;
 }): BatchWriteHook {
   const chainId = useChainId();
-  const { isConnected } = useAccount();
+  const { isConnected } = useConnection();
 
   const { data: skyAllowance, error: skyAllowanceError } = useStakeSkyAllowance();
   const { data: usdsAllowance, error: usdsAllowanceError } = useStakeUsdsAllowance();

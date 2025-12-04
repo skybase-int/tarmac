@@ -16,7 +16,7 @@ import { useContext, useMemo } from 'react';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { SavingsFlow } from '../lib/constants';
 import { SavingsStatsCard } from './SavingsStatsCard';
-import { useAccount, useChainId } from 'wagmi';
+import { useConnection, useChainId } from 'wagmi';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
@@ -68,7 +68,7 @@ export const SupplyWithdraw = ({
   };
 
   const { widgetState } = useContext(WidgetContext);
-  const { isConnected } = useAccount();
+  const { isConnected } = useConnection();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
 
   const finalBalance =

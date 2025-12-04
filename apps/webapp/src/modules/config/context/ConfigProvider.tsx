@@ -57,10 +57,6 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
   const updateUserConfig = (config: UserConfig) => {
     setUserConfig(config);
     window.localStorage.setItem(USER_SETTINGS_KEY, JSON.stringify(config));
-
-    // We needed to reload because changing the wagmi client messed with the rainbowkit buttons.
-    // https://github.com/rainbow-me/rainbowkit/issues/953
-    // TODO: Reenable if problem persist window.location.reload();
   };
 
   const updateLinkedActionConfig = useCallback(

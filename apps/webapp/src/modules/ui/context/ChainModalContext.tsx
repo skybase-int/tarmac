@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useCallback } from 'react';
-import { useSwitchChain, useAccount, useChains } from 'wagmi';
+import { useSwitchChain, useConnection, useChains } from 'wagmi';
 import { toastWithClose } from '@/components/ui/use-toast';
 import { HStack } from '@/modules/layout/components/HStack';
 import { VStack } from '@/modules/layout/components/VStack';
@@ -29,7 +29,7 @@ const ChainModalContext = createContext<ChainModalContextType>({
 
 export const ChainModalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { switchChain, isPending, variables } = useSwitchChain();
-  const { connector } = useAccount();
+  const { connector } = useConnection();
   const chains = useChains();
   const duration = 10000;
 
