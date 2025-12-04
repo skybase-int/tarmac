@@ -54,9 +54,7 @@ export function CustomConnectButton() {
     <>
       <Button variant="connect" onClick={() => setShowAccountMenu(true)} className="flex items-center gap-2">
         <CustomAvatar address={address} size={24} />
-        <Text className="hidden sm:inline">
-          {ensName ? `${ensName} (${formatAddress(address)})` : formatAddress(address)}
-        </Text>
+        <Text className="hidden sm:inline">{ensName || formatAddress(address)}</Text>
         <ChevronDown className="h-4 w-4" />
       </Button>
 

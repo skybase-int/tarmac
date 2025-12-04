@@ -9,6 +9,9 @@ import { cn } from '@/lib/utils';
 import { useIsSafeWallet } from '@jetstreamgg/sky-utils';
 import { WalletIcon } from './WalletIcon';
 import { WALLET_ICONS } from '@/lib/constants';
+import { ConnectWallet } from '@jetstreamgg/sky-widgets';
+import { Trans } from '@lingui/react/macro';
+import { ExternalLink } from '@/modules/layout/components/ExternalLink';
 
 interface ConnectModalProps {
   open: boolean;
@@ -131,14 +134,12 @@ export function ConnectModal({ open, onOpenChange }: ConnectModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="bg-containerDark p-0 sm:max-w-[440px] sm:min-w-[440px]"
+        className="bg-containerDark gap-6 p-0 sm:max-w-[440px] sm:min-w-[440px]"
         onOpenAutoFocus={e => e.preventDefault()}
         onCloseAutoFocus={e => e.preventDefault()}
       >
-        <div className="border-borderPrimary flex items-center justify-between border-b px-6 py-5">
-          <DialogTitle>
-            <Text className="text-text text-xl font-semibold">{t`Connect Wallet`}</Text>
-          </DialogTitle>
+        <div className="flex items-center justify-between pt-2">
+          <DialogTitle className="text-text text-2xl">{t`Connect your wallet`}</DialogTitle>
           <DialogClose asChild>
             <Button
               variant="ghost"
@@ -150,35 +151,45 @@ export function ConnectModal({ open, onOpenChange }: ConnectModalProps) {
           </DialogClose>
         </div>
 
-        <div className="flex flex-col gap-2 p-6">
+        <div className="flex items-center gap-3">
+          <div className="px-2.5 py-1.5">
+            <ConnectWallet width={45} height={55} />
+          </div>
+          <div className="space-y-1">
+            <Text className="text-text">
+              <Trans>Connect to explore Sky Protocol features</Trans>
+            </Text>
+            <ExternalLink
+              href="https://sky.money/features"
+              iconSize={12}
+              iconColor="#d298ff"
+              contentClassName="items-center gap-1 text-textEmphasis"
+            >
+              <Trans>Sky Protocol features</Trans>
+            </ExternalLink>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-6">
           {installedWallets.length > 0 && (
             <>
-              <Text className="text-textSecondary mb-2 text-sm font-medium uppercase">{t`Installed Wallets`}</Text>
-              <div className="flex flex-col gap-2">{installedWallets.map(renderConnectorButton)}</div>
+              <Text className="text-textSecondary text-md font-medium uppercase">{t`Installed Wallets`}</Text>
+              <div className="flex flex-col gap-6">{installedWallets.map(renderConnectorButton)}</div>
+              <Text className="text-textSecondary text-center text-[13px] leading-4">
+                {t`By connecting, you agree to our Terms of Service`}
+              </Text>
             </>
           )}
 
           {suggestedWallets.length > 0 && (
             <>
-              <Text className="text-textSecondary mt-4 mb-2 text-sm font-medium uppercase">
-                {t`Suggested Wallets`}
-              </Text>
-              <div className="flex flex-col gap-2">{suggestedWallets.map(renderConnectorButton)}</div>
+              <Text className="text-textSecondary text-md font-medium uppercase">{t`Suggested Wallets`}</Text>
+              <div className="flex flex-col gap-6">{suggestedWallets.map(renderConnectorButton)}</div>
             </>
           )}
         </div>
 
-        {error && (
-          <div className="px-6 pb-2">
-            <Text className="text-sm text-red-500">{t`Failed to connect. Please try again.`}</Text>
-          </div>
-        )}
-
-        <div className="border-borderPrimary border-t px-6 py-4">
-          <Text className="text-textSecondary text-center text-xs">
-            {t`By connecting, you agree to our Terms of Service`}
-          </Text>
-        </div>
+        {error && <Text className="text-sm text-red-500">{t`Failed to connect. Please try again.`}</Text>}
       </DialogContent>
     </Dialog>
   );
