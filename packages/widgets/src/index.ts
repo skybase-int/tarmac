@@ -53,3 +53,4 @@ export { ConnectWalletCopy } from './shared/components/ui/ConnectWalletCopy';
 export { ConnectWallet } from './shared/components/icons/ConnectWallet';
 export { WalletCard } from './widgets/BalancesWidget/components/WalletCard';
 export { ModuleCardVariant, ModulesBalances } from './widgets/BalancesWidget/components/ModulesBalances';
+export { TokenBalances } from './widgets/BalancesWidget/components/TokenBalances';

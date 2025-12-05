@@ -14,7 +14,6 @@ import { StakeBalanceCard } from './StakeBalanceCard';
 import { StUSDSBalanceCard } from './StUSDSBalanceCard';
 import { isMainnetId, isTestnetId } from '@jetstreamgg/sky-utils';
 import { useChainId, useConnection } from 'wagmi';
-import { cn } from '@widgets/lib/utils';
 
 export enum ModuleCardVariant {
   default = 'default',
@@ -184,7 +183,7 @@ export const ModulesBalances = ({
   const hideModuleBalances = hideSavings && hideRewards && hideSeal;
 
   return (
-    <div className={cn('flex flex-col', variant === ModuleCardVariant.default ? 'gap-2' : 'gap-3')}>
+    <div className="flex flex-col gap-2">
       {!hideModuleBalances && !hideRewards && (
         <RewardsBalanceCard
           url={rewardsCardUrl}

@@ -1,11 +1,12 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Trans } from '@lingui/react/macro';
 import { Text } from './Typography';
-import { ModuleCardVariant, ModulesBalances } from '@jetstreamgg/sky-widgets';
+import { defaultConfig, ModuleCardVariant, ModulesBalances, TokenBalances } from '@jetstreamgg/sky-widgets';
 import { getSupportedChainIds } from '@/data/wagmi/config/config.default';
 import { useChainId } from 'wagmi';
 import { useModuleUrls } from '@/modules/app/hooks/useModuleUrls';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
+import { useActionForToken } from '@/modules/app/hooks/useActionForToken';
 
 enum ConnectedModalTabsEnum {
   SUPPLIED_FUNDS = 'supplied_funds',
@@ -18,6 +19,8 @@ export function ConnectedModalTabs() {
   const { onExternalLinkClicked } = useConfigContext();
 
   const { rewardsUrl, savingsUrlMap, sealUrl, stakeUrl, stusdsUrl } = useModuleUrls();
+
+  const actionForToken = useActionForToken();
 
   return (
     <Tabs defaultValue={ConnectedModalTabsEnum.SUPPLIED_FUNDS}>
@@ -32,7 +35,10 @@ export function ConnectedModalTabs() {
           <Trans>Activity</Trans>
         </TabsTrigger>
       </TabsList>
-      <TabsContent value={ConnectedModalTabsEnum.SUPPLIED_FUNDS} className="flex flex-col gap-6">
+      <TabsContent
+        value={ConnectedModalTabsEnum.SUPPLIED_FUNDS}
+        className="scrollbar-thin-always max-h-120 overflow-auto"
+      >
         <ModulesBalances
           variant={ModuleCardVariant.alt}
           chainIds={getSupportedChainIds(chainId)}
@@ -44,10 +50,20 @@ export function ConnectedModalTabs() {
           onExternalLinkClicked={onExternalLinkClicked}
         />
       </TabsContent>
-      <TabsContent value={ConnectedModalTabsEnum.WALLET_FUNDS}>
-        <Text className="text-text">Wallet</Text>
+      <TabsContent
+        value={ConnectedModalTabsEnum.WALLET_FUNDS}
+        className="scrollbar-thin-always max-h-120 overflow-auto"
+      >
+        <TokenBalances
+          actionForToken={actionForToken}
+          customTokenMap={defaultConfig.balancesTokenList}
+          chainIds={getSupportedChainIds(chainId)}
+        />
       </TabsContent>
-      <TabsContent value={ConnectedModalTabsEnum.ACTIVITY}>
+      <TabsContent
+        value={ConnectedModalTabsEnum.ACTIVITY}
+        className="scrollbar-thin-always max-h-120 overflow-auto"
+      >
         <Text className="text-text">Activity</Text>
       </TabsContent>
     </Tabs>

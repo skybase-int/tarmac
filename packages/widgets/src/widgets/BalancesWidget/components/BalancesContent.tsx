@@ -8,14 +8,13 @@ import { ModulesBalances } from './ModulesBalances';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { BalancesWidgetState } from '@widgets/shared/types/widgetState';
-import { useTokenBalances, usePrices, TokenForChain, TokenItem } from '@jetstreamgg/sky-hooks';
+import { TokenForChain } from '@jetstreamgg/sky-hooks';
 import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
 import { BalancesFlow } from '../constants';
 import { BalancesFilter } from './BalancesFilter';
 import { useState } from 'react';
-import { defaultConfig } from '@widgets/config/default-config';
-import { useConnection, useChainId } from 'wagmi';
+import { useChainId } from 'wagmi';
 import { NoResults } from '@widgets/shared/components/icons/NoResults';
 
 export interface TokenBalanceResponse extends GetBalanceData {
@@ -67,68 +66,14 @@ export const BalancesContent = ({
 }: BalancesContentProps): React.ReactElement => {
   const [showAllNetworksInternal, setShowAllNetworksInternal] = useState(true);
   const [hideZeroBalancesInternal, setHideZeroBalancesInternal] = useState(false);
+  const [hideTokenBalances, setHideTokenBalances] = useState(false);
 
   const showAllNetworks = showAllNetworksProp ?? showAllNetworksInternal;
   const hideZeroBalances = hideZeroBalancesProp ?? hideZeroBalancesInternal;
   const setShowAllNetworks = setShowAllNetworksProp ?? setShowAllNetworksInternal;
   const setHideZeroBalances = setHideZeroBalancesProp ?? setHideZeroBalancesInternal;
 
-  const { address } = useConnection();
   const chainId = useChainId();
-  const chainsToQuery = chainIds ?? [chainId];
-
-  // Create an object mapping chainIds to their tokens
-  const defaultChainTokenMap: Record<number, TokenItem[]> = {};
-  for (const chainId of chainsToQuery) {
-    defaultChainTokenMap[chainId] = defaultConfig.balancesTokenList[chainId] ?? [];
-  }
-
-  const customChainTokenMap: Record<number, TokenItem[]> = {};
-  for (const chainId of chainsToQuery) {
-    customChainTokenMap[chainId] = customTokenMap?.[chainId] ?? [];
-  }
-
-  // Use customTokenMap if provided, otherwise use the default config
-  const chainTokenMap =
-    customChainTokenMap && Object.values(customChainTokenMap).some(tokenArray => tokenArray?.length > 0)
-      ? customChainTokenMap
-      : defaultChainTokenMap;
-
-  const { data: pricesData, isLoading: pricesLoading /*, error: pricesError */ } = usePrices();
-  const {
-    data: tokenBalances,
-    isLoading: tokenBalancesLoading
-    /* error: tokenBalancesError */
-  } = useTokenBalances({ address, chainTokenMap });
-
-  // map token balances to include price
-  const tokenBalancesWithPrices =
-    tokenBalances?.map(tokenBalance => {
-      const price = pricesData?.[tokenBalance.symbol]?.price || 0;
-      const tokenDecimalsFactor = Math.pow(10, -tokenBalance.decimals);
-      return {
-        ...tokenBalance,
-        valueInDollars: Number(tokenBalance.value) * tokenDecimalsFactor * Number(price)
-      };
-    }) || [];
-
-  // sort token balances by total in USD prices
-  const sortedTokenBalances =
-    tokenBalancesWithPrices && pricesData
-      ? tokenBalancesWithPrices.sort((a, b) => b.valueInDollars - a.valueInDollars)
-      : undefined;
-
-  const balancesWithBalanceFilter = hideZeroBalances
-    ? sortedTokenBalances?.filter(({ value }) => value > 0n)
-    : sortedTokenBalances;
-
-  const filteredAndSortedTokenBalances = showAllNetworks
-    ? balancesWithBalanceFilter
-    : balancesWithBalanceFilter?.filter(({ chainId: id }) => id === chainId);
-
-  const isLoading = tokenBalancesLoading || pricesLoading;
-
-  const hideTokenBalances = filteredAndSortedTokenBalances && filteredAndSortedTokenBalances.length === 0;
 
   return (
     <Tabs value={tabIndex === 1 ? BalancesFlow.TX_HISTORY : BalancesFlow.FUNDS} className="w-full">
@@ -172,9 +117,9 @@ export const BalancesContent = ({
               actionForToken={actionForToken}
               customTokenMap={customTokenMap}
               chainIds={chainIds}
-              filteredAndSortedTokenBalances={filteredAndSortedTokenBalances}
-              pricesData={pricesData}
-              isLoading={isLoading}
+              hideZeroBalances={hideZeroBalances}
+              showAllNetworks={showAllNetworks}
+              setHideTokenBalances={setHideTokenBalances}
             />
             {hideModuleBalances && hideTokenBalances && (
               <VStack gap={3} className="items-center pt-6 pb-3">
