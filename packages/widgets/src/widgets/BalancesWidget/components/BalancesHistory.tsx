@@ -11,13 +11,18 @@ import { Trans } from '@lingui/react/macro';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { NoResults } from '@widgets/shared/components/icons/NoResults';
+import { cn } from '@widgets/lib/utils';
 
 export const BalancesHistory = ({
   onExternalLinkClicked,
-  showAllNetworks
+  showAllNetworks,
+  className,
+  itemsPerPage = 5
 }: {
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   showAllNetworks?: boolean;
+  className?: string;
+  itemsPerPage?: number;
 }) => {
   const {
     data: singleNetworkData,
@@ -34,7 +39,6 @@ export const BalancesHistory = ({
   const isLoading = showAllNetworks ? allNetworksLoading : singleNetworkLoading;
   const error = showAllNetworks ? allNetworksError : singleNetworkError;
 
-  const itemsPerPage = 5;
   const { i18n } = useLingui();
   const memoizedDates = useMemo(() => data?.map(s => s.blockTimestamp), [data]);
   const formattedDates = useFormatDates(memoizedDates, i18n.locale, 'MMM d, h:mm a');
@@ -53,7 +57,7 @@ export const BalancesHistory = ({
   }, [data, itemsPerPage]);
 
   const loadingCards = (
-    <VStack gap={2} className="mt-6">
+    <VStack gap={2} className={cn('mt-6', className)}>
       {Array.from({ length: itemsPerPage }, (_, i) => (
         <Skeleton key={i} className="h-[84px] w-full" />
       ))}
@@ -62,7 +66,7 @@ export const BalancesHistory = ({
 
   return data.length > 0 ? (
     <>
-      <VStack gap={2} className="mt-6">
+      <VStack gap={2} className={cn('mt-6', className)}>
         {itemsToDisplay.map((item, index: number) => {
           const globalIndex = startIndex + index;
           const formattedDate = formattedDates.length > globalIndex ? formattedDates[globalIndex] : '';
@@ -101,7 +105,7 @@ export const BalancesHistory = ({
       </Text>
     </div>
   ) : (
-    <VStack gap={3} className="items-center pb-3 pt-9">
+    <VStack gap={3} className="items-center pt-9 pb-3">
       <NoResults />
       <Text className="text-textSecondary text-center">
         <Trans>No history found</Trans>

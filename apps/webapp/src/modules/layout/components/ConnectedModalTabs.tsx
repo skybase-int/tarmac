@@ -1,7 +1,12 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Trans } from '@lingui/react/macro';
-import { Text } from './Typography';
-import { defaultConfig, ModuleCardVariant, ModulesBalances, TokenBalances } from '@jetstreamgg/sky-widgets';
+import {
+  BalancesHistory,
+  defaultConfig,
+  ModuleCardVariant,
+  ModulesBalances,
+  TokenBalances
+} from '@jetstreamgg/sky-widgets';
 import { getSupportedChainIds } from '@/data/wagmi/config/config.default';
 import { useChainId } from 'wagmi';
 import { useModuleUrls } from '@/modules/app/hooks/useModuleUrls';
@@ -37,7 +42,7 @@ export function ConnectedModalTabs() {
       </TabsList>
       <TabsContent
         value={ConnectedModalTabsEnum.SUPPLIED_FUNDS}
-        className="scrollbar-thin-always max-h-120 overflow-auto"
+        className="scrollbar-thin-always max-h-130 overflow-auto [scrollbar-gutter:auto]"
       >
         <ModulesBalances
           variant={ModuleCardVariant.alt}
@@ -52,19 +57,21 @@ export function ConnectedModalTabs() {
       </TabsContent>
       <TabsContent
         value={ConnectedModalTabsEnum.WALLET_FUNDS}
-        className="scrollbar-thin-always max-h-120 overflow-auto"
+        className="scrollbar-thin-always max-h-130 overflow-auto [scrollbar-gutter:auto]"
       >
         <TokenBalances
           actionForToken={actionForToken}
           customTokenMap={defaultConfig.balancesTokenList}
           chainIds={getSupportedChainIds(chainId)}
+          showAllNetworks={true}
         />
       </TabsContent>
-      <TabsContent
-        value={ConnectedModalTabsEnum.ACTIVITY}
-        className="scrollbar-thin-always max-h-120 overflow-auto"
-      >
-        <Text className="text-text">Activity</Text>
+      <TabsContent value={ConnectedModalTabsEnum.ACTIVITY} className="max-h-130">
+        <BalancesHistory
+          onExternalLinkClicked={onExternalLinkClicked}
+          showAllNetworks={true}
+          className="mt-0"
+        />
       </TabsContent>
     </Tabs>
   );
