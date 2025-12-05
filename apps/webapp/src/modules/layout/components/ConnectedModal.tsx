@@ -32,6 +32,7 @@ import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { WalletIcon } from '@/modules/ui/components/WalletIcon';
 import { useConnection } from 'wagmi';
 import { WALLET_ICONS } from '@/lib/constants';
+import { ConnectedModalTabs } from './ConnectedModalTabs';
 
 const MAX_TRANSACTIONS = 6;
 
@@ -389,6 +390,8 @@ export function ConnectedModal({
         >
           {t`Disconnect wallet`}
         </Button>
+
+        <ConnectedModalTabs />
 
         {/* Recent Transactions Section */}
         {recentTransactions.length > 0 && (

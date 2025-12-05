@@ -8,16 +8,7 @@ import { ModulesBalances } from './ModulesBalances';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { BalancesWidgetState } from '@widgets/shared/types/widgetState';
-import {
-  useTokenBalances,
-  usePrices,
-  TokenForChain,
-  TokenItem,
-  useTotalUserSealed,
-  useMultiChainSavingsBalances,
-  useTotalUserStaked,
-  useStUsdsData
-} from '@jetstreamgg/sky-hooks';
+import { useTokenBalances, usePrices, TokenForChain, TokenItem } from '@jetstreamgg/sky-hooks';
 import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
 import { BalancesFlow } from '../constants';
@@ -25,10 +16,6 @@ import { BalancesFilter } from './BalancesFilter';
 import { useState } from 'react';
 import { defaultConfig } from '@widgets/config/default-config';
 import { useConnection, useChainId } from 'wagmi';
-import { useAvailableTokenRewardContracts } from '@jetstreamgg/sky-hooks';
-import { useRewardsSuppliedBalance } from '@jetstreamgg/sky-hooks';
-import { isTestnetId, isMainnetId } from '@jetstreamgg/sky-utils';
-import { TOKENS } from '@jetstreamgg/sky-hooks';
 import { NoResults } from '@widgets/shared/components/icons/NoResults';
 
 export interface TokenBalanceResponse extends GetBalanceData {
@@ -141,127 +128,6 @@ export const BalancesContent = ({
 
   const isLoading = tokenBalancesLoading || pricesLoading;
 
-  const currentChainId = useChainId();
-  const mainnetChainId = isTestnetId(currentChainId) ? 314310 : 1;
-  const rewardContracts = useAvailableTokenRewardContracts(mainnetChainId);
-
-  const usdsSkyRewardContract = rewardContracts.find(
-    f => f.supplyToken.symbol === TOKENS.usds.symbol && f.rewardToken.symbol === TOKENS.sky.symbol
-  );
-  const usdsCleRewardContract = rewardContracts.find(
-    f => f.supplyToken.symbol === TOKENS.usds.symbol && f.rewardToken.symbol === TOKENS.cle.symbol
-  );
-  const usdsSpkRewardContract = rewardContracts.find(
-    f => f.supplyToken.symbol === TOKENS.usds.symbol && f.rewardToken.symbol === TOKENS.spk.symbol
-  );
-
-  const {
-    data: usdsSkySuppliedBalance,
-    isLoading: usdsSkySuppliedBalanceLoading,
-    error: usdsSkySuppliedBalanceError
-  } = useRewardsSuppliedBalance({
-    chainId: mainnetChainId,
-    address,
-    contractAddress: usdsSkyRewardContract?.contractAddress as `0x${string}`
-  });
-
-  const {
-    data: usdsSpkSuppliedBalance,
-    isLoading: usdsSpkSuppliedBalanceLoading,
-    error: usdsSpkSuppliedBalanceError
-  } = useRewardsSuppliedBalance({
-    chainId: mainnetChainId,
-    address,
-    contractAddress: usdsSpkRewardContract?.contractAddress as `0x${string}`
-  });
-
-  const {
-    data: usdsCleSuppliedBalance,
-    isLoading: usdsCleSuppliedBalanceIsLoading,
-    error: usdsCleSuppliedBalanceError
-  } = useRewardsSuppliedBalance({
-    chainId: mainnetChainId,
-    address,
-    contractAddress: usdsCleRewardContract?.contractAddress as `0x${string}`
-  });
-
-  const rewardsLoading =
-    usdsSkySuppliedBalanceLoading || usdsSpkSuppliedBalanceLoading || usdsCleSuppliedBalanceIsLoading;
-
-  const suppliedBalanceError =
-    usdsSkySuppliedBalanceError || usdsCleSuppliedBalanceError || usdsSpkSuppliedBalanceError;
-
-  const totalUserRewardsSupplied =
-    usdsSkySuppliedBalance !== undefined &&
-    usdsCleSuppliedBalance !== undefined &&
-    usdsSpkSuppliedBalance !== undefined
-      ? usdsSkySuppliedBalance + usdsCleSuppliedBalance + usdsSpkSuppliedBalance
-      : 0n;
-
-  const hideRewards = Boolean(
-    suppliedBalanceError ||
-      (totalUserRewardsSupplied === 0n && hideZeroBalances) ||
-      (!showAllNetworks && !isMainnetId(currentChainId))
-  );
-
-  const { data: totalUserSealed, isLoading: sealLoading, error: totalUserSealedError } = useTotalUserSealed();
-  const {
-    data: totalUserStaked,
-    isLoading: stakeLoading,
-    error: totalUserStakedError
-  } = useTotalUserStaked();
-  const { data: stUsdsData, isLoading: stUsdsLoading, error: stUsdsError } = useStUsdsData();
-
-  const hideSeal = Boolean(
-    totalUserSealedError ||
-      (totalUserSealed === 0n && hideZeroBalances) ||
-      (!showAllNetworks && !isMainnetId(currentChainId))
-  );
-
-  const hideStake = Boolean(
-    totalUserStakedError ||
-      (totalUserStaked === 0n && hideZeroBalances) ||
-      (!showAllNetworks && !isMainnetId(currentChainId))
-  );
-
-  const hideStUSDS = Boolean(
-    !stusdsCardUrl || // Hide if no URL is provided (feature flag disabled)
-      stUsdsError ||
-      stUsdsData?.userSuppliedUsds === 0n || //always hide zero balances for expert modules
-      (!showAllNetworks && !isMainnetId(currentChainId))
-  );
-
-  const {
-    data: multichainSavingsBalances,
-    isLoading: multichainSavingsBalancesLoading,
-    error: multichainSavingsBalancesError
-  } = useMultiChainSavingsBalances({ chainIds });
-
-  const sortedSavingsBalances = Object.entries(multichainSavingsBalances ?? {})
-    .sort(([, a], [, b]) => (b > a ? 1 : b < a ? -1 : 0))
-    .map(([chainId, balance]) => ({
-      chainId: Number(chainId),
-      balance
-    }));
-
-  const savingsBalancesWithBalanceFilter = hideZeroBalances
-    ? sortedSavingsBalances.filter(({ balance }) => balance > 0n)
-    : sortedSavingsBalances;
-
-  const filteredAndSortedSavingsBalances = showAllNetworks
-    ? savingsBalancesWithBalanceFilter
-    : savingsBalancesWithBalanceFilter.filter(({ chainId }) => chainId === currentChainId);
-
-  const totalSavingsBalance = filteredAndSortedSavingsBalances?.reduce(
-    (acc, { balance }) => acc + balance,
-    0n
-  );
-
-  const hideSavings = Boolean(
-    multichainSavingsBalancesError || (totalSavingsBalance === 0n && hideZeroBalances)
-  );
-
-  const hideModules = hideSavings && hideRewards && hideSeal;
   const hideTokenBalances = filteredAndSortedTokenBalances && filteredAndSortedTokenBalances.length === 0;
 
   return (
@@ -278,7 +144,7 @@ export const BalancesContent = ({
               setHideZeroBalances={setHideZeroBalances}
               chainId={chainId}
             />
-            {!hideModules && (
+            {!hideModuleBalances && (
               <Heading variant="small" className="mb-3 leading-6">
                 <Trans>Supplied Funds</Trans>
               </Heading>
@@ -290,22 +156,9 @@ export const BalancesContent = ({
               stakeCardUrl={stakeCardUrl}
               stusdsCardUrl={stusdsCardUrl}
               onExternalLinkClicked={onExternalLinkClicked}
-              hideModuleBalances={hideModuleBalances}
               chainIds={chainIds}
-              hideRewards={hideRewards}
-              rewardsLoading={rewardsLoading}
-              hideSeal={hideSeal}
-              sealLoading={sealLoading}
-              sealBalance={totalUserSealed}
-              hideStake={hideStake}
-              hideStUSDS={hideStUSDS}
-              stusdsLoading={stUsdsLoading}
-              stakeLoading={stakeLoading}
-              stakeBalance={totalUserStaked}
-              totalUserRewardsSupplied={totalUserRewardsSupplied}
-              hideSavings={hideSavings}
-              savingsLoading={multichainSavingsBalancesLoading}
-              savingsBalances={filteredAndSortedSavingsBalances}
+              hideZeroBalances={hideZeroBalances}
+              showAllNetworks={showAllNetworks}
             />
           </motion.div>
 
@@ -323,7 +176,7 @@ export const BalancesContent = ({
               pricesData={pricesData}
               isLoading={isLoading}
             />
-            {hideModules && hideTokenBalances && (
+            {hideModuleBalances && hideTokenBalances && (
               <VStack gap={3} className="items-center pt-6 pb-3">
                 <NoResults />
                 <Text className="text-textSecondary text-center">
