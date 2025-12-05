@@ -51,3 +51,4 @@ export { CardAnimationWrapper } from './shared/animation/Wrappers';
 export type { WithWidgetProviderProps } from './shared/hocs/withWidgetProvider';
 export { ConnectWalletCopy } from './shared/components/ui/ConnectWalletCopy';
 export { ConnectWallet } from './shared/components/icons/ConnectWallet';
+export { WalletCard } from './widgets/BalancesWidget/components/WalletCard';

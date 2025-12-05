@@ -11,13 +11,14 @@ import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { ConnectedModal } from './ConnectedModal';
 import { Text } from './Typography';
+import { mainnet } from 'viem/chains';
 
 export function CustomConnectButton() {
   const { openConnectModal } = useConnectModal();
-  const { isConnected, address, connector } = useConnection();
+  const { isConnected, address } = useConnection();
   const { disconnect } = useDisconnect();
-  const { data: ensName } = useEnsName({ address });
-  const { data: ensAvatar } = useEnsAvatar({ name: ensName! });
+  const { data: ensName } = useEnsName({ address, chainId: mainnet.id });
+  const { data: ensAvatar } = useEnsAvatar({ name: ensName!, chainId: mainnet.id });
   const isSafeWallet = useIsSafeWallet();
   const [showAccountMenu, setShowAccountMenu] = useState(false);
 
@@ -61,10 +62,8 @@ export function CustomConnectButton() {
       <ConnectedModal
         isOpen={showAccountMenu}
         onOpenChange={setShowAccountMenu}
-        address={address}
         ensName={ensName}
         ensAvatar={ensAvatar}
-        connectorName={connector?.name}
         onDisconnect={() => {
           disconnect();
           setShowAccountMenu(false);

@@ -1,9 +1,7 @@
 import { Dialog, DialogContent, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { t } from '@lingui/core/macro';
-import { X } from 'lucide-react';
 import { Text } from '@/modules/layout/components/Typography';
-import { CustomAvatar } from '@/modules/ui/components/Avatar';
 import {
   getEtherscanLink,
   formatBigInt,
@@ -26,37 +24,37 @@ import { useEffect, useMemo } from 'react';
 import { useLingui } from '@lingui/react';
 import { ExternalLink as ExternalLinkComponent } from '@/modules/layout/components/ExternalLink';
 import { absBigInt } from '@/modules/utils/math';
-import { Stake, Trade, Upgrade, Seal, Savings, RewardsModule, Expert } from '@/modules/icons';
+import { Stake, Trade, Upgrade, Seal, Savings, RewardsModule, Expert, Close } from '@/modules/icons';
 import { useBreakpointIndex, BP } from '@/modules/ui/hooks/useBreakpointIndex';
-import { CopyToClipboard } from '@/modules/ui/components/CopyToClipboard';
-import { HStack } from './HStack';
-import { VStack } from './VStack';
 import { Link } from 'react-router-dom';
+import { WalletCard } from '@jetstreamgg/sky-widgets';
+import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
+import { WalletIcon } from '@/modules/ui/components/WalletIcon';
+import { useConnection } from 'wagmi';
+import { WALLET_ICONS } from '@/lib/constants';
 
 const MAX_TRANSACTIONS = 6;
 
 interface ConnectedModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  address: string;
   ensName?: string | null;
   ensAvatar?: string | null;
-  connectorName?: string;
   onDisconnect: () => void;
 }
 
 export function ConnectedModal({
   isOpen,
   onOpenChange,
-  address,
   ensName,
   ensAvatar,
-  connectorName,
   onDisconnect
 }: ConnectedModalProps) {
   const { i18n } = useLingui();
   const { bpi } = useBreakpointIndex();
   const isMobile = bpi < BP.md;
+  const { onExternalLinkClicked } = useConfigContext();
+  const { connector } = useConnection();
 
   // Fetch all transaction history from subgraphs across all networks
   const { data: allHistory, mutate } = useAllNetworksCombinedHistory();
@@ -77,13 +75,6 @@ export function ConnectedModal({
   // Format dates using the same pattern as history tables
   const memoizedDates = useMemo(() => recentTransactions.map(tx => tx.blockTimestamp), [recentTransactions]);
   const formattedDates = useFormatDates(memoizedDates, i18n.locale, 'MMM d, yyyy, h:mm a');
-
-  const formatAddress = (addr: string, format: 'short' | 'long' = 'short') => {
-    if (format === 'long') {
-      return `${addr.slice(0, 10)}...${addr.slice(-8)}`;
-    }
-    return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
-  };
 
   const getModulePrefix = (module: ModuleEnum): string => {
     switch (module) {
@@ -358,90 +349,85 @@ export function ConnectedModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-containerDark p-0 sm:max-w-[400px]">
-        <div className="border-borderPrimary flex items-center justify-between border-b px-6 py-5">
-          <DialogTitle>
-            <Text className="text-text text-xl font-semibold">{t`Account`}</Text>
-          </DialogTitle>
+      <DialogContent
+        className="bg-containerDark gap-6 p-4 sm:max-w-[490px] sm:min-w-[490px]"
+        onOpenAutoFocus={e => e.preventDefault()}
+        onCloseAutoFocus={e => e.preventDefault()}
+      >
+        <div className="flex items-center justify-between md:pt-2">
+          <DialogTitle className="text-text text-2xl">{t`Account`}</DialogTitle>
           <DialogClose asChild>
             <Button variant="ghost" className="text-textSecondary hover:text-text h-8 w-8 rounded-full p-0">
-              <X className="h-5 w-5" />
+              <Close className="h-5 w-5" />
             </Button>
           </DialogClose>
         </div>
 
-        <div className="p-6">
-          <div className="mb-6 flex flex-col items-center gap-4">
-            {ensAvatar ? (
-              <img alt="ENS Avatar" className="h-20 w-20 rounded-full" src={ensAvatar} />
-            ) : (
-              <CustomAvatar address={address} size={80} />
-            )}
-            <VStack className="text-center">
-              <HStack className="w-fit items-center self-center">
-                <div className="text-text text-lg font-medium">{ensName || formatAddress(address)}</div>
-                <div className="cursor-pointer">
-                  <CopyToClipboard text={address} />
-                </div>
-              </HStack>
-              {ensName && (
-                <div className="text-textSecondary mt-1 text-sm">{formatAddress(address, 'long')}</div>
-              )}
-              {connectorName && (
-                <div className="text-textSecondary mt-2 text-sm">Connected with {connectorName}</div>
-              )}
-            </VStack>
-          </div>
+        <WalletCard
+          onExternalLinkClicked={onExternalLinkClicked}
+          iconSize={40}
+          showEns={true}
+          ensName={ensName}
+          ensAvatar={ensAvatar}
+          walletIcon={
+            connector && (
+              <WalletIcon
+                connector={connector}
+                iconUrl={connector.icon || WALLET_ICONS[connector.id as keyof typeof WALLET_ICONS]}
+                className="h-3.5 w-3.5"
+              />
+            )
+          }
+        />
 
-          {/* Recent Transactions Section */}
-          {recentTransactions.length > 0 && (
-            <div className="mb-6">
-              <div className="mb-2 flex items-center justify-between">
-                <Text className="text-textSecondary text-xs font-medium md:text-sm">{t`Recent Transactions`}</Text>
-                <Link
-                  to="/?widget=balances&flow=tx_history"
-                  onClick={() => onOpenChange(false)}
-                  className="text-textSecondary hover:text-text text-[10px] transition-colors md:text-xs"
+        {/* Recent Transactions Section */}
+        {recentTransactions.length > 0 && (
+          <div className="mb-6">
+            <div className="mb-2 flex items-center justify-between">
+              <Text className="text-textSecondary text-xs font-medium md:text-sm">{t`Recent Transactions`}</Text>
+              <Link
+                to="/?widget=balances&flow=tx_history"
+                onClick={() => onOpenChange(false)}
+                className="text-textSecondary hover:text-text text-[10px] transition-colors md:text-xs"
+              >
+                {t`View all`} →
+              </Link>
+            </div>
+            <div className="scrollbar-thin-always scrollbar-thin scrollbar-track-transparent scrollbar-thumb-borderPrimary hover:scrollbar-thumb-textSecondary max-h-[40vh] space-y-1 overflow-y-auto pr-1">
+              {recentTransactions.map((tx, index) => (
+                <a
+                  key={tx.transactionHash}
+                  href={getExplorerLink(tx)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:bg-brandLight/20 active:bg-brandLight/10 flex items-center justify-between gap-2 rounded-lg px-2 py-2 transition-colors"
                 >
-                  {t`View all`} →
-                </Link>
-              </div>
-              <div className="scrollbar-thin-always scrollbar-thin scrollbar-track-transparent scrollbar-thumb-borderPrimary hover:scrollbar-thumb-textSecondary max-h-[40vh] space-y-1 overflow-y-auto pr-1">
-                {recentTransactions.map((tx, index) => (
-                  <a
-                    key={tx.transactionHash}
-                    href={getExplorerLink(tx)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:bg-brandLight/20 active:bg-brandLight/10 flex items-center justify-between gap-2 rounded-lg px-2 py-2 transition-colors"
-                  >
-                    <div className="flex min-w-0 flex-1 items-start gap-2">
-                      <div className="relative mt-1">
-                        <div className="text-textSecondary">{getTransactionIcon(tx)}</div>
-                        <div className="bg-containerDark absolute -right-1.5 -bottom-1 h-4.5 w-4.5 rounded-full p-0.5">
-                          {getChainIcon(tx.chainId, 'h-full w-full')}
-                        </div>
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <Text className="text-text truncate text-sm md:text-base">
-                          {getTransactionDescription(tx, isMobile)}
-                        </Text>
-                        <Text variant="small" className="text-textSecondary text-xs md:text-sm">
-                          {formattedDates.length > index ? formattedDates[index] : ''}
-                        </Text>
+                  <div className="flex min-w-0 flex-1 items-start gap-2">
+                    <div className="relative mt-1">
+                      <div className="text-textSecondary">{getTransactionIcon(tx)}</div>
+                      <div className="bg-containerDark absolute -right-1.5 -bottom-1 h-4.5 w-4.5 rounded-full p-0.5">
+                        {getChainIcon(tx.chainId, 'h-full w-full')}
                       </div>
                     </div>
-                    <ExternalLinkComponent href={getExplorerLink(tx)} iconSize={13} />
-                  </a>
-                ))}
-              </div>
+                    <div className="min-w-0 flex-1">
+                      <Text className="text-text truncate text-sm md:text-base">
+                        {getTransactionDescription(tx, isMobile)}
+                      </Text>
+                      <Text variant="small" className="text-textSecondary text-xs md:text-sm">
+                        {formattedDates.length > index ? formattedDates[index] : ''}
+                      </Text>
+                    </div>
+                  </div>
+                  <ExternalLinkComponent href={getExplorerLink(tx)} iconSize={13} />
+                </a>
+              ))}
             </div>
-          )}
+          </div>
+        )}
 
-          <Button variant="connect" onClick={onDisconnect} className="w-full">
-            {t`Disconnect Wallet`}
-          </Button>
-        </div>
+        <Button variant="connect" onClick={onDisconnect} className="w-full">
+          {t`Disconnect Wallet`}
+        </Button>
       </DialogContent>
     </Dialog>
   );
