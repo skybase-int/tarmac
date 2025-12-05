@@ -10,6 +10,7 @@ export const InteractiveStatsCardAlt = ({
   url,
   logoName,
   chainId,
+  noChain,
   content
 }: {
   title: React.ReactElement | string;
@@ -17,6 +18,7 @@ export const InteractiveStatsCardAlt = ({
   url?: string;
   logoName: LogoName;
   chainId?: number;
+  noChain?: boolean;
   content: React.ReactElement;
 }): React.ReactElement => {
   return (
@@ -29,6 +31,7 @@ export const InteractiveStatsCardAlt = ({
               className="h-6 w-6"
               token={{ symbol: tokenSymbol, name: tokenSymbol }}
               chainId={chainId ?? 1}
+              noChain={noChain}
             />
             {content}
           </div>
