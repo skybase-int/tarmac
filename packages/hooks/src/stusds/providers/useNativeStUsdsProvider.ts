@@ -147,10 +147,13 @@ export function useNativeStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvid
       priceImpactBps: 0 // Native contract has no price impact
     };
 
+    const stUsdsAmount = direction === 'deposit' ? outputAmount : previewWithdraw || 0n;
+
     return {
       providerType: StUsdsProviderType.NATIVE,
       inputAmount: amount,
       outputAmount,
+      stUsdsAmount,
       rateInfo,
       isValid,
       invalidReason

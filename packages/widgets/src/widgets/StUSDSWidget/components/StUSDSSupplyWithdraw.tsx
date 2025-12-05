@@ -3,8 +3,6 @@ import { Trans } from '@lingui/react/macro';
 import {
   getTokenDecimals,
   TOKENS,
-  useStUsdsPreviewDeposit,
-  useStUsdsPreviewWithdraw,
   StUsdsProviderType,
   StUsdsProviderSelectionResult
 } from '@jetstreamgg/sky-hooks';
@@ -156,12 +154,8 @@ export const StUSDSSupplyWithdraw = ({
       ? (userUsdsBalance || 0n) + amount
       : (userUsdsBalance || 0n) - amount;
 
-  const { data: stUsdsDepositAmount } = useStUsdsPreviewDeposit(amount);
-
-  const { data: stUsdsWithdrawAmount } = useStUsdsPreviewWithdraw(amount);
-
   const stUsdsAmount = {
-    value: tabIndex === 0 ? stUsdsDepositAmount || 0n : stUsdsWithdrawAmount || 0n
+    value: providerSelection?.selectedQuote?.stUsdsAmount || 0n
   };
 
   return (
