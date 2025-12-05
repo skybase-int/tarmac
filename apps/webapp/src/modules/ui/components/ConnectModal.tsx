@@ -5,13 +5,13 @@ import { Button } from '@/components/ui/button';
 import { Text } from '@/modules/layout/components/Typography';
 import { Close } from '@/modules/icons';
 import { t } from '@lingui/core/macro';
-import { cn } from '@/lib/utils';
 import { useIsSafeWallet } from '@jetstreamgg/sky-utils';
 import { WalletIcon } from './WalletIcon';
 import { WALLET_ICONS } from '@/lib/constants';
 import { ConnectWallet } from '@jetstreamgg/sky-widgets';
 import { Trans } from '@lingui/react/macro';
 import { ExternalLink } from '@/modules/layout/components/ExternalLink';
+import { ConnectWalletAlt } from '@/modules/icons/ConnectWalletAlt';
 
 interface ConnectModalProps {
   open: boolean;
@@ -107,16 +107,7 @@ export function ConnectModal({ open, onOpenChange }: ConnectModalProps) {
     const isReady = ready[connector.uid] ?? false;
 
     return (
-      <Button
-        key={connector.uid}
-        onClick={() => connect({ connector })}
-        disabled={!isReady || isPending}
-        variant="ghost"
-        className={cn(
-          'hover:bg-containerLight flex w-full items-center justify-between p-3',
-          isConnecting && 'bg-containerLight opacity-70'
-        )}
-      >
+      <div key={connector.uid} className="flex items-center justify-between gap-3 px-3">
         <div className="flex items-center gap-3">
           <WalletIcon connector={connector} iconUrl={icons[connector.uid]} />
           <div className="flex flex-col items-start">
@@ -127,18 +118,25 @@ export function ConnectModal({ open, onOpenChange }: ConnectModalProps) {
             )}
           </div>
         </div>
-      </Button>
+        <Button
+          key={connector.uid}
+          onClick={() => connect({ connector })}
+          disabled={!isReady || isPending}
+          variant="pill"
+          size="xs"
+        >{t`Connect`}</Button>
+      </div>
     );
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="bg-containerDark gap-6 p-0 sm:max-w-[440px] sm:min-w-[440px]"
+        className="bg-containerDark gap-6 p-4 sm:max-w-[490px] sm:min-w-[490px]"
         onOpenAutoFocus={e => e.preventDefault()}
         onCloseAutoFocus={e => e.preventDefault()}
       >
-        <div className="flex items-center justify-between pt-2">
+        <div className="flex items-center justify-between md:pt-2">
           <DialogTitle className="text-text text-2xl">{t`Connect your wallet`}</DialogTitle>
           <DialogClose asChild>
             <Button
@@ -190,6 +188,22 @@ export function ConnectModal({ open, onOpenChange }: ConnectModalProps) {
         </div>
 
         {error && <Text className="text-sm text-red-500">{t`Failed to connect. Please try again.`}</Text>}
+
+        <div className="border-borderPrimary border-t" />
+
+        <div className="flex items-center justify-between px-3">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center">
+              <ConnectWalletAlt />
+            </div>
+            <Text className="text-text">{t`Still not using a crypto wallet?`}</Text>
+          </div>
+          <Button variant="pill" size="xs">
+            <ExternalLink href="https://sky.money/faq" showIcon={false}>
+              Learn more
+            </ExternalLink>
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   );
