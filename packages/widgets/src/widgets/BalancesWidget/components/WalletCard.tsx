@@ -12,6 +12,7 @@ import {
   isOptimismChainId,
   isUnichainChainId
 } from '@jetstreamgg/sky-utils';
+import { cn } from '@widgets/lib/utils';
 
 export const WalletCard = ({
   iconSize = 24,
@@ -19,6 +20,7 @@ export const WalletCard = ({
   ensAvatar,
   ensName,
   walletIcon,
+  className,
   onExternalLinkClicked
 }: {
   iconSize?: number;
@@ -26,6 +28,7 @@ export const WalletCard = ({
   ensName?: string | null;
   ensAvatar?: string | null;
   walletIcon?: React.ReactElement;
+  className?: string;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 }): React.ReactElement => {
   const chainId = useChainId();
@@ -44,7 +47,7 @@ export const WalletCard = ({
   }, [address, iconSize]);
 
   return (
-    <Card variant="address" className="mb-3">
+    <Card variant="address" className={cn('mb-3', className)}>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="relative flex items-center">

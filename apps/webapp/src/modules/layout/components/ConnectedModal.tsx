@@ -354,7 +354,7 @@ export function ConnectedModal({
         onOpenAutoFocus={e => e.preventDefault()}
         onCloseAutoFocus={e => e.preventDefault()}
       >
-        <div className="flex items-center justify-between md:pt-2">
+        <div className="flex items-center justify-between">
           <DialogTitle className="text-text text-2xl">{t`Account`}</DialogTitle>
           <DialogClose asChild>
             <Button variant="ghost" className="text-textSecondary hover:text-text h-8 w-8 rounded-full p-0">
@@ -364,6 +364,7 @@ export function ConnectedModal({
         </div>
 
         <WalletCard
+          className="mb-0"
           onExternalLinkClicked={onExternalLinkClicked}
           iconSize={40}
           showEns={true}
@@ -379,6 +380,15 @@ export function ConnectedModal({
             )
           }
         />
+
+        <Button
+          variant="primary"
+          onClick={onDisconnect}
+          size="large"
+          className="text-md w-full px-6 leading-6"
+        >
+          {t`Disconnect wallet`}
+        </Button>
 
         {/* Recent Transactions Section */}
         {recentTransactions.length > 0 && (
@@ -424,10 +434,6 @@ export function ConnectedModal({
             </div>
           </div>
         )}
-
-        <Button variant="connect" onClick={onDisconnect} className="w-full">
-          {t`Disconnect Wallet`}
-        </Button>
       </DialogContent>
     </Dialog>
   );
