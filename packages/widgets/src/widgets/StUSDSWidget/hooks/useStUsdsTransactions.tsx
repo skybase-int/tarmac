@@ -20,6 +20,12 @@ interface UseStUsdsTransactionsParameters
   mutateStUsds: () => void;
   selectedProvider: StUsdsProviderType;
   expectedOutput: bigint;
+  /**
+   * stUSDS amount for Curve withdrawals.
+   * For withdrawals via Curve, this is the stUSDS input needed to receive the desired USDS output.
+   * For deposits, this is ignored (amount is used as USDS input).
+   */
+  stUsdsAmount?: bigint;
 }
 
 export const useStUsdsTransactions = ({
@@ -33,7 +39,8 @@ export const useStUsdsTransactions = ({
   onWidgetStateChange,
   onNotification,
   selectedProvider,
-  expectedOutput
+  expectedOutput,
+  stUsdsAmount
 }: UseStUsdsTransactionsParameters) => {
   const { widgetState } = useContext(WidgetContext);
   const { supplyTransactionCallbacks, withdrawTransactionCallbacks } = useStUsdsTransactionCallbacks({
@@ -67,6 +74,7 @@ export const useStUsdsTransactions = ({
   });
 
   // Curve swap for supply (USDS -> stUSDS)
+  // Input: USDS (amount from UI), Output: stUSDS (expectedOutput from quote)
   const curveSupplySwap = useBatchCurveSwap({
     direction: 'deposit',
     inputAmount: amount,
@@ -78,12 +86,15 @@ export const useStUsdsTransactions = ({
   });
 
   // Curve swap for withdraw (stUSDS -> USDS)
+  // Input: stUSDS (stUsdsAmount from quote), Output: USDS (amount from UI)
+  // Note: For withdrawals, the user specifies desired USDS output, and we calculated
+  // the required stUSDS input using get_dx. We use that stUsdsAmount as inputAmount.
   const curveWithdrawSwap = useBatchCurveSwap({
     direction: 'withdraw',
-    inputAmount: amount,
-    expectedOutput,
+    inputAmount: stUsdsAmount ?? 0n, // stUSDS to swap (calculated from get_dx)
+    expectedOutput: amount, // USDS the user wants to receive
     shouldUseBatch,
-    enabled: isCurve && widgetState.action === StUSDSAction.WITHDRAW,
+    enabled: isCurve && widgetState.action === StUSDSAction.WITHDRAW && (stUsdsAmount ?? 0n) > 0n,
     ...withdrawTransactionCallbacks
   });
 

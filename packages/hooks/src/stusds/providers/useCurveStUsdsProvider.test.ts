@@ -219,9 +219,8 @@ describe('useCurveStUsdsProvider', () => {
         })
       );
 
-      // maxWithdraw = usdsReserve * WAD * slippageMultiplier / (priceOracle * BPS_DIVISOR)
-      const expectedMaxWithdraw =
-        (usdsReserve * WAD * slippageMultiplier) / (priceOracle * RATE_PRECISION.BPS_DIVISOR);
+      // maxWithdraw = usdsReserve * slippageMultiplier / BPS_DIVISOR (in USDS terms)
+      const expectedMaxWithdraw = (usdsReserve * slippageMultiplier) / RATE_PRECISION.BPS_DIVISOR;
       expect(result.current.data?.state.maxWithdraw).toBe(expectedMaxWithdraw);
     });
 

@@ -13,7 +13,8 @@ vi.mock('wagmi', () => ({
 
 // Mock generated hooks
 vi.mock('../../generated', () => ({
-  useReadCurveStUsdsUsdsPoolGetDy: vi.fn()
+  useReadCurveStUsdsUsdsPoolGetDy: vi.fn(),
+  useReadCurveStUsdsUsdsPoolGetDx: vi.fn()
 }));
 
 // Mock useCurvePoolData
@@ -26,7 +27,7 @@ vi.mock('@jetstreamgg/sky-utils', () => ({
   isTestnetId: vi.fn(() => false)
 }));
 
-import { useReadCurveStUsdsUsdsPoolGetDy } from '../../generated';
+import { useReadCurveStUsdsUsdsPoolGetDy, useReadCurveStUsdsUsdsPoolGetDx } from '../../generated';
 import { useCurvePoolData } from './useCurvePoolData';
 
 describe('useCurveQuote', () => {
@@ -52,15 +53,30 @@ describe('useCurveQuote', () => {
       error: null,
       refetch: vi.fn()
     });
+
+    // Default mocks for both get_dy and get_dx
+    (useReadCurveStUsdsUsdsPoolGetDy as ReturnType<typeof vi.fn>).mockReturnValue({
+      data: undefined,
+      isLoading: false,
+      error: null,
+      refetch: vi.fn()
+    });
+
+    (useReadCurveStUsdsUsdsPoolGetDx as ReturnType<typeof vi.fn>).mockReturnValue({
+      data: undefined,
+      isLoading: false,
+      error: null,
+      refetch: vi.fn()
+    });
   });
 
-  describe('USDS to stUSDS quote (deposit)', () => {
-    it('should return correct quote for USDS input', () => {
-      const inputAmount = 1000n * WAD;
-      const outputAmount = 950n * WAD; // Approximate after fees
+  describe('deposit quote (USDS -> stUSDS)', () => {
+    it('should return correct quote for deposit', () => {
+      const usdsAmount = 1000n * WAD;
+      const stUsdsOutput = 950n * WAD; // Approximate after fees
 
       (useReadCurveStUsdsUsdsPoolGetDy as ReturnType<typeof vi.fn>).mockReturnValue({
-        data: outputAmount,
+        data: stUsdsOutput,
         isLoading: false,
         error: null,
         refetch: vi.fn()
@@ -68,28 +84,27 @@ describe('useCurveQuote', () => {
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          inputToken: 'USDS',
-          inputAmount,
+          direction: 'deposit',
+          amount: usdsAmount,
           enabled: true
         })
       );
 
       expect(result.current.data).toBeDefined();
-      expect(result.current.data?.outputAmount).toBe(outputAmount);
-      expect(result.current.data?.effectiveRate).toBe((outputAmount * WAD) / inputAmount);
+      expect(result.current.data?.usdsAmount).toBe(usdsAmount);
+      expect(result.current.data?.stUsdsAmount).toBe(stUsdsOutput);
+      expect(result.current.data?.effectiveRate).toBe((stUsdsOutput * WAD) / usdsAmount);
       expect(result.current.isLoading).toBe(false);
     });
 
-    it('should calculate price impact for USDS deposit', () => {
-      const inputAmount = 1000n * WAD;
-      // Oracle says 1 stUSDS = 1.05 USDS, so for 1000 USDS we expect ~952.38 stUSDS
-      // Expected rate = WAD * WAD / priceOracle = WAD * WAD / (1.05 * WAD) = ~0.952 WAD
+    it('should calculate price impact for deposit', () => {
+      const usdsAmount = 1000n * WAD;
       const priceOracle = (105n * WAD) / 100n;
       const expectedRate = (WAD * WAD) / priceOracle; // ~0.952 * WAD
 
       // Actual output is less due to fees/slippage
-      const outputAmount = 940n * WAD;
-      const actualRate = (outputAmount * WAD) / inputAmount; // 0.94 * WAD
+      const stUsdsOutput = 940n * WAD;
+      const actualRate = (stUsdsOutput * WAD) / usdsAmount; // 0.94 * WAD
 
       (useCurvePoolData as ReturnType<typeof vi.fn>).mockReturnValue({
         data: {
@@ -108,7 +123,7 @@ describe('useCurveQuote', () => {
       });
 
       (useReadCurveStUsdsUsdsPoolGetDy as ReturnType<typeof vi.fn>).mockReturnValue({
-        data: outputAmount,
+        data: stUsdsOutput,
         isLoading: false,
         error: null,
         refetch: vi.fn()
@@ -116,26 +131,25 @@ describe('useCurveQuote', () => {
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          inputToken: 'USDS',
-          inputAmount,
+          direction: 'deposit',
+          amount: usdsAmount,
           enabled: true
         })
       );
 
       expect(result.current.data?.priceImpactBps).toBeGreaterThan(0);
-      // Price impact = (expected - actual) / expected * 10000
       const expectedImpact = Number(((expectedRate - actualRate) * BPS) / expectedRate);
       expect(result.current.data?.priceImpactBps).toBeCloseTo(expectedImpact, 0);
     });
   });
 
-  describe('stUSDS to USDS quote (withdraw)', () => {
-    it('should return correct quote for stUSDS input', () => {
-      const inputAmount = 1000n * WAD;
-      const outputAmount = 1050n * WAD; // stUSDS is worth more than USDS
+  describe('withdraw quote (stUSDS -> USDS)', () => {
+    it('should return correct quote for withdraw using get_dx', () => {
+      const desiredUsdsOutput = 1000n * WAD;
+      const requiredStUsdsInput = 960n * WAD; // Calculated via get_dx
 
-      (useReadCurveStUsdsUsdsPoolGetDy as ReturnType<typeof vi.fn>).mockReturnValue({
-        data: outputAmount,
+      (useReadCurveStUsdsUsdsPoolGetDx as ReturnType<typeof vi.fn>).mockReturnValue({
+        data: requiredStUsdsInput,
         isLoading: false,
         error: null,
         refetch: vi.fn()
@@ -143,24 +157,25 @@ describe('useCurveQuote', () => {
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          inputToken: 'stUSDS',
-          inputAmount,
+          direction: 'withdraw',
+          amount: desiredUsdsOutput,
           enabled: true
         })
       );
 
       expect(result.current.data).toBeDefined();
-      expect(result.current.data?.outputAmount).toBe(outputAmount);
-      expect(result.current.data?.effectiveRate).toBe((outputAmount * WAD) / inputAmount);
+      expect(result.current.data?.usdsAmount).toBe(desiredUsdsOutput);
+      expect(result.current.data?.stUsdsAmount).toBe(requiredStUsdsInput);
+      // Rate: USDS per stUSDS
+      expect(result.current.data?.effectiveRate).toBe((desiredUsdsOutput * WAD) / requiredStUsdsInput);
     });
 
-    it('should calculate price impact for stUSDS withdraw', () => {
-      const inputAmount = 1000n * WAD;
+    it('should calculate price impact for withdraw', () => {
+      const desiredUsdsOutput = 1000n * WAD;
       const priceOracle = (105n * WAD) / 100n; // 1.05 USDS per stUSDS
-      // For stUSDS -> USDS, expected rate = priceOracle
-      // Actual output is less due to fees
-      const outputAmount = 1040n * WAD;
-      const actualRate = (outputAmount * WAD) / inputAmount;
+      // Required stUSDS is more than expected due to fees
+      const requiredStUsdsInput = 970n * WAD;
+      const actualRate = (desiredUsdsOutput * WAD) / requiredStUsdsInput;
 
       (useCurvePoolData as ReturnType<typeof vi.fn>).mockReturnValue({
         data: {
@@ -178,8 +193,8 @@ describe('useCurveQuote', () => {
         refetch: vi.fn()
       });
 
-      (useReadCurveStUsdsUsdsPoolGetDy as ReturnType<typeof vi.fn>).mockReturnValue({
-        data: outputAmount,
+      (useReadCurveStUsdsUsdsPoolGetDx as ReturnType<typeof vi.fn>).mockReturnValue({
+        data: requiredStUsdsInput,
         isLoading: false,
         error: null,
         refetch: vi.fn()
@@ -187,32 +202,24 @@ describe('useCurveQuote', () => {
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          inputToken: 'stUSDS',
-          inputAmount,
+          direction: 'withdraw',
+          amount: desiredUsdsOutput,
           enabled: true
         })
       );
 
       expect(result.current.data?.priceImpactBps).toBeGreaterThan(0);
-      // Price impact = (expected - actual) / expected * 10000
       const expectedImpact = Number(((priceOracle - actualRate) * BPS) / priceOracle);
       expect(result.current.data?.priceImpactBps).toBeCloseTo(expectedImpact, 0);
     });
   });
 
   describe('edge cases', () => {
-    it('should return undefined when inputAmount is 0', () => {
-      (useReadCurveStUsdsUsdsPoolGetDy as ReturnType<typeof vi.fn>).mockReturnValue({
-        data: undefined,
-        isLoading: false,
-        error: null,
-        refetch: vi.fn()
-      });
-
+    it('should return undefined when amount is 0', () => {
       const { result } = renderHook(() =>
         useCurveQuote({
-          inputToken: 'USDS',
-          inputAmount: 0n,
+          direction: 'deposit',
+          amount: 0n,
           enabled: true
         })
       );
@@ -220,7 +227,7 @@ describe('useCurveQuote', () => {
       expect(result.current.data).toBeUndefined();
     });
 
-    it('should return undefined when outputAmount is undefined', () => {
+    it('should return undefined when deposit output is undefined', () => {
       (useReadCurveStUsdsUsdsPoolGetDy as ReturnType<typeof vi.fn>).mockReturnValue({
         data: undefined,
         isLoading: false,
@@ -230,8 +237,27 @@ describe('useCurveQuote', () => {
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          inputToken: 'USDS',
-          inputAmount: 1000n * WAD,
+          direction: 'deposit',
+          amount: 1000n * WAD,
+          enabled: true
+        })
+      );
+
+      expect(result.current.data).toBeUndefined();
+    });
+
+    it('should return undefined when withdraw input is undefined', () => {
+      (useReadCurveStUsdsUsdsPoolGetDx as ReturnType<typeof vi.fn>).mockReturnValue({
+        data: undefined,
+        isLoading: false,
+        error: null,
+        refetch: vi.fn()
+      });
+
+      const { result } = renderHook(() =>
+        useCurveQuote({
+          direction: 'withdraw',
+          amount: 1000n * WAD,
           enabled: true
         })
       );
@@ -240,10 +266,10 @@ describe('useCurveQuote', () => {
     });
 
     it('should not calculate price impact when getting better than oracle rate', () => {
-      const inputAmount = 1000n * WAD;
+      const desiredUsdsOutput = 1000n * WAD;
       const priceOracle = (105n * WAD) / 100n;
-      // Output is better than expected (higher rate)
-      const outputAmount = 1060n * WAD;
+      // Required stUSDS is less than expected (better rate)
+      const requiredStUsdsInput = 940n * WAD;
 
       (useCurvePoolData as ReturnType<typeof vi.fn>).mockReturnValue({
         data: {
@@ -261,8 +287,8 @@ describe('useCurveQuote', () => {
         refetch: vi.fn()
       });
 
-      (useReadCurveStUsdsUsdsPoolGetDy as ReturnType<typeof vi.fn>).mockReturnValue({
-        data: outputAmount,
+      (useReadCurveStUsdsUsdsPoolGetDx as ReturnType<typeof vi.fn>).mockReturnValue({
+        data: requiredStUsdsInput,
         isLoading: false,
         error: null,
         refetch: vi.fn()
@@ -270,19 +296,19 @@ describe('useCurveQuote', () => {
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          inputToken: 'stUSDS',
-          inputAmount,
+          direction: 'withdraw',
+          amount: desiredUsdsOutput,
           enabled: true
         })
       );
 
-      // When getting better rate, price impact should be 0 (no negative impact)
+      // When getting better rate, price impact should be 0
       expect(result.current.data?.priceImpactBps).toBe(0);
     });
 
     it('should handle zero price oracle gracefully', () => {
-      const inputAmount = 1000n * WAD;
-      const outputAmount = 950n * WAD;
+      const usdsAmount = 1000n * WAD;
+      const stUsdsOutput = 950n * WAD;
 
       (useCurvePoolData as ReturnType<typeof vi.fn>).mockReturnValue({
         data: {
@@ -301,7 +327,7 @@ describe('useCurveQuote', () => {
       });
 
       (useReadCurveStUsdsUsdsPoolGetDy as ReturnType<typeof vi.fn>).mockReturnValue({
-        data: outputAmount,
+        data: stUsdsOutput,
         isLoading: false,
         error: null,
         refetch: vi.fn()
@@ -309,8 +335,8 @@ describe('useCurveQuote', () => {
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          inputToken: 'USDS',
-          inputAmount,
+          direction: 'deposit',
+          amount: usdsAmount,
           enabled: true
         })
       );
@@ -320,7 +346,7 @@ describe('useCurveQuote', () => {
   });
 
   describe('loading state', () => {
-    it('should combine loading states from pool and quote', () => {
+    it('should show loading when pool data is loading', () => {
       (useCurvePoolData as ReturnType<typeof vi.fn>).mockReturnValue({
         data: undefined,
         isLoading: true,
@@ -328,17 +354,48 @@ describe('useCurveQuote', () => {
         refetch: vi.fn()
       });
 
+      const { result } = renderHook(() =>
+        useCurveQuote({
+          direction: 'deposit',
+          amount: 1000n * WAD,
+          enabled: true
+        })
+      );
+
+      expect(result.current.isLoading).toBe(true);
+    });
+
+    it('should show loading when deposit quote is loading', () => {
       (useReadCurveStUsdsUsdsPoolGetDy as ReturnType<typeof vi.fn>).mockReturnValue({
         data: undefined,
-        isLoading: false,
+        isLoading: true,
         error: null,
         refetch: vi.fn()
       });
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          inputToken: 'USDS',
-          inputAmount: 1000n * WAD,
+          direction: 'deposit',
+          amount: 1000n * WAD,
+          enabled: true
+        })
+      );
+
+      expect(result.current.isLoading).toBe(true);
+    });
+
+    it('should show loading when withdraw quote is loading', () => {
+      (useReadCurveStUsdsUsdsPoolGetDx as ReturnType<typeof vi.fn>).mockReturnValue({
+        data: undefined,
+        isLoading: true,
+        error: null,
+        refetch: vi.fn()
+      });
+
+      const { result } = renderHook(() =>
+        useCurveQuote({
+          direction: 'withdraw',
+          amount: 1000n * WAD,
           enabled: true
         })
       );
@@ -348,7 +405,7 @@ describe('useCurveQuote', () => {
   });
 
   describe('disabled state', () => {
-    it('should not fetch when disabled', () => {
+    it('should not fetch deposit quote when disabled', () => {
       const getDyMock = vi.fn().mockReturnValue({
         data: undefined,
         isLoading: false,
@@ -360,14 +417,40 @@ describe('useCurveQuote', () => {
 
       renderHook(() =>
         useCurveQuote({
-          inputToken: 'USDS',
-          inputAmount: 1000n * WAD,
+          direction: 'deposit',
+          amount: 1000n * WAD,
           enabled: false
         })
       );
 
-      // Check that the query was called with enabled: false
       expect(getDyMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          query: expect.objectContaining({
+            enabled: false
+          })
+        })
+      );
+    });
+
+    it('should not fetch withdraw quote when disabled', () => {
+      const getDxMock = vi.fn().mockReturnValue({
+        data: undefined,
+        isLoading: false,
+        error: null,
+        refetch: vi.fn()
+      });
+
+      (useReadCurveStUsdsUsdsPoolGetDx as ReturnType<typeof vi.fn>).mockImplementation(getDxMock);
+
+      renderHook(() =>
+        useCurveQuote({
+          direction: 'withdraw',
+          amount: 1000n * WAD,
+          enabled: false
+        })
+      );
+
+      expect(getDxMock).toHaveBeenCalledWith(
         expect.objectContaining({
           query: expect.objectContaining({
             enabled: false

@@ -128,7 +128,9 @@ const StUSDSWidgetWrapped = ({
     onWidgetStateChange,
     onNotification,
     selectedProvider: providerSelection.selectedProvider,
-    expectedOutput: providerSelection.selectedQuote?.outputAmount ?? 0n
+    expectedOutput: providerSelection.selectedQuote?.outputAmount ?? 0n,
+    // For Curve withdrawals: stUsdsAmount is the calculated stUSDS input needed
+    stUsdsAmount: providerSelection.selectedQuote?.stUsdsAmount
   });
 
   useEffect(() => {
@@ -174,9 +176,21 @@ const StUSDSWidgetWrapped = ({
     ? (providerSelection.curveProvider?.state?.maxDeposit ?? undefined)
     : (providerSelection.nativeProvider?.state?.maxDeposit ?? remainingCapacityBuffered);
 
+  // For Curve: limit by pool's max withdraw capacity (in USDS terms)
+  // For Native: limit by user's max withdrawable from contract (in USDS terms)
+  const curveMaxWithdraw = providerSelection.curveProvider?.state?.maxWithdraw;
+  const nativeMaxWithdraw = stUsdsData?.userMaxWithdrawBuffered ?? 0n;
+  // User's stUSDS value in USDS terms (what they could get if they withdrew everything)
+  const userSuppliedUsds = stUsdsData?.userSuppliedUsds ?? 0n;
+
   const maxWithdrawAmount = isCurveSelected
-    ? (providerSelection.curveProvider?.state?.maxWithdraw ?? stUsdsData?.userMaxWithdrawBuffered ?? 0n)
-    : (stUsdsData?.userMaxWithdrawBuffered ?? 0n);
+    ? curveMaxWithdraw !== undefined
+      ? // When Curve is selected, max is the minimum of user's USDS value and pool capacity
+        curveMaxWithdraw < userSuppliedUsds
+        ? curveMaxWithdraw
+        : userSuppliedUsds
+      : nativeMaxWithdraw
+    : nativeMaxWithdraw;
 
   const isSupplyBalanceError =
     txStatus === TxStatus.IDLE &&
@@ -516,7 +530,7 @@ const StUSDSWidgetWrapped = ({
               nstBalance={stUsdsData?.userUsdsBalance}
               userUsdsBalance={stUsdsData?.userSuppliedUsds}
               userStUsdsBalance={stUsdsData?.userStUsdsBalance}
-              withdrawableBalance={stUsdsData?.userMaxWithdrawBuffered}
+              withdrawableBalance={maxWithdrawAmount}
               totalAssets={stUsdsData?.totalAssets}
               availableLiquidityBuffered={stUsdsData?.availableLiquidityBuffered}
               moduleRate={stUsdsData?.moduleRate}

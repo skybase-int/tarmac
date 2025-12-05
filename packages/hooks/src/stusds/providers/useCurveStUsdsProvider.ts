@@ -37,18 +37,18 @@ export function useCurveStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvide
     refetch: refetchPool
   } = useCurvePoolData();
 
-  // Determine input token based on direction
-  const inputToken = direction === 'deposit' ? 'USDS' : 'stUSDS';
-
   // Get quote from Curve pool
+  // The quote hook now uses direction to determine the correct calculation:
+  // - For deposits: amount is USDS input, returns stUSDS output
+  // - For withdrawals: amount is desired USDS output, returns required stUSDS input
   const {
     data: quoteData,
     isLoading: isQuoteLoading,
     error: quoteError,
     refetch: refetchQuote
   } = useCurveQuote({
-    inputToken,
-    inputAmount: amount,
+    direction,
+    amount,
     enabled: amount > 0n && !!poolData
   });
 
@@ -72,23 +72,24 @@ export function useCurveStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvide
       status = canWithdraw ? StUsdsProviderStatus.AVAILABLE : StUsdsProviderStatus.BLOCKED;
     }
 
-    // Max amounts need to account for the exchange rate between USDS and stUSDS.
+    // Max amounts are in USDS terms to match the native provider's userMaxWithdrawBuffered.
     // The priceOracle returns the price of stUSDS in terms of USDS (scaled by 1e18).
-    // For deposits (USDS → stUSDS): maxDeposit = stUsdsReserve * priceOracle / WAD
-    // For withdrawals (stUSDS → USDS): maxWithdraw = usdsReserve * WAD / priceOracle
     const slippageMultiplier = RATE_PRECISION.BPS_DIVISOR - BigInt(STUSDS_PROVIDER_CONFIG.maxSlippageBps);
 
     // Use price oracle if available, otherwise fall back to 1:1
     const priceOracle = poolData.priceOracle || RATE_PRECISION.WAD;
 
+    // For deposits (USDS → stUSDS): max USDS that can be deposited based on stUSDS available in pool
+    // maxDeposit = stUsdsReserve * priceOracle / WAD (converted to USDS terms)
     const maxDeposit = canDeposit
       ? (poolData.stUsdsReserve * priceOracle * slippageMultiplier) /
         (RATE_PRECISION.WAD * RATE_PRECISION.BPS_DIVISOR)
       : 0n;
 
+    // For withdrawals (stUSDS → USDS): max USDS that can be received from pool
+    // maxWithdraw = usdsReserve * slippageBuffer (already in USDS terms)
     const maxWithdraw = canWithdraw
-      ? (poolData.usdsReserve * RATE_PRECISION.WAD * slippageMultiplier) /
-        (priceOracle * RATE_PRECISION.BPS_DIVISOR)
+      ? (poolData.usdsReserve * slippageMultiplier) / RATE_PRECISION.BPS_DIVISOR
       : 0n;
 
     return {
@@ -111,11 +112,13 @@ export function useCurveStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvide
   const quote: StUsdsQuote | undefined = useMemo(() => {
     if (!state || amount === 0n) return undefined;
 
-    if (!quoteData || quoteData.outputAmount === 0n) {
+    if (!quoteData || quoteData.stUsdsAmount === 0n) {
       return {
         providerType: StUsdsProviderType.CURVE,
-        inputAmount: amount,
-        outputAmount: 0n,
+        inputAmount: direction === 'deposit' ? amount : 0n,
+        outputAmount: direction === 'deposit' ? 0n : amount,
+        // For transactions: stUsdsAmount is what goes into/out of Curve for stUSDS side
+        stUsdsAmount: 0n,
         rateInfo: {
           outputAmount: 0n,
           effectiveRate: 0n,
@@ -159,10 +162,15 @@ export function useCurveStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvide
       invalidReason = 'Price impact too high';
     }
 
-    // Curve fees are already included in the quote (get_dy returns post-fee amount)
-    // We don't have a separate fee amount, so set to 0
+    // Determine input/output amounts based on direction
+    // For deposits: input = USDS, output = stUSDS
+    // For withdrawals: input = stUSDS, output = USDS
+    const inputAmount = direction === 'deposit' ? quoteData.usdsAmount : quoteData.stUsdsAmount;
+    const outputAmount = direction === 'deposit' ? quoteData.stUsdsAmount : quoteData.usdsAmount;
+
+    // Curve fees are already included in the quote
     const rateInfo: StUsdsRateInfo = {
-      outputAmount: quoteData.outputAmount,
+      outputAmount,
       effectiveRate: quoteData.effectiveRate,
       feeAmount: 0n, // Fees included in quote
       estimatedSlippageBps: STUSDS_PROVIDER_CONFIG.maxSlippageBps,
@@ -171,8 +179,12 @@ export function useCurveStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvide
 
     return {
       providerType: StUsdsProviderType.CURVE,
-      inputAmount: amount,
-      outputAmount: quoteData.outputAmount,
+      inputAmount,
+      outputAmount,
+      // Include stUsdsAmount for transaction execution
+      // For deposits: this is the stUSDS output (what user receives)
+      // For withdrawals: this is the stUSDS input (what user spends)
+      stUsdsAmount: quoteData.stUsdsAmount,
       rateInfo,
       isValid,
       invalidReason

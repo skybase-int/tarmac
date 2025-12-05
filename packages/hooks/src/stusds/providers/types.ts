@@ -106,6 +106,13 @@ export type StUsdsQuote = {
   inputAmount: bigint;
   /** Expected output amount (stUSDS for deposit, USDS for withdraw) */
   outputAmount: bigint;
+  /**
+   * stUSDS amount for Curve transactions (optional, only set by Curve provider).
+   * - For deposits: this is the stUSDS output (same as outputAmount)
+   * - For withdrawals: this is the stUSDS input needed to receive the desired USDS
+   * Used by useBatchCurveSwap to construct the swap call with correct amounts.
+   */
+  stUsdsAmount?: bigint;
   /** Detailed rate information */
   rateInfo: StUsdsRateInfo;
   /** Whether this quote is executable */

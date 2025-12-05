@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useChainId } from 'wagmi';
-import { useReadCurveStUsdsUsdsPoolGetDy } from '../../generated';
+import { useReadCurveStUsdsUsdsPoolGetDy, useReadCurveStUsdsUsdsPoolGetDx } from '../../generated';
 import { isTestnetId } from '@jetstreamgg/sky-utils';
 import { TENDERLY_CHAIN_ID } from '../../constants';
 import { useCurvePoolData } from './useCurvePoolData';
@@ -10,23 +10,30 @@ import { RATE_PRECISION } from './constants';
  * Parameters for the Curve quote hook.
  */
 export type CurveQuoteParams = {
-  /** Token being swapped in ('USDS' or 'stUSDS') */
-  inputToken: 'USDS' | 'stUSDS';
-  /** Amount of input token */
-  inputAmount: bigint;
+  /** Direction of the swap - determines how amount is interpreted */
+  direction: 'deposit' | 'withdraw';
+  /**
+   * Amount in USDS terms:
+   * - For deposits: USDS input amount
+   * - For withdrawals: USDS output amount (desired)
+   */
+  amount: bigint;
   /** Whether the quote should be fetched */
   enabled?: boolean;
 };
 
 /**
  * Quote result from Curve pool.
+ * All amounts are in their respective token units.
  */
 export type CurveQuoteData = {
-  /** Expected output amount */
-  outputAmount: bigint;
+  /** stUSDS amount (output for deposits, input for withdrawals) */
+  stUsdsAmount: bigint;
+  /** USDS amount (input for deposits, output for withdrawals) */
+  usdsAmount: bigint;
   /** Price impact in basis points (approximate) */
   priceImpactBps: number;
-  /** Effective rate (output/input) scaled by 1e18 */
+  /** Effective rate scaled by 1e18 */
   effectiveRate: bigint;
 };
 
@@ -42,13 +49,19 @@ export type CurveQuoteHookResult = {
 
 /**
  * Hook to get a quote from the Curve USDS/stUSDS pool.
- * Uses get_dy which returns the output amount after fees.
+ *
+ * For deposits (USDS → stUSDS):
+ *   Uses get_dy to calculate stUSDS output from USDS input.
+ *
+ * For withdrawals (stUSDS → USDS):
+ *   Uses get_dx to calculate stUSDS input needed for desired USDS output.
+ *   This matches the native stUSDS interface where users specify USDS amounts.
  *
  * @param params - Quote parameters
- * @returns Quote data including output amount and price impact
+ * @returns Quote data including amounts and price impact
  */
 export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
-  const { inputToken, inputAmount, enabled = true } = params;
+  const { direction, amount, enabled = true } = params;
 
   const connectedChainId = useChainId();
   const chainId = isTestnetId(connectedChainId) ? TENDERLY_CHAIN_ID : 1;
@@ -56,74 +69,116 @@ export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
   // Get pool data to determine token indices
   const { data: poolData, isLoading: isPoolLoading } = useCurvePoolData();
 
-  // Determine input/output indices based on token
-  const inputIndex = useMemo(() => {
-    if (!poolData) return 0;
-    return inputToken === 'USDS' ? poolData.tokenIndices.usds : poolData.tokenIndices.stUsds;
-  }, [poolData, inputToken]);
+  const usdsIndex = poolData?.tokenIndices.usds ?? 0;
+  const stUsdsIndex = poolData?.tokenIndices.stUsds ?? 1;
 
-  const outputIndex = useMemo(() => {
-    if (!poolData) return 1;
-    return inputToken === 'USDS' ? poolData.tokenIndices.stUsds : poolData.tokenIndices.usds;
-  }, [poolData, inputToken]);
-
-  // Call get_dy to get the expected output
-  // get_dy returns output AFTER fees are deducted
+  // For deposits: get_dy(usds_idx, stusds_idx, usds_amount) → stusds output
   const {
-    data: outputAmount,
-    isLoading: isQuoteLoading,
-    error: quoteError,
-    refetch
+    data: depositOutput,
+    isLoading: isDepositLoading,
+    error: depositError,
+    refetch: refetchDeposit
   } = useReadCurveStUsdsUsdsPoolGetDy({
-    args: [BigInt(inputIndex), BigInt(outputIndex), inputAmount],
+    args: [BigInt(usdsIndex), BigInt(stUsdsIndex), amount],
     chainId,
     query: {
-      enabled: enabled && inputAmount > 0n && !!poolData
+      enabled: enabled && direction === 'deposit' && amount > 0n && !!poolData
+    }
+  });
+
+  // For withdrawals: get_dx(stusds_idx, usds_idx, usds_amount) → stusds input needed
+  const {
+    data: withdrawInput,
+    isLoading: isWithdrawLoading,
+    error: withdrawError,
+    refetch: refetchWithdraw
+  } = useReadCurveStUsdsUsdsPoolGetDx({
+    args: [BigInt(stUsdsIndex), BigInt(usdsIndex), amount],
+    chainId,
+    query: {
+      enabled: enabled && direction === 'withdraw' && amount > 0n && !!poolData
     }
   });
 
   const data: CurveQuoteData | undefined = useMemo(() => {
-    if (!outputAmount || inputAmount === 0n) return undefined;
+    if (amount === 0n) return undefined;
 
-    // Calculate effective rate (output / input) scaled by 1e18
-    const effectiveRate = (outputAmount * RATE_PRECISION.WAD) / inputAmount;
+    if (direction === 'deposit') {
+      if (!depositOutput) return undefined;
 
-    // Calculate price impact using the oracle price
-    // The oracle price represents the EMA price of stUSDS in terms of USDS (scaled by 1e18)
-    // i.e., priceOracle = how many USDS per 1 stUSDS
-    let priceImpactBps = 0;
-    if (poolData?.priceOracle && poolData.priceOracle > 0n) {
-      let expectedRate: bigint;
+      // For deposits: USDS in, stUSDS out
+      const usdsAmount = amount;
+      const stUsdsAmount = depositOutput;
 
-      if (inputToken === 'USDS') {
-        // USDS -> stUSDS: We expect to receive less stUSDS per USDS (inverse of oracle)
+      // Rate: stUSDS per USDS (how much stUSDS you get per USDS)
+      const effectiveRate = (stUsdsAmount * RATE_PRECISION.WAD) / usdsAmount;
+
+      // Calculate price impact using oracle
+      let priceImpactBps = 0;
+      if (poolData?.priceOracle && poolData.priceOracle > 0n) {
         // Expected rate = WAD / priceOracle (stUSDS per USDS)
-        expectedRate = (RATE_PRECISION.WAD * RATE_PRECISION.WAD) / poolData.priceOracle;
-      } else {
-        // stUSDS -> USDS: We expect to receive priceOracle USDS per stUSDS
+        const expectedRate = (RATE_PRECISION.WAD * RATE_PRECISION.WAD) / poolData.priceOracle;
+        if (effectiveRate < expectedRate) {
+          const impact = ((expectedRate - effectiveRate) * RATE_PRECISION.BPS_DIVISOR) / expectedRate;
+          priceImpactBps = Number(impact);
+        }
+      }
+
+      return {
+        stUsdsAmount,
+        usdsAmount,
+        priceImpactBps,
+        effectiveRate
+      };
+    } else {
+      // direction === 'withdraw'
+      if (!withdrawInput) return undefined;
+
+      // For withdrawals: stUSDS in, USDS out
+      const usdsAmount = amount;
+      const stUsdsAmount = withdrawInput;
+
+      // Rate: USDS per stUSDS (how much USDS you get per stUSDS burned)
+      const effectiveRate = (usdsAmount * RATE_PRECISION.WAD) / stUsdsAmount;
+
+      // Calculate price impact using oracle
+      let priceImpactBps = 0;
+      if (poolData?.priceOracle && poolData.priceOracle > 0n) {
         // Expected rate = priceOracle (USDS per stUSDS)
-        expectedRate = poolData.priceOracle;
+        const expectedRate = poolData.priceOracle;
+        if (effectiveRate < expectedRate) {
+          const impact = ((expectedRate - effectiveRate) * RATE_PRECISION.BPS_DIVISOR) / expectedRate;
+          priceImpactBps = Number(impact);
+        }
       }
 
-      // Price impact is the difference between expected and actual rate
-      // Positive impact means we're getting less than expected (negative for user)
-      if (effectiveRate < expectedRate) {
-        const impact = ((expectedRate - effectiveRate) * RATE_PRECISION.BPS_DIVISOR) / expectedRate;
-        priceImpactBps = Number(impact);
-      }
+      return {
+        stUsdsAmount,
+        usdsAmount,
+        priceImpactBps,
+        effectiveRate
+      };
     }
+  }, [direction, amount, depositOutput, withdrawInput, poolData?.priceOracle]);
 
-    return {
-      outputAmount,
-      priceImpactBps,
-      effectiveRate
-    };
-  }, [outputAmount, inputAmount, poolData?.priceOracle, inputToken]);
+  const isLoading = isPoolLoading || (direction === 'deposit' ? isDepositLoading : isWithdrawLoading);
+  const error = direction === 'deposit' ? depositError : withdrawError;
+
+  const refetch = () => {
+    if (direction === 'deposit') {
+      refetchDeposit();
+    } else {
+      refetchWithdraw();
+    }
+  };
 
   return {
     data,
-    isLoading: isPoolLoading || isQuoteLoading,
-    error: quoteError as Error | null,
+    isLoading,
+    error: error as Error | null,
     refetch
   };
 }
+
+// Legacy type exports for backwards compatibility with existing code
+export type { CurveQuoteParams as LegacyCurveQuoteParams };
