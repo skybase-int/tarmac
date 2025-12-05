@@ -207,7 +207,6 @@ export const BATCH_TX_SUPPORTED_WALLETS_URL = 'https://swiss-knife.xyz/7702beat'
 
 // LocalStorage keys
 export const USER_SETTINGS_KEY = 'user-settings';
-export const BATCH_TX_NOTIFICATION_KEY = 'batch-tx-notification-shown';
 export const CHAT_NOTIFICATION_KEY = 'chat-notification-suggested';
 export const GOVERNANCE_MIGRATION_NOTIFICATION_KEY = 'governance-migration-notice-shown';
 
