@@ -46,7 +46,8 @@ describe('useCurveStUsdsProvider', () => {
     // Default quote mock
     (useCurveQuote as ReturnType<typeof vi.fn>).mockReturnValue({
       data: {
-        outputAmount: 950n * WAD,
+        stUsdsAmount: 950n * WAD,
+        usdsAmount: 1000n * WAD,
         priceImpactBps: 10,
         effectiveRate: (950n * WAD * WAD) / (1000n * WAD)
       },
@@ -255,14 +256,15 @@ describe('useCurveStUsdsProvider', () => {
 
   describe('quote generation', () => {
     it('should generate valid deposit quote', () => {
-      const inputAmount = 1000n * WAD;
-      const outputAmount = 950n * WAD;
+      const usdsAmount = 1000n * WAD;
+      const stUsdsAmount = 950n * WAD;
 
       (useCurveQuote as ReturnType<typeof vi.fn>).mockReturnValue({
         data: {
-          outputAmount,
+          stUsdsAmount,
+          usdsAmount,
           priceImpactBps: 10,
-          effectiveRate: (outputAmount * WAD) / inputAmount
+          effectiveRate: (stUsdsAmount * WAD) / usdsAmount
         },
         isLoading: false,
         error: null,
@@ -271,14 +273,15 @@ describe('useCurveStUsdsProvider', () => {
 
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
-          amount: inputAmount,
+          amount: usdsAmount,
           direction: 'deposit'
         })
       );
 
       expect(result.current.data?.quote).toBeDefined();
-      expect(result.current.data?.quote?.inputAmount).toBe(inputAmount);
-      expect(result.current.data?.quote?.outputAmount).toBe(outputAmount);
+      // For deposits: input is USDS, output is stUSDS
+      expect(result.current.data?.quote?.inputAmount).toBe(usdsAmount);
+      expect(result.current.data?.quote?.outputAmount).toBe(stUsdsAmount);
       expect(result.current.data?.quote?.isValid).toBe(true);
     });
 
@@ -324,7 +327,8 @@ describe('useCurveStUsdsProvider', () => {
     it('should mark quote invalid when price impact too high', () => {
       (useCurveQuote as ReturnType<typeof vi.fn>).mockReturnValue({
         data: {
-          outputAmount: 900n * WAD,
+          stUsdsAmount: 900n * WAD,
+          usdsAmount: 1000n * WAD,
           priceImpactBps: STUSDS_PROVIDER_CONFIG.maxPriceImpactBps + 100, // Exceeds threshold
           effectiveRate: (900n * WAD * WAD) / (1000n * WAD)
         },
@@ -392,7 +396,8 @@ describe('useCurveStUsdsProvider', () => {
 
       (useCurveQuote as ReturnType<typeof vi.fn>).mockReturnValue({
         data: {
-          outputAmount: 950n * WAD,
+          stUsdsAmount: 950n * WAD,
+          usdsAmount: 1000n * WAD,
           priceImpactBps,
           effectiveRate: (950n * WAD * WAD) / (1000n * WAD)
         },
@@ -543,7 +548,7 @@ describe('useCurveStUsdsProvider', () => {
       });
 
       (useCurveQuote as ReturnType<typeof vi.fn>).mockReturnValue({
-        data: { outputAmount: 950n * WAD, priceImpactBps: 10, effectiveRate: WAD },
+        data: { stUsdsAmount: 950n * WAD, usdsAmount: 1000n * WAD, priceImpactBps: 10, effectiveRate: WAD },
         isLoading: false,
         error: null,
         refetch: refetchQuote

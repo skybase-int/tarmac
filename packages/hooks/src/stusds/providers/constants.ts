@@ -1,5 +1,3 @@
-import { mainnet } from 'wagmi/chains';
-import { TENDERLY_CHAIN_ID } from '../../constants';
 import type { StUsdsRateComparisonConfig } from './types';
 
 /**
@@ -24,15 +22,6 @@ export const STUSDS_PROVIDER_CONFIG: StUsdsRateComparisonConfig = {
    * acceptable for large trades while 0.5% slippage tolerance is standard.
    */
   maxPriceImpactBps: 200 // 2%
-} as const;
-
-/**
- * Curve USDS/stUSDS pool addresses by chain.
- * Reference: https://docs.curve.finance/cryptoswap-exchange/cryptoswap/pools/crypto-pool/
- */
-export const CURVE_STUSDS_USDS_POOL: Record<number, `0x${string}`> = {
-  [mainnet.id]: '0x2C7C98A3b1582D83c43987202aEFf638312478aE',
-  [TENDERLY_CHAIN_ID]: '0x2C7C98A3b1582D83c43987202aEFf638312478aE'
 } as const;
 
 /**
