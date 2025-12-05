@@ -4,7 +4,7 @@ import { X } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Text, Heading } from '@/modules/layout/components/Typography';
 
-const SHOW_BANNER = false;
+const SHOW_BANNER = true;
 
 export type BannerPosition = 'left' | 'right';
 
@@ -63,14 +63,18 @@ export function Banner({
       aria-label="Site banner"
     >
       {/* Example content - replace with your custom UI */}
-      <div className="bg-container border-border rounded-xl border p-4 shadow-lg backdrop-blur-[50px]">
-        <div className="mb-3 flex items-center justify-between">
+      <div className="bg-container border-border relative rounded-xl border p-6 pr-8 shadow-lg backdrop-blur-[50px]">
+        <button
+          onClick={handleDismiss}
+          className="text-text/50 hover:text-text absolute top-3 right-3 rounded-md p-1.5 transition-colors"
+          aria-label="Dismiss"
+        >
+          <X size={16} />
+        </button>
+        <div className="mb-3">
           <Heading variant="small" className="text-text">
             Banner Title
           </Heading>
-          <Button variant="ghost" size="icon" onClick={handleDismiss} aria-label="Dismiss">
-            <X className="text-textSecondary hover:text-text" size={16} />
-          </Button>
         </div>
         <div className="space-y-2">
           <Text variant="medium" className="text-text">
