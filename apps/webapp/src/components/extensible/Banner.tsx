@@ -4,7 +4,7 @@ import { X } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Text, Heading } from '@/modules/layout/components/Typography';
 
-const SHOW_BANNER = true;
+const SHOW_BANNER = false;
 
 export type BannerPosition = 'left' | 'right';
 
