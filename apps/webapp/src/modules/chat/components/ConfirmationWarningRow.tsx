@@ -12,6 +12,7 @@ import { getConfirmationWarningMetadata } from '../lib/confirmationWarningMetada
 import { ChatMarkdownRenderer } from '@/modules/ui/components/markdown/ChatMarkdownRenderer';
 import { useChatbotPrefillNotification } from '@/modules/app/hooks/useChatbotPrefillNotification';
 import { hasPreFillParameters } from '../lib/intentUtils';
+import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
 
 export const ConfirmationWarningRow = () => {
   const {
@@ -26,6 +27,8 @@ export const ConfirmationWarningRow = () => {
 
   const navigate = useNavigate();
   const { showPrefillNotification } = useChatbotPrefillNotification();
+  const { bpi } = useBreakpointIndex();
+  const isMobile = bpi < BP.md;
 
   const onIntentSelected = useCallback(
     (intent: ChatIntent) => setChatHistory(prev => [...prev, intentSelectedMessage(intent)]),
@@ -40,10 +43,13 @@ export const ConfirmationWarningRow = () => {
     [setConfirmationWarningOpened, setSelectedIntent]
   );
 
-  const selectedIntentUrl = useRetainedQueryParams(selectedIntent?.url || '', [
-    QueryParams.Locale,
-    QueryParams.Details
-  ]);
+  // On mobile, don't retain chat param (chat closes after action)
+  // On desktop, retain chat param to keep chat open after clicking Continue
+  const retainedParams = isMobile
+    ? [QueryParams.Locale, QueryParams.Details]
+    : [QueryParams.Locale, QueryParams.Details, QueryParams.Chat];
+
+  const selectedIntentUrl = useRetainedQueryParams(selectedIntent?.url || '', retainedParams);
 
   const handleConfirm = useCallback(() => {
     setConfirmationWarningOpened(false);
