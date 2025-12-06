@@ -6,7 +6,8 @@ import {
   useStUsdsCapacityData,
   useIsBatchSupported,
   useStUsdsProviderSelection,
-  StUsdsProviderType
+  StUsdsProviderType,
+  useCurveAllowance
 } from '@jetstreamgg/sky-hooks';
 import { useDebounce } from '@jetstreamgg/sky-utils';
 import { useContext, useEffect, useMemo, useState } from 'react';
@@ -71,6 +72,7 @@ const StUSDSWidgetWrapped = ({
   const { mutate: mutateStUsds, data: stUsdsData, isLoading: isStUsdsDataLoading } = useStUsdsData();
   const { data: capacityData } = useStUsdsCapacityData();
   const { data: allowance, mutate: mutateAllowance } = useStUsdsAllowance();
+
   const initialAmount =
     validatedExternalState?.amount && validatedExternalState.amount !== '0'
       ? parseUnits(validatedExternalState.amount, 18)
@@ -90,6 +92,17 @@ const StUSDSWidgetWrapped = ({
     amount: debouncedAmount,
     direction: tabIndex === 0 ? 'deposit' : 'withdraw'
   });
+
+  const { hasAllowance: hasCurveUsdsAllowance } = useCurveAllowance({
+    token: 'USDS',
+    amount: debouncedAmount
+  });
+  const { hasAllowance: hasCurveStUsdsAllowance } = useCurveAllowance({
+    token: 'stUSDS',
+    amount: providerSelection?.selectedQuote?.stUsdsAmount ?? 0n
+  });
+
+  const isCurveSelected = providerSelection.selectedProvider === StUsdsProviderType.CURVE;
 
   useEffect(() => {
     setAmount(initialAmount);
@@ -113,9 +126,22 @@ const StUSDSWidgetWrapped = ({
 
   useNotifyWidgetState({ widgetState, txStatus, onWidgetStateChange });
 
-  const needsAllowance = !!(!allowance || allowance < debouncedAmount);
-  const shouldUseBatch =
-    !!batchEnabled && !!batchSupported && needsAllowance && widgetState.flow === StUSDSFlow.SUPPLY;
+  const needsAllowance = useMemo(() => {
+    if (widgetState.flow === StUSDSFlow.SUPPLY) {
+      return isCurveSelected ? !hasCurveUsdsAllowance : !!(!allowance || allowance < debouncedAmount);
+    } else {
+      return isCurveSelected ? !hasCurveStUsdsAllowance : false;
+    }
+  }, [
+    widgetState.flow,
+    isCurveSelected,
+    hasCurveUsdsAllowance,
+    hasCurveStUsdsAllowance,
+    allowance,
+    debouncedAmount
+  ]);
+
+  const shouldUseBatch = !!batchEnabled && !!batchSupported && needsAllowance;
 
   const { batchStUsdsDeposit, stUsdsWithdraw } = useStUsdsTransactions({
     amount,
@@ -162,16 +188,14 @@ const StUSDSWidgetWrapped = ({
 
   useEffect(() => {
     if (txStatus === TxStatus.IDLE) {
-      setShowStepIndicator(widgetState.flow === StUSDSFlow.SUPPLY && needsAllowance);
+      setShowStepIndicator(needsAllowance);
     }
-  }, [txStatus, widgetState.flow, needsAllowance, setShowStepIndicator]);
+  }, [txStatus, needsAllowance, setShowStepIndicator]);
 
   const remainingCapacityBuffered = capacityData?.remainingCapacityBuffered || 0n;
 
   // Use provider-aware max amounts based on selected provider
   // When Curve is selected, use Curve's limits; when native is selected, use native limits
-  const isCurveSelected = providerSelection.selectedProvider === StUsdsProviderType.CURVE;
-
   const maxSupplyAmount = isCurveSelected
     ? (providerSelection.curveProvider?.state?.maxDeposit ?? undefined)
     : (providerSelection.nativeProvider?.state?.maxDeposit ?? remainingCapacityBuffered);
