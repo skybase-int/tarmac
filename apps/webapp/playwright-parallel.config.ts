@@ -63,7 +63,7 @@ export default defineConfig({
         '**/upgrade.spec.ts',
         '**/unstake-repay.spec.ts',
         '**/chatbot.spec.ts',
-        '**/responsive-layout.spec.ts'
+        '**/pane-visibility.spec.ts'
         // Add more test patterns as we convert them
       ]
     }

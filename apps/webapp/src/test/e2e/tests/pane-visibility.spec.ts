@@ -1,9 +1,10 @@
 import { test, expect } from '@playwright/test';
 
 /**
- * Responsive Layout E2E Tests
+ * Pane Visibility E2E Tests
  *
- * Tests panel visibility (WidgetPane, DetailsPane, ChatPane) across breakpoints.
+ * Tests Widget, Details, and Chat pane visibility and interactions across breakpoints.
+ * Covers toggle behavior, close buttons, and the 2-pane vs 3-pane layout constraints.
  * Uses base Playwright test since no blockchain interaction is required.
  *
  * Breakpoint values from useBreakpointIndex.ts:
@@ -19,7 +20,7 @@ import { test, expect } from '@playwright/test';
  * - Details: .details-pane
  * - Chat: .chat-pane
  *
- * Run with: pnpm e2e responsive-layout.spec.ts
+ * Run with: pnpm e2e pane-visibility.spec.ts
  */
 
 // Representative viewport widths for each breakpoint
@@ -32,7 +33,7 @@ const VIEWPORTS = {
   '3xl': { width: 1920, height: 1080 }
 } as const;
 
-test.describe('Responsive Layout', () => {
+test.describe('Pane Visibility', () => {
   test.beforeEach(async ({ page }) => {
     // Mock VPN check to avoid network issues
     await page.route('**/ip/status', async route => {
