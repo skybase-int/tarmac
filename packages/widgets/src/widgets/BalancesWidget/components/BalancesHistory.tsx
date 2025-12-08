@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { useCombinedHistory, useAllNetworksCombinedHistory } from '@jetstreamgg/sky-hooks';
 import { useFormatDates } from '@jetstreamgg/sky-utils';
 import { useLingui } from '@lingui/react';
@@ -17,12 +17,14 @@ export const BalancesHistory = ({
   onExternalLinkClicked,
   showAllNetworks,
   className,
-  itemsPerPage = 5
+  itemsPerPage = 5,
+  useInfiniteScroll = false
 }: {
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   showAllNetworks?: boolean;
   className?: string;
   itemsPerPage?: number;
+  useInfiniteScroll?: boolean;
 }) => {
   const {
     data: singleNetworkData,
@@ -44,6 +46,8 @@ export const BalancesHistory = ({
   const formattedDates = useFormatDates(memoizedDates, i18n.locale, 'MMM d, h:mm a');
   const [itemsToDisplay, setItemsToDisplay] = useState(data ? data.slice(0, itemsPerPage) : []);
   const [startIndex, setStartIndex] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(itemsPerPage);
+  const observerTarget = useRef<HTMLDivElement>(null);
 
   const onPageChange = (page: number) => {
     const newStartIndex = (page - 1) * itemsPerPage;
@@ -52,9 +56,44 @@ export const BalancesHistory = ({
     setItemsToDisplay(data.slice(newStartIndex, endIndex));
   };
 
+  const loadMore = useCallback(() => {
+    setVisibleCount(prev => Math.min(prev + itemsPerPage, data.length));
+  }, [data.length, itemsPerPage]);
+
   useEffect(() => {
-    setItemsToDisplay(data.slice(0, itemsPerPage));
-  }, [data, itemsPerPage]);
+    if (useInfiniteScroll) {
+      setVisibleCount(itemsPerPage);
+    } else {
+      setItemsToDisplay(data.slice(0, itemsPerPage));
+    }
+  }, [data, itemsPerPage, useInfiniteScroll]);
+
+  useEffect(() => {
+    if (!useInfiniteScroll) return;
+
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting && visibleCount < data.length) {
+          loadMore();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const currentTarget = observerTarget.current;
+    if (currentTarget) {
+      observer.observe(currentTarget);
+    }
+
+    return () => {
+      if (currentTarget) {
+        observer.unobserve(currentTarget);
+      }
+    };
+  }, [useInfiniteScroll, visibleCount, data.length, loadMore]);
+
+  const infiniteScrollItems = useMemo(() => data.slice(0, visibleCount), [data, visibleCount]);
+  const hasMore = visibleCount < data.length;
 
   const loadingCards = (
     <VStack gap={2} className={cn('mt-6', className)}>
@@ -64,11 +103,14 @@ export const BalancesHistory = ({
     </VStack>
   );
 
+  const displayItems = useInfiniteScroll ? infiniteScrollItems : itemsToDisplay;
+  const getGlobalIndex = (index: number) => (useInfiniteScroll ? index : startIndex + index);
+
   return data.length > 0 ? (
     <>
       <VStack gap={2} className={cn('mt-6', className)}>
-        {itemsToDisplay.map((item, index: number) => {
-          const globalIndex = startIndex + index;
+        {displayItems.map((item, index: number) => {
+          const globalIndex = getGlobalIndex(index);
           const formattedDate = formattedDates.length > globalIndex ? formattedDates[globalIndex] : '';
           return (
             <motion.div variants={positionAnimations} key={item.transactionHash + item.type}>
@@ -94,7 +136,11 @@ export const BalancesHistory = ({
           );
         })}
       </VStack>
-      <CustomPagination dataLength={data.length} onPageChange={onPageChange} itemsPerPage={itemsPerPage} />
+      {useInfiniteScroll ? (
+        hasMore && <div ref={observerTarget} className="h-1" />
+      ) : (
+        <CustomPagination dataLength={data.length} onPageChange={onPageChange} itemsPerPage={itemsPerPage} />
+      )}
     </>
   ) : isLoading ? (
     <>{loadingCards}</>

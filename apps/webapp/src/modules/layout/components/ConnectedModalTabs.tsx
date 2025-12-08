@@ -74,6 +74,7 @@ export function ConnectedModalTabs() {
           onExternalLinkClicked={onExternalLinkClicked}
           showAllNetworks={true}
           className="mt-0"
+          useInfiniteScroll={true}
         />
       </TabsContent>
     </Tabs>
