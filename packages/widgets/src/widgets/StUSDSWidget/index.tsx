@@ -206,7 +206,7 @@ const StUSDSWidgetWrapped = ({
     txStatus === TxStatus.IDLE &&
     address &&
     amount !== 0n && //don't wait for debouncing on default state
-    ((stUsdsData?.userStUsdsBalance !== undefined && debouncedAmount > stUsdsData.userStUsdsBalance) ||
+    ((stUsdsData?.userSuppliedUsds !== undefined && debouncedAmount > stUsdsData.userSuppliedUsds) ||
       (providerSelection.allProvidersBlocked && debouncedAmount > 0n) ||
       (maxWithdrawAmount !== undefined && debouncedAmount > maxWithdrawAmount))
       ? true
