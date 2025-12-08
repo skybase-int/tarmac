@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { checkChatbotTerms, signChatbotTerms } from '../services/termsApi';
 import { useChatContext } from '../context/ChatContext';
+import { SKIP_CHAT_AUTH_CHECK } from '@/lib/constants';
 
 interface UseTermsAcceptanceReturn {
   termsAccepted: boolean;
@@ -34,6 +35,13 @@ export const useTermsAcceptance = (): UseTermsAcceptanceReturn => {
   }, [showTermsModal]);
 
   const checkTermsStatus = useCallback(async () => {
+    // Skip auth check for testing purposes
+    if (SKIP_CHAT_AUTH_CHECK) {
+      setTermsAccepted(true);
+      setHasCheckedOnce(true);
+      return;
+    }
+
     // Only check if we haven't checked yet
     if (hasCheckedOnce && termsAccepted) {
       return;
