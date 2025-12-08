@@ -30,8 +30,6 @@ async function fetchNativeStusdsHistory(urlSubgraph: string, chainId: number, ad
 
   const response = (await request(urlSubgraph, query)) as any;
 
-  console.log('Native stUSDS history subgraph response:', response);
-
   const supplies = (response.stusdsDeposits || []).map((d: any) => ({
     assets: BigInt(d.assets),
     blockTimestamp: new Date(parseInt(d.blockTimestamp) * 1000),
@@ -74,8 +72,6 @@ async function fetchCurveStusdsHistory(urlSubgraph: string, chainId: number, add
 
   const response = (await request(urlSubgraph, query)) as any;
 
-  console.log('Curve history subgraph response:', response);
-
   return (response.curveTokenExchanges || []).map((c: any) => {
     const soldId = parseInt(c.soldId);
     // If user sold USDS (index 0), it's a supply (USDS → stUSDS)
@@ -100,13 +96,10 @@ async function fetchCurveStusdsHistory(urlSubgraph: string, chainId: number, add
 async function fetchStusdsHistory(urlSubgraph: string, chainId: number, address?: string) {
   if (!address) return [];
 
-  console.log('Fetching stUSDS history for address:', address, 'chainId:', chainId);
-
   // Fetch native history first (required)
   let nativeHistory: any[] = [];
   try {
     nativeHistory = await fetchNativeStusdsHistory(urlSubgraph, chainId, address);
-    console.log('Native history fetched:', nativeHistory.length, 'items');
   } catch (err) {
     console.error('Error fetching native stUSDS history:', err);
   }
@@ -115,14 +108,12 @@ async function fetchStusdsHistory(urlSubgraph: string, chainId: number, address?
   let curveHistory: any[] = [];
   try {
     curveHistory = await fetchCurveStusdsHistory(urlSubgraph, chainId, address);
-    console.log('Curve history fetched:', curveHistory.length, 'items');
   } catch (err) {
     // Curve history not available yet in subgraph, continue with just native history
     console.debug('Curve history not available in subgraph:', err);
   }
 
   const combined = [...nativeHistory, ...curveHistory];
-  console.log('Combined history:', combined.length, 'items');
   return combined.sort((a, b) => b.blockTimestamp.getTime() - a.blockTimestamp.getTime());
 }
 
