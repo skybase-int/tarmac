@@ -4,6 +4,9 @@ import { AssetBalance } from './AssetBalance';
 import { useChainId, useConnection } from 'wagmi';
 import { defaultConfig } from '@widgets/config/default-config';
 import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Skeleton } from '@widgets/components/ui/skeleton';
+import { Text } from '@widgets/shared/components/ui/Typography';
+import { Trans } from '@lingui/react/macro';
 
 export const TokenBalances = ({
   actionForToken,
@@ -45,11 +48,11 @@ export const TokenBalances = ({
       ? customChainTokenMap
       : defaultChainTokenMap;
 
-  const { data: pricesData, isLoading: pricesLoading /*, error: pricesError */ } = usePrices();
+  const { data: pricesData, isLoading: pricesLoading, error: pricesError } = usePrices();
   const {
     data: tokenBalances,
-    isLoading: tokenBalancesLoading
-    /* error: tokenBalancesError */
+    isLoading: tokenBalancesLoading,
+    error: tokenBalancesError
   } = useTokenBalances({ address, chainTokenMap });
 
   // map token balances to include price
@@ -78,6 +81,7 @@ export const TokenBalances = ({
     : balancesWithBalanceFilter?.filter(({ chainId: id }) => id === chainId);
 
   const isLoading = tokenBalancesLoading || pricesLoading;
+  const error = tokenBalancesError || pricesError;
 
   useEffect(() => {
     if (setHideTokenBalances) {
@@ -85,9 +89,15 @@ export const TokenBalances = ({
     }
   }, [filteredAndSortedTokenBalances, setHideTokenBalances]);
 
-  // TODO handle error
-  // const error = tokenBalancesError || pricesError;
-  return (
+  const loadingCards = (
+    <VStack gap={2}>
+      {Array.from({ length: 7 }, (_, i) => (
+        <Skeleton key={i} className="h-[84px] w-full rounded-[20px]" />
+      ))}
+    </VStack>
+  );
+
+  return !!tokenBalances && tokenBalances.length > 0 ? (
     <VStack gap={2}>
       {filteredAndSortedTokenBalances?.map(tokenBalance => {
         const priceData = pricesData?.[tokenBalance.symbol];
@@ -106,5 +116,17 @@ export const TokenBalances = ({
         );
       })}
     </VStack>
+  ) : isLoading ? (
+    <>{loadingCards}</>
+  ) : error ? (
+    <div>
+      <Text className="text-textSecondary mt-10 text-center text-xs">
+        <Trans>Unable to fetch balances</Trans>
+      </Text>
+    </div>
+  ) : (
+    <Text className="text-textSecondary text-center">
+      <Trans>No balances found</Trans>
+    </Text>
   );
 };
