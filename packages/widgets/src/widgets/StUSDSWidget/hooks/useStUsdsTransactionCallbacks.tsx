@@ -11,6 +11,8 @@ interface UseStUsdsTransactionCallbacksParameters
   amount: bigint;
   mutateAllowance: () => void;
   mutateStUsds: () => void;
+  refetchCurveUsdsAllowance?: () => void;
+  refetchCurveStUsdsAllowance?: () => void;
   selectedProvider?: StUsdsProviderType;
 }
 
@@ -21,6 +23,8 @@ export const useStUsdsTransactionCallbacks = ({
   onNotification,
   mutateAllowance,
   mutateStUsds,
+  refetchCurveUsdsAllowance,
+  refetchCurveStUsdsAllowance,
   selectedProvider = StUsdsProviderType.NATIVE
 }: UseStUsdsTransactionCallbacksParameters) => {
   const { handleOnMutate, handleOnStart, handleOnSuccess, handleOnError } = useTransactionCallbacks({
@@ -35,6 +39,9 @@ export const useStUsdsTransactionCallbacks = ({
     () => ({
       onMutate: () => {
         mutateAllowance();
+        if (isCurve) {
+          refetchCurveUsdsAllowance?.();
+        }
         handleOnMutate();
       },
       onStart: hash => {
@@ -55,6 +62,9 @@ export const useStUsdsTransactionCallbacks = ({
         });
         mutateAllowance();
         mutateStUsds();
+        if (isCurve) {
+          refetchCurveUsdsAllowance?.();
+        }
       },
       onError: (error, hash) => {
         handleOnError({
@@ -65,6 +75,9 @@ export const useStUsdsTransactionCallbacks = ({
         });
         mutateAllowance();
         mutateStUsds();
+        if (isCurve) {
+          refetchCurveUsdsAllowance?.();
+        }
       }
     }),
     [
@@ -75,13 +88,19 @@ export const useStUsdsTransactionCallbacks = ({
       handleOnStart,
       handleOnSuccess,
       mutateAllowance,
-      mutateStUsds
+      mutateStUsds,
+      refetchCurveUsdsAllowance
     ]
   );
 
   const withdrawTransactionCallbacks = useMemo<TransactionCallbacks>(
     () => ({
-      onMutate: handleOnMutate,
+      onMutate: () => {
+        if (isCurve) {
+          refetchCurveStUsdsAllowance?.();
+        }
+        handleOnMutate();
+      },
       onStart: hash => {
         handleOnStart({
           hash,
@@ -99,6 +118,9 @@ export const useStUsdsTransactionCallbacks = ({
             : t`You withdrew ${formatBigInt(amount)} USDS`
         });
         mutateStUsds();
+        if (isCurve) {
+          refetchCurveStUsdsAllowance?.();
+        }
       },
       onError: (error, hash) => {
         handleOnError({
@@ -109,6 +131,9 @@ export const useStUsdsTransactionCallbacks = ({
         });
         mutateAllowance();
         mutateStUsds();
+        if (isCurve) {
+          refetchCurveStUsdsAllowance?.();
+        }
       }
     }),
     [
@@ -119,7 +144,8 @@ export const useStUsdsTransactionCallbacks = ({
       handleOnStart,
       handleOnSuccess,
       mutateAllowance,
-      mutateStUsds
+      mutateStUsds,
+      refetchCurveStUsdsAllowance
     ]
   );
 

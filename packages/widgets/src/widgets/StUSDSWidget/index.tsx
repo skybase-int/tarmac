@@ -93,11 +93,11 @@ const StUSDSWidgetWrapped = ({
     direction: tabIndex === 0 ? 'deposit' : 'withdraw'
   });
 
-  const { hasAllowance: hasCurveUsdsAllowance } = useCurveAllowance({
+  const { hasAllowance: hasCurveUsdsAllowance, refetch: refetchCurveUsdsAllowance } = useCurveAllowance({
     token: 'USDS',
     amount: debouncedAmount
   });
-  const { hasAllowance: hasCurveStUsdsAllowance } = useCurveAllowance({
+  const { hasAllowance: hasCurveStUsdsAllowance, refetch: refetchCurveStUsdsAllowance } = useCurveAllowance({
     token: 'stUSDS',
     amount: providerSelection?.selectedQuote?.stUsdsAmount ?? 0n
   });
@@ -150,6 +150,8 @@ const StUSDSWidgetWrapped = ({
     shouldUseBatch,
     mutateAllowance,
     mutateStUsds,
+    refetchCurveUsdsAllowance,
+    refetchCurveStUsdsAllowance,
     addRecentTransaction,
     onWidgetStateChange,
     onNotification,

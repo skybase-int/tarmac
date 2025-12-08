@@ -18,6 +18,8 @@ interface UseStUsdsTransactionsParameters
   shouldUseBatch: boolean;
   mutateAllowance: () => void;
   mutateStUsds: () => void;
+  refetchCurveUsdsAllowance?: () => void;
+  refetchCurveStUsdsAllowance?: () => void;
   selectedProvider: StUsdsProviderType;
   expectedOutput: bigint;
   /**
@@ -35,6 +37,8 @@ export const useStUsdsTransactions = ({
   shouldUseBatch,
   mutateAllowance,
   mutateStUsds,
+  refetchCurveUsdsAllowance,
+  refetchCurveStUsdsAllowance,
   addRecentTransaction,
   onWidgetStateChange,
   onNotification,
@@ -50,6 +54,8 @@ export const useStUsdsTransactions = ({
     onNotification,
     mutateAllowance,
     mutateStUsds,
+    refetchCurveUsdsAllowance,
+    refetchCurveStUsdsAllowance,
     selectedProvider
   });
 

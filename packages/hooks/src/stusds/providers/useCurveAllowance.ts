@@ -9,6 +9,8 @@ export type CurveAllowanceHookResponse = ReadHook & {
   data?: bigint;
   /** Whether the current allowance is sufficient for the given amount */
   hasAllowance: boolean;
+  /** Refetch the allowance data */
+  refetch: () => void;
 };
 
 export type CurveAllowanceParams = {
@@ -58,6 +60,7 @@ export function useCurveAllowance(params: CurveAllowanceParams): CurveAllowanceH
     hasAllowance,
     isLoading: useAllowanceResponse.isLoading,
     error: useAllowanceResponse.error,
-    dataSources: [...useAllowanceResponse.dataSources]
+    dataSources: [...useAllowanceResponse.dataSources],
+    refetch: useAllowanceResponse.mutate || (() => {})
   };
 }
