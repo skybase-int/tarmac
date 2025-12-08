@@ -8,6 +8,8 @@ import { WalletIcon } from '@/modules/ui/components/WalletIcon';
 import { useConnection } from 'wagmi';
 import { WALLET_ICONS } from '@/lib/constants';
 import { ConnectedModalTabs } from './ConnectedModalTabs';
+import { useSearchParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
 interface ConnectedModalProps {
   isOpen: boolean;
@@ -26,11 +28,17 @@ export function ConnectedModal({
 }: ConnectedModalProps) {
   const { onExternalLinkClicked } = useConfigContext();
   const { connector } = useConnection();
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    // Whenever there's a site navigation, close the connected modal
+    onOpenChange(false);
+  }, [searchParams]);
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent
-        className="bg-containerDark gap-6 p-4 sm:max-w-[490px] sm:min-w-[490px]"
+        className="bg-containerDark flex max-h-[calc(100dvh-32px)] flex-col gap-6 overflow-hidden p-4 sm:max-w-[490px] sm:min-w-[490px]"
         onOpenAutoFocus={e => e.preventDefault()}
         onCloseAutoFocus={e => e.preventDefault()}
       >
