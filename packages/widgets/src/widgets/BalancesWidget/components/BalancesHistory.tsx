@@ -98,7 +98,7 @@ export const BalancesHistory = ({
   const loadingCards = (
     <VStack gap={2} className={cn('mt-6', className)}>
       {Array.from({ length: itemsPerPage }, (_, i) => (
-        <Skeleton key={i} className="h-[84px] w-full" />
+        <Skeleton key={i} className="h-[84px] w-full rounded-[20px]" />
       ))}
     </VStack>
   );
