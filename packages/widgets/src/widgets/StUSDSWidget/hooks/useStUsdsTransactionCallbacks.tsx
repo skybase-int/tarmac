@@ -9,10 +9,10 @@ import { useMemo } from 'react';
 interface UseStUsdsTransactionCallbacksParameters
   extends Pick<WidgetProps, 'addRecentTransaction' | 'onWidgetStateChange' | 'onNotification'> {
   amount: bigint;
-  mutateAllowance: () => void;
+  mutateNativeSupplyAllowance: () => void;
   mutateStUsds: () => void;
-  refetchCurveUsdsAllowance?: () => void;
-  refetchCurveStUsdsAllowance?: () => void;
+  mutateCurveUsdsAllowance?: () => void;
+  mutateCurveStUsdsAllowance?: () => void;
   selectedProvider?: StUsdsProviderType;
 }
 
@@ -21,10 +21,10 @@ export const useStUsdsTransactionCallbacks = ({
   addRecentTransaction,
   onWidgetStateChange,
   onNotification,
-  mutateAllowance,
+  mutateNativeSupplyAllowance,
   mutateStUsds,
-  refetchCurveUsdsAllowance,
-  refetchCurveStUsdsAllowance,
+  mutateCurveUsdsAllowance,
+  mutateCurveStUsdsAllowance,
   selectedProvider = StUsdsProviderType.NATIVE
 }: UseStUsdsTransactionCallbacksParameters) => {
   const { handleOnMutate, handleOnStart, handleOnSuccess, handleOnError } = useTransactionCallbacks({
@@ -38,9 +38,9 @@ export const useStUsdsTransactionCallbacks = ({
   const supplyTransactionCallbacks = useMemo<TransactionCallbacks>(
     () => ({
       onMutate: () => {
-        mutateAllowance();
+        mutateNativeSupplyAllowance();
         if (isCurve) {
-          refetchCurveUsdsAllowance?.();
+          mutateCurveUsdsAllowance?.();
         }
         handleOnMutate();
       },
@@ -60,10 +60,10 @@ export const useStUsdsTransactionCallbacks = ({
             ? t`You swapped ${formatBigInt(amount)} USDS for stUSDS via Curve`
             : t`You supplied ${formatBigInt(amount)} USDS`
         });
-        mutateAllowance();
+        mutateNativeSupplyAllowance();
         mutateStUsds();
         if (isCurve) {
-          refetchCurveUsdsAllowance?.();
+          mutateCurveUsdsAllowance?.();
         }
       },
       onError: (error, hash) => {
@@ -73,10 +73,10 @@ export const useStUsdsTransactionCallbacks = ({
           notificationTitle: isCurve ? t`Swap failed` : t`Supply failed`,
           notificationDescription: t`Something went wrong with your transaction. Please try again.`
         });
-        mutateAllowance();
+        mutateNativeSupplyAllowance();
         mutateStUsds();
         if (isCurve) {
-          refetchCurveUsdsAllowance?.();
+          mutateCurveUsdsAllowance?.();
         }
       }
     }),
@@ -87,9 +87,9 @@ export const useStUsdsTransactionCallbacks = ({
       handleOnError,
       handleOnStart,
       handleOnSuccess,
-      mutateAllowance,
+      mutateNativeSupplyAllowance,
       mutateStUsds,
-      refetchCurveUsdsAllowance
+      mutateCurveUsdsAllowance
     ]
   );
 
@@ -97,7 +97,7 @@ export const useStUsdsTransactionCallbacks = ({
     () => ({
       onMutate: () => {
         if (isCurve) {
-          refetchCurveStUsdsAllowance?.();
+          mutateCurveStUsdsAllowance?.();
         }
         handleOnMutate();
       },
@@ -119,7 +119,7 @@ export const useStUsdsTransactionCallbacks = ({
         });
         mutateStUsds();
         if (isCurve) {
-          refetchCurveStUsdsAllowance?.();
+          mutateCurveStUsdsAllowance?.();
         }
       },
       onError: (error, hash) => {
@@ -129,10 +129,10 @@ export const useStUsdsTransactionCallbacks = ({
           notificationTitle: isCurve ? t`Swap failed` : t`Withdraw failed`,
           notificationDescription: t`Something went wrong with your transaction. Please try again.`
         });
-        mutateAllowance();
+        mutateNativeSupplyAllowance();
         mutateStUsds();
         if (isCurve) {
-          refetchCurveStUsdsAllowance?.();
+          mutateCurveStUsdsAllowance?.();
         }
       }
     }),
@@ -143,9 +143,9 @@ export const useStUsdsTransactionCallbacks = ({
       handleOnError,
       handleOnStart,
       handleOnSuccess,
-      mutateAllowance,
+      mutateNativeSupplyAllowance,
       mutateStUsds,
-      refetchCurveStUsdsAllowance
+      mutateCurveStUsdsAllowance
     ]
   );
 

@@ -16,10 +16,10 @@ interface UseStUsdsTransactionsParameters
   referralCode: number | undefined;
   max: boolean;
   shouldUseBatch: boolean;
-  mutateAllowance: () => void;
+  mutateNativeSupplyAllowance: () => void;
   mutateStUsds: () => void;
-  refetchCurveUsdsAllowance?: () => void;
-  refetchCurveStUsdsAllowance?: () => void;
+  mutateCurveUsdsAllowance?: () => void;
+  mutateCurveStUsdsAllowance?: () => void;
   selectedProvider: StUsdsProviderType;
   expectedOutput: bigint;
   /**
@@ -35,10 +35,10 @@ export const useStUsdsTransactions = ({
   referralCode,
   max,
   shouldUseBatch,
-  mutateAllowance,
+  mutateNativeSupplyAllowance,
   mutateStUsds,
-  refetchCurveUsdsAllowance,
-  refetchCurveStUsdsAllowance,
+  mutateCurveUsdsAllowance,
+  mutateCurveStUsdsAllowance,
   addRecentTransaction,
   onWidgetStateChange,
   onNotification,
@@ -52,10 +52,10 @@ export const useStUsdsTransactions = ({
     addRecentTransaction,
     onWidgetStateChange,
     onNotification,
-    mutateAllowance,
+    mutateNativeSupplyAllowance,
     mutateStUsds,
-    refetchCurveUsdsAllowance,
-    refetchCurveStUsdsAllowance,
+    mutateCurveUsdsAllowance,
+    mutateCurveStUsdsAllowance,
     selectedProvider
   });
 

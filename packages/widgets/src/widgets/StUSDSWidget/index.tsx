@@ -71,8 +71,7 @@ const StUSDSWidgetWrapped = ({
 
   const { mutate: mutateStUsds, data: stUsdsData, isLoading: isStUsdsDataLoading } = useStUsdsData();
   const { data: capacityData } = useStUsdsCapacityData();
-  const { data: allowance, mutate: mutateAllowance } = useStUsdsAllowance();
-
+  const { data: nativeSupplyAllowance, mutate: mutateNativeSupplyAllowance } = useStUsdsAllowance();
   const initialAmount =
     validatedExternalState?.amount && validatedExternalState.amount !== '0'
       ? parseUnits(validatedExternalState.amount, 18)
@@ -93,11 +92,11 @@ const StUSDSWidgetWrapped = ({
     direction: tabIndex === 0 ? 'deposit' : 'withdraw'
   });
 
-  const { hasAllowance: hasCurveUsdsAllowance, refetch: refetchCurveUsdsAllowance } = useCurveAllowance({
+  const { hasAllowance: hasCurveUsdsAllowance, mutate: mutateCurveUsdsAllowance } = useCurveAllowance({
     token: 'USDS',
     amount: debouncedAmount
   });
-  const { hasAllowance: hasCurveStUsdsAllowance, refetch: refetchCurveStUsdsAllowance } = useCurveAllowance({
+  const { hasAllowance: hasCurveStUsdsAllowance, mutate: mutateCurveStUsdsAllowance } = useCurveAllowance({
     token: 'stUSDS',
     amount: providerSelection?.selectedQuote?.stUsdsAmount ?? 0n
   });
@@ -128,7 +127,9 @@ const StUSDSWidgetWrapped = ({
 
   const needsAllowance = useMemo(() => {
     if (widgetState.flow === StUSDSFlow.SUPPLY) {
-      return isCurveSelected ? !hasCurveUsdsAllowance : !!(!allowance || allowance < debouncedAmount);
+      return isCurveSelected
+        ? !hasCurveUsdsAllowance
+        : !!(!nativeSupplyAllowance || nativeSupplyAllowance < debouncedAmount);
     } else {
       return isCurveSelected ? !hasCurveStUsdsAllowance : false;
     }
@@ -137,7 +138,7 @@ const StUSDSWidgetWrapped = ({
     isCurveSelected,
     hasCurveUsdsAllowance,
     hasCurveStUsdsAllowance,
-    allowance,
+    nativeSupplyAllowance,
     debouncedAmount
   ]);
 
@@ -148,10 +149,10 @@ const StUSDSWidgetWrapped = ({
     referralCode,
     max,
     shouldUseBatch,
-    mutateAllowance,
+    mutateNativeSupplyAllowance,
     mutateStUsds,
-    refetchCurveUsdsAllowance,
-    refetchCurveStUsdsAllowance,
+    mutateCurveUsdsAllowance,
+    mutateCurveStUsdsAllowance,
     addRecentTransaction,
     onWidgetStateChange,
     onNotification,
@@ -487,7 +488,7 @@ const StUSDSWidgetWrapped = ({
 
     // Refresh data
     mutateStUsds();
-    mutateAllowance();
+    mutateNativeSupplyAllowance();
   }, [chainId]);
 
   return (
