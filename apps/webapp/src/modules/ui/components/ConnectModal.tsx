@@ -1,5 +1,12 @@
 import { useState, useEffect } from 'react';
-import { useConnect, useConnectors, Connector } from 'wagmi';
+import {
+  useConnect,
+  useConnectors,
+  Connector,
+  useConnection,
+  useSwitchConnection,
+  useConnections
+} from 'wagmi';
 import { Dialog, DialogClose, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/modules/layout/components/Typography';
@@ -20,8 +27,22 @@ interface ConnectModalProps {
 
 export function ConnectModal({ open, onOpenChange }: ConnectModalProps) {
   const connectors = useConnectors();
+  const { connector: connectedConnector } = useConnection();
+  const connections = useConnections();
+
   const isSafeWallet = useIsSafeWallet();
-  const { connect, isPending, variables, error } = useConnect({
+
+  const connect = useConnect({
+    mutation: {
+      onSuccess: () => {
+        onOpenChange(false);
+      },
+      onError: error => {
+        console.error('Connection error:', error);
+      }
+    }
+  });
+  const switchConnection = useSwitchConnection({
     mutation: {
       onSuccess: () => {
         onOpenChange(false);
@@ -103,8 +124,12 @@ export function ConnectModal({ open, onOpenChange }: ConnectModalProps) {
   });
 
   const renderConnectorButton = (connector: Connector) => {
-    const isConnecting = isPending && variables?.connector === connector;
+    const isConnecting =
+      (connect.isPending && connect.variables?.connector === connector) ||
+      (switchConnection.isPending && switchConnection.variables?.connector === connector);
     const isReady = ready[connector.uid] ?? false;
+    const isConnectorConnected = !!connections.find(c => c.connector.uid === connector.uid);
+    const isCurrentConnectedConnector = connectedConnector?.uid === connector.uid;
 
     return (
       <div key={connector.uid} className="flex items-center justify-between gap-3 px-3">
@@ -120,11 +145,19 @@ export function ConnectModal({ open, onOpenChange }: ConnectModalProps) {
         </div>
         <Button
           key={connector.uid}
-          onClick={() => connect({ connector })}
-          disabled={!isReady || isPending}
+          onClick={() =>
+            isConnectorConnected
+              ? switchConnection.switchConnection({ connector })
+              : connect.connect({ connector })
+          }
+          disabled={
+            !isReady || connect.isPending || switchConnection.isPending || isCurrentConnectedConnector
+          }
           variant="pill"
           size="xs"
-        >{t`Connect`}</Button>
+        >
+          {isCurrentConnectedConnector ? t`Connected` : t`Connect`}
+        </Button>
       </div>
     );
   };
@@ -187,7 +220,9 @@ export function ConnectModal({ open, onOpenChange }: ConnectModalProps) {
           )}
         </div>
 
-        {error && <Text className="text-sm text-red-500">{t`Failed to connect. Please try again.`}</Text>}
+        {(connect.error || switchConnection.error) && (
+          <Text className="text-sm text-red-500">{t`Failed to connect. Please try again.`}</Text>
+        )}
 
         <div className="border-borderPrimary border-t" />
 

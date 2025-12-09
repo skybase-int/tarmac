@@ -10,6 +10,7 @@ import { WALLET_ICONS } from '@/lib/constants';
 import { ConnectedModalTabs } from './ConnectedModalTabs';
 import { useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useConnectModal } from '@/modules/ui/context/ConnectModalContext';
 
 interface ConnectedModalProps {
   isOpen: boolean;
@@ -27,8 +28,14 @@ export function ConnectedModal({
   onDisconnect
 }: ConnectedModalProps) {
   const { onExternalLinkClicked } = useConfigContext();
+  const { openConnectModal } = useConnectModal();
   const { connector } = useConnection();
   const [searchParams] = useSearchParams();
+
+  const onSwitchAccountClick = () => {
+    onOpenChange(false);
+    openConnectModal();
+  };
 
   useEffect(() => {
     // Whenever there's a site navigation, close the connected modal
@@ -53,6 +60,7 @@ export function ConnectedModal({
 
         <WalletCard
           className="mb-0"
+          onSwitchAccountClick={onSwitchAccountClick}
           onExternalLinkClicked={onExternalLinkClicked}
           iconSize={40}
           showEns={true}

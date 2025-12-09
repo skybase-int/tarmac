@@ -13,6 +13,7 @@ import {
   isUnichainChainId
 } from '@jetstreamgg/sky-utils';
 import { cn } from '@widgets/lib/utils';
+import { ArrowLeftRight } from '@widgets/shared/components/icons/ArrowLeftRight';
 
 export const WalletCard = ({
   iconSize = 24,
@@ -21,7 +22,8 @@ export const WalletCard = ({
   ensName,
   walletIcon,
   className,
-  onExternalLinkClicked
+  onExternalLinkClicked,
+  onSwitchAccountClick
 }: {
   iconSize?: number;
   showEns?: boolean;
@@ -30,6 +32,7 @@ export const WalletCard = ({
   walletIcon?: React.ReactElement;
   className?: string;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  onSwitchAccountClick?: () => void;
 }): React.ReactElement => {
   const chainId = useChainId();
   const { address } = useConnection();
@@ -74,7 +77,14 @@ export const WalletCard = ({
             <Text className="font-circle">{truncatedAddress}</Text>
           )}
         </div>
-        <CopyToClipboard text={address || ''} />
+        <div className="flex items-center gap-3">
+          {onSwitchAccountClick && (
+            <button onClick={onSwitchAccountClick}>
+              <ArrowLeftRight width={16} height={16} />
+            </button>
+          )}
+          <CopyToClipboard text={address || ''} />
+        </div>
       </div>
       {isBaseChain && (
         <div className="mt-3 flex">
