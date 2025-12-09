@@ -100,7 +100,7 @@ export function useStUsdsProviderSelection(params: StUsdsQuoteParams): StUsdsPro
       allProvidersBlocked,
       rateDifferencePercent
     };
-  }, [nativeData, curveData, direction, params.amount]);
+  }, [nativeData, curveData, direction]);
 
   const isLoading = isNativeLoading || isCurveLoading;
   const error = nativeError || curveError;
