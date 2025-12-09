@@ -76,7 +76,7 @@ export function SuppliedFundsTableRow({ data, isLoading, children }: SuppliedFun
         <TableCell className="h-auto px-4 py-3 [@container(width<500px)]:hidden">
           {isLoading ? <Skeleton className="h-4 w-16" /> : <Text>${usdValue}</Text>}
         </TableCell>
-        <TableCell className="h-auto px-4 py-3 [@container(width<400px)]:hidden">
+        <TableCell className="h-auto px-4 py-3 [@container(width<500px)]:hidden">
           {isLoading ? (
             <Skeleton className="h-4 w-20" />
           ) : (

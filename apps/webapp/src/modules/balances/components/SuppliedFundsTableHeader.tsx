@@ -26,7 +26,7 @@ export function SuppliedFundsTableHeader() {
             <Trans>Amount (USD)</Trans>
           </Text>
         </TableHead>
-        <TableHead className="w-1/5 [@container(width<400px)]:hidden">
+        <TableHead className="w-1/5 [@container(width<500px)]:hidden">
           <Text variant="small">
             <Trans>Rates</Trans>
           </Text>
