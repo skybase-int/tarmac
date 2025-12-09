@@ -26,9 +26,9 @@ export function StUSDSHistory() {
     // Determine the type label
     let typeLabel: string;
     if (isSupply) {
-      typeLabel = isCurve ? t`Swap (Curve)` : t`Supply`;
+      typeLabel = isCurve ? t`Supply (Curve)` : t`Supply`;
     } else {
-      typeLabel = isCurve ? t`Swap (Curve)` : t`Withdrawal`;
+      typeLabel = isCurve ? t`Withdrawal (Curve)` : t`Withdrawal`;
     }
 
     // Determine the icon
