@@ -35,13 +35,14 @@ export function SuppliedFundsSavingsRow({
   const chains = useChains();
 
   const formattedAmount = formatNumber(parseFloat(formatUnits(totalBalance, 18)), {
-    maxDecimals: 4,
+    maxDecimals: 2,
     compact: true
   });
 
   const usdValue = usdPrice
     ? formatNumber(parseFloat(formatUnits(totalBalance, 18)) * parseFloat(usdPrice), {
-        maxDecimals: 2
+        maxDecimals: 2,
+        compact: true
       })
     : '--';
 
@@ -75,7 +76,11 @@ export function SuppliedFundsSavingsRow({
           {isLoading ? <Skeleton className="h-4 w-16" /> : <Text>{formattedAmount}</Text>}
         </TableCell>
         <TableCell className="h-auto px-4 py-3 [@container(width<500px)]:hidden">
-          {isLoading ? <Skeleton className="h-4 w-16" /> : <Text>${usdValue}</Text>}
+          {isLoading ? (
+            <Skeleton className="h-4 w-16" />
+          ) : (
+            <Text className="text-textSecondary text-[13px]">${usdValue}</Text>
+          )}
         </TableCell>
         <TableCell className="h-auto px-4 py-3 [@container(width<500px)]:hidden">
           <div className="flex items-center justify-between gap-2">
@@ -163,11 +168,12 @@ export function SuppliedFundsSavingsRow({
           const networkName = chains.find(c => c.id === chainId)?.name ?? `Chain ${chainId}`;
           const networkUsdValue = usdPrice
             ? formatNumber(parseFloat(formatUnits(balance, 18)) * parseFloat(usdPrice), {
-                maxDecimals: 2
+                maxDecimals: 2,
+                compact: true
               })
             : '--';
           const networkAmount = formatNumber(parseFloat(formatUnits(balance, 18)), {
-            maxDecimals: 4,
+            maxDecimals: 2,
             compact: true
           });
           const isLast = index === balancesByNetwork.length - 1;
@@ -177,18 +183,19 @@ export function SuppliedFundsSavingsRow({
               key={chainId}
               className={cn('hover:bg-surface/50 border-0', isLast && 'border-b-selectBorder border-b')}
             >
-              <TableCell className="h-auto py-2 pr-0 pl-4">
+              <TableCell className="h-auto py-2 pr-0 pl-4" colSpan={2}>
                 <div className="flex items-center gap-2">
                   <TokenIcon className="h-6 w-6" token={{ symbol: 'USDS', name: 'USDS' }} chainId={chainId} />
-                  <Text variant="medium">{networkName}</Text>
+                  <Text variant="medium" className="whitespace-nowrap">
+                    {networkName}
+                  </Text>
                 </div>
               </TableCell>
-              <TableCell className="h-auto px-4 py-2" />
               <TableCell className="h-auto px-4 py-2">
                 <Text>{networkAmount}</Text>
               </TableCell>
               <TableCell className="h-auto px-4 py-2 [@container(width<500px)]:hidden">
-                <Text>${networkUsdValue}</Text>
+                <Text className="text-textSecondary text-[13px]">${networkUsdValue}</Text>
               </TableCell>
               <TableCell className="h-auto px-4 py-2 [@container(width<500px)]:hidden" />
             </TableRow>

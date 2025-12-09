@@ -41,13 +41,14 @@ export function SuppliedFundsTableRow({ data, isLoading, children }: SuppliedFun
   } = data;
 
   const formattedAmount = formatNumber(parseFloat(formatUnits(amount, decimals)), {
-    maxDecimals: 4,
+    maxDecimals: 2,
     compact: true
   });
 
   const usdValue = usdPrice
     ? formatNumber(parseFloat(formatUnits(amount, decimals)) * parseFloat(usdPrice), {
-        maxDecimals: 2
+        maxDecimals: 2,
+        compact: true
       })
     : '--';
 
@@ -74,7 +75,11 @@ export function SuppliedFundsTableRow({ data, isLoading, children }: SuppliedFun
           {isLoading ? <Skeleton className="h-4 w-16" /> : <Text>{formattedAmount}</Text>}
         </TableCell>
         <TableCell className="h-auto px-4 py-3 [@container(width<500px)]:hidden">
-          {isLoading ? <Skeleton className="h-4 w-16" /> : <Text>${usdValue}</Text>}
+          {isLoading ? (
+            <Skeleton className="h-4 w-16" />
+          ) : (
+            <Text className="text-textSecondary text-[13px]">${usdValue}</Text>
+          )}
         </TableCell>
         <TableCell className="h-auto px-4 py-3 [@container(width<500px)]:hidden">
           {isLoading ? (
