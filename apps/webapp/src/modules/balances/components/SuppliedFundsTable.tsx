@@ -97,15 +97,17 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
       balance
     }));
 
-  const savingsBalancesFiltered = hideZeroBalances
+  // All savings balances with non-zero amounts (used for "Funds by network" expandable)
+  const allNonZeroSavingsBalances = hideZeroBalances
     ? sortedSavingsBalances.filter(({ balance }) => balance > 0n)
     : sortedSavingsBalances;
 
-  const filteredSavingsBalances = showAllNetworks
-    ? savingsBalancesFiltered
-    : savingsBalancesFiltered.filter(({ chainId }) => chainId === currentChainId);
+  // Savings balances filtered by current network (used for total display)
+  const displayedSavingsBalances = showAllNetworks
+    ? allNonZeroSavingsBalances
+    : allNonZeroSavingsBalances.filter(({ chainId }) => chainId === currentChainId);
 
-  const totalSavingsBalance = filteredSavingsBalances.reduce((acc, { balance }) => acc + balance, 0n);
+  const totalSavingsBalance = displayedSavingsBalances.reduce((acc, { balance }) => acc + balance, 0n);
   const savingsRate = parseFloat(overallSkyData?.skySavingsRatecRate ?? '0');
 
   // Staking data
@@ -184,7 +186,7 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
             {!hideSavings && (
               <SuppliedFundsSavingsRow
                 totalBalance={totalSavingsBalance}
-                balancesByNetwork={filteredSavingsBalances}
+                balancesByNetwork={allNonZeroSavingsBalances}
                 usdPrice={pricesData?.USDS?.price}
                 rate={savingsRate > 0 ? formatDecimalPercentage(savingsRate) : '0%'}
                 isLoading={savingsLoading || overallSkyDataLoading}
