@@ -35,7 +35,7 @@ export function StUSDSHistory() {
     let iconLeft: React.ReactNode;
     if (isSupply) {
       iconLeft = isCurve ? (
-        <CurveSavingsSupply width={14} height={13} className="mr-1" />
+        <CurveSavingsSupply width={31} height={26} className="mr-1" />
       ) : (
         <SavingsSupply width={14} height={13} className="mr-1" />
       );
