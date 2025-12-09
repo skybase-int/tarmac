@@ -91,7 +91,8 @@ export function SuppliedFundsSavingsRow({
             )}
             {hasMultipleNetworks && (
               <button className="flex items-center gap-1.5" onClick={() => setIsOpen(!isOpen)}>
-                <div className="flex items-center -space-x-1">
+                {/* Hide network icons between 500-700px (cell hidden below 500px) */}
+                <div className="flex items-center -space-x-1 [@container(width<700px)]:hidden">
                   {balancesByNetwork.slice(0, 5).map(({ chainId }, index) => (
                     <div
                       key={chainId}
