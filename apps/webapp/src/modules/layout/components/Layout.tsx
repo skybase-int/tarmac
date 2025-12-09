@@ -12,8 +12,7 @@ import { Text } from '@/modules/layout/components/Typography';
 import { FooterLinks } from './FooterLinks';
 import { useBreakpointIndex, BP } from '@/modules/ui/hooks/useBreakpointIndex';
 import { IS_DEVELOPMENT_ENV, IS_STAGING_ENV } from '@/lib/constants';
-import { PrivacySettingsModal } from './PrivacySettingsModal';
-import { useSearchParams } from 'react-router-dom';
+import { Banner } from '@/components/extensible';
 
 export function Layout({
   children,
@@ -27,7 +26,7 @@ export function Layout({
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
   const { bpi } = useBreakpointIndex();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [privacySettingsOpen, setPrivacySettingsOpen] = useState(false);
+  const [, setPrivacySettingsOpen] = useState(false);
 
   const showEnvInfo = (IS_STAGING_ENV || IS_DEVELOPMENT_ENV) && import.meta.env.VITE_CF_PAGES_COMMIT_SHA;
 
@@ -73,7 +72,7 @@ export function Layout({
         </ErrorBoundary>
         {bpi > BP.sm && <FooterLinks />}
       </VStack>
-      <PrivacySettingsModal isOpen={privacySettingsOpen} onClose={() => setPrivacySettingsOpen(false)} />
+      <Banner />
       {showEnvInfo && (
         <div className="absolute bottom-0 left-2">
           <Text className="text-xs text-white">{import.meta.env.VITE_CF_PAGES_COMMIT_SHA}</Text>

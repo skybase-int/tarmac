@@ -60,7 +60,9 @@ export default defineConfig({
         '**/stake.spec.ts',
         '**/landing.spec.ts',
         '**/expert-stusds.spec.ts',
-        '**/upgrade.spec.ts'
+        '**/upgrade.spec.ts',
+        '**/unstake-repay.spec.ts',
+        '**/chatbot.spec.ts'
         // Add more test patterns as we convert them
       ]
     }
