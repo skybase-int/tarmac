@@ -17,7 +17,6 @@ import { useContext, useEffect } from 'react';
 export const StUSDSTransactionReview = ({
   batchEnabled,
   setBatchEnabled,
-  isBatchTransaction,
   originToken,
   originAmount,
   needsAllowance,
@@ -25,7 +24,6 @@ export const StUSDSTransactionReview = ({
 }: {
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
-  isBatchTransaction: boolean;
   originToken: Token;
   originAmount: bigint;
   needsAllowance: boolean;
@@ -43,7 +41,7 @@ export const StUSDSTransactionReview = ({
     txStatus,
     widgetState
   } = useContext(WidgetContext);
-  const { flow, action, screen } = widgetState;
+  const { flow, action } = widgetState;
 
   useEffect(() => {
     setOriginToken(originToken);
@@ -80,7 +78,17 @@ export const StUSDSTransactionReview = ({
       );
     }
     setTxDescription(i18n._(stusdsActionDescription({ flow, action, txStatus, needsAllowance })));
-  }, [flow, action, screen, i18n.locale, isBatchTransaction, batchSupported, batchEnabled, isCurve]);
+  }, [
+    flow,
+    action,
+    txStatus,
+    i18n.locale,
+    batchSupported,
+    batchEnabled,
+    needsAllowance,
+    originToken,
+    isCurve
+  ]);
 
   return <TransactionReview batchEnabled={batchEnabled} setBatchEnabled={setBatchEnabled} />;
 };

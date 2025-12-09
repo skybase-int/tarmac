@@ -543,7 +543,6 @@ const StUSDSWidgetWrapped = ({
             <StUSDSTransactionReview
               batchEnabled={batchEnabled}
               setBatchEnabled={setBatchEnabled}
-              isBatchTransaction={shouldUseBatch}
               originToken={usds}
               originAmount={debouncedAmount}
               needsAllowance={needsAllowance}

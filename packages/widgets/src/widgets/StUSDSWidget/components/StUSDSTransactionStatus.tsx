@@ -155,7 +155,19 @@ export const StUSDSTransactionStatus = ({
         }
       }
     }
-  }, [txStatus, flow, action, screen, i18n.locale, needsAllowance, isCurve]);
+  }, [
+    txStatus,
+    flow,
+    action,
+    screen,
+    i18n.locale,
+    needsAllowance,
+    isCurve,
+    originAmount,
+    originToken,
+    chainId,
+    isBatchTransaction
+  ]);
   return (
     <BatchTransactionStatus
       onExternalLinkClicked={onExternalLinkClicked}
