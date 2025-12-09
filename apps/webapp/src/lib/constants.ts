@@ -202,6 +202,10 @@ export const CHATBOT_PREFILL_FILTERING_ENABLED =
 
 // Feature flag for batch transactions
 export const BATCH_TX_ENABLED = import.meta.env.VITE_BATCH_TX_ENABLED === 'true';
+
+// Skip chatbot auth check for testing (only works in non-production environments)
+export const SKIP_CHAT_AUTH_CHECK =
+  !IS_PRODUCTION_ENV && import.meta.env.VITE_SKIP_CHAT_AUTH_CHECK === 'true';
 export const BATCH_TX_LEGAL_NOTICE_URL = '/batch-transactions-legal-notice';
 export const BATCH_TX_SUPPORTED_WALLETS_URL = 'https://swiss-knife.xyz/7702beat';
 
