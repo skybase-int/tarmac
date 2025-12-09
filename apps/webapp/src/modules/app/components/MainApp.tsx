@@ -14,7 +14,6 @@ import { LinkedActionSteps } from '@/modules/config/context/ConfigContext';
 import { useSendMessage } from '@/modules/chat/hooks/useSendMessage';
 import { ChatWithTerms } from '@/modules/chat/components/ChatWithTerms';
 import { useChatNotification } from '../hooks/useChatNotification';
-import { useBatchTxNotification } from '../hooks/useBatchTxNotification';
 import { useSafeAppNotification } from '../hooks/useSafeAppNotification';
 import { useGovernanceMigrationToast } from '../hooks/useGovernanceMigrationToast';
 import { useNotificationQueue } from '../hooks/useNotificationQueue';
@@ -119,12 +118,10 @@ export function MainApp() {
   const { shouldShowNotification } = useNotificationQueue(notificationConfigs);
 
   // Notification Priority System (only one notification per page load):
-  // 1. EIP7702 Batch Transaction (highest priority)
-  // 2. Governance Migration (for connected wallets with MKR ≥ 0.05)
-  // 3. Chat Notification (lowest priority)
+  // 1. Governance Migration (for connected wallets with MKR ≥ 0.05)
+  // 2. Chat Notification (lowest priority)
 
   // Display notifications based on queue priority
-  useBatchTxNotification(isAuthorized && shouldShowNotification('batch-tx'));
   useGovernanceMigrationToast(isAuthorized && shouldShowNotification('governance-migration'));
   useChatNotification(isAuthorized && shouldShowNotification('chat'));
 

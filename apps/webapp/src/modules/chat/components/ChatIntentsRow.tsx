@@ -422,7 +422,16 @@ const IntentRow = ({
 }: IntentRowProps & { className?: string; hideIcon?: boolean }) => {
   const chainId = useChainId();
   const executeIntent = useIntentExecution();
-  const intentUrl = useRetainedQueryParams(intent?.url || '', [QueryParams.Locale, QueryParams.Details]);
+  const { bpi } = useBreakpointIndex();
+  const isMobile = bpi < BP.md;
+
+  // On mobile, don't retain chat param (it will be set to false by prepareUrlParams)
+  // On desktop, retain chat param to keep chat open after clicking an intent
+  const retainedParams = isMobile
+    ? [QueryParams.Locale, QueryParams.Details]
+    : [QueryParams.Locale, QueryParams.Details, QueryParams.Chat];
+
+  const intentUrl = useRetainedQueryParams(intent?.url || '', retainedParams);
 
   const network =
     useNetworkFromIntentUrl(intentUrl) || chainIdNameMapping[chainId as keyof typeof chainIdNameMapping];
