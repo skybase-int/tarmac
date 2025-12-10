@@ -32,6 +32,7 @@ export function SuppliedFundsSavingsRow({
   isLoading
 }: SuppliedFundsSavingsRowProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const chains = useChains();
 
   const formattedAmount = formatNumber(parseFloat(formatUnits(totalBalance, 18)), {
@@ -55,8 +56,13 @@ export function SuppliedFundsSavingsRow({
           'border-b-selectBorder',
           isOpen && 'border-b-0',
           // On narrow screens with multiple networks, the sub-row handles the border
-          hasMultipleNetworks && '[@container(width<750px)]:border-b-0'
+          hasMultipleNetworks && '[@container(width<750px)]:border-b-0',
+          // Override default hover and use shared hover state on tablet
+          hasMultipleNetworks && '[@container(width<750px)]:has-[td]:hover:bg-transparent',
+          isHovered && hasMultipleNetworks && '[@container(width<750px)]:!bg-surface/50'
         )}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
         <TableCell className="h-auto px-4 py-3">
           <div className="flex items-center gap-2">
@@ -127,8 +133,13 @@ export function SuppliedFundsSavingsRow({
         <TableRow
           className={cn(
             'hidden border-0 [@container(width<750px)]:table-row',
-            !isOpen && 'border-b-selectBorder border-b'
+            !isOpen && 'border-b-selectBorder border-b',
+            // Override default hover and use shared hover state on tablet
+            'has-[td]:hover:bg-transparent',
+            isHovered && '!bg-surface/50'
           )}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
           <TableCell className="h-auto px-4 pt-0 pb-3">
             <button className="flex w-full items-center justify-between" onClick={() => setIsOpen(!isOpen)}>
@@ -182,10 +193,10 @@ export function SuppliedFundsSavingsRow({
               key={chainId}
               className={cn('hover:bg-surface/50 border-0', isLast && 'border-b-selectBorder border-b')}
             >
-              <TableCell className="h-auto py-2 pr-0 pl-4" colSpan={2}>
+              <TableCell className="h-auto py-2 pr-0 pl-8" colSpan={2}>
                 <div className="flex items-center gap-2">
-                  <TokenIcon className="h-6 w-6" token={{ symbol: 'USDS', name: 'USDS' }} chainId={chainId} />
-                  <Text variant="medium" className="whitespace-nowrap">
+                  <TokenIcon className="h-5 w-5" token={{ symbol: 'USDS', name: 'USDS' }} chainId={chainId} />
+                  <Text variant="small" className="whitespace-nowrap">
                     {networkName}
                   </Text>
                 </div>
