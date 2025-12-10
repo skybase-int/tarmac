@@ -1,16 +1,24 @@
-import { TransactionTypeEnum, ModuleEnum } from '@jetstreamgg/sky-hooks';
+import { TransactionTypeEnum, ModuleEnum, StUsdsProviderType } from '@jetstreamgg/sky-hooks';
 
 export const getHistoryIconSource = ({
   type,
-  module
+  module,
+  provider
 }: {
   type?: TransactionTypeEnum;
   module: ModuleEnum;
+  provider?: StUsdsProviderType;
 }) => {
   const src = 'history-icons/';
   switch (module) {
     case ModuleEnum.SAVINGS:
+      return type === TransactionTypeEnum.SUPPLY ? src + 'savings-supply.svg' : src + 'savings-withdraw.svg';
     case ModuleEnum.STUSDS:
+      if (provider === StUsdsProviderType.CURVE) {
+        return type === TransactionTypeEnum.SUPPLY
+          ? src + 'curve-savings-supply.svg'
+          : src + 'curve-savings-withdraw.svg';
+      }
       return type === TransactionTypeEnum.SUPPLY ? src + 'savings-supply.svg' : src + 'savings-withdraw.svg';
     case ModuleEnum.UPGRADE:
       return type === TransactionTypeEnum.DAI_TO_USDS || type === TransactionTypeEnum.MKR_TO_SKY
