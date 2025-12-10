@@ -3,24 +3,23 @@ import { Text } from './Typography';
 import { getFooterLinks, sanitizeUrl } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Trans } from '@lingui/react/macro';
-import { useSearchParams } from 'react-router-dom';
 
 export function FooterLinks() {
   const footerLinks = getFooterLinks();
   const externalClass = 'hover:text-white hover:underline hover:underline-offset-4';
-  const [, setSearchParams] = useSearchParams();
 
-  const handlePrivacySettingsClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    setSearchParams(params => {
-      params.set('privacy-settings', 'true');
-      return params;
-    });
+  const handlePrivacySettingsClick = () => {
+    window.dispatchEvent(new CustomEvent('showPrivacyBanner'));
   };
 
   return (
     <div className={'flex w-full pt-2'}>
       <div className="flex w-full justify-end gap-3 md:justify-start">
+        <button onClick={handlePrivacySettingsClick} className={externalClass}>
+          <Text variant="captionSm" className="text-white">
+            <Trans>Privacy Preferences</Trans>
+          </Text>
+        </button>
         {footerLinks.map((link, i) => {
           const url = sanitizeUrl(link.url);
           if (!url) return null;
@@ -44,11 +43,6 @@ export function FooterLinks() {
             </ExternalLink>
           );
         })}
-        <a href="#" onClick={handlePrivacySettingsClick} className={externalClass}>
-          <Text variant="captionSm" className="text-white">
-            <Trans>Cookie Preferences</Trans>
-          </Text>
-        </a>
       </div>
     </div>
   );

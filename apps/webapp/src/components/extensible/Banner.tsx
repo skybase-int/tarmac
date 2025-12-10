@@ -4,7 +4,7 @@ import { X } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Text, Heading } from '@/modules/layout/components/Typography';
 
-const SHOW_BANNER = false;
+const SHOW_BANNER = true;
 
 export type BannerPosition = 'left' | 'right';
 
@@ -73,27 +73,24 @@ export function Banner({
         </button>
         <div className="mb-3">
           <Heading variant="small" className="text-text">
-            Banner Title
+            Privacy Preferences
           </Heading>
         </div>
         <div className="space-y-2">
           <Text variant="medium" className="text-text">
-            This is a test banner to verify positioning, responsiveness, and z-index layering across different
-            viewport sizes. The banner should appear fixed at the bottom of the screen, remaining visible as
-            you scroll through content.
+            We use Cookie3 analytics to collect information about how you interact with our website. This
+            helps us improve our services and user experience.
           </Text>
           <Text variant="medium" className="text-text">
-            It should sit above Sonner toast notifications but below any modal dialogs that may open. On
-            mobile devices, the banner should adapt gracefully with readable text and accessible touch
-            targets.
+            You can opt out of analytics at any time.
           </Text>
         </div>
         <div className="mt-4 flex gap-2">
           <Button variant="primary" className="px-4 py-2" onClick={onAction}>
-            Primary Action
+            Accept
           </Button>
           <Button variant="secondary" className="border bg-transparent px-4 py-2" onClick={onSecondaryAction}>
-            Secondary Action
+            Reject
           </Button>
         </div>
       </div>
