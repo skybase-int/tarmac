@@ -2,7 +2,6 @@ import { ExternalLink } from './ExternalLink';
 import { Text } from './Typography';
 import { getFooterLinks, sanitizeUrl } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Trans } from '@lingui/react/macro';
 
 export function FooterLinks() {
   const footerLinks = getFooterLinks();
@@ -17,7 +16,7 @@ export function FooterLinks() {
       <div className="flex w-full justify-end gap-3 md:justify-start">
         <button onClick={handlePrivacySettingsClick} className={externalClass}>
           <Text variant="captionSm" className="text-white">
-            <Trans>Privacy Preferences</Trans>
+            Privacy Preferences
           </Text>
         </button>
         {footerLinks.map((link, i) => {
