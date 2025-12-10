@@ -21,12 +21,12 @@ export function SuppliedFundsTableHeader() {
             <Trans>Amount</Trans>
           </Text>
         </TableHead>
-        <TableHead className="w-1/5 [@container(width<500px)]:hidden">
+        <TableHead className="w-1/5 [@container(width<750px)]:hidden">
           <Text variant="small">
             <Trans>Amount (USD)</Trans>
           </Text>
         </TableHead>
-        <TableHead className="w-1/5 [@container(width<500px)]:hidden">
+        <TableHead className="w-1/5 [@container(width<750px)]:hidden">
           <Text variant="small">
             <Trans>Rates</Trans>
           </Text>

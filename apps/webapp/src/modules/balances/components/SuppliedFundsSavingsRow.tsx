@@ -55,7 +55,7 @@ export function SuppliedFundsSavingsRow({
           'border-b-selectBorder',
           isOpen && 'border-b-0',
           // On narrow screens with multiple networks, the sub-row handles the border
-          hasMultipleNetworks && '[@container(width<500px)]:border-b-0'
+          hasMultipleNetworks && '[@container(width<750px)]:border-b-0'
         )}
       >
         <TableCell className="h-auto px-4 py-3">
@@ -75,14 +75,14 @@ export function SuppliedFundsSavingsRow({
         <TableCell className="h-auto px-4 py-3">
           {isLoading ? <Skeleton className="h-4 w-16" /> : <Text>{formattedAmount}</Text>}
         </TableCell>
-        <TableCell className="h-auto px-4 py-3 [@container(width<500px)]:hidden">
+        <TableCell className="h-auto px-4 py-3 [@container(width<750px)]:hidden">
           {isLoading ? (
             <Skeleton className="h-4 w-16" />
           ) : (
             <Text className="text-textSecondary text-[13px]">${usdValue}</Text>
           )}
         </TableCell>
-        <TableCell className="h-auto px-4 py-3 [@container(width<500px)]:hidden">
+        <TableCell className="h-auto px-4 py-3 [@container(width<750px)]:hidden">
           <div className="flex items-center justify-between gap-2">
             {isLoading ? (
               <Skeleton className="h-4 w-20" />
@@ -96,8 +96,7 @@ export function SuppliedFundsSavingsRow({
             )}
             {hasMultipleNetworks && (
               <button className="flex items-center gap-1.5" onClick={() => setIsOpen(!isOpen)}>
-                {/* Hide network icons between 500-700px (cell hidden below 500px) */}
-                <div className="flex items-center -space-x-1 [@container(width<700px)]:hidden">
+                <div className="flex items-center -space-x-1">
                   {balancesByNetwork.slice(0, 5).map(({ chainId }, index) => (
                     <div
                       key={chainId}
@@ -123,11 +122,11 @@ export function SuppliedFundsSavingsRow({
         </TableCell>
       </TableRow>
 
-      {/* Funds by network sub-row - visible only on narrow screens */}
+      {/* Funds by network sub-row - visible on narrow/tablet screens */}
       {hasMultipleNetworks && (
         <TableRow
           className={cn(
-            'hidden border-0 [@container(width<500px)]:table-row',
+            'hidden border-0 [@container(width<750px)]:table-row',
             !isOpen && 'border-b-selectBorder border-b'
           )}
         >
@@ -194,10 +193,10 @@ export function SuppliedFundsSavingsRow({
               <TableCell className="h-auto px-4 py-2">
                 <Text>{networkAmount}</Text>
               </TableCell>
-              <TableCell className="h-auto px-4 py-2 [@container(width<500px)]:hidden">
+              <TableCell className="h-auto px-4 py-2 [@container(width<750px)]:hidden">
                 <Text className="text-textSecondary text-[13px]">${networkUsdValue}</Text>
               </TableCell>
-              <TableCell className="h-auto px-4 py-2 [@container(width<500px)]:hidden" />
+              <TableCell className="h-auto px-4 py-2 [@container(width<750px)]:hidden" />
             </TableRow>
           );
         })}
