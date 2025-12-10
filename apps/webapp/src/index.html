@@ -9,33 +9,6 @@
     />
     <title>Sky | Get rewarded for saving, without giving up control</title>
 
-    <script>
-    (function () {
-      function loadCookie3Script() {
-        const script = document.createElement('script');
-        script.src = 'https://cdn.markfi.xyz/scripts/analytics/0.11.24/cookie3.analytics.min.js';
-        script.integrity = 'sha384-ihnQ09PGDbDPthGB3QoQ2Heg2RwQIDyWkHkqxMzq91RPeP8OmydAZbQLgAakAOfI';
-        script.crossOrigin = 'anonymous';
-        script.async = true;
-        script.setAttribute('site-id', '%VITE_COOKIE3_SITE_ID%');
-        document.head.appendChild(script);
-      }
-
-      try {
-        // Check if user has opted out of analytics
-        const optOut = localStorage.getItem('skyAppAnalyticsOptOut');
-        if (optOut === 'true') {
-          return; // User has opted out, don't load Cookie3
-        }
-        // User hasn't opted out, load Cookie3 script
-        loadCookie3Script();
-      } catch (e) {
-        // If there's an error, default to loading Cookie3 (opt-out model)
-        loadCookie3Script();
-      }
-    })();
-  </script>
-
     <!-- Pinned Sites  -->
     <meta name="application-name" content="Sky | Get rewarded for saving, without giving up control" />
     <meta name="msapplication-tooltip" content="Sky | Get rewarded for saving, without giving up control" />
