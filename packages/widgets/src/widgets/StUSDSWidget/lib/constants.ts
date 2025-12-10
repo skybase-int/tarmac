@@ -2,6 +2,8 @@ import { msg } from '@lingui/core/macro';
 import { MessageDescriptor } from '@lingui/core';
 import { BatchStatus, TxStatus } from '@widgets/shared/constants';
 import { TxCardCopyText } from '@widgets/shared/types/txCardCopyText';
+import { StUsdsSelectionReason, StUsdsBlockedReason } from '@jetstreamgg/sky-hooks';
+import type { I18n } from '@lingui/core';
 
 export enum StUSDSFlow {
   SUPPLY = 'supply',
@@ -14,18 +16,49 @@ export enum StUSDSAction {
   WITHDRAW = 'withdraw'
 }
 
-// Provider selection reason messages
-export const providerMessages = {
-  nativeProvider: msg`Native stUSDS contract`,
-  curveProvider: msg`Curve pool`,
-  usingCurveBetterRate: msg`Using Curve pool for better rate`,
-  usingCurveNativeDepositBlocked: msg`Using Curve pool - native deposits unavailable`,
-  usingCurveNativeWithdrawBlocked: msg`Using Curve pool - native withdrawals unavailable`,
-  usingCurveSupplyCapReached: msg`Using Curve pool - supply cap reached`,
-  usingCurveLiquidityExhausted: msg`Using Curve pool - liquidity exhausted`,
-  allProvidersBlocked: msg`Both native and Curve routes are temporarily unavailable`,
-  rateDifference: msg`Rate difference`
-};
+export function getProviderMessage(
+  selectionReason: StUsdsSelectionReason,
+  rateDifferencePercent: number,
+  flow: StUSDSFlow,
+  nativeBlockedReason: StUsdsBlockedReason | undefined,
+  i18n: I18n
+): string {
+  switch (selectionReason) {
+    case StUsdsSelectionReason.ALL_BLOCKED:
+      return i18n._(msg`Both native and Curve routes are temporarily unavailable`);
+
+    case StUsdsSelectionReason.CURVE_BETTER_RATE: {
+      const rateText = Math.abs(rateDifferencePercent).toFixed(2);
+      return `${i18n._(msg`Using Curve pool for better rate`)} (+${rateText}%)`;
+    }
+
+    case StUsdsSelectionReason.CURVE_ONLY_AVAILABLE:
+      switch (nativeBlockedReason) {
+        case StUsdsBlockedReason.SUPPLY_CAPACITY_REACHED:
+          return i18n._(msg`Using Curve pool - supply cap reached`);
+
+        case StUsdsBlockedReason.LIQUIDITY_EXHAUSTED:
+          return i18n._(msg`Using Curve pool - liquidity exhausted`);
+
+        case StUsdsBlockedReason.CURVE_INSUFFICIENT_STUSDS_LIQUIDITY:
+          return i18n._(msg`Using Curve pool - insufficient stUSDS liquidity`);
+
+        case StUsdsBlockedReason.CURVE_INSUFFICIENT_USDS_LIQUIDITY:
+          return i18n._(msg`Using Curve pool - insufficient USDS liquidity`);
+
+        default:
+          return flow === StUSDSFlow.SUPPLY
+            ? i18n._(msg`Using Curve pool - native deposits unavailable`)
+            : i18n._(msg`Using Curve pool - native withdrawals unavailable`);
+      }
+
+    case StUsdsSelectionReason.NATIVE_ONLY_AVAILABLE:
+    case StUsdsSelectionReason.NATIVE_BETTER_RATE:
+    case StUsdsSelectionReason.NATIVE_DEFAULT:
+      // These cases should never occur because ProviderIndicator doesn't render when native is selected
+      throw new Error(`Unexpected selection reason for provider message: ${selectionReason}`);
+  }
+}
 
 export enum StUSDSScreen {
   ACTION = 'action',

@@ -4,7 +4,7 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { renderHook } from '@testing-library/react';
 import { useCurveStUsdsProvider } from './useCurveStUsdsProvider';
-import { StUsdsProviderType, StUsdsProviderStatus } from './types';
+import { StUsdsProviderType, StUsdsProviderStatus, StUsdsBlockedReason } from './types';
 import { RATE_PRECISION, STUSDS_PROVIDER_CONFIG } from './constants';
 
 // Mock the Curve hooks
@@ -110,7 +110,9 @@ describe('useCurveStUsdsProvider', () => {
 
       expect(result.current.data?.state.status).toBe(StUsdsProviderStatus.BLOCKED);
       expect(result.current.data?.state.canDeposit).toBe(false);
-      expect(result.current.data?.state.errorMessage).toBe('Insufficient stUSDS liquidity in Curve pool');
+      expect(result.current.data?.state.blockedReason).toBe(
+        StUsdsBlockedReason.CURVE_INSUFFICIENT_STUSDS_LIQUIDITY
+      );
     });
   });
 
@@ -153,7 +155,9 @@ describe('useCurveStUsdsProvider', () => {
 
       expect(result.current.data?.state.status).toBe(StUsdsProviderStatus.BLOCKED);
       expect(result.current.data?.state.canWithdraw).toBe(false);
-      expect(result.current.data?.state.errorMessage).toBe('Insufficient USDS liquidity in Curve pool');
+      expect(result.current.data?.state.blockedReason).toBe(
+        StUsdsBlockedReason.CURVE_INSUFFICIENT_USDS_LIQUIDITY
+      );
     });
   });
 

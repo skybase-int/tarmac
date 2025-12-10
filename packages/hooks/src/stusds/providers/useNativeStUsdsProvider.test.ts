@@ -4,7 +4,7 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { renderHook } from '@testing-library/react';
 import { useNativeStUsdsProvider } from './useNativeStUsdsProvider';
-import { StUsdsProviderType, StUsdsProviderStatus } from './types';
+import { StUsdsProviderType, StUsdsProviderStatus, StUsdsBlockedReason } from './types';
 import { RATE_PRECISION } from './constants';
 
 // Mock the stUSDS data hooks
@@ -116,7 +116,7 @@ describe('useNativeStUsdsProvider', () => {
 
       expect(result.current.data?.state.status).toBe(StUsdsProviderStatus.BLOCKED);
       expect(result.current.data?.state.canDeposit).toBe(false);
-      expect(result.current.data?.state.errorMessage).toBe('Supply capacity reached');
+      expect(result.current.data?.state.blockedReason).toBe(StUsdsBlockedReason.SUPPLY_CAPACITY_REACHED);
     });
   });
 
@@ -153,7 +153,7 @@ describe('useNativeStUsdsProvider', () => {
 
       expect(result.current.data?.state.status).toBe(StUsdsProviderStatus.BLOCKED);
       expect(result.current.data?.state.canWithdraw).toBe(false);
-      expect(result.current.data?.state.errorMessage).toBe('Available liquidity exhausted');
+      expect(result.current.data?.state.blockedReason).toBe(StUsdsBlockedReason.LIQUIDITY_EXHAUSTED);
     });
   });
 

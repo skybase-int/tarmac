@@ -22,9 +22,7 @@ export enum StUsdsProviderStatus {
   /** Provider is blocked (e.g., capacity reached, liquidity exhausted) */
   BLOCKED = 'blocked',
   /** Provider is available but has inferior rate compared to another provider */
-  RATE_INFERIOR = 'rate_inferior',
-  /** Provider is unavailable (error or not supported on current chain) */
-  UNAVAILABLE = 'unavailable'
+  RATE_INFERIOR = 'rate_inferior'
 }
 
 /**
@@ -43,6 +41,20 @@ export enum StUsdsSelectionReason {
   NATIVE_DEFAULT = 'native_default',
   /** Both providers are blocked */
   ALL_BLOCKED = 'all_blocked'
+}
+
+/**
+ * Reason why a provider is blocked.
+ */
+export enum StUsdsBlockedReason {
+  /** Native: Supply capacity has been reached */
+  SUPPLY_CAPACITY_REACHED = 'supply_capacity_reached',
+  /** Native: Available liquidity exhausted */
+  LIQUIDITY_EXHAUSTED = 'liquidity_exhausted',
+  /** Curve: Insufficient stUSDS liquidity for deposits */
+  CURVE_INSUFFICIENT_STUSDS_LIQUIDITY = 'curve_insufficient_stusds_liquidity',
+  /** Curve: Insufficient USDS liquidity for withdrawals */
+  CURVE_INSUFFICIENT_USDS_LIQUIDITY = 'curve_insufficient_usds_liquidity'
 }
 
 /**
@@ -82,8 +94,8 @@ export type StUsdsProviderState = {
   maxDeposit: bigint;
   /** Maximum withdrawal amount (0n if withdrawals blocked) */
   maxWithdraw: bigint;
-  /** Error message if status is UNAVAILABLE */
-  errorMessage?: string;
+  /** Structured reason if provider is blocked */
+  blockedReason?: StUsdsBlockedReason;
 };
 
 /**

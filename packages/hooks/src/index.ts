@@ -47,7 +47,8 @@ export {
   useBatchCurveSwap,
   StUsdsProviderType,
   StUsdsProviderStatus,
-  StUsdsSelectionReason
+  StUsdsSelectionReason,
+  StUsdsBlockedReason
 } from './stusds';
 
 export type {

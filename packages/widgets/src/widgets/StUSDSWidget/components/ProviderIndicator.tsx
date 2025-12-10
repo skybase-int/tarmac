@@ -1,9 +1,9 @@
 import { useLingui } from '@lingui/react';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
-import { StUsdsProviderType, StUsdsSelectionReason } from '@jetstreamgg/sky-hooks';
+import { StUsdsProviderType, StUsdsSelectionReason, StUsdsBlockedReason } from '@jetstreamgg/sky-hooks';
 import { CurveLogo } from '@widgets/shared/components/icons/CurveLogo';
-import { providerMessages, StUSDSFlow } from '../lib/constants';
+import { getProviderMessage, StUSDSFlow } from '../lib/constants';
 
 export type ProviderIndicatorProps = {
   selectedProvider: StUsdsProviderType;
@@ -11,8 +11,8 @@ export type ProviderIndicatorProps = {
   rateDifferencePercent: number;
   flow: StUSDSFlow;
   isLoading?: boolean;
-  /** Specific reason why native is blocked (e.g., "Supply capacity reached") */
-  nativeBlockedReason?: string;
+  /** Specific reason why native is blocked */
+  nativeBlockedReason?: StUsdsBlockedReason;
 };
 
 /**
@@ -43,35 +43,9 @@ export function ProviderIndicator({
   }
 
   const isCurve = selectedProvider === StUsdsProviderType.CURVE;
-  const isBetterRate = selectionReason === StUsdsSelectionReason.CURVE_BETTER_RATE;
-  const isBlocked =
-    selectionReason === StUsdsSelectionReason.CURVE_ONLY_AVAILABLE ||
-    selectionReason === StUsdsSelectionReason.ALL_BLOCKED;
 
-  // Determine message based on reason
-  let message: string;
-  if (selectionReason === StUsdsSelectionReason.ALL_BLOCKED) {
-    message = i18n._(providerMessages.allProvidersBlocked);
-  } else if (isCurve && isBetterRate) {
-    const rateText = Math.abs(rateDifferencePercent).toFixed(2);
-    message = `${i18n._(providerMessages.usingCurveBetterRate)} (+${rateText}%)`;
-  } else if (isCurve && isBlocked) {
-    // Use specific reason if provided
-    if (nativeBlockedReason?.toLowerCase().includes('capacity')) {
-      message = i18n._(providerMessages.usingCurveSupplyCapReached);
-    } else if (nativeBlockedReason?.toLowerCase().includes('liquidity')) {
-      message = i18n._(providerMessages.usingCurveLiquidityExhausted);
-    } else {
-      message =
-        flow === StUSDSFlow.SUPPLY
-          ? i18n._(providerMessages.usingCurveNativeDepositBlocked)
-          : i18n._(providerMessages.usingCurveNativeWithdrawBlocked);
-    }
-  } else {
-    message = i18n._(providerMessages.curveProvider);
-  }
+  const message = getProviderMessage(selectionReason, rateDifferencePercent, flow, nativeBlockedReason, i18n);
 
-  // Determine styling based on reason
   const isWarning = selectionReason === StUsdsSelectionReason.ALL_BLOCKED;
   const isInfo =
     selectionReason === StUsdsSelectionReason.CURVE_ONLY_AVAILABLE ||
@@ -80,11 +54,7 @@ export function ProviderIndicator({
   return (
     <HStack
       className={`w-full items-center justify-center rounded-lg px-3 py-2 ${
-        isWarning
-          ? 'bg-error/10 border-error/20 border'
-          : isInfo
-            ? 'bg-accent/10 border-accent/20 border'
-            : 'bg-surface border-selectBorder border'
+        isWarning ? 'bg-error/10' : isInfo ? 'bg-accent/10' : 'bg-surface'
       }`}
       gap={2}
     >

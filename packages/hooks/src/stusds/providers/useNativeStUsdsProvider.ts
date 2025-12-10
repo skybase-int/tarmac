@@ -12,7 +12,8 @@ import {
   StUsdsQuote,
   StUsdsQuoteParams,
   StUsdsProviderHookResult,
-  StUsdsRateInfo
+  StUsdsRateInfo,
+  StUsdsBlockedReason
 } from './types';
 
 /**
@@ -75,6 +76,15 @@ export function useNativeStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvid
       status = canWithdraw ? StUsdsProviderStatus.AVAILABLE : StUsdsProviderStatus.BLOCKED;
     }
 
+    let blockedReason: StUsdsBlockedReason | undefined;
+    if (status === StUsdsProviderStatus.BLOCKED) {
+      if (direction === 'deposit') {
+        blockedReason = StUsdsBlockedReason.SUPPLY_CAPACITY_REACHED;
+      } else {
+        blockedReason = StUsdsBlockedReason.LIQUIDITY_EXHAUSTED;
+      }
+    }
+
     return {
       providerType: StUsdsProviderType.NATIVE,
       status,
@@ -82,12 +92,7 @@ export function useNativeStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvid
       canWithdraw,
       maxDeposit: capacityData.remainingCapacityBuffered,
       maxWithdraw: stUsdsData.userMaxWithdrawBuffered,
-      errorMessage:
-        status === StUsdsProviderStatus.BLOCKED
-          ? direction === 'deposit'
-            ? 'Supply capacity reached'
-            : 'Available liquidity exhausted'
-          : undefined
+      blockedReason
     };
   }, [stUsdsData, capacityData, direction]);
 

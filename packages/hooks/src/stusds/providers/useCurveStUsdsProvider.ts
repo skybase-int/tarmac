@@ -10,7 +10,8 @@ import {
   StUsdsQuote,
   StUsdsQuoteParams,
   StUsdsProviderHookResult,
-  StUsdsRateInfo
+  StUsdsRateInfo,
+  StUsdsBlockedReason
 } from './types';
 
 /**
@@ -92,6 +93,15 @@ export function useCurveStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvide
       ? (poolData.usdsReserve * slippageMultiplier) / RATE_PRECISION.BPS_DIVISOR
       : 0n;
 
+    let blockedReason: StUsdsBlockedReason | undefined;
+    if (status === StUsdsProviderStatus.BLOCKED) {
+      if (direction === 'deposit') {
+        blockedReason = StUsdsBlockedReason.CURVE_INSUFFICIENT_STUSDS_LIQUIDITY;
+      } else {
+        blockedReason = StUsdsBlockedReason.CURVE_INSUFFICIENT_USDS_LIQUIDITY;
+      }
+    }
+
     return {
       providerType: StUsdsProviderType.CURVE,
       status,
@@ -99,12 +109,7 @@ export function useCurveStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvide
       canWithdraw,
       maxDeposit,
       maxWithdraw,
-      errorMessage:
-        status === StUsdsProviderStatus.BLOCKED
-          ? direction === 'deposit'
-            ? 'Insufficient stUSDS liquidity in Curve pool'
-            : 'Insufficient USDS liquidity in Curve pool'
-          : undefined
+      blockedReason
     };
   }, [poolData, direction]);
 

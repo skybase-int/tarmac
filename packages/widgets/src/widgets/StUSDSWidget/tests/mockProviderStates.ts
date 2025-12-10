@@ -18,7 +18,6 @@ const createNativeProvider = (overrides: {
   canWithdraw?: boolean;
   maxDeposit?: bigint;
   maxWithdraw?: bigint;
-  errorMessage?: string;
 }): StUsdsProviderData => ({
   providerType: StUsdsProviderType.NATIVE,
   state: {
@@ -30,8 +29,7 @@ const createNativeProvider = (overrides: {
     canDeposit: overrides.canDeposit ?? true,
     canWithdraw: overrides.canWithdraw ?? true,
     maxDeposit: overrides.maxDeposit ?? 1000000000000000000000n, // 1000 USDS
-    maxWithdraw: overrides.maxWithdraw ?? 1000000000000000000000n,
-    errorMessage: overrides.errorMessage
+    maxWithdraw: overrides.maxWithdraw ?? 1000000000000000000000n
   },
   quote: undefined
 });
@@ -87,8 +85,7 @@ export const mockProviderStates = {
     selectedQuote: undefined,
     nativeProvider: createNativeProvider({
       canDeposit: false,
-      maxDeposit: 0n,
-      errorMessage: 'Supply capacity reached'
+      maxDeposit: 0n
     }),
     curveProvider: createCurveProvider({}),
     allProvidersBlocked: false,
@@ -107,8 +104,7 @@ export const mockProviderStates = {
     selectedQuote: undefined,
     nativeProvider: createNativeProvider({
       canWithdraw: false,
-      maxWithdraw: 0n,
-      errorMessage: 'Available liquidity exhausted'
+      maxWithdraw: 0n
     }),
     curveProvider: createCurveProvider({}),
     allProvidersBlocked: false,
@@ -143,8 +139,7 @@ export const mockProviderStates = {
     selectedQuote: undefined,
     nativeProvider: createNativeProvider({
       canDeposit: false,
-      maxDeposit: 0n,
-      errorMessage: 'Supply capacity reached'
+      maxDeposit: 0n
     }),
     curveProvider: createCurveProvider({
       canDeposit: false,
@@ -166,8 +161,7 @@ export const mockProviderStates = {
     selectedQuote: undefined,
     nativeProvider: createNativeProvider({
       canWithdraw: false,
-      maxWithdraw: 0n,
-      errorMessage: 'Available liquidity exhausted'
+      maxWithdraw: 0n
     }),
     curveProvider: createCurveProvider({
       canWithdraw: false,
