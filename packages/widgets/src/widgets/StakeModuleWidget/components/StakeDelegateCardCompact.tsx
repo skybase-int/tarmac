@@ -24,7 +24,7 @@ export const StakeDelegateCardCompact = ({
   return (
     <Card
       className={cn(
-        'flex items-center justify-between bg-radial-(--gradient-position) transition-colors',
+        'bg-radial-(--gradient-position) flex items-center justify-between transition-colors',
         isDelegateSelected
           ? 'from-primary-start/100 to-primary-end/100 cursor-default'
           : 'from-card to-card hover:from-primary-start/40 hover:to-primary-end/40 cursor-pointer'
