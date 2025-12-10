@@ -42,9 +42,9 @@ export function Banner({
       setIsVisible(true);
     };
 
-    window.addEventListener('isVisible', handleShowBanner);
+    window.addEventListener('showPrivacyBanner', handleShowBanner);
     return () => {
-      window.removeEventListener('isVisible', handleShowBanner);
+      window.removeEventListener('showPrivacyBanner', handleShowBanner);
     };
   }, []);
 
