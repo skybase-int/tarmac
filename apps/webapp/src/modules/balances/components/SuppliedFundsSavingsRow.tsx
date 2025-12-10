@@ -196,13 +196,11 @@ export function SuppliedFundsSavingsRow({
               <TableCell className="h-auto py-2 pr-0 pl-8" colSpan={2}>
                 <div className="flex items-center gap-2">
                   <TokenIcon className="h-5 w-5" token={{ symbol: 'USDS', name: 'USDS' }} chainId={chainId} />
-                  <Text variant="small" className="whitespace-nowrap">
-                    {networkName}
-                  </Text>
+                  <Text className="text-[14px] whitespace-nowrap">{networkName}</Text>
                 </div>
               </TableCell>
               <TableCell className="h-auto px-4 py-2">
-                <Text>{networkAmount}</Text>
+                <Text className="text-[14px]">{networkAmount}</Text>
               </TableCell>
               <TableCell className="h-auto px-4 py-2 [@container(width<750px)]:hidden">
                 <Text className="text-textSecondary text-[13px]">${networkUsdValue}</Text>
