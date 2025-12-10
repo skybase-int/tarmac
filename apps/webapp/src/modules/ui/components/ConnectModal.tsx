@@ -91,8 +91,8 @@ export function ConnectModal({ open, onOpenChange }: ConnectModalProps) {
   }, [connectors, open]);
 
   // Categorize wallets
-  const alwaysAvailable = ['walletConnect', 'coinbaseWallet', 'baseAccount', 'safe'];
-  const suggestedIds = ['metaMask', 'baseAccount', 'coinbaseWallet', 'walletConnect', 'safe'];
+  const alwaysAvailable = ['walletConnect', 'coinbaseWalletSDK', 'baseAccount', 'safe'];
+  const suggestedIds = ['metaMask', 'baseAccount', 'coinbaseWalletSDK', 'walletConnect', 'safe'];
 
   // Separate installed wallets from suggested
   const installedWallets = connectors.filter(c => {
