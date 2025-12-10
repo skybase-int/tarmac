@@ -1,31 +1,48 @@
 /**
  * Analytics preference management
  */
-const ANALYTICS_OPT_OUT_KEY = 'skyAppAnalyticsOptOut';
+const ANALYTICS_ENABLED_KEY = 'skyAppAnalyticsEnabled';
 const BANNER_DISMISSED_KEY = 'skyAppAnalyticsBannerDismissed';
 
 /**
- * Gets the current analytics opt-out preference
- * @returns true if the user has opted out, false otherwise (default: false - analytics enabled)
+ * Gets the current analytics preference
+ * @returns true if analytics is enabled, false otherwise
  */
-export function getAnalyticsOptOut(): boolean {
+export function getAnalyticsEnabled(): boolean {
   try {
-    const value = window.localStorage.getItem(ANALYTICS_OPT_OUT_KEY);
-    if (value === null) return false; // Default: analytics enabled
-    return value === 'true';
+    const value = window.localStorage.getItem(ANALYTICS_ENABLED_KEY);
+    if (value === null) return false;
+
+    // Check localStorage preference
+    if (value !== 'true') return false;
+
+    // Also check cookie3 consent if available
+    if (window.cookie3?.isTrackingConsentGiven) {
+      return window.cookie3.isTrackingConsentGiven() === true;
+    }
+
+    // Fallback to localStorage-only if cookie3 is not available
+    return true;
   } catch (e) {
     console.error('Failed to get analytics preference:', e);
-    return false; // Default: analytics enabled on error
+    return false;
   }
 }
 
 /**
- * Sets the analytics opt-out preference
- * @param optOut - true to opt out, false to opt in
+ * Sets the analytics preference
+ * @param enabled - true to enable analytics, false to disable
  */
-export function setAnalyticsOptOut(optOut: boolean): void {
+export function setAnalyticsEnabled(enabled: boolean): void {
   try {
-    window.localStorage.setItem(ANALYTICS_OPT_OUT_KEY, String(optOut));
+    window.localStorage.setItem(ANALYTICS_ENABLED_KEY, String(enabled));
+    if (window.cookie3) {
+      if (enabled) {
+        window.cookie3.setTrackingConsentGiven();
+      } else {
+        window.cookie3.forgetTrackingConsentGiven();
+      }
+    }
   } catch (e) {
     console.error('Failed to save analytics preference:', e);
   }

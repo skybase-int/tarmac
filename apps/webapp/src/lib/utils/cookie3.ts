@@ -1,16 +1,16 @@
-import { getAnalyticsOptOut } from './analytics-preference';
+import { getAnalyticsEnabled } from './analytics-preference';
 
 /**
- * Checks if the user has opted out of Cookie3 analytics
- * @returns true if the user has opted out, false otherwise
+ * Checks if analytics is enabled
+ * @returns true if analytics is enabled, false otherwise
  */
-export function hasOptedOut(): boolean {
-  return getAnalyticsOptOut();
+export function isAnalyticsEnabled(): boolean {
+  return getAnalyticsEnabled();
 }
 
 /**
  * Dynamically loads the Cookie3 analytics script
- * This should only be called if the user has not opted out
+ * This should only be called if analytics is enabled
  * @param siteId - The Cookie3 site ID (from environment variable)
  */
 export function loadCookie3Script(siteId?: string): void {
@@ -19,8 +19,8 @@ export function loadCookie3Script(siteId?: string): void {
     return;
   }
 
-  // Check if the user has opted out
-  if (hasOptedOut()) {
+  // Check if analytics is enabled
+  if (!isAnalyticsEnabled()) {
     return;
   }
 
@@ -29,6 +29,7 @@ export function loadCookie3Script(siteId?: string): void {
   script.integrity = 'sha384-ihnQ09PGDbDPthGB3QoQ2Heg2RwQIDyWkHkqxMzq91RPeP8OmydAZbQLgAakAOfI';
   script.crossOrigin = 'anonymous';
   script.async = true;
+  script.setAttribute('consent-required', 'true');
 
   // Set site-id if provided
   if (siteId) {

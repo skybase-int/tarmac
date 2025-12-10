@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import { X } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Text, Heading } from '@/modules/layout/components/Typography';
-import { isBannerDismissed, setBannerDismissed, setAnalyticsOptOut } from '@/lib/utils/analytics-preference';
+import { isBannerDismissed, setBannerDismissed, setAnalyticsEnabled } from '@/lib/utils/analytics-preference';
 import { loadCookie3Script } from '@/lib/utils/cookie3';
 
 const SHOW_BANNER = true;
@@ -51,18 +51,18 @@ export function Banner({
   const handleDismiss = () => {
     setBannerDismissed();
     setIsVisible(false);
-    // Should dismissing also set either opt-in or opt-out as default?
+    // Should dismissing also set the analytics to either enabled or disabled as default?
     onDismiss?.();
   };
 
   onAction = () => {
-    setAnalyticsOptOut(false);
+    setAnalyticsEnabled(true);
     loadCookie3Script();
     handleDismiss();
   };
 
   onSecondaryAction = () => {
-    setAnalyticsOptOut(true);
+    setAnalyticsEnabled(false);
     handleDismiss();
   };
 
@@ -116,7 +116,7 @@ export function Banner({
             helps us improve our services and user experience.
           </Text>
           <Text variant="medium" className="text-text">
-            You can opt out of analytics at any time.
+            You can disable analytics at any time.
           </Text>
         </div>
         <div className="mt-4 flex gap-2">
