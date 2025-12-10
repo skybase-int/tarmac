@@ -2,6 +2,7 @@ import { useLingui } from '@lingui/react';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { StUsdsProviderType, StUsdsSelectionReason } from '@jetstreamgg/sky-hooks';
+import { CurveLogo } from '@widgets/shared/components/icons/CurveLogo';
 import { providerMessages, StUSDSFlow } from '../lib/constants';
 
 export type ProviderIndicatorProps = {
@@ -87,19 +88,7 @@ export function ProviderIndicator({
       }`}
       gap={2}
     >
-      {isCurve && !isWarning && (
-        <svg
-          className="text-accent h-4 w-4"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-            fill="currentColor"
-          />
-        </svg>
-      )}
+      {isCurve && !isWarning && <CurveLogo className="text-textSecondary h-4 w-4" />}
       {isWarning && (
         <svg
           className="text-error h-4 w-4"
@@ -113,10 +102,7 @@ export function ProviderIndicator({
           />
         </svg>
       )}
-      <Text
-        variant="small"
-        className={isWarning ? 'text-error' : isInfo ? 'text-accent' : 'text-textSecondary'}
-      >
+      <Text variant="small" className={isWarning ? 'text-error' : 'text-textSecondary'}>
         {message}
       </Text>
     </HStack>
