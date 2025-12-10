@@ -9,7 +9,7 @@ export function FooterLinks() {
   const externalClass = 'hover:text-white hover:underline hover:underline-offset-4';
 
   const handlePrivacySettingsClick = () => {
-    window.dispatchEvent(new CustomEvent('showPrivacyBanner'));
+    window.dispatchEvent(new CustomEvent('isVisible'));
   };
 
   return (

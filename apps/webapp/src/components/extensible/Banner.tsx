@@ -3,6 +3,8 @@ import { cn } from '@/lib/utils';
 import { X } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Text, Heading } from '@/modules/layout/components/Typography';
+import { isBannerDismissed, setBannerDismissed, setAnalyticsOptOut } from '@/lib/utils/analytics-preference';
+import { loadCookie3Script } from '@/lib/utils/cookie3';
 
 const SHOW_BANNER = true;
 
@@ -25,11 +27,43 @@ export function Banner({
   onAction,
   onSecondaryAction
 }: BannerProps) {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    // Show the banner on initial load if the user hasn't dismissed it yet
+    if (!isBannerDismissed() && !isVisible) {
+      setIsVisible(true);
+    }
+  }, []);
+
+  // Listen for custom event to show privacy banner from FooterLinks
+  useEffect(() => {
+    const handleShowBanner = () => {
+      setIsVisible(true);
+    };
+
+    window.addEventListener('isVisible', handleShowBanner);
+    return () => {
+      window.removeEventListener('isVisible', handleShowBanner);
+    };
+  }, []);
 
   const handleDismiss = () => {
+    setBannerDismissed();
     setIsVisible(false);
+    // Should dismissing also set either opt-in or opt-out as default?
     onDismiss?.();
+  };
+
+  onAction = () => {
+    setAnalyticsOptOut(false);
+    loadCookie3Script();
+    handleDismiss();
+  };
+
+  onSecondaryAction = () => {
+    setAnalyticsOptOut(true);
+    handleDismiss();
   };
 
   const shouldShow = SHOW_BANNER && isVisible;
