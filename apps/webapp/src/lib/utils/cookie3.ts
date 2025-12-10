@@ -2,7 +2,7 @@ import { getAnalyticsOptOut } from './analytics-preference';
 
 /**
  * Checks if the user has opted out of Cookie3 analytics
- * @returns true if user has opted out, false otherwise
+ * @returns true if the user has opted out, false otherwise
  */
 export function hasOptedOut(): boolean {
   return getAnalyticsOptOut();
@@ -19,7 +19,7 @@ export function loadCookie3Script(siteId?: string): void {
     return;
   }
 
-  // Check if user has opted out
+  // Check if the user has opted out
   if (hasOptedOut()) {
     return;
   }
