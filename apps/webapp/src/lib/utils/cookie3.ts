@@ -29,7 +29,6 @@ export function loadCookie3Script(siteId?: string): void {
   script.integrity = 'sha384-ihnQ09PGDbDPthGB3QoQ2Heg2RwQIDyWkHkqxMzq91RPeP8OmydAZbQLgAakAOfI';
   script.crossOrigin = 'anonymous';
   script.async = true;
-  script.setAttribute('consent-required', 'true');
 
   // Set site-id if provided
   if (siteId) {
@@ -43,4 +42,25 @@ export function loadCookie3Script(siteId?: string): void {
   }
 
   document.head.appendChild(script);
+}
+
+/**
+ * Load cookie3 script on module load if analytics is enabled
+ * This ensures the script loads on page reloads without requiring React component lifecycle
+ */
+if (typeof window !== 'undefined') {
+  // Use DOMContentLoaded to ensure DOM is ready, but also check immediately
+  // in case DOM is already loaded (e.g., on page reload)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      if (isAnalyticsEnabled()) {
+        loadCookie3Script();
+      }
+    });
+  } else {
+    // DOM is already loaded, check and load immediately
+    if (isAnalyticsEnabled()) {
+      loadCookie3Script();
+    }
+  }
 }
