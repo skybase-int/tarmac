@@ -143,7 +143,7 @@ export function compareRates(
       betterProvider,
       differencePercent,
       isSignificantDifference:
-        isSignificant || !nativeQuote!.isValid || !curveQuote!.isValid || oneHasZeroOutput
+        isSignificant || nativeQuote!.isValid !== curveQuote!.isValid || oneHasZeroOutput
     };
   }
 

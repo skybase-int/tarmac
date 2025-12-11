@@ -667,7 +667,8 @@ describe('Rate Comparison Utilities', () => {
 
     it('should calculate correct rate difference when native is blocked but has better rate', () => {
       const input = 10000n * WAD;
-      // Native has 5% better rate but is blocked
+      // Native has ~4.76% better rate but is blocked
+      // To get exactly -5% difference: (1.0 - 1.05) / 1.05 = -4.76%
       const nativeOutput = 10500n * WAD;
       const curveOutput = 10000n * WAD;
 
@@ -679,7 +680,7 @@ describe('Rate Comparison Utilities', () => {
 
       // Should select Curve since native is blocked, but still show the rate difference
       expect(result.betterProvider).toBe(StUsdsProviderType.CURVE);
-      expect(result.differencePercent).toBeCloseTo(-5, 1); // Negative because native would be better
+      expect(result.differencePercent).toBeCloseTo(-4.76, 2); // Negative because native would be better
       expect(result.isSignificantDifference).toBe(true); // Always significant when one is invalid
     });
   });
