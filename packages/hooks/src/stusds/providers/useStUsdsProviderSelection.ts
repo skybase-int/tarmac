@@ -69,6 +69,9 @@ export function useStUsdsProviderSelection(params: StUsdsQuoteParams): StUsdsPro
       // Only Curve available
       selectedProvider = StUsdsProviderType.CURVE;
       selectionReason = StUsdsSelectionReason.CURVE_ONLY_AVAILABLE;
+      // Calculate rate difference even when native is blocked
+      const comparison = compareRates(nativeData?.quote, curveData?.quote, STUSDS_PROVIDER_CONFIG);
+      rateDifferencePercent = comparison.differencePercent;
     } else if (isNativeAvailable && !isCurveAvailable) {
       // Only native available
       selectedProvider = StUsdsProviderType.NATIVE;

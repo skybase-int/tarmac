@@ -86,8 +86,8 @@ export function compareRates(
   curveQuote: StUsdsQuote | undefined,
   config: StUsdsRateComparisonConfig
 ): RateComparisonResult {
-  // Handle cases where one or both quotes are missing
-  if (!nativeQuote?.isValid && !curveQuote?.isValid) {
+  // Handle cases where quotes are completely missing
+  if (!nativeQuote && !curveQuote) {
     return {
       betterProvider: null,
       differencePercent: 0,
@@ -95,39 +95,61 @@ export function compareRates(
     };
   }
 
-  if (!nativeQuote?.isValid) {
+  // If we have rate information for both, calculate the actual difference
+  // even if one or both quotes are marked as invalid
+  if (nativeQuote?.rateInfo?.effectiveRate && curveQuote?.rateInfo?.effectiveRate) {
+    const nativeRate = nativeQuote.rateInfo.effectiveRate;
+    const curveRate = curveQuote.rateInfo.effectiveRate;
+
+    // Positive difference means Curve is better
+    const differencePercent = calculateRateDifferencePercent(curveRate, nativeRate);
+    const isSignificant = isRateDifferenceSignificant(differencePercent, config.rateSwitchThresholdBps);
+
+    // Determine better provider based on validity
+    let betterProvider: StUsdsProviderType | null = null;
+
+    if (!nativeQuote.isValid && !curveQuote.isValid) {
+      // Neither is valid, no clear better provider
+      betterProvider = null;
+    } else if (!nativeQuote.isValid) {
+      // Only Curve is valid
+      betterProvider = StUsdsProviderType.CURVE;
+    } else if (!curveQuote.isValid) {
+      // Only Native is valid
+      betterProvider = StUsdsProviderType.NATIVE;
+    } else if (isSignificant) {
+      // Both valid, pick based on rate
+      betterProvider = differencePercent > 0 ? StUsdsProviderType.CURVE : StUsdsProviderType.NATIVE;
+    }
+
     return {
-      betterProvider: StUsdsProviderType.CURVE,
-      differencePercent: 100, // Curve is infinitely better (native unavailable)
-      isSignificantDifference: true
+      betterProvider,
+      differencePercent,
+      isSignificantDifference: isSignificant
     };
   }
 
-  if (!curveQuote?.isValid) {
+  // Fallback for missing rate information
+  if (!nativeQuote || !nativeQuote.rateInfo?.effectiveRate) {
     return {
-      betterProvider: StUsdsProviderType.NATIVE,
-      differencePercent: -100, // Native is infinitely better (curve unavailable)
-      isSignificantDifference: true
+      betterProvider: curveQuote?.isValid ? StUsdsProviderType.CURVE : null,
+      differencePercent: 0,
+      isSignificantDifference: false
     };
   }
 
-  // Both quotes are valid - compare effective rates
-  const nativeRate = nativeQuote.rateInfo.effectiveRate;
-  const curveRate = curveQuote.rateInfo.effectiveRate;
-
-  // Positive difference means Curve is better
-  const differencePercent = calculateRateDifferencePercent(curveRate, nativeRate);
-  const isSignificant = isRateDifferenceSignificant(differencePercent, config.rateSwitchThresholdBps);
-
-  let betterProvider: StUsdsProviderType | null = null;
-
-  if (isSignificant) {
-    betterProvider = differencePercent > 0 ? StUsdsProviderType.CURVE : StUsdsProviderType.NATIVE;
+  if (!curveQuote || !curveQuote.rateInfo?.effectiveRate) {
+    return {
+      betterProvider: nativeQuote?.isValid ? StUsdsProviderType.NATIVE : null,
+      differencePercent: 0,
+      isSignificantDifference: false
+    };
   }
 
+  // Should not reach here
   return {
-    betterProvider,
-    differencePercent,
-    isSignificantDifference: isSignificant
+    betterProvider: null,
+    differencePercent: 0,
+    isSignificantDifference: false
   };
 }
