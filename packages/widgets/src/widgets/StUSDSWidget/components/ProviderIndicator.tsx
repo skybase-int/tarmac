@@ -53,12 +53,12 @@ export function ProviderIndicator({
 
   return (
     <HStack
-      className={`w-full items-center justify-center rounded-lg px-3 py-2 ${
+      className={`w-full items-start justify-center rounded-lg px-3 py-2 ${
         isWarning ? 'bg-error/10' : isInfo ? 'bg-accent/10' : 'bg-surface'
       }`}
       gap={2}
     >
-      {isCurve && !isWarning && <CurveLogo className="text-textSecondary h-4 w-4" />}
+      {isCurve && !isWarning && <CurveLogo className="text-textSecondary mt-[3px] h-4 w-4" />}
       {isWarning && (
         <svg
           className="text-error h-4 w-4"
