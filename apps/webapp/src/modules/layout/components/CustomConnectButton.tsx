@@ -44,18 +44,11 @@ export function CustomConnectButton() {
     <Button variant="connect" onClick={openConnectModal}>
       {t`Connect Wallet`}
     </Button>
-  ) : isSafeWallet && !!address && isConnected ? (
-    <Button variant="connect" disabled className="disabled:text-text text-base">
-      <div className="flex items-center gap-2">
-        <CustomAvatar address={address || ''} size={24} />
-        {`safe:${formatAddress(address)}`}
-      </div>
-    </Button>
-  ) : isConnected && address ? (
+  ) : isConnected && !!address ? (
     <>
       <Button variant="connect" onClick={() => setShowAccountMenu(true)} className="flex items-center gap-2">
         <CustomAvatar address={address} size={24} />
-        <Text className="hidden sm:inline">{ensName || formatAddress(address)}</Text>
+        <Text className="hidden sm:inline">{`${isSafeWallet ? 'safe:' : ''}${ensName || formatAddress(address)}`}</Text>
         <ChevronDown className="h-4 w-4" />
       </Button>
 

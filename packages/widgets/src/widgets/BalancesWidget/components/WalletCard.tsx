@@ -10,7 +10,8 @@ import {
   isBaseChainId,
   isArbitrumChainId,
   isOptimismChainId,
-  isUnichainChainId
+  isUnichainChainId,
+  useIsSafeWallet
 } from '@jetstreamgg/sky-utils';
 import { cn } from '@widgets/lib/utils';
 import { ArrowLeftRight } from '@widgets/shared/components/icons/ArrowLeftRight';
@@ -36,6 +37,7 @@ export const WalletCard = ({
 }): React.ReactElement => {
   const chainId = useChainId();
   const { address } = useConnection();
+  const isSafeWallet = useIsSafeWallet();
   const truncatedAddress = useMemo(
     () => address && address.slice(0, 7) + '...' + address.slice(-5),
     [address]
@@ -78,7 +80,7 @@ export const WalletCard = ({
           )}
         </div>
         <div className="flex items-center gap-3">
-          {onSwitchAccountClick && (
+          {onSwitchAccountClick && !isSafeWallet && (
             <button onClick={onSwitchAccountClick}>
               <ArrowLeftRight width={16} height={16} />
             </button>

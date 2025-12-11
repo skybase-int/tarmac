@@ -11,6 +11,7 @@ import { ConnectedModalTabs } from './ConnectedModalTabs';
 import { useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useConnectModal } from '@/modules/ui/context/ConnectModalContext';
+import { useIsSafeWallet } from '@jetstreamgg/sky-utils';
 
 interface ConnectedModalProps {
   isOpen: boolean;
@@ -31,6 +32,7 @@ export function ConnectedModal({
   const { openConnectModal } = useConnectModal();
   const { connector } = useConnection();
   const [searchParams] = useSearchParams();
+  const isSafeWallet = useIsSafeWallet();
 
   const onSwitchAccountClick = () => {
     onOpenChange(false);
@@ -77,14 +79,16 @@ export function ConnectedModal({
           }
         />
 
-        <Button
-          variant="primary"
-          onClick={onDisconnect}
-          size="large"
-          className="text-md w-full px-6 leading-6"
-        >
-          {t`Disconnect wallet`}
-        </Button>
+        {!isSafeWallet && (
+          <Button
+            variant="primary"
+            onClick={onDisconnect}
+            size="large"
+            className="text-md w-full px-6 leading-6"
+          >
+            {t`Disconnect wallet`}
+          </Button>
+        )}
 
         <ConnectedModalTabs />
       </DialogContent>
