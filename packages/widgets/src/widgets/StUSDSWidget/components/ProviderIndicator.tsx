@@ -64,9 +64,11 @@ export function ProviderIndicator({
   const isHighPremium =
     Math.abs(rateDifferencePercent) > STUSDS_PREMIUM_HIGH_THRESHOLD && rateDifferencePercent < 0;
 
+  const isDiscount = rateDifferencePercent > 0;
+
   return (
     <HStack
-      className={`w-full items-start justify-center rounded-lg px-3 py-2 ${
+      className={`w-full items-start justify-start rounded-lg px-3 py-2 ${
         isWarning ? 'bg-error/10' : isInfo ? 'bg-accent/10' : 'bg-surface'
       }`}
       gap={2}
@@ -87,11 +89,15 @@ export function ProviderIndicator({
       )}
       <Text variant="small" className={isWarning ? 'text-error' : 'text-textSecondary'}>
         {(() => {
-          // Check if message contains a percentage to style
-          const percentMatch = message.match(/(\d+\.?\d*%)/);
-          if (percentMatch && (isWarningPremium || isHighPremium)) {
+          // Check if message contains a percentage to style (including the + or - sign)
+          const percentMatch = message.match(/(\+?\d+\.?\d*%)/);
+          if (percentMatch && (isWarningPremium || isHighPremium || isDiscount)) {
             const parts = message.split(percentMatch[0]);
-            const percentageColorClass = isHighPremium ? 'text-error' : 'text-amber-400';
+            const percentageColorClass = isDiscount
+              ? 'text-bullish'
+              : isHighPremium
+                ? 'text-error'
+                : 'text-amber-400';
             return (
               <>
                 {parts[0]}

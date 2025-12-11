@@ -40,18 +40,32 @@ export function getProviderMessage(
       switch (nativeBlockedReason) {
         case StUsdsBlockedReason.SUPPLY_CAPACITY_REACHED: {
           const rateText = Math.abs(rateDifferencePercent).toFixed(2);
-          return rateDifferencePercent < 0
-            ? i18n._(
-                msg`Routing through Curve with a ${rateText}% premium, as the supply capacity is reached`
-              )
-            : i18n._(msg`Routing through Curve, as the supply capacity is reached`);
+          if (rateDifferencePercent < 0) {
+            return i18n._(
+              msg`Routing through Curve with a ${rateText}% premium, as the supply capacity is reached`
+            );
+          } else if (rateDifferencePercent > 0) {
+            return i18n._(
+              msg`Routing through Curve at ${rateText}% discount, despite the supply capacity being reached`
+            );
+          } else {
+            return i18n._(msg`Routing through Curve, as the supply capacity is reached`);
+          }
         }
 
         case StUsdsBlockedReason.LIQUIDITY_EXHAUSTED: {
           const rateText = Math.abs(rateDifferencePercent).toFixed(2);
-          return rateDifferencePercent < 0
-            ? i18n._(msg`Routing through Curve with a ${rateText}% premium, as the liquidity is exhausted`)
-            : i18n._(msg`Routing through Curve, as the liquidity is exhausted`);
+          if (rateDifferencePercent < 0) {
+            return i18n._(
+              msg`Routing through Curve with a ${rateText}% premium, as the liquidity is exhausted`
+            );
+          } else if (rateDifferencePercent > 0) {
+            return i18n._(
+              msg`Routing through Curve at ${rateText}% discount, despite the liquidity being exhausted`
+            );
+          } else {
+            return i18n._(msg`Routing through Curve, as the liquidity is exhausted`);
+          }
         }
 
         case StUsdsBlockedReason.CURVE_INSUFFICIENT_STUSDS_LIQUIDITY:
