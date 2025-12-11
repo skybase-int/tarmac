@@ -10,6 +10,9 @@ export enum StUSDSFlow {
   WITHDRAW = 'withdraw'
 }
 
+// Premium threshold for warning color (matching trade widget warning threshold)
+export const STUSDS_PREMIUM_WARNING_THRESHOLD = 2;
+
 export enum StUSDSAction {
   APPROVE = 'approve',
   SUPPLY = 'supply',

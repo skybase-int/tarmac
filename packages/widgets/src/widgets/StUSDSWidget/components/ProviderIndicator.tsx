@@ -3,7 +3,7 @@ import { Text } from '@widgets/shared/components/ui/Typography';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { StUsdsProviderType, StUsdsSelectionReason, StUsdsBlockedReason } from '@jetstreamgg/sky-hooks';
 import { CurveLogo } from '@widgets/shared/components/icons/CurveLogo';
-import { getProviderMessage, StUSDSFlow } from '../lib/constants';
+import { getProviderMessage, StUSDSFlow, STUSDS_PREMIUM_WARNING_THRESHOLD } from '../lib/constants';
 
 export type ProviderIndicatorProps = {
   selectedProvider: StUsdsProviderType;
@@ -51,6 +51,9 @@ export function ProviderIndicator({
     selectionReason === StUsdsSelectionReason.CURVE_ONLY_AVAILABLE ||
     selectionReason === StUsdsSelectionReason.CURVE_BETTER_RATE;
 
+  const isHighPremium =
+    Math.abs(rateDifferencePercent) > STUSDS_PREMIUM_WARNING_THRESHOLD && rateDifferencePercent < 0;
+
   return (
     <HStack
       className={`w-full items-start justify-center rounded-lg px-3 py-2 ${
@@ -58,10 +61,14 @@ export function ProviderIndicator({
       }`}
       gap={2}
     >
-      {isCurve && !isWarning && <CurveLogo className="text-textSecondary mt-[3px] h-4 w-4" />}
+      {isCurve && !isWarning && (
+        <CurveLogo
+          className={`mt-[3px] h-4 w-4 shrink-0 ${isHighPremium ? 'text-amber-400' : 'text-textSecondary'}`}
+        />
+      )}
       {isWarning && (
         <svg
-          className="text-error h-4 w-4"
+          className="text-error h-4 w-4 shrink-0"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +79,10 @@ export function ProviderIndicator({
           />
         </svg>
       )}
-      <Text variant="small" className={isWarning ? 'text-error' : 'text-textSecondary'}>
+      <Text
+        variant="small"
+        className={isWarning ? 'text-error' : isHighPremium ? 'text-amber-400' : 'text-textSecondary'}
+      >
         {message}
       </Text>
     </HStack>
