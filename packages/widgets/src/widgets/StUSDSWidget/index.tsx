@@ -207,9 +207,9 @@ const StUSDSWidgetWrapped = ({
   const remainingCapacityBuffered = capacityData?.remainingCapacityBuffered || 0n;
 
   // Use provider-aware max amounts based on selected provider
-  // When Curve is selected, use Curve's limits; when native is selected, use native limits
-  const maxSupplyAmount = isCurveSelected
-    ? (providerSelection.curveProvider?.state?.maxDeposit ?? undefined)
+  // When Curve is selected, there's no protocol limit; when native is selected, use module capacity limit
+  const moduleMaxSupplyAmount = isCurveSelected
+    ? undefined
     : (providerSelection.nativeProvider?.state?.maxDeposit ?? remainingCapacityBuffered);
 
   // For Curve: use user's max based on their stUSDS balance converted at Curve's rate (with buffer)
@@ -225,7 +225,7 @@ const StUSDSWidgetWrapped = ({
     amount !== 0n && //don't wait for debouncing on default state
     ((stUsdsData?.userUsdsBalance !== undefined && debouncedAmount > stUsdsData.userUsdsBalance) ||
       (providerSelection.allProvidersBlocked && debouncedAmount > 0n) ||
-      (maxSupplyAmount !== undefined && debouncedAmount > maxSupplyAmount))
+      (moduleMaxSupplyAmount !== undefined && debouncedAmount > moduleMaxSupplyAmount))
       ? true
       : false;
 

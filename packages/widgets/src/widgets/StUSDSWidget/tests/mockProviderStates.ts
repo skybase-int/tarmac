@@ -38,8 +38,6 @@ const createNativeProvider = (overrides: {
 const createCurveProvider = (overrides: {
   canDeposit?: boolean;
   canWithdraw?: boolean;
-  maxDeposit?: bigint;
-  maxWithdraw?: bigint;
 }): StUsdsProviderData => ({
   providerType: StUsdsProviderType.CURVE,
   state: {
@@ -49,9 +47,7 @@ const createCurveProvider = (overrides: {
         ? StUsdsProviderStatus.BLOCKED
         : StUsdsProviderStatus.AVAILABLE,
     canDeposit: overrides.canDeposit ?? true,
-    canWithdraw: overrides.canWithdraw ?? true,
-    maxDeposit: overrides.maxDeposit ?? 500000000000000000000n, // 500 USDS
-    maxWithdraw: overrides.maxWithdraw ?? 500000000000000000000n
+    canWithdraw: overrides.canWithdraw ?? true
   },
   quote: undefined
 });
@@ -142,8 +138,7 @@ export const mockProviderStates = {
       maxDeposit: 0n
     }),
     curveProvider: createCurveProvider({
-      canDeposit: false,
-      maxDeposit: 0n
+      canDeposit: false
     }),
     allProvidersBlocked: true,
     rateDifferencePercent: 0,

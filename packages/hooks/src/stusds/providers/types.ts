@@ -90,10 +90,10 @@ export type StUsdsProviderState = {
   canDeposit: boolean;
   /** Whether withdrawals (stUSDS -> USDS) are currently available */
   canWithdraw: boolean;
-  /** Maximum deposit amount (0n if deposits blocked) */
-  maxDeposit: bigint;
-  /** Maximum withdrawal amount (0n if withdrawals blocked) */
-  maxWithdraw: bigint;
+  /** Maximum deposit amount (only provided by native provider) */
+  maxDeposit?: bigint;
+  /** Maximum withdrawal amount (only provided by native provider) */
+  maxWithdraw?: bigint;
   /** Structured reason if provider is blocked */
   blockedReason?: StUsdsBlockedReason;
 };
