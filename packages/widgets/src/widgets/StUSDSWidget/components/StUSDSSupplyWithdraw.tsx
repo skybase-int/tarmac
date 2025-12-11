@@ -28,7 +28,7 @@ import { cn } from '@widgets/lib/utils';
 type StUSDSSupplyWithdrawProps = {
   address?: string;
   nstBalance?: bigint;
-  userUsdsBalance?: bigint;
+  userUsdsBalance?: bigint; // User's USDS balance, or max amount they can withdraw based on stUSDS balance if using Curve
   userStUsdsBalance?: bigint;
   withdrawableBalance?: bigint; // User's withdrawable USDS balance (for withdraw functionality)
   totalAssets?: bigint;
