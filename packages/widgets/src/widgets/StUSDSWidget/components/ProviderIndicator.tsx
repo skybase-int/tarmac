@@ -3,7 +3,12 @@ import { Text } from '@widgets/shared/components/ui/Typography';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { StUsdsProviderType, StUsdsSelectionReason, StUsdsBlockedReason } from '@jetstreamgg/sky-hooks';
 import { CurveLogo } from '@widgets/shared/components/icons/CurveLogo';
-import { getProviderMessage, StUSDSFlow, STUSDS_PREMIUM_WARNING_THRESHOLD } from '../lib/constants';
+import {
+  getProviderMessage,
+  StUSDSFlow,
+  STUSDS_PREMIUM_WARNING_THRESHOLD,
+  STUSDS_PREMIUM_HIGH_THRESHOLD
+} from '../lib/constants';
 
 export type ProviderIndicatorProps = {
   selectedProvider: StUsdsProviderType;
@@ -51,8 +56,13 @@ export function ProviderIndicator({
     selectionReason === StUsdsSelectionReason.CURVE_ONLY_AVAILABLE ||
     selectionReason === StUsdsSelectionReason.CURVE_BETTER_RATE;
 
+  const isWarningPremium =
+    Math.abs(rateDifferencePercent) > STUSDS_PREMIUM_WARNING_THRESHOLD &&
+    Math.abs(rateDifferencePercent) <= STUSDS_PREMIUM_HIGH_THRESHOLD &&
+    rateDifferencePercent < 0;
+
   const isHighPremium =
-    Math.abs(rateDifferencePercent) > STUSDS_PREMIUM_WARNING_THRESHOLD && rateDifferencePercent < 0;
+    Math.abs(rateDifferencePercent) > STUSDS_PREMIUM_HIGH_THRESHOLD && rateDifferencePercent < 0;
 
   return (
     <HStack
@@ -61,11 +71,7 @@ export function ProviderIndicator({
       }`}
       gap={2}
     >
-      {isCurve && !isWarning && (
-        <CurveLogo
-          className={`mt-[3px] h-4 w-4 shrink-0 ${isHighPremium ? 'text-amber-400' : 'text-textSecondary'}`}
-        />
-      )}
+      {isCurve && !isWarning && <CurveLogo className="text-textSecondary mt-[3px] h-4 w-4 shrink-0" />}
       {isWarning && (
         <svg
           className="text-error h-4 w-4 shrink-0"
@@ -79,11 +85,23 @@ export function ProviderIndicator({
           />
         </svg>
       )}
-      <Text
-        variant="small"
-        className={isWarning ? 'text-error' : isHighPremium ? 'text-amber-400' : 'text-textSecondary'}
-      >
-        {message}
+      <Text variant="small" className={isWarning ? 'text-error' : 'text-textSecondary'}>
+        {(() => {
+          // Check if message contains a percentage to style
+          const percentMatch = message.match(/(\d+\.?\d*%)/);
+          if (percentMatch && (isWarningPremium || isHighPremium)) {
+            const parts = message.split(percentMatch[0]);
+            const percentageColorClass = isHighPremium ? 'text-error' : 'text-amber-400';
+            return (
+              <>
+                {parts[0]}
+                <span className={percentageColorClass}>{percentMatch[0]}</span>
+                {parts[1]}
+              </>
+            );
+          }
+          return message;
+        })()}
       </Text>
     </HStack>
   );

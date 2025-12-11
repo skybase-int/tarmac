@@ -10,8 +10,9 @@ export enum StUSDSFlow {
   WITHDRAW = 'withdraw'
 }
 
-// Premium threshold for warning color (matching trade widget warning threshold)
-export const STUSDS_PREMIUM_WARNING_THRESHOLD = 2;
+// Premium thresholds for color changes
+export const STUSDS_PREMIUM_WARNING_THRESHOLD = 2; // Yellow warning above 2%
+export const STUSDS_PREMIUM_HIGH_THRESHOLD = 10; // Red/high premium above 10%
 
 export enum StUSDSAction {
   APPROVE = 'approve',
