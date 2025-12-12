@@ -10,7 +10,8 @@ import {
   StUsdsSelectionReason,
   StUsdsProviderData,
   StUsdsQuoteParams,
-  StUsdsBlockedReason
+  StUsdsBlockedReason,
+  StUsdsDirection
 } from './types';
 import { RATE_PRECISION } from './constants';
 
@@ -110,7 +111,7 @@ const setupMocks = (
 
 const defaultParams: StUsdsQuoteParams = {
   amount: 1000n * WAD,
-  direction: 'deposit'
+  direction: StUsdsDirection.SUPPLY
 };
 
 describe('useStUsdsProviderSelection', () => {
@@ -197,7 +198,7 @@ describe('useStUsdsProviderSelection', () => {
       setupMocks(nativeData, curveData);
 
       const { result } = renderHook(() =>
-        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: 'deposit' })
+        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: StUsdsDirection.SUPPLY })
       );
 
       expect(result.current.selectedProvider).toBe(StUsdsProviderType.NATIVE);
@@ -215,7 +216,7 @@ describe('useStUsdsProviderSelection', () => {
       setupMocks(nativeData, curveData);
 
       const { result } = renderHook(() =>
-        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: 'withdraw' })
+        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: StUsdsDirection.WITHDRAW })
       );
 
       expect(result.current.selectedProvider).toBe(StUsdsProviderType.NATIVE);
@@ -236,7 +237,7 @@ describe('useStUsdsProviderSelection', () => {
       setupMocks(nativeData, curveData);
 
       const { result } = renderHook(() =>
-        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: 'deposit' })
+        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: StUsdsDirection.SUPPLY })
       );
 
       expect(result.current.selectedProvider).toBe(StUsdsProviderType.CURVE);
@@ -255,7 +256,7 @@ describe('useStUsdsProviderSelection', () => {
       setupMocks(nativeData, curveData);
 
       const { result } = renderHook(() =>
-        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: 'withdraw' })
+        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: StUsdsDirection.WITHDRAW })
       );
 
       expect(result.current.selectedProvider).toBe(StUsdsProviderType.CURVE);
@@ -278,7 +279,7 @@ describe('useStUsdsProviderSelection', () => {
       setupMocks(nativeData, curveData);
 
       const { result } = renderHook(() =>
-        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: 'deposit' })
+        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: StUsdsDirection.SUPPLY })
       );
 
       expect(result.current.allProvidersBlocked).toBe(true);
@@ -299,7 +300,7 @@ describe('useStUsdsProviderSelection', () => {
       setupMocks(nativeData, curveData);
 
       const { result } = renderHook(() =>
-        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: 'withdraw' })
+        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: StUsdsDirection.WITHDRAW })
       );
 
       expect(result.current.allProvidersBlocked).toBe(true);
@@ -318,7 +319,7 @@ describe('useStUsdsProviderSelection', () => {
       setupMocks(nativeData, curveData);
 
       const { result } = renderHook(() =>
-        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: 'deposit' })
+        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: StUsdsDirection.SUPPLY })
       );
 
       // Should default to native for display purposes
@@ -514,7 +515,7 @@ describe('useStUsdsProviderSelection', () => {
       setupMocks(nativeData, curveData);
 
       const { result } = renderHook(() =>
-        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: 'deposit' })
+        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: StUsdsDirection.SUPPLY })
       );
 
       // Should select Curve because native can't deposit
@@ -535,7 +536,7 @@ describe('useStUsdsProviderSelection', () => {
       setupMocks(nativeData, curveData);
 
       const { result } = renderHook(() =>
-        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: 'withdraw' })
+        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: StUsdsDirection.WITHDRAW })
       );
 
       // Should select Curve because native can't withdraw

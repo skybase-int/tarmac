@@ -7,6 +7,7 @@ import {
   useIsBatchSupported,
   useStUsdsProviderSelection,
   StUsdsProviderType,
+  StUsdsDirection,
   useCurveAllowance,
   useCurveMaxWithdraw
 } from '@jetstreamgg/sky-hooks';
@@ -90,7 +91,7 @@ const StUSDSWidgetWrapped = ({
   // Provider selection for automatic routing between native and Curve
   const providerSelection = useStUsdsProviderSelection({
     amount: debouncedAmount,
-    direction: tabIndex === 0 ? 'deposit' : 'withdraw'
+    direction: tabIndex === 0 ? StUsdsDirection.SUPPLY : StUsdsDirection.WITHDRAW
   });
 
   const { hasAllowance: hasCurveUsdsAllowance, mutate: mutateCurveUsdsAllowance } = useCurveAllowance({

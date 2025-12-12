@@ -48,7 +48,8 @@ export {
   StUsdsProviderType,
   StUsdsProviderStatus,
   StUsdsSelectionReason,
-  StUsdsBlockedReason
+  StUsdsBlockedReason,
+  StUsdsDirection
 } from './stusds';
 
 export type {

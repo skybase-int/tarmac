@@ -4,7 +4,7 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { renderHook } from '@testing-library/react';
 import { useNativeStUsdsProvider } from './useNativeStUsdsProvider';
-import { StUsdsProviderType, StUsdsProviderStatus, StUsdsBlockedReason } from './types';
+import { StUsdsProviderType, StUsdsProviderStatus, StUsdsBlockedReason, StUsdsDirection } from './types';
 import { RATE_PRECISION } from './constants';
 
 // Mock the stUSDS data hooks
@@ -75,7 +75,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -89,7 +89,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -110,7 +110,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -125,7 +125,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'withdraw'
+          direction: StUsdsDirection.WITHDRAW
         })
       );
 
@@ -147,7 +147,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'withdraw'
+          direction: StUsdsDirection.WITHDRAW
         })
       );
 
@@ -172,7 +172,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: inputAmount,
-          direction: 'deposit'
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -197,7 +197,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: inputAmount,
-          direction: 'withdraw'
+          direction: StUsdsDirection.WITHDRAW
         })
       );
 
@@ -211,7 +211,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 0n,
-          direction: 'deposit'
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -234,7 +234,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: requestedAmount,
-          direction: 'deposit'
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -259,7 +259,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: requestedAmount,
-          direction: 'withdraw'
+          direction: StUsdsDirection.WITHDRAW
         })
       );
 
@@ -273,7 +273,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -295,7 +295,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -313,7 +313,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -331,7 +331,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -351,7 +351,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -369,7 +369,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -389,7 +389,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -435,7 +435,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
