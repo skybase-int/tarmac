@@ -249,7 +249,7 @@ export const StUSDSSupplyWithdraw = ({
                   rateDifferencePercent={providerSelection.rateDifferencePercent}
                   flow={StUSDSFlow.SUPPLY}
                   isLoading={isProviderLoading}
-                  nativeBlockedReason={providerSelection.nativeProvider?.state?.errorMessage}
+                  nativeBlockedReason={providerSelection.nativeProvider?.state?.blockedReason}
                 />
               </div>
             )}
@@ -335,7 +335,7 @@ export const StUSDSSupplyWithdraw = ({
                   rateDifferencePercent={providerSelection.rateDifferencePercent}
                   flow={StUSDSFlow.WITHDRAW}
                   isLoading={isProviderLoading}
-                  nativeBlockedReason={providerSelection.nativeProvider?.state?.errorMessage}
+                  nativeBlockedReason={providerSelection.nativeProvider?.state?.blockedReason}
                 />
               </div>
             )}

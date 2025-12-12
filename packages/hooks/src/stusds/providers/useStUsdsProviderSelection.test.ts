@@ -9,7 +9,8 @@ import {
   StUsdsProviderStatus,
   StUsdsSelectionReason,
   StUsdsProviderData,
-  StUsdsQuoteParams
+  StUsdsQuoteParams,
+  StUsdsBlockedReason
 } from './types';
 import { RATE_PRECISION } from './constants';
 
@@ -37,7 +38,7 @@ const createMockProviderData = (
     inputAmount?: bigint;
     outputAmount?: bigint;
     isValidQuote?: boolean;
-    errorMessage?: string;
+    blockedReason?: StUsdsBlockedReason;
   } = {}
 ): StUsdsProviderData => {
   const {
@@ -47,7 +48,7 @@ const createMockProviderData = (
     inputAmount = 1000n * WAD,
     outputAmount = 1000n * WAD,
     isValidQuote = true,
-    errorMessage
+    blockedReason
   } = options;
 
   return {
@@ -59,7 +60,7 @@ const createMockProviderData = (
       canWithdraw,
       maxDeposit: canDeposit ? 1000000n * WAD : 0n,
       maxWithdraw: canWithdraw ? 1000000n * WAD : 0n,
-      errorMessage
+      blockedReason
     },
     quote: isValidQuote
       ? {
@@ -227,7 +228,7 @@ describe('useStUsdsProviderSelection', () => {
       const nativeData = createMockProviderData(StUsdsProviderType.NATIVE, {
         status: StUsdsProviderStatus.BLOCKED,
         canDeposit: false,
-        errorMessage: 'Supply capacity reached'
+        blockedReason: StUsdsBlockedReason.SUPPLY_CAPACITY_REACHED
       });
       const curveData = createMockProviderData(StUsdsProviderType.CURVE, {
         canDeposit: true
@@ -246,7 +247,7 @@ describe('useStUsdsProviderSelection', () => {
       const nativeData = createMockProviderData(StUsdsProviderType.NATIVE, {
         status: StUsdsProviderStatus.BLOCKED,
         canWithdraw: false,
-        errorMessage: 'Available liquidity exhausted'
+        blockedReason: StUsdsBlockedReason.LIQUIDITY_EXHAUSTED
       });
       const curveData = createMockProviderData(StUsdsProviderType.CURVE, {
         canWithdraw: true
@@ -266,11 +267,13 @@ describe('useStUsdsProviderSelection', () => {
     it('should set allProvidersBlocked when both are blocked for deposits', () => {
       const nativeData = createMockProviderData(StUsdsProviderType.NATIVE, {
         status: StUsdsProviderStatus.BLOCKED,
-        canDeposit: false
+        canDeposit: false,
+        blockedReason: StUsdsBlockedReason.SUPPLY_CAPACITY_REACHED
       });
       const curveData = createMockProviderData(StUsdsProviderType.CURVE, {
         status: StUsdsProviderStatus.BLOCKED,
-        canDeposit: false
+        canDeposit: false,
+        blockedReason: StUsdsBlockedReason.CURVE_INSUFFICIENT_STUSDS_LIQUIDITY
       });
       setupMocks(nativeData, curveData);
 
@@ -285,11 +288,13 @@ describe('useStUsdsProviderSelection', () => {
     it('should set allProvidersBlocked when both are blocked for withdrawals', () => {
       const nativeData = createMockProviderData(StUsdsProviderType.NATIVE, {
         status: StUsdsProviderStatus.BLOCKED,
-        canWithdraw: false
+        canWithdraw: false,
+        blockedReason: StUsdsBlockedReason.LIQUIDITY_EXHAUSTED
       });
       const curveData = createMockProviderData(StUsdsProviderType.CURVE, {
         status: StUsdsProviderStatus.BLOCKED,
-        canWithdraw: false
+        canWithdraw: false,
+        blockedReason: StUsdsBlockedReason.CURVE_INSUFFICIENT_USDS_LIQUIDITY
       });
       setupMocks(nativeData, curveData);
 
