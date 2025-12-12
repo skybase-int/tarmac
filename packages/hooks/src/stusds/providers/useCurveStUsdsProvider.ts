@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useCurvePoolData } from './useCurvePoolData';
 import { useCurveQuote } from './useCurveQuote';
-import { STUSDS_PROVIDER_CONFIG, RATE_PRECISION } from './constants';
+import { STUSDS_PROVIDER_CONFIG } from './constants';
 import {
   StUsdsProviderType,
   StUsdsProviderStatus,
@@ -10,7 +10,8 @@ import {
   StUsdsQuote,
   StUsdsQuoteParams,
   StUsdsProviderHookResult,
-  StUsdsRateInfo
+  StUsdsRateInfo,
+  StUsdsBlockedReason
 } from './types';
 
 /**
@@ -72,39 +73,21 @@ export function useCurveStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvide
       status = canWithdraw ? StUsdsProviderStatus.AVAILABLE : StUsdsProviderStatus.BLOCKED;
     }
 
-    // Max amounts are in USDS terms to match the native provider's userMaxWithdrawBuffered.
-    // The priceOracle returns the price of stUSDS in terms of USDS (scaled by 1e18).
-    const slippageMultiplier = RATE_PRECISION.BPS_DIVISOR - BigInt(STUSDS_PROVIDER_CONFIG.maxSlippageBps);
-
-    // Use price oracle if available, otherwise fall back to 1:1
-    const priceOracle = poolData.priceOracle || RATE_PRECISION.WAD;
-
-    // For deposits (USDS → stUSDS): max USDS that can be deposited based on stUSDS available in pool
-    // maxDeposit = stUsdsReserve * priceOracle / WAD (converted to USDS terms)
-    const maxDeposit = canDeposit
-      ? (poolData.stUsdsReserve * priceOracle * slippageMultiplier) /
-        (RATE_PRECISION.WAD * RATE_PRECISION.BPS_DIVISOR)
-      : 0n;
-
-    // For withdrawals (stUSDS → USDS): max USDS that can be received from pool
-    // maxWithdraw = usdsReserve * slippageBuffer (already in USDS terms)
-    const maxWithdraw = canWithdraw
-      ? (poolData.usdsReserve * slippageMultiplier) / RATE_PRECISION.BPS_DIVISOR
-      : 0n;
+    let blockedReason: StUsdsBlockedReason | undefined;
+    if (status === StUsdsProviderStatus.BLOCKED) {
+      if (direction === 'deposit') {
+        blockedReason = StUsdsBlockedReason.CURVE_INSUFFICIENT_STUSDS_LIQUIDITY;
+      } else {
+        blockedReason = StUsdsBlockedReason.CURVE_INSUFFICIENT_USDS_LIQUIDITY;
+      }
+    }
 
     return {
       providerType: StUsdsProviderType.CURVE,
       status,
       canDeposit,
       canWithdraw,
-      maxDeposit,
-      maxWithdraw,
-      errorMessage:
-        status === StUsdsProviderStatus.BLOCKED
-          ? direction === 'deposit'
-            ? 'Insufficient stUSDS liquidity in Curve pool'
-            : 'Insufficient USDS liquidity in Curve pool'
-          : undefined
+      blockedReason
     };
   }, [poolData, direction]);
 
@@ -139,7 +122,7 @@ export function useCurveStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvide
       if (!state.canDeposit) {
         isValid = false;
         invalidReason = 'Curve pool deposits unavailable';
-      } else if (amount > state.maxDeposit) {
+      } else if (state.maxDeposit !== undefined && amount > state.maxDeposit) {
         isValid = false;
         invalidReason = 'Amount exceeds Curve pool liquidity';
       }
@@ -147,7 +130,7 @@ export function useCurveStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvide
       if (!state.canWithdraw) {
         isValid = false;
         invalidReason = 'Curve pool withdrawals unavailable';
-      } else if (amount > state.maxWithdraw) {
+      } else if (state.maxWithdraw !== undefined && amount > state.maxWithdraw) {
         isValid = false;
         invalidReason = 'Amount exceeds Curve pool liquidity';
       }

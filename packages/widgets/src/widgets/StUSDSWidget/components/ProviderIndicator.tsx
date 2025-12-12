@@ -1,8 +1,14 @@
 import { useLingui } from '@lingui/react';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
-import { StUsdsProviderType, StUsdsSelectionReason } from '@jetstreamgg/sky-hooks';
-import { providerMessages, StUSDSFlow } from '../lib/constants';
+import { StUsdsProviderType, StUsdsSelectionReason, StUsdsBlockedReason } from '@jetstreamgg/sky-hooks';
+import { CurveLogo } from '@widgets/shared/components/icons/CurveLogo';
+import {
+  getProviderMessage,
+  StUSDSFlow,
+  STUSDS_PREMIUM_WARNING_THRESHOLD,
+  STUSDS_PREMIUM_HIGH_THRESHOLD
+} from '../lib/constants';
 
 export type ProviderIndicatorProps = {
   selectedProvider: StUsdsProviderType;
@@ -10,8 +16,8 @@ export type ProviderIndicatorProps = {
   rateDifferencePercent: number;
   flow: StUSDSFlow;
   isLoading?: boolean;
-  /** Specific reason why native is blocked (e.g., "Supply capacity reached") */
-  nativeBlockedReason?: string;
+  /** Specific reason why native is blocked */
+  nativeBlockedReason?: StUsdsBlockedReason;
 };
 
 /**
@@ -28,10 +34,10 @@ export function ProviderIndicator({
 }: ProviderIndicatorProps) {
   const { i18n } = useLingui();
 
-  // Don't show indicator when using native with default reason
+  // Don't show indicator when using native (unless all providers are blocked)
   if (
     selectedProvider === StUsdsProviderType.NATIVE &&
-    selectionReason === StUsdsSelectionReason.NATIVE_DEFAULT
+    selectionReason !== StUsdsSelectionReason.ALL_BLOCKED
   ) {
     return null;
   }
@@ -42,67 +48,35 @@ export function ProviderIndicator({
   }
 
   const isCurve = selectedProvider === StUsdsProviderType.CURVE;
-  const isBetterRate = selectionReason === StUsdsSelectionReason.CURVE_BETTER_RATE;
-  const isBlocked =
-    selectionReason === StUsdsSelectionReason.CURVE_ONLY_AVAILABLE ||
-    selectionReason === StUsdsSelectionReason.ALL_BLOCKED;
 
-  // Determine message based on reason
-  let message: string;
-  if (selectionReason === StUsdsSelectionReason.ALL_BLOCKED) {
-    message = i18n._(providerMessages.allProvidersBlocked);
-  } else if (isCurve && isBetterRate) {
-    const rateText = Math.abs(rateDifferencePercent).toFixed(2);
-    message = `${i18n._(providerMessages.usingCurveBetterRate)} (+${rateText}%)`;
-  } else if (isCurve && isBlocked) {
-    // Use specific reason if provided
-    if (nativeBlockedReason?.toLowerCase().includes('capacity')) {
-      message = i18n._(providerMessages.usingCurveSupplyCapReached);
-    } else if (nativeBlockedReason?.toLowerCase().includes('liquidity')) {
-      message = i18n._(providerMessages.usingCurveLiquidityExhausted);
-    } else {
-      message =
-        flow === StUSDSFlow.SUPPLY
-          ? i18n._(providerMessages.usingCurveNativeDepositBlocked)
-          : i18n._(providerMessages.usingCurveNativeWithdrawBlocked);
-    }
-  } else {
-    message = i18n._(providerMessages.curveProvider);
-  }
+  const message = getProviderMessage(selectionReason, rateDifferencePercent, flow, nativeBlockedReason, i18n);
 
-  // Determine styling based on reason
   const isWarning = selectionReason === StUsdsSelectionReason.ALL_BLOCKED;
   const isInfo =
     selectionReason === StUsdsSelectionReason.CURVE_ONLY_AVAILABLE ||
     selectionReason === StUsdsSelectionReason.CURVE_BETTER_RATE;
 
+  const isWarningPremium =
+    Math.abs(rateDifferencePercent) > STUSDS_PREMIUM_WARNING_THRESHOLD &&
+    Math.abs(rateDifferencePercent) <= STUSDS_PREMIUM_HIGH_THRESHOLD &&
+    rateDifferencePercent < 0;
+
+  const isHighPremium =
+    Math.abs(rateDifferencePercent) > STUSDS_PREMIUM_HIGH_THRESHOLD && rateDifferencePercent < 0;
+
+  const isDiscount = rateDifferencePercent > 0;
+
   return (
     <HStack
-      className={`w-full items-center justify-center rounded-lg px-3 py-2 ${
-        isWarning
-          ? 'bg-error/10 border-error/20 border'
-          : isInfo
-            ? 'bg-accent/10 border-accent/20 border'
-            : 'bg-surface border-selectBorder border'
+      className={`w-full items-start justify-start rounded-lg px-3 py-2 ${
+        isWarning ? 'bg-error/10' : isInfo ? 'bg-accent/10' : 'bg-surface'
       }`}
       gap={2}
     >
-      {isCurve && !isWarning && (
-        <svg
-          className="text-accent h-4 w-4"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-            fill="currentColor"
-          />
-        </svg>
-      )}
+      {isCurve && !isWarning && <CurveLogo className="text-textSecondary mt-[3px] h-4 w-4 shrink-0" />}
       {isWarning && (
         <svg
-          className="text-error h-4 w-4"
+          className="text-error h-4 w-4 shrink-0"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -113,11 +87,27 @@ export function ProviderIndicator({
           />
         </svg>
       )}
-      <Text
-        variant="small"
-        className={isWarning ? 'text-error' : isInfo ? 'text-accent' : 'text-textSecondary'}
-      >
-        {message}
+      <Text variant="small" className={isWarning ? 'text-error' : 'text-textSecondary'}>
+        {(() => {
+          // Check if message contains a percentage to style (including the + or - sign)
+          const percentMatch = message.match(/(\+?\d+\.?\d*%)/);
+          if (percentMatch && (isWarningPremium || isHighPremium || isDiscount)) {
+            const parts = message.split(percentMatch[0]);
+            const percentageColorClass = isDiscount
+              ? 'text-bullish'
+              : isHighPremium
+                ? 'text-error'
+                : 'text-amber-400';
+            return (
+              <>
+                {parts[0]}
+                <span className={percentageColorClass}>{percentMatch[0]}</span>
+                {parts[1]}
+              </>
+            );
+          }
+          return message;
+        })()}
       </Text>
     </HStack>
   );

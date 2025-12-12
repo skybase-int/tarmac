@@ -2,7 +2,7 @@
 
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
-import { StUsdsProviderType, StUsdsSelectionReason } from '@jetstreamgg/sky-hooks';
+import { StUsdsProviderType, StUsdsSelectionReason, StUsdsBlockedReason } from '@jetstreamgg/sky-hooks';
 import { ProviderIndicator, ProviderIndicatorProps } from '../components/ProviderIndicator';
 import { StUSDSFlow } from '../lib/constants';
 import { WagmiWrapper } from '../../../../test/WagmiWrapper';
@@ -69,7 +69,7 @@ describe('ProviderIndicator', () => {
         selectionReason: StUsdsSelectionReason.CURVE_ONLY_AVAILABLE,
         rateDifferencePercent: 0,
         flow: StUSDSFlow.SUPPLY,
-        nativeBlockedReason: 'Supply capacity reached'
+        nativeBlockedReason: StUsdsBlockedReason.SUPPLY_CAPACITY_REACHED
       };
 
       const { container } = renderWithWrapper(<ProviderIndicator {...props} />);

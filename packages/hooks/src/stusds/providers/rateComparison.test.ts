@@ -182,7 +182,7 @@ describe('Rate Comparison Utilities', () => {
       expect(diff).toBe(0);
     });
 
-    it('should return 0 when rateA is zero and rateB is positive', () => {
+    it('should return -100 when rateA is zero and rateB is positive', () => {
       const diff = calculateRateDifferencePercent(0n, WAD);
       expect(diff).toBe(-100);
     });
@@ -414,7 +414,7 @@ describe('Rate Comparison Utilities', () => {
       const result = compareRates(nativeQuote, curveQuote, config);
 
       expect(result.betterProvider).toBe(StUsdsProviderType.CURVE);
-      expect(result.differencePercent).toBe(100);
+      expect(result.differencePercent).toBe(0);
       expect(result.isSignificantDifference).toBe(true);
     });
 
@@ -425,7 +425,7 @@ describe('Rate Comparison Utilities', () => {
       const result = compareRates(nativeQuote, curveQuote, config);
 
       expect(result.betterProvider).toBe(StUsdsProviderType.NATIVE);
-      expect(result.differencePercent).toBe(-100);
+      expect(result.differencePercent).toBe(0);
       expect(result.isSignificantDifference).toBe(true);
     });
 
@@ -663,6 +663,25 @@ describe('Rate Comparison Utilities', () => {
 
       expect(result.betterProvider).toBe(StUsdsProviderType.NATIVE);
       expect(result.differencePercent).toBeLessThan(0);
+    });
+
+    it('should calculate correct rate difference when native is blocked but has better rate', () => {
+      const input = 10000n * WAD;
+      // Native has ~4.76% better rate but is blocked
+      // To get exactly -5% difference: (1.0 - 1.05) / 1.05 = -4.76%
+      const nativeOutput = 10500n * WAD;
+      const curveOutput = 10000n * WAD;
+
+      const nativeQuote = createMockQuote(StUsdsProviderType.NATIVE, input, nativeOutput, false);
+      nativeQuote.invalidReason = 'Native provider is blocked';
+      const curveQuote = createMockQuote(StUsdsProviderType.CURVE, input, curveOutput, true);
+
+      const result = compareRates(nativeQuote, curveQuote, config);
+
+      // Should select Curve since native is blocked, but still show the rate difference
+      expect(result.betterProvider).toBe(StUsdsProviderType.CURVE);
+      expect(result.differencePercent).toBeCloseTo(-4.76, 2); // Negative because native would be better
+      expect(result.isSignificantDifference).toBe(true); // Always significant when one is invalid
     });
   });
 });

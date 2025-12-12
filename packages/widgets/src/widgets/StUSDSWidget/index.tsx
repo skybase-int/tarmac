@@ -7,7 +7,8 @@ import {
   useIsBatchSupported,
   useStUsdsProviderSelection,
   StUsdsProviderType,
-  useCurveAllowance
+  useCurveAllowance,
+  useCurveMaxWithdraw
 } from '@jetstreamgg/sky-hooks';
 import { useDebounce } from '@jetstreamgg/sky-utils';
 import { useContext, useEffect, useMemo, useState } from 'react';
@@ -99,6 +100,14 @@ const StUSDSWidgetWrapped = ({
   const { hasAllowance: hasCurveStUsdsAllowance, mutate: mutateCurveStUsdsAllowance } = useCurveAllowance({
     token: 'stUSDS',
     amount: providerSelection?.selectedQuote?.stUsdsAmount ?? 0n
+  });
+
+  // Calculate max USDS withdrawal via Curve based on user's actual stUSDS balance
+  // This uses get_dy to convert stUSDS → USDS at Curve's rate, with a buffer
+  // to prevent "insufficient funds" errors when rates fluctuate
+  const { maxUsdsOutput: curveUserMaxWithdraw } = useCurveMaxWithdraw({
+    userStUsdsBalance: stUsdsData?.userStUsdsBalance ?? 0n,
+    enabled: tabIndex === 1 // Only calculate for withdraw tab
   });
 
   const isCurveSelected = providerSelection.selectedProvider === StUsdsProviderType.CURVE;
@@ -198,26 +207,17 @@ const StUSDSWidgetWrapped = ({
   const remainingCapacityBuffered = capacityData?.remainingCapacityBuffered || 0n;
 
   // Use provider-aware max amounts based on selected provider
-  // When Curve is selected, use Curve's limits; when native is selected, use native limits
-  const maxSupplyAmount = isCurveSelected
-    ? (providerSelection.curveProvider?.state?.maxDeposit ?? undefined)
+  // When Curve is selected, there's no protocol limit; when native is selected, use module capacity limit
+  const moduleMaxSupplyAmount = isCurveSelected
+    ? undefined
     : (providerSelection.nativeProvider?.state?.maxDeposit ?? remainingCapacityBuffered);
 
-  // For Curve: limit by pool's max withdraw capacity (in USDS terms)
-  // For Native: limit by user's max withdrawable from contract (in USDS terms)
-  const curveMaxWithdraw = providerSelection.curveProvider?.state?.maxWithdraw;
+  // For Curve: use user's max based on their stUSDS balance converted at Curve's rate (with buffer)
+  // For Native: use user's max withdrawable from contract (in USDS terms)
+  // Note: curveUserMaxWithdraw already includes a 0.5% buffer to prevent "insufficient funds"
+  // errors when rates fluctuate between clicking 100% and transaction execution
   const nativeMaxWithdraw = stUsdsData?.userMaxWithdrawBuffered ?? 0n;
-  // User's stUSDS value in USDS terms (what they could get if they withdrew everything)
-  const userSuppliedUsds = stUsdsData?.userSuppliedUsds ?? 0n;
-
-  const maxWithdrawAmount = isCurveSelected
-    ? curveMaxWithdraw !== undefined
-      ? // When Curve is selected, max is the minimum of user's USDS value and pool capacity
-        curveMaxWithdraw < userSuppliedUsds
-        ? curveMaxWithdraw
-        : userSuppliedUsds
-      : nativeMaxWithdraw
-    : nativeMaxWithdraw;
+  const maxWithdrawAmount = isCurveSelected ? (curveUserMaxWithdraw ?? nativeMaxWithdraw) : nativeMaxWithdraw;
 
   const isSupplyBalanceError =
     txStatus === TxStatus.IDLE &&
@@ -225,15 +225,20 @@ const StUSDSWidgetWrapped = ({
     amount !== 0n && //don't wait for debouncing on default state
     ((stUsdsData?.userUsdsBalance !== undefined && debouncedAmount > stUsdsData.userUsdsBalance) ||
       (providerSelection.allProvidersBlocked && debouncedAmount > 0n) ||
-      (maxSupplyAmount !== undefined && debouncedAmount > maxSupplyAmount))
+      (moduleMaxSupplyAmount !== undefined && debouncedAmount > moduleMaxSupplyAmount))
       ? true
       : false;
+
+  // For withdraw balance check, use the same value as maxWithdrawAmount to ensure consistency
+  // When Curve is selected: use curveUserMaxWithdraw (Curve rate with buffer)
+  // When native is selected: use userSuppliedUsds (vault rate)
+  const withdrawBalanceLimit = isCurveSelected ? curveUserMaxWithdraw : stUsdsData?.userSuppliedUsds;
 
   const isWithdrawBalanceError =
     txStatus === TxStatus.IDLE &&
     address &&
     amount !== 0n && //don't wait for debouncing on default state
-    ((stUsdsData?.userSuppliedUsds !== undefined && debouncedAmount > stUsdsData.userSuppliedUsds) ||
+    ((withdrawBalanceLimit !== undefined && debouncedAmount > withdrawBalanceLimit) ||
       (providerSelection.allProvidersBlocked && debouncedAmount > 0n) ||
       (maxWithdrawAmount !== undefined && debouncedAmount > maxWithdrawAmount))
       ? true
@@ -554,7 +559,7 @@ const StUSDSWidgetWrapped = ({
             <StUSDSSupplyWithdraw
               address={address}
               nstBalance={stUsdsData?.userUsdsBalance}
-              userUsdsBalance={stUsdsData?.userSuppliedUsds}
+              userUsdsBalance={withdrawBalanceLimit}
               userStUsdsBalance={stUsdsData?.userStUsdsBalance}
               withdrawableBalance={maxWithdrawAmount}
               totalAssets={stUsdsData?.totalAssets}

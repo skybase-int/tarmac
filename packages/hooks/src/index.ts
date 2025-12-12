@@ -40,13 +40,15 @@ export {
   useStUsdsProviderSelection,
   useCurvePoolData,
   useCurveQuote,
+  useCurveMaxWithdraw,
   useCurveAllowance,
   useCurveApprove,
   useCurveSwap,
   useBatchCurveSwap,
   StUsdsProviderType,
   StUsdsProviderStatus,
-  StUsdsSelectionReason
+  StUsdsSelectionReason,
+  StUsdsBlockedReason
 } from './stusds';
 
 export type {

@@ -2,11 +2,17 @@ import { msg } from '@lingui/core/macro';
 import { MessageDescriptor } from '@lingui/core';
 import { BatchStatus, TxStatus } from '@widgets/shared/constants';
 import { TxCardCopyText } from '@widgets/shared/types/txCardCopyText';
+import { StUsdsSelectionReason, StUsdsBlockedReason } from '@jetstreamgg/sky-hooks';
+import type { I18n } from '@lingui/core';
 
 export enum StUSDSFlow {
   SUPPLY = 'supply',
   WITHDRAW = 'withdraw'
 }
+
+// Premium thresholds for color changes
+export const STUSDS_PREMIUM_WARNING_THRESHOLD = 2; // Yellow warning above 2%
+export const STUSDS_PREMIUM_HIGH_THRESHOLD = 10; // Red/high premium above 10%
 
 export enum StUSDSAction {
   APPROVE = 'approve',
@@ -14,18 +20,66 @@ export enum StUSDSAction {
   WITHDRAW = 'withdraw'
 }
 
-// Provider selection reason messages
-export const providerMessages = {
-  nativeProvider: msg`Native stUSDS contract`,
-  curveProvider: msg`Curve pool`,
-  usingCurveBetterRate: msg`Using Curve pool for better rate`,
-  usingCurveNativeDepositBlocked: msg`Using Curve pool - native deposits unavailable`,
-  usingCurveNativeWithdrawBlocked: msg`Using Curve pool - native withdrawals unavailable`,
-  usingCurveSupplyCapReached: msg`Using Curve pool - supply cap reached`,
-  usingCurveLiquidityExhausted: msg`Using Curve pool - liquidity exhausted`,
-  allProvidersBlocked: msg`Both native and Curve routes are temporarily unavailable`,
-  rateDifference: msg`Rate difference`
-};
+export function getProviderMessage(
+  selectionReason: StUsdsSelectionReason,
+  rateDifferencePercent: number,
+  flow: StUSDSFlow,
+  nativeBlockedReason: StUsdsBlockedReason | undefined,
+  i18n: I18n
+): string {
+  switch (selectionReason) {
+    //all blocked - this should only happen if the curve pool is unusable and native is blocked
+    case StUsdsSelectionReason.ALL_BLOCKED:
+      return i18n._(msg`Both native and Curve routes are temporarily unavailable`);
+
+    //curve better rate
+    case StUsdsSelectionReason.CURVE_BETTER_RATE: {
+      const rateText = Math.abs(rateDifferencePercent).toFixed(2);
+      return `${i18n._(msg`Routing through Curve for a better rate`)} (+${rateText}%)`;
+    }
+
+    //curve only available
+    case StUsdsSelectionReason.CURVE_ONLY_AVAILABLE:
+      switch (nativeBlockedReason) {
+        case StUsdsBlockedReason.SUPPLY_CAPACITY_REACHED: {
+          const rateText = Math.abs(rateDifferencePercent).toFixed(2);
+          if (rateDifferencePercent < 0) {
+            return i18n._(
+              msg`Routing through Curve with a ${rateText}% premium, as the supply capacity is reached`
+            );
+          } else if (rateDifferencePercent > 0) {
+            return `${i18n._(msg`Routing through Curve for a better rate`)} (+${rateText}%)`;
+          } else {
+            return i18n._(msg`Routing through Curve, as the supply capacity is reached`);
+          }
+        }
+
+        case StUsdsBlockedReason.LIQUIDITY_EXHAUSTED: {
+          const rateText = Math.abs(rateDifferencePercent).toFixed(2);
+          if (rateDifferencePercent < 0) {
+            return i18n._(
+              msg`Routing through Curve with a ${rateText}% premium, as the liquidity is exhausted`
+            );
+          } else if (rateDifferencePercent > 0) {
+            return `${i18n._(msg`Routing through Curve for a better rate`)} (+${rateText}%)`;
+          } else {
+            return i18n._(msg`Routing through Curve, as the liquidity is exhausted`);
+          }
+        }
+
+        default:
+          return flow === StUSDSFlow.SUPPLY
+            ? i18n._(msg`Routing through Curve - native deposits unavailable`)
+            : i18n._(msg`Routing through Curve - native withdrawals unavailable`);
+      }
+
+    // These cases should never occur because ProviderIndicator doesn't render when native is selected
+    case StUsdsSelectionReason.NATIVE_ONLY_AVAILABLE:
+    case StUsdsSelectionReason.NATIVE_BETTER_RATE:
+    case StUsdsSelectionReason.NATIVE_DEFAULT:
+      throw new Error(`Unexpected selection reason for provider message: ${selectionReason}`);
+  }
+}
 
 export enum StUSDSScreen {
   ACTION = 'action',

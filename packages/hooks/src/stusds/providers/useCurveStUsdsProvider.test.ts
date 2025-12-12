@@ -4,7 +4,7 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { renderHook } from '@testing-library/react';
 import { useCurveStUsdsProvider } from './useCurveStUsdsProvider';
-import { StUsdsProviderType, StUsdsProviderStatus } from './types';
+import { StUsdsProviderType, StUsdsProviderStatus, StUsdsBlockedReason } from './types';
 import { RATE_PRECISION, STUSDS_PROVIDER_CONFIG } from './constants';
 
 // Mock the Curve hooks
@@ -110,7 +110,9 @@ describe('useCurveStUsdsProvider', () => {
 
       expect(result.current.data?.state.status).toBe(StUsdsProviderStatus.BLOCKED);
       expect(result.current.data?.state.canDeposit).toBe(false);
-      expect(result.current.data?.state.errorMessage).toBe('Insufficient stUSDS liquidity in Curve pool');
+      expect(result.current.data?.state.blockedReason).toBe(
+        StUsdsBlockedReason.CURVE_INSUFFICIENT_STUSDS_LIQUIDITY
+      );
     });
   });
 
@@ -153,15 +155,16 @@ describe('useCurveStUsdsProvider', () => {
 
       expect(result.current.data?.state.status).toBe(StUsdsProviderStatus.BLOCKED);
       expect(result.current.data?.state.canWithdraw).toBe(false);
-      expect(result.current.data?.state.errorMessage).toBe('Insufficient USDS liquidity in Curve pool');
+      expect(result.current.data?.state.blockedReason).toBe(
+        StUsdsBlockedReason.CURVE_INSUFFICIENT_USDS_LIQUIDITY
+      );
     });
   });
 
   describe('max amounts', () => {
-    it('should calculate maxDeposit using priceOracle and slippage', () => {
+    it('should not provide maxDeposit', () => {
       const stUsdsReserve = 1000000n * WAD;
       const priceOracle = (105n * WAD) / 100n; // 1.05 USDS per stUSDS
-      const slippageMultiplier = RATE_PRECISION.BPS_DIVISOR - BigInt(STUSDS_PROVIDER_CONFIG.maxSlippageBps);
 
       (useCurvePoolData as ReturnType<typeof vi.fn>).mockReturnValue({
         data: {
@@ -186,16 +189,13 @@ describe('useCurveStUsdsProvider', () => {
         })
       );
 
-      // maxDeposit = stUsdsReserve * priceOracle * slippageMultiplier / (WAD * BPS_DIVISOR)
-      const expectedMaxDeposit =
-        (stUsdsReserve * priceOracle * slippageMultiplier) / (WAD * RATE_PRECISION.BPS_DIVISOR);
-      expect(result.current.data?.state.maxDeposit).toBe(expectedMaxDeposit);
+      // Curve provider no longer provides maxDeposit
+      expect(result.current.data?.state.maxDeposit).toBeUndefined();
     });
 
-    it('should calculate maxWithdraw using priceOracle and slippage', () => {
+    it('should not provide maxWithdraw', () => {
       const usdsReserve = 1000000n * WAD;
       const priceOracle = (105n * WAD) / 100n;
-      const slippageMultiplier = RATE_PRECISION.BPS_DIVISOR - BigInt(STUSDS_PROVIDER_CONFIG.maxSlippageBps);
 
       (useCurvePoolData as ReturnType<typeof vi.fn>).mockReturnValue({
         data: {
@@ -220,37 +220,8 @@ describe('useCurveStUsdsProvider', () => {
         })
       );
 
-      // maxWithdraw = usdsReserve * slippageMultiplier / BPS_DIVISOR (in USDS terms)
-      const expectedMaxWithdraw = (usdsReserve * slippageMultiplier) / RATE_PRECISION.BPS_DIVISOR;
-      expect(result.current.data?.state.maxWithdraw).toBe(expectedMaxWithdraw);
-    });
-
-    it('should use 1:1 rate when priceOracle is missing', () => {
-      (useCurvePoolData as ReturnType<typeof vi.fn>).mockReturnValue({
-        data: {
-          usdsReserve: 1000000n * WAD,
-          stUsdsReserve: 950000n * WAD,
-          fee: 4000000n,
-          adminFee: 5000000000n,
-          priceOracle: undefined, // Missing oracle
-          coin0: '0x0000000000000000000000000000000000000001',
-          coin1: '0x0000000000000000000000000000000000000002',
-          tokenIndices: { usds: 0, stUsds: 1 }
-        },
-        isLoading: false,
-        error: null,
-        refetch: vi.fn()
-      });
-
-      const { result } = renderHook(() =>
-        useCurveStUsdsProvider({
-          amount: 1000n * WAD,
-          direction: 'deposit'
-        })
-      );
-
-      // With 1:1 rate, maxDeposit should be based on stUsdsReserve directly
-      expect(result.current.data?.state.maxDeposit).toBeGreaterThan(0n);
+      // Curve provider no longer provides maxWithdraw
+      expect(result.current.data?.state.maxWithdraw).toBeUndefined();
     });
   });
 
@@ -346,34 +317,6 @@ describe('useCurveStUsdsProvider', () => {
 
       expect(result.current.data?.quote?.isValid).toBe(false);
       expect(result.current.data?.quote?.invalidReason).toBe('Price impact too high');
-    });
-
-    it('should mark quote invalid when amount exceeds pool liquidity', () => {
-      (useCurvePoolData as ReturnType<typeof vi.fn>).mockReturnValue({
-        data: {
-          usdsReserve: 1000000n * WAD,
-          stUsdsReserve: 100n * WAD, // Limited stUSDS
-          fee: 4000000n,
-          adminFee: 5000000000n,
-          priceOracle: WAD,
-          coin0: '0x0000000000000000000000000000000000000001',
-          coin1: '0x0000000000000000000000000000000000000002',
-          tokenIndices: { usds: 0, stUsds: 1 }
-        },
-        isLoading: false,
-        error: null,
-        refetch: vi.fn()
-      });
-
-      const { result } = renderHook(() =>
-        useCurveStUsdsProvider({
-          amount: 1000n * WAD, // More than available
-          direction: 'deposit'
-        })
-      );
-
-      expect(result.current.data?.quote?.isValid).toBe(false);
-      expect(result.current.data?.quote?.invalidReason).toBe('Amount exceeds Curve pool liquidity');
     });
   });
 
