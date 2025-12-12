@@ -34,8 +34,11 @@ export function ProviderIndicator({
 }: ProviderIndicatorProps) {
   const { i18n } = useLingui();
 
-  // Don't show indicator when using native
-  if (selectedProvider === StUsdsProviderType.NATIVE) {
+  // Don't show indicator when using native (unless all providers are blocked)
+  if (
+    selectedProvider === StUsdsProviderType.NATIVE &&
+    selectionReason !== StUsdsSelectionReason.ALL_BLOCKED
+  ) {
     return null;
   }
 
