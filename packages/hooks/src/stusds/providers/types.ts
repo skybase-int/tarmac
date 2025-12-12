@@ -61,7 +61,7 @@ export enum StUsdsBlockedReason {
  * Direction of the stUSDS operation.
  */
 export enum StUsdsDirection {
-  DEPOSIT = 'deposit',
+  SUPPLY = 'supply',
   WITHDRAW = 'withdraw'
 }
 

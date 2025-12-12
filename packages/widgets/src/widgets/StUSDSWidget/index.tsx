@@ -91,7 +91,7 @@ const StUSDSWidgetWrapped = ({
   // Provider selection for automatic routing between native and Curve
   const providerSelection = useStUsdsProviderSelection({
     amount: debouncedAmount,
-    direction: tabIndex === 0 ? StUsdsDirection.DEPOSIT : StUsdsDirection.WITHDRAW
+    direction: tabIndex === 0 ? StUsdsDirection.SUPPLY : StUsdsDirection.WITHDRAW
   });
 
   const { hasAllowance: hasCurveUsdsAllowance, mutate: mutateCurveUsdsAllowance } = useCurveAllowance({

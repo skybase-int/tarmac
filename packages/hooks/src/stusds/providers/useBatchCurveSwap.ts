@@ -52,7 +52,7 @@ export function useBatchCurveSwap({
   const chainId = isTestnetId(connectedChainId) ? TENDERLY_CHAIN_ID : 1;
 
   // Determine which token needs approval based on direction
-  const inputToken = direction === StUsdsDirection.DEPOSIT ? 'USDS' : 'stUSDS';
+  const inputToken = direction === StUsdsDirection.SUPPLY ? 'USDS' : 'stUSDS';
 
   // Check allowance for the input token
   const {
@@ -69,12 +69,12 @@ export function useBatchCurveSwap({
 
   // Determine input/output indices based on direction
   const inputIndex =
-    direction === StUsdsDirection.DEPOSIT
+    direction === StUsdsDirection.SUPPLY
       ? (poolData?.tokenIndices.usds ?? 0)
       : (poolData?.tokenIndices.stUsds ?? 1);
 
   const outputIndex =
-    direction === StUsdsDirection.DEPOSIT
+    direction === StUsdsDirection.SUPPLY
       ? (poolData?.tokenIndices.stUsds ?? 1)
       : (poolData?.tokenIndices.usds ?? 0);
 
@@ -83,7 +83,7 @@ export function useBatchCurveSwap({
 
   // Get token and pool addresses
   const tokenAddress =
-    direction === StUsdsDirection.DEPOSIT
+    direction === StUsdsDirection.SUPPLY
       ? usdsAddress[chainId as keyof typeof usdsAddress]
       : stUsdsAddress[chainId as keyof typeof stUsdsAddress];
 

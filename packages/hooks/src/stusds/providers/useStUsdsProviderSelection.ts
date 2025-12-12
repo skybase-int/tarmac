@@ -53,11 +53,11 @@ export function useStUsdsProviderSelection(params: StUsdsQuoteParams): StUsdsPro
     // Check availability based on direction
     const isNativeAvailable =
       nativeData?.state.status === StUsdsProviderStatus.AVAILABLE &&
-      (direction === StUsdsDirection.DEPOSIT ? nativeData.state.canDeposit : nativeData.state.canWithdraw);
+      (direction === StUsdsDirection.SUPPLY ? nativeData.state.canDeposit : nativeData.state.canWithdraw);
 
     const isCurveAvailable =
       curveData?.state.status === StUsdsProviderStatus.AVAILABLE &&
-      (direction === StUsdsDirection.DEPOSIT ? curveData.state.canDeposit : curveData.state.canWithdraw);
+      (direction === StUsdsDirection.SUPPLY ? curveData.state.canDeposit : curveData.state.canWithdraw);
 
     // Selection logic
     if (!isNativeAvailable && !isCurveAvailable) {

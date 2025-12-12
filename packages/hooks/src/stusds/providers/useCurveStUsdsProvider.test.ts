@@ -62,7 +62,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -76,7 +76,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -104,7 +104,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -185,7 +185,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -245,7 +245,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: usdsAmount,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -260,7 +260,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 0n,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -287,7 +287,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -311,7 +311,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -325,7 +325,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -352,7 +352,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -363,7 +363,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -383,7 +383,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -401,7 +401,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -421,7 +421,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -441,7 +441,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -461,7 +461,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -500,7 +500,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 

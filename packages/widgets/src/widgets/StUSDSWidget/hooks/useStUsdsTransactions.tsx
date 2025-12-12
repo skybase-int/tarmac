@@ -83,7 +83,7 @@ export const useStUsdsTransactions = ({
   // Curve swap for supply (USDS -> stUSDS)
   // Input: USDS (amount from UI), Output: stUSDS (expectedOutput from quote)
   const curveSupplySwap = useBatchCurveSwap({
-    direction: StUsdsDirection.DEPOSIT,
+    direction: StUsdsDirection.SUPPLY,
     inputAmount: amount,
     expectedOutput,
     shouldUseBatch,

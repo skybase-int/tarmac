@@ -75,7 +75,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -89,7 +89,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -110,7 +110,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -172,7 +172,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: inputAmount,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -211,7 +211,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 0n,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -234,7 +234,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: requestedAmount,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -273,7 +273,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -295,7 +295,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -313,7 +313,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -331,7 +331,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -351,7 +351,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -369,7 +369,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -389,7 +389,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 
@@ -435,7 +435,7 @@ describe('useNativeStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
           amount: 1000n * WAD,
-          direction: StUsdsDirection.DEPOSIT
+          direction: StUsdsDirection.SUPPLY
         })
       );
 

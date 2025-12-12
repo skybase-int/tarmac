@@ -83,7 +83,7 @@ export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
     args: [BigInt(usdsIndex), BigInt(stUsdsIndex), amount],
     chainId,
     query: {
-      enabled: enabled && direction === StUsdsDirection.DEPOSIT && amount > 0n && !!poolData
+      enabled: enabled && direction === StUsdsDirection.SUPPLY && amount > 0n && !!poolData
     }
   });
 
@@ -104,7 +104,7 @@ export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
   const data: CurveQuoteData | undefined = useMemo(() => {
     if (amount === 0n) return undefined;
 
-    if (direction === StUsdsDirection.DEPOSIT) {
+    if (direction === StUsdsDirection.SUPPLY) {
       if (!depositOutput) return undefined;
 
       // For deposits: USDS in, stUSDS out
@@ -163,11 +163,11 @@ export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
   }, [direction, amount, depositOutput, withdrawInput, poolData?.priceOracle]);
 
   const isLoading =
-    isPoolLoading || (direction === StUsdsDirection.DEPOSIT ? isDepositLoading : isWithdrawLoading);
-  const error = direction === StUsdsDirection.DEPOSIT ? depositError : withdrawError;
+    isPoolLoading || (direction === StUsdsDirection.SUPPLY ? isDepositLoading : isWithdrawLoading);
+  const error = direction === StUsdsDirection.SUPPLY ? depositError : withdrawError;
 
   const refetch = () => {
-    if (direction === StUsdsDirection.DEPOSIT) {
+    if (direction === StUsdsDirection.SUPPLY) {
       refetchDeposit();
     } else {
       refetchWithdraw();

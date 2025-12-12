@@ -49,7 +49,7 @@ export function useNativeStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvid
     isLoading: isDepositPreviewLoading,
     error: depositPreviewError,
     mutate: refetchDepositPreview
-  } = useStUsdsPreviewDeposit(direction === StUsdsDirection.DEPOSIT ? amount : 0n);
+  } = useStUsdsPreviewDeposit(direction === StUsdsDirection.SUPPLY ? amount : 0n);
 
   // Get preview for withdraw (stUSDS -> USDS)
   const {
@@ -71,7 +71,7 @@ export function useNativeStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvid
 
     // Determine overall status
     let status: StUsdsProviderStatus;
-    if (direction === StUsdsDirection.DEPOSIT) {
+    if (direction === StUsdsDirection.SUPPLY) {
       status = canDeposit ? StUsdsProviderStatus.AVAILABLE : StUsdsProviderStatus.BLOCKED;
     } else {
       status = canWithdraw ? StUsdsProviderStatus.AVAILABLE : StUsdsProviderStatus.BLOCKED;
@@ -79,7 +79,7 @@ export function useNativeStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvid
 
     let blockedReason: StUsdsBlockedReason | undefined;
     if (status === StUsdsProviderStatus.BLOCKED) {
-      if (direction === StUsdsDirection.DEPOSIT) {
+      if (direction === StUsdsDirection.SUPPLY) {
         blockedReason = StUsdsBlockedReason.SUPPLY_CAPACITY_REACHED;
       } else {
         blockedReason = StUsdsBlockedReason.LIQUIDITY_EXHAUSTED;
@@ -101,7 +101,7 @@ export function useNativeStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvid
   const quote: StUsdsQuote | undefined = useMemo(() => {
     if (!state || amount === 0n) return undefined;
 
-    const outputAmount = direction === StUsdsDirection.DEPOSIT ? previewDeposit : previewWithdraw;
+    const outputAmount = direction === StUsdsDirection.SUPPLY ? previewDeposit : previewWithdraw;
 
     if (outputAmount === undefined || outputAmount === 0n) {
       return {
@@ -124,7 +124,7 @@ export function useNativeStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvid
     let isValid = true;
     let invalidReason: string | undefined;
 
-    if (direction === StUsdsDirection.DEPOSIT) {
+    if (direction === StUsdsDirection.SUPPLY) {
       if (!state.canDeposit) {
         isValid = false;
         invalidReason = 'Deposits are currently unavailable';
@@ -153,7 +153,7 @@ export function useNativeStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvid
       priceImpactBps: 0 // Native contract has no price impact
     };
 
-    const stUsdsAmount = direction === StUsdsDirection.DEPOSIT ? outputAmount : previewWithdraw || 0n;
+    const stUsdsAmount = direction === StUsdsDirection.SUPPLY ? outputAmount : previewWithdraw || 0n;
 
     return {
       providerType: StUsdsProviderType.NATIVE,
@@ -180,7 +180,7 @@ export function useNativeStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvid
   const isLoading =
     isDataLoading ||
     isCapacityLoading ||
-    (direction === StUsdsDirection.DEPOSIT && amount > 0n && isDepositPreviewLoading) ||
+    (direction === StUsdsDirection.SUPPLY && amount > 0n && isDepositPreviewLoading) ||
     (direction === StUsdsDirection.WITHDRAW && amount > 0n && isWithdrawPreviewLoading);
 
   const error = dataError || capacityError || depositPreviewError || withdrawPreviewError;

@@ -85,7 +85,7 @@ describe('useCurveQuote', () => {
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          direction: StUsdsDirection.DEPOSIT,
+          direction: StUsdsDirection.SUPPLY,
           amount: usdsAmount,
           enabled: true
         })
@@ -132,7 +132,7 @@ describe('useCurveQuote', () => {
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          direction: StUsdsDirection.DEPOSIT,
+          direction: StUsdsDirection.SUPPLY,
           amount: usdsAmount,
           enabled: true
         })
@@ -219,7 +219,7 @@ describe('useCurveQuote', () => {
     it('should return undefined when amount is 0', () => {
       const { result } = renderHook(() =>
         useCurveQuote({
-          direction: StUsdsDirection.DEPOSIT,
+          direction: StUsdsDirection.SUPPLY,
           amount: 0n,
           enabled: true
         })
@@ -238,7 +238,7 @@ describe('useCurveQuote', () => {
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          direction: StUsdsDirection.DEPOSIT,
+          direction: StUsdsDirection.SUPPLY,
           amount: 1000n * WAD,
           enabled: true
         })
@@ -336,7 +336,7 @@ describe('useCurveQuote', () => {
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          direction: StUsdsDirection.DEPOSIT,
+          direction: StUsdsDirection.SUPPLY,
           amount: usdsAmount,
           enabled: true
         })
@@ -357,7 +357,7 @@ describe('useCurveQuote', () => {
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          direction: StUsdsDirection.DEPOSIT,
+          direction: StUsdsDirection.SUPPLY,
           amount: 1000n * WAD,
           enabled: true
         })
@@ -376,7 +376,7 @@ describe('useCurveQuote', () => {
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          direction: StUsdsDirection.DEPOSIT,
+          direction: StUsdsDirection.SUPPLY,
           amount: 1000n * WAD,
           enabled: true
         })
@@ -418,7 +418,7 @@ describe('useCurveQuote', () => {
 
       renderHook(() =>
         useCurveQuote({
-          direction: StUsdsDirection.DEPOSIT,
+          direction: StUsdsDirection.SUPPLY,
           amount: 1000n * WAD,
           enabled: false
         })

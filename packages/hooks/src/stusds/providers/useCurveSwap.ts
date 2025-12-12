@@ -51,12 +51,12 @@ export function useCurveSwap({
 
   // Determine input/output indices based on direction
   const inputIndex =
-    direction === StUsdsDirection.DEPOSIT
+    direction === StUsdsDirection.SUPPLY
       ? (poolData?.tokenIndices.usds ?? 0)
       : (poolData?.tokenIndices.stUsds ?? 1);
 
   const outputIndex =
-    direction === StUsdsDirection.DEPOSIT
+    direction === StUsdsDirection.SUPPLY
       ? (poolData?.tokenIndices.stUsds ?? 1)
       : (poolData?.tokenIndices.usds ?? 0);
 

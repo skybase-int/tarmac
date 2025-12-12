@@ -111,7 +111,7 @@ const setupMocks = (
 
 const defaultParams: StUsdsQuoteParams = {
   amount: 1000n * WAD,
-  direction: StUsdsDirection.DEPOSIT
+  direction: StUsdsDirection.SUPPLY
 };
 
 describe('useStUsdsProviderSelection', () => {
@@ -198,7 +198,7 @@ describe('useStUsdsProviderSelection', () => {
       setupMocks(nativeData, curveData);
 
       const { result } = renderHook(() =>
-        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: StUsdsDirection.DEPOSIT })
+        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: StUsdsDirection.SUPPLY })
       );
 
       expect(result.current.selectedProvider).toBe(StUsdsProviderType.NATIVE);
@@ -237,7 +237,7 @@ describe('useStUsdsProviderSelection', () => {
       setupMocks(nativeData, curveData);
 
       const { result } = renderHook(() =>
-        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: StUsdsDirection.DEPOSIT })
+        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: StUsdsDirection.SUPPLY })
       );
 
       expect(result.current.selectedProvider).toBe(StUsdsProviderType.CURVE);
@@ -279,7 +279,7 @@ describe('useStUsdsProviderSelection', () => {
       setupMocks(nativeData, curveData);
 
       const { result } = renderHook(() =>
-        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: StUsdsDirection.DEPOSIT })
+        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: StUsdsDirection.SUPPLY })
       );
 
       expect(result.current.allProvidersBlocked).toBe(true);
@@ -319,7 +319,7 @@ describe('useStUsdsProviderSelection', () => {
       setupMocks(nativeData, curveData);
 
       const { result } = renderHook(() =>
-        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: StUsdsDirection.DEPOSIT })
+        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: StUsdsDirection.SUPPLY })
       );
 
       // Should default to native for display purposes
@@ -515,7 +515,7 @@ describe('useStUsdsProviderSelection', () => {
       setupMocks(nativeData, curveData);
 
       const { result } = renderHook(() =>
-        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: StUsdsDirection.DEPOSIT })
+        useStUsdsProviderSelection({ amount: 1000n * WAD, direction: StUsdsDirection.SUPPLY })
       );
 
       // Should select Curve because native can't deposit
