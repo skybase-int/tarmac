@@ -5,6 +5,7 @@ import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { renderHook } from '@testing-library/react';
 import { useCurveQuote } from './useCurveQuote';
 import { RATE_PRECISION } from './constants';
+import { StUsdsDirection } from './types';
 
 // Mock wagmi hooks
 vi.mock('wagmi', () => ({
@@ -84,7 +85,7 @@ describe('useCurveQuote', () => {
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          direction: 'deposit',
+          direction: StUsdsDirection.DEPOSIT,
           amount: usdsAmount,
           enabled: true
         })
@@ -131,7 +132,7 @@ describe('useCurveQuote', () => {
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          direction: 'deposit',
+          direction: StUsdsDirection.DEPOSIT,
           amount: usdsAmount,
           enabled: true
         })
@@ -157,7 +158,7 @@ describe('useCurveQuote', () => {
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          direction: 'withdraw',
+          direction: StUsdsDirection.WITHDRAW,
           amount: desiredUsdsOutput,
           enabled: true
         })
@@ -202,7 +203,7 @@ describe('useCurveQuote', () => {
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          direction: 'withdraw',
+          direction: StUsdsDirection.WITHDRAW,
           amount: desiredUsdsOutput,
           enabled: true
         })
@@ -218,7 +219,7 @@ describe('useCurveQuote', () => {
     it('should return undefined when amount is 0', () => {
       const { result } = renderHook(() =>
         useCurveQuote({
-          direction: 'deposit',
+          direction: StUsdsDirection.DEPOSIT,
           amount: 0n,
           enabled: true
         })
@@ -237,7 +238,7 @@ describe('useCurveQuote', () => {
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          direction: 'deposit',
+          direction: StUsdsDirection.DEPOSIT,
           amount: 1000n * WAD,
           enabled: true
         })
@@ -256,7 +257,7 @@ describe('useCurveQuote', () => {
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          direction: 'withdraw',
+          direction: StUsdsDirection.WITHDRAW,
           amount: 1000n * WAD,
           enabled: true
         })
@@ -296,7 +297,7 @@ describe('useCurveQuote', () => {
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          direction: 'withdraw',
+          direction: StUsdsDirection.WITHDRAW,
           amount: desiredUsdsOutput,
           enabled: true
         })
@@ -335,7 +336,7 @@ describe('useCurveQuote', () => {
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          direction: 'deposit',
+          direction: StUsdsDirection.DEPOSIT,
           amount: usdsAmount,
           enabled: true
         })
@@ -356,7 +357,7 @@ describe('useCurveQuote', () => {
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          direction: 'deposit',
+          direction: StUsdsDirection.DEPOSIT,
           amount: 1000n * WAD,
           enabled: true
         })
@@ -375,7 +376,7 @@ describe('useCurveQuote', () => {
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          direction: 'deposit',
+          direction: StUsdsDirection.DEPOSIT,
           amount: 1000n * WAD,
           enabled: true
         })
@@ -394,7 +395,7 @@ describe('useCurveQuote', () => {
 
       const { result } = renderHook(() =>
         useCurveQuote({
-          direction: 'withdraw',
+          direction: StUsdsDirection.WITHDRAW,
           amount: 1000n * WAD,
           enabled: true
         })
@@ -417,7 +418,7 @@ describe('useCurveQuote', () => {
 
       renderHook(() =>
         useCurveQuote({
-          direction: 'deposit',
+          direction: StUsdsDirection.DEPOSIT,
           amount: 1000n * WAD,
           enabled: false
         })
@@ -444,7 +445,7 @@ describe('useCurveQuote', () => {
 
       renderHook(() =>
         useCurveQuote({
-          direction: 'withdraw',
+          direction: StUsdsDirection.WITHDRAW,
           amount: 1000n * WAD,
           enabled: false
         })

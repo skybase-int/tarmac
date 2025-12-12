@@ -1,5 +1,6 @@
 import { useAccount, useChainId } from 'wagmi';
 import { Abi, Call, erc20Abi } from 'viem';
+import { StUsdsDirection } from './types';
 import {
   curveStUsdsUsdsPoolAddress,
   curveStUsdsUsdsPoolAbi,
@@ -18,7 +19,7 @@ import { STUSDS_PROVIDER_CONFIG } from './constants';
 
 export type BatchCurveSwapParams = BatchWriteHookParams & {
   /** Direction of the swap */
-  direction: 'deposit' | 'withdraw';
+  direction: StUsdsDirection;
   /** Amount of input token */
   inputAmount: bigint;
   /** Expected output amount (from quote) */
@@ -51,7 +52,7 @@ export function useBatchCurveSwap({
   const chainId = isTestnetId(connectedChainId) ? TENDERLY_CHAIN_ID : 1;
 
   // Determine which token needs approval based on direction
-  const inputToken = direction === 'deposit' ? 'USDS' : 'stUSDS';
+  const inputToken = direction === StUsdsDirection.DEPOSIT ? 'USDS' : 'stUSDS';
 
   // Check allowance for the input token
   const {
@@ -68,17 +69,21 @@ export function useBatchCurveSwap({
 
   // Determine input/output indices based on direction
   const inputIndex =
-    direction === 'deposit' ? (poolData?.tokenIndices.usds ?? 0) : (poolData?.tokenIndices.stUsds ?? 1);
+    direction === StUsdsDirection.DEPOSIT
+      ? (poolData?.tokenIndices.usds ?? 0)
+      : (poolData?.tokenIndices.stUsds ?? 1);
 
   const outputIndex =
-    direction === 'deposit' ? (poolData?.tokenIndices.stUsds ?? 1) : (poolData?.tokenIndices.usds ?? 0);
+    direction === StUsdsDirection.DEPOSIT
+      ? (poolData?.tokenIndices.stUsds ?? 1)
+      : (poolData?.tokenIndices.usds ?? 0);
 
   // Calculate minimum output with slippage protection
   const minOutput = calculateMinOutputWithSlippage(expectedOutput, slippageBps);
 
   // Get token and pool addresses
   const tokenAddress =
-    direction === 'deposit'
+    direction === StUsdsDirection.DEPOSIT
       ? usdsAddress[chainId as keyof typeof usdsAddress]
       : stUsdsAddress[chainId as keyof typeof stUsdsAddress];
 

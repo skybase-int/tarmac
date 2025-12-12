@@ -4,7 +4,7 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { renderHook } from '@testing-library/react';
 import { useCurveStUsdsProvider } from './useCurveStUsdsProvider';
-import { StUsdsProviderType, StUsdsProviderStatus, StUsdsBlockedReason } from './types';
+import { StUsdsProviderType, StUsdsProviderStatus, StUsdsBlockedReason, StUsdsDirection } from './types';
 import { RATE_PRECISION, STUSDS_PROVIDER_CONFIG } from './constants';
 
 // Mock the Curve hooks
@@ -62,7 +62,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.DEPOSIT
         })
       );
 
@@ -76,7 +76,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.DEPOSIT
         })
       );
 
@@ -104,7 +104,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.DEPOSIT
         })
       );
 
@@ -121,7 +121,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'withdraw'
+          direction: StUsdsDirection.WITHDRAW
         })
       );
 
@@ -149,7 +149,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'withdraw'
+          direction: StUsdsDirection.WITHDRAW
         })
       );
 
@@ -185,7 +185,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.DEPOSIT
         })
       );
 
@@ -216,7 +216,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'withdraw'
+          direction: StUsdsDirection.WITHDRAW
         })
       );
 
@@ -245,7 +245,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: usdsAmount,
-          direction: 'deposit'
+          direction: StUsdsDirection.DEPOSIT
         })
       );
 
@@ -260,7 +260,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 0n,
-          direction: 'deposit'
+          direction: StUsdsDirection.DEPOSIT
         })
       );
 
@@ -287,7 +287,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.DEPOSIT
         })
       );
 
@@ -311,7 +311,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.DEPOSIT
         })
       );
 
@@ -325,7 +325,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.DEPOSIT
         })
       );
 
@@ -352,7 +352,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.DEPOSIT
         })
       );
 
@@ -363,7 +363,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.DEPOSIT
         })
       );
 
@@ -383,7 +383,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.DEPOSIT
         })
       );
 
@@ -401,7 +401,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.DEPOSIT
         })
       );
 
@@ -421,7 +421,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.DEPOSIT
         })
       );
 
@@ -441,7 +441,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.DEPOSIT
         })
       );
 
@@ -461,7 +461,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.DEPOSIT
         })
       );
 
@@ -500,7 +500,7 @@ describe('useCurveStUsdsProvider', () => {
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
-          direction: 'deposit'
+          direction: StUsdsDirection.DEPOSIT
         })
       );
 

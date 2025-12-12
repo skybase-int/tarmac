@@ -2,7 +2,8 @@ import {
   useBatchStUsdsDeposit,
   useStUsdsWithdraw,
   useBatchCurveSwap,
-  StUsdsProviderType
+  StUsdsProviderType,
+  StUsdsDirection
 } from '@jetstreamgg/sky-hooks';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { WidgetProps } from '@widgets/shared/types/widgetState';
@@ -82,7 +83,7 @@ export const useStUsdsTransactions = ({
   // Curve swap for supply (USDS -> stUSDS)
   // Input: USDS (amount from UI), Output: stUSDS (expectedOutput from quote)
   const curveSupplySwap = useBatchCurveSwap({
-    direction: 'deposit',
+    direction: StUsdsDirection.DEPOSIT,
     inputAmount: amount,
     expectedOutput,
     shouldUseBatch,
@@ -96,7 +97,7 @@ export const useStUsdsTransactions = ({
   // Note: For withdrawals, the user specifies desired USDS output, and we calculated
   // the required stUSDS input using get_dx. We use that stUsdsAmount as inputAmount.
   const curveWithdrawSwap = useBatchCurveSwap({
-    direction: 'withdraw',
+    direction: StUsdsDirection.WITHDRAW,
     inputAmount: stUsdsAmount ?? 0n, // stUSDS to swap (calculated from get_dx)
     expectedOutput: amount, // USDS the user wants to receive
     shouldUseBatch,

@@ -60,7 +60,10 @@ export enum StUsdsBlockedReason {
 /**
  * Direction of the stUSDS operation.
  */
-export type StUsdsDirection = 'deposit' | 'withdraw';
+export enum StUsdsDirection {
+  DEPOSIT = 'deposit',
+  WITHDRAW = 'withdraw'
+}
 
 /**
  * Rate information for a quote, including fees and slippage estimates.

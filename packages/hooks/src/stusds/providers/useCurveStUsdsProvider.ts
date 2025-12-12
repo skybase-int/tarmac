@@ -11,7 +11,8 @@ import {
   StUsdsQuoteParams,
   StUsdsProviderHookResult,
   StUsdsRateInfo,
-  StUsdsBlockedReason
+  StUsdsBlockedReason,
+  StUsdsDirection
 } from './types';
 
 /**
@@ -67,7 +68,7 @@ export function useCurveStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvide
 
     // Determine overall status based on requested direction
     let status: StUsdsProviderStatus;
-    if (direction === 'deposit') {
+    if (direction === StUsdsDirection.DEPOSIT) {
       status = canDeposit ? StUsdsProviderStatus.AVAILABLE : StUsdsProviderStatus.BLOCKED;
     } else {
       status = canWithdraw ? StUsdsProviderStatus.AVAILABLE : StUsdsProviderStatus.BLOCKED;
@@ -75,7 +76,7 @@ export function useCurveStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvide
 
     let blockedReason: StUsdsBlockedReason | undefined;
     if (status === StUsdsProviderStatus.BLOCKED) {
-      if (direction === 'deposit') {
+      if (direction === StUsdsDirection.DEPOSIT) {
         blockedReason = StUsdsBlockedReason.CURVE_INSUFFICIENT_STUSDS_LIQUIDITY;
       } else {
         blockedReason = StUsdsBlockedReason.CURVE_INSUFFICIENT_USDS_LIQUIDITY;
@@ -98,8 +99,8 @@ export function useCurveStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvide
     if (!quoteData || quoteData.stUsdsAmount === 0n) {
       return {
         providerType: StUsdsProviderType.CURVE,
-        inputAmount: direction === 'deposit' ? amount : 0n,
-        outputAmount: direction === 'deposit' ? 0n : amount,
+        inputAmount: direction === StUsdsDirection.DEPOSIT ? amount : 0n,
+        outputAmount: direction === StUsdsDirection.DEPOSIT ? 0n : amount,
         // For transactions: stUsdsAmount is what goes into/out of Curve for stUSDS side
         stUsdsAmount: 0n,
         rateInfo: {
@@ -118,7 +119,7 @@ export function useCurveStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvide
     let isValid = true;
     let invalidReason: string | undefined;
 
-    if (direction === 'deposit') {
+    if (direction === StUsdsDirection.DEPOSIT) {
       if (!state.canDeposit) {
         isValid = false;
         invalidReason = 'Curve pool deposits unavailable';
@@ -148,8 +149,9 @@ export function useCurveStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvide
     // Determine input/output amounts based on direction
     // For deposits: input = USDS, output = stUSDS
     // For withdrawals: input = stUSDS, output = USDS
-    const inputAmount = direction === 'deposit' ? quoteData.usdsAmount : quoteData.stUsdsAmount;
-    const outputAmount = direction === 'deposit' ? quoteData.stUsdsAmount : quoteData.usdsAmount;
+    const inputAmount = direction === StUsdsDirection.DEPOSIT ? quoteData.usdsAmount : quoteData.stUsdsAmount;
+    const outputAmount =
+      direction === StUsdsDirection.DEPOSIT ? quoteData.stUsdsAmount : quoteData.usdsAmount;
 
     // Curve fees are already included in the quote
     const rateInfo: StUsdsRateInfo = {
