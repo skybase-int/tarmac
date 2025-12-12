@@ -34,11 +34,8 @@ export function ProviderIndicator({
 }: ProviderIndicatorProps) {
   const { i18n } = useLingui();
 
-  // Don't show indicator when using native with default reason
-  if (
-    selectedProvider === StUsdsProviderType.NATIVE &&
-    selectionReason === StUsdsSelectionReason.NATIVE_DEFAULT
-  ) {
+  // Don't show indicator when using native
+  if (selectedProvider === StUsdsProviderType.NATIVE) {
     return null;
   }
 

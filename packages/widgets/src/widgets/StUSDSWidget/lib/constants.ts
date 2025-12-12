@@ -28,14 +28,17 @@ export function getProviderMessage(
   i18n: I18n
 ): string {
   switch (selectionReason) {
+    //all blocked - this should only happen if the curve pool is unusable and native is blocked
     case StUsdsSelectionReason.ALL_BLOCKED:
       return i18n._(msg`Both native and Curve routes are temporarily unavailable`);
 
+    //curve better rate
     case StUsdsSelectionReason.CURVE_BETTER_RATE: {
       const rateText = Math.abs(rateDifferencePercent).toFixed(2);
-      return `${i18n._(msg`Using Curve pool for better rate`)} (+${rateText}%)`;
+      return `${i18n._(msg`Routing through Curve for a better rate`)} (+${rateText}%)`;
     }
 
+    //curve only available
     case StUsdsSelectionReason.CURVE_ONLY_AVAILABLE:
       switch (nativeBlockedReason) {
         case StUsdsBlockedReason.SUPPLY_CAPACITY_REACHED: {
@@ -45,9 +48,7 @@ export function getProviderMessage(
               msg`Routing through Curve with a ${rateText}% premium, as the supply capacity is reached`
             );
           } else if (rateDifferencePercent > 0) {
-            return i18n._(
-              msg`Routing through Curve at ${rateText}% discount, despite the supply capacity being reached`
-            );
+            return `${i18n._(msg`Routing through Curve for a better rate`)} (+${rateText}%)`;
           } else {
             return i18n._(msg`Routing through Curve, as the supply capacity is reached`);
           }
@@ -60,30 +61,22 @@ export function getProviderMessage(
               msg`Routing through Curve with a ${rateText}% premium, as the liquidity is exhausted`
             );
           } else if (rateDifferencePercent > 0) {
-            return i18n._(
-              msg`Routing through Curve at ${rateText}% discount, despite the liquidity being exhausted`
-            );
+            return `${i18n._(msg`Routing through Curve for a better rate`)} (+${rateText}%)`;
           } else {
             return i18n._(msg`Routing through Curve, as the liquidity is exhausted`);
           }
         }
 
-        case StUsdsBlockedReason.CURVE_INSUFFICIENT_STUSDS_LIQUIDITY:
-          return i18n._(msg`Using Curve pool - insufficient stUSDS liquidity`);
-
-        case StUsdsBlockedReason.CURVE_INSUFFICIENT_USDS_LIQUIDITY:
-          return i18n._(msg`Using Curve pool - insufficient USDS liquidity`);
-
         default:
           return flow === StUSDSFlow.SUPPLY
-            ? i18n._(msg`Using Curve pool - native deposits unavailable`)
-            : i18n._(msg`Using Curve pool - native withdrawals unavailable`);
+            ? i18n._(msg`Routing through Curve - native deposits unavailable`)
+            : i18n._(msg`Routing through Curve - native withdrawals unavailable`);
       }
 
+    // These cases should never occur because ProviderIndicator doesn't render when native is selected
     case StUsdsSelectionReason.NATIVE_ONLY_AVAILABLE:
     case StUsdsSelectionReason.NATIVE_BETTER_RATE:
     case StUsdsSelectionReason.NATIVE_DEFAULT:
-      // These cases should never occur because ProviderIndicator doesn't render when native is selected
       throw new Error(`Unexpected selection reason for provider message: ${selectionReason}`);
   }
 }
