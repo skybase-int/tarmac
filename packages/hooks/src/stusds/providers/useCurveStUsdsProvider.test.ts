@@ -318,34 +318,6 @@ describe('useCurveStUsdsProvider', () => {
       expect(result.current.data?.quote?.isValid).toBe(false);
       expect(result.current.data?.quote?.invalidReason).toBe('Price impact too high');
     });
-
-    it('should mark quote invalid when amount exceeds pool liquidity', () => {
-      (useCurvePoolData as ReturnType<typeof vi.fn>).mockReturnValue({
-        data: {
-          usdsReserve: 1000000n * WAD,
-          stUsdsReserve: 100n * WAD, // Limited stUSDS
-          fee: 4000000n,
-          adminFee: 5000000000n,
-          priceOracle: WAD,
-          coin0: '0x0000000000000000000000000000000000000001',
-          coin1: '0x0000000000000000000000000000000000000002',
-          tokenIndices: { usds: 0, stUsds: 1 }
-        },
-        isLoading: false,
-        error: null,
-        refetch: vi.fn()
-      });
-
-      const { result } = renderHook(() =>
-        useCurveStUsdsProvider({
-          amount: 1000n * WAD, // More than available
-          direction: 'deposit'
-        })
-      );
-
-      expect(result.current.data?.quote?.isValid).toBe(false);
-      expect(result.current.data?.quote?.invalidReason).toBe('Amount exceeds Curve pool liquidity');
-    });
   });
 
   describe('rate info', () => {

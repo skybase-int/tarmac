@@ -159,8 +159,7 @@ export const mockProviderStates = {
       maxWithdraw: 0n
     }),
     curveProvider: createCurveProvider({
-      canWithdraw: false,
-      maxWithdraw: 0n
+      canWithdraw: false
     }),
     allProvidersBlocked: true,
     rateDifferencePercent: 0,

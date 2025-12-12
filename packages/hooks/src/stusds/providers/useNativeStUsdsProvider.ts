@@ -127,7 +127,7 @@ export function useNativeStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvid
       if (!state.canDeposit) {
         isValid = false;
         invalidReason = 'Deposits are currently unavailable';
-      } else if (amount > state.maxDeposit) {
+      } else if (state.maxDeposit !== undefined && amount > state.maxDeposit) {
         isValid = false;
         invalidReason = 'Amount exceeds remaining capacity';
       }
@@ -135,7 +135,7 @@ export function useNativeStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvid
       if (!state.canWithdraw) {
         isValid = false;
         invalidReason = 'Withdrawals are currently unavailable';
-      } else if (amount > state.maxWithdraw) {
+      } else if (state.maxWithdraw !== undefined && amount > state.maxWithdraw) {
         isValid = false;
         invalidReason = 'Amount exceeds available liquidity';
       }
