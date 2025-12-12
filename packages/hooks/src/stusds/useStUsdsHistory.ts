@@ -114,7 +114,12 @@ async function fetchStusdsHistory(urlSubgraph: string, chainId: number, address?
     console.debug('Curve history not available in subgraph:', err);
   }
 
-  const combined = [...nativeHistory, ...curveHistory];
+  // Deduplicate: if a transaction appears in both native and Curve history,
+  // keep only the Curve one (since Curve swaps trigger native deposit/withdraw events)
+  const curveTransactionHashes = new Set(curveHistory.map(c => c.transactionHash));
+  const filteredNativeHistory = nativeHistory.filter(n => !curveTransactionHashes.has(n.transactionHash));
+
+  const combined = [...filteredNativeHistory, ...curveHistory];
   return combined.sort((a, b) => b.blockTimestamp.getTime() - a.blockTimestamp.getTime());
 }
 

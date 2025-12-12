@@ -61,8 +61,10 @@ export const BalancesHistoryItem: React.FC<BalancesHistoryItemProps> = ({
   const explorerName = getExplorerName(chainId || 1, false);
   const positive = getPositive({ type });
   const provider = 'provider' in item ? (item.provider as StUsdsProviderType | undefined) : undefined;
-  const iconSrc = getHistoryIconSource({ type, module, provider });
+  const isCurveProvider = provider === StUsdsProviderType.CURVE;
+  const iconSrc = getHistoryIconSource({ type, module });
   const chainImageSrc = useChainImage(chainId || 1);
+  const curveBadgeSrc = 'history-icons/curve-badge.svg';
 
   return (
     <ExternalLink
@@ -81,27 +83,18 @@ export const BalancesHistoryItem: React.FC<BalancesHistoryItemProps> = ({
         <div className="flex items-center">
           <div className="mr-3">
             <Avatar className="relative">
-              {provider === StUsdsProviderType.CURVE ? (
-                <AvatarImage
-                  src={iconSrc}
-                  alt={getTitle({ type, module, provider })}
-                  className="mt-0.5 h-8 w-8"
-                />
-              ) : (
-                <>
-                  <div className="bg-textSecondary/25 mt-0.5 flex h-8 w-8 items-center justify-center rounded-full">
-                    <AvatarImage
-                      src={iconSrc}
-                      alt={getTitle({ type, module, provider })}
-                      className="h-4 w-4"
-                    />
-                  </div>
-                  {chainImageSrc && (
-                    <Avatar className="absolute right-0 bottom-0.5 h-[40%] w-[40%]">
-                      <AvatarImage src={chainImageSrc} alt="chain-icon" className="h-full w-full" />
-                    </Avatar>
-                  )}
-                </>
+              <div className="bg-textSecondary/25 mt-0.5 flex h-8 w-8 items-center justify-center rounded-full">
+                <AvatarImage src={iconSrc} alt={getTitle({ type, module, provider })} className="h-4 w-4" />
+              </div>
+              {chainImageSrc && (
+                <Avatar className="absolute right-0 bottom-0.5 h-[40%] w-[40%]">
+                  <AvatarImage src={chainImageSrc} alt="chain-icon" className="h-full w-full" />
+                </Avatar>
+              )}
+              {isCurveProvider && (
+                <Avatar className="absolute top-0 right-0 h-[40%] w-[40%]">
+                  <AvatarImage src={curveBadgeSrc} alt="curve-badge" className="h-full w-full" />
+                </Avatar>
               )}
             </Avatar>
           </div>
