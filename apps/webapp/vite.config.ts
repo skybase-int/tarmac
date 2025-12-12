@@ -59,7 +59,6 @@ export default ({ mode }: { mode: modeEnum }) => {
       https://safe-transaction-unichain.safe.global
       https://api.safe.global
       https://chain-proxy.wallet.coinbase.com
-      https://rpc.porto.sh
       https://vote.makerdao.com
       https://vote.sky.money
       https://query-subgraph-testnet.sky.money
@@ -85,7 +84,6 @@ export default ({ mode }: { mode: modeEnum }) => {
     frame-src 'self'
       https://verify.walletconnect.com
       https://verify.walletconnect.org
-      https://id.porto.sh/
 `;
 
   // Need to remove whitespaces otherwise the app won't build due to unsupported characters
