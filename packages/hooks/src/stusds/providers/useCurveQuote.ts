@@ -5,13 +5,14 @@ import { isTestnetId } from '@jetstreamgg/sky-utils';
 import { TENDERLY_CHAIN_ID } from '../../constants';
 import { useCurvePoolData } from './useCurvePoolData';
 import { RATE_PRECISION } from './constants';
+import { StUsdsDirection } from './types';
 
 /**
  * Parameters for the Curve quote hook.
  */
 export type CurveQuoteParams = {
   /** Direction of the swap - determines how amount is interpreted */
-  direction: 'deposit' | 'withdraw';
+  direction: StUsdsDirection;
   /**
    * Amount in USDS terms:
    * - For deposits: USDS input amount
@@ -82,7 +83,7 @@ export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
     args: [BigInt(usdsIndex), BigInt(stUsdsIndex), amount],
     chainId,
     query: {
-      enabled: enabled && direction === 'deposit' && amount > 0n && !!poolData
+      enabled: enabled && direction === StUsdsDirection.SUPPLY && amount > 0n && !!poolData
     }
   });
 
@@ -96,14 +97,14 @@ export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
     args: [BigInt(stUsdsIndex), BigInt(usdsIndex), amount],
     chainId,
     query: {
-      enabled: enabled && direction === 'withdraw' && amount > 0n && !!poolData
+      enabled: enabled && direction === StUsdsDirection.WITHDRAW && amount > 0n && !!poolData
     }
   });
 
   const data: CurveQuoteData | undefined = useMemo(() => {
     if (amount === 0n) return undefined;
 
-    if (direction === 'deposit') {
+    if (direction === StUsdsDirection.SUPPLY) {
       if (!depositOutput) return undefined;
 
       // For deposits: USDS in, stUSDS out
@@ -131,7 +132,7 @@ export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
         effectiveRate
       };
     } else {
-      // direction === 'withdraw'
+      // direction === StUsdsDirection.WITHDRAW
       if (!withdrawInput) return undefined;
 
       // For withdrawals: stUSDS in, USDS out
@@ -161,11 +162,12 @@ export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
     }
   }, [direction, amount, depositOutput, withdrawInput, poolData?.priceOracle]);
 
-  const isLoading = isPoolLoading || (direction === 'deposit' ? isDepositLoading : isWithdrawLoading);
-  const error = direction === 'deposit' ? depositError : withdrawError;
+  const isLoading =
+    isPoolLoading || (direction === StUsdsDirection.SUPPLY ? isDepositLoading : isWithdrawLoading);
+  const error = direction === StUsdsDirection.SUPPLY ? depositError : withdrawError;
 
   const refetch = () => {
-    if (direction === 'deposit') {
+    if (direction === StUsdsDirection.SUPPLY) {
       refetchDeposit();
     } else {
       refetchWithdraw();

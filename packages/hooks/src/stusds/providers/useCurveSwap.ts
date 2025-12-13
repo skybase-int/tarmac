@@ -8,10 +8,11 @@ import { TENDERLY_CHAIN_ID } from '../../constants';
 import { useCurvePoolData } from './useCurvePoolData';
 import { calculateMinOutputWithSlippage } from './rateComparison';
 import { STUSDS_PROVIDER_CONFIG } from './constants';
+import { StUsdsDirection } from './types';
 
 export type CurveSwapParams = WriteHookParams & {
   /** Direction of the swap */
-  direction: 'deposit' | 'withdraw';
+  direction: StUsdsDirection;
   /** Amount of input token */
   inputAmount: bigint;
   /** Expected output amount (from quote) */
@@ -50,10 +51,14 @@ export function useCurveSwap({
 
   // Determine input/output indices based on direction
   const inputIndex =
-    direction === 'deposit' ? (poolData?.tokenIndices.usds ?? 0) : (poolData?.tokenIndices.stUsds ?? 1);
+    direction === StUsdsDirection.SUPPLY
+      ? (poolData?.tokenIndices.usds ?? 0)
+      : (poolData?.tokenIndices.stUsds ?? 1);
 
   const outputIndex =
-    direction === 'deposit' ? (poolData?.tokenIndices.stUsds ?? 1) : (poolData?.tokenIndices.usds ?? 0);
+    direction === StUsdsDirection.SUPPLY
+      ? (poolData?.tokenIndices.stUsds ?? 1)
+      : (poolData?.tokenIndices.usds ?? 0);
 
   // Calculate minimum output with slippage protection
   const minOutput = calculateMinOutputWithSlippage(expectedOutput, slippageBps);
