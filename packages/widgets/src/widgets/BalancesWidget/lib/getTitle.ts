@@ -1,16 +1,8 @@
-import { TransactionTypeEnum, ModuleEnum, StUsdsProviderType } from '@jetstreamgg/sky-hooks';
+import { TransactionTypeEnum, ModuleEnum } from '@jetstreamgg/sky-hooks';
 import { capitalizeFirstLetter } from '@jetstreamgg/sky-utils';
 import { t } from '@lingui/core/macro';
 
-export const getTitle = ({
-  type,
-  module,
-  provider
-}: {
-  type: TransactionTypeEnum;
-  module: ModuleEnum;
-  provider?: StUsdsProviderType;
-}) => {
+export const getTitle = ({ type, module }: { type: TransactionTypeEnum; module: ModuleEnum }) => {
   switch (type) {
     case TransactionTypeEnum.DAI_TO_USDS:
     case TransactionTypeEnum.MKR_TO_SKY:
@@ -26,7 +18,7 @@ export const getTitle = ({
       } else if (module === ModuleEnum.SAVINGS) {
         return t`Savings Supply`;
       } else if (module === ModuleEnum.STUSDS) {
-        return provider === StUsdsProviderType.CURVE ? t`Supply via Curve` : t`stUSDS Supply`;
+        return t`stUSDS Supply`;
       }
       return t`Supply`;
     case TransactionTypeEnum.WITHDRAW:
@@ -35,7 +27,7 @@ export const getTitle = ({
       } else if (module === ModuleEnum.SAVINGS) {
         return t`Savings Withdraw`;
       } else if (module === ModuleEnum.STUSDS) {
-        return provider === StUsdsProviderType.CURVE ? t`Withdraw via Curve` : t`stUSDS Withdraw`;
+        return t`stUSDS Withdraw`;
       }
       return t`Withdraw`;
     case TransactionTypeEnum.REWARD:

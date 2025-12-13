@@ -84,7 +84,7 @@ export const BalancesHistoryItem: React.FC<BalancesHistoryItemProps> = ({
           <div className="mr-3">
             <Avatar className="relative">
               <div className="bg-textSecondary/25 mt-0.5 flex h-8 w-8 items-center justify-center rounded-full">
-                <AvatarImage src={iconSrc} alt={getTitle({ type, module, provider })} className="h-4 w-4" />
+                <AvatarImage src={iconSrc} alt={getTitle({ type, module })} className="h-4 w-4" />
               </div>
               {chainImageSrc && (
                 <Avatar className="absolute right-0 bottom-0.5 h-[40%] w-[40%]">
@@ -100,7 +100,7 @@ export const BalancesHistoryItem: React.FC<BalancesHistoryItemProps> = ({
           </div>
           <div className="flex w-full items-center justify-between">
             <div>
-              <Text>{getTitle({ type, module, provider })}</Text>
+              <Text>{getTitle({ type, module })}</Text>
               {isHovered ? (
                 <div className="text-textEmphasis flex items-center">
                   <Text variant="small" className="mr-[7px]">
