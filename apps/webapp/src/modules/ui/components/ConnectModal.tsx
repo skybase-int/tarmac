@@ -1,14 +1,24 @@
 import { useState, useEffect } from 'react';
-import { useConnect, useConnectors, Connector } from 'wagmi';
+import {
+  useConnect,
+  useConnectors,
+  Connector,
+  useConnection,
+  useSwitchConnection,
+  useConnections
+} from 'wagmi';
 import { Dialog, DialogClose, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/modules/layout/components/Typography';
 import { Close } from '@/modules/icons';
 import { t } from '@lingui/core/macro';
-import { cn } from '@/lib/utils';
 import { useIsSafeWallet } from '@jetstreamgg/sky-utils';
 import { WalletIcon } from './WalletIcon';
 import { WALLET_ICONS } from '@/lib/constants';
+import { ConnectWallet } from '@jetstreamgg/sky-widgets';
+import { Trans } from '@lingui/react/macro';
+import { ExternalLink } from '@/modules/layout/components/ExternalLink';
+import { ConnectWalletAlt } from '@/modules/icons/ConnectWalletAlt';
 
 interface ConnectModalProps {
   open: boolean;
@@ -17,8 +27,22 @@ interface ConnectModalProps {
 
 export function ConnectModal({ open, onOpenChange }: ConnectModalProps) {
   const connectors = useConnectors();
+  const { connector: connectedConnector } = useConnection();
+  const connections = useConnections();
+
   const isSafeWallet = useIsSafeWallet();
-  const { connect, isPending, variables, error } = useConnect({
+
+  const connect = useConnect({
+    mutation: {
+      onSuccess: () => {
+        onOpenChange(false);
+      },
+      onError: error => {
+        console.error('Connection error:', error);
+      }
+    }
+  });
+  const switchConnection = useSwitchConnection({
     mutation: {
       onSuccess: () => {
         onOpenChange(false);
@@ -67,8 +91,8 @@ export function ConnectModal({ open, onOpenChange }: ConnectModalProps) {
   }, [connectors, open]);
 
   // Categorize wallets
-  const alwaysAvailable = ['walletConnect', 'coinbaseWallet', 'baseAccount', 'safe'];
-  const suggestedIds = ['metaMask', 'baseAccount', 'coinbaseWallet', 'walletConnect', 'safe'];
+  const alwaysAvailable = ['walletConnect', 'coinbaseWalletSDK', 'baseAccount', 'safe'];
+  const suggestedIds = ['metaMask', 'baseAccount', 'coinbaseWalletSDK', 'walletConnect', 'safe'];
 
   // Separate installed wallets from suggested
   const installedWallets = connectors.filter(c => {
@@ -100,20 +124,15 @@ export function ConnectModal({ open, onOpenChange }: ConnectModalProps) {
   });
 
   const renderConnectorButton = (connector: Connector) => {
-    const isConnecting = isPending && variables?.connector === connector;
+    const isConnecting =
+      (connect.isPending && connect.variables?.connector === connector) ||
+      (switchConnection.isPending && switchConnection.variables?.connector === connector);
     const isReady = ready[connector.uid] ?? false;
+    const isConnectorConnected = !!connections.find(c => c.connector.uid === connector.uid);
+    const isCurrentConnectedConnector = connectedConnector?.uid === connector.uid;
 
     return (
-      <Button
-        key={connector.uid}
-        onClick={() => connect({ connector })}
-        disabled={!isReady || isPending}
-        variant="ghost"
-        className={cn(
-          'hover:bg-containerLight flex w-full items-center justify-between p-3',
-          isConnecting && 'bg-containerLight opacity-70'
-        )}
-      >
+      <div key={connector.uid} className="flex items-center justify-between gap-3 px-3">
         <div className="flex items-center gap-3">
           <WalletIcon connector={connector} iconUrl={icons[connector.uid]} />
           <div className="flex flex-col items-start">
@@ -124,21 +143,34 @@ export function ConnectModal({ open, onOpenChange }: ConnectModalProps) {
             )}
           </div>
         </div>
-      </Button>
+        <Button
+          key={connector.uid}
+          onClick={() =>
+            isConnectorConnected
+              ? switchConnection.switchConnection({ connector })
+              : connect.connect({ connector })
+          }
+          disabled={
+            !isReady || connect.isPending || switchConnection.isPending || isCurrentConnectedConnector
+          }
+          variant="pill"
+          size="xs"
+        >
+          {isCurrentConnectedConnector ? t`Connected` : t`Connect`}
+        </Button>
+      </div>
     );
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="bg-containerDark p-0 sm:max-w-[440px] sm:min-w-[440px]"
+        className="bg-containerDark max-h-[calc(100dvh-32px)] gap-6 overflow-auto p-4 sm:max-w-[490px] sm:min-w-[490px]"
         onOpenAutoFocus={e => e.preventDefault()}
         onCloseAutoFocus={e => e.preventDefault()}
       >
-        <div className="border-borderPrimary flex items-center justify-between border-b px-6 py-5">
-          <DialogTitle>
-            <Text className="text-text text-xl font-semibold">{t`Connect Wallet`}</Text>
-          </DialogTitle>
+        <div className="flex items-center justify-between md:pt-2">
+          <DialogTitle className="text-text text-2xl">{t`Connect your wallet`}</DialogTitle>
           <DialogClose asChild>
             <Button
               variant="ghost"
@@ -150,34 +182,62 @@ export function ConnectModal({ open, onOpenChange }: ConnectModalProps) {
           </DialogClose>
         </div>
 
-        <div className="flex flex-col gap-2 p-6">
+        <div className="flex items-center gap-3">
+          <div className="px-2.5 py-1.5">
+            <ConnectWallet width={45} height={55} />
+          </div>
+          <div className="space-y-1">
+            <Text className="text-text">
+              <Trans>Connect to explore Sky Protocol features</Trans>
+            </Text>
+            <ExternalLink
+              href="https://sky.money/features"
+              iconSize={12}
+              iconColor="#d298ff"
+              contentClassName="items-center gap-1 text-textEmphasis"
+            >
+              <Trans>Sky Protocol features</Trans>
+            </ExternalLink>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-6">
           {installedWallets.length > 0 && (
             <>
-              <Text className="text-textSecondary mb-2 text-sm font-medium uppercase">{t`Installed Wallets`}</Text>
-              <div className="flex flex-col gap-2">{installedWallets.map(renderConnectorButton)}</div>
+              <Text className="text-textSecondary text-md font-medium uppercase">{t`Installed Wallets`}</Text>
+              <div className="flex flex-col gap-6">{installedWallets.map(renderConnectorButton)}</div>
+              <Text className="text-textSecondary text-center text-[13px] leading-4">
+                {t`By connecting, you agree to our Terms of Service`}
+              </Text>
             </>
           )}
 
           {suggestedWallets.length > 0 && (
             <>
-              <Text className="text-textSecondary mt-4 mb-2 text-sm font-medium uppercase">
-                {t`Suggested Wallets`}
-              </Text>
-              <div className="flex flex-col gap-2">{suggestedWallets.map(renderConnectorButton)}</div>
+              <Text className="text-textSecondary text-md font-medium uppercase">{t`Suggested Wallets`}</Text>
+              <div className="flex flex-col gap-6">{suggestedWallets.map(renderConnectorButton)}</div>
             </>
           )}
         </div>
 
-        {error && (
-          <div className="px-6 pb-2">
-            <Text className="text-sm text-red-500">{t`Failed to connect. Please try again.`}</Text>
-          </div>
+        {(connect.error || switchConnection.error) && (
+          <Text className="text-sm text-red-500">{t`Failed to connect. Please try again.`}</Text>
         )}
 
-        <div className="border-borderPrimary border-t px-6 py-4">
-          <Text className="text-textSecondary text-center text-xs">
-            {t`By connecting, you agree to our Terms of Service`}
-          </Text>
+        <div className="border-borderPrimary border-t" />
+
+        <div className="flex items-center justify-between px-3">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center">
+              <ConnectWalletAlt />
+            </div>
+            <Text className="text-text">{t`Still not using a crypto wallet?`}</Text>
+          </div>
+          <Button variant="pill" size="xs">
+            <ExternalLink href="https://sky.money/faq" showIcon={false}>
+              Learn more
+            </ExternalLink>
+          </Button>
         </div>
       </DialogContent>
     </Dialog>

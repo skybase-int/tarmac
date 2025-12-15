@@ -4,9 +4,10 @@ import { cn } from '@/lib/utils';
 interface WalletIconProps {
   connector: Connector;
   iconUrl?: string;
+  className?: string;
 }
 
-export const WalletIcon = ({ connector, iconUrl }: WalletIconProps) => {
+export const WalletIcon = ({ connector, iconUrl, className }: WalletIconProps) => {
   const name = connector.name;
 
   // If we have an icon URL, use it
@@ -15,7 +16,7 @@ export const WalletIcon = ({ connector, iconUrl }: WalletIconProps) => {
       <img
         src={iconUrl}
         alt={name}
-        className="h-10 w-10 rounded-lg object-cover"
+        className={cn('h-10 w-10 rounded-lg object-cover', className)}
         onError={e => {
           // Hide broken image and show fallback
           (e.target as HTMLImageElement).style.display = 'none';

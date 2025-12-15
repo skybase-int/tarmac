@@ -1,15 +1,8 @@
 import { Balances, Upgrade, Trade, RewardsModule, Savings, Stake, Expert } from '../../icons';
-import { ExpertIntent, Intent } from '@/lib/enums';
+import { Intent } from '@/lib/enums';
 import { useLingui } from '@lingui/react';
 import { useCustomConnectModal } from '@/modules/ui/hooks/useCustomConnectModal';
-import {
-  ExpertIntentMapping,
-  BATCH_TX_LEGAL_NOTICE_URL,
-  COMING_SOON_MAP,
-  mapIntentToQueryParam,
-  QueryParams,
-  RESTRICTED_INTENTS
-} from '@/lib/constants';
+import { BATCH_TX_LEGAL_NOTICE_URL, COMING_SOON_MAP, QueryParams, RESTRICTED_INTENTS } from '@/lib/constants';
 import { WidgetNavigation } from '@/modules/app/components/WidgetNavigation';
 import { withErrorBoundary } from '@/modules/utils/withErrorBoundary';
 import { DualSwitcher } from '@/components/DualSwitcher';
@@ -22,19 +15,18 @@ import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 import React, { useEffect } from 'react';
 import { useNotification } from '../hooks/useNotification';
 import { useActionForToken } from '../hooks/useActionForToken';
-import { getRetainedQueryParams } from '@/modules/ui/hooks/useRetainedQueryParams';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { defaultConfig } from '@/modules/config/default-config';
 import { useChainId } from 'wagmi';
 import { BalancesWidgetPane } from '@/modules/balances/components/BalancesWidgetPane';
 import { StakeWidgetPane } from '@/modules/stake/components/StakeWidgetPane';
-import { getSupportedChainIds, getMainnetChainName } from '@/data/wagmi/config/config.default';
+import { getSupportedChainIds } from '@/data/wagmi/config/config.default';
 import { useSearchParams } from 'react-router-dom';
-import { useChains } from 'wagmi';
 import { useBalanceFilters } from '@/modules/ui/context/BalanceFiltersContext';
 import { WidgetContent, WidgetItem } from '../types/Widgets';
 import { isL2ChainId } from '@jetstreamgg/sky-utils';
 import { ExpertWidgetPane } from '@/modules/expert/components/ExpertWidgetPane';
+import { useModuleUrls } from '../hooks/useModuleUrls';
 
 type WidgetPaneProps = {
   intent: Intent;
@@ -60,8 +52,6 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
 
   const rightHeaderComponent = <DualSwitcher className="hidden lg:flex" />;
 
-  const { Locale, Details } = QueryParams;
-  const retainedParams = [Locale, Details];
   const [searchParams, setSearchParams] = useSearchParams();
 
   const sharedProps = {
@@ -77,36 +67,9 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
     legalBatchTxUrl: BATCH_TX_LEGAL_NOTICE_URL
   };
 
-  const getQueryParams = (url: string) => getRetainedQueryParams(url, retainedParams, searchParams);
-
   const actionForToken = useActionForToken();
 
-  const mainnetName = getMainnetChainName(chainId);
-
-  const rewardsUrl = getQueryParams(
-    `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.REWARDS_INTENT)}`
-  );
-
-  const supportedChainIds = getSupportedChainIds(chainId);
-
-  const chains = useChains();
-
-  const savingsUrlMap: Record<number, string> = {};
-  for (const chainId of supportedChainIds) {
-    savingsUrlMap[chainId] = getQueryParams(
-      `/?network=${chains.find(c => c.id === chainId)?.name}&widget=${mapIntentToQueryParam(Intent.SAVINGS_INTENT)}`
-    );
-  }
-
-  const sealUrl = `/seal-engine${getQueryParams(`/?network=${mainnetName}`)}`;
-  const stakeUrl = getQueryParams(
-    `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.STAKE_INTENT)}`
-  );
-  // Attempt to redirect to the stUSDS module, but if user hasn't acknowledged the risk checkbox,
-  // they will be redirected to the overview of the expert widget
-  const stusdsUrl = getQueryParams(
-    `/?network=${mainnetName}&widget=${mapIntentToQueryParam(Intent.EXPERT_INTENT)}&expert_module=${ExpertIntentMapping[ExpertIntent.STUSDS_INTENT]}`
-  );
+  const { rewardsUrl, savingsUrlMap, sealUrl, stakeUrl, stusdsUrl } = useModuleUrls();
 
   const widgetItems: WidgetItem[] = [
     [

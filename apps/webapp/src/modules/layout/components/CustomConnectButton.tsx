@@ -11,13 +11,14 @@ import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { ConnectedModal } from './ConnectedModal';
 import { Text } from './Typography';
+import { mainnet } from 'viem/chains';
 
 export function CustomConnectButton() {
   const { openConnectModal } = useConnectModal();
-  const { isConnected, address, connector } = useConnection();
+  const { isConnected, address } = useConnection();
   const { disconnect } = useDisconnect();
-  const { data: ensName } = useEnsName({ address });
-  const { data: ensAvatar } = useEnsAvatar({ name: ensName! });
+  const { data: ensName } = useEnsName({ address, chainId: mainnet.id });
+  const { data: ensAvatar } = useEnsAvatar({ name: ensName!, chainId: mainnet.id });
   const isSafeWallet = useIsSafeWallet();
   const [showAccountMenu, setShowAccountMenu] = useState(false);
 
@@ -43,30 +44,19 @@ export function CustomConnectButton() {
     <Button variant="connect" onClick={openConnectModal}>
       {t`Connect Wallet`}
     </Button>
-  ) : isSafeWallet && !!address && isConnected ? (
-    <Button variant="connect" disabled className="disabled:text-text text-base">
-      <div className="flex items-center gap-2">
-        <CustomAvatar address={address || ''} size={24} />
-        {`safe:${formatAddress(address)}`}
-      </div>
-    </Button>
-  ) : isConnected && address ? (
+  ) : isConnected && !!address ? (
     <>
       <Button variant="connect" onClick={() => setShowAccountMenu(true)} className="flex items-center gap-2">
         <CustomAvatar address={address} size={24} />
-        <Text className="hidden sm:inline">
-          {ensName ? `${ensName} (${formatAddress(address)})` : formatAddress(address)}
-        </Text>
+        <Text className="hidden sm:inline">{`${isSafeWallet ? 'safe:' : ''}${ensName || formatAddress(address)}`}</Text>
         <ChevronDown className="h-4 w-4" />
       </Button>
 
       <ConnectedModal
         isOpen={showAccountMenu}
         onOpenChange={setShowAccountMenu}
-        address={address}
         ensName={ensName}
         ensAvatar={ensAvatar}
-        connectorName={connector?.name}
         onDisconnect={() => {
           disconnect();
           setShowAccountMenu(false);

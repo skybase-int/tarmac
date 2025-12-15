@@ -5,23 +5,27 @@ import { t } from '@lingui/core/macro';
 import { InteractiveStatsCardWithAccordion } from '@widgets/shared/components/ui/card/InteractiveStatsCardWithAccordion';
 import { Skeleton } from '@widgets/components/ui/skeleton';
 import { formatUnits } from 'viem';
-import { CardProps } from './ModulesBalances';
+import { CardProps, ModuleCardVariant } from './ModulesBalances';
 import { RateLineWithArrow } from '@widgets/shared/components/ui/RateLineWithArrow';
+import { InteractiveStatsCardAlt } from '@widgets/shared/components/ui/card/InteractiveStatsCardAlt';
+import { useChainId } from 'wagmi';
 
 export const SavingsBalanceCard = ({
   urlMap,
   onExternalLinkClicked,
   savingsBalances,
-  loading
+  loading,
+  variant = ModuleCardVariant.default
 }: CardProps & { urlMap: Record<number, string> }) => {
   const { data: overallSkyData, isLoading: overallSkyDataLoading } = useOverallSkyData();
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
+  const chainId = useChainId();
 
   const totalSavingsBalance = savingsBalances?.reduce((acc, { balance }) => acc + balance, 0n);
 
   const skySavingsRate = parseFloat(overallSkyData?.skySavingsRatecRate ?? '0');
 
-  return (
+  return variant === ModuleCardVariant.default ? (
     <InteractiveStatsCardWithAccordion
       title={t`USDS supplied to Savings`}
       tokenSymbol="sUSDS"
@@ -63,6 +67,21 @@ export const SavingsBalanceCard = ({
       balancesByChain={savingsBalances ?? []}
       urlMap={urlMap}
       pricesData={pricesData ?? {}}
+    />
+  ) : (
+    <InteractiveStatsCardAlt
+      title={t`USDS supplied to Savings`}
+      tokenSymbol="sUSDS"
+      url={urlMap[chainId]}
+      logoName="savings"
+      noChain={true}
+      content={
+        loading ? (
+          <Skeleton className="w-32" />
+        ) : (
+          <Text>{`${totalSavingsBalance !== undefined ? formatBigInt(totalSavingsBalance) : '0'}`} USDS</Text>
+        )
+      }
     />
   );
 };
