@@ -10,6 +10,7 @@ import { TRUST_LEVELS, TrustLevelEnum } from '../constants';
 import { isTestnetId } from '@jetstreamgg/sky-utils';
 import { chainId as chainIdMap } from '@jetstreamgg/sky-utils';
 import { CURVE_POOL_TOKEN_INDICES } from './providers/constants';
+import { StUsdsProviderType } from './providers/types';
 
 // Fetch native stUSDS history (deposits and withdrawals)
 async function fetchNativeStusdsHistory(urlSubgraph: string, chainId: number, address: string) {
@@ -38,7 +39,7 @@ async function fetchNativeStusdsHistory(urlSubgraph: string, chainId: number, ad
     type: TransactionTypeEnum.SUPPLY,
     token: TOKENS.usds,
     chainId,
-    provider: 'native' as const
+    provider: StUsdsProviderType.NATIVE
   }));
 
   const withdraws = (response.stusdsWithdraws || []).map((w: any) => ({
@@ -49,7 +50,7 @@ async function fetchNativeStusdsHistory(urlSubgraph: string, chainId: number, ad
     type: TransactionTypeEnum.WITHDRAW,
     token: TOKENS.usds,
     chainId,
-    provider: 'native' as const
+    provider: StUsdsProviderType.NATIVE
   }));
 
   return [...supplies, ...withdraws];
@@ -88,7 +89,7 @@ async function fetchCurveStusdsHistory(urlSubgraph: string, chainId: number, add
       type: isSupply ? TransactionTypeEnum.SUPPLY : TransactionTypeEnum.WITHDRAW,
       token: TOKENS.usds,
       chainId,
-      provider: 'curve' as const
+      provider: StUsdsProviderType.CURVE
     };
   });
 }
