@@ -28,7 +28,7 @@ export function ClaimRewardsButton({
   if (!rewardsBalance || !rewardContractTokens) return null;
 
   return (
-    <div className="bg-linear-to-r flex h-14 items-center justify-between rounded-2xl from-[#403570] to-[#4B337B] px-5 py-4">
+    <div className="flex h-14 items-center justify-between rounded-2xl bg-linear-to-r from-[#403570] to-[#4B337B] px-5 py-4">
       <div className="flex items-center gap-2">
         <TokenIcon token={{ symbol: rewardContractTokens.rewardsToken.symbol }} className="h-7 w-7" />
         <Text variant="medium">
