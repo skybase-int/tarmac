@@ -52,8 +52,10 @@ const connectors = [
     },
     qrModalOptions: {
       themeVariables: {
-        '--wcm-font-family': 'GraphikStd'
-      }
+        '--wcm-font-family': 'GraphikStd',
+        '--wcm-z-index': '100',
+        '--w3m-z-index': 100
+      } as Record<string, string | number>
     }
   }),
   binanceConnector(),
