@@ -35,15 +35,15 @@ export function StUSDSHistory() {
     let iconLeft: React.ReactNode;
     if (isSupply) {
       iconLeft = isCurve ? (
-        <CurveSavingsSupply width={31} height={26} className="mr-1" />
+        <CurveSavingsSupply width={31} height={26} className="mr-1 -ml-[7px] flex-shrink-0" />
       ) : (
-        <SavingsSupply width={14} height={13} className="mr-1" />
+        <SavingsSupply width={14} height={13} className="mr-[17px] flex-shrink-0" />
       );
     } else {
       iconLeft = isCurve ? (
-        <CurveSavingsWithdraw width={31} height={26} className="mr-1 fill-white" />
+        <CurveSavingsWithdraw width={31} height={26} className="mr-1 -ml-[7px] flex-shrink-0 fill-white" />
       ) : (
-        <ArrowDown width={10} height={14} className="mr-1 fill-white" />
+        <ArrowDown width={10} height={14} className="mr-[19px] flex-shrink-0 fill-white" />
       );
     }
 
