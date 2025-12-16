@@ -91,13 +91,29 @@ export function ConnectModal({ open, onOpenChange }: ConnectModalProps) {
   }, [connectors, open]);
 
   // Categorize wallets
-  const alwaysAvailable = ['walletConnect', 'coinbaseWalletSDK', 'baseAccount', 'safe'];
-  const suggestedIds = ['metaMask', 'baseAccount', 'coinbaseWalletSDK', 'walletConnect', 'safe'];
+  const alwaysAvailable = ['walletConnect', 'coinbaseWalletSDK', 'baseAccount', 'safe', 'wallet.binance.com'];
+  const suggestedIds = [
+    'metaMask',
+    'baseAccount',
+    'coinbaseWalletSDK',
+    'walletConnect',
+    'wallet.binance.com',
+    'safe'
+  ];
+
+  // Binance wallet has two IDs:
+  // - 'wallet.binance.com': our imported connector
+  // - 'com.binance.wallet': EIP-6963 ID from the browser extension (auto-discovered)
+  const isBinanceInjectedDetected = connectors.some(
+    c => c.id === 'com.binance.wallet' && ready[c.uid] === true
+  );
 
   // Separate installed wallets from suggested
   const installedWallets = connectors.filter(c => {
     // Don't show Safe wallet if not in Safe context
     if (c.id === 'safe' && !isSafeWallet) return false;
+    // Don't show our Binance connector in installed wallets (it's for suggested only)
+    if (c.id === 'wallet.binance.com') return false;
 
     // Only show injected wallets that are detected
     const isInjectedType =
@@ -116,6 +132,9 @@ export function ConnectModal({ open, onOpenChange }: ConnectModalProps) {
     // Check if this wallet is already in installedWallets
     const isAlreadyInstalled = installedWallets.some(installed => installed.uid === c.uid);
     if (isAlreadyInstalled) return false;
+
+    // Don't show Binance connector if injected Binance is already installed
+    if (c.id === 'wallet.binance.com' && isBinanceInjectedDetected) return false;
 
     // Include if it's both suggested AND always available (QR/universal wallets)
     if (suggestedIds.includes(c.id) && alwaysAvailable.includes(c.id)) return true;

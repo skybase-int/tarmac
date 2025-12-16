@@ -1,6 +1,7 @@
 import { createConfig, createStorage, http, noopStorage } from 'wagmi';
 import { mainnet, base, arbitrum, optimism, unichain } from 'wagmi/chains';
 import { metaMask, safe, walletConnect, coinbaseWallet, baseAccount } from 'wagmi/connectors';
+import { getWagmiConnectorV2 } from '@binance/w3w-wagmi-connector-v2';
 import { TENDERLY_CHAIN_ID, TENDERLY_RPC_URL } from './testTenderlyChain';
 import { isTestnetId } from '@jetstreamgg/sky-utils';
 
@@ -27,6 +28,9 @@ export const tenderly = {
 
 const projectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID || 'd5c6af7c0680adbaad12f33744ee4413';
 
+// Binance Web3 Wallet connector
+const binanceConnector = getWagmiConnectorV2();
+
 const connectors = [
   // Core wallets
   metaMask(),
@@ -47,6 +51,7 @@ const connectors = [
       icons: ['https://app.sky.money/images/sky.svg']
     }
   }),
+  binanceConnector(),
   safe()
 ];
 

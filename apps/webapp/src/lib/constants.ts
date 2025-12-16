@@ -219,6 +219,9 @@ export const WALLET_ICONS = {
   baseAccount: '/wallets/baseAccount.svg',
   coinbaseWalletSDK: '/wallets/coinbaseWallet.svg',
   walletConnect: '/wallets/walletConnect.svg',
-  safe: '/wallets/safe.svg'
+  safe: '/wallets/safe.svg',
+  // Binance uses different IDs: 'wallet.binance.com' (our connector) vs 'com.binance.wallet' (EIP-6963 injected)
+  'wallet.binance.com': '/wallets/binance.svg',
+  'com.binance.wallet': '/wallets/binance.svg'
 };
 export const CHAT_NOTIFICATION_TOAST_ID = 'chat-notification-toast';
