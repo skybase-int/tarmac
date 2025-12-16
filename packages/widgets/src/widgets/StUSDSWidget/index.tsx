@@ -240,8 +240,6 @@ const StUSDSWidgetWrapped = ({
   // When native is selected: use userSuppliedUsds (vault rate)
   const withdrawBalanceLimit = isCurveSelected ? curveUserMaxWithdraw : stUsdsData?.userSuppliedUsds;
 
-  console.log('isCurveSelected withdrawBalanceLimit', isCurveSelected, withdrawBalanceLimit);
-
   const isWithdrawBalanceError =
     txStatus === TxStatus.IDLE &&
     address &&
