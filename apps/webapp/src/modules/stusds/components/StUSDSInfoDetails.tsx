@@ -8,14 +8,9 @@ import { StUSDSRemainingCapacityCard } from './StUSDSRemainingCapacityCard';
 import { StUSDSSuppliersCard } from './StUSDSSuppliersCard';
 import { StUSDSNativeExchangeRateCard } from './StUSDSNativeExchangeRateCard';
 import { StUSDSCurveExchangeRateCard } from './StUSDSCurveExchangeRateCard';
-import { useStUsdsData, useStUsdsCapacityData } from '@jetstreamgg/sky-hooks';
+import { StUSDSRateDifferenceCard } from './StUSDSRateDifferenceCard';
 
 export function StUSDSInfoDetails() {
-  const { data: stUsdsData } = useStUsdsData();
-  const { data: capacityData } = useStUsdsCapacityData();
-
-  const isWithdrawUnavailable = stUsdsData?.availableLiquidity === 0n;
-  const isSupplyUnavailable = capacityData?.remainingCapacity === 0n;
   return (
     <div className="flex w-full flex-wrap gap-3">
       <div className="min-w-[250px] flex-1">
@@ -42,14 +37,14 @@ export function StUSDSInfoDetails() {
       <div className="min-w-[250px] flex-1">
         <StUSDSSuppliersCard />
       </div>
-      <div className="min-w-[380px] flex-1">
-        <StUSDSNativeExchangeRateCard
-          isWithdrawUnavailable={isWithdrawUnavailable}
-          isSupplyUnavailable={isSupplyUnavailable}
-        />
+      <div className="min-w-[250px] flex-1">
+        <StUSDSNativeExchangeRateCard />
       </div>
-      <div className="min-w-[380px] flex-1">
+      <div className="min-w-[250px] flex-1">
         <StUSDSCurveExchangeRateCard />
+      </div>
+      <div className="min-w-[250px] flex-1">
+        <StUSDSRateDifferenceCard />
       </div>
     </div>
   );
