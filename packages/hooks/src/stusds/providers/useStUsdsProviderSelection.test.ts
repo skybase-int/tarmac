@@ -459,7 +459,11 @@ describe('useStUsdsProviderSelection', () => {
 
       const { result } = renderHook(() => useStUsdsProviderSelection(defaultParams));
 
-      expect(result.current.nativeProvider).toBe(nativeData);
+      // Provider data is merged from selection and quote data, so use toMatchObject
+      expect(result.current.nativeProvider).toMatchObject({
+        providerType: nativeData.providerType,
+        state: nativeData.state
+      });
     });
 
     it('should expose Curve provider data', () => {
@@ -469,7 +473,11 @@ describe('useStUsdsProviderSelection', () => {
 
       const { result } = renderHook(() => useStUsdsProviderSelection(defaultParams));
 
-      expect(result.current.curveProvider).toBe(curveData);
+      // Provider data is merged from selection and quote data, so use toMatchObject
+      expect(result.current.curveProvider).toMatchObject({
+        providerType: curveData.providerType,
+        state: curveData.state
+      });
     });
   });
 
@@ -496,8 +504,9 @@ describe('useStUsdsProviderSelection', () => {
 
       result.current.refetch();
 
-      expect(nativeRefetch).toHaveBeenCalledTimes(1);
-      expect(curveRefetch).toHaveBeenCalledTimes(1);
+      // Called twice: once for selection data hooks, once for quote data hooks
+      expect(nativeRefetch).toHaveBeenCalledTimes(2);
+      expect(curveRefetch).toHaveBeenCalledTimes(2);
     });
   });
 

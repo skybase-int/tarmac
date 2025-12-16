@@ -12,6 +12,12 @@ import {
   StUsdsDirection
 } from './types';
 
+export type StUsdsProviderSelectionParams = StUsdsQuoteParams & {
+  /** Reference amount used for rate comparison when actual amount is 0.
+   * This prevents UI flicker by allowing provider selection before user input. */
+  referenceAmount?: bigint;
+};
+
 /**
  * Main orchestration hook that selects the optimal provider for stUSDS operations.
  *
@@ -21,28 +27,51 @@ import {
  * 3. If both available → compare rates with threshold buffer
  * 4. If both blocked → set allProvidersBlocked: true
  *
- * @param params - Quote parameters (amount and direction)
+ * @param params - Quote parameters (amount, direction, and optional referenceAmount)
  * @returns Selection result with recommended provider and reasoning
  */
-export function useStUsdsProviderSelection(params: StUsdsQuoteParams): StUsdsProviderSelectionResult {
-  const { direction } = params;
+export function useStUsdsProviderSelection(
+  params: StUsdsProviderSelectionParams
+): StUsdsProviderSelectionResult {
+  const { direction, amount, referenceAmount } = params;
 
-  // Get data from both providers
+  // Always use reference amount for provider selection (rate comparison)
+  // This prevents UI flicker during typing since the selection stays stable
+  const selectionAmount = referenceAmount ?? amount;
+  const selectionParams: StUsdsQuoteParams = { amount: selectionAmount, direction };
+
+  // Get stable provider data for selection (uses reference amount)
   const {
-    data: nativeData,
-    isLoading: isNativeLoading,
-    error: nativeError,
-    refetch: refetchNative
-  } = useNativeStUsdsProvider(params);
+    data: nativeSelectionData,
+    isLoading: isNativeSelectionLoading,
+    error: nativeSelectionError,
+    refetch: refetchNativeSelection
+  } = useNativeStUsdsProvider(selectionParams);
 
   const {
-    data: curveData,
-    isLoading: isCurveLoading,
-    error: curveError,
-    refetch: refetchCurve
-  } = useCurveStUsdsProvider(params);
+    data: curveSelectionData,
+    isLoading: isCurveSelectionLoading,
+    error: curveSelectionError,
+    refetch: refetchCurveSelection
+  } = useCurveStUsdsProvider(selectionParams);
 
-  // Determine which provider to use
+  // Get actual quote data for transactions (uses real amount)
+  const quoteParams: StUsdsQuoteParams = { amount, direction };
+  const {
+    data: nativeQuoteData,
+    isLoading: isNativeQuoteLoading,
+    error: nativeQuoteError,
+    refetch: refetchNativeQuote
+  } = useNativeStUsdsProvider(quoteParams);
+
+  const {
+    data: curveQuoteData,
+    isLoading: isCurveQuoteLoading,
+    error: curveQuoteError,
+    refetch: refetchCurveQuote
+  } = useCurveStUsdsProvider(quoteParams);
+
+  // Determine which provider to use (based on stable selection data)
   const selection = useMemo(() => {
     // Default values while loading
     let selectedProvider = StUsdsProviderType.NATIVE;
@@ -50,14 +79,18 @@ export function useStUsdsProviderSelection(params: StUsdsQuoteParams): StUsdsPro
     let allProvidersBlocked = false;
     let rateDifferencePercent = 0;
 
-    // Check availability based on direction
+    // Check availability based on direction (using stable selection data)
     const isNativeAvailable =
-      nativeData?.state.status === StUsdsProviderStatus.AVAILABLE &&
-      (direction === StUsdsDirection.SUPPLY ? nativeData.state.canDeposit : nativeData.state.canWithdraw);
+      nativeSelectionData?.state.status === StUsdsProviderStatus.AVAILABLE &&
+      (direction === StUsdsDirection.SUPPLY
+        ? nativeSelectionData.state.canDeposit
+        : nativeSelectionData.state.canWithdraw);
 
     const isCurveAvailable =
-      curveData?.state.status === StUsdsProviderStatus.AVAILABLE &&
-      (direction === StUsdsDirection.SUPPLY ? curveData.state.canDeposit : curveData.state.canWithdraw);
+      curveSelectionData?.state.status === StUsdsProviderStatus.AVAILABLE &&
+      (direction === StUsdsDirection.SUPPLY
+        ? curveSelectionData.state.canDeposit
+        : curveSelectionData.state.canWithdraw);
 
     // Selection logic
     if (!isNativeAvailable && !isCurveAvailable) {
@@ -71,15 +104,23 @@ export function useStUsdsProviderSelection(params: StUsdsQuoteParams): StUsdsPro
       selectedProvider = StUsdsProviderType.CURVE;
       selectionReason = StUsdsSelectionReason.CURVE_ONLY_AVAILABLE;
       // Calculate rate difference even when native is blocked
-      const comparison = compareRates(nativeData?.quote, curveData?.quote, STUSDS_PROVIDER_CONFIG);
+      const comparison = compareRates(
+        nativeSelectionData?.quote,
+        curveSelectionData?.quote,
+        STUSDS_PROVIDER_CONFIG
+      );
       rateDifferencePercent = comparison.differencePercent;
     } else if (isNativeAvailable && !isCurveAvailable) {
       // Only native available
       selectedProvider = StUsdsProviderType.NATIVE;
       selectionReason = StUsdsSelectionReason.NATIVE_ONLY_AVAILABLE;
     } else {
-      // Both available - compare rates
-      const comparison = compareRates(nativeData?.quote, curveData?.quote, STUSDS_PROVIDER_CONFIG);
+      // Both available - compare rates (using stable selection data)
+      const comparison = compareRates(
+        nativeSelectionData?.quote,
+        curveSelectionData?.quote,
+        STUSDS_PROVIDER_CONFIG
+      );
 
       rateDifferencePercent = comparison.differencePercent;
 
@@ -104,28 +145,45 @@ export function useStUsdsProviderSelection(params: StUsdsQuoteParams): StUsdsPro
       allProvidersBlocked,
       rateDifferencePercent
     };
-  }, [nativeData, curveData, direction]);
+  }, [nativeSelectionData, curveSelectionData, direction]);
 
-  const isLoading = isNativeLoading || isCurveLoading;
-  const error = nativeError || curveError;
+  // Loading state: selection is loading if selection data is loading
+  // Quote loading is separate and doesn't affect selection stability
+  const isSelectionLoading = isNativeSelectionLoading || isCurveSelectionLoading;
+  const isQuoteLoading = isNativeQuoteLoading || isCurveQuoteLoading;
+  const isLoading = isSelectionLoading || isQuoteLoading;
+
+  const error = nativeSelectionError || curveSelectionError || nativeQuoteError || curveQuoteError;
 
   const refetch = () => {
-    refetchNative();
-    refetchCurve();
+    refetchNativeSelection();
+    refetchCurveSelection();
+    refetchNativeQuote();
+    refetchCurveQuote();
   };
 
-  // Get the quote from the selected provider
+  // Get the quote from the selected provider (using actual amount quote data)
+  // Only return a quote when there's an actual amount
   const selectedQuote =
-    selection.selectedProvider === StUsdsProviderType.CURVE ? curveData?.quote : nativeData?.quote;
+    amount > 0n
+      ? selection.selectedProvider === StUsdsProviderType.CURVE
+        ? curveQuoteData?.quote
+        : nativeQuoteData?.quote
+      : undefined;
 
+  // Return selection data state (stable) but quote data quotes (accurate for amount)
   return {
     selectedProvider: selection.selectedProvider,
     selectionReason: selection.selectionReason,
     selectedQuote,
-    nativeProvider: nativeData,
-    curveProvider: curveData,
+    // Use selection data for provider state (stable), but include quote from quote data
+    nativeProvider: nativeSelectionData
+      ? { ...nativeSelectionData, quote: nativeQuoteData?.quote }
+      : undefined,
+    curveProvider: curveSelectionData ? { ...curveSelectionData, quote: curveQuoteData?.quote } : undefined,
     allProvidersBlocked: selection.allProvidersBlocked,
     rateDifferencePercent: selection.rateDifferencePercent,
+    isSelectionLoading,
     isLoading,
     error: error as Error | null,
     refetch

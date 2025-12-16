@@ -67,6 +67,7 @@ export const mockProviderStates = {
     curveProvider: createCurveProvider({}),
     allProvidersBlocked: false,
     rateDifferencePercent: 0,
+    isSelectionLoading: false,
     isLoading: false,
     error: null,
     refetch: () => {}
@@ -86,6 +87,7 @@ export const mockProviderStates = {
     curveProvider: createCurveProvider({}),
     allProvidersBlocked: false,
     rateDifferencePercent: 0,
+    isSelectionLoading: false,
     isLoading: false,
     error: null,
     refetch: () => {}
@@ -105,6 +107,7 @@ export const mockProviderStates = {
     curveProvider: createCurveProvider({}),
     allProvidersBlocked: false,
     rateDifferencePercent: 0,
+    isSelectionLoading: false,
     isLoading: false,
     error: null,
     refetch: () => {}
@@ -121,6 +124,7 @@ export const mockProviderStates = {
     curveProvider: createCurveProvider({}),
     allProvidersBlocked: false,
     rateDifferencePercent: 0.25, // 0.25% better rate
+    isSelectionLoading: false,
     isLoading: false,
     error: null,
     refetch: () => {}
@@ -142,6 +146,7 @@ export const mockProviderStates = {
     }),
     allProvidersBlocked: true,
     rateDifferencePercent: 0,
+    isSelectionLoading: false,
     isLoading: false,
     error: null,
     refetch: () => {}
@@ -163,6 +168,7 @@ export const mockProviderStates = {
     }),
     allProvidersBlocked: true,
     rateDifferencePercent: 0,
+    isSelectionLoading: false,
     isLoading: false,
     error: null,
     refetch: () => {}
@@ -179,6 +185,7 @@ export const mockProviderStates = {
     curveProvider: undefined,
     allProvidersBlocked: false,
     rateDifferencePercent: 0,
+    isSelectionLoading: true,
     isLoading: true,
     error: null,
     refetch: () => {}
