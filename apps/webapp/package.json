@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "@base-org/account": "catalog:",
+    "@binance/w3w-wagmi-connector-v2": "catalog:",
     "@coinbase/wallet-sdk": "catalog:",
     "@jetstreamgg/sky-hooks": "workspace:^",
     "@jetstreamgg/sky-utils": "workspace:^",

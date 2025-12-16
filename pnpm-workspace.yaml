@@ -4,6 +4,7 @@ packages:
 
 catalog:
   '@base-org/account': ~2.4.0
+  '@binance/w3w-wagmi-connector-v2': ^1.2.9
   '@changesets/cli': ^2.29.8
   '@coinbase/wallet-sdk': ~4.3.6
   '@eslint/eslintrc': ^3.3.3
