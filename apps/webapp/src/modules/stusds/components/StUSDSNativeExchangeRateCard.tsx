@@ -8,17 +8,17 @@ import { TokenIcon } from '@/modules/ui/components/TokenIcon';
 
 export function StUSDSNativeExchangeRateCard() {
   const { i18n } = useLingui();
-  const { data: stUsdsData, isLoading: isStUsdsLoading } = useStUsdsData();
+  const { data: stUsdsData, isLoading } = useStUsdsData();
 
   // assetPerShare is the USDS per stUSDS rate (scaled by 1e18)
-  const nativeRate = stUsdsData?.assetPerShare || 0n;
+  const exchangeRate = stUsdsData?.assetPerShare || 0n;
 
-  const formattedRate = nativeRate > 0n ? formatBigInt(nativeRate, { maxDecimals: 6 }) : '--';
+  const formattedRate = exchangeRate > 0n ? formatBigInt(exchangeRate, { maxDecimals: 6 }) : '--';
 
   return (
     <StatsCard
       className="h-full"
-      isLoading={isStUsdsLoading}
+      isLoading={isLoading}
       title={i18n._(msg`Native Exchange Rate`)}
       content={
         <div className="mt-2 flex items-center gap-1.5">

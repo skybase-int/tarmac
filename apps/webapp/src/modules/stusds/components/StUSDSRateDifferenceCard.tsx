@@ -25,11 +25,11 @@ export function StUSDSRateDifferenceCard() {
       isLoading={isCurveLoading || isStUsdsLoading}
       title={
         <div className="flex items-center gap-1">
-          <span>{i18n._(msg`Exchange Rate Difference`)}</span>
+          <span>{i18n._(msg`Curve Rate Difference`)}</span>
           <PopoverInfo
-            title={i18n._(msg`Exchange Rate Difference`)}
+            title={i18n._(msg`Curve Rate Difference`)}
             description={i18n._(
-              msg`The percentage difference between Curve and Native exchange rates. This spread varies based on market conditions and arbitrage activity.`
+              msg`The percentage difference between Curve and Native exchange rates, calculated as (Curve Rate - Native Rate) / Native Rate × 100.`
             )}
             iconSize="large"
           />

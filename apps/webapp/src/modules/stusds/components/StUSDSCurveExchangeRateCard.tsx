@@ -9,17 +9,17 @@ import { CurveLogo } from '@/modules/icons/CurveLogo';
 
 export function StUSDSCurveExchangeRateCard() {
   const { i18n } = useLingui();
-  const { data: poolData, isLoading: isCurveLoading } = useCurvePoolData();
+  const { data: poolData, isLoading } = useCurvePoolData();
 
   // priceOracle is the USDS per stUSDS rate from Curve's EMA oracle (scaled by 1e18)
-  const curveRate = poolData?.priceOracle || 0n;
+  const exchangeRate = poolData?.priceOracle || 0n;
 
-  const formattedRate = curveRate > 0n ? formatBigInt(curveRate, { maxDecimals: 6 }) : '--';
+  const formattedRate = exchangeRate > 0n ? formatBigInt(exchangeRate, { maxDecimals: 6 }) : '--';
 
   return (
     <StatsCard
       className="h-full"
-      isLoading={isCurveLoading}
+      isLoading={isLoading}
       title={
         <div className="flex items-center gap-2">
           <span>{i18n._(msg`Curve Exchange Rate`)}</span>
