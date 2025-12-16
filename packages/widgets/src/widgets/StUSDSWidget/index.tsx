@@ -88,9 +88,14 @@ const StUSDSWidgetWrapped = ({
   const usds = TOKENS.usds;
   const { data: batchSupported } = useIsBatchSupported();
 
+  // Reference amount for rate comparison when actual amount is 0
+  // This allows pre-selecting the provider before user input to prevent UI flicker
+  const referenceAmount = parseUnits('1', 18); // 1 USDS
+
   // Provider selection for automatic routing between native and Curve
   const providerSelection = useStUsdsProviderSelection({
     amount: debouncedAmount,
+    referenceAmount,
     direction: tabIndex === 0 ? StUsdsDirection.SUPPLY : StUsdsDirection.WITHDRAW
   });
 
@@ -234,6 +239,8 @@ const StUSDSWidgetWrapped = ({
   // When Curve is selected: use curveUserMaxWithdraw (Curve rate with buffer)
   // When native is selected: use userSuppliedUsds (vault rate)
   const withdrawBalanceLimit = isCurveSelected ? curveUserMaxWithdraw : stUsdsData?.userSuppliedUsds;
+
+  console.log('isCurveSelected withdrawBalanceLimit', isCurveSelected, withdrawBalanceLimit);
 
   const isWithdrawBalanceError =
     txStatus === TxStatus.IDLE &&

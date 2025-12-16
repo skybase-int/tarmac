@@ -180,7 +180,9 @@ export type StUsdsProviderSelectionResult = {
   allProvidersBlocked: boolean;
   /** Rate difference between providers (positive = Curve better, negative = Native better) */
   rateDifferencePercent: number;
-  /** Whether data is currently loading */
+  /** Whether selection data is loading (stable, doesn't change during typing) */
+  isSelectionLoading: boolean;
+  /** Whether any data is currently loading (selection or quotes) */
   isLoading: boolean;
   /** Error if selection failed */
   error: Error | null;

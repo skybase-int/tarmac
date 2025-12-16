@@ -79,7 +79,8 @@ export const StUSDSSupplyWithdraw = ({
   // Provider selection helpers
   const isCurveSelected = providerSelection?.selectedProvider === StUsdsProviderType.CURVE;
   const allProvidersBlocked = providerSelection?.allProvidersBlocked ?? false;
-  const isProviderLoading = providerSelection?.isLoading ?? false;
+  // Use isSelectionLoading (stable) instead of isLoading to prevent flicker during typing
+  const isProviderLoading = providerSelection?.isSelectionLoading ?? false;
 
   // Determine if inputs should be disabled based on provider availability
   // Only disable if BOTH native and Curve are blocked
