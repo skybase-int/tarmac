@@ -80,6 +80,7 @@ export default ({ mode }: { mode: modeEnum }) => {
       https://mainnet.unichain.org/
       https://mainnet.optimism.io/
       https://metamask-sdk.api.cx.metamask.io/evt
+      wss://metamask-sdk.api.cx.metamask.io
       cloudflareinsights.com;
     frame-src 'self'
       https://verify.walletconnect.com
