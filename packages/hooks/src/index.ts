@@ -49,7 +49,8 @@ export {
   StUsdsProviderStatus,
   StUsdsSelectionReason,
   StUsdsBlockedReason,
-  StUsdsDirection
+  StUsdsDirection,
+  calculateRateDifferencePercent
 } from './stusds';
 
 export type {

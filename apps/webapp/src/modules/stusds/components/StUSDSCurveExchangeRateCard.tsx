@@ -5,6 +5,7 @@ import { Text } from '@/modules/layout/components/Typography';
 import { useCurvePoolData } from '@jetstreamgg/sky-hooks';
 import { formatBigInt } from '@jetstreamgg/sky-utils';
 import { TokenIcon } from '@/modules/ui/components/TokenIcon';
+import { CurveLogo } from '@/modules/icons/CurveLogo';
 
 export function StUSDSCurveExchangeRateCard() {
   const { i18n } = useLingui();
@@ -19,7 +20,12 @@ export function StUSDSCurveExchangeRateCard() {
     <StatsCard
       className="h-full"
       isLoading={isLoading}
-      title={i18n._(msg`Curve Exchange Rate`)}
+      title={
+        <div className="flex items-center gap-2">
+          <span>{i18n._(msg`Curve Exchange Rate`)}</span>
+          <CurveLogo className="h-3.5 w-3.5" />
+        </div>
+      }
       content={
         <div className="mt-2 flex items-center gap-1.5">
           <TokenIcon token={{ symbol: 'STUSDS', name: 'stusds' }} className="h-6 w-6" />

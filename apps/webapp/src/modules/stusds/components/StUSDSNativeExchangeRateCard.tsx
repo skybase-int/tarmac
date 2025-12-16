@@ -19,7 +19,7 @@ export function StUSDSNativeExchangeRateCard() {
     <StatsCard
       className="h-full"
       isLoading={isLoading}
-      title={i18n._(msg`Exchange Rate`)}
+      title={i18n._(msg`Native Exchange Rate`)}
       content={
         <div className="mt-2 flex items-center gap-1.5">
           <TokenIcon token={{ symbol: 'STUSDS', name: 'stusds' }} className="h-6 w-6" />
