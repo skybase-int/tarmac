@@ -49,6 +49,11 @@ const connectors = [
       description: 'Sky Protocol DeFi Application',
       url: 'https://app.sky.money',
       icons: ['https://app.sky.money/images/sky.svg']
+    },
+    qrModalOptions: {
+      themeVariables: {
+        '--wcm-font-family': 'GraphikStd'
+      }
     }
   }),
   binanceConnector(),
