@@ -41,7 +41,7 @@ export function StUSDSHistory() {
       );
     } else {
       iconLeft = isCurve ? (
-        <CurveSavingsWithdraw width={31} height={26} className="mr-1" />
+        <CurveSavingsWithdraw width={31} height={26} className="mr-1 fill-white" />
       ) : (
         <ArrowDown width={10} height={14} className="mr-1 fill-white" />
       );
