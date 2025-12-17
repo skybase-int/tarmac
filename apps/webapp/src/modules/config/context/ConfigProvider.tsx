@@ -44,8 +44,7 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
           // If the feature flag is enabled, but the local storage item is not set, default to enabled
           import.meta.env.VITE_BATCH_TX_ENABLED === 'true' ? (parsed.batchEnabled ?? true) : undefined,
         expertRiskDisclaimerShown: parsed.expertRiskDisclaimerShown ?? false,
-        expertRiskDisclaimerDismissed: parsed.expertRiskDisclaimerDismissed ?? false,
-        stakingRewardsDisclaimerDismissed: parsed.stakingRewardsDisclaimerDismissed ?? false
+        expertRiskDisclaimerDismissed: parsed.expertRiskDisclaimerDismissed ?? false
       });
     } catch (e) {
       console.log('Error parsing user settings', e);
@@ -57,10 +56,6 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
   const updateUserConfig = (config: UserConfig) => {
     setUserConfig(config);
     window.localStorage.setItem(USER_SETTINGS_KEY, JSON.stringify(config));
-
-    // We needed to reload because changing the wagmi client messed with the rainbowkit buttons.
-    // https://github.com/rainbow-me/rainbowkit/issues/953
-    // TODO: Reenable if problem persist window.location.reload();
   };
 
   const updateLinkedActionConfig = useCallback(
@@ -114,13 +109,6 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
     });
   };
 
-  const setStakingRewardsDisclaimerDismissed = (dismissed: boolean) => {
-    updateUserConfig({
-      ...userConfig,
-      stakingRewardsDisclaimerDismissed: dismissed
-    });
-  };
-
   return (
     <ConfigContext.Provider
       value={{
@@ -148,9 +136,7 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
         expertRiskDisclaimerShown: userConfig.expertRiskDisclaimerShown ?? false,
         setExpertRiskDisclaimerShown,
         expertRiskDisclaimerDismissed: userConfig.expertRiskDisclaimerDismissed ?? false,
-        setExpertRiskDisclaimerDismissed,
-        stakingRewardsDisclaimerDismissed: userConfig.stakingRewardsDisclaimerDismissed ?? false,
-        setStakingRewardsDisclaimerDismissed
+        setExpertRiskDisclaimerDismissed
       }}
     >
       {children}
