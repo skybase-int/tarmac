@@ -80,7 +80,9 @@ export default ({ mode }: { mode: modeEnum }) => {
       https://enhanced-provider.rainbow.me
       https://mainnet.unichain.org/
       https://mainnet.optimism.io/
-      https://a.markfi.xyz
+      https://metamask-sdk.api.cx.metamask.io/evt
+      wss://metamask-sdk.api.cx.metamask.io
+      wss://nbstream.binance.com/wallet-connector
       cloudflareinsights.com;
     frame-src 'self'
       https://verify.walletconnect.com

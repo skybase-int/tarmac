@@ -18,13 +18,20 @@ import { t } from '@lingui/core/macro';
 import { InteractiveStatsCard } from '@widgets/shared/components/ui/card/InteractiveStatsCard';
 import { Skeleton } from '@widgets/components/ui/skeleton';
 import { formatUnits } from 'viem';
-import { CardProps } from './ModulesBalances';
+import { CardProps, ModuleCardVariant } from './ModulesBalances';
 import { useChainId, useAccount } from 'wagmi';
 import { RateLineWithArrow } from '@widgets/shared/components/ui/RateLineWithArrow';
 import { UnclaimedRewards } from '@widgets/shared/components/ui/UnclaimedRewards';
 import { calculateUnclaimedRewards } from '@widgets/shared/utils/calculateUnclaimedRewards';
+import { InteractiveStatsCardAlt } from '@widgets/shared/components/ui/card/InteractiveStatsCardAlt';
 
-export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkClicked }: CardProps) => {
+export const StakeBalanceCard = ({
+  loading,
+  stakeBalance,
+  url,
+  onExternalLinkClicked,
+  variant = ModuleCardVariant.default
+}: CardProps) => {
   const currentChainId = useChainId();
   const { address } = useAccount();
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
@@ -61,7 +68,7 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
     stakeChainId
   );
 
-  return (
+  return variant === ModuleCardVariant.default ? (
     <InteractiveStatsCard
       title={t`SKY supplied to Staking Engine`}
       tokenSymbol="SKY"
@@ -104,6 +111,20 @@ export const StakeBalanceCard = ({ loading, stakeBalance, url, onExternalLinkCli
         )
       }
       url={url}
+    />
+  ) : (
+    <InteractiveStatsCardAlt
+      title={t`SKY supplied to Staking Engine`}
+      tokenSymbol="SKY"
+      url={url}
+      logoName="staking"
+      content={
+        loading ? (
+          <Skeleton className="w-32" />
+        ) : (
+          <Text>{`${stakeBalance ? formatBigInt(stakeBalance) : '0'}`} SKY</Text>
+        )
+      }
     />
   );
 };

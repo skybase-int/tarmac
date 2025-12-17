@@ -8,7 +8,7 @@ import {
 import { useContext } from 'react';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { StakeAction } from '../lib/constants';
-import { useAccount } from 'wagmi';
+import { useConnection } from 'wagmi';
 
 interface UseStakeTransactionsParameters
   extends Pick<WidgetProps, 'addRecentTransaction' | 'onWidgetStateChange' | 'onNotification'> {
@@ -45,7 +45,7 @@ export const useStakeTransactions = ({
   onWidgetStateChange,
   onNotification
 }: UseStakeTransactionsParameters) => {
-  const { address } = useAccount();
+  const { address } = useConnection();
   const { widgetState } = useContext(WidgetContext);
   const { multicallTransactionCallbacks, claimTransactionCallbacks } = useStakeTransactionCallbacks({
     lockAmount,
