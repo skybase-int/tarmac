@@ -2,7 +2,7 @@ import { HStack } from '@/modules/layout/components/HStack';
 import { VStack } from '@/modules/layout/components/VStack';
 import { MessageType, UserType } from '../constants';
 import { Text } from '@/modules/layout/components/Typography';
-import { useAccount } from 'wagmi';
+import { useConnection } from 'wagmi';
 import { CustomAvatar } from '@/modules/ui/components/Avatar';
 import { useSearchParams } from 'react-router-dom';
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
@@ -85,7 +85,7 @@ export const ChatBubble = ({
   isLastMessage,
   isOnlyMessage
 }: ChatBubbleProps) => {
-  const { address } = useAccount();
+  const { address } = useConnection();
   const [searchParams] = useSearchParams();
   const { bpi } = useBreakpointIndex();
   const { setShowTermsModal, termsAccepted } = useChatContext();
