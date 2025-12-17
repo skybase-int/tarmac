@@ -1,6 +1,6 @@
 import { HStack } from '@/modules/layout/components/HStack';
 import { VStack } from '@/modules/layout/components/VStack';
-import { CHATBOT_NAME, MessageType, UserType } from '../constants';
+import { MessageType, UserType } from '../constants';
 import { Text } from '@/modules/layout/components/Typography';
 import { useConnection } from 'wagmi';
 import { CustomAvatar } from '@/modules/ui/components/Avatar';
@@ -151,11 +151,12 @@ export const ChatBubble = ({
         className={`items-center gap-x-2 space-x-0 ${user === UserType.user ? 'xl:self-end xl:@2xl/chat:self-start' : '@2xl/chat:items-start'}`}
       >
         {user === UserType.bot ? (
-          <img
-            src="/images/chatbot_logo.svg"
-            alt={`${CHATBOT_NAME} avatar`}
-            className="h-5 w-5 @2xl/chat:h-8 @2xl/chat:w-8"
-          />
+          // <img
+          //   src="/images/chatbot_logo.svg"
+          //   alt={`${CHATBOT_NAME} avatar`}
+          //   className="@2xl/chat:h-8 @2xl/chat:w-8 h-5 w-5"
+          // />
+          <></>
         ) : (
           <CustomAvatar address={address || 'address-not-connected'} size={shouldUseLargeAvatar ? 32 : 20} />
         )}

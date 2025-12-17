@@ -76,7 +76,9 @@ test.describe('Chatbot', () => {
     await page.waitForSelector('textarea[placeholder]');
 
     // Verify the initial bot message is present
-    await expect(page.getByText(/Hi, I'm .*, your AI-powered assistant/)).toBeVisible();
+    await expect(
+      page.getByText(/Hi, I'm your AI-powered chatbot assistant. How can I help you?/)
+    ).toBeVisible();
 
     // Type a message in the chat input
     const chatInput = page.locator('textarea');

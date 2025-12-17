@@ -1,6 +1,6 @@
 import { msg } from '@lingui/core/macro';
 
-export const CHATBOT_NAME = import.meta.env.VITE_CHATBOT_NAME || 'SkyWing';
+export const CHATBOT_NAME = import.meta.env.VITE_CHATBOT_NAME || '';
 
 export enum UserType {
   user = 'You',
