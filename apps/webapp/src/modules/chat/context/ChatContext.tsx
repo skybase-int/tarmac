@@ -2,7 +2,7 @@ import { createContext, useCallback, useContext, useMemo, useState } from 'react
 import { ChatHistory, ChatIntent } from '../types/Chat';
 import { generateUUID } from '../lib/generateUUID';
 import { t } from '@lingui/core/macro';
-import { CHATBOT_NAME, MessageType, UserType } from '../constants';
+import { MessageType, UserType } from '../constants';
 import { intentModifiesState } from '../lib/intentUtils';
 
 interface ChatContextType {
@@ -73,7 +73,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
     {
       id: generateUUID(),
       user: UserType.bot,
-      message: t`Hi, I'm ${CHATBOT_NAME}, your AI-powered assistant. How can I help you?`
+      message: t`Hi, I'm your AI-powered chatbot assistant. How can I help you?`
     }
   ];
 

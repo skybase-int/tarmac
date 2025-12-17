@@ -40,7 +40,7 @@ import {
   getCowExplorerLink,
   isL2ChainId
 } from '@jetstreamgg/sky-utils';
-import { useAccount, useChainId } from 'wagmi';
+import { useConnection, useChainId } from 'wagmi';
 import { t } from '@lingui/core/macro';
 import { TxStatus, notificationTypeMaping } from '@widgets/shared/constants';
 import { TradeTransactionStatus } from './components/TradeTransactionStatus';
@@ -117,7 +117,7 @@ function TradeWidgetWrapped({
 
   const chainId = useChainId();
   const isChainL2 = isL2ChainId(chainId);
-  const { address, isConnecting, isConnected } = useAccount();
+  const { address, isConnecting, isConnected } = useConnection();
   const isSafeWallet = useIsSafeWallet();
   const isSmartContractWallet = useIsSmartContractWallet();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);

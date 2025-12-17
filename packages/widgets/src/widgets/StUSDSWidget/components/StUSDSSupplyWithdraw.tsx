@@ -16,7 +16,7 @@ import { WidgetContext } from '@widgets/context/WidgetContext';
 import { StUSDSFlow } from '../lib/constants';
 import { StUSDSStatsCard } from './StUSDSStatsCard';
 import { ProviderIndicator } from './ProviderIndicator';
-import { useAccount, useChainId } from 'wagmi';
+import { useConnection, useChainId } from 'wagmi';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
@@ -144,7 +144,7 @@ export const StUSDSSupplyWithdraw = ({
     userUsdsBalance > availableLiquidityBuffered;
 
   const { widgetState } = useContext(WidgetContext);
-  const { isConnected } = useAccount();
+  const { isConnected } = useConnection();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
   const disclaimerCheckboxId = useId();
 

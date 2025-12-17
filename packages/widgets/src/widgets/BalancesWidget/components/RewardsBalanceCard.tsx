@@ -18,17 +18,19 @@ import { t } from '@lingui/core/macro';
 import { InteractiveStatsCard } from '@widgets/shared/components/ui/card/InteractiveStatsCard';
 import { Skeleton } from '@widgets/components/ui/skeleton';
 import { formatUnits } from 'viem';
-import { CardProps } from './ModulesBalances';
+import { CardProps, ModuleCardVariant } from './ModulesBalances';
 import { useChainId, useAccount } from 'wagmi';
 import { RateLineWithArrow } from '@widgets/shared/components/ui/RateLineWithArrow';
 import { UnclaimedRewards } from '@widgets/shared/components/ui/UnclaimedRewards';
 import { calculateUnclaimedRewards } from '@widgets/shared/utils/calculateUnclaimedRewards';
+import { InteractiveStatsCardAlt } from '@widgets/shared/components/ui/card/InteractiveStatsCardAlt';
 
 export const RewardsBalanceCard = ({
   url,
   onExternalLinkClicked,
   loading,
-  totalUserRewardsSupplied
+  totalUserRewardsSupplied,
+  variant = ModuleCardVariant.default
 }: CardProps) => {
   const { address } = useAccount();
   const currentChainId = useChainId();
@@ -80,7 +82,7 @@ export const RewardsBalanceCard = ({
   const chartDataLoading = usdsSkyChartDataLoading || usdsSpkChartDataLoading;
   const mostRecentRateNumber = highestRateData ? parseFloat(highestRateData.rate) : null;
 
-  return (
+  return variant === ModuleCardVariant.default ? (
     <InteractiveStatsCard
       title={t`USDS supplied to Rewards`}
       tokenSymbol="USDS"
@@ -134,6 +136,22 @@ export const RewardsBalanceCard = ({
         )
       }
       url={url}
+    />
+  ) : (
+    <InteractiveStatsCardAlt
+      title={t`USDS supplied to Rewards`}
+      tokenSymbol="USDS"
+      url={url}
+      logoName="rewards"
+      content={
+        loading ? (
+          <Skeleton className="w-32" />
+        ) : (
+          <Text>
+            {`${totalUserRewardsSupplied !== undefined ? formatBigInt(totalUserRewardsSupplied) : '0'}`} USDS
+          </Text>
+        )
+      }
     />
   );
 };

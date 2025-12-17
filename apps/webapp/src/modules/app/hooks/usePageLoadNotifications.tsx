@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useAccount, useChainId } from 'wagmi';
+import { useConnection, useChainId } from 'wagmi';
 import { useTokenBalance, TOKENS } from '@jetstreamgg/sky-hooks';
 import { parseEther } from 'viem';
 import {
@@ -18,7 +18,7 @@ import { NotificationConfig } from './useNotificationQueue';
  * 2. Chat Notification
  */
 export const usePageLoadNotifications = (): NotificationConfig[] => {
-  const { address, isConnected } = useAccount();
+  const { address, isConnected } = useConnection();
   const chainId = useChainId();
 
   // Check if MKR exists on current chain
