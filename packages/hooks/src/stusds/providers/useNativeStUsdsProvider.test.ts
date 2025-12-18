@@ -184,11 +184,11 @@ describe('useNativeStUsdsProvider', () => {
     });
 
     it('should generate valid withdraw quote', () => {
-      const inputAmount = 1000n * WAD;
-      const outputAmount = 1050n * WAD;
+      const requestedUsds = 1000n * WAD; // User wants to withdraw 1000 USDS
+      const stUsdsNeeded = 1050n * WAD; // previewWithdraw returns shares needed
 
       (useStUsdsPreviewWithdraw as ReturnType<typeof vi.fn>).mockReturnValue({
-        data: outputAmount,
+        data: stUsdsNeeded,
         isLoading: false,
         error: null,
         mutate: vi.fn()
@@ -196,14 +196,14 @@ describe('useNativeStUsdsProvider', () => {
 
       const { result } = renderHook(() =>
         useNativeStUsdsProvider({
-          amount: inputAmount,
+          amount: requestedUsds,
           direction: StUsdsDirection.WITHDRAW
         })
       );
 
       expect(result.current.data?.quote).toBeDefined();
-      expect(result.current.data?.quote?.inputAmount).toBe(inputAmount);
-      expect(result.current.data?.quote?.outputAmount).toBe(outputAmount);
+      expect(result.current.data?.quote?.inputAmount).toBe(stUsdsNeeded); // For withdraw, input is stUSDS shares
+      expect(result.current.data?.quote?.outputAmount).toBe(requestedUsds); // Output is USDS amount
       expect(result.current.data?.quote?.isValid).toBe(true);
     });
 
