@@ -14,7 +14,7 @@ import {
   useIsSafeWallet
 } from '@jetstreamgg/sky-utils';
 import { cn } from '@widgets/lib/utils';
-import { ArrowLeftRight } from '@widgets/shared/components/icons/ArrowLeftRight';
+import { SwitchAccountButton } from './SwitchAccountButton';
 
 export const WalletCard = ({
   iconSize = 24,
@@ -81,9 +81,7 @@ export const WalletCard = ({
         </div>
         <div className="flex items-center gap-3">
           {onSwitchAccountClick && !isSafeWallet && (
-            <button onClick={onSwitchAccountClick}>
-              <ArrowLeftRight width={16} height={16} />
-            </button>
+            <SwitchAccountButton onSwitchAccountClick={onSwitchAccountClick} />
           )}
           <CopyToClipboard text={address || ''} />
         </div>
