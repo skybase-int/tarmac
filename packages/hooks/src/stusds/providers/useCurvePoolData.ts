@@ -142,10 +142,10 @@ export function useCurvePoolData(): CurvePoolDataHookResult {
     const usdsReserve = usdsIndex === 0 ? balance0 : balance1;
     const stUsdsReserve = stUsdsIndex === 0 ? balance0 : balance1;
 
-    // Adjust oracle price for rebasing token (stUSDS)
+    // Adjust oracle price for ERC4626 vault token (stUSDS)
     // The raw oracle price needs to be multiplied by the stored rate for stUSDS
     // price_oracle returns price of token1 in terms of token0
-    // For rebasing tokens, we need to multiply by the stored_rate
+    // For ERC4626 tokens, stored_rates tracks the assets-per-share ratio
     const stUsdsStoredRate = storedRates[stUsdsIndex] || RATE_PRECISION.WAD;
     const priceOracle =
       stUsdsStoredRate > 0n ? (rawPriceOracle * stUsdsStoredRate) / RATE_PRECISION.WAD : rawPriceOracle;
