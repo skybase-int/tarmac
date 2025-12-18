@@ -45,20 +45,23 @@ describe('ProviderIndicator', () => {
       });
     });
 
-    it('should not render when loading', async () => {
+    it('should show fetching rates spinner when loading', async () => {
       const props: ProviderIndicatorProps = {
         selectedProvider: StUsdsProviderType.CURVE,
-        selectionReason: StUsdsSelectionReason.CURVE_ONLY_AVAILABLE,
-        rateDifferencePercent: 0,
+        selectionReason: StUsdsSelectionReason.CURVE_BETTER_RATE,
+        rateDifferencePercent: 0.5,
         flow: StUSDSFlow.SUPPLY,
         isLoading: true
       };
 
       const { container } = renderWithWrapper(<ProviderIndicator {...props} />);
 
-      await waitFor(() => {
-        expect(container.innerHTML).toBe('');
-      });
+      await waitFor(
+        () => {
+          expect(container.innerHTML).toContain('Fetching rates');
+        },
+        { timeout: 3000 }
+      );
     });
   });
 
