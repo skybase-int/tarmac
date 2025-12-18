@@ -50,7 +50,8 @@ describe('useCurvePoolData', () => {
           { result: mockAdminFee, status: 'success' },
           { result: mockPriceOracle, status: 'success' },
           { result: mockUsdsAddress, status: 'success' },
-          { result: mockStUsdsAddress, status: 'success' }
+          { result: mockStUsdsAddress, status: 'success' },
+          { result: [WAD, WAD], status: 'success' } // stored_rates
         ],
         isLoading: false,
         error: null,
@@ -83,7 +84,8 @@ describe('useCurvePoolData', () => {
           { result: 5000000000n, status: 'success' },
           { result: WAD, status: 'success' },
           { result: mockStUsdsAddress, status: 'success' }, // coin0 is stUSDS
-          { result: mockUsdsAddress, status: 'success' } // coin1 is USDS
+          { result: mockUsdsAddress, status: 'success' }, // coin1 is USDS
+          { result: [WAD, WAD], status: 'success' } // stored_rates
         ],
         isLoading: false,
         error: null,
@@ -138,7 +140,8 @@ describe('useCurvePoolData', () => {
           { result: 5000000000n, status: 'success' },
           { result: WAD, status: 'success' },
           { result: mockUsdsAddress, status: 'success' },
-          { result: mockStUsdsAddress, status: 'success' }
+          { result: mockStUsdsAddress, status: 'success' },
+          { result: [WAD, WAD], status: 'success' } // stored_rates
         ],
         isLoading: false,
         error: null,

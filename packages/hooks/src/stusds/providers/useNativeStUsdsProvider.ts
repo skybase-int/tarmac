@@ -101,13 +101,25 @@ export function useNativeStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvid
   const quote: StUsdsQuote | undefined = useMemo(() => {
     if (!state || amount === 0n) return undefined;
 
-    const outputAmount = direction === StUsdsDirection.SUPPLY ? previewDeposit : previewWithdraw;
+    let inputAmount: bigint;
+    let outputAmount: bigint | undefined;
 
-    if (outputAmount === undefined || outputAmount === 0n) {
+    if (direction === StUsdsDirection.SUPPLY) {
+      // Supply: USDS in, stUSDS out
+      inputAmount = amount;
+      outputAmount = previewDeposit;
+    } else {
+      // Withdraw: stUSDS in, USDS out
+      // previewWithdraw returns shares needed for the desired USDS amount
+      inputAmount = previewWithdraw || 0n;
+      outputAmount = amount;
+    }
+
+    if (outputAmount === undefined || outputAmount === 0n || inputAmount === 0n) {
       return {
         providerType: StUsdsProviderType.NATIVE,
-        inputAmount: amount,
-        outputAmount: 0n,
+        inputAmount: direction === StUsdsDirection.SUPPLY ? amount : 0n,
+        outputAmount: direction === StUsdsDirection.SUPPLY ? 0n : amount,
         rateInfo: {
           outputAmount: 0n,
           effectiveRate: 0n,
@@ -143,7 +155,7 @@ export function useNativeStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvid
     }
 
     // Calculate effective rate
-    const effectiveRate = calculateEffectiveRate(amount, outputAmount);
+    const effectiveRate = calculateEffectiveRate(inputAmount, outputAmount);
 
     const rateInfo: StUsdsRateInfo = {
       outputAmount,
@@ -153,11 +165,11 @@ export function useNativeStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvid
       priceImpactBps: 0 // Native contract has no price impact
     };
 
-    const stUsdsAmount = direction === StUsdsDirection.SUPPLY ? outputAmount : previewWithdraw || 0n;
+    const stUsdsAmount = direction === StUsdsDirection.SUPPLY ? outputAmount : inputAmount;
 
     return {
       providerType: StUsdsProviderType.NATIVE,
-      inputAmount: amount,
+      inputAmount,
       outputAmount,
       stUsdsAmount,
       rateInfo,
