@@ -7,5 +7,4 @@ export type UserConfig = {
   batchEnabled: boolean;
   expertRiskDisclaimerShown?: boolean;
   expertRiskDisclaimerDismissed?: boolean;
-  stakingRewardsDisclaimerDismissed?: boolean;
 };
