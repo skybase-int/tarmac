@@ -18,7 +18,7 @@ import { WidgetProps, WidgetState } from '@widgets/shared/types/widgetState';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { useLingui } from '@lingui/react';
-import { useAccount, useChainId } from 'wagmi';
+import { useConnection, useChainId } from 'wagmi';
 import { formatUnits, parseUnits } from 'viem';
 import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { ArrowLeft } from 'lucide-react';
@@ -63,7 +63,7 @@ const StUSDSWidgetWrapped = ({
   }, [onStateValidated, validatedExternalState]);
 
   const chainId = useChainId();
-  const { address, isConnecting, isConnected } = useAccount();
+  const { address, isConnecting, isConnected } = useConnection();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
 
   const { mutate: mutateStUsds, data: stUsdsData, isLoading: isStUsdsDataLoading } = useStUsdsData();
@@ -149,8 +149,10 @@ const StUSDSWidgetWrapped = ({
   }, [tabIndex, isConnectedAndEnabled]);
 
   useEffect(() => {
-    setShowStepIndicator(widgetState.flow === StUSDSFlow.SUPPLY);
-  }, [widgetState.flow]);
+    if (txStatus === TxStatus.IDLE) {
+      setShowStepIndicator(widgetState.flow === StUSDSFlow.SUPPLY && needsAllowance);
+    }
+  }, [txStatus, widgetState.flow, needsAllowance, setShowStepIndicator]);
 
   const remainingCapacityBuffered = capacityData?.remainingCapacityBuffered || 0n;
 
