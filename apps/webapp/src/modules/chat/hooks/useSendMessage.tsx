@@ -1,4 +1,4 @@
-import { useAccount, useChainId } from 'wagmi';
+import { useConnection, useChainId } from 'wagmi';
 import { MutationFunction, useMutation } from '@tanstack/react-query';
 import { SendMessageRequest, SendMessageResponse, ChatIntent } from '../types/Chat';
 import { useChatContext } from '../context/ChatContext';
@@ -119,7 +119,7 @@ const sendMessageMutation: MutationFunction<
 export const useSendMessage = () => {
   const { setChatHistory, sessionId, chatHistory, setTermsAccepted } = useChatContext();
   const chainId = useChainId();
-  const { isConnected } = useAccount();
+  const { isConnected } = useConnection();
   const { i18n } = useLingui();
 
   const { loading: LOADING, error: ERROR, canceled: CANCELED, authError: AUTH_ERROR } = MessageType;

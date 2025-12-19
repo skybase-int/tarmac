@@ -1,9 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { QueryParams } from '@/lib/constants';
-import { Heading } from '@/modules/layout/components/Typography';
 import { ChevronLeft } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
-import { CHATBOT_NAME } from '../constants';
 import { Close } from '@/modules/icons';
 
 export const ChatHeader = () => {
@@ -21,10 +19,10 @@ export const ChatHeader = () => {
           <Button variant="ghost" className="h-6 p-0" onClick={handleBack}>
             <ChevronLeft className="text-textSecondary" />
           </Button>
-          <img src="/images/chatbot_logo.svg" alt={`${CHATBOT_NAME} avatar`} width={32} height={32} />
+          {/* <img src="/images/chatbot_logo.svg" alt={`${CHATBOT_NAME} avatar`} width={32} height={32} />
           <Heading variant="extraSmall" className="leading-5 tracking-normal">
             {CHATBOT_NAME}
-          </Heading>
+          </Heading> */}
         </div>
       </div>
       <div id="chat-header-close" className="relative hidden md:block">
