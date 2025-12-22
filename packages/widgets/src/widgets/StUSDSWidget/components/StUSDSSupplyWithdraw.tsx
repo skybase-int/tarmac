@@ -15,7 +15,7 @@ import { useContext, useMemo, useId } from 'react';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { StUSDSFlow } from '../lib/constants';
 import { StUSDSStatsCard } from './StUSDSStatsCard';
-import { useAccount, useChainId } from 'wagmi';
+import { useConnection, useChainId } from 'wagmi';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
@@ -128,7 +128,7 @@ export const StUSDSSupplyWithdraw = ({
     userUsdsBalance > availableLiquidityBuffered;
 
   const { widgetState } = useContext(WidgetContext);
-  const { isConnected } = useAccount();
+  const { isConnected } = useConnection();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
   const disclaimerCheckboxId = useId();
 
@@ -225,14 +225,14 @@ export const StUSDSSupplyWithdraw = ({
               showGauge={true}
             />
             {!isStUsdsDataLoading && remainingCapacityBuffered === 0n ? (
-              <div className="ml-3 mt-2 flex items-start text-amber-400">
+              <div className="mt-2 ml-3 flex items-start text-amber-400">
                 <PopoverRateInfo type="remainingCapacity" iconClassName="mt-1 shrink-0" />
                 <Text variant="small" className="mb-1 ml-2 flex gap-2">
                   Supply capacity reached. Deposits are temporarily unavailable.
                 </Text>
               </div>
             ) : !isStUsdsDataLoading && userBalanceExceedsCapacity ? (
-              <div className="ml-3 mt-2 flex items-start text-white">
+              <div className="mt-2 ml-3 flex items-start text-white">
                 <PopoverRateInfo type="remainingCapacity" iconClassName="mt-1 shrink-0" />
                 <Text variant="small" className="mb-1 ml-2 flex gap-2">
                   You cannot supply your full balance due to current capacity limits.
@@ -297,14 +297,14 @@ export const StUSDSSupplyWithdraw = ({
               showGauge={true}
             />
             {!isStUsdsDataLoading && availableLiquidityBuffered === 0n ? (
-              <div className="ml-3 mt-2 flex items-start text-amber-400">
+              <div className="mt-2 ml-3 flex items-start text-amber-400">
                 <PopoverRateInfo type="stusdsLiquidity" iconClassName="mt-1 shrink-0" />
                 <Text variant="small" className="ml-2 flex gap-2">
                   Available liquidity exhausted. Withdrawals are temporarily unavailable.
                 </Text>
               </div>
             ) : !isStUsdsDataLoading && userSuppliedExceedsLiquidity ? (
-              <div className="ml-3 mt-2 flex items-start text-white">
+              <div className="mt-2 ml-3 flex items-start text-white">
                 <PopoverRateInfo type="stusdsLiquidity" iconClassName="mt-1 shrink-0" />
                 <Text variant="small" className="ml-2 flex gap-2">
                   You cannot withdraw your full balance due to current liquidity limits.
