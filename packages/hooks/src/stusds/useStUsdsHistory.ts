@@ -1,4 +1,4 @@
-import { useAccount, useChainId } from 'wagmi';
+import { useConnection, useChainId } from 'wagmi';
 import { ReadHook } from '../hooks';
 import { StUsdsHistoryItem } from './stusds.d';
 import { request, gql } from 'graphql-request';
@@ -63,7 +63,7 @@ export function useStUsdsHistory({
   subgraphUrl?: string;
   enabled?: boolean;
 } = {}): StUsdsHistoryHook {
-  const { address } = useAccount();
+  const { address } = useConnection();
   const currentChainId = useChainId();
   const urlSubgraph = subgraphUrl ? subgraphUrl : getMakerSubgraphUrl(currentChainId) || '';
   const chainIdToUse = isTestnetId(currentChainId) ? chainIdMap.tenderly : chainIdMap.mainnet;

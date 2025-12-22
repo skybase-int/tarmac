@@ -58,6 +58,7 @@ export default ({ mode }: { mode: modeEnum }) => {
       https://safe-transaction-arbitrum.safe.global
       https://safe-transaction-optimism.safe.global
       https://safe-transaction-unichain.safe.global
+      https://api.safe.global
       https://chain-proxy.wallet.coinbase.com
       https://vote.makerdao.com
       https://vote.sky.money
