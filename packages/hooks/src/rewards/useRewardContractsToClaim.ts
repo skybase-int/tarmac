@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useReadContracts } from 'wagmi';
 import { ReadHook } from '../hooks';
 import { usdsSkyRewardAbi } from '../generated';
@@ -60,36 +61,36 @@ export const useRewardContractsToClaim = ({
     }
   });
 
-  // Parse the results to get contracts with balances > 0
-  const contractsWithBalances = earnedAndTokenData
-    ? (() => {
-        const results: Array<{
-          contractAddress: `0x${string}`;
-          earned: bigint;
-          tokenAddress: `0x${string}`;
-        }> = [];
+  // Parse the results to get contracts with balances > 0 (memoized to prevent re-renders)
+  const contractsWithBalances = useMemo(() => {
+    if (!earnedAndTokenData) return [];
 
-        let dataIndex = 0;
-        for (let addressIndex = 0; addressIndex < addressArray.length; addressIndex++) {
-          for (const contractAddress of rewardContractAddresses) {
-            const earned = earnedAndTokenData[dataIndex] as bigint;
-            const tokenAddress = earnedAndTokenData[dataIndex + 1] as `0x${string}`;
+    const results: Array<{
+      contractAddress: `0x${string}`;
+      earned: bigint;
+      tokenAddress: `0x${string}`;
+    }> = [];
 
-            if (earned && earned > 0n) {
-              results.push({
-                contractAddress,
-                earned,
-                tokenAddress
-              });
-            }
+    let dataIndex = 0;
+    for (let addressIndex = 0; addressIndex < addressArray.length; addressIndex++) {
+      for (const contractAddress of rewardContractAddresses) {
+        const earned = earnedAndTokenData[dataIndex] as bigint;
+        const tokenAddress = earnedAndTokenData[dataIndex + 1] as `0x${string}`;
 
-            dataIndex += 2; // Skip to next pair (earned, rewardsToken)
-          }
+        if (earned && earned > 0n) {
+          results.push({
+            contractAddress,
+            earned,
+            tokenAddress
+          });
         }
 
-        return results;
-      })()
-    : [];
+        dataIndex += 2; // Skip to next pair (earned, rewardsToken)
+      }
+    }
+
+    return results;
+  }, [earnedAndTokenData, addressArray.length, rewardContractAddresses]);
 
   // Fetch token symbols for reward tokens that have balances
   const {
@@ -109,15 +110,16 @@ export const useRewardContractsToClaim = ({
     }
   });
 
-  // Combine all data into the final format
-  const data =
-    contractsWithBalances.length > 0 && tokenSymbols
-      ? contractsWithBalances.map((item, index) => ({
-          contractAddress: item!.contractAddress,
-          claimBalance: item!.earned,
-          rewardSymbol: tokenSymbols[index] as string
-        }))
-      : undefined;
+  // Combine all data into the final format (memoized to prevent re-renders)
+  const data = useMemo(() => {
+    if (contractsWithBalances.length === 0 || !tokenSymbols) return undefined;
+
+    return contractsWithBalances.map((item, index) => ({
+      contractAddress: item!.contractAddress,
+      claimBalance: item!.earned,
+      rewardSymbol: tokenSymbols[index] as string
+    }));
+  }, [contractsWithBalances, tokenSymbols]);
 
   return {
     data,
