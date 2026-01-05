@@ -207,16 +207,16 @@ test.describe('Chatbot', () => {
     // Step 2: Verify optimistic update - user message appears immediately
     await expect(isolatedPage.getByText(testMessage)).toBeVisible({ timeout: 1000 });
 
-    // Step 3: Verify typing indicator shows (optional - may be too fast with mocked responses)
-    // The typing indicator might appear and disappear very quickly with mocked responses
-    const typingIndicator = isolatedPage.getByText(/typing/i);
-    const typingWasVisible = await typingIndicator.isVisible().catch(() => false);
+    // Step 3: Verify loading state shows (optional - may be too fast with mocked responses)
+    // The typing indicator has no text, so we check for the "Stop generating" button instead
+    const stopGeneratingButton = isolatedPage.getByRole('button', { name: 'Stop generating' });
+    const loadingWasVisible = await stopGeneratingButton.isVisible().catch(() => false);
 
-    if (typingWasVisible) {
-      // If we caught the typing indicator, wait for it to disappear
-      await expect(typingIndicator).not.toBeVisible({ timeout: 10000 });
+    if (loadingWasVisible) {
+      // If we caught the loading state, wait for it to disappear
+      await expect(stopGeneratingButton).not.toBeVisible({ timeout: 10000 });
     } else {
-      // If typing was too fast, just wait a bit for the response to render
+      // If loading was too fast, just wait a bit for the response to render
       await isolatedPage.waitForTimeout(500);
     }
 
@@ -808,16 +808,70 @@ test.describe('Chatbot', () => {
     await chatInput.press('Enter');
     await expect(isolatedPage.getByText(`Response to: ${msg2}`)).toBeVisible();
 
-    // Navigate away (e.g. to a different tab/view that doesn't show chat by default or just refreshes query params)
-    // We'll just change the URL parameters to simulate navigation to another "tab" in the app
-    await isolatedPage.goto('/?tab=repay');
+    // Navigate away (e.g. to a different widget that doesn't show chat by default)
+    // We'll just change the URL parameters to simulate navigation to another widget in the app
+    await isolatedPage.goto('/?widget=trade&chat=true');
+    // wait for page to load
+    await isolatedPage.waitForLoadState('networkidle');
 
     // UI should reload, chat might be closed by default if 'chat' param is missing in the new URL
     // Open chat again (either via URL or button)
     // Let's assume we want to simulate user opening it again
-    await chatToggle.click();
+    // await chatToggle.click();
 
     // 7. Verify ALL messages persist
+    await expect(isolatedPage.getByText(msg1, { exact: true })).toBeVisible();
+    await expect(isolatedPage.getByText(`Response to: ${msg1}`)).toBeVisible();
+    await expect(isolatedPage.getByText(msg2, { exact: true })).toBeVisible();
+    await expect(isolatedPage.getByText(`Response to: ${msg2}`)).toBeVisible();
+  });
+
+  test('verifies chat state persistence on close/reopen', async ({ isolatedPage }) => {
+    // 1. Setup standard mock
+    await isolatedPage.route('**/chat', async route => {
+      if (route.request().method() === 'POST') {
+        const body = route.request().postDataJSON();
+        const lastMessage = body.messages[body.messages.length - 1];
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            response: `Response to: ${lastMessage.content}`,
+            actions: []
+          })
+        });
+      } else {
+        await route.continue();
+      }
+    });
+
+    await isolatedPage.waitForSelector('textarea[placeholder]');
+    const chatInput = isolatedPage.locator('textarea');
+    const chatToggle = isolatedPage.getByLabel('Toggle chat');
+
+    // 2. Send initial message
+    const msg1 = 'Message before close';
+    await chatInput.fill(msg1);
+    await chatInput.press('Enter');
+    await expect(isolatedPage.getByText(`Response to: ${msg1}`)).toBeVisible();
+
+    // 3. Send a second message
+    const msg2 = 'Second message';
+    await chatInput.fill(msg2);
+    await chatInput.press('Enter');
+    await expect(isolatedPage.getByText(`Response to: ${msg2}`)).toBeVisible();
+
+    // 4. Close the chat panel using the toggle
+    await chatToggle.click();
+
+    // Verify chat is hidden/closed
+    await expect(chatInput).not.toBeVisible();
+
+    // 5. Reopen Chat using the same toggle
+    await chatToggle.click();
+
+    // 6. Verify conversation persisted after close/reopen
+    await expect(chatInput).toBeVisible();
     await expect(isolatedPage.getByText(msg1, { exact: true })).toBeVisible();
     await expect(isolatedPage.getByText(`Response to: ${msg1}`)).toBeVisible();
     await expect(isolatedPage.getByText(msg2, { exact: true })).toBeVisible();
