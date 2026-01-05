@@ -2,22 +2,23 @@ import { StatsCard } from '@/modules/ui/components/StatsCard';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Text } from '@/modules/layout/components/Typography';
-import { useCurvePoolData, useStUsdsData, calculateRateDifferencePercent } from '@jetstreamgg/sky-hooks';
+import { useCurveRate, useStUsdsData, calculateRateDifferencePercent } from '@jetstreamgg/sky-hooks';
 import { PopoverInfo } from '@jetstreamgg/sky-widgets';
 
 export function StUSDSRateDifferenceCard() {
   const { i18n } = useLingui();
-  const { data: poolData, isLoading: isCurveLoading } = useCurvePoolData();
+  const { curveRate, isLoading: isCurveLoading } = useCurveRate();
   const { data: stUsdsData, isLoading: isStUsdsLoading } = useStUsdsData();
 
-  const curveRate = poolData?.priceOracle || 0n;
   const nativeRate = stUsdsData?.assetPerShare || 0n;
 
   // Calculate rate difference (Curve vs Native)
   const rateDifference =
-    curveRate > 0n && nativeRate > 0n ? calculateRateDifferencePercent(curveRate, nativeRate) : 0;
+    curveRate && curveRate > 0n && nativeRate > 0n
+      ? calculateRateDifferencePercent(curveRate, nativeRate)
+      : 0;
 
-  const hasData = curveRate > 0n && nativeRate > 0n;
+  const hasData = curveRate && curveRate > 0n && nativeRate > 0n;
 
   return (
     <StatsCard

@@ -2,17 +2,17 @@ import { StatsCard } from '@/modules/ui/components/StatsCard';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Text } from '@/modules/layout/components/Typography';
-import { useCurvePoolData } from '@jetstreamgg/sky-hooks';
+import { useCurveRate } from '@jetstreamgg/sky-hooks';
 import { formatBigInt } from '@jetstreamgg/sky-utils';
 import { TokenIcon } from '@/modules/ui/components/TokenIcon';
 import { CurveLogo } from '@/modules/icons/CurveLogo';
 
 export function StUSDSCurveExchangeRateCard() {
   const { i18n } = useLingui();
-  const { data: poolData, isLoading } = useCurvePoolData();
+  const { curveRate, isLoading } = useCurveRate();
 
-  // priceOracle is the USDS per stUSDS rate from Curve's EMA oracle (scaled by 1e18)
-  const exchangeRate = poolData?.priceOracle || 0n;
+  // curveRate is the current USDS per stUSDS exchange rate from the pool (scaled by 1e18)
+  const exchangeRate = curveRate || 0n;
 
   const formattedRate = exchangeRate > 0n ? formatBigInt(exchangeRate, { maxDecimals: 6 }) : '--';
 

@@ -45,6 +45,7 @@ export {
   useCurveApprove,
   useCurveSwap,
   useBatchCurveSwap,
+  useCurveRate,
   StUsdsProviderType,
   StUsdsProviderStatus,
   StUsdsSelectionReason,
