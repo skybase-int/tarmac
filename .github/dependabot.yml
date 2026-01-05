@@ -25,12 +25,6 @@ updates:
           - "wagmi"
           - "@wagmi/*"
           - "ethers"
-          - "@base-org/account"
-          - "@coinbase/wallet-sdk"
-          - "@metamask/sdk"
-          - "@safe-global/safe-apps-provider"
-          - "@safe-global/safe-apps-sdk"
-          - "@walletconnect/ethereum-provider"
         update-types:
           - "minor"
           - "patch"
