@@ -28,7 +28,7 @@ import {
 import { formatUnits } from 'viem';
 import { RiskSlider } from '@widgets/shared/components/ui/RiskSlider';
 import { getRiskTextColor } from '../lib/utils';
-import { useAccount, useChainId } from 'wagmi';
+import { useConnection, useChainId } from 'wagmi';
 import { useRiskSlider } from '../hooks/useRiskSlider';
 import { getTooltipById } from '../../../data/tooltips';
 import { DelegateCheckbox } from './DelegateCheckbox';
@@ -277,7 +277,7 @@ const PositionManagerOverviewContainer = ({
 };
 
 export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolean }) => {
-  const { address } = useAccount();
+  const { address } = useConnection();
   const chainId = useChainId();
   const ilkName = getIlkName(2);
 
@@ -446,7 +446,7 @@ export const Repay = ({ isConnectedAndEnabled }: { isConnectedAndEnabled: boolea
       />
 
       {shouldShowGauge ? (
-        <div className="ml-3 mt-2 flex items-start text-white">
+        <div className="mt-2 ml-3 flex items-start text-white">
           <Info height={15} width={16} className="mt-1 shrink-0" />
           <Text variant="small" className="ml-2">
             {t`You cannot repay your full USDS balance of ${formatBigInt(usdsBalance?.value || 0n, {

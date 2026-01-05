@@ -19,7 +19,7 @@ import { BatchTransactionsToggle } from '@/components/BatchTransactionsToggle';
 //   usdsAddress
 // } from '@jetstreamgg/sky-hooks';
 // import { mainnet } from 'viem/chains';
-// import { useAccount } from 'wagmi';
+// import { useConnection } from 'wagmi';
 // import { Button } from '@/components/ui/button';
 
 const useMock = import.meta.env.VITE_USE_MOCK_WALLET === 'true';
@@ -27,7 +27,7 @@ const useMock = import.meta.env.VITE_USE_MOCK_WALLET === 'true';
 export function Header(): React.ReactElement {
   const { bpi } = useBreakpointIndex();
   const isMobile = bpi < BP.md;
-  // const { address: connectedAddress, isConnected } = useAccount();
+  // const { address: connectedAddress, isConnected } = useConnection();
 
   // const amount = parseEther('2');
 
@@ -74,7 +74,7 @@ export function Header(): React.ReactElement {
     <div
       className={`flex w-full items-center justify-center px-3 py-2 min-h-[${HEADER_HEIGHT}px] max-h-[${HEADER_HEIGHT}px] md:mb-2`}
     >
-      <div className="flex w-full items-center justify-between pl-3 pr-0 sm:px-5">
+      <div className="flex w-full items-center justify-between pr-0 pl-3 sm:px-5">
         <Link to="/?widget=balances" title="Home page">
           <div className="min-w-[96px]">
             <img src={defaultConfig.logo} alt="logo" width={96} />

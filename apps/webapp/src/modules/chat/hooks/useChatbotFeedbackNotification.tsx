@@ -3,7 +3,6 @@ import { toastWithClose } from '@/components/ui/use-toast';
 import { Text } from '@/modules/layout/components/Typography';
 import { HStack } from '@/modules/layout/components/HStack';
 import { Trans } from '@lingui/react/macro';
-import { CHATBOT_NAME } from '@/modules/chat/constants';
 import { ThumbsUp, ThumbsDown, AlertCircle } from 'lucide-react';
 
 const duration = 5000;
@@ -14,13 +13,13 @@ export function useChatbotFeedbackNotification() {
 
     toastWithClose(
       <div>
-        <HStack>
+        {/* <HStack>
           <img src="/images/chatbot_logo.svg" alt={`${CHATBOT_NAME} avatar`} className="h-5 w-5" />
           <Text variant="medium" className="text-selectActive ml-1">
             {CHATBOT_NAME}
           </Text>
-        </HStack>
-        <div className="mt-2 ml-1">
+        </HStack> */}
+        <div className="ml-1">
           <HStack className="items-center gap-0">
             {isPositive ? (
               <ThumbsUp size={16} className="text-green-300/75" />
@@ -50,13 +49,13 @@ export function useChatbotFeedbackNotification() {
   const showFeedbackError = useCallback(() => {
     toastWithClose(
       <div>
-        <HStack>
+        {/* <HStack>
           <img src="/images/chatbot_logo.svg" alt={`${CHATBOT_NAME} avatar`} className="h-5 w-5" />
           <Text variant="medium" className="text-selectActive ml-1">
             {CHATBOT_NAME}
           </Text>
-        </HStack>
-        <div className="mt-2 ml-1">
+        </HStack> */}
+        <div className="ml-1">
           <HStack className="items-center gap-0">
             <AlertCircle size={16} className="text-error" />
             <Text variant="medium">
