@@ -93,3 +93,10 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      # Wallet connector dependencies - managed manually due to compatibility requirements
+      - dependency-name: "@base-org/account"
+      - dependency-name: "@coinbase/wallet-sdk"
+      - dependency-name: "@metamask/sdk"
+      - dependency-name: "@safe-global/safe-apps-provider"
+      - dependency-name: "@safe-global/safe-apps-sdk"
+      - dependency-name: "@walletconnect/ethereum-provider"
