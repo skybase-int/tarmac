@@ -9,7 +9,7 @@ import {
   StUsdsProviderType,
   StUsdsDirection,
   useCurveAllowance,
-  useCurveMaxWithdraw
+  useCurveQuote
 } from '@jetstreamgg/sky-hooks';
 import { useDebounce } from '@jetstreamgg/sky-utils';
 import { useContext, useEffect, useMemo, useState } from 'react';
@@ -111,12 +111,15 @@ const StUSDSWidgetWrapped = ({
   });
 
   // Calculate max USDS withdrawal via Curve based on user's actual stUSDS balance
-  // This uses get_dy to convert stUSDS → USDS at Curve's rate, with a buffer
-  // to prevent "insufficient funds" errors when rates fluctuate
-  const { maxUsdsOutput: curveUserMaxWithdraw } = useCurveMaxWithdraw({
+  // This uses get_dy to convert stUSDS → USDS at Curve's rate
+  const { data: curveMaxQuote } = useCurveQuote({
+    direction: StUsdsDirection.WITHDRAW,
+    amount: 0n, // Not used when isMax=true
     userStUsdsBalance: stUsdsData?.userStUsdsBalance ?? 0n,
-    enabled: tabIndex === 1 // Only calculate for withdraw tab
+    isMax: true,
+    enabled: tabIndex === 1 && (stUsdsData?.userStUsdsBalance ?? 0n) > 0n // Only calculate for withdraw tab with balance
   });
+  const curveUserMaxWithdraw = curveMaxQuote?.usdsAmount;
 
   const isCurveSelected = providerSelection.selectedProvider === StUsdsProviderType.CURVE;
 
