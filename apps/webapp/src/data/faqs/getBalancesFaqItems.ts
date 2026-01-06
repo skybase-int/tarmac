@@ -80,7 +80,7 @@ Your use of MetaMask or any other third-party digital wallet software may be sub
 
 USDS is freely transferable and can be used in connection with any software protocol or platform that supports it. For example, you can use USDS to participate in the [Sky Savings Rate](#tooltip-sky-savings-rate) to accumulate additional USDS, and to access Sky Token Rewards via the Sky.money web app.
 
-The Sky Protocol is governed by a community of broad and diversified individuals and entities from around the world, who hold Sky governance tokens and support the Sky Ecosystem by participating in a system of decentralized onchain voting.
+The Sky Protocol is governed by a community of broad and diversified individuals and entities from around the world, who hold Sky governance tokens and support Sky Ecosystem by participating in a system of decentralized onchain voting.
 
 USDS is also currently available on networks other than Ethereum Mainnet, including Solana, Base and Arbitrum. You can follow the growth of USDS and all Sky Protocol tokens using the [Sky Ecosystem Dashboard](https://info.sky.money/).`,
     index: 5
@@ -94,7 +94,7 @@ USDS is also currently available on networks other than Ethereum Mainnet, includ
   {
     question: 'How can I use USDS?',
     answer:
-      'Like other decentralized stablecoins, USDS is freely transferable and can be used in connection with any software protocol or platform that supports it. Unlike other stablecoins, you can use USDS to participate in the [Sky Savings Rate](#tooltip-sky-savings-rate) to accumulate additional USDS over time, and to access Sky Token Rewards, without giving up control of your digital assets. When you select SKY as your Sky Token Reward, you can participate—if you choose to do so—in the governance of the Sky Ecosystem.',
+      'Like other decentralized stablecoins, USDS is freely transferable and can be used in connection with any software protocol or platform that supports it. Unlike other stablecoins, you can use USDS to participate in the [Sky Savings Rate](#tooltip-sky-savings-rate) to accumulate additional USDS over time, and to access Sky Token Rewards, without giving up control of your digital assets. When you select SKY as your Sky Token Reward, you can participate—if you choose to do so—in the governance of Sky Ecosystem.',
     index: 7
   },
   {

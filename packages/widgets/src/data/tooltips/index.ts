@@ -126,7 +126,7 @@ The SKY Borrow Rate is the current interest rate charged to SKY-backed borrowers
     id: 'debt-ceiling',
     title: 'Debt ceiling',
     tooltip:
-      'The debt ceiling is the maximum amount of debt or tokens that can be issued within the SKY Protocol, serving as a risk management tool to ensure stability and limit overexposure. It is a parameter subject to change by the Sky Ecosystem Governance.'
+      'The debt ceiling is the maximum amount of debt or tokens that can be issued within the SKY Protocol, serving as a risk management tool to ensure stability and limit overexposure. It is a parameter subject to change by Sky Ecosystem Governance.'
   },
   {
     id: 'debt-ceiling-utilization',
