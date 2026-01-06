@@ -99,7 +99,7 @@ catalog:
   vitest: ^3.2.4
   vitest-canvas-mock: ^0.3.3
   wagmi: ^3.1.4
-  zod: ^3.25.76
+  zod: ^4.1.11
 
 catalogMode: strict
 
