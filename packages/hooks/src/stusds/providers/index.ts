@@ -15,6 +15,7 @@ export * from './useCurveAllowance';
 export * from './useCurveApprove';
 export * from './useCurveSwap';
 export * from './useBatchCurveSwap';
+export * from './useCurveRate';
 
 // Provider implementations
 export * from './useNativeStUsdsProvider';
