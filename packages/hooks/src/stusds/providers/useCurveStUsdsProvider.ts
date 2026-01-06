@@ -28,8 +28,13 @@ const MIN_LIQUIDITY_THRESHOLD = 10n ** 16n; // 0.01 tokens
  * @param params - Quote parameters (amount and direction)
  * @returns Provider data in the standard format
  */
-export function useCurveStUsdsProvider(params: StUsdsQuoteParams): StUsdsProviderHookResult {
-  const { amount, direction } = params;
+export function useCurveStUsdsProvider(
+  params: StUsdsQuoteParams & {
+    userStUsdsBalance?: bigint;
+    isMax?: boolean;
+  }
+): StUsdsProviderHookResult {
+  const { amount, direction, userStUsdsBalance, isMax } = params;
 
   // Get Curve pool data
   const {
@@ -43,6 +48,7 @@ export function useCurveStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvide
   // The quote hook now uses direction to determine the correct calculation:
   // - For deposits: amount is USDS input, returns stUSDS output
   // - For withdrawals: amount is desired USDS output, returns required stUSDS input
+  // - For max withdrawals: uses userStUsdsBalance directly, skips get_dx
   const {
     data: quoteData,
     isLoading: isQuoteLoading,
@@ -51,7 +57,9 @@ export function useCurveStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvide
   } = useCurveQuote({
     direction,
     amount,
-    enabled: amount > 0n && !!poolData
+    userStUsdsBalance,
+    isMax,
+    enabled: (amount > 0n || (isMax && (userStUsdsBalance ?? 0n) > 0n)) && !!poolData
   });
 
   // Determine provider state based on pool liquidity
@@ -92,9 +100,9 @@ export function useCurveStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvide
     };
   }, [poolData, direction]);
 
-  // Build quote if amount > 0
+  // Build quote if amount > 0 or it's a max withdrawal
   const quote: StUsdsQuote | undefined = useMemo(() => {
-    if (!state || amount === 0n) return undefined;
+    if (!state || (amount === 0n && !isMax)) return undefined;
 
     if (!quoteData || quoteData.stUsdsAmount === 0n) {
       return {
@@ -173,7 +181,7 @@ export function useCurveStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvide
       isValid,
       invalidReason
     };
-  }, [state, amount, direction, quoteData]);
+  }, [state, amount, direction, quoteData, isMax]);
 
   // Combine into provider data
   const data: StUsdsProviderData | undefined = useMemo(() => {

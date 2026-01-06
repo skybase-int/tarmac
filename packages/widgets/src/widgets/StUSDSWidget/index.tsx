@@ -96,7 +96,9 @@ const StUSDSWidgetWrapped = ({
   const providerSelection = useStUsdsProviderSelection({
     amount: debouncedAmount,
     referenceAmount,
-    direction: tabIndex === 0 ? StUsdsDirection.SUPPLY : StUsdsDirection.WITHDRAW
+    direction: tabIndex === 0 ? StUsdsDirection.SUPPLY : StUsdsDirection.WITHDRAW,
+    userStUsdsBalance: stUsdsData?.userStUsdsBalance,
+    isMax: max
   });
 
   const { hasAllowance: hasCurveUsdsAllowance, mutate: mutateCurveUsdsAllowance } = useCurveAllowance({

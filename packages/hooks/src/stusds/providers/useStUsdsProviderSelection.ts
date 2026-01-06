@@ -16,6 +16,10 @@ export type StUsdsProviderSelectionParams = StUsdsQuoteParams & {
   /** Reference amount used for rate comparison when actual amount is 0.
    * This prevents UI flicker by allowing provider selection before user input. */
   referenceAmount?: bigint;
+  /** User's stUSDS balance for max withdrawals */
+  userStUsdsBalance?: bigint;
+  /** Whether this is a max withdrawal */
+  isMax?: boolean;
 };
 
 /**
@@ -33,7 +37,7 @@ export type StUsdsProviderSelectionParams = StUsdsQuoteParams & {
 export function useStUsdsProviderSelection(
   params: StUsdsProviderSelectionParams
 ): StUsdsProviderSelectionResult {
-  const { direction, amount, referenceAmount } = params;
+  const { direction, amount, referenceAmount, userStUsdsBalance, isMax } = params;
 
   // Use reference amount only as fallback when amount is 0
   // Once user has entered an amount, use actual amount for accurate selection
@@ -54,7 +58,11 @@ export function useStUsdsProviderSelection(
     isLoading: isCurveLoading,
     error: curveError,
     refetch: refetchCurve
-  } = useCurveStUsdsProvider(selectionParams);
+  } = useCurveStUsdsProvider({
+    ...selectionParams,
+    userStUsdsBalance,
+    isMax
+  });
 
   // Determine which provider to use
   const selection = useMemo(() => {

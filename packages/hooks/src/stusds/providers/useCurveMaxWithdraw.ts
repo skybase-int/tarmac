@@ -3,7 +3,6 @@ import { useReadCurveStUsdsUsdsPoolGetDy } from '../../generated';
 import { isTestnetId } from '@jetstreamgg/sky-utils';
 import { TENDERLY_CHAIN_ID } from '../../constants';
 import { useCurvePoolData } from './useCurvePoolData';
-import { STUSDS_PROVIDER_CONFIG, RATE_PRECISION } from './constants';
 
 export type CurveMaxWithdrawParams = {
   /** User's stUSDS balance */
@@ -13,10 +12,8 @@ export type CurveMaxWithdrawParams = {
 };
 
 export type CurveMaxWithdrawResult = {
-  /** Maximum USDS the user can withdraw via Curve (with slippage buffer) */
+  /** Maximum USDS the user can withdraw via Curve */
   maxUsdsOutput: bigint | undefined;
-  /** Raw USDS output without slippage buffer */
-  rawUsdsOutput: bigint | undefined;
   /** Whether the data is loading */
   isLoading: boolean;
   /** Error if the query failed */
@@ -28,16 +25,7 @@ export type CurveMaxWithdrawResult = {
  * based on their stUSDS balance.
  *
  * Uses get_dy(stUsds_idx, usds_idx, userStUsdsBalance) to get the exact
- * USDS output for the user's full stUSDS balance, then applies a slippage buffer.
- *
- * The buffer is necessary because:
- * 1. User clicks 100% → we show buffered max USDS
- * 2. Quote calls get_dx(usdsAmount) to find stUSDS needed
- * 3. If rate shifts between get_dy and get_dx, without buffer the required
- *    stUSDS could exceed user's balance → "insufficient funds" error
- *
- * By showing a slightly lower max (99.5%), we ensure that get_dx will return
- * an stUSDS amount within the user's balance even with small rate fluctuations.
+ * USDS output for the user's full stUSDS balance.
  */
 export function useCurveMaxWithdraw(params: CurveMaxWithdrawParams): CurveMaxWithdrawResult {
   const { userStUsdsBalance, enabled = true } = params;
@@ -65,17 +53,9 @@ export function useCurveMaxWithdraw(params: CurveMaxWithdrawParams): CurveMaxWit
     }
   });
 
-  // Apply slippage buffer to get a conservative max
-  // This ensures that when the user inputs this max amount, the required stUSDS
-  // (calculated via get_dx) will not exceed their balance due to rate fluctuations
-  const slippageMultiplier = RATE_PRECISION.BPS_DIVISOR - BigInt(STUSDS_PROVIDER_CONFIG.maxSlippageBps);
-
-  const maxUsdsOutput =
-    usdsOutput !== undefined ? (usdsOutput * slippageMultiplier) / RATE_PRECISION.BPS_DIVISOR : undefined;
-
+  // Return the raw USDS output directly without any buffer
   return {
-    maxUsdsOutput,
-    rawUsdsOutput: usdsOutput,
+    maxUsdsOutput: usdsOutput,
     isLoading: isPoolLoading || isOutputLoading,
     error: error as Error | null
   };
