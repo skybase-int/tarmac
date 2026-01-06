@@ -15,25 +15,25 @@ export type CurveRateResult = {
 
  */
 export function useCurveRate(): CurveRateResult {
-  // Get quote for selling 1 stUSDS for USDS (withdraw direction)
+  // Get quote for withdrawing: takes 1 USDS as desired output, returns required stUSDS input
   const {
     data: withdrawQuote,
     isLoading: isWithdrawLoading,
     error: withdrawError
   } = useCurveQuote({
     direction: StUsdsDirection.WITHDRAW,
-    amount: RATE_PRECISION.WAD,
+    amount: RATE_PRECISION.WAD, // 1 USDS desired output
     enabled: true
   });
 
-  // Get quote for buying stUSDS with 1 USDS (supply direction)
+  // Get quote for supplying: takes 1 USDS as input, returns stUSDS output
   const {
     data: supplyQuote,
     isLoading: isSupplyLoading,
     error: supplyError
   } = useCurveQuote({
     direction: StUsdsDirection.SUPPLY,
-    amount: RATE_PRECISION.WAD,
+    amount: RATE_PRECISION.WAD, // 1 USDS input
     enabled: true
   });
 

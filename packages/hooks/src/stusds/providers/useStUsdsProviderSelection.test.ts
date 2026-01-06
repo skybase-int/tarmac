@@ -504,9 +504,9 @@ describe('useStUsdsProviderSelection', () => {
 
       result.current.refetch();
 
-      // Called twice: once for selection data hooks, once for quote data hooks
-      expect(nativeRefetch).toHaveBeenCalledTimes(2);
-      expect(curveRefetch).toHaveBeenCalledTimes(2);
+      // Each provider's refetch is called once
+      expect(nativeRefetch).toHaveBeenCalledTimes(1);
+      expect(curveRefetch).toHaveBeenCalledTimes(1);
     });
   });
 
