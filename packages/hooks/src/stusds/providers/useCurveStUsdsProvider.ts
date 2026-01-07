@@ -194,7 +194,7 @@ export function useCurveStUsdsProvider(
     };
   }, [state, quote]);
 
-  const isLoading = isPoolLoading || (amount > 0n && isQuoteLoading);
+  const isLoading = isPoolLoading || isQuoteLoading;
   const error = poolError || quoteError;
 
   const refetch = () => {
