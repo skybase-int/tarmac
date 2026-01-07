@@ -3,7 +3,7 @@ import { Text } from '@widgets/shared/components/ui/Typography';
 import { InfoTooltip } from '@widgets/shared/components/ui/tooltip/InfoTooltip';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { useIsBatchSupported } from '@jetstreamgg/sky-hooks';
-import { useChainId } from 'wagmi';
+import { useChainId, useConnection } from 'wagmi';
 import { isTestnetId } from '@jetstreamgg/sky-utils';
 
 /**
@@ -13,8 +13,9 @@ import { isTestnetId } from '@jetstreamgg/sky-utils';
 export function BundledTransactionWarning({ flowTitle }: { flowTitle: string }) {
   const chainId = useChainId();
   const { isLoading } = useIsBatchSupported();
+  const { isConnected } = useConnection();
 
-  if (isLoading || isTestnetId(chainId)) return null;
+  if (isLoading || isTestnetId(chainId) || !isConnected) return null;
 
   return (
     <motion.div variants={positionAnimations}>
