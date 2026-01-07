@@ -89,13 +89,13 @@ For upgrade details and step-by-step upgrade instructions, please visit the [MKR
       question: 'Are SKY and MKR tokens the same?',
       answer: `Think of SKY not as different from MKR, but as the technical and functional evolution of MKR, with SKY inheriting the governance functionalities previously held by MKR. The upgrade is at the rate of 1:24,000 (1 MKR = 24,000 SKY).
 
-SKY is the sole governance token of the Sky Ecosystem and the upgrade of MKR. SKY token holders can use their SKY to participate directly in Sky Ecosystem Governance through a system of decentralized onchain voting, and/or to entrust their voting power to one or more governance delegates or a contract that they own. Voting with MKR is no longer possible.`,
+SKY is the sole governance token of Sky Ecosystem and the upgrade of MKR. SKY token holders can use their SKY to participate directly in Sky Ecosystem Governance through a system of decentralized onchain voting, and/or to entrust their voting power to one or more governance delegates or a contract that they own. Voting with MKR is no longer possible.`,
       index: 8
     },
     {
       question: 'Are Sky and Maker the same?',
       answer:
-        'The Sky Ecosystem is the rebrand of Maker. Maker became Sky in 2024, taking the Maker Protocol to the next level with new technology that focuses on resilience and simplicity while remaining decentralized and non-custodial. The Sky Protocol is maintained by Sky Ecosystem Governance and is easy to access and explore via the Sky.money web app, a gateway to the Protocol.',
+        'Sky Ecosystem is the rebrand of Maker. Maker became Sky in 2024, taking the Maker Protocol to the next level with new technology that focuses on resilience and simplicity while remaining decentralized and non-custodial. The Sky Protocol is maintained by Sky Ecosystem Governance and is easy to access and explore via the Sky.money web app, a gateway to the Protocol.',
       index: 9
     },
     {
@@ -138,7 +138,7 @@ Delegates granted voting power can never directly access any SKY tokens delegate
 
 SKY is the technical and functional evolution of MKR, inheriting and extending the governance functionalities previously held by MKR. It reflects the community's desire to streamline governance, increase voter participation, and support the ecosystem's long-term growth and scalability.
 
-MKR holders can upgrade their tokens to SKY at the rate of 1:24,000 (1 MKR = 24,000 SKY). For upgrade details, see the [MKR to SKY Upgrade Hub](https://upgrademkrtosky.sky.money). For the most current information on all things Sky, join the community conversations in the [Sky Forum](https://forum.sky.money/), [Sky Discord](https://discord.com/invite/skyecosystem), and [Sky Builder Discord](https://discord.gg/skybuilder), where the Sky community dives deep into Sky Stars, the Sky Agent Framework and Sky Ecosystem Governance.`,
+MKR holders can upgrade their tokens to SKY at the rate of 1:24,000 (1 MKR = 24,000 SKY). For upgrade details, see the [MKR to SKY Upgrade Hub](https://upgrademkrtosky.sky.money). For the most current information on all things Sky, join the community conversations in the [Sky Forum](https://forum.sky.money/) and [Sky Discord](https://discord.com/invite/skyecosystem).`,
       index: 14
     },
     {
@@ -166,7 +166,7 @@ For upgrade details and step-by-step upgrade instructions, please visit the [MKR
 
 USDS is freely transferable and can be used in connection with any software protocol or platform that supports it. For example, you can use USDS to participate in the [Sky Savings Rate](#tooltip-sky-savings-rate) to accumulate additional USDS, and to access Sky Token Rewards via the Sky.money web app.
 
-The Sky Protocol is governed by a community of broad and diversified individuals and entities from around the world, who hold Sky governance tokens and support the Sky Ecosystem by participating in a system of decentralized onchain voting.
+The Sky Protocol is governed by a community of broad and diversified individuals and entities from around the world, who hold Sky governance tokens and support Sky Ecosystem by participating in a system of decentralized onchain voting.
 
 USDS is also currently available on networks other than Ethereum Mainnet, including Solana, Base and Arbitrum. You can follow the health of USDS and all Sky Protocol tokens using the [Sky Ecosystem Dashboard](https://info.sky.money/).`,
       index: 18
@@ -181,7 +181,7 @@ Other mechanisms of the decentralized Sky Protocol that are used to keep USDS st
 
 • **Peg Stability Modules (PSMs).** Peg Stability Modules (PSMs) are smart contracts that allow users to convert certain stablecoins directly with the Sky Protocol for USDS or DAI at a fixed rate and with relatively low fees. They are designed to maintain the stability of USDS and DAI. Unlike decentralized exchange (DEX) transactions, PSM operations do not involve trading between users. Instead, they are direct, non-custodial conversions (generate and burn) executed with the decentralized smart contracts of the Sky Protocol.
 
-Through PSMs, USDS or DAI is obtained via predictable-rate conversion (typically a 1:1 ratio with certain stablecoins, or, in the case of sUSDS, for an amount reflecting its current price) rather than through borrowing. For example, given the existence of a USDC-backed PSM, a user could supply 100 USDC stablecoins to generate 100 USDS or 100 DAI (minus fees), without taking on any debt. Given that PSM operations are facilitated on the Sky Protocol directly and not on a DEX, price slippage (i.e., the difference between the expected price of a token and the actual price when traded) is not a concern. Zero Sky Protocol fees and no slippage are some of the benefits of using PSM, which adds liquidity to the assets backing the PSM. That liquidity helps to keep the value of USDS and DAI stable.
+Through PSMs, USDS or DAI is obtained via predictable-rate conversion (typically a 1:1 ratio with certain stablecoins, or, in the case of sUSDS, for an amount reflecting its current price) rather than through borrowing. For example, given the existence of a USDC-backed PSM, a user could supply 100 USDC stablecoins to generate 100 USDS or 100 DAI (minus fees), without taking on any debt. Given that PSM operations are facilitated on the Sky Protocol directly and not on a DEX, price slippage (i.e., the difference between the expected price of a token and the actual price when traded) is not a concern. Zero Sky Protocol fees and no slippage are some of the functional advantages of using PSM, which adds liquidity to the assets backing the PSM. That liquidity helps to keep the value of USDS and DAI stable.
 
 • **The Smart Burn Engine (SBE).** The Smart Burn Engine is a smart contract that programmatically acquires SKY on the DeFi markets and deposits it into Sky Protocol-owned USDS/SKY liquidity pools using Sky Protocol surplus once the Surplus Buffer has hit a certain threshold set by Sky Ecosystem Governance. Depositing SKY into these pools improves token liquidity and also increases the capital buffers of the Sky Protocol. Note that the SBE no longer holds DAI and MKR, and it no longer buys MKR.
 
