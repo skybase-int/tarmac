@@ -57,8 +57,8 @@ export function ProviderIndicator({
         className={`w-full items-center justify-start rounded-lg px-3 py-2 ${isInfo ? 'bg-accent/10' : 'bg-surface'}`}
         gap={2}
       >
-        <LoadingSpinner className="h-4 w-4" />
-        <Text variant="medium" className="text-text font-medium">
+        <LoadingSpinner className="text-textSecondary h-4 w-4" />
+        <Text variant="small" className="text-textSecondary">
           <Trans>Fetching rates</Trans>
         </Text>
       </HStack>
