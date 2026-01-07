@@ -117,7 +117,7 @@ const StUSDSWidgetWrapped = ({
     amount: 0n, // Not used when isMax=true
     userStUsdsBalance: stUsdsData?.userStUsdsBalance ?? 0n,
     isMax: true,
-    enabled: tabIndex === 1 && (stUsdsData?.userStUsdsBalance ?? 0n) > 0n // Only calculate for withdraw tab with balance
+    enabled: (stUsdsData?.userStUsdsBalance ?? 0n) > 0n
   });
   const curveUserMaxWithdraw = curveMaxQuote?.usdsAmount;
 
