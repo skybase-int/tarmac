@@ -52,3 +52,26 @@ export const checkChatbotTerms = async (): Promise<CheckTermsResponse> => {
     ...data
   };
 };
+
+interface AssociateWalletResponse {
+  success: boolean;
+  alreadyRecorded?: boolean;
+}
+
+export const associateWalletWithTerms = async (walletAddress: string): Promise<AssociateWalletResponse> => {
+  const response = await fetch(`${CHATBOT_DOMAIN}/chatbot/terms/wallet`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
+    },
+    body: JSON.stringify({ walletAddress })
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to associate wallet: ${response.status}`);
+  }
+
+  return response.json();
+};
