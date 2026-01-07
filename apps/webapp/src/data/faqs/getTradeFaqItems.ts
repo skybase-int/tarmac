@@ -69,7 +69,7 @@ Please see the [Terms of Use](https://docs.sky.money/legal-terms) for more infor
   {
     question: 'What is SkyLink, and how does it work?',
     answer:
-      "SkyLink is the Sky system that provides the rails for Sky Ecosystem projects, such as [Spark](https://spark.fi/), to link assets between the Sky Protocol on Ethereum Mainnet and supported L2 networks. This enables end users on L2s, such as Base and Arbitrum for example, to tap into Sky Protocol features via the Sky Ecosystem projects' rails.",
+      "SkyLink is the Sky system that provides the rails for Sky Ecosystem projects, such as [Spark](https://spark.fi/), to link assets between the Sky Protocol on Ethereum Mainnet and supported L2 networks. This enables end users on L2s, such as Base and Arbitrum for example, to tap into Sky Protocol features via Sky Ecosystem projects' rails.",
     index: 4
   },
   {

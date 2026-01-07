@@ -3,7 +3,7 @@ export const getSparkSpecificFaqItems = () => {
     {
       question: 'What is Spark?',
       answer:
-        'Spark is the very first Star Agent in the Sky Ecosystem. It is focused on building on USDS in the Ethereum and adjacent DeFi ecosystem. Like all Sky Star Agents, Spark is an independent decentralized project. [Spark.fi](https://spark.fi/) is a gateway to the non-custodial Sky Protocol, offering users—especially USDS holders—products around saving, borrowing and liquidity provision. More than just another DeFi app, Spark.fi is the core liquidity and yield infrastructure layer for onchain finance. Please see the [Terms of Use](https://docs.sky.money/legal-terms) for more information on third-party services.',
+        'Spark is the very first Star Agent in Sky Ecosystem. It is focused on building on USDS in the Ethereum and adjacent DeFi ecosystem. Like all Sky Star Agents, Spark is an independent decentralized project. [Spark.fi](https://spark.fi/) is a gateway to the non-custodial Sky Protocol, offering users—especially USDS holders—products around saving, borrowing and liquidity provision. More than just another DeFi app, Spark.fi is the core liquidity and yield infrastructure layer for onchain finance. Please see the [Terms of Use](https://docs.sky.money/legal-terms) for more information on third-party services.',
       index: 0
     },
     {
