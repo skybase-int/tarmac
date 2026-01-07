@@ -101,6 +101,7 @@ export function useCurveStUsdsProvider(
   }, [poolData, direction]);
 
   // Build quote if amount > 0 or it's a max withdrawal
+  // Note: Max withdrawals start with amount=0 since output is calculated from balance
   const quote: StUsdsQuote | undefined = useMemo(() => {
     if (!state || (amount === 0n && !isMax)) return undefined;
 

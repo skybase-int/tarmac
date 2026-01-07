@@ -61,9 +61,7 @@ export function useStUsdsProviderSelection(
   } = useCurveStUsdsProvider({
     ...selectionParams,
     userStUsdsBalance,
-    // For rate comparison with reference amount, use regular quotes
-    // When user has entered an amount, respect their isMax choice
-    isMax: amount > 0n ? isMax : false
+    isMax: isMax ?? false
   });
 
   // Determine which provider to use

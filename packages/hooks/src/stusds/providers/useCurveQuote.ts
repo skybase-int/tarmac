@@ -87,7 +87,8 @@ export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
     args: [BigInt(usdsIndex), BigInt(stUsdsIndex), amount],
     chainId,
     query: {
-      enabled: enabled && direction === StUsdsDirection.SUPPLY && amount > 0n && !!poolData
+      enabled: enabled && direction === StUsdsDirection.SUPPLY && amount > 0n && !!poolData,
+      refetchInterval: 15000 // Refetch every 15 seconds
     }
   });
 
@@ -102,7 +103,8 @@ export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
     args: [BigInt(stUsdsIndex), BigInt(usdsIndex), amount],
     chainId,
     query: {
-      enabled: enabled && direction === StUsdsDirection.WITHDRAW && amount > 0n && !!poolData && !isMax
+      enabled: enabled && direction === StUsdsDirection.WITHDRAW && amount > 0n && !!poolData && !isMax,
+      refetchInterval: 15000 // Refetch every 15 seconds
     }
   });
 
@@ -121,7 +123,8 @@ export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
         direction === StUsdsDirection.WITHDRAW &&
         isMax &&
         (userStUsdsBalance ?? 0n) > 0n &&
-        !!poolData
+        !!poolData,
+      refetchInterval: 15000 // Refetch every 15 seconds
     }
   });
 

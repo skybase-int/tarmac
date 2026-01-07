@@ -223,12 +223,18 @@ const StUSDSWidgetWrapped = ({
     ? undefined
     : (providerSelection.nativeProvider?.state?.maxDeposit ?? remainingCapacityBuffered);
 
-  // For Curve: use user's max based on their stUSDS balance converted at Curve's rate (with buffer)
-  // For Native: use user's max withdrawable from contract (in USDS terms)
-  // Note: curveUserMaxWithdraw already includes a 0.5% buffer to prevent "insufficient funds"
-  // errors when rates fluctuate between clicking 100% and transaction execution
+  // For Curve: use user's max based on their stUSDS balance converted at Curve's rate (unbuffered)
+  // For Native: use user's max withdrawable from contract (buffered to prevent liquidity issues)
   const nativeMaxWithdraw = stUsdsData?.userMaxWithdrawBuffered ?? 0n;
   const maxWithdrawAmount = isCurveSelected ? (curveUserMaxWithdraw ?? nativeMaxWithdraw) : nativeMaxWithdraw;
+
+  // Update amount when max is true and maxWithdrawAmount changes
+  // This keeps the input synced with the latest max value when user has clicked 100%
+  useEffect(() => {
+    if (max && widgetState.flow === StUSDSFlow.WITHDRAW && maxWithdrawAmount > 0n) {
+      setAmount(maxWithdrawAmount);
+    }
+  }, [max, maxWithdrawAmount, widgetState.flow]);
 
   const isSupplyBalanceError =
     txStatus === TxStatus.IDLE &&
