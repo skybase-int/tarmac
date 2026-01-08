@@ -231,7 +231,7 @@ jobs:
         run: |
           echo "🔒 Running stateful tests that manipulate VNet state..."
           echo "These tests run serially to avoid state conflicts"
-          cd apps/webapp && pnpm playwright test --config=playwright-parallel.config.ts --workers=1 --grep "stUSDS Provider"
+          cd apps/webapp && pnpm playwright test --config=playwright-parallel.config.ts --workers=1 stusds-provider-switching
         env:
           TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
 
@@ -322,7 +322,7 @@ jobs:
 
           # Run the parallel tests with retry script, excluding stateful tests
           chmod +x ./apps/webapp/run-tests-with-retry.sh
-          cd apps/webapp && pnpm playwright test --config=playwright-parallel.config.ts --grep-invert "stUSDS Provider"
+          cd apps/webapp && pnpm playwright test --config=playwright-parallel.config.ts --grep-invert "stusds-provider-switching"
         env:
           TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
 
