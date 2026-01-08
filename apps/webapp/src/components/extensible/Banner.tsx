@@ -3,8 +3,10 @@ import { cn } from '@/lib/utils';
 import { X } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Text, Heading } from '@/modules/layout/components/Typography';
+import { isBannerDismissed, setBannerDismissed, setAnalyticsEnabled } from '@/lib/utils/analytics-preference';
+import { loadCookie3Script } from '@/lib/utils/cookie3';
 
-const SHOW_BANNER = false;
+const SHOW_BANNER = true;
 
 export type BannerPosition = 'left' | 'right';
 
@@ -25,11 +27,43 @@ export function Banner({
   onAction,
   onSecondaryAction
 }: BannerProps) {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    // Show the banner on initial load if the user hasn't dismissed it yet
+    if (!isBannerDismissed() && !isVisible) {
+      setIsVisible(true);
+    }
+  }, []);
+
+  // Listen for custom event to show privacy banner from FooterLinks
+  useEffect(() => {
+    const handleShowBanner = () => {
+      setIsVisible(true);
+    };
+
+    window.addEventListener('showPrivacyBanner', handleShowBanner);
+    return () => {
+      window.removeEventListener('showPrivacyBanner', handleShowBanner);
+    };
+  }, []);
 
   const handleDismiss = () => {
+    setBannerDismissed();
     setIsVisible(false);
+    // Should dismissing also set the analytics to either enabled or disabled as default?
     onDismiss?.();
+  };
+
+  onAction = () => {
+    setAnalyticsEnabled(true);
+    loadCookie3Script();
+    handleDismiss();
+  };
+
+  onSecondaryAction = () => {
+    setAnalyticsEnabled(false);
+    handleDismiss();
   };
 
   const shouldShow = SHOW_BANNER && isVisible;
@@ -73,27 +107,24 @@ export function Banner({
         </button>
         <div className="mb-3">
           <Heading variant="small" className="text-text">
-            Banner Title
+            Privacy Preferences
           </Heading>
         </div>
         <div className="space-y-2">
           <Text variant="medium" className="text-text">
-            This is a test banner to verify positioning, responsiveness, and z-index layering across different
-            viewport sizes. The banner should appear fixed at the bottom of the screen, remaining visible as
-            you scroll through content.
+            We use Cookie3 analytics to collect information about how you interact with our website. This
+            helps us improve our services and user experience.
           </Text>
           <Text variant="medium" className="text-text">
-            It should sit above Sonner toast notifications but below any modal dialogs that may open. On
-            mobile devices, the banner should adapt gracefully with readable text and accessible touch
-            targets.
+            You can disable analytics at any time.
           </Text>
         </div>
         <div className="mt-4 flex gap-2">
           <Button variant="primary" className="px-4 py-2" onClick={onAction}>
-            Primary Action
+            Accept
           </Button>
           <Button variant="secondary" className="border bg-transparent px-4 py-2" onClick={onSecondaryAction}>
-            Secondary Action
+            Reject
           </Button>
         </div>
       </div>
