@@ -1,8 +1,10 @@
 import { useLingui } from '@lingui/react';
+import { Trans } from '@lingui/react/macro';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { StUsdsProviderType, StUsdsSelectionReason, StUsdsBlockedReason } from '@jetstreamgg/sky-hooks';
 import { CurveLogo } from '@widgets/shared/components/icons/CurveLogo';
+import { LoadingSpinner } from '@widgets/shared/components/ui/spinner/LoadingSpinner';
 import {
   getProviderMessage,
   StUSDSFlow,
@@ -42,19 +44,28 @@ export function ProviderIndicator({
     return null;
   }
 
-  // Don't show while loading
-  if (isLoading) {
-    return null;
-  }
-
   const isCurve = selectedProvider === StUsdsProviderType.CURVE;
-
-  const message = getProviderMessage(selectionReason, rateDifferencePercent, flow, nativeBlockedReason, i18n);
-
   const isWarning = selectionReason === StUsdsSelectionReason.ALL_BLOCKED;
   const isInfo =
     selectionReason === StUsdsSelectionReason.CURVE_ONLY_AVAILABLE ||
     selectionReason === StUsdsSelectionReason.CURVE_BETTER_RATE;
+
+  // Show loading state with spinner
+  if (isLoading) {
+    return (
+      <HStack
+        className={`w-full items-center justify-start rounded-lg px-3 py-2 ${isInfo ? 'bg-accent/10' : 'bg-surface'}`}
+        gap={2}
+      >
+        <LoadingSpinner className="h-4 w-4" />
+        <Text variant="medium" className="text-text font-medium">
+          <Trans>Fetching rates</Trans>
+        </Text>
+      </HStack>
+    );
+  }
+
+  const message = getProviderMessage(selectionReason, rateDifferencePercent, flow, nativeBlockedReason, i18n);
 
   const isWarningPremium =
     Math.abs(rateDifferencePercent) > STUSDS_PREMIUM_WARNING_THRESHOLD &&
