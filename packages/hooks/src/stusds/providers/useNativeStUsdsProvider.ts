@@ -158,6 +158,9 @@ export function useNativeStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvid
           state.blockedReason === StUsdsBlockedReason.AMOUNT_EXCEEDS_LIQUIDITY
             ? 'Amount exceeds available liquidity'
             : 'Withdrawals are currently unavailable';
+      } else if (state.maxWithdraw !== undefined && amount > state.maxWithdraw) {
+        isValid = false;
+        invalidReason = 'Amount exceeds available liquidity';
       }
     }
 
