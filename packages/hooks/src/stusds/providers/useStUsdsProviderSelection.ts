@@ -61,7 +61,9 @@ export function useStUsdsProviderSelection(
   } = useCurveStUsdsProvider({
     ...selectionParams,
     userStUsdsBalance,
-    isMax: isMax ?? false
+    // For rate comparison with reference amount (amount = 0n), use regular quotes, max withdrawal with 0 doesn't work
+    // When user has entered an amount, respect their isMax choice
+    isMax: amount > 0n ? isMax : false
   });
 
   // Determine which provider to use
