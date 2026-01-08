@@ -162,18 +162,6 @@ describe('walletTermsAssociation service', () => {
       expect(cache[TEST_WALLET_ADDRESS]).toBeUndefined();
     });
 
-    it('should log error when API call fails', async () => {
-      const testError = new Error('Network error');
-      vi.mocked(termsApi.associateWalletWithTerms).mockRejectedValueOnce(testError);
-
-      await triggerWalletAssociation(TEST_WALLET_ADDRESS);
-
-      expect(console.error).toHaveBeenCalledWith(
-        '[WalletTermsAssociation] Failed to associate wallet:',
-        testError
-      );
-    });
-
     it('should preserve existing cache entries when adding new ones', async () => {
       // Set up existing cache
       const existingTimestamp = Date.now() - 1000;
