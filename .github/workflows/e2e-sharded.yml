@@ -178,77 +178,9 @@ jobs:
             exit 1
           fi
 
-  # Run stateful tests serially (tests that manipulate shared VNet state)
-  stateful-tests:
-    needs: setup-vnets
-    if: needs.setup-vnets.outputs.vnets-ready == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-
-    env:
-      VITE_ENV_NAME: development
-      VITE_TERMS_LINK: '[{"url":"https://legal-terms","name":"Terms of Use"}]'
-      VITE_BATCH_TX_ENABLED: 'true'
-      VITE_USE_MOCK_WALLET: 'true'
-      VITE_SKIP_AUTH_CHECK: 'true'
-      VITE_SKIP_CHAT_AUTH_CHECK: 'true'
-      VITE_CHATBOT_ENABLED: 'true'
-      TEST_WORKERS: '1'  # Run serially
-      SKIP_FUNDING: 'true'
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.17.0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build packages
-        run: pnpm build:packages
-        env:
-          NODE_OPTIONS: "--max-old-space-size=4096"
-
-      - name: Install Playwright browsers
-        run: pnpm -F webapp exec playwright install --with-deps chromium
-
-      - name: Download VNet data
-        uses: actions/download-artifact@v4
-        with:
-          name: vnet-data
-
-      - name: Run stateful tests serially
-        run: |
-          echo "🔒 Running stateful tests that manipulate VNet state..."
-          echo "These tests run serially to avoid state conflicts"
-          cd apps/webapp && pnpm playwright test --config=playwright-parallel.config.ts --workers=1 stusds-provider-switching
-        env:
-          TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
-
-      - name: Upload test results (if failed)
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: stateful-tests-results-${{ github.run_id }}
-          path: |
-            apps/webapp/playwright-report/
-            apps/webapp/test-results/
-            apps/webapp/test-results.json
-          retention-days: 7
-
   # Run tests in shards
   test-shards:
-    needs: [setup-vnets, stateful-tests]
+    needs: setup-vnets
     if: needs.setup-vnets.outputs.vnets-ready == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 25
@@ -344,6 +276,74 @@ jobs:
           name: shard-${{ matrix.shard }}-test-traces-${{ github.run_id }}
           path: apps/webapp/test-results/
           retention-days: 3
+
+  # Run stateful tests serially AFTER shards (tests that manipulate shared VNet state)
+  stateful-tests:
+    needs: [setup-vnets, test-shards]
+    if: needs.setup-vnets.outputs.vnets-ready == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    env:
+      VITE_ENV_NAME: development
+      VITE_TERMS_LINK: '[{"url":"https://legal-terms","name":"Terms of Use"}]'
+      VITE_BATCH_TX_ENABLED: 'true'
+      VITE_USE_MOCK_WALLET: 'true'
+      VITE_SKIP_AUTH_CHECK: 'true'
+      VITE_SKIP_CHAT_AUTH_CHECK: 'true'
+      VITE_CHATBOT_ENABLED: 'true'
+      TEST_WORKERS: '1'  # Run serially
+      SKIP_FUNDING: 'true'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.17.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm build:packages
+        env:
+          NODE_OPTIONS: "--max-old-space-size=4096"
+
+      - name: Install Playwright browsers
+        run: pnpm -F webapp exec playwright install --with-deps chromium
+
+      - name: Download VNet data
+        uses: actions/download-artifact@v4
+        with:
+          name: vnet-data
+
+      - name: Run stateful tests serially
+        run: |
+          echo "🔒 Running stateful tests that manipulate VNet state..."
+          echo "These tests run AFTER shards complete to avoid state conflicts"
+          cd apps/webapp && pnpm playwright test --config=playwright-parallel.config.ts --workers=1 stusds-provider-switching
+        env:
+          TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
+
+      - name: Upload test results (if failed)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stateful-tests-results-${{ github.run_id }}
+          path: |
+            apps/webapp/playwright-report/
+            apps/webapp/test-results/
+            apps/webapp/test-results.json
+          retention-days: 7
 
   # Aggregate results from all shards
   aggregate-results:
