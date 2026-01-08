@@ -58,7 +58,7 @@ interface AssociateWalletResponse {
   alreadyRecorded?: boolean;
 }
 
-export const associateWalletWithTerms = async (walletAddress: string): Promise<AssociateWalletResponse> => {
+export const associateWalletWithTerms = async (wallet: string): Promise<AssociateWalletResponse> => {
   const response = await fetch(`${CHATBOT_DOMAIN}/chatbot/terms/wallet`, {
     method: 'POST',
     credentials: 'include',
@@ -66,7 +66,7 @@ export const associateWalletWithTerms = async (walletAddress: string): Promise<A
       'Content-Type': 'application/json',
       Accept: 'application/json'
     },
-    body: JSON.stringify({ walletAddress })
+    body: JSON.stringify({ wallet })
   });
 
   if (!response.ok) {
