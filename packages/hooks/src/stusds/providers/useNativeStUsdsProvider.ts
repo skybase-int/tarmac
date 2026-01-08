@@ -146,18 +146,18 @@ export function useNativeStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvid
     if (direction === StUsdsDirection.SUPPLY) {
       if (!state.canDeposit) {
         isValid = false;
-        invalidReason = 'Deposits are currently unavailable';
-      } else if (state.maxDeposit !== undefined && amount > state.maxDeposit) {
-        isValid = false;
-        invalidReason = 'Amount exceeds remaining capacity';
+        invalidReason =
+          state.blockedReason === StUsdsBlockedReason.AMOUNT_EXCEEDS_SUPPLY_CAPACITY
+            ? 'Amount exceeds remaining capacity'
+            : 'Deposits are currently unavailable';
       }
     } else {
       if (!state.canWithdraw) {
         isValid = false;
-        invalidReason = 'Withdrawals are currently unavailable';
-      } else if (state.maxWithdraw !== undefined && amount > state.maxWithdraw) {
-        isValid = false;
-        invalidReason = 'Amount exceeds available liquidity';
+        invalidReason =
+          state.blockedReason === StUsdsBlockedReason.AMOUNT_EXCEEDS_LIQUIDITY
+            ? 'Amount exceeds available liquidity'
+            : 'Withdrawals are currently unavailable';
       }
     }
 
