@@ -105,7 +105,10 @@ export function useStUsdsProviderSelection(
 
       rateDifferencePercent = comparison.differencePercent;
 
-      if (comparison.isSignificantDifference && comparison.betterProvider) {
+      const rateExceedsThreshold =
+        Math.abs(comparison.differencePercent) >= STUSDS_PROVIDER_CONFIG.rateSwitchThresholdBps / 100;
+
+      if (rateExceedsThreshold && comparison.betterProvider) {
         if (comparison.betterProvider === StUsdsProviderType.CURVE) {
           selectedProvider = StUsdsProviderType.CURVE;
           selectionReason = StUsdsSelectionReason.CURVE_BETTER_RATE;
