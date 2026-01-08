@@ -49,8 +49,10 @@ export enum StUsdsSelectionReason {
 export enum StUsdsBlockedReason {
   /** Native: Supply capacity has been reached */
   SUPPLY_CAPACITY_REACHED = 'supply_capacity_reached',
+  AMOUNT_EXCEEDS_SUPPLY_CAPACITY = 'amount_exceeds_supply_capacity',
   /** Native: Available liquidity exhausted */
   LIQUIDITY_EXHAUSTED = 'liquidity_exhausted',
+  AMOUNT_EXCEEDS_LIQUIDITY = 'amount_exceeds_liquidity',
   /** Curve: Insufficient stUSDS liquidity for deposits */
   CURVE_INSUFFICIENT_STUSDS_LIQUIDITY = 'curve_insufficient_stusds_liquidity',
   /** Curve: Insufficient USDS liquidity for withdrawals */
