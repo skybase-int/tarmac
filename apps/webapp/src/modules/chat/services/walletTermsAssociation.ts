@@ -29,25 +29,16 @@ export const shouldSkipAssociation = (walletAddress: string): boolean => {
   const entry = cache[walletAddress];
 
   if (!entry) {
-    console.log('[WalletTermsAssociation] No cache entry for wallet:', walletAddress);
     return false;
   }
 
   const age = Date.now() - entry.timestamp;
-  const shouldSkip = age < CACHE_EXPIRY_MS;
-  console.log('[WalletTermsAssociation] Cache check:', {
-    walletAddress,
-    ageInDays: (age / (24 * 60 * 60 * 1000)).toFixed(2),
-    shouldSkip
-  });
-  return shouldSkip;
+  return age < CACHE_EXPIRY_MS;
 };
 
 export const triggerWalletAssociation = async (walletAddress: string): Promise<void> => {
-  console.log('[WalletTermsAssociation] Triggering association for wallet:', walletAddress);
   try {
     await associateWalletWithTerms(walletAddress);
-    console.log('[WalletTermsAssociation] Association successful, updating cache');
     updateCache(walletAddress);
   } catch (error) {
     console.error('[WalletTermsAssociation] Failed to associate wallet:', error);
