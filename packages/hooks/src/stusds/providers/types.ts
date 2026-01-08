@@ -194,7 +194,10 @@ export type StUsdsProviderSelectionResult = {
  * Configuration for rate comparison logic.
  */
 export type StUsdsRateComparisonConfig = {
-  /** Minimum rate difference (basis points) to prefer one provider over another */
+  /**
+   * Minimum rate advantage (basis points) required to prefer Curve over native.
+   * Native is the default; Curve must exceed this threshold to be selected.
+   */
   rateSwitchThresholdBps: number;
   /**
    * Maximum acceptable slippage for swaps (basis points).

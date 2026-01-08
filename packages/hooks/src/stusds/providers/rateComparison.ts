@@ -10,7 +10,7 @@ export type RateComparisonResult = {
   betterProvider: StUsdsProviderType | null;
   /** Percentage difference between rates (positive = first provider better) */
   differencePercent: number;
-  /** Whether the difference exceeds the threshold for switching */
+  /** Whether the difference exceeds the minimum threshold to prefer a non-default provider */
   isSignificantDifference: boolean;
 };
 
