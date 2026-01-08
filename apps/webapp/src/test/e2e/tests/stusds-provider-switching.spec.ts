@@ -3,7 +3,15 @@ import { performAction } from '../utils/approveOrPerformAction';
 import { connectMockWalletAndAcceptTerms } from '../utils/connectMockWalletAndAcceptTerms.ts';
 import { enableNativeProvider, forceCurveProvider, getStUsdsSupplyCap } from '../utils/setStUsdsSupplyCap';
 import { getCurvePoolReserves } from '../utils/curvePoolManipulation';
+import { revertToSnapshot } from '../revert-vnets';
+import { NetworkName } from '../utils/constants';
 import { formatUnits } from 'viem';
+import { promises as fs } from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /**
  * Comprehensive test suite for stUSDS provider selection (Native vs Curve).
@@ -14,8 +22,14 @@ import { formatUnits } from 'viem';
  * - Dynamic provider switching via cap manipulation
  * - Withdrawal flows with both providers
  * - Curve pool state validation
+ *
+ * IMPORTANT: These tests manipulate shared VNet state (supply cap, pool reserves)
+ * and must run serially to avoid race conditions.
  */
 test.describe('stUSDS Provider', () => {
+  // Run tests in this file serially to avoid state conflicts
+  test.describe.configure({ mode: 'serial' });
+
   test.beforeEach(async ({ isolatedPage }) => {
     await isolatedPage.goto('/');
     await connectMockWalletAndAcceptTerms(isolatedPage, { batch: true });
@@ -24,6 +38,24 @@ test.describe('stUSDS Provider', () => {
     await isolatedPage.getByTestId('stusds-stats-card').click();
   });
 
+  test.afterEach(async () => {
+    // Restore VNet to clean snapshot after each test
+    // This ensures state changes (cap manipulation) don't affect subsequent tests
+    try {
+      const snapshotFile = path.join(__dirname, '..', 'persistent-vnet-snapshots.json');
+      const snapshotData = await fs.readFile(snapshotFile, 'utf-8');
+      const snapshots: Record<string, string> = JSON.parse(snapshotData);
+      const snapshotId = snapshots[NetworkName.mainnet];
+
+      if (snapshotId) {
+        await revertToSnapshot(NetworkName.mainnet, snapshotId);
+        console.log('✅ VNet state restored to clean snapshot');
+      }
+    } catch (error) {
+      console.warn('⚠️  Failed to restore snapshot:', (error as Error).message);
+      // Don't fail the test if snapshot restoration fails
+    }
+  });
   test('Native provider works when cap is high', async ({ isolatedPage }) => {
     // Set a very high supply cap to enable native provider
     await enableNativeProvider();
@@ -33,6 +65,12 @@ test.describe('stUSDS Provider', () => {
     console.log(`Current supply cap: ${formatUnits(cap, 18)} USDS`);
     expect(cap).toBeGreaterThan(BigInt('100000000000000000000000000')); // > 100M USDS
 
+    // Reload to pick up the new cap
+    await isolatedPage.reload();
+    await connectMockWalletAndAcceptTerms(isolatedPage, { batch: true });
+    await isolatedPage.getByRole('tab', { name: 'Expert' }).click();
+    await isolatedPage.getByTestId('stusds-stats-card').click();
+
     // Enter amount to supply
     await isolatedPage.getByTestId('supply-input-stusds').click();
     await isolatedPage.getByTestId('supply-input-stusds').fill('10');
@@ -40,28 +78,22 @@ test.describe('stUSDS Provider', () => {
     // Wait for provider selection to complete
     await isolatedPage.waitForTimeout(2000);
 
-    // Native provider should be used (no Curve indicator)
-    const curveIndicator = isolatedPage.getByText(/Using Curve pool/);
+    // Native provider should be used (no Curve routing indicator)
+    const curveIndicator = isolatedPage.getByText(/Routing through Curve/);
     const curveIndicatorCount = await curveIndicator.count();
+    expect(curveIndicatorCount).toBe(0);
 
-    if (curveIndicatorCount > 0) {
-      console.log('⚠️  Curve is being used despite high cap - may indicate Curve has better rate');
-      // This is valid - Curve might have a better rate even with high cap
-      // The test should pass either way
-    } else {
-      console.log('✅ Native provider is being used as expected');
-    }
+    console.log('✅ Native provider is being used as expected');
 
     // Check the disclaimer checkbox
     await isolatedPage.getByRole('checkbox').click();
 
-    // Perform the supply action
+    // Perform the supply action (bundled transactions with batch wallet)
     await performAction(isolatedPage, 'Supply');
 
-    // Verify success (works for both providers)
+    // Verify native success message
     const nativeSuccess = isolatedPage.getByText("You've supplied 10 USDS to the stUSDS module");
-    const curveSuccess = isolatedPage.getByText("You've swapped 10 USDS for stUSDS via Curve pool");
-    await expect(nativeSuccess.or(curveSuccess)).toBeVisible({ timeout: 30000 });
+    await expect(nativeSuccess).toBeVisible({ timeout: 30000 });
   });
 
   test('Curve provider used when supply cap reached', async ({ isolatedPage }) => {
@@ -80,11 +112,11 @@ test.describe('stUSDS Provider', () => {
     await isolatedPage.waitForTimeout(2000);
 
     // Curve provider should be indicated
-    const curveIndicator = isolatedPage.getByText(/Using Curve pool/);
+    const curveIndicator = isolatedPage.getByText(/Routing through Curve/);
     await expect(curveIndicator).toBeVisible();
 
     // Should show "supply cap reached" reason
-    const capReachedMessage = isolatedPage.getByText(/supply cap reached/i);
+    const capReachedMessage = isolatedPage.getByText(/supply capacity is reached/i);
     await expect(capReachedMessage).toBeVisible();
 
     console.log('✅ Curve provider is being used due to supply cap');
@@ -92,11 +124,11 @@ test.describe('stUSDS Provider', () => {
     // Check the disclaimer checkbox
     await isolatedPage.getByRole('checkbox').click();
 
-    // Perform the supply action (should route through Curve)
-    await performAction(isolatedPage, 'Supply');
+    // Perform the supply action (should route through Curve, bundled transactions)
+    await performAction(isolatedPage, 'Swap');
 
     // Verify Curve success message
-    const curveSuccess = isolatedPage.getByText("You've swapped 10 USDS for stUSDS via Curve pool");
+    const curveSuccess = isolatedPage.getByText("You've supplied 10 USDS to the Curve pool for stUSDS");
     await expect(curveSuccess).toBeVisible({ timeout: 30000 });
   });
 
@@ -117,7 +149,7 @@ test.describe('stUSDS Provider', () => {
 
     // Refresh the page to pick up the new cap
     await isolatedPage.reload();
-    await connectMockWalletAndAcceptTerms(isolatedPage);
+    await connectMockWalletAndAcceptTerms(isolatedPage, { batch: true });
     await isolatedPage.getByRole('tab', { name: 'Expert' }).click();
     await isolatedPage.getByTestId('stusds-stats-card').click();
 
@@ -127,7 +159,7 @@ test.describe('stUSDS Provider', () => {
     await isolatedPage.waitForTimeout(2000);
 
     // Curve should now be indicated
-    const curveIndicator = isolatedPage.getByText(/Using Curve pool/);
+    const curveIndicator = isolatedPage.getByText(/Routing through Curve/);
     await expect(curveIndicator).toBeVisible();
 
     console.log('✅ Successfully switched to Curve provider by reducing cap');
@@ -138,7 +170,7 @@ test.describe('stUSDS Provider', () => {
     await isolatedPage.getByTestId('supply-input-stusds').click();
     await isolatedPage.getByTestId('supply-input-stusds').fill('20');
     await isolatedPage.getByRole('checkbox').click();
-    await performAction(isolatedPage, 'Supply');
+    await performAction(isolatedPage, 'Swap');
     await isolatedPage.getByRole('button', { name: 'Back to stUSDS' }).click();
 
     // Switch to Withdraw tab
@@ -150,14 +182,12 @@ test.describe('stUSDS Provider', () => {
     await isolatedPage.getByTestId('withdraw-input-stusds').fill('5');
     await isolatedPage.waitForTimeout(2000);
 
-    // Perform withdrawal
-    await performAction(isolatedPage, 'Withdraw');
+    // Perform withdrawal (bundled transactions with batch wallet)
+    await performAction(isolatedPage, 'Swap');
 
     // Verify success (works for both providers)
     const nativeWithdrawSuccess = isolatedPage.getByText("You've withdrawn 5 USDS from the stUSDS module.");
-    const curveWithdrawSuccess = isolatedPage.getByText(
-      /You've swapped your stUSDS for 5.*USDS via Curve pool/
-    );
+    const curveWithdrawSuccess = isolatedPage.getByText(/You've withdrawn 5 USDS from the Curve pool./);
     await expect(nativeWithdrawSuccess.or(curveWithdrawSuccess)).toBeVisible({ timeout: 30000 });
 
     console.log('✅ Withdrawal completed successfully');
