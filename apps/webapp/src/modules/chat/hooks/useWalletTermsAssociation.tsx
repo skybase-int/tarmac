@@ -7,32 +7,66 @@ import { CHATBOT_ENABLED } from '@/lib/constants';
 export const useWalletTermsAssociation = (): void => {
   const { address, isConnected } = useConnection();
   const isAssociatingRef = useRef(false);
+  const pendingAddressRef = useRef<string | null>(null);
 
-  const associateWalletIfTermsAccepted = useCallback(async () => {
-    if (!address || isAssociatingRef.current) return;
-
-    if (shouldSkipAssociation(address)) {
+  const processPendingAssociation = useCallback(async () => {
+    if (isAssociatingRef.current || !pendingAddressRef.current) {
       return;
     }
 
     isAssociatingRef.current = true;
 
     try {
-      const termsStatus = await checkChatbotTerms();
+      while (pendingAddressRef.current) {
+        const walletToAssociate = pendingAddressRef.current;
+        pendingAddressRef.current = null;
 
-      if (termsStatus.accepted) {
-        await triggerWalletAssociation(address);
+        if (!walletToAssociate || shouldSkipAssociation(walletToAssociate)) {
+          continue;
+        }
+
+        const termsStatus = await checkChatbotTerms();
+
+        if (termsStatus.accepted) {
+          await triggerWalletAssociation(walletToAssociate);
+        }
       }
     } catch (error) {
       console.error('[useWalletTermsAssociation] Failed:', error);
     } finally {
       isAssociatingRef.current = false;
+
+      if (pendingAddressRef.current) {
+        void processPendingAssociation();
+      }
     }
-  }, [address]);
+  }, []);
+
+  const queueAssociation = useCallback(
+    (walletAddress: string | null | undefined) => {
+      if (!walletAddress) {
+        pendingAddressRef.current = null;
+        return;
+      }
+
+      pendingAddressRef.current = walletAddress;
+
+      if (!isAssociatingRef.current) {
+        void processPendingAssociation();
+      }
+    },
+    [processPendingAssociation]
+  );
 
   useEffect(() => {
-    if (CHATBOT_ENABLED && isConnected && address) {
-      associateWalletIfTermsAccepted();
+    if (!CHATBOT_ENABLED) {
+      return;
     }
-  }, [isConnected, address, associateWalletIfTermsAccepted]);
+
+    if (isConnected && address) {
+      queueAssociation(address);
+    } else {
+      pendingAddressRef.current = null;
+    }
+  }, [address, isConnected, queueAssociation]);
 };
