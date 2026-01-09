@@ -136,8 +136,8 @@ export const ChatIntentsRow = ({ intents }: ChatIntentsRowProps) => {
           content={
             <Text variant="small">
               <Trans>
-                Selecting a suggested action will prefill transaction details, but execution still requires
-                user review and confirmation.
+                Selecting a suggested action navigates you to the appropriate action flow. Transaction details
+                are not prefilled and require manual entry and confirmation.
               </Trans>
             </Text>
           }
