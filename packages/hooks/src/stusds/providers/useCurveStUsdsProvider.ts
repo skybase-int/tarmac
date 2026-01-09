@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { useCurvePoolData } from './useCurvePoolData';
 import { useCurveQuote } from './useCurveQuote';
+import { useCurveRate } from './useCurveRate';
 import { STUSDS_PROVIDER_CONFIG } from './constants';
 import {
   StUsdsProviderType,
@@ -44,6 +45,9 @@ export function useCurveStUsdsProvider(
     refetch: refetchPool
   } = useCurvePoolData();
 
+  // Get reference rate for price impact calculation
+  const { curveRate, isLoading: isRateLoading } = useCurveRate();
+
   // Get quote from Curve pool
   // The quote hook now uses direction to determine the correct calculation:
   // - For deposits: amount is USDS input, returns stUSDS output
@@ -59,6 +63,7 @@ export function useCurveStUsdsProvider(
     amount,
     userStUsdsBalance,
     isMax,
+    referenceRate: curveRate,
     enabled: (amount > 0n || (isMax && (userStUsdsBalance ?? 0n) > 0n)) && !!poolData
   });
 
@@ -195,7 +200,7 @@ export function useCurveStUsdsProvider(
     };
   }, [state, quote]);
 
-  const isLoading = isPoolLoading || isQuoteLoading;
+  const isLoading = isPoolLoading || isQuoteLoading || isRateLoading;
   const error = poolError || quoteError;
 
   const refetch = () => {
