@@ -250,11 +250,10 @@ jobs:
         run: |
           echo "🔀 Running shard ${{ matrix.shard }} of ${{ github.event.inputs.shards || '4' }}"
           echo "Workers per shard: $TEST_WORKERS"
-          echo "Excluding stateful tests (already run separately)"
 
-          # Run the parallel tests with retry script, excluding stateful tests
+          # Run the parallel tests with retry script
           chmod +x ./apps/webapp/run-tests-with-retry.sh
-          cd apps/webapp && pnpm playwright test --config=playwright-parallel.config.ts --grep-invert "stusds-provider-switching"
+          cd apps/webapp && ./run-tests-with-retry.sh
         env:
           TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
 
@@ -277,77 +276,9 @@ jobs:
           path: apps/webapp/test-results/
           retention-days: 3
 
-  # Run stateful tests serially AFTER shards (tests that manipulate shared VNet state)
-  stateful-tests:
-    needs: [setup-vnets, test-shards]
-    if: needs.setup-vnets.outputs.vnets-ready == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-
-    env:
-      VITE_ENV_NAME: development
-      VITE_TERMS_LINK: '[{"url":"https://legal-terms","name":"Terms of Use"}]'
-      VITE_BATCH_TX_ENABLED: 'true'
-      VITE_USE_MOCK_WALLET: 'true'
-      VITE_SKIP_AUTH_CHECK: 'true'
-      VITE_SKIP_CHAT_AUTH_CHECK: 'true'
-      VITE_CHATBOT_ENABLED: 'true'
-      TEST_WORKERS: '1'  # Run serially
-      SKIP_FUNDING: 'true'
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.17.0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build packages
-        run: pnpm build:packages
-        env:
-          NODE_OPTIONS: "--max-old-space-size=4096"
-
-      - name: Install Playwright browsers
-        run: pnpm -F webapp exec playwright install --with-deps chromium
-
-      - name: Download VNet data
-        uses: actions/download-artifact@v4
-        with:
-          name: vnet-data
-
-      - name: Run stateful tests serially
-        run: |
-          echo "🔒 Running stateful tests that manipulate VNet state..."
-          echo "These tests run AFTER shards complete to avoid state conflicts"
-          cd apps/webapp && pnpm playwright test --config=playwright-parallel.config.ts --workers=1 stusds-provider-switching
-        env:
-          TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
-
-      - name: Upload test results (if failed)
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: stateful-tests-results-${{ github.run_id }}
-          path: |
-            apps/webapp/playwright-report/
-            apps/webapp/test-results/
-            apps/webapp/test-results.json
-          retention-days: 7
-
   # Aggregate results from all shards
   aggregate-results:
-    needs: [stateful-tests, test-shards]
+    needs: test-shards
     if: always()
     runs-on: ubuntu-latest
 
@@ -368,15 +299,6 @@ jobs:
           echo "- **Networks**: ${{ github.event.inputs.networks || 'mainnet,base,arbitrum,optimism,unichain' }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
-          # Check stateful tests result
-          if [ "${{ needs.stateful-tests.result }}" == "success" ]; then
-            echo "### ✅ Stateful tests passed" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "### ❌ Stateful tests failed" >> $GITHUB_STEP_SUMMARY
-          fi
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          # Check sharded tests result
           if [ "${{ needs.test-shards.result }}" == "success" ]; then
             echo "### ✅ All shards passed" >> $GITHUB_STEP_SUMMARY
           else
