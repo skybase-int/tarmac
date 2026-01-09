@@ -267,14 +267,16 @@ const StUSDSWidgetWrapped = ({
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
     isWithdrawBalanceError ||
     (txStatus === TxStatus.IDLE && !stUsdsWithdraw.prepared) ||
-    isAmountWaitingForDebounce;
+    isAmountWaitingForDebounce ||
+    debouncedAmount === 0n;
 
   const batchSupplyDisabled =
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
     isSupplyBalanceError ||
     !batchStUsdsDeposit.prepared ||
     batchStUsdsDeposit.isLoading ||
-    isAmountWaitingForDebounce;
+    isAmountWaitingForDebounce ||
+    debouncedAmount === 0n;
 
   const hasUsdsWalletBalance = stUsdsData?.userUsdsBalance !== undefined && stUsdsData.userUsdsBalance > 0n;
 
