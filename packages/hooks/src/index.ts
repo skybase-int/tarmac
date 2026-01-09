@@ -40,7 +40,6 @@ export {
   useStUsdsProviderSelection,
   useCurvePoolData,
   useCurveQuote,
-  useCurveMaxWithdraw,
   useCurveAllowance,
   useCurveApprove,
   useCurveSwap,
