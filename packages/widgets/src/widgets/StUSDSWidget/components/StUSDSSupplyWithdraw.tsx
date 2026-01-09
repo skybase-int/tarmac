@@ -16,6 +16,7 @@ import { WidgetContext } from '@widgets/context/WidgetContext';
 import { StUSDSFlow } from '../lib/constants';
 import { StUSDSStatsCard } from './StUSDSStatsCard';
 import { ProviderIndicator } from './ProviderIndicator';
+import { PriceImpactWarning } from './PriceImpactWarning';
 import { useConnection, useChainId } from 'wagmi';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
@@ -48,6 +49,9 @@ type StUSDSSupplyWithdrawProps = {
   onDisclaimerChange?: (checked: boolean) => void;
   // Provider selection data
   providerSelection?: StUsdsProviderSelectionResult;
+  // Price impact warning state for Curve swaps
+  swapAnyway?: boolean;
+  onSwapAnywayChange?: (checked: boolean) => void;
 };
 
 export const StUSDSSupplyWithdraw = ({
@@ -71,7 +75,9 @@ export const StUSDSSupplyWithdraw = ({
   remainingCapacityBuffered,
   disclaimerChecked = false,
   onDisclaimerChange,
-  providerSelection
+  providerSelection,
+  swapAnyway = false,
+  onSwapAnywayChange
 }: StUSDSSupplyWithdrawProps) => {
   const inputToken = TOKENS.usds;
   const chainId = useChainId();
@@ -264,6 +270,14 @@ export const StUSDSSupplyWithdraw = ({
                 />
               </div>
             )}
+            {/* Price impact warning for Curve swaps */}
+            {isCurveSelected && onSwapAnywayChange && (
+              <PriceImpactWarning
+                priceImpactBps={providerSelection?.selectedQuote?.rateInfo.priceImpactBps}
+                swapAnyway={swapAnyway}
+                onSwapAnywayChange={onSwapAnywayChange}
+              />
+            )}
             {isSupplyDisabled ? (
               <div className="mt-2 ml-3 flex items-start text-amber-400">
                 <PopoverRateInfo type="remainingCapacity" iconClassName="mt-1 shrink-0" />
@@ -350,6 +364,14 @@ export const StUSDSSupplyWithdraw = ({
                   nativeMaxAmount={availableLiquidityBuffered}
                 />
               </div>
+            )}
+            {/* Price impact warning for Curve swaps */}
+            {isCurveSelected && onSwapAnywayChange && (
+              <PriceImpactWarning
+                priceImpactBps={providerSelection?.selectedQuote?.rateInfo.priceImpactBps}
+                swapAnyway={swapAnyway}
+                onSwapAnywayChange={onSwapAnywayChange}
+              />
             )}
             {isWithdrawDisabled ? (
               <div className="mt-2 ml-3 flex items-start text-amber-400">
