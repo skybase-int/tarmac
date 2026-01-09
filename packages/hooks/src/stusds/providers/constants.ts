@@ -4,7 +4,11 @@ import type { StUsdsRateComparisonConfig } from './types';
  * Configuration for provider selection and rate comparison.
  */
 export const STUSDS_PROVIDER_CONFIG: StUsdsRateComparisonConfig = {
-  /** Minimum rate difference (basis points) to prefer one provider over another */
+  /**
+   * Minimum rate advantage (basis points) required to prefer Curve over native.
+   * Native is the default provider; Curve is only selected if it offers at least
+   * this much better rate.
+   */
   rateSwitchThresholdBps: 10, // 0.1%
 
   /**

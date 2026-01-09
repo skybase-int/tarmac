@@ -3,6 +3,7 @@ import { MessageDescriptor } from '@lingui/core';
 import { BatchStatus, TxStatus } from '@widgets/shared/constants';
 import { TxCardCopyText } from '@widgets/shared/types/txCardCopyText';
 import { StUsdsSelectionReason, StUsdsBlockedReason } from '@jetstreamgg/sky-hooks';
+import { formatBigInt } from '@jetstreamgg/sky-utils';
 import type { I18n } from '@lingui/core';
 
 export enum StUSDSFlow {
@@ -25,6 +26,7 @@ export function getProviderMessage(
   rateDifferencePercent: number,
   flow: StUSDSFlow,
   nativeBlockedReason: StUsdsBlockedReason | undefined,
+  nativeMaxAmount: bigint | undefined,
   i18n: I18n
 ): string {
   switch (selectionReason) {
@@ -41,6 +43,7 @@ export function getProviderMessage(
     //curve only available
     case StUsdsSelectionReason.CURVE_ONLY_AVAILABLE:
       switch (nativeBlockedReason) {
+        // Fully exhausted - no native capacity at all
         case StUsdsBlockedReason.SUPPLY_CAPACITY_REACHED: {
           const rateText = Math.abs(rateDifferencePercent).toFixed(2);
           if (rateDifferencePercent < 0) {
@@ -54,6 +57,19 @@ export function getProviderMessage(
           }
         }
 
+        // Amount exceeds capacity - user could reduce amount
+        case StUsdsBlockedReason.AMOUNT_EXCEEDS_SUPPLY_CAPACITY: {
+          const rateText = Math.abs(rateDifferencePercent).toFixed(2);
+          if (rateDifferencePercent > 0) {
+            return `${i18n._(msg`Routing through Curve for a better rate`)} (+${rateText}%)`;
+          }
+          const maxAmountText = formatBigInt(nativeMaxAmount!, { compact: true });
+          return i18n._(
+            msg`Routing through Curve with a ${rateText}% premium. Avoid the premium by supplying ${maxAmountText} USDS or less.`
+          );
+        }
+
+        // Fully exhausted - no native liquidity at all
         case StUsdsBlockedReason.LIQUIDITY_EXHAUSTED: {
           const rateText = Math.abs(rateDifferencePercent).toFixed(2);
           if (rateDifferencePercent < 0) {
@@ -65,6 +81,18 @@ export function getProviderMessage(
           } else {
             return i18n._(msg`Routing through Curve, as the liquidity is exhausted`);
           }
+        }
+
+        // Amount exceeds liquidity - user could reduce amount
+        case StUsdsBlockedReason.AMOUNT_EXCEEDS_LIQUIDITY: {
+          const rateText = Math.abs(rateDifferencePercent).toFixed(2);
+          if (rateDifferencePercent > 0) {
+            return `${i18n._(msg`Routing through Curve for a better rate`)} (+${rateText}%)`;
+          }
+          const maxAmountText = formatBigInt(nativeMaxAmount!, { compact: true });
+          return i18n._(
+            msg`Routing through Curve with a ${rateText}% premium. Avoid the premium by withdrawing ${maxAmountText} USDS or less.`
+          );
         }
 
         default:

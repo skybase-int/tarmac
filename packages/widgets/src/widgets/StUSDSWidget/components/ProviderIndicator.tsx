@@ -20,6 +20,8 @@ export type ProviderIndicatorProps = {
   isLoading?: boolean;
   /** Specific reason why native is blocked */
   nativeBlockedReason?: StUsdsBlockedReason;
+  /** Max amount available via native (for amount-exceeds scenarios) */
+  nativeMaxAmount?: bigint;
 };
 
 /**
@@ -32,7 +34,8 @@ export function ProviderIndicator({
   rateDifferencePercent,
   flow,
   isLoading = false,
-  nativeBlockedReason
+  nativeBlockedReason,
+  nativeMaxAmount
 }: ProviderIndicatorProps) {
   const { i18n } = useLingui();
 
@@ -57,15 +60,22 @@ export function ProviderIndicator({
         className={`w-full items-center justify-start rounded-lg px-3 py-2 ${isInfo ? 'bg-accent/10' : 'bg-surface'}`}
         gap={2}
       >
-        <LoadingSpinner className="h-4 w-4" />
-        <Text variant="medium" className="text-text font-medium">
+        <LoadingSpinner className="text-textSecondary h-4 w-4" />
+        <Text variant="small" className="text-textSecondary">
           <Trans>Fetching rates</Trans>
         </Text>
       </HStack>
     );
   }
 
-  const message = getProviderMessage(selectionReason, rateDifferencePercent, flow, nativeBlockedReason, i18n);
+  const message = getProviderMessage(
+    selectionReason,
+    rateDifferencePercent,
+    flow,
+    nativeBlockedReason,
+    nativeMaxAmount,
+    i18n
+  );
 
   const isWarningPremium =
     Math.abs(rateDifferencePercent) > STUSDS_PREMIUM_WARNING_THRESHOLD &&

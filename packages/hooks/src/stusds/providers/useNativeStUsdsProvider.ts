@@ -63,11 +63,14 @@ export function useNativeStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvid
   const state: StUsdsProviderState | undefined = useMemo(() => {
     if (!stUsdsData || !capacityData) return undefined;
 
-    // Check if deposits are available (remaining capacity > 0)
-    const canDeposit = capacityData.remainingCapacityBuffered > 0n;
+    // Check if deposits are available for the requested amount
+    const hasAnyDepositCapacity = capacityData.remainingCapacityBuffered > 0n;
+    const canDeposit = amount > 0n ? amount <= capacityData.remainingCapacityBuffered : hasAnyDepositCapacity;
 
-    // Check if withdrawals are available (liquidity > 0)
-    const canWithdraw = stUsdsData.availableLiquidityBuffered > 0n;
+    // Check if withdrawals are available for the requested amount
+    const hasAnyWithdrawLiquidity = stUsdsData.availableLiquidityBuffered > 0n;
+    const canWithdraw =
+      amount > 0n ? amount <= stUsdsData.availableLiquidityBuffered : hasAnyWithdrawLiquidity;
 
     // Determine overall status
     let status: StUsdsProviderStatus;
@@ -80,9 +83,13 @@ export function useNativeStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvid
     let blockedReason: StUsdsBlockedReason | undefined;
     if (status === StUsdsProviderStatus.BLOCKED) {
       if (direction === StUsdsDirection.SUPPLY) {
-        blockedReason = StUsdsBlockedReason.SUPPLY_CAPACITY_REACHED;
+        blockedReason = hasAnyDepositCapacity
+          ? StUsdsBlockedReason.AMOUNT_EXCEEDS_SUPPLY_CAPACITY
+          : StUsdsBlockedReason.SUPPLY_CAPACITY_REACHED;
       } else {
-        blockedReason = StUsdsBlockedReason.LIQUIDITY_EXHAUSTED;
+        blockedReason = hasAnyWithdrawLiquidity
+          ? StUsdsBlockedReason.AMOUNT_EXCEEDS_LIQUIDITY
+          : StUsdsBlockedReason.LIQUIDITY_EXHAUSTED;
       }
     }
 
@@ -95,7 +102,7 @@ export function useNativeStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvid
       maxWithdraw: stUsdsData.userMaxWithdrawBuffered,
       blockedReason
     };
-  }, [stUsdsData, capacityData, direction]);
+  }, [stUsdsData, capacityData, direction, amount]);
 
   // Build quote if amount > 0
   const quote: StUsdsQuote | undefined = useMemo(() => {
@@ -139,15 +146,18 @@ export function useNativeStUsdsProvider(params: StUsdsQuoteParams): StUsdsProvid
     if (direction === StUsdsDirection.SUPPLY) {
       if (!state.canDeposit) {
         isValid = false;
-        invalidReason = 'Deposits are currently unavailable';
-      } else if (state.maxDeposit !== undefined && amount > state.maxDeposit) {
-        isValid = false;
-        invalidReason = 'Amount exceeds remaining capacity';
+        invalidReason =
+          state.blockedReason === StUsdsBlockedReason.AMOUNT_EXCEEDS_SUPPLY_CAPACITY
+            ? 'Amount exceeds remaining capacity'
+            : 'Deposits are currently unavailable';
       }
     } else {
       if (!state.canWithdraw) {
         isValid = false;
-        invalidReason = 'Withdrawals are currently unavailable';
+        invalidReason =
+          state.blockedReason === StUsdsBlockedReason.AMOUNT_EXCEEDS_LIQUIDITY
+            ? 'Amount exceeds available liquidity'
+            : 'Withdrawals are currently unavailable';
       } else if (state.maxWithdraw !== undefined && amount > state.maxWithdraw) {
         isValid = false;
         invalidReason = 'Amount exceeds available liquidity';

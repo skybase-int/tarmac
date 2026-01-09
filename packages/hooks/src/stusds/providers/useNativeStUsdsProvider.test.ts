@@ -118,6 +118,30 @@ describe('useNativeStUsdsProvider', () => {
       expect(result.current.data?.state.canDeposit).toBe(false);
       expect(result.current.data?.state.blockedReason).toBe(StUsdsBlockedReason.SUPPLY_CAPACITY_REACHED);
     });
+
+    it('should be blocked when amount exceeds capacity', () => {
+      (useStUsdsCapacityData as ReturnType<typeof vi.fn>).mockReturnValue({
+        data: {
+          remainingCapacityBuffered: 500n * WAD
+        },
+        isLoading: false,
+        error: null,
+        mutate: vi.fn()
+      });
+
+      const { result } = renderHook(() =>
+        useNativeStUsdsProvider({
+          amount: 1000n * WAD,
+          direction: StUsdsDirection.SUPPLY
+        })
+      );
+
+      expect(result.current.data?.state.status).toBe(StUsdsProviderStatus.BLOCKED);
+      expect(result.current.data?.state.canDeposit).toBe(false);
+      expect(result.current.data?.state.blockedReason).toBe(
+        StUsdsBlockedReason.AMOUNT_EXCEEDS_SUPPLY_CAPACITY
+      );
+    });
   });
 
   describe('withdraw availability', () => {
@@ -154,6 +178,29 @@ describe('useNativeStUsdsProvider', () => {
       expect(result.current.data?.state.status).toBe(StUsdsProviderStatus.BLOCKED);
       expect(result.current.data?.state.canWithdraw).toBe(false);
       expect(result.current.data?.state.blockedReason).toBe(StUsdsBlockedReason.LIQUIDITY_EXHAUSTED);
+    });
+
+    it('should be blocked when amount exceeds liquidity', () => {
+      (useStUsdsData as ReturnType<typeof vi.fn>).mockReturnValue({
+        data: {
+          availableLiquidityBuffered: 500n * WAD,
+          userMaxWithdrawBuffered: 500n * WAD
+        },
+        isLoading: false,
+        error: null,
+        mutate: vi.fn()
+      });
+
+      const { result } = renderHook(() =>
+        useNativeStUsdsProvider({
+          amount: 1000n * WAD,
+          direction: StUsdsDirection.WITHDRAW
+        })
+      );
+
+      expect(result.current.data?.state.status).toBe(StUsdsProviderStatus.BLOCKED);
+      expect(result.current.data?.state.canWithdraw).toBe(false);
+      expect(result.current.data?.state.blockedReason).toBe(StUsdsBlockedReason.AMOUNT_EXCEEDS_LIQUIDITY);
     });
   });
 

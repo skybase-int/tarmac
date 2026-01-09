@@ -43,7 +43,7 @@ export const banners: Banner[] = [
     title: 'stUSDS',
     module: 'stusds-module-banners',
     description:
-      'stUSDS is a risk token that offers higher risk/higher reward to fund and support liquidity for SKY stakers. Offering additional reward options for SKY stakers encourages more people to participate in governance of the Sky Ecosystem, which increases the stability and security of the protocol and ecosystem.',
+      'stUSDS is a risk token that offers higher risk/higher reward to fund and support liquidity for SKY stakers. Offering additional reward options for SKY stakers encourages more people to participate in governance of Sky Ecosystem, which increases the stability and security of the protocol and ecosystem.',
     display: ['connected', 'disconnected']
   },
   {
@@ -115,7 +115,7 @@ export const banners: Banner[] = [
     title: 'Sky Star Tokens',
     module: 'staking-engine-banners',
     description:
-      'Sky Stars are autonomous and independent decentralized projects within the Sky Ecosystem. A Star might opt to have its own governance token, as defined by the rules enforced by the Sky Atlas. When you supply SKY to the Staking Engine of the Sky Protocol, you can opt to receive Sky Star tokens as rewards over time.',
+      'Sky Stars are autonomous and independent decentralized projects within Sky Ecosystem. A Star might opt to have its own governance token, as defined by the rules enforced by the Sky Atlas. When you supply SKY to the Staking Engine of the Sky Protocol, you can opt to receive Sky Star tokens as rewards over time.',
     display: ['connected', 'disconnected']
   },
   {
