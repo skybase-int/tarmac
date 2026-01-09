@@ -24,7 +24,8 @@ export type StUsdsProviderSelectionParams = StUsdsQuoteParams & {
  * Selection logic:
  * 1. If native is blocked and Curve available → select Curve
  * 2. If Curve is blocked and native available → select native
- * 3. If both available → compare rates with threshold buffer
+ * 3. If both available → native is default; Curve selected only if its rate exceeds
+ *    the threshold
  * 4. If both blocked → set allProvidersBlocked: true
  *
  * @param params - Quote parameters (amount, direction, and optional referenceAmount)
