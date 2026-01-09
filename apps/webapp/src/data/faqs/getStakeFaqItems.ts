@@ -55,7 +55,7 @@ If you would rather manage your position(s) in the typical way, you would go to 
       question:
         'Now that USDS is disabled as a Staking Reward option, do I have to change my reward selection?',
       answer:
-        'No. However, you are encouraged to claim your existing rewards and select a new reward in order to take advantage of all the Sky Ecosystem has to offer. Choosing a new reward type ensures that your staking position continues to accrue rewards. Since the USDS reward parameter is set to zero, you will not receive additional USDS rewards.',
+        'No. However, you are encouraged to claim your existing rewards and select a new reward in order to take advantage of all Sky Ecosystem has to offer. Choosing a new reward type ensures that your staking position continues to accrue rewards. Since the USDS reward parameter is set to zero, you will not receive additional USDS rewards.',
       index: 6
     },
     {
@@ -115,7 +115,7 @@ For more information, see the [User Risk Documentation](https://docs.sky.money/u
     {
       question: 'Can I borrow USDS using ETH?',
       answer:
-        'Yes. For example, you can do so via the Borrow feature of [Spark](http://Spark.fi), but not via the Sky.money web app. Please see the [Terms of Use](https://docs.sky.money/legal-terms) for more information on third-party services.',
+        'Yes. For example, you can do so via the Borrow feature of [Spark](https://Spark.fi), but not via the Sky.money web app. Please see the [Terms of Use](https://docs.sky.money/legal-terms) for more information on third-party services.',
       index: 13
     },
     {
@@ -156,7 +156,7 @@ Delegates granted voting power can never directly access any tokens delegated to
     {
       question: 'Where can I learn about Sky Ecosystem Governance?',
       answer:
-        'For a deep dive into the facets and checks and balances of Sky Ecosystem Governance, please refer to the [Sky Forum](https://forum.sky.money/), the [Sky Governance Voting Portal](https://vote.sky.money/), and the [Sky Atlas](https://sky-atlas.io/). The Sky Atlas is the definitive rulebook of the Sky Ecosystem, as determined by Sky Ecosystem Governance.',
+        'For a deep dive into the facets and checks and balances of Sky Ecosystem Governance, please refer to the [Sky Forum](https://forum.sky.money/), the [Sky Governance Voting Portal](https://vote.sky.money/), and the [Sky Atlas](https://sky-atlas.io/). The Sky Atlas is the definitive rulebook of Sky Ecosystem, as determined by Sky Ecosystem Governance.',
       index: 19
     }
   ];
