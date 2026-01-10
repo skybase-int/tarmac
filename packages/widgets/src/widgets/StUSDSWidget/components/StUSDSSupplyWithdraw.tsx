@@ -11,7 +11,7 @@ import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
 import { Skeleton } from '@widgets/components/ui/skeleton';
-import { useContext, useMemo, useId } from 'react';
+import { useContext, useMemo } from 'react';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { StUSDSFlow } from '../lib/constants';
 import { StUSDSStatsCard } from './StUSDSStatsCard';
@@ -23,8 +23,6 @@ import { positionAnimations } from '@widgets/shared/animation/presets';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
-import { Checkbox } from '@widgets/components/ui/checkbox';
-import { cn } from '@widgets/lib/utils';
 
 type StUSDSSupplyWithdrawProps = {
   address?: string;
@@ -45,8 +43,6 @@ type StUSDSSupplyWithdrawProps = {
   enabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   remainingCapacityBuffered?: bigint;
-  disclaimerChecked?: boolean;
-  onDisclaimerChange?: (checked: boolean) => void;
   // Provider selection data
   providerSelection?: StUsdsProviderSelectionResult;
   // Price impact warning state for Curve swaps
@@ -73,8 +69,6 @@ export const StUSDSSupplyWithdraw = ({
   enabled = true,
   onExternalLinkClicked,
   remainingCapacityBuffered,
-  disclaimerChecked = false,
-  onDisclaimerChange,
   providerSelection,
   swapAnyway = false,
   onSwapAnywayChange
@@ -161,7 +155,6 @@ export const StUSDSSupplyWithdraw = ({
   const { widgetState } = useContext(WidgetContext);
   const { isConnected } = useConnection();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
-  const disclaimerCheckboxId = useId();
 
   const finalBalance =
     widgetState.flow === StUSDSFlow.SUPPLY ? (nstBalance || 0n) - amount : (nstBalance || 0n) + amount;
@@ -295,28 +288,6 @@ export const StUSDSSupplyWithdraw = ({
             ) : !isCurveSelected ? (
               <div className="mb-4" />
             ) : null}
-            {tabIndex === 0 && onDisclaimerChange && nstBalance !== undefined && nstBalance > 0n && (
-              <div className="flex items-center px-3 pt-1">
-                <Checkbox
-                  id={disclaimerCheckboxId}
-                  checked={disclaimerChecked}
-                  onCheckedChange={onDisclaimerChange}
-                />
-                <label htmlFor={disclaimerCheckboxId} className="ml-2">
-                  <Text
-                    variant="medium"
-                    className={cn(
-                      availableLiquidityBuffered === 0n ? 'text-amber-400' : 'text-textSecondary',
-                      'cursor-pointer'
-                    )}
-                  >
-                    {availableLiquidityBuffered === 0n
-                      ? 'I understand that USDS deposited into the stUSDS module is used to fund borrowing against SKY, and that I will not be able to withdraw as long as the Available Liquidity is 0'
-                      : 'I understand that USDS deposited into the stUSDS module is used to fund borrowing against SKY, and that I will not be able to withdraw if the Available Liquidity becomes exhausted'}
-                  </Text>
-                </label>
-              </div>
-            )}
           </motion.div>
         </TabsContent>
         <TabsContent value="right">

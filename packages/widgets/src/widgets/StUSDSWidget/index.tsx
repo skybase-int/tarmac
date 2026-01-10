@@ -88,7 +88,6 @@ const StUSDSWidgetWrapped = ({
   const initialTabIndex = validatedExternalState?.flow === StUSDSFlow.WITHDRAW ? 1 : 0;
   const [tabIndex, setTabIndex] = useState<0 | 1>(initialTabIndex);
   const [max, setMax] = useState<boolean>(false);
-  const [disclaimerChecked, setDisclaimerChecked] = useState<boolean>(false);
   const [swapAnyway, setSwapAnyway] = useState<boolean>(false);
   const linguiCtx = useLingui();
   const usds = TOKENS.usds;
@@ -300,8 +299,6 @@ const StUSDSWidgetWrapped = ({
     isAmountWaitingForDebounce ||
     debouncedAmount === 0n;
 
-  const hasUsdsWalletBalance = stUsdsData?.userUsdsBalance !== undefined && stUsdsData.userUsdsBalance > 0n;
-
   // Handle external state changes
   useEffect(() => {
     const tokenDecimals = getTokenDecimals(usds, chainId);
@@ -472,13 +469,6 @@ const StUSDSWidgetWrapped = ({
       (widgetState.action === StUSDSAction.SUPPLY && batchSupplyDisabled) ||
       (widgetState.action === StUSDSAction.WITHDRAW && withdrawDisabled);
 
-    const shouldEnforceDisclaimer =
-      widgetState.action === StUSDSAction.SUPPLY &&
-      widgetState.screen === StUSDSScreen.ACTION &&
-      (isStUsdsDataLoading || hasUsdsWalletBalance);
-
-    const isDisabledForDisclaimer = shouldEnforceDisclaimer && (isStUsdsDataLoading || !disclaimerChecked);
-
     // Disable if Curve is selected with high price impact and user hasn't acknowledged
     const priceImpactBps = providerSelection.selectedQuote?.rateInfo.priceImpactBps ?? 0;
     const isDisabledForPriceImpact =
@@ -488,19 +478,13 @@ const StUSDSWidgetWrapped = ({
       !swapAnyway &&
       txStatus === TxStatus.IDLE;
 
-    setIsDisabled(
-      isConnectedAndEnabled && (isDisabledForAction || isDisabledForDisclaimer || isDisabledForPriceImpact)
-    );
+    setIsDisabled(isConnectedAndEnabled && (isDisabledForAction || isDisabledForPriceImpact));
   }, [
     widgetState.action,
     widgetState.screen,
     withdrawDisabled,
     isConnectedAndEnabled,
     batchSupplyDisabled,
-    disclaimerChecked,
-    amount,
-    hasUsdsWalletBalance,
-    isStUsdsDataLoading,
     isCurveSelected,
     providerSelection.selectedQuote?.rateInfo.priceImpactBps,
     swapAnyway,
@@ -644,8 +628,6 @@ const StUSDSWidgetWrapped = ({
               tabIndex={tabIndex}
               enabled={enabled}
               onExternalLinkClicked={onExternalLinkClicked}
-              disclaimerChecked={disclaimerChecked}
-              onDisclaimerChange={setDisclaimerChecked}
               swapAnyway={swapAnyway}
               onSwapAnywayChange={setSwapAnyway}
             />
