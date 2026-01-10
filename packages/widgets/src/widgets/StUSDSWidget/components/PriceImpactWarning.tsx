@@ -2,7 +2,11 @@ import { useId } from 'react';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { Checkbox } from '@widgets/components/ui/checkbox';
 import { cn } from '@widgets/lib/utils';
-import { MAX_PRICE_IMPACT_BPS_WITHOUT_WARNING } from '../lib/constants';
+import {
+  MAX_PRICE_IMPACT_BPS_WITHOUT_WARNING,
+  PRICE_IMPACT_WARNING_THRESHOLD_BPS,
+  PRICE_IMPACT_HIGH_THRESHOLD_BPS
+} from '../lib/constants';
 
 type PriceImpactWarningProps = {
   priceImpactBps: number | undefined;
@@ -22,8 +26,8 @@ export const PriceImpactWarning = ({
   }
 
   const getTextColor = () => {
-    if (priceImpactBps > 3000) return 'text-error'; // > 30%
-    if (priceImpactBps > 500) return 'text-amber-400'; // > 5%
+    if (priceImpactBps > PRICE_IMPACT_HIGH_THRESHOLD_BPS) return 'text-error';
+    if (priceImpactBps > PRICE_IMPACT_WARNING_THRESHOLD_BPS) return 'text-amber-400';
     return 'text-white';
   };
 
@@ -35,7 +39,7 @@ export const PriceImpactWarning = ({
       <Checkbox id={checkboxId} checked={swapAnyway} onCheckedChange={onSwapAnywayChange} />
       <label htmlFor={checkboxId} className="ml-2">
         <Text variant="medium" className={cn(getTextColor(), 'cursor-pointer')}>
-          I understand the price impact is {priceImpactPercent}% and choose to proceed anyway
+          I understand the price impact exceeds {priceImpactPercent}% and choose to proceed anyway
         </Text>
       </label>
     </div>

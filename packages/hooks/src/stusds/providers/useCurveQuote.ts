@@ -141,10 +141,10 @@ export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
       // Rate: stUSDS per USDS (how much stUSDS you get per USDS)
       const effectiveRate = (stUsdsAmount * RATE_PRECISION.WAD) / usdsAmount;
 
-      // Calculate price impact using reference rate
+      // Price impact: referenceRate is "USDS per stUSDS", effectiveRate is "stUSDS per USDS",
+      // so we invert the reference rate to compare in the same units.
       let priceImpactBps = 0;
       if (referenceRate && referenceRate > 0n) {
-        // Expected rate = WAD / referenceRate (stUSDS per USDS)
         const expectedRate = (RATE_PRECISION.WAD * RATE_PRECISION.WAD) / referenceRate;
         if (effectiveRate < expectedRate) {
           const impact = ((expectedRate - effectiveRate) * RATE_PRECISION.BPS_DIVISOR) / expectedRate;
@@ -171,7 +171,7 @@ export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
         // Rate: USDS per stUSDS (how much USDS you get per stUSDS burned)
         const effectiveRate = (usdsAmount * RATE_PRECISION.WAD) / stUsdsAmount;
 
-        // Calculate price impact using reference rate
+        // Price impact: both rates are "USDS per stUSDS", so compare directly (no inversion).
         let priceImpactBps = 0;
         if (referenceRate && referenceRate > 0n) {
           if (effectiveRate < referenceRate) {
@@ -196,7 +196,7 @@ export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
         // Rate: USDS per stUSDS (how much USDS you get per stUSDS burned)
         const effectiveRate = (usdsAmount * RATE_PRECISION.WAD) / stUsdsAmount;
 
-        // Calculate price impact using reference rate
+        // Price impact: both rates are "USDS per stUSDS", so compare directly (no inversion).
         let priceImpactBps = 0;
         if (referenceRate && referenceRate > 0n) {
           if (effectiveRate < referenceRate) {

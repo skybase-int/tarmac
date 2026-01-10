@@ -15,8 +15,10 @@ export enum StUSDSFlow {
 export const STUSDS_PREMIUM_WARNING_THRESHOLD = 2; // Yellow warning above 2%
 export const STUSDS_PREMIUM_HIGH_THRESHOLD = 10; // Red/high premium above 10%
 
-// Price impact threshold for user confirmation (basis points)
-export const MAX_PRICE_IMPACT_BPS_WITHOUT_WARNING = 200; // 2%
+// Price impact thresholds (basis points)
+export const MAX_PRICE_IMPACT_BPS_WITHOUT_WARNING = 200; // 2% - requires user confirmation
+export const PRICE_IMPACT_WARNING_THRESHOLD_BPS = 500; // 5% - amber warning color
+export const PRICE_IMPACT_HIGH_THRESHOLD_BPS = 3000; // 30% - red error color
 
 export enum StUSDSAction {
   APPROVE = 'approve',
