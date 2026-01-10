@@ -13,7 +13,11 @@ import { TransactionOverview } from '@widgets/shared/components/ui/transaction/T
 import { Skeleton } from '@widgets/components/ui/skeleton';
 import { useContext, useMemo } from 'react';
 import { WidgetContext } from '@widgets/context/WidgetContext';
-import { StUSDSFlow } from '../lib/constants';
+import {
+  StUSDSFlow,
+  PRICE_IMPACT_WARNING_THRESHOLD_BPS,
+  PRICE_IMPACT_HIGH_THRESHOLD_BPS
+} from '../lib/constants';
 import { StUSDSStatsCard } from './StUSDSStatsCard';
 import { ProviderIndicator } from './ProviderIndicator';
 import { PriceImpactWarning } from './PriceImpactWarning';
@@ -408,6 +412,22 @@ export const StUSDSSupplyWithdraw = ({
                       ) : (
                         <Skeleton className="bg-textSecondary h-4 w-16" />
                       )
+                  }
+                ]
+              : []),
+            ...(isCurveSelected
+              ? [
+                  {
+                    label: t`Price impact`,
+                    value: `${((providerSelection?.selectedQuote?.rateInfo.priceImpactBps ?? 0) / 100).toFixed(2)}%`,
+                    className:
+                      (providerSelection?.selectedQuote?.rateInfo.priceImpactBps ?? 0) >
+                      PRICE_IMPACT_HIGH_THRESHOLD_BPS
+                        ? 'text-error'
+                        : (providerSelection?.selectedQuote?.rateInfo.priceImpactBps ?? 0) >
+                            PRICE_IMPACT_WARNING_THRESHOLD_BPS
+                          ? 'text-amber-400'
+                          : ''
                   }
                 ]
               : []),
