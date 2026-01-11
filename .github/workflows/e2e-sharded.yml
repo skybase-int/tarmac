@@ -14,7 +14,7 @@ on:
       shards:
         description: 'Number of shards'
         required: false
-        default: '4'
+        default: '10'
         type: string
       workers_per_shard:
         description: 'Workers per shard'
