@@ -45,7 +45,6 @@ describe('useCurveQuote', () => {
         stUsdsReserve: 950000n * WAD,
         fee: 4000000n,
         adminFee: 5000000000n,
-        priceOracle: (105n * WAD) / 100n, // 1.05 USDS per stUSDS
         coin0: '0x0000000000000000000000000000000000000001',
         coin1: '0x0000000000000000000000000000000000000002',
         tokenIndices: { usds: 0, stUsds: 1 }
@@ -98,30 +97,39 @@ describe('useCurveQuote', () => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    it('should calculate price impact for deposit', () => {
+    it('should calculate price impact for deposit using referenceRate', () => {
       const usdsAmount = 1000n * WAD;
-      const priceOracle = (105n * WAD) / 100n;
-      const expectedRate = (WAD * WAD) / priceOracle; // ~0.952 * WAD
+      const referenceRate = (105n * WAD) / 100n; // 1.05 USDS per stUSDS
+      const expectedRate = (WAD * WAD) / referenceRate; // ~0.952 * WAD (stUSDS per USDS)
 
       // Actual output is less due to fees/slippage
       const stUsdsOutput = 940n * WAD;
       const actualRate = (stUsdsOutput * WAD) / usdsAmount; // 0.94 * WAD
 
-      (useCurvePoolData as ReturnType<typeof vi.fn>).mockReturnValue({
-        data: {
-          usdsReserve: 1000000n * WAD,
-          stUsdsReserve: 950000n * WAD,
-          fee: 4000000n,
-          adminFee: 5000000000n,
-          priceOracle,
-          coin0: '0x0000000000000000000000000000000000000001',
-          coin1: '0x0000000000000000000000000000000000000002',
-          tokenIndices: { usds: 0, stUsds: 1 }
-        },
+      (useReadCurveStUsdsUsdsPoolGetDy as ReturnType<typeof vi.fn>).mockReturnValue({
+        data: stUsdsOutput,
         isLoading: false,
         error: null,
         refetch: vi.fn()
       });
+
+      const { result } = renderHook(() =>
+        useCurveQuote({
+          direction: StUsdsDirection.SUPPLY,
+          amount: usdsAmount,
+          enabled: true,
+          referenceRate
+        })
+      );
+
+      expect(result.current.data?.priceImpactBps).toBeGreaterThan(0);
+      const expectedImpact = Number(((expectedRate - actualRate) * BPS) / expectedRate);
+      expect(result.current.data?.priceImpactBps).toBeCloseTo(expectedImpact, 0);
+    });
+
+    it('should return 0 price impact when no referenceRate provided', () => {
+      const usdsAmount = 1000n * WAD;
+      const stUsdsOutput = 940n * WAD;
 
       (useReadCurveStUsdsUsdsPoolGetDy as ReturnType<typeof vi.fn>).mockReturnValue({
         data: stUsdsOutput,
@@ -135,12 +143,11 @@ describe('useCurveQuote', () => {
           direction: StUsdsDirection.SUPPLY,
           amount: usdsAmount,
           enabled: true
+          // No referenceRate provided
         })
       );
 
-      expect(result.current.data?.priceImpactBps).toBeGreaterThan(0);
-      const expectedImpact = Number(((expectedRate - actualRate) * BPS) / expectedRate);
-      expect(result.current.data?.priceImpactBps).toBeCloseTo(expectedImpact, 0);
+      expect(result.current.data?.priceImpactBps).toBe(0);
     });
   });
 
@@ -171,28 +178,12 @@ describe('useCurveQuote', () => {
       expect(result.current.data?.effectiveRate).toBe((desiredUsdsOutput * WAD) / requiredStUsdsInput);
     });
 
-    it('should calculate price impact for withdraw', () => {
+    it('should calculate price impact for withdraw using referenceRate', () => {
       const desiredUsdsOutput = 1000n * WAD;
-      const priceOracle = (105n * WAD) / 100n; // 1.05 USDS per stUSDS
+      const referenceRate = (105n * WAD) / 100n; // 1.05 USDS per stUSDS
       // Required stUSDS is more than expected due to fees
       const requiredStUsdsInput = 970n * WAD;
       const actualRate = (desiredUsdsOutput * WAD) / requiredStUsdsInput;
-
-      (useCurvePoolData as ReturnType<typeof vi.fn>).mockReturnValue({
-        data: {
-          usdsReserve: 1000000n * WAD,
-          stUsdsReserve: 950000n * WAD,
-          fee: 4000000n,
-          adminFee: 5000000000n,
-          priceOracle,
-          coin0: '0x0000000000000000000000000000000000000001',
-          coin1: '0x0000000000000000000000000000000000000002',
-          tokenIndices: { usds: 0, stUsds: 1 }
-        },
-        isLoading: false,
-        error: null,
-        refetch: vi.fn()
-      });
 
       (useReadCurveStUsdsUsdsPoolGetDx as ReturnType<typeof vi.fn>).mockReturnValue({
         data: requiredStUsdsInput,
@@ -205,12 +196,13 @@ describe('useCurveQuote', () => {
         useCurveQuote({
           direction: StUsdsDirection.WITHDRAW,
           amount: desiredUsdsOutput,
-          enabled: true
+          enabled: true,
+          referenceRate
         })
       );
 
       expect(result.current.data?.priceImpactBps).toBeGreaterThan(0);
-      const expectedImpact = Number(((priceOracle - actualRate) * BPS) / priceOracle);
+      const expectedImpact = Number(((referenceRate - actualRate) * BPS) / referenceRate);
       expect(result.current.data?.priceImpactBps).toBeCloseTo(expectedImpact, 0);
     });
   });
@@ -266,27 +258,11 @@ describe('useCurveQuote', () => {
       expect(result.current.data).toBeUndefined();
     });
 
-    it('should not calculate price impact when getting better than oracle rate', () => {
+    it('should not calculate price impact when getting better than reference rate', () => {
       const desiredUsdsOutput = 1000n * WAD;
-      const priceOracle = (105n * WAD) / 100n;
-      // Required stUSDS is less than expected (better rate)
+      const referenceRate = (105n * WAD) / 100n; // 1.05 USDS per stUSDS
+      // Required stUSDS is less than expected (better rate - getting more USDS per stUSDS)
       const requiredStUsdsInput = 940n * WAD;
-
-      (useCurvePoolData as ReturnType<typeof vi.fn>).mockReturnValue({
-        data: {
-          usdsReserve: 1000000n * WAD,
-          stUsdsReserve: 950000n * WAD,
-          fee: 4000000n,
-          adminFee: 5000000000n,
-          priceOracle,
-          coin0: '0x0000000000000000000000000000000000000001',
-          coin1: '0x0000000000000000000000000000000000000002',
-          tokenIndices: { usds: 0, stUsds: 1 }
-        },
-        isLoading: false,
-        error: null,
-        refetch: vi.fn()
-      });
 
       (useReadCurveStUsdsUsdsPoolGetDx as ReturnType<typeof vi.fn>).mockReturnValue({
         data: requiredStUsdsInput,
@@ -299,7 +275,8 @@ describe('useCurveQuote', () => {
         useCurveQuote({
           direction: StUsdsDirection.WITHDRAW,
           amount: desiredUsdsOutput,
-          enabled: true
+          enabled: true,
+          referenceRate
         })
       );
 
@@ -307,25 +284,9 @@ describe('useCurveQuote', () => {
       expect(result.current.data?.priceImpactBps).toBe(0);
     });
 
-    it('should handle zero price oracle gracefully', () => {
+    it('should handle zero referenceRate gracefully', () => {
       const usdsAmount = 1000n * WAD;
       const stUsdsOutput = 950n * WAD;
-
-      (useCurvePoolData as ReturnType<typeof vi.fn>).mockReturnValue({
-        data: {
-          usdsReserve: 1000000n * WAD,
-          stUsdsReserve: 950000n * WAD,
-          fee: 4000000n,
-          adminFee: 5000000000n,
-          priceOracle: 0n,
-          coin0: '0x0000000000000000000000000000000000000001',
-          coin1: '0x0000000000000000000000000000000000000002',
-          tokenIndices: { usds: 0, stUsds: 1 }
-        },
-        isLoading: false,
-        error: null,
-        refetch: vi.fn()
-      });
 
       (useReadCurveStUsdsUsdsPoolGetDy as ReturnType<typeof vi.fn>).mockReturnValue({
         data: stUsdsOutput,
@@ -338,7 +299,8 @@ describe('useCurveQuote', () => {
         useCurveQuote({
           direction: StUsdsDirection.SUPPLY,
           amount: usdsAmount,
-          enabled: true
+          enabled: true,
+          referenceRate: 0n
         })
       );
 

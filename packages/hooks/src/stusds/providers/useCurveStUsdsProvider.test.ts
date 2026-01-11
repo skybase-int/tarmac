@@ -16,8 +16,13 @@ vi.mock('./useCurveQuote', () => ({
   useCurveQuote: vi.fn()
 }));
 
+vi.mock('./useCurveRate', () => ({
+  useCurveRate: vi.fn()
+}));
+
 import { useCurvePoolData } from './useCurvePoolData';
 import { useCurveQuote } from './useCurveQuote';
+import { useCurveRate } from './useCurveRate';
 
 describe('useCurveStUsdsProvider', () => {
   const WAD = RATE_PRECISION.WAD;
@@ -26,14 +31,12 @@ describe('useCurveStUsdsProvider', () => {
   beforeEach(() => {
     vi.clearAllMocks();
 
-    // Default pool data mock
     (useCurvePoolData as ReturnType<typeof vi.fn>).mockReturnValue({
       data: {
         usdsReserve: 1000000n * WAD,
         stUsdsReserve: 950000n * WAD,
         fee: 4000000n,
         adminFee: 5000000000n,
-        priceOracle: (105n * WAD) / 100n, // 1.05 USDS per stUSDS
         coin0: '0x0000000000000000000000000000000000000001',
         coin1: '0x0000000000000000000000000000000000000002',
         tokenIndices: { usds: 0, stUsds: 1 }
@@ -43,7 +46,12 @@ describe('useCurveStUsdsProvider', () => {
       refetch: vi.fn()
     });
 
-    // Default quote mock
+    (useCurveRate as ReturnType<typeof vi.fn>).mockReturnValue({
+      curveRate: (105n * WAD) / 100n,
+      isLoading: false,
+      error: null
+    });
+
     (useCurveQuote as ReturnType<typeof vi.fn>).mockReturnValue({
       data: {
         stUsdsAmount: 950n * WAD,
@@ -88,10 +96,9 @@ describe('useCurveStUsdsProvider', () => {
       (useCurvePoolData as ReturnType<typeof vi.fn>).mockReturnValue({
         data: {
           usdsReserve: 1000000n * WAD,
-          stUsdsReserve: MIN_LIQUIDITY / 2n, // Below threshold
+          stUsdsReserve: MIN_LIQUIDITY / 2n,
           fee: 4000000n,
           adminFee: 5000000000n,
-          priceOracle: WAD,
           coin0: '0x0000000000000000000000000000000000000001',
           coin1: '0x0000000000000000000000000000000000000002',
           tokenIndices: { usds: 0, stUsds: 1 }
@@ -132,11 +139,10 @@ describe('useCurveStUsdsProvider', () => {
     it('should be blocked when USDS reserve < minimum', () => {
       (useCurvePoolData as ReturnType<typeof vi.fn>).mockReturnValue({
         data: {
-          usdsReserve: MIN_LIQUIDITY / 2n, // Below threshold
+          usdsReserve: MIN_LIQUIDITY / 2n,
           stUsdsReserve: 950000n * WAD,
           fee: 4000000n,
           adminFee: 5000000000n,
-          priceOracle: WAD,
           coin0: '0x0000000000000000000000000000000000000001',
           coin1: '0x0000000000000000000000000000000000000002',
           tokenIndices: { usds: 0, stUsds: 1 }
@@ -163,25 +169,6 @@ describe('useCurveStUsdsProvider', () => {
 
   describe('max amounts', () => {
     it('should not provide maxDeposit', () => {
-      const stUsdsReserve = 1000000n * WAD;
-      const priceOracle = (105n * WAD) / 100n; // 1.05 USDS per stUSDS
-
-      (useCurvePoolData as ReturnType<typeof vi.fn>).mockReturnValue({
-        data: {
-          usdsReserve: 1000000n * WAD,
-          stUsdsReserve,
-          fee: 4000000n,
-          adminFee: 5000000000n,
-          priceOracle,
-          coin0: '0x0000000000000000000000000000000000000001',
-          coin1: '0x0000000000000000000000000000000000000002',
-          tokenIndices: { usds: 0, stUsds: 1 }
-        },
-        isLoading: false,
-        error: null,
-        refetch: vi.fn()
-      });
-
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
@@ -189,30 +176,10 @@ describe('useCurveStUsdsProvider', () => {
         })
       );
 
-      // Curve provider no longer provides maxDeposit
       expect(result.current.data?.state.maxDeposit).toBeUndefined();
     });
 
     it('should not provide maxWithdraw', () => {
-      const usdsReserve = 1000000n * WAD;
-      const priceOracle = (105n * WAD) / 100n;
-
-      (useCurvePoolData as ReturnType<typeof vi.fn>).mockReturnValue({
-        data: {
-          usdsReserve,
-          stUsdsReserve: 950000n * WAD,
-          fee: 4000000n,
-          adminFee: 5000000000n,
-          priceOracle,
-          coin0: '0x0000000000000000000000000000000000000001',
-          coin1: '0x0000000000000000000000000000000000000002',
-          tokenIndices: { usds: 0, stUsds: 1 }
-        },
-        isLoading: false,
-        error: null,
-        refetch: vi.fn()
-      });
-
       const { result } = renderHook(() =>
         useCurveStUsdsProvider({
           amount: 1000n * WAD,
@@ -220,7 +187,6 @@ describe('useCurveStUsdsProvider', () => {
         })
       );
 
-      // Curve provider no longer provides maxWithdraw
       expect(result.current.data?.state.maxWithdraw).toBeUndefined();
     });
   });
@@ -271,10 +237,9 @@ describe('useCurveStUsdsProvider', () => {
       (useCurvePoolData as ReturnType<typeof vi.fn>).mockReturnValue({
         data: {
           usdsReserve: 1000000n * WAD,
-          stUsdsReserve: 0n, // No liquidity
+          stUsdsReserve: 0n,
           fee: 4000000n,
           adminFee: 5000000000n,
-          priceOracle: WAD,
           coin0: '0x0000000000000000000000000000000000000001',
           coin1: '0x0000000000000000000000000000000000000002',
           tokenIndices: { usds: 0, stUsds: 1 }
@@ -480,7 +445,6 @@ describe('useCurveStUsdsProvider', () => {
           stUsdsReserve: 950000n * WAD,
           fee: 4000000n,
           adminFee: 5000000000n,
-          priceOracle: WAD,
           coin0: '0x0000000000000000000000000000000000000001',
           coin1: '0x0000000000000000000000000000000000000002',
           tokenIndices: { usds: 0, stUsds: 1 }

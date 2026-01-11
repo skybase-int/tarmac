@@ -3,7 +3,7 @@ import { useChainId, useReadContracts } from 'wagmi';
 import { curveStUsdsUsdsPoolAddress, curveStUsdsUsdsPoolAbi, usdsAddress } from '../../generated';
 import { isTestnetId } from '@jetstreamgg/sky-utils';
 import { TENDERLY_CHAIN_ID } from '../../constants';
-import { CURVE_POOL_TOKEN_INDICES, RATE_PRECISION } from './constants';
+import { CURVE_POOL_TOKEN_INDICES } from './constants';
 
 /**
  * Data returned from the Curve pool.
@@ -17,8 +17,6 @@ export type CurvePoolData = {
   fee: bigint;
   /** Admin fee percentage */
   adminFee: bigint;
-  /** EMA price oracle */
-  priceOracle: bigint;
   /** Token address at index 0 */
   coin0: `0x${string}`;
   /** Token address at index 1 */
@@ -86,11 +84,6 @@ export function useCurvePoolData(): CurvePoolDataHookResult {
       },
       {
         ...poolContract,
-        functionName: 'price_oracle',
-        args: [BigInt(0)]
-      },
-      {
-        ...poolContract,
         functionName: 'coins',
         args: [BigInt(0)]
       },
@@ -98,10 +91,6 @@ export function useCurvePoolData(): CurvePoolDataHookResult {
         ...poolContract,
         functionName: 'coins',
         args: [BigInt(1)]
-      },
-      {
-        ...poolContract,
-        functionName: 'stored_rates'
       }
     ]
   });
@@ -120,10 +109,8 @@ export function useCurvePoolData(): CurvePoolDataHookResult {
     const balance1 = readData[1].result as bigint;
     const fee = readData[2].result as bigint;
     const adminFee = readData[3].result as bigint;
-    const rawPriceOracle = readData[4].result as bigint;
-    const coin0 = readData[5].result as `0x${string}`;
-    const coin1 = readData[6].result as `0x${string}`;
-    const storedRates = readData[7].result as readonly bigint[];
+    const coin0 = readData[4].result as `0x${string}`;
+    const coin1 = readData[5].result as `0x${string}`;
 
     // Determine token indices by matching addresses
     // Start with default values, then verify against actual pool configuration
@@ -142,20 +129,11 @@ export function useCurvePoolData(): CurvePoolDataHookResult {
     const usdsReserve = usdsIndex === 0 ? balance0 : balance1;
     const stUsdsReserve = stUsdsIndex === 0 ? balance0 : balance1;
 
-    // Adjust oracle price for ERC4626 vault token (stUSDS)
-    // The raw oracle price needs to be multiplied by the stored rate for stUSDS
-    // price_oracle returns price of token1 in terms of token0
-    // For ERC4626 tokens, stored_rates tracks the assets-per-share ratio
-    const stUsdsStoredRate = storedRates[stUsdsIndex] || RATE_PRECISION.WAD;
-    const priceOracle =
-      stUsdsStoredRate > 0n ? (rawPriceOracle * stUsdsStoredRate) / RATE_PRECISION.WAD : rawPriceOracle;
-
     return {
       usdsReserve,
       stUsdsReserve,
       fee,
       adminFee,
-      priceOracle,
       coin0,
       coin1,
       tokenIndices: {
