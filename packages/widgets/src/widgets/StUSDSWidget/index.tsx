@@ -14,7 +14,12 @@ import {
 import { useDebounce } from '@jetstreamgg/sky-utils';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { WidgetContainer } from '@widgets/shared/components/ui/widget/WidgetContainer';
-import { StUSDSFlow, StUSDSAction, StUSDSScreen } from './lib/constants';
+import {
+  StUSDSFlow,
+  StUSDSAction,
+  StUSDSScreen,
+  MAX_PRICE_IMPACT_BPS_WITHOUT_WARNING
+} from './lib/constants';
 import { StUSDSTransactionStatus } from './components/StUSDSTransactionStatus';
 import { StUSDSSupplyWithdraw } from './components/StUSDSSupplyWithdraw';
 import { WidgetContext } from '@widgets/context/WidgetContext';
@@ -83,7 +88,7 @@ const StUSDSWidgetWrapped = ({
   const initialTabIndex = validatedExternalState?.flow === StUSDSFlow.WITHDRAW ? 1 : 0;
   const [tabIndex, setTabIndex] = useState<0 | 1>(initialTabIndex);
   const [max, setMax] = useState<boolean>(false);
-  const [disclaimerChecked, setDisclaimerChecked] = useState<boolean>(false);
+  const [swapAnyway, setSwapAnyway] = useState<boolean>(false);
   const linguiCtx = useLingui();
   const usds = TOKENS.usds;
   const { data: batchSupported } = useIsBatchSupported();
@@ -135,6 +140,11 @@ const StUSDSWidgetWrapped = ({
   useEffect(() => {
     setTabIndex(initialTabIndex);
   }, [initialTabIndex]);
+
+  // Reset swapAnyway when amount or tab changes
+  useEffect(() => {
+    setSwapAnyway(false);
+  }, [debouncedAmount, tabIndex]);
 
   const {
     setButtonText,
@@ -288,8 +298,6 @@ const StUSDSWidgetWrapped = ({
     batchStUsdsDeposit.isLoading ||
     isAmountWaitingForDebounce ||
     debouncedAmount === 0n;
-
-  const hasUsdsWalletBalance = stUsdsData?.userUsdsBalance !== undefined && stUsdsData.userUsdsBalance > 0n;
 
   // Handle external state changes
   useEffect(() => {
@@ -461,24 +469,26 @@ const StUSDSWidgetWrapped = ({
       (widgetState.action === StUSDSAction.SUPPLY && batchSupplyDisabled) ||
       (widgetState.action === StUSDSAction.WITHDRAW && withdrawDisabled);
 
-    const shouldEnforceDisclaimer =
-      widgetState.action === StUSDSAction.SUPPLY &&
+    // Disable if Curve is selected with high price impact and user hasn't acknowledged
+    const priceImpactBps = providerSelection.selectedQuote?.rateInfo.priceImpactBps ?? 0;
+    const isDisabledForPriceImpact =
+      isCurveSelected &&
       widgetState.screen === StUSDSScreen.ACTION &&
-      (isStUsdsDataLoading || hasUsdsWalletBalance);
+      priceImpactBps >= MAX_PRICE_IMPACT_BPS_WITHOUT_WARNING &&
+      !swapAnyway &&
+      txStatus === TxStatus.IDLE;
 
-    const isDisabledForDisclaimer = shouldEnforceDisclaimer && (isStUsdsDataLoading || !disclaimerChecked);
-
-    setIsDisabled(isConnectedAndEnabled && (isDisabledForAction || isDisabledForDisclaimer));
+    setIsDisabled(isConnectedAndEnabled && (isDisabledForAction || isDisabledForPriceImpact));
   }, [
     widgetState.action,
     widgetState.screen,
     withdrawDisabled,
     isConnectedAndEnabled,
     batchSupplyDisabled,
-    disclaimerChecked,
-    amount,
-    hasUsdsWalletBalance,
-    isStUsdsDataLoading
+    isCurveSelected,
+    providerSelection.selectedQuote?.rateInfo.priceImpactBps,
+    swapAnyway,
+    txStatus
   ]);
 
   // Set isLoading to be consumed by WidgetButton
@@ -618,8 +628,8 @@ const StUSDSWidgetWrapped = ({
               tabIndex={tabIndex}
               enabled={enabled}
               onExternalLinkClicked={onExternalLinkClicked}
-              disclaimerChecked={disclaimerChecked}
-              onDisclaimerChange={setDisclaimerChecked}
+              swapAnyway={swapAnyway}
+              onSwapAnywayChange={setSwapAnyway}
             />
           </CardAnimationWrapper>
         )}
