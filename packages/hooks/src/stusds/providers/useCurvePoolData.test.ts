@@ -40,7 +40,6 @@ describe('useCurvePoolData', () => {
       const mockBalance1 = 950000n * WAD;
       const mockFee = 4000000n; // 0.04%
       const mockAdminFee = 5000000000n;
-      const mockPriceOracle = (105n * WAD) / 100n; // 1.05 USDS per stUSDS
 
       (useReadContracts as ReturnType<typeof vi.fn>).mockReturnValue({
         data: [
@@ -48,10 +47,8 @@ describe('useCurvePoolData', () => {
           { result: mockBalance1, status: 'success' },
           { result: mockFee, status: 'success' },
           { result: mockAdminFee, status: 'success' },
-          { result: mockPriceOracle, status: 'success' },
           { result: mockUsdsAddress, status: 'success' },
-          { result: mockStUsdsAddress, status: 'success' },
-          { result: [WAD, WAD], status: 'success' } // stored_rates
+          { result: mockStUsdsAddress, status: 'success' }
         ],
         isLoading: false,
         error: null,
@@ -65,7 +62,6 @@ describe('useCurvePoolData', () => {
       expect(result.current.data?.stUsdsReserve).toBe(mockBalance1);
       expect(result.current.data?.fee).toBe(mockFee);
       expect(result.current.data?.adminFee).toBe(mockAdminFee);
-      expect(result.current.data?.priceOracle).toBe(mockPriceOracle);
       expect(result.current.data?.tokenIndices.usds).toBe(0);
       expect(result.current.data?.tokenIndices.stUsds).toBe(1);
       expect(result.current.isLoading).toBe(false);
@@ -82,10 +78,8 @@ describe('useCurvePoolData', () => {
           { result: mockBalance1, status: 'success' },
           { result: 4000000n, status: 'success' },
           { result: 5000000000n, status: 'success' },
-          { result: WAD, status: 'success' },
           { result: mockStUsdsAddress, status: 'success' }, // coin0 is stUSDS
-          { result: mockUsdsAddress, status: 'success' }, // coin1 is USDS
-          { result: [WAD, WAD], status: 'success' } // stored_rates
+          { result: mockUsdsAddress, status: 'success' } // coin1 is USDS
         ],
         isLoading: false,
         error: null,
@@ -138,10 +132,8 @@ describe('useCurvePoolData', () => {
           { result: 950000n * WAD, status: 'success' },
           { result: undefined, status: 'failure', error: new Error('Call failed') },
           { result: 5000000000n, status: 'success' },
-          { result: WAD, status: 'success' },
           { result: mockUsdsAddress, status: 'success' },
-          { result: mockStUsdsAddress, status: 'success' },
-          { result: [WAD, WAD], status: 'success' } // stored_rates
+          { result: mockStUsdsAddress, status: 'success' }
         ],
         isLoading: false,
         error: null,

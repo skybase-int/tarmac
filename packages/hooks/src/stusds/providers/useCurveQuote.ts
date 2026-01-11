@@ -25,6 +25,8 @@ export type CurveQuoteParams = {
   userStUsdsBalance?: bigint;
   /** Whether this is a max withdrawal (affects how stUSDS amount is calculated) */
   isMax?: boolean;
+  /** Reference rate for price impact calculation (USDS per stUSDS, scaled by 1e18) */
+  referenceRate?: bigint;
 };
 
 /**
@@ -66,7 +68,7 @@ export type CurveQuoteHookResult = {
  * @returns Quote data including amounts and price impact
  */
 export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
-  const { direction, amount, enabled = true, userStUsdsBalance, isMax = false } = params;
+  const { direction, amount, enabled = true, userStUsdsBalance, isMax = false, referenceRate } = params;
 
   const connectedChainId = useChainId();
   const chainId = isTestnetId(connectedChainId) ? TENDERLY_CHAIN_ID : 1;
@@ -139,11 +141,11 @@ export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
       // Rate: stUSDS per USDS (how much stUSDS you get per USDS)
       const effectiveRate = (stUsdsAmount * RATE_PRECISION.WAD) / usdsAmount;
 
-      // Calculate price impact using oracle
+      // Price impact: referenceRate is "USDS per stUSDS", effectiveRate is "stUSDS per USDS",
+      // so we invert the reference rate to compare in the same units.
       let priceImpactBps = 0;
-      if (poolData?.priceOracle && poolData.priceOracle > 0n) {
-        // Expected rate = WAD / priceOracle (stUSDS per USDS)
-        const expectedRate = (RATE_PRECISION.WAD * RATE_PRECISION.WAD) / poolData.priceOracle;
+      if (referenceRate && referenceRate > 0n) {
+        const expectedRate = (RATE_PRECISION.WAD * RATE_PRECISION.WAD) / referenceRate;
         if (effectiveRate < expectedRate) {
           const impact = ((expectedRate - effectiveRate) * RATE_PRECISION.BPS_DIVISOR) / expectedRate;
           priceImpactBps = Number(impact);
@@ -169,12 +171,11 @@ export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
         // Rate: USDS per stUSDS (how much USDS you get per stUSDS burned)
         const effectiveRate = (usdsAmount * RATE_PRECISION.WAD) / stUsdsAmount;
 
-        // Calculate price impact using oracle
+        // Price impact: both rates are "USDS per stUSDS", so compare directly (no inversion).
         let priceImpactBps = 0;
-        if (poolData?.priceOracle && poolData.priceOracle > 0n) {
-          const expectedRate = poolData.priceOracle;
-          if (effectiveRate < expectedRate) {
-            const impact = ((expectedRate - effectiveRate) * RATE_PRECISION.BPS_DIVISOR) / expectedRate;
+        if (referenceRate && referenceRate > 0n) {
+          if (effectiveRate < referenceRate) {
+            const impact = ((referenceRate - effectiveRate) * RATE_PRECISION.BPS_DIVISOR) / referenceRate;
             priceImpactBps = Number(impact);
           }
         }
@@ -195,12 +196,11 @@ export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
         // Rate: USDS per stUSDS (how much USDS you get per stUSDS burned)
         const effectiveRate = (usdsAmount * RATE_PRECISION.WAD) / stUsdsAmount;
 
-        // Calculate price impact using oracle
+        // Price impact: both rates are "USDS per stUSDS", so compare directly (no inversion).
         let priceImpactBps = 0;
-        if (poolData?.priceOracle && poolData.priceOracle > 0n) {
-          const expectedRate = poolData.priceOracle;
-          if (effectiveRate < expectedRate) {
-            const impact = ((expectedRate - effectiveRate) * RATE_PRECISION.BPS_DIVISOR) / expectedRate;
+        if (referenceRate && referenceRate > 0n) {
+          if (effectiveRate < referenceRate) {
+            const impact = ((referenceRate - effectiveRate) * RATE_PRECISION.BPS_DIVISOR) / referenceRate;
             priceImpactBps = Number(impact);
           }
         }
@@ -221,7 +221,7 @@ export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
     maxWithdrawOutput,
     userStUsdsBalance,
     isMax,
-    poolData?.priceOracle
+    referenceRate
   ]);
 
   const isLoading =

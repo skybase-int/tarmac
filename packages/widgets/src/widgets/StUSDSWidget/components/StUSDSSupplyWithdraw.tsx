@@ -11,19 +11,22 @@ import { TokenInput } from '@widgets/shared/components/ui/token/TokenInput';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@widgets/components/ui/tabs';
 import { TransactionOverview } from '@widgets/shared/components/ui/transaction/TransactionOverview';
 import { Skeleton } from '@widgets/components/ui/skeleton';
-import { useContext, useMemo, useId } from 'react';
+import { useContext, useMemo } from 'react';
 import { WidgetContext } from '@widgets/context/WidgetContext';
-import { StUSDSFlow } from '../lib/constants';
+import {
+  StUSDSFlow,
+  PRICE_IMPACT_WARNING_THRESHOLD_BPS,
+  PRICE_IMPACT_HIGH_THRESHOLD_BPS
+} from '../lib/constants';
 import { StUSDSStatsCard } from './StUSDSStatsCard';
 import { ProviderIndicator } from './ProviderIndicator';
+import { PriceImpactWarning } from './PriceImpactWarning';
 import { useConnection, useChainId } from 'wagmi';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { MotionVStack } from '@widgets/shared/components/ui/layout/MotionVStack';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { PopoverRateInfo } from '@widgets/shared/components/ui/PopoverRateInfo';
-import { Checkbox } from '@widgets/components/ui/checkbox';
-import { cn } from '@widgets/lib/utils';
 
 type StUSDSSupplyWithdrawProps = {
   address?: string;
@@ -44,10 +47,11 @@ type StUSDSSupplyWithdrawProps = {
   enabled: boolean;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   remainingCapacityBuffered?: bigint;
-  disclaimerChecked?: boolean;
-  onDisclaimerChange?: (checked: boolean) => void;
   // Provider selection data
   providerSelection?: StUsdsProviderSelectionResult;
+  // Price impact warning state for Curve swaps
+  swapAnyway?: boolean;
+  onSwapAnywayChange?: (checked: boolean) => void;
 };
 
 export const StUSDSSupplyWithdraw = ({
@@ -69,9 +73,9 @@ export const StUSDSSupplyWithdraw = ({
   enabled = true,
   onExternalLinkClicked,
   remainingCapacityBuffered,
-  disclaimerChecked = false,
-  onDisclaimerChange,
-  providerSelection
+  providerSelection,
+  swapAnyway = false,
+  onSwapAnywayChange
 }: StUSDSSupplyWithdrawProps) => {
   const inputToken = TOKENS.usds;
   const chainId = useChainId();
@@ -155,7 +159,6 @@ export const StUSDSSupplyWithdraw = ({
   const { widgetState } = useContext(WidgetContext);
   const { isConnected } = useConnection();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
-  const disclaimerCheckboxId = useId();
 
   const finalBalance =
     widgetState.flow === StUSDSFlow.SUPPLY ? (nstBalance || 0n) - amount : (nstBalance || 0n) + amount;
@@ -264,6 +267,14 @@ export const StUSDSSupplyWithdraw = ({
                 />
               </div>
             )}
+            {/* Price impact warning for Curve swaps */}
+            {isCurveSelected && onSwapAnywayChange && (
+              <PriceImpactWarning
+                priceImpactBps={providerSelection?.selectedQuote?.rateInfo.priceImpactBps}
+                swapAnyway={swapAnyway}
+                onSwapAnywayChange={onSwapAnywayChange}
+              />
+            )}
             {isSupplyDisabled ? (
               <div className="mt-2 ml-3 flex items-start text-amber-400">
                 <PopoverRateInfo type="remainingCapacity" iconClassName="mt-1 shrink-0" />
@@ -281,28 +292,6 @@ export const StUSDSSupplyWithdraw = ({
             ) : !isCurveSelected ? (
               <div className="mb-4" />
             ) : null}
-            {tabIndex === 0 && onDisclaimerChange && nstBalance !== undefined && nstBalance > 0n && (
-              <div className="flex items-center px-3 pt-1">
-                <Checkbox
-                  id={disclaimerCheckboxId}
-                  checked={disclaimerChecked}
-                  onCheckedChange={onDisclaimerChange}
-                />
-                <label htmlFor={disclaimerCheckboxId} className="ml-2">
-                  <Text
-                    variant="medium"
-                    className={cn(
-                      availableLiquidityBuffered === 0n ? 'text-amber-400' : 'text-textSecondary',
-                      'cursor-pointer'
-                    )}
-                  >
-                    {availableLiquidityBuffered === 0n
-                      ? 'I understand that USDS deposited into the stUSDS module is used to fund borrowing against SKY, and that I will not be able to withdraw as long as the Available Liquidity is 0'
-                      : 'I understand that USDS deposited into the stUSDS module is used to fund borrowing against SKY, and that I will not be able to withdraw if the Available Liquidity becomes exhausted'}
-                  </Text>
-                </label>
-              </div>
-            )}
           </motion.div>
         </TabsContent>
         <TabsContent value="right">
@@ -350,6 +339,14 @@ export const StUSDSSupplyWithdraw = ({
                   nativeMaxAmount={availableLiquidityBuffered}
                 />
               </div>
+            )}
+            {/* Price impact warning for Curve swaps */}
+            {isCurveSelected && onSwapAnywayChange && (
+              <PriceImpactWarning
+                priceImpactBps={providerSelection?.selectedQuote?.rateInfo.priceImpactBps}
+                swapAnyway={swapAnyway}
+                onSwapAnywayChange={onSwapAnywayChange}
+              />
             )}
             {isWithdrawDisabled ? (
               <div className="mt-2 ml-3 flex items-start text-amber-400">
@@ -415,6 +412,22 @@ export const StUSDSSupplyWithdraw = ({
                       ) : (
                         <Skeleton className="bg-textSecondary h-4 w-16" />
                       )
+                  }
+                ]
+              : []),
+            ...(isCurveSelected
+              ? [
+                  {
+                    label: t`Price impact`,
+                    value: `${((providerSelection?.selectedQuote?.rateInfo.priceImpactBps ?? 0) / 100).toFixed(2)}%`,
+                    className:
+                      (providerSelection?.selectedQuote?.rateInfo.priceImpactBps ?? 0) >
+                      PRICE_IMPACT_HIGH_THRESHOLD_BPS
+                        ? 'text-error'
+                        : (providerSelection?.selectedQuote?.rateInfo.priceImpactBps ?? 0) >
+                            PRICE_IMPACT_WARNING_THRESHOLD_BPS
+                          ? 'text-amber-400'
+                          : ''
                   }
                 ]
               : []),
