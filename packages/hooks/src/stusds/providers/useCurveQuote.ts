@@ -74,7 +74,7 @@ export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
   const chainId = isTestnetId(connectedChainId) ? TENDERLY_CHAIN_ID : 1;
 
   // Get pool data to determine token indices
-  const { data: poolData, isLoading: isPoolLoading } = useCurvePoolData();
+  const { data: poolData, isLoading: isPoolLoading, error: poolError } = useCurvePoolData();
 
   const usdsIndex = poolData?.tokenIndices.usds ?? 0;
   const stUsdsIndex = poolData?.tokenIndices.stUsds ?? 1;
@@ -233,7 +233,8 @@ export function useCurveQuote(params: CurveQuoteParams): CurveQuoteHookResult {
         : isWithdrawLoading);
 
   const error =
-    direction === StUsdsDirection.SUPPLY ? depositError : isMax ? maxWithdrawError : withdrawError;
+    poolError ||
+    (direction === StUsdsDirection.SUPPLY ? depositError : isMax ? maxWithdrawError : withdrawError);
 
   const refetch = () => {
     if (direction === StUsdsDirection.SUPPLY) {
