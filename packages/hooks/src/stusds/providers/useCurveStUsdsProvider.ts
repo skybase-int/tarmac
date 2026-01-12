@@ -140,17 +140,11 @@ export function useCurveStUsdsProvider(
       if (!state.canDeposit) {
         isValid = false;
         invalidReason = 'Curve pool deposits unavailable';
-      } else if (state.maxDeposit !== undefined && amount > state.maxDeposit) {
-        isValid = false;
-        invalidReason = 'Amount exceeds Curve pool liquidity';
       }
     } else {
       if (!state.canWithdraw) {
         isValid = false;
         invalidReason = 'Curve pool withdrawals unavailable';
-      } else if (state.maxWithdraw !== undefined && amount > state.maxWithdraw) {
-        isValid = false;
-        invalidReason = 'Amount exceeds Curve pool liquidity';
       }
     }
 
