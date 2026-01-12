@@ -6,6 +6,7 @@ import { useCurveRate } from '@jetstreamgg/sky-hooks';
 import { formatBigInt } from '@jetstreamgg/sky-utils';
 import { TokenIcon } from '@/modules/ui/components/TokenIcon';
 import { CurveLogo } from '@/modules/icons/CurveLogo';
+import { PopoverInfo, getTooltipById } from '@jetstreamgg/sky-widgets';
 
 export function StUSDSCurveExchangeRateCard() {
   const { i18n } = useLingui();
@@ -16,13 +17,21 @@ export function StUSDSCurveExchangeRateCard() {
 
   const formattedRate = exchangeRate > 0n ? formatBigInt(exchangeRate, { maxDecimals: 6 }) : '--';
 
+  const tooltipContent = getTooltipById('curve-exchange-rate');
+
   return (
     <StatsCard
       className="h-full"
       isLoading={isLoading}
       title={
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <span>{i18n._(msg`Curve Exchange Rate`)}</span>
+          <PopoverInfo
+            title={i18n._(msg`${tooltipContent?.title || 'Curve Exchange Rate'}`)}
+            description={i18n._(msg`${tooltipContent?.tooltip || ''}`)}
+            iconClassName="text-textSecondary hover:text-white transition-colors"
+            iconSize="medium"
+          />
           <CurveLogo className="h-3.5 w-3.5" />
         </div>
       }
