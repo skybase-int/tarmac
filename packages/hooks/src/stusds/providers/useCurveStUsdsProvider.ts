@@ -111,6 +111,9 @@ export function useCurveStUsdsProvider(
     if (!state || (amount === 0n && !isMax)) return undefined;
 
     if (!quoteData || quoteData.stUsdsAmount === 0n) {
+      // If still loading, return undefined (pending state)
+      if (isQuoteLoading) return undefined;
+      // If done loading and no data, return invalid quote
       return {
         providerType: StUsdsProviderType.CURVE,
         inputAmount: direction === StUsdsDirection.SUPPLY ? amount : 0n,
@@ -137,17 +140,11 @@ export function useCurveStUsdsProvider(
       if (!state.canDeposit) {
         isValid = false;
         invalidReason = 'Curve pool deposits unavailable';
-      } else if (state.maxDeposit !== undefined && amount > state.maxDeposit) {
-        isValid = false;
-        invalidReason = 'Amount exceeds Curve pool liquidity';
       }
     } else {
       if (!state.canWithdraw) {
         isValid = false;
         invalidReason = 'Curve pool withdrawals unavailable';
-      } else if (state.maxWithdraw !== undefined && amount > state.maxWithdraw) {
-        isValid = false;
-        invalidReason = 'Amount exceeds Curve pool liquidity';
       }
     }
 
@@ -187,7 +184,7 @@ export function useCurveStUsdsProvider(
       isValid,
       invalidReason
     };
-  }, [state, amount, direction, quoteData, isMax]);
+  }, [state, amount, direction, quoteData, isMax, isQuoteLoading]);
 
   // Combine into provider data
   const data: StUsdsProviderData | undefined = useMemo(() => {
