@@ -79,12 +79,12 @@ export function getProviderMessage(
           const rateText = Math.abs(rateDifferencePercent).toFixed(2);
           if (rateDifferencePercent < 0) {
             return i18n._(
-              msg`Routing through Curve with a ${rateText}% premium, as the supply capacity has been reached`
+              msg`Routing through Curve with a ${rateText}% premium, as the liquidity is exhausted`
             );
           } else if (rateDifferencePercent > 0) {
             return `${i18n._(msg`Routing through Curve for a better rate`)} (+${rateText}%)`;
           } else {
-            return i18n._(msg`Routing through Curve, as the supply capacity has been reached`);
+            return i18n._(msg`Routing through Curve, as the liquidity is exhausted`);
           }
         }
 
