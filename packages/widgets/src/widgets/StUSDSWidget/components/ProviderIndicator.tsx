@@ -110,7 +110,7 @@ export function ProviderIndicator({
       )}
       <Text variant="small" className={isWarning ? 'text-error' : 'text-textSecondary'}>
         {(() => {
-          // Check if message contains a percentage to style (including the + or - sign)
+          // Check if message contains a percentage to style (with optional + sign)
           const percentMatch = message.match(/(\+?\d+\.?\d*%)/);
           if (percentMatch && (isWarningPremium || isHighPremium || isDiscount)) {
             const parts = message.split(percentMatch[0]);

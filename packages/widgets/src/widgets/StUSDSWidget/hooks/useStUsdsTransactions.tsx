@@ -99,7 +99,7 @@ export const useStUsdsTransactions = ({
   const curveWithdrawSwap = useBatchCurveSwap({
     direction: StUsdsDirection.WITHDRAW,
     inputAmount: stUsdsAmount ?? 0n, // stUSDS to swap (from quote)
-    expectedOutput: amount, // Expected USDS output (with slippage protection applied)
+    expectedOutput: amount, // Quoted USDS output (slippage applied internally by hook)
     shouldUseBatch,
     enabled: isCurve && widgetState.action === StUSDSAction.WITHDRAW && (stUsdsAmount ?? 0n) > 0n,
     ...withdrawTransactionCallbacks
