@@ -3,7 +3,7 @@ import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Text } from '@/modules/layout/components/Typography';
 import { useCurveRate, useStUsdsData, calculateRateDifferencePercent } from '@jetstreamgg/sky-hooks';
-import { PopoverInfo } from '@jetstreamgg/sky-widgets';
+import { PopoverInfo, getTooltipById } from '@jetstreamgg/sky-widgets';
 
 export function StUSDSRateDifferenceCard() {
   const { i18n } = useLingui();
@@ -20,19 +20,20 @@ export function StUSDSRateDifferenceCard() {
 
   const hasData = curveRate && curveRate > 0n && nativeRate > 0n;
 
+  const tooltipContent = getTooltipById('curve-vs-native-rate-difference');
+
   return (
     <StatsCard
       className="h-full"
       isLoading={isCurveLoading || isStUsdsLoading}
       title={
         <div className="flex items-center gap-1">
-          <span>{i18n._(msg`Curve Rate Difference`)}</span>
+          <span>{i18n._(msg`Curve vs. Native Rate difference`)}</span>
           <PopoverInfo
-            title={i18n._(msg`Curve Rate Difference`)}
-            description={i18n._(
-              msg`The percentage difference between Curve and Native exchange rates, calculated as (Curve Rate - Native Rate) / Native Rate × 100.`
-            )}
-            iconSize="large"
+            title={i18n._(msg`${tooltipContent?.title || 'Curve vs. Native Rate difference'}`)}
+            description={i18n._(msg`${tooltipContent?.tooltip || ''}`)}
+            iconClassName="text-textSecondary hover:text-white transition-colors"
+            iconSize="medium"
           />
         </div>
       }
