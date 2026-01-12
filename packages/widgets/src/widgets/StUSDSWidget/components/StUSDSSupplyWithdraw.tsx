@@ -253,7 +253,7 @@ export const StUSDSSupplyWithdraw = ({
               disabled={isSupplyDisabled}
               showGauge={true}
             />
-            {/* Provider indicator - show when Curve is selected or when native is blocked */}
+            {/* Provider indicator - show when Curve is selected */}
             {providerSelection && isCurveSelected && (
               <div className="mt-2 px-1">
                 <ProviderIndicator
@@ -326,7 +326,7 @@ export const StUSDSSupplyWithdraw = ({
               disabled={isWithdrawDisabled}
               showGauge={true}
             />
-            {/* Provider indicator - show when Curve is selected or when native is blocked */}
+            {/* Provider indicator - show when Curve is selected */}
             {providerSelection && isCurveSelected && (
               <div className="mt-2 px-1">
                 <ProviderIndicator
