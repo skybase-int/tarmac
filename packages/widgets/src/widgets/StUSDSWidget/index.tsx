@@ -259,6 +259,7 @@ const StUSDSWidgetWrapped = ({
     txStatus === TxStatus.IDLE &&
     address &&
     amount !== 0n && //don't wait for debouncing on default state
+    !providerSelection.isLoading &&
     ((stUsdsData?.userUsdsBalance !== undefined && debouncedAmount > stUsdsData.userUsdsBalance) ||
       (providerSelection.allProvidersBlocked && debouncedAmount > 0n) ||
       (moduleMaxSupplyAmount !== undefined && debouncedAmount > moduleMaxSupplyAmount))
@@ -276,6 +277,7 @@ const StUSDSWidgetWrapped = ({
     txStatus === TxStatus.IDLE &&
     address &&
     amount !== 0n && //don't wait for debouncing on default state
+    !providerSelection.isLoading &&
     ((withdrawBalanceLimit !== undefined && debouncedAmount > withdrawBalanceLimit) ||
       (providerSelection.allProvidersBlocked && debouncedAmount > 0n) ||
       (maxWithdrawAmount !== undefined && debouncedAmount > maxWithdrawAmount))
