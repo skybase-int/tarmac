@@ -129,7 +129,6 @@ export const useStUsdsTransactionCallbacks = ({
           notificationTitle: t`Withdraw failed`,
           notificationDescription: t`Something went wrong with your transaction. Please try again.`
         });
-        mutateNativeSupplyAllowance();
         mutateStUsds();
         if (isCurve) {
           mutateCurveStUsdsAllowance?.();
@@ -143,7 +142,6 @@ export const useStUsdsTransactionCallbacks = ({
       handleOnError,
       handleOnStart,
       handleOnSuccess,
-      mutateNativeSupplyAllowance,
       mutateStUsds,
       mutateCurveStUsdsAllowance
     ]
