@@ -68,9 +68,14 @@ export function getProviderMessage(
           if (rateDifferencePercent > 0) {
             return `${i18n._(msg`Routing through Curve for a better rate`)} (+${rateText}%)`;
           }
-          const maxAmountText = formatBigInt(nativeMaxAmount!, { compact: true });
+          if (nativeMaxAmount === undefined) {
+            return i18n._(
+              msg`Routing through Curve with a ${rateText}% premium, as the supply capacity is reached`
+            );
+          }
+          const maxAmountText = formatBigInt(nativeMaxAmount, { compact: true });
           return i18n._(
-            msg`Routing through Curve with a ${rateText}% premium. Avoid the premium by supplying ${maxAmountText} USDS (the remaining native capacity)  or less.`
+            msg`Routing through Curve with a ${rateText}% premium. Avoid the premium by supplying ${maxAmountText} USDS (the remaining native capacity) or less.`
           );
         }
 
@@ -94,9 +99,14 @@ export function getProviderMessage(
           if (rateDifferencePercent > 0) {
             return `${i18n._(msg`Routing through Curve for a better rate`)} (+${rateText}%)`;
           }
-          const maxAmountText = formatBigInt(nativeMaxAmount!, { compact: true });
+          if (nativeMaxAmount === undefined) {
+            return i18n._(
+              msg`Routing through Curve with a ${rateText}% premium, as the liquidity is exhausted`
+            );
+          }
+          const maxAmountText = formatBigInt(nativeMaxAmount, { compact: true });
           return i18n._(
-            msg`Routing through Curve with a ${rateText}% premium. Avoid the premium by withdrawing ${maxAmountText} USDS (the available native liquidity)  or less.`
+            msg`Routing through Curve with a ${rateText}% premium. Avoid the premium by withdrawing ${maxAmountText} USDS (the available native liquidity) or less.`
           );
         }
 
