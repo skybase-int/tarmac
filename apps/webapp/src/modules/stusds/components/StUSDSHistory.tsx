@@ -6,7 +6,7 @@ import { absBigInt } from '../../utils/math';
 import { SavingsSupply, CurveSavingsSupply, CurveSavingsWithdraw, ArrowDown } from '@/modules/icons';
 import { HistoryTable } from '@/modules/ui/components/historyTable/HistoryTable';
 import { useSubgraphUrl } from '@/modules/app/hooks/useSubgraphUrl';
-import { useStUsdsHistory } from '@jetstreamgg/sky-hooks';
+import { useStUsdsHistory, StUsdsProviderType } from '@jetstreamgg/sky-hooks';
 import { TransactionTypeEnum } from '@jetstreamgg/sky-hooks';
 
 export function StUSDSHistory() {
@@ -20,7 +20,7 @@ export function StUSDSHistory() {
 
   // map stUSDS history to rows
   const history = stUsdsHistory?.map((s, index) => {
-    const isCurve = s.provider === 'curve';
+    const isCurve = s.provider === StUsdsProviderType.CURVE;
     const isSupply = s.type === TransactionTypeEnum.SUPPLY;
 
     // Determine the type label
