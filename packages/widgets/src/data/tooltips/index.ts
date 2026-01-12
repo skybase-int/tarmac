@@ -79,7 +79,7 @@ The SKY Borrow Rate is the current interest rate charged to SKY-backed borrowers
     id: 'liquidity-temporarily-utilized',
     title: 'Liquidity temporarily utilized',
     tooltip:
-      'Native USDS liquidity on Ethereum is currently 100% utilized. As a result, supplying to or withdrawing from the stUSDS module using the native route is temporarily disabled.'
+      'Native USDS liquidity on Ethereum is currently 100% utilized. As a result, withdrawing from the stUSDS module using the native route is temporarily disabled.'
   },
   {
     id: 'curve-vs-native-rate-difference',
