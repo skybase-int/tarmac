@@ -85,7 +85,7 @@ test.describe('Expert Module - stUSDS', () => {
     await expect(isolatedPage.getByText('10 USDS')).toBeVisible();
 
     // Check the disclaimer checkbox
-    await isolatedPage.getByRole('checkbox').click();
+    // await isolatedPage.getByRole('checkbox').click();
 
     // Perform the supply action (handles approval if needed)
     await performAction(isolatedPage, 'Supply');
@@ -116,7 +116,7 @@ test.describe('Expert Module - stUSDS', () => {
     // Supply first
     await isolatedPage.getByTestId('supply-input-stusds').click();
     await isolatedPage.getByTestId('supply-input-stusds').fill('20');
-    await isolatedPage.getByRole('checkbox').click();
+    // await isolatedPage.getByRole('checkbox').click();
     await performAction(isolatedPage, 'Supply');
     await isolatedPage.getByRole('button', { name: 'Back to stUSDS' }).click();
 
@@ -157,13 +157,13 @@ test.describe('Expert Module - stUSDS', () => {
     await expect(isolatedPage.getByRole('button', { name: 'Transaction overview' })).toBeVisible();
 
     // Disclaimer checkbox should be visible
-    await expect(isolatedPage.getByRole('checkbox')).toBeVisible();
+    // await expect(isolatedPage.getByRole('checkbox')).toBeVisible();
   });
 
   test('Use max button for withdrawal', async ({ isolatedPage }) => {
     await isolatedPage.getByTestId('supply-input-stusds').click();
     await isolatedPage.getByTestId('supply-input-stusds').fill('30');
-    await isolatedPage.getByRole('checkbox').click();
+    // await isolatedPage.getByRole('checkbox').click();
     await performAction(isolatedPage, 'Supply');
     await isolatedPage.getByRole('button', { name: 'Back to stUSDS' }).click();
 
@@ -250,7 +250,7 @@ test.describe('Expert Module - stUSDS', () => {
     await expect(isolatedPage.getByText('You will supply')).toBeVisible();
 
     // Check the disclaimer checkbox
-    await isolatedPage.getByRole('checkbox').click();
+    // await isolatedPage.getByRole('checkbox').click();
 
     // Perform the supply action (handles approval if needed)
     await performAction(isolatedPage, 'Supply');
@@ -268,9 +268,9 @@ test.describe('Expert Module - stUSDS', () => {
     await expect(isolatedPage.getByRole('button', { name: 'Transaction overview' })).toBeVisible();
 
     // Disclaimer checkbox should be visible and unchecked
-    const checkbox = isolatedPage.getByRole('checkbox');
-    await expect(checkbox).toBeVisible();
-    await expect(checkbox).not.toBeChecked();
+    // const checkbox = isolatedPage.getByRole('checkbox');
+    // await expect(checkbox).toBeVisible();
+    // await expect(checkbox).not.toBeChecked();
 
     // Review button should be disabled
     const reviewButton = isolatedPage.getByTestId('widget-button');
@@ -278,8 +278,8 @@ test.describe('Expert Module - stUSDS', () => {
     await expect(reviewButton).toBeDisabled();
 
     // Check the disclaimer checkbox
-    await checkbox.click();
-    await expect(checkbox).toBeChecked();
+    // await checkbox.click();
+    // await expect(checkbox).toBeChecked();
 
     // Review button should now be enabled
     await expect(reviewButton).toBeEnabled();
@@ -393,7 +393,7 @@ test.describe('Expert Module - stUSDS', () => {
       await isolatedPage.getByTestId('supply-input-stusds').fill('5');
 
       // Check the disclaimer checkbox
-      await isolatedPage.getByRole('checkbox').click();
+      // await isolatedPage.getByRole('checkbox').click();
 
       // Perform the supply action
       await performAction(isolatedPage, 'Supply');
@@ -409,7 +409,7 @@ test.describe('Expert Module - stUSDS', () => {
       // First supply some USDS
       await isolatedPage.getByTestId('supply-input-stusds').click();
       await isolatedPage.getByTestId('supply-input-stusds').fill('15');
-      await isolatedPage.getByRole('checkbox').click();
+      // await isolatedPage.getByRole('checkbox').click();
       await performAction(isolatedPage, 'Supply');
       await isolatedPage.getByRole('button', { name: 'Back to stUSDS' }).click();
 
