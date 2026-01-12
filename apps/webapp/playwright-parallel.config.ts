@@ -7,7 +7,7 @@ export default defineConfig({
   fullyParallel: true,
 
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 1 : 0,
+  retries: process.env.CI ? 0 : 0,
 
   // Set number of parallel workers (configurable, default 6)
   workers: process.env.TEST_WORKERS ? parseInt(process.env.TEST_WORKERS) : 6,
