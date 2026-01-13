@@ -29,6 +29,13 @@ interface ChatbotResponse {
 }
 
 const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
+  // TODO: Remove this - temporary 403 simulation for testing
+  // await new Promise(resolve => setTimeout(resolve, 2000)); // 2 second delay
+  // const simulateError: any = new Error('Jurisdiction restriction');
+  // simulateError.code = 'JURISDICTION_RESTRICTED';
+  // simulateError.status = 403;
+  // throw simulateError;
+
   const headers: HeadersInit = {
     'Content-Type': 'application/json'
   };
@@ -56,6 +63,12 @@ const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
       const error: any = new Error('Terms acceptance required');
       error.code = 'TERMS_NOT_ACCEPTED';
       error.status = response.status;
+      throw error;
+    }
+    if (response.status === 403) {
+      const error: any = new Error('Jurisdiction restriction');
+      error.code = 'JURISDICTION_RESTRICTED';
+      error.status = 403;
       throw error;
     }
     throw new Error('Advanced chat response was not ok');
@@ -117,7 +130,7 @@ const sendMessageMutation: MutationFunction<
 };
 
 export const useSendMessage = () => {
-  const { setChatHistory, sessionId, chatHistory, setTermsAccepted } = useChatContext();
+  const { setChatHistory, sessionId, chatHistory, setTermsAccepted, setIsRestricted } = useChatContext();
   const chainId = useChainId();
   const { isConnected } = useConnection();
   const { i18n } = useLingui();
@@ -176,6 +189,11 @@ export const useSendMessage = () => {
         },
         onError: async (error: any) => {
           console.error('Failed to send message:', JSON.stringify(error));
+          if (error.status === 403) {
+            setIsRestricted(true);
+            setChatHistory([]);
+            return;
+          }
           if (error.status === 401) {
             setTermsAccepted(false);
           }
