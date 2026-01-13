@@ -14,7 +14,7 @@ on:
       shards:
         description: 'Number of shards'
         required: false
-        default: '10'
+        default: '6'
         type: string
       workers_per_shard:
         description: 'Workers per shard'
@@ -83,7 +83,7 @@ jobs:
 
       - name: Fund accounts and create snapshots
         run: |
-          echo "💰 Funding all 100 test accounts on all networks..."
+          echo "💰 Funding all 150 test accounts on all networks..."
           cd apps/webapp
           pnpm e2e:fund
 
