@@ -13,6 +13,7 @@ import { ConversationFeedbackPrompt } from '@/modules/chat/components/Conversati
 import { ConversationFeedbackModal } from '@/modules/chat/components/ConversationFeedbackModal';
 import { submitFeedback, FEEDBACK_TYPE } from '@/modules/chat/services/feedbackApi';
 import { useChatbotFeedbackNotification } from '@/modules/chat/hooks/useChatbotFeedbackNotification';
+import { isChatbotRestrictedError } from '@/modules/chat/lib/ChatbotRestrictedError';
 
 export const ChatPane = ({ sendMessage }: { sendMessage: (message: string) => void }) => {
   const {
@@ -23,7 +24,9 @@ export const ChatPane = ({ sendMessage }: { sendMessage: (message: string) => vo
     setShowConversationFeedback,
     isLoading,
     sessionId,
-    isRestricted
+    isRestricted,
+    setIsRestricted,
+    setChatHistory
   } = useChatContext();
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const [isConversationFeedbackModalOpen, setIsConversationFeedbackModalOpen] = useState(false);
@@ -48,15 +51,25 @@ export const ChatPane = ({ sendMessage }: { sendMessage: (message: string) => vo
   };
 
   const handleFeedbackSubmit = async (rating: 'positive' | 'negative', comment: string | null) => {
-    await submitFeedback({
-      feedback_type: rating === 'positive' ? FEEDBACK_TYPE.THUMBS_UP : FEEDBACK_TYPE.THUMBS_DOWN,
-      comment,
-      session_id: sessionId
-    });
+    try {
+      await submitFeedback({
+        feedback_type: rating === 'positive' ? FEEDBACK_TYPE.THUMBS_UP : FEEDBACK_TYPE.THUMBS_DOWN,
+        comment,
+        session_id: sessionId
+      });
 
-    // Show success notification on successful submission
-    // Keep the feedback prompt visible to allow multiple submissions
-    showFeedbackSuccess(rating);
+      // Show success notification on successful submission
+      // Keep the feedback prompt visible to allow multiple submissions
+      showFeedbackSuccess(rating);
+    } catch (err) {
+      if (isChatbotRestrictedError(err)) {
+        setIsConversationFeedbackModalOpen(false);
+        setIsRestricted(true);
+        setChatHistory([]);
+        return;
+      }
+      throw err;
+    }
   };
 
   useDismissChatSuggestion();

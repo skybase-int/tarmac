@@ -202,6 +202,71 @@ test.describe('Chatbot', () => {
     await expect(isolatedPage.locator('textarea')).not.toBeVisible();
   });
 
+  test('shows jurisdiction restriction card when terms check returns 403', async ({ isolatedPage }) => {
+    // Override terms check to return 403 (user in restricted region)
+    await isolatedPage.route('**/chatbot/terms/check', async route => {
+      await route.fulfill({
+        status: 403,
+        contentType: 'application/json',
+        body: JSON.stringify({ error: 'Forbidden' })
+      });
+    });
+
+    // Navigate fresh - the terms check happens on load
+    await isolatedPage.goto('/?chat=true', { waitUntil: 'networkidle' });
+    await connectMockWalletAndAcceptTerms(isolatedPage, { batch: true });
+
+    // Wait for the restriction card to appear (terms check triggers on chat open)
+    await expect(isolatedPage.getByText('Service Unavailable')).toBeVisible({ timeout: 10000 });
+    await expect(
+      isolatedPage.getByText('Sorry, this service is not available in your jurisdiction.')
+    ).toBeVisible();
+
+    // Verify chat input is not visible
+    await expect(isolatedPage.locator('textarea')).not.toBeVisible();
+  });
+
+  test('shows jurisdiction restriction card when feedback submission returns 403', async ({
+    isolatedPage
+  }) => {
+    // Setup feedback mock to return 403
+    await isolatedPage.route('**/chatbot/feedback', async route => {
+      await route.fulfill({
+        status: 403,
+        contentType: 'application/json',
+        body: JSON.stringify({ error: 'Forbidden' })
+      });
+    });
+
+    await isolatedPage.waitForSelector('textarea[placeholder]');
+    const chatInput = isolatedPage.locator('textarea');
+
+    // Send a message to get the feedback prompt to appear
+    await chatInput.fill('Topic 1');
+    await chatInput.press('Enter');
+    await expect(isolatedPage.getByText('Response to: Topic 1', { exact: true })).toBeVisible();
+
+    // Click the thumbs up button to trigger feedback submission
+    const thumbsUpBtn = isolatedPage.getByRole('button', { name: 'Good conversation' });
+    await expect(thumbsUpBtn).toBeVisible();
+    await thumbsUpBtn.click();
+
+    // Submit feedback in the modal
+    const modal = isolatedPage.getByRole('dialog');
+    await expect(modal).toBeVisible();
+    const submitBtn = modal.getByRole('button', { name: 'Submit' });
+    await submitBtn.click();
+
+    // Verify the jurisdiction restriction card appears
+    await expect(isolatedPage.getByText('Service Unavailable')).toBeVisible({ timeout: 10000 });
+    await expect(
+      isolatedPage.getByText('Sorry, this service is not available in your jurisdiction.')
+    ).toBeVisible();
+
+    // Verify chat input is not visible
+    await expect(isolatedPage.locator('textarea')).not.toBeVisible();
+  });
+
   test('complete yield query flow with optimistic updates and intent buttons', async ({ isolatedPage }) => {
     // Mock response with yield-related intents
     const yieldResponse = {

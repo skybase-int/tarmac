@@ -66,6 +66,17 @@ const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
       throw error;
     }
     if (response.status === 403) {
+      // Parse and log the restriction details
+      try {
+        const errorData = await response.json();
+        console.error('[Chatbot] Region restricted:', {
+          error: errorData.error,
+          errorCode: errorData.error_code,
+          countryCode: errorData.country_code
+        });
+      } catch {
+        // Response body couldn't be parsed
+      }
       const error: any = new Error('Jurisdiction restriction');
       error.code = 'JURISDICTION_RESTRICTED';
       error.status = 403;
