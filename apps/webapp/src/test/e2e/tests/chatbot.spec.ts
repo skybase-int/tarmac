@@ -165,6 +165,43 @@ test.describe('Chatbot', () => {
     await expect(dialog.getByRole('button', { name: /Scroll down/i })).toBeVisible();
   });
 
+  test('shows jurisdiction restriction card when chat returns 403 forbidden', async ({ isolatedPage }) => {
+    // Override the chat mock to return 403 for this test
+    await isolatedPage.route('**/chat', async route => {
+      if (route.request().method() === 'POST') {
+        await route.fulfill({
+          status: 403,
+          contentType: 'application/json',
+          body: JSON.stringify({ error: 'Forbidden' })
+        });
+      } else {
+        await route.continue();
+      }
+    });
+
+    await isolatedPage.waitForSelector('textarea[placeholder]');
+
+    // Verify initial chat state - bot welcome message visible
+    await expect(isolatedPage.getByText(/Hi, I'm your AI-powered chatbot assistant/)).toBeVisible();
+
+    // Send a message that will trigger 403
+    const chatInput = isolatedPage.locator('textarea');
+    await chatInput.fill('Hello');
+    await chatInput.press('Enter');
+
+    // Verify the jurisdiction restriction card appears
+    await expect(isolatedPage.getByText('Service Unavailable')).toBeVisible({ timeout: 10000 });
+    await expect(
+      isolatedPage.getByText('Sorry, this service is not available in your jurisdiction.')
+    ).toBeVisible();
+
+    // Verify chat history is cleared (welcome message should be gone)
+    await expect(isolatedPage.getByText(/Hi, I'm your AI-powered chatbot assistant/)).not.toBeVisible();
+
+    // Verify chat input is not visible (replaced by restriction card)
+    await expect(isolatedPage.locator('textarea')).not.toBeVisible();
+  });
+
   test('complete yield query flow with optimistic updates and intent buttons', async ({ isolatedPage }) => {
     // Mock response with yield-related intents
     const yieldResponse = {
