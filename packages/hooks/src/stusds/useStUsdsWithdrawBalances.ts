@@ -8,7 +8,7 @@ import { StUsdsDirection, StUsdsProviderType } from './providers/types';
  * Provides withdraw balance data using rate comparison for display and max button.
  */
 export function useStUsdsWithdrawBalances() {
-  const { data: stUsdsData, isLoading: isDataLoading } = useStUsdsData();
+  const { data: stUsdsData, isLoading: isDataLoading, error: dataError } = useStUsdsData();
   const userStUsdsBalance = stUsdsData?.userStUsdsBalance ?? 0n;
 
   const providerSelection = useStUsdsProviderSelection({
@@ -41,6 +41,7 @@ export function useStUsdsWithdrawBalances() {
     nativeBalance,
     userStUsdsBalance,
     selectedProvider: providerSelection.selectedProvider,
-    isLoading: isDataLoading || providerSelection.isLoading || isCurveLoading
+    isLoading: isDataLoading || providerSelection.isLoading || isCurveLoading,
+    error: dataError
   };
 }

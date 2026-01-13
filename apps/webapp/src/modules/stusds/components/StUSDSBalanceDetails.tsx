@@ -4,7 +4,7 @@ import { SuppliedBalanceCard, UnsuppliedBalanceCard } from '@/modules/ui/compone
 import { t } from '@lingui/core/macro';
 
 export function StUSDSBalanceDetails() {
-  const { effectiveBalance, userStUsdsBalance, isLoading } = useStUsdsWithdrawBalances();
+  const { effectiveBalance, userStUsdsBalance, isLoading, error } = useStUsdsWithdrawBalances();
   const { data: savingsData, isLoading: savingsIsLoading, error: savingsError } = useSavingsData();
 
   const usdsToken = { name: 'USDS', symbol: 'USDS' };
@@ -19,6 +19,7 @@ export function StUSDSBalanceDetails() {
         balance={effectiveBalance || 0n}
         isLoading={isLoading}
         token={usdsToken}
+        error={error}
         label={t`Supplied balance`}
         afterBalance={stUsdsBalance}
         dataTestId="stusds-supplied-balance-details"
