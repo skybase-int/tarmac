@@ -23,6 +23,7 @@ export { useStUsdsPreviewWithdraw } from './useStUsdsPreviewWithdraw';
 export type { StUsdsPreviewWithdrawHookResponse } from './useStUsdsPreviewWithdraw';
 
 // Utility Hooks
+export { useStUsdsWithdrawBalances } from './useStUsdsWithdrawBalances';
 export { useStUsdsRateData } from './useStUsdsRateData';
 export type { StUsdsRateData, StUsdsRateDataHook } from './useStUsdsRateData';
 export { useStUsdsCapacityData } from './useStUsdsCapacityData';
