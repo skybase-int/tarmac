@@ -9,7 +9,7 @@ import {
   StUsdsProviderType,
   StUsdsDirection,
   useCurveAllowance,
-  useCurveQuote
+  useStUsdsWithdrawBalances
 } from '@jetstreamgg/sky-hooks';
 import { useDebounce } from '@jetstreamgg/sky-utils';
 import { useContext, useEffect, useMemo, useState } from 'react';
@@ -115,23 +115,16 @@ const StUSDSWidgetWrapped = ({
     amount: providerSelection?.selectedQuote?.stUsdsAmount ?? 0n
   });
 
-  // Calculate max USDS withdrawal via Curve based on user's actual stUSDS balance
-  // This uses get_dy to convert stUSDS → USDS at Curve's rate
-  const { data: curveMaxQuote } = useCurveQuote({
-    direction: StUsdsDirection.WITHDRAW,
-    amount: 0n, // Not used when isMax=true
-    userStUsdsBalance: stUsdsData?.userStUsdsBalance ?? 0n,
-    isMax: true,
-    enabled: (stUsdsData?.userStUsdsBalance ?? 0n) > 0n
-  });
-  const curveUserMaxWithdraw = curveMaxQuote?.usdsAmount;
+  const {
+    effectiveBalance: withdrawBalanceLimit,
+    curveMaxWithdraw,
+    selectedProvider: withdrawSelectedProvider
+  } = useStUsdsWithdrawBalances();
 
   const isCurveSelected = providerSelection.selectedProvider === StUsdsProviderType.CURVE;
 
-  // Check if Curve is available as an option (not just selected)
-  // If Curve is available, we shouldn't limit input based on native constraints
+  // If Curve is available, don't enforce native capacity limits on supply input
   const isCurveAvailableForSupply = providerSelection.curveProvider?.state?.canDeposit ?? false;
-  const isCurveAvailableForWithdraw = providerSelection.curveProvider?.state?.canWithdraw ?? false;
 
   useEffect(() => {
     setAmount(initialAmount);
@@ -241,11 +234,11 @@ const StUSDSWidgetWrapped = ({
   // For Curve: use user's max based on their stUSDS balance converted at Curve's rate (unbuffered)
   // For Native: use user's max withdrawable from contract (buffered to prevent liquidity issues)
   const nativeMaxWithdraw = stUsdsData?.userMaxWithdrawBuffered ?? 0n;
-  // When Curve is available, allow full balance withdrawal (Curve will be selected if native can't handle it)
-  // When only native is available, limit to native's max (which accounts for liquidity constraints)
-  const maxWithdrawAmount = isCurveAvailableForWithdraw
-    ? (curveUserMaxWithdraw ?? nativeMaxWithdraw)
-    : nativeMaxWithdraw;
+  // Max withdraw uses rate comparison
+  const maxWithdrawAmount =
+    withdrawSelectedProvider === StUsdsProviderType.CURVE
+      ? (curveMaxWithdraw ?? nativeMaxWithdraw)
+      : nativeMaxWithdraw;
 
   // Update amount when max is true and maxWithdrawAmount changes
   // This keeps the input synced with the latest max value when user has clicked 100%
@@ -265,13 +258,6 @@ const StUSDSWidgetWrapped = ({
       (moduleMaxSupplyAmount !== undefined && debouncedAmount > moduleMaxSupplyAmount))
       ? true
       : false;
-
-  // For withdraw balance check, use the same logic as maxWithdrawAmount to ensure consistency
-  // When Curve is available: use curveUserMaxWithdraw (allows full balance)
-  // When only native is available: use userSuppliedUsds (vault rate)
-  const withdrawBalanceLimit = isCurveAvailableForWithdraw
-    ? curveUserMaxWithdraw
-    : stUsdsData?.userSuppliedUsds;
 
   const isWithdrawBalanceError =
     txStatus === TxStatus.IDLE &&
