@@ -28,13 +28,17 @@ export function useStUsdsWithdraw({
     ? (stUsdsData?.userStUsdsBalance ?? 0n) // redeem uses shares
     : amount; // withdraw uses assets
 
+  const maxRedeemAssets = stUsdsData?.userSuppliedUsds ?? 0n;
+
   const enabled =
     isConnected &&
     !!stUsdsData &&
     activeTabEnabled &&
     !!connectedAddress &&
     operationAmount > 0n &&
-    (max || stUsdsData.userMaxWithdrawBuffered >= amount);
+    (max
+      ? stUsdsData.userMaxWithdrawBuffered >= maxRedeemAssets
+      : stUsdsData.userMaxWithdrawBuffered >= amount);
 
   return useWriteContractFlow({
     address: stUsdsAddress[chainId as keyof typeof stUsdsAddress],
