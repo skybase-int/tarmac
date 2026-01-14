@@ -1,4 +1,5 @@
 import { CHATBOT_DOMAIN } from '@/lib/constants';
+import { handleRestrictedResponse } from '../lib/ChatbotRestrictedError';
 
 interface SignTermsResponse {
   success: boolean;
@@ -26,6 +27,9 @@ export const signChatbotTerms = async (termsVersion: string): Promise<SignTermsR
   });
 
   if (!response.ok) {
+    if (response.status === 403) {
+      await handleRestrictedResponse(response);
+    }
     throw new Error(`Failed to sign terms: ${response.status}`);
   }
 
@@ -43,6 +47,9 @@ export const checkChatbotTerms = async (): Promise<CheckTermsResponse> => {
   });
 
   if (!response.ok) {
+    if (response.status === 403) {
+      await handleRestrictedResponse(response);
+    }
     return { accepted: false, reason: 'Invalid or expired terms' };
   }
 
@@ -70,6 +77,9 @@ export const associateWalletWithTerms = async (wallet: string): Promise<Associat
   });
 
   if (!response.ok) {
+    if (response.status === 403) {
+      await handleRestrictedResponse(response);
+    }
     throw new Error(`Failed to associate wallet: ${response.status}`);
   }
 

@@ -3,9 +3,12 @@ import { useConnection } from 'wagmi';
 import { checkChatbotTerms } from '../services/termsApi';
 import { shouldSkipAssociation, triggerWalletAssociation } from '../services/walletTermsAssociation';
 import { CHATBOT_ENABLED } from '@/lib/constants';
+import { isChatbotRestrictedError } from '../lib/ChatbotRestrictedError';
+import { useChatContext } from '../context/ChatContext';
 
 export const useWalletTermsAssociation = (): void => {
   const { address, isConnected } = useConnection();
+  const { setIsRestricted, setChatHistory } = useChatContext();
   const isAssociatingRef = useRef(false);
   const pendingAddressRef = useRef<string | null>(null);
 
@@ -32,6 +35,11 @@ export const useWalletTermsAssociation = (): void => {
         }
       }
     } catch (error) {
+      if (isChatbotRestrictedError(error)) {
+        setIsRestricted(true);
+        setChatHistory([]);
+        return;
+      }
       console.error('[useWalletTermsAssociation] Failed:', error);
     } finally {
       isAssociatingRef.current = false;
@@ -40,7 +48,7 @@ export const useWalletTermsAssociation = (): void => {
         void processPendingAssociation();
       }
     }
-  }, []);
+  }, [setIsRestricted, setChatHistory]);
 
   const queueAssociation = useCallback(
     (walletAddress: string | null | undefined) => {
