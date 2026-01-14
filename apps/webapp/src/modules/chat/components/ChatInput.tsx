@@ -14,9 +14,9 @@ import { FeedbackModal } from './FeedbackModal';
 export const ChatInput = ({ sendMessage }: { sendMessage: (message: string) => void }) => {
   const [inputText, setInputText] = useState('');
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
-  const { isLoading, chatHistory, termsAccepted } = useChatContext();
+  const { isLoading, chatHistory, termsAccepted, isRestricted } = useChatContext();
   const isAuthError = chatHistory.at(-1)?.type === MessageType.authError && !termsAccepted;
-  const isMessageSendingBlocked = !inputText.trim() || isLoading || isAuthError;
+  const isMessageSendingBlocked = !inputText.trim() || isLoading || isAuthError || isRestricted;
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const handleFeedbackClick = () => {
@@ -61,11 +61,13 @@ export const ChatInput = ({ sendMessage }: { sendMessage: (message: string) => v
   };
 
   const isFirstMessage = chatHistory.length === 1;
-  const placeholder = isAuthError
-    ? t`Please accept the terms of service to continue`
-    : isFirstMessage
-      ? t`Ask me about Sky`
-      : t`Ask another question`;
+  const placeholder = isRestricted
+    ? t`Chat is not available in your jurisdiction`
+    : isAuthError
+      ? t`Please accept the terms of service to continue`
+      : isFirstMessage
+        ? t`Ask me about Sky`
+        : t`Ask another question`;
 
   return (
     <>
@@ -87,7 +89,7 @@ export const ChatInput = ({ sendMessage }: { sendMessage: (message: string) => v
             onChange={e => setInputText(e.target.value.slice(0, MAX_MESSAGE_LENGTH))}
             onKeyDown={handleKeyPress}
             rows={1}
-            disabled={isAuthError}
+            disabled={isAuthError || isRestricted}
           />
           <HStack className="shrink-0 gap-1 @sm/chat:gap-2">
             {CHATBOT_FEEDBACK_ENABLED && (
@@ -98,7 +100,7 @@ export const ChatInput = ({ sendMessage }: { sendMessage: (message: string) => v
                       variant="ghost"
                       className="h-6 rounded-lg border border-violet-200/30 bg-transparent px-1 text-xs text-violet-200/70 transition-opacity duration-200 hover:border-violet-200/50 hover:bg-transparent hover:text-white active:bg-transparent disabled:border-violet-200/20 disabled:text-violet-200/40 disabled:hover:border-violet-200/20 disabled:hover:text-violet-200/40 @sm/chat:px-2"
                       onClick={handleFeedbackClick}
-                      disabled={isLoading || isAuthError}
+                      disabled={isLoading || isAuthError || isRestricted}
                     >
                       <Text variant="small" className="hidden @sm/chat:inline">
                         <Trans>Feedback</Trans>
