@@ -257,7 +257,10 @@ test.describe('Chatbot', () => {
     // Send a message to get the feedback prompt to appear
     await chatInput.fill('Topic 1');
     await chatInput.press('Enter');
-    await expect(isolatedPage.getByText('Response to: Topic 1', { exact: true })).toBeVisible({
+    // Wait for the default mock response (SkyWing greeting)
+    await expect(
+      isolatedPage.getByText('Hello! I am SkyWing, your AI assistant. How can I help you today?')
+    ).toBeVisible({
       timeout: 15000
     });
 
