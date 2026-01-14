@@ -35,6 +35,7 @@ export {
   useStUsdsCapacityData,
   useStUsdsHistory,
   useStUsdsChartInfo,
+  useStUsdsWithdrawBalances,
   // Provider abstraction layer
   useNativeStUsdsProvider,
   useCurveStUsdsProvider,
