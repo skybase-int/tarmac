@@ -65,6 +65,29 @@ The SKY Borrow Rate is the current interest rate charged to SKY-backed borrowers
     tooltip: 'The amount of stUSDS currently available for users to withdraw from the system.'
   },
   {
+    id: 'curve-exchange-rate',
+    title: 'Curve Exchange Rate',
+    tooltip:
+      'The exchange rate applied when your transaction is routed through the Curve pool instead of the Sky Protocol. The Curve rate may be higher or lower than the Sky Protocol rate depending on pool liquidity and market conditions.'
+  },
+  {
+    id: 'native-exchange-rate',
+    title: 'Native Exchange Rate',
+    tooltip: 'The Sky Protocol’s internal exchange rate (no external routing or premiums).'
+  },
+  {
+    id: 'liquidity-temporarily-utilized',
+    title: 'Liquidity temporarily utilized',
+    tooltip:
+      'Native USDS liquidity on Ethereum is currently 100% utilized. As a result, withdrawing from the stUSDS module using the native route is temporarily disabled.'
+  },
+  {
+    id: 'curve-vs-native-rate-difference',
+    title: 'Curve vs. Native Rate difference',
+    tooltip:
+      'The difference, shown as percentage, between the Curve and Native (Protocol) exchange rates, calculated as (Curve Rate - Native Rate) / Native Rate x 100.'
+  },
+  {
     id: 'staking-rewards-rates-srrs',
     title: 'Staking Rewards Rates (SRRs)',
     tooltip:
@@ -126,7 +149,7 @@ The SKY Borrow Rate is the current interest rate charged to SKY-backed borrowers
     id: 'debt-ceiling',
     title: 'Debt ceiling',
     tooltip:
-      'The debt ceiling is the maximum amount of debt or tokens that can be issued within the SKY Protocol, serving as a risk management tool to ensure stability and limit overexposure. It is a parameter subject to change by the Sky Ecosystem Governance.'
+      'The debt ceiling is the maximum amount of debt or tokens that can be issued within the SKY Protocol, serving as a risk management tool to ensure stability and limit overexposure. It is a parameter subject to change by Sky Ecosystem Governance.'
   },
   {
     id: 'debt-ceiling-utilization',
