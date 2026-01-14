@@ -1,4 +1,9 @@
 /**
+ * Error code returned by chatbot endpoints when the user is in a restricted jurisdiction
+ */
+export const CHATBOT_REGION_RESTRICTED_ERROR_CODE = 'CHATBOT_REGION_RESTRICTED';
+
+/**
  * Response body structure for 403 restricted responses from chatbot endpoints
  */
 interface RestrictedErrorResponse {
@@ -37,7 +42,9 @@ export const isChatbotRestrictedError = (error: unknown): error is ChatbotRestri
 
 /**
  * Handles a 403 response from a chatbot endpoint.
- * Parses the response body, logs the error details, and throws ChatbotRestrictedError.
+ * Parses the response body, logs the error details, and throws ChatbotRestrictedError
+ * only if the error code matches CHATBOT_REGION_RESTRICTED_ERROR_CODE.
+ * For other 403 errors, throws a generic Error.
  */
 export const handleRestrictedResponse = async (response: Response): Promise<never> => {
   let errorData: RestrictedErrorResponse | null = null;
@@ -49,13 +56,18 @@ export const handleRestrictedResponse = async (response: Response): Promise<neve
   }
 
   if (errorData) {
-    console.error('[Chatbot] Region restricted:', {
+    console.error('[Chatbot] 403 error:', {
       error: errorData.error,
       errorCode: errorData.error_code,
       countryCode: errorData.country_code
     });
-    throw new ChatbotRestrictedError(errorData.error, errorData.error_code, errorData.country_code);
+
+    if (errorData.error_code === CHATBOT_REGION_RESTRICTED_ERROR_CODE) {
+      throw new ChatbotRestrictedError(errorData.error, errorData.error_code, errorData.country_code);
+    }
+
+    throw new Error(errorData.error || 'Request forbidden');
   }
 
-  throw new ChatbotRestrictedError();
+  throw new Error('Request forbidden');
 };

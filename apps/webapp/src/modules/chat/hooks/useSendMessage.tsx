@@ -13,6 +13,7 @@ import {
   ensureIntentHasNetwork,
   hasPreFillParameters
 } from '../lib/intentUtils';
+import { CHATBOT_REGION_RESTRICTED_ERROR_CODE } from '../lib/ChatbotRestrictedError';
 import {
   CHATBOT_DOMAIN,
   CHATBOT_ENABLED,
@@ -29,13 +30,6 @@ interface ChatbotResponse {
 }
 
 const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
-  // TODO: Remove this - temporary 403 simulation for testing
-  // await new Promise(resolve => setTimeout(resolve, 2000)); // 2 second delay
-  // const simulateError: any = new Error('Jurisdiction restriction');
-  // simulateError.code = 'JURISDICTION_RESTRICTED';
-  // simulateError.status = 403;
-  // throw simulateError;
-
   const headers: HeadersInit = {
     'Content-Type': 'application/json'
   };
@@ -66,21 +60,29 @@ const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
       throw error;
     }
     if (response.status === 403) {
-      // Parse and log the restriction details
+      // Parse the response to check for region restriction
+      let errorData: { error?: string; error_code?: string; country_code?: string } | null = null;
       try {
-        const errorData = await response.json();
-        console.error('[Chatbot] Region restricted:', {
-          error: errorData.error,
-          errorCode: errorData.error_code,
-          countryCode: errorData.country_code
+        errorData = await response.json();
+        console.error('[Chatbot] 403 error:', {
+          error: errorData?.error,
+          errorCode: errorData?.error_code,
+          countryCode: errorData?.country_code
         });
       } catch {
         // Response body couldn't be parsed
       }
-      const error: any = new Error('Jurisdiction restriction');
-      error.code = 'JURISDICTION_RESTRICTED';
-      error.status = 403;
-      throw error;
+
+      // Only treat as jurisdiction restriction if error code matches
+      if (errorData?.error_code === CHATBOT_REGION_RESTRICTED_ERROR_CODE) {
+        const error: any = new Error('Jurisdiction restriction');
+        error.code = 'JURISDICTION_RESTRICTED';
+        error.status = 403;
+        throw error;
+      }
+
+      // For other 403 errors, throw a generic error
+      throw new Error(errorData?.error || 'Request forbidden');
     }
     throw new Error('Advanced chat response was not ok');
   }

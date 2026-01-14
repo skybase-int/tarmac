@@ -166,13 +166,16 @@ test.describe('Chatbot', () => {
   });
 
   test('shows jurisdiction restriction card when chat returns 403 forbidden', async ({ isolatedPage }) => {
-    // Override the chat mock to return 403 for this test
+    // Override the chat mock to return 403 with region restriction error code
     await isolatedPage.route('**/chat', async route => {
       if (route.request().method() === 'POST') {
         await route.fulfill({
           status: 403,
           contentType: 'application/json',
-          body: JSON.stringify({ error: 'Forbidden' })
+          body: JSON.stringify({
+            error: 'Forbidden',
+            error_code: 'CHATBOT_REGION_RESTRICTED'
+          })
         });
       } else {
         await route.continue();
@@ -203,12 +206,15 @@ test.describe('Chatbot', () => {
   });
 
   test('shows jurisdiction restriction card when terms check returns 403', async ({ isolatedPage }) => {
-    // Override terms check to return 403 (user in restricted region)
+    // Override terms check to return 403 with region restriction error code
     await isolatedPage.route('**/chatbot/terms/check', async route => {
       await route.fulfill({
         status: 403,
         contentType: 'application/json',
-        body: JSON.stringify({ error: 'Forbidden' })
+        body: JSON.stringify({
+          error: 'Forbidden',
+          error_code: 'CHATBOT_REGION_RESTRICTED'
+        })
       });
     });
 
@@ -229,12 +235,15 @@ test.describe('Chatbot', () => {
   test('shows jurisdiction restriction card when feedback submission returns 403', async ({
     isolatedPage
   }) => {
-    // Setup feedback mock to return 403
+    // Setup feedback mock to return 403 with region restriction error code
     await isolatedPage.route('**/chatbot/feedback', async route => {
       await route.fulfill({
         status: 403,
         contentType: 'application/json',
-        body: JSON.stringify({ error: 'Forbidden' })
+        body: JSON.stringify({
+          error: 'Forbidden',
+          error_code: 'CHATBOT_REGION_RESTRICTED'
+        })
       });
     });
 
