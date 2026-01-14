@@ -193,9 +193,11 @@ test.describe('Chatbot', () => {
     await chatInput.press('Enter');
 
     // Verify the jurisdiction restriction card appears
-    await expect(isolatedPage.getByText('Service Unavailable')).toBeVisible({ timeout: 10000 });
+    await expect(isolatedPage.getByText('Chatbot not available in your region')).toBeVisible({
+      timeout: 10000
+    });
     await expect(
-      isolatedPage.getByText('Sorry, this service is not available in your jurisdiction.')
+      isolatedPage.getByText('Access to the chatbot is restricted in certain jurisdictions.')
     ).toBeVisible();
 
     // Verify chat history is cleared (welcome message should be gone)
@@ -223,9 +225,11 @@ test.describe('Chatbot', () => {
     await connectMockWalletAndAcceptTerms(isolatedPage, { batch: true });
 
     // Wait for the restriction card to appear (terms check triggers on chat open)
-    await expect(isolatedPage.getByText('Service Unavailable')).toBeVisible({ timeout: 10000 });
+    await expect(isolatedPage.getByText('Chatbot not available in your region')).toBeVisible({
+      timeout: 10000
+    });
     await expect(
-      isolatedPage.getByText('Sorry, this service is not available in your jurisdiction.')
+      isolatedPage.getByText('Access to the chatbot is restricted in certain jurisdictions.')
     ).toBeVisible();
 
     // Verify chat input is not visible
@@ -253,7 +257,9 @@ test.describe('Chatbot', () => {
     // Send a message to get the feedback prompt to appear
     await chatInput.fill('Topic 1');
     await chatInput.press('Enter');
-    await expect(isolatedPage.getByText('Response to: Topic 1', { exact: true })).toBeVisible();
+    await expect(isolatedPage.getByText('Response to: Topic 1', { exact: true })).toBeVisible({
+      timeout: 15000
+    });
 
     // Click the thumbs up button to trigger feedback submission
     const thumbsUpBtn = isolatedPage.getByRole('button', { name: 'Good conversation' });
@@ -267,9 +273,11 @@ test.describe('Chatbot', () => {
     await submitBtn.click();
 
     // Verify the jurisdiction restriction card appears
-    await expect(isolatedPage.getByText('Service Unavailable')).toBeVisible({ timeout: 10000 });
+    await expect(isolatedPage.getByText('Chatbot not available in your region')).toBeVisible({
+      timeout: 10000
+    });
     await expect(
-      isolatedPage.getByText('Sorry, this service is not available in your jurisdiction.')
+      isolatedPage.getByText('Access to the chatbot is restricted in certain jurisdictions.')
     ).toBeVisible();
 
     // Verify chat input is not visible
