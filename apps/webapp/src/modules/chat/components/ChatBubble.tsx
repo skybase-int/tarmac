@@ -168,7 +168,7 @@ export const ChatBubble = ({
         </Text>
       </HStack>
       <VStack
-        className={`gap-2 ${user === UserType.user ? 'xl:from-primary-start/100 xl:to-primary-end/100 xl:w-fit xl:max-w-full xl:self-end xl:rounded-2xl xl:rounded-tr-[2px] xl:bg-radial-(--gradient-position) xl:py-3 xl:pr-7 xl:pb-0 xl:pl-5' : '@2xl/chat:ml-10'}`}
+        className={`gap-2 ${user === UserType.user ? 'xl:from-primary-start/100 xl:to-primary-end/100 xl:w-fit xl:max-w-full xl:min-w-0 xl:self-end xl:rounded-2xl xl:rounded-tr-[2px] xl:bg-radial-(--gradient-position) xl:py-3 xl:pr-7 xl:pb-0 xl:pl-5' : '@2xl/chat:ml-10'}`}
       >
         <Text
           variant="medium"
@@ -187,7 +187,7 @@ export const ChatBubble = ({
               {(isError || (isAuthError && !termsAccepted)) && (
                 <ChatError className="mb-3 h-4 w-4 shrink-0" />
               )}
-              <div className="min-w-0 break-all text-white/75">
+              <div className="min-w-0 break-words text-white/75">
                 {isFeedback && user === UserType.user ? (
                   <Accordion type="single" collapsible className="w-full overflow-hidden">
                     <AccordionItem value="feedback" className="border-none p-0">
