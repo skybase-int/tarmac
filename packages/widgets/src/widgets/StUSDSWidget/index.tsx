@@ -243,10 +243,15 @@ const StUSDSWidgetWrapped = ({
   // Update amount when max is true and maxWithdrawAmount changes
   // This keeps the input synced with the latest max value when user has clicked 100%
   useEffect(() => {
-    if (max && widgetState.flow === StUSDSFlow.WITHDRAW && maxWithdrawAmount > 0n) {
+    if (
+      max &&
+      widgetState.flow === StUSDSFlow.WITHDRAW &&
+      maxWithdrawAmount > 0n &&
+      txStatus === TxStatus.IDLE
+    ) {
       setAmount(maxWithdrawAmount);
     }
-  }, [max, maxWithdrawAmount, widgetState.flow]);
+  }, [max, maxWithdrawAmount, widgetState.flow, txStatus]);
 
   const isSupplyBalanceError =
     txStatus === TxStatus.IDLE &&
@@ -311,6 +316,7 @@ const StUSDSWidgetWrapped = ({
   const nextOnClick = () => {
     setTxStatus(TxStatus.IDLE);
     setAmount(0n);
+    setMax(false);
 
     setWidgetState((prev: WidgetState) => ({
       ...prev,
