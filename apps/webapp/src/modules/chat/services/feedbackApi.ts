@@ -1,5 +1,6 @@
 import { CHATBOT_DOMAIN, IS_PRODUCTION_ENV } from '@/lib/constants';
 import { FEEDBACK_TYPE, type FeedbackType } from '../constants';
+import { handleRestrictedResponse } from '../lib/ChatbotRestrictedError';
 
 export interface FeedbackRequest {
   feedback_type: FeedbackType;
@@ -44,6 +45,9 @@ export const submitFeedback = async (feedback: FeedbackRequest): Promise<Feedbac
   });
 
   if (!response.ok) {
+    if (response.status === 403) {
+      await handleRestrictedResponse(response);
+    }
     const errorText = await response.text().catch(() => 'Unknown error');
     throw new Error(`Failed to submit feedback: ${response.status} ${errorText}`);
   }
