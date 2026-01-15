@@ -7,9 +7,18 @@ export function FooterLinks() {
   const footerLinks = getFooterLinks();
   const externalClass = 'hover:text-white hover:underline hover:underline-offset-4';
 
+  const handlePrivacySettingsClick = () => {
+    window.dispatchEvent(new CustomEvent('showPrivacyBanner'));
+  };
+
   return (
     <div className={'flex w-full pt-2'}>
       <div className="flex w-full justify-end gap-3 md:justify-start">
+        <button onClick={handlePrivacySettingsClick} className={externalClass}>
+          <Text variant="captionSm" className="text-white">
+            Privacy Preferences
+          </Text>
+        </button>
         {footerLinks.map((link, i) => {
           const url = sanitizeUrl(link.url);
           if (!url) return null;
