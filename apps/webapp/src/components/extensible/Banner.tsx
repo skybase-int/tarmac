@@ -107,24 +107,33 @@ export function Banner({
         </button>
         <div className="mb-3">
           <Heading variant="small" className="text-text">
-            Privacy Preferences
+            Cookies & Analytics Notice
           </Heading>
         </div>
         <div className="space-y-2">
           <Text variant="medium" className="text-text">
-            We use Cookie3 analytics to collect information about how you interact with our website. This
-            helps us improve our services and user experience.
+            We use strictly necessary cookies on the app.sky.money interface to ensure its operation,
+            security, and stability. These cookies are essential to the functioning of the interface and
+            cannot be switched off.
           </Text>
           <Text variant="medium" className="text-text">
-            You can disable analytics at any time.
+            We also use Cookie3, a third-party analytics tool to collect information about how users interact
+            with the interface. These analytics help us understand usage patterns and improve performance.
+            They are not essential to the operation of the interface and will only be enabled with your
+            consent.
+          </Text>
+          <Text variant="medium" className="text-text">
+            You may accept or reject analytics at any time by using the options below. You can find further
+            information about our use of cookies, including details on Cookie3 and how to manage your
+            preferences, in our Cookie Policy.
           </Text>
         </div>
         <div className="mt-4 flex gap-2">
           <Button variant="primary" className="px-4 py-2" onClick={onAction}>
-            Accept
+            Accept Analytics
           </Button>
           <Button variant="secondary" className="border bg-transparent px-4 py-2" onClick={onSecondaryAction}>
-            Reject
+            Reject Analytics
           </Button>
         </div>
       </div>
