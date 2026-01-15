@@ -1,5 +1,6 @@
 import { associateWalletWithTerms } from './termsApi';
 import { CHAT_WALLET_ASSOCIATION_KEY } from '@/lib/constants';
+import { ChatbotRestrictedError } from '../lib/ChatbotRestrictedError';
 
 type WalletAssociationCache = Record<string, { timestamp: number }>;
 
@@ -41,6 +42,10 @@ export const triggerWalletAssociation = async (walletAddress: string): Promise<v
     await associateWalletWithTerms(walletAddress);
     updateCache(walletAddress);
   } catch (error) {
+    // Re-throw restriction errors so callers can handle them
+    if (error instanceof ChatbotRestrictedError) {
+      throw error;
+    }
     console.error('[WalletTermsAssociation] Failed to associate wallet:', error);
   }
 };
