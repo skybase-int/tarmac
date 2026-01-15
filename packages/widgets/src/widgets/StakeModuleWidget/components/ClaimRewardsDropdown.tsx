@@ -142,7 +142,7 @@ export function ClaimRewardsDropdown({
     );
 
   return (
-    <div className="bg-linear-to-r flex h-14 items-center justify-between rounded-2xl from-[#403570] to-[#4B337B] px-5 py-4">
+    <div className="flex h-14 items-center justify-between rounded-2xl bg-linear-to-r from-[#403570] to-[#4B337B] px-5 py-4">
       <div className="flex items-center">
         <Text variant="medium" className="text-[#f2dcfc]">
           Select reward
@@ -177,7 +177,7 @@ export function ClaimRewardsDropdown({
                     })
                   }
                   className={cn(
-                    'text-text h-13.5 flex w-full items-center justify-start gap-2.5 rounded-lg px-4 py-3 text-sm transition-colors',
+                    'text-text flex h-13.5 w-full items-center justify-start gap-2.5 rounded-lg px-4 py-3 text-sm transition-colors',
                     'from-card to-card hover:from-primary-start hover:to-primary-end bg-radial-(--gradient-position)'
                   )}
                 >
@@ -195,7 +195,7 @@ export function ClaimRewardsDropdown({
                     })
                   }
                   className={cn(
-                    'text-text h-13.5 flex w-full items-center justify-start gap-2.5 rounded-lg px-4 py-3 text-sm transition-colors',
+                    'text-text flex h-13.5 w-full items-center justify-start gap-2.5 rounded-lg px-4 py-3 text-sm transition-colors',
                     'from-card to-card hover:from-primary-start hover:to-primary-end bg-radial-(--gradient-position)'
                   )}
                 >
@@ -211,7 +211,7 @@ export function ClaimRewardsDropdown({
                   variant={null}
                   onClick={() => handleSelectOption({ contracts: [contractAddress] })}
                   className={cn(
-                    'text-text h-13.5 flex w-full items-center justify-start gap-2.5 rounded-lg px-4 py-3 text-sm transition-colors',
+                    'text-text flex h-13.5 w-full items-center justify-start gap-2.5 rounded-lg px-4 py-3 text-sm transition-colors',
                     'from-card to-card hover:from-primary-start hover:to-primary-end bg-radial-(--gradient-position)'
                   )}
                 >
@@ -229,7 +229,7 @@ export function ClaimRewardsDropdown({
                   })
                 }
                 className={cn(
-                  'text-text h-13.5 flex w-full items-center justify-start gap-2.5 rounded-lg px-4 py-3 text-sm transition-colors',
+                  'text-text flex h-13.5 w-full items-center justify-start gap-2.5 rounded-lg px-4 py-3 text-sm transition-colors',
                   'from-card to-card hover:from-primary-start hover:to-primary-end bg-radial-(--gradient-position)'
                 )}
               >

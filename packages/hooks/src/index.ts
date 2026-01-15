@@ -17,6 +17,7 @@ export { useSsrSharesToAssets } from './savings/useSsrSharesToAssets';
 export { useSsrAssetsToShares } from './savings/useSsrAssetsToShares';
 export { useMultiChainSavingsBalances } from './savings/useMultiChainSavingsBalances';
 export { useBatchSavingsSupply } from './savings/useBatchSavingsSupply';
+export { useBatchUpgradeAndSavingsSupply } from './savings/useBatchUpgradeAndSavingsSupply';
 
 // stUSDS
 export {
@@ -33,7 +34,25 @@ export {
   useStUsdsRateData,
   useStUsdsCapacityData,
   useStUsdsHistory,
-  useStUsdsChartInfo
+  useStUsdsChartInfo,
+  useStUsdsWithdrawBalances,
+  // Provider abstraction layer
+  useNativeStUsdsProvider,
+  useCurveStUsdsProvider,
+  useStUsdsProviderSelection,
+  useCurvePoolData,
+  useCurveQuote,
+  useCurveAllowance,
+  useCurveApprove,
+  useCurveSwap,
+  useBatchCurveSwap,
+  useCurveRate,
+  StUsdsProviderType,
+  StUsdsProviderStatus,
+  StUsdsSelectionReason,
+  StUsdsBlockedReason,
+  StUsdsDirection,
+  calculateRateDifferencePercent
 } from './stusds';
 
 export type {
@@ -51,7 +70,15 @@ export type {
   StUsdsHistoryHook,
   StUsdsHistoryItem,
   StUsdsVaultMetrics,
-  StUsdsUserMetrics
+  StUsdsUserMetrics,
+  // Provider abstraction types
+  StUsdsRateInfo,
+  StUsdsProviderState,
+  StUsdsQuoteParams,
+  StUsdsQuote,
+  StUsdsProviderData,
+  StUsdsProviderHookResult,
+  StUsdsProviderSelectionResult
 } from './stusds';
 
 // Authentication

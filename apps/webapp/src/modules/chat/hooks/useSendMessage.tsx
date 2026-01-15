@@ -1,4 +1,4 @@
-import { useAccount, useChainId } from 'wagmi';
+import { useConnection, useChainId } from 'wagmi';
 import { MutationFunction, useMutation } from '@tanstack/react-query';
 import { SendMessageRequest, SendMessageResponse, ChatIntent } from '../types/Chat';
 import { useChatContext } from '../context/ChatContext';
@@ -13,6 +13,7 @@ import {
   ensureIntentHasNetwork,
   hasPreFillParameters
 } from '../lib/intentUtils';
+import { CHATBOT_REGION_RESTRICTED_ERROR_CODE } from '../lib/ChatbotRestrictedError';
 import {
   CHATBOT_DOMAIN,
   CHATBOT_ENABLED,
@@ -57,6 +58,31 @@ const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
       error.code = 'TERMS_NOT_ACCEPTED';
       error.status = response.status;
       throw error;
+    }
+    if (response.status === 403) {
+      // Parse the response to check for region restriction
+      let errorData: { error?: string; error_code?: string; country_code?: string } | null = null;
+      try {
+        errorData = await response.json();
+        console.error('[Chatbot] 403 error:', {
+          error: errorData?.error,
+          errorCode: errorData?.error_code,
+          countryCode: errorData?.country_code
+        });
+      } catch {
+        // Response body couldn't be parsed
+      }
+
+      // Only treat as jurisdiction restriction if error code matches
+      if (errorData?.error_code === CHATBOT_REGION_RESTRICTED_ERROR_CODE) {
+        const error: any = new Error('Jurisdiction restriction');
+        error.code = 'JURISDICTION_RESTRICTED';
+        error.status = 403;
+        throw error;
+      }
+
+      // For other 403 errors, throw a generic error
+      throw new Error(errorData?.error || 'Request forbidden');
     }
     throw new Error('Advanced chat response was not ok');
   }
@@ -117,9 +143,9 @@ const sendMessageMutation: MutationFunction<
 };
 
 export const useSendMessage = () => {
-  const { setChatHistory, sessionId, chatHistory, setTermsAccepted } = useChatContext();
+  const { setChatHistory, sessionId, chatHistory, setTermsAccepted, setIsRestricted } = useChatContext();
   const chainId = useChainId();
-  const { isConnected } = useAccount();
+  const { isConnected } = useConnection();
   const { i18n } = useLingui();
 
   const { loading: LOADING, error: ERROR, canceled: CANCELED, authError: AUTH_ERROR } = MessageType;
@@ -176,6 +202,11 @@ export const useSendMessage = () => {
         },
         onError: async (error: any) => {
           console.error('Failed to send message:', JSON.stringify(error));
+          if (error.status === 403) {
+            setIsRestricted(true);
+            setChatHistory([]);
+            return;
+          }
           if (error.status === 401) {
             setTermsAccepted(false);
           }

@@ -8,11 +8,12 @@ import { CHATBOT_ENABLED, QueryParams, mapQueryParamToIntent } from '@/lib/const
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { validateLinkedActionSearchParams, validateSearchParams } from '@/modules/utils/validateSearchParams';
 import { useAvailableTokenRewardContracts } from '@jetstreamgg/sky-hooks';
-import { useAccount, useAccountEffect, useChainId, useChains, useSwitchChain } from 'wagmi';
+import { useConnection, useConnectionEffect, useChainId, useChains, useSwitchChain } from 'wagmi';
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
 import { LinkedActionSteps } from '@/modules/config/context/ConfigContext';
 import { useSendMessage } from '@/modules/chat/hooks/useSendMessage';
 import { ChatWithTerms } from '@/modules/chat/components/ChatWithTerms';
+import { useWalletTermsAssociation } from '@/modules/chat/hooks/useWalletTermsAssociation';
 import { useChatNotification } from '../hooks/useChatNotification';
 import { useSafeAppNotification } from '../hooks/useSafeAppNotification';
 import { useGovernanceMigrationToast } from '../hooks/useGovernanceMigrationToast';
@@ -39,8 +40,8 @@ export function MainApp() {
   const chainId = useChainId();
   const chains = useChains();
 
-  const { connector } = useAccount();
-  useAccountEffect({
+  const { connector } = useConnection();
+  useConnectionEffect({
     // Once the user connects their wallet, check if the network param is set and switch chains if necessary
     onConnect() {
       const parsedChainId = chains.find(
@@ -127,6 +128,9 @@ export function MainApp() {
 
   // If the user is connected to a Safe Wallet using WalletConnect, notify they can use the Safe App
   useSafeAppNotification();
+
+  // Associate wallet address with chatbot terms acceptance (if CHATBOT_ENABLED)
+  useWalletTermsAssociation();
 
   // Run validation on search params whenever search params change
   useEffect(() => {

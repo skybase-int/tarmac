@@ -29,7 +29,7 @@ The SKY Borrow Rate is the current interest rate charged to SKY-backed borrowers
     id: 'utilization',
     title: 'Utilization',
     tooltip:
-      'Utilization is the percent of funds in the stUSDS contract that are used to fund borrowing against staked SKY.'
+      'Utilization is the percentage of funds in the stUSDS contract that are used to fund borrowing against staked SKY.'
   },
   {
     id: 'maximum-capacity',
@@ -65,10 +65,33 @@ The SKY Borrow Rate is the current interest rate charged to SKY-backed borrowers
     tooltip: 'The amount of stUSDS currently available for users to withdraw from the system.'
   },
   {
+    id: 'curve-exchange-rate',
+    title: 'Curve Exchange Rate',
+    tooltip:
+      'The exchange rate applied when your transaction is routed through the Curve pool instead of the Sky Protocol. The Curve rate may be higher or lower than the Sky Protocol rate depending on pool liquidity and market conditions.'
+  },
+  {
+    id: 'native-exchange-rate',
+    title: 'Native Exchange Rate',
+    tooltip: 'The Sky Protocol’s internal exchange rate (no external routing or premiums).'
+  },
+  {
+    id: 'liquidity-temporarily-utilized',
+    title: 'Liquidity temporarily utilized',
+    tooltip:
+      'Native USDS liquidity on Ethereum is currently 100% utilized. As a result, withdrawing from the stUSDS module using the native route is temporarily disabled.'
+  },
+  {
+    id: 'curve-vs-native-rate-difference',
+    title: 'Curve vs. Native Rate difference',
+    tooltip:
+      'The difference, shown as percentage, between the Curve and Native (Protocol) exchange rates, calculated as (Curve Rate - Native Rate) / Native Rate x 100.'
+  },
+  {
     id: 'staking-rewards-rates-srrs',
     title: 'Staking Rewards Rates (SRRs)',
     tooltip:
-      'Staking Rewards Rates are variable and may fluctuate. They are determined by: (1) the current issuance rate of the rewards set through onchain governance processes, and (2) the market price of the staked SKY at the time of each calculation. The SRRs shown are estimated annual rates, updated using data from a third-party provider (i.e., [BlockAnalitica](https://blockanalitica.com/)). Further, the estimate is for informational purposes only and does not guarantee future results.'
+      'Staking Rewards Rates are variable and may fluctuate. They are determined by: (1) the current issuance parameter of the rewards set through onchain governance processes, and (2) the market price of the staked SKY at the time of each calculation. The SRRs shown are estimated annual rates, updated using data from a third-party provider (i.e., [BlockAnalitica](https://blockanalitica.com/)). Further, the estimate is for informational purposes only and does not guarantee future results.'
   },
   {
     id: 'staked',
@@ -114,7 +137,7 @@ The SKY Borrow Rate is the current interest rate charged to SKY-backed borrowers
     id: 'liquidation-price-staking',
     title: 'Liquidation price (Staking)',
     tooltip:
-      "If the value of your collateral (SKY) drops below the liquidation price noted here, some or all of your collateral may be auctioned to repay the amount of USDS that you borrowed. Note that a one-hour price update delay applies. In other words, when SKY drops below a user's liquidation price it will only start applying one hour later. This is called the OSM delay in technical terms, and it also applies to any legacy Maker MCD vault."
+      "If the value of your collateral (SKY) drops below the liquidation price noted here, some or all of your collateral may be auctioned to repay the amount of USDS that you borrowed. Note that a one-hour price update delay applies. In other words, when SKY drops below a user's liquidation price it will only start applying one hour later. This is called the OSM delay in technical terms, and it also applies to any Maker MCD vault."
   },
   {
     id: 'risk-level',
@@ -126,7 +149,7 @@ The SKY Borrow Rate is the current interest rate charged to SKY-backed borrowers
     id: 'debt-ceiling',
     title: 'Debt ceiling',
     tooltip:
-      'The debt ceiling is the maximum amount of debt or tokens that can be issued within the SKY Protocol, serving as a risk management tool to ensure stability and limit overexposure. It is a parameter subject to change by the Sky Ecosystem Governance.'
+      'The debt ceiling is the maximum amount of debt or tokens that can be issued within the SKY Protocol, serving as a risk management tool to ensure stability and limit overexposure. It is a parameter subject to change by Sky Ecosystem Governance.'
   },
   {
     id: 'debt-ceiling-utilization',
@@ -167,7 +190,7 @@ The SKY Borrow Rate is the current interest rate charged to SKY-backed borrowers
   {
     id: 'choose-your-delegate',
     title: 'Choose your delegate',
-    tooltip: `When you hold SKY tokens, you maintain the right to participate in the process of Sky Ecosystem Governance voting. That means that you have the ability to contribute to the community-driven, decentralized ecosystem decision-making process, which occurs through onchain voting.
+    tooltip: `When you hold SKY tokens, you may participate in the process of Sky Ecosystem Governance voting. That means that you have the ability to contribute to the community-driven, decentralized ecosystem decision-making process, which occurs through onchain voting.
 
 The voting power delegation feature of the Staking Engine of the Sky Protocol enables you to entrust your voting power to a delegate of your choosing, who can then vote in the Sky Ecosystem Governance process on your behalf. You can choose one delegate per SKY position. If you want to entrust your SKY to two delegates using the Staking Engine, you will need to create two separate positions.
 
@@ -196,7 +219,7 @@ You don't have any open positions.`
     id: 'liquidation-price-seal',
     title: 'Liquidation price (Seal)',
     tooltip:
-      "If the value of your collateral (MKR or SKY) drops below the liquidation price noted here, some or all of your collateral may be auctioned to repay the amount of USDS that you borrowed. Note that a one-hour price update delay applies. In other words, when MKR or SKY drops below a user's liquidation price it will only start applying one hour later. This is called the OSM delay in technical terms, and it also applies to any legacy Maker MCD vault."
+      "If the value of your collateral (MKR or SKY) drops below the liquidation price noted here, some or all of your collateral may be auctioned to repay the amount of USDS that you borrowed. Note that a one-hour price update delay applies. In other words, when MKR or SKY drops below a user's liquidation price it will only start applying one hour later. This is called the OSM delay in technical terms, and it also applies to any Maker MCD vault."
   },
   {
     id: 'delayed-upgrade-penalty',
@@ -216,7 +239,7 @@ Bundled transaction: Active`
     id: 'legal-notice',
     title: 'Legal Notice',
     tooltip:
-      "Please note that all security checks, user confirmations, and error handling are managed by your chosen wallet's delegate contract. As outlined in our Terms of Use, your use of a non-custodial digital wallet—including wallets supporting EIP-7702 and smart account functionality—is governed by the terms of service of your third-party wallet provider. We do not control or take responsibility for the security, functionality, or behavior of third-party wallets, including their handling of bundled transactions or delegate contracts. To ensure a secure and transparent experience, please ensure you are using a trusted and up-to-date wallet before proceeding."
+      "Please note that all security checks, user confirmations, and error handling are managed by your chosen wallet's delegate contract. As outlined in our Terms of Use, your use of a non-custodial digital wallet—including wallets supporting EIP-7702 and smart account functionality—is governed by the terms of service of your third-party wallet provider. We do not control or take responsibility for the security, functionality, or behavior of third-party wallets, including their handling of bundled transactions or delegate contracts. To help ensure a secure and transparent experience, please be certain you are using a trusted and up-to-date wallet before proceeding."
   },
   {
     id: 'gas-fee',
@@ -228,7 +251,7 @@ Bundled transaction: Active`
     id: 'exchange-rate',
     title: 'Exchange Rate',
     tooltip:
-      'Exchange Rate refers to the price of one cryptocurrency relative to another cryptocurrency or fiat currency at any given moment. Cryptocurrency exchange rates may be subject to price volatility and may fluctuate based on various factors. The final amount you will receive is estimated, based on your chosen slippage tolerance level.'
+      'Exchange Rate refers to the price of one currency relative to another at any given moment. Cryptocurrency exchange rates may be subject to price volatility and may fluctuate based on various factors. The final amount you will receive is estimated, based on your chosen slippage tolerance level.'
   },
   {
     id: 'psm',

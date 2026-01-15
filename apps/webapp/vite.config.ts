@@ -80,7 +80,10 @@ export default ({ mode }: { mode: modeEnum }) => {
       https://enhanced-provider.rainbow.me
       https://mainnet.unichain.org/
       https://mainnet.optimism.io/
-      https://a.markfi.xyz
+      https://metamask-sdk.api.cx.metamask.io/evt
+      wss://metamask-sdk.api.cx.metamask.io
+      wss://nbstream.binance.com/wallet-connector
+      https://custom-zerotrust.cloudflareaccess.com
       cloudflareinsights.com;
     frame-src 'self'
       https://verify.walletconnect.com
@@ -128,7 +131,9 @@ export default ({ mode }: { mode: modeEnum }) => {
               '@widgets': path.resolve(__dirname, '../../packages/widgets/src')
             }
           : {})
-      }
+      },
+      // Dedupe wagmi/viem to prevent multiple instances causing WagmiProviderNotFoundError
+      dedupe: ['wagmi', '@wagmi/core', 'viem', '@tanstack/react-query', 'react', 'react-dom']
     },
     optimizeDeps: {
       // Optimize safe-apps-provider dependency to get rid of the Safe connector issue
