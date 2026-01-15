@@ -165,6 +165,128 @@ test.describe('Chatbot', () => {
     await expect(dialog.getByRole('button', { name: /Scroll down/i })).toBeVisible();
   });
 
+  test('shows jurisdiction restriction card when chat returns 403 forbidden', async ({ isolatedPage }) => {
+    // Override the chat mock to return 403 with region restriction error code
+    await isolatedPage.route('**/chat', async route => {
+      if (route.request().method() === 'POST') {
+        await route.fulfill({
+          status: 403,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            error: 'Forbidden',
+            error_code: 'CHATBOT_REGION_RESTRICTED'
+          })
+        });
+      } else {
+        await route.continue();
+      }
+    });
+
+    await isolatedPage.waitForSelector('textarea[placeholder]');
+
+    // Verify initial chat state - bot welcome message visible
+    await expect(isolatedPage.getByText(/Hi, I'm your AI-powered chatbot assistant/)).toBeVisible();
+
+    // Send a message that will trigger 403
+    const chatInput = isolatedPage.locator('textarea');
+    await chatInput.fill('Hello');
+    await chatInput.press('Enter');
+
+    // Verify the jurisdiction restriction card appears
+    await expect(isolatedPage.getByText('Chatbot not available in your region')).toBeVisible({
+      timeout: 10000
+    });
+    await expect(
+      isolatedPage.getByText('Access to the chatbot is restricted in certain jurisdictions.')
+    ).toBeVisible();
+
+    // Verify chat history is cleared (welcome message should be gone)
+    await expect(isolatedPage.getByText(/Hi, I'm your AI-powered chatbot assistant/)).not.toBeVisible();
+
+    // Verify chat input is not visible (replaced by restriction card)
+    await expect(isolatedPage.locator('textarea')).not.toBeVisible();
+  });
+
+  test('shows jurisdiction restriction card when terms check returns 403', async ({ isolatedPage }) => {
+    // Override terms check to return 403 with region restriction error code
+    await isolatedPage.route('**/chatbot/terms/check', async route => {
+      await route.fulfill({
+        status: 403,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          error: 'Forbidden',
+          error_code: 'CHATBOT_REGION_RESTRICTED'
+        })
+      });
+    });
+
+    // Navigate fresh - the terms check happens on load
+    await isolatedPage.goto('/?chat=true', { waitUntil: 'networkidle' });
+    await connectMockWalletAndAcceptTerms(isolatedPage, { batch: true });
+
+    // Wait for the restriction card to appear (terms check triggers on chat open)
+    await expect(isolatedPage.getByText('Chatbot not available in your region')).toBeVisible({
+      timeout: 10000
+    });
+    await expect(
+      isolatedPage.getByText('Access to the chatbot is restricted in certain jurisdictions.')
+    ).toBeVisible();
+
+    // Verify chat input is not visible
+    await expect(isolatedPage.locator('textarea')).not.toBeVisible();
+  });
+
+  test('shows jurisdiction restriction card when feedback submission returns 403', async ({
+    isolatedPage
+  }) => {
+    // Setup feedback mock to return 403 with region restriction error code
+    await isolatedPage.route('**/chatbot/feedback', async route => {
+      await route.fulfill({
+        status: 403,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          error: 'Forbidden',
+          error_code: 'CHATBOT_REGION_RESTRICTED'
+        })
+      });
+    });
+
+    await isolatedPage.waitForSelector('textarea[placeholder]');
+    const chatInput = isolatedPage.locator('textarea');
+
+    // Send a message to get the feedback prompt to appear
+    await chatInput.fill('Topic 1');
+    await chatInput.press('Enter');
+    // Wait for the default mock response (SkyWing greeting)
+    await expect(
+      isolatedPage.getByText('Hello! I am SkyWing, your AI assistant. How can I help you today?')
+    ).toBeVisible({
+      timeout: 15000
+    });
+
+    // Click the thumbs up button to trigger feedback submission
+    const thumbsUpBtn = isolatedPage.getByRole('button', { name: 'Good conversation' });
+    await expect(thumbsUpBtn).toBeVisible();
+    await thumbsUpBtn.click();
+
+    // Submit feedback in the modal
+    const modal = isolatedPage.getByRole('dialog');
+    await expect(modal).toBeVisible();
+    const submitBtn = modal.getByRole('button', { name: 'Submit' });
+    await submitBtn.click();
+
+    // Verify the jurisdiction restriction card appears
+    await expect(isolatedPage.getByText('Chatbot not available in your region')).toBeVisible({
+      timeout: 10000
+    });
+    await expect(
+      isolatedPage.getByText('Access to the chatbot is restricted in certain jurisdictions.')
+    ).toBeVisible();
+
+    // Verify chat input is not visible
+    await expect(isolatedPage.locator('textarea')).not.toBeVisible();
+  });
+
   test('complete yield query flow with optimistic updates and intent buttons', async ({ isolatedPage }) => {
     // Mock response with yield-related intents
     const yieldResponse = {
