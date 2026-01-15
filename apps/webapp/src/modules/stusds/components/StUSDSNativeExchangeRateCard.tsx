@@ -17,8 +17,9 @@ export function StUSDSNativeExchangeRateCard() {
   const availableLiquidityBuffered = stUsdsData?.availableLiquidityBuffered || 0n;
   const remainingCapacityBuffered = capacityData?.remainingCapacityBuffered || 0n;
 
-  const isLiquidityExhausted = !isDataLoading && availableLiquidityBuffered === 0n;
-  const isSupplyCapacityReached = !isCapacityLoading && remainingCapacityBuffered === 0n;
+  const isLiquidityExhausted = !isDataLoading && stUsdsData != null && availableLiquidityBuffered === 0n;
+  const isSupplyCapacityReached =
+    !isCapacityLoading && capacityData != null && remainingCapacityBuffered === 0n;
 
   const isBothDisabled = isLiquidityExhausted && isSupplyCapacityReached;
   const hasAnyRestriction = isLiquidityExhausted || isSupplyCapacityReached;
