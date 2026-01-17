@@ -327,8 +327,14 @@ export async function validateVnets(skipBalanceCheck = false): Promise<{
 }> {
   console.log('🔍 Validating cached VNets and snapshots...\n');
 
-  // Check if VNet data file exists (at project root: apps/webapp/src/test/e2e -> project root)
-  const vnetDataFile = path.join(__dirname, '..', '..', '..', '..', '..', 'tenderlyTestnetData.json');
+  // Determine which VNet data file to use based on environment
+  const useStUsdsVnet = process.env.USE_STUSDS_VNET === 'true';
+  const vnetFileName = useStUsdsVnet ? 'tenderlyTestnetData-stusds.json' : 'tenderlyTestnetData.json';
+  const vnetDataFile = path.join(__dirname, '..', '..', '..', '..', '..', vnetFileName);
+
+  if (useStUsdsVnet) {
+    console.log('🔵 Using stUSDS VNet configuration');
+  }
   console.log(`📂 Looking for VNet data file at: ${vnetDataFile}`);
 
   try {
@@ -339,21 +345,25 @@ export async function validateVnets(skipBalanceCheck = false): Promise<{
     console.log('❌ VNet data file not found');
     console.log(`   Searched at: ${vnetDataFile}`);
     console.log('   Current working directory: ' + process.cwd());
-    console.log('   Run: pnpm vnet:fork:ci');
+    const createCommand = useStUsdsVnet ? 'pnpm vnet:stusds:fork:ci' : 'pnpm vnet:fork:ci';
+    console.log(`   Run: ${createCommand}`);
     return {
       healthy: false,
       results: [
         {
           network: 'all' as NetworkName,
           healthy: false,
-          errors: ['VNet data file (tenderlyTestnetData.json) not found - run: pnpm vnet:fork:ci']
+          errors: [`VNet data file (${vnetFileName}) not found - run: ${createCommand}`]
         }
       ]
     };
   }
 
   // Load snapshot IDs if they exist
-  const snapshotFile = path.join(__dirname, 'persistent-vnet-snapshots.json');
+  const snapshotFileName = useStUsdsVnet
+    ? 'persistent-vnet-snapshots-stusds.json'
+    : 'persistent-vnet-snapshots.json';
+  const snapshotFile = path.join(__dirname, snapshotFileName);
   console.log(`📂 Looking for snapshot file at: ${snapshotFile}`);
 
   let snapshots: Record<string, string> = {};

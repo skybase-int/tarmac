@@ -42,7 +42,7 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
         viewport: { width: 1920, height: 1080 }
       },
-      // Test match patterns - include only converted parallel tests
+      // Standard tests - use regular VNet fork
       testMatch: [
         '**/mainnet-savings.spec.ts',
         '**/base-trade.spec.ts',
@@ -59,19 +59,25 @@ export default defineConfig({
         '**/la-u-s.spec.ts',
         '**/stake.spec.ts',
         '**/landing.spec.ts',
-        '**/expert-stusds.spec.ts',
         '**/upgrade.spec.ts',
         '**/unstake-repay.spec.ts',
         '**/chatbot.spec.ts',
         '**/pane-visibility.spec.ts'
-        // '**/stusds-provider-switching.spec.ts'
-        // Add more test patterns as we convert them
       ]
+    },
+    {
+      name: 'chromium-stusds',
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1920, height: 1080 }
+      },
+      // stUSDS tests - use stUSDS VNet fork (has Curve pool)
+      testMatch: ['**/expert-stusds.spec.ts', '**/stusds-provider-switching.spec.ts']
     }
   ],
 
   webServer: {
-    command: 'VITE_PARALLEL_TEST=true pnpm dev:mock',
+    command: `VITE_PARALLEL_TEST=true ${process.env.USE_STUSDS_VNET === 'true' ? 'VITE_USE_STUSDS_VNET=true ' : ''}pnpm dev:mock`,
     port: 3000,
     timeout: 120000,
     reuseExistingServer: !process.env.CI,

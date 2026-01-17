@@ -444,6 +444,18 @@ export default async function globalSetup() {
   console.log('=== Global Setup for Parallel Tests ===');
 
   try {
+    // Detect if we're running stUSDS tests based on command or project filter
+    const projectArg = process.argv.find(arg => arg.includes('--project'));
+    const isStUsdsProject = projectArg?.includes('chromium-stusds');
+
+    // Set environment variable for stUSDS VNet selection
+    if (isStUsdsProject) {
+      process.env.USE_STUSDS_VNET = 'true';
+      console.log('🔵 Running stUSDS tests - using stUSDS VNet fork (has Curve pool)');
+    } else {
+      console.log('🔵 Running standard tests - using regular VNet fork');
+    }
+
     // Detect shard mode
     const { isSharded, shardIndex, totalShards } = detectShardMode();
 
@@ -471,7 +483,10 @@ export default async function globalSetup() {
     }
 
     // Step 3: Check for existing snapshots and validate them
-    const snapshotFile = path.join(__dirname, 'persistent-vnet-snapshots.json');
+    const snapshotFileName = isStUsdsProject
+      ? 'persistent-vnet-snapshots-stusds.json'
+      : 'persistent-vnet-snapshots.json';
+    const snapshotFile = path.join(__dirname, snapshotFileName);
     let existingSnapshots: Record<string, string> | null = null;
 
     try {
@@ -666,7 +681,14 @@ export async function globalTeardown() {
     // Step 1: Revert all VNets to snapshots (for next test run)
     console.log('\n1. Reverting VNets to snapshots...');
 
-    const snapshotFile = path.join(__dirname, 'persistent-vnet-snapshots.json');
+    // Detect if we're running stUSDS tests
+    const projectArg = process.argv.find(arg => arg.includes('--project'));
+    const isStUsdsProject = projectArg?.includes('chromium-stusds') || process.env.USE_STUSDS_VNET === 'true';
+    const snapshotFileName = isStUsdsProject
+      ? 'persistent-vnet-snapshots-stusds.json'
+      : 'persistent-vnet-snapshots.json';
+    const snapshotFile = path.join(__dirname, snapshotFileName);
+
     try {
       const snapshotData = await fs.readFile(snapshotFile, 'utf-8');
       const snapshots = JSON.parse(snapshotData);

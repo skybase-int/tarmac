@@ -42,7 +42,7 @@ test.describe('stUSDS Provider', () => {
     // Restore VNet to clean snapshot after each test
     // This ensures state changes (cap manipulation) don't affect subsequent tests
     try {
-      const snapshotFile = path.join(__dirname, '..', 'persistent-vnet-snapshots.json');
+      const snapshotFile = path.join(__dirname, '..', 'persistent-vnet-snapshots-stusds.json');
       const snapshotData = await fs.readFile(snapshotFile, 'utf-8');
       const snapshots: Record<string, string> = JSON.parse(snapshotData);
       const snapshotId = snapshots[NetworkName.mainnet];
@@ -85,9 +85,6 @@ test.describe('stUSDS Provider', () => {
 
     console.log('✅ Native provider is being used as expected');
 
-    // Check the disclaimer checkbox
-    await isolatedPage.getByRole('checkbox').click();
-
     // Perform the supply action (bundled transactions with batch wallet)
     await performAction(isolatedPage, 'Supply');
 
@@ -103,6 +100,12 @@ test.describe('stUSDS Provider', () => {
     // Verify cap was set to current supply
     const cap = await getStUsdsSupplyCap();
     console.log(`Supply cap set to current supply: ${formatUnits(cap, 18)} USDS`);
+
+    // Reload to pick up the new cap
+    await isolatedPage.reload();
+    await connectMockWalletAndAcceptTerms(isolatedPage, { batch: true });
+    await isolatedPage.getByRole('tab', { name: 'Expert' }).click();
+    await isolatedPage.getByTestId('stusds-stats-card').click();
 
     // Enter amount to supply
     await isolatedPage.getByTestId('supply-input-stusds').click();
@@ -120,9 +123,6 @@ test.describe('stUSDS Provider', () => {
     await expect(capReachedMessage).toBeVisible();
 
     console.log('✅ Curve provider is being used due to supply cap');
-
-    // Check the disclaimer checkbox
-    await isolatedPage.getByRole('checkbox').click();
 
     // Perform the supply action (should route through Curve, bundled transactions)
     await performAction(isolatedPage, 'Swap');
@@ -169,7 +169,6 @@ test.describe('stUSDS Provider', () => {
     // First supply some USDS (doesn't matter which provider)
     await isolatedPage.getByTestId('supply-input-stusds').click();
     await isolatedPage.getByTestId('supply-input-stusds').fill('20');
-    await isolatedPage.getByRole('checkbox').click();
     await performAction(isolatedPage, 'Swap');
     await isolatedPage.getByRole('button', { name: 'Back to stUSDS' }).click();
 

@@ -377,7 +377,7 @@ test.describe('Expert Module - stUSDS', () => {
       await isolatedPage.getByTestId('supply-input-stusds').fill('5');
 
       // Perform the supply action
-      await performAction(isolatedPage, 'Swap');
+      await performAction(isolatedPage, 'Supply');
 
       // Verify success (works for both native and Curve)
       await expectSupplySuccess(isolatedPage, '5');
@@ -390,7 +390,7 @@ test.describe('Expert Module - stUSDS', () => {
       // First supply some USDS
       await isolatedPage.getByTestId('supply-input-stusds').click();
       await isolatedPage.getByTestId('supply-input-stusds').fill('15');
-      await performAction(isolatedPage, 'Swap');
+      await performAction(isolatedPage, 'Supply');
       await isolatedPage.getByRole('button', { name: 'Back to stUSDS' }).click();
 
       // Mine a block

@@ -17,37 +17,47 @@ async function cleanupVNet() {
   }
 
   try {
-    // Read VNet ID from tenderlyTestnetData.json
-    const data = await readFile('./tenderlyTestnetData.json', 'utf-8');
+    // Read VNet IDs from tenderlyTestnetData-stusds.json
+    const data = await readFile('./tenderlyTestnetData-stusds.json', 'utf-8');
     const vnets = JSON.parse(data);
 
     if (!vnets || vnets.length === 0) {
-      console.log('ℹ️  No VNets found in tenderlyTestnetData.json');
+      console.log('ℹ️  No VNets found in tenderlyTestnetData-stusds.json');
       return;
     }
 
-    const vnetId = vnets[0].TENDERLY_TESTNET_ID;
+    console.log(`🧹 Deleting ${vnets.length} VNets...`);
 
-    console.log(`🧹 Deleting VNet: ${vnetId}...`);
+    // Delete all VNets
+    for (const vnet of vnets) {
+      const vnetId = vnet.TENDERLY_TESTNET_ID;
+      const network = vnet.NETWORK;
 
-    const response = await fetch(
-      `https://api.tenderly.co/api/v1/account/jetstreamgg/project/jetstream/vnets/${vnetId}`,
-      {
-        method: 'DELETE',
-        headers: {
-          'X-Access-Key': apiKey
+      console.log(`   Deleting ${network} VNet: ${vnetId}...`);
+
+      const response = await fetch(
+        `https://api.tenderly.co/api/v1/account/jetstreamgg/project/jetstream/vnets/${vnetId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'X-Access-Key': apiKey
+          }
         }
-      }
-    );
+      );
 
-    if (!response.ok) {
-      const error = await response.text();
-      throw new Error(`Failed to delete VNet: ${response.status} ${response.statusText}\n${error}`);
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.warn(`⚠️  Failed to delete ${network}: ${response.status} - ${errorText}`);
+      } else {
+        console.log(`   ✅ ${network} deleted`);
+      }
     }
 
-    console.log('✅ VNet deleted successfully!');
     console.log('');
-    console.log('💡 Run vnet:fork:ci to recreate the default VNet for other tests');
+    console.log('✅ All stUSDS VNets deleted successfully!');
+    console.log('');
+    console.log('💡 Note: This only deleted stUSDS VNets (tenderlyTestnetData-stusds.json)');
+    console.log('💡 Standard VNets (tenderlyTestnetData.json) are still intact');
   } catch (error) {
     console.error('❌ Error:', error.message);
     process.exit(1);
