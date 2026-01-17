@@ -1,0 +1,27 @@
+[
+  {
+    "NETWORK": "mainnet",
+    "TENDERLY_TESTNET_ID": "72e72730-7ccd-4229-8c48-f8d5eae8bb5d",
+    "TENDERLY_RPC_URL": "https://virtual.mainnet.eu.rpc.tenderly.co/a4d8d9d8-30f0-4c98-84e8-70e5537ce671"
+  },
+  {
+    "NETWORK": "base",
+    "TENDERLY_TESTNET_ID": "be16d5fe-9561-450c-b99f-c0ad8cfafec9",
+    "TENDERLY_RPC_URL": "https://virtual.base.eu.rpc.tenderly.co/3dd4f931-fc28-44c9-8f69-ac7903668138"
+  },
+  {
+    "NETWORK": "arbitrum",
+    "TENDERLY_TESTNET_ID": "9a8e6202-faa0-4ee5-a32f-932d65d5f416",
+    "TENDERLY_RPC_URL": "https://virtual.arbitrum.eu.rpc.tenderly.co/ca78f99f-caf0-4e94-b1d6-2cacedbe70c5"
+  },
+  {
+    "NETWORK": "optimism",
+    "TENDERLY_TESTNET_ID": "351a9567-8a46-4bb8-bc68-4a6188b6fa59",
+    "TENDERLY_RPC_URL": "https://virtual.optimism.eu.rpc.tenderly.co/50e0e5ff-d458-4952-b955-bea6c3fc6b98"
+  },
+  {
+    "NETWORK": "unichain",
+    "TENDERLY_TESTNET_ID": "3614be02-1f68-4bc2-a2d1-8fd84d0c0834",
+    "TENDERLY_RPC_URL": "https://virtual.unichain.eu.rpc.tenderly.co/bb9a6520-6972-4fc3-a69e-0125d910cbca"
+  }
+]
