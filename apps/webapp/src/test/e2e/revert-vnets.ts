@@ -37,17 +37,18 @@ export async function revertToSnapshot(network: NetworkName, snapshotId: string)
 async function main() {
   console.log('🔄 Reverting VNets to snapshots...');
 
-  // Detect if we're running stUSDS tests based on command or project filter
+  // Detect if we're running alternate tests based on command or project filter
   const projectArg = process.argv.find(arg => arg.includes('--project'));
-  const isStUsdsProject = projectArg?.includes('chromium-stusds') || process.env.USE_STUSDS_VNET === 'true';
+  const isAlternateProject =
+    projectArg?.includes('chromium-alternate') || process.env.USE_ALTERNATE_VNET === 'true';
 
-  const snapshotFileName = isStUsdsProject
-    ? 'persistent-vnet-snapshots-stusds.json'
+  const snapshotFileName = isAlternateProject
+    ? 'persistent-vnet-snapshots-alternate.json'
     : 'persistent-vnet-snapshots.json';
   const snapshotFile = path.join(__dirname, snapshotFileName);
 
   console.log(`Using snapshot file: ${snapshotFileName}`);
-  console.log(isStUsdsProject ? '🔵 stUSDS mode detected' : '🔵 Standard mode detected');
+  console.log(isAlternateProject ? '🔵 Alternate mode detected' : '🔵 Standard mode detected');
 
   try {
     const snapshotData = await fs.readFile(snapshotFile, 'utf-8');

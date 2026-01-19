@@ -372,10 +372,10 @@ async function fundAccountsOnVnet(network: NetworkName, addresses: string[]): Pr
 async function main() {
   console.log('=== Funding Test Accounts ===\n');
 
-  // Detect if we're using stUSDS VNet
-  const useStUsdsVnet = process.env.USE_STUSDS_VNET === 'true';
-  if (useStUsdsVnet) {
-    console.log('🔵 Funding stUSDS VNets (with Curve pool)\n');
+  // Detect if we're using alternate VNet
+  const useAlternateVnet = process.env.USE_ALTERNATE_VNET === 'true';
+  if (useAlternateVnet) {
+    console.log('🔵 Funding alternate VNets\n');
   } else {
     console.log('🔵 Funding standard VNets\n');
   }
@@ -465,9 +465,9 @@ async function main() {
     const snapshots = await Promise.all(snapshotPromises);
 
     // Step 6: Save snapshots to file
-    const useStUsdsVnet = process.env.USE_STUSDS_VNET === 'true';
-    const snapshotFileName = useStUsdsVnet
-      ? 'persistent-vnet-snapshots-stusds.json'
+    const useAlternateVnetSnapshot = process.env.USE_ALTERNATE_VNET === 'true';
+    const snapshotFileName = useAlternateVnetSnapshot
+      ? 'persistent-vnet-snapshots-alternate.json'
       : 'persistent-vnet-snapshots.json';
     const snapshotFile = path.join(__dirname, snapshotFileName);
     const snapshotData = Object.fromEntries(snapshots.map(s => [s.network, s.snapshotId]));

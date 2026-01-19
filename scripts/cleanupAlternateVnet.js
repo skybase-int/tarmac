@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
 /**
- * Cleans up the VNet created for stUSDS testing.
- * Reads the VNet ID from tenderlyTestnetData.json and deletes it.
+ * Cleans up the alternate VNets created for specialized testing.
+ * Reads the VNet IDs from tenderlyTestnetData-alternate.json and deletes them.
  */
 
 require('dotenv').config();
 const { readFile } = require('fs/promises');
 
-async function cleanupVNet() {
+async function cleanupAlternateVNet() {
   const apiKey = process.env.TENDERLY_API_KEY;
 
   if (!apiKey) {
@@ -17,16 +17,16 @@ async function cleanupVNet() {
   }
 
   try {
-    // Read VNet IDs from tenderlyTestnetData-stusds.json
-    const data = await readFile('./tenderlyTestnetData-stusds.json', 'utf-8');
+    // Read VNet IDs from tenderlyTestnetData-alternate.json
+    const data = await readFile('./tenderlyTestnetData-alternate.json', 'utf-8');
     const vnets = JSON.parse(data);
 
     if (!vnets || vnets.length === 0) {
-      console.log('ℹ️  No VNets found in tenderlyTestnetData-stusds.json');
+      console.log('ℹ️  No VNets found in tenderlyTestnetData-alternate.json');
       return;
     }
 
-    console.log(`🧹 Deleting ${vnets.length} VNets...`);
+    console.log(`🧹 Deleting ${vnets.length} Alternate VNets...`);
 
     // Delete all VNets
     for (const vnet of vnets) {
@@ -54,9 +54,9 @@ async function cleanupVNet() {
     }
 
     console.log('');
-    console.log('✅ All stUSDS VNets deleted successfully!');
+    console.log('✅ All Alternate VNets deleted successfully!');
     console.log('');
-    console.log('💡 Note: This only deleted stUSDS VNets (tenderlyTestnetData-stusds.json)');
+    console.log('💡 Note: This only deleted Alternate VNets (tenderlyTestnetData-alternate.json)');
     console.log('💡 Standard VNets (tenderlyTestnetData.json) are still intact');
   } catch (error) {
     console.error('❌ Error:', error.message);
@@ -64,4 +64,4 @@ async function cleanupVNet() {
   }
 }
 
-cleanupVNet();
+cleanupAlternateVNet();

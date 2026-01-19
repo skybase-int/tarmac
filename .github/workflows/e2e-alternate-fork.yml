@@ -1,32 +1,17 @@
-name: stUSDS E2E Tests
+name: Alternate VNet E2E Tests
 
 permissions:
   contents: read
 
 on:
-  pull_request:
-    paths:
-      - 'packages/widgets/src/widgets/StUSDSWidget/**'
-      - 'packages/hooks/src/stusds/**'
-      - 'apps/webapp/src/test/e2e/tests/expert-stusds.spec.ts'
-      - 'apps/webapp/src/test/e2e/tests/stusds-provider-switching.spec.ts'
-      - 'apps/webapp/src/test/e2e/utils/setStUsdsSupplyCap.ts'
-      - 'apps/webapp/src/test/e2e/utils/curvePoolManipulation.ts'
-      - 'scripts/forkStUsdsVnet.js'
-  push:
-    branches:
-      - main
-    paths:
-      - 'packages/widgets/src/widgets/StUSDSWidget/**'
-      - 'packages/hooks/src/stusds/**'
   workflow_dispatch:
 
 concurrency:
-  group: stusds-e2e-${{ github.head_ref || github.ref_name }}
+  group: alternate-e2e-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
 jobs:
-  setup-stusds-vnet:
+  setup-alternate-vnet:
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -41,7 +26,7 @@ jobs:
       VITE_SKIP_AUTH_CHECK: 'true'
       VITE_SKIP_CHAT_AUTH_CHECK: 'true'
       VITE_CHATBOT_ENABLED: 'true'
-      USE_STUSDS_VNET: 'true'
+      USE_ALTERNATE_VNET: 'true'
       FUND_NETWORKS: 'mainnet'
 
     steps:
@@ -67,54 +52,54 @@ jobs:
         env:
           NODE_OPTIONS: "--max-old-space-size=4096"
 
-      - name: Create stUSDS VNets
+      - name: Create Alternate VNets
         run: |
-          echo "🔧 Creating stUSDS VNets (with Curve pool fork)..."
-          pnpm run vnet:stusds:fork:ci
-          echo "✅ stUSDS VNet creation complete"
+          echo "🔧 Creating Alternate VNets..."
+          pnpm run vnet:alternate:fork:ci
+          echo "✅ Alternate VNet creation complete"
         env:
           TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
 
       - name: Fund accounts and create snapshots
         run: |
-          echo "💰 Funding test accounts on stUSDS VNet..."
+          echo "💰 Funding test accounts on Alternate VNet..."
           cd apps/webapp
-          USE_STUSDS_VNET=true pnpm e2e:fund
+          USE_ALTERNATE_VNET=true pnpm e2e:fund
 
           # Verify snapshots were created
-          if [ ! -f "src/test/e2e/persistent-vnet-snapshots-stusds.json" ]; then
-            echo "❌ stUSDS snapshots were not created!"
+          if [ ! -f "src/test/e2e/persistent-vnet-snapshots-alternate.json" ]; then
+            echo "❌ Alternate snapshots were not created!"
             exit 1
           fi
-          echo "✅ stUSDS snapshots created and verified"
+          echo "✅ Alternate snapshots created and verified"
         env:
           TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
-          USE_STUSDS_VNET: 'true'
+          USE_ALTERNATE_VNET: 'true'
 
-      - name: Upload stUSDS VNet data
+      - name: Upload Alternate VNet data
         uses: actions/upload-artifact@v4
         with:
-          name: stusds-vnet-data
+          name: alternate-vnet-data
           path: |
-            tenderlyTestnetData-stusds.json
-            apps/webapp/src/test/e2e/persistent-vnet-snapshots-stusds.json
+            tenderlyTestnetData-alternate.json
+            apps/webapp/src/test/e2e/persistent-vnet-snapshots-alternate.json
           retention-days: 1
 
       - name: Check setup is ready
         id: check-ready
         run: |
-          if [ -f "tenderlyTestnetData-stusds.json" ] && [ -f "apps/webapp/src/test/e2e/persistent-vnet-snapshots-stusds.json" ]; then
+          if [ -f "tenderlyTestnetData-alternate.json" ] && [ -f "apps/webapp/src/test/e2e/persistent-vnet-snapshots-alternate.json" ]; then
             echo "ready=true" >> $GITHUB_OUTPUT
-            echo "✅ stUSDS VNets are ready for tests"
+            echo "✅ Alternate VNets are ready for tests"
           else
             echo "ready=false" >> $GITHUB_OUTPUT
-            echo "❌ stUSDS VNets are not ready"
+            echo "❌ Alternate VNets are not ready"
             exit 1
           fi
 
-  test-stusds:
-    needs: setup-stusds-vnet
-    if: needs.setup-stusds-vnet.outputs.vnets-ready == 'true'
+  test-alternate:
+    needs: setup-alternate-vnet
+    if: needs.setup-alternate-vnet.outputs.vnets-ready == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
@@ -126,8 +111,8 @@ jobs:
       VITE_SKIP_AUTH_CHECK: 'true'
       VITE_SKIP_CHAT_AUTH_CHECK: 'true'
       VITE_CHATBOT_ENABLED: 'true'
-      USE_STUSDS_VNET: 'true'
-      VITE_USE_STUSDS_VNET: 'true'
+      USE_ALTERNATE_VNET: 'true'
+      VITE_USE_ALTERNATE_VNET: 'true'
       FUND_NETWORKS: 'mainnet'
       TEST_WORKERS: '1'
 
@@ -157,37 +142,37 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm -F webapp exec playwright install --with-deps chromium
 
-      - name: Download stUSDS VNet data
+      - name: Download Alternate VNet data
         uses: actions/download-artifact@v4
         with:
-          name: stusds-vnet-data
+          name: alternate-vnet-data
 
       - name: Verify VNet files
         run: |
-          echo "🔍 Verifying stUSDS VNet files..."
-          echo "Checking tenderlyTestnetData-stusds.json:"
-          ls -lh tenderlyTestnetData-stusds.json
-          cat tenderlyTestnetData-stusds.json | head -20
-          echo "Checking persistent-vnet-snapshots-stusds.json:"
-          ls -lh apps/webapp/src/test/e2e/persistent-vnet-snapshots-stusds.json
-          cat apps/webapp/src/test/e2e/persistent-vnet-snapshots-stusds.json
-          echo "✅ stUSDS VNet files ready"
+          echo "🔍 Verifying Alternate VNet files..."
+          echo "Checking tenderlyTestnetData-alternate.json:"
+          ls -lh tenderlyTestnetData-alternate.json
+          cat tenderlyTestnetData-alternate.json | head -20
+          echo "Checking persistent-vnet-snapshots-alternate.json:"
+          ls -lh apps/webapp/src/test/e2e/persistent-vnet-snapshots-alternate.json
+          cat apps/webapp/src/test/e2e/persistent-vnet-snapshots-alternate.json
+          echo "✅ Alternate VNet files ready"
 
-      - name: Run stUSDS E2E tests
+      - name: Run Alternate E2E tests
         run: |
-          echo "🧪 Running stUSDS provider tests..."
+          echo "🧪 Running Alternate VNet tests..."
           cd apps/webapp
-          pnpm e2e:parallel:stusds
+          pnpm e2e:parallel:alternate
         env:
           TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}
-          USE_STUSDS_VNET: 'true'
-          VITE_USE_STUSDS_VNET: 'true'
+          USE_ALTERNATE_VNET: 'true'
+          VITE_USE_ALTERNATE_VNET: 'true'
 
       - name: Upload test results (if failed)
         if: failure() || cancelled()
         uses: actions/upload-artifact@v4
         with:
-          name: stusds-test-results-${{ github.run_id }}
+          name: alternate-test-results-${{ github.run_id }}
           path: |
             apps/webapp/playwright-report/
             apps/webapp/test-results/
@@ -198,12 +183,12 @@ jobs:
         if: failure() || cancelled()
         uses: actions/upload-artifact@v4
         with:
-          name: stusds-test-traces-${{ github.run_id }}
+          name: alternate-test-traces-${{ github.run_id }}
           path: apps/webapp/test-results/
           retention-days: 3
 
   cleanup:
-    needs: [test-stusds]
+    needs: [test-alternate]
     if: always()
     runs-on: ubuntu-latest
 
@@ -225,15 +210,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Download stUSDS VNet data
+      - name: Download Alternate VNet data
         uses: actions/download-artifact@v4
         with:
-          name: stusds-vnet-data
+          name: alternate-vnet-data
         continue-on-error: true
 
-      - name: Cleanup stUSDS VNets
+      - name: Cleanup Alternate VNets
         run: |
-          echo "🧹 Cleaning up stUSDS Tenderly VNets..."
-          pnpm run vnet:stusds:delete || echo "stUSDS VNet cleanup failed, continuing..."
+          echo "🧹 Cleaning up Alternate Tenderly VNets..."
+          pnpm run vnet:alternate:delete:ci || echo "Alternate VNet cleanup failed, continuing..."
         env:
           TENDERLY_API_KEY: ${{ secrets.TENDERLY_API_KEY }}

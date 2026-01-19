@@ -444,14 +444,14 @@ export default async function globalSetup() {
   console.log('=== Global Setup for Parallel Tests ===');
 
   try {
-    // Detect if we're running stUSDS tests based on command or project filter
+    // Detect if we're running alternate VNet tests based on command or project filter
     const projectArg = process.argv.find(arg => arg.includes('--project'));
-    const isStUsdsProject = projectArg?.includes('chromium-stusds');
+    const isAlternateProject = projectArg?.includes('chromium-alternate');
 
-    // Set environment variable for stUSDS VNet selection
-    if (isStUsdsProject) {
-      process.env.USE_STUSDS_VNET = 'true';
-      console.log('🔵 Running stUSDS tests - using stUSDS VNet fork (has Curve pool)');
+    // Set environment variable for alternate VNet selection
+    if (isAlternateProject) {
+      process.env.USE_ALTERNATE_VNET = 'true';
+      console.log('🔵 Running alternate VNet tests - using alternate fork');
     } else {
       console.log('🔵 Running standard tests - using regular VNet fork');
     }
@@ -483,8 +483,8 @@ export default async function globalSetup() {
     }
 
     // Step 3: Check for existing snapshots and validate them
-    const snapshotFileName = isStUsdsProject
-      ? 'persistent-vnet-snapshots-stusds.json'
+    const snapshotFileName = isAlternateProject
+      ? 'persistent-vnet-snapshots-alternate.json'
       : 'persistent-vnet-snapshots.json';
     const snapshotFile = path.join(__dirname, snapshotFileName);
     let existingSnapshots: Record<string, string> | null = null;
@@ -643,6 +643,21 @@ export default async function globalSetup() {
         const fundingPromises = networks.map(network => fundAccountsOnVnet(network, addresses));
         await Promise.all(fundingPromises);
 
+        // Increase Seal debt ceiling on mainnet to allow staking tests to borrow
+        if (networks.includes(NetworkName.mainnet)) {
+          console.log('\n5.5. Increasing Seal debt ceiling...');
+          try {
+            const { updateSealDebtCeiling } = await import('./utils/updateSealDebtCeiling');
+            // Set to 1 billion USDS in RAD format:
+            // 1 billion * 1e45 = 1e54 (RAD has 45 decimals, converts to 1e27 WAD = 1 billion * 1e18)
+            await updateSealDebtCeiling(BigInt('1000000000000000000000000000000000000000000000000000000'));
+            console.log('✅ Seal debt ceiling increased to 1B USDS');
+          } catch (error) {
+            console.warn('⚠️  Failed to increase debt ceiling:', (error as Error).message);
+            console.warn('   Staking tests may fail due to insufficient borrow capacity');
+          }
+        }
+
         // Create snapshots after funding (for next run)
         console.log('\n6. Creating VNet snapshots after funding...');
         const snapshotPromises = networks.map(async network => {
@@ -681,11 +696,12 @@ export async function globalTeardown() {
     // Step 1: Revert all VNets to snapshots (for next test run)
     console.log('\n1. Reverting VNets to snapshots...');
 
-    // Detect if we're running stUSDS tests
+    // Detect if we're running alternate VNet tests
     const projectArg = process.argv.find(arg => arg.includes('--project'));
-    const isStUsdsProject = projectArg?.includes('chromium-stusds') || process.env.USE_STUSDS_VNET === 'true';
-    const snapshotFileName = isStUsdsProject
-      ? 'persistent-vnet-snapshots-stusds.json'
+    const isAlternateProject =
+      projectArg?.includes('chromium-alternate') || process.env.USE_ALTERNATE_VNET === 'true';
+    const snapshotFileName = isAlternateProject
+      ? 'persistent-vnet-snapshots-alternate.json'
       : 'persistent-vnet-snapshots.json';
     const snapshotFile = path.join(__dirname, snapshotFileName);
 

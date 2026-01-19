@@ -328,12 +328,12 @@ export async function validateVnets(skipBalanceCheck = false): Promise<{
   console.log('🔍 Validating cached VNets and snapshots...\n');
 
   // Determine which VNet data file to use based on environment
-  const useStUsdsVnet = process.env.USE_STUSDS_VNET === 'true';
-  const vnetFileName = useStUsdsVnet ? 'tenderlyTestnetData-stusds.json' : 'tenderlyTestnetData.json';
+  const useAlternateVnet = process.env.USE_ALTERNATE_VNET === 'true';
+  const vnetFileName = useAlternateVnet ? 'tenderlyTestnetData-alternate.json' : 'tenderlyTestnetData.json';
   const vnetDataFile = path.join(__dirname, '..', '..', '..', '..', '..', vnetFileName);
 
-  if (useStUsdsVnet) {
-    console.log('🔵 Using stUSDS VNet configuration');
+  if (useAlternateVnet) {
+    console.log('🔵 Using alternate VNet configuration');
   }
   console.log(`📂 Looking for VNet data file at: ${vnetDataFile}`);
 
@@ -345,7 +345,7 @@ export async function validateVnets(skipBalanceCheck = false): Promise<{
     console.log('❌ VNet data file not found');
     console.log(`   Searched at: ${vnetDataFile}`);
     console.log('   Current working directory: ' + process.cwd());
-    const createCommand = useStUsdsVnet ? 'pnpm vnet:stusds:fork:ci' : 'pnpm vnet:fork:ci';
+    const createCommand = useAlternateVnet ? 'pnpm vnet:alternate:fork:ci' : 'pnpm vnet:fork:ci';
     console.log(`   Run: ${createCommand}`);
     return {
       healthy: false,
@@ -360,8 +360,8 @@ export async function validateVnets(skipBalanceCheck = false): Promise<{
   }
 
   // Load snapshot IDs if they exist
-  const snapshotFileName = useStUsdsVnet
-    ? 'persistent-vnet-snapshots-stusds.json'
+  const snapshotFileName = useAlternateVnet
+    ? 'persistent-vnet-snapshots-alternate.json'
     : 'persistent-vnet-snapshots.json';
   const snapshotFile = path.join(__dirname, snapshotFileName);
   console.log(`📂 Looking for snapshot file at: ${snapshotFile}`);

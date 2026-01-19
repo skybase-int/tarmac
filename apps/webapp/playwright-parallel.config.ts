@@ -42,7 +42,7 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
         viewport: { width: 1920, height: 1080 }
       },
-      // Standard tests - use regular VNet fork
+      // All E2E tests - unified VNet fork (has Curve pool configured)
       testMatch: [
         '**/mainnet-savings.spec.ts',
         '**/base-trade.spec.ts',
@@ -62,22 +62,25 @@ export default defineConfig({
         '**/upgrade.spec.ts',
         '**/unstake-repay.spec.ts',
         '**/chatbot.spec.ts',
-        '**/pane-visibility.spec.ts'
+        '**/pane-visibility.spec.ts',
+        '**/expert-stusds.spec.ts',
+        '**/stusds-provider-switching.spec.ts'
       ]
     },
     {
-      name: 'chromium-stusds',
+      name: 'chromium-alternate',
       use: {
         ...devices['Desktop Chrome'],
         viewport: { width: 1920, height: 1080 }
       },
-      // stUSDS tests - use stUSDS VNet fork (has Curve pool)
-      testMatch: ['**/expert-stusds.spec.ts', '**/stusds-provider-switching.spec.ts']
+      // Alternate VNet tests - for tests requiring a different fork state
+      // Add test patterns here when you need tests to run on alternate VNet
+      testMatch: ['**/alternate-sample.spec.ts']
     }
   ],
 
   webServer: {
-    command: `VITE_PARALLEL_TEST=true ${process.env.USE_STUSDS_VNET === 'true' ? 'VITE_USE_STUSDS_VNET=true ' : ''}pnpm dev:mock`,
+    command: `VITE_PARALLEL_TEST=true ${process.env.USE_ALTERNATE_VNET === 'true' ? 'VITE_USE_ALTERNATE_VNET=true ' : ''}pnpm dev:mock`,
     port: 3000,
     timeout: 120000,
     reuseExistingServer: !process.env.CI,

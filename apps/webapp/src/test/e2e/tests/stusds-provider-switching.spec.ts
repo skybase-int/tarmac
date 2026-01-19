@@ -42,7 +42,7 @@ test.describe('stUSDS Provider', () => {
     // Restore VNet to clean snapshot after each test
     // This ensures state changes (cap manipulation) don't affect subsequent tests
     try {
-      const snapshotFile = path.join(__dirname, '..', 'persistent-vnet-snapshots-stusds.json');
+      const snapshotFile = path.join(__dirname, '..', 'persistent-vnet-snapshots.json');
       const snapshotData = await fs.readFile(snapshotFile, 'utf-8');
       const snapshots: Record<string, string> = JSON.parse(snapshotData);
       const snapshotId = snapshots[NetworkName.mainnet];

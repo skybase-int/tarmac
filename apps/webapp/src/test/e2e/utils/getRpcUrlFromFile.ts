@@ -5,12 +5,12 @@ type TestnetData = { NETWORK: string; TENDERLY_TESTNET_ID: string; TENDERLY_RPC_
 
 /**
  * Get the appropriate VNet data file based on environment
- * - stUSDS tests use tenderlyTestnetData-stusds.json (has Curve pool for stUSDS)
+ * - Alternate tests use tenderlyTestnetData-alternate.json (for specialized fork state)
  * - All other tests use tenderlyTestnetData.json (standard fork)
  */
 function getVnetDataFile(): string {
-  const useStUsdsVnet = process.env.USE_STUSDS_VNET === 'true';
-  return useStUsdsVnet ? '../../tenderlyTestnetData-stusds.json' : '../../tenderlyTestnetData.json';
+  const useAlternateVnet = process.env.USE_ALTERNATE_VNET === 'true';
+  return useAlternateVnet ? '../../tenderlyTestnetData-alternate.json' : '../../tenderlyTestnetData.json';
 }
 
 export const getRpcUrlFromFile = async (network: NetworkName): Promise<string> => {

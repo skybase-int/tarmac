@@ -1,15 +1,20 @@
 #!/usr/bin/env node
 
 /**
- * Creates VNets with the NEW mainnet fork (cec455a4...) for testing stUSDS provider tests.
- * This mainnet fork has the Curve pool properly configured with liquidity.
- * Output: tenderlyTestnetData-stusds.json
+ * Creates VNets with an alternate mainnet fork for specialized testing.
+ * This can be used when tests require a specific fork state (e.g., Curve pool configured).
+ * Output: tenderlyTestnetData-alternate.json
+ *
+ * To use a different fork container, set ALTERNATE_FORK_CONTAINER_ID env var.
  */
 
 require('dotenv').config();
 const { writeFile } = require('fs/promises');
 
-const NEW_MAINNET_FORK_CONTAINER_ID = 'cec455a4-3a8a-4a93-ac66-fc98fa1a8103';
+// Default alternate fork container (has Curve pool properly configured)
+const DEFAULT_ALTERNATE_FORK_CONTAINER_ID = 'cec455a4-3a8a-4a93-ac66-fc98fa1a8103';
+const ALTERNATE_FORK_CONTAINER_ID =
+  process.env.ALTERNATE_FORK_CONTAINER_ID || DEFAULT_ALTERNATE_FORK_CONTAINER_ID;
 
 const NETWORK_CONFIGS = {
   base: { chainId: 8453, forkBlock: '31758878' },
@@ -18,7 +23,7 @@ const NETWORK_CONFIGS = {
   unichain: { chainId: 130, forkBlock: '18140271' }
 };
 
-async function createStUsdsVNet() {
+async function createAlternateVNet() {
   const apiKey = process.env.TENDERLY_API_KEY;
 
   if (!apiKey) {
@@ -27,8 +32,8 @@ async function createStUsdsVNet() {
     process.exit(1);
   }
 
-  console.log('🔧 Creating VNets for all networks...');
-  console.log('   - Mainnet: NEW fork (has Curve pool)');
+  console.log('🔧 Creating Alternate VNets for all networks...');
+  console.log(`   - Mainnet: Using fork container ${ALTERNATE_FORK_CONTAINER_ID}`);
   console.log('   - Base, Arbitrum, Optimism, Unichain: Standard forks');
   console.log('');
 
@@ -36,7 +41,7 @@ async function createStUsdsVNet() {
     const currentTime = Date.now();
     const vnetData = [];
 
-    // Create mainnet with NEW fork (has Curve pool)
+    // Create mainnet with alternate fork
     console.log('Creating mainnet VNet...');
     const mainnetResponse = await fetch(
       'https://api.tenderly.co/api/v1/account/jetstreamgg/project/jetstream/vnets/fork',
@@ -47,8 +52,8 @@ async function createStUsdsVNet() {
           'X-Access-Key': apiKey
         },
         body: JSON.stringify({
-          vnet_id: NEW_MAINNET_FORK_CONTAINER_ID,
-          display_name: 'stusds-local-test-mainnet'
+          vnet_id: ALTERNATE_FORK_CONTAINER_ID,
+          display_name: 'alternate-local-test-mainnet'
         })
       }
     );
@@ -81,8 +86,8 @@ async function createStUsdsVNet() {
             'X-Access-Key': apiKey
           },
           body: JSON.stringify({
-            slug: `stusds-test-${config.chainId}-${currentTime}`,
-            display_name: `stusds-local-test-${network}`,
+            slug: `alternate-test-${config.chainId}-${currentTime}`,
+            display_name: `alternate-local-test-${network}`,
             fork_config: {
               network_id: config.chainId,
               block_number: config.forkBlock
@@ -112,24 +117,24 @@ async function createStUsdsVNet() {
       console.log(`✅ ${network}: ${data.id}`);
     }
 
-    await writeFile('./tenderlyTestnetData-stusds.json', JSON.stringify(vnetData, null, 2));
+    await writeFile('./tenderlyTestnetData-alternate.json', JSON.stringify(vnetData, null, 2));
 
     console.log('');
-    console.log('✅ All VNets created successfully!');
-    console.log('   Saved to: tenderlyTestnetData-stusds.json');
+    console.log('✅ All Alternate VNets created successfully!');
+    console.log('   Saved to: tenderlyTestnetData-alternate.json');
     console.log('');
     console.log('💰 Now fund the VNets and create snapshots:');
-    console.log('   pnpm vnet:stusds:fund');
+    console.log('   pnpm vnet:alternate:fund');
     console.log('');
-    console.log('🧪 Then run the stUSDS tests:');
-    console.log('   pnpm e2e:parallel:stusds');
+    console.log('🧪 Then run the alternate tests:');
+    console.log('   pnpm e2e:parallel:alternate');
     console.log('');
     console.log('🧹 When done, cleanup with:');
-    console.log('   pnpm vnet:stusds:delete');
+    console.log('   pnpm vnet:alternate:delete');
   } catch (error) {
     console.error('❌ Error:', error.message);
     process.exit(1);
   }
 }
 
-createStUsdsVNet();
+createAlternateVNet();
