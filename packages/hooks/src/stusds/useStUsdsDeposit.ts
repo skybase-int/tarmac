@@ -20,7 +20,7 @@ export function useStUsdsDeposit({
   const { address: connectedAddress, isConnected } = useConnection();
   const chainId = useChainId();
 
-  // Only enabled if basic conditions are met AND allowance is sufficient
+  // Only enabled if basic conditions are met (allowance check handled by widget)
   const enabled = isConnected && !!amount && amount !== 0n && activeTabEnabled && !!connectedAddress;
 
   return useWriteContractFlow({

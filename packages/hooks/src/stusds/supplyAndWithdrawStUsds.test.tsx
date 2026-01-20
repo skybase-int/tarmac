@@ -18,18 +18,6 @@ describe('stUSDS - Supply and withdraw', () => {
       timeout: 90000
     },
     async () => {
-      // Approve USDS spending
-      const { result: resultApprove } = renderHook(
-        () =>
-          useStUsdsApprove({
-            amount: parseEther('10'),
-            gas: GAS
-          }),
-        {
-          wrapper: WagmiWrapper
-        }
-      );
-
       // Get initial USDS balance
       const { result: resultInitialBalance } = renderHook(
         () =>
@@ -51,6 +39,18 @@ describe('stUSDS - Supply and withdraw', () => {
           initialBalance = resultInitialBalance.current.data?.formatted ?? '0';
         },
         { timeout: 5000 }
+      );
+
+      // Approve USDS spending
+      const { result: resultApprove } = renderHook(
+        () =>
+          useStUsdsApprove({
+            amount: parseEther('10'),
+            gas: GAS
+          }),
+        {
+          wrapper: WagmiWrapper
+        }
       );
 
       await waitForPreparedExecuteAndMine(resultApprove);
@@ -159,7 +159,7 @@ describe('stUSDS - Supply and withdraw', () => {
       const { result: resultApprove } = renderHook(
         () =>
           useStUsdsApprove({
-            amount: parseEther('20'),
+            amount: parseEther('5'),
             gas: GAS
           }),
         {
@@ -173,7 +173,7 @@ describe('stUSDS - Supply and withdraw', () => {
       const { result: resultDepositWithReferral } = renderHook(
         () =>
           useStUsdsDeposit({
-            amount: parseEther('20'),
+            amount: parseEther('5'),
             enabled: true,
             gas: GAS,
             referral: 12345
@@ -196,7 +196,7 @@ describe('stUSDS - Supply and withdraw', () => {
       timeout: 90000
     },
     async () => {
-      // Get stUSDS data to check withdrawable balance (using balance from previous test)
+      // Get stUSDS data to check withdrawable balance
       const { result: resultStUsdsData } = renderHook(() => useStUsdsData(TEST_WALLET_ADDRESS), {
         wrapper: WagmiWrapper
       });
@@ -231,7 +231,7 @@ describe('stUSDS - Supply and withdraw', () => {
   );
 
   it('Should validate withdrawal amount against user balance', async () => {
-    // Get stUSDS data (using balance from previous tests)
+    // Get stUSDS data
     const { result: resultStUsdsData } = renderHook(() => useStUsdsData(TEST_WALLET_ADDRESS), {
       wrapper: WagmiWrapper
     });
