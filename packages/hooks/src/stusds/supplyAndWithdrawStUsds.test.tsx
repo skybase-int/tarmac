@@ -2,9 +2,12 @@ import { describe, expect, it, afterAll } from 'vitest';
 import { renderHook, waitFor, cleanup } from '@testing-library/react';
 import { WagmiWrapper, TEST_WALLET_ADDRESS, GAS } from '../../test';
 import { parseEther } from 'viem';
+import { useTokenBalance } from '../tokens/useTokenBalance';
 import { useStUsdsApprove } from './useStUsdsApprove';
+import { stUsdsAddress, usdsAddress } from '../generated';
 import { useStUsdsDeposit } from './useStUsdsDeposit';
 import { useStUsdsWithdraw } from './useStUsdsWithdraw';
+import { TENDERLY_CHAIN_ID } from '../constants';
 import { waitForPreparedExecuteAndMine } from '../../test/helpers';
 import { useStUsdsData } from './useStUsdsData';
 
@@ -27,6 +30,29 @@ describe('stUSDS - Supply and withdraw', () => {
         }
       );
 
+      // Get initial USDS balance
+      const { result: resultInitialBalance } = renderHook(
+        () =>
+          useTokenBalance({
+            address: TEST_WALLET_ADDRESS,
+            token: usdsAddress[TENDERLY_CHAIN_ID],
+            chainId: TENDERLY_CHAIN_ID
+          }),
+        {
+          wrapper: WagmiWrapper
+        }
+      );
+
+      let initialBalance: string = '0';
+      await waitFor(
+        () => {
+          expect(resultInitialBalance.current.data?.formatted).toBeDefined();
+          expect(Number(resultInitialBalance.current.data?.formatted)).toBeGreaterThanOrEqual(10);
+          initialBalance = resultInitialBalance.current.data?.formatted ?? '0';
+        },
+        { timeout: 5000 }
+      );
+
       await waitForPreparedExecuteAndMine(resultApprove);
 
       // Supply USDS to stUSDS vault
@@ -43,6 +69,48 @@ describe('stUSDS - Supply and withdraw', () => {
       );
       await waitForPreparedExecuteAndMine(resultDeposit);
 
+      // Check USDS balance after supply
+      const { result: resultBalanceAfterSupply } = renderHook(
+        () =>
+          useTokenBalance({
+            address: TEST_WALLET_ADDRESS,
+            token: usdsAddress[TENDERLY_CHAIN_ID],
+            chainId: TENDERLY_CHAIN_ID
+          }),
+        {
+          wrapper: WagmiWrapper
+        }
+      );
+
+      // User should have 10 USDS less
+      const expectedBalanceAfterSupply = (Number(initialBalance) - 10).toString();
+      await waitFor(
+        () => {
+          expect(resultBalanceAfterSupply.current.data?.formatted).toEqual(expectedBalanceAfterSupply);
+        },
+        { timeout: 5000 }
+      );
+
+      // Check stUSDS balance after supply
+      const { result: resultStUsdsBalance } = renderHook(
+        () =>
+          useTokenBalance({
+            address: TEST_WALLET_ADDRESS,
+            token: stUsdsAddress[TENDERLY_CHAIN_ID],
+            chainId: TENDERLY_CHAIN_ID
+          }),
+        {
+          wrapper: WagmiWrapper
+        }
+      );
+
+      await waitFor(
+        () => {
+          expect(resultStUsdsBalance.current.data?.value).toBeGreaterThan(0n);
+        },
+        { timeout: 5000 }
+      );
+
       // Withdraw 5 USDS from stUSDS vault
       const { result: resultWithdraw } = renderHook(
         () =>
@@ -56,6 +124,28 @@ describe('stUSDS - Supply and withdraw', () => {
         }
       );
       await waitForPreparedExecuteAndMine(resultWithdraw);
+
+      // Check USDS balance after withdraw
+      const { result: resultBalanceAfterWithdraw } = renderHook(
+        () =>
+          useTokenBalance({
+            address: TEST_WALLET_ADDRESS,
+            token: usdsAddress[TENDERLY_CHAIN_ID],
+            chainId: TENDERLY_CHAIN_ID
+          }),
+        {
+          wrapper: WagmiWrapper
+        }
+      );
+
+      // User should have 5 USDS more than after supply
+      const expectedBalanceAfterWithdraw = (Number(initialBalance) - 10 + 5).toString();
+      await waitFor(
+        () => {
+          expect(resultBalanceAfterWithdraw.current.data?.formatted).toEqual(expectedBalanceAfterWithdraw);
+        },
+        { timeout: 5000 }
+      );
     }
   );
 
