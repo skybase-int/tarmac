@@ -114,6 +114,38 @@ export const waitForVnetsReady = async () => {
 };
 
 /**
+ * Calculate the storage slot for a field in a Solidity mapping(bytes32 => struct).
+ *
+ * @param ilkName - The ilk name as a string (e.g., 'LSEV2-SKY-A')
+ * @param mappingSlot - The storage slot of the mapping in the contract
+ * @param fieldOffset - The offset of the field within the struct (0-indexed)
+ * @returns The storage slot as a hex string
+ *
+ * @example
+ * // For Vat.ilks["LSEV2-SKY-A"].Art where ilks is at slot 2 and Art is field 0:
+ * calculateIlkStorageSlot('LSEV2-SKY-A', 2, 0)
+ */
+function calculateIlkStorageSlot(ilkName: string, mappingSlot: number, fieldOffset: number): `0x${string}` {
+  const { keccak256, encodeAbiParameters, parseAbiParameters, stringToHex, pad } = require('viem');
+
+  // Convert ilk name to bytes32 (right-padded with zeros)
+  const ilkBytes32 = pad(stringToHex(ilkName), { size: 32, dir: 'right' });
+
+  // Calculate base slot: keccak256(abi.encode(ilkName, mappingSlot))
+  const encoded = encodeAbiParameters(parseAbiParameters('bytes32, uint256'), [
+    ilkBytes32,
+    BigInt(mappingSlot)
+  ]);
+  const base = keccak256(encoded);
+
+  // Add field offset to get the specific field's slot
+  const slot = BigInt(base) + BigInt(fieldOffset);
+
+  // Return as properly padded hex string
+  return ('0x' + slot.toString(16).padStart(64, '0')) as `0x${string}`;
+}
+
+/**
  * Set storage at a specific slot in a contract on the VNet.
  * Used to configure protocol parameters like debt ceilings.
  */
@@ -161,9 +193,23 @@ export const setStorageAt = async (
 // MakerDAO Vat contract address
 const VAT_ADDRESS = '0x35D1b3F3D7966A1DFe207aa4514C12a259A0492B';
 
-// Storage slot for LSEV2-SKY-A ilk's line (debt ceiling)
-// Computed as: keccak256(ilk, 2) + 3, where ilk = 0x4c534556322d534b592d41... and 2 is the ilks mapping slot
-const LSEV2_SKY_A_LINE_SLOT = '0x0b2fb9dcfebfeb5c8f6985ea98125a38a1adb70b7194dc26531c5e9ab986e536';
+// Vat contract storage layout for ilks mapping:
+// mapping(bytes32 => Ilk) public ilks;  // slot 2
+// struct Ilk {
+//   uint256 Art;   // Total debt (offset 0)
+//   uint256 rate;  // Debt multiplier (offset 1)
+//   uint256 spot;  // Price with safety margin (offset 2)
+//   uint256 line;  // Debt ceiling (offset 3)
+//   uint256 dust;  // Debt floor (offset 4)
+// }
+
+const ILK_NAME = 'LSEV2-SKY-A';
+const ILKS_MAPPING_SLOT = 2;
+
+// Calculate storage slots for LSEV2-SKY-A ilk fields
+// These are dynamically calculated to ensure correctness and maintainability
+const LSEV2_SKY_A_LINE_SLOT = calculateIlkStorageSlot(ILK_NAME, ILKS_MAPPING_SLOT, 3); // line field
+// Calculated value: 0x0b2fb9dcfebfeb5c8f6985ea98125a38a1adb70b7194dc26531c5e9ab986e536
 
 // Very high debt ceiling value (1e60 in RAD)
 const HIGH_DEBT_CEILING = '0x000000000000009f4f2726179a224501d762422c946590d91000000000000000';
@@ -191,4 +237,20 @@ const HIGH_STUSDS_CAP = '0x000000000000000000000000000000000000000c9f2c9cd04674e
  */
 export const setStUsdsCap = async () => {
   await setStorageAt(STUSDS_ADDRESS, STUSDS_CAP_SLOT, HIGH_STUSDS_CAP);
+};
+
+const LSEV2_SKY_A_ART_SLOT = calculateIlkStorageSlot(ILK_NAME, ILKS_MAPPING_SLOT, 0); // Art field
+// Calculated value: 0x0b2fb9dcfebfeb5c8f6985ea98125a38a1adb70b7194dc26531c5e9ab986e533
+
+// Moderate debt value (1e24 in WAD) - leaves plenty of liquidity for stUSDS withdrawals
+// while still maintaining some debt for stake module tests
+const MODERATE_DEBT = '0x00000000000000000000000000000000000000000000d3c21bcecceda1000000';
+
+/**
+ * Set moderate debt for the Stake module's SKY ilk (LSEV2-SKY-A).
+ * This ensures stUSDS vault has available liquidity for withdrawals while maintaining
+ * enough debt for stake module tests to function properly.
+ */
+export const reduceStakeModuleDebt = async () => {
+  await setStorageAt(VAT_ADDRESS, LSEV2_SKY_A_ART_SLOT, MODERATE_DEBT);
 };

@@ -6,6 +6,7 @@ import {
   setEthBalance,
   setStakeModuleDebtCeiling,
   setStUsdsCap,
+  reduceStakeModuleDebt,
   waitForVnetsReady
 } from './utils';
 import { testClientMainnet, testClientBase, testClientArbitrum } from './WagmiWrapper';
@@ -22,6 +23,10 @@ export async function setup({ provide }: TestProject) {
   // Set high supply cap for stUSDS
   // This is needed because the fork may have reached or be near the supply cap
   await setStUsdsCap();
+
+  // Reduce staking engine debt to ensure stUSDS has available liquidity
+  // The new fork may have high debt that blocks withdrawals
+  await reduceStakeModuleDebt();
 
   await Promise.all([
     // Tenderly Mainnet
