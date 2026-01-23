@@ -20,9 +20,7 @@ test.describe('Capped OSM SKY Price - Unstake Blocking', () => {
     console.log('Setup complete');
   });
 
-  test.only('should block unstake when liquidation price exceeds capped OSM price', async ({
-    isolatedPage
-  }) => {
+  test('should block unstake when liquidation price exceeds capped OSM price', async ({ isolatedPage }) => {
     // Step 1: Create a position with SKY staked and USDS borrowed
     const SKY_AMOUNT_TO_LOCK = '2400000'; // 2.4M SKY
     const USDS_AMOUNT_TO_BORROW = '38000'; // 38K USDS
