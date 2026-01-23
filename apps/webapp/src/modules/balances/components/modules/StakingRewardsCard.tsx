@@ -47,7 +47,7 @@ export function StakingRewardsCard() {
               <PairTokenIcons leftToken="SKY" rightToken="SPK" chainId={mainnet.id} />
               <Text className="text-textSecondary">With: SKY Get: SPK</Text>
             </HStack>
-            <Text variant="small" className="rounded-full bg-[#5B8DEF] px-2 py-1 text-white">
+            <Text variant="small" className="rounded-full bg-[#504DFF] px-2 py-1 text-white">
               <Trans>SPK rewards ending soon</Trans>
             </Text>
           </div>
