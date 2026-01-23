@@ -48,7 +48,7 @@ export const useSpkStakingRewardsToast = (isAuthorized: boolean) => {
                 variant="pill"
                 size="xs"
                 onClick={() => {
-                  navigate('/?widget=stake');
+                  navigate('/?widget=stake&network=ethereum');
                   toast.dismiss(toastId);
                   onClose();
                 }}
@@ -59,7 +59,7 @@ export const useSpkStakingRewardsToast = (isAuthorized: boolean) => {
           </div>
         ),
         {
-          duration: 15000,
+          duration: Infinity,
           dismissible: true,
           onDismiss: onClose
         }
