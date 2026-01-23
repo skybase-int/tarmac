@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useConnection, useChainId } from 'wagmi';
-import { useStakeHistory, lsSkySpkRewardAddress } from '@jetstreamgg/sky-hooks';
+import { useStakeHistory, lsSkySpkRewardAddress, TransactionTypeEnum } from '@jetstreamgg/sky-hooks';
 import { isMainnetId, chainId as chainIdMap } from '@jetstreamgg/sky-utils';
 
 /**
@@ -24,7 +24,9 @@ export const useHasSpkStakingPositions = () => {
     // Get the most recent reward selection for each urn index
     const rewardSelections = stakeHistory.filter(
       (item): item is typeof item & { rewardContract: string; urnIndex: number } =>
-        'rewardContract' in item && 'urnIndex' in item
+        item.type === TransactionTypeEnum.STAKE_SELECT_REWARD &&
+        'rewardContract' in item &&
+        'urnIndex' in item
     );
 
     // Group by urn index and get the most recent selection for each
