@@ -1,5 +1,5 @@
 import {
-  lsSkyUsdsRewardAddress,
+  filterDeprecatedRewards,
   useStakeRewardContracts,
   useStakeUrnSelectedRewardContract,
   ZERO_ADDRESS
@@ -55,15 +55,28 @@ export const SelectRewardContract = ({
     setCurrentStep(getNextStep(currentStep, !wantsToDelegate));
   };
 
-  const skyUsdsRewardAddress = lsSkyUsdsRewardAddress[chainId as keyof typeof lsSkyUsdsRewardAddress];
-
-  // If user has the USDS reward selected, show all reward options,
-  // otherwise filter out the USDS reward
-  const rewardContractsToShow = stakeRewardContracts?.filter(({ contractAddress }) =>
-    urnSelectedRewardContract?.toLowerCase() === skyUsdsRewardAddress.toLowerCase()
-      ? true
-      : contractAddress.toLowerCase() !== skyUsdsRewardAddress.toLowerCase()
+  // Filter out deprecated rewards, but keep the user's current selection visible
+  // so they can change away from it
+  const rewardContractsToShow = filterDeprecatedRewards(
+    stakeRewardContracts || [],
+    chainId,
+    urnSelectedRewardContract
   );
+
+  // Auto-select and auto-advance when only one reward option exists (OPEN flow only)
+  useEffect(() => {
+    if (
+      rewardContractsToShow?.length === 1 &&
+      !selectedRewardContract &&
+      widgetState.flow === StakeFlow.OPEN
+    ) {
+      const singleReward = rewardContractsToShow[0].contractAddress;
+      setSelectedRewardContract(singleReward);
+      setIsSelectRewardContractCompleted(true);
+      // Auto-advance to next step
+      setCurrentStep(getNextStep(currentStep, !wantsToDelegate));
+    }
+  }, [rewardContractsToShow?.length, selectedRewardContract, widgetState.flow]);
 
   return (
     <div>
