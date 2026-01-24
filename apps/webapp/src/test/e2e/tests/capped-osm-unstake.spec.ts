@@ -1,6 +1,8 @@
 import { expect, test } from '../fixtures-parallel';
 import { connectMockWalletAndAcceptTerms } from '../utils/connectMockWalletAndAcceptTerms.js';
 import { triggerCappedOsmError } from '../utils/setOsmSpotPrice.js';
+import { updateSealDebtCeiling } from '../utils/updateSealDebtCeiling.js';
+import { parseUnits } from 'viem';
 
 /**
  * This test validates the feature that blocks unstaking when the capped OSM SKY price
@@ -13,6 +15,13 @@ import { triggerCappedOsmError } from '../utils/setOsmSpotPrice.js';
 test.describe('Capped OSM SKY Price - Unstake Blocking', () => {
   test.beforeEach(async ({ isolatedPage }) => {
     console.log('Starting beforeEach - Capped OSM test');
+
+    // Ensure debt ceiling is high enough (other tests may have lowered it)
+    // Set to 1 billion USDS in RAD (45 decimals)
+    const highCeiling = parseUnits('1000000000', 45);
+    await updateSealDebtCeiling(highCeiling);
+    console.log('✅ Debt ceiling reset to high value');
+
     await isolatedPage.goto('/');
     await connectMockWalletAndAcceptTerms(isolatedPage, { batch: true });
     await isolatedPage.waitForTimeout(1000);
