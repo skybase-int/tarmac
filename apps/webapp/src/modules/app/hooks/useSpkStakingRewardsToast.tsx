@@ -64,6 +64,7 @@ export const useSpkStakingRewardsToast = (isAuthorized: boolean) => {
           </div>
         ),
         {
+          id: 'spk-staking-rewards-toast',
           duration: Infinity,
           dismissible: true,
           onDismiss: onClose
