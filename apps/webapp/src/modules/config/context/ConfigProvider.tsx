@@ -45,7 +45,8 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
           import.meta.env.VITE_BATCH_TX_ENABLED === 'true' ? (parsed.batchEnabled ?? true) : undefined,
         expertRiskDisclaimerShown: parsed.expertRiskDisclaimerShown ?? false,
         expertRiskDisclaimerDismissed: parsed.expertRiskDisclaimerDismissed ?? false,
-        stakingSpkDisclaimerDismissed: parsed.stakingSpkDisclaimerDismissed ?? false
+        stakingSpkDisclaimerDismissed: parsed.stakingSpkDisclaimerDismissed ?? false,
+        rewardsUsdsSkyDisclaimerDismissed: parsed.rewardsUsdsSkyDisclaimerDismissed ?? false
       });
     } catch (e) {
       console.log('Error parsing user settings', e);
@@ -117,6 +118,13 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
     });
   };
 
+  const setRewardsUsdsSkyDisclaimerDismissed = (dismissed: boolean) => {
+    updateUserConfig({
+      ...userConfig,
+      rewardsUsdsSkyDisclaimerDismissed: dismissed
+    });
+  };
+
   return (
     <ConfigContext.Provider
       value={{
@@ -146,7 +154,9 @@ export const ConfigProvider = ({ children }: { children: ReactNode }): ReactElem
         expertRiskDisclaimerDismissed: userConfig.expertRiskDisclaimerDismissed ?? false,
         setExpertRiskDisclaimerDismissed,
         stakingSpkDisclaimerDismissed: userConfig.stakingSpkDisclaimerDismissed ?? false,
-        setStakingSpkDisclaimerDismissed
+        setStakingSpkDisclaimerDismissed,
+        rewardsUsdsSkyDisclaimerDismissed: userConfig.rewardsUsdsSkyDisclaimerDismissed ?? false,
+        setRewardsUsdsSkyDisclaimerDismissed
       }}
     >
       {children}

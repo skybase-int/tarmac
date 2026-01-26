@@ -8,4 +8,5 @@ export type UserConfig = {
   expertRiskDisclaimerShown?: boolean;
   expertRiskDisclaimerDismissed?: boolean;
   stakingSpkDisclaimerDismissed?: boolean;
+  rewardsUsdsSkyDisclaimerDismissed?: boolean;
 };

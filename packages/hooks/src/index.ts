@@ -118,6 +118,11 @@ export { useRewardsTotalSupplied } from './rewards/useRewardsTotalSupplied';
 export { useRewardsRate } from './rewards/useRewardsRate';
 export { useRewardsPeriodFinish } from './rewards/useRewardsPeriodFinish';
 export { useRewardContractsToClaim } from './rewards/useRewardContractsToClaim';
+export {
+  DEPRECATED_REWARD_CONTRACTS,
+  isDeprecatedRewardContract,
+  filterDeprecatedRewardContracts
+} from './rewards/deprecatedRewards';
 
 // Shared
 export { useCombinedHistory } from './shared/useCombinedHistory';
