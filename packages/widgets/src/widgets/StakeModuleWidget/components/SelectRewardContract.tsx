@@ -1,5 +1,6 @@
 import {
   filterDeprecatedRewards,
+  lsSkySpkRewardAddress,
   useStakeRewardContracts,
   useStakeUrnSelectedRewardContract,
   ZERO_ADDRESS
@@ -18,6 +19,7 @@ import { VStack } from '@widgets/shared/components/ui/layout/VStack';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { StakeFlow } from '../lib/constants';
 import { useChainId } from 'wagmi';
+import { YellowWarning } from '@widgets/shared/components/icons/YellowWarning';
 
 export const SelectRewardContract = ({
   onExternalLinkClicked
@@ -62,6 +64,11 @@ export const SelectRewardContract = ({
     chainId,
     urnSelectedRewardContract
   );
+
+  // Check if user's current reward is SPK (deprecated)
+  const isCurrentRewardSpk =
+    urnSelectedRewardContract?.toLowerCase() ===
+    lsSkySpkRewardAddress[chainId as keyof typeof lsSkySpkRewardAddress]?.toLowerCase();
 
   // Auto-select and auto-advance when only one reward option exists (OPEN flow only)
   useEffect(() => {
@@ -111,6 +118,18 @@ export const SelectRewardContract = ({
           ))
         )}
       </VStack>
+      {isCurrentRewardSpk && (
+        <HStack gap={2} className="mt-3 items-start">
+          <YellowWarning boxSize={16} viewBox="0 0 16 16" className="mt-0.5 shrink-0" />
+          <Text className="text-textSecondary text-sm">
+            <Trans>
+              Please <span className="font-bold text-white">choose another reward.</span> The SPK rewards are
+              disabled as a Staking Reward option, and the SPK rate set to zero. The pool of SPK will remain
+              forever so that you can claim your rewards anytime.
+            </Trans>
+          </Text>
+        </HStack>
+      )}
     </div>
   );
 };
