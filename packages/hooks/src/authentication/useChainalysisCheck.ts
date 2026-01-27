@@ -1,9 +1,5 @@
 import { useReadContract } from 'wagmi';
-import {
-  chainalysisOracleAbi,
-  chainalysisOracleAddress,
-  DEFAULT_ORACLE_CHAIN_ID
-} from './chainalysisOracle';
+import { chainalysisOracleAbi, chainalysisOracleAddress, DEFAULT_ORACLE_CHAIN_ID } from './chainalysisOracle';
 
 type AuthResponse = {
   addressAllowed: boolean;
@@ -48,19 +44,6 @@ export const useChainalysisCheck = ({
   // Normalize: isSanctioned = true means address is NOT allowed
   // So addressAllowed = !isSanctioned
   const normalizedData = data !== undefined ? { addressAllowed: !data } : undefined;
-
-  // Debug logging
-  console.log('[useChainalysisCheck]', {
-    address,
-    chainId,
-    effectiveChainId,
-    oracleAddress,
-    enabled,
-    rawData: data,
-    normalizedData,
-    error: error?.message,
-    isLoading
-  });
 
   return {
     data: normalizedData,
