@@ -172,7 +172,7 @@ export const useNotification = () => {
         );
       }
     }, delay); // delay for insufficient balance notifications
-  }, [action, isRewardsModule, isSavingsModule, rewardContract, rate, savingsRate, navigate]);
+  }, [action, isRewardsModule, isSavingsModule, rewardContract, rate, savingsRate, navigate, chainId]);
 
   const handleTokenReceived = useCallback(
     (type: NotificationType) => {
