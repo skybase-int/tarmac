@@ -110,11 +110,12 @@ const MorphoVaultWidgetWrapped = ({
   const userAssets = vaultData?.userAssets ?? 0n;
   const availableLiquidity = singleMarketData?.market.markets[0]?.liquidity;
   const hasLiquidityData = !isSingleMarketDataLoading && availableLiquidity !== undefined;
+  const isLiquidityDataUnavailable = !isSingleMarketDataLoading && availableLiquidity === undefined;
   const maxWithdraw = hasLiquidityData
     ? userAssets < availableLiquidity
       ? userAssets
       : availableLiquidity
-    : userAssets;
+    : undefined;
   const isLiquidityConstrained = hasLiquidityData && userAssets > 0n && availableLiquidity < userAssets;
 
   // Build the claim amount text for display in transaction status
@@ -268,6 +269,7 @@ const MorphoVaultWidgetWrapped = ({
   const withdrawDisabled =
     [TxStatus.INITIALIZED, TxStatus.LOADING].includes(txStatus) ||
     isWithdrawBalanceError ||
+    isLiquidityDataUnavailable ||
     !(max ? morphoVaultRedeem.prepared : morphoVaultWithdraw.prepared) ||
     isAmountWaitingForDebounce;
 
@@ -374,6 +376,12 @@ const MorphoVaultWidgetWrapped = ({
         setButtonText(t`Back to ${vaultName}`);
       } else if (txStatus === TxStatus.ERROR) {
         setButtonText(t`Retry`);
+      } else if (
+        widgetState.screen === MorphoVaultScreen.ACTION &&
+        widgetState.flow === MorphoVaultFlow.WITHDRAW &&
+        isLiquidityDataUnavailable
+      ) {
+        setButtonText(t`Withdrawals unavailable`);
       } else if (widgetState.screen === MorphoVaultScreen.ACTION && amount === 0n) {
         setButtonText(t`Enter amount`);
       } else if (widgetState.screen === MorphoVaultScreen.ACTION) {
@@ -398,6 +406,7 @@ const MorphoVaultWidgetWrapped = ({
     linguiCtx,
     amount,
     isConnectedAndEnabled,
+    isLiquidityDataUnavailable,
     shouldUseBatch,
     needsAllowance,
     vaultName
@@ -539,6 +548,7 @@ const MorphoVaultWidgetWrapped = ({
               vaultBalance={vaultData?.userAssets}
               maxWithdraw={maxWithdraw}
               isLiquidityConstrained={isLiquidityConstrained}
+              isLiquidityDataUnavailable={isLiquidityDataUnavailable}
               userShares={vaultData?.userShares}
               isVaultDataLoading={isVaultDataLoading || isSingleMarketDataLoading}
               onChange={(newValue: bigint, userTriggered?: boolean) => {

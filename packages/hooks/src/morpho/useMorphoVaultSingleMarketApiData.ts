@@ -172,8 +172,9 @@ async function fetchMorphoVaultSingleMarketData(
     const liquidity = totalSupplyAssets - totalBorrowAssets;
 
     // The vault's totalAssets represents how much is allocated to this market
-    const vaultAssets = BigInt(totalAssets);
-    const vaultAssetsUsd = totalAssetsUsd - idleAssetsUsd; // Subtract idle from total
+    const totalAssetsBigInt = BigInt(totalAssets);
+    const vaultAssets = totalAssetsBigInt > idleAssets ? totalAssetsBigInt - idleAssets : BigInt(0);
+    const vaultAssetsUsd = Math.max(0, totalAssetsUsd - idleAssetsUsd); // Subtract idle from total
 
     markets.push({
       marketId: market.uniqueKey,
