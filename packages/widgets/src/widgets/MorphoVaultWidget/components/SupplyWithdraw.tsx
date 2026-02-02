@@ -30,6 +30,8 @@ type SupplyWithdrawProps = {
   maxWithdraw?: bigint;
   /** Whether user's withdrawal is constrained by vault liquidity */
   isLiquidityConstrained?: boolean;
+  /** Whether liquidity data is unavailable for the vault */
+  isLiquidityDataUnavailable?: boolean;
   /** User's vault share balance */
   userShares?: bigint;
   /** The underlying asset token */
@@ -82,6 +84,7 @@ export const SupplyWithdraw = ({
   vaultBalance,
   maxWithdraw,
   isLiquidityConstrained,
+  isLiquidityDataUnavailable = false,
   userShares,
   assetToken,
   isVaultDataLoading,
@@ -244,6 +247,14 @@ export const SupplyWithdraw = ({
                 <PopoverRateInfo type="morphoLiquidity" iconClassName="mt-1 shrink-0 text-amber-400" />
                 <Text variant="small" className="ml-2 flex gap-2">
                   <Trans>Withdrawals are temporarily unavailable due to liquidity constraints.</Trans>
+                </Text>
+              </div>
+            )}
+            {!isVaultDataLoading && isLiquidityDataUnavailable && (
+              <div className="mt-2 ml-3 flex items-start text-amber-400">
+                <PopoverRateInfo type="morphoLiquidity" iconClassName="mt-1 shrink-0 text-amber-400" />
+                <Text variant="small" className="ml-2 flex gap-2">
+                  <Trans>Withdrawals are unavailable because liquidity data is not available.</Trans>
                 </Text>
               </div>
             )}
