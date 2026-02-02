@@ -1,6 +1,10 @@
 import { StatsCard } from '@/modules/ui/components/StatsCard';
 import { t } from '@lingui/core/macro';
-import { useStUsdsData, useMorphoVaultData, usdsRiskCapitalVaultAddress } from '@jetstreamgg/sky-hooks';
+import {
+  useStUsdsData,
+  useMorphoVaultOnChainData,
+  usdsRiskCapitalVaultAddress
+} from '@jetstreamgg/sky-hooks';
 import { formatBigInt } from '@jetstreamgg/sky-utils';
 import { TokenIconWithBalance } from '@/modules/ui/components/TokenIconWithBalance';
 import { mainnet } from 'viem/chains';
@@ -11,7 +15,7 @@ export function ExpertTvlCard(): React.ReactElement {
     data: morphoData,
     isLoading: isMorphoLoading,
     error: morphoError
-  } = useMorphoVaultData({
+  } = useMorphoVaultOnChainData({
     // Morpho API is mainnet-only
     vaultAddress: usdsRiskCapitalVaultAddress[mainnet.id]
   });
