@@ -228,6 +228,25 @@ export const VAULT_V2_HISTORICAL_QUERY = `
 `;
 
 /**
+ * GraphQL query for Morpho V2 vault positions (depositors) with pagination.
+ * Includes shares to filter for active suppliers client-side (API doesn't support where clause).
+ */
+export const VAULT_V2_POSITIONS_QUERY = `
+  query VaultV2Positions($address: String!, $chainId: Int!, $first: Int!, $skip: Int!) {
+    vaultV2ByAddress(address: $address, chainId: $chainId) {
+      positions(first: $first, skip: $skip) {
+        items {
+          user {
+            address
+          }
+          shares
+        }
+      }
+    }
+  }
+`;
+
+/**
  * Combined GraphQL query for vault rate data and market allocation data.
  * Fetches everything in a single request for optimized performance.
  */

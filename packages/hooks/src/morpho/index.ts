@@ -34,4 +34,8 @@ export {
   type MorphoVaultChartDataPoint,
   type MorphoVaultChartInfoHook
 } from './useMorphoVaultChartInfo';
+export {
+  useMorphoVaultSupplierAddresses,
+  type MorphoVaultSupplierAddressesHook
+} from './useMorphoVaultSupplierAddresses';
 export { MORPHO_VAULTS } from './constants';
