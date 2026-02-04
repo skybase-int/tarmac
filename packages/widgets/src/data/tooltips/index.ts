@@ -29,7 +29,7 @@ The SKY Borrow Rate is the current interest rate charged to SKY-backed borrowers
     id: 'morpho-rate',
     title: 'Morpho Vault Rate',
     tooltip:
-      'The vault rate provided is variable and calculated over the last 6 hours. It includes native yield from the stUSDS/USDS market plus incentive rewards, minus fees. The rate is provided by a third party provider ([Morpho](https://morpho.org/)). This estimate is for informational purposes only and does not guarantee future results.'
+      'The vault rate provided is variable and calculated over the last 6 hours. It includes native yield from the stUSDS/USDS market plus incentive rewards, minus fees. The rate is provided by a third party provider (Morpho). This estimate is for informational purposes only and does not guarantee future results.'
   },
   {
     id: 'expert-rate',

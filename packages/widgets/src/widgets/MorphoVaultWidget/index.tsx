@@ -301,6 +301,7 @@ const MorphoVaultWidgetWrapped = ({
     setTxStatus(TxStatus.IDLE);
     setAmount(0n);
     setMax(false);
+    setDisclaimerChecked(false);
 
     setWidgetState((prev: WidgetState) => ({
       ...prev,

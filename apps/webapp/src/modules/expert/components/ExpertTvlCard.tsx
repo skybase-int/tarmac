@@ -26,6 +26,7 @@ export function ExpertTvlCard(): React.ReactElement {
 
   return (
     <StatsCard
+      className="h-full"
       title={t`Total TVL`}
       content={
         <TokenIconWithBalance
