@@ -61,10 +61,16 @@ export function MorphoVaultBalanceDetails({ vaultAddress, assetToken }: MorphoVa
   };
 
   return (
-    <div className="flex w-full flex-col justify-between gap-3 xl:flex-row">
-      <SuppliedVaultBalanceCard />
-      <AssetBalanceCard />
-      <MorphoVaultRewardsDetails vaultAddress={vaultAddress} />
+    <div className="flex w-full flex-wrap justify-between gap-3">
+      <div className="min-w-[250px] flex-1">
+        <SuppliedVaultBalanceCard />
+      </div>
+      <div className="min-w-[250px] flex-1">
+        <AssetBalanceCard />
+      </div>
+      <div className="min-w-[250px] flex-1">
+        <MorphoVaultRewardsDetails vaultAddress={vaultAddress} />
+      </div>
     </div>
   );
 }
