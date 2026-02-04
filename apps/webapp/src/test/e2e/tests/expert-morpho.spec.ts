@@ -124,25 +124,32 @@ test.describe('Expert Module - Morpho Vault', () => {
     // Should be on Supply tab by default
     await expect(isolatedPage.getByRole('tab', { name: 'Supply', selected: true })).toBeVisible();
 
-    // Expand Vault info to check initial balance
+    // Expand Vault info to get initial balance (might be non-zero from fork state)
     const vaultInfoAccordion = isolatedPage.getByRole('button', { name: 'Vault info' });
     await vaultInfoAccordion.click();
 
-    // Verify initial supplied balance is 0 or "--"
-    const initialBalance = isolatedPage.getByTestId('vault-balance');
-    await expect(initialBalance.or(isolatedPage.getByText('--'))).toBeVisible();
+    // Get initial balance (parse from text like "55 USDS (55 shares)" or "--")
+    const initialBalanceText = await isolatedPage.getByTestId('vault-balance').textContent();
+    const initialBalance = initialBalanceText?.includes('--')
+      ? 0
+      : parseFloat(initialBalanceText?.match(/([\d.]+)\s*USDS/)?.[1] || '0');
+    console.log(`Initial vault balance: ${initialBalance} USDS`);
+
+    // Collapse accordion
+    await vaultInfoAccordion.click();
 
     // Check transaction overview is not visible initially
     await expect(isolatedPage.getByRole('button', { name: 'Transaction overview' })).not.toBeVisible();
 
     // Enter amount to supply
+    const supplyAmount = 10;
     await isolatedPage.getByTestId('supply-input-morpho').click();
-    await isolatedPage.getByTestId('supply-input-morpho').fill('10');
+    await isolatedPage.getByTestId('supply-input-morpho').fill(supplyAmount.toString());
 
     // Transaction overview should now be visible
     await expect(isolatedPage.getByRole('button', { name: 'Transaction overview' })).toBeVisible();
     await expect(isolatedPage.getByText('You will supply')).toBeVisible();
-    await expect(isolatedPage.getByText('10 USDS')).toBeVisible();
+    await expect(isolatedPage.getByText(`${supplyAmount} USDS`)).toBeVisible();
 
     // Check the disclaimer checkbox (required for Morpho vault supply)
     const disclaimer = isolatedPage.locator('label').filter({ hasText: 'I understand that' });
@@ -152,7 +159,7 @@ test.describe('Expert Module - Morpho Vault', () => {
     await performAction(isolatedPage, 'Supply');
 
     // Check success message
-    await expectSupplySuccess(isolatedPage, '10');
+    await expectSupplySuccess(isolatedPage, supplyAmount.toString());
 
     // Click back to Morpho Vault
     await isolatedPage
@@ -163,14 +170,30 @@ test.describe('Expert Module - Morpho Vault', () => {
     // Should still be in Morpho Vault module
     await expect(isolatedPage.getByTestId('supply-input-morpho')).toBeVisible();
 
-    // Verify supplied balance increased to ~10 USDS
-    await expect(isolatedPage.getByTestId('vault-balance')).toContainText('10 USDS');
+    // Verify supplied balance increased by supply amount
+    const expectedBalance = Math.floor(initialBalance + supplyAmount);
+    await expect(isolatedPage.getByTestId('vault-balance')).toContainText(`${expectedBalance} USDS`);
   });
 
   test('Withdraw USDS from Morpho Vault', async ({ isolatedPage }) => {
-    // First supply some USDS
+    // Expand Vault info to get initial balance (might be non-zero from fork state)
+    const vaultInfoAccordion = isolatedPage.getByRole('button', { name: 'Vault info' });
+    await vaultInfoAccordion.click();
+
+    // Get initial balance (parse from text like "55 USDS (55 shares)" or "--")
+    const initialBalanceText = await isolatedPage.getByTestId('vault-balance').textContent();
+    const initialBalance = initialBalanceText?.includes('--')
+      ? 0
+      : parseFloat(initialBalanceText?.match(/([\d.]+)\s*USDS/)?.[1] || '0');
+    console.log(`Initial vault balance: ${initialBalance} USDS`);
+
+    // Collapse accordion to supply
+    await vaultInfoAccordion.click();
+
+    // Supply some USDS
+    const supplyAmount = 20;
     await isolatedPage.getByTestId('supply-input-morpho').click();
-    await isolatedPage.getByTestId('supply-input-morpho').fill('20');
+    await isolatedPage.getByTestId('supply-input-morpho').fill(supplyAmount.toString());
 
     // Check the disclaimer checkbox
     const disclaimer = isolatedPage.locator('label').filter({ hasText: 'I understand that' });
@@ -182,28 +205,31 @@ test.describe('Expert Module - Morpho Vault', () => {
       .first()
       .click();
 
-    // Expand Vault info and verify balance after supply is ~20 USDS
-    const vaultInfoAccordion = isolatedPage.getByRole('button', { name: 'Vault info' });
+    // Expand Vault info and verify balance increased by supply amount
     await vaultInfoAccordion.click();
-    await expect(isolatedPage.getByTestId('vault-balance')).toContainText('20 USDS');
+    const expectedBalanceAfterSupply = Math.floor(initialBalance + supplyAmount);
+    await expect(isolatedPage.getByTestId('vault-balance')).toContainText(
+      `${expectedBalanceAfterSupply} USDS`
+    );
 
     // Switch to Withdraw tab
     await isolatedPage.getByRole('tab', { name: 'Withdraw' }).click();
 
     // Enter withdrawal amount
+    const withdrawAmount = 5;
     await isolatedPage.getByTestId('withdraw-input-morpho').click();
-    await isolatedPage.getByTestId('withdraw-input-morpho').fill('5');
+    await isolatedPage.getByTestId('withdraw-input-morpho').fill(withdrawAmount.toString());
 
     // Check transaction overview
     await expect(isolatedPage.getByRole('button', { name: 'Transaction overview' })).toBeVisible();
     await expect(isolatedPage.getByText('You will withdraw')).toBeVisible();
-    await expect(isolatedPage.getByText('5 USDS').first()).toBeVisible();
+    await expect(isolatedPage.getByText(`${withdrawAmount} USDS`).first()).toBeVisible();
 
     // Perform withdrawal
     await performAction(isolatedPage, 'Withdraw');
 
     // Check success message
-    await expectWithdrawSuccess(isolatedPage, '5');
+    await expectWithdrawSuccess(isolatedPage, withdrawAmount.toString());
 
     // Click back to Morpho Vault
     await isolatedPage
@@ -211,8 +237,9 @@ test.describe('Expert Module - Morpho Vault', () => {
       .first()
       .click();
 
-    // Verify supplied balance decreased to ~15 USDS (20 - 5)
-    await expect(isolatedPage.getByTestId('vault-balance')).toContainText('15 USDS');
+    // Verify supplied balance decreased by withdrawal amount
+    const expectedFinalBalance = expectedBalanceAfterSupply - withdrawAmount;
+    await expect(isolatedPage.getByTestId('vault-balance')).toContainText(`${expectedFinalBalance} USDS`);
   });
 
   test('Use max button for supply', async ({ isolatedPage }) => {
@@ -268,12 +295,27 @@ test.describe('Expert Module - Morpho Vault', () => {
   });
 
   test('Withdraw with insufficient vault balance shows error', async ({ isolatedPage }) => {
+    // Expand Vault info to get current vault balance
+    const vaultInfoAccordion = isolatedPage.getByRole('button', { name: 'Vault info' });
+    await vaultInfoAccordion.click();
+
+    // Get current vault balance (might be non-zero from fork state)
+    const vaultBalanceText = await isolatedPage.getByTestId('vault-balance').textContent();
+    const vaultBalance = vaultBalanceText?.includes('--')
+      ? 0
+      : parseFloat(vaultBalanceText?.match(/([\d.]+)\s*USDS/)?.[1] || '0');
+    console.log(`Current vault balance: ${vaultBalance} USDS`);
+
+    // Collapse accordion
+    await vaultInfoAccordion.click();
+
     // Switch to Withdraw tab
     await isolatedPage.getByRole('tab', { name: 'Withdraw' }).click();
 
-    // Try to withdraw with no supplied balance
+    // Try to withdraw more than vault balance (current balance + 100 to ensure it's over)
+    const excessAmount = Math.floor(vaultBalance + 100);
     await isolatedPage.getByTestId('withdraw-input-morpho').click();
-    await isolatedPage.getByTestId('withdraw-input-morpho').fill('100');
+    await isolatedPage.getByTestId('withdraw-input-morpho').fill(excessAmount.toString());
 
     // Should show insufficient funds error
     await expect(isolatedPage.getByText('Insufficient funds')).toBeVisible();

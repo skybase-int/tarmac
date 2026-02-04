@@ -64,9 +64,9 @@ export default defineConfig({
         '**/chatbot.spec.ts',
         '**/pane-visibility.spec.ts',
         '**/expert-stusds.spec.ts',
-        '**/expert-morpho.spec.ts',
         '**/stusds-provider-switching.spec.ts',
         '**/capped-osm-unstake.spec.ts'
+        // '**/expert-morpho.spec.ts'
       ]
     },
     {
@@ -77,7 +77,7 @@ export default defineConfig({
       },
       // Alternate VNet tests - for tests requiring a different fork state
       // Add test patterns here when you need tests to run on alternate VNet
-      testMatch: ['**/alternate-sample.spec.ts']
+      testMatch: ['**/expert-morpho.spec.ts']
     }
   ],
 
