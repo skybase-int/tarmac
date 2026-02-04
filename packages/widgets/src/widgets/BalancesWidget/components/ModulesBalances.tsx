@@ -43,6 +43,7 @@ interface ModulesBalancesProps {
   chainIds?: number[];
   stakeCardUrl?: string;
   stusdsCardUrl?: string;
+  morphoCardUrl?: string;
   variant?: ModuleCardVariant;
   hideZeroBalances?: boolean;
   showAllNetworks?: boolean;
@@ -56,6 +57,7 @@ export const ModulesBalances = ({
   chainIds,
   stakeCardUrl,
   stusdsCardUrl,
+  morphoCardUrl,
   variant = ModuleCardVariant.default,
   hideZeroBalances = false,
   showAllNetworks = true
@@ -222,6 +224,8 @@ export const ModulesBalances = ({
       {!hideModuleBalances && !hideExpert && (
         <ExpertBalanceCard
           url={stusdsCardUrl}
+          stusdsUrl={stusdsCardUrl}
+          morphoUrl={morphoCardUrl}
           onExternalLinkClicked={onExternalLinkClicked}
           loading={expertLoading}
           variant={variant}
