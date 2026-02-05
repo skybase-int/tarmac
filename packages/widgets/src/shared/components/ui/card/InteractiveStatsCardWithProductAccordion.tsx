@@ -44,8 +44,10 @@ export const InteractiveStatsCardWithProductAccordion = ({
   pricesData: Record<string, PriceData>;
   url?: string;
 }): React.ReactElement => {
-  // Filter to only products with non-zero balances
-  const nonZeroProducts = balancesByProduct.filter(p => p.balance > 0n);
+  // Filter to only products with non-zero balances and sort by largest balance
+  const nonZeroProducts = balancesByProduct
+    .filter(p => p.balance > 0n)
+    .sort((a, b) => (a.balance === b.balance ? 0 : a.balance > b.balance ? -1 : 1));
 
   if (nonZeroProducts.length <= 1) {
     return (
@@ -65,8 +67,8 @@ export const InteractiveStatsCardWithProductAccordion = ({
       <AccordionItem value="details" className="accordion-item border-0">
         <Card variant="stats" className="w-full px-0 pb-4 lg:px-0">
           <AccordionTrigger className="w-full p-0 hover:no-underline [&>svg]:hidden">
-            <div className="px-4 lg:px-5">
-              <div className="flex items-center gap-2">
+            <div className="w-full px-4 lg:px-5">
+              <div className="flex w-full items-center gap-2">
                 {tokenSymbol && (
                   <TokenIcon
                     className="h-8 w-8"
