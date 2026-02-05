@@ -34,7 +34,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import { useBalanceFilters } from '@/modules/ui/context/BalanceFiltersContext';
 import { formatUnits } from 'viem';
-import { useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 
 type SuppliedFundsTableProps = {
   chainIds?: number[];
@@ -217,7 +217,9 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
       }
     ];
 
-    return modules.filter(m => !m.hidden).sort((a, b) => b.usdValue - a.usdValue);
+    return modules
+      .filter(m => !m.hidden)
+      .sort((a, b) => (b.usdValue - a.usdValue === 0 ? a.id.localeCompare(b.id) : b.usdValue - a.usdValue));
   }, [
     totalUserRewardsSupplied,
     totalSavingsBalance,
@@ -237,7 +239,6 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
   // Render functions for each module type
   const renderRewardsRow = () => (
     <SuppliedFundsTableRow
-      key="rewards"
       data={{
         tokenSymbol: 'USDS',
         moduleIcon: <img src="/images/rewards_icon_large.svg" alt="Rewards" className="h-5 w-5" />,
@@ -256,7 +257,6 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
 
   const renderSavingsRow = () => (
     <SuppliedFundsSavingsRow
-      key="savings"
       totalBalance={totalSavingsBalance}
       balancesByNetwork={allNonZeroSavingsBalances}
       usdPrice={pricesData?.USDS?.price}
@@ -267,7 +267,6 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
 
   const renderExpertRow = () => (
     <SuppliedFundsExpertRow
-      key="expert"
       totalBalance={totalExpertSupplied}
       balancesByProduct={[
         {
@@ -291,7 +290,6 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
 
   const renderStakingRow = () => (
     <SuppliedFundsTableRow
-      key="staking"
       data={{
         tokenSymbol: 'SKY',
         moduleIcon: (
@@ -339,7 +337,11 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
       <div className="@container">
         <Table>
           <SuppliedFundsTableHeader />
-          <TableBody>{sortedModules.map(module => renderModule(module.id))}</TableBody>
+          <TableBody>
+            {sortedModules.map(module => (
+              <Fragment key={module.id}>{renderModule(module.id)}</Fragment>
+            ))}
+          </TableBody>
         </Table>
       </div>
     </LoadingErrorWrapper>
