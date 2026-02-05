@@ -2,6 +2,7 @@ import { Table, TableBody } from '@/components/ui/table';
 import { SuppliedFundsTableHeader } from './SuppliedFundsTableHeader';
 import { SuppliedFundsTableRow } from './SuppliedFundsTableRow';
 import { SuppliedFundsSavingsRow } from './SuppliedFundsSavingsRow';
+import { SuppliedFundsExpertRow } from './SuppliedFundsExpertRow';
 import { LoadingErrorWrapper } from '@/modules/ui/components/LoadingErrorWrapper';
 import { Text } from '@/modules/layout/components/Typography';
 import { Trans } from '@lingui/react/macro';
@@ -232,19 +233,23 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
 
             {/* Expert Row (stUSDS + Morpho) */}
             {!hideExpert && (
-              <SuppliedFundsTableRow
-                data={{
-                  tokenSymbol: 'USDS',
-                  moduleIcon: <img src="/images/expert_icon_large.svg" alt="Expert" className="h-5 w-5" />,
-                  moduleName: 'Expert',
-                  amount: totalExpertSupplied,
-                  decimals: 18,
-                  usdPrice: pricesData?.USDS?.price,
-                  rateText: maxExpertRate > 0 ? `${maxExpertRate.toFixed(2)}%` : '0%',
-                  ratePopoverType: 'expert',
-                  isRateUpTo: true,
-                  chainId: mainnetChainId
-                }}
+              <SuppliedFundsExpertRow
+                totalBalance={totalExpertSupplied}
+                balancesByProduct={[
+                  {
+                    productName: 'stUSDS',
+                    balance: userSuppliedUsds,
+                    rate: stUsdsRatePercent > 0 ? `${stUsdsRatePercent.toFixed(2)}%` : undefined
+                  },
+                  {
+                    productName: 'USDS Risk Capital',
+                    balance: morphoSupplied,
+                    rate: morphoRatePercent > 0 ? `${morphoRatePercent.toFixed(2)}%` : undefined,
+                    isMorpho: true
+                  }
+                ]}
+                usdPrice={pricesData?.USDS?.price}
+                maxRate={maxExpertRate > 0 ? `${maxExpertRate.toFixed(2)}%` : '0%'}
                 isLoading={stUsdsLoading || morphoLoading || morphoSingleMarketLoading}
               />
             )}
