@@ -128,6 +128,19 @@ export const legacyTooltips: Tooltip[] = [
     title: 'Available liquidity',
     tooltip:
       'The amount of USDS currently idle in the Morpho market and available for immediate withdrawal or new borrowing.'
+  },
+  // StUSDS tooltips
+  {
+    id: 'supply-capacity-reached',
+    title: 'Capacity temporarily full',
+    tooltip:
+      'Native supply capacity on Ethereum is currently 100% full. As a result, depositing to the stUSDS module using the native route is temporarily disabled.'
+  },
+  {
+    id: 'native-route-temporarily-unavailable',
+    title: 'Native route temporarily unavailable',
+    tooltip:
+      'Native utilization and capacity on Ethereum are currently 100%. As a result, depositing and withdrawing from the stUSDS module using the native route is temporarily disabled.'
   }
 ];
 

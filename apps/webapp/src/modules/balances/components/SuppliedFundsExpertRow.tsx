@@ -34,6 +34,10 @@ export function SuppliedFundsExpertRow({
 }: SuppliedFundsExpertRowProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const sortedBalancesByProduct = [...balancesByProduct].sort((a, b) =>
+    a.balance === b.balance ? 0 : a.balance > b.balance ? -1 : 1
+  );
+  const nonZeroBalancesByProduct = sortedBalancesByProduct.filter(p => p.balance > 0n);
 
   const formattedAmount = formatNumber(parseFloat(formatUnits(totalBalance, 18)), {
     maxDecimals: 2,
@@ -47,7 +51,7 @@ export function SuppliedFundsExpertRow({
       })
     : '--';
 
-  const hasMultipleProducts = balancesByProduct.filter(p => p.balance > 0n).length > 1;
+  const hasMultipleProducts = nonZeroBalancesByProduct.length > 1;
 
   return (
     <>
@@ -103,14 +107,12 @@ export function SuppliedFundsExpertRow({
             {hasMultipleProducts && (
               <button className="flex items-center gap-1.5" onClick={() => setIsOpen(!isOpen)}>
                 <div className="flex items-center -space-x-1">
-                  {balancesByProduct
-                    .filter(p => p.balance > 0n)
-                    .map(({ productName, isMorpho }, index, arr) => (
-                      <div
-                        key={productName}
-                        style={{ zIndex: arr.length - index }}
-                        className={cn('transition-opacity duration-200', isOpen && 'opacity-0')}
-                      >
+                  {nonZeroBalancesByProduct.map(({ productName, isMorpho }, index, arr) => (
+                    <div
+                      key={productName}
+                      style={{ zIndex: arr.length - index }}
+                      className={cn('transition-opacity duration-200', isOpen && 'opacity-0')}
+                    >
                         {isMorpho ? (
                           <MorphoVaultBadge />
                         ) : (
@@ -154,9 +156,7 @@ export function SuppliedFundsExpertRow({
           <TableCell className="h-auto px-4 pt-0 pb-3">
             <button className="flex w-full items-center justify-between" onClick={() => setIsOpen(!isOpen)}>
               <div className="flex items-center -space-x-1">
-                {balancesByProduct
-                  .filter(p => p.balance > 0n)
-                  .map(({ productName, isMorpho }, index, arr) => (
+                {nonZeroBalancesByProduct.map(({ productName, isMorpho }, index, arr) => (
                     <div
                       key={productName}
                       style={{ zIndex: arr.length - index }}
@@ -194,9 +194,7 @@ export function SuppliedFundsExpertRow({
 
       {/* Expandable product rows */}
       {isOpen &&
-        balancesByProduct
-          .filter(({ balance }) => balance > 0n)
-          .map(({ productName, balance, rate, isMorpho }, index, filteredArray) => {
+        nonZeroBalancesByProduct.map(({ productName, balance, rate, isMorpho }, index, filteredArray) => {
             const productUsdValue = usdPrice
               ? formatNumber(parseFloat(formatUnits(balance, 18)) * parseFloat(usdPrice), {
                   maxDecimals: 2,

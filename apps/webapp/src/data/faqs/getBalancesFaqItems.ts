@@ -94,7 +94,7 @@ USDS is also currently available on networks other than Ethereum Mainnet, includ
   {
     question: 'How can I use USDS?',
     answer:
-      'Like other decentralized stablecoins, USDS is freely transferable and can be used in connection with any software protocol or platform that supports it. Unlike other stablecoins, you can use USDS to participate in the [Sky Savings Rate](#tooltip-sky-savings-rate) to accumulate additional USDS over time, and to access Sky Token Rewards, without giving up control of your digital assets. When you select SKY as your Sky Token Reward, you can participate—if you choose to do so—in the governance of Sky Ecosystem.',
+      'Like other decentralized stablecoins, USDS is freely transferable and can be used in connection with any software protocol or platform that supports it. Unlike other stablecoins, you can use USDS to participate in the [Sky Savings Rate](#tooltip-sky-savings-rate) to accumulate additional USDS over time, and to access Sky Token Rewards, without giving up control of your digital assets.',
     index: 7
   },
   {
