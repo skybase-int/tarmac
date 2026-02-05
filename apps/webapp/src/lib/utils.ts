@@ -144,6 +144,11 @@ export const getStUsdsUrl = (searchParams: URLSearchParams, chainId: number) =>
     `/?network=${getMainnetChainName(chainId)}&widget=${mapIntentToQueryParam(Intent.EXPERT_INTENT)}&expert_module=${ExpertIntentMapping[ExpertIntent.STUSDS_INTENT]}`,
     searchParams
   );
+export const getMorphoVaultUrl = (searchParams: URLSearchParams, chainId: number) =>
+  getQueryParams(
+    `/?network=${getMainnetChainName(chainId)}&widget=${mapIntentToQueryParam(Intent.EXPERT_INTENT)}&expert_module=${ExpertIntentMapping[ExpertIntent.MORPHO_VAULT_INTENT]}`,
+    searchParams
+  );
 export const getExpertOverviewUrl = (searchParams: URLSearchParams, chainId: number) =>
   getQueryParams(
     `/?network=${getMainnetChainName(chainId)}&widget=${mapIntentToQueryParam(Intent.EXPERT_INTENT)}`,

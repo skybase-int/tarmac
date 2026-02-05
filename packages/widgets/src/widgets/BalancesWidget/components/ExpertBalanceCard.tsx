@@ -14,20 +14,22 @@ import {
 } from '@jetstreamgg/sky-utils';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
-import { InteractiveStatsCard } from '@widgets/shared/components/ui/card/InteractiveStatsCard';
 import { Skeleton } from '@widgets/components/ui/skeleton';
 import { formatUnits } from 'viem';
 import { CardProps, ModuleCardVariant } from './ModulesBalances';
 import { RateLineWithArrow } from '@widgets/shared/components/ui/RateLineWithArrow';
 import { InteractiveStatsCardAlt } from '@widgets/shared/components/ui/card/InteractiveStatsCardAlt';
+import { InteractiveStatsCardWithProductAccordion } from '@widgets/shared/components/ui/card/InteractiveStatsCardWithProductAccordion';
 import { useChainId } from 'wagmi';
 
 export const ExpertBalanceCard = ({
   url,
   onExternalLinkClicked,
   loading,
-  variant = ModuleCardVariant.default
-}: CardProps) => {
+  variant = ModuleCardVariant.default,
+  stusdsUrl,
+  morphoUrl
+}: CardProps & { stusdsUrl?: string; morphoUrl?: string }) => {
   const connectedChainId = useChainId();
   const vaultChainId = isTestnetId(connectedChainId) ? chainId.tenderly : chainId.mainnet;
   const { data: stUsdsData, isLoading: stUsdsLoading } = useStUsdsData();
@@ -58,8 +60,26 @@ export const ExpertBalanceCard = ({
   const isBalanceLoading = stUsdsLoading || morphoDataLoading;
   const isRateLoading = morphoSingleMarketLoading || stUsdsLoading;
 
+  // Product balances for accordion
+  const balancesByProduct = [
+    {
+      productName: 'stUSDS',
+      balance: stUsdsSupplied,
+      rate: stUsdsRate > 0 ? `${stUsdsRate.toFixed(2)}%` : undefined,
+      isMorpho: false,
+      url: stusdsUrl
+    },
+    {
+      productName: 'USDS Risk Capital',
+      balance: morphoSupplied,
+      rate: morphoRate > 0 ? `${morphoRate.toFixed(2)}%` : undefined,
+      isMorpho: true,
+      url: morphoUrl
+    }
+  ];
+
   return variant === ModuleCardVariant.default ? (
-    <InteractiveStatsCard
+    <InteractiveStatsCardWithProductAccordion
       title={t`USDS supplied to Expert`}
       tokenSymbol="USDS"
       headerRightContent={
@@ -97,6 +117,8 @@ export const ExpertBalanceCard = ({
           </Text>
         ) : undefined
       }
+      balancesByProduct={balancesByProduct}
+      pricesData={pricesData ?? {}}
       url={url}
     />
   ) : (

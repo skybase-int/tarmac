@@ -69,7 +69,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
 
   const actionForToken = useActionForToken();
 
-  const { rewardsUrl, savingsUrlMap, sealUrl, stakeUrl, stusdsUrl } = useModuleUrls();
+  const { rewardsUrl, savingsUrlMap, sealUrl, stakeUrl, stusdsUrl, morphoUrl } = useModuleUrls();
 
   const widgetItems: WidgetItem[] = [
     [
@@ -86,6 +86,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
           sealCardUrl={sealUrl}
           stakeCardUrl={stakeUrl}
           stusdsCardUrl={stusdsUrl}
+          morphoCardUrl={morphoUrl}
           customTokenMap={defaultConfig.balancesTokenList}
           chainIds={getSupportedChainIds(chainId)}
           hideZeroBalances={hideZeroBalances}
