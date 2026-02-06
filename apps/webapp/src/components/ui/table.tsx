@@ -42,6 +42,7 @@ const TableRow = React.forwardRef<HTMLTableRowElement, HTMLMotionProps<'tr'>>(
   ({ className, ...props }, ref) => (
     <motion.tr
       ref={ref}
+      initial={false}
       className={cn(
         'border-brandLight/20 has-[td]:hover:bg-brandLight/20 has-[td]:focus:border-brandLight/40 has-[td]:active:bg-brandLight/10 data-[state=selected]:bg-brandLight/10 border-t transition-colors last:border-b has-[th]:border-0 has-[td]:focus:border-y-2',
         className

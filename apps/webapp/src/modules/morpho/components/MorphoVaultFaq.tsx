@@ -1,8 +1,12 @@
 import { getMorphoVaultFaqItems } from '@/data/faqs/getMorphoVaultFaqItems';
 import { FaqAccordion } from '@/modules/ui/components/FaqAccordion';
 
-export function MorphoVaultFaq() {
-  const faqItems = getMorphoVaultFaqItems();
+type MorphoVaultFaqProps = {
+  vaultName?: string;
+};
+
+export function MorphoVaultFaq({ vaultName }: MorphoVaultFaqProps) {
+  const faqItems = getMorphoVaultFaqItems({ vaultName });
 
   return <FaqAccordion items={faqItems} />;
 }

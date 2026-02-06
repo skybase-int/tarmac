@@ -1,10 +1,13 @@
-export const getMorphoVaultFaqItems = () => {
-  const items = [
-    {
-      question: 'Mock question',
-      answer: 'Mock answer',
-      index: 0
-    }
-  ];
-  return items.sort((a, b) => a.index - b.index);
+import { getMorphoUsdsVaultFaqItems } from './getMorphoUsdsVaultFaqItems';
+
+type MorphoVaultFaqOptions = {
+  vaultName?: string;
+};
+
+export const getMorphoVaultFaqItems = ({ vaultName }: MorphoVaultFaqOptions = {}) => {
+  if (vaultName?.toLowerCase().includes('usds risk capital')) {
+    return getMorphoUsdsVaultFaqItems();
+  }
+
+  return getMorphoUsdsVaultFaqItems();
 };

@@ -88,7 +88,7 @@ export function MorphoVaultDetails({
       </DetailSection>
       <DetailSection title={t`FAQs`}>
         <DetailSectionRow>
-          <MorphoVaultFaq />
+          <MorphoVaultFaq vaultName={vaultName} />
         </DetailSectionRow>
       </DetailSection>
     </DetailSectionWrapper>
