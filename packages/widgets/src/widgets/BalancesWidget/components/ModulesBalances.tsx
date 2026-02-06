@@ -293,6 +293,8 @@ export const ModulesBalances = ({
           <ExpertBalanceCard
             key="stusds"
             url={stusdsCardUrl}
+            stusdsUrl={stusdsCardUrl}
+            morphoUrl={morphoCardUrl}
             onExternalLinkClicked={onExternalLinkClicked}
             loading={expertLoading}
             variant={variant}
