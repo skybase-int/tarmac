@@ -142,7 +142,7 @@ export const InteractiveStatsCardWithProductAccordion = ({
                   <div className="flex items-start gap-2 p-2 px-4 lg:px-5">
                     {isMorpho ? (
                       <div className="flex h-8 w-8 items-center justify-center">
-                        <MorphoVaultBadge />
+                        <MorphoVaultBadge className="h-8 w-8" />
                       </div>
                     ) : (
                       <TokenIcon
