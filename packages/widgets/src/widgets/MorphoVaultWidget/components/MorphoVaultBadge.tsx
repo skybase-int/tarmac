@@ -9,10 +9,10 @@ import {
 import { Morpho as MorphoIcon } from '@widgets/shared/components/icons/Morpho';
 import { Text } from '@widgets/shared/components/ui/Typography';
 
-export const MorphoVaultBadge = () => (
+export const MorphoVaultBadge = ({ className = 'h-4.5 w-4.5' }: { className?: string }) => (
   <Tooltip>
     <TooltipTrigger asChild>
-      <MorphoIcon className="h-4.5 w-4.5 rounded-sm" />
+      <MorphoIcon className={`${className} rounded-sm`} />
     </TooltipTrigger>
     <TooltipPortal>
       <TooltipContent arrowPadding={10} className="max-w-[260px]">
