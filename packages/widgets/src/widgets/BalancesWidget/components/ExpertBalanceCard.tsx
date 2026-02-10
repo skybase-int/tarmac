@@ -2,7 +2,7 @@ import {
   useStUsdsData,
   usePrices,
   useMorphoVaultOnChainData,
-  useMorphoVaultSingleMarketApiData,
+  useMorphoVaultMultipleRateApiData,
   MORPHO_VAULTS
 } from '@jetstreamgg/sky-hooks';
 import {
@@ -35,30 +35,31 @@ export const ExpertBalanceCard = ({
   const { data: stUsdsData, isLoading: stUsdsLoading } = useStUsdsData();
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
 
-  // Get Morpho vault data
+  // Get Morpho vault on-chain data
   const defaultMorphoVault = MORPHO_VAULTS[0];
   const morphoVaultAddress = defaultMorphoVault?.vaultAddress[vaultChainId];
   const { data: morphoData, isLoading: morphoDataLoading } = useMorphoVaultOnChainData({
     vaultAddress: morphoVaultAddress
   });
-  const { data: morphoSingleMarketData, isLoading: morphoSingleMarketLoading } =
-    useMorphoVaultSingleMarketApiData({
-      vaultAddress: morphoVaultAddress
-    });
+
+  // Get Morpho vault rates for all vaults
+  const { data: morphoRatesData, isLoading: morphoRatesLoading } = useMorphoVaultMultipleRateApiData({
+    vaultAddresses: MORPHO_VAULTS.map(v => v.vaultAddress[vaultChainId])
+  });
 
   // Combine stUSDS and Morpho supplied amounts
   const stUsdsSupplied = stUsdsData?.userSuppliedUsds || 0n;
   const morphoSupplied = morphoData?.userAssets || 0n;
   const totalSuppliedUsds = stUsdsSupplied + morphoSupplied;
 
-  // Calculate the higher rate between stUSDS and Morpho
+  // Calculate the higher rate between stUSDS and all Morpho vaults
   const stUsdsRate = stUsdsData?.moduleRate ? calculateApyFromStr(stUsdsData.moduleRate) : 0;
-  const morphoRate = morphoSingleMarketData?.rate.netRate ? morphoSingleMarketData.rate.netRate * 100 : 0; // Convert decimal to percentage
-  const maxRate = Math.max(stUsdsRate, morphoRate);
+  const morphoMaxRate = (morphoRatesData || []).reduce((max, rate) => Math.max(max, rate.netRate * 100), 0);
+  const maxRate = Math.max(stUsdsRate, morphoMaxRate);
 
   // Separate loading states: balance data vs rate data
   const isBalanceLoading = stUsdsLoading || morphoDataLoading;
-  const isRateLoading = morphoSingleMarketLoading || stUsdsLoading;
+  const isRateLoading = morphoRatesLoading || stUsdsLoading;
 
   // Product balances for accordion
   const balancesByProduct = [
@@ -72,7 +73,7 @@ export const ExpertBalanceCard = ({
     {
       productName: 'USDS Risk Capital',
       balance: morphoSupplied,
-      rate: morphoRate > 0 ? `${morphoRate.toFixed(2)}%` : undefined,
+      rate: morphoMaxRate > 0 ? `${morphoMaxRate.toFixed(2)}%` : undefined,
       isMorpho: true,
       url: morphoUrl
     }
