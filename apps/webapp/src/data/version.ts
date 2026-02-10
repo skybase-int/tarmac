@@ -2,4 +2,4 @@
 export const CORPUS_VERSION = 'v0.39.0';
 
 // Branch name used during content extraction
-export const CORPUS_BRANCH = 'development';
+export const CORPUS_BRANCH = 'ethyrider-patch-20';
