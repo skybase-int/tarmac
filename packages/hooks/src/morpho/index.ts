@@ -4,8 +4,10 @@ export { useMorphoVaultRedeem } from './useMorphoVaultRedeem';
 export { useMorphoVaultOnChainData } from './useMorphoVaultOnChainData';
 export {
   useMorphoVaultRateApiData,
+  useMorphoVaultMultipleRateApiData,
   type MorphoVaultRateData,
   type MorphoVaultRateHook,
+  type MorphoVaultMultipleRateHook,
   type MorphoRewardData
 } from './useMorphoVaultRateApiData';
 export { useMorphoVaultAllocations } from './useMorphoVaultAllocations';

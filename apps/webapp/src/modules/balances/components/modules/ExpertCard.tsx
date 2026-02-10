@@ -11,7 +11,7 @@ import {
   chainId as chainIdConstants,
   isTestnetId
 } from '@jetstreamgg/sky-utils';
-import { useStUsdsData, useMorphoVaultSingleMarketApiData, MORPHO_VAULTS } from '@jetstreamgg/sky-hooks';
+import { useStUsdsData, useMorphoVaultMultipleRateApiData, MORPHO_VAULTS } from '@jetstreamgg/sky-hooks';
 import { useChainId } from 'wagmi';
 import { mainnet } from 'viem/chains';
 
@@ -23,23 +23,21 @@ export function ExpertCard() {
   // stUSDS data
   const { data: stUsdsData, isLoading: stUsdsDataLoading } = useStUsdsData();
 
-  // Morpho vault data
-  const defaultMorphoVault = MORPHO_VAULTS[0];
-  const morphoVaultAddress = defaultMorphoVault?.vaultAddress[mainnetChainId];
-  const { data: morphoSingleMarketData, isLoading: morphoSingleMarketLoading } =
-    useMorphoVaultSingleMarketApiData({
-      vaultAddress: morphoVaultAddress
-    });
+  // Morpho vault rates for all vaults
+  const { data: morphoRatesData, isLoading: morphoRatesLoading } = useMorphoVaultMultipleRateApiData({
+    vaultAddresses: MORPHO_VAULTS.map(v => v.vaultAddress[mainnetChainId])
+  });
 
-  // Calculate highest rate between stUSDS and Morpho
+  // Calculate highest rate between stUSDS and all Morpho vaults
   const stUsdsRatePercent = stUsdsData?.moduleRate ? calculateApyFromStr(stUsdsData.moduleRate) : 0;
-  const morphoRatePercent = morphoSingleMarketData?.rate.netRate
-    ? morphoSingleMarketData.rate.netRate * 100
-    : 0;
-  const maxRate = Math.max(stUsdsRatePercent, morphoRatePercent);
+  const morphoMaxRatePercent = (morphoRatesData || []).reduce(
+    (max, rate) => Math.max(max, rate.netRate * 100),
+    0
+  );
+  const maxRate = Math.max(stUsdsRatePercent, morphoMaxRatePercent);
   const formattedRate = maxRate > 0 ? `${maxRate.toFixed(2)}%` : '0.00%';
 
-  const isLoading = stUsdsDataLoading || morphoSingleMarketLoading;
+  const isLoading = stUsdsDataLoading || morphoRatesLoading;
 
   return (
     <ModuleCard
@@ -62,7 +60,7 @@ export function ExpertCard() {
         </div>
       }
       emphasisText={
-        isLoading && !stUsdsData && !morphoSingleMarketData ? (
+        isLoading && !stUsdsData && !morphoRatesData ? (
           <Skeleton className="h-12 w-48" />
         ) : (
           <Text className="text-2xl lg:text-[32px]">

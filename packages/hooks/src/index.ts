@@ -88,6 +88,7 @@ export {
   useMorphoVaultRedeem,
   useMorphoVaultOnChainData,
   useMorphoVaultRateApiData,
+  useMorphoVaultMultipleRateApiData,
   useMorphoVaultAllocations,
   useMorphoVaultSingleMarketApiData,
   useMorphoVaultMultiMarketApiData,
@@ -102,6 +103,7 @@ export {
 export type {
   MorphoVaultRateData,
   MorphoVaultRateHook,
+  MorphoVaultMultipleRateHook,
   MorphoRewardData,
   MorphoMarketAllocation,
   MorphoV1VaultAllocation,
