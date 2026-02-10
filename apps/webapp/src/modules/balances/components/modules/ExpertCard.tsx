@@ -39,6 +39,9 @@ export function ExpertCard() {
 
   const isLoading = stUsdsDataLoading || morphoRatesLoading;
 
+  // Deduplicate Morpho vault asset symbols for the subheading labels
+  const uniqueMorphoSymbols = [...new Set(MORPHO_VAULTS.map(v => v.assetToken.symbol))];
+
   return (
     <ModuleCard
       intent={Intent.EXPERT_INTENT}
@@ -53,10 +56,14 @@ export function ExpertCard() {
             <PairTokenIcons leftToken="USDS" rightToken="STUSDS" chainId={mainnet.id} />
             <Text className="text-white">With: USDS Get: stUSDS</Text>
           </HStack>
-          <HStack gap={2}>
-            <PairTokenIcons leftToken="USDS" rightToken="USDS" chainId={mainnet.id} />
-            <Text className="text-white">With: USDS Get: USDS</Text>
-          </HStack>
+          {uniqueMorphoSymbols.map(symbol => (
+            <HStack key={symbol} gap={2}>
+              <PairTokenIcons leftToken={symbol} rightToken={symbol} chainId={mainnet.id} />
+              <Text className="text-white">
+                With: {symbol} Get: {symbol}
+              </Text>
+            </HStack>
+          ))}
         </div>
       }
       emphasisText={
