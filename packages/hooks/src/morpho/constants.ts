@@ -108,6 +108,13 @@ export const MORPHO_MARKET_V1_ADAPTER_ABI = [
     outputs: [{ type: 'uint256' }],
     stateMutability: 'view',
     type: 'function'
+  },
+  {
+    inputs: [{ internalType: 'bytes32', name: 'marketId', type: 'bytes32' }],
+    name: 'expectedSupplyAssets',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function'
   }
 ] as const;
 
@@ -302,17 +309,13 @@ export function buildMultiMarketVaultDataQuery(marketCount: number): string {
         totalAssets
         totalAssetsUsd
         idleAssetsUsd
+        liquidity
         asset {
           decimals
           symbol
         }
-        adapters {
-          items {
-            address
-            assets
-            assetsUsd
-            type
-          }
+        liquidityAdapter {
+          address
         }
       }
       ${marketQueries}
@@ -341,6 +344,7 @@ export const VAULT_DATA_QUERY = `
       totalAssets
       totalAssetsUsd
       idleAssetsUsd
+      liquidity
       asset {
         decimals
         symbol

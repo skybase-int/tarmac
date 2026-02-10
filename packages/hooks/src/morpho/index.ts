@@ -15,12 +15,17 @@ export {
   type MorphoVaultSingleMarketDataHook
 } from './useMorphoVaultSingleMarketApiData';
 export {
+  useMorphoVaultMultiMarketApiData,
+  type MorphoVaultMultiMarketData,
+  type MorphoVaultMultiMarketDataHook
+} from './useMorphoVaultMultiMarketApiData';
+export {
   type MorphoMarketAllocation,
   type MorphoV1VaultAllocation,
   type MorphoIdleLiquidityAllocation,
   type MorphoVaultAllocationsData,
   type MorphoVaultAllocationsHook
-} from './morpho';
+} from './morpho.d';
 export {
   useMorphoVaultRewards,
   type MorphoVaultReward,

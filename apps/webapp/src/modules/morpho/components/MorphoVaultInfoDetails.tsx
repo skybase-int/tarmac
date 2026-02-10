@@ -27,7 +27,7 @@ export function MorphoVaultInfoDetails({ vaultAddress, assetToken }: MorphoVault
       </div>
       <div className="min-w-[250px] flex-1">
         <MorphoMarketLiquidityCard
-          market={market}
+          liquidity={singleMarketData?.liquidity}
           isLoading={isLoading}
           error={error}
           assetToken={assetToken}

@@ -46,9 +46,6 @@ export const MorphoVaultStatsCard = ({
 
   // Data handling
   const totalAssets = vaultData?.totalAssets || 0n;
-  const liquidity = singleMarketData?.market.markets?.length
-    ? singleMarketData.market.markets[0].liquidity
-    : undefined;
 
   if (!currentVaultAddress) {
     return null;
@@ -81,9 +78,10 @@ export const MorphoVaultStatsCard = ({
             </Text>
             {singleMarketDataLoading ? (
               <Skeleton className="bg-textSecondary h-6 w-21" />
-            ) : liquidity !== undefined ? (
+            ) : singleMarketData?.liquidity !== undefined ? (
               <Text dataTestId="morpho-vault-tvl">
-                {formatBigInt(liquidity, { unit: assetDecimals, compact: true })} {assetToken.symbol}
+                {formatBigInt(singleMarketData.liquidity, { unit: assetDecimals, compact: true })}{' '}
+                {assetToken.symbol}
               </Text>
             ) : (
               <Text dataTestId="morpho-vault-tvl">—</Text>

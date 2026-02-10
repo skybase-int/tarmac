@@ -31,6 +31,7 @@ type MorphoVaultSingleMarketApiResponse = {
       totalAssets: string;
       totalAssetsUsd: number;
       idleAssetsUsd: number;
+      liquidity: string;
       asset: {
         decimals: number;
         symbol: string;
@@ -63,6 +64,8 @@ export type MorphoVaultSingleMarketData = {
   rate: MorphoVaultRateData;
   /** Market state data (liquidity, utilization, idle assets) */
   market: MorphoVaultAllocationsData;
+  /** Vault-level available liquidity from the API */
+  liquidity: bigint;
 };
 
 export type MorphoVaultSingleMarketDataHook = ReadHook & {
@@ -205,7 +208,8 @@ async function fetchMorphoVaultSingleMarketData(
 
   return {
     rate: rateData,
-    market: allocationsData
+    market: allocationsData,
+    liquidity: BigInt(vault.liquidity)
   };
 }
 
@@ -217,7 +221,7 @@ async function fetchMorphoVaultSingleMarketData(
  * vault's primary allocation, eliminating the need for on-chain adapter discovery.
  *
  * Note: This hook only works for vaults with a single market allocation configured
- * in MORPHO_VAULTS with a marketId.
+ * in MORPHO_VAULTS with a single entry in marketIds.
  *
  * @param vaultAddress - The Morpho V2 vault contract address (optional)
  */
@@ -239,20 +243,22 @@ export function useMorphoVaultSingleMarketApiData({
   } = useQuery({
     queryKey: ['morpho-vault-single-market-data', vaultAddress, chainId],
     queryFn: () => {
-      if (!vaultAddress || !vaultConfig?.marketId) {
-        throw new Error(`Vault ${vaultAddress} not found in MORPHO_VAULTS configuration or missing marketId`);
+      if (!vaultAddress || !vaultConfig?.marketIds?.length) {
+        throw new Error(
+          `Vault ${vaultAddress} not found in MORPHO_VAULTS configuration or missing marketIds`
+        );
       }
-      return fetchMorphoVaultSingleMarketData(vaultAddress, vaultConfig.marketId, chainId);
+      return fetchMorphoVaultSingleMarketData(vaultAddress, vaultConfig.marketIds[0], chainId);
     },
-    enabled: !!vaultAddress && !!vaultConfig?.marketId,
+    enabled: !!vaultAddress && !!vaultConfig?.marketIds?.length,
     staleTime: 30_000, // 30 seconds - liquidity data can change frequently
     gcTime: 60_000 // 1 minute
   });
 
   // Surface a clear error when vault isn't configured (query won't run in this case)
   const configError =
-    vaultAddress && !vaultConfig?.marketId && !isLoading
-      ? new Error(`Vault ${vaultAddress} not found in MORPHO_VAULTS configuration or missing marketId`)
+    vaultAddress && !vaultConfig?.marketIds?.length && !isLoading
+      ? new Error(`Vault ${vaultAddress} not found in MORPHO_VAULTS configuration or missing marketIds`)
       : null;
 
   return {
