@@ -95,6 +95,7 @@ export {
   useMorphoVaultClaimRewards,
   useMorphoVaultHistory,
   useMorphoVaultChartInfo,
+  useMorphoVaultMultipleChartInfo,
   useMorphoVaultSupplierAddresses,
   MORPHO_VAULTS
 } from './morpho';
@@ -115,6 +116,8 @@ export type {
   MorphoVaultRewardsData,
   MorphoVaultRewardsHook,
   MorphoVaultChartDataPoint,
+  MorphoVaultChartInfoHook,
+  MorphoVaultMultipleChartInfoHook,
   MorphoVaultSupplierAddressesHook
 } from './morpho';
 

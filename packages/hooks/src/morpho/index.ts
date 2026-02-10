@@ -36,8 +36,10 @@ export { useMorphoVaultClaimRewards } from './useMorphoVaultClaimRewards';
 export { useMorphoVaultHistory } from './useMorphoVaultHistory';
 export {
   useMorphoVaultChartInfo,
+  useMorphoVaultMultipleChartInfo,
   type MorphoVaultChartDataPoint,
-  type MorphoVaultChartInfoHook
+  type MorphoVaultChartInfoHook,
+  type MorphoVaultMultipleChartInfoHook
 } from './useMorphoVaultChartInfo';
 export {
   useMorphoVaultSupplierAddresses,

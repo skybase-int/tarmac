@@ -134,3 +134,52 @@ export function useMorphoVaultChartInfo({
     ]
   };
 }
+
+export type MorphoVaultMultipleChartInfoHook = ReadHook & {
+  data?: MorphoVaultChartDataPoint[][];
+};
+
+/**
+ * Hook for fetching historical chart data for multiple Morpho V2 vaults.
+ *
+ * Fetches all vaults in parallel and returns an array of chart data per vault,
+ * preserving the same order as the input addresses.
+ *
+ * @param vaultAddresses - Array of Morpho V2 vault contract addresses
+ */
+export function useMorphoVaultMultipleChartInfo({
+  vaultAddresses
+}: {
+  vaultAddresses: `0x${string}`[];
+}): MorphoVaultMultipleChartInfoHook {
+  const currentChainId = useChainId();
+  const chainId = isTestnetId(currentChainId) ? mainnet.id : currentChainId;
+
+  const {
+    data,
+    error,
+    refetch: mutate,
+    isLoading
+  } = useQuery({
+    queryKey: ['morpho-vault-chart-multiple', ...vaultAddresses, chainId],
+    queryFn: () => Promise.all(vaultAddresses.map(addr => fetchMorphoVaultChartInfo(addr, chainId))),
+    enabled: vaultAddresses.length > 0,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000 // 10 minutes
+  });
+
+  return {
+    data,
+    isLoading: !data && isLoading,
+    error: error as Error,
+    mutate,
+    dataSources: [
+      {
+        title: 'Morpho API',
+        href: MORPHO_API_URL,
+        onChain: false,
+        trustLevel: TRUST_LEVELS[TrustLevelEnum.TWO]
+      }
+    ]
+  };
+}
