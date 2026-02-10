@@ -1,4 +1,4 @@
-import { usdsRiskCapitalVaultAddress } from '../generated';
+import { usdcClearstarBoringVaultAddress, usdsRiskCapitalVaultAddress } from '../generated';
 import { TOKENS } from '../tokens/tokens.constants';
 import { MorphoVaultConfig } from './morpho';
 
@@ -10,6 +10,12 @@ export const MERKL_API_URL = 'https://api.merkl.xyz/v4';
  */
 export const USDS_RISK_CAPITAL_MARKET_ID =
   '0x77e624dd9dd980810c2b804249e88f3598d9c7ec91f16aa5fbf6e3fdf6087f82' as const;
+
+export const CLEARSTAR_BORING_USDC_MARKET_IDS = [
+  '0x64d65c9a2d91c36d56fbc42d69e979335320169b3df63bf92789e2c8883fcc64', // cbBTC/USDC
+  '0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc', // wstETH/USDC
+  '0x3a85e619751152991742810df6ec69ce473daef99e28a64ab2340d7b7ccfee49' // WBTC/USDC
+] as const;
 
 export enum MorphoAdapterType {
   MetaMorpho = 'MetaMorpho',
@@ -30,14 +36,20 @@ export const MORPHO_VAULTS: MorphoVaultConfig[] = [
     name: 'USDS Risk Capital',
     vaultAddress: usdsRiskCapitalVaultAddress,
     assetToken: TOKENS.usds,
-    marketId: USDS_RISK_CAPITAL_MARKET_ID
+    marketIds: [USDS_RISK_CAPITAL_MARKET_ID]
+  },
+  {
+    name: 'Clearstar Boring USDC',
+    vaultAddress: usdcClearstarBoringVaultAddress,
+    assetToken: TOKENS.usdc,
+    marketIds: CLEARSTAR_BORING_USDC_MARKET_IDS
   }
   // Add more vaults here as needed:
   // {
   //   name: 'Another Vault Name',
   //   vaultAddress: anotherVaultAddress,
   //   assetToken: TOKENS.usds,
-  //   marketId: '0x...'
+  //   marketIds: ['0x...']
   // }
 ];
 
@@ -245,6 +257,68 @@ export const VAULT_V2_POSITIONS_QUERY = `
     }
   }
 `;
+
+const MARKET_FIELDS = `
+  uniqueKey
+  lltv
+  loanAsset { symbol }
+  collateralAsset { symbol }
+  state {
+    supplyAssets
+    borrowAssets
+    utilization
+    avgNetSupplyApy
+  }
+`;
+
+/**
+ * Build a GraphQL query that fetches vault data (rate + adapters) and multiple markets
+ * in a single API request using aliases.
+ */
+export function buildMultiMarketVaultDataQuery(marketCount: number): string {
+  const marketParams = Array.from({ length: marketCount }, (_, i) => `$marketId_${i}: String!`).join(', ');
+  const marketQueries = Array.from(
+    { length: marketCount },
+    (_, i) => `
+    market_${i}: marketByUniqueKey(uniqueKey: $marketId_${i}, chainId: $chainId) {
+      ${MARKET_FIELDS}
+    }`
+  ).join('');
+
+  return `
+    query VaultMultiMarketData($vaultAddress: String!, $chainId: Int!, ${marketParams}) {
+      vaultV2ByAddress(address: $vaultAddress, chainId: $chainId) {
+        avgApy
+        avgNetApy
+        performanceFee
+        managementFee
+        rewards {
+          supplyApr
+          asset {
+            symbol
+            logoURI
+          }
+        }
+        totalAssets
+        totalAssetsUsd
+        idleAssetsUsd
+        asset {
+          decimals
+          symbol
+        }
+        adapters {
+          items {
+            address
+            assets
+            assetsUsd
+            type
+          }
+        }
+      }
+      ${marketQueries}
+    }
+  `;
+}
 
 /**
  * Combined GraphQL query for vault rate data and market allocation data.

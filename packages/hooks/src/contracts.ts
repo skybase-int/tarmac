@@ -317,6 +317,13 @@ export const contracts: {
     }
   },
   {
+    name: 'usdcClearstarBoringVault',
+    address: {
+      [mainnet.id]: '0xF3Cc5c9A25508D8d959618fd48F6AbC18cA4Db49',
+      [TENDERLY_CHAIN_ID]: '0xF3Cc5c9A25508D8d959618fd48F6AbC18cA4Db49'
+    }
+  },
+  {
     name: 'MorphoMerklDistributor',
     address: {
       [mainnet.id]: '0x3Ef3D8bA38EBe18DB133cEc108f4D14CE00Dd9Ae',
