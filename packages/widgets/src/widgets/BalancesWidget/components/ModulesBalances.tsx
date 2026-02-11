@@ -2,6 +2,7 @@ import {
   TOKENS,
   useAvailableTokenRewardContracts,
   useMultiChainSavingsBalances,
+  usePrices,
   useRewardsSuppliedBalance,
   useStUsdsData,
   useTotalUserSealed,
@@ -14,6 +15,8 @@ import { StakeBalanceCard } from './StakeBalanceCard';
 import { StUSDSBalanceCard } from './StUSDSBalanceCard';
 import { isMainnetId, isTestnetId } from '@jetstreamgg/sky-utils';
 import { useChainId, useConnection } from 'wagmi';
+import { useMemo } from 'react';
+import { formatUnits } from 'viem';
 
 export enum ModuleCardVariant {
   default = 'default',
@@ -182,52 +185,124 @@ export const ModulesBalances = ({
 
   const hideModuleBalances = hideSavings && hideRewards && hideSeal;
 
-  return (
-    <div className="flex flex-col gap-2">
-      {!hideModuleBalances && !hideRewards && (
-        <RewardsBalanceCard
-          url={rewardsCardUrl}
-          onExternalLinkClicked={onExternalLinkClicked}
-          loading={rewardsLoading}
-          totalUserRewardsSupplied={totalUserRewardsSupplied}
-          variant={variant}
-        />
-      )}
-      {!hideModuleBalances && !hideSavings && (
-        <SavingsBalanceCard
-          urlMap={savingsCardUrlMap ?? {}}
-          onExternalLinkClicked={onExternalLinkClicked}
-          loading={savingsLoading}
-          savingsBalances={filteredAndSortedSavingsBalances}
-          variant={variant}
-        />
-      )}
-      {!hideModuleBalances && !hideStUSDS && (
-        <StUSDSBalanceCard
-          url={stusdsCardUrl}
-          onExternalLinkClicked={onExternalLinkClicked}
-          loading={stUsdsLoading}
-          variant={variant}
-        />
-      )}
-      {!hideStake && (
-        <StakeBalanceCard
-          loading={stakeLoading}
-          stakeBalance={totalUserStaked}
-          onExternalLinkClicked={onExternalLinkClicked}
-          url={stakeCardUrl}
-          variant={variant}
-        />
-      )}
-      {!hideSeal && (
-        <SealBalanceCard
-          onExternalLinkClicked={onExternalLinkClicked}
-          url={sealCardUrl}
-          loading={sealLoading}
-          sealBalance={totalUserSealed}
-          variant={variant}
-        />
-      )}
-    </div>
-  );
+  // Fetch prices for USD value calculation
+  const { data: pricesData } = usePrices();
+
+  // Calculate USD value helper
+  const calculateUsdValue = (amount: bigint, decimals: number, price: string | undefined): number => {
+    if (!price || amount === 0n) return 0;
+    return parseFloat(formatUnits(amount, decimals)) * parseFloat(price);
+  };
+
+  // Create sorted modules array based on USD value
+  const sortedModules = useMemo(() => {
+    const modules: Array<{
+      id: 'rewards' | 'savings' | 'stusds' | 'staking' | 'seal';
+      usdValue: number;
+      hidden: boolean;
+    }> = [
+      {
+        id: 'rewards',
+        usdValue: calculateUsdValue(totalUserRewardsSupplied, 18, pricesData?.USDS?.price),
+        hidden: hideModuleBalances || hideRewards
+      },
+      {
+        id: 'savings',
+        usdValue: calculateUsdValue(totalSavingsBalance ?? 0n, 18, pricesData?.USDS?.price),
+        hidden: hideModuleBalances || hideSavings
+      },
+      {
+        id: 'stusds',
+        usdValue: calculateUsdValue(stUsdsData?.userSuppliedUsds ?? 0n, 18, pricesData?.USDS?.price),
+        hidden: hideModuleBalances || hideStUSDS
+      },
+      {
+        id: 'staking',
+        usdValue: calculateUsdValue(totalUserStaked ?? 0n, 18, pricesData?.SKY?.price),
+        hidden: hideStake
+      },
+      {
+        id: 'seal',
+        usdValue: calculateUsdValue(totalUserSealed ?? 0n, 18, pricesData?.MKR?.price),
+        hidden: hideSeal
+      }
+    ];
+
+    return modules.filter(m => !m.hidden).sort((a, b) => b.usdValue - a.usdValue);
+  }, [
+    totalUserRewardsSupplied,
+    totalSavingsBalance,
+    stUsdsData?.userSuppliedUsds,
+    totalUserStaked,
+    totalUserSealed,
+    pricesData,
+    hideModuleBalances,
+    hideRewards,
+    hideSavings,
+    hideStUSDS,
+    hideStake,
+    hideSeal
+  ]);
+
+  // Render functions for each module type
+  const renderModule = (moduleId: 'rewards' | 'savings' | 'stusds' | 'staking' | 'seal') => {
+    switch (moduleId) {
+      case 'rewards':
+        return (
+          <RewardsBalanceCard
+            key="rewards"
+            url={rewardsCardUrl}
+            onExternalLinkClicked={onExternalLinkClicked}
+            loading={rewardsLoading}
+            totalUserRewardsSupplied={totalUserRewardsSupplied}
+            variant={variant}
+          />
+        );
+      case 'savings':
+        return (
+          <SavingsBalanceCard
+            key="savings"
+            urlMap={savingsCardUrlMap ?? {}}
+            onExternalLinkClicked={onExternalLinkClicked}
+            loading={savingsLoading}
+            savingsBalances={filteredAndSortedSavingsBalances}
+            variant={variant}
+          />
+        );
+      case 'stusds':
+        return (
+          <StUSDSBalanceCard
+            key="stusds"
+            url={stusdsCardUrl}
+            onExternalLinkClicked={onExternalLinkClicked}
+            loading={stUsdsLoading}
+            variant={variant}
+          />
+        );
+      case 'staking':
+        return (
+          <StakeBalanceCard
+            key="staking"
+            loading={stakeLoading}
+            stakeBalance={totalUserStaked}
+            onExternalLinkClicked={onExternalLinkClicked}
+            url={stakeCardUrl}
+            variant={variant}
+          />
+        );
+      case 'seal':
+        return (
+          <SealBalanceCard
+            key="seal"
+            onExternalLinkClicked={onExternalLinkClicked}
+            url={sealCardUrl}
+            loading={sealLoading}
+            sealBalance={totalUserSealed}
+            variant={variant}
+          />
+        );
+    }
+  };
+
+  return <div className="flex flex-col gap-2">{sortedModules.map(module => renderModule(module.id))}</div>;
 };

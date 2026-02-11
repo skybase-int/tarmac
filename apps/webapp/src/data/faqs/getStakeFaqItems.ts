@@ -17,7 +17,7 @@ You may manage your Staking positions at any time. Staking Reward parameters and
       question: 'How are Staking Rewards funded?',
       answer: `When you stake SKY tokens using the Sky.money web app, you can access Staking Rewards. You may also choose to create one or more positions, including positions that enable you to generate and borrow USDS against your supplied SKY and to delegate the voting power the SKY token provides. Rewards are funded as follows:
 
-• **SKY as Staking Rewards:** SKY rewards distributed to SKY stakers are funded by the Sky Protocol’s treasury and originate from buybacks executed by the Smart Burn Engine. The specific sources, routing, and distribution of rewards are determined by governance and may change over time.
+• **SKY as Staking Rewards:** SKY rewards distributed to SKY stakers are funded by the Sky Protocol’s treasury and originate from buybacks executed by the Smart Burn Engine. Under current governance-determined parameters, a portion of protocol surplus is programmatically allocated to open-market buybacks that are either burned or redistributed to staked SKY holders through autonomous protocol mechanisms. The parameters, specific sources, routing, and distribution of rewards are determined by governance and may change over time.
 
 • **SKY-backed borrowing:** The capital for SKY-backed borrowing is provided by Expert Module users who deposit USDS to that module to access the stUSDS Rate and receive stUSDS in return. The stUSDS tokens serve as a digital record of their USDS interaction with the stUSDS module and any change to the value of their position. The rewards distributed to stUSDS holders come from the interest paid by SKY borrowers (the SKY Borrow Rate) and protocol revenues.`,
       index: 2

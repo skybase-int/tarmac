@@ -82,24 +82,31 @@ Eligible Sky.money web app users accessing the stUSDS module are automatically r
       index: 10
     },
     {
+      question: 'What is the difference between USDS and sUSDS?',
+      answer: `USDS is a native stablecoin of the decentralized Sky Protocol. It can be used in several ways, including to participate in the Sky Savings Rate and to access Sky Token Rewards without giving up control of your assets.
+
+sUSDS is the native savings token of the Sky Savings Rate module, reflecting how the protocol represents a user’s USDS position in that module and the accumulation mechanics of that module over time. When you supply USDS to the Sky Savings Rate module of the Sky Protocol, you access the Sky Savings Rate and receive sUSDS tokens. These sUSDS tokens serve as a digital record of your USDS interaction with the Sky Savings Rate module and any value accrued to your position. Therefore, when you choose to redeem your sUSDS for USDS—which you can do anytime—the total USDS you will receive will equal the amount you originally supplied, plus any additional USDS accumulated.`,
+      index: 11
+    },
+    {
       question: 'Can I supply/withdraw USDS to/from the stUSDS module anytime?',
       answer: `Generally, yes—deposits and withdrawals are designed to be available at any time, but there are a couple of caveats:
 
 Liquidity availability: Withdrawals depend on the module having enough liquid USDS. If [utilization](#tooltip-utilization) is very high, you may need to wait for borrowers to repay or for liquidity to return, or withdraw partially.
 Rate/fee changes: Sky Ecosystem Governance can update parameters (rates, caps) and may impose temporary safeguards during stress.`,
-      index: 11
+      index: 12
     },
     {
       question: 'Why are the risks and the rewards associated with stUSDS different to that of sUSDS?',
       answer:
         'stUSDS holders access yield but also take on the risk of funding SKY‑backed borrowing. If a borrower’s staked SKY collateral is liquidated and the proceeds don’t fully cover the debt, the stUSDS vault absorbs the shortfall via a proportional haircut to the vault’s exchange rate (i.e., each stUSDS redeems for fewer USDS). This design ring‑fences losses to the stUSDS module, so the broader Sky Protocol is insulated from deficits arising in the SKY‑backed borrowing facility. So, sUSDS carries protocol-level risk but not borrower-shortfall risk, whereas stUSDS does bear that shortfall risk.',
-      index: 12
+      index: 13
     },
     {
       question: 'Can I trade stUSDS on the open market?',
       answer:
         'Yes, eligible users of the Sky.money web app can access the Trade feature to trade stUSDS via an API integration with the third-party decentralized exchange CoW Swap. stUSDS holders are also free to access any other protocol or exchange that supports stUSDS trading; however, users do so at their own risk. Sky.money is not responsible for any loss or damages incurred while using such third-party platforms. Please see the [User Risk Documentation](https://docs.sky.money/user-risks) for more information on third-party services.',
-      index: 13
+      index: 14
     }
   ];
   return items.sort((a, b) => a.index - b.index);
