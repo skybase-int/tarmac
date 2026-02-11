@@ -1,7 +1,7 @@
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
-import { ExpertIntentMapping, IntentMapping, linkedActionMetadata } from '@/lib/constants';
+import { ExpertIntentMapping, VaultsIntentMapping, IntentMapping, linkedActionMetadata } from '@/lib/constants';
 import { ArrowStepIndicator } from './ArrowStepIndicator';
-import { ExpertIntent, Intent } from '@/lib/enums';
+import { ExpertIntent, Intent, VaultsIntent } from '@/lib/enums';
 
 export const LinkedActionWrapper = () => {
   const { linkedActionConfig } = useConfigContext();
@@ -17,21 +17,24 @@ export const LinkedActionWrapper = () => {
     : null;
 
   const isExpertLinkedAction = linkedActionConfig.linkedAction === IntentMapping[Intent.EXPERT_INTENT];
-  const getExpertModuleText = () => {
+  const isVaultsLinkedAction = linkedActionConfig.linkedAction === IntentMapping[Intent.VAULTS_INTENT];
+
+  const getModuleText = () => {
     if (linkedActionConfig.expertModule === ExpertIntentMapping[ExpertIntent.STUSDS_INTENT]) {
       return 'stUSDS';
     }
-    if (linkedActionConfig.expertModule === ExpertIntentMapping[ExpertIntent.MORPHO_VAULT_INTENT]) {
+    if (linkedActionConfig.expertModule === VaultsIntentMapping[VaultsIntent.MORPHO_VAULT_INTENT]) {
       return 'Morpho Vault';
     }
     return linkedActionMetadata[linkedActionConfig.linkedAction!]?.text || '';
   };
 
-  const secondStepText = isExpertLinkedAction
-    ? getExpertModuleText()
-    : linkedActionConfig.linkedAction
-      ? linkedActionMetadata[linkedActionConfig.linkedAction]?.text
-      : '';
+  const secondStepText =
+    isExpertLinkedAction || isVaultsLinkedAction
+      ? getModuleText()
+      : linkedActionConfig.linkedAction
+        ? linkedActionMetadata[linkedActionConfig.linkedAction]?.text
+        : '';
   const secondStepIcon = linkedActionConfig.linkedAction
     ? linkedActionMetadata[linkedActionConfig.linkedAction]?.icon
     : null;

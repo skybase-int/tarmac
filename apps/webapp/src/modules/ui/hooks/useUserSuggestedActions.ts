@@ -1,6 +1,7 @@
 import {
   IntentMapping,
   ExpertIntentMapping,
+  VaultsIntentMapping,
   QueryParams,
   CHAIN_WIDGET_MAP,
   RESTRICTED_INTENTS
@@ -82,7 +83,8 @@ const fetchUserSuggestedActions = (
     TRADE_INTENT: TRADE,
     EXPERT_INTENT: EXPERT
   } = IntentMapping;
-  const { STUSDS_INTENT: STUSDS, MORPHO_VAULT_INTENT: MORPHO } = ExpertIntentMapping;
+  const { STUSDS_INTENT: STUSDS } = ExpertIntentMapping;
+  const { MORPHO_VAULT_INTENT: MORPHO } = VaultsIntentMapping;
   // Filter out deprecated reward contracts
   const activeRewardContracts = filterDeprecatedRewardContracts(rewardContracts || [], chainId);
 

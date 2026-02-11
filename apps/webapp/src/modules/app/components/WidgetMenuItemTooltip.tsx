@@ -10,6 +10,7 @@ import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
 import { QueryParams, mapIntentToQueryParam } from '@/lib/constants';
 import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
 import { useNetworkSwitch } from '@/modules/ui/context/NetworkSwitchContext';
+import { WidgetSubItem } from '@/modules/app/types/Widgets';
 
 interface WidgetMenuItemTooltipProps {
   description?: string;
@@ -19,6 +20,7 @@ interface WidgetMenuItemTooltipProps {
   isMobile: boolean;
   disabled?: boolean;
   isCurrentWidget?: boolean;
+  subItems?: WidgetSubItem[];
   children: React.ReactNode;
 }
 
@@ -35,11 +37,27 @@ export function WidgetMenuItemTooltip({
   isMobile,
   disabled = false,
   isCurrentWidget = false,
+  subItems,
   children
 }: WidgetMenuItemTooltipProps) {
   const chains = useChains();
   const [, setSearchParams] = useSearchParams();
   const { setIsSwitchingNetwork } = useNetworkSwitch();
+
+  const handleSubItemClick = (subItem: WidgetSubItem) => {
+    setSearchParams(prevParams => {
+      const searchParams = deleteSearchParams(prevParams);
+      if (currentChainId) {
+        const chain = chains.find(c => c.id === currentChainId);
+        if (chain) {
+          searchParams.set(QueryParams.Network, normalizeUrlParam(chain.name));
+        }
+      }
+      searchParams.set(QueryParams.Widget, mapIntentToQueryParam(widgetIntent));
+      searchParams.set(subItem.paramKey, subItem.paramValue);
+      return searchParams;
+    });
+  };
 
   const handleNetworkSwitch = (chainId: number) => {
     // Navigate to widget on selected network
@@ -134,6 +152,27 @@ export function WidgetMenuItemTooltip({
         <TooltipPortal>
           <TooltipContent side="right" className="max-w-xs">
             <p className="text-sm">{description}</p>
+            {subItems && subItems.length > 0 && (
+              <>
+                <p className="mt-2 text-xs text-gray-400">Quick access:</p>
+                <div className="mt-1 flex flex-wrap gap-1.5">
+                  {subItems.map(subItem => (
+                    <button
+                      key={subItem.paramValue}
+                      onClick={e => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleSubItemClick(subItem);
+                      }}
+                      className="flex items-center gap-1.5 rounded-md bg-white/10 px-2 py-0.5 text-xs transition-colors hover:bg-white/20"
+                    >
+                      {subItem.icon}
+                      {subItem.label}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
             {currentChainId && widgetIntent !== Intent.BALANCES_INTENT && (
               <>
                 <p className="mt-2 text-xs text-gray-400">Supported on:</p>
