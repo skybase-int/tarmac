@@ -7,8 +7,6 @@ import { mainnet } from 'viem/chains';
 import { Trans } from '@lingui/react/macro';
 
 export function ExpertOverview() {
-  const morphoVaultAddress = MORPHO_VAULTS[0]?.vaultAddress[mainnet.id];
-
   return (
     <div className="flex w-full flex-wrap justify-between gap-3">
       <div className="min-w-[250px] flex-1">
@@ -17,19 +15,19 @@ export function ExpertOverview() {
       <div className="min-w-[250px] flex-1">
         <StUSDSSuppliersCard title={<Trans>stUSDS Suppliers</Trans>} />
       </div>
-      {morphoVaultAddress && (
-        <div className="min-w-[250px] flex-1">
+      {MORPHO_VAULTS.map(vault => (
+        <div key={vault.vaultAddress[mainnet.id]} className="max-w-1/2 min-w-[250px] flex-1">
           <MorphoVaultSuppliersCard
-            vaultAddress={morphoVaultAddress}
+            vaultAddress={vault.vaultAddress[mainnet.id]}
             title={
               <span className="flex items-center gap-1.5">
-                <Trans>USDS Risk Capital Suppliers</Trans>
+                {vault.name} Suppliers
                 <MorphoVaultBadge />
               </span>
             }
           />
         </div>
-      )}
+      ))}
     </div>
   );
 }

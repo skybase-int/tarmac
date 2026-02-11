@@ -108,7 +108,7 @@ const MorphoVaultWidgetWrapped = ({
     vaultAddress
   });
   const userAssets = vaultData?.userAssets ?? 0n;
-  const availableLiquidity = singleMarketData?.market.markets[0]?.liquidity;
+  const availableLiquidity = singleMarketData?.liquidity;
   const hasLiquidityData = !isSingleMarketDataLoading && availableLiquidity !== undefined;
   const isLiquidityDataUnavailable = !isSingleMarketDataLoading && availableLiquidity === undefined;
   const maxWithdraw = hasLiquidityData

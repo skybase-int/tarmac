@@ -5,10 +5,11 @@ import { MorphoVaultChartDataPoint } from '@jetstreamgg/sky-hooks';
 
 export function useParseMorphoVaultChartData(
   timeFrame: TimeFrame,
-  chartData: MorphoVaultChartDataPoint[]
+  chartData: MorphoVaultChartDataPoint[],
+  decimals?: number
 ): { tvl: Data[]; rate: Data[] } {
   // For TVL, use amount field
-  const tvlData = useParseTvlChartData(timeFrame, chartData);
+  const tvlData = useParseTvlChartData(timeFrame, chartData, decimals);
 
   // For Rate, transform the data to use apy field
   // APY is already a decimal (e.g., 0.05 for 5%), convert to bigint for the parser

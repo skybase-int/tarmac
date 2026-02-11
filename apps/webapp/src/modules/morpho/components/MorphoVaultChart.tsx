@@ -5,6 +5,7 @@ import { ErrorBoundary } from '@/modules/layout/components/ErrorBoundary';
 import { Trans } from '@lingui/react/macro';
 import { useParseMorphoVaultChartData } from '../hooks/useParseMorphoVaultChartData';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useChainId } from 'wagmi';
 
 enum ChartName {
   TVL = 'tvl',
@@ -17,11 +18,13 @@ type MorphoVaultChartProps = {
 };
 
 export function MorphoVaultChart({ vaultAddress, assetToken }: MorphoVaultChartProps) {
+  const chainId = useChainId();
   const [activeChart, setActiveChart] = useState<ChartName>(ChartName.TVL);
   const [timeFrame, setTimeFrame] = useState<TimeFrame>('w');
 
   const { data: chartInfo, isLoading, error } = useMorphoVaultChartInfo({ vaultAddress });
-  const chartData = useParseMorphoVaultChartData(timeFrame, chartInfo || []);
+  const decimals = typeof assetToken.decimals === 'number' ? assetToken.decimals : assetToken.decimals[chainId];
+  const chartData = useParseMorphoVaultChartData(timeFrame, chartInfo || [], decimals);
 
   const availableCharts = [ChartName.TVL, ChartName.RATE];
 

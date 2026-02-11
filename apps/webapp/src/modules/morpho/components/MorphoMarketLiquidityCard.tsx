@@ -2,28 +2,26 @@ import { StatsCard } from '@/modules/ui/components/StatsCard';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { formatBigInt } from '@jetstreamgg/sky-utils';
-import { Token, MorphoMarketAllocation } from '@jetstreamgg/sky-hooks';
+import { Token } from '@jetstreamgg/sky-hooks';
 import { TokenIconWithBalance } from '@/modules/ui/components/TokenIconWithBalance';
 import { PopoverRateInfo as PopoverInfo } from '@jetstreamgg/sky-widgets';
 import { useChainId } from 'wagmi';
 
 type MorphoMarketLiquidityCardProps = {
-  market?: MorphoMarketAllocation;
+  liquidity?: bigint;
   isLoading: boolean;
   error?: Error | null;
   assetToken: Token;
 };
 
 export function MorphoMarketLiquidityCard({
-  market,
+  liquidity,
   isLoading,
   error,
   assetToken
 }: MorphoMarketLiquidityCardProps) {
   const { i18n } = useLingui();
   const chainId = useChainId();
-
-  const liquidity = market?.liquidity ?? 0n;
 
   const assetDecimals =
     typeof assetToken.decimals === 'number'
@@ -45,7 +43,7 @@ export function MorphoMarketLiquidityCard({
         <TokenIconWithBalance
           className="mt-2"
           token={{ symbol: assetToken.symbol, name: assetToken.name }}
-          balance={formatBigInt(liquidity, { unit: assetDecimals })}
+          balance={formatBigInt(liquidity || 0n, { unit: assetDecimals })}
         />
       }
     />

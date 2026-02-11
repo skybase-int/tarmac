@@ -88,18 +88,22 @@ export {
   useMorphoVaultRedeem,
   useMorphoVaultOnChainData,
   useMorphoVaultRateApiData,
+  useMorphoVaultMultipleRateApiData,
   useMorphoVaultAllocations,
   useMorphoVaultSingleMarketApiData,
+  useMorphoVaultMultiMarketApiData,
   useMorphoVaultRewards,
   useMorphoVaultClaimRewards,
   useMorphoVaultHistory,
   useMorphoVaultChartInfo,
+  useMorphoVaultMultipleChartInfo,
   useMorphoVaultSupplierAddresses,
   MORPHO_VAULTS
 } from './morpho';
 export type {
   MorphoVaultRateData,
   MorphoVaultRateHook,
+  MorphoVaultMultipleRateHook,
   MorphoRewardData,
   MorphoMarketAllocation,
   MorphoV1VaultAllocation,
@@ -108,10 +112,14 @@ export type {
   MorphoVaultAllocationsHook,
   MorphoVaultSingleMarketData,
   MorphoVaultSingleMarketDataHook,
+  MorphoVaultMultiMarketData,
+  MorphoVaultMultiMarketDataHook,
   MorphoVaultReward,
   MorphoVaultRewardsData,
   MorphoVaultRewardsHook,
   MorphoVaultChartDataPoint,
+  MorphoVaultChartInfoHook,
+  MorphoVaultMultipleChartInfoHook,
   MorphoVaultSupplierAddressesHook
 } from './morpho';
 

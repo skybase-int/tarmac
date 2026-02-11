@@ -183,3 +183,54 @@ export function useMorphoVaultRateApiData({
     ]
   };
 }
+
+export type MorphoVaultMultipleRateHook = ReadHook & {
+  data?: MorphoVaultRateData[];
+};
+
+/**
+ * Hook for fetching rate data for multiple Morpho V2 vaults.
+ *
+ * Fetches all vaults in parallel and returns an array of rate data per vault,
+ * preserving the same order as the input addresses.
+ *
+ * @param vaultAddresses - Array of Morpho V2 vault contract addresses
+ */
+export function useMorphoVaultMultipleRateApiData({
+  vaultAddresses
+}: {
+  vaultAddresses: `0x${string}`[];
+}): MorphoVaultMultipleRateHook {
+  const chainId = mainnet.id;
+
+  const {
+    data,
+    error,
+    refetch: mutate,
+    isLoading
+  } = useQuery({
+    queryKey: ['morpho-vault-rate-multiple', ...vaultAddresses, chainId],
+    queryFn: () =>
+      Promise.all(vaultAddresses.map(addr => fetchMorphoVaultRate(addr, chainId))).then(results =>
+        results.filter((r): r is MorphoVaultRateData => r !== undefined)
+      ),
+    enabled: vaultAddresses.length > 0,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000 // 10 minutes
+  });
+
+  return {
+    data,
+    isLoading: !data && isLoading,
+    error: error as Error | null,
+    mutate,
+    dataSources: [
+      {
+        title: 'Morpho API',
+        href: MORPHO_API_URL,
+        onChain: false,
+        trustLevel: TRUST_LEVELS[TrustLevelEnum.TWO]
+      }
+    ]
+  };
+}
