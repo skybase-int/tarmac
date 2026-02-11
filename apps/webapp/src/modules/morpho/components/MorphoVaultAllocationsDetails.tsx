@@ -60,7 +60,7 @@ export function MorphoVaultAllocationsDetails({ vaultAddress }: MorphoVaultAlloc
 
   if (isLoading) {
     return (
-      <Table>
+      <Table wrapperClassName="overflow-x-auto scrollbar-thin-always">
         <TableHeader>
           <TableRow>
             <TableHead>
@@ -153,7 +153,7 @@ export function MorphoVaultAllocationsDetails({ vaultAddress }: MorphoVaultAlloc
   }
 
   return (
-    <Table>
+    <Table wrapperClassName="overflow-x-auto scrollbar-thin-always">
       {/* Table Header */}
       <TableHeader>
         <TableRow>
@@ -256,11 +256,13 @@ export function MorphoVaultAllocationsDetails({ vaultAddress }: MorphoVaultAlloc
               <TableRow key={market.marketId}>
                 <TableCell className="h-auto py-4 pl-6">
                   <div className="flex items-center gap-1.5">
-                    <PairTokenIcons
-                      leftToken={market.collateralAsset}
-                      rightToken={market.loanAsset}
-                      chainId={chainId}
-                    />
+                    <div className="shrink-0">
+                      <PairTokenIcons
+                        leftToken={market.collateralAsset}
+                        rightToken={market.loanAsset}
+                        chainId={chainId}
+                      />
+                    </div>
                     <Text className="text-text text-sm">
                       {market.collateralAsset} / {market.loanAsset}
                     </Text>
