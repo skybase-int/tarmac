@@ -6,7 +6,7 @@ import { Trans } from '@lingui/react/macro';
 import { useParseTvlChartData } from '@/modules/ui/hooks/useParseTvlChartData';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { mainnet } from 'viem/chains';
-import { resolveDecimals, scaleToBaseDecimals } from '@/modules/utils/math';
+import { math } from '@jetstreamgg/sky-utils';
 
 type TvlChartInfoParsed = {
   blockTimestamp: number;
@@ -59,10 +59,10 @@ function useExpertModulesChartInfo() {
     // Normalize each Morpho vault's data to 18 decimals before combining
     const normalizedMorpho = (morphoChartData || []).flatMap((vaultData, index) => {
       const vault = MORPHO_VAULTS[index];
-      const decimals = resolveDecimals(vault.assetToken.decimals, mainnet.id);
+      const decimals = math.resolveDecimals(vault.assetToken.decimals, mainnet.id);
       return normalizeToDay(vaultData).map(d => ({
         ...d,
-        amount: scaleToBaseDecimals(d.amount, decimals)
+        amount: math.scaleToBaseDecimals(d.amount, decimals)
       }));
     });
 
