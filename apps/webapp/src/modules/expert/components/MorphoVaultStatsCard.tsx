@@ -3,7 +3,7 @@ import {
   useMorphoVaultOnChainData,
   Token,
   getTokenDecimals,
-  useMorphoVaultSingleMarketApiData
+  useMorphoVaultMarketApiData
 } from '@jetstreamgg/sky-hooks';
 import { Text } from '@/modules/layout/components/Typography';
 import { VStack } from '@/modules/layout/components/VStack';
@@ -40,7 +40,7 @@ export const MorphoVaultStatsCard = ({
     vaultAddress: currentVaultAddress
   });
 
-  const { data: singleMarketData, isLoading: singleMarketDataLoading } = useMorphoVaultSingleMarketApiData({
+  const { data: marketData, isLoading: marketDataLoading } = useMorphoVaultMarketApiData({
     vaultAddress: currentVaultAddress
   });
 
@@ -76,11 +76,11 @@ export const MorphoVaultStatsCard = ({
             <Text className="text-textSecondary text-sm leading-4">
               <Trans>Liquidity</Trans>
             </Text>
-            {singleMarketDataLoading ? (
+            {marketDataLoading ? (
               <Skeleton className="bg-textSecondary h-6 w-21" />
-            ) : singleMarketData?.liquidity !== undefined ? (
+            ) : marketData?.liquidity !== undefined ? (
               <Text dataTestId="morpho-vault-tvl">
-                {formatBigInt(singleMarketData.liquidity, { unit: assetDecimals, compact: true })}{' '}
+                {formatBigInt(marketData.liquidity, { unit: assetDecimals, compact: true })}{' '}
                 {assetToken.symbol}
               </Text>
             ) : (

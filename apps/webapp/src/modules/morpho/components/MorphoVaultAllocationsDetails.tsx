@@ -1,4 +1,4 @@
-import { useMorphoVaultMultiMarketApiData } from '@jetstreamgg/sky-hooks';
+import { useMorphoVaultMarketApiData } from '@jetstreamgg/sky-hooks';
 import { Text } from '@/modules/layout/components/Typography';
 import { Trans } from '@lingui/react/macro';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -20,7 +20,7 @@ type MorphoVaultAllocationsDetailsProps = {
 };
 
 export function MorphoVaultAllocationsDetails({ vaultAddress }: MorphoVaultAllocationsDetailsProps) {
-  const { data: marketData, isLoading } = useMorphoVaultMultiMarketApiData({ vaultAddress });
+  const { data: marketData, isLoading } = useMorphoVaultMarketApiData({ vaultAddress });
   const allocationsData = marketData?.market;
   const chainId = useChainId();
 

@@ -265,71 +265,14 @@ export const VAULT_V2_POSITIONS_QUERY = `
   }
 `;
 
-const MARKET_FIELDS = `
-  uniqueKey
-  lltv
-  loanAsset { symbol }
-  collateralAsset { symbol }
-  state {
-    supplyAssets
-    borrowAssets
-    utilization
-    avgNetSupplyApy
-  }
-`;
-
 /**
- * Build a GraphQL query that fetches vault data (rate + adapters) and multiple markets
- * in a single API request using aliases.
+ * GraphQL query for Morpho V2 vault data with caps-based market discovery.
+ * Uses the caps field with inline fragments to get market data for MarketV1 caps,
+ * eliminating the need for separate market queries or on-chain adapter reads.
  */
-export function buildMultiMarketVaultDataQuery(marketCount: number): string {
-  const marketParams = Array.from({ length: marketCount }, (_, i) => `$marketId_${i}: String!`).join(', ');
-  const marketQueries = Array.from(
-    { length: marketCount },
-    (_, i) => `
-    market_${i}: marketByUniqueKey(uniqueKey: $marketId_${i}, chainId: $chainId) {
-      ${MARKET_FIELDS}
-    }`
-  ).join('');
-
-  return `
-    query VaultMultiMarketData($vaultAddress: String!, $chainId: Int!, ${marketParams}) {
-      vaultV2ByAddress(address: $vaultAddress, chainId: $chainId) {
-        avgApy
-        avgNetApy
-        performanceFee
-        managementFee
-        rewards {
-          supplyApr
-          asset {
-            symbol
-            logoURI
-          }
-        }
-        totalAssets
-        totalAssetsUsd
-        idleAssetsUsd
-        liquidity
-        asset {
-          decimals
-          symbol
-        }
-        liquidityAdapter {
-          address
-        }
-      }
-      ${marketQueries}
-    }
-  `;
-}
-
-/**
- * Combined GraphQL query for vault rate data and market allocation data.
- * Fetches everything in a single request for optimized performance.
- */
-export const VAULT_DATA_QUERY = `
-  query VaultData($vaultAddress: String!, $marketId: String!, $chainId: Int!) {
-    vaultV2ByAddress(address: $vaultAddress, chainId: $chainId) {
+export const VAULT_MARKET_DATA_QUERY = `
+  query VaultMarketData($address: String!, $chainId: Int!) {
+    vaultV2ByAddress(address: $address, chainId: $chainId) {
       avgApy
       avgNetApy
       performanceFee
@@ -343,27 +286,36 @@ export const VAULT_DATA_QUERY = `
       }
       totalAssets
       totalAssetsUsd
+      idleAssets
       idleAssetsUsd
       liquidity
       asset {
         decimals
         symbol
       }
-    }
-    marketByUniqueKey(uniqueKey: $marketId, chainId: $chainId) {
-      uniqueKey
-      lltv
-      loanAsset {
-        symbol
-      }
-      collateralAsset {
-        symbol
-      }
-      state {
-        supplyAssets
-        borrowAssets
-        utilization
-        avgNetSupplyApy
+      caps {
+        items {
+          type
+          data {
+            ... on MarketV1CapData {
+              market {
+                uniqueKey
+                lltv
+                loanAsset { symbol }
+                collateralAsset { symbol }
+                state {
+                  supplyAssets
+                  borrowAssets
+                  utilization
+                  avgNetSupplyApy
+                }
+              }
+            }
+          }
+          absoluteCap
+          relativeCap
+          allocation
+        }
       }
     }
   }

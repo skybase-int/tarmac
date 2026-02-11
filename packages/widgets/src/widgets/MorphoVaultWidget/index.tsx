@@ -5,7 +5,7 @@ import {
   useIsBatchSupported,
   Token,
   useMorphoVaultOnChainData,
-  useMorphoVaultSingleMarketApiData,
+  useMorphoVaultMarketApiData,
   useMorphoVaultRewards
 } from '@jetstreamgg/sky-hooks';
 import { useDebounce, formatBigInt } from '@jetstreamgg/sky-utils';
@@ -94,8 +94,8 @@ const MorphoVaultWidgetWrapped = ({
     vaultAddress
   });
 
-  // Single market data hook - fetches rate and market data from Morpho API in a single call
-  const { data: singleMarketData, isLoading: isSingleMarketDataLoading } = useMorphoVaultSingleMarketApiData({
+  // Market data hook - fetches rate and market data from Morpho API in a single call
+  const { data: marketData, isLoading: isMarketDataLoading } = useMorphoVaultMarketApiData({
     vaultAddress
   });
 
@@ -108,9 +108,9 @@ const MorphoVaultWidgetWrapped = ({
     vaultAddress
   });
   const userAssets = vaultData?.userAssets ?? 0n;
-  const availableLiquidity = singleMarketData?.liquidity;
-  const hasLiquidityData = !isSingleMarketDataLoading && availableLiquidity !== undefined;
-  const isLiquidityDataUnavailable = !isSingleMarketDataLoading && availableLiquidity === undefined;
+  const availableLiquidity = marketData?.liquidity;
+  const hasLiquidityData = !isMarketDataLoading && availableLiquidity !== undefined;
+  const isLiquidityDataUnavailable = !isMarketDataLoading && availableLiquidity === undefined;
   const maxWithdraw = hasLiquidityData
     ? userAssets < availableLiquidity
       ? userAssets
@@ -551,7 +551,7 @@ const MorphoVaultWidgetWrapped = ({
               isLiquidityConstrained={isLiquidityConstrained}
               isLiquidityDataUnavailable={isLiquidityDataUnavailable}
               userShares={vaultData?.userShares}
-              isVaultDataLoading={isVaultDataLoading || isSingleMarketDataLoading}
+              isVaultDataLoading={isVaultDataLoading || isMarketDataLoading}
               onChange={(newValue: bigint, userTriggered?: boolean) => {
                 setAmount(newValue);
                 if (userTriggered) {
@@ -576,7 +576,7 @@ const MorphoVaultWidgetWrapped = ({
               vaultAddress={vaultAddress}
               vaultName={vaultName}
               vaultTvl={vaultData?.totalAssets}
-              vaultRate={singleMarketData?.rate?.formattedNetRate}
+              vaultRate={marketData?.rate?.formattedNetRate}
               shareDecimals={vaultData?.decimals ?? 18}
               claimRewards={morphoVaultClaimRewards}
               isRewardsLoading={isRewardsLoading}
