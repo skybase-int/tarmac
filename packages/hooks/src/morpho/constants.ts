@@ -5,18 +5,6 @@ import { MorphoVaultConfig } from './morpho';
 export const MORPHO_API_URL = 'https://api.morpho.org/graphql';
 export const MERKL_API_URL = 'https://api.merkl.xyz/v4';
 
-/**
- * Market ID for the stUSDS/USDS market that the USDS Risk Capital vault allocates to
- */
-export const USDS_RISK_CAPITAL_MARKET_ID =
-  '0x77e624dd9dd980810c2b804249e88f3598d9c7ec91f16aa5fbf6e3fdf6087f82' as const;
-
-export const CLEARSTAR_BORING_USDC_MARKET_IDS = [
-  '0x64d65c9a2d91c36d56fbc42d69e979335320169b3df63bf92789e2c8883fcc64', // cbBTC/USDC
-  '0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc', // wstETH/USDC
-  '0x3a85e619751152991742810df6ec69ce473daef99e28a64ab2340d7b7ccfee49' // WBTC/USDC
-] as const;
-
 export enum MorphoAdapterType {
   MetaMorpho = 'MetaMorpho',
   MorphoMarketV1 = 'MorphoMarketV1'
@@ -35,21 +23,18 @@ export const MORPHO_VAULTS: MorphoVaultConfig[] = [
   {
     name: 'USDS Risk Capital',
     vaultAddress: usdsRiskCapitalVaultAddress,
-    assetToken: TOKENS.usds,
-    marketIds: [USDS_RISK_CAPITAL_MARKET_ID]
+    assetToken: TOKENS.usds
   },
   {
     name: 'Clearstar Boring USDC',
     vaultAddress: usdcClearstarBoringVaultAddress,
-    assetToken: TOKENS.usdc,
-    marketIds: CLEARSTAR_BORING_USDC_MARKET_IDS
+    assetToken: TOKENS.usdc
   }
   // Add more vaults here as needed:
   // {
   //   name: 'Another Vault Name',
   //   vaultAddress: anotherVaultAddress,
-  //   assetToken: TOKENS.usds,
-  //   marketIds: ['0x...']
+  //   assetToken: TOKENS.usds
   // }
 ];
 
