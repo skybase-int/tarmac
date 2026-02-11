@@ -6,9 +6,7 @@ import { Trans } from '@lingui/react/macro';
 import { useParseTvlChartData } from '@/modules/ui/hooks/useParseTvlChartData';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { mainnet } from 'viem/chains';
-
-/** Common base decimals for aggregation (18 = USDS/ETH standard) */
-const BASE_DECIMALS = 18;
+import { resolveDecimals, scaleToBaseDecimals } from '@/modules/utils/math';
 
 type TvlChartInfoParsed = {
   blockTimestamp: number;
@@ -20,20 +18,6 @@ const normalizeToDay = (data: TvlChartInfoParsed[]): TvlChartInfoParsed[] =>
     ...d,
     blockTimestamp: Math.floor(d.blockTimestamp / 86400) * 86400
   }));
-
-/** Resolve token decimals which can be a plain number or a chain-keyed object */
-function resolveDecimals(decimals: number | { [key: number]: number }, chainId: number): number {
-  return typeof decimals === 'number' ? decimals : decimals[chainId];
-}
-
-/** Scale an amount from its native decimals to the common base decimals */
-function scaleToBaseDecimals(amount: bigint, tokenDecimals: number): bigint {
-  if (tokenDecimals === BASE_DECIMALS) return amount;
-  if (tokenDecimals < BASE_DECIMALS) {
-    return amount * 10n ** BigInt(BASE_DECIMALS - tokenDecimals);
-  }
-  return amount / 10n ** BigInt(tokenDecimals - BASE_DECIMALS);
-}
 
 function calculateCumulativeTotalSupply(chartData: TvlChartInfoParsed[]) {
   if (!chartData || chartData.length === 0) return [];
