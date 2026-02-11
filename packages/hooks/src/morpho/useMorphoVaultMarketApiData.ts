@@ -189,6 +189,29 @@ async function fetchMorphoVaultMarketData(
     const vaultAssets = BigInt(cap.allocation);
     const vaultAssetsUsd = Number(vaultAssets) * assetPriceUsd;
 
+    // Absolute cap
+    const absoluteCapBigInt = BigInt(cap.absoluteCap);
+    // If the cap is unreasonably large (>10^30), treat it as unlimited
+    const isUnlimitedAbsCap = absoluteCapBigInt > 10n ** 30n;
+    const formattedAbsoluteCap = isUnlimitedAbsCap
+      ? 'Unlimited'
+      : formatBigInt(absoluteCapBigInt, { unit: assetDecimals, compact: true });
+    const absoluteCapUtilization =
+      isUnlimitedAbsCap || absoluteCapBigInt === 0n ? 0 : Number(vaultAssets) / Number(absoluteCapBigInt);
+
+    // Relative cap (WAD value: 1e18 = 100%)
+    const relativeCapWad = BigInt(cap.relativeCap);
+    const formattedRelativeCap = formatPercent(relativeCapWad, {
+      maxDecimals: 0,
+      showPercentageDecimals: false
+    });
+    const totalAssetsNum = Number(totalAssets);
+    const relativeCapDecimal = Number(relativeCapWad) / 1e18;
+    const relativeCapUtilization =
+      totalAssetsNum > 0 && relativeCapDecimal > 0
+        ? Number(vaultAssets) / totalAssetsNum / relativeCapDecimal
+        : 0;
+
     markets.push({
       marketId: market.uniqueKey,
       marketUniqueKey: market.uniqueKey,
@@ -205,7 +228,11 @@ async function fetchMorphoVaultMarketData(
       formattedLltv: formatPercent(BigInt(market.lltv), {
         maxDecimals: 0,
         showPercentageDecimals: false
-      })
+      }),
+      formattedAbsoluteCap,
+      absoluteCapUtilization: Math.min(absoluteCapUtilization, 1),
+      formattedRelativeCap,
+      relativeCapUtilization: Math.min(relativeCapUtilization, 1)
     });
   }
 
