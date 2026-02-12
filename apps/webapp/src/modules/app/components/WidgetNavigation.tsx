@@ -22,6 +22,8 @@ import { useNetworkAutoSwitch } from '@/modules/app/hooks/useNetworkAutoSwitch';
 import { WidgetMenuItemTooltip } from '@/modules/app/components/WidgetMenuItemTooltip';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { useScrollHint } from '@/modules/app/hooks/useScrollHint';
+import { useAppAnalytics } from '@/modules/analytics/hooks/useAppAnalytics';
+import { type SelectionMethod } from '@/modules/analytics/constants';
 
 interface WidgetNavigationProps {
   widgetContent: WidgetContent;
@@ -83,7 +85,15 @@ export function WidgetNavigation({
     currentIntent: intent
   });
 
-  const handleWidgetChange = (value: string) => {
+  const { trackWidgetSelected } = useAppAnalytics();
+
+  const handleWidgetChange = (value: string, method?: SelectionMethod) => {
+    trackWidgetSelected({
+      widgetName: value,
+      previousWidget: intent || 'balances',
+      selectionMethod: method || (showDrawerMenu ? 'mobile_drawer' : 'sidebar_tab'),
+      chainId: currentChainId || 0
+    });
     const targetIntent = value as Intent;
     handleWidgetNavigation(targetIntent);
   };

@@ -82,7 +82,9 @@ export default ({ mode }: { mode: modeEnum }) => {
       https://metamask-sdk.api.cx.metamask.io/evt
       wss://metamask-sdk.api.cx.metamask.io
       wss://nbstream.binance.com/wallet-connector
-      cloudflareinsights.com;
+      cloudflareinsights.com
+      https://eu.i.posthog.com
+      https://eu.posthog.com;
     frame-src 'self'
       https://verify.walletconnect.com
       https://verify.walletconnect.org

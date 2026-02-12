@@ -2,9 +2,11 @@ import { ExternalLink } from './ExternalLink';
 import { Text } from './Typography';
 import { getFooterLinks, sanitizeUrl } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { useCookieConsent } from '@/modules/analytics/context/CookieConsentContext';
 
 export function FooterLinks() {
   const footerLinks = getFooterLinks();
+  const { showBanner } = useCookieConsent();
   const externalClass = 'hover:text-white hover:underline hover:underline-offset-4';
 
   return (
@@ -33,6 +35,11 @@ export function FooterLinks() {
             </ExternalLink>
           );
         })}
+        <button onClick={showBanner} className={externalClass}>
+          <Text variant="captionSm" className="text-white">
+            Cookie Settings
+          </Text>
+        </button>
       </div>
     </div>
   );

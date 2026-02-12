@@ -19,6 +19,7 @@ import { useChainId } from 'wagmi';
 import { useChatContext } from '@/modules/chat/context/ChatContext';
 import { Intent } from '@/lib/enums';
 import { useBatchToggle } from '@/modules/ui/hooks/useBatchToggle';
+import { useWidgetFlowTracking } from '@/modules/analytics/hooks/useWidgetFlowTracking';
 
 export function SavingsWidgetPane(sharedProps: SharedProps) {
   const subgraphUrl = useSubgraphUrl();
@@ -29,6 +30,7 @@ export function SavingsWidgetPane(sharedProps: SharedProps) {
   const { setShouldDisableActionButtons } = useChatContext();
 
   const [batchEnabled, setBatchEnabled] = useBatchToggle();
+  const { wrapStateChange } = useWidgetFlowTracking('savings', chainId);
 
   const isL2 = isL2ChainId(chainId);
   const flow = (searchParams.get(QueryParams.Flow) || undefined) as SavingsFlow | undefined;
@@ -133,7 +135,7 @@ export function SavingsWidgetPane(sharedProps: SharedProps) {
   return (
     <Widget
       {...sharedProps}
-      onWidgetStateChange={onSavingsWidgetStateChange}
+      onWidgetStateChange={wrapStateChange(onSavingsWidgetStateChange)}
       externalWidgetState={{
         amount: linkedActionConfig?.inputAmount,
         token: linkedActionConfig?.sourceToken,

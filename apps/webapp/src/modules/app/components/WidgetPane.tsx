@@ -12,7 +12,7 @@ import { RewardsWidgetPane } from '@/modules/rewards/components/RewardsWidgetPan
 import { TradeWidgetPane } from '@/modules/trade/components/TradeWidgetPane';
 import { SavingsWidgetPane } from '@/modules/savings/components/SavingsWidgetPane';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useNotification } from '../hooks/useNotification';
 import { useActionForToken } from '../hooks/useActionForToken';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
@@ -27,6 +27,7 @@ import { WidgetContent, WidgetItem } from '../types/Widgets';
 import { isL2ChainId } from '@jetstreamgg/sky-utils';
 import { ExpertWidgetPane } from '@/modules/expert/components/ExpertWidgetPane';
 import { useModuleUrls } from '../hooks/useModuleUrls';
+import { useAppAnalytics } from '@/modules/analytics/hooks/useAppAnalytics';
 
 type WidgetPaneProps = {
   intent: Intent;
@@ -66,6 +67,23 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
     shouldReset: searchParams.get(QueryParams.Reset) === 'true',
     legalBatchTxUrl: BATCH_TX_LEGAL_NOTICE_URL
   };
+
+  const { trackWidgetSelected } = useAppAnalytics();
+
+  // Deeplink detection: fire app_widget_selected when initial intent ≠ default (balances)
+  const deeplinkTrackedRef = useRef(false);
+  useEffect(() => {
+    if (deeplinkTrackedRef.current) return;
+    if (intent && intent !== Intent.BALANCES_INTENT) {
+      deeplinkTrackedRef.current = true;
+      trackWidgetSelected({
+        widgetName: intent,
+        previousWidget: Intent.BALANCES_INTENT,
+        selectionMethod: 'deeplink',
+        chainId
+      });
+    }
+  }, []);
 
   const actionForToken = useActionForToken();
 
