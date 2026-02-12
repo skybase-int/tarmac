@@ -18,7 +18,7 @@ import { RewardsWidgetPane } from '@/modules/rewards/components/RewardsWidgetPan
 import { TradeWidgetPane } from '@/modules/trade/components/TradeWidgetPane';
 import { SavingsWidgetPane } from '@/modules/savings/components/SavingsWidgetPane';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useNotification } from '../hooks/useNotification';
 import { useActionForToken } from '../hooks/useActionForToken';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
@@ -34,6 +34,9 @@ import { isL2ChainId } from '@jetstreamgg/sky-utils';
 import { ExpertWidgetPane } from '@/modules/expert/components/ExpertWidgetPane';
 import { useModuleUrls } from '../hooks/useModuleUrls';
 import { useAppAnalytics } from '@/modules/analytics/hooks/useAppAnalytics';
+
+// Module-level guard: persists across React remounts/StrictMode, resets on page reload (fresh deeplink)
+let lastDeeplinkTracked: string | null = null;
 
 type WidgetPaneProps = {
   intent: Intent;
@@ -77,11 +80,10 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
   const { trackWidgetSelected } = useAppAnalytics();
 
   // Deeplink detection: fire app_widget_selected when initial intent ≠ default (balances)
-  const deeplinkTrackedRef = useRef(false);
+  // Uses module-level guard (not useRef) so it survives React StrictMode remounts and key-driven remounts
   useEffect(() => {
-    if (deeplinkTrackedRef.current) return;
-    if (intent && intent !== Intent.BALANCES_INTENT) {
-      deeplinkTrackedRef.current = true;
+    if (intent && intent !== Intent.BALANCES_INTENT && intent !== lastDeeplinkTracked) {
+      lastDeeplinkTracked = intent;
       trackWidgetSelected({
         widgetName: IntentMapping[intent] || intent,
         previousWidget: IntentMapping[Intent.BALANCES_INTENT],

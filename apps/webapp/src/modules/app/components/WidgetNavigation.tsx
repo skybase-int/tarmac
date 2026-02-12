@@ -89,12 +89,15 @@ export function WidgetNavigation({
   const { trackWidgetSelected } = useAppAnalytics();
 
   const handleWidgetChange = (value: string, method?: SelectionMethod) => {
-    trackWidgetSelected({
-      widgetName: IntentMapping[value as Intent] || value,
-      previousWidget: IntentMapping[intent as Intent] || 'balances',
-      selectionMethod: method || (showDrawerMenu ? 'mobile_drawer' : 'sidebar_tab'),
-      chainId: currentChainId || 0
-    });
+    // Skip tracking if the widget didn't actually change (e.g. Tabs re-firing during URL param updates)
+    if (value !== intent) {
+      trackWidgetSelected({
+        widgetName: IntentMapping[value as Intent] || value,
+        previousWidget: IntentMapping[intent as Intent] || 'balances',
+        selectionMethod: method || (showDrawerMenu ? 'mobile_drawer' : 'sidebar_tab'),
+        chainId: currentChainId || 0
+      });
+    }
     const targetIntent = value as Intent;
     handleWidgetNavigation(targetIntent);
   };
