@@ -79,6 +79,8 @@ export type MorphoVaultMarketData = {
   market: MorphoVaultAllocationsData;
   /** Vault-level available liquidity from the API */
   liquidity: bigint;
+  /** Total assets held by the vault (in smallest asset unit) */
+  totalAssets: bigint;
 };
 
 export type MorphoVaultMarketDataHook = ReadHook & {
@@ -253,7 +255,8 @@ async function fetchMorphoVaultMarketData(
   return {
     rate: rateData,
     market: allocationsData,
-    liquidity: BigInt(vault.liquidity)
+    liquidity: BigInt(vault.liquidity),
+    totalAssets: BigInt(totalAssets)
   };
 }
 
