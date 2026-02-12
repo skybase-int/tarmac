@@ -60,6 +60,20 @@ export const contracts: {
       [arbitrum.id]: '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9'
     }
   },
+  {
+    name: 'cbBtc',
+    address: {
+      [mainnet.id]: '0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf',
+      [TENDERLY_CHAIN_ID]: '0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf'
+    }
+  },
+  {
+    name: 'wstEth',
+    address: {
+      [mainnet.id]: '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0',
+      [TENDERLY_CHAIN_ID]: '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0'
+    }
+  },
 
   // Proxy
   {
