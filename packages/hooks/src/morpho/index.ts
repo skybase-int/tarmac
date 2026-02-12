@@ -13,6 +13,7 @@ export {
 export { useMorphoVaultAllocations } from './useMorphoVaultAllocations';
 export {
   useMorphoVaultMarketApiData,
+  fetchMorphoVaultMarketData,
   type MorphoVaultMarketData,
   type MorphoVaultMarketDataHook
 } from './useMorphoVaultMarketApiData';
@@ -42,4 +43,5 @@ export {
   useMorphoVaultSupplierAddresses,
   type MorphoVaultSupplierAddressesHook
 } from './useMorphoVaultSupplierAddresses';
+export { useMorphoVaultsCombinedTvl, type MorphoVaultsCombinedTvl } from './useMorphoVaultsCombinedTvl';
 export { MORPHO_VAULTS } from './constants';

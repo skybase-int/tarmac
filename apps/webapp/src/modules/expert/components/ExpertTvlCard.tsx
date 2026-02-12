@@ -1,40 +1,26 @@
 import { StatsCard } from '@/modules/ui/components/StatsCard';
 import { t } from '@lingui/core/macro';
-import {
-  useStUsdsData,
-  useMorphoVaultOnChainData,
-  usdsRiskCapitalVaultAddress
-} from '@jetstreamgg/sky-hooks';
-import { formatBigInt } from '@jetstreamgg/sky-utils';
-import { TokenIconWithBalance } from '@/modules/ui/components/TokenIconWithBalance';
-import { mainnet } from 'viem/chains';
+import { useStUsdsData, useMorphoVaultsCombinedTvl } from '@jetstreamgg/sky-hooks';
+import { formatNumber } from '@jetstreamgg/sky-utils';
+import { Text } from '@/modules/layout/components/Typography';
 
 export function ExpertTvlCard(): React.ReactElement {
   const { data: stUsdsData, isLoading: isStUsdsLoading, error: stUsdsError } = useStUsdsData();
   const {
-    data: morphoData,
+    totalAssetsUsd: morphoTvlUsd,
     isLoading: isMorphoLoading,
     error: morphoError
-  } = useMorphoVaultOnChainData({
-    // Morpho API is mainnet-only
-    vaultAddress: usdsRiskCapitalVaultAddress[mainnet.id]
-  });
+  } = useMorphoVaultsCombinedTvl();
 
-  const stUsdsTvl = stUsdsData?.totalAssets || 0n;
-  const morphoTvl = morphoData?.totalAssets || 0n;
-  const totalTvl = stUsdsTvl + morphoTvl;
+  // stUSDS totalAssets is denominated in USDS (18 decimals), which is pegged to $1
+  const stUsdsTvlUsd = stUsdsData ? Number(stUsdsData.totalAssets) / 1e18 : 0;
+  const totalTvlUsd = stUsdsTvlUsd + morphoTvlUsd;
 
   return (
     <StatsCard
       className="h-full"
       title={t`Total TVL`}
-      content={
-        <TokenIconWithBalance
-          className="mt-2"
-          token={{ symbol: 'USDS', name: 'usds' }}
-          balance={formatBigInt(totalTvl, { unit: 18 })}
-        />
-      }
+      content={<Text className="mt-2">${formatNumber(totalTvlUsd)}</Text>}
       isLoading={isStUsdsLoading || isMorphoLoading}
       error={stUsdsError || morphoError}
     />

@@ -91,12 +91,14 @@ export {
   useMorphoVaultMultipleRateApiData,
   useMorphoVaultAllocations,
   useMorphoVaultMarketApiData,
+  fetchMorphoVaultMarketData,
   useMorphoVaultRewards,
   useMorphoVaultClaimRewards,
   useMorphoVaultHistory,
   useMorphoVaultChartInfo,
   useMorphoVaultMultipleChartInfo,
   useMorphoVaultSupplierAddresses,
+  useMorphoVaultsCombinedTvl,
   MORPHO_VAULTS
 } from './morpho';
 export type {
@@ -117,7 +119,8 @@ export type {
   MorphoVaultChartDataPoint,
   MorphoVaultChartInfoHook,
   MorphoVaultMultipleChartInfoHook,
-  MorphoVaultSupplierAddressesHook
+  MorphoVaultSupplierAddressesHook,
+  MorphoVaultsCombinedTvl
 } from './morpho';
 
 // Authentication
