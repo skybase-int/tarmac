@@ -9,7 +9,9 @@ export const AppEvents = {
   DETAILS_PANE_TOGGLED: 'app_details_pane_toggled',
   CHAT_PANE_TOGGLED: 'app_chat_pane_toggled',
   VPN_CHECK_COMPLETED: 'app_vpn_check_completed',
-  VPN_BLOCKED_PAGE_VIEW: 'app_vpn_blocked_page_view'
+  VPN_BLOCKED_PAGE_VIEW: 'app_vpn_blocked_page_view',
+  WALLET_CONNECTED: 'app_wallet_connected',
+  WALLET_DISCONNECTED: 'app_wallet_disconnected'
 } as const;
 
 // ── Types ────────────────────────────────────────────────────────────────────

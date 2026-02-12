@@ -100,11 +100,27 @@ export function useAppAnalytics() {
     });
   };
 
+  const trackWalletConnected = ({ walletName }: { walletName: string }) => {
+    safeCapture(posthog, AppEvents.WALLET_CONNECTED, {
+      wallet_name: walletName,
+      viewport: getViewport()
+    });
+  };
+
+  const trackWalletDisconnected = ({ walletName }: { walletName: string }) => {
+    safeCapture(posthog, AppEvents.WALLET_DISCONNECTED, {
+      wallet_name: walletName,
+      viewport: getViewport()
+    });
+  };
+
   return {
     trackWidgetSelected,
     trackWidgetFlowStarted,
     trackWidgetFlowCompleted,
     trackDetailsPaneToggled,
-    trackChatPaneToggled
+    trackChatPaneToggled,
+    trackWalletConnected,
+    trackWalletDisconnected
   };
 }
