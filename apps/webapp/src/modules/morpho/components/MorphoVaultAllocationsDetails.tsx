@@ -1,4 +1,4 @@
-import { useMorphoVaultMultiMarketApiData } from '@jetstreamgg/sky-hooks';
+import { useMorphoVaultMarketApiData } from '@jetstreamgg/sky-hooks';
 import { Text } from '@/modules/layout/components/Typography';
 import { Trans } from '@lingui/react/macro';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -15,18 +15,52 @@ import { useChainId } from 'wagmi';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ExternalLink } from '@/modules/layout/components/ExternalLink';
 
+/** Small SVG ring that fills clockwise based on a 0-1 value */
+function CapUtilizationRing({ value, size = 18 }: { value: number; size?: number }) {
+  const strokeWidth = 6;
+  const radius = (size - strokeWidth) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const filled = Math.min(Math.max(value, 0), 1);
+  const offset = circumference * (1 - filled);
+
+  return (
+    <svg width={size} height={size} className="shrink-0 -rotate-90">
+      {/* Background ring */}
+      <circle
+        cx={size / 2}
+        cy={size / 2}
+        r={radius}
+        fill="none"
+        strokeWidth={strokeWidth}
+        className="stroke-text/5"
+      />
+      {/* Filled arc */}
+      <circle
+        cx={size / 2}
+        cy={size / 2}
+        r={radius}
+        fill="none"
+        strokeWidth={strokeWidth}
+        strokeDasharray={circumference}
+        strokeDashoffset={offset}
+        className="stroke-primary-bright-start"
+      />
+    </svg>
+  );
+}
+
 type MorphoVaultAllocationsDetailsProps = {
   vaultAddress: `0x${string}`;
 };
 
 export function MorphoVaultAllocationsDetails({ vaultAddress }: MorphoVaultAllocationsDetailsProps) {
-  const { data: marketData, isLoading } = useMorphoVaultMultiMarketApiData({ vaultAddress });
+  const { data: marketData, isLoading } = useMorphoVaultMarketApiData({ vaultAddress });
   const allocationsData = marketData?.market;
   const chainId = useChainId();
 
   if (isLoading) {
     return (
-      <Table>
+      <Table wrapperClassName="overflow-x-auto scrollbar-thin-always">
         <TableHeader>
           <TableRow>
             <TableHead>
@@ -35,6 +69,12 @@ export function MorphoVaultAllocationsDetails({ vaultAddress }: MorphoVaultAlloc
             <TableHead className="text-center">
               <Skeleton className="mx-auto h-4 w-16" />
             </TableHead>
+            <TableHead className="text-center">
+              <Skeleton className="mx-auto h-4 w-14" />
+            </TableHead>
+            <TableHead className="text-center">
+              <Skeleton className="mx-auto h-4 w-14" />
+            </TableHead>
             <TableHead className="text-right">
               <Skeleton className="ml-auto h-4 w-12" />
             </TableHead>
@@ -42,7 +82,7 @@ export function MorphoVaultAllocationsDetails({ vaultAddress }: MorphoVaultAlloc
         </TableHeader>
         <TableBody>
           <TableRow className="select-none has-[td]:hover:bg-transparent has-[td]:active:bg-transparent">
-            <TableCell colSpan={3} className="h-auto px-4 py-2">
+            <TableCell colSpan={5} className="h-auto px-4 py-2">
               <Skeleton className="h-3 w-16" />
             </TableCell>
           </TableRow>
@@ -59,12 +99,18 @@ export function MorphoVaultAllocationsDetails({ vaultAddress }: MorphoVaultAlloc
             <TableCell className="h-auto py-4 text-center">
               <Skeleton className="mx-auto h-4 w-14" />
             </TableCell>
+            <TableCell className="h-auto py-4 text-center">
+              <Skeleton className="mx-auto h-4 w-12" />
+            </TableCell>
+            <TableCell className="h-auto py-4 text-center">
+              <Skeleton className="mx-auto h-4 w-12" />
+            </TableCell>
             <TableCell className="h-auto py-4 text-right">
               <Skeleton className="ml-auto h-4 w-12" />
             </TableCell>
           </TableRow>
           <TableRow className="select-none has-[td]:hover:bg-transparent has-[td]:active:bg-transparent">
-            <TableCell colSpan={3} className="h-auto px-4 py-2">
+            <TableCell colSpan={5} className="h-auto px-4 py-2">
               <Skeleton className="h-3 w-16" />
             </TableCell>
           </TableRow>
@@ -77,6 +123,12 @@ export function MorphoVaultAllocationsDetails({ vaultAddress }: MorphoVaultAlloc
             </TableCell>
             <TableCell className="h-auto py-4 text-center">
               <Skeleton className="mx-auto h-4 w-14" />
+            </TableCell>
+            <TableCell className="h-auto py-4 text-center">
+              <Skeleton className="mx-auto h-4 w-12" />
+            </TableCell>
+            <TableCell className="h-auto py-4 text-center">
+              <Skeleton className="mx-auto h-4 w-12" />
             </TableCell>
             <TableCell className="h-auto py-4 text-right">
               <Skeleton className="ml-auto h-4 w-12" />
@@ -101,7 +153,7 @@ export function MorphoVaultAllocationsDetails({ vaultAddress }: MorphoVaultAlloc
   }
 
   return (
-    <Table>
+    <Table wrapperClassName="overflow-x-auto scrollbar-thin-always">
       {/* Table Header */}
       <TableHeader>
         <TableRow>
@@ -113,6 +165,16 @@ export function MorphoVaultAllocationsDetails({ vaultAddress }: MorphoVaultAlloc
           <TableHead className="text-center">
             <Text variant="small">
               <Trans>Allocation ({allocationsData.assetSymbol})</Trans>
+            </Text>
+          </TableHead>
+          <TableHead className="text-center">
+            <Text variant="small">
+              <Trans>Absolute Cap</Trans>
+            </Text>
+          </TableHead>
+          <TableHead className="text-center">
+            <Text variant="small">
+              <Trans>Relative Cap</Trans>
             </Text>
           </TableHead>
           <TableHead className="text-right">
@@ -128,7 +190,7 @@ export function MorphoVaultAllocationsDetails({ vaultAddress }: MorphoVaultAlloc
         {allocationsData.v1Vaults.length > 0 && (
           <>
             <TableRow className="select-none has-[td]:hover:bg-transparent has-[td]:active:bg-transparent">
-              <TableCell colSpan={3} className="h-auto px-4 py-2">
+              <TableCell colSpan={5} className="h-auto px-4 py-2">
                 <Text className="text-textSecondary text-xs">
                   <Trans>Vaults V1</Trans>
                 </Text>
@@ -166,6 +228,12 @@ export function MorphoVaultAllocationsDetails({ vaultAddress }: MorphoVaultAlloc
                     </TooltipContent>
                   </Tooltip>
                 </TableCell>
+                <TableCell className="h-auto py-4 text-center">
+                  <Text className="text-textSecondary text-sm">-</Text>
+                </TableCell>
+                <TableCell className="h-auto py-4 text-center">
+                  <Text className="text-textSecondary text-sm">-</Text>
+                </TableCell>
                 <TableCell className="h-auto py-4 text-right">
                   <Text className="text-sm">{v1Vault.formattedNetApy}</Text>
                 </TableCell>
@@ -178,7 +246,7 @@ export function MorphoVaultAllocationsDetails({ vaultAddress }: MorphoVaultAlloc
         {allocationsData.markets.length > 0 && (
           <>
             <TableRow className="select-none has-[td]:hover:bg-transparent has-[td]:active:bg-transparent">
-              <TableCell colSpan={3} className="h-auto px-4 py-2">
+              <TableCell colSpan={5} className="h-auto px-4 py-2">
                 <Text className="text-textSecondary text-xs">
                   <Trans>Markets</Trans>
                 </Text>
@@ -188,11 +256,13 @@ export function MorphoVaultAllocationsDetails({ vaultAddress }: MorphoVaultAlloc
               <TableRow key={market.marketId}>
                 <TableCell className="h-auto py-4 pl-6">
                   <div className="flex items-center gap-1.5">
-                    <PairTokenIcons
-                      leftToken={market.collateralAsset}
-                      rightToken={market.loanAsset}
-                      chainId={chainId}
-                    />
+                    <div className="shrink-0">
+                      <PairTokenIcons
+                        leftToken={market.collateralAsset}
+                        rightToken={market.loanAsset}
+                        chainId={chainId}
+                      />
+                    </div>
                     <Text className="text-text text-sm">
                       {market.collateralAsset} / {market.loanAsset}
                     </Text>
@@ -234,6 +304,42 @@ export function MorphoVaultAllocationsDetails({ vaultAddress }: MorphoVaultAlloc
                     </TooltipContent>
                   </Tooltip>
                 </TableCell>
+                <TableCell className="h-auto py-4 text-center">
+                  {market.formattedAbsoluteCap === 'Unlimited' ? (
+                    <Text className="text-text text-sm">{market.formattedAbsoluteCap}</Text>
+                  ) : (
+                    <Tooltip>
+                      <TooltipTrigger asChild className="cursor-default">
+                        <div className="inline-flex items-center gap-1.5">
+                          <Text className="text-text text-sm">{market.formattedAbsoluteCap}</Text>
+                          <CapUtilizationRing value={market.absoluteCapUtilization} />
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <Text className="text-sm">
+                          {(market.absoluteCapUtilization * 100).toFixed(2)}% filled
+                        </Text>
+                        <TooltipArrow width={12} height={8} />
+                      </TooltipContent>
+                    </Tooltip>
+                  )}
+                </TableCell>
+                <TableCell className="h-auto py-4 text-center">
+                  <Tooltip>
+                    <TooltipTrigger asChild className="cursor-default">
+                      <div className="inline-flex items-center gap-1.5">
+                        <Text className="text-text text-sm">{market.formattedRelativeCap}</Text>
+                        <CapUtilizationRing value={market.relativeCapUtilization} />
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <Text className="text-sm">
+                        {(market.relativeCapUtilization * 100).toFixed(2)}% filled
+                      </Text>
+                      <TooltipArrow width={12} height={8} />
+                    </TooltipContent>
+                  </Tooltip>
+                </TableCell>
                 <TableCell className="h-auto py-4 text-right">
                   <Text className="text-sm">{market.formattedNetApy}</Text>
                 </TableCell>
@@ -246,7 +352,7 @@ export function MorphoVaultAllocationsDetails({ vaultAddress }: MorphoVaultAlloc
         {allocationsData.idleLiquidity.length > 0 && (
           <>
             <TableRow className="select-none has-[td]:hover:bg-transparent has-[td]:active:bg-transparent">
-              <TableCell colSpan={3} className="h-auto px-4 py-2">
+              <TableCell colSpan={5} className="h-auto px-4 py-2">
                 <Text className="text-textSecondary text-xs">
                   <Trans>Idle liquidity</Trans>
                 </Text>
@@ -269,6 +375,12 @@ export function MorphoVaultAllocationsDetails({ vaultAddress }: MorphoVaultAlloc
                       <Text className="text-sm">{idle.formattedAssetsUsd}</Text>
                     </TooltipContent>
                   </Tooltip>
+                </TableCell>
+                <TableCell className="h-auto py-4 text-center">
+                  <Text className="text-textSecondary text-sm">-</Text>
+                </TableCell>
+                <TableCell className="h-auto py-4 text-center">
+                  <Text className="text-textSecondary text-sm">-</Text>
                 </TableCell>
                 <TableCell className="h-auto py-4 text-right">
                   <Text className="text-textSecondary text-sm">-</Text>

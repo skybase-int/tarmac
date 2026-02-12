@@ -13,8 +13,6 @@ export type MorphoVaultConfig = {
   vaultAddress: Record<number, `0x${string}`>;
   /** The underlying asset token */
   assetToken: Token;
-  /** The market IDs the vault allocates to (single-element array for single-market vaults) */
-  marketIds?: readonly `0x${string}`[];
 };
 
 /**
@@ -113,6 +111,14 @@ export type MorphoMarketAllocation = {
   lltv: bigint;
   /** Formatted LLTV as a percentage (e.g., "86%") */
   formattedLltv: string;
+  /** Formatted absolute cap (e.g., "50M") */
+  formattedAbsoluteCap: string;
+  /** Absolute cap utilization (0-1), allocation / absoluteCap */
+  absoluteCapUtilization: number;
+  /** Formatted relative cap (e.g., "100%") */
+  formattedRelativeCap: string;
+  /** Relative cap utilization (0-1), (allocation/totalAssets) / relativeCap */
+  relativeCapUtilization: number;
 };
 
 export type MorphoVaultAllocationsData = {

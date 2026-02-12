@@ -2,7 +2,7 @@ import { MorphoVaultRateCard } from './MorphoVaultRateCard';
 import { MorphoVaultTvlCard } from './MorphoVaultTvlCard';
 import { MorphoMarketLiquidityCard } from './MorphoMarketLiquidityCard';
 import { MorphoVaultSuppliersCard } from './MorphoVaultSuppliersCard';
-import { Token, useMorphoVaultSingleMarketApiData } from '@jetstreamgg/sky-hooks';
+import { Token, useMorphoVaultMarketApiData } from '@jetstreamgg/sky-hooks';
 
 type MorphoVaultInfoDetailsProps = {
   vaultAddress: `0x${string}`;
@@ -10,7 +10,7 @@ type MorphoVaultInfoDetailsProps = {
 };
 
 export function MorphoVaultInfoDetails({ vaultAddress, assetToken }: MorphoVaultInfoDetailsProps) {
-  const { data: singleMarketData, isLoading, error } = useMorphoVaultSingleMarketApiData({ vaultAddress });
+  const { data: marketData, isLoading, error } = useMorphoVaultMarketApiData({ vaultAddress });
 
   return (
     <div className="flex w-full flex-wrap gap-3">
@@ -22,7 +22,7 @@ export function MorphoVaultInfoDetails({ vaultAddress, assetToken }: MorphoVault
       </div>
       <div className="min-w-[250px] flex-1">
         <MorphoMarketLiquidityCard
-          liquidity={singleMarketData?.liquidity}
+          liquidity={marketData?.liquidity}
           isLoading={isLoading}
           error={error}
           assetToken={assetToken}

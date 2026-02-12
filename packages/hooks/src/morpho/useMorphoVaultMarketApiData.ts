@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { TRUST_LEVELS, TrustLevelEnum } from '../constants';
 import { ReadHook } from '../hooks';
-import { MORPHO_API_URL, VAULT_DATA_QUERY, getMorphoVaultByAddress } from './constants';
+import { MORPHO_API_URL, VAULT_MARKET_DATA_QUERY } from './constants';
 import { formatBigInt, formatNumber, formatPercent } from '@jetstreamgg/sky-utils';
 import { mainnet } from 'viem/chains';
 import type {
@@ -12,9 +12,34 @@ import type {
 import type { MorphoRewardData, MorphoVaultRateData } from './useMorphoVaultRateApiData';
 
 /**
- * API response type for the single market vault data query
+ * Cap item from the Morpho API. For MarketV1 caps, `data.market` contains market info.
  */
-type MorphoVaultSingleMarketApiResponse = {
+type CapItem = {
+  type: string;
+  data: {
+    market?: {
+      uniqueKey: string;
+      lltv: string;
+      loanAsset: { symbol: string };
+      collateralAsset: { symbol: string };
+      state: {
+        supplyAssets: string;
+        borrowAssets: string;
+        utilization: number;
+        avgNetSupplyApy: number;
+      };
+    };
+  };
+  absoluteCap: number | string;
+  relativeCap: string;
+  /** Raw allocation amount in the smallest asset unit */
+  allocation: number | string;
+};
+
+/**
+ * API response type for the vault market data query using caps
+ */
+type MorphoVaultMarketApiResponse = {
   data: {
     vaultV2ByAddress: {
       avgApy: number;
@@ -30,36 +55,24 @@ type MorphoVaultSingleMarketApiResponse = {
       }[];
       totalAssets: string;
       totalAssetsUsd: number;
+      idleAssets: number | string;
       idleAssetsUsd: number;
       liquidity: string;
       asset: {
         decimals: number;
         symbol: string;
       };
-    } | null;
-    marketByUniqueKey: {
-      uniqueKey: string;
-      lltv: string;
-      loanAsset: {
-        symbol: string;
-      };
-      collateralAsset: {
-        symbol: string;
-      };
-      state: {
-        supplyAssets: string;
-        borrowAssets: string;
-        utilization: number;
-        avgNetSupplyApy: number;
+      caps: {
+        items: CapItem[];
       };
     } | null;
   };
 };
 
 /**
- * Single market vault data including rate and market state information
+ * Vault market data including rate and market state information
  */
-export type MorphoVaultSingleMarketData = {
+export type MorphoVaultMarketData = {
   /** Rate data (APY, fees, rewards) */
   rate: MorphoVaultRateData;
   /** Market state data (liquidity, utilization, idle assets) */
@@ -68,28 +81,28 @@ export type MorphoVaultSingleMarketData = {
   liquidity: bigint;
 };
 
-export type MorphoVaultSingleMarketDataHook = ReadHook & {
-  data?: MorphoVaultSingleMarketData;
+export type MorphoVaultMarketDataHook = ReadHook & {
+  data?: MorphoVaultMarketData;
 };
 
 /**
- * Fetch single market vault data (rate + allocations) in a single API call
+ * Fetch vault market data (rate + allocations) using the caps query.
+ * This replaces both single-market and multi-market fetch functions by using
+ * the vault's caps field which includes all market allocations from the API.
  */
-async function fetchMorphoVaultSingleMarketData(
+async function fetchMorphoVaultMarketData(
   vaultAddress: string,
-  marketId: string,
   chainId: number
-): Promise<MorphoVaultSingleMarketData | undefined> {
+): Promise<MorphoVaultMarketData | undefined> {
   const response = await fetch(MORPHO_API_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      query: VAULT_DATA_QUERY,
+      query: VAULT_MARKET_DATA_QUERY,
       variables: {
-        vaultAddress: vaultAddress.toLowerCase(),
-        marketId,
+        address: vaultAddress.toLowerCase(),
         chainId
       }
     })
@@ -99,19 +112,17 @@ async function fetchMorphoVaultSingleMarketData(
     throw new Error(`Morpho API error: ${response.status}`);
   }
 
-  const result: MorphoVaultSingleMarketApiResponse = await response.json();
+  const result: MorphoVaultMarketApiResponse = await response.json();
 
   if (!result.data.vaultV2ByAddress) {
     return undefined;
   }
 
   const vault = result.data.vaultV2ByAddress;
-  const market = result.data.marketByUniqueKey;
 
-  // Process rate data
+  // --- Process rate data ---
   const { avgApy, avgNetApy, managementFee, performanceFee, rewards } = vault;
 
-  // Aggregate rewards by symbol and filter out 0% APY rewards
   const rewardsMap = new Map<string, { apy: number; logoUri: string | null }>();
   for (const reward of rewards || []) {
     if (reward.supplyApr > 0) {
@@ -146,38 +157,60 @@ async function fetchMorphoVaultSingleMarketData(
     rewards: rewardsData
   };
 
-  // Process allocation data
-  const { totalAssets, totalAssetsUsd, idleAssetsUsd, asset } = vault;
+  // --- Process allocation data ---
+  const { totalAssets, totalAssetsUsd, idleAssets, idleAssetsUsd, asset } = vault;
   const assetDecimals = asset.decimals;
   const assetSymbol = asset.symbol;
 
-  // Calculate idle liquidity
-  const idleAssets =
-    idleAssetsUsd > 0 && totalAssetsUsd > 0
-      ? (BigInt(totalAssets) * BigInt(Math.round(idleAssetsUsd * 1e6))) /
-        BigInt(Math.round(totalAssetsUsd * 1e6))
-      : BigInt(0);
-
+  // Idle liquidity directly from the API
   const idleLiquidity: MorphoIdleLiquidityAllocation[] = [
     {
       assetSymbol,
-      formattedAssets: formatBigInt(idleAssets, { unit: assetDecimals, compact: true }),
+      formattedAssets: formatBigInt(BigInt(idleAssets), { unit: assetDecimals, compact: true }),
       formattedAssetsUsd: `$${formatNumber(idleAssetsUsd, { compact: true })}`
     }
   ];
 
-  // Process market data
+  // Filter caps to MarketV1 type and build market allocations
+  const marketV1Caps = vault.caps.items.filter(cap => cap.type === 'MarketV1' && cap.data.market);
+
+  // Price per smallest asset unit (used to convert raw allocation to USD)
+  const assetPriceUsd = totalAssetsUsd > 0 ? totalAssetsUsd / Number(totalAssets) : 0;
+
   const markets: MorphoMarketAllocation[] = [];
 
-  if (market) {
+  for (const cap of marketV1Caps) {
+    const market = cap.data.market!;
     const totalSupplyAssets = BigInt(market.state.supplyAssets);
     const totalBorrowAssets = BigInt(market.state.borrowAssets);
     const liquidity = totalSupplyAssets - totalBorrowAssets;
 
-    // The vault's totalAssets represents how much is allocated to this market
-    const totalAssetsBigInt = BigInt(totalAssets);
-    const vaultAssets = totalAssetsBigInt > idleAssets ? totalAssetsBigInt - idleAssets : BigInt(0);
-    const vaultAssetsUsd = Math.max(0, totalAssetsUsd - idleAssetsUsd); // Subtract idle from total
+    // allocation is a raw amount in the smallest asset unit
+    const vaultAssets = BigInt(cap.allocation);
+    const vaultAssetsUsd = Number(vaultAssets) * assetPriceUsd;
+
+    // Absolute cap
+    const absoluteCapBigInt = BigInt(cap.absoluteCap);
+    // If the cap is unreasonably large (>10^30), treat it as unlimited
+    const isUnlimitedAbsCap = absoluteCapBigInt > 10n ** 30n;
+    const formattedAbsoluteCap = isUnlimitedAbsCap
+      ? 'Unlimited'
+      : formatBigInt(absoluteCapBigInt, { unit: assetDecimals, compact: true });
+    const absoluteCapUtilization =
+      isUnlimitedAbsCap || absoluteCapBigInt === 0n ? 0 : Number(vaultAssets) / Number(absoluteCapBigInt);
+
+    // Relative cap (WAD value: 1e18 = 100%)
+    const relativeCapWad = BigInt(cap.relativeCap);
+    const formattedRelativeCap = formatPercent(relativeCapWad, {
+      maxDecimals: 0,
+      showPercentageDecimals: false
+    });
+    const totalAssetsNum = Number(totalAssets);
+    const relativeCapDecimal = Number(relativeCapWad) / 1e18;
+    const relativeCapUtilization =
+      totalAssetsNum > 0 && relativeCapDecimal > 0
+        ? Number(vaultAssets) / totalAssetsNum / relativeCapDecimal
+        : 0;
 
     markets.push({
       marketId: market.uniqueKey,
@@ -195,9 +228,20 @@ async function fetchMorphoVaultSingleMarketData(
       formattedLltv: formatPercent(BigInt(market.lltv), {
         maxDecimals: 0,
         showPercentageDecimals: false
-      })
+      }),
+      formattedAbsoluteCap,
+      absoluteCapUtilization: Math.min(absoluteCapUtilization, 1),
+      formattedRelativeCap,
+      relativeCapUtilization: Math.min(relativeCapUtilization, 1)
     });
   }
+
+  // Sort markets by allocation (highest first)
+  markets.sort((a, b) => {
+    const aCap = marketV1Caps.find(c => c.data.market!.uniqueKey === a.marketId);
+    const bCap = marketV1Caps.find(c => c.data.market!.uniqueKey === b.marketId);
+    return Number(BigInt(bCap?.allocation ?? 0) - BigInt(aCap?.allocation ?? 0));
+  });
 
   const allocationsData: MorphoVaultAllocationsData = {
     v1Vaults: [],
@@ -214,26 +258,23 @@ async function fetchMorphoVaultSingleMarketData(
 }
 
 /**
- * Hook for fetching Morpho vault data (rate + single market) from the Morpho API.
+ * Hook for fetching Morpho vault data (rate + market allocations) from the Morpho API.
  *
- * This is an optimized hook that replaces the need to call both useMorphoVaultRateApiData
- * and useMorphoVaultAllocations separately. It uses a hardcoded market ID for the
- * vault's primary allocation, eliminating the need for on-chain adapter discovery.
+ * Uses the vault's caps field to discover all market allocations in a single API query,
+ * filtering to MarketV1 cap types. This eliminates the need for separate market queries
+ * or on-chain adapter reads.
  *
- * Note: This hook only works for vaults with a single market allocation configured
- * in MORPHO_VAULTS with a single entry in marketIds.
+ * Replaces both useMorphoVaultSingleMarketApiData and useMorphoVaultMultiMarketApiData.
  *
  * @param vaultAddress - The Morpho V2 vault contract address (optional)
  */
-export function useMorphoVaultSingleMarketApiData({
+export function useMorphoVaultMarketApiData({
   vaultAddress
 }: {
   vaultAddress?: `0x${string}`;
-}): MorphoVaultSingleMarketDataHook {
+}): MorphoVaultMarketDataHook {
   // Always use mainnet chainId since the Morpho API only has mainnet data
-  // This ensures the query is cached across network switches
   const chainId = mainnet.id;
-  const vaultConfig = vaultAddress ? getMorphoVaultByAddress(vaultAddress, chainId) : undefined;
 
   const {
     data,
@@ -241,30 +282,22 @@ export function useMorphoVaultSingleMarketApiData({
     refetch: mutate,
     isLoading
   } = useQuery({
-    queryKey: ['morpho-vault-single-market-data', vaultAddress, chainId],
+    queryKey: ['morpho-vault-market-data', vaultAddress, chainId],
     queryFn: () => {
-      if (!vaultAddress || !vaultConfig?.marketIds?.length) {
-        throw new Error(
-          `Vault ${vaultAddress} not found in MORPHO_VAULTS configuration or missing marketIds`
-        );
+      if (!vaultAddress) {
+        throw new Error('Vault address is required');
       }
-      return fetchMorphoVaultSingleMarketData(vaultAddress, vaultConfig.marketIds[0], chainId);
+      return fetchMorphoVaultMarketData(vaultAddress, chainId);
     },
-    enabled: !!vaultAddress && !!vaultConfig?.marketIds?.length,
+    enabled: !!vaultAddress,
     staleTime: 30_000, // 30 seconds - liquidity data can change frequently
     gcTime: 60_000 // 1 minute
   });
 
-  // Surface a clear error when vault isn't configured (query won't run in this case)
-  const configError =
-    vaultAddress && !vaultConfig?.marketIds?.length && !isLoading
-      ? new Error(`Vault ${vaultAddress} not found in MORPHO_VAULTS configuration or missing marketIds`)
-      : null;
-
   return {
     data,
     isLoading: !data && isLoading,
-    error: (error as Error | null) || configError,
+    error: error as Error | null,
     mutate,
     dataSources: [
       {

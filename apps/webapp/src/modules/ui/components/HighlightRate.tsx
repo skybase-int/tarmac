@@ -10,7 +10,7 @@ import { useRewardsChartInfo } from '@jetstreamgg/sky-hooks';
 import { formatDecimalPercentage, formatStrAsApy } from '@jetstreamgg/sky-utils';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { useStUsdsData } from '@jetstreamgg/sky-hooks';
-import { useMorphoVaultSingleMarketApiData, MORPHO_VAULTS } from '@jetstreamgg/sky-hooks';
+import { useMorphoVaultMarketApiData, MORPHO_VAULTS } from '@jetstreamgg/sky-hooks';
 
 // TODO export PairTokenIcons from widgets?
 // import { PairTokenIcons } from '@widgets/shared/components/ui/token/PairTokenIcon';
@@ -151,7 +151,7 @@ export function AdvancedRate({ expertModule }: { expertModule?: string }) {
   const { data: stUsdsData } = useStUsdsData();
   const defaultMorphoVault = MORPHO_VAULTS[0];
   const morphoVaultAddress = defaultMorphoVault?.vaultAddress[chainId];
-  const { data: morphoSingleMarketData } = useMorphoVaultSingleMarketApiData({
+  const { data: morphoMarketData } = useMorphoVaultMarketApiData({
     vaultAddress: morphoVaultAddress
   });
 
@@ -168,7 +168,7 @@ export function AdvancedRate({ expertModule }: { expertModule?: string }) {
     const moduleRate = stUsdsData?.moduleRate || 0n;
     formattedRate = moduleRate > 0n ? formatStrAsApy(moduleRate) : '0.00%';
   } else if (module === 'morpho') {
-    formattedRate = morphoSingleMarketData?.rate.formattedNetRate || '0.00%';
+    formattedRate = morphoMarketData?.rate.formattedNetRate || '0.00%';
   }
 
   if (config) {
