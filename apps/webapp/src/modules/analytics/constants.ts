@@ -50,8 +50,11 @@ export function safeCapture(
 }
 
 /**
- * Report analytics errors. Uses console.warn only (Sentry-ready interface).
- * When Sentry is added, only this function needs to change.
+ * Report analytics errors.
+ *
+ * TODO: Replace console.warn with an error monitoring service so analytics
+ * failures are surfaced in production without breaking the app.
+ * Only this function needs to change — all analytics code already calls it.
  */
 export function reportAnalyticsError(context: string, error: unknown): void {
   console.warn(`[Analytics] ${context}:`, error);
