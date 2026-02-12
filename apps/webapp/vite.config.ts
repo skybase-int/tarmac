@@ -29,7 +29,8 @@ export default ({ mode }: { mode: modeEnum }) => {
     script-src 'self'
       'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='
       https://static.cloudflareinsights.com
-      https://challenges.cloudflare.com;
+      https://challenges.cloudflare.com
+      https://*.posthog.com;
     style-src 'self' 'unsafe-inline';
     img-src 'self' data: blob: https://explorer-api.walletconnect.com;
     font-src 'self';
@@ -83,8 +84,7 @@ export default ({ mode }: { mode: modeEnum }) => {
       wss://metamask-sdk.api.cx.metamask.io
       wss://nbstream.binance.com/wallet-connector
       cloudflareinsights.com
-      https://eu.i.posthog.com
-      https://eu.posthog.com;
+      https://*.posthog.com;
     frame-src 'self'
       https://verify.walletconnect.com
       https://verify.walletconnect.org

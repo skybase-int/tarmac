@@ -40,6 +40,8 @@ export function initializePostHogIfNeeded(forceAccepted = false) {
     cookieless_mode: hasAccepted ? undefined : 'always',
     autocapture: false,
     disable_session_recording: true,
+    disable_surveys: true,
+    disable_web_experiments: true,
     respect_dnt: true,
     ip: false,
     property_denylist: ['$ip'],

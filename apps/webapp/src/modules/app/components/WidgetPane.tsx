@@ -2,7 +2,13 @@ import { Balances, Upgrade, Trade, RewardsModule, Savings, Stake, Expert } from 
 import { Intent } from '@/lib/enums';
 import { useLingui } from '@lingui/react';
 import { useCustomConnectModal } from '@/modules/ui/hooks/useCustomConnectModal';
-import { BATCH_TX_LEGAL_NOTICE_URL, COMING_SOON_MAP, QueryParams, RESTRICTED_INTENTS } from '@/lib/constants';
+import {
+  BATCH_TX_LEGAL_NOTICE_URL,
+  COMING_SOON_MAP,
+  IntentMapping,
+  QueryParams,
+  RESTRICTED_INTENTS
+} from '@/lib/constants';
 import { WidgetNavigation } from '@/modules/app/components/WidgetNavigation';
 import { withErrorBoundary } from '@/modules/utils/withErrorBoundary';
 import { DualSwitcher } from '@/components/DualSwitcher';
@@ -77,8 +83,8 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
     if (intent && intent !== Intent.BALANCES_INTENT) {
       deeplinkTrackedRef.current = true;
       trackWidgetSelected({
-        widgetName: intent,
-        previousWidget: Intent.BALANCES_INTENT,
+        widgetName: IntentMapping[intent] || intent,
+        previousWidget: IntentMapping[Intent.BALANCES_INTENT],
         selectionMethod: 'deeplink',
         chainId
       });

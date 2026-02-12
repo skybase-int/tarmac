@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState, useCallback, JSX } from 'react';
 import { Intent } from '../../../lib/enums';
+import { IntentMapping } from '@/lib/constants';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../../components/ui/tabs';
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
 import { Heading, Text } from '@/modules/layout/components/Typography';
@@ -89,8 +90,8 @@ export function WidgetNavigation({
 
   const handleWidgetChange = (value: string, method?: SelectionMethod) => {
     trackWidgetSelected({
-      widgetName: value,
-      previousWidget: intent || 'balances',
+      widgetName: IntentMapping[value as Intent] || value,
+      previousWidget: IntentMapping[intent as Intent] || 'balances',
       selectionMethod: method || (showDrawerMenu ? 'mobile_drawer' : 'sidebar_tab'),
       chainId: currentChainId || 0
     });
