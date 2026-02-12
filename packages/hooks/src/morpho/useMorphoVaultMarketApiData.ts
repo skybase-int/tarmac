@@ -81,6 +81,8 @@ export type MorphoVaultMarketData = {
   liquidity: bigint;
   /** Total assets held by the vault (in smallest asset unit) */
   totalAssets: bigint;
+  /** Total assets held by the vault in USD */
+  totalAssetsUsd: number;
 };
 
 export type MorphoVaultMarketDataHook = ReadHook & {
@@ -92,7 +94,7 @@ export type MorphoVaultMarketDataHook = ReadHook & {
  * This replaces both single-market and multi-market fetch functions by using
  * the vault's caps field which includes all market allocations from the API.
  */
-async function fetchMorphoVaultMarketData(
+export async function fetchMorphoVaultMarketData(
   vaultAddress: string,
   chainId: number
 ): Promise<MorphoVaultMarketData | undefined> {
@@ -256,7 +258,8 @@ async function fetchMorphoVaultMarketData(
     rate: rateData,
     market: allocationsData,
     liquidity: BigInt(vault.liquidity),
-    totalAssets: BigInt(totalAssets)
+    totalAssets: BigInt(totalAssets),
+    totalAssetsUsd
   };
 }
 

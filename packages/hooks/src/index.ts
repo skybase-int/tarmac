@@ -91,6 +91,7 @@ export {
   useMorphoVaultMultipleRateApiData,
   useMorphoVaultAllocations,
   useMorphoVaultMarketApiData,
+  fetchMorphoVaultMarketData,
   useMorphoVaultRewards,
   useMorphoVaultClaimRewards,
   useMorphoVaultHistory,
