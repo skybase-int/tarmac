@@ -338,10 +338,10 @@ export const contracts: {
     }
   },
   {
-    name: 'usdtClearstarBoringVault',
+    name: 'usdtSteakhousePrimeInstantVault',
     address: {
-      [mainnet.id]: '0x2B58132964f038461E3D8b56df582f49FEcc8745',
-      [TENDERLY_CHAIN_ID]: '0x2B58132964f038461E3D8b56df582f49FEcc8745'
+      [mainnet.id]: '0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9',
+      [TENDERLY_CHAIN_ID]: '0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9'
     }
   },
   {

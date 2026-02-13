@@ -14148,13 +14148,13 @@ export const usdtAddress = {
 export const usdtConfig = { address: usdtAddress, abi: usdtAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// usdtClearstarBoringVault
+// usdtSteakhousePrimeInstantVault
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const usdtClearstarBoringVaultAbi = [
+export const usdtSteakhousePrimeInstantVaultAbi = [
   {
     type: 'constructor',
     inputs: [
@@ -15307,19 +15307,19 @@ export const usdtClearstarBoringVaultAbi = [
 ] as const;
 
 /**
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const usdtClearstarBoringVaultAddress = {
-  1: '0x2B58132964f038461E3D8b56df582f49FEcc8745',
-  314310: '0x2B58132964f038461E3D8b56df582f49FEcc8745'
+export const usdtSteakhousePrimeInstantVaultAddress = {
+  1: '0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9',
+  314310: '0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9'
 } as const;
 
 /**
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const usdtClearstarBoringVaultConfig = {
-  address: usdtClearstarBoringVaultAddress,
-  abi: usdtClearstarBoringVaultAbi
+export const usdtSteakhousePrimeInstantVaultConfig = {
+  address: usdtSteakhousePrimeInstantVaultAddress,
+  abi: usdtSteakhousePrimeInstantVaultAbi
 } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -38619,2051 +38619,2086 @@ export const useWatchUsdtUnpause = /*#__PURE__*/ createUseWatchContractEvent({
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVault = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress
+export const useReadUsdtSteakhousePrimeInstantVault = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"DOMAIN_SEPARATOR"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"DOMAIN_SEPARATOR"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultDomainSeparator = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultDomainSeparator = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'DOMAIN_SEPARATOR'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"_totalAssets"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"_totalAssets"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultTotalAssets = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultTotalAssets = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: '_totalAssets'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"abdicated"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"abdicated"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultAbdicated = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultAbdicated = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'abdicated'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"absoluteCap"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"absoluteCap"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultAbsoluteCap = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultAbsoluteCap = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'absoluteCap'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"accrueInterestView"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"accrueInterestView"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultAccrueInterestView = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultAccrueInterestView = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'accrueInterestView'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"adapterRegistry"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"adapterRegistry"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultAdapterRegistry = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultAdapterRegistry = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'adapterRegistry'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"adapters"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"adapters"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultAdapters = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultAdapters = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'adapters'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"adaptersLength"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"adaptersLength"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultAdaptersLength = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultAdaptersLength = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'adaptersLength'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"allocation"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"allocation"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultAllocation = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultAllocation = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'allocation'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"allowance"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"allowance"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultAllowance = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultAllowance = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'allowance'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"asset"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"asset"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultAsset = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultAsset = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'asset'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"balanceOf"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"balanceOf"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultBalanceOf = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultBalanceOf = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'balanceOf'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"canReceiveAssets"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"canReceiveAssets"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultCanReceiveAssets = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultCanReceiveAssets = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'canReceiveAssets'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"canReceiveShares"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"canReceiveShares"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultCanReceiveShares = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultCanReceiveShares = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'canReceiveShares'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"canSendAssets"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"canSendAssets"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultCanSendAssets = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultCanSendAssets = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'canSendAssets'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"canSendShares"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"canSendShares"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultCanSendShares = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultCanSendShares = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'canSendShares'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"convertToAssets"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"convertToAssets"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultConvertToAssets = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultConvertToAssets = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'convertToAssets'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"convertToShares"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"convertToShares"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultConvertToShares = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultConvertToShares = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'convertToShares'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"curator"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"curator"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultCurator = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultCurator = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'curator'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"decimals"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"decimals"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultDecimals = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultDecimals = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'decimals'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"executableAt"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"executableAt"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultExecutableAt = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultExecutableAt = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'executableAt'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"firstTotalAssets"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"firstTotalAssets"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultFirstTotalAssets = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultFirstTotalAssets = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'firstTotalAssets'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"forceDeallocatePenalty"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"forceDeallocatePenalty"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultForceDeallocatePenalty = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'forceDeallocatePenalty'
-});
+export const useReadUsdtSteakhousePrimeInstantVaultForceDeallocatePenalty =
+  /*#__PURE__*/ createUseReadContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'forceDeallocatePenalty'
+  });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"isAdapter"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"isAdapter"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultIsAdapter = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultIsAdapter = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'isAdapter'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"isAllocator"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"isAllocator"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultIsAllocator = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultIsAllocator = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'isAllocator'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"isSentinel"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"isSentinel"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultIsSentinel = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultIsSentinel = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'isSentinel'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"lastUpdate"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"lastUpdate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultLastUpdate = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultLastUpdate = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'lastUpdate'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"liquidityAdapter"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"liquidityAdapter"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultLiquidityAdapter = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultLiquidityAdapter = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'liquidityAdapter'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"liquidityData"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"liquidityData"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultLiquidityData = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultLiquidityData = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'liquidityData'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"managementFee"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"managementFee"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultManagementFee = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultManagementFee = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'managementFee'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"managementFeeRecipient"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"managementFeeRecipient"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultManagementFeeRecipient = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'managementFeeRecipient'
-});
+export const useReadUsdtSteakhousePrimeInstantVaultManagementFeeRecipient =
+  /*#__PURE__*/ createUseReadContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'managementFeeRecipient'
+  });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"maxDeposit"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"maxDeposit"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultMaxDeposit = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultMaxDeposit = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'maxDeposit'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"maxMint"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"maxMint"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultMaxMint = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultMaxMint = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'maxMint'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"maxRate"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"maxRate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultMaxRate = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultMaxRate = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'maxRate'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"maxRedeem"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"maxRedeem"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultMaxRedeem = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultMaxRedeem = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'maxRedeem'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"maxWithdraw"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"maxWithdraw"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultMaxWithdraw = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultMaxWithdraw = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'maxWithdraw'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"name"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"name"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultName = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultName = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'name'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"nonces"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"nonces"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultNonces = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultNonces = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'nonces'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"owner"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"owner"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultOwner = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultOwner = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'owner'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"performanceFee"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"performanceFee"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultPerformanceFee = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultPerformanceFee = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'performanceFee'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"performanceFeeRecipient"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"performanceFeeRecipient"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultPerformanceFeeRecipient = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'performanceFeeRecipient'
-});
+export const useReadUsdtSteakhousePrimeInstantVaultPerformanceFeeRecipient =
+  /*#__PURE__*/ createUseReadContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'performanceFeeRecipient'
+  });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"previewDeposit"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"previewDeposit"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultPreviewDeposit = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultPreviewDeposit = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'previewDeposit'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"previewMint"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"previewMint"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultPreviewMint = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultPreviewMint = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'previewMint'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"previewRedeem"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"previewRedeem"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultPreviewRedeem = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultPreviewRedeem = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'previewRedeem'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"previewWithdraw"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"previewWithdraw"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultPreviewWithdraw = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultPreviewWithdraw = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'previewWithdraw'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"receiveAssetsGate"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"receiveAssetsGate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultReceiveAssetsGate = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultReceiveAssetsGate = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'receiveAssetsGate'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"receiveSharesGate"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"receiveSharesGate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultReceiveSharesGate = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultReceiveSharesGate = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'receiveSharesGate'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"relativeCap"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"relativeCap"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultRelativeCap = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultRelativeCap = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'relativeCap'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"sendAssetsGate"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"sendAssetsGate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultSendAssetsGate = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultSendAssetsGate = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'sendAssetsGate'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"sendSharesGate"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"sendSharesGate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultSendSharesGate = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultSendSharesGate = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'sendSharesGate'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"symbol"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"symbol"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultSymbol = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultSymbol = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'symbol'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"timelock"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"timelock"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultTimelock = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultTimelock = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'timelock'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"totalAssets"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"totalAssets"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultTotalAssets_2 = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultTotalAssets_2 = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'totalAssets'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"totalSupply"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"totalSupply"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultTotalSupply = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultTotalSupply = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'totalSupply'
 });
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"virtualShares"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"virtualShares"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useReadUsdtClearstarBoringVaultVirtualShares = /*#__PURE__*/ createUseReadContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useReadUsdtSteakhousePrimeInstantVaultVirtualShares = /*#__PURE__*/ createUseReadContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'virtualShares'
 });
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWriteUsdtClearstarBoringVault = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress
+export const useWriteUsdtSteakhousePrimeInstantVault = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress
 });
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"abdicate"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"abdicate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWriteUsdtClearstarBoringVaultAbdicate = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultAbdicate = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'abdicate'
 });
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"accrueInterest"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"accrueInterest"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWriteUsdtClearstarBoringVaultAccrueInterest = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultAccrueInterest = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'accrueInterest'
 });
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"addAdapter"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"addAdapter"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWriteUsdtClearstarBoringVaultAddAdapter = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultAddAdapter = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'addAdapter'
 });
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"allocate"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"allocate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWriteUsdtClearstarBoringVaultAllocate = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultAllocate = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'allocate'
 });
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"approve"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"approve"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWriteUsdtClearstarBoringVaultApprove = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultApprove = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'approve'
 });
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"deallocate"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"deallocate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWriteUsdtClearstarBoringVaultDeallocate = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultDeallocate = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'deallocate'
 });
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"decreaseAbsoluteCap"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"decreaseAbsoluteCap"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWriteUsdtClearstarBoringVaultDecreaseAbsoluteCap = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'decreaseAbsoluteCap'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"decreaseRelativeCap"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultDecreaseRelativeCap = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'decreaseRelativeCap'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"decreaseTimelock"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultDecreaseTimelock = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'decreaseTimelock'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"deposit"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultDeposit = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'deposit'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"forceDeallocate"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultForceDeallocate = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'forceDeallocate'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"increaseAbsoluteCap"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultIncreaseAbsoluteCap = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'increaseAbsoluteCap'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"increaseRelativeCap"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultIncreaseRelativeCap = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'increaseRelativeCap'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"increaseTimelock"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultIncreaseTimelock = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'increaseTimelock'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"mint"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultMint = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'mint'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"multicall"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultMulticall = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'multicall'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"permit"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultPermit = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'permit'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"redeem"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultRedeem = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'redeem'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"removeAdapter"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultRemoveAdapter = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'removeAdapter'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"revoke"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultRevoke = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'revoke'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setAdapterRegistry"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultSetAdapterRegistry = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'setAdapterRegistry'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setCurator"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultSetCurator = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'setCurator'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setForceDeallocatePenalty"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultSetForceDeallocatePenalty = /*#__PURE__*/ createUseWriteContract(
-  {
-    abi: usdtClearstarBoringVaultAbi,
-    address: usdtClearstarBoringVaultAddress,
-    functionName: 'setForceDeallocatePenalty'
-  }
-);
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setIsAllocator"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultSetIsAllocator = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'setIsAllocator'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setIsSentinel"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultSetIsSentinel = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'setIsSentinel'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setLiquidityAdapterAndData"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultSetLiquidityAdapterAndData =
+export const useWriteUsdtSteakhousePrimeInstantVaultDecreaseAbsoluteCap =
   /*#__PURE__*/ createUseWriteContract({
-    abi: usdtClearstarBoringVaultAbi,
-    address: usdtClearstarBoringVaultAddress,
-    functionName: 'setLiquidityAdapterAndData'
-  });
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setManagementFee"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultSetManagementFee = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'setManagementFee'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setManagementFeeRecipient"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultSetManagementFeeRecipient = /*#__PURE__*/ createUseWriteContract(
-  {
-    abi: usdtClearstarBoringVaultAbi,
-    address: usdtClearstarBoringVaultAddress,
-    functionName: 'setManagementFeeRecipient'
-  }
-);
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setMaxRate"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultSetMaxRate = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'setMaxRate'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setName"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultSetName = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'setName'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setOwner"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultSetOwner = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'setOwner'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setPerformanceFee"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultSetPerformanceFee = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'setPerformanceFee'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setPerformanceFeeRecipient"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultSetPerformanceFeeRecipient =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: usdtClearstarBoringVaultAbi,
-    address: usdtClearstarBoringVaultAddress,
-    functionName: 'setPerformanceFeeRecipient'
-  });
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setReceiveAssetsGate"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultSetReceiveAssetsGate = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'setReceiveAssetsGate'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setReceiveSharesGate"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultSetReceiveSharesGate = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'setReceiveSharesGate'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setSendAssetsGate"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultSetSendAssetsGate = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'setSendAssetsGate'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setSendSharesGate"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultSetSendSharesGate = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'setSendSharesGate'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setSymbol"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultSetSymbol = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'setSymbol'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"submit"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultSubmit = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'submit'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"transfer"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultTransfer = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'transfer'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"transferFrom"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultTransferFrom = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'transferFrom'
-});
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"withdraw"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWriteUsdtClearstarBoringVaultWithdraw = /*#__PURE__*/ createUseWriteContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'withdraw'
-});
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useSimulateUsdtClearstarBoringVault = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress
-});
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"abdicate"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useSimulateUsdtClearstarBoringVaultAbdicate = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'abdicate'
-});
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"accrueInterest"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useSimulateUsdtClearstarBoringVaultAccrueInterest = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'accrueInterest'
-});
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"addAdapter"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useSimulateUsdtClearstarBoringVaultAddAdapter = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'addAdapter'
-});
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"allocate"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useSimulateUsdtClearstarBoringVaultAllocate = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'allocate'
-});
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"approve"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useSimulateUsdtClearstarBoringVaultApprove = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'approve'
-});
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"deallocate"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useSimulateUsdtClearstarBoringVaultDeallocate = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'deallocate'
-});
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"decreaseAbsoluteCap"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useSimulateUsdtClearstarBoringVaultDecreaseAbsoluteCap = /*#__PURE__*/ createUseSimulateContract(
-  {
-    abi: usdtClearstarBoringVaultAbi,
-    address: usdtClearstarBoringVaultAddress,
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
     functionName: 'decreaseAbsoluteCap'
-  }
-);
+  });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"decreaseRelativeCap"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"decreaseRelativeCap"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultDecreaseRelativeCap = /*#__PURE__*/ createUseSimulateContract(
-  {
-    abi: usdtClearstarBoringVaultAbi,
-    address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultDecreaseRelativeCap =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
     functionName: 'decreaseRelativeCap'
-  }
-);
+  });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"decreaseTimelock"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"decreaseTimelock"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultDecreaseTimelock = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultDecreaseTimelock = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'decreaseTimelock'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"deposit"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"deposit"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultDeposit = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultDeposit = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'deposit'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"forceDeallocate"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"forceDeallocate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultForceDeallocate = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultForceDeallocate = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'forceDeallocate'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"increaseAbsoluteCap"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"increaseAbsoluteCap"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultIncreaseAbsoluteCap = /*#__PURE__*/ createUseSimulateContract(
-  {
-    abi: usdtClearstarBoringVaultAbi,
-    address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultIncreaseAbsoluteCap =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
     functionName: 'increaseAbsoluteCap'
-  }
-);
+  });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"increaseRelativeCap"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"increaseRelativeCap"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultIncreaseRelativeCap = /*#__PURE__*/ createUseSimulateContract(
-  {
-    abi: usdtClearstarBoringVaultAbi,
-    address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultIncreaseRelativeCap =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
     functionName: 'increaseRelativeCap'
-  }
-);
+  });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"increaseTimelock"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"increaseTimelock"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultIncreaseTimelock = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultIncreaseTimelock = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'increaseTimelock'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"mint"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"mint"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultMint = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultMint = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'mint'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"multicall"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"multicall"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultMulticall = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultMulticall = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'multicall'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"permit"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"permit"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultPermit = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultPermit = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'permit'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"redeem"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"redeem"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultRedeem = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultRedeem = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'redeem'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"removeAdapter"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"removeAdapter"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultRemoveAdapter = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultRemoveAdapter = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'removeAdapter'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"revoke"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"revoke"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultRevoke = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultRevoke = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'revoke'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setAdapterRegistry"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setAdapterRegistry"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultSetAdapterRegistry = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  functionName: 'setAdapterRegistry'
-});
+export const useWriteUsdtSteakhousePrimeInstantVaultSetAdapterRegistry = /*#__PURE__*/ createUseWriteContract(
+  {
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'setAdapterRegistry'
+  }
+);
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setCurator"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setCurator"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultSetCurator = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultSetCurator = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'setCurator'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setForceDeallocatePenalty"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setForceDeallocatePenalty"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultSetForceDeallocatePenalty =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: usdtClearstarBoringVaultAbi,
-    address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultSetForceDeallocatePenalty =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
     functionName: 'setForceDeallocatePenalty'
   });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setIsAllocator"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setIsAllocator"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultSetIsAllocator = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultSetIsAllocator = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'setIsAllocator'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setIsSentinel"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setIsSentinel"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultSetIsSentinel = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultSetIsSentinel = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'setIsSentinel'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setLiquidityAdapterAndData"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setLiquidityAdapterAndData"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultSetLiquidityAdapterAndData =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: usdtClearstarBoringVaultAbi,
-    address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultSetLiquidityAdapterAndData =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
     functionName: 'setLiquidityAdapterAndData'
   });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setManagementFee"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setManagementFee"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultSetManagementFee = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultSetManagementFee = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'setManagementFee'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setManagementFeeRecipient"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setManagementFeeRecipient"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultSetManagementFeeRecipient =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: usdtClearstarBoringVaultAbi,
-    address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultSetManagementFeeRecipient =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
     functionName: 'setManagementFeeRecipient'
   });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setMaxRate"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setMaxRate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultSetMaxRate = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultSetMaxRate = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'setMaxRate'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setName"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setName"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultSetName = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultSetName = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'setName'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setOwner"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setOwner"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultSetOwner = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultSetOwner = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'setOwner'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setPerformanceFee"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setPerformanceFee"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultSetPerformanceFee = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultSetPerformanceFee = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'setPerformanceFee'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setPerformanceFeeRecipient"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setPerformanceFeeRecipient"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultSetPerformanceFeeRecipient =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: usdtClearstarBoringVaultAbi,
-    address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultSetPerformanceFeeRecipient =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
     functionName: 'setPerformanceFeeRecipient'
   });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setReceiveAssetsGate"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setReceiveAssetsGate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultSetReceiveAssetsGate =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: usdtClearstarBoringVaultAbi,
-    address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultSetReceiveAssetsGate =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
     functionName: 'setReceiveAssetsGate'
   });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setReceiveSharesGate"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setReceiveSharesGate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultSetReceiveSharesGate =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: usdtClearstarBoringVaultAbi,
-    address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultSetReceiveSharesGate =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
     functionName: 'setReceiveSharesGate'
   });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setSendAssetsGate"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setSendAssetsGate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultSetSendAssetsGate = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultSetSendAssetsGate = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'setSendAssetsGate'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setSendSharesGate"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setSendSharesGate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultSetSendSharesGate = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultSetSendSharesGate = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'setSendSharesGate'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"setSymbol"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setSymbol"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultSetSymbol = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultSetSymbol = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'setSymbol'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"submit"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"submit"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultSubmit = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultSubmit = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'submit'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"transfer"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"transfer"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultTransfer = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultTransfer = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'transfer'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"transferFrom"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"transferFrom"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultTransferFrom = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultTransferFrom = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'transferFrom'
 });
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `functionName` set to `"withdraw"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"withdraw"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useSimulateUsdtClearstarBoringVaultWithdraw = /*#__PURE__*/ createUseSimulateContract({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWriteUsdtSteakhousePrimeInstantVaultWithdraw = /*#__PURE__*/ createUseWriteContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   functionName: 'withdraw'
 });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVault = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress
+export const useSimulateUsdtSteakhousePrimeInstantVault = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress
 });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"Abdicate"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"abdicate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultAbdicate = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useSimulateUsdtSteakhousePrimeInstantVaultAbdicate = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
+  functionName: 'abdicate'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"accrueInterest"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultAccrueInterest =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'accrueInterest'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"addAdapter"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultAddAdapter = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
+  functionName: 'addAdapter'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"allocate"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultAllocate = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
+  functionName: 'allocate'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"approve"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultApprove = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
+  functionName: 'approve'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"deallocate"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultDeallocate = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
+  functionName: 'deallocate'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"decreaseAbsoluteCap"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultDecreaseAbsoluteCap =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'decreaseAbsoluteCap'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"decreaseRelativeCap"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultDecreaseRelativeCap =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'decreaseRelativeCap'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"decreaseTimelock"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultDecreaseTimelock =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'decreaseTimelock'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"deposit"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultDeposit = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
+  functionName: 'deposit'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"forceDeallocate"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultForceDeallocate =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'forceDeallocate'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"increaseAbsoluteCap"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultIncreaseAbsoluteCap =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'increaseAbsoluteCap'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"increaseRelativeCap"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultIncreaseRelativeCap =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'increaseRelativeCap'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"increaseTimelock"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultIncreaseTimelock =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'increaseTimelock'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"mint"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultMint = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
+  functionName: 'mint'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"multicall"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultMulticall = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
+  functionName: 'multicall'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"permit"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultPermit = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
+  functionName: 'permit'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"redeem"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultRedeem = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
+  functionName: 'redeem'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"removeAdapter"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultRemoveAdapter =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'removeAdapter'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"revoke"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultRevoke = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
+  functionName: 'revoke'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setAdapterRegistry"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultSetAdapterRegistry =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'setAdapterRegistry'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setCurator"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultSetCurator = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
+  functionName: 'setCurator'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setForceDeallocatePenalty"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultSetForceDeallocatePenalty =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'setForceDeallocatePenalty'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setIsAllocator"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultSetIsAllocator =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'setIsAllocator'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setIsSentinel"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultSetIsSentinel =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'setIsSentinel'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setLiquidityAdapterAndData"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultSetLiquidityAdapterAndData =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'setLiquidityAdapterAndData'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setManagementFee"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultSetManagementFee =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'setManagementFee'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setManagementFeeRecipient"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultSetManagementFeeRecipient =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'setManagementFeeRecipient'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setMaxRate"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultSetMaxRate = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
+  functionName: 'setMaxRate'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setName"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultSetName = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
+  functionName: 'setName'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setOwner"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultSetOwner = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
+  functionName: 'setOwner'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setPerformanceFee"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultSetPerformanceFee =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'setPerformanceFee'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setPerformanceFeeRecipient"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultSetPerformanceFeeRecipient =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'setPerformanceFeeRecipient'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setReceiveAssetsGate"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultSetReceiveAssetsGate =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'setReceiveAssetsGate'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setReceiveSharesGate"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultSetReceiveSharesGate =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'setReceiveSharesGate'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setSendAssetsGate"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultSetSendAssetsGate =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'setSendAssetsGate'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setSendSharesGate"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultSetSendSharesGate =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'setSendSharesGate'
+  });
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"setSymbol"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultSetSymbol = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
+  functionName: 'setSymbol'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"submit"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultSubmit = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
+  functionName: 'submit'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"transfer"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultTransfer = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
+  functionName: 'transfer'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"transferFrom"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultTransferFrom = /*#__PURE__*/ createUseSimulateContract(
+  {
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    functionName: 'transferFrom'
+  }
+);
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `functionName` set to `"withdraw"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useSimulateUsdtSteakhousePrimeInstantVaultWithdraw = /*#__PURE__*/ createUseSimulateContract({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
+  functionName: 'withdraw'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useWatchUsdtSteakhousePrimeInstantVault = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"Abdicate"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useWatchUsdtSteakhousePrimeInstantVaultAbdicate = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   eventName: 'Abdicate'
 });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"Accept"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"Accept"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultAccept = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWatchUsdtSteakhousePrimeInstantVaultAccept = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   eventName: 'Accept'
 });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"AccrueInterest"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"AccrueInterest"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultAccrueInterest = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  eventName: 'AccrueInterest'
-});
+export const useWatchUsdtSteakhousePrimeInstantVaultAccrueInterest =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    eventName: 'AccrueInterest'
+  });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"AddAdapter"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"AddAdapter"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultAddAdapter = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWatchUsdtSteakhousePrimeInstantVaultAddAdapter = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   eventName: 'AddAdapter'
 });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"Allocate"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"Allocate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultAllocate = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWatchUsdtSteakhousePrimeInstantVaultAllocate = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   eventName: 'Allocate'
 });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"AllowanceUpdatedByTransferFrom"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"AllowanceUpdatedByTransferFrom"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultAllowanceUpdatedByTransferFrom =
+export const useWatchUsdtSteakhousePrimeInstantVaultAllowanceUpdatedByTransferFrom =
   /*#__PURE__*/ createUseWatchContractEvent({
-    abi: usdtClearstarBoringVaultAbi,
-    address: usdtClearstarBoringVaultAddress,
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
     eventName: 'AllowanceUpdatedByTransferFrom'
   });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"Approval"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"Approval"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultApproval = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWatchUsdtSteakhousePrimeInstantVaultApproval = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   eventName: 'Approval'
 });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"Constructor"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"Constructor"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultConstructor = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWatchUsdtSteakhousePrimeInstantVaultConstructor = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   eventName: 'Constructor'
 });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"Deallocate"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"Deallocate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultDeallocate = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWatchUsdtSteakhousePrimeInstantVaultDeallocate = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   eventName: 'Deallocate'
 });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"DecreaseAbsoluteCap"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"DecreaseAbsoluteCap"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultDecreaseAbsoluteCap = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  eventName: 'DecreaseAbsoluteCap'
-});
+export const useWatchUsdtSteakhousePrimeInstantVaultDecreaseAbsoluteCap =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    eventName: 'DecreaseAbsoluteCap'
+  });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"DecreaseRelativeCap"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"DecreaseRelativeCap"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultDecreaseRelativeCap = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  eventName: 'DecreaseRelativeCap'
-});
+export const useWatchUsdtSteakhousePrimeInstantVaultDecreaseRelativeCap =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    eventName: 'DecreaseRelativeCap'
+  });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"DecreaseTimelock"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"DecreaseTimelock"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultDecreaseTimelock = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  eventName: 'DecreaseTimelock'
-});
+export const useWatchUsdtSteakhousePrimeInstantVaultDecreaseTimelock =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    eventName: 'DecreaseTimelock'
+  });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"Deposit"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"Deposit"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultDeposit = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWatchUsdtSteakhousePrimeInstantVaultDeposit = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   eventName: 'Deposit'
 });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"ForceDeallocate"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"ForceDeallocate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultForceDeallocate = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  eventName: 'ForceDeallocate'
-});
+export const useWatchUsdtSteakhousePrimeInstantVaultForceDeallocate =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    eventName: 'ForceDeallocate'
+  });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"IncreaseAbsoluteCap"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"IncreaseAbsoluteCap"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultIncreaseAbsoluteCap = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  eventName: 'IncreaseAbsoluteCap'
-});
+export const useWatchUsdtSteakhousePrimeInstantVaultIncreaseAbsoluteCap =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    eventName: 'IncreaseAbsoluteCap'
+  });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"IncreaseRelativeCap"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"IncreaseRelativeCap"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultIncreaseRelativeCap = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  eventName: 'IncreaseRelativeCap'
-});
+export const useWatchUsdtSteakhousePrimeInstantVaultIncreaseRelativeCap =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    eventName: 'IncreaseRelativeCap'
+  });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"IncreaseTimelock"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"IncreaseTimelock"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultIncreaseTimelock = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  eventName: 'IncreaseTimelock'
-});
+export const useWatchUsdtSteakhousePrimeInstantVaultIncreaseTimelock =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    eventName: 'IncreaseTimelock'
+  });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"Permit"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"Permit"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultPermit = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWatchUsdtSteakhousePrimeInstantVaultPermit = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   eventName: 'Permit'
 });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"RemoveAdapter"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"RemoveAdapter"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultRemoveAdapter = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  eventName: 'RemoveAdapter'
-});
+export const useWatchUsdtSteakhousePrimeInstantVaultRemoveAdapter = /*#__PURE__*/ createUseWatchContractEvent(
+  {
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    eventName: 'RemoveAdapter'
+  }
+);
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"Revoke"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"Revoke"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultRevoke = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWatchUsdtSteakhousePrimeInstantVaultRevoke = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   eventName: 'Revoke'
 });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"SetAdapterRegistry"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"SetAdapterRegistry"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultSetAdapterRegistry = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  eventName: 'SetAdapterRegistry'
-});
+export const useWatchUsdtSteakhousePrimeInstantVaultSetAdapterRegistry =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    eventName: 'SetAdapterRegistry'
+  });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"SetCurator"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"SetCurator"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultSetCurator = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWatchUsdtSteakhousePrimeInstantVaultSetCurator = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   eventName: 'SetCurator'
 });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"SetForceDeallocatePenalty"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"SetForceDeallocatePenalty"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultSetForceDeallocatePenalty =
+export const useWatchUsdtSteakhousePrimeInstantVaultSetForceDeallocatePenalty =
   /*#__PURE__*/ createUseWatchContractEvent({
-    abi: usdtClearstarBoringVaultAbi,
-    address: usdtClearstarBoringVaultAddress,
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
     eventName: 'SetForceDeallocatePenalty'
   });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"SetIsAllocator"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"SetIsAllocator"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultSetIsAllocator = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  eventName: 'SetIsAllocator'
-});
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"SetIsSentinel"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWatchUsdtClearstarBoringVaultSetIsSentinel = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  eventName: 'SetIsSentinel'
-});
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"SetLiquidityAdapterAndData"`
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
- */
-export const useWatchUsdtClearstarBoringVaultSetLiquidityAdapterAndData =
+export const useWatchUsdtSteakhousePrimeInstantVaultSetIsAllocator =
   /*#__PURE__*/ createUseWatchContractEvent({
-    abi: usdtClearstarBoringVaultAbi,
-    address: usdtClearstarBoringVaultAddress,
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    eventName: 'SetIsAllocator'
+  });
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"SetIsSentinel"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useWatchUsdtSteakhousePrimeInstantVaultSetIsSentinel = /*#__PURE__*/ createUseWatchContractEvent(
+  {
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    eventName: 'SetIsSentinel'
+  }
+);
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"SetLiquidityAdapterAndData"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
+ */
+export const useWatchUsdtSteakhousePrimeInstantVaultSetLiquidityAdapterAndData =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
     eventName: 'SetLiquidityAdapterAndData'
   });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"SetManagementFee"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"SetManagementFee"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultSetManagementFee = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  eventName: 'SetManagementFee'
-});
+export const useWatchUsdtSteakhousePrimeInstantVaultSetManagementFee =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    eventName: 'SetManagementFee'
+  });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"SetManagementFeeRecipient"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"SetManagementFeeRecipient"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultSetManagementFeeRecipient =
+export const useWatchUsdtSteakhousePrimeInstantVaultSetManagementFeeRecipient =
   /*#__PURE__*/ createUseWatchContractEvent({
-    abi: usdtClearstarBoringVaultAbi,
-    address: usdtClearstarBoringVaultAddress,
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
     eventName: 'SetManagementFeeRecipient'
   });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"SetMaxRate"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"SetMaxRate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultSetMaxRate = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWatchUsdtSteakhousePrimeInstantVaultSetMaxRate = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   eventName: 'SetMaxRate'
 });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"SetName"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"SetName"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultSetName = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWatchUsdtSteakhousePrimeInstantVaultSetName = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   eventName: 'SetName'
 });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"SetOwner"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"SetOwner"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultSetOwner = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWatchUsdtSteakhousePrimeInstantVaultSetOwner = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   eventName: 'SetOwner'
 });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"SetPerformanceFee"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"SetPerformanceFee"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultSetPerformanceFee = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  eventName: 'SetPerformanceFee'
-});
+export const useWatchUsdtSteakhousePrimeInstantVaultSetPerformanceFee =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    eventName: 'SetPerformanceFee'
+  });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"SetPerformanceFeeRecipient"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"SetPerformanceFeeRecipient"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultSetPerformanceFeeRecipient =
+export const useWatchUsdtSteakhousePrimeInstantVaultSetPerformanceFeeRecipient =
   /*#__PURE__*/ createUseWatchContractEvent({
-    abi: usdtClearstarBoringVaultAbi,
-    address: usdtClearstarBoringVaultAddress,
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
     eventName: 'SetPerformanceFeeRecipient'
   });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"SetReceiveAssetsGate"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"SetReceiveAssetsGate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultSetReceiveAssetsGate = /*#__PURE__*/ createUseWatchContractEvent(
-  {
-    abi: usdtClearstarBoringVaultAbi,
-    address: usdtClearstarBoringVaultAddress,
+export const useWatchUsdtSteakhousePrimeInstantVaultSetReceiveAssetsGate =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
     eventName: 'SetReceiveAssetsGate'
-  }
-);
+  });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"SetReceiveSharesGate"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"SetReceiveSharesGate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultSetReceiveSharesGate = /*#__PURE__*/ createUseWatchContractEvent(
-  {
-    abi: usdtClearstarBoringVaultAbi,
-    address: usdtClearstarBoringVaultAddress,
+export const useWatchUsdtSteakhousePrimeInstantVaultSetReceiveSharesGate =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
     eventName: 'SetReceiveSharesGate'
-  }
-);
+  });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"SetSendAssetsGate"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"SetSendAssetsGate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultSetSendAssetsGate = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  eventName: 'SetSendAssetsGate'
-});
+export const useWatchUsdtSteakhousePrimeInstantVaultSetSendAssetsGate =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    eventName: 'SetSendAssetsGate'
+  });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"SetSendSharesGate"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"SetSendSharesGate"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultSetSendSharesGate = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
-  eventName: 'SetSendSharesGate'
-});
+export const useWatchUsdtSteakhousePrimeInstantVaultSetSendSharesGate =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: usdtSteakhousePrimeInstantVaultAbi,
+    address: usdtSteakhousePrimeInstantVaultAddress,
+    eventName: 'SetSendSharesGate'
+  });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"SetSymbol"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"SetSymbol"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultSetSymbol = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWatchUsdtSteakhousePrimeInstantVaultSetSymbol = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   eventName: 'SetSymbol'
 });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"Submit"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"Submit"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultSubmit = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWatchUsdtSteakhousePrimeInstantVaultSubmit = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   eventName: 'Submit'
 });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"Transfer"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"Transfer"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultTransfer = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWatchUsdtSteakhousePrimeInstantVaultTransfer = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   eventName: 'Transfer'
 });
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtClearstarBoringVaultAbi}__ and `eventName` set to `"Withdraw"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdtSteakhousePrimeInstantVaultAbi}__ and `eventName` set to `"Withdraw"`
  *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2B58132964f038461E3D8b56df582f49FEcc8745)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9)
  */
-export const useWatchUsdtClearstarBoringVaultWithdraw = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: usdtClearstarBoringVaultAbi,
-  address: usdtClearstarBoringVaultAddress,
+export const useWatchUsdtSteakhousePrimeInstantVaultWithdraw = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: usdtSteakhousePrimeInstantVaultAbi,
+  address: usdtSteakhousePrimeInstantVaultAddress,
   eventName: 'Withdraw'
 });
 
