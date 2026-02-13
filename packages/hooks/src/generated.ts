@@ -454,6 +454,88 @@ export const morphoMerklDistributorImplementationConfig = {
 } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// cbBtc
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf)
+ */
+export const cbBtcAbi = [
+  {
+    type: 'constructor',
+    inputs: [{ name: 'implementationContract', internalType: 'address', type: 'address' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
+      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false }
+    ],
+    name: 'AdminChanged'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: false }],
+    name: 'Upgraded'
+  },
+  { type: 'fallback', stateMutability: 'payable' },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'admin',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'newAdmin', internalType: 'address', type: 'address' }],
+    name: 'changeAdmin',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'implementation',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
+    name: 'upgradeTo',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'newImplementation', internalType: 'address', type: 'address' },
+      { name: 'data', internalType: 'bytes', type: 'bytes' }
+    ],
+    name: 'upgradeToAndCall',
+    outputs: [],
+    stateMutability: 'payable'
+  }
+] as const;
+
+/**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf)
+ */
+export const cbBtcAddress = {
+  1: '0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf',
+  314310: '0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf'
+} as const;
+
+/**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf)
+ */
+export const cbBtcConfig = { address: cbBtcAddress, abi: cbBtcAbi } as const;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // cleReward
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -14248,6 +14330,229 @@ export const wethAddress = {
 export const wethConfig = { address: wethAddress, abi: wethAbi } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// wstEth
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const wstEthAbi = [
+  {
+    type: 'constructor',
+    inputs: [{ name: '_stETH', internalType: 'contract IStETH', type: 'address' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'spender', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Approval'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Transfer'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'DOMAIN_SEPARATOR',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' }
+    ],
+    name: 'allowance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'approve',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'decimals',
+    outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'subtractedValue', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'decreaseAllowance',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_wstETHAmount', internalType: 'uint256', type: 'uint256' }],
+    name: 'getStETHByWstETH',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_stETHAmount', internalType: 'uint256', type: 'uint256' }],
+    name: 'getWstETHByStETH',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'addedValue', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'increaseAllowance',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'name',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
+    name: 'nonces',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+      { name: 'v', internalType: 'uint8', type: 'uint8' },
+      { name: 'r', internalType: 'bytes32', type: 'bytes32' },
+      { name: 's', internalType: 'bytes32', type: 'bytes32' }
+    ],
+    name: 'permit',
+    outputs: [],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'stETH',
+    outputs: [{ name: '', internalType: 'contract IStETH', type: 'address' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'stEthPerToken',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'symbol',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'tokensPerStEth',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'recipient', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'transfer',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address' },
+      { name: 'recipient', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'transferFrom',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_wstETHAmount', internalType: 'uint256', type: 'uint256' }],
+    name: 'unwrap',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable'
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_stETHAmount', internalType: 'uint256', type: 'uint256' }],
+    name: 'wrap',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable'
+  },
+  { type: 'receive', stateMutability: 'payable' }
+] as const;
+
+/**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const wstEthAddress = {
+  1: '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0',
+  314310: '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0'
+} as const;
+
+/**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const wstEthConfig = { address: wstEthAddress, abi: wstEthAbi } as const;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // React
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -15035,6 +15340,150 @@ export const useWatchMorphoMerklDistributorImplementationUpgraded = /*#__PURE__*
     eventName: 'Upgraded'
   }
 );
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link cbBtcAbi}__
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf)
+ */
+export const useReadCbBtc = /*#__PURE__*/ createUseReadContract({ abi: cbBtcAbi, address: cbBtcAddress });
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link cbBtcAbi}__ and `functionName` set to `"admin"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf)
+ */
+export const useReadCbBtcAdmin = /*#__PURE__*/ createUseReadContract({
+  abi: cbBtcAbi,
+  address: cbBtcAddress,
+  functionName: 'admin'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link cbBtcAbi}__ and `functionName` set to `"implementation"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf)
+ */
+export const useReadCbBtcImplementation = /*#__PURE__*/ createUseReadContract({
+  abi: cbBtcAbi,
+  address: cbBtcAddress,
+  functionName: 'implementation'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cbBtcAbi}__
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf)
+ */
+export const useWriteCbBtc = /*#__PURE__*/ createUseWriteContract({ abi: cbBtcAbi, address: cbBtcAddress });
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cbBtcAbi}__ and `functionName` set to `"changeAdmin"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf)
+ */
+export const useWriteCbBtcChangeAdmin = /*#__PURE__*/ createUseWriteContract({
+  abi: cbBtcAbi,
+  address: cbBtcAddress,
+  functionName: 'changeAdmin'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cbBtcAbi}__ and `functionName` set to `"upgradeTo"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf)
+ */
+export const useWriteCbBtcUpgradeTo = /*#__PURE__*/ createUseWriteContract({
+  abi: cbBtcAbi,
+  address: cbBtcAddress,
+  functionName: 'upgradeTo'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cbBtcAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf)
+ */
+export const useWriteCbBtcUpgradeToAndCall = /*#__PURE__*/ createUseWriteContract({
+  abi: cbBtcAbi,
+  address: cbBtcAddress,
+  functionName: 'upgradeToAndCall'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cbBtcAbi}__
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf)
+ */
+export const useSimulateCbBtc = /*#__PURE__*/ createUseSimulateContract({
+  abi: cbBtcAbi,
+  address: cbBtcAddress
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cbBtcAbi}__ and `functionName` set to `"changeAdmin"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf)
+ */
+export const useSimulateCbBtcChangeAdmin = /*#__PURE__*/ createUseSimulateContract({
+  abi: cbBtcAbi,
+  address: cbBtcAddress,
+  functionName: 'changeAdmin'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cbBtcAbi}__ and `functionName` set to `"upgradeTo"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf)
+ */
+export const useSimulateCbBtcUpgradeTo = /*#__PURE__*/ createUseSimulateContract({
+  abi: cbBtcAbi,
+  address: cbBtcAddress,
+  functionName: 'upgradeTo'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cbBtcAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf)
+ */
+export const useSimulateCbBtcUpgradeToAndCall = /*#__PURE__*/ createUseSimulateContract({
+  abi: cbBtcAbi,
+  address: cbBtcAddress,
+  functionName: 'upgradeToAndCall'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cbBtcAbi}__
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf)
+ */
+export const useWatchCbBtc = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: cbBtcAbi,
+  address: cbBtcAddress
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cbBtcAbi}__ and `eventName` set to `"AdminChanged"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf)
+ */
+export const useWatchCbBtcAdminChanged = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: cbBtcAbi,
+  address: cbBtcAddress,
+  eventName: 'AdminChanged'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cbBtcAbi}__ and `eventName` set to `"Upgraded"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf)
+ */
+export const useWatchCbBtcUpgraded = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: cbBtcAbi,
+  address: cbBtcAddress,
+  eventName: 'Upgraded'
+});
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cleRewardAbi}__
@@ -37291,4 +37740,382 @@ export const useWatchWethWithdrawal = /*#__PURE__*/ createUseWatchContractEvent(
   abi: wethAbi,
   address: wethAddress,
   eventName: 'Withdrawal'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wstEthAbi}__
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useReadWstEth = /*#__PURE__*/ createUseReadContract({ abi: wstEthAbi, address: wstEthAddress });
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"DOMAIN_SEPARATOR"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useReadWstEthDomainSeparator = /*#__PURE__*/ createUseReadContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'DOMAIN_SEPARATOR'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"allowance"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useReadWstEthAllowance = /*#__PURE__*/ createUseReadContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'allowance'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"balanceOf"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useReadWstEthBalanceOf = /*#__PURE__*/ createUseReadContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'balanceOf'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"decimals"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useReadWstEthDecimals = /*#__PURE__*/ createUseReadContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'decimals'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"getStETHByWstETH"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useReadWstEthGetStEthByWstEth = /*#__PURE__*/ createUseReadContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'getStETHByWstETH'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"getWstETHByStETH"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useReadWstEthGetWstEthByStEth = /*#__PURE__*/ createUseReadContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'getWstETHByStETH'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"name"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useReadWstEthName = /*#__PURE__*/ createUseReadContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'name'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"nonces"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useReadWstEthNonces = /*#__PURE__*/ createUseReadContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'nonces'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"stETH"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useReadWstEthStEth = /*#__PURE__*/ createUseReadContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'stETH'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"stEthPerToken"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useReadWstEthStEthPerToken = /*#__PURE__*/ createUseReadContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'stEthPerToken'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"symbol"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useReadWstEthSymbol = /*#__PURE__*/ createUseReadContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'symbol'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"tokensPerStEth"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useReadWstEthTokensPerStEth = /*#__PURE__*/ createUseReadContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'tokensPerStEth'
+});
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"totalSupply"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useReadWstEthTotalSupply = /*#__PURE__*/ createUseReadContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'totalSupply'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wstEthAbi}__
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useWriteWstEth = /*#__PURE__*/ createUseWriteContract({
+  abi: wstEthAbi,
+  address: wstEthAddress
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"approve"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useWriteWstEthApprove = /*#__PURE__*/ createUseWriteContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'approve'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"decreaseAllowance"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useWriteWstEthDecreaseAllowance = /*#__PURE__*/ createUseWriteContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'decreaseAllowance'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"increaseAllowance"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useWriteWstEthIncreaseAllowance = /*#__PURE__*/ createUseWriteContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'increaseAllowance'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"permit"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useWriteWstEthPermit = /*#__PURE__*/ createUseWriteContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'permit'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"transfer"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useWriteWstEthTransfer = /*#__PURE__*/ createUseWriteContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'transfer'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"transferFrom"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useWriteWstEthTransferFrom = /*#__PURE__*/ createUseWriteContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'transferFrom'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"unwrap"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useWriteWstEthUnwrap = /*#__PURE__*/ createUseWriteContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'unwrap'
+});
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"wrap"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useWriteWstEthWrap = /*#__PURE__*/ createUseWriteContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'wrap'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wstEthAbi}__
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useSimulateWstEth = /*#__PURE__*/ createUseSimulateContract({
+  abi: wstEthAbi,
+  address: wstEthAddress
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"approve"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useSimulateWstEthApprove = /*#__PURE__*/ createUseSimulateContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'approve'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"decreaseAllowance"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useSimulateWstEthDecreaseAllowance = /*#__PURE__*/ createUseSimulateContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'decreaseAllowance'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"increaseAllowance"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useSimulateWstEthIncreaseAllowance = /*#__PURE__*/ createUseSimulateContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'increaseAllowance'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"permit"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useSimulateWstEthPermit = /*#__PURE__*/ createUseSimulateContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'permit'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"transfer"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useSimulateWstEthTransfer = /*#__PURE__*/ createUseSimulateContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'transfer'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"transferFrom"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useSimulateWstEthTransferFrom = /*#__PURE__*/ createUseSimulateContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'transferFrom'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"unwrap"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useSimulateWstEthUnwrap = /*#__PURE__*/ createUseSimulateContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'unwrap'
+});
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wstEthAbi}__ and `functionName` set to `"wrap"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useSimulateWstEthWrap = /*#__PURE__*/ createUseSimulateContract({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  functionName: 'wrap'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wstEthAbi}__
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useWatchWstEth = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: wstEthAbi,
+  address: wstEthAddress
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wstEthAbi}__ and `eventName` set to `"Approval"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useWatchWstEthApproval = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  eventName: 'Approval'
+});
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wstEthAbi}__ and `eventName` set to `"Transfer"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0)
+ */
+export const useWatchWstEthTransfer = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: wstEthAbi,
+  address: wstEthAddress,
+  eventName: 'Transfer'
 });
