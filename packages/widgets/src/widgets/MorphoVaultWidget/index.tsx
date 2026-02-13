@@ -396,6 +396,8 @@ const MorphoVaultWidgetWrapped = ({
           setButtonText(t`Confirm withdrawal`);
         } else if (shouldUseBatch) {
           setButtonText(t`Confirm bundled transaction`);
+        } else if (needsAllowanceReset) {
+          setButtonText(t`Confirm 3 transactions`);
         } else if (needsAllowance) {
           setButtonText(t`Confirm 2 transactions`);
         } else if (widgetState.flow === MorphoVaultFlow.SUPPLY) {
