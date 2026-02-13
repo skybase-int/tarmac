@@ -1,6 +1,6 @@
 import { useConnection, useChainId } from 'wagmi';
 import { BatchWriteHook, BatchWriteHookParams } from '../hooks';
-import { usdsRiskCapitalVaultAbi } from '../generated';
+import { usdtAbi, usdtAddress, usdsRiskCapitalVaultAbi } from '../generated';
 import { getWriteContractCall } from '../shared/getWriteContractCall';
 import { useTransactionFlow } from '../shared/useTransactionFlow';
 import { useTokenAllowance } from '../tokens/useTokenAllowance';
@@ -43,6 +43,9 @@ export function useBatchMorphoVaultDeposit({
   const { address: connectedAddress, isConnected } = useConnection();
   const chainId = useChainId();
 
+  const isUsdt = assetAddress === usdtAddress[chainId as keyof typeof usdtAddress];
+  const approveAbi = isUsdt ? usdtAbi : erc20Abi;
+
   // Check current allowance for the underlying asset
   const { data: allowance, error: allowanceError } = useTokenAllowance({
     chainId,
@@ -52,14 +55,6 @@ export function useBatchMorphoVaultDeposit({
   });
 
   const hasAllowance = allowance !== undefined && allowance >= amount;
-
-  // Build the approve call for the underlying asset
-  const approveCall = getWriteContractCall({
-    to: assetAddress,
-    abi: erc20Abi,
-    functionName: 'approve',
-    args: [vaultAddress, amount]
-  });
 
   // Build the deposit call
   // ERC-4626 deposit signature: deposit(uint256 assets, address receiver)
@@ -71,9 +66,29 @@ export function useBatchMorphoVaultDeposit({
     args: [amount, connectedAddress!]
   });
 
-  // Conditionally include approve call if allowance is insufficient
+  // Conditionally include approve calls if allowance is insufficient
   const calls: Call[] = [];
-  if (!hasAllowance) calls.push(approveCall);
+  if (!hasAllowance) {
+    // USDT requires resetting allowance to 0 before setting a new value
+    if (isUsdt && allowance !== undefined && allowance > 0n) {
+      calls.push(
+        getWriteContractCall({
+          to: assetAddress,
+          abi: approveAbi,
+          functionName: 'approve',
+          args: [vaultAddress, 0n]
+        })
+      );
+    }
+    calls.push(
+      getWriteContractCall({
+        to: assetAddress,
+        abi: approveAbi,
+        functionName: 'approve',
+        args: [vaultAddress, amount]
+      })
+    );
+  }
   calls.push(depositCall);
 
   const enabled =
