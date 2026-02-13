@@ -6,7 +6,8 @@ import {
   Token,
   useMorphoVaultOnChainData,
   useMorphoVaultMarketApiData,
-  useMorphoVaultRewards
+  useMorphoVaultRewards,
+  usdtAddress
 } from '@jetstreamgg/sky-hooks';
 import { useDebounce, formatBigInt } from '@jetstreamgg/sky-utils';
 import { useContext, useEffect, useMemo, useState } from 'react';
@@ -189,6 +190,9 @@ const MorphoVaultWidgetWrapped = ({
 
   // Determine if allowance is needed for supply
   const needsAllowance = !!(!allowance || allowance < debouncedAmount);
+  // USDT requires resetting allowance to 0 before setting a new value
+  const isUsdt = assetAddress === usdtAddress[chainId as keyof typeof usdtAddress];
+  const needsAllowanceReset = isUsdt && needsAllowance && !!allowance && allowance > 0n;
   const shouldUseBatch =
     !!batchEnabled && !!batchSupported && needsAllowance && widgetState.flow === MorphoVaultFlow.SUPPLY;
 
@@ -526,6 +530,7 @@ const MorphoVaultWidgetWrapped = ({
               onExternalLinkClicked={onExternalLinkClicked}
               isBatchTransaction={shouldUseBatch}
               needsAllowance={needsAllowance}
+              needsAllowanceReset={needsAllowanceReset}
               claimAmountText={claimAmountText}
             />
           </CardAnimationWrapper>
@@ -538,6 +543,7 @@ const MorphoVaultWidgetWrapped = ({
               assetToken={assetToken}
               amount={debouncedAmount}
               needsAllowance={needsAllowance}
+              needsAllowanceReset={needsAllowanceReset}
               legalBatchTxUrl={legalBatchTxUrl}
             />
           </CardAnimationWrapper>

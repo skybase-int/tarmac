@@ -18,12 +18,15 @@ import {
 import { TxCardCopyText } from '@widgets/shared/types/txCardCopyText';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { BatchTransactionStatus } from '@widgets/shared/components/ui/transaction/BatchTransactionStatus';
+import { StepIndicator } from '@widgets/shared/components/ui/transaction/StepIndicator';
 import { useLingui } from '@lingui/react';
 import { t } from '@lingui/core/macro';
 import { Token, getTokenDecimals } from '@jetstreamgg/sky-hooks';
 import { formatBigInt } from '@jetstreamgg/sky-utils';
 import { useChainId } from 'wagmi';
 import { TxStatus } from '@widgets/shared/constants';
+import { motion } from 'framer-motion';
+import { positionAnimations } from '@widgets/shared/animation/presets';
 
 export const MorphoVaultTransactionStatus = ({
   assetToken,
@@ -31,6 +34,7 @@ export const MorphoVaultTransactionStatus = ({
   onExternalLinkClicked,
   isBatchTransaction,
   needsAllowance,
+  needsAllowanceReset,
   claimAmountText
 }: {
   amount: bigint;
@@ -38,10 +42,12 @@ export const MorphoVaultTransactionStatus = ({
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   isBatchTransaction?: boolean;
   needsAllowance: boolean;
+  needsAllowanceReset: boolean;
   claimAmountText?: string;
 }) => {
-  // Capture needsAllowance at mount to avoid state changes during transaction
+  // Capture at mount to avoid state changes during transaction
   const [flowNeedsAllowance] = useState(needsAllowance);
+  const [flowNeedsAllowanceReset] = useState(needsAllowanceReset);
 
   const { i18n } = useLingui();
   const chainId = useChainId();
@@ -54,6 +60,8 @@ export const MorphoVaultTransactionStatus = ({
     setOriginAmount,
     setStep,
     setStepTwoTitle,
+    stepTwoTitle,
+    step,
     txStatus,
     widgetState
   } = useContext(WidgetContext);
@@ -198,10 +206,41 @@ export const MorphoVaultTransactionStatus = ({
     setStepTwoTitle
   ]);
 
+  // Custom 3-step indicators for USDT allowance reset flow
+  const resetSteps = flowNeedsAllowanceReset ? (
+    <motion.div variants={positionAnimations} className="flex w-full flex-col pt-4">
+      <StepIndicator
+        stepNumber={1}
+        currentStep={isBatchTransaction || step === 1}
+        txStatus={isBatchTransaction ? txStatus : step === 2 ? TxStatus.SUCCESS : txStatus}
+        text={t`Reset allowance`}
+        className="flex-1"
+        circleIndicator
+      />
+      <StepIndicator
+        stepNumber={2}
+        currentStep={isBatchTransaction || step === 1}
+        txStatus={isBatchTransaction ? txStatus : step === 2 ? TxStatus.SUCCESS : txStatus}
+        text={t`Approve`}
+        className="flex-1"
+        circleIndicator
+      />
+      <StepIndicator
+        stepNumber={3}
+        currentStep={isBatchTransaction || step === 2}
+        txStatus={isBatchTransaction ? txStatus : step === 1 ? TxStatus.IDLE : txStatus}
+        text={stepTwoTitle}
+        className="flex-1"
+        circleIndicator
+      />
+    </motion.div>
+  ) : undefined;
+
   return (
     <BatchTransactionStatus
       onExternalLinkClicked={onExternalLinkClicked}
       isBatchTransaction={isBatchTransaction}
+      customSteps={resetSteps}
     />
   );
 };
