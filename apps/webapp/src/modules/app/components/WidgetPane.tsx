@@ -1,15 +1,22 @@
-import { Balances, Upgrade, Trade, RewardsModule, Savings, Stake, Expert } from '../../icons';
+import { Balances, RewardsModule, Savings, Stake, Expert, Vaults, Convert, Upgrade, Trade } from '../../icons';
 import { Intent } from '@/lib/enums';
 import { useLingui } from '@lingui/react';
 import { useCustomConnectModal } from '@/modules/ui/hooks/useCustomConnectModal';
-import { BATCH_TX_LEGAL_NOTICE_URL, COMING_SOON_MAP, QueryParams, RESTRICTED_INTENTS } from '@/lib/constants';
+import {
+  BATCH_TX_LEGAL_NOTICE_URL,
+  COMING_SOON_MAP,
+  QueryParams,
+  RESTRICTED_INTENTS,
+  ExpertIntentMapping,
+  VaultsIntentMapping,
+  ConvertIntentMapping
+} from '@/lib/constants';
+import { ExpertIntent, VaultsIntent, ConvertIntent } from '@/lib/enums';
 import { WidgetNavigation } from '@/modules/app/components/WidgetNavigation';
 import { withErrorBoundary } from '@/modules/utils/withErrorBoundary';
 import { DualSwitcher } from '@/components/DualSwitcher';
 import { IconProps } from '@/modules/icons/Icon';
-import { UpgradeWidgetPane } from '@/modules/upgrade/components/UpgradeWidgetPane';
 import { RewardsWidgetPane } from '@/modules/rewards/components/RewardsWidgetPane';
-import { TradeWidgetPane } from '@/modules/trade/components/TradeWidgetPane';
 import { SavingsWidgetPane } from '@/modules/savings/components/SavingsWidgetPane';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 import React, { useEffect } from 'react';
@@ -26,7 +33,11 @@ import { useBalanceFilters } from '@/modules/ui/context/BalanceFiltersContext';
 import { WidgetContent, WidgetItem } from '../types/Widgets';
 import { isL2ChainId } from '@jetstreamgg/sky-utils';
 import { ExpertWidgetPane } from '@/modules/expert/components/ExpertWidgetPane';
+import { VaultsWidgetPane } from '@/modules/vaults/components/VaultsWidgetPane';
+import { ConvertWidgetPane } from '@/modules/convert/components/ConvertWidgetPane';
 import { useModuleUrls } from '../hooks/useModuleUrls';
+import { useAvailableTokenRewardContracts } from '@jetstreamgg/sky-hooks';
+import { TokenIcon } from '@/modules/ui/components/TokenIcon';
 
 type WidgetPaneProps = {
   intent: Intent;
@@ -69,7 +80,16 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
 
   const actionForToken = useActionForToken();
 
-  const { rewardsUrl, savingsUrlMap, sealUrl, stakeUrl, stusdsUrl } = useModuleUrls();
+  const { rewardsUrl, savingsUrlMap, sealUrl, stakeUrl, stusdsUrl, morphoUrl } = useModuleUrls();
+  const rewardContracts = useAvailableTokenRewardContracts(chainId);
+  const rewardSubItems = rewardContracts.map(contract => ({
+    label: `${contract.rewardToken.symbol} Rewards`,
+    icon: (
+      <TokenIcon token={{ symbol: contract.rewardToken.symbol }} className="h-3 w-3" showChainIcon={false} />
+    ),
+    paramKey: QueryParams.Reward,
+    paramValue: contract.contractAddress
+  }));
 
   const widgetItems: WidgetItem[] = [
     [
@@ -86,6 +106,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
           sealCardUrl={sealUrl}
           stakeCardUrl={stakeUrl}
           stusdsCardUrl={stusdsUrl}
+          morphoCardUrl={morphoUrl}
           customTokenMap={defaultConfig.balancesTokenList}
           chainIds={getSupportedChainIds(chainId)}
           hideZeroBalances={hideZeroBalances}
@@ -105,7 +126,8 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
       withErrorBoundary(<RewardsWidgetPane {...sharedProps} />),
       false,
       undefined,
-      'Use USDS to access Sky Token Rewards'
+      'Use USDS to access Sky Token Rewards',
+      rewardSubItems
     ],
     [
       Intent.SAVINGS_INTENT,
@@ -119,24 +141,6 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
         : 'Use USDS to access the Sky Savings Rate'
     ],
     [
-      Intent.UPGRADE_INTENT,
-      'Upgrade',
-      Upgrade,
-      withErrorBoundary(<UpgradeWidgetPane {...sharedProps} />),
-      false,
-      undefined,
-      'Upgrade your DAI to USDS and MKR to SKY'
-    ],
-    [
-      Intent.TRADE_INTENT,
-      'Trade',
-      Trade,
-      withErrorBoundary(<TradeWidgetPane {...sharedProps} />),
-      false,
-      undefined,
-      'Trade popular tokens for Sky Ecosystem tokens'
-    ],
-    [
       Intent.STAKE_INTENT,
       'Stake & Borrow',
       Stake,
@@ -146,17 +150,65 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
       'Stake SKY to earn rewards, delegate votes, and borrow USDS'
     ],
     [
+      Intent.VAULTS_INTENT,
+      'Vaults',
+      Vaults,
+      withErrorBoundary(<VaultsWidgetPane {...sharedProps} />),
+      false,
+      undefined,
+      'Third-party vault integrations with Sky ecosystem tokens',
+      [
+        {
+          label: 'USDS Risk Capital',
+          icon: <TokenIcon token={{ symbol: 'USDS' }} className="h-3 w-3" showChainIcon={false} />,
+          paramKey: QueryParams.VaultModule,
+          paramValue: VaultsIntentMapping[VaultsIntent.MORPHO_VAULT_INTENT]
+        }
+      ]
+    ],
+    [
       Intent.EXPERT_INTENT,
       'Expert',
       Expert,
       withErrorBoundary(<ExpertWidgetPane {...sharedProps} />),
       false,
       undefined,
-      'Higher-risk options for more experienced users'
+      'Higher-risk options for more experienced users',
+      [
+        {
+          label: 'stUSDS',
+          icon: <TokenIcon token={{ symbol: 'stUSDS' }} className="h-3 w-3" showChainIcon={false} />,
+          paramKey: QueryParams.ExpertModule,
+          paramValue: ExpertIntentMapping[ExpertIntent.STUSDS_INTENT]
+        }
+      ]
+    ],
+    [
+      Intent.CONVERT_INTENT,
+      'Convert',
+      Convert,
+      withErrorBoundary(<ConvertWidgetPane {...sharedProps} />),
+      false,
+      undefined,
+      'Upgrade legacy tokens or trade for Sky ecosystem tokens',
+      [
+        {
+          label: 'Upgrade',
+          icon: <Upgrade className="h-3 w-3" />,
+          paramKey: QueryParams.ConvertModule,
+          paramValue: ConvertIntentMapping[ConvertIntent.UPGRADE_INTENT]
+        },
+        {
+          label: 'Trade',
+          icon: <Trade className="h-3 w-3" />,
+          paramKey: QueryParams.ConvertModule,
+          paramValue: ConvertIntentMapping[ConvertIntent.TRADE_INTENT]
+        }
+      ]
     ]
   ]
     .filter(([intent]) => !RESTRICTED_INTENTS.includes(intent as Intent))
-    .map(([intent, label, icon, component, , , description]) => {
+    .map(([intent, label, icon, component, , , description, subItems]) => {
       const comingSoon = COMING_SOON_MAP[chainId]?.includes(intent as Intent);
       return [
         intent as Intent,
@@ -165,7 +217,8 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
         comingSoon ? null : (component as React.ReactNode),
         comingSoon,
         comingSoon ? { disabled: true } : undefined,
-        description as string
+        description as string,
+        subItems
       ];
     }) as WidgetItem[];
 
@@ -179,20 +232,22 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
       id: 'group-2',
       items: widgetItems.filter(
         ([intent]) =>
-          intent === Intent.REWARDS_INTENT ||
           intent === Intent.SAVINGS_INTENT ||
+          intent === Intent.REWARDS_INTENT ||
           intent === Intent.STAKE_INTENT
       )
     },
     {
       id: 'group-3',
-      items: widgetItems.filter(
-        ([intent]) => intent === Intent.UPGRADE_INTENT || intent === Intent.TRADE_INTENT
-      )
+      items: widgetItems.filter(([intent]) => intent === Intent.VAULTS_INTENT)
     },
     {
       id: 'group-4',
       items: widgetItems.filter(([intent]) => intent === Intent.EXPERT_INTENT)
+    },
+    {
+      id: 'group-5',
+      items: widgetItems.filter(([intent]) => intent === Intent.CONVERT_INTENT)
     }
   ];
 

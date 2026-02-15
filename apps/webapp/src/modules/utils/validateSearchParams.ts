@@ -7,9 +7,11 @@ import {
   CHAIN_WIDGET_MAP,
   mapQueryParamToIntent,
   COMING_SOON_MAP,
-  ExpertIntentMapping
+  ExpertIntentMapping,
+  VaultsIntentMapping,
+  ConvertIntentMapping
 } from '@/lib/constants';
-import { ExpertIntent, Intent } from '@/lib/enums';
+import { ConvertIntent, ExpertIntent, Intent, VaultsIntent } from '@/lib/enums';
 import { defaultConfig } from '../config/default-config';
 import { isL2ChainId } from '@jetstreamgg/sky-utils';
 import { Chain } from 'viem';
@@ -23,7 +25,9 @@ export const validateSearchParams = (
   chainId: number,
   chains: readonly [Chain, ...Chain[]],
   setSelectedExpertOption: (expertOption: ExpertIntent | undefined) => void,
-  expertRiskDisclaimerShown: boolean
+  expertRiskDisclaimerShown: boolean,
+  setSelectedVaultsOption: (vaultsOption: VaultsIntent | undefined) => void,
+  setSelectedConvertOption: (convertOption: ConvertIntent | undefined) => void
 ) => {
   const chainInUrl = chains.find(c => normalizeUrlParam(c.name) === searchParams.get(QueryParams.Network));
   const isL2Chain = isL2ChainId(chainInUrl?.id || chainId);
@@ -119,6 +123,60 @@ export const validateSearchParams = (
     ) {
       searchParams.delete(QueryParams.ExpertModule);
       setSelectedExpertOption(undefined);
+    }
+
+    // validates vaultModule param
+    if (key === QueryParams.VaultModule) {
+      const intent = Object.entries(VaultsIntentMapping).find(
+        ([, intentValue]) => intentValue === value
+      )?.[0] as VaultsIntent | undefined;
+      if (!intent) {
+        searchParams.delete(key);
+      } else {
+        setSelectedVaultsOption(intent);
+      }
+    }
+
+    // Reset the selected vault option if the widget is set to vaults and no valid vault option parameter exists.
+    if (widget === IntentMapping[Intent.VAULTS_INTENT]) {
+      if (!searchParams.get(QueryParams.VaultModule)) {
+        setSelectedVaultsOption(undefined);
+        searchParams.delete(QueryParams.InputAmount);
+      }
+    }
+
+    // if widget changes to something other than vaults, reset the selected vault option
+    if (
+      widget !== IntentMapping[Intent.VAULTS_INTENT] &&
+      searchParams.get(QueryParams.LinkedAction) !== IntentMapping[Intent.VAULTS_INTENT]
+    ) {
+      searchParams.delete(QueryParams.VaultModule);
+      setSelectedVaultsOption(undefined);
+    }
+
+    // validates convertModule param
+    if (key === QueryParams.ConvertModule) {
+      const intent = Object.entries(ConvertIntentMapping).find(
+        ([, intentValue]) => intentValue === value
+      )?.[0] as ConvertIntent | undefined;
+      if (!intent) {
+        searchParams.delete(key);
+      } else {
+        setSelectedConvertOption(intent);
+      }
+    }
+
+    // Reset the selected convert option if the widget is set to convert and no valid convert option parameter exists.
+    if (widget === IntentMapping[Intent.CONVERT_INTENT]) {
+      if (!searchParams.get(QueryParams.ConvertModule)) {
+        setSelectedConvertOption(undefined);
+      }
+    }
+
+    // if widget changes to something other than convert, reset the selected convert option
+    if (widget !== IntentMapping[Intent.CONVERT_INTENT]) {
+      searchParams.delete(QueryParams.ConvertModule);
+      setSelectedConvertOption(undefined);
     }
 
     // validate source token

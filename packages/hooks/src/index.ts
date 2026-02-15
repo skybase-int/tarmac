@@ -81,6 +81,40 @@ export type {
   StUsdsProviderSelectionResult
 } from './stusds';
 
+// Morpho Vaults
+export {
+  useBatchMorphoVaultDeposit,
+  useMorphoVaultWithdraw,
+  useMorphoVaultRedeem,
+  useMorphoVaultOnChainData,
+  useMorphoVaultRateApiData,
+  useMorphoVaultAllocations,
+  useMorphoVaultSingleMarketApiData,
+  useMorphoVaultRewards,
+  useMorphoVaultClaimRewards,
+  useMorphoVaultHistory,
+  useMorphoVaultChartInfo,
+  useMorphoVaultSupplierAddresses,
+  MORPHO_VAULTS
+} from './morpho';
+export type {
+  MorphoVaultRateData,
+  MorphoVaultRateHook,
+  MorphoRewardData,
+  MorphoMarketAllocation,
+  MorphoV1VaultAllocation,
+  MorphoIdleLiquidityAllocation,
+  MorphoVaultAllocationsData,
+  MorphoVaultAllocationsHook,
+  MorphoVaultSingleMarketData,
+  MorphoVaultSingleMarketDataHook,
+  MorphoVaultReward,
+  MorphoVaultRewardsData,
+  MorphoVaultRewardsHook,
+  MorphoVaultChartDataPoint,
+  MorphoVaultSupplierAddressesHook
+} from './morpho';
+
 // Authentication
 export { useRestrictedAddressCheck } from './authentication/useRestrictedAddressCheck';
 export { useVpnCheck } from './authentication/useVpnCheck';
@@ -350,6 +384,7 @@ export {
   lsSkyUsdsRewardAddress,
   lsSkySpkRewardAddress,
   lsSkySkyRewardAddress,
+  usdsRiskCapitalVaultAddress,
   useReadClipperDue
 } from './generated';
 export { contracts, /*tenderlyContracts,*/ l2Contracts } from './contracts';

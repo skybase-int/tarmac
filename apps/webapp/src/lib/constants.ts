@@ -1,5 +1,5 @@
-import { RewardsModule, Savings, Trade, Upgrade, Seal, Expert } from '@/modules/icons';
-import { ExpertIntent, Intent } from './enums';
+import { RewardsModule, Savings, Trade, Upgrade, Seal, Expert, Vaults, Convert } from '@/modules/icons';
+import { ConvertIntent, ExpertIntent, Intent, VaultsIntent } from './enums';
 import { msg } from '@lingui/core/macro';
 import { MessageDescriptor } from '@lingui/core';
 import { base, mainnet, arbitrum, unichain, optimism } from 'viem/chains';
@@ -22,7 +22,10 @@ export enum QueryParams {
   Flow = 'flow',
   StakeTab = 'stake_tab',
   SealTab = 'seal_tab',
-  ExpertModule = 'expert_module'
+  ExpertModule = 'expert_module',
+  Vault = 'vault',
+  VaultModule = 'vault_module',
+  ConvertModule = 'convert_module'
 }
 
 export enum Environment {
@@ -38,7 +41,7 @@ export const RESTRICTED_INTENTS: Intent[] = (() => {
   if (isRestrictedMiCa) {
     return [Intent.TRADE_INTENT];
   } else if (isRestrictedBuild) {
-    return [Intent.SAVINGS_INTENT, Intent.REWARDS_INTENT, Intent.EXPERT_INTENT];
+    return [Intent.SAVINGS_INTENT, Intent.REWARDS_INTENT, Intent.EXPERT_INTENT, Intent.VAULTS_INTENT];
   }
   return [];
 })();
@@ -51,11 +54,22 @@ export const IntentMapping = {
   [Intent.REWARDS_INTENT]: 'rewards',
   [Intent.SEAL_INTENT]: 'seal',
   [Intent.STAKE_INTENT]: 'stake',
-  [Intent.EXPERT_INTENT]: 'expert'
+  [Intent.EXPERT_INTENT]: 'expert',
+  [Intent.VAULTS_INTENT]: 'vaults',
+  [Intent.CONVERT_INTENT]: 'convert'
 };
 
 export const ExpertIntentMapping: Record<ExpertIntent, string> = {
   [ExpertIntent.STUSDS_INTENT]: 'stusds'
+};
+
+export const VaultsIntentMapping: Record<VaultsIntent, string> = {
+  [VaultsIntent.MORPHO_VAULT_INTENT]: 'morpho'
+};
+
+export const ConvertIntentMapping: Record<ConvertIntent, string> = {
+  [ConvertIntent.UPGRADE_INTENT]: 'upgrade',
+  [ConvertIntent.TRADE_INTENT]: 'trade'
 };
 
 export const CHAIN_WIDGET_MAP: Record<number, Intent[]> = {
@@ -67,7 +81,9 @@ export const CHAIN_WIDGET_MAP: Record<number, Intent[]> = {
     Intent.TRADE_INTENT,
     Intent.SEAL_INTENT,
     Intent.STAKE_INTENT,
-    Intent.EXPERT_INTENT
+    Intent.EXPERT_INTENT,
+    Intent.VAULTS_INTENT,
+    Intent.CONVERT_INTENT
   ],
   [tenderly.id]: [
     Intent.BALANCES_INTENT,
@@ -77,12 +93,14 @@ export const CHAIN_WIDGET_MAP: Record<number, Intent[]> = {
     Intent.TRADE_INTENT,
     Intent.SEAL_INTENT,
     Intent.STAKE_INTENT,
-    Intent.EXPERT_INTENT
+    Intent.EXPERT_INTENT,
+    Intent.VAULTS_INTENT,
+    Intent.CONVERT_INTENT
   ],
-  [base.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
-  [arbitrum.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
-  [unichain.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT],
-  [optimism.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT]
+  [base.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT, Intent.CONVERT_INTENT],
+  [arbitrum.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT, Intent.CONVERT_INTENT],
+  [unichain.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT, Intent.CONVERT_INTENT],
+  [optimism.id]: [Intent.BALANCES_INTENT, Intent.SAVINGS_INTENT, Intent.TRADE_INTENT, Intent.CONVERT_INTENT]
 };
 
 export const COMING_SOON_MAP: Record<number, Intent[]> = {
@@ -98,7 +116,9 @@ export const intentTxt: Record<string, MessageDescriptor> = {
   rewards: msg`rewards`,
   balances: msg`balances`,
   seal: msg`seal`,
-  stake: msg`stake`
+  stake: msg`stake`,
+  vaults: msg`vaults`,
+  convert: msg`convert`
 };
 
 export const EXPERT_WIDGET_OPTIONS: {
@@ -111,10 +131,21 @@ export const EXPERT_WIDGET_OPTIONS: {
   }
 ];
 
+export const VAULTS_WIDGET_OPTIONS: {
+  id: VaultsIntent;
+  name: string;
+}[] = [
+  {
+    id: VaultsIntent.MORPHO_VAULT_INTENT,
+    name: 'Morpho Vault'
+  }
+];
+
 export const VALID_LINKED_ACTIONS = [
   IntentMapping[Intent.REWARDS_INTENT],
   IntentMapping[Intent.SAVINGS_INTENT],
-  IntentMapping[Intent.EXPERT_INTENT]
+  IntentMapping[Intent.EXPERT_INTENT],
+  IntentMapping[Intent.VAULTS_INTENT]
 ];
 
 const AvailableIntentMapping = Object.entries(IntentMapping).reduce(
@@ -148,7 +179,9 @@ export const linkedActionMetadata = {
   [IntentMapping[Intent.REWARDS_INTENT]]: { text: 'Get Rewards', icon: RewardsModule },
   [IntentMapping[Intent.SEAL_INTENT]]: { text: 'Seal', icon: Seal },
   [IntentMapping[Intent.STAKE_INTENT]]: { text: 'Activate', icon: Seal },
-  [IntentMapping[Intent.EXPERT_INTENT]]: { text: 'Expert Modules', icon: Expert }
+  [IntentMapping[Intent.EXPERT_INTENT]]: { text: 'Expert Modules', icon: Expert },
+  [IntentMapping[Intent.VAULTS_INTENT]]: { text: 'Vaults', icon: Vaults },
+  [IntentMapping[Intent.CONVERT_INTENT]]: { text: 'Convert', icon: Convert }
 };
 
 export const ALLOWED_EXTERNAL_DOMAINS = [

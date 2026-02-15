@@ -2,6 +2,7 @@ import { Table, TableBody } from '@/components/ui/table';
 import { SuppliedFundsTableHeader } from './SuppliedFundsTableHeader';
 import { SuppliedFundsTableRow } from './SuppliedFundsTableRow';
 import { SuppliedFundsSavingsRow } from './SuppliedFundsSavingsRow';
+import { SuppliedFundsExpertRow } from './SuppliedFundsExpertRow';
 import { LoadingErrorWrapper } from '@/modules/ui/components/LoadingErrorWrapper';
 import { Text } from '@/modules/layout/components/Typography';
 import { Trans } from '@lingui/react/macro';
@@ -18,13 +19,22 @@ import {
   useHighestRateFromChartData,
   useRewardsChartInfo,
   useStakeRewardContracts,
-  useMultipleRewardsChartInfo
+  useMultipleRewardsChartInfo,
+  useMorphoVaultOnChainData,
+  useMorphoVaultSingleMarketApiData,
+  MORPHO_VAULTS
 } from '@jetstreamgg/sky-hooks';
-import { isTestnetId, isMainnetId, formatDecimalPercentage, formatStrAsApy } from '@jetstreamgg/sky-utils';
+import {
+  isTestnetId,
+  isMainnetId,
+  formatDecimalPercentage,
+  chainId as chainIdConstants,
+  calculateApyFromStr
+} from '@jetstreamgg/sky-utils';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useBalanceFilters } from '@/modules/ui/context/BalanceFiltersContext';
 import { formatUnits } from 'viem';
-import { useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 
 type SuppliedFundsTableProps = {
   chainIds?: number[];
@@ -40,7 +50,7 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
 
   // Rewards data
-  const mainnetChainId = isTestnetId(currentChainId) ? 314310 : 1;
+  const mainnetChainId = isTestnetId(currentChainId) ? chainIdConstants.tenderly : chainIdConstants.mainnet;
   const rewardContracts = useAvailableTokenRewardContracts(mainnetChainId);
 
   const usdsSkyRewardContract = rewardContracts.find(
@@ -125,7 +135,28 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
   // stUSDS data
   const { data: stUsdsData, isLoading: stUsdsLoading } = useStUsdsData();
   const userSuppliedUsds = stUsdsData?.userSuppliedUsds ?? 0n;
-  const stUsdsRate = stUsdsData?.moduleRate ?? 0n;
+
+  // Morpho vault data
+  const defaultMorphoVault = MORPHO_VAULTS[0];
+  const morphoVaultAddress = defaultMorphoVault?.vaultAddress[mainnetChainId];
+  const { data: morphoData, isLoading: morphoLoading } = useMorphoVaultOnChainData({
+    vaultAddress: morphoVaultAddress
+  });
+  const { data: morphoSingleMarketData, isLoading: morphoSingleMarketLoading } =
+    useMorphoVaultSingleMarketApiData({
+      vaultAddress: morphoVaultAddress
+    });
+
+  // Combined Expert balance (stUSDS + Morpho)
+  const morphoSupplied = morphoData?.userAssets ?? 0n;
+  const totalExpertSupplied = userSuppliedUsds + morphoSupplied;
+
+  // Calculate highest rate between stUSDS and Morpho
+  const stUsdsRatePercent = stUsdsData?.moduleRate ? calculateApyFromStr(stUsdsData.moduleRate) : 0;
+  const morphoRatePercent = morphoSingleMarketData?.rate.netRate
+    ? morphoSingleMarketData.rate.netRate * 100
+    : 0;
+  const maxExpertRate = Math.max(stUsdsRatePercent, morphoRatePercent);
 
   // Visibility logic
   const hideRewards = Boolean(
@@ -136,13 +167,20 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
   const hideStake = Boolean(
     (totalUserStaked === 0n && hideZeroBalances) || (!showAllNetworks && !isMainnetId(currentChainId))
   );
-  const hideStUSDS = Boolean(
-    (!stUsdsLoading && userSuppliedUsds === 0n) || (!showAllNetworks && !isMainnetId(currentChainId))
+  const hideExpert = Boolean(
+    (totalExpertSupplied === 0n && hideZeroBalances) || (!showAllNetworks && !isMainnetId(currentChainId))
   );
 
   const isLoading =
-    rewardsLoading || savingsLoading || stakeLoading || stakeRateLoading || stUsdsLoading || pricesLoading;
-  const allHidden = hideRewards && hideSavings && hideStake && hideStUSDS;
+    rewardsLoading ||
+    savingsLoading ||
+    stakeLoading ||
+    stakeRateLoading ||
+    stUsdsLoading ||
+    morphoLoading ||
+    morphoSingleMarketLoading ||
+    pricesLoading;
+  const allHidden = hideRewards && hideSavings && hideStake && hideExpert;
 
   // Calculate USD values for sorting
   const calculateUsdValue = (amount: bigint, decimals: number, price: string | undefined): number => {
@@ -169,8 +207,8 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
       },
       {
         id: 'stusds',
-        usdValue: calculateUsdValue(userSuppliedUsds, 18, pricesData?.USDS?.price),
-        hidden: hideStUSDS
+        usdValue: calculateUsdValue(totalExpertSupplied, 18, pricesData?.USDS?.price),
+        hidden: hideExpert
       },
       {
         id: 'staking',
@@ -179,16 +217,18 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
       }
     ];
 
-    return modules.filter(m => !m.hidden).sort((a, b) => b.usdValue - a.usdValue);
+    return modules
+      .filter(m => !m.hidden)
+      .sort((a, b) => (b.usdValue - a.usdValue === 0 ? a.id.localeCompare(b.id) : b.usdValue - a.usdValue));
   }, [
     totalUserRewardsSupplied,
     totalSavingsBalance,
-    userSuppliedUsds,
+    totalExpertSupplied,
     totalUserStaked,
     pricesData,
     hideRewards,
     hideSavings,
-    hideStUSDS,
+    hideExpert,
     hideStake
   ]);
 
@@ -199,7 +239,6 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
   // Render functions for each module type
   const renderRewardsRow = () => (
     <SuppliedFundsTableRow
-      key="rewards"
       data={{
         tokenSymbol: 'USDS',
         moduleIcon: <img src="/images/rewards_icon_large.svg" alt="Rewards" className="h-5 w-5" />,
@@ -218,7 +257,6 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
 
   const renderSavingsRow = () => (
     <SuppliedFundsSavingsRow
-      key="savings"
       totalBalance={totalSavingsBalance}
       balancesByNetwork={allNonZeroSavingsBalances}
       usdPrice={pricesData?.USDS?.price}
@@ -227,28 +265,31 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
     />
   );
 
-  const renderStUsdsRow = () => (
-    <SuppliedFundsTableRow
-      key="stusds"
-      data={{
-        tokenSymbol: 'stUSDS',
-        moduleIcon: <img src="/images/expert_icon_large.svg" alt="Expert" className="h-5 w-5" />,
-        moduleName: 'Expert / stUSDS',
-        amount: userSuppliedUsds,
-        decimals: 18,
-        usdPrice: pricesData?.USDS?.price,
-        rateText: stUsdsRate > 0n ? formatStrAsApy(stUsdsRate) : '0%',
-        ratePopoverType: 'stusds',
-        isRateUpTo: false,
-        chainId: mainnetChainId
-      }}
-      isLoading={stUsdsLoading}
+  const renderExpertRow = () => (
+    <SuppliedFundsExpertRow
+      totalBalance={totalExpertSupplied}
+      balancesByProduct={[
+        {
+          productName: 'stUSDS',
+          balance: userSuppliedUsds,
+          rate: stUsdsRatePercent > 0 ? formatDecimalPercentage(stUsdsRatePercent) : undefined,
+          isMorpho: false
+        },
+        {
+          productName: 'Morpho USDS Vault',
+          balance: morphoSupplied,
+          rate: morphoRatePercent > 0 ? formatDecimalPercentage(morphoRatePercent) : undefined,
+          isMorpho: true
+        }
+      ]}
+      usdPrice={pricesData?.USDS?.price}
+      maxRate={maxExpertRate > 0 ? formatDecimalPercentage(maxExpertRate) : '0%'}
+      isLoading={stUsdsLoading || morphoLoading || morphoSingleMarketLoading}
     />
   );
 
   const renderStakingRow = () => (
     <SuppliedFundsTableRow
-      key="staking"
       data={{
         tokenSymbol: 'SKY',
         moduleIcon: (
@@ -276,7 +317,7 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
       case 'savings':
         return renderSavingsRow();
       case 'stusds':
-        return renderStUsdsRow();
+        return renderExpertRow();
       case 'staking':
         return renderStakingRow();
     }
@@ -296,7 +337,11 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
       <div className="@container">
         <Table>
           <SuppliedFundsTableHeader />
-          <TableBody>{sortedModules.map(module => renderModule(module.id))}</TableBody>
+          <TableBody>
+            {sortedModules.map(module => (
+              <Fragment key={module.id}>{renderModule(module.id)}</Fragment>
+            ))}
+          </TableBody>
         </Table>
       </div>
     </LoadingErrorWrapper>

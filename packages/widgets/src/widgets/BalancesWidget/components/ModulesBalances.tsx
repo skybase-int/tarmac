@@ -6,14 +6,16 @@ import {
   useRewardsSuppliedBalance,
   useStUsdsData,
   useTotalUserSealed,
-  useTotalUserStaked
+  useTotalUserStaked,
+  useMorphoVaultOnChainData,
+  MORPHO_VAULTS
 } from '@jetstreamgg/sky-hooks';
 import { RewardsBalanceCard } from './RewardsBalanceCard';
 import { SavingsBalanceCard } from './SavingsBalanceCard';
 import { SealBalanceCard } from './SealBalanceCard';
 import { StakeBalanceCard } from './StakeBalanceCard';
-import { StUSDSBalanceCard } from './StUSDSBalanceCard';
-import { isMainnetId, isTestnetId } from '@jetstreamgg/sky-utils';
+import { ExpertBalanceCard } from './ExpertBalanceCard';
+import { chainId, isMainnetId, isTestnetId } from '@jetstreamgg/sky-utils';
 import { useChainId, useConnection } from 'wagmi';
 import { useMemo } from 'react';
 import { formatUnits } from 'viem';
@@ -44,6 +46,7 @@ interface ModulesBalancesProps {
   chainIds?: number[];
   stakeCardUrl?: string;
   stusdsCardUrl?: string;
+  morphoCardUrl?: string;
   variant?: ModuleCardVariant;
   hideZeroBalances?: boolean;
   showAllNetworks?: boolean;
@@ -57,13 +60,14 @@ export const ModulesBalances = ({
   chainIds,
   stakeCardUrl,
   stusdsCardUrl,
+  morphoCardUrl,
   variant = ModuleCardVariant.default,
   hideZeroBalances = false,
   showAllNetworks = true
 }: ModulesBalancesProps): React.ReactElement => {
   const { address } = useConnection();
   const currentChainId = useChainId();
-  const mainnetChainId = isTestnetId(currentChainId) ? 314310 : 1;
+  const mainnetChainId = isTestnetId(currentChainId) ? chainId.tenderly : chainId.mainnet;
   const rewardContracts = useAvailableTokenRewardContracts(mainnetChainId);
 
   const usdsSkyRewardContract = rewardContracts.find(
@@ -128,6 +132,21 @@ export const ModulesBalances = ({
 
   const { data: stUsdsData, isLoading: stUsdsLoading, error: stUsdsError } = useStUsdsData();
 
+  // Get Morpho vault data for expert balance card
+  const defaultMorphoVault = MORPHO_VAULTS[0];
+  const morphoVaultAddress = defaultMorphoVault?.vaultAddress[mainnetChainId];
+  const {
+    data: morphoData,
+    isLoading: morphoLoading,
+    error: morphoError
+  } = useMorphoVaultOnChainData({
+    vaultAddress: morphoVaultAddress
+  });
+
+  // Combined expert savings balance (stUSDS + Morpho)
+  const totalExpertSavingsBalance = (stUsdsData?.userSuppliedUsds || 0n) + (morphoData?.userAssets || 0n);
+  const expertLoading = stUsdsLoading || morphoLoading;
+
   const {
     data: multichainSavingsBalances,
     isLoading: savingsLoading,
@@ -172,10 +191,10 @@ export const ModulesBalances = ({
       (!showAllNetworks && !isMainnetId(currentChainId))
   );
 
-  const hideStUSDS = Boolean(
+  const hideExpert = Boolean(
     !stusdsCardUrl || // Hide if no URL is provided (feature flag disabled)
-      stUsdsError ||
-      stUsdsData?.userSuppliedUsds === 0n || //always hide zero balances for expert modules
+      (stUsdsError && morphoError) ||
+      (totalExpertSavingsBalance === 0n && hideZeroBalances) ||
       (!showAllNetworks && !isMainnetId(currentChainId))
   );
 
@@ -214,7 +233,7 @@ export const ModulesBalances = ({
       {
         id: 'stusds',
         usdValue: calculateUsdValue(stUsdsData?.userSuppliedUsds ?? 0n, 18, pricesData?.USDS?.price),
-        hidden: hideModuleBalances || hideStUSDS
+        hidden: hideModuleBalances || hideExpert
       },
       {
         id: 'staking',
@@ -239,7 +258,7 @@ export const ModulesBalances = ({
     hideModuleBalances,
     hideRewards,
     hideSavings,
-    hideStUSDS,
+    hideExpert,
     hideStake,
     hideSeal
   ]);
@@ -271,11 +290,13 @@ export const ModulesBalances = ({
         );
       case 'stusds':
         return (
-          <StUSDSBalanceCard
+          <ExpertBalanceCard
             key="stusds"
             url={stusdsCardUrl}
+            stusdsUrl={stusdsCardUrl}
+            morphoUrl={morphoCardUrl}
             onExternalLinkClicked={onExternalLinkClicked}
-            loading={stUsdsLoading}
+            loading={expertLoading}
             variant={variant}
           />
         );

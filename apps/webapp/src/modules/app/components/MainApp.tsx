@@ -31,7 +31,9 @@ export function MainApp() {
     updateLinkedActionConfig,
     setSelectedRewardContract,
     setSelectedExpertOption,
-    expertRiskDisclaimerShown
+    expertRiskDisclaimerShown,
+    setSelectedVaultsOption,
+    setSelectedConvertOption
   } = useConfigContext();
   const { isAuthorized } = useConnectedContext();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -152,7 +154,9 @@ export function MainApp() {
           newChainId,
           chains,
           setSelectedExpertOption,
-          expertRiskDisclaimerShown
+          expertRiskDisclaimerShown,
+          setSelectedVaultsOption,
+          setSelectedConvertOption
         );
         // Runs second validation for linked-action-specific criteria
         const validatedLinkedActionParams = validateLinkedActionSearchParams(validatedParams);
@@ -166,7 +170,9 @@ export function MainApp() {
     setSelectedRewardContract,
     widgetParam,
     setSelectedExpertOption,
-    expertRiskDisclaimerShown
+    expertRiskDisclaimerShown,
+    setSelectedVaultsOption,
+    setSelectedConvertOption
   ]);
 
   useEffect(() => {
