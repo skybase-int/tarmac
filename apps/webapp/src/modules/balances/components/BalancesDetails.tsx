@@ -14,6 +14,8 @@ import { useChainId } from 'wagmi';
 import { Intent } from '@/lib/enums';
 import { ConnectCard } from '@/modules/layout/components/ConnectCard';
 import { SuppliedFundsTable } from './SuppliedFundsTable';
+import { TX_AGENT_ENABLED } from '@/lib/constants';
+import { SuggestedActions } from '@/modules/agent/components/SuggestedActions';
 
 export function BalancesDetails() {
   const { bpi } = useBreakpointIndex();
@@ -31,6 +33,13 @@ export function BalancesDetails() {
         <DetailSectionRow>
           <ConnectCard intent={Intent.BALANCES_INTENT} className="mb-4" />
         </DetailSectionRow>
+      )}
+      {TX_AGENT_ENABLED && (
+        <DetailSection title={t`Things you can do on sky.money`}>
+          <DetailSectionRow>
+            <SuggestedActions widget="all" />
+          </DetailSectionRow>
+        </DetailSection>
       )}
       {isConnectedAndAcceptedTerms && showFundsTable && (
         <DetailSection title={t`Supplied funds`}>

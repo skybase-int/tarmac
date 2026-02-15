@@ -29,7 +29,7 @@ export function StUSDSDetails(): React.ReactElement {
   return (
     <DetailSectionWrapper>
       {TX_AGENT_ENABLED && (
-        <DetailSection title={t`What can you do in stUSDS?`}>
+        <DetailSection title={t`Things you can do in stUSDS`}>
           <DetailSectionRow>
             <SuggestedActions widget="stusds" />
           </DetailSectionRow>

@@ -25,7 +25,7 @@ export function UpgradeDetails(): React.ReactElement {
   return (
     <DetailSectionWrapper>
       {TX_AGENT_ENABLED && (
-        <DetailSection title={t`What can you do in Upgrade?`}>
+        <DetailSection title={t`Things you can do in Upgrade`}>
           <DetailSectionRow>
             <SuggestedActions widget="upgrade" />
           </DetailSectionRow>

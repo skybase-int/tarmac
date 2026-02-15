@@ -70,7 +70,7 @@ export function StakeOverview() {
   return (
     <DetailSectionWrapper>
       {TX_AGENT_ENABLED && (
-        <DetailSection title={t`What can you do in Staking?`}>
+        <DetailSection title={t`Things you can do in Staking`}>
           <DetailSectionRow>
             <SuggestedActions widget="stake" />
           </DetailSectionRow>
