@@ -98,8 +98,9 @@ export function MainApp() {
   const inputAmount = searchParams.get(QueryParams.InputAmount) || undefined;
   const timestamp = searchParams.get(QueryParams.Timestamp) || undefined;
   const network = searchParams.get(QueryParams.Network) || undefined;
+  const chatPanelEnabled = CHATBOT_ENABLED;
   const chatParam =
-    CHATBOT_ENABLED &&
+    chatPanelEnabled &&
     (bpi >= BP['3xl']
       ? !(searchParams.get(QueryParams.Chat) === 'false')
       : searchParams.get(QueryParams.Chat) === 'true');

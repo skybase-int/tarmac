@@ -24,6 +24,8 @@ import { getTooltipById, PopoverRateInfo, PopoverInfo, UtilizationBar } from '@j
 import { useMemo } from 'react';
 import { StakeToken } from '../constants';
 import { StakingRewardRateCard } from './StakingRewardRateCard';
+import { TX_AGENT_ENABLED } from '@/lib/constants';
+import { SuggestedActions } from '@/modules/agent/components/SuggestedActions';
 
 export function StakeOverview() {
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
@@ -67,6 +69,13 @@ export function StakeOverview() {
 
   return (
     <DetailSectionWrapper>
+      {TX_AGENT_ENABLED && (
+        <DetailSection title={t`What can you do in Staking?`}>
+          <DetailSectionRow>
+            <SuggestedActions widget="stake" />
+          </DetailSectionRow>
+        </DetailSection>
+      )}
       <DetailSection title={t`Staking Engine Overview`}>
         <DetailSectionRow>
           <div className="flex w-full flex-wrap justify-between gap-3">

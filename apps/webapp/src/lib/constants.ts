@@ -204,6 +204,9 @@ export const CHATBOT_PREFILL_FILTERING_ENABLED =
 // Feature flag for batch transactions
 export const BATCH_TX_ENABLED = import.meta.env.VITE_BATCH_TX_ENABLED === 'true';
 
+// Feature flag for TX Agent (alternative to chatbot with local intent parsing)
+export const TX_AGENT_ENABLED = import.meta.env.VITE_TX_AGENT_ENABLED === 'true';
+
 // Skip chatbot auth check for testing (only works in non-production environments)
 export const SKIP_CHAT_AUTH_CHECK =
   !IS_PRODUCTION_ENV && import.meta.env.VITE_SKIP_CHAT_AUTH_CHECK === 'true';

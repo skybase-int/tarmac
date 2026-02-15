@@ -13,6 +13,8 @@ import { useAvailableTokenRewardContracts } from '@jetstreamgg/sky-hooks';
 import { useUserSuggestedActions } from '@/modules/ui/hooks/useUserSuggestedActions';
 import { RewardsOverviewAbout } from './RewardsOverviewAbout';
 import { filterActionsByIntent } from '@/lib/utils';
+import { TX_AGENT_ENABLED } from '@/lib/constants';
+import { SuggestedActions } from '@/modules/agent/components/SuggestedActions';
 
 export function RewardsOverview() {
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
@@ -23,6 +25,13 @@ export function RewardsOverview() {
 
   return (
     <DetailSectionWrapper>
+      {TX_AGENT_ENABLED && (
+        <DetailSection title={t`What can you do in Rewards?`}>
+          <DetailSectionRow>
+            <SuggestedActions widget="rewards" />
+          </DetailSectionRow>
+        </DetailSection>
+      )}
       <DetailSection title={t`Sky Token Rewards overview`}>
         <DetailSectionRow>
           <RewardsOverviewInfo />
