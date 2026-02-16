@@ -80,7 +80,7 @@ export function applyPostHogConsent(enabled: boolean) {
     // Force persistence flush so the cross-subdomain cookie is written immediately.
     // Without this, the cookie isn't written until the next capture() call or page reload,
     // which breaks cross-subdomain detection if the user navigates to sky.money before that.
-    posthog.capture('consent_granted');
+    posthog.capture('app_consent_granted');
   } else {
     if (!hasInitializedPostHog) return;
     posthog.set_config({ cookieless_mode: undefined });
