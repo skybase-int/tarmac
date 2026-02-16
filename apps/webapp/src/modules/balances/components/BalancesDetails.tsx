@@ -48,9 +48,14 @@ export function BalancesDetails() {
               <SuggestedActions widget="sky" />
             </DetailSectionRow>
           </DetailSection>
+          <DetailSection title={t`Get USDS, SKY and other tokens`}>
+            <DetailSectionRow>
+              <SuggestedActions widget="tokens" />
+            </DetailSectionRow>
+          </DetailSection>
         </>
       )}
-      {isConnectedAndAcceptedTerms && showFundsTable && (
+      {/* {isConnectedAndAcceptedTerms && showFundsTable && (
         <DetailSection title={t`Supplied funds`}>
           <DetailSectionRow>
             <SuppliedFundsTable chainIds={supportedChainIds} />
@@ -63,12 +68,12 @@ export function BalancesDetails() {
             <BalancesAssets chainIds={supportedChainIds} />
           </DetailSectionRow>
         </DetailSection>
-      )}
-      <DetailSection title={t`Sky Protocol overview`}>
+      )} */}
+      {/* <DetailSection title={t`Sky Protocol overview`}>
         <DetailSectionRow>
           <BalancesSkyStatsOverview />
         </DetailSectionRow>
-      </DetailSection>
+      </DetailSection> */}
       <DetailSection title={t`Sky Protocol activity`}>
         <DetailSectionRow>
           <BalancesChart />

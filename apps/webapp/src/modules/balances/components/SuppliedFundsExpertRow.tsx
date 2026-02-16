@@ -70,15 +70,9 @@ export function SuppliedFundsExpertRow({
       >
         <TableCell className="h-auto px-4 py-3">
           <div className="flex items-center gap-2">
-            <TokenIcon className="h-6 w-6" token={{ symbol: 'USDS', name: 'USDS' }} showChainIcon={false} />
-            <Text>USDS</Text>
-          </div>
-        </TableCell>
-        <TableCell className="h-auto px-4 py-3">
-          <div className="flex items-center gap-2">
             <img src="/images/expert_icon_large.svg" alt="Expert" className="h-5 w-5 flex-shrink-0" />
             <Text className="truncate">
-              <Trans>Expert</Trans>
+              <Trans>Supplied to Expert</Trans>
             </Text>
           </div>
         </TableCell>
@@ -176,7 +170,7 @@ export function SuppliedFundsExpertRow({
               </div>
             </button>
           </TableCell>
-          <TableCell className="h-auto px-4 pt-0 pb-3" colSpan={2}>
+          <TableCell className="h-auto px-4 pt-0 pb-3">
             <button className="flex w-full items-center justify-end gap-1" onClick={() => setIsOpen(!isOpen)}>
               <Text variant="small" className="text-textSecondary whitespace-nowrap">
                 <Trans>Funds by product</Trans>
@@ -212,7 +206,7 @@ export function SuppliedFundsExpertRow({
                 key={productName}
                 className={cn('hover:bg-surface/50 border-0', isLast && 'border-b-selectBorder border-b')}
               >
-                <TableCell className="h-auto py-2 pr-0 pl-8" colSpan={2}>
+                <TableCell className="h-auto py-2 pr-0 pl-8">
                   <div className="flex items-center gap-2">
                     {isMorpho ? (
                       <MorphoVaultBadge />

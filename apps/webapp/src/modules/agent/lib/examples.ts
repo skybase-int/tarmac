@@ -14,6 +14,10 @@ export type SuggestedAction = {
   rateKey?: 'vaults' | 'rewards' | 'savings' | 'stusds' | 'staking';
   /** Module key for displaying the module icon next to the action. */
   module?: string;
+  /** Direct URL search params string for navigation (bypasses intent parser). */
+  url?: string;
+  /** Show a small Morpho icon next to the badge. */
+  showMorphoIcon?: boolean;
 };
 
 /**
@@ -53,7 +57,7 @@ export const SUGGESTED_ACTIONS: Record<string, SuggestedAction[]> = {
     { label: 'Deposit into USDT Risk Capital vault', input: 'Deposit 500 USDS into Morpho vault', tokens: ['USDT'], module: 'morpho' }
   ],
   stables: [
-    { label: 'Earn up to {rate} with Vaults', input: 'Explore vaults', tokens: ['USDS', 'USDC', 'USDT'], rateKey: 'vaults', badge: 'New', module: 'morpho' },
+    { label: 'Earn up to {rate} with Vaults', input: 'Explore vaults', tokens: ['USDS', 'USDC', 'USDT'], rateKey: 'vaults', badge: 'New', module: 'morpho', showMorphoIcon: true },
     { label: 'Earn up to {rate} in Rewards', input: 'Supply {amount} USDS to earn rewards', tokens: ['SKY', 'SPK', 'CLE'], sourceToken: 'USDS', defaultAmount: 500, rateKey: 'rewards', module: 'rewards' },
     { label: 'Earn {rate} with Sky Savings', input: 'Deposit {amount} USDS into savings', tokens: ['sUSDS'], sourceToken: 'USDS', defaultAmount: 250, rateKey: 'savings', module: 'savings' },
     { label: 'Earn {rate} with stUSDS', input: 'Deposit {amount} USDS into stUSDS', tokens: ['stUSDS'], sourceToken: 'USDS', defaultAmount: 500, rateKey: 'stusds', module: 'stusds' }
@@ -61,5 +65,9 @@ export const SUGGESTED_ACTIONS: Record<string, SuggestedAction[]> = {
   sky: [
     { label: 'Stake SKY and earn up to {rate}', input: 'Open a staking position with {amount} SKY', tokens: ['SKY'], sourceToken: 'SKY', defaultAmount: 1000, rateKey: 'staking', module: 'stake' },
     { label: 'Borrow USDS', input: 'Borrow 100 USDS against my stake', tokens: ['USDS'], module: 'stake' }
+  ],
+  tokens: [
+    { label: 'Trade for USDS and more', input: '', tokens: ['USDS', 'SKY'], module: 'trade', url: '?widget=trade' },
+    { label: 'Upgrade to USDS or SKY', input: '', tokens: ['DAI', 'MKR'], module: 'upgrade', url: '?widget=upgrade' }
   ]
 };

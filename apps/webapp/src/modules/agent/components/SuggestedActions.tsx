@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAccount, useChainId, useChains } from 'wagmi';
+import { QueryParams } from '@/lib/constants';
 import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
 import { Text } from '@/modules/layout/components/Typography';
 import { TokenIcon } from '@/modules/ui/components/TokenIcon';
@@ -20,11 +21,12 @@ import {
   useMultipleRewardsChartInfo
 } from '@jetstreamgg/sky-hooks';
 import { formatDecimalPercentage, calculateApyFromStr, isTestnetId, chainId as chainIdConstants } from '@jetstreamgg/sky-utils';
-import { Savings, Upgrade, RewardsModule, Stake, Expert, Vaults } from '@/modules/icons';
+import { Savings, Upgrade, RewardsModule, Stake, Expert, Vaults, Trade } from '@/modules/icons';
 import { type IconProps } from '@/modules/icons/Icon';
 import { parseIntent } from '../engine/intent-parser';
 import { intentToWidgetParams } from '../engine/intent-to-widget';
 import { SUGGESTED_ACTIONS, type SuggestedAction } from '../lib/examples';
+import { Morpho } from '@jetstreamgg/sky-widgets';
 
 // Map token symbols to TOKENS keys for address lookup
 const SYMBOL_TO_TOKEN_KEY: Record<string, keyof typeof TOKENS> = {
@@ -39,6 +41,7 @@ const SYMBOL_TO_TOKEN_KEY: Record<string, keyof typeof TOKENS> = {
 const MODULE_ICONS: Record<string, (props: IconProps) => React.ReactElement> = {
   savings: Savings,
   upgrade: Upgrade,
+  trade: Trade,
   rewards: RewardsModule,
   stake: Stake,
   stusds: Expert,
@@ -235,8 +238,20 @@ export function SuggestedActions({ widget }: { widget: string }) {
   const rateMap = useActionRates(actions, chainId);
 
   const handleClick = useCallback(
-    (input: string) => {
-      const intent = parseIntent(input);
+    (action: SuggestedAction, resolvedInput: string) => {
+      if (action.url) {
+        const directParams = new URLSearchParams(action.url.replace(/^\?/, ''));
+        directParams.set(QueryParams.Network, networkName);
+        setSearchParams(prev => {
+          directParams.forEach((value, key) => {
+            prev.set(key, value);
+          });
+          return prev;
+        });
+        return;
+      }
+
+      const intent = parseIntent(resolvedInput);
       if (!intent) return;
 
       const params = intentToWidgetParams(intent, chainId, networkName);
@@ -262,7 +277,7 @@ export function SuggestedActions({ widget }: { widget: string }) {
         return (
           <button
             key={action.input}
-            onClick={() => handleClick(resolved.input)}
+            onClick={() => handleClick(action, resolved.input)}
             className="flex cursor-pointer items-center gap-3 rounded-lg border border-white/10 px-3 py-2 text-left transition-colors hover:bg-brandLight/20"
           >
             {ModuleIcon && (
@@ -283,7 +298,14 @@ export function SuggestedActions({ widget }: { widget: string }) {
               {resolved.label}
             </Text>
             {action.badge && (
-              <span className="ml-auto shrink-0 rounded-full bg-textEmphasis/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-textEmphasis">
+              <span
+                className={`ml-auto flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${
+                  action.showMorphoIcon
+                    ? 'bg-[#2973FF]/15 text-[#2973FF]'
+                    : 'bg-textEmphasis/15 text-textEmphasis'
+                }`}
+              >
+                {action.showMorphoIcon && <Morpho className="h-3 w-3 rounded-sm" />}
                 {action.badge}
               </span>
             )}

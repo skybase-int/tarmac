@@ -1,39 +1,39 @@
 import {
-  useStUsdsData,
   usePrices,
   useMorphoVaultOnChainData,
   useMorphoVaultSingleMarketApiData,
   MORPHO_VAULTS
 } from '@jetstreamgg/sky-hooks';
 import {
-  chainId,
   formatBigInt,
+  formatDecimalPercentage,
   formatNumber,
-  calculateApyFromStr,
-  isTestnetId
+  isTestnetId,
+  chainId
 } from '@jetstreamgg/sky-utils';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
 import { InteractiveStatsCard } from '@widgets/shared/components/ui/card/InteractiveStatsCard';
 import { Skeleton } from '@widgets/components/ui/skeleton';
 import { formatUnits } from 'viem';
-import { CardProps, ModuleCardVariant } from './ModulesBalances';
+import { ModuleCardVariant } from './ModulesBalances';
+import { useChainId } from 'wagmi';
 import { RateLineWithArrow } from '@widgets/shared/components/ui/RateLineWithArrow';
 import { InteractiveStatsCardAlt } from '@widgets/shared/components/ui/card/InteractiveStatsCardAlt';
-import { useChainId } from 'wagmi';
+import { MorphoVaultBadge } from '@widgets/widgets/MorphoVaultWidget/components/MorphoVaultBadge';
 
-export const ExpertBalanceCard = ({
+export const VaultsBalanceCard = ({
   url,
   onExternalLinkClicked,
-  loading,
   variant = ModuleCardVariant.default
-}: CardProps) => {
+}: {
+  url?: string;
+  onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  variant?: ModuleCardVariant;
+}) => {
   const connectedChainId = useChainId();
   const vaultChainId = isTestnetId(connectedChainId) ? chainId.tenderly : chainId.mainnet;
-  const { data: stUsdsData, isLoading: stUsdsLoading } = useStUsdsData();
-  const { data: pricesData, isLoading: pricesLoading } = usePrices();
 
-  // Get Morpho vault data
   const defaultMorphoVault = MORPHO_VAULTS[0];
   const morphoVaultAddress = defaultMorphoVault?.vaultAddress[vaultChainId];
   const { data: morphoData, isLoading: morphoDataLoading } = useMorphoVaultOnChainData({
@@ -44,39 +44,33 @@ export const ExpertBalanceCard = ({
       vaultAddress: morphoVaultAddress
     });
 
-  // Combine stUSDS and Morpho supplied amounts
-  const stUsdsSupplied = stUsdsData?.userSuppliedUsds || 0n;
-  const morphoSupplied = morphoData?.userAssets || 0n;
-  const totalSuppliedUsds = stUsdsSupplied + morphoSupplied;
+  const { data: pricesData, isLoading: pricesLoading } = usePrices();
 
-  // Calculate the higher rate between stUSDS and Morpho
-  const stUsdsRate = stUsdsData?.moduleRate ? calculateApyFromStr(stUsdsData.moduleRate) : 0;
+  const morphoSupplied = morphoData?.userAssets ?? 0n;
   const morphoRate = morphoSingleMarketData?.rate.netRate ? morphoSingleMarketData.rate.netRate * 100 : 0;
-  const maxRate = Math.max(stUsdsRate, morphoRate);
 
-  // Separate loading states: balance data vs rate data
-  const isBalanceLoading = stUsdsLoading || morphoDataLoading;
-  const isRateLoading = morphoSingleMarketLoading || stUsdsLoading;
+  const isBalanceLoading = morphoDataLoading;
+  const isRateLoading = morphoSingleMarketLoading;
 
-  const expertIcon = <img src="/images/expert_icon_large.svg" alt="Expert" className="h-full w-full" />;
+  const vaultsIcon = <MorphoVaultBadge className="h-full w-full rounded-sm" />;
 
   return variant === ModuleCardVariant.default ? (
     <InteractiveStatsCard
-      title={t`Supplied to Expert`}
-      icon={expertIcon}
+      title={t`Supplied to Vaults`}
+      icon={vaultsIcon}
       headerRightContent={
-        loading || isBalanceLoading ? (
+        isBalanceLoading ? (
           <Skeleton className="w-32" />
         ) : (
-          <Text>{formatBigInt(totalSuppliedUsds)}</Text>
+          <Text>{formatBigInt(morphoSupplied)}</Text>
         )
       }
       footer={
         isRateLoading ? (
           <Skeleton className="h-4 w-20" />
-        ) : maxRate > 0 ? (
+        ) : morphoRate > 0 ? (
           <RateLineWithArrow
-            rateText={t`Rates up to: ${maxRate.toFixed(2)}%`}
+            rateText={`Rate: ${formatDecimalPercentage(morphoRate)}`}
             popoverType="expert"
             onExternalLinkClicked={onExternalLinkClicked}
           />
@@ -85,13 +79,13 @@ export const ExpertBalanceCard = ({
         )
       }
       footerRightContent={
-        loading || pricesLoading || isBalanceLoading ? (
+        isBalanceLoading || pricesLoading ? (
           <Skeleton className="h-[13px] w-20" />
-        ) : totalSuppliedUsds > 0n && !!pricesData?.USDS ? (
+        ) : morphoSupplied > 0n && !!pricesData?.USDS ? (
           <Text variant="small" className="text-textSecondary">
             $
             {formatNumber(
-              parseFloat(formatUnits(totalSuppliedUsds, 18)) * parseFloat(pricesData.USDS.price),
+              parseFloat(formatUnits(morphoSupplied, 18)) * parseFloat(pricesData.USDS.price),
               {
                 maxDecimals: 2
               }
@@ -103,15 +97,15 @@ export const ExpertBalanceCard = ({
     />
   ) : (
     <InteractiveStatsCardAlt
-      title={t`Supplied to Expert`}
-      icon={expertIcon}
+      title={t`Supplied to Vaults`}
+      icon={vaultsIcon}
       url={url}
       logoName="expert"
       content={
-        loading || isBalanceLoading ? (
+        isBalanceLoading ? (
           <Skeleton className="w-32" />
         ) : (
-          <Text>{formatBigInt(totalSuppliedUsds)} USDS</Text>
+          <Text>{formatBigInt(morphoSupplied)} USDS</Text>
         )
       }
     />

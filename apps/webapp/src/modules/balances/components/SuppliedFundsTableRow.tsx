@@ -1,14 +1,13 @@
 import { TableCell, TableRow } from '@/components/ui/table';
 import { Text } from '@/modules/layout/components/Typography';
-import { TokenIcon } from '@/modules/ui/components/TokenIcon';
 import { formatNumber } from '@jetstreamgg/sky-utils';
 import { formatUnits } from 'viem';
 import { PopoverRateInfo, type PopoverTooltipType } from '@jetstreamgg/sky-widgets';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ReactNode } from 'react';
+import { Trans } from '@lingui/react/macro';
 
 export type SuppliedFundsRowData = {
-  tokenSymbol: string;
   moduleIcon: ReactNode;
   moduleName: string;
   amount: bigint;
@@ -17,7 +16,6 @@ export type SuppliedFundsRowData = {
   rateText: string;
   ratePopoverType: PopoverTooltipType;
   isRateUpTo?: boolean;
-  chainId?: number;
 };
 
 type SuppliedFundsTableRowProps = {
@@ -27,18 +25,7 @@ type SuppliedFundsTableRowProps = {
 };
 
 export function SuppliedFundsTableRow({ data, isLoading, children }: SuppliedFundsTableRowProps) {
-  const {
-    tokenSymbol,
-    moduleIcon,
-    moduleName,
-    amount,
-    decimals,
-    usdPrice,
-    rateText,
-    ratePopoverType,
-    isRateUpTo = false,
-    chainId
-  } = data;
+  const { moduleIcon, moduleName, amount, decimals, usdPrice, rateText, ratePopoverType, isRateUpTo = false } = data;
 
   const formattedAmount = formatNumber(parseFloat(formatUnits(amount, decimals)), {
     maxDecimals: 2,
@@ -57,18 +44,10 @@ export function SuppliedFundsTableRow({ data, isLoading, children }: SuppliedFun
       <TableRow className="border-b-selectBorder">
         <TableCell className="h-auto px-4 py-3">
           <div className="flex items-center gap-2">
-            <TokenIcon
-              className="h-6 w-6"
-              token={{ symbol: tokenSymbol, name: tokenSymbol }}
-              chainId={chainId}
-            />
-            <Text>{tokenSymbol}</Text>
-          </div>
-        </TableCell>
-        <TableCell className="h-auto px-4 py-3">
-          <div className="flex items-center gap-2">
             <div className="h-5 w-5 flex-shrink-0">{moduleIcon}</div>
-            <Text className="truncate">{moduleName}</Text>
+            <Text className="truncate">
+              <Trans>Supplied to {moduleName}</Trans>
+            </Text>
           </div>
         </TableCell>
         <TableCell className="h-auto px-4 py-3">

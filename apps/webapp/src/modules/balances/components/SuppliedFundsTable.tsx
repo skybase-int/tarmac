@@ -2,7 +2,6 @@ import { Table, TableBody } from '@/components/ui/table';
 import { SuppliedFundsTableHeader } from './SuppliedFundsTableHeader';
 import { SuppliedFundsTableRow } from './SuppliedFundsTableRow';
 import { SuppliedFundsSavingsRow } from './SuppliedFundsSavingsRow';
-import { SuppliedFundsExpertRow } from './SuppliedFundsExpertRow';
 import { LoadingErrorWrapper } from '@/modules/ui/components/LoadingErrorWrapper';
 import { Text } from '@/modules/layout/components/Typography';
 import { Trans } from '@lingui/react/macro';
@@ -33,8 +32,8 @@ import {
 } from '@jetstreamgg/sky-utils';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useBalanceFilters } from '@/modules/ui/context/BalanceFiltersContext';
-import { formatUnits } from 'viem';
 import { Fragment, useMemo } from 'react';
+import { Vaults } from '@/modules/icons';
 
 type SuppliedFundsTableProps = {
   chainIds?: number[];
@@ -170,6 +169,9 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
   const hideExpert = Boolean(
     (totalExpertSupplied === 0n && hideZeroBalances) || (!showAllNetworks && !isMainnetId(currentChainId))
   );
+  const hideVaults = Boolean(
+    (morphoSupplied === 0n && hideZeroBalances) || (!showAllNetworks && !isMainnetId(currentChainId))
+  );
 
   const isLoading =
     rewardsLoading ||
@@ -180,57 +182,31 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
     morphoLoading ||
     morphoSingleMarketLoading ||
     pricesLoading;
-  const allHidden = hideRewards && hideSavings && hideStake && hideExpert;
+  const allHidden = hideRewards && hideSavings && hideStake && hideExpert && hideVaults;
 
-  // Calculate USD values for sorting
-  const calculateUsdValue = (amount: bigint, decimals: number, price: string | undefined): number => {
-    if (!price || amount === 0n) return 0;
-    return parseFloat(formatUnits(amount, decimals)) * parseFloat(price);
+  // Fixed display order for modules
+  const displayOrder: Record<string, number> = {
+    rewards: 0,
+    vaults: 1,
+    savings: 2,
+    stusds: 3,
+    staking: 4
   };
 
-  // Create sorted modules array based on USD value
   const sortedModules = useMemo(() => {
     const modules: Array<{
-      id: 'rewards' | 'savings' | 'stusds' | 'staking';
-      usdValue: number;
+      id: 'rewards' | 'savings' | 'stusds' | 'staking' | 'vaults';
       hidden: boolean;
     }> = [
-      {
-        id: 'rewards',
-        usdValue: calculateUsdValue(totalUserRewardsSupplied, 18, pricesData?.USDS?.price),
-        hidden: hideRewards
-      },
-      {
-        id: 'savings',
-        usdValue: calculateUsdValue(totalSavingsBalance, 18, pricesData?.USDS?.price),
-        hidden: hideSavings
-      },
-      {
-        id: 'stusds',
-        usdValue: calculateUsdValue(totalExpertSupplied, 18, pricesData?.USDS?.price),
-        hidden: hideExpert
-      },
-      {
-        id: 'staking',
-        usdValue: calculateUsdValue(totalUserStaked ?? 0n, 18, pricesData?.SKY?.price),
-        hidden: hideStake
-      }
+      { id: 'rewards', hidden: hideRewards },
+      { id: 'vaults', hidden: hideVaults },
+      { id: 'savings', hidden: hideSavings },
+      { id: 'stusds', hidden: hideExpert },
+      { id: 'staking', hidden: hideStake }
     ];
 
-    return modules
-      .filter(m => !m.hidden)
-      .sort((a, b) => (b.usdValue - a.usdValue === 0 ? a.id.localeCompare(b.id) : b.usdValue - a.usdValue));
-  }, [
-    totalUserRewardsSupplied,
-    totalSavingsBalance,
-    totalExpertSupplied,
-    totalUserStaked,
-    pricesData,
-    hideRewards,
-    hideSavings,
-    hideExpert,
-    hideStake
-  ]);
+    return modules.filter(m => !m.hidden).sort((a, b) => displayOrder[a.id] - displayOrder[b.id]);
+  }, [hideRewards, hideSavings, hideExpert, hideStake, hideVaults]);
 
   if (allHidden && !isLoading) {
     return null;
@@ -240,7 +216,6 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
   const renderRewardsRow = () => (
     <SuppliedFundsTableRow
       data={{
-        tokenSymbol: 'USDS',
         moduleIcon: <img src="/images/rewards_icon_large.svg" alt="Rewards" className="h-5 w-5" />,
         moduleName: 'Rewards',
         amount: totalUserRewardsSupplied,
@@ -248,8 +223,7 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
         usdPrice: pricesData?.USDS?.price,
         rateText: rewardsHighestRate ? formatDecimalPercentage(parseFloat(rewardsHighestRate.rate)) : '0%',
         ratePopoverType: 'str',
-        isRateUpTo: true,
-        chainId: mainnetChainId
+        isRateUpTo: true
       }}
       isLoading={rewardsLoading || usdsSkyChartLoading || usdsSpkChartLoading}
     />
@@ -266,24 +240,17 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
   );
 
   const renderExpertRow = () => (
-    <SuppliedFundsExpertRow
-      totalBalance={totalExpertSupplied}
-      balancesByProduct={[
-        {
-          productName: 'stUSDS',
-          balance: userSuppliedUsds,
-          rate: stUsdsRatePercent > 0 ? formatDecimalPercentage(stUsdsRatePercent) : undefined,
-          isMorpho: false
-        },
-        {
-          productName: 'Morpho USDS Vault',
-          balance: morphoSupplied,
-          rate: morphoRatePercent > 0 ? formatDecimalPercentage(morphoRatePercent) : undefined,
-          isMorpho: true
-        }
-      ]}
-      usdPrice={pricesData?.USDS?.price}
-      maxRate={maxExpertRate > 0 ? formatDecimalPercentage(maxExpertRate) : '0%'}
+    <SuppliedFundsTableRow
+      data={{
+        moduleIcon: <img src="/images/expert_icon_large.svg" alt="Expert" className="h-5 w-5" />,
+        moduleName: 'Expert',
+        amount: totalExpertSupplied,
+        decimals: 18,
+        usdPrice: pricesData?.USDS?.price,
+        rateText: maxExpertRate > 0 ? formatDecimalPercentage(maxExpertRate) : '0%',
+        ratePopoverType: 'expert',
+        isRateUpTo: true
+      }}
       isLoading={stUsdsLoading || morphoLoading || morphoSingleMarketLoading}
     />
   );
@@ -291,7 +258,6 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
   const renderStakingRow = () => (
     <SuppliedFundsTableRow
       data={{
-        tokenSymbol: 'SKY',
         moduleIcon: (
           <img src="/images/staking_engine_icon_large.svg" alt="Staking Engine" className="h-5 w-5" />
         ),
@@ -303,14 +269,28 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
           ? formatDecimalPercentage(parseFloat(stakeHighestRateData.rate))
           : '0%',
         ratePopoverType: 'srr',
-        isRateUpTo: true,
-        chainId: mainnetChainId
+        isRateUpTo: true
       }}
       isLoading={stakeLoading || stakeRateLoading}
     />
   );
 
-  const renderModule = (moduleId: 'rewards' | 'savings' | 'stusds' | 'staking') => {
+  const renderVaultsRow = () => (
+    <SuppliedFundsTableRow
+      data={{
+        moduleIcon: <Vaults className="h-5 w-5" />,
+        moduleName: 'Vaults',
+        amount: morphoSupplied,
+        decimals: 18,
+        usdPrice: pricesData?.USDS?.price,
+        rateText: morphoRatePercent > 0 ? formatDecimalPercentage(morphoRatePercent) : '0%',
+        ratePopoverType: 'expert'
+      }}
+      isLoading={morphoLoading || morphoSingleMarketLoading}
+    />
+  );
+
+  const renderModule = (moduleId: 'rewards' | 'savings' | 'stusds' | 'staking' | 'vaults') => {
     switch (moduleId) {
       case 'rewards':
         return renderRewardsRow();
@@ -320,6 +300,8 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
         return renderExpertRow();
       case 'staking':
         return renderStakingRow();
+      case 'vaults':
+        return renderVaultsRow();
     }
   };
 
