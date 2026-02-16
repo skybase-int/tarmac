@@ -158,6 +158,23 @@ export function parseIntent(input: string): ParsedIntent | null {
     }
   }
 
+  // --- Morpho vault patterns (check before savings to avoid conflicts) ---
+  if (/\b(morpho|vault)\b/.test(normalized)) {
+    if (/\b(deposit|supply|put|add)\b/.test(normalized)) {
+      action = 'morpho_deposit';
+    } else if (/\b(withdraw|take\s+out|pull|remove|redeem)\b/.test(normalized)) {
+      action = 'morpho_withdraw';
+    }
+    if (action) {
+      return {
+        action,
+        amount,
+        unit: 'assets' as const,
+        ...(referral !== undefined ? { referral } : {})
+      };
+    }
+  }
+
   // --- Staking patterns ---
   if (
     (/\b(open|create)\b/.test(normalized) && /\b(stak|position)\b/.test(normalized)) ||
@@ -213,6 +230,10 @@ export function parseIntent(input: string): ParsedIntent | null {
   ) {
     action = 'rewards_withdraw';
     rewardContract = inferRewardContract(normalized);
+
+    // --- Generic rewards supply (no specific reward token) ---
+  } else if (/\bsupply\b/.test(normalized) && /\brewards?\b/.test(normalized)) {
+    action = 'rewards_supply';
 
     // --- Upgrade / migration patterns ---
   } else if (
@@ -320,6 +341,8 @@ export function describeIntent(intent: ParsedIntent): string {
     rewards_claim_all: `Claim all earned rewards across all reward contracts`,
     stusds_deposit: `Deposit ${intent.amount} USDS into the stUSDS vault`,
     stusds_withdraw: `Withdraw ${intent.amount} USDS from the stUSDS vault`,
+    morpho_deposit: `Deposit ${intent.amount} USDS into the Morpho vault`,
+    morpho_withdraw: `Withdraw ${intent.amount} USDS from the Morpho vault`,
     stake_open: `Open staking position with ${intent.amount} ${col}${intent.delegateAddress ? ` (delegate: ${intent.delegateAddress})` : ''}${intent.stakingRewardFarm ? ` (farm: ${farmName})` : ''}`,
     stake_lock: `Lock ${intent.amount} ${col} into staking position${intent.urnIndex !== undefined ? ` #${intent.urnIndex}` : ''}`,
     stake_free: `Free ${intent.amount} ${col} from staking position${intent.urnIndex !== undefined ? ` #${intent.urnIndex}` : ''}`,

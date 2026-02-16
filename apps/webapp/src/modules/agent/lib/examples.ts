@@ -8,6 +8,12 @@ export type SuggestedAction = {
   defaultAmount?: number;
   /** If true, exclude from the combined "all" list on the balances page. */
   hideFromAll?: boolean;
+  /** Optional badge text shown next to the action label (e.g. "New"). */
+  badge?: string;
+  /** Rate key for dynamic rate substitution. The label should contain {rate} placeholder. */
+  rateKey?: 'vaults' | 'rewards' | 'savings' | 'stusds' | 'staking';
+  /** Module key for displaying the module icon next to the action. */
+  module?: string;
 };
 
 /**
@@ -41,5 +47,19 @@ export const SUGGESTED_ACTIONS: Record<string, SuggestedAction[]> = {
   stusds: [
     { label: 'Deposit {amount} USDS', input: 'Deposit {amount} USDS into stUSDS', tokens: ['USDS'], sourceToken: 'USDS', defaultAmount: 500 },
     { label: 'Withdraw 200 USDS', input: 'Withdraw 200 USDS from stUSDS', tokens: ['USDS'], hideFromAll: true }
+  ],
+  morpho: [
+    { label: 'Supply {amount} USDS to USDS Risk Capital', input: 'Deposit {amount} USDS into Morpho vault', tokens: ['USDS'], sourceToken: 'USDS', defaultAmount: 500, badge: 'New' },
+    { label: 'Withdraw {amount} USDS from USDS Risk Capital', input: 'Withdraw {amount} USDS from Morpho vault', tokens: ['USDS'], sourceToken: 'USDS', defaultAmount: 200, hideFromAll: true }
+  ],
+  stables: [
+    { label: 'Earn up to {rate} with Vaults', input: 'Deposit {amount} USDS into Morpho vault', tokens: ['USDS', 'USDC', 'USDT'], sourceToken: 'USDS', defaultAmount: 500, rateKey: 'vaults', badge: 'New', module: 'morpho' },
+    { label: 'Earn up to {rate} in Rewards', input: 'Supply {amount} USDS to earn rewards', tokens: ['SKY', 'SPK', 'CLE'], sourceToken: 'USDS', defaultAmount: 500, rateKey: 'rewards', module: 'rewards' },
+    { label: 'Earn {rate} with Sky Savings', input: 'Deposit {amount} USDS into savings', tokens: ['sUSDS'], sourceToken: 'USDS', defaultAmount: 250, rateKey: 'savings', module: 'savings' },
+    { label: 'Earn {rate} with stUSDS', input: 'Deposit {amount} USDS into stUSDS', tokens: ['stUSDS'], sourceToken: 'USDS', defaultAmount: 500, rateKey: 'stusds', module: 'stusds' }
+  ],
+  sky: [
+    { label: 'Stake SKY and earn up to {rate}', input: 'Open a staking position with {amount} SKY', tokens: ['SKY'], sourceToken: 'SKY', defaultAmount: 1000, rateKey: 'staking', module: 'stake' },
+    { label: 'Borrow USDS', input: 'Borrow 100 USDS against my stake', tokens: ['USDS'], module: 'stake' }
   ]
 };

@@ -26,20 +26,29 @@ export function BalancesDetails() {
 
   return (
     <DetailSectionWrapper>
-      <DetailSectionRow>
-        <BalancesModuleShowcase />
-      </DetailSectionRow>
+      {!TX_AGENT_ENABLED && (
+        <DetailSectionRow>
+          <BalancesModuleShowcase />
+        </DetailSectionRow>
+      )}
       {!isConnectedAndAcceptedTerms && (
         <DetailSectionRow>
           <ConnectCard intent={Intent.BALANCES_INTENT} className="mb-4" />
         </DetailSectionRow>
       )}
       {TX_AGENT_ENABLED && (
-        <DetailSection title={t`Things you can do on sky.money`}>
-          <DetailSectionRow>
-            <SuggestedActions widget="all" />
-          </DetailSectionRow>
-        </DetailSection>
+        <>
+          <DetailSection title={t`Earn with your stables`}>
+            <DetailSectionRow>
+              <SuggestedActions widget="stables" />
+            </DetailSectionRow>
+          </DetailSection>
+          <DetailSection title={t`Stake, Borrow, and Earn with SKY`}>
+            <DetailSectionRow>
+              <SuggestedActions widget="sky" />
+            </DetailSectionRow>
+          </DetailSection>
+        </>
       )}
       {isConnectedAndAcceptedTerms && showFundsTable && (
         <DetailSection title={t`Supplied funds`}>
@@ -49,7 +58,7 @@ export function BalancesDetails() {
         </DetailSection>
       )}
       {isConnectedAndAcceptedTerms && showFundsTable && (
-        <DetailSection title={t`Your funds`}>
+        <DetailSection title={t`Your wallet funds`}>
           <DetailSectionRow>
             <BalancesAssets chainIds={supportedChainIds} />
           </DetailSectionRow>

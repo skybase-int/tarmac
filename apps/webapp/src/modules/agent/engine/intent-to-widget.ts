@@ -189,6 +189,19 @@ export function intentToWidgetParams(intent: ParsedIntent, chainId: number, netw
       setAmount();
       break;
 
+    // --- Morpho Vaults ---
+    case 'morpho_deposit':
+      params.set(QueryParams.Widget, 'vaults');
+      params.set(QueryParams.VaultModule, 'morpho');
+      setAmount();
+      break;
+
+    case 'morpho_withdraw':
+      params.set(QueryParams.Widget, 'vaults');
+      params.set(QueryParams.VaultModule, 'morpho');
+      setAmount();
+      break;
+
     default:
       return null;
   }

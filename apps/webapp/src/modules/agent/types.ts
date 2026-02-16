@@ -26,7 +26,10 @@ export type ActionType =
   | 'stake_select_reward'
   // stUSDS
   | 'stusds_deposit'
-  | 'stusds_withdraw';
+  | 'stusds_withdraw'
+  // Morpho Vaults
+  | 'morpho_deposit'
+  | 'morpho_withdraw';
 
 export type RewardContractId = 'usdsSkyReward' | 'usdsSpkReward' | 'cleReward';
 

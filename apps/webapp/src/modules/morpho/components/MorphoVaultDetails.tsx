@@ -18,6 +18,8 @@ import { VaultsIntent } from '@/lib/enums';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { useUserSuggestedActions } from '@/modules/ui/hooks/useUserSuggestedActions';
 import { filterActionsByIntent } from '@/lib/utils';
+import { TX_AGENT_ENABLED } from '@/lib/constants';
+import { SuggestedActions } from '@/modules/agent/components/SuggestedActions';
 
 type MorphoVaultDetailsProps = {
   /** The Morpho vault contract address */
@@ -40,6 +42,13 @@ export function MorphoVaultDetails({
 
   return (
     <DetailSectionWrapper>
+      {TX_AGENT_ENABLED && (
+        <DetailSection title={t`Things you can do in Vaults`}>
+          <DetailSectionRow>
+            <SuggestedActions widget="morpho" />
+          </DetailSectionRow>
+        </DetailSection>
+      )}
       {isConnectedAndAcceptedTerms && (
         <DetailSection title={t`Your balances`} dataTestId="morpho-vault-stats-section">
           <DetailSectionRow>
