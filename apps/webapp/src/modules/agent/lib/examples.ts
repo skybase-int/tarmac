@@ -44,8 +44,7 @@ export const SUGGESTED_ACTIONS: Record<string, SuggestedAction[]> = {
     { label: 'Update your delegate', input: 'Set delegate for staking position', tokens: ['SKY'], module: 'stake' }
   ],
   stusds: [
-    { label: 'Deposit {amount} USDS', input: 'Deposit {amount} USDS into stUSDS', tokens: ['USDS'], sourceToken: 'USDS', defaultAmount: 500, module: 'stusds' },
-    { label: 'Withdraw 200 USDS', input: 'Withdraw 200 USDS from stUSDS', tokens: ['USDS'], hideFromAll: true, module: 'stusds' }
+    { label: 'Deposit {amount} USDS', input: 'Deposit {amount} USDS into stUSDS', tokens: ['USDS'], sourceToken: 'USDS', defaultAmount: 500, module: 'stusds' }
   ],
   morpho: [
     { label: 'Deposit into USDS Risk Capital vault', input: 'Deposit 500 USDS into Morpho vault', tokens: ['USDS'], module: 'morpho' },

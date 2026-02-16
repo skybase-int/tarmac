@@ -33,6 +33,13 @@ export function ExpertDetailsPane({ isVaultsOverview }: ExpertDetailsPaneProps) 
           </DetailSectionRow>
         </DetailSection>
       )}
+      {TX_AGENT_ENABLED && !isVaultsOverview && (
+        <DetailSection title={t`Things you can do in stUSDS`}>
+          <DetailSectionRow>
+            <SuggestedActions widget="stusds" />
+          </DetailSectionRow>
+        </DetailSection>
+      )}
       <DetailSection title={t`Expert overview`}>
         <DetailSectionRow>
           <ExpertOverview />

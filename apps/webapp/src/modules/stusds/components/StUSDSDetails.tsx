@@ -17,9 +17,6 @@ import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { useUserSuggestedActions } from '@/modules/ui/hooks/useUserSuggestedActions';
 import { filterActionsByIntent } from '@/lib/utils';
 import { AboutUsds } from '@/modules/ui/components/AboutUsds';
-import { TX_AGENT_ENABLED } from '@/lib/constants';
-import { SuggestedActions } from '@/modules/agent/components/SuggestedActions';
-
 export function StUSDSDetails(): React.ReactElement {
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
   const { linkedActionConfig } = useConfigContext();
@@ -28,13 +25,6 @@ export function StUSDSDetails(): React.ReactElement {
 
   return (
     <DetailSectionWrapper>
-      {TX_AGENT_ENABLED && (
-        <DetailSection title={t`Things you can do in stUSDS`}>
-          <DetailSectionRow>
-            <SuggestedActions widget="stusds" />
-          </DetailSectionRow>
-        </DetailSection>
-      )}
       {isConnectedAndAcceptedTerms && (
         <DetailSection title={t`Your balances`} dataTestId="stusds-stats-section">
           <DetailSectionRow>
