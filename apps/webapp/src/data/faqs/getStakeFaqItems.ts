@@ -69,6 +69,23 @@ If you would rather manage your position(s) in the typical way, you would go to 
     },
     {
       question: 'Is there a deadline for claiming my USDS Staking Rewards?',
+      answer:
+        'No. While USDS rewards are disabled as a Staking Reward option, and the USDS rate set to zero, the pool of USDS will remain forever so that you can claim your rewards anytime.',
+      index: 9
+    },
+    {
+      question:
+        'Now that USDS is disabled as a Staking Reward option, do I have to unstake before changing my Staking Reward selection?',
+      answer: 'No. You can change your Staking Reward selection without unstaking your SKY.',
+      index: 10
+    },
+    {
+      question: 'Do I need to repay the USDS that I’ve borrowed before changing my Staking Reward selection?',
+      answer: 'No. You can change your Staking Reward selection without repaying the USDS you’ve borrowed.',
+      index: 11
+    },
+    {
+      question: 'Is there a deadline for claiming my USDS Staking Rewards?',
       answer: `No. While USDS rewards are disabled as a Staking Reward option, and the USDS rate set to zero, the pool of USDS will remain forever so that you can claim your rewards anytime.
 
 When you stake SKY governance tokens to the Staking Engine, you can:
@@ -82,14 +99,14 @@ When you stake SKY governance tokens to the Staking Engine, you can:
 You may exit your Staking positions at any time; no exit fee applies. Staking Reward rates and the Borrow Rate are determined by Sky Ecosystem Governance through the process of decentralized onchain voting.
 
 Your SKY, as well as any Staking Rewards that you accumulate, are supplied to a non-custodial smart contract, such that no intermediary ever takes custody of those tokens. With Sky, you always remain in control of your assets.`,
-      index: 9
+      index: 12
     },
     {
       question: "What will happen to the MKR and/or SKY I've supplied to the Seal Engine?",
       answer: `If you have one or more positions in the Seal Engine, you can migrate to the Staking Engine. Your sealed MKR will be upgraded to SKY during the Seal to Staking migration process. The process via the Sky.money web app makes manually exiting your Seal positions and creating new positions in the Staking Engine as simple as possible.
 
 For MKR to SKY upgrade details and step-by-step upgrade instructions, please visit the [MKR to SKY Upgrade Hub](https://upgrademkrtosky.sky.money).`,
-      index: 10
+      index: 13
     },
     {
       question: 'How does the Staking Engine enable borrowing?',
@@ -102,39 +119,39 @@ The USDS Borrow Rate and [debt ceiling](#tooltip-debt-ceiling) are determined by
 Please note that opening a USDS borrow position subjects you to liquidation risk if at any time the value of your supplied collateral drops below the required threshold ([liquidation price](#tooltip-liquidation-price-staking)) and your position becomes undercollateralized. If this were to occur, the smart contract would automatically liquidate and auction your collateral, and any leftover collateral may be claimed through the [Unified Auctions portal](https://unified-auctions.makerdao.com/).
 
 For more information, see the [User Risk Documentation](https://docs.sky.money/user-risks).`,
-      index: 11
+      index: 14
     },
     {
       question: 'How is the USDS Borrow Rate determined?',
       answer:
         'The USDS [Borrow Rate](#tooltip-borrow-rate) and [debt ceiling](#tooltip-debt-ceiling) are parameters determined by Sky Ecosystem Governance through a process of decentralized, community-driven onchain voting.',
-      index: 12
+      index: 15
     },
     {
       question: 'Can I borrow USDS using ETH?',
       answer:
         'Yes. For example, you can do so via the Borrow feature of [Spark](https://Spark.fi), but not via the Sky.money web app. Please see the [Terms of Use](https://docs.sky.money/legal-terms) for more information on third-party services.',
-      index: 13
+      index: 16
     },
     {
       question: 'What happens if my USDS borrow position is liquidated?',
       answer: `When you [borrow](#tooltip-borrow) USDS stablecoins against SKY tokens using the Staking Engine of the Sky Protocol or some other method, your position is subject to liquidation risk in the following scenario: If at any time the value of your supplied collateral drops below the required threshold ([liquidation price](#tooltip-liquidation-price-staking)), your position is undercollateralized. That means it will be liquidated and your supplied collateral will be auctioned, coordinated through Sky Ecosystem Governance channels. Any leftover collateral can be claimed through the [Unified Auctions portal](https://unified-auctions.makerdao.com/)
 
 For more information, see the [User Risk Documentation](https://docs.sky.money/user-risks).`,
-      index: 14
+      index: 17
     },
     {
       question: 'How do Sky liquidation auctions work?',
       answer: `The liquidation auctions of the Sky Protocol are automated processes that occur when a USDS or DAI [borrow](#tooltip-borrow) position becomes unsafe due to price fluctuations.
 
 A borrow position is subject to liquidation risk if at any time the value of the supplied collateral drops below the required threshold ([liquidation price](#tooltip-liquidation-price-staking)) and the position becomes undercollateralized. If this were to occur, the system would automatically liquidate and auction the collateral, and any leftover collateral may be claimed through the [Unified Auctions portal](https://unified-auctions.makerdao.com/).`,
-      index: 15
+      index: 18
     },
     {
       question: "What's the difference between Sky Token Rewards and Staking Rewards?",
       answer:
         'Sky Token Rewards are what you can access when you supply USDS stablecoins to the Sky Token Rewards module of the Sky Protocol. Staking Rewards are what you can access when you stake SKY to the Staking Engine of the Sky Protocol.',
-      index: 16
+      index: 19
     },
     {
       question: 'What does it mean to delegate my voting power?',
@@ -143,13 +160,13 @@ A borrow position is subject to liquidation risk if at any time the value of the
 By supplying SKY to the Staking Engine, you can open a position, access Staking Rewards, and also entrust your voting power to a delegate of your choosing, who can then participate in the Sky Ecosystem Governance voting process on your behalf. You can choose one delegate per position, meaning if you want to entrust your SKY to two different delegates using the Staking Engine, you will need to create two separate positions.
 
 Delegates granted voting power can never directly access any tokens delegated to them, including the SKY supplied to the Staking Engine. Throughout the delegation process, you always own and are in control of those tokens. You can also change your delegate at any time (subject to Sky Protocol rules that prevent double voting or misuse of delegated voting power).`,
-      index: 17
+      index: 20
     },
     {
       question: 'Where can I learn about Sky Ecosystem Governance?',
       answer:
         'For a deep dive into the facets and checks and balances of Sky Ecosystem Governance, please refer to the [Sky Forum](https://forum.sky.money/), the [Sky Governance Voting Portal](https://vote.sky.money/), and the [Sky Atlas](https://sky-atlas.io/). The Sky Atlas is the definitive rulebook of Sky Ecosystem, as determined by Sky Ecosystem Governance.',
-      index: 18
+      index: 21
     }
   ];
   return items.sort((a, b) => a.index - b.index);
