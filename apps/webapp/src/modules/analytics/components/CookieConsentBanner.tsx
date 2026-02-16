@@ -14,15 +14,22 @@ export function CookieConsentBanner() {
   // Local toggle state for the manage view
   const [posthogEnabled, setPosthogEnabled] = useState(() => consent?.posthog ?? true);
 
-  // Sync toggle when banner reopens (no useEffect needed)
+  // Sync toggle when banner reopens OR consent changes while banner is open
+  // (e.g. user changed consent on another subdomain and switched back to this tab)
   const prevVisibleRef = useRef(bannerVisible);
-  if (bannerVisible && !prevVisibleRef.current) {
+  const prevConsentPosRef = useRef(consent?.posthog);
+
+  const bannerJustOpened = bannerVisible && !prevVisibleRef.current;
+  const consentChangedWhileOpen = bannerVisible && consent?.posthog !== prevConsentPosRef.current;
+
+  if (bannerJustOpened || consentChangedWhileOpen) {
     const synced = consent?.posthog ?? true;
     if (synced !== posthogEnabled) {
       setPosthogEnabled(synced);
     }
   }
   prevVisibleRef.current = bannerVisible;
+  prevConsentPosRef.current = consent?.posthog;
 
   // Start the 3.5s delay timer via ref to avoid useEffect for a simple timer
   const timerStartedRef = useRef(false);
