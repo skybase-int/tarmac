@@ -131,6 +131,21 @@ export function parseIntent(input: string): ParsedIntent | null {
     };
   }
 
+  // --- Rewards supply/withdraw without amount (check before amount extraction) ---
+  if (
+    !normalized.match(/\d/) &&
+    (/\bsupply\b/.test(normalized) || (/\b(deposit|stake|add)\b/.test(normalized) && /\b(earn|reward)\b/.test(normalized))) &&
+    /\b(sky|spk|cle|rewards?)\b/.test(normalized)
+  ) {
+    const rc = inferRewardContract(normalized);
+    return {
+      action: 'rewards_supply',
+      amount: '0',
+      unit: 'assets' as const,
+      ...(rc ? { rewardContract: rc } : {})
+    };
+  }
+
   // Extract amount
   const amountMatch = normalized.match(/(\d+(?:\.\d+)?)/);
   if (!amountMatch) return null;

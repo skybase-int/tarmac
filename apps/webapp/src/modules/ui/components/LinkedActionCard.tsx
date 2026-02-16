@@ -68,7 +68,7 @@ export const LinkedActionCard = ({
     updateLinkedActionConfig({
       step: LinkedActionSteps.CURRENT_FUTURE
     });
-    const modifiedUrl = `${urlWithRetainedParams}${urlWithRetainedParams.includes('widget=trade') ? `&${QueryParams.Timestamp}=${new Date().getTime()}` : ''}`;
+    const modifiedUrl = `${urlWithRetainedParams}${urlWithRetainedParams.includes('convert_module=trade') ? `&${QueryParams.Timestamp}=${new Date().getTime()}` : ''}`;
     navigate(modifiedUrl);
   };
 

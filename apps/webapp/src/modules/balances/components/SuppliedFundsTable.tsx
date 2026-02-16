@@ -247,7 +247,7 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
         amount: totalExpertSupplied,
         decimals: 18,
         usdPrice: pricesData?.USDS?.price,
-        rateText: maxExpertRate > 0 ? formatDecimalPercentage(maxExpertRate) : '0%',
+        rateText: maxExpertRate > 0 ? `${maxExpertRate.toFixed(2)}%` : '0%',
         ratePopoverType: 'expert',
         isRateUpTo: true
       }}
@@ -283,7 +283,7 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
         amount: morphoSupplied,
         decimals: 18,
         usdPrice: pricesData?.USDS?.price,
-        rateText: morphoRatePercent > 0 ? formatDecimalPercentage(morphoRatePercent) : '0%',
+        rateText: morphoRatePercent > 0 ? `${morphoRatePercent.toFixed(2)}%` : '0%',
         ratePopoverType: 'expert'
       }}
       isLoading={morphoLoading || morphoSingleMarketLoading}

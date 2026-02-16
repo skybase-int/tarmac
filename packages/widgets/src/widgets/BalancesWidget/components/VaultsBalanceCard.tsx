@@ -47,7 +47,7 @@ export const VaultsBalanceCard = ({
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
 
   const morphoSupplied = morphoData?.userAssets ?? 0n;
-  const morphoRate = morphoSingleMarketData?.rate.netRate ? morphoSingleMarketData.rate.netRate * 100 : 0;
+  const morphoRate = morphoSingleMarketData?.rate.netRate ? morphoSingleMarketData.rate.netRate : 0;
 
   const isBalanceLoading = morphoDataLoading;
   const isRateLoading = morphoSingleMarketLoading;

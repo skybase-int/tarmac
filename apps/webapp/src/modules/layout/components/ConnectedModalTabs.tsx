@@ -31,10 +31,10 @@ export function ConnectedModalTabs() {
     <Tabs defaultValue={ConnectedModalTabsEnum.SUPPLIED_FUNDS} className="flex min-h-0 flex-1 flex-col">
       <TabsList className="mb-6 grid w-full grid-cols-3">
         <TabsTrigger position="left" value={ConnectedModalTabsEnum.SUPPLIED_FUNDS}>
-          <Trans>Supplied Funds</Trans>
+          <Trans>Supplied funds</Trans>
         </TabsTrigger>
         <TabsTrigger position="middle" value={ConnectedModalTabsEnum.WALLET_FUNDS}>
-          <Trans>Wallet Funds</Trans>
+          <Trans>Wallet funds</Trans>
         </TabsTrigger>
         <TabsTrigger position="right" value={ConnectedModalTabsEnum.ACTIVITY}>
           <Trans>Activity</Trans>

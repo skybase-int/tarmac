@@ -93,7 +93,7 @@ export const BalancesContent = ({
             />
             {!hideModuleBalances && (
               <Heading variant="small" className="mb-3 leading-6">
-                <Trans>Supplied Funds</Trans>
+                <Trans>Supplied funds</Trans>
               </Heading>
             )}
             <ModulesBalances
@@ -113,7 +113,7 @@ export const BalancesContent = ({
           <motion.div variants={positionAnimations}>
             {!hideTokenBalances && (
               <Heading variant="small" className="mb-3 leading-6">
-                <Trans>Wallet Funds</Trans>
+                <Trans>Wallet funds</Trans>
               </Heading>
             )}
             <TokenBalances

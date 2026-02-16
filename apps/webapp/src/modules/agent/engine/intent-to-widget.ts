@@ -59,25 +59,29 @@ export function intentToWidgetParams(intent: ParsedIntent, chainId: number, netw
 
     // --- Upgrade ---
     case 'upgrade_dai_to_usds':
-      params.set(QueryParams.Widget, 'upgrade');
+      params.set(QueryParams.Widget, 'convert');
+      params.set(QueryParams.ConvertModule, 'upgrade');
       params.set(QueryParams.SourceToken, 'DAI');
       setAmount();
       break;
 
     case 'revert_usds_to_dai':
-      params.set(QueryParams.Widget, 'upgrade');
+      params.set(QueryParams.Widget, 'convert');
+      params.set(QueryParams.ConvertModule, 'upgrade');
       params.set(QueryParams.SourceToken, 'USDS');
       setAmount();
       break;
 
     case 'upgrade_mkr_to_sky':
-      params.set(QueryParams.Widget, 'upgrade');
+      params.set(QueryParams.Widget, 'convert');
+      params.set(QueryParams.ConvertModule, 'upgrade');
       params.set(QueryParams.SourceToken, 'MKR');
       setAmount();
       break;
 
     case 'revert_sky_to_mkr':
-      params.set(QueryParams.Widget, 'upgrade');
+      params.set(QueryParams.Widget, 'convert');
+      params.set(QueryParams.ConvertModule, 'upgrade');
       params.set(QueryParams.SourceToken, 'SKY');
       setAmount();
       break;
