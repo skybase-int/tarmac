@@ -29,7 +29,9 @@ export type ActionType =
   | 'stusds_withdraw'
   // Morpho Vaults
   | 'morpho_deposit'
-  | 'morpho_withdraw';
+  | 'morpho_withdraw'
+  // Vaults overview
+  | 'vaults_overview';
 
 export type RewardContractId = 'usdsSkyReward' | 'usdsSpkReward' | 'cleReward';
 

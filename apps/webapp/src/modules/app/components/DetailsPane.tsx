@@ -152,7 +152,7 @@ export const DetailsPane = ({ intent }: DetailsPaneProps) => {
                 default:
                   return (
                     <MotionDetailsWrapper key={keys[11]}>
-                      <ExpertDetailsPane />
+                      <ExpertDetailsPane isVaultsOverview />
                     </MotionDetailsWrapper>
                   );
               }

@@ -202,6 +202,11 @@ export function intentToWidgetParams(intent: ParsedIntent, chainId: number, netw
       setAmount();
       break;
 
+    // --- Vaults overview ---
+    case 'vaults_overview':
+      params.set(QueryParams.Widget, 'vaults');
+      break;
+
     default:
       return null;
   }

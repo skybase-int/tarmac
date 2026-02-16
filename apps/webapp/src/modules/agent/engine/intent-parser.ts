@@ -51,6 +51,11 @@ export function parseIntent(input: string): ParsedIntent | null {
     referral = parseInt(referralMatch[1], 10);
   }
 
+  // --- Vaults overview (no amount needed, check early) ---
+  if (/\bvaults?\s+overview\b/.test(normalized) || normalized === 'explore vaults') {
+    return { action: 'vaults_overview', amount: '0', unit: 'assets' };
+  }
+
   // --- Rewards claim patterns (no amount needed, check early) ---
   if (/\bclaim\s+(all|every)\b/.test(normalized) || normalized === 'claim all') {
     return { action: 'rewards_claim_all', amount: '0', unit: 'assets' };
@@ -343,6 +348,7 @@ export function describeIntent(intent: ParsedIntent): string {
     stusds_withdraw: `Withdraw ${intent.amount} USDS from the stUSDS vault`,
     morpho_deposit: `Deposit ${intent.amount} USDS into the Morpho vault`,
     morpho_withdraw: `Withdraw ${intent.amount} USDS from the Morpho vault`,
+    vaults_overview: `Navigate to vaults overview`,
     stake_open: `Open staking position with ${intent.amount} ${col}${intent.delegateAddress ? ` (delegate: ${intent.delegateAddress})` : ''}${intent.stakingRewardFarm ? ` (farm: ${farmName})` : ''}`,
     stake_lock: `Lock ${intent.amount} ${col} into staking position${intent.urnIndex !== undefined ? ` #${intent.urnIndex}` : ''}`,
     stake_free: `Free ${intent.amount} ${col} from staking position${intent.urnIndex !== undefined ? ` #${intent.urnIndex}` : ''}`,
