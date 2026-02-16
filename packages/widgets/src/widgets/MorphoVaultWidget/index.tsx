@@ -218,6 +218,16 @@ const MorphoVaultWidgetWrapped = ({
       onNotification
     });
 
+  // Derive current call index based on active flow (for multi-step tracking)
+  const currentCallIndex =
+    widgetState.flow === MorphoVaultFlow.SUPPLY
+      ? morphoVaultDeposit.currentCallIndex
+      : widgetState.flow === MorphoVaultFlow.WITHDRAW
+        ? max
+          ? morphoVaultRedeem.currentCallIndex
+          : morphoVaultWithdraw.currentCallIndex
+        : 0;
+
   // Initialize widget state based on connection and tab
   useEffect(() => {
     if (isConnectedAndEnabled) {
@@ -533,6 +543,7 @@ const MorphoVaultWidgetWrapped = ({
               isBatchTransaction={shouldUseBatch}
               needsAllowance={needsAllowance}
               needsAllowanceReset={needsAllowanceReset}
+              currentCallIndex={currentCallIndex}
               claimAmountText={claimAmountText}
             />
           </CardAnimationWrapper>

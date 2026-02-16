@@ -35,6 +35,7 @@ export const MorphoVaultTransactionStatus = ({
   isBatchTransaction,
   needsAllowance,
   needsAllowanceReset,
+  currentCallIndex,
   claimAmountText
 }: {
   amount: bigint;
@@ -43,11 +44,13 @@ export const MorphoVaultTransactionStatus = ({
   isBatchTransaction?: boolean;
   needsAllowance: boolean;
   needsAllowanceReset: boolean;
+  currentCallIndex: number;
   claimAmountText?: string;
 }) => {
   // Capture at mount to avoid state changes during transaction
   const [flowNeedsAllowance] = useState(needsAllowance);
   const [flowNeedsAllowanceReset] = useState(needsAllowanceReset);
+  const totalSteps = flowNeedsAllowanceReset ? 3 : 2;
 
   const { i18n } = useLingui();
   const chainId = useChainId();
@@ -120,11 +123,18 @@ export const MorphoVaultTransactionStatus = ({
         );
 
         if (isBatchTransaction || flowTxStatus === TxStatus.SUCCESS) {
-          setStep(2);
+          setStep(totalSteps);
         } else if (flowNeedsAllowance) {
-          setStep(1);
+          const candidateStep = currentCallIndex + 1;
+          // Don't advance step while txStatus is stale from the previous transaction.
+          // When currentCallIndex advances (previous tx mined), txStatus is still LOADING.
+          // Wait until txStatus transitions away from LOADING (e.g. to INITIALIZED via onMutate)
+          // before advancing step, to prevent the next step from briefly flashing as loading.
+          if (candidateStep <= step || txStatus !== TxStatus.LOADING) {
+            setStep(candidateStep);
+          }
         } else {
-          setStep(2);
+          setStep(totalSteps);
         }
       }
     } else if (flow === MorphoVaultFlow.WITHDRAW) {
@@ -203,8 +213,17 @@ export const MorphoVaultTransactionStatus = ({
     setTxDescription,
     setLoadingText,
     setStep,
-    setStepTwoTitle
+    setStepTwoTitle,
+    currentCallIndex,
+    totalSteps
   ]);
+
+  const getStepTxStatus = (stepNumber: number) => {
+    if (isBatchTransaction) return txStatus;
+    if (step > stepNumber) return TxStatus.SUCCESS;
+    if (step === stepNumber) return txStatus;
+    return TxStatus.IDLE;
+  };
 
   // Custom 3-step indicators for USDT allowance reset flow
   const resetSteps = flowNeedsAllowanceReset ? (
@@ -212,23 +231,23 @@ export const MorphoVaultTransactionStatus = ({
       <StepIndicator
         stepNumber={1}
         currentStep={isBatchTransaction || step === 1}
-        txStatus={isBatchTransaction ? txStatus : step === 2 ? TxStatus.SUCCESS : txStatus}
+        txStatus={getStepTxStatus(1)}
         text={t`Reset allowance`}
         className="flex-1"
         circleIndicator
       />
       <StepIndicator
         stepNumber={2}
-        currentStep={isBatchTransaction || step === 1}
-        txStatus={isBatchTransaction ? txStatus : step === 2 ? TxStatus.SUCCESS : txStatus}
+        currentStep={isBatchTransaction || step === 2}
+        txStatus={getStepTxStatus(2)}
         text={t`Approve`}
         className="flex-1"
         circleIndicator
       />
       <StepIndicator
         stepNumber={3}
-        currentStep={isBatchTransaction || step === 2}
-        txStatus={isBatchTransaction ? txStatus : step === 1 ? TxStatus.IDLE : txStatus}
+        currentStep={isBatchTransaction || step === 3}
+        txStatus={getStepTxStatus(3)}
         text={stepTwoTitle}
         className="flex-1"
         circleIndicator
@@ -241,6 +260,7 @@ export const MorphoVaultTransactionStatus = ({
       onExternalLinkClicked={onExternalLinkClicked}
       isBatchTransaction={isBatchTransaction}
       customSteps={resetSteps}
+      totalSteps={totalSteps}
     />
   );
 };
