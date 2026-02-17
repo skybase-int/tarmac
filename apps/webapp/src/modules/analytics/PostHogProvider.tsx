@@ -39,7 +39,7 @@ export function initializePostHogIfNeeded(forceAccepted = false) {
     capture_pageleave: true,
     persistence: 'localStorage+cookie',
     cookieless_mode: hasAccepted ? undefined : 'always',
-    autocapture: false,
+    autocapture: true,
     disable_session_recording: true,
     disable_surveys: true,
     disable_web_experiments: true,
