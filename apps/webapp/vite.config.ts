@@ -30,9 +30,10 @@ export default ({ mode }: { mode: modeEnum }) => {
       'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='
       'sha384-ihnQ09PGDbDPthGB3QoQ2Heg2RwQIDyWkHkqxMzq91RPeP8OmydAZbQLgAakAOfI'
       https://static.cloudflareinsights.com
-      https://challenges.cloudflare.com;
-    style-src 'self' 'unsafe-inline';
-    img-src 'self' data: blob: https://explorer-api.walletconnect.com;
+      https://challenges.cloudflare.com
+      https://*.posthog.com;
+    style-src 'self' 'unsafe-inline' https://*.posthog.com;
+    img-src 'self' data: blob: https://explorer-api.walletconnect.com https://*.posthog.com;
     font-src 'self';
     connect-src 'self'
       ${RPC_PROVIDER_MAINNET}
@@ -83,8 +84,8 @@ export default ({ mode }: { mode: modeEnum }) => {
       https://metamask-sdk.api.cx.metamask.io/evt
       wss://metamask-sdk.api.cx.metamask.io
       wss://nbstream.binance.com/wallet-connector
-      https://custom-zerotrust.cloudflareaccess.com
-      cloudflareinsights.com;
+      cloudflareinsights.com
+      https://*.posthog.com;
     frame-src 'self'
       https://verify.walletconnect.com
       https://verify.walletconnect.org
