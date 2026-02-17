@@ -19,7 +19,7 @@ import { ExternalLinkModal } from '@/modules/layout/components/ExternalLinkModal
 import { ChatProvider } from '@/modules/chat/context/ChatContext';
 import { AnalyticsErrorBoundary } from '@/modules/analytics/AnalyticsErrorBoundary';
 import { CookieConsentProvider } from '@/modules/analytics/context/CookieConsentContext';
-import { PostHogProvider } from '@/modules/analytics/PostHogProvider';
+import { PostHogProvider, POSTHOG_ENABLED } from '@/modules/analytics/PostHogProvider';
 import { CookieConsentBanner } from '@/modules/analytics/components/CookieConsentBanner';
 import { CORPUS_VERSION, CORPUS_BRANCH } from '@/data/version';
 
@@ -73,7 +73,7 @@ export const App = () => (
               <ConnectModalProvider>
                 <AppContent />
               </ConnectModalProvider>
-              <CookieConsentBanner />
+              {POSTHOG_ENABLED && <CookieConsentBanner />}
             </PostHogProvider>
           </CookieConsentProvider>
         </AnalyticsErrorBoundary>
