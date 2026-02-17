@@ -5,7 +5,7 @@ import { getStoredConsent, saveConsent } from './consentStorage';
 
 const POSTHOG_KEY = import.meta.env.VITE_POSTHOG_KEY;
 const POSTHOG_HOST = import.meta.env.VITE_POSTHOG_HOST;
-const POSTHOG_ENABLED = import.meta.env.VITE_POSTHOG_ENABLED === 'true';
+export const POSTHOG_ENABLED = import.meta.env.VITE_POSTHOG_ENABLED === 'true';
 
 let hasInitializedPostHog = false;
 
