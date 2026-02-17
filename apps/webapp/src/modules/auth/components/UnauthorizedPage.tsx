@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useRef, useMemo } from 'react';
 import { Text } from '@/modules/layout/components/Typography';
 import { Trans } from '@lingui/react/macro';
 import { t } from '@lingui/core/macro';
@@ -7,6 +7,8 @@ import { Unavailable } from '@/modules/icons';
 import { ExternalLink } from '@/modules/layout/components/ExternalLink';
 import { LoadingSpinner } from '@/modules/ui/components/LoadingSpinner';
 import { sanitizeUrl } from '@/lib/utils';
+import { useVpnAnalytics } from '@/modules/analytics/hooks/useVpnAnalytics';
+import { type BlockReason } from '@/modules/analytics/constants';
 
 type AuthData = {
   addressAllowed?: boolean;
@@ -19,6 +21,7 @@ type VpnData = {
   isConnectedToVpn?: boolean;
   vpnIsLoading?: boolean;
   vpnError?: Error;
+  countryCode?: string | null;
 };
 
 type UnauthorizedPageProps = {
@@ -87,6 +90,18 @@ const getMessage = (authData: AuthData, vpnData: VpnData, termsLink: any[]): str
 };
 
 export const UnauthorizedPage = ({ authData, vpnData, children }: UnauthorizedPageProps) => {
+  const { trackVpnBlockedPageView } = useVpnAnalytics();
+  const blockedTrackedRef = useRef(false);
+  useEffect(() => {
+    if (blockedTrackedRef.current || authData.authIsLoading || vpnData.vpnIsLoading) return;
+    blockedTrackedRef.current = true;
+    let blockReason: BlockReason = 'network_error';
+    if (vpnData.isConnectedToVpn) blockReason = 'vpn_detected';
+    else if (vpnData.vpnError || authData.authError) blockReason = 'network_error';
+    else blockReason = 'restricted_region';
+    trackVpnBlockedPageView({ blockReason, countryCode: vpnData.countryCode ?? null });
+  }, [authData.authIsLoading, vpnData.vpnIsLoading]);
+
   let termsLink: any[] = [];
   try {
     termsLink = JSON.parse(import.meta.env.VITE_TERMS_LINK);
