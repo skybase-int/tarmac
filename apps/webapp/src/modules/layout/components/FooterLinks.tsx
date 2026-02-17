@@ -3,43 +3,54 @@ import { Text } from './Typography';
 import { getFooterLinks, sanitizeUrl } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { useCookieConsent } from '@/modules/analytics/context/CookieConsentContext';
+import { POSTHOG_ENABLED } from '@/modules/analytics/PostHogProvider';
 
 export function FooterLinks() {
   const footerLinks = getFooterLinks();
   const { showBanner } = useCookieConsent();
   const externalClass = 'hover:text-white hover:underline hover:underline-offset-4';
 
+  const regularLinks = footerLinks.filter(link => link.highlight !== 'true');
+  const highlightedLinks = footerLinks.filter(link => link.highlight === 'true');
+
   return (
     <div className={'flex w-full pt-2'}>
       <div className="flex w-full justify-end gap-3 md:justify-start">
-        {footerLinks.map((link, i) => {
+        {regularLinks.map((link, i) => {
           const url = sanitizeUrl(link.url);
           if (!url) return null;
-          const key = url || `link-${i}`;
-
-          if (link.highlight === 'true') {
-            return (
-              <Button key={key} variant="primaryAlt" size="xs" className="px-4 py-2" asChild>
-                <ExternalLink href={url} showIcon={false}>
-                  {link.name}
-                </ExternalLink>
-              </Button>
-            );
-          }
-
           return (
-            <ExternalLink key={key} showIcon={false} href={url} className={externalClass}>
+            <ExternalLink key={url || `link-${i}`} showIcon={false} href={url} className={externalClass}>
               <Text variant="captionSm" className="text-white">
                 {link.name}
               </Text>
             </ExternalLink>
           );
         })}
-        <button onClick={showBanner} className={externalClass}>
-          <Text variant="captionSm" className="text-white">
-            Cookie Settings
-          </Text>
-        </button>
+        {POSTHOG_ENABLED && (
+          <button onClick={showBanner} className={externalClass}>
+            <Text variant="captionSm" className="text-white">
+              Cookie Settings
+            </Text>
+          </button>
+        )}
+        {highlightedLinks.map((link, i) => {
+          const url = sanitizeUrl(link.url);
+          if (!url) return null;
+          return (
+            <Button
+              key={url || `highlight-${i}`}
+              variant="primaryAlt"
+              size="xs"
+              className="px-4 py-2"
+              asChild
+            >
+              <ExternalLink href={url} showIcon={false}>
+                {link.name}
+              </ExternalLink>
+            </Button>
+          );
+        })}
       </div>
     </div>
   );
