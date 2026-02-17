@@ -197,6 +197,15 @@ export function useSequentialTransactionFlow(
     transactionHashes
   ]);
 
+  const reset = useCallback(() => {
+    setIsExecuting(false);
+    setCurrentIndex(0);
+    setTransactionHashes([]);
+    setHasWriteError(false);
+    // Do NOT clear lastProcessedTxHash — it guards against
+    // stale wagmi mutationHash/receipt being replayed as a new success
+  }, []);
+
   // Memoize execute function to prevent recreation on every render
   const execute = useCallback(() => {
     if (currentIndex >= stableTransactions.length) {
@@ -236,6 +245,7 @@ export function useSequentialTransactionFlow(
     execute,
     isLoading: isSimulationLoading || (isMining && !txReverted) || (isExecuting && !hasWriteError),
     prepared,
-    error: writeError || miningError || simulationError
+    error: writeError || miningError || simulationError,
+    reset
   };
 }

@@ -68,6 +68,7 @@ export type BatchWriteHook = {
   isLoading: boolean;
   prepared: boolean;
   execute: () => void;
+  reset?: () => void;
 };
 
 export type BatchWriteHookParams = {
@@ -139,4 +140,5 @@ export type SequentialTransactionHook = {
   isLoading: boolean;
   execute: () => void;
   prepared: boolean;
+  reset: () => void;
 };

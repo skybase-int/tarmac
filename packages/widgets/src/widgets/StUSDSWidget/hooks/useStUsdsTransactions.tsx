@@ -108,6 +108,6 @@ export const useStUsdsTransactions = ({
   // Return the appropriate hooks based on provider
   return {
     batchStUsdsDeposit: isCurve ? curveSupplySwap : batchStUsdsDeposit,
-    stUsdsWithdraw: isCurve ? curveWithdrawSwap : stUsdsWithdraw
+    stUsdsWithdraw: isCurve ? curveWithdrawSwap : { ...stUsdsWithdraw, reset: () => {} }
   };
 };
