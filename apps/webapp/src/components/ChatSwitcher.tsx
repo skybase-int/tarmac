@@ -12,6 +12,7 @@ import {
 import { t } from '@lingui/core/macro';
 import { Chat } from '@/modules/icons';
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
+import { useAppAnalytics } from '@/modules/analytics/hooks/useAppAnalytics';
 import { JSX } from 'react';
 
 export function ChatSwitcher(): JSX.Element {
@@ -22,7 +23,14 @@ export function ChatSwitcher(): JSX.Element {
       ? !(searchParams.get(QueryParams.Chat) === 'false')
       : searchParams.get(QueryParams.Chat) === 'true';
 
+  const { trackChatPaneToggled } = useAppAnalytics();
+
   const handleSwitch = (pressed: boolean) => {
+    trackChatPaneToggled({
+      toggleAction: pressed ? 'open' : 'close',
+      activeWidget: searchParams.get(QueryParams.Widget) || 'balances',
+      detailsWasOpen: !(searchParams.get(QueryParams.Details) === 'false')
+    });
     const queryParam = pressed ? 'true' : 'false';
     searchParams.set(QueryParams.Chat, queryParam);
     if (bpi < BP['3xl'] && queryParam) searchParams.set(QueryParams.Details, 'false');
