@@ -73,6 +73,7 @@ catalog:
   lucide-react: ^0.563.0
   openapi-fetch: ^0.15.0
   porto: ~0.2.37
+  posthog-js: ^1.345.4
   prettier: ^3.6.1
   prettier-plugin-tailwindcss: ^0.7.2
   react: ^19.2.4
