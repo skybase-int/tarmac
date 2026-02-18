@@ -27,7 +27,7 @@ export const banners: Banner[] = [
     title: 'USDS',
     module: 'expert-modules-banners',
     description:
-      'USDS is the stablecoin of the decentralized Sky Protocol. It can be used in several ways, including to participate in the [stUSDS Rate](#tooltip-stusds-rate), Sky Savings Rate and access Sky Token Rewards without giving up control. It is the upgraded version of DAI, backed by a surplus of collateral and soft-pegged to the value of the U.S. dollar, meaning it is designed to maintain a value equal to or close to a dollar. USDS powers the permissionless, non-custodial Sky Protocol.',
+      'USDS is the stablecoin of the decentralized Sky Protocol. It can be used in several ways, including to participate in the [stUSDS Rate](#tooltip-stusds-rate) and the Sky Savings Rate, and to access Sky Token Rewards without giving up control. It is the upgraded version of DAI, backed by a surplus of collateral and soft-pegged to the value of the U.S. dollar, meaning it is designed to maintain a value equal to or close to a dollar. USDS powers the permissionless, non-custodial Sky Protocol.',
     display: ['connected', 'disconnected']
   },
   {
@@ -51,7 +51,7 @@ export const banners: Banner[] = [
     title: 'USDS',
     module: 'stusds-module-banners',
     description:
-      'USDS is the stablecoin of the decentralized Sky Protocol. It can be used in several ways, including to participate in the stUSDS Rate, Sky Savings Rate and access Sky Token Rewards without giving up control. It is the upgraded version of DAI, backed by a surplus of collateral and soft-pegged to the value of the U.S. dollar, meaning it is designed to maintain a value equal to or close to a dollar. USDS powers the permissionless, non-custodial Sky Protocol.',
+      'USDS is the stablecoin of the decentralized Sky Protocol. It can be used in several ways, including to participate in the [stUSDS Rate](#tooltip-stusds-rate) and the Sky Savings Rate, and to access Sky Token Rewards without giving up control. It is the upgraded version of DAI, backed by a surplus of collateral and soft-pegged to the value of the U.S. dollar, meaning it is designed to maintain a value equal to or close to a dollar. USDS powers the permissionless, non-custodial Sky Protocol.',
     display: ['disconnected']
   },
   {
@@ -59,7 +59,7 @@ export const banners: Banner[] = [
     title: 'USDS',
     module: 'stusds-module-banners',
     description:
-      'USDS is the stablecoin of the decentralized Sky Protocol. It can be used in several ways, including to participate in the [stUSDS Rate](#tooltip-stusds-rate), Sky Savings Rate and access Sky Token Rewards without giving up control. It is the upgraded version of DAI, backed by a surplus of collateral and soft-pegged to the value of the U.S. dollar, meaning it is designed to maintain a value equal to or close to a dollar. USDS powers the permissionless, non-custodial Sky Protocol.',
+      'USDS is the stablecoin of the decentralized Sky Protocol. It can be used in several ways, including to participate in the [stUSDS Rate](#tooltip-stusds-rate) and the Sky Savings Rate, and to access Sky Token Rewards without giving up control. It is the upgraded version of DAI, backed by a surplus of collateral and soft-pegged to the value of the U.S. dollar, meaning it is designed to maintain a value equal to or close to a dollar. USDS powers the permissionless, non-custodial Sky Protocol.',
     display: ['connected']
   },
   {
@@ -91,7 +91,7 @@ export const banners: Banner[] = [
     title: 'About the Staking Engine',
     module: 'staking-engine-banners',
     description:
-      'The Staking Engine is a module of the Sky Protocol. When you stake SKY tokens to the Staking Engine, you can access Staking Rewards in various token forms. You may also choose to create one or more positions, including positions that enable you to generate and borrow USDS against your supplied SKY and to delegate the voting power the SKY token provides. With Sky, you always remain in control of your assets.',
+      'The Staking Engine is a module of the Sky Protocol. When you stake SKY tokens to the Staking Engine, you can access Staking Rewards. You may also choose to create one or more positions, including positions that enable you to generate and borrow USDS against your supplied SKY and to delegate the voting power the SKY token provides. With Sky, you always remain in control of your assets.',
     display: ['disconnected']
   },
   {
@@ -99,7 +99,7 @@ export const banners: Banner[] = [
     title: 'About Staking Rewards',
     module: 'staking-engine-banners',
     description:
-      'Staking Rewards, available in various token forms, can be accessed when SKY is supplied to the Staking Engine of the decentralized, non-custodial Sky Protocol. [Staking Rewards Rates (SRRs)](#tooltip-staking-rewards-rates-srrs) are determined by Sky Ecosystem Governance through the process of decentralized onchain voting.',
+      'Staking Rewards can be accessed when SKY is supplied to the Staking Engine of the decentralized, non-custodial Sky Protocol. [Staking Rewards Rates (SRRs)](#tooltip-staking-rewards-rates-srrs) are determined by Sky Ecosystem Governance through the process of decentralized onchain voting.',
     display: ['connected', 'disconnected']
   },
   {

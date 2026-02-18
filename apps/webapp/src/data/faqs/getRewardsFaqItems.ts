@@ -32,11 +32,9 @@ Sky.money does not control the issuance, determination, or distribution of these
     },
     {
       question: 'How are Sky Token Rewards funded?',
-      answer: `Users can supply USDS to the Sky Token Rewards module of the Sky Protocol to receive rewards in the form of SKY tokens, Sky Star Agent tokens, and Chronicle points. Sky Protocol reward mechanisms are designed to balance incentives for users while maintaining sustainability and minimizing unnecessary inflation. Rewards are funded as follows:
+      answer: `Users can supply USDS to the Sky Token Rewards module of the Sky Protocol to receive rewards in the form of Star Agent tokens and Chronicle points. Sky Protocol reward mechanisms are designed to balance incentives for users while maintaining sustainability and minimizing unnecessary inflation. Sky Token Rewards are funded as follows:
 
-• **SKY as Staking Rewards:** SKY rewards distributed to SKY stakers are funded by the Sky Protocol's treasury and originate from buybacks executed by the Smart Burn Engine. The specific sources, routing, and distribution of rewards are determined by Sky Ecosystem Governance and may change over time.
-
-• **Star Agen tokens as rewards:** Currently, Star Agent token rewards distributed to SKY stakers are funded using distributions to Sky from the investments in those Stars. This is not inflationary for the Sky Protocol, as these are external tokens acquired through investment.
+• **Star Agent tokens as rewards:** Currently, Star Agent token rewards are funded using distributions to Sky from the investments in those Stars. This is not inflationary for the Sky Protocol, as these are external tokens acquired through investment.
 
 • **Chronicle Points as rewards:** USDS suppliers can opt to receive Chronicle Points, which might ultimately become claimable for Chronicle tokens (CLE) at a rate of 10 points for every 1 CLE token. The total supply of CLE tokens is anticipated to be 10 billion. Chronicle Points are emitted at a rate of 3.75 billion per year. Any future opportunities to convert Chronicle Points into CLE tokens would be managed independently by Chronicle's own applications.`,
       index: 4

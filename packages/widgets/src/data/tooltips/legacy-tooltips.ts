@@ -115,6 +115,18 @@ export const legacyTooltips: Tooltip[] = [
     title: 'Staking Rewards',
     tooltip:
       'Staking Rewards can be accessed when SKY is supplied to the Staking Engine of the decentralized, non-custodial Sky Protocol. Currently, all Staking Rewards take the form of USDS. Staking Reward rates are determined by Sky Ecosystem Governance through the process of decentralized onchain voting.'
+  },
+  {
+    id: 'supply-capacity-reached',
+    title: 'Capacity temporarily full',
+    tooltip:
+      'Native supply capacity on Ethereum is currently 100% full. As a result, depositing to the stUSDS module using the native route is temporarily disabled.'
+  },
+  {
+    id: 'native-route-temporarily-unavailable',
+    title: 'Native route temporarily unavailable',
+    tooltip:
+      'Native utilization and capacity on Ethereum are currently 100%. As a result, depositing and withdrawing from the stUSDS module using the native route is temporarily disabled.'
   }
 ];
 

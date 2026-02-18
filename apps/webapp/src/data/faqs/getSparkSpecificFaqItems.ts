@@ -50,16 +50,10 @@ export const getSparkSpecificFaqItems = () => {
       index: 7
     },
     {
-      question:
-        'Is there a minimum requirement of SKY that I need to supply to the Staking Engine to access SPK as a Staking Reward?',
-      answer: 'No minimum supply of SKY is required.',
-      index: 8
-    },
-    {
       question: 'Where can I find the Spark Analytics Dashboard?',
       answer:
         'View the most comprehensive information and data about Spark on the [Spark Analytics Dashboard](https://spark.blockanalitica.com/).',
-      index: 9
+      index: 8
     }
   ];
   return items.sort((a, b) => a.index - b.index);
