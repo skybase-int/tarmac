@@ -17,6 +17,10 @@ import { ConnectModalProvider } from '@/modules/ui/context/ConnectModalContext';
 import { NetworkSwitchProvider } from '@/modules/ui/context/NetworkSwitchContext';
 import { ExternalLinkModal } from '@/modules/layout/components/ExternalLinkModal';
 import { ChatProvider } from '@/modules/chat/context/ChatContext';
+import { AnalyticsErrorBoundary } from '@/modules/analytics/AnalyticsErrorBoundary';
+import { CookieConsentProvider } from '@/modules/analytics/context/CookieConsentContext';
+import { PostHogProvider, POSTHOG_ENABLED } from '@/modules/analytics/PostHogProvider';
+import { CookieConsentBanner } from '@/modules/analytics/components/CookieConsentBanner';
 import { CORPUS_VERSION, CORPUS_BRANCH } from '@/data/version';
 
 // Expose corpus version to browser console for debugging
@@ -63,9 +67,16 @@ export const App = () => (
   <I18nProvider i18n={i18n}>
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <ConnectModalProvider>
-          <AppContent />
-        </ConnectModalProvider>
+        <AnalyticsErrorBoundary>
+          <CookieConsentProvider>
+            <PostHogProvider>
+              <ConnectModalProvider>
+                <AppContent />
+              </ConnectModalProvider>
+              {POSTHOG_ENABLED && <CookieConsentBanner />}
+            </PostHogProvider>
+          </CookieConsentProvider>
+        </AnalyticsErrorBoundary>
       </QueryClientProvider>
     </WagmiProvider>
   </I18nProvider>
