@@ -12,14 +12,21 @@ import {
 } from '@/components/ui/tooltip';
 import { t } from '@lingui/core/macro';
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
+import { useAppAnalytics } from '@/modules/analytics/hooks/useAppAnalytics';
 import { JSX } from 'react';
 
 export function DetailsSwitcher(): JSX.Element {
   const isSealEngine = useMatch('/seal-engine');
   const { bpi } = useBreakpointIndex();
   const [searchParams, setSearchParams] = useSearchParams();
+  const { trackDetailsPaneToggled } = useAppAnalytics();
   const detailsParam = !(searchParams.get(QueryParams.Details) === 'false');
   const handleSwitch = (pressed: boolean) => {
+    trackDetailsPaneToggled({
+      toggleAction: pressed ? 'open' : 'close',
+      activeWidget: searchParams.get(QueryParams.Widget) || 'balances',
+      chatWasOpen: searchParams.get(QueryParams.Chat) === 'true'
+    });
     const queryParam = pressed ? 'true' : 'false';
     searchParams.set(QueryParams.Details, queryParam);
     if ([BP.md, BP.lg, BP.xl, BP['2xl']].includes(bpi) && queryParam)

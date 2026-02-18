@@ -1,8 +1,9 @@
-import React, { createContext, useContext, useEffect, useState, useMemo } from 'react';
+import React, { createContext, useContext, useEffect, useRef, useState, useMemo } from 'react';
 import { useChainId, useConnection } from 'wagmi';
 import { useRestrictedAddressCheck, useVpnCheck } from '@jetstreamgg/sky-hooks';
 import { sanitizeUrl } from '@/lib/utils';
 import { IS_PRODUCTION_ENV } from '@/lib/constants';
+import { useVpnAnalytics } from '@/modules/analytics/hooks/useVpnAnalytics';
 
 interface ConnectedContextType {
   isConnectedAndAcceptedTerms: boolean;
@@ -19,6 +20,7 @@ interface ConnectedContextType {
     isConnectedToVpn?: boolean;
     vpnIsLoading: boolean;
     vpnError?: Error;
+    countryCode?: string | null;
   };
 }
 
@@ -52,6 +54,28 @@ export const ConnectedProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   } = useRestrictedAddressCheck({ address, authUrl, enabled, chainId });
 
   const { data: vpnData, isLoading: vpnIsLoading, error: vpnError } = useVpnCheck({ authUrl });
+
+  // Track VPN check result once when data or error resolves
+  const { trackVpnCheckCompleted } = useVpnAnalytics();
+  const vpnTrackedRef = useRef(false);
+  useEffect(() => {
+    if (vpnIsLoading || vpnTrackedRef.current) return;
+    if (!vpnData && !vpnError) return;
+    vpnTrackedRef.current = true;
+    const result = vpnError
+      ? 'error'
+      : vpnData?.isConnectedToVpn
+        ? 'vpn_blocked'
+        : vpnData?.isRestrictedRegion
+          ? 'region_blocked'
+          : 'allowed';
+    trackVpnCheckCompleted({
+      isVpn: vpnData?.isConnectedToVpn ?? null,
+      isRestrictedRegion: vpnData?.isRestrictedRegion ?? null,
+      countryCode: vpnData?.countryCode ?? null,
+      result
+    });
+  }, [vpnIsLoading, vpnData, vpnError]);
 
   useEffect(() => {
     setEnabled(!!address);
@@ -150,7 +174,8 @@ export const ConnectedProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         vpnData: {
           isConnectedToVpn: vpnData?.isConnectedToVpn,
           vpnIsLoading,
-          vpnError
+          vpnError,
+          countryCode: vpnData?.countryCode ?? null
         }
       }}
     >

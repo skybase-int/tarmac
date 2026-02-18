@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState, useCallback, JSX } from 'react';
 import { Intent } from '../../../lib/enums';
+import { IntentMapping } from '@/lib/constants';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../../components/ui/tabs';
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
 import { Heading, Text } from '@/modules/layout/components/Typography';
@@ -22,6 +23,8 @@ import { useNetworkAutoSwitch } from '@/modules/app/hooks/useNetworkAutoSwitch';
 import { WidgetMenuItemTooltip } from '@/modules/app/components/WidgetMenuItemTooltip';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { useScrollHint } from '@/modules/app/hooks/useScrollHint';
+import { useAppAnalytics } from '@/modules/analytics/hooks/useAppAnalytics';
+import { type SelectionMethod } from '@/modules/analytics/constants';
 
 interface WidgetNavigationProps {
   widgetContent: WidgetContent;
@@ -83,7 +86,18 @@ export function WidgetNavigation({
     currentIntent: intent
   });
 
-  const handleWidgetChange = (value: string) => {
+  const { trackWidgetSelected } = useAppAnalytics();
+
+  const handleWidgetChange = (value: string, method?: SelectionMethod) => {
+    // Skip tracking if the widget didn't actually change (e.g. Tabs re-firing during URL param updates)
+    if (value !== intent) {
+      trackWidgetSelected({
+        widgetName: IntentMapping[value as Intent] || value,
+        previousWidget: IntentMapping[intent as Intent] || 'balances',
+        selectionMethod: method || (showDrawerMenu ? 'mobile_drawer' : 'sidebar_tab'),
+        chainId: currentChainId || 0
+      });
+    }
     const targetIntent = value as Intent;
     handleWidgetNavigation(targetIntent);
   };

@@ -1,6 +1,6 @@
 import { useSearchParams } from 'react-router-dom';
 
-import { useConfig as useWagmiConfig } from 'wagmi';
+import { useConfig as useWagmiConfig, useChainId } from 'wagmi';
 import { TOKENS, useUpgradeHistory } from '@jetstreamgg/sky-hooks';
 import {
   TxStatus,
@@ -24,6 +24,7 @@ import { useChatContext } from '@/modules/chat/context/ChatContext';
 import { useEffect, useState } from 'react';
 import { Intent } from '@/lib/enums';
 import { useBatchToggle } from '@/modules/ui/hooks/useBatchToggle';
+import { useWidgetFlowTracking } from '@/modules/analytics/hooks/useWidgetFlowTracking';
 
 const targetTokenFromSourceToken = (sourceToken?: string) => {
   if (sourceToken === 'DAI') return 'USDS';
@@ -32,6 +33,7 @@ const targetTokenFromSourceToken = (sourceToken?: string) => {
 };
 
 export function UpgradeWidgetPane(sharedProps: SharedProps) {
+  const chainId = useChainId();
   const subgraphUrl = useSubgraphUrl();
   const { linkedActionConfig, updateLinkedActionConfig, exitLinkedActionMode } = useConfigContext();
   const { mutate: refreshUpgradeHistory } = useUpgradeHistory({ subgraphUrl });
@@ -49,6 +51,7 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
   const sourceToken = searchParams.get(QueryParams.SourceToken)?.toUpperCase();
 
   const [batchEnabled, setBatchEnabled] = useBatchToggle();
+  const { wrapStateChange } = useWidgetFlowTracking('upgrade', chainId);
 
   // Set initial currentToken from sourceToken
   useEffect(() => {
@@ -235,7 +238,7 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
             ? (linkedActionConfig.sourceToken.toUpperCase() as keyof typeof upgradeTokens)
             : undefined) as keyof typeof upgradeTokens | undefined
       }}
-      onWidgetStateChange={onUpgradeWidgetStateChange}
+      onWidgetStateChange={wrapStateChange(onUpgradeWidgetStateChange)}
       customNavigationLabel={customNavLabel}
       onCustomNavigation={onNavigate}
       upgradeOptions={
