@@ -23,6 +23,8 @@ import {
 import { isTestnetId, isMainnetId, formatDecimalPercentage, formatStrAsApy } from '@jetstreamgg/sky-utils';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useBalanceFilters } from '@/modules/ui/context/BalanceFiltersContext';
+import { formatUnits } from 'viem';
+import { useMemo } from 'react';
 
 type SuppliedFundsTableProps = {
   chainIds?: number[];
@@ -142,9 +144,143 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
     rewardsLoading || savingsLoading || stakeLoading || stakeRateLoading || stUsdsLoading || pricesLoading;
   const allHidden = hideRewards && hideSavings && hideStake && hideStUSDS;
 
+  // Calculate USD values for sorting
+  const calculateUsdValue = (amount: bigint, decimals: number, price: string | undefined): number => {
+    if (!price || amount === 0n) return 0;
+    return parseFloat(formatUnits(amount, decimals)) * parseFloat(price);
+  };
+
+  // Create sorted modules array based on USD value
+  const sortedModules = useMemo(() => {
+    const modules: Array<{
+      id: 'rewards' | 'savings' | 'stusds' | 'staking';
+      usdValue: number;
+      hidden: boolean;
+    }> = [
+      {
+        id: 'rewards',
+        usdValue: calculateUsdValue(totalUserRewardsSupplied, 18, pricesData?.USDS?.price),
+        hidden: hideRewards
+      },
+      {
+        id: 'savings',
+        usdValue: calculateUsdValue(totalSavingsBalance, 18, pricesData?.USDS?.price),
+        hidden: hideSavings
+      },
+      {
+        id: 'stusds',
+        usdValue: calculateUsdValue(userSuppliedUsds, 18, pricesData?.USDS?.price),
+        hidden: hideStUSDS
+      },
+      {
+        id: 'staking',
+        usdValue: calculateUsdValue(totalUserStaked ?? 0n, 18, pricesData?.SKY?.price),
+        hidden: hideStake
+      }
+    ];
+
+    return modules.filter(m => !m.hidden).sort((a, b) => b.usdValue - a.usdValue);
+  }, [
+    totalUserRewardsSupplied,
+    totalSavingsBalance,
+    userSuppliedUsds,
+    totalUserStaked,
+    pricesData,
+    hideRewards,
+    hideSavings,
+    hideStUSDS,
+    hideStake
+  ]);
+
   if (allHidden && !isLoading) {
     return null;
   }
+
+  // Render functions for each module type
+  const renderRewardsRow = () => (
+    <SuppliedFundsTableRow
+      key="rewards"
+      data={{
+        tokenSymbol: 'USDS',
+        moduleIcon: <img src="/images/rewards_icon_large.svg" alt="Rewards" className="h-5 w-5" />,
+        moduleName: 'Rewards',
+        amount: totalUserRewardsSupplied,
+        decimals: 18,
+        usdPrice: pricesData?.USDS?.price,
+        rateText: rewardsHighestRate ? formatDecimalPercentage(parseFloat(rewardsHighestRate.rate)) : '0%',
+        ratePopoverType: 'str',
+        isRateUpTo: true,
+        chainId: mainnetChainId
+      }}
+      isLoading={rewardsLoading || usdsSkyChartLoading || usdsSpkChartLoading}
+    />
+  );
+
+  const renderSavingsRow = () => (
+    <SuppliedFundsSavingsRow
+      key="savings"
+      totalBalance={totalSavingsBalance}
+      balancesByNetwork={allNonZeroSavingsBalances}
+      usdPrice={pricesData?.USDS?.price}
+      rate={savingsRate > 0 ? formatDecimalPercentage(savingsRate) : '0%'}
+      isLoading={savingsLoading || overallSkyDataLoading}
+    />
+  );
+
+  const renderStUsdsRow = () => (
+    <SuppliedFundsTableRow
+      key="stusds"
+      data={{
+        tokenSymbol: 'stUSDS',
+        moduleIcon: <img src="/images/expert_icon_large.svg" alt="Expert" className="h-5 w-5" />,
+        moduleName: 'Expert / stUSDS',
+        amount: userSuppliedUsds,
+        decimals: 18,
+        usdPrice: pricesData?.USDS?.price,
+        rateText: stUsdsRate > 0n ? formatStrAsApy(stUsdsRate) : '0%',
+        ratePopoverType: 'stusds',
+        isRateUpTo: false,
+        chainId: mainnetChainId
+      }}
+      isLoading={stUsdsLoading}
+    />
+  );
+
+  const renderStakingRow = () => (
+    <SuppliedFundsTableRow
+      key="staking"
+      data={{
+        tokenSymbol: 'SKY',
+        moduleIcon: (
+          <img src="/images/staking_engine_icon_large.svg" alt="Staking Engine" className="h-5 w-5" />
+        ),
+        moduleName: 'Staking Engine',
+        amount: totalUserStaked ?? 0n,
+        decimals: 18,
+        usdPrice: pricesData?.SKY?.price,
+        rateText: stakeHighestRateData?.rate
+          ? formatDecimalPercentage(parseFloat(stakeHighestRateData.rate))
+          : '0%',
+        ratePopoverType: 'srr',
+        isRateUpTo: true,
+        chainId: mainnetChainId
+      }}
+      isLoading={stakeLoading || stakeRateLoading}
+    />
+  );
+
+  const renderModule = (moduleId: 'rewards' | 'savings' | 'stusds' | 'staking') => {
+    switch (moduleId) {
+      case 'rewards':
+        return renderRewardsRow();
+      case 'savings':
+        return renderSavingsRow();
+      case 'stusds':
+        return renderStUsdsRow();
+      case 'staking':
+        return renderStakingRow();
+    }
+  };
 
   return (
     <LoadingErrorWrapper
@@ -160,85 +296,7 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
       <div className="@container">
         <Table>
           <SuppliedFundsTableHeader />
-          <TableBody>
-            {/* Rewards Row */}
-            {!hideRewards && (
-              <SuppliedFundsTableRow
-                data={{
-                  tokenSymbol: 'USDS',
-                  moduleIcon: <img src="/images/rewards_icon_large.svg" alt="Rewards" className="h-5 w-5" />,
-                  moduleName: 'Rewards',
-                  amount: totalUserRewardsSupplied,
-                  decimals: 18,
-                  usdPrice: pricesData?.USDS?.price,
-                  rateText: rewardsHighestRate
-                    ? formatDecimalPercentage(parseFloat(rewardsHighestRate.rate))
-                    : '0%',
-                  ratePopoverType: 'str',
-                  isRateUpTo: true,
-                  chainId: mainnetChainId
-                }}
-                isLoading={rewardsLoading || usdsSkyChartLoading || usdsSpkChartLoading}
-              />
-            )}
-
-            {/* Savings Row */}
-            {!hideSavings && (
-              <SuppliedFundsSavingsRow
-                totalBalance={totalSavingsBalance}
-                balancesByNetwork={allNonZeroSavingsBalances}
-                usdPrice={pricesData?.USDS?.price}
-                rate={savingsRate > 0 ? formatDecimalPercentage(savingsRate) : '0%'}
-                isLoading={savingsLoading || overallSkyDataLoading}
-              />
-            )}
-
-            {/* stUSDS Row */}
-            {!hideStUSDS && (
-              <SuppliedFundsTableRow
-                data={{
-                  tokenSymbol: 'stUSDS',
-                  moduleIcon: <img src="/images/expert_icon_large.svg" alt="Expert" className="h-5 w-5" />,
-                  moduleName: 'Expert / stUSDS',
-                  amount: userSuppliedUsds,
-                  decimals: 18,
-                  usdPrice: pricesData?.USDS?.price,
-                  rateText: stUsdsRate > 0n ? formatStrAsApy(stUsdsRate) : '0%',
-                  ratePopoverType: 'stusds',
-                  isRateUpTo: false,
-                  chainId: mainnetChainId
-                }}
-                isLoading={stUsdsLoading}
-              />
-            )}
-
-            {/* Staking Row */}
-            {!hideStake && (
-              <SuppliedFundsTableRow
-                data={{
-                  tokenSymbol: 'SKY',
-                  moduleIcon: (
-                    <img
-                      src="/images/staking_engine_icon_large.svg"
-                      alt="Staking Engine"
-                      className="h-5 w-5"
-                    />
-                  ),
-                  moduleName: 'Staking Engine',
-                  amount: totalUserStaked ?? 0n,
-                  decimals: 18,
-                  usdPrice: pricesData?.SKY?.price,
-                  rateText: stakeHighestRateData?.rate
-                    ? formatDecimalPercentage(parseFloat(stakeHighestRateData.rate))
-                    : '0%',
-                  ratePopoverType: 'srr',
-                  isRateUpTo: true,
-                  chainId: mainnetChainId
-                }}
-                isLoading={stakeLoading || stakeRateLoading}
-              />
-            )}
-          </TableBody>
+          <TableBody>{sortedModules.map(module => renderModule(module.id))}</TableBody>
         </Table>
       </div>
     </LoadingErrorWrapper>

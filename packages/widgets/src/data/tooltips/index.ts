@@ -239,7 +239,7 @@ Bundled transaction: Active`
     id: 'legal-notice',
     title: 'Legal Notice',
     tooltip:
-      "Please note that all security checks, user confirmations, and error handling are managed by your chosen wallet's delegate contract. As outlined in our Terms of Use, your use of a non-custodial digital wallet—including wallets supporting EIP-7702 and smart account functionality—is governed by the terms of service of your third-party wallet provider. We do not control or take responsibility for the security, functionality, or behavior of third-party wallets, including their handling of bundled transactions or delegate contracts. To help ensure a secure and transparent experience, please be certain you are using a trusted and up-to-date wallet before proceeding."
+      "Please note that all security checks, user confirmations, and error handling are managed by your chosen wallet's delegate contract. As outlined in our [Terms of Use](https://docs.sky.money/legal-terms), your use of a non-custodial digital wallet—including wallets supporting EIP-7702 and smart account functionality—is governed by the terms of service of your third-party wallet provider. We do not control or take responsibility for the security, functionality, or behavior of third-party wallets, including their handling of bundled transactions or delegate contracts. To help ensure a secure and transparent experience, please be certain you are using a trusted and up-to-date wallet before proceeding."
   },
   {
     id: 'gas-fee',

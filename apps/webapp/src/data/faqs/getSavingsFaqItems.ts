@@ -84,11 +84,8 @@ USDS is also currently available on networks other than Ethereum Mainnet, includ
   },
   {
     question: 'What is sUSDS?',
-    answer: `sUSDS is a savings token for eligible Sky Protocol users. When you supply USDS to the Sky Savings Rate module of the Protocol, you access the [Sky Savings Rate](#tooltip-sky-savings-rate) and receive sUSDS tokens. These sUSDS tokens serve as a digital record of your USDS interaction with the Sky Savings Rate module and any value accrued to your position.
-
-The Sky Protocol dynamically adds USDS tokens to the pool every few seconds, in accordance with the Sky Savings Rate percentage. As those tokens auto-accumulate in the pool over time, the value of the sUSDS you hold may gradually increase. The Sky Savings Rate percentage is variable, determined by Sky Ecosystem Governance through a process of decentralized onchain voting. Therefore, when you choose to redeem your sUSDS for USDS—which you can do anytime—the total USDS you will receive will equal the amount you originally supplied, plus any additional USDS accumulated.
-
-The conversion rate between USDS and sUSDS is determined programmatically by smart contracts, but the dollar value should match given that there are no fees involved. When redeeming sUSDS for USDS, one would expect an increase in net USDS tokens in accordance with the Sky Savings Rate multiplied by the duration.`,
+    answer:
+      'sUSDS is the native savings token of the Sky Savings Rate module, reflecting how the Sky Protocol represents a user’s USDS position in that module and the accumulation mechanics of that module over time. When you supply USDS to the Sky Savings Rate module of the protocol, you access the [Sky Savings Rate](#tooltip-sky-savings-rate) and receive sUSDS tokens. These sUSDS tokens serve as a digital record of your USDS interaction with the Sky Savings Rate module and any value accrued to your position. Therefore, when you choose to redeem your sUSDS for USDS—which you can do anytime—the total USDS you will receive will equal the amount you originally supplied, plus any additional USDS accumulated.',
     index: 6
   },
   {
