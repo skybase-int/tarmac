@@ -236,6 +236,7 @@ export function useSequentialTransactionFlow(
     execute,
     isLoading: isSimulationLoading || (isMining && !txReverted) || (isExecuting && !hasWriteError),
     prepared,
-    error: writeError || miningError || simulationError
+    error: writeError || miningError || simulationError,
+    currentCallIndex: currentIndex
   };
 }

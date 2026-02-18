@@ -1,4 +1,8 @@
-import { usdcClearstarBoringVaultAddress, usdsRiskCapitalVaultAddress } from '../generated';
+import {
+  usdcClearstarBoringVaultAddress,
+  usdsRiskCapitalVaultAddress,
+  usdtSteakhousePrimeInstantVaultAddress
+} from '../generated';
 import { TOKENS } from '../tokens/tokens.constants';
 import { MorphoVaultConfig } from './morpho';
 
@@ -29,6 +33,11 @@ export const MORPHO_VAULTS: MorphoVaultConfig[] = [
     name: 'Clearstar Boring USDC',
     vaultAddress: usdcClearstarBoringVaultAddress,
     assetToken: TOKENS.usdc
+  },
+  {
+    name: 'Steakhouse Prime Instant',
+    vaultAddress: usdtSteakhousePrimeInstantVaultAddress,
+    assetToken: TOKENS.usdt
   }
   // Add more vaults here as needed:
   // {

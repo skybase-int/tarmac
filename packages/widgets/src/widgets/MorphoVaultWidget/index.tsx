@@ -6,7 +6,8 @@ import {
   Token,
   useMorphoVaultOnChainData,
   useMorphoVaultMarketApiData,
-  useMorphoVaultRewards
+  useMorphoVaultRewards,
+  usdtAddress
 } from '@jetstreamgg/sky-hooks';
 import { useDebounce, formatBigInt } from '@jetstreamgg/sky-utils';
 import { useContext, useEffect, useMemo, useState } from 'react';
@@ -189,6 +190,9 @@ const MorphoVaultWidgetWrapped = ({
 
   // Determine if allowance is needed for supply
   const needsAllowance = !!(!allowance || allowance < debouncedAmount);
+  // USDT requires resetting allowance to 0 before setting a new value
+  const isUsdt = assetAddress === usdtAddress[chainId as keyof typeof usdtAddress];
+  const needsAllowanceReset = isUsdt && needsAllowance && !!allowance && allowance > 0n;
   const shouldUseBatch =
     !!batchEnabled && !!batchSupported && needsAllowance && widgetState.flow === MorphoVaultFlow.SUPPLY;
 
@@ -213,6 +217,10 @@ const MorphoVaultWidgetWrapped = ({
       onWidgetStateChange,
       onNotification
     });
+
+  // Derive current call index based on active flow (for multi-step tracking)
+  const currentCallIndex =
+    widgetState.flow === MorphoVaultFlow.SUPPLY ? morphoVaultDeposit.currentCallIndex : 0;
 
   // Initialize widget state based on connection and tab
   useEffect(() => {
@@ -392,6 +400,8 @@ const MorphoVaultWidgetWrapped = ({
           setButtonText(t`Confirm withdrawal`);
         } else if (shouldUseBatch) {
           setButtonText(t`Confirm bundled transaction`);
+        } else if (needsAllowanceReset) {
+          setButtonText(t`Confirm 3 transactions`);
         } else if (needsAllowance) {
           setButtonText(t`Confirm 2 transactions`);
         } else if (widgetState.flow === MorphoVaultFlow.SUPPLY) {
@@ -526,6 +536,8 @@ const MorphoVaultWidgetWrapped = ({
               onExternalLinkClicked={onExternalLinkClicked}
               isBatchTransaction={shouldUseBatch}
               needsAllowance={needsAllowance}
+              needsAllowanceReset={needsAllowanceReset}
+              currentCallIndex={currentCallIndex}
               claimAmountText={claimAmountText}
             />
           </CardAnimationWrapper>
@@ -538,6 +550,7 @@ const MorphoVaultWidgetWrapped = ({
               assetToken={assetToken}
               amount={debouncedAmount}
               needsAllowance={needsAllowance}
+              needsAllowanceReset={needsAllowanceReset}
               legalBatchTxUrl={legalBatchTxUrl}
             />
           </CardAnimationWrapper>

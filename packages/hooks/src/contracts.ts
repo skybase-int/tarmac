@@ -338,6 +338,13 @@ export const contracts: {
     }
   },
   {
+    name: 'usdtSteakhousePrimeInstantVault',
+    address: {
+      [mainnet.id]: '0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9',
+      [TENDERLY_CHAIN_ID]: '0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9'
+    }
+  },
+  {
     name: 'MorphoMerklDistributor',
     address: {
       [mainnet.id]: '0x3Ef3D8bA38EBe18DB133cEc108f4D14CE00Dd9Ae',
