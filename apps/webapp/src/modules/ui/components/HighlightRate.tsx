@@ -128,7 +128,7 @@ export function RewardsRate({
           {mostRecentData?.rate ? (
             <div className="flex items-center gap-2">
               <Heading className="text-[32px]">
-                Rate {formatDecimalPercentage(parseFloat(mostRecentData.rate))}
+                Rate: {formatDecimalPercentage(parseFloat(mostRecentData.rate))}
               </Heading>
               <PopoverInfo type="str" />
             </div>
