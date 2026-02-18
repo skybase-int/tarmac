@@ -68,7 +68,7 @@ export type BatchWriteHook = {
   isLoading: boolean;
   prepared: boolean;
   execute: () => void;
-  reset?: () => void;
+  reset: () => void;
 };
 
 export type BatchWriteHookParams = {
