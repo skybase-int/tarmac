@@ -21,6 +21,7 @@ import { getChainSpecificText, isCowSupportedChainId } from '@jetstreamgg/sky-ut
 import { useChatContext } from '@/modules/chat/context/ChatContext';
 import { Intent } from '@/lib/enums';
 import { useBatchToggle } from '@/modules/ui/hooks/useBatchToggle';
+import { useWidgetFlowTracking } from '@/modules/analytics/hooks/useWidgetFlowTracking';
 
 export function TradeWidgetPane(sharedProps: SharedProps) {
   const chainId = useChainId();
@@ -36,6 +37,7 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
   const { setShouldDisableActionButtons } = useChatContext();
 
   const [batchEnabled, setBatchEnabled] = useBatchToggle();
+  const { wrapStateChange } = useWidgetFlowTracking('trade', chainId);
 
   const onTradeWidgetStateChange = ({
     hash,
@@ -192,7 +194,7 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
       {...sharedProps}
       disallowedPairs={defaultConfig.tradeDisallowedPairs}
       customTokenList={defaultConfig.tradeTokenList[chainId]}
-      onWidgetStateChange={onTradeWidgetStateChange}
+      onWidgetStateChange={wrapStateChange(onTradeWidgetStateChange)}
       customNavigationLabel={customNavLabel}
       onCustomNavigation={onNavigate}
       externalWidgetState={externalWidgetState}
