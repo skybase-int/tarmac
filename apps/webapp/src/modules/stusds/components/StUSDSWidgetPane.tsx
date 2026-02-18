@@ -16,6 +16,8 @@ import { useSubgraphUrl } from '@/modules/app/hooks/useSubgraphUrl';
 import { useChatContext } from '@/modules/chat/context/ChatContext';
 import { ExpertIntent } from '@/lib/enums';
 import { useBatchToggle } from '@/modules/ui/hooks/useBatchToggle';
+import { useWidgetFlowTracking } from '@/modules/analytics/hooks/useWidgetFlowTracking';
+import { useChainId } from 'wagmi';
 
 export function StUSDSWidgetPane(sharedProps: SharedProps) {
   const subgraphUrl = useSubgraphUrl();
@@ -25,7 +27,9 @@ export function StUSDSWidgetPane(sharedProps: SharedProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const { setShouldDisableActionButtons } = useChatContext();
 
+  const chainId = useChainId();
   const [batchEnabled, setBatchEnabled] = useBatchToggle();
+  const { wrapStateChange } = useWidgetFlowTracking('stusds', chainId);
 
   const flow = (searchParams.get(QueryParams.Flow) || undefined) as StUSDSFlow | undefined;
 
@@ -117,7 +121,7 @@ export function StUSDSWidgetPane(sharedProps: SharedProps) {
   return (
     <StUSDSWidget
       {...sharedProps}
-      onWidgetStateChange={onStUSDSWidgetStateChange}
+      onWidgetStateChange={wrapStateChange(onStUSDSWidgetStateChange)}
       externalWidgetState={{
         amount: linkedActionConfig?.inputAmount,
         flow
