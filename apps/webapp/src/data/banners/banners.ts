@@ -99,7 +99,7 @@ export const banners: Banner[] = [
     title: 'About Staking Rewards',
     module: 'staking-engine-banners',
     description:
-      'Staking Rewards can be accessed when SKY is supplied to the Staking Engine of the decentralized, non-custodial Sky Protocol. [Staking Rewards Rates (SRRs)](#tooltip-staking-rewards-rates-srrs) are determined by Sky Ecosystem Governance through the process of decentralized onchain voting.',
+      'Staking Rewards, available in various token forms, can be accessed when SKY is supplied to the Staking Engine of the decentralized, non-custodial Sky Protocol. [Staking Rewards Rates (SRRs)](#tooltip-staking-rewards-rates-srrs) are determined by Sky Ecosystem Governance through the process of decentralized onchain voting.',
     display: ['connected', 'disconnected']
   },
   {
@@ -112,6 +112,22 @@ export const banners: Banner[] = [
   },
   {
     id: 'sky-star-tokens',
+    title: 'Sky Star Tokens',
+    module: 'staking-engine-banners',
+    description:
+      'Sky Stars are autonomous and independent decentralized projects within Sky Ecosystem. A Star might opt to have its own governance token, as defined by the rules enforced by the Sky Atlas. When you supply SKY to the Staking Engine of the Sky Protocol, you can opt to receive Sky Star tokens as rewards over time.',
+    display: ['connected', 'disconnected']
+  },
+  {
+    id: 'usds-2',
+    title: 'USDS',
+    module: 'staking-engine-banners',
+    description:
+      'USDS is the stablecoin of the decentralized Sky Protocol. It is the upgraded version of DAI, backed by a surplus of collateral and soft-pegged to the value of the U.S. dollar, meaning it is designed to maintain a value equal to or close to a dollar. When you supply SKY to the Staking Engine of the Sky Protocol, you can opt to receive USDS as rewards over time.',
+    display: ['connected', 'disconnected']
+  },
+  {
+    id: 'sky-star-tokens-2',
     title: 'Sky Star Tokens',
     module: 'staking-engine-banners',
     description:
