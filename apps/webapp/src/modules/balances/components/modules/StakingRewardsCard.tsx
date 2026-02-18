@@ -30,6 +30,8 @@ export function StakingRewardsCard() {
   const chartDataLoading = stakeRewardsContractsLoading || stakeRewardsChartsDataLoading;
   const mostRecentRateNumber = highestRateData ? parseFloat(highestRateData.rate) : null;
 
+  const hasMultipleRates = (stakeRewardContracts?.length ?? 0) > 1;
+
   return (
     <ModuleCard
       intent={Intent.STAKE_INTENT}
@@ -46,7 +48,14 @@ export function StakingRewardsCard() {
           <Skeleton className="h-12 w-80" />
         ) : (
           <Text className="text-2xl lg:text-[32px]">
-            Rate: {mostRecentRateNumber ? formatDecimalPercentage(mostRecentRateNumber) : '0%'}
+            {hasMultipleRates ? (
+              <>
+                Rates <span className="text-lg">up to</span>{' '}
+              </>
+            ) : (
+              'Rate: '
+            )}
+            {mostRecentRateNumber ? formatDecimalPercentage(mostRecentRateNumber) : '0%'}
             <PopoverRateInfo type="srr" iconClassName="mt-auto -translate-y-1/4 ml-2" />
           </Text>
         )
