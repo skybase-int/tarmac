@@ -46,8 +46,7 @@ export function StakingRewardsCard() {
           <Skeleton className="h-12 w-80" />
         ) : (
           <Text className="text-2xl lg:text-[32px]">
-            Rates <span className="text-lg">up to</span>{' '}
-            {mostRecentRateNumber ? formatDecimalPercentage(mostRecentRateNumber) : '0%'}
+            Rate: {mostRecentRateNumber ? formatDecimalPercentage(mostRecentRateNumber) : '0%'}
             <PopoverRateInfo type="srr" iconClassName="mt-auto -translate-y-1/4 ml-2" />
           </Text>
         )

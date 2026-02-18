@@ -3,7 +3,6 @@ import { Heading, Text } from '@/modules/layout/components/Typography';
 import { HStack } from '@/modules/layout/components/HStack';
 import { PopoverRateInfo } from '@jetstreamgg/sky-widgets';
 import { Trans } from '@lingui/react/macro';
-import { t } from '@lingui/core/macro';
 import {
   useHighestRateFromChartData,
   useMultipleRewardsChartInfo,
@@ -41,14 +40,7 @@ export function StakingRewardRateCard() {
       content={
         <div className="mt-2 flex items-center gap-1">
           <Text className="text-bullish">
-            {hasValidRate ? (
-              <>
-                <span className="text-textSecondary text-sm">{t`up to`}</span>{' '}
-                {formatDecimalPercentage(highestRewardRate)}
-              </>
-            ) : (
-              'N/A'
-            )}
+            {hasValidRate ? <>{formatDecimalPercentage(highestRewardRate)}</> : 'N/A'}
           </Text>
         </div>
       }

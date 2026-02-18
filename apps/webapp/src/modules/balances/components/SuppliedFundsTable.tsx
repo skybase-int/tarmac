@@ -262,7 +262,7 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
           ? formatDecimalPercentage(parseFloat(stakeHighestRateData.rate))
           : '0%',
         ratePopoverType: 'srr',
-        isRateUpTo: true,
+        isRateUpTo: false,
         chainId: mainnetChainId
       }}
       isLoading={stakeLoading || stakeRateLoading}

@@ -82,7 +82,7 @@ export const StakeBalanceCard = ({
       footer={
         <div className="flex flex-col gap-1">
           <RateLineWithArrow
-            rateText={`Rates up to: ${formatDecimalPercentage(parseFloat(highestRateData?.rate || '0'))}`}
+            rateText={`Rate: ${formatDecimalPercentage(parseFloat(highestRateData?.rate || '0'))}`}
             popoverType="srr"
             onExternalLinkClicked={onExternalLinkClicked}
           />
