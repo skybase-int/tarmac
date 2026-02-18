@@ -71,8 +71,8 @@ export function ExpertCard() {
           <Skeleton className="h-12 w-48" />
         ) : (
           <Text className="text-2xl lg:text-[32px]">
-            Rates up to {formattedRate}
-            <PopoverRateInfo type="expert" iconClassName="mt-auto -translate-y-1/4 ml-2" />
+            Rate: {formattedRate}
+            <PopoverRateInfo type="stusds" iconClassName="mt-auto -translate-y-1/4 ml-2" />
           </Text>
         )
       }
