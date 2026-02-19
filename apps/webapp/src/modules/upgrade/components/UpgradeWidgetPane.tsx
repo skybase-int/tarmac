@@ -35,7 +35,8 @@ const targetTokenFromSourceToken = (sourceToken?: string) => {
 export function UpgradeWidgetPane(sharedProps: SharedProps) {
   const chainId = useChainId();
   const subgraphUrl = useSubgraphUrl();
-  const { linkedActionConfig, updateLinkedActionConfig, exitLinkedActionMode } = useConfigContext();
+  const { linkedActionConfig, updateLinkedActionConfig, exitLinkedActionMode, setSelectedConvertOption } =
+    useConfigContext();
   const { mutate: refreshUpgradeHistory } = useUpgradeHistory({ subgraphUrl });
 
   const wagmiConfig = useWagmiConfig();
@@ -52,6 +53,17 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
 
   const [batchEnabled, setBatchEnabled] = useBatchToggle();
   const { wrapStateChange } = useWidgetFlowTracking('upgrade', chainId);
+
+  const widgetParam = searchParams.get(QueryParams.Widget)?.toLowerCase();
+  const isConvertContext = widgetParam === IntentMapping[Intent.CONVERT_INTENT];
+
+  const handleBackToConvert = () => {
+    setSearchParams(params => {
+      params.delete(QueryParams.ConvertModule);
+      return params;
+    });
+    setSelectedConvertOption(undefined);
+  };
 
   // Set initial currentToken from sourceToken
   useEffect(() => {
@@ -265,6 +277,7 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
       disallowedFlow={disallowedFlow}
       batchEnabled={batchEnabled}
       setBatchEnabled={setBatchEnabled}
+      onBackToConvert={isConvertContext ? handleBackToConvert : undefined}
     />
   );
 }
