@@ -52,9 +52,7 @@ export function MorphoVaultWidgetPane({
     originAmount
   }: WidgetStateChangeParams) => {
     // Prevent race conditions
-    if (
-      searchParams.get(QueryParams.VaultModule) !== VaultsIntentMapping[VaultsIntent.MORPHO_VAULT_INTENT]
-    ) {
+    if (searchParams.get(QueryParams.VaultModule) !== VaultsIntentMapping[VaultsIntent.MORPHO_VAULT_INTENT]) {
       return;
     }
 
@@ -126,7 +124,7 @@ export function MorphoVaultWidgetPane({
       }}
       batchEnabled={batchEnabled}
       setBatchEnabled={setBatchEnabled}
-      onBackToExpert={handleBack}
+      onBackToVaults={handleBack}
     />
   );
 }

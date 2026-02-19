@@ -52,8 +52,8 @@ export type MorphoVaultWidgetProps = WidgetProps & {
   batchEnabled?: boolean;
   /** Callback to set batch enabled state */
   setBatchEnabled?: (enabled: boolean) => void;
-  /** Callback to navigate back to expert view */
-  onBackToExpert?: () => void;
+  /** Callback to navigate back to vaults view */
+  onBackToVaults?: () => void;
 };
 
 const MorphoVaultWidgetWrapped = ({
@@ -73,7 +73,7 @@ const MorphoVaultWidgetWrapped = ({
   legalBatchTxUrl,
   batchEnabled,
   setBatchEnabled,
-  onBackToExpert
+  onBackToVaults
 }: MorphoVaultWidgetProps) => {
   const validatedExternalState = getValidatedState(externalWidgetState, [assetToken.symbol]);
 
@@ -492,12 +492,12 @@ const MorphoVaultWidgetWrapped = ({
     <WidgetContainer
       header={
         <div>
-          {onBackToExpert && (
-            <Button variant="link" onClick={onBackToExpert} className="mb-2 p-0">
+          {onBackToVaults && (
+            <Button variant="link" onClick={onBackToVaults} className="mb-2 p-0">
               <HStack className="space-x-2">
                 <ArrowLeft className="self-center" />
                 <Heading tag="h3" variant="small" className="text-textSecondary">
-                  Back to Expert
+                  Back to Vaults
                 </Heading>
               </HStack>
             </Button>
