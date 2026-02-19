@@ -81,6 +81,7 @@
     "framer-motion": "catalog:",
     "lucide-react": "catalog:",
     "porto": "catalog:",
+    "posthog-js": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "react-intersection-observer": "catalog:",

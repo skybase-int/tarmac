@@ -1,7 +1,7 @@
 import {
   usePrices,
   useMorphoVaultOnChainData,
-  useMorphoVaultSingleMarketApiData,
+  useMorphoVaultMarketApiData,
   MORPHO_VAULTS
 } from '@jetstreamgg/sky-hooks';
 import {
@@ -40,7 +40,7 @@ export const VaultsBalanceCard = ({
     vaultAddress: morphoVaultAddress
   });
   const { data: morphoSingleMarketData, isLoading: morphoSingleMarketLoading } =
-    useMorphoVaultSingleMarketApiData({
+    useMorphoVaultMarketApiData({
       vaultAddress: morphoVaultAddress
     });
 

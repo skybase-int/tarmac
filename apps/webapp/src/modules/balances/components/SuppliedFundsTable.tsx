@@ -20,7 +20,7 @@ import {
   useStakeRewardContracts,
   useMultipleRewardsChartInfo,
   useMorphoVaultOnChainData,
-  useMorphoVaultSingleMarketApiData,
+  useMorphoVaultMultipleRateApiData,
   MORPHO_VAULTS
 } from '@jetstreamgg/sky-hooks';
 import {
@@ -130,6 +130,7 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
     rewardContractAddresses: stakeRewardContracts?.map(({ contractAddress }) => contractAddress) || []
   });
   const stakeHighestRateData = useHighestRateFromChartData(stakeRewardsChartsInfoData || []);
+  const stakeHasMultipleRates = (stakeRewardContracts?.length ?? 0) > 1;
 
   // stUSDS data
   const { data: stUsdsData, isLoading: stUsdsLoading } = useStUsdsData();
@@ -141,21 +142,19 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
   const { data: morphoData, isLoading: morphoLoading } = useMorphoVaultOnChainData({
     vaultAddress: morphoVaultAddress
   });
-  const { data: morphoSingleMarketData, isLoading: morphoSingleMarketLoading } =
-    useMorphoVaultSingleMarketApiData({
-      vaultAddress: morphoVaultAddress
-    });
+  const { data: morphoRatesData, isLoading: morphoRatesLoading } = useMorphoVaultMultipleRateApiData({
+    vaultAddresses: MORPHO_VAULTS.map(v => v.vaultAddress[mainnetChainId])
+  });
 
   // Combined Expert balance (stUSDS + Morpho)
   const morphoSupplied = morphoData?.userAssets ?? 0n;
   const totalExpertSupplied = userSuppliedUsds + morphoSupplied;
 
-  // Calculate highest rate between stUSDS and Morpho
-  const stUsdsRatePercent = stUsdsData?.moduleRate ? calculateApyFromStr(stUsdsData.moduleRate) : 0;
-  const morphoRatePercent = morphoSingleMarketData?.rate.netRate
-    ? morphoSingleMarketData.rate.netRate * 100
-    : 0;
-  const maxExpertRate = Math.max(stUsdsRatePercent, morphoRatePercent);
+  // Calculate highest rate between stUSDS and all Morpho vaults
+  // stUsdsRateDecimal and morphoMaxRateDecimal are decimals (e.g. 0.05 for 5%)
+  const stUsdsRateDecimal = stUsdsData?.moduleRate ? calculateApyFromStr(stUsdsData.moduleRate) / 100 : 0;
+  const morphoMaxRateDecimal = (morphoRatesData || []).reduce((max, rate) => Math.max(max, rate.netRate), 0);
+  const maxExpertRate = Math.max(stUsdsRateDecimal, morphoMaxRateDecimal);
 
   // Visibility logic
   const hideRewards = Boolean(
@@ -180,7 +179,7 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
     stakeRateLoading ||
     stUsdsLoading ||
     morphoLoading ||
-    morphoSingleMarketLoading ||
+    morphoRatesLoading ||
     pricesLoading;
   const allHidden = hideRewards && hideSavings && hideStake && hideExpert && hideVaults;
 
@@ -247,11 +246,11 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
         amount: totalExpertSupplied,
         decimals: 18,
         usdPrice: pricesData?.USDS?.price,
-        rateText: maxExpertRate > 0 ? `${maxExpertRate.toFixed(2)}%` : '0%',
+        rateText: maxExpertRate > 0 ? formatDecimalPercentage(maxExpertRate) : '0%',
         ratePopoverType: 'expert',
         isRateUpTo: true
       }}
-      isLoading={stUsdsLoading || morphoLoading || morphoSingleMarketLoading}
+      isLoading={stUsdsLoading || morphoLoading || morphoRatesLoading}
     />
   );
 
@@ -269,7 +268,8 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
           ? formatDecimalPercentage(parseFloat(stakeHighestRateData.rate))
           : '0%',
         ratePopoverType: 'srr',
-        isRateUpTo: true
+        isRateUpTo: stakeHasMultipleRates,
+        chainId: mainnetChainId
       }}
       isLoading={stakeLoading || stakeRateLoading}
     />
@@ -283,10 +283,10 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
         amount: morphoSupplied,
         decimals: 18,
         usdPrice: pricesData?.USDS?.price,
-        rateText: morphoRatePercent > 0 ? `${morphoRatePercent.toFixed(2)}%` : '0%',
+        rateText: morphoMaxRateDecimal > 0 ? formatDecimalPercentage(morphoMaxRateDecimal) : '0%',
         ratePopoverType: 'expert'
       }}
-      isLoading={morphoLoading || morphoSingleMarketLoading}
+      isLoading={morphoLoading || morphoRatesLoading}
     />
   );
 

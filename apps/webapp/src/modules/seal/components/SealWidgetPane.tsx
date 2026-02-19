@@ -14,6 +14,8 @@ import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
 import { Intent } from '@/lib/enums';
 import { useEffect } from 'react';
 import { useChatContext } from '@/modules/chat/context/ChatContext';
+import { useWidgetFlowTracking } from '@/modules/analytics/hooks/useWidgetFlowTracking';
+import { useChainId } from 'wagmi';
 
 import { Error } from '@/modules/layout/components/Error';
 export function SealWidgetPane(sharedProps: SharedProps) {
@@ -36,8 +38,10 @@ export function SealWidgetPane(sharedProps: SharedProps) {
   // TODO: Implemet `useSealHistory` hook
   const refreshSealHistory = () => {};
   // const { mutate: refreshSealHistory } = useSealHistory();
+  const chainId = useChainId();
   const [searchParams, setSearchParams] = useSearchParams();
   const { setShouldDisableActionButtons } = useChatContext();
+  const { wrapStateChange } = useWidgetFlowTracking('seal', chainId);
 
   const onSealUrnChange = (urn?: { urnAddress: `0x${string}` | undefined; urnIndex: bigint | undefined }) => {
     // Prevent race conditions
@@ -187,7 +191,7 @@ export function SealWidgetPane(sharedProps: SharedProps) {
     <SealModuleWidget
       {...sharedProps}
       onSealUrnChange={onSealUrnChange}
-      onWidgetStateChange={onSealWidgetStateChange}
+      onWidgetStateChange={wrapStateChange(onSealWidgetStateChange)}
       externalWidgetState={{
         amount: linkedActionConfig?.inputAmount,
         urnIndex: selectedSealUrnIndex,

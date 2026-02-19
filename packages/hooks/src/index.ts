@@ -88,31 +88,39 @@ export {
   useMorphoVaultRedeem,
   useMorphoVaultOnChainData,
   useMorphoVaultRateApiData,
+  useMorphoVaultMultipleRateApiData,
   useMorphoVaultAllocations,
-  useMorphoVaultSingleMarketApiData,
+  useMorphoVaultMarketApiData,
+  fetchMorphoVaultMarketData,
   useMorphoVaultRewards,
   useMorphoVaultClaimRewards,
   useMorphoVaultHistory,
   useMorphoVaultChartInfo,
+  useMorphoVaultMultipleChartInfo,
   useMorphoVaultSupplierAddresses,
+  useMorphoVaultsCombinedTvl,
   MORPHO_VAULTS
 } from './morpho';
 export type {
   MorphoVaultRateData,
   MorphoVaultRateHook,
+  MorphoVaultMultipleRateHook,
   MorphoRewardData,
   MorphoMarketAllocation,
   MorphoV1VaultAllocation,
   MorphoIdleLiquidityAllocation,
   MorphoVaultAllocationsData,
   MorphoVaultAllocationsHook,
-  MorphoVaultSingleMarketData,
-  MorphoVaultSingleMarketDataHook,
+  MorphoVaultMarketData,
+  MorphoVaultMarketDataHook,
   MorphoVaultReward,
   MorphoVaultRewardsData,
   MorphoVaultRewardsHook,
   MorphoVaultChartDataPoint,
-  MorphoVaultSupplierAddressesHook
+  MorphoVaultChartInfoHook,
+  MorphoVaultMultipleChartInfoHook,
+  MorphoVaultSupplierAddressesHook,
+  MorphoVaultsCombinedTvl
 } from './morpho';
 
 // Authentication

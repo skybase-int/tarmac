@@ -11,7 +11,7 @@ import {
   type TokenItem,
   useOverallSkyData,
   useStUsdsData,
-  useMorphoVaultSingleMarketApiData,
+  useMorphoVaultMarketApiData,
   MORPHO_VAULTS,
   useAvailableTokenRewardContracts,
   useRewardsChartInfo,
@@ -116,7 +116,7 @@ function useActionRates(actions: SuggestedAction[], chainId: number): Record<str
   // Morpho vault rate
   const defaultMorphoVault = MORPHO_VAULTS[0];
   const morphoVaultAddress = defaultMorphoVault?.vaultAddress[mainnetChainId];
-  const { data: morphoSingleMarketData } = useMorphoVaultSingleMarketApiData({
+  const { data: morphoMarketData } = useMorphoVaultMarketApiData({
     vaultAddress: morphoVaultAddress
   });
 
@@ -164,7 +164,7 @@ function useActionRates(actions: SuggestedAction[], chainId: number): Record<str
     }
 
     if (rateKeys.has('vaults')) {
-      const rate = morphoSingleMarketData?.rate.netRate ? morphoSingleMarketData.rate.netRate * 100 : 0;
+      const rate = morphoMarketData?.rate.netRate ? morphoMarketData.rate.netRate * 100 : 0;
       rates.vaults = rate > 0 ? `${rate.toFixed(2)}%` : '0%';
     }
 
@@ -179,7 +179,7 @@ function useActionRates(actions: SuggestedAction[], chainId: number): Record<str
     }
 
     return rates;
-  }, [hasRates, rateKeys, overallSkyData, stUsdsData, morphoSingleMarketData, rewardsHighestRate, stakeHighestRateData]);
+  }, [hasRates, rateKeys, overallSkyData, stUsdsData, morphoMarketData, rewardsHighestRate, stakeHighestRateData]);
 }
 
 export function SuggestedActions({ widget }: { widget: string }) {

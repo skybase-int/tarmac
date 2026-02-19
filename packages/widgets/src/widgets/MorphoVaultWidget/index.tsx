@@ -5,8 +5,9 @@ import {
   useIsBatchSupported,
   Token,
   useMorphoVaultOnChainData,
-  useMorphoVaultSingleMarketApiData,
-  useMorphoVaultRewards
+  useMorphoVaultMarketApiData,
+  useMorphoVaultRewards,
+  usdtAddress
 } from '@jetstreamgg/sky-hooks';
 import { useDebounce, formatBigInt } from '@jetstreamgg/sky-utils';
 import { useContext, useEffect, useMemo, useState } from 'react';
@@ -94,8 +95,8 @@ const MorphoVaultWidgetWrapped = ({
     vaultAddress
   });
 
-  // Single market data hook - fetches rate and market data from Morpho API in a single call
-  const { data: singleMarketData, isLoading: isSingleMarketDataLoading } = useMorphoVaultSingleMarketApiData({
+  // Market data hook - fetches rate and market data from Morpho API in a single call
+  const { data: marketData, isLoading: isMarketDataLoading } = useMorphoVaultMarketApiData({
     vaultAddress
   });
 
@@ -108,9 +109,9 @@ const MorphoVaultWidgetWrapped = ({
     vaultAddress
   });
   const userAssets = vaultData?.userAssets ?? 0n;
-  const availableLiquidity = singleMarketData?.market.markets[0]?.liquidity;
-  const hasLiquidityData = !isSingleMarketDataLoading && availableLiquidity !== undefined;
-  const isLiquidityDataUnavailable = !isSingleMarketDataLoading && availableLiquidity === undefined;
+  const availableLiquidity = marketData?.liquidity;
+  const hasLiquidityData = !isMarketDataLoading && availableLiquidity !== undefined;
+  const isLiquidityDataUnavailable = !isMarketDataLoading && availableLiquidity === undefined;
   const maxWithdraw = hasLiquidityData
     ? userAssets < availableLiquidity
       ? userAssets
@@ -189,6 +190,9 @@ const MorphoVaultWidgetWrapped = ({
 
   // Determine if allowance is needed for supply
   const needsAllowance = !!(!allowance || allowance < debouncedAmount);
+  // USDT requires resetting allowance to 0 before setting a new value
+  const isUsdt = assetAddress === usdtAddress[chainId as keyof typeof usdtAddress];
+  const needsAllowanceReset = isUsdt && needsAllowance && !!allowance && allowance > 0n;
   const shouldUseBatch =
     !!batchEnabled && !!batchSupported && needsAllowance && widgetState.flow === MorphoVaultFlow.SUPPLY;
 
@@ -213,6 +217,10 @@ const MorphoVaultWidgetWrapped = ({
       onWidgetStateChange,
       onNotification
     });
+
+  // Derive current call index based on active flow (for multi-step tracking)
+  const currentCallIndex =
+    widgetState.flow === MorphoVaultFlow.SUPPLY ? morphoVaultDeposit.currentCallIndex : 0;
 
   // Initialize widget state based on connection and tab
   useEffect(() => {
@@ -392,6 +400,8 @@ const MorphoVaultWidgetWrapped = ({
           setButtonText(t`Confirm withdrawal`);
         } else if (shouldUseBatch) {
           setButtonText(t`Confirm bundled transaction`);
+        } else if (needsAllowanceReset) {
+          setButtonText(t`Confirm 3 transactions`);
         } else if (needsAllowance) {
           setButtonText(t`Confirm 2 transactions`);
         } else if (widgetState.flow === MorphoVaultFlow.SUPPLY) {
@@ -526,6 +536,8 @@ const MorphoVaultWidgetWrapped = ({
               onExternalLinkClicked={onExternalLinkClicked}
               isBatchTransaction={shouldUseBatch}
               needsAllowance={needsAllowance}
+              needsAllowanceReset={needsAllowanceReset}
+              currentCallIndex={currentCallIndex}
               claimAmountText={claimAmountText}
             />
           </CardAnimationWrapper>
@@ -538,6 +550,7 @@ const MorphoVaultWidgetWrapped = ({
               assetToken={assetToken}
               amount={debouncedAmount}
               needsAllowance={needsAllowance}
+              needsAllowanceReset={needsAllowanceReset}
               legalBatchTxUrl={legalBatchTxUrl}
             />
           </CardAnimationWrapper>
@@ -551,7 +564,7 @@ const MorphoVaultWidgetWrapped = ({
               isLiquidityConstrained={isLiquidityConstrained}
               isLiquidityDataUnavailable={isLiquidityDataUnavailable}
               userShares={vaultData?.userShares}
-              isVaultDataLoading={isVaultDataLoading || isSingleMarketDataLoading}
+              isVaultDataLoading={isVaultDataLoading || isMarketDataLoading}
               onChange={(newValue: bigint, userTriggered?: boolean) => {
                 setAmount(newValue);
                 if (userTriggered) {
@@ -576,7 +589,7 @@ const MorphoVaultWidgetWrapped = ({
               vaultAddress={vaultAddress}
               vaultName={vaultName}
               vaultTvl={vaultData?.totalAssets}
-              vaultRate={singleMarketData?.rate?.formattedNetRate}
+              vaultRate={marketData?.rate?.formattedNetRate}
               shareDecimals={vaultData?.decimals ?? 18}
               claimRewards={morphoVaultClaimRewards}
               isRewardsLoading={isRewardsLoading}

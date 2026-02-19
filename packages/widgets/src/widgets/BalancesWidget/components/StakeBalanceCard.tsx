@@ -57,6 +57,8 @@ export const StakeBalanceCard = ({
 
   const highestRateData = useHighestRateFromChartData(stakeRewardsChartsInfoData || []);
 
+  const hasMultipleRates = (stakeRewardContracts?.length ?? 0) > 1;
+
   const totalStakedValue =
     stakeBalance && pricesData?.SKY
       ? parseFloat(formatUnits(stakeBalance, 18)) * parseFloat(pricesData.SKY.price)
@@ -82,7 +84,11 @@ export const StakeBalanceCard = ({
       footer={
         <div className="flex flex-col gap-1">
           <RateLineWithArrow
-            rateText={`Rates up to: ${formatDecimalPercentage(parseFloat(highestRateData?.rate || '0'))}`}
+            rateText={
+              hasMultipleRates
+                ? `Rates up to: ${formatDecimalPercentage(parseFloat(highestRateData?.rate || '0'))}`
+                : `Rate: ${formatDecimalPercentage(parseFloat(highestRateData?.rate || '0'))}`
+            }
             popoverType="srr"
             onExternalLinkClicked={onExternalLinkClicked}
           />

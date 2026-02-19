@@ -60,6 +60,20 @@ export const contracts: {
       [arbitrum.id]: '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9'
     }
   },
+  {
+    name: 'cbBtc',
+    address: {
+      [mainnet.id]: '0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf',
+      [TENDERLY_CHAIN_ID]: '0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf'
+    }
+  },
+  {
+    name: 'wstEth',
+    address: {
+      [mainnet.id]: '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0',
+      [TENDERLY_CHAIN_ID]: '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0'
+    }
+  },
 
   // Proxy
   {
@@ -314,6 +328,20 @@ export const contracts: {
     address: {
       [mainnet.id]: '0xf42bca228D9bd3e2F8EE65Fec3d21De1063882d4',
       [TENDERLY_CHAIN_ID]: '0xf42bca228D9bd3e2F8EE65Fec3d21De1063882d4'
+    }
+  },
+  {
+    name: 'usdcClearstarBoringVault',
+    address: {
+      [mainnet.id]: '0xF3Cc5c9A25508D8d959618fd48F6AbC18cA4Db49',
+      [TENDERLY_CHAIN_ID]: '0xF3Cc5c9A25508D8d959618fd48F6AbC18cA4Db49'
+    }
+  },
+  {
+    name: 'usdtSteakhousePrimeInstantVault',
+    address: {
+      [mainnet.id]: '0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9',
+      [TENDERLY_CHAIN_ID]: '0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9'
     }
   },
   {

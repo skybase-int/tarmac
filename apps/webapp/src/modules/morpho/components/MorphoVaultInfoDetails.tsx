@@ -1,9 +1,8 @@
 import { MorphoVaultRateCard } from './MorphoVaultRateCard';
 import { MorphoVaultTvlCard } from './MorphoVaultTvlCard';
 import { MorphoMarketLiquidityCard } from './MorphoMarketLiquidityCard';
-import { MorphoMarketUtilizationCard } from './MorphoMarketUtilizationCard';
 import { MorphoVaultSuppliersCard } from './MorphoVaultSuppliersCard';
-import { Token, useMorphoVaultSingleMarketApiData } from '@jetstreamgg/sky-hooks';
+import { Token, useMorphoVaultMarketApiData } from '@jetstreamgg/sky-hooks';
 
 type MorphoVaultInfoDetailsProps = {
   vaultAddress: `0x${string}`;
@@ -11,8 +10,7 @@ type MorphoVaultInfoDetailsProps = {
 };
 
 export function MorphoVaultInfoDetails({ vaultAddress, assetToken }: MorphoVaultInfoDetailsProps) {
-  const { data: singleMarketData, isLoading, error } = useMorphoVaultSingleMarketApiData({ vaultAddress });
-  const market = singleMarketData?.market.markets[0];
+  const { data: marketData, isLoading, error } = useMorphoVaultMarketApiData({ vaultAddress });
 
   return (
     <div className="flex w-full flex-wrap gap-3">
@@ -23,17 +21,14 @@ export function MorphoVaultInfoDetails({ vaultAddress, assetToken }: MorphoVault
         <MorphoVaultTvlCard vaultAddress={vaultAddress} assetToken={assetToken} />
       </div>
       <div className="min-w-[250px] flex-1">
-        <MorphoMarketUtilizationCard market={market} isLoading={isLoading} error={error} />
-      </div>
-      <div className="min-w-[250px] flex-1">
         <MorphoMarketLiquidityCard
-          market={market}
+          liquidity={marketData?.liquidity}
           isLoading={isLoading}
           error={error}
           assetToken={assetToken}
         />
       </div>
-      <div className="min-w-[250px] flex-1">
+      <div className="max-w-1/2 min-w-[250px] flex-1">
         <MorphoVaultSuppliersCard vaultAddress={vaultAddress} />
       </div>
     </div>

@@ -1,10 +1,5 @@
 import { formatBigInt } from '@jetstreamgg/sky-utils';
-import {
-  useMorphoVaultOnChainData,
-  Token,
-  getTokenDecimals,
-  useMorphoVaultSingleMarketApiData
-} from '@jetstreamgg/sky-hooks';
+import { Token, getTokenDecimals, useMorphoVaultMarketApiData } from '@jetstreamgg/sky-hooks';
 import { Text } from '@/modules/layout/components/Typography';
 import { VStack } from '@/modules/layout/components/VStack';
 import { HStack } from '@/modules/layout/components/HStack';
@@ -35,20 +30,11 @@ export const MorphoVaultStatsCard = ({
 
   const currentVaultAddress = vaultAddress[chainId];
 
-  // Hooks for Morpho vault data
-  const { data: vaultData, isLoading: vaultLoading } = useMorphoVaultOnChainData({
+  const { data: marketData, isLoading: marketDataLoading } = useMorphoVaultMarketApiData({
     vaultAddress: currentVaultAddress
   });
 
-  const { data: singleMarketData, isLoading: singleMarketDataLoading } = useMorphoVaultSingleMarketApiData({
-    vaultAddress: currentVaultAddress
-  });
-
-  // Data handling
-  const totalAssets = vaultData?.totalAssets || 0n;
-  const liquidity = singleMarketData?.market.markets?.length
-    ? singleMarketData.market.markets[0].liquidity
-    : undefined;
+  const totalAssets = marketData?.totalAssets ?? 0n;
 
   if (!currentVaultAddress) {
     return null;
@@ -79,11 +65,12 @@ export const MorphoVaultStatsCard = ({
             <Text className="text-textSecondary text-sm leading-4">
               <Trans>Liquidity</Trans>
             </Text>
-            {singleMarketDataLoading ? (
+            {marketDataLoading ? (
               <Skeleton className="bg-textSecondary h-6 w-21" />
-            ) : liquidity !== undefined ? (
+            ) : marketData?.liquidity !== undefined ? (
               <Text dataTestId="morpho-vault-tvl">
-                {formatBigInt(liquidity, { unit: assetDecimals, compact: true })} {assetToken.symbol}
+                {formatBigInt(marketData.liquidity, { unit: assetDecimals, compact: true })}{' '}
+                {assetToken.symbol}
               </Text>
             ) : (
               <Text dataTestId="morpho-vault-tvl">—</Text>
@@ -94,7 +81,7 @@ export const MorphoVaultStatsCard = ({
             <Text className="text-textSecondary text-sm leading-4">
               <Trans>TVL</Trans>
             </Text>
-            {vaultLoading ? (
+            {marketDataLoading ? (
               <div className="flex justify-end">
                 <Skeleton className="bg-textSecondary h-6 w-30" />
               </div>

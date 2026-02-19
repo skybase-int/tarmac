@@ -1,4 +1,14 @@
-import { Balances, RewardsModule, Savings, Stake, Expert, Vaults, Convert, Upgrade, Trade } from '../../icons';
+import {
+  Balances,
+  RewardsModule,
+  Savings,
+  Stake,
+  Expert,
+  Vaults,
+  Convert,
+  Upgrade,
+  Trade
+} from '../../icons';
 import { Intent } from '@/lib/enums';
 import { useLingui } from '@lingui/react';
 import { useCustomConnectModal } from '@/modules/ui/hooks/useCustomConnectModal';
@@ -38,6 +48,10 @@ import { ConvertWidgetPane } from '@/modules/convert/components/ConvertWidgetPan
 import { useModuleUrls } from '../hooks/useModuleUrls';
 import { useAvailableTokenRewardContracts } from '@jetstreamgg/sky-hooks';
 import { TokenIcon } from '@/modules/ui/components/TokenIcon';
+import { useAppAnalytics } from '@/modules/analytics/hooks/useAppAnalytics';
+
+// Module-level guard: persists across React remounts/StrictMode, resets on page reload (fresh deeplink)
+let lastDeeplinkTracked: string | null = null;
 
 type WidgetPaneProps = {
   intent: Intent;
@@ -77,6 +91,22 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
     shouldReset: searchParams.get(QueryParams.Reset) === 'true',
     legalBatchTxUrl: BATCH_TX_LEGAL_NOTICE_URL
   };
+
+  const { trackWidgetSelected } = useAppAnalytics();
+
+  // Deeplink detection: fire app_widget_selected when initial intent ≠ default (balances)
+  // Uses module-level guard (not useRef) so it survives React StrictMode remounts and key-driven remounts
+  useEffect(() => {
+    if (intent && intent !== Intent.BALANCES_INTENT && intent !== lastDeeplinkTracked) {
+      lastDeeplinkTracked = intent;
+      trackWidgetSelected({
+        widgetName: IntentMapping[intent] || intent,
+        previousWidget: IntentMapping[Intent.BALANCES_INTENT],
+        selectionMethod: 'deeplink',
+        chainId
+      });
+    }
+  }, []);
 
   const actionForToken = useActionForToken();
 

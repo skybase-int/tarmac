@@ -4,23 +4,26 @@ export { useMorphoVaultRedeem } from './useMorphoVaultRedeem';
 export { useMorphoVaultOnChainData } from './useMorphoVaultOnChainData';
 export {
   useMorphoVaultRateApiData,
+  useMorphoVaultMultipleRateApiData,
   type MorphoVaultRateData,
   type MorphoVaultRateHook,
+  type MorphoVaultMultipleRateHook,
   type MorphoRewardData
 } from './useMorphoVaultRateApiData';
 export { useMorphoVaultAllocations } from './useMorphoVaultAllocations';
 export {
-  useMorphoVaultSingleMarketApiData,
-  type MorphoVaultSingleMarketData,
-  type MorphoVaultSingleMarketDataHook
-} from './useMorphoVaultSingleMarketApiData';
+  useMorphoVaultMarketApiData,
+  fetchMorphoVaultMarketData,
+  type MorphoVaultMarketData,
+  type MorphoVaultMarketDataHook
+} from './useMorphoVaultMarketApiData';
 export {
   type MorphoMarketAllocation,
   type MorphoV1VaultAllocation,
   type MorphoIdleLiquidityAllocation,
   type MorphoVaultAllocationsData,
   type MorphoVaultAllocationsHook
-} from './morpho';
+} from './morpho.d';
 export {
   useMorphoVaultRewards,
   type MorphoVaultReward,
@@ -31,11 +34,14 @@ export { useMorphoVaultClaimRewards } from './useMorphoVaultClaimRewards';
 export { useMorphoVaultHistory } from './useMorphoVaultHistory';
 export {
   useMorphoVaultChartInfo,
+  useMorphoVaultMultipleChartInfo,
   type MorphoVaultChartDataPoint,
-  type MorphoVaultChartInfoHook
+  type MorphoVaultChartInfoHook,
+  type MorphoVaultMultipleChartInfoHook
 } from './useMorphoVaultChartInfo';
 export {
   useMorphoVaultSupplierAddresses,
   type MorphoVaultSupplierAddressesHook
 } from './useMorphoVaultSupplierAddresses';
+export { useMorphoVaultsCombinedTvl, type MorphoVaultsCombinedTvl } from './useMorphoVaultsCombinedTvl';
 export { MORPHO_VAULTS } from './constants';

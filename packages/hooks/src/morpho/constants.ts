@@ -1,15 +1,13 @@
-import { usdsRiskCapitalVaultAddress } from '../generated';
+import {
+  usdcClearstarBoringVaultAddress,
+  usdsRiskCapitalVaultAddress,
+  usdtSteakhousePrimeInstantVaultAddress
+} from '../generated';
 import { TOKENS } from '../tokens/tokens.constants';
 import { MorphoVaultConfig } from './morpho';
 
 export const MORPHO_API_URL = 'https://api.morpho.org/graphql';
 export const MERKL_API_URL = 'https://api.merkl.xyz/v4';
-
-/**
- * Market ID for the stUSDS/USDS market that the USDS Risk Capital vault allocates to
- */
-export const USDS_RISK_CAPITAL_MARKET_ID =
-  '0x77e624dd9dd980810c2b804249e88f3598d9c7ec91f16aa5fbf6e3fdf6087f82' as const;
 
 export enum MorphoAdapterType {
   MetaMorpho = 'MetaMorpho',
@@ -29,15 +27,23 @@ export const MORPHO_VAULTS: MorphoVaultConfig[] = [
   {
     name: 'USDS Risk Capital',
     vaultAddress: usdsRiskCapitalVaultAddress,
-    assetToken: TOKENS.usds,
-    marketId: USDS_RISK_CAPITAL_MARKET_ID
+    assetToken: TOKENS.usds
+  },
+  {
+    name: 'Clearstar Boring USDC',
+    vaultAddress: usdcClearstarBoringVaultAddress,
+    assetToken: TOKENS.usdc
+  },
+  {
+    name: 'Steakhouse Prime Instant',
+    vaultAddress: usdtSteakhousePrimeInstantVaultAddress,
+    assetToken: TOKENS.usdt
   }
   // Add more vaults here as needed:
   // {
   //   name: 'Another Vault Name',
   //   vaultAddress: anotherVaultAddress,
-  //   assetToken: TOKENS.usds,
-  //   marketId: '0x...'
+  //   assetToken: TOKENS.usds
   // }
 ];
 
@@ -94,6 +100,13 @@ export const MORPHO_MARKET_V1_ADAPTER_ABI = [
     inputs: [],
     name: 'realAssets',
     outputs: [{ type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [{ internalType: 'bytes32', name: 'marketId', type: 'bytes32' }],
+    name: 'expectedSupplyAssets',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function'
   }
@@ -247,12 +260,13 @@ export const VAULT_V2_POSITIONS_QUERY = `
 `;
 
 /**
- * Combined GraphQL query for vault rate data and market allocation data.
- * Fetches everything in a single request for optimized performance.
+ * GraphQL query for Morpho V2 vault data with caps-based market discovery.
+ * Uses the caps field with inline fragments to get market data for MarketV1 caps,
+ * eliminating the need for separate market queries or on-chain adapter reads.
  */
-export const VAULT_DATA_QUERY = `
-  query VaultData($vaultAddress: String!, $marketId: String!, $chainId: Int!) {
-    vaultV2ByAddress(address: $vaultAddress, chainId: $chainId) {
+export const VAULT_MARKET_DATA_QUERY = `
+  query VaultMarketData($address: String!, $chainId: Int!) {
+    vaultV2ByAddress(address: $address, chainId: $chainId) {
       avgApy
       avgNetApy
       performanceFee
@@ -266,26 +280,36 @@ export const VAULT_DATA_QUERY = `
       }
       totalAssets
       totalAssetsUsd
+      idleAssets
       idleAssetsUsd
+      liquidity
       asset {
         decimals
         symbol
       }
-    }
-    marketByUniqueKey(uniqueKey: $marketId, chainId: $chainId) {
-      uniqueKey
-      lltv
-      loanAsset {
-        symbol
-      }
-      collateralAsset {
-        symbol
-      }
-      state {
-        supplyAssets
-        borrowAssets
-        utilization
-        avgNetSupplyApy
+      caps {
+        items {
+          type
+          data {
+            ... on MarketV1CapData {
+              market {
+                uniqueKey
+                lltv
+                loanAsset { symbol }
+                collateralAsset { symbol }
+                state {
+                  supplyAssets
+                  borrowAssets
+                  utilization
+                  avgNetSupplyApy
+                }
+              }
+            }
+          }
+          absoluteCap
+          relativeCap
+          allocation
+        }
       }
     }
   }

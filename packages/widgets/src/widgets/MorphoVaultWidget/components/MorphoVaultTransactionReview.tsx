@@ -3,7 +3,10 @@ import { t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { WidgetContext } from '@widgets/context/WidgetContext';
 import { TransactionReview } from '@widgets/shared/components/ui/transaction/TransactionReview';
-import { BatchStatus } from '@widgets/shared/constants';
+import { StepIndicator } from '@widgets/shared/components/ui/transaction/StepIndicator';
+import { BatchStatus, TxStatus } from '@widgets/shared/constants';
+import { motion } from 'framer-motion';
+import { positionAnimations } from '@widgets/shared/animation/presets';
 import {
   getMorphoVaultSupplyReviewSubtitle,
   getMorphoVaultWithdrawReviewSubtitle,
@@ -21,6 +24,7 @@ export const MorphoVaultTransactionReview = ({
   assetToken,
   amount,
   needsAllowance,
+  needsAllowanceReset,
   legalBatchTxUrl
 }: {
   batchEnabled?: boolean;
@@ -29,6 +33,7 @@ export const MorphoVaultTransactionReview = ({
   assetToken: Token;
   amount: bigint;
   needsAllowance: boolean;
+  needsAllowanceReset: boolean;
   legalBatchTxUrl?: string;
 }) => {
   const { i18n } = useLingui();
@@ -37,6 +42,7 @@ export const MorphoVaultTransactionReview = ({
     setTxTitle,
     setTxSubtitle,
     setStepTwoTitle,
+    stepTwoTitle,
     setOriginToken,
     setOriginAmount,
     setTxDescription,
@@ -94,11 +100,41 @@ export const MorphoVaultTransactionReview = ({
     i18n
   ]);
 
+  const resetSteps = needsAllowanceReset ? (
+    <motion.div variants={positionAnimations} className="flex w-full flex-col pt-4">
+      <StepIndicator
+        stepNumber={1}
+        currentStep={false}
+        txStatus={TxStatus.IDLE}
+        text={t`Reset allowance`}
+        className="flex-1"
+        circleIndicator
+      />
+      <StepIndicator
+        stepNumber={2}
+        currentStep={false}
+        txStatus={TxStatus.IDLE}
+        text={t`Approve`}
+        className="flex-1"
+        circleIndicator
+      />
+      <StepIndicator
+        stepNumber={3}
+        currentStep={false}
+        txStatus={TxStatus.IDLE}
+        text={stepTwoTitle}
+        className="flex-1"
+        circleIndicator
+      />
+    </motion.div>
+  ) : undefined;
+
   return (
     <TransactionReview
       batchEnabled={batchEnabled}
       setBatchEnabled={setBatchEnabled}
       legalBatchTxUrl={legalBatchTxUrl}
+      customSteps={resetSteps}
     />
   );
 };
