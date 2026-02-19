@@ -13,9 +13,6 @@ import { IntentMapping } from '@/lib/constants';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { useUserSuggestedActions } from '@/modules/ui/hooks/useUserSuggestedActions';
 import { filterActionsByIntent } from '@/lib/utils';
-import { TX_AGENT_ENABLED } from '@/lib/constants';
-import { SuggestedActions } from '@/modules/agent/components/SuggestedActions';
-
 export function UpgradeDetails(): React.ReactElement {
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
   const { linkedActionConfig } = useConfigContext();
@@ -24,13 +21,6 @@ export function UpgradeDetails(): React.ReactElement {
 
   return (
     <DetailSectionWrapper>
-      {TX_AGENT_ENABLED && (
-        <DetailSection title={t`Things you can do in Upgrade`}>
-          <DetailSectionRow>
-            <SuggestedActions widget="upgrade" />
-          </DetailSectionRow>
-        </DetailSection>
-      )}
       <DetailSection title={t`Upgrade stats`}>
         <DetailSectionRow>
           <UpgradeStats />

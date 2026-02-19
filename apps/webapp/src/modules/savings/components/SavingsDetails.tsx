@@ -14,9 +14,6 @@ import { IntentMapping } from '@/lib/constants';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { useUserSuggestedActions } from '@/modules/ui/hooks/useUserSuggestedActions';
 import { filterActionsByIntent } from '@/lib/utils';
-import { TX_AGENT_ENABLED } from '@/lib/constants';
-import { SuggestedActions } from '@/modules/agent/components/SuggestedActions';
-
 export function SavingsDetails(): React.ReactElement {
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
   const { linkedActionConfig } = useConfigContext();
@@ -25,13 +22,6 @@ export function SavingsDetails(): React.ReactElement {
 
   return (
     <DetailSectionWrapper>
-      {TX_AGENT_ENABLED && (
-        <DetailSection title={t`Things you can do in Savings`}>
-          <DetailSectionRow>
-            <SuggestedActions widget="savings" />
-          </DetailSectionRow>
-        </DetailSection>
-      )}
       {isConnectedAndAcceptedTerms && (
         <DetailSection title={t`Your balances`} dataTestId="savings-stats-section">
           <DetailSectionRow>
