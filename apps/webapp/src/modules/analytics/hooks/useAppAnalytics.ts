@@ -1,5 +1,5 @@
 import { usePostHog } from 'posthog-js/react';
-import { useChains } from 'wagmi';
+import { useChains, useConnection } from 'wagmi';
 import {
   AppEvents,
   safeCapture,
@@ -11,6 +11,7 @@ import {
 
 export function useAppAnalytics() {
   const posthog = usePostHog();
+  const { address } = useConnection();
   const chains = useChains();
 
   const getChainName = (chainId: number) => chains.find(c => c.id === chainId)?.name ?? `unknown_${chainId}`;
@@ -100,6 +101,25 @@ export function useAppAnalytics() {
     });
   };
 
+  const trackTransactionSuccess = ({
+    txHash,
+    widgetName,
+    chainId
+  }: {
+    txHash: string;
+    widgetName: string;
+    chainId: number;
+  }) => {
+    safeCapture(posthog, AppEvents.TRANSACTION_SUCCESS, {
+      tx_hash: txHash,
+      wallet_address: address,
+      widget_name: widgetName,
+      chain_id: chainId,
+      chain_name: getChainName(chainId),
+      viewport: getViewport()
+    });
+  };
+
   const trackWalletConnected = ({ walletName }: { walletName: string }) => {
     safeCapture(posthog, AppEvents.WALLET_CONNECTED, {
       wallet_name: walletName,
@@ -118,6 +138,7 @@ export function useAppAnalytics() {
     trackWidgetSelected,
     trackWidgetFlowStarted,
     trackWidgetFlowCompleted,
+    trackTransactionSuccess,
     trackDetailsPaneToggled,
     trackChatPaneToggled,
     trackWalletConnected,

@@ -14,7 +14,7 @@ import { reportAnalyticsError } from '../constants';
  * ```
  */
 export function useWidgetFlowTracking(widgetName: string, chainId: number) {
-  const { trackWidgetFlowStarted, trackWidgetFlowCompleted } = useAppAnalytics();
+  const { trackWidgetFlowStarted, trackWidgetFlowCompleted, trackTransactionSuccess } = useAppAnalytics();
   const prevTxStatusRef = useRef<WidgetTxStatus | null>(null);
 
   const wrapStateChange = useCallback(
@@ -40,6 +40,13 @@ export function useWidgetFlowTracking(widgetName: string, chainId: number) {
               chainId,
               txStatus: 'success'
             });
+            // EXPERIMENTAL / POC: Separate from trackWidgetFlowCompleted — this event
+            // captures the tx hash and wallet address for on-chain correlation, while
+            // the flow event above tracks the widget lifecycle (success/error/cancelled)
+            // without tx details.
+            if (params.hash) {
+              trackTransactionSuccess({ txHash: params.hash, widgetName, chainId });
+            }
           }
 
           // Flow completed: transition to ERROR
@@ -64,7 +71,7 @@ export function useWidgetFlowTracking(widgetName: string, chainId: number) {
         }
       };
     },
-    [widgetName, chainId, trackWidgetFlowStarted, trackWidgetFlowCompleted]
+    [widgetName, chainId, trackWidgetFlowStarted, trackWidgetFlowCompleted, trackTransactionSuccess]
   );
 
   return { wrapStateChange };
