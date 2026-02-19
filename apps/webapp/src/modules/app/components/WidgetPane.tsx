@@ -118,16 +118,16 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
     icon: (
       <TokenIcon token={{ symbol: contract.rewardToken.symbol }} className="h-3 w-3" showChainIcon={false} />
     ),
-    paramKey: QueryParams.Reward,
-    paramValue: contract.contractAddress
+    params: { [QueryParams.Reward]: contract.contractAddress }
   }));
 
   const vaultSubItems = MORPHO_VAULTS.filter(vault => vault.vaultAddress[chainId]).map(vault => ({
     label: vault.name,
     icon: <TokenIcon token={{ symbol: vault.assetToken.symbol }} className="h-3 w-3" showChainIcon={false} />,
-    paramKey: QueryParams.Vault,
-    paramValue: vault.vaultAddress[chainId],
-    extraParams: { [QueryParams.VaultModule]: VaultsIntentMapping[VaultsIntent.MORPHO_VAULT_INTENT] }
+    params: {
+      [QueryParams.VaultModule]: VaultsIntentMapping[VaultsIntent.MORPHO_VAULT_INTENT],
+      [QueryParams.Vault]: vault.vaultAddress[chainId]
+    }
   }));
 
   const widgetItems: WidgetItem[] = [
@@ -210,8 +210,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
         {
           label: 'stUSDS',
           icon: <TokenIcon token={{ symbol: 'stUSDS' }} className="h-3 w-3" showChainIcon={false} />,
-          paramKey: QueryParams.ExpertModule,
-          paramValue: ExpertIntentMapping[ExpertIntent.STUSDS_INTENT]
+          params: { [QueryParams.ExpertModule]: ExpertIntentMapping[ExpertIntent.STUSDS_INTENT] }
         }
       ]
     ],
@@ -227,14 +226,12 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
         {
           label: 'Upgrade',
           icon: <Upgrade className="h-3 w-3" />,
-          paramKey: QueryParams.ConvertModule,
-          paramValue: ConvertIntentMapping[ConvertIntent.UPGRADE_INTENT]
+          params: { [QueryParams.ConvertModule]: ConvertIntentMapping[ConvertIntent.UPGRADE_INTENT] }
         },
         {
           label: 'Trade',
           icon: <Trade className="h-3 w-3" />,
-          paramKey: QueryParams.ConvertModule,
-          paramValue: ConvertIntentMapping[ConvertIntent.TRADE_INTENT]
+          params: { [QueryParams.ConvertModule]: ConvertIntentMapping[ConvertIntent.TRADE_INTENT] }
         }
       ]
     ]
