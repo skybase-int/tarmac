@@ -12,7 +12,7 @@ export function ExpertChart() {
 
   const { data: stUsdsChartData, isLoading, error } = useStUsdsChartInfo();
 
-  const chartData = useParseTvlChartData(timeFrame, stUsdsChartData);
+  const chartData = useParseTvlChartData(timeFrame, stUsdsChartData ?? []);
 
   return (
     <div>
