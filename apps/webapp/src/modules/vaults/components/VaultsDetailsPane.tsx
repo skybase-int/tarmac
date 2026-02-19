@@ -3,27 +3,27 @@ import { DetailSectionRow } from '@/modules/ui/components/DetailSectionRow';
 import { DetailSectionWrapper } from '@/modules/ui/components/DetailSectionWrapper';
 import { t } from '@lingui/core/macro';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
-import { ExpertOverview } from './ExpertOverview';
-import { ExpertChart } from './ExpertChart';
-import { ExpertAbout } from './ExpertAbout';
-import { ExpertFaq } from './ExpertFaq';
+import { VaultsOverview } from './VaultsOverview';
+import { VaultsChart } from './VaultsChart';
+import { VaultsAbout } from './VaultsAbout';
+import { VaultsFaq } from './VaultsFaq';
 import { ActionsShowcase } from '@/modules/ui/components/ActionsShowcase';
 import { IntentMapping } from '@/lib/constants';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { useUserSuggestedActions } from '@/modules/ui/hooks/useUserSuggestedActions';
 import { filterActionsByIntent } from '@/lib/utils';
 
-export function ExpertDetailsPane() {
+export function VaultsDetailsPane() {
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
   const { linkedActionConfig } = useConfigContext();
   const { data: actionData } = useUserSuggestedActions();
-  const widget = IntentMapping.EXPERT_INTENT;
+  const widget = IntentMapping.VAULTS_INTENT;
 
   return (
     <DetailSectionWrapper>
-      <DetailSection title={t`Expert overview`}>
+      <DetailSection title={t`Vaults overview`}>
         <DetailSectionRow>
-          <ExpertOverview />
+          <VaultsOverview />
         </DetailSectionRow>
       </DetailSection>
       {isConnectedAndAcceptedTerms &&
@@ -35,19 +35,19 @@ export function ExpertDetailsPane() {
             </DetailSectionRow>
           </DetailSection>
         )}
-      <DetailSection title={t`Expert activity`}>
+      <DetailSection title={t`Vaults activity`}>
         <DetailSectionRow>
-          <ExpertChart />
+          <VaultsChart />
         </DetailSectionRow>
       </DetailSection>
-      <DetailSection title={t`About Native Sky Protocol Tokens`}>
+      <DetailSection title={t`About`}>
         <DetailSectionRow>
-          <ExpertAbout />
+          <VaultsAbout />
         </DetailSectionRow>
       </DetailSection>
       <DetailSection title={t`FAQs`}>
         <DetailSectionRow>
-          <ExpertFaq />
+          <VaultsFaq />
         </DetailSectionRow>
       </DetailSection>
     </DetailSectionWrapper>

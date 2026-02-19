@@ -1,89 +1,18 @@
-import { useStUsdsChartInfo, MORPHO_VAULTS, useMorphoVaultMultipleChartInfo } from '@jetstreamgg/sky-hooks';
+import { useStUsdsChartInfo } from '@jetstreamgg/sky-hooks';
 import { Chart, TimeFrame } from '@/modules/ui/components/Chart';
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { ErrorBoundary } from '@/modules/layout/components/ErrorBoundary';
 import { Trans } from '@lingui/react/macro';
 import { useParseTvlChartData } from '@/modules/ui/hooks/useParseTvlChartData';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { mainnet } from 'viem/chains';
-import { math } from '@jetstreamgg/sky-utils';
-
-type TvlChartInfoParsed = {
-  blockTimestamp: number;
-  amount: bigint;
-};
-
-const normalizeToDay = (data: TvlChartInfoParsed[]): TvlChartInfoParsed[] =>
-  data.map(d => ({
-    ...d,
-    blockTimestamp: Math.floor(d.blockTimestamp / 86400) * 86400
-  }));
-
-function calculateCumulativeTotalSupply(chartData: TvlChartInfoParsed[]) {
-  if (!chartData || chartData.length === 0) return [];
-
-  const mergedData = new Map<number, TvlChartInfoParsed>();
-
-  chartData.forEach(entry => {
-    const foundData = mergedData.get(entry.blockTimestamp);
-    if (foundData) {
-      mergedData.set(entry.blockTimestamp, {
-        ...foundData,
-        amount: foundData.amount + entry.amount
-      });
-    } else {
-      mergedData.set(entry.blockTimestamp, entry);
-    }
-  });
-
-  return [...mergedData.values()].sort((a, b) => a.blockTimestamp - b.blockTimestamp);
-}
-
-// Hook to fetch and aggregate expert modules chart data
-function useExpertModulesChartInfo() {
-  const { data: stUsdsChartData, isLoading: isLoadingStUsds, error: errorStUsds } = useStUsdsChartInfo();
-  const {
-    data: morphoChartData,
-    isLoading: isLoadingMorpho,
-    error: errorMorpho
-  } = useMorphoVaultMultipleChartInfo({
-    // Morpho API is mainnet-only
-    vaultAddresses: MORPHO_VAULTS.map(v => v.vaultAddress[mainnet.id])
-  });
-
-  // Normalize timestamps to day boundaries, scale to common decimals, combine, and aggregate
-  const data = useMemo(() => {
-    // stUSDS data is already in 18 decimals
-    const normalizedStUsds = normalizeToDay(stUsdsChartData || []);
-
-    // Normalize each Morpho vault's data to 18 decimals before combining
-    const normalizedMorpho = (morphoChartData || []).flatMap((vaultData, index) => {
-      const vault = MORPHO_VAULTS[index];
-      const decimals = math.resolveDecimals(vault.assetToken.decimals, mainnet.id);
-      return normalizeToDay(vaultData).map(d => ({
-        ...d,
-        amount: math.scaleToBaseDecimals(d.amount, decimals)
-      }));
-    });
-
-    return calculateCumulativeTotalSupply([...normalizedStUsds, ...normalizedMorpho]);
-  }, [stUsdsChartData, morphoChartData]);
-
-  return {
-    data,
-    isLoading: isLoadingStUsds || isLoadingMorpho,
-    error: errorStUsds || errorMorpho
-  };
-}
 
 export function ExpertChart() {
   const [activeChart, setActiveChart] = useState('tvl');
   const [timeFrame, setTimeFrame] = useState<TimeFrame>('w');
 
-  // Fetch and aggregate chart data for all expert modules
-  const { data: expertModulesChartData, isLoading, error } = useExpertModulesChartInfo();
+  const { data: stUsdsChartData, isLoading, error } = useStUsdsChartInfo();
 
-  const chartData = useParseTvlChartData(timeFrame, expertModulesChartData);
+  const chartData = useParseTvlChartData(timeFrame, stUsdsChartData);
 
   return (
     <div>

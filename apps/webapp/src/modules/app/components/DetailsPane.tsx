@@ -21,6 +21,7 @@ import { FooterLinks } from '@/modules/layout/components/FooterLinks';
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
 import { StakeDetailsPane } from '@/modules/stake/components/StakeDetailsPane';
 import { ExpertDetailsPane } from '@/modules/expert/components/ExpertDetailsPane';
+import { VaultsDetailsPane } from '@/modules/vaults/components/VaultsDetailsPane';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { SealDetailsPane } from '@/modules/seal/components/SealDetailsPane';
 
@@ -152,7 +153,7 @@ export const DetailsPane = ({ intent }: DetailsPaneProps) => {
                 default:
                   return (
                     <MotionDetailsWrapper key={keys[11]}>
-                      <ExpertDetailsPane isVaultsOverview />
+                      <VaultsDetailsPane />
                     </MotionDetailsWrapper>
                   );
               }
