@@ -19,7 +19,7 @@ export const AppEvents = {
 export type SelectionMethod = 'sidebar_tab' | 'mobile_drawer' | 'deeplink';
 export type TxStatus = 'success' | 'error' | 'cancelled';
 export type ErrorContext = string;
-export type VpnCheckResult = 'allowed' | 'vpn_blocked' | 'region_blocked' | 'error';
+export type VpnCheckResult = 'allowed' | 'vpn_blocked' | 'region_blocked' | 'error' | 'unknown';
 export type BlockReason = 'vpn_detected' | 'restricted_region' | 'network_error';
 export type Viewport = 'mobile' | 'tablet' | 'desktop';
 
