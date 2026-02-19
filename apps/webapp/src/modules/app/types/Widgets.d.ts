@@ -20,6 +20,8 @@ export type WidgetSubItem = {
   paramKey: string;
   /** Query param value (e.g. 'stusds') */
   paramValue: string;
+  /** Additional query params to set alongside the primary param */
+  extraParams?: Record<string, string>;
 };
 
 export type WidgetItem = [

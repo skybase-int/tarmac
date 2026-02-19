@@ -65,6 +65,11 @@ export function VaultsWidgetPane(sharedProps: SharedProps) {
     MORPHO_VAULTS.find(v => v.vaultAddress[chainId]?.toLowerCase() === selectedVaultAddress?.toLowerCase()) ||
     MORPHO_VAULTS[0];
 
+  // Derive effective option from URL param so deep-links and quick access work
+  const effectiveVaultsOption = selectedVaultAddress
+    ? VaultsIntent.MORPHO_VAULT_INTENT
+    : selectedVaultsOption;
+
   const handleSelectMorphoVault = (vaultAddress: `0x${string}`) => {
     setSearchParams(params => {
       params.set(QueryParams.VaultModule, VaultsIntentMapping[VaultsIntent.MORPHO_VAULT_INTENT]);
@@ -75,7 +80,7 @@ export function VaultsWidgetPane(sharedProps: SharedProps) {
   };
 
   const renderSelectedWidget = () => {
-    switch (selectedVaultsOption) {
+    switch (effectiveVaultsOption) {
       case VaultsIntent.MORPHO_VAULT_INTENT:
         return (
           <MorphoVaultWidgetPane
@@ -92,8 +97,8 @@ export function VaultsWidgetPane(sharedProps: SharedProps) {
 
   return (
     <AnimatePresence mode="popLayout" initial={false}>
-      <CardAnimationWrapper key={selectedVaultsOption} className="h-full">
-        {selectedVaultsOption ? (
+      <CardAnimationWrapper key={effectiveVaultsOption} className="h-full">
+        {effectiveVaultsOption ? (
           renderSelectedWidget()
         ) : (
           <WidgetContainer
@@ -123,8 +128,7 @@ export function VaultsWidgetPane(sharedProps: SharedProps) {
                   />
                 );
               })}
-              {TX_AGENT_ENABLED &&
-                DEMO_VAULTS.map(vault => <DemoVaultCard key={vault.name} {...vault} />)}
+              {TX_AGENT_ENABLED && DEMO_VAULTS.map(vault => <DemoVaultCard key={vault.name} {...vault} />)}
             </CardAnimationWrapper>
           </WidgetContainer>
         )}

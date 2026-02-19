@@ -47,7 +47,7 @@ import { ExpertWidgetPane } from '@/modules/expert/components/ExpertWidgetPane';
 import { VaultsWidgetPane } from '@/modules/vaults/components/VaultsWidgetPane';
 import { ConvertWidgetPane } from '@/modules/convert/components/ConvertWidgetPane';
 import { useModuleUrls } from '../hooks/useModuleUrls';
-import { useAvailableTokenRewardContracts } from '@jetstreamgg/sky-hooks';
+import { useAvailableTokenRewardContracts, MORPHO_VAULTS } from '@jetstreamgg/sky-hooks';
 import { TokenIcon } from '@/modules/ui/components/TokenIcon';
 import { useAppAnalytics } from '@/modules/analytics/hooks/useAppAnalytics';
 
@@ -122,6 +122,14 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
     paramValue: contract.contractAddress
   }));
 
+  const vaultSubItems = MORPHO_VAULTS.filter(vault => vault.vaultAddress[chainId]).map(vault => ({
+    label: vault.name,
+    icon: <TokenIcon token={{ symbol: vault.assetToken.symbol }} className="h-3 w-3" showChainIcon={false} />,
+    paramKey: QueryParams.Vault,
+    paramValue: vault.vaultAddress[chainId],
+    extraParams: { [QueryParams.VaultModule]: VaultsIntentMapping[VaultsIntent.MORPHO_VAULT_INTENT] }
+  }));
+
   const widgetItems: WidgetItem[] = [
     [
       Intent.BALANCES_INTENT,
@@ -188,14 +196,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
       false,
       undefined,
       'Third-party vault integrations with Sky ecosystem tokens',
-      [
-        {
-          label: 'USDS Risk Capital',
-          icon: <TokenIcon token={{ symbol: 'USDS' }} className="h-3 w-3" showChainIcon={false} />,
-          paramKey: QueryParams.VaultModule,
-          paramValue: VaultsIntentMapping[VaultsIntent.MORPHO_VAULT_INTENT]
-        }
-      ]
+      vaultSubItems
     ],
     [
       Intent.EXPERT_INTENT,

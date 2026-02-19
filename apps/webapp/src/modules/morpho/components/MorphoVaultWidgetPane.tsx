@@ -101,6 +101,7 @@ export function MorphoVaultWidgetPane({
   const handleBack = () => {
     setSearchParams(params => {
       params.delete(QueryParams.VaultModule);
+      params.delete(QueryParams.Vault);
       return params;
     });
     setSelectedVaultsOption(undefined);

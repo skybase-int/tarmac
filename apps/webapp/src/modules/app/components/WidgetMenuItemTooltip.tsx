@@ -54,6 +54,11 @@ export function WidgetMenuItemTooltip({
         }
       }
       searchParams.set(QueryParams.Widget, mapIntentToQueryParam(widgetIntent));
+      if (subItem.extraParams) {
+        Object.entries(subItem.extraParams).forEach(([key, value]) => {
+          searchParams.set(key, value);
+        });
+      }
       searchParams.set(subItem.paramKey, subItem.paramValue);
       return searchParams;
     });
