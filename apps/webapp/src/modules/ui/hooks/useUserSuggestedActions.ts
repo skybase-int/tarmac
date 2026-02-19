@@ -85,8 +85,6 @@ const fetchUserSuggestedActions = (
   const {
     REWARDS_INTENT: REWARDS,
     SAVINGS_INTENT: SAVINGS,
-    UPGRADE_INTENT: UPGRADE,
-    TRADE_INTENT: TRADE,
     EXPERT_INTENT: EXPERT,
     VAULTS_INTENT: VAULTS
   } = IntentMapping;

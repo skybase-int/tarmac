@@ -48,8 +48,6 @@ export const useActionForToken = () => {
       } = QueryParams;
       const {
         REWARDS_INTENT: REWARD,
-        UPGRADE_INTENT: UPGRADE,
-        TRADE_INTENT: TRADE,
         SAVINGS_INTENT: SAVINGS,
         STAKE_INTENT: STAKE,
         CONVERT_INTENT: CONVERT
