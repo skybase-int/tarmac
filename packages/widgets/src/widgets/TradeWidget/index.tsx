@@ -51,6 +51,8 @@ import { getAllowedTargetTokens, getQuoteErrorForType, verifySlippage } from './
 import { defaultConfig } from '@widgets/config/default-config';
 import { useLingui } from '@lingui/react';
 import { TradeHeader, TradeSubHeader, TradePoweredBy } from './components/TradeHeader';
+import { TradeConfigMenu } from './components/TradeConfigMenu';
+import { Trans } from '@lingui/react/macro';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@widgets/components/ui/button';
 import { HStack } from '@widgets/shared/components/ui/layout/HStack';
@@ -1383,23 +1385,38 @@ function TradeWidgetWrapped({
     <WidgetContainer
       header={
         <div>
-          {onBackToConvert && (
-            <Button variant="link" onClick={onBackToConvert} className="mb-2 p-0">
-              <HStack className="space-x-2">
-                <ArrowLeft className="self-center" />
-                <Heading tag="h3" variant="small" className="text-textSecondary">
-                  Back to Convert
-                </Heading>
-              </HStack>
-            </Button>
+          {onBackToConvert ? (
+            <>
+              <div className="mb-2 flex items-center justify-between">
+                <Button variant="link" onClick={onBackToConvert} className="p-0">
+                  <HStack className="space-x-2">
+                    <ArrowLeft className="self-center" />
+                    <Heading tag="h3" variant="small" className="text-textSecondary">
+                      Back to Convert
+                    </Heading>
+                  </HStack>
+                </Button>
+                <TradeConfigMenu
+                  slippage={slippage}
+                  setSlippage={setSlippage}
+                  isEthFlow={originToken?.isNative}
+                  ttl={ttl}
+                  setTtl={setTtl}
+                />
+              </div>
+              <Heading variant="x-large">
+                <Trans>Trade</Trans>
+              </Heading>
+            </>
+          ) : (
+            <TradeHeader
+              slippage={slippage}
+              setSlippage={setSlippage}
+              isEthFlow={originToken?.isNative}
+              ttl={ttl}
+              setTtl={setTtl}
+            />
           )}
-          <TradeHeader
-            slippage={slippage}
-            setSlippage={setSlippage}
-            isEthFlow={originToken?.isNative}
-            ttl={ttl}
-            setTtl={setTtl}
-          />
         </div>
       }
       subHeader={<TradeSubHeader />}
