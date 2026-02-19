@@ -3,77 +3,25 @@ import { DetailSectionRow } from '@/modules/ui/components/DetailSectionRow';
 import { DetailSectionWrapper } from '@/modules/ui/components/DetailSectionWrapper';
 import { t } from '@lingui/core/macro';
 import { BalancesModuleShowcase } from './BalancesModuleShowcase';
-import { BalancesAssets } from './BalancesAssets';
-import { BalancesSkyStatsOverview } from './BalancesSkyStatsOverview';
-import { useBreakpointIndex, BP } from '@/modules/ui/hooks/useBreakpointIndex';
 import { BalancesChart } from './BalancesChart';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 import { BalancesFaq } from './BalancesFaq';
-import { getSupportedChainIds } from '@/data/wagmi/config/config.default';
-import { useChainId } from 'wagmi';
 import { Intent } from '@/lib/enums';
 import { ConnectCard } from '@/modules/layout/components/ConnectCard';
-import { SuppliedFundsTable } from './SuppliedFundsTable';
-import { TX_AGENT_ENABLED } from '@/lib/constants';
-import { SuggestedActions } from '@/modules/agent/components/SuggestedActions';
 
 export function BalancesDetails() {
-  const { bpi } = useBreakpointIndex();
-  const showFundsTable = bpi > BP.md;
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
-  const chainId = useChainId();
-  const supportedChainIds = getSupportedChainIds(chainId);
 
   return (
     <DetailSectionWrapper>
-      {!TX_AGENT_ENABLED && (
-        <DetailSectionRow>
-          <BalancesModuleShowcase />
-        </DetailSectionRow>
-      )}
+      <DetailSectionRow>
+        <BalancesModuleShowcase />
+      </DetailSectionRow>
       {!isConnectedAndAcceptedTerms && (
         <DetailSectionRow>
           <ConnectCard intent={Intent.BALANCES_INTENT} className="mb-4" />
         </DetailSectionRow>
       )}
-      {TX_AGENT_ENABLED && (
-        <>
-          <DetailSection title={t`Earn with your stables`}>
-            <DetailSectionRow>
-              <SuggestedActions widget="stables" />
-            </DetailSectionRow>
-          </DetailSection>
-          <DetailSection title={t`Stake, Borrow, and Earn with SKY`}>
-            <DetailSectionRow>
-              <SuggestedActions widget="sky" />
-            </DetailSectionRow>
-          </DetailSection>
-          <DetailSection title={t`Get USDS, SKY and other tokens`}>
-            <DetailSectionRow>
-              <SuggestedActions widget="tokens" />
-            </DetailSectionRow>
-          </DetailSection>
-        </>
-      )}
-      {/* {isConnectedAndAcceptedTerms && showFundsTable && (
-        <DetailSection title={t`Supplied funds`}>
-          <DetailSectionRow>
-            <SuppliedFundsTable chainIds={supportedChainIds} />
-          </DetailSectionRow>
-        </DetailSection>
-      )}
-      {isConnectedAndAcceptedTerms && showFundsTable && (
-        <DetailSection title={t`Your wallet funds`}>
-          <DetailSectionRow>
-            <BalancesAssets chainIds={supportedChainIds} />
-          </DetailSectionRow>
-        </DetailSection>
-      )} */}
-      {/* <DetailSection title={t`Sky Protocol overview`}>
-        <DetailSectionRow>
-          <BalancesSkyStatsOverview />
-        </DetailSectionRow>
-      </DetailSection> */}
       <DetailSection title={t`Sky Protocol activity`}>
         <DetailSectionRow>
           <BalancesChart />

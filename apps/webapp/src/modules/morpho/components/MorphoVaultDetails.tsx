@@ -18,7 +18,6 @@ import { VaultsIntent } from '@/lib/enums';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { useUserSuggestedActions } from '@/modules/ui/hooks/useUserSuggestedActions';
 import { filterActionsByIntent } from '@/lib/utils';
-import { TX_AGENT_ENABLED } from '@/lib/constants';
 
 type MorphoVaultDetailsProps = {
   /** The Morpho vault contract address */
