@@ -18,6 +18,7 @@ interface ConnectedContextType {
   };
   vpnData: {
     isConnectedToVpn?: boolean;
+    isRestrictedRegion?: boolean;
     vpnIsLoading: boolean;
     vpnError?: Error;
     countryCode?: string | null;
@@ -176,6 +177,7 @@ export const ConnectedProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         },
         vpnData: {
           isConnectedToVpn: vpnData?.isConnectedToVpn,
+          isRestrictedRegion: vpnData?.isRestrictedRegion,
           vpnIsLoading,
           vpnError,
           countryCode: vpnData?.countryCode ?? null
