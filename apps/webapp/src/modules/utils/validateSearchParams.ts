@@ -17,6 +17,23 @@ import { isL2ChainId } from '@jetstreamgg/sky-utils';
 import { Chain } from 'viem';
 import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
 
+const resolveWidgetForTokenValidation = (searchParams: URLSearchParams): string | undefined => {
+  const widgetParam = searchParams.get(QueryParams.Widget)?.toLowerCase();
+
+  if (widgetParam !== IntentMapping[Intent.CONVERT_INTENT]) {
+    return widgetParam;
+  }
+
+  const convertModule = searchParams.get(QueryParams.ConvertModule)?.toLowerCase();
+  if (convertModule === ConvertIntentMapping[ConvertIntent.UPGRADE_INTENT]) {
+    return IntentMapping[Intent.UPGRADE_INTENT];
+  }
+  if (convertModule === ConvertIntentMapping[ConvertIntent.TRADE_INTENT]) {
+    return IntentMapping[Intent.TRADE_INTENT];
+  }
+  return undefined;
+};
+
 export const validateSearchParams = (
   searchParams: URLSearchParams,
   rewardContracts: RewardContract[],
@@ -181,8 +198,10 @@ export const validateSearchParams = (
 
     // validate source token
     if (key === QueryParams.SourceToken) {
-      // source token is only valid for upgrade, savings and trade in Mainnet, and for savings and trade on L2 chains, remove if widget value is not correct
-      const widgetParam = searchParams.get(QueryParams.Widget);
+      // source token is only valid for upgrade, savings and trade in Mainnet,
+      // and for savings and trade on L2 chains.
+      // Convert delegates to upgrade/trade via convert_module.
+      const widgetParam = resolveWidgetForTokenValidation(searchParams);
       if (
         !widgetParam ||
         (![
@@ -200,14 +219,14 @@ export const validateSearchParams = (
       }
 
       // if widget is upgrade, only valid source token is MKR, DAI or USDS
-      if (widgetParam?.toLowerCase() === IntentMapping[Intent.UPGRADE_INTENT]) {
+      if (widgetParam === IntentMapping[Intent.UPGRADE_INTENT]) {
         if (!['mkr', 'dai', 'usds'].includes(value.toLowerCase())) {
           searchParams.delete(key);
         }
       }
 
       // if widget is trade, check if token is valid
-      if (widgetParam?.toLowerCase() === IntentMapping[Intent.TRADE_INTENT]) {
+      if (widgetParam === IntentMapping[Intent.TRADE_INTENT]) {
         const tradeValidValues = Object.values(SUPPORTED_TOKEN_SYMBOLS).map(symbol => symbol.toLowerCase());
         if (!tradeValidValues.includes(value.toLowerCase())) {
           searchParams.delete(key);
@@ -217,9 +236,9 @@ export const validateSearchParams = (
 
     // validate target token
     if (key === QueryParams.TargetToken) {
-      // target token is only valid on trade widget
-      const widgetParam = searchParams.get(QueryParams.Widget);
-      if (!widgetParam || ![IntentMapping[Intent.TRADE_INTENT]].includes(widgetParam.toLowerCase())) {
+      // target token is only valid on trade (including convert+trade)
+      const widgetParam = resolveWidgetForTokenValidation(searchParams);
+      if (!widgetParam || ![IntentMapping[Intent.TRADE_INTENT]].includes(widgetParam)) {
         searchParams.delete(key);
       }
 
@@ -276,10 +295,10 @@ export const validateLinkedActionSearchParams = (searchParams: URLSearchParams) 
   if (linkedActionParam) {
     searchParams.forEach((value, key) => {
       if (key === QueryParams.SourceToken) {
-        const widgetParam = searchParams.get(QueryParams.Widget);
+        const widgetParam = resolveWidgetForTokenValidation(searchParams);
 
         // Only DAI is allowed as a source token for Upgrade when in linked action
-        if (widgetParam?.toLowerCase() === IntentMapping[Intent.UPGRADE_INTENT]) {
+        if (widgetParam === IntentMapping[Intent.UPGRADE_INTENT]) {
           if (value.toLowerCase() !== 'dai') {
             searchParams.delete(key);
           }
@@ -288,9 +307,9 @@ export const validateLinkedActionSearchParams = (searchParams: URLSearchParams) 
 
       // Only USDS is allowed as a target token for Trade when in linked action
       if (key === QueryParams.TargetToken) {
-        const widgetParam = searchParams.get(QueryParams.Widget);
+        const widgetParam = resolveWidgetForTokenValidation(searchParams);
 
-        if (widgetParam?.toLowerCase() === IntentMapping[Intent.TRADE_INTENT]) {
+        if (widgetParam === IntentMapping[Intent.TRADE_INTENT]) {
           if (value.toLowerCase() !== 'usds') {
             searchParams.delete(key);
           }

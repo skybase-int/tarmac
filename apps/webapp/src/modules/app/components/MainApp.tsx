@@ -94,6 +94,7 @@ export function MainApp() {
   const detailsParam = !(searchParams.get(QueryParams.Details) === 'false');
   const rewardContract = searchParams.get(QueryParams.Reward) || undefined;
   const expertModule = searchParams.get(QueryParams.ExpertModule) || undefined;
+  const vaultModule = searchParams.get(QueryParams.VaultModule) || undefined;
   const sourceToken = searchParams.get(QueryParams.SourceToken) || undefined;
   const targetToken = searchParams.get(QueryParams.TargetToken) || undefined;
   const linkedAction = searchParams.get(QueryParams.LinkedAction) || undefined;
@@ -236,7 +237,7 @@ export function MainApp() {
       linkedAction,
       inputAmount,
       rewardContract,
-      expertModule,
+      expertModule: expertModule || vaultModule,
       step,
       showLinkedAction: !!linkedAction,
       timestamp
@@ -248,6 +249,7 @@ export function MainApp() {
     inputAmount,
     rewardContract,
     expertModule,
+    vaultModule,
     step,
     widgetParam,
     linkedActionConfig.initialAction

@@ -30,6 +30,7 @@ export type LinkedAction = SuggestedAction & {
   stepTwo: string;
   la: string;
   expertModule?: string;
+  vaultModule?: string;
 };
 
 type SuggestedAction = {
@@ -52,7 +53,8 @@ type TokenBalance = {
   chainId: number;
 };
 
-const { LinkedAction, InputAmount, SourceToken, TargetToken, Widget, Network, ConvertModule } = QueryParams;
+const { LinkedAction, InputAmount, SourceToken, TargetToken, Widget, Network, ConvertModule, VaultModule } =
+  QueryParams;
 const CONVERT = IntentMapping[Intent.CONVERT_INTENT];
 const CONVERT_TRADE = ConvertIntentMapping[ConvertIntent.TRADE_INTENT];
 const CONVERT_UPGRADE = ConvertIntentMapping[ConvertIntent.UPGRADE_INTENT];
@@ -85,7 +87,8 @@ const fetchUserSuggestedActions = (
     SAVINGS_INTENT: SAVINGS,
     UPGRADE_INTENT: UPGRADE,
     TRADE_INTENT: TRADE,
-    EXPERT_INTENT: EXPERT
+    EXPERT_INTENT: EXPERT,
+    VAULTS_INTENT: VAULTS
   } = IntentMapping;
   const { STUSDS_INTENT: STUSDS } = ExpertIntentMapping;
   const { MORPHO_VAULT_INTENT: MORPHO } = VaultsIntentMapping;
@@ -151,10 +154,11 @@ const fetchUserSuggestedActions = (
         balance: daiBalance.formatted,
         stepOne: t`Upgrade DAI to USDS`,
         stepTwo: t`Access Morpho vault rewards`,
-        url: `/?${Widget}=${CONVERT}&${ConvertModule}=${CONVERT_UPGRADE}&${InputAmount}=${daiBalance.formatted}&${LinkedAction}=${EXPERT}&expert_module=${MORPHO}`,
+        url: `/?${Widget}=${CONVERT}&${ConvertModule}=${CONVERT_UPGRADE}&${InputAmount}=${daiBalance.formatted}&${LinkedAction}=${VAULTS}&${VaultModule}=${MORPHO}`,
         intent: IntentMapping.UPGRADE_INTENT,
-        la: IntentMapping.EXPERT_INTENT,
+        la: IntentMapping.VAULTS_INTENT,
         expertModule: MORPHO,
+        vaultModule: MORPHO,
         weight: currentExpertModule === MORPHO ? 8 : currentExpertModule === STUSDS ? 4 : 5,
         type: 'linked'
       });
@@ -271,10 +275,11 @@ const fetchUserSuggestedActions = (
         title: t`Trade and access Morpho vault`,
         stepOne: t`Trade USDC for USDS`,
         stepTwo: t`Access Morpho vault rewards`,
-        url: `/?${Widget}=${CONVERT}&${ConvertModule}=${CONVERT_TRADE}&${SourceToken}=USDC&${InputAmount}=${usdcBalance.formatted}&${TargetToken}=USDS&${LinkedAction}=${EXPERT}&expert_module=${MORPHO}`,
+        url: `/?${Widget}=${CONVERT}&${ConvertModule}=${CONVERT_TRADE}&${SourceToken}=USDC&${InputAmount}=${usdcBalance.formatted}&${TargetToken}=USDS&${LinkedAction}=${VAULTS}&${VaultModule}=${MORPHO}`,
         intent: IntentMapping.TRADE_INTENT,
-        la: IntentMapping.EXPERT_INTENT,
+        la: IntentMapping.VAULTS_INTENT,
         expertModule: MORPHO,
+        vaultModule: MORPHO,
         weight: currentExpertModule === MORPHO ? 7 : currentExpertModule === STUSDS ? 3 : 4,
         type: 'linked'
       });
@@ -374,10 +379,11 @@ const fetchUserSuggestedActions = (
         title: t`Trade and access Morpho vault`,
         stepOne: t`Trade USDT for USDS`,
         stepTwo: t`Access Morpho vault rewards`,
-        url: `/?${Widget}=${CONVERT}&${ConvertModule}=${CONVERT_TRADE}&${SourceToken}=USDT&${InputAmount}=${usdtBalance.formatted}&${TargetToken}=USDS&${LinkedAction}=${EXPERT}&expert_module=${MORPHO}`,
+        url: `/?${Widget}=${CONVERT}&${ConvertModule}=${CONVERT_TRADE}&${SourceToken}=USDT&${InputAmount}=${usdtBalance.formatted}&${TargetToken}=USDS&${LinkedAction}=${VAULTS}&${VaultModule}=${MORPHO}`,
         intent: IntentMapping.TRADE_INTENT,
-        la: IntentMapping.EXPERT_INTENT,
+        la: IntentMapping.VAULTS_INTENT,
         expertModule: MORPHO,
+        vaultModule: MORPHO,
         weight: currentExpertModule === MORPHO ? 7 : currentExpertModule === STUSDS ? 3 : 4,
         type: 'linked'
       });
@@ -468,8 +474,8 @@ const fetchUserSuggestedActions = (
         secondaryToken: 'USDS',
         title: t`Access Morpho vault rewards`,
         balance: usdsBalance.formatted,
-        url: `/?${Widget}=${EXPERT}&expert_module=${MORPHO}&${InputAmount}=${usdsBalance.formatted}`,
-        intent: IntentMapping.EXPERT_INTENT,
+        url: `/?${Widget}=${VAULTS}&${VaultModule}=${MORPHO}&${InputAmount}=${usdsBalance.formatted}`,
+        intent: IntentMapping.VAULTS_INTENT,
         weight: 4,
         type: 'suggested'
       });

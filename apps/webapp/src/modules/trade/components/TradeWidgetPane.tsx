@@ -7,7 +7,7 @@ import {
 } from '@jetstreamgg/sky-widgets';
 import { defaultConfig } from '../../config/default-config';
 import { useChainId, useConfig as useWagmiConfig } from 'wagmi';
-import { IntentMapping, QueryParams, REFRESH_DELAY } from '@/lib/constants';
+import { ConvertIntentMapping, IntentMapping, QueryParams, REFRESH_DELAY } from '@/lib/constants';
 import { SharedProps } from '@/modules/app/types/Widgets';
 import { LinkedActionSteps } from '@/modules/config/context/ConfigContext';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
@@ -19,7 +19,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { getChainSpecificText, isCowSupportedChainId } from '@jetstreamgg/sky-utils';
 import { useChatContext } from '@/modules/chat/context/ChatContext';
-import { Intent } from '@/lib/enums';
+import { ConvertIntent, Intent } from '@/lib/enums';
 import { useBatchToggle } from '@/modules/ui/hooks/useBatchToggle';
 import { useWidgetFlowTracking } from '@/modules/analytics/hooks/useWidgetFlowTracking';
 
@@ -49,7 +49,14 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
     originAmount
   }: WidgetStateChangeParams) => {
     // Prevent race conditions
-    if (searchParams.get(QueryParams.Widget) !== IntentMapping[Intent.TRADE_INTENT]) {
+    const widgetParam = searchParams.get(QueryParams.Widget)?.toLowerCase();
+    const convertModuleParam = searchParams.get(QueryParams.ConvertModule)?.toLowerCase();
+    const isTradeContext =
+      widgetParam === IntentMapping[Intent.TRADE_INTENT] ||
+      (widgetParam === IntentMapping[Intent.CONVERT_INTENT] &&
+        convertModuleParam === ConvertIntentMapping[ConvertIntent.TRADE_INTENT]);
+
+    if (!isTradeContext) {
       return;
     }
 
@@ -159,11 +166,13 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
       const reward = linkedActionConfig.rewardContract
         ? `&${QueryParams.Reward}=${linkedActionConfig.rewardContract}`
         : '';
-      const expertModule = linkedActionConfig.expertModule
-        ? `&${QueryParams.ExpertModule}=${linkedActionConfig.expertModule}`
+      const moduleParam = linkedActionConfig.expertModule
+        ? linkedActionConfig.linkedAction === IntentMapping[Intent.VAULTS_INTENT]
+          ? `&${QueryParams.VaultModule}=${linkedActionConfig.expertModule}`
+          : `&${QueryParams.ExpertModule}=${linkedActionConfig.expertModule}`
         : '';
       setCustomHref(
-        `/?${QueryParams.Widget}=${widget}&${QueryParams.InputAmount}=${executedBuyAmount}&${QueryParams.LinkedAction}=${widget}${reward}${expertModule}`
+        `/?${QueryParams.Widget}=${widget}&${QueryParams.InputAmount}=${executedBuyAmount}&${QueryParams.LinkedAction}=${widget}${reward}${moduleParam}`
       );
       setCustomNavLabel(`Go to ${capitalizeFirstLetter(linkedActionConfig.linkedAction)}`);
     } else {

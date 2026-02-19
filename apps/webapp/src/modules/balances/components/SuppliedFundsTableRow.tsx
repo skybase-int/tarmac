@@ -16,6 +16,7 @@ export type SuppliedFundsRowData = {
   rateText: string;
   ratePopoverType: PopoverTooltipType;
   isRateUpTo?: boolean;
+  chainId?: number;
 };
 
 type SuppliedFundsTableRowProps = {

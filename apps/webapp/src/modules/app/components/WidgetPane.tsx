@@ -17,6 +17,7 @@ import {
   COMING_SOON_MAP,
   QueryParams,
   RESTRICTED_INTENTS,
+  IntentMapping,
   ExpertIntentMapping,
   VaultsIntentMapping,
   ConvertIntentMapping
