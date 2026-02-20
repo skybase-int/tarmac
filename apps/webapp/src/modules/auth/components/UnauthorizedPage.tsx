@@ -116,8 +116,10 @@ export const UnauthorizedPage = ({ authData, vpnData, children }: UnauthorizedPa
     authData.addressAllowed,
     vpnData.vpnIsLoading,
     vpnData.isConnectedToVpn,
+    vpnData.isRestrictedRegion,
     vpnData.vpnError,
-    vpnData.countryCode
+    vpnData.countryCode,
+    trackVpnBlockedPageView
   ]);
 
   let termsLink: any[] = [];

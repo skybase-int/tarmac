@@ -160,7 +160,7 @@ export const ConnectedProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       countryCode: vpnData?.countryCode ?? null,
       result
     });
-  }, [vpnIsLoading, vpnData, vpnError, isAllowed]);
+  }, [vpnIsLoading, vpnData, vpnError, isAllowed, trackVpnCheckCompleted]);
 
   return (
     <ConnectedContext.Provider
