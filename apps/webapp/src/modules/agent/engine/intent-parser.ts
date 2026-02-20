@@ -280,13 +280,13 @@ export function parseIntent(input: string): ParsedIntent | null {
     /\bmkr\b/.test(normalized)
   ) {
     action = 'revert_sky_to_mkr';
-  } else if (/\bdai\b/.test(normalized) && /\b(to|into)\b/.test(normalized) && /\busds\b/.test(normalized)) {
+  } else if (/\bdai\b.*\b(to|into)\b.*\busds\b/.test(normalized)) {
     action = 'upgrade_dai_to_usds';
-  } else if (/\busds\b/.test(normalized) && /\b(to|into)\b/.test(normalized) && /\bdai\b/.test(normalized)) {
+  } else if (/\busds\b.*\b(to|into)\b.*\bdai\b/.test(normalized)) {
     action = 'revert_usds_to_dai';
-  } else if (/\bmkr\b/.test(normalized) && /\b(to|into)\b/.test(normalized) && /\bsky\b/.test(normalized)) {
+  } else if (/\bmkr\b.*\b(to|into)\b.*\bsky\b/.test(normalized)) {
     action = 'upgrade_mkr_to_sky';
-  } else if (/\bsky\b/.test(normalized) && /\b(to|into)\b/.test(normalized) && /\bmkr\b/.test(normalized)) {
+  } else if (/\bsky\b.*\b(to|into)\b.*\bmkr\b/.test(normalized)) {
     action = 'revert_sky_to_mkr';
 
     // --- Savings patterns ---
@@ -358,12 +358,12 @@ export function describeIntent(intent: ParsedIntent): string {
     rewards_supply: `Supply ${intent.amount} USDS to earn ${intent.rewardContract === 'usdsSkyReward' ? 'SKY' : intent.rewardContract === 'usdsSpkReward' ? 'SPK' : intent.rewardContract === 'cleReward' ? 'CLE' : 'rewards'}`,
     rewards_withdraw: `Withdraw ${intent.amount} USDS from ${intent.rewardContract === 'usdsSkyReward' ? 'SKY' : intent.rewardContract === 'usdsSpkReward' ? 'SPK' : intent.rewardContract === 'cleReward' ? 'CLE' : ''} rewards`,
     rewards_claim: `Claim ${intent.rewardContract === 'usdsSkyReward' ? 'SKY' : intent.rewardContract === 'usdsSpkReward' ? 'SPK' : intent.rewardContract === 'cleReward' ? 'CLE' : ''} rewards`,
-    rewards_claim_all: `Claim all earned rewards across all reward contracts`,
+    rewards_claim_all: 'Claim all earned rewards across all reward contracts',
     stusds_deposit: `Deposit ${intent.amount} USDS into the stUSDS vault`,
     stusds_withdraw: `Withdraw ${intent.amount} USDS from the stUSDS vault`,
     morpho_deposit: `Deposit ${intent.amount} USDS into the Morpho vault`,
     morpho_withdraw: `Withdraw ${intent.amount} USDS from the Morpho vault`,
-    vaults_overview: `Navigate to vaults overview`,
+    vaults_overview: 'Navigate to vaults overview',
     stake_open: `Open staking position with ${intent.amount} ${col}${intent.delegateAddress ? ` (delegate: ${intent.delegateAddress})` : ''}${intent.stakingRewardFarm ? ` (farm: ${farmName})` : ''}`,
     stake_lock: `Lock ${intent.amount} ${col} into staking position${intent.urnIndex !== undefined ? ` #${intent.urnIndex}` : ''}`,
     stake_free: `Free ${intent.amount} ${col} from staking position${intent.urnIndex !== undefined ? ` #${intent.urnIndex}` : ''}`,
