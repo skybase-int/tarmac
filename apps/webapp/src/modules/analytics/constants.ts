@@ -6,6 +6,7 @@ export const AppEvents = {
   WIDGET_SELECTED: 'app_widget_selected',
   TRANSACTION_STARTED: 'app_widget_flow_started',
   TRANSACTION_COMPLETED: 'app_widget_flow_completed',
+  WIDGET_REVIEW_VIEWED: 'app_widget_review_viewed',
   DETAILS_PANE_TOGGLED: 'app_details_pane_toggled',
   CHAT_PANE_TOGGLED: 'app_chat_pane_toggled',
   VPN_CHECK_COMPLETED: 'app_vpn_check_completed',

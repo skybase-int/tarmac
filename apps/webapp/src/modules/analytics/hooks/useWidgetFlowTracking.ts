@@ -5,7 +5,7 @@ import { reportAnalyticsError } from '../constants';
 
 /**
  * Higher-order hook that wraps any widget's onWidgetStateChange handler
- * to track transaction start/complete transitions.
+ * to track transaction start/complete transitions and review screen views.
  *
  * Usage in each widget pane:
  * ```
@@ -14,8 +14,9 @@ import { reportAnalyticsError } from '../constants';
  * ```
  */
 export function useWidgetFlowTracking(widgetName: string, chainId: number) {
-  const { trackTransactionStarted, trackTransactionCompleted } = useAppAnalytics();
+  const { trackTransactionStarted, trackTransactionCompleted, trackWidgetReviewViewed } = useAppAnalytics();
   const prevTxStatusRef = useRef<WidgetTxStatus | null>(null);
+  const prevScreenRef = useRef<string | null>(null);
 
   const wrapStateChange = useCallback(
     (originalHandler: (params: WidgetStateChangeParams) => void) => {
@@ -60,12 +61,24 @@ export function useWidgetFlowTracking(widgetName: string, chainId: number) {
               txStatus: 'cancelled'
             });
           }
+          // Review screen viewed: track when user reaches the review/confirmation screen
+          const screen = params.widgetState?.screen;
+          if (screen !== prevScreenRef.current) {
+            prevScreenRef.current = screen;
+            if (screen === 'review') {
+              trackWidgetReviewViewed({
+                widgetName,
+                chainId,
+                flow: params.widgetState?.flow
+              });
+            }
+          }
         } catch (error) {
           reportAnalyticsError(`useWidgetFlowTracking:${widgetName}`, error);
         }
       };
     },
-    [widgetName, chainId, trackTransactionStarted, trackTransactionCompleted]
+    [widgetName, chainId, trackTransactionStarted, trackTransactionCompleted, trackWidgetReviewViewed]
   );
 
   return { wrapStateChange };
