@@ -17,7 +17,8 @@ import { ExpertBalanceCard } from './ExpertBalanceCard';
 import { VaultsBalanceCard } from './VaultsBalanceCard';
 import { chainId, isMainnetId, isTestnetId } from '@jetstreamgg/sky-utils';
 import { useChainId, useConnection } from 'wagmi';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
+import { SuppliedFundsEmptyState } from './SuppliedFundsEmptyState';
 
 export enum ModuleCardVariant {
   default = 'default',
@@ -49,6 +50,7 @@ interface ModulesBalancesProps {
   variant?: ModuleCardVariant;
   hideZeroBalances?: boolean;
   showAllNetworks?: boolean;
+  onAllFundsEmpty?: (isEmpty: boolean) => void;
 }
 
 export const ModulesBalances = ({
@@ -62,7 +64,8 @@ export const ModulesBalances = ({
   morphoCardUrl,
   variant = ModuleCardVariant.default,
   hideZeroBalances = false,
-  showAllNetworks = true
+  showAllNetworks = true,
+  onAllFundsEmpty
 }: ModulesBalancesProps): React.ReactElement => {
   const { address } = useConnection();
   const currentChainId = useChainId();
@@ -235,6 +238,25 @@ export const ModulesBalances = ({
 
     return modules.filter(m => !m.hidden).sort((a, b) => displayOrder[a.id] - displayOrder[b.id]);
   }, [hideModuleBalances, hideRewards, hideSavings, hideExpert, hideStake, hideSeal, hideVaults]);
+
+  // Check if all supplied funds are zero (before any filtering)
+  const totalRawSavingsBalance = sortedSavingsBalances.reduce((acc, { balance }) => acc + balance, 0n);
+  const isAllLoaded = !rewardsLoading && !savingsLoading && !sealLoading && !stakeLoading && !expertLoading;
+  const allFundsEmpty =
+    isAllLoaded &&
+    totalUserRewardsSupplied === 0n &&
+    totalRawSavingsBalance === 0n &&
+    (totalUserSealed ?? 0n) === 0n &&
+    (totalUserStaked ?? 0n) === 0n &&
+    totalExpertSavingsBalance === 0n;
+
+  useEffect(() => {
+    onAllFundsEmpty?.(allFundsEmpty);
+  }, [allFundsEmpty, onAllFundsEmpty]);
+
+  if (allFundsEmpty) {
+    return <SuppliedFundsEmptyState />;
+  }
 
   // Render functions for each module type
   const renderModule = (moduleId: 'rewards' | 'savings' | 'stusds' | 'staking' | 'seal' | 'vaults') => {

@@ -2,19 +2,18 @@ import { Heading, Text } from '@widgets/shared/components/ui/Typography';
 import { WidgetContainer } from '@widgets/shared/components/ui/widget/WidgetContainer';
 import { Trans } from '@lingui/react/macro';
 import { t } from '@lingui/core/macro';
-import { WidgetContext, WidgetProvider } from '@widgets/context/WidgetContext';
+import { WidgetProvider } from '@widgets/context/WidgetContext';
 import { WidgetProps, WidgetStateChangeParams } from '@widgets/shared/types/widgetState';
 import { useConnection } from 'wagmi';
 import { BalancesHeader } from './components/BalancesHeader';
 import { BalancesContent } from './components/BalancesContent';
-import { getValidatedState } from '@widgets/lib/utils';
 import { LoadingButton } from '@widgets/shared/components/ui/LoadingButton';
 import { ConnectWalletCopy } from '@widgets/shared/components/ui/ConnectWalletCopy';
+import { NoFundsCopy } from '@widgets/shared/components/ui/NoFundsCopy';
 import { ErrorBoundary } from '@widgets/shared/components/ErrorBoundary';
 import { AnimatePresence } from 'framer-motion';
 import { CardAnimationWrapper } from '@widgets/shared/animation/Wrappers';
-import { useContext, useEffect, useMemo, useState } from 'react';
-import { BalancesFlow } from './constants';
+import { useCallback, useMemo, useState } from 'react';
 
 export type BalancesWidgetProps = WidgetProps & {
   chainIds?: number[];
@@ -31,18 +30,16 @@ export type BalancesWidgetProps = WidgetProps & {
   setShowAllNetworks?: (showAllNetworks: boolean) => void;
   hideZeroBalances?: boolean;
   setHideZeroBalances?: (hideZeroBalances: boolean) => void;
+  onExploreVaults?: () => void;
 };
 
 export const BalancesWidget = ({
   onConnect,
   locale,
   rightHeaderComponent,
-  externalWidgetState,
-  onStateValidated,
   hideModuleBalances = false,
   enabled = true,
   onExternalLinkClicked,
-  onWidgetStateChange,
   rewardsCardUrl,
   savingsCardUrlMap,
   sealCardUrl,
@@ -53,7 +50,8 @@ export const BalancesWidget = ({
   showAllNetworks,
   hideZeroBalances,
   setShowAllNetworks,
-  setHideZeroBalances
+  setHideZeroBalances,
+  onExploreVaults
 }: BalancesWidgetProps) => {
   return (
     <ErrorBoundary componentName="BalancesWidget">
@@ -61,8 +59,6 @@ export const BalancesWidget = ({
         <BalancesWidgetWrapped
           onConnect={onConnect}
           rightHeaderComponent={rightHeaderComponent}
-          externalWidgetState={externalWidgetState}
-          onStateValidated={onStateValidated}
           hideModuleBalances={hideModuleBalances}
           enabled={enabled}
           chainIds={chainIds}
@@ -73,11 +69,11 @@ export const BalancesWidget = ({
           stusdsCardUrl={stusdsCardUrl}
           morphoCardUrl={morphoCardUrl}
           onExternalLinkClicked={onExternalLinkClicked}
-          onWidgetStateChange={onWidgetStateChange}
           showAllNetworks={showAllNetworks}
           hideZeroBalances={hideZeroBalances}
           setShowAllNetworks={setShowAllNetworks}
           setHideZeroBalances={setHideZeroBalances}
+          onExploreVaults={onExploreVaults}
         />
       </WidgetProvider>
     </ErrorBoundary>
@@ -87,12 +83,9 @@ export const BalancesWidget = ({
 const BalancesWidgetWrapped = ({
   onConnect,
   rightHeaderComponent,
-  externalWidgetState,
-  onStateValidated,
   hideModuleBalances = false,
   enabled = true,
   onExternalLinkClicked,
-  onWidgetStateChange,
   chainIds,
   rewardsCardUrl,
   savingsCardUrlMap,
@@ -103,32 +96,13 @@ const BalancesWidgetWrapped = ({
   showAllNetworks,
   hideZeroBalances,
   setShowAllNetworks,
-  setHideZeroBalances
+  setHideZeroBalances,
+  onExploreVaults
 }: BalancesWidgetProps) => {
   const { isConnected, isConnecting } = useConnection();
   const isConnectedAndEnabled = useMemo(() => isConnected && enabled, [isConnected, enabled]);
-  const validatedExternalState = getValidatedState(externalWidgetState);
-  const { txStatus, widgetState, setWidgetState } = useContext(WidgetContext);
-  const initialTabIndex = validatedExternalState?.flow === BalancesFlow.TX_HISTORY ? 1 : 0;
-  const [tabIndex, setTabIndex] = useState<0 | 1>(initialTabIndex);
-
-  useEffect(() => {
-    onStateValidated?.(validatedExternalState);
-  }, [onStateValidated, validatedExternalState]);
-
-  useEffect(() => {
-    setTabIndex(initialTabIndex);
-  }, [initialTabIndex]);
-
-  const onToggle = (number: 0 | 1) => {
-    setTabIndex(number);
-    const flow = number === 0 ? BalancesFlow.FUNDS : BalancesFlow.TX_HISTORY;
-    setWidgetState({
-      ...widgetState,
-      flow
-    });
-    onWidgetStateChange?.({ widgetState: { ...widgetState, flow }, txStatus });
-  };
+  const [allFundsEmpty, setAllFundsEmpty] = useState(false);
+  const handleAllFundsEmpty = useCallback((isEmpty: boolean) => setAllFundsEmpty(isEmpty), []);
 
   return (
     <WidgetContainer
@@ -155,6 +129,16 @@ const BalancesWidgetWrapped = ({
               className="disabled:text-textMuted font-circle h-full w-full px-6 py-4 text-base"
             />
           </div>
+        ) : allFundsEmpty ? (
+          <div className="flex w-full flex-col items-stretch gap-5">
+            <NoFundsCopy onExternalLinkClicked={onExternalLinkClicked} />
+            <LoadingButton
+              onClick={onExploreVaults}
+              buttonText={t`Explore new Vaults and start earning`}
+              variant="primaryAlt"
+              className="font-circle h-full w-full px-6 py-4 text-base"
+            />
+          </div>
         ) : undefined
       }
     >
@@ -163,22 +147,16 @@ const BalancesWidgetWrapped = ({
           <CardAnimationWrapper key="widget-not-connected">
             <BalancesHeader
               isConnectedAndEnabled={isConnectedAndEnabled}
-              tabIndex={tabIndex}
               onExternalLinkClicked={onExternalLinkClicked}
-              onToggle={onToggle}
             />
           </CardAnimationWrapper>
         ) : (
           <CardAnimationWrapper key="widget-connected" className="flex flex-col gap-4">
             <BalancesHeader
               isConnectedAndEnabled={isConnectedAndEnabled}
-              tabIndex={tabIndex}
               onExternalLinkClicked={onExternalLinkClicked}
-              onToggle={onToggle}
             />
             <BalancesContent
-              tabIndex={tabIndex}
-              validatedExternalState={validatedExternalState}
               hideModuleBalances={hideModuleBalances}
               rewardsCardUrl={rewardsCardUrl}
               savingsCardUrlMap={savingsCardUrlMap}
@@ -187,12 +165,12 @@ const BalancesWidgetWrapped = ({
               stusdsCardUrl={stusdsCardUrl}
               morphoCardUrl={morphoCardUrl}
               onExternalLinkClicked={onExternalLinkClicked}
-              onToggle={onToggle}
               chainIds={chainIds}
               showAllNetworks={showAllNetworks}
               hideZeroBalances={hideZeroBalances}
               setShowAllNetworks={setShowAllNetworks}
               setHideZeroBalances={setHideZeroBalances}
+              onAllFundsEmpty={handleAllFundsEmpty}
             />
           </CardAnimationWrapper>
         )}

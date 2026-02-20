@@ -3,7 +3,7 @@ import { Skeleton } from '@widgets/components/ui/skeleton';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
 
-export const HistoryNoWalletConnected = () => {
+export const SuppliedFundsEmptyState = () => {
   return (
     <>
       <Card>
@@ -23,7 +23,7 @@ export const HistoryNoWalletConnected = () => {
       <Card variant="fade" className="mt-2 h-[68px] w-full">
         <div className="flex h-full flex-col justify-end">
           <Text className="text-textSecondary text-center text-sm leading-4">
-            <Trans>Connect a wallet to view your transaction history.</Trans>
+            <Trans>Earn the best risk-adjusted yield with Sky Protocol</Trans>
           </Text>
         </div>
       </Card>
