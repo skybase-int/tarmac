@@ -20,7 +20,7 @@ export function BalancesDetails() {
           <SuggestedActions widget="sky" />
         </DetailSectionRow>
       </DetailSection>
-      <DetailSection title={t`Get USDS, SKY and other tokens`} fixedOpen>
+      <DetailSection title={t`Get Sky Protocol Tokens`} fixedOpen>
         <DetailSectionRow>
           <SuggestedActions widget="tokens" />
         </DetailSectionRow>
