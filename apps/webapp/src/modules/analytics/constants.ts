@@ -4,15 +4,14 @@ import type posthog from 'posthog-js';
 
 export const AppEvents = {
   WIDGET_SELECTED: 'app_widget_selected',
-  WIDGET_FLOW_STARTED: 'app_widget_flow_started',
-  WIDGET_FLOW_COMPLETED: 'app_widget_flow_completed',
+  TRANSACTION_STARTED: 'app_widget_flow_started',
+  TRANSACTION_COMPLETED: 'app_widget_flow_completed',
   DETAILS_PANE_TOGGLED: 'app_details_pane_toggled',
   CHAT_PANE_TOGGLED: 'app_chat_pane_toggled',
   VPN_CHECK_COMPLETED: 'app_vpn_check_completed',
   VPN_BLOCKED_PAGE_VIEW: 'app_vpn_blocked_page_view',
   WALLET_CONNECTED: 'app_wallet_connected',
-  WALLET_DISCONNECTED: 'app_wallet_disconnected',
-  TRANSACTION_SUCCESS: 'app_transaction_success'
+  WALLET_DISCONNECTED: 'app_wallet_disconnected'
 } as const;
 
 // ── Types ────────────────────────────────────────────────────────────────────

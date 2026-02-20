@@ -5,7 +5,7 @@ import { reportAnalyticsError } from '../constants';
 
 /**
  * Higher-order hook that wraps any widget's onWidgetStateChange handler
- * to track flow start/complete transitions.
+ * to track transaction start/complete transitions.
  *
  * Usage in each widget pane:
  * ```
@@ -14,7 +14,7 @@ import { reportAnalyticsError } from '../constants';
  * ```
  */
 export function useWidgetFlowTracking(widgetName: string, chainId: number) {
-  const { trackWidgetFlowStarted, trackWidgetFlowCompleted, trackTransactionSuccess } = useAppAnalytics();
+  const { trackTransactionStarted, trackTransactionCompleted } = useAppAnalytics();
   const prevTxStatusRef = useRef<WidgetTxStatus | null>(null);
 
   const wrapStateChange = useCallback(
@@ -28,39 +28,33 @@ export function useWidgetFlowTracking(widgetName: string, chainId: number) {
           const curr = params.txStatus;
           prevTxStatusRef.current = curr;
 
-          // Flow started: transition to INITIALIZED
+          // Transaction started: transition to INITIALIZED
           if (curr === WidgetTxStatus.INITIALIZED && prev !== WidgetTxStatus.INITIALIZED) {
-            trackWidgetFlowStarted({ widgetName, chainId });
+            trackTransactionStarted({ widgetName, chainId });
           }
 
-          // Flow completed: transition to SUCCESS
+          // Transaction completed: transition to SUCCESS
           if (curr === WidgetTxStatus.SUCCESS && prev !== WidgetTxStatus.SUCCESS) {
-            trackWidgetFlowCompleted({
+            trackTransactionCompleted({
               widgetName,
               chainId,
-              txStatus: 'success'
+              txStatus: 'success',
+              txHash: params.hash
             });
-            // EXPERIMENTAL / POC: Separate from trackWidgetFlowCompleted — this event
-            // captures the tx hash and wallet address for on-chain correlation, while
-            // the flow event above tracks the widget lifecycle (success/error/cancelled)
-            // without tx details.
-            if (params.hash) {
-              trackTransactionSuccess({ txHash: params.hash, widgetName, chainId });
-            }
           }
 
-          // Flow completed: transition to ERROR
+          // Transaction completed: transition to ERROR
           if (curr === WidgetTxStatus.ERROR && prev !== WidgetTxStatus.ERROR) {
-            trackWidgetFlowCompleted({
+            trackTransactionCompleted({
               widgetName,
               chainId,
               txStatus: 'error'
             });
           }
 
-          // Flow completed: transition to CANCELLED
+          // Transaction completed: transition to CANCELLED
           if (curr === WidgetTxStatus.CANCELLED && prev !== WidgetTxStatus.CANCELLED) {
-            trackWidgetFlowCompleted({
+            trackTransactionCompleted({
               widgetName,
               chainId,
               txStatus: 'cancelled'
@@ -71,7 +65,7 @@ export function useWidgetFlowTracking(widgetName: string, chainId: number) {
         }
       };
     },
-    [widgetName, chainId, trackWidgetFlowStarted, trackWidgetFlowCompleted, trackTransactionSuccess]
+    [widgetName, chainId, trackTransactionStarted, trackTransactionCompleted]
   );
 
   return { wrapStateChange };

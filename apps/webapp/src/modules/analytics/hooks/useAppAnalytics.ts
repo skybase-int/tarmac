@@ -41,9 +41,9 @@ export function useAppAnalytics() {
     });
   };
 
-  const trackWidgetFlowStarted = useCallback(
+  const trackTransactionStarted = useCallback(
     ({ widgetName, chainId }: { widgetName: string; chainId: number }) => {
-      safeCapture(posthog, AppEvents.WIDGET_FLOW_STARTED, {
+      safeCapture(posthog, AppEvents.TRANSACTION_STARTED, {
         widget_name: widgetName,
         chain_id: chainId,
         chain_name: getChainName(chainId),
@@ -53,28 +53,32 @@ export function useAppAnalytics() {
     [posthog, getChainName]
   );
 
-  const trackWidgetFlowCompleted = useCallback(
+  const trackTransactionCompleted = useCallback(
     ({
       widgetName,
       chainId,
       txStatus,
+      txHash,
       errorContext
     }: {
       widgetName: string;
       chainId: number;
       txStatus: TxStatus;
+      txHash?: string;
       errorContext?: ErrorContext;
     }) => {
-      safeCapture(posthog, AppEvents.WIDGET_FLOW_COMPLETED, {
+      safeCapture(posthog, AppEvents.TRANSACTION_COMPLETED, {
         widget_name: widgetName,
         chain_id: chainId,
         chain_name: getChainName(chainId),
         tx_status: txStatus,
+        wallet_address: address,
+        ...(txHash && { tx_hash: txHash }),
         ...(errorContext && { error_context: errorContext }),
         viewport: getViewport()
       });
     },
-    [posthog, getChainName]
+    [posthog, address, getChainName]
   );
 
   const trackDetailsPaneToggled = ({
@@ -111,20 +115,6 @@ export function useAppAnalytics() {
     });
   };
 
-  const trackTransactionSuccess = useCallback(
-    ({ txHash, widgetName, chainId }: { txHash: string; widgetName: string; chainId: number }) => {
-      safeCapture(posthog, AppEvents.TRANSACTION_SUCCESS, {
-        tx_hash: txHash,
-        wallet_address: address,
-        widget_name: widgetName,
-        chain_id: chainId,
-        chain_name: getChainName(chainId),
-        viewport: getViewport()
-      });
-    },
-    [posthog, address, getChainName]
-  );
-
   const trackWalletConnected = useCallback(
     ({ walletName }: { walletName: string }) => {
       safeCapture(posthog, AppEvents.WALLET_CONNECTED, {
@@ -147,9 +137,8 @@ export function useAppAnalytics() {
 
   return {
     trackWidgetSelected,
-    trackWidgetFlowStarted,
-    trackWidgetFlowCompleted,
-    trackTransactionSuccess,
+    trackTransactionStarted,
+    trackTransactionCompleted,
     trackDetailsPaneToggled,
     trackChatPaneToggled,
     trackWalletConnected,
