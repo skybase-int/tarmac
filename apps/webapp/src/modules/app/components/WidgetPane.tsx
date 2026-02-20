@@ -34,6 +34,7 @@ import { isL2ChainId } from '@jetstreamgg/sky-utils';
 import { ExpertWidgetPane } from '@/modules/expert/components/ExpertWidgetPane';
 import { useModuleUrls } from '../hooks/useModuleUrls';
 import { useAppAnalytics } from '@/modules/analytics/hooks/useAppAnalytics';
+import { startNewFlow } from '@/modules/analytics/constants';
 
 // Module-level guard: persists across React remounts/StrictMode, resets on page reload (fresh deeplink)
 let lastDeeplinkTracked: string | null = null;
@@ -84,6 +85,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
   useEffect(() => {
     if (intent && intent !== Intent.BALANCES_INTENT && intent !== lastDeeplinkTracked) {
       lastDeeplinkTracked = intent;
+      startNewFlow();
       trackWidgetSelected({
         widgetName: IntentMapping[intent] || intent,
         previousWidget: IntentMapping[Intent.BALANCES_INTENT],

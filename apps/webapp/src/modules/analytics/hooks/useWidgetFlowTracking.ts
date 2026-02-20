@@ -1,7 +1,7 @@
 import { useRef, useCallback } from 'react';
 import { TxStatus as WidgetTxStatus, type WidgetStateChangeParams } from '@jetstreamgg/sky-widgets';
 import { useAppAnalytics } from './useAppAnalytics';
-import { reportAnalyticsError } from '../constants';
+import { reportAnalyticsError, startNewFlow } from '../constants';
 
 /**
  * Higher-order hook that wraps any widget's onWidgetStateChange handler
@@ -42,6 +42,7 @@ export function useWidgetFlowTracking(widgetName: string, chainId: number) {
               txStatus: 'success',
               txHash: params.hash
             });
+            startNewFlow();
           }
 
           // Transaction completed: transition to ERROR

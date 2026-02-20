@@ -1,4 +1,5 @@
 import type posthog from 'posthog-js';
+import { generateUUID } from '@/lib/generateUUID';
 
 // ── Event Names ──────────────────────────────────────────────────────────────
 
@@ -65,4 +66,18 @@ export function safeCapture(
  */
 export function reportAnalyticsError(context: string, error: unknown): void {
   console.warn(`[Analytics] ${context}:`, error);
+}
+
+// ── Flow ID ─────────────────────────────────────────────────────────────────
+// Correlates all analytics events within a single widget interaction session.
+// A new flow starts when the user navigates to a widget (sidebar, drawer, deeplink).
+
+let currentFlowId: string | null = null;
+
+export function startNewFlow(): void {
+  currentFlowId = generateUUID();
+}
+
+export function getFlowId(): string | null {
+  return currentFlowId;
 }

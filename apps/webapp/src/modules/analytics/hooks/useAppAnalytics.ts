@@ -5,6 +5,7 @@ import {
   AppEvents,
   safeCapture,
   getViewport,
+  getFlowId,
   type SelectionMethod,
   type TxStatus,
   type ErrorContext
@@ -37,7 +38,8 @@ export function useAppAnalytics() {
       selection_method: selectionMethod,
       chain_id: chainId,
       chain_name: getChainName(chainId),
-      viewport: getViewport()
+      viewport: getViewport(),
+      flow_id: getFlowId()
     });
   };
 
@@ -47,7 +49,8 @@ export function useAppAnalytics() {
         widget_name: widgetName,
         chain_id: chainId,
         chain_name: getChainName(chainId),
-        viewport: getViewport()
+        viewport: getViewport(),
+        flow_id: getFlowId()
       });
     },
     [posthog, getChainName]
@@ -75,7 +78,8 @@ export function useAppAnalytics() {
         wallet_address: address,
         ...(txHash && { tx_hash: txHash }),
         ...(errorContext && { error_context: errorContext }),
-        viewport: getViewport()
+        viewport: getViewport(),
+        flow_id: getFlowId()
       });
     },
     [posthog, address, getChainName]
@@ -89,7 +93,8 @@ export function useAppAnalytics() {
         chain_name: getChainName(chainId),
         flow,
         wallet_address: address,
-        viewport: getViewport()
+        viewport: getViewport(),
+        flow_id: getFlowId()
       });
     },
     [posthog, address, getChainName]
