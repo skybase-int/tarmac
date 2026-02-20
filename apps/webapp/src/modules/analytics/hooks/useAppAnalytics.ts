@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { usePostHog } from 'posthog-js/react';
 import { useChains, useConnection } from 'wagmi';
 import {
@@ -14,7 +15,10 @@ export function useAppAnalytics() {
   const { address } = useConnection();
   const chains = useChains();
 
-  const getChainName = (chainId: number) => chains.find(c => c.id === chainId)?.name ?? `unknown_${chainId}`;
+  const getChainName = useCallback(
+    (chainId: number) => chains.find(c => c.id === chainId)?.name ?? `unknown_${chainId}`,
+    [chains]
+  );
 
   const trackWidgetSelected = ({
     widgetName,
@@ -37,35 +41,41 @@ export function useAppAnalytics() {
     });
   };
 
-  const trackWidgetFlowStarted = ({ widgetName, chainId }: { widgetName: string; chainId: number }) => {
-    safeCapture(posthog, AppEvents.WIDGET_FLOW_STARTED, {
-      widget_name: widgetName,
-      chain_id: chainId,
-      chain_name: getChainName(chainId),
-      viewport: getViewport()
-    });
-  };
+  const trackWidgetFlowStarted = useCallback(
+    ({ widgetName, chainId }: { widgetName: string; chainId: number }) => {
+      safeCapture(posthog, AppEvents.WIDGET_FLOW_STARTED, {
+        widget_name: widgetName,
+        chain_id: chainId,
+        chain_name: getChainName(chainId),
+        viewport: getViewport()
+      });
+    },
+    [posthog, getChainName]
+  );
 
-  const trackWidgetFlowCompleted = ({
-    widgetName,
-    chainId,
-    txStatus,
-    errorContext
-  }: {
-    widgetName: string;
-    chainId: number;
-    txStatus: TxStatus;
-    errorContext?: ErrorContext;
-  }) => {
-    safeCapture(posthog, AppEvents.WIDGET_FLOW_COMPLETED, {
-      widget_name: widgetName,
-      chain_id: chainId,
-      chain_name: getChainName(chainId),
-      tx_status: txStatus,
-      ...(errorContext && { error_context: errorContext }),
-      viewport: getViewport()
-    });
-  };
+  const trackWidgetFlowCompleted = useCallback(
+    ({
+      widgetName,
+      chainId,
+      txStatus,
+      errorContext
+    }: {
+      widgetName: string;
+      chainId: number;
+      txStatus: TxStatus;
+      errorContext?: ErrorContext;
+    }) => {
+      safeCapture(posthog, AppEvents.WIDGET_FLOW_COMPLETED, {
+        widget_name: widgetName,
+        chain_id: chainId,
+        chain_name: getChainName(chainId),
+        tx_status: txStatus,
+        ...(errorContext && { error_context: errorContext }),
+        viewport: getViewport()
+      });
+    },
+    [posthog, getChainName]
+  );
 
   const trackDetailsPaneToggled = ({
     toggleAction,
@@ -101,38 +111,39 @@ export function useAppAnalytics() {
     });
   };
 
-  const trackTransactionSuccess = ({
-    txHash,
-    widgetName,
-    chainId
-  }: {
-    txHash: string;
-    widgetName: string;
-    chainId: number;
-  }) => {
-    safeCapture(posthog, AppEvents.TRANSACTION_SUCCESS, {
-      tx_hash: txHash,
-      wallet_address: address,
-      widget_name: widgetName,
-      chain_id: chainId,
-      chain_name: getChainName(chainId),
-      viewport: getViewport()
-    });
-  };
+  const trackTransactionSuccess = useCallback(
+    ({ txHash, widgetName, chainId }: { txHash: string; widgetName: string; chainId: number }) => {
+      safeCapture(posthog, AppEvents.TRANSACTION_SUCCESS, {
+        tx_hash: txHash,
+        wallet_address: address,
+        widget_name: widgetName,
+        chain_id: chainId,
+        chain_name: getChainName(chainId),
+        viewport: getViewport()
+      });
+    },
+    [posthog, address, getChainName]
+  );
 
-  const trackWalletConnected = ({ walletName }: { walletName: string }) => {
-    safeCapture(posthog, AppEvents.WALLET_CONNECTED, {
-      wallet_name: walletName,
-      viewport: getViewport()
-    });
-  };
+  const trackWalletConnected = useCallback(
+    ({ walletName }: { walletName: string }) => {
+      safeCapture(posthog, AppEvents.WALLET_CONNECTED, {
+        wallet_name: walletName,
+        viewport: getViewport()
+      });
+    },
+    [posthog]
+  );
 
-  const trackWalletDisconnected = ({ walletName }: { walletName: string }) => {
-    safeCapture(posthog, AppEvents.WALLET_DISCONNECTED, {
-      wallet_name: walletName,
-      viewport: getViewport()
-    });
-  };
+  const trackWalletDisconnected = useCallback(
+    ({ walletName }: { walletName: string }) => {
+      safeCapture(posthog, AppEvents.WALLET_DISCONNECTED, {
+        wallet_name: walletName,
+        viewport: getViewport()
+      });
+    },
+    [posthog]
+  );
 
   return {
     trackWidgetSelected,
