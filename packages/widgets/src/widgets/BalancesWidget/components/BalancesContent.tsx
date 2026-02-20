@@ -1,38 +1,23 @@
-import { type GetBalanceData } from 'wagmi/query';
 import { Tabs, TabsContent } from '@widgets/components/ui/tabs';
 import { VStack } from '@widgets/shared/components/ui/layout/VStack';
-import { TokenBalances } from './TokenBalances';
 import { BalancesHistory } from './BalancesHistory';
 import { BalancesTabsList } from './BalancesTabsList';
 import { ModulesBalances } from './ModulesBalances';
 import { motion } from 'framer-motion';
 import { positionAnimations } from '@widgets/shared/animation/presets';
 import { BalancesWidgetState } from '@widgets/shared/types/widgetState';
-import { TokenForChain } from '@jetstreamgg/sky-hooks';
-import { Heading, Text } from '@widgets/shared/components/ui/Typography';
+import { Heading } from '@widgets/shared/components/ui/Typography';
 import { Trans } from '@lingui/react/macro';
 import { BalancesFlow } from '../constants';
 import { BalancesFilter } from './BalancesFilter';
 import { useState } from 'react';
 import { useChainId } from 'wagmi';
-import { NoResults } from '@widgets/shared/components/icons/NoResults';
-
-export interface TokenBalanceResponse extends GetBalanceData {
-  tokenAddress?: string;
-  formatted: string;
-}
 
 interface BalancesContentProps {
   validatedExternalState?: BalancesWidgetState;
-  customTokenMap?: { [chainId: number]: TokenForChain[] };
   hideModuleBalances?: boolean;
   tabIndex: 0 | 1;
   chainIds?: number[];
-  actionForToken?: (
-    symbol: string,
-    balance: string,
-    tokenChainId: number
-  ) => { label: string; actionUrl: string; image: string } | undefined;
   rewardsCardUrl?: string;
   savingsCardUrlMap?: Record<number, string>;
   sealCardUrl?: string;
@@ -49,11 +34,9 @@ interface BalancesContentProps {
 
 export const BalancesContent = ({
   hideModuleBalances,
-  actionForToken,
   onExternalLinkClicked,
   onToggle,
   tabIndex,
-  customTokenMap,
   chainIds,
   rewardsCardUrl,
   savingsCardUrlMap,
@@ -68,7 +51,6 @@ export const BalancesContent = ({
 }: BalancesContentProps): React.ReactElement => {
   const [showAllNetworksInternal, setShowAllNetworksInternal] = useState(true);
   const [hideZeroBalancesInternal, setHideZeroBalancesInternal] = useState(false);
-  const [hideTokenBalances, setHideTokenBalances] = useState(false);
 
   const showAllNetworks = showAllNetworksProp ?? showAllNetworksInternal;
   const hideZeroBalances = hideZeroBalancesProp ?? hideZeroBalancesInternal;
@@ -108,30 +90,6 @@ export const BalancesContent = ({
               hideZeroBalances={hideZeroBalances}
               showAllNetworks={showAllNetworks}
             />
-          </motion.div>
-
-          <motion.div variants={positionAnimations}>
-            {!hideTokenBalances && (
-              <Heading variant="small" className="mb-3 leading-6">
-                <Trans>Wallet funds</Trans>
-              </Heading>
-            )}
-            <TokenBalances
-              actionForToken={actionForToken}
-              customTokenMap={customTokenMap}
-              chainIds={chainIds}
-              hideZeroBalances={hideZeroBalances}
-              showAllNetworks={showAllNetworks}
-              setHideTokenBalances={setHideTokenBalances}
-            />
-            {hideModuleBalances && hideTokenBalances && (
-              <VStack gap={3} className="items-center pt-6 pb-3">
-                <NoResults />
-                <Text className="text-textSecondary text-center">
-                  <Trans>No balances found</Trans>
-                </Text>
-              </VStack>
-            )}
           </motion.div>
         </VStack>
       </TabsContent>

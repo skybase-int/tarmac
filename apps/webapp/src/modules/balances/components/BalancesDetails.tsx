@@ -2,26 +2,12 @@ import { DetailSection } from '@/modules/ui/components/DetailSection';
 import { DetailSectionRow } from '@/modules/ui/components/DetailSectionRow';
 import { DetailSectionWrapper } from '@/modules/ui/components/DetailSectionWrapper';
 import { t } from '@lingui/core/macro';
-import { BalancesAssets } from './BalancesAssets';
 import { BalancesSkyStatsOverview } from './BalancesSkyStatsOverview';
-import { useBreakpointIndex, BP } from '@/modules/ui/hooks/useBreakpointIndex';
 import { BalancesChart } from './BalancesChart';
-import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 import { BalancesFaq } from './BalancesFaq';
-import { getSupportedChainIds } from '@/data/wagmi/config/config.default';
-import { useChainId } from 'wagmi';
-import { Intent } from '@/lib/enums';
-import { ConnectCard } from '@/modules/layout/components/ConnectCard';
-import { SuppliedFundsTable } from './SuppliedFundsTable';
 import { SuggestedActions } from '@/modules/agent/components/SuggestedActions';
 
 export function BalancesDetails() {
-  const { bpi } = useBreakpointIndex();
-  const showFundsTable = bpi > BP.md;
-  const { isConnectedAndAcceptedTerms } = useConnectedContext();
-  const chainId = useChainId();
-  const supportedChainIds = getSupportedChainIds(chainId);
-
   return (
     <DetailSectionWrapper>
       <DetailSection title={t`Earn with your stables`}>
@@ -39,20 +25,6 @@ export function BalancesDetails() {
           <SuggestedActions widget="tokens" />
         </DetailSectionRow>
       </DetailSection>
-      {isConnectedAndAcceptedTerms && showFundsTable && (
-        <DetailSection title={t`Supplied funds`}>
-          <DetailSectionRow>
-            <SuppliedFundsTable chainIds={supportedChainIds} />
-          </DetailSectionRow>
-        </DetailSection>
-      )}
-      {isConnectedAndAcceptedTerms && showFundsTable && (
-        <DetailSection title={t`Your funds`}>
-          <DetailSectionRow>
-            <BalancesAssets chainIds={supportedChainIds} />
-          </DetailSectionRow>
-        </DetailSection>
-      )}
       <DetailSection title={t`Sky Protocol overview`}>
         <DetailSectionRow>
           <BalancesSkyStatsOverview />

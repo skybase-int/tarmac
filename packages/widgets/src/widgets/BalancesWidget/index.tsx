@@ -14,18 +14,11 @@ import { ErrorBoundary } from '@widgets/shared/components/ErrorBoundary';
 import { AnimatePresence } from 'framer-motion';
 import { CardAnimationWrapper } from '@widgets/shared/animation/Wrappers';
 import { useContext, useEffect, useMemo, useState } from 'react';
-import { TokenForChain } from '@jetstreamgg/sky-hooks';
 import { BalancesFlow } from './constants';
 
 export type BalancesWidgetProps = WidgetProps & {
-  customTokenMap?: { [chainId: number]: TokenForChain[] };
   chainIds?: number[];
   hideModuleBalances?: boolean;
-  actionForToken?: (
-    symbol: string,
-    balance: string,
-    tokenChainId: number
-  ) => { label: string; actionUrl: string; image: string } | undefined;
   rewardsCardUrl?: string;
   savingsCardUrlMap?: Record<number, string>;
   sealCardUrl?: string;
@@ -48,7 +41,6 @@ export const BalancesWidget = ({
   onStateValidated,
   hideModuleBalances = false,
   enabled = true,
-  actionForToken,
   onExternalLinkClicked,
   onWidgetStateChange,
   rewardsCardUrl,
@@ -57,7 +49,6 @@ export const BalancesWidget = ({
   stakeCardUrl,
   stusdsCardUrl,
   morphoCardUrl,
-  customTokenMap,
   chainIds,
   showAllNetworks,
   hideZeroBalances,
@@ -74,8 +65,6 @@ export const BalancesWidget = ({
           onStateValidated={onStateValidated}
           hideModuleBalances={hideModuleBalances}
           enabled={enabled}
-          actionForToken={actionForToken}
-          customTokenMap={customTokenMap}
           chainIds={chainIds}
           rewardsCardUrl={rewardsCardUrl}
           savingsCardUrlMap={savingsCardUrlMap}
@@ -102,10 +91,8 @@ const BalancesWidgetWrapped = ({
   onStateValidated,
   hideModuleBalances = false,
   enabled = true,
-  actionForToken,
   onExternalLinkClicked,
   onWidgetStateChange,
-  customTokenMap,
   chainIds,
   rewardsCardUrl,
   savingsCardUrlMap,
@@ -192,9 +179,7 @@ const BalancesWidgetWrapped = ({
             <BalancesContent
               tabIndex={tabIndex}
               validatedExternalState={validatedExternalState}
-              customTokenMap={customTokenMap}
               hideModuleBalances={hideModuleBalances}
-              actionForToken={actionForToken}
               rewardsCardUrl={rewardsCardUrl}
               savingsCardUrlMap={savingsCardUrlMap}
               sealCardUrl={sealCardUrl}

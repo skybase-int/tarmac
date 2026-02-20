@@ -32,9 +32,9 @@ import { SavingsWidgetPane } from '@/modules/savings/components/SavingsWidgetPan
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
 import React, { useEffect } from 'react';
 import { useNotification } from '../hooks/useNotification';
-import { useActionForToken } from '../hooks/useActionForToken';
+
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
-import { defaultConfig } from '@/modules/config/default-config';
+
 import { useChainId } from 'wagmi';
 import { BalancesWidgetPane } from '@/modules/balances/components/BalancesWidgetPane';
 import { StakeWidgetPane } from '@/modules/stake/components/StakeWidgetPane';
@@ -109,8 +109,6 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
     }
   }, []);
 
-  const actionForToken = useActionForToken();
-
   const { rewardsUrl, savingsUrlMap, sealUrl, stakeUrl, stusdsUrl, morphoUrl } = useModuleUrls();
   const rewardContracts = useAvailableTokenRewardContracts(chainId);
   const rewardSubItems = rewardContracts.map(contract => ({
@@ -139,14 +137,12 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
         <BalancesWidgetPane
           {...sharedProps}
           hideModuleBalances={isRestrictedBuild}
-          actionForToken={actionForToken}
           rewardsCardUrl={rewardsUrl}
           savingsCardUrlMap={savingsUrlMap}
           sealCardUrl={sealUrl}
           stakeCardUrl={stakeUrl}
           stusdsCardUrl={stusdsUrl}
           morphoCardUrl={morphoUrl}
-          customTokenMap={defaultConfig.balancesTokenList}
           chainIds={getSupportedChainIds(chainId)}
           hideZeroBalances={hideZeroBalances}
           setHideZeroBalances={setHideZeroBalances}
