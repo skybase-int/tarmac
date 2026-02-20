@@ -10,17 +10,17 @@ import { SuggestedActions } from '@/modules/agent/components/SuggestedActions';
 export function BalancesDetails() {
   return (
     <DetailSectionWrapper>
-      <DetailSection title={t`Earn with your stables`}>
+      <DetailSection title={t`Earn with your stables`} fixedOpen>
         <DetailSectionRow>
           <SuggestedActions widget="stables" />
         </DetailSectionRow>
       </DetailSection>
-      <DetailSection title={t`Stake, Borrow, and Earn with SKY`}>
+      <DetailSection title={t`Stake, Borrow, and Earn with SKY`} fixedOpen>
         <DetailSectionRow>
           <SuggestedActions widget="sky" />
         </DetailSectionRow>
       </DetailSection>
-      <DetailSection title={t`Get USDS, SKY and other tokens`}>
+      <DetailSection title={t`Get USDS, SKY and other tokens`} fixedOpen>
         <DetailSectionRow>
           <SuggestedActions widget="tokens" />
         </DetailSectionRow>
