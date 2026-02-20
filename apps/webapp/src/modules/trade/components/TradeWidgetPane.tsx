@@ -27,7 +27,7 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
   const chainId = useChainId();
 
   const queryClient = useQueryClient();
-  const { linkedActionConfig, updateLinkedActionConfig } = useConfigContext();
+  const { linkedActionConfig, updateLinkedActionConfig, setSelectedConvertOption } = useConfigContext();
 
   const wagmiConfig = useWagmiConfig();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -38,6 +38,17 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
 
   const [batchEnabled, setBatchEnabled] = useBatchToggle();
   const { wrapStateChange } = useWidgetFlowTracking('trade', chainId);
+
+  const widgetParam = searchParams.get(QueryParams.Widget)?.toLowerCase();
+  const isConvertContext = widgetParam === IntentMapping[Intent.CONVERT_INTENT];
+
+  const handleBackToConvert = () => {
+    setSearchParams(params => {
+      params.delete(QueryParams.ConvertModule);
+      return params;
+    });
+    setSelectedConvertOption(undefined);
+  };
 
   const onTradeWidgetStateChange = ({
     hash,
@@ -220,6 +231,7 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
       batchEnabled={batchEnabled}
       setBatchEnabled={setBatchEnabled}
       tokensLocked={shouldLockTokens}
+      onBackToConvert={isConvertContext ? handleBackToConvert : undefined}
     />
   );
 }

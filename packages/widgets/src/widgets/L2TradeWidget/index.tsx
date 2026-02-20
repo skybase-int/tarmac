@@ -30,6 +30,9 @@ import { useAddTokenToWallet } from '@widgets/shared/hooks/useAddTokenToWallet';
 import { AnimatePresence } from 'framer-motion';
 import { CardAnimationWrapper } from '@widgets/shared/animation/Wrappers';
 import { Heading, Text } from '@widgets/shared/components/ui/Typography';
+import { ArrowLeft } from 'lucide-react';
+import { Button } from '@widgets/components/ui/button';
+import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { L2TradeTransactionStatus } from './components/L2TradeTransactionStatus';
 import { useTokenImage } from '@widgets/shared/hooks/useTokenImage';
 import { L2TradeTransactionReview } from './components/L2TradeTransactionReview';
@@ -49,6 +52,7 @@ export type TradeWidgetProps = WidgetProps & {
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
   tokensLocked?: boolean;
+  onBackToConvert?: () => void;
 };
 
 function TradeWidgetWrapped({
@@ -71,7 +75,8 @@ function TradeWidgetWrapped({
   widgetTitle,
   batchEnabled,
   setBatchEnabled,
-  tokensLocked = false
+  tokensLocked = false,
+  onBackToConvert
 }: TradeWidgetProps): React.ReactElement {
   const { mutate: addToWallet } = useAddTokenToWallet();
   const [showAddToken, setShowAddToken] = useState(false);
@@ -788,7 +793,21 @@ function TradeWidgetWrapped({
 
   return (
     <WidgetContainer
-      header={<Heading variant="x-large">{widgetTitle || 'Trade'}</Heading>}
+      header={
+        <div>
+          {onBackToConvert && (
+            <Button variant="link" onClick={onBackToConvert} className="mb-2 p-0">
+              <HStack className="space-x-2">
+                <ArrowLeft className="self-center" />
+                <Heading tag="h3" variant="small" className="text-textSecondary">
+                  Back to Convert
+                </Heading>
+              </HStack>
+            </Button>
+          )}
+          <Heading variant="x-large">{widgetTitle || 'Trade'}</Heading>
+        </div>
+      }
       subHeader={
         <Text className="text-textSecondary" variant="small">
           <Trans>Trade popular tokens for Sky Ecosystem tokens</Trans>

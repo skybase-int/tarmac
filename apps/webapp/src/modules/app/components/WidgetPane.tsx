@@ -47,7 +47,7 @@ import { ExpertWidgetPane } from '@/modules/expert/components/ExpertWidgetPane';
 import { VaultsWidgetPane } from '@/modules/vaults/components/VaultsWidgetPane';
 import { ConvertWidgetPane } from '@/modules/convert/components/ConvertWidgetPane';
 import { useModuleUrls } from '../hooks/useModuleUrls';
-import { useAvailableTokenRewardContracts } from '@jetstreamgg/sky-hooks';
+import { useAvailableTokenRewardContracts, MORPHO_VAULTS } from '@jetstreamgg/sky-hooks';
 import { TokenIcon } from '@/modules/ui/components/TokenIcon';
 import { useAppAnalytics } from '@/modules/analytics/hooks/useAppAnalytics';
 
@@ -118,8 +118,16 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
     icon: (
       <TokenIcon token={{ symbol: contract.rewardToken.symbol }} className="h-3 w-3" showChainIcon={false} />
     ),
-    paramKey: QueryParams.Reward,
-    paramValue: contract.contractAddress
+    params: { [QueryParams.Reward]: contract.contractAddress }
+  }));
+
+  const vaultSubItems = MORPHO_VAULTS.filter(vault => vault.vaultAddress[chainId]).map(vault => ({
+    label: vault.name,
+    icon: <TokenIcon token={{ symbol: vault.assetToken.symbol }} className="h-3 w-3" showChainIcon={false} />,
+    params: {
+      [QueryParams.VaultModule]: VaultsIntentMapping[VaultsIntent.MORPHO_VAULT_INTENT],
+      [QueryParams.Vault]: vault.vaultAddress[chainId]
+    }
   }));
 
   const widgetItems: WidgetItem[] = [
@@ -188,14 +196,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
       false,
       undefined,
       'Third-party vault integrations with Sky ecosystem tokens',
-      [
-        {
-          label: 'USDS Risk Capital',
-          icon: <TokenIcon token={{ symbol: 'USDS' }} className="h-3 w-3" showChainIcon={false} />,
-          paramKey: QueryParams.VaultModule,
-          paramValue: VaultsIntentMapping[VaultsIntent.MORPHO_VAULT_INTENT]
-        }
-      ]
+      vaultSubItems
     ],
     [
       Intent.EXPERT_INTENT,
@@ -209,8 +210,7 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
         {
           label: 'stUSDS',
           icon: <TokenIcon token={{ symbol: 'stUSDS' }} className="h-3 w-3" showChainIcon={false} />,
-          paramKey: QueryParams.ExpertModule,
-          paramValue: ExpertIntentMapping[ExpertIntent.STUSDS_INTENT]
+          params: { [QueryParams.ExpertModule]: ExpertIntentMapping[ExpertIntent.STUSDS_INTENT] }
         }
       ]
     ],
@@ -226,14 +226,12 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
         {
           label: 'Upgrade',
           icon: <Upgrade className="h-3 w-3" />,
-          paramKey: QueryParams.ConvertModule,
-          paramValue: ConvertIntentMapping[ConvertIntent.UPGRADE_INTENT]
+          params: { [QueryParams.ConvertModule]: ConvertIntentMapping[ConvertIntent.UPGRADE_INTENT] }
         },
         {
           label: 'Trade',
           icon: <Trade className="h-3 w-3" />,
-          paramKey: QueryParams.ConvertModule,
-          paramValue: ConvertIntentMapping[ConvertIntent.TRADE_INTENT]
+          params: { [QueryParams.ConvertModule]: ConvertIntentMapping[ConvertIntent.TRADE_INTENT] }
         }
       ]
     ]

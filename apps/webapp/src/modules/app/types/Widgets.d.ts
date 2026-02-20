@@ -16,10 +16,8 @@ export type SharedProps = {
 export type WidgetSubItem = {
   label: string;
   icon?: React.ReactNode;
-  /** Query param key to set (e.g. QueryParams.ExpertModule) */
-  paramKey: string;
-  /** Query param value (e.g. 'stusds') */
-  paramValue: string;
+  /** Query params to set when this sub-item is clicked */
+  params: Record<string, string>;
 };
 
 export type WidgetItem = [

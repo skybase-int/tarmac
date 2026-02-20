@@ -9,12 +9,7 @@ type MorphoVaultRewardsDetailsProps = {
 export function MorphoVaultRewardsDetails({ vaultAddress }: MorphoVaultRewardsDetailsProps) {
   const { data: rewardsData, isLoading, error } = useMorphoVaultRewards({ vaultAddress });
 
-  // If no rewards data or no claimable rewards and not loading, don't render
-  if (!isLoading && (!rewardsData || !rewardsData.hasClaimableRewards)) {
-    return null;
-  }
-
-  // Build reward cards for each token
+  // Build reward cards for each token with claimable rewards
   const rewardCards = rewardsData?.rewards
     .filter(r => r.amount > 0n)
     .map(reward => {
@@ -36,29 +31,28 @@ export function MorphoVaultRewardsDetails({ vaultAddress }: MorphoVaultRewardsDe
       );
     });
 
-  // Show loading state
-  if (isLoading) {
-    const loadingToken = {
-      symbol: '',
-      name: '',
-      decimals: 18
-    };
+  // Show reward cards if available, otherwise show a zero-state card
+  const hasRewardCards = rewardCards && rewardCards.length > 0;
 
-    return (
-      <div className="flex w-full flex-col gap-3">
+  const defaultToken = {
+    symbol: '',
+    name: '',
+    decimals: 18
+  };
+
+  return (
+    <div className="flex w-full flex-col gap-3">
+      {hasRewardCards ? (
+        rewardCards
+      ) : (
         <RewardsBalanceCard
           balance={0n}
-          isLoading={true}
-          token={loadingToken}
+          isLoading={isLoading}
+          token={defaultToken}
           label={t`Accumulated Rewards`}
+          error={error}
         />
-      </div>
-    );
-  }
-
-  if (!rewardCards || rewardCards.length === 0) {
-    return null;
-  }
-
-  return <div className="flex w-full flex-col gap-3">{rewardCards}</div>;
+      )}
+    </div>
+  );
 }

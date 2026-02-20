@@ -54,7 +54,9 @@ export function WidgetMenuItemTooltip({
         }
       }
       searchParams.set(QueryParams.Widget, mapIntentToQueryParam(widgetIntent));
-      searchParams.set(subItem.paramKey, subItem.paramValue);
+      Object.entries(subItem.params).forEach(([key, value]) => {
+        searchParams.set(key, value);
+      });
       return searchParams;
     });
   };
@@ -158,7 +160,7 @@ export function WidgetMenuItemTooltip({
                 <div className="mt-1 flex flex-wrap gap-1.5">
                   {subItems.map(subItem => (
                     <button
-                      key={subItem.paramValue}
+                      key={subItem.label}
                       onClick={e => {
                         e.preventDefault();
                         e.stopPropagation();

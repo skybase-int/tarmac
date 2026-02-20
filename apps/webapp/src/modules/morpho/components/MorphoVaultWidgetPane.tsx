@@ -52,9 +52,7 @@ export function MorphoVaultWidgetPane({
     originAmount
   }: WidgetStateChangeParams) => {
     // Prevent race conditions
-    if (
-      searchParams.get(QueryParams.VaultModule) !== VaultsIntentMapping[VaultsIntent.MORPHO_VAULT_INTENT]
-    ) {
+    if (searchParams.get(QueryParams.VaultModule) !== VaultsIntentMapping[VaultsIntent.MORPHO_VAULT_INTENT]) {
       return;
     }
 
@@ -103,6 +101,7 @@ export function MorphoVaultWidgetPane({
   const handleBack = () => {
     setSearchParams(params => {
       params.delete(QueryParams.VaultModule);
+      params.delete(QueryParams.Vault);
       return params;
     });
     setSelectedVaultsOption(undefined);
@@ -126,7 +125,7 @@ export function MorphoVaultWidgetPane({
       }}
       batchEnabled={batchEnabled}
       setBatchEnabled={setBatchEnabled}
-      onBackToExpert={handleBack}
+      onBackToVaults={handleBack}
     />
   );
 }
