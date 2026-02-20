@@ -18,10 +18,11 @@ import { mainnet } from 'viem/chains';
 export function ExpertCard() {
   const connectedChainId = useChainId();
   const isL2 = isL2ChainId(connectedChainId);
-  const mainnetChainId = isTestnetId(connectedChainId) ? chainIdConstants.tenderly : chainIdConstants.mainnet;
 
   // stUSDS data
   const { data: stUsdsData, isLoading: stUsdsDataLoading } = useStUsdsData();
+
+  const mainnetChainId = isTestnetId(connectedChainId) ? chainIdConstants.tenderly : chainIdConstants.mainnet;
 
   // Morpho vault rates for all vaults
   const { data: morphoRatesData, isLoading: morphoRatesLoading } = useMorphoVaultMultipleRateApiData({
@@ -46,7 +47,7 @@ export function ExpertCard() {
     <ModuleCard
       intent={Intent.EXPERT_INTENT}
       module={t`Expert`}
-      title={t`Access the stUSDS and Morpho Vault Rate`}
+      title={t`Access the stUSDS Rate`}
       className="[background:linear-gradient(90deg,#1a185566_6%,#1a185500_93%),linear-gradient(#EB5EDF,#FFCD6B)]"
       notAvailable={isL2}
       logoName="expert"

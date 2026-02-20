@@ -14,22 +14,20 @@ import {
 } from '@jetstreamgg/sky-utils';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
+import { InteractiveStatsCard } from '@widgets/shared/components/ui/card/InteractiveStatsCard';
 import { Skeleton } from '@widgets/components/ui/skeleton';
 import { formatUnits } from 'viem';
 import { CardProps, ModuleCardVariant } from './ModulesBalances';
 import { RateLineWithArrow } from '@widgets/shared/components/ui/RateLineWithArrow';
 import { InteractiveStatsCardAlt } from '@widgets/shared/components/ui/card/InteractiveStatsCardAlt';
-import { InteractiveStatsCardWithProductAccordion } from '@widgets/shared/components/ui/card/InteractiveStatsCardWithProductAccordion';
 import { useChainId } from 'wagmi';
 
 export const ExpertBalanceCard = ({
   url,
   onExternalLinkClicked,
   loading,
-  variant = ModuleCardVariant.default,
-  stusdsUrl,
-  morphoUrl
-}: CardProps & { stusdsUrl?: string; morphoUrl?: string }) => {
+  variant = ModuleCardVariant.default
+}: CardProps) => {
   const connectedChainId = useChainId();
   const vaultChainId = isTestnetId(connectedChainId) ? chainId.tenderly : chainId.mainnet;
   const { data: stUsdsData, isLoading: stUsdsLoading } = useStUsdsData();
@@ -61,28 +59,12 @@ export const ExpertBalanceCard = ({
   const isBalanceLoading = stUsdsLoading || morphoDataLoading;
   const isRateLoading = morphoRatesLoading || stUsdsLoading;
 
-  // Product balances for accordion
-  const balancesByProduct = [
-    {
-      productName: 'stUSDS',
-      balance: stUsdsSupplied,
-      rate: stUsdsRate > 0 ? `${stUsdsRate.toFixed(2)}%` : undefined,
-      isMorpho: false,
-      url: stusdsUrl
-    },
-    {
-      productName: 'USDS Risk Capital',
-      balance: morphoSupplied,
-      rate: morphoMaxRate > 0 ? `${morphoMaxRate.toFixed(2)}%` : undefined,
-      isMorpho: true,
-      url: morphoUrl
-    }
-  ];
+  const expertIcon = <img src="/images/expert_icon_large.svg" alt="Expert" className="h-full w-full" />;
 
   return variant === ModuleCardVariant.default ? (
-    <InteractiveStatsCardWithProductAccordion
-      title={t`USDS supplied to Expert`}
-      tokenSymbol="USDS"
+    <InteractiveStatsCard
+      title={t`Supplied to Expert`}
+      icon={expertIcon}
       headerRightContent={
         loading || isBalanceLoading ? (
           <Skeleton className="w-32" />
@@ -118,14 +100,12 @@ export const ExpertBalanceCard = ({
           </Text>
         ) : undefined
       }
-      balancesByProduct={balancesByProduct}
-      pricesData={pricesData ?? {}}
       url={url}
     />
   ) : (
     <InteractiveStatsCardAlt
-      title={t`USDS supplied to Expert`}
-      tokenSymbol="USDS"
+      title={t`Supplied to Expert`}
+      icon={expertIcon}
       url={url}
       logoName="expert"
       content={

@@ -2,7 +2,7 @@ import { StatsCard } from '@/modules/ui/components/StatsCard';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { formatBigInt } from '@jetstreamgg/sky-utils';
-import { useMorphoVaultOnChainData, Token } from '@jetstreamgg/sky-hooks';
+import { useMorphoVaultMarketApiData, Token } from '@jetstreamgg/sky-hooks';
 import { TokenIconWithBalance } from '@/modules/ui/components/TokenIconWithBalance';
 import { useChainId } from 'wagmi';
 
@@ -14,9 +14,9 @@ type MorphoVaultTvlCardProps = {
 export function MorphoVaultTvlCard({ vaultAddress, assetToken }: MorphoVaultTvlCardProps) {
   const { i18n } = useLingui();
   const chainId = useChainId();
-  const { data: vaultData, isLoading } = useMorphoVaultOnChainData({ vaultAddress });
+  const { data: marketData, isLoading } = useMorphoVaultMarketApiData({ vaultAddress });
 
-  const totalAssets = vaultData?.totalAssets || 0n;
+  const totalAssets = marketData?.totalAssets || 0n;
   const assetDecimals =
     typeof assetToken.decimals === 'number'
       ? assetToken.decimals

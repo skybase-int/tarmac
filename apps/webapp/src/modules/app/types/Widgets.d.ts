@@ -13,6 +13,13 @@ export type SharedProps = {
   legalBatchTxUrl: string;
 };
 
+export type WidgetSubItem = {
+  label: string;
+  icon?: React.ReactNode;
+  /** Query params to set when this sub-item is clicked */
+  params: Record<string, string>;
+};
+
 export type WidgetItem = [
   Intent,
   string,
@@ -20,7 +27,8 @@ export type WidgetItem = [
   React.ReactNode | null,
   boolean,
   { disabled?: boolean }?,
-  string? // description for tooltip
+  string?, // description for tooltip
+  WidgetSubItem[]? // sub-items for quick navigation in tooltip
 ];
 
 export type WidgetGroup = {

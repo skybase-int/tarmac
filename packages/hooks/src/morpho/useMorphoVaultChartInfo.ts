@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueries } from '@tanstack/react-query';
 import { useChainId } from 'wagmi';
 import { isTestnetId } from '@jetstreamgg/sky-utils';
 import { mainnet } from 'viem/chains';
@@ -155,24 +155,25 @@ export function useMorphoVaultMultipleChartInfo({
   const currentChainId = useChainId();
   const chainId = isTestnetId(currentChainId) ? mainnet.id : currentChainId;
 
-  const {
-    data,
-    error,
-    refetch: mutate,
-    isLoading
-  } = useQuery({
-    queryKey: ['morpho-vault-chart-multiple', ...vaultAddresses, chainId],
-    queryFn: () => Promise.all(vaultAddresses.map(addr => fetchMorphoVaultChartInfo(addr, chainId))),
-    enabled: vaultAddresses.length > 0,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000 // 10 minutes
+  const results = useQueries({
+    queries: vaultAddresses.map(addr => ({
+      queryKey: ['morpho-vault-chart', addr, chainId] as const,
+      queryFn: () => fetchMorphoVaultChartInfo(addr, chainId),
+      enabled: vaultAddresses.length > 0,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      gcTime: 10 * 60 * 1000 // 10 minutes
+    }))
   });
+
+  const data = results.every(r => r.data !== undefined) ? results.map(r => r.data!) : undefined;
+  const isLoading = results.some(r => r.isLoading);
+  const error = results.find(r => r.error)?.error ?? null;
 
   return {
     data,
     isLoading: !data && isLoading,
     error: error as Error,
-    mutate,
+    mutate: () => Promise.all(results.map(r => r.refetch())).then(() => {}),
     dataSources: [
       {
         title: 'Morpho API',

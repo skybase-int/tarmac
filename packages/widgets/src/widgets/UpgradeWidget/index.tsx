@@ -16,6 +16,9 @@ import { WidgetContainer } from '@widgets/shared/components/ui/widget/WidgetCont
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { Heading, Text } from '@widgets/shared/components/ui/Typography';
+import { ArrowLeft } from 'lucide-react';
+import { Button } from '@widgets/components/ui/button';
+import { HStack } from '@widgets/shared/components/ui/layout/HStack';
 import { UpgradeTransactionStatus } from './components/UpgradeTransactionStatus';
 import { useConnection, useChainId } from 'wagmi';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
@@ -52,6 +55,7 @@ export type UpgradeWidgetProps = WidgetProps & {
   upgradeOptions?: Token[];
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
+  onBackToConvert?: () => void;
 };
 
 export function UpgradeWidgetWrapped({
@@ -70,7 +74,8 @@ export function UpgradeWidgetWrapped({
   setBatchEnabled,
   legalBatchTxUrl,
   enabled = true,
-  disallowedFlow
+  disallowedFlow,
+  onBackToConvert
 }: UpgradeWidgetProps): React.ReactElement {
   const validatedExternalState = getValidatedState(externalWidgetState);
   const shouldAllowExternalUpdate = useRef(true);
@@ -429,9 +434,21 @@ export function UpgradeWidgetWrapped({
   return (
     <WidgetContainer
       header={
-        <Heading variant="x-large">
-          <Trans>Upgrade</Trans>
-        </Heading>
+        <div>
+          {onBackToConvert && (
+            <Button variant="link" onClick={onBackToConvert} className="mb-2 p-0">
+              <HStack className="space-x-2">
+                <ArrowLeft className="self-center" />
+                <Heading tag="h3" variant="small" className="text-textSecondary">
+                  Back to Convert
+                </Heading>
+              </HStack>
+            </Button>
+          )}
+          <Heading variant="x-large">
+            <Trans>Upgrade</Trans>
+          </Heading>
+        </div>
       }
       subHeader={
         <Text className="text-textSecondary" variant="small">

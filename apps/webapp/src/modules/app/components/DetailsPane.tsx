@@ -1,5 +1,5 @@
 import React, { useState, useEffect, forwardRef } from 'react';
-import { ExpertIntent, Intent } from '@/lib/enums';
+import { ConvertIntent, ExpertIntent, Intent, VaultsIntent } from '@/lib/enums';
 import { TradeDetails } from '@/modules/trade/components/TradeDetails';
 import { UpgradeDetails } from '@/modules/upgrade/components/UpgradeDetails';
 import { SavingsDetails } from '@/modules/savings/components/SavingsDetails';
@@ -21,6 +21,7 @@ import { FooterLinks } from '@/modules/layout/components/FooterLinks';
 import { BP, useBreakpointIndex } from '@/modules/ui/hooks/useBreakpointIndex';
 import { StakeDetailsPane } from '@/modules/stake/components/StakeDetailsPane';
 import { ExpertDetailsPane } from '@/modules/expert/components/ExpertDetailsPane';
+import { VaultsDetailsPane } from '@/modules/vaults/components/VaultsDetailsPane';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { SealDetailsPane } from '@/modules/seal/components/SealDetailsPane';
 
@@ -47,10 +48,10 @@ const MotionDetailsWrapper = forwardRef<
 export const DetailsPane = ({ intent }: DetailsPaneProps) => {
   const defaultDetail = Intent.BALANCES_INTENT;
   const [intentState, setIntentState] = useState<Intent>(intent || defaultDetail);
-  const [keys, setKeys] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  const [keys, setKeys] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
   const { bpi } = useBreakpointIndex();
-  const { selectedExpertOption } = useConfigContext();
+  const { selectedExpertOption, selectedVaultsOption, selectedConvertOption } = useConfigContext();
   const chainId = useChainId();
   const [searchParams] = useSearchParams();
 
@@ -67,7 +68,7 @@ export const DetailsPane = ({ intent }: DetailsPaneProps) => {
       if (prevIntentState !== intent) {
         // By giving the keys a new value, we force the motion component to animate the new component in, even if it's
         // the same component as before. This prevents the component from being re-added before being removed
-        setKeys(prevKeys => prevKeys.map(key => key + 8));
+        setKeys(prevKeys => prevKeys.map(key => key + 15));
       }
 
       return intent || defaultDetail;
@@ -130,9 +131,18 @@ export const DetailsPane = ({ intent }: DetailsPaneProps) => {
                       <StUSDSDetails />
                     </MotionDetailsWrapper>
                   );
-                case ExpertIntent.MORPHO_VAULT_INTENT:
+                default:
                   return (
-                    <MotionDetailsWrapper key={keys[9]}>
+                    <MotionDetailsWrapper key={keys[6]}>
+                      <ExpertDetailsPane />
+                    </MotionDetailsWrapper>
+                  );
+              }
+            case Intent.VAULTS_INTENT:
+              switch (selectedVaultsOption) {
+                case VaultsIntent.MORPHO_VAULT_INTENT:
+                  return (
+                    <MotionDetailsWrapper key={keys[10]}>
                       <MorphoVaultDetails
                         vaultAddress={selectedVault.vaultAddress[chainId]}
                         assetToken={selectedVault.assetToken}
@@ -142,8 +152,29 @@ export const DetailsPane = ({ intent }: DetailsPaneProps) => {
                   );
                 default:
                   return (
-                    <MotionDetailsWrapper key={keys[6]}>
-                      <ExpertDetailsPane />
+                    <MotionDetailsWrapper key={keys[11]}>
+                      <VaultsDetailsPane />
+                    </MotionDetailsWrapper>
+                  );
+              }
+            case Intent.CONVERT_INTENT:
+              switch (selectedConvertOption) {
+                case ConvertIntent.UPGRADE_INTENT:
+                  return (
+                    <MotionDetailsWrapper key={keys[12]}>
+                      <UpgradeDetails />
+                    </MotionDetailsWrapper>
+                  );
+                case ConvertIntent.TRADE_INTENT:
+                  return (
+                    <MotionDetailsWrapper key={keys[13]}>
+                      <TradeDetails />
+                    </MotionDetailsWrapper>
+                  );
+                default:
+                  return (
+                    <MotionDetailsWrapper key={keys[14]}>
+                      <BalancesDetails />
                     </MotionDetailsWrapper>
                   );
               }

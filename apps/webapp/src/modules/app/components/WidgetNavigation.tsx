@@ -278,7 +278,7 @@ export function WidgetNavigation({
                 >
                   {widgetContent.map((group, groupIndex) => (
                     <React.Fragment key={group.id}>
-                      {group.items.map(([widgetIntent, label, icon, , comingSoon, options, description]) => (
+                      {group.items.map(([widgetIntent, label, icon, , comingSoon, options, description, subItems]) => (
                         <div
                           key={widgetIntent}
                           className="flex grow basis-[15%] justify-center md:w-full md:basis-auto md:justify-start"
@@ -291,6 +291,7 @@ export function WidgetNavigation({
                             isMobile={isMobile}
                             disabled={options?.disabled || false}
                             isCurrentWidget={intent === widgetIntent}
+                            subItems={subItems}
                           >
                             <TabsTrigger
                               ref={intent === widgetIntent ? activeTabRef : null}

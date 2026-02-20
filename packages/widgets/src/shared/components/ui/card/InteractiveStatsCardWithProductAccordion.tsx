@@ -33,16 +33,18 @@ export const InteractiveStatsCardWithProductAccordion = ({
   tokenSymbol,
   balancesByProduct,
   pricesData,
-  url
+  url,
+  icon
 }: {
   title: React.ReactElement | string;
   headerRightContent: React.ReactElement | string;
   footer: React.ReactElement | string;
   footerRightContent?: React.ReactElement | string;
-  tokenSymbol: string;
+  tokenSymbol?: string;
   balancesByProduct: ProductBalance[];
   pricesData: Record<string, PriceData>;
   url?: string;
+  icon?: React.ReactNode;
 }): React.ReactElement => {
   // Filter to only products with non-zero balances and sort by largest balance
   const nonZeroProducts = balancesByProduct
@@ -58,6 +60,7 @@ export const InteractiveStatsCardWithProductAccordion = ({
         footerRightContent={footerRightContent}
         tokenSymbol={tokenSymbol}
         url={nonZeroProducts[0]?.url || url}
+        icon={icon}
       />
     );
   }
@@ -69,13 +72,15 @@ export const InteractiveStatsCardWithProductAccordion = ({
           <AccordionTrigger className="w-full p-0 hover:no-underline [&>svg]:hidden">
             <div className="w-full px-4 lg:px-5">
               <div className="flex w-full items-center gap-2">
-                {tokenSymbol && (
+                {icon ? (
+                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center">{icon}</div>
+                ) : tokenSymbol ? (
                   <TokenIcon
                     className="h-8 w-8"
                     token={{ symbol: tokenSymbol, name: tokenSymbol }}
                     noChain={true}
                   />
-                )}
+                ) : null}
                 <div className="grow">
                   <CardContent className="flex items-center justify-between gap-4">
                     <Text>{title}</Text>
