@@ -40,16 +40,13 @@ function calculateCumulativeTotalSupply(chartData: TvlChartInfoParsed[]) {
 }
 
 function useVaultsChartInfo() {
-  const {
-    data: morphoChartData,
-    isLoading,
-    error
-  } = useMorphoVaultMultipleChartInfo({
-    vaultAddresses: MORPHO_VAULTS.map(v => v.vaultAddress[mainnet.id])
-  });
+  const vaultAddresses = MORPHO_VAULTS.map(vault => vault.vaultAddress[mainnet.id]) as `0x${string}`[];
+
+  const { data: morphoChartData, isLoading, error } = useMorphoVaultMultipleChartInfo({ vaultAddresses });
 
   const data = useMemo(() => {
     const normalizedMorpho = (morphoChartData || []).flatMap((vaultData, index) => {
+      if (!vaultData) return [];
       const vault = MORPHO_VAULTS[index];
       const decimals = math.resolveDecimals(vault.assetToken.decimals, mainnet.id);
       return normalizeToDay(vaultData).map(d => ({
