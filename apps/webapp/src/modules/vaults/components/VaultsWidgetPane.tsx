@@ -6,7 +6,7 @@ import { Heading, Text } from '@/modules/layout/components/Typography';
 import { Trans } from '@lingui/react/macro';
 import { AnimatePresence } from 'framer-motion';
 import { MorphoVaultWidgetPane } from '@/modules/morpho/components/MorphoVaultWidgetPane';
-import { VaultsIntentMapping, QueryParams, TX_AGENT_ENABLED } from '@/lib/constants';
+import { VaultsIntentMapping, QueryParams } from '@/lib/constants';
 import { useSearchParams } from 'react-router-dom';
 import { MorphoVaultStatsCard } from '@/modules/expert/components/MorphoVaultStatsCard';
 import { MORPHO_VAULTS } from '@jetstreamgg/sky-hooks';
@@ -123,8 +123,7 @@ export function VaultsWidgetPane(sharedProps: SharedProps) {
                   />
                 );
               })}
-              {TX_AGENT_ENABLED &&
-                DEMO_VAULTS.map(vault => <DemoVaultCard key={vault.name} {...vault} />)}
+              {DEMO_VAULTS.map(vault => <DemoVaultCard key={vault.name} {...vault} />)}
             </CardAnimationWrapper>
           </WidgetContainer>
         )}
