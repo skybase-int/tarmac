@@ -2,7 +2,6 @@ import { DetailSection } from '@/modules/ui/components/DetailSection';
 import { DetailSectionRow } from '@/modules/ui/components/DetailSectionRow';
 import { DetailSectionWrapper } from '@/modules/ui/components/DetailSectionWrapper';
 import { t } from '@lingui/core/macro';
-import { BalancesModuleShowcase } from './BalancesModuleShowcase';
 import { BalancesAssets } from './BalancesAssets';
 import { BalancesSkyStatsOverview } from './BalancesSkyStatsOverview';
 import { useBreakpointIndex, BP } from '@/modules/ui/hooks/useBreakpointIndex';
@@ -25,14 +24,6 @@ export function BalancesDetails() {
 
   return (
     <DetailSectionWrapper>
-      <DetailSectionRow>
-        <BalancesModuleShowcase />
-      </DetailSectionRow>
-      {!isConnectedAndAcceptedTerms && (
-        <DetailSectionRow>
-          <ConnectCard intent={Intent.BALANCES_INTENT} className="mb-4" />
-        </DetailSectionRow>
-      )}
       <DetailSection title={t`Earn with your stables`}>
         <DetailSectionRow>
           <SuggestedActions widget="stables" />
