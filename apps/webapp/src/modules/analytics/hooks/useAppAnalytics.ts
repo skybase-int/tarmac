@@ -10,16 +10,31 @@ import {
   type ErrorContext
 } from '../constants';
 import { useAnalyticsFlow } from '../context/AnalyticsFlowContext';
+import { QueryParams } from '@/lib/constants';
+import { useSearchParams } from 'react-router-dom';
 
 export function useAppAnalytics() {
   const posthog = usePostHog();
   const { address } = useConnection();
   const chains = useChains();
   const { getFlowId } = useAnalyticsFlow();
+  const [searchParams] = useSearchParams();
 
   const getChainName = useCallback(
     (chainId: number) => chains.find(c => c.id === chainId)?.name ?? `unknown_${chainId}`,
     [chains]
+  );
+
+  const getWidgetParams = useCallback(
+    () => ({
+      input_amount: searchParams.get(QueryParams.InputAmount),
+      source_token: searchParams.get(QueryParams.SourceToken),
+      target_token: searchParams.get(QueryParams.TargetToken),
+      widget_flow: searchParams.get(QueryParams.Flow),
+      linked_action: searchParams.get(QueryParams.LinkedAction),
+      reward_contract: searchParams.get(QueryParams.Reward)
+    }),
+    [searchParams]
   );
 
   const trackWidgetSelected = ({
@@ -51,10 +66,11 @@ export function useAppAnalytics() {
         chain_id: chainId,
         chain_name: getChainName(chainId),
         viewport: getViewport(),
-        flow_id: getFlowId()
+        flow_id: getFlowId(),
+        ...getWidgetParams()
       });
     },
-    [posthog, getChainName]
+    [posthog, getChainName, getWidgetParams]
   );
 
   const trackTransactionCompleted = useCallback(
@@ -80,10 +96,11 @@ export function useAppAnalytics() {
         ...(txHash && { tx_hash: txHash }),
         ...(errorContext && { error_context: errorContext }),
         viewport: getViewport(),
-        flow_id: getFlowId()
+        flow_id: getFlowId(),
+        ...getWidgetParams()
       });
     },
-    [posthog, address, getChainName]
+    [posthog, address, getChainName, getWidgetParams]
   );
 
   const trackWidgetReviewViewed = useCallback(
