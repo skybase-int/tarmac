@@ -1,7 +1,8 @@
 import { useRef, useCallback } from 'react';
 import { TxStatus as WidgetTxStatus, type WidgetStateChangeParams } from '@jetstreamgg/sky-widgets';
 import { useAppAnalytics } from './useAppAnalytics';
-import { reportAnalyticsError, startNewFlow } from '../constants';
+import { reportAnalyticsError } from '../constants';
+import { useAnalyticsFlow } from '../context/AnalyticsFlowContext';
 
 /**
  * Higher-order hook that wraps any widget's onWidgetStateChange handler
@@ -15,6 +16,7 @@ import { reportAnalyticsError, startNewFlow } from '../constants';
  */
 export function useWidgetFlowTracking(widgetName: string, chainId: number) {
   const { trackTransactionStarted, trackTransactionCompleted, trackWidgetReviewViewed } = useAppAnalytics();
+  const { startNewFlow } = useAnalyticsFlow();
   const prevTxStatusRef = useRef<WidgetTxStatus | null>(null);
   const prevScreenRef = useRef<string | null>(null);
 

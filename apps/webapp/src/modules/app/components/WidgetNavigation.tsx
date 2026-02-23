@@ -24,7 +24,8 @@ import { WidgetMenuItemTooltip } from '@/modules/app/components/WidgetMenuItemTo
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { useScrollHint } from '@/modules/app/hooks/useScrollHint';
 import { useAppAnalytics } from '@/modules/analytics/hooks/useAppAnalytics';
-import { type SelectionMethod, startNewFlow } from '@/modules/analytics/constants';
+import { type SelectionMethod } from '@/modules/analytics/constants';
+import { useAnalyticsFlow } from '@/modules/analytics/context/AnalyticsFlowContext';
 
 interface WidgetNavigationProps {
   widgetContent: WidgetContent;
@@ -87,6 +88,7 @@ export function WidgetNavigation({
   });
 
   const { trackWidgetSelected } = useAppAnalytics();
+  const { startNewFlow } = useAnalyticsFlow();
 
   const handleWidgetChange = (value: string, method?: SelectionMethod) => {
     // Skip tracking if the widget didn't actually change (e.g. Tabs re-firing during URL param updates)

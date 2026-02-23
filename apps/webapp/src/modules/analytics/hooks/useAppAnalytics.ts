@@ -5,16 +5,17 @@ import {
   AppEvents,
   safeCapture,
   getViewport,
-  getFlowId,
   type SelectionMethod,
   type TxStatus,
   type ErrorContext
 } from '../constants';
+import { useAnalyticsFlow } from '../context/AnalyticsFlowContext';
 
 export function useAppAnalytics() {
   const posthog = usePostHog();
   const { address } = useConnection();
   const chains = useChains();
+  const { getFlowId } = useAnalyticsFlow();
 
   const getChainName = useCallback(
     (chainId: number) => chains.find(c => c.id === chainId)?.name ?? `unknown_${chainId}`,
