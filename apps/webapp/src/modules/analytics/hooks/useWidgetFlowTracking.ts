@@ -52,7 +52,8 @@ export function useWidgetFlowTracking(widgetName: string, chainId: number) {
             trackTransactionCompleted({
               widgetName,
               chainId,
-              txStatus: 'error'
+              txStatus: 'error',
+              txHash: params.hash
             });
           }
 
@@ -61,7 +62,8 @@ export function useWidgetFlowTracking(widgetName: string, chainId: number) {
             trackTransactionCompleted({
               widgetName,
               chainId,
-              txStatus: 'cancelled'
+              txStatus: 'cancelled',
+              txHash: params.hash
             });
           }
           // Review screen viewed: track when user reaches the review/confirmation screen
