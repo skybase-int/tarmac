@@ -66,3 +66,28 @@ export function safeCapture(
 export function reportAnalyticsError(context: string, error: unknown): void {
   console.warn(`[Analytics] ${context}:`, error);
 }
+
+// ── Withdrawal Flows ────────────────────────────────────────────────────────
+// Flows where the user is removing funds — input_amount should be negative.
+
+const WITHDRAWAL_FLOWS: Record<string, Set<string>> = {
+  savings: new Set(['withdraw']),
+  rewards: new Set(['withdraw']),
+  stusds: new Set(['withdraw'])
+};
+
+// Stake/Seal use tab params instead of flow to determine direction
+const WITHDRAWAL_TABS = new Set(['free']);
+
+export function isWithdrawalFlow(
+  widget: string | null,
+  flow: string | null,
+  stakeTab: string | null,
+  sealTab: string | null
+): boolean {
+  if (!widget) return false;
+  if (flow && WITHDRAWAL_FLOWS[widget]?.has(flow)) return true;
+  if (widget === 'stake' && stakeTab && WITHDRAWAL_TABS.has(stakeTab)) return true;
+  if (widget === 'seal' && sealTab && WITHDRAWAL_TABS.has(sealTab)) return true;
+  return false;
+}

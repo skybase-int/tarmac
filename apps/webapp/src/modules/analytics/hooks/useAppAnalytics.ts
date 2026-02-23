@@ -5,12 +5,14 @@ import {
   AppEvents,
   safeCapture,
   getViewport,
+  isWithdrawalFlow,
   type SelectionMethod,
   type TxStatus,
   type ErrorContext
 } from '../constants';
 import { useAnalyticsFlow } from '../context/AnalyticsFlowContext';
 import { useSearchParams } from 'react-router-dom';
+import { QueryParams } from '@/lib/constants';
 
 export function useAppAnalytics() {
   const posthog = usePostHog();
@@ -25,13 +27,27 @@ export function useAppAnalytics() {
   );
 
   const getUrlParams = useCallback(() => {
-    const params: Record<string, string> = {};
-    searchParams.forEach((value, key) => {
-      if (key !== 'widget') {
-        params[key] = value;
+    try {
+      const params: Record<string, string> = {};
+      searchParams.forEach((value, key) => {
+        if (key !== 'widget') {
+          params[key] = value;
+        }
+      });
+
+      const amount = params[QueryParams.InputAmount];
+      if (
+        amount &&
+        !amount.startsWith('-') &&
+        isWithdrawalFlow(searchParams.get('widget'), params['flow'], params['stake_tab'], params['seal_tab'])
+      ) {
+        params['input_amount'] = `-${amount}`;
       }
-    });
-    return params;
+
+      return params;
+    } catch {
+      return {};
+    }
   }, [searchParams]);
 
   const trackWidgetSelected = ({
