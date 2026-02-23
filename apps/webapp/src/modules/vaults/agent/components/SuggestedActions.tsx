@@ -21,12 +21,13 @@ import {
   useMultipleRewardsChartInfo
 } from '@jetstreamgg/sky-hooks';
 import { formatDecimalPercentage, calculateApyFromStr, isTestnetId, chainId as chainIdConstants } from '@jetstreamgg/sky-utils';
-import { Savings, Upgrade, RewardsModule, Stake, Expert, Vaults, Trade } from '@/modules/icons';
+import { Savings, Upgrade, RewardsModule, Stake, Seal, Expert, Vaults, Trade } from '@/modules/icons';
 import { type IconProps } from '@/modules/icons/Icon';
 import { parseIntent } from '../engine/intent-parser';
 import { intentToWidgetParams } from '../engine/intent-to-widget';
 import { SUGGESTED_ACTIONS, type SuggestedAction } from '../lib/examples';
 import { Morpho } from '@jetstreamgg/sky-widgets';
+import { InfoTooltip } from '@/components/InfoTooltip';
 
 // Map token symbols to TOKENS keys for address lookup
 const SYMBOL_TO_TOKEN_KEY: Record<string, keyof typeof TOKENS> = {
@@ -44,6 +45,7 @@ const MODULE_ICONS: Record<string, (props: IconProps) => React.ReactElement> = {
   trade: Trade,
   rewards: RewardsModule,
   stake: Stake,
+  seal: Seal,
   stusds: Expert,
   morpho: Vaults
 };
@@ -276,7 +278,7 @@ export function SuggestedActions({ widget, variant = 'default' }: { widget: stri
   if (variant === 'card') {
     return (
       <div className="@container">
-      <div className="grid grid-cols-1 gap-2 @[700px]:grid-cols-2">
+      <div className="grid grid-cols-1 gap-2 @[600px]:grid-cols-2">
         {actions.map(action => {
           const resolved = resolveAction(action, balanceMap, rateMap);
           const ModuleIcon = action.module ? MODULE_ICONS[action.module] : null;
@@ -290,8 +292,9 @@ export function SuggestedActions({ widget, variant = 'default' }: { widget: stri
               <div className="flex min-w-0 flex-1 flex-col">
                 <Text className="text-text truncate">{resolved.label}</Text>
                 {resolved.subtitle && (
-                  <Text variant="small" className="text-bullish">
+                  <Text variant="small" className={`flex items-center gap-1 ${action.rateKey ? 'text-bullish' : 'text-textSecondary'}`}>
                     {resolved.subtitle}
+                    {action.rateKey && <InfoTooltip content="Rates are variable and subject to change based on market conditions." iconSize={12} iconClassName="text-textSecondary" />}
                   </Text>
                 )}
               </div>
@@ -331,7 +334,7 @@ export function SuggestedActions({ widget, variant = 'default' }: { widget: stri
   if (variant === 'card-sm') {
     return (
       <div className="@container">
-      <div className="grid grid-cols-1 gap-1 @[700px]:grid-cols-2">
+      <div className="grid grid-cols-1 gap-1 @[600px]:grid-cols-2">
         {actions.map(action => {
           const resolved = resolveAction(action, balanceMap, rateMap);
           const ModuleIcon = action.module ? MODULE_ICONS[action.module] : null;
@@ -342,32 +345,34 @@ export function SuggestedActions({ widget, variant = 'default' }: { widget: stri
               className="bg-card hover:from-primary-start/100 hover:to-primary-end/100 flex cursor-pointer items-center gap-3 rounded-[16px] px-3 py-2 text-left transition-colors hover:bg-radial-(--gradient-position)"
             >
               {ModuleIcon && <ModuleIcon boxSize={16} className="text-textSecondary shrink-0" />}
-              <div className="flex -space-x-1.5">
-                {action.tokens.map(symbol => (
-                  <TokenIcon
-                    key={symbol}
-                    token={{ symbol, name: symbol }}
-                    className="h-5 w-5"
-                    width={20}
-                    showChainIcon={false}
-                  />
-                ))}
-              </div>
-              <Text variant="small" className="text-textSecondary">
+              <Text variant="small" className="text-text min-w-0 flex-1">
                 {resolved.label}
               </Text>
-              {action.badge && (
-                <span
-                  className={`ml-auto flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${
-                    action.showMorphoIcon
-                      ? 'bg-[#2973FF]/15 text-[#2973FF]'
-                      : 'bg-textEmphasis/15 text-textEmphasis'
-                  }`}
-                >
-                  {action.showMorphoIcon && <Morpho className="h-3 w-3 rounded-sm" />}
-                  {action.badge}
-                </span>
-              )}
+              <div className="flex shrink-0 items-center gap-2">
+                {action.badge && (
+                  <span
+                    className={`flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${
+                      action.showMorphoIcon
+                        ? 'bg-[#2973FF]/15 text-[#2973FF]'
+                        : 'bg-textEmphasis/15 text-textEmphasis'
+                    }`}
+                  >
+                    {action.showMorphoIcon && <Morpho className="h-3 w-3 rounded-sm" />}
+                    {action.badge}
+                  </span>
+                )}
+                <div className="flex -space-x-1.5">
+                  {action.tokens.map(symbol => (
+                    <TokenIcon
+                      key={symbol}
+                      token={{ symbol, name: symbol }}
+                      className="h-5 w-5"
+                      width={20}
+                      showChainIcon={false}
+                    />
+                  ))}
+                </div>
+              </div>
             </button>
           );
         })}
@@ -378,7 +383,7 @@ export function SuggestedActions({ widget, variant = 'default' }: { widget: stri
 
   return (
     <div className="@container">
-    <div className="grid grid-cols-1 gap-1 @[700px]:grid-cols-2">
+    <div className="grid grid-cols-1 gap-1 @[600px]:grid-cols-2">
       {actions.map(action => {
         const resolved = resolveAction(action, balanceMap, rateMap);
         const ModuleIcon = action.module ? MODULE_ICONS[action.module] : null;

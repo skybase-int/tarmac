@@ -162,7 +162,7 @@ export const SUGGESTED_ACTIONS: Record<string, SuggestedAction[]> = {
   ],
   stables: [
     {
-      label: 'Vaults: earn with USDS, USDT and USDC',
+      label: 'Vaults: USDS, USDT, USDC',
       input: 'Explore vaults',
       tokens: ['USDS', 'USDC', 'USDT'],
       rateKey: 'vaults',
@@ -181,52 +181,45 @@ export const SUGGESTED_ACTIONS: Record<string, SuggestedAction[]> = {
     },
     {
       label: 'Sky Savings Rate',
-      input: 'Deposit {amount} USDS into savings',
+      input: '',
       tokens: ['sUSDS'],
-      sourceToken: 'USDS',
-      defaultAmount: 250,
       rateKey: 'savings',
       subtitle: 'Rate: {rate}',
-      module: 'savings'
+      module: 'savings',
+      url: '?widget=savings'
     },
     {
-      label: 'Earn with stUSDS',
+      label: 'For Experts: Earn with stUSDS',
       input: 'Deposit {amount} USDS into stUSDS',
       tokens: ['stUSDS'],
       sourceToken: 'USDS',
       defaultAmount: 500,
       rateKey: 'stusds',
-      subtitle: 'Rate: {rate}',
+      subtitle: 'Rates up to {rate}',
       module: 'stusds'
     }
   ],
   sky: [
     {
-      label: 'Stake, Borrow, and Earn with SKY',
+      label: 'Stake and Earn with SKY',
       input: 'Open a staking position with {amount} SKY',
-      tokens: ['SKY', 'USDS'],
+      tokens: ['SKY'],
       sourceToken: 'SKY',
       defaultAmount: 1000,
       rateKey: 'staking',
-      subtitle: 'Rate: up to {rate}',
+      subtitle: 'Rate: {rate}',
       module: 'stake'
     },
     {
-      label: 'Get SKY tokens',
+      label: 'Borrow USDS',
       input: '',
-      tokens: ['SKY'],
-      module: 'trade',
-      url: '?widget=convert&convert_module=trade&target_token=SKY'
+      tokens: ['USDS'],
+      module: 'stake',
+      subtitle: 'Minimum borrow amount is 30K USDS',
+      url: '?widget=stake'
     }
   ],
   tokens: [
-    {
-      label: 'Get SKY',
-      input: '',
-      tokens: ['SKY'],
-      module: 'trade',
-      url: '?widget=convert&convert_module=trade&target_token=SKY'
-    },
     {
       label: 'Get USDS',
       input: '',
@@ -235,11 +228,11 @@ export const SUGGESTED_ACTIONS: Record<string, SuggestedAction[]> = {
       url: '?widget=convert&convert_module=trade&target_token=USDS'
     },
     {
-      label: 'Upgrade MKR to SKY',
+      label: 'Get SKY',
       input: '',
-      tokens: ['MKR', 'SKY'],
-      module: 'upgrade',
-      url: '?widget=convert&convert_module=upgrade&source_token=MKR'
+      tokens: ['SKY'],
+      module: 'trade',
+      url: '?widget=convert&convert_module=trade&target_token=SKY'
     },
     {
       label: 'Upgrade DAI to USDS',
@@ -247,6 +240,13 @@ export const SUGGESTED_ACTIONS: Record<string, SuggestedAction[]> = {
       tokens: ['DAI', 'USDS'],
       module: 'upgrade',
       url: '?widget=convert&convert_module=upgrade&source_token=DAI'
+    },
+    {
+      label: 'Upgrade MKR to SKY',
+      input: '',
+      tokens: ['MKR', 'SKY'],
+      module: 'upgrade',
+      url: '?widget=convert&convert_module=upgrade&source_token=MKR'
     }
   ]
 };

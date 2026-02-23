@@ -5,12 +5,12 @@ import { t } from '@lingui/core/macro';
 import { BalancesSkyStatsOverview } from './BalancesSkyStatsOverview';
 import { BalancesChart } from './BalancesChart';
 import { BalancesFaq } from './BalancesFaq';
-import { SuggestedActions } from '@/modules/agent/components/SuggestedActions';
+import { SuggestedActions } from '@/modules/vaults/agent/components/SuggestedActions';
 
 export function BalancesDetails() {
   return (
     <DetailSectionWrapper>
-      <DetailSection title={t`Earn with your stables`} fixedOpen>
+      <DetailSection title={t`Earn with your Stables`} fixedOpen>
         <DetailSectionRow>
           <SuggestedActions widget="stables" variant="card" />
         </DetailSectionRow>
