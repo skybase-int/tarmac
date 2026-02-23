@@ -74,9 +74,10 @@ function resolveAction(
   action: SuggestedAction,
   balanceMap: Record<string, number>,
   rateMap: Record<string, string>
-): { label: string; input: string } {
+): { label: string; input: string; subtitle?: string } {
   let label = action.label;
   let input = action.input;
+  let subtitle = action.subtitle;
 
   if (action.sourceToken && action.defaultAmount !== undefined) {
     const balance = balanceMap[action.sourceToken];
@@ -89,9 +90,12 @@ function resolveAction(
   if (action.rateKey) {
     const rate = rateMap[action.rateKey] ?? '';
     label = label.replace('{rate}', rate);
+    if (subtitle) {
+      subtitle = subtitle.replace('{rate}', rate);
+    }
   }
 
-  return { label, input };
+  return { label, input, subtitle };
 }
 
 /** Fetch rates for actions that have a rateKey. */
@@ -182,7 +186,7 @@ function useActionRates(actions: SuggestedAction[], chainId: number): Record<str
   }, [hasRates, rateKeys, overallSkyData, stUsdsData, morphoMarketData, rewardsHighestRate, stakeHighestRateData]);
 }
 
-export function SuggestedActions({ widget }: { widget: string }) {
+export function SuggestedActions({ widget, variant = 'default' }: { widget: string; variant?: 'default' | 'card' | 'card-sm' }) {
   const [, setSearchParams] = useSearchParams();
   const { address } = useAccount();
   const chainId = useChainId();
@@ -269,14 +273,118 @@ export function SuggestedActions({ widget }: { widget: string }) {
 
   if (actions.length === 0) return null;
 
+  if (variant === 'card') {
+    return (
+      <div className="@container">
+      <div className="grid grid-cols-1 gap-2 @[700px]:grid-cols-2">
+        {actions.map(action => {
+          const resolved = resolveAction(action, balanceMap, rateMap);
+          const ModuleIcon = action.module ? MODULE_ICONS[action.module] : null;
+          return (
+            <button
+              key={action.input || action.label}
+              onClick={() => handleClick(action, resolved.input)}
+              className="bg-card hover:from-primary-start/100 hover:to-primary-end/100 flex cursor-pointer items-center gap-3 rounded-[20px] px-4 py-3 text-left transition-colors hover:bg-radial-(--gradient-position)"
+            >
+              {ModuleIcon && <ModuleIcon boxSize={20} className="text-textSecondary shrink-0" />}
+              <div className="flex min-w-0 flex-1 flex-col">
+                <Text className="text-text truncate">{resolved.label}</Text>
+                {resolved.subtitle && (
+                  <Text variant="small" className="text-bullish">
+                    {resolved.subtitle}
+                  </Text>
+                )}
+              </div>
+              <div className="flex shrink-0 items-center gap-2">
+                {action.badge && (
+                  <span
+                    className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide ${
+                      action.showMorphoIcon
+                        ? 'bg-[#2973FF]/15 text-[#2973FF]'
+                        : 'bg-textEmphasis/15 text-textEmphasis'
+                    }`}
+                  >
+                    {action.showMorphoIcon && <Morpho className="h-3.5 w-3.5 rounded-sm" />}
+                    {action.badge}
+                  </span>
+                )}
+                <div className="flex -space-x-1.5">
+                  {action.tokens.map(symbol => (
+                    <TokenIcon
+                      key={symbol}
+                      token={{ symbol, name: symbol }}
+                      className="h-5 w-5"
+                      width={20}
+                      showChainIcon={false}
+                    />
+                  ))}
+                </div>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+      </div>
+    );
+  }
+
+  if (variant === 'card-sm') {
+    return (
+      <div className="@container">
+      <div className="grid grid-cols-1 gap-1 @[700px]:grid-cols-2">
+        {actions.map(action => {
+          const resolved = resolveAction(action, balanceMap, rateMap);
+          const ModuleIcon = action.module ? MODULE_ICONS[action.module] : null;
+          return (
+            <button
+              key={action.input || action.label}
+              onClick={() => handleClick(action, resolved.input)}
+              className="bg-card hover:from-primary-start/100 hover:to-primary-end/100 flex cursor-pointer items-center gap-3 rounded-[16px] px-3 py-2 text-left transition-colors hover:bg-radial-(--gradient-position)"
+            >
+              {ModuleIcon && <ModuleIcon boxSize={16} className="text-textSecondary shrink-0" />}
+              <div className="flex -space-x-1.5">
+                {action.tokens.map(symbol => (
+                  <TokenIcon
+                    key={symbol}
+                    token={{ symbol, name: symbol }}
+                    className="h-5 w-5"
+                    width={20}
+                    showChainIcon={false}
+                  />
+                ))}
+              </div>
+              <Text variant="small" className="text-textSecondary">
+                {resolved.label}
+              </Text>
+              {action.badge && (
+                <span
+                  className={`ml-auto flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${
+                    action.showMorphoIcon
+                      ? 'bg-[#2973FF]/15 text-[#2973FF]'
+                      : 'bg-textEmphasis/15 text-textEmphasis'
+                  }`}
+                >
+                  {action.showMorphoIcon && <Morpho className="h-3 w-3 rounded-sm" />}
+                  {action.badge}
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="grid grid-cols-1 gap-1 xl:grid-cols-2">
+    <div className="@container">
+    <div className="grid grid-cols-1 gap-1 @[700px]:grid-cols-2">
       {actions.map(action => {
         const resolved = resolveAction(action, balanceMap, rateMap);
         const ModuleIcon = action.module ? MODULE_ICONS[action.module] : null;
         return (
           <button
-            key={action.input}
+            key={action.input || action.label}
             onClick={() => handleClick(action, resolved.input)}
             className="flex cursor-pointer items-center gap-3 rounded-lg border border-white/10 px-3 py-2 text-left transition-colors hover:bg-brandLight/20"
           >
@@ -312,6 +420,7 @@ export function SuggestedActions({ widget }: { widget: string }) {
           </button>
         );
       })}
+    </div>
     </div>
   );
 }
