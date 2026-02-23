@@ -28,20 +28,25 @@ export function useAppAnalytics() {
 
   const getUrlParams = useCallback(() => {
     try {
-      const params: Record<string, string> = {};
+      const params: Record<string, string | number> = {};
       searchParams.forEach((value, key) => {
         if (key !== 'widget') {
           params[key] = value;
         }
       });
-
+      // Send negative input amount for withdrawal flows
       const amount = params[QueryParams.InputAmount];
-      if (
-        amount &&
-        !amount.startsWith('-') &&
-        isWithdrawalFlow(searchParams.get('widget'), params['flow'], params['stake_tab'], params['seal_tab'])
-      ) {
-        params['input_amount'] = `-${amount}`;
+      if (amount != null) {
+        const num = Number(amount);
+        if (!isNaN(num)) {
+          const isWithdrawal = isWithdrawalFlow(
+            searchParams.get('widget'),
+            searchParams.get(QueryParams.Flow),
+            searchParams.get(QueryParams.StakeTab),
+            searchParams.get(QueryParams.SealTab)
+          );
+          params[QueryParams.InputAmount] = isWithdrawal ? -Math.abs(num) : num;
+        }
       }
 
       return params;
