@@ -249,10 +249,15 @@ export function SuggestedActions({ widget, variant = 'default' }: { widget: stri
         const directParams = new URLSearchParams(action.url.replace(/^\?/, ''));
         directParams.set(QueryParams.Network, networkName);
         setSearchParams(prev => {
-          directParams.forEach((value, key) => {
-            prev.set(key, value);
+          const next = new URLSearchParams();
+          [QueryParams.Locale, QueryParams.Details, QueryParams.Chat].forEach(param => {
+            const value = prev.get(param);
+            if (value !== null) next.set(param, value);
           });
-          return prev;
+          directParams.forEach((value, key) => {
+            next.set(key, value);
+          });
+          return next;
         });
         return;
       }
@@ -264,10 +269,15 @@ export function SuggestedActions({ widget, variant = 'default' }: { widget: stri
       if (!params) return;
 
       setSearchParams(prev => {
-        params.forEach((value, key) => {
-          prev.set(key, value);
+        const next = new URLSearchParams();
+        [QueryParams.Locale, QueryParams.Details, QueryParams.Chat].forEach(param => {
+          const value = prev.get(param);
+          if (value !== null) next.set(param, value);
         });
-        return prev;
+        params.forEach((value, key) => {
+          next.set(key, value);
+        });
+        return next;
       });
     },
     [chainId, networkName, setSearchParams]

@@ -1,6 +1,6 @@
 import {
-  usdcClearstarBoringVaultAddress,
   usdcRiskCapitalVaultAddress,
+  usdsFlagshipVaultAddress,
   usdsRiskCapitalVaultAddress,
   usdtRiskCapitalVaultAddress,
   usdtSteakhousePrimeInstantVaultAddress
@@ -37,9 +37,9 @@ export const MORPHO_VAULTS: MorphoVaultConfig[] = [
     assetToken: TOKENS.usdc
   },
   {
-    name: 'Clearstar Boring USDC',
-    vaultAddress: usdcClearstarBoringVaultAddress,
-    assetToken: TOKENS.usdc
+    name: 'USDS Flagship',
+    vaultAddress: usdsFlagshipVaultAddress,
+    assetToken: TOKENS.usds
   },
   {
     name: 'USDT Risk Capital',

@@ -338,10 +338,10 @@ export const contracts: {
     }
   },
   {
-    name: 'usdcClearstarBoringVault',
+    name: 'usdsFlagshipVault',
     address: {
-      [mainnet.id]: '0xF3Cc5c9A25508D8d959618fd48F6AbC18cA4Db49',
-      [TENDERLY_CHAIN_ID]: '0xF3Cc5c9A25508D8d959618fd48F6AbC18cA4Db49'
+      [mainnet.id]: '0xe15fcc81118895b67b6647bbd393182df44e11e0',
+      [TENDERLY_CHAIN_ID]: '0xe15fcc81118895b67b6647bbd393182df44e11e0'
     }
   },
   {
