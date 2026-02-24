@@ -15,7 +15,7 @@ import { useAnalyticsFlow } from '../context/AnalyticsFlowContext';
  * ```
  */
 export function useWidgetFlowTracking(widgetName: string, chainId: number) {
-  const { trackWidgetFlowStarted, trackWidgetFlowCompleted } = useAppAnalytics();
+  const { trackTransactionStarted, trackTransactionCompleted } = useAppAnalytics();
   const { startNewFlow } = useAnalyticsFlow();
   const prevTxStatusRef = useRef<WidgetTxStatus | null>(null);
 
@@ -30,36 +30,39 @@ export function useWidgetFlowTracking(widgetName: string, chainId: number) {
           const curr = params.txStatus;
           prevTxStatusRef.current = curr;
 
-          // Flow started: transition to INITIALIZED
+          // Transaction started: transition to INITIALIZED
           if (curr === WidgetTxStatus.INITIALIZED && prev !== WidgetTxStatus.INITIALIZED) {
-            trackWidgetFlowStarted({ widgetName, chainId });
+            trackTransactionStarted({ widgetName, chainId });
           }
 
-          // Flow completed: transition to SUCCESS
+          // Transaction completed: transition to SUCCESS
           if (curr === WidgetTxStatus.SUCCESS && prev !== WidgetTxStatus.SUCCESS) {
-            trackWidgetFlowCompleted({
+            trackTransactionCompleted({
               widgetName,
               chainId,
-              txStatus: 'success'
+              txStatus: 'success',
+              txHash: params.hash
             });
             startNewFlow();
           }
 
-          // Flow completed: transition to ERROR
+          // Transaction completed: transition to ERROR
           if (curr === WidgetTxStatus.ERROR && prev !== WidgetTxStatus.ERROR) {
-            trackWidgetFlowCompleted({
+            trackTransactionCompleted({
               widgetName,
               chainId,
-              txStatus: 'error'
+              txStatus: 'error',
+              txHash: params.hash
             });
           }
 
-          // Flow completed: transition to CANCELLED
+          // Transaction completed: transition to CANCELLED
           if (curr === WidgetTxStatus.CANCELLED && prev !== WidgetTxStatus.CANCELLED) {
-            trackWidgetFlowCompleted({
+            trackTransactionCompleted({
               widgetName,
               chainId,
-              txStatus: 'cancelled'
+              txStatus: 'cancelled',
+              txHash: params.hash
             });
           }
         } catch (error) {
@@ -67,7 +70,7 @@ export function useWidgetFlowTracking(widgetName: string, chainId: number) {
         }
       };
     },
-    [widgetName, chainId, trackWidgetFlowStarted, trackWidgetFlowCompleted, startNewFlow]
+    [widgetName, chainId, trackTransactionStarted, trackTransactionCompleted, startNewFlow]
   );
 
   return { wrapStateChange };

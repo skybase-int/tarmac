@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { usePostHog } from 'posthog-js/react';
-import { useChains } from 'wagmi';
+import { useChains, useConnection } from 'wagmi';
 import {
   AppEvents,
   safeCapture,
@@ -13,6 +13,7 @@ import { useAnalyticsFlow } from '../context/AnalyticsFlowContext';
 
 export function useAppAnalytics() {
   const posthog = usePostHog();
+  const { address } = useConnection();
   const chains = useChains();
   const { getFlowId } = useAnalyticsFlow();
 
@@ -43,9 +44,9 @@ export function useAppAnalytics() {
     });
   };
 
-  const trackWidgetFlowStarted = useCallback(
+  const trackTransactionStarted = useCallback(
     ({ widgetName, chainId }: { widgetName: string; chainId: number }) => {
-      safeCapture(posthog, AppEvents.WIDGET_FLOW_STARTED, {
+      safeCapture(posthog, AppEvents.TRANSACTION_STARTED, {
         widget_name: widgetName,
         chain_id: chainId,
         chain_name: getChainName(chainId),
@@ -56,29 +57,33 @@ export function useAppAnalytics() {
     [posthog, getChainName, getFlowId]
   );
 
-  const trackWidgetFlowCompleted = useCallback(
+  const trackTransactionCompleted = useCallback(
     ({
       widgetName,
       chainId,
       txStatus,
+      txHash,
       errorContext
     }: {
       widgetName: string;
       chainId: number;
       txStatus: TxStatus;
+      txHash?: string;
       errorContext?: ErrorContext;
     }) => {
-      safeCapture(posthog, AppEvents.WIDGET_FLOW_COMPLETED, {
+      safeCapture(posthog, AppEvents.TRANSACTION_COMPLETED, {
         widget_name: widgetName,
         chain_id: chainId,
         chain_name: getChainName(chainId),
         tx_status: txStatus,
+        wallet_address: address,
+        ...(txHash && { tx_hash: txHash }),
         ...(errorContext && { error_context: errorContext }),
         viewport: getViewport(),
         flow_id: getFlowId()
       });
     },
-    [posthog, getChainName, getFlowId]
+    [posthog, address, getChainName, getFlowId]
   );
 
   const trackDetailsPaneToggled = ({
@@ -137,8 +142,8 @@ export function useAppAnalytics() {
 
   return {
     trackWidgetSelected,
-    trackWidgetFlowStarted,
-    trackWidgetFlowCompleted,
+    trackTransactionStarted,
+    trackTransactionCompleted,
     trackDetailsPaneToggled,
     trackChatPaneToggled,
     trackWalletConnected,
