@@ -2,6 +2,7 @@ import { useRef, useCallback } from 'react';
 import { TxStatus as WidgetTxStatus, type WidgetStateChangeParams } from '@jetstreamgg/sky-widgets';
 import { useAppAnalytics } from './useAppAnalytics';
 import { reportAnalyticsError } from '../constants';
+import { useAnalyticsFlow } from '../context/AnalyticsFlowContext';
 
 /**
  * Higher-order hook that wraps any widget's onWidgetStateChange handler
@@ -15,6 +16,7 @@ import { reportAnalyticsError } from '../constants';
  */
 export function useWidgetFlowTracking(widgetName: string, chainId: number) {
   const { trackWidgetFlowStarted, trackWidgetFlowCompleted } = useAppAnalytics();
+  const { startNewFlow } = useAnalyticsFlow();
   const prevTxStatusRef = useRef<WidgetTxStatus | null>(null);
 
   const wrapStateChange = useCallback(
@@ -40,6 +42,7 @@ export function useWidgetFlowTracking(widgetName: string, chainId: number) {
               chainId,
               txStatus: 'success'
             });
+            startNewFlow();
           }
 
           // Flow completed: transition to ERROR
@@ -64,7 +67,7 @@ export function useWidgetFlowTracking(widgetName: string, chainId: number) {
         }
       };
     },
-    [widgetName, chainId, trackWidgetFlowStarted, trackWidgetFlowCompleted]
+    [widgetName, chainId, trackWidgetFlowStarted, trackWidgetFlowCompleted, startNewFlow]
   );
 
   return { wrapStateChange };

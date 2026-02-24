@@ -9,10 +9,12 @@ import {
   type TxStatus,
   type ErrorContext
 } from '../constants';
+import { useAnalyticsFlow } from '../context/AnalyticsFlowContext';
 
 export function useAppAnalytics() {
   const posthog = usePostHog();
   const chains = useChains();
+  const { getFlowId } = useAnalyticsFlow();
 
   const getChainName = useCallback(
     (chainId: number) => chains.find(c => c.id === chainId)?.name ?? `unknown_${chainId}`,
@@ -36,7 +38,8 @@ export function useAppAnalytics() {
       selection_method: selectionMethod,
       chain_id: chainId,
       chain_name: getChainName(chainId),
-      viewport: getViewport()
+      viewport: getViewport(),
+      flow_id: getFlowId()
     });
   };
 
@@ -46,10 +49,11 @@ export function useAppAnalytics() {
         widget_name: widgetName,
         chain_id: chainId,
         chain_name: getChainName(chainId),
-        viewport: getViewport()
+        viewport: getViewport(),
+        flow_id: getFlowId()
       });
     },
-    [posthog, getChainName]
+    [posthog, getChainName, getFlowId]
   );
 
   const trackWidgetFlowCompleted = useCallback(
@@ -70,10 +74,11 @@ export function useAppAnalytics() {
         chain_name: getChainName(chainId),
         tx_status: txStatus,
         ...(errorContext && { error_context: errorContext }),
-        viewport: getViewport()
+        viewport: getViewport(),
+        flow_id: getFlowId()
       });
     },
-    [posthog, getChainName]
+    [posthog, getChainName, getFlowId]
   );
 
   const trackDetailsPaneToggled = ({
