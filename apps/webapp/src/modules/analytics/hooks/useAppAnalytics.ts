@@ -86,6 +86,21 @@ export function useAppAnalytics() {
     [posthog, address, getChainName, getFlowId]
   );
 
+  const trackWidgetReviewViewed = useCallback(
+    ({ widgetName, chainId, flow }: { widgetName: string; chainId: number; flow: string }) => {
+      safeCapture(posthog, AppEvents.WIDGET_REVIEW_VIEWED, {
+        widget_name: widgetName,
+        chain_id: chainId,
+        chain_name: getChainName(chainId),
+        flow,
+        wallet_address: address,
+        viewport: getViewport(),
+        flow_id: getFlowId()
+      });
+    },
+    [posthog, address, getChainName, getFlowId]
+  );
+
   const trackDetailsPaneToggled = ({
     toggleAction,
     activeWidget,
@@ -144,6 +159,7 @@ export function useAppAnalytics() {
     trackWidgetSelected,
     trackTransactionStarted,
     trackTransactionCompleted,
+    trackWidgetReviewViewed,
     trackDetailsPaneToggled,
     trackChatPaneToggled,
     trackWalletConnected,
