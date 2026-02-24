@@ -63,7 +63,7 @@ export const useMorphoVaultTransactionCallbacks = ({
   });
 
   const formattedAmount = Number(formatUnits(amount, assetDecimals));
-  const vaultData = { module: 'morpho', product: vaultName, productAddress: vaultAddress, assetAddress, assetSymbol };
+  const vaultData = { module: 'morpho', product: vaultName, productAddress: vaultAddress, assetAddress, assetSymbol, isBatchTx: shouldUseBatch };
 
   // Tracks which step of a multi-call supply flow we're on (approve → deposit)
   const supplyStepRef = useRef(0);
