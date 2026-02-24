@@ -15,6 +15,7 @@ import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
 import { useChatContext } from '@/modules/chat/context/ChatContext';
 import { VaultsIntent } from '@/lib/enums';
 import { useBatchToggle } from '@/modules/ui/hooks/useBatchToggle';
+import { useWidgetFlowTracking } from '@/modules/analytics/hooks/useWidgetFlowTracking';
 import { useChainId } from 'wagmi';
 
 type MorphoVaultWidgetPaneProps = SharedProps & {
@@ -38,6 +39,7 @@ export function MorphoVaultWidgetPane({
   const [searchParams, setSearchParams] = useSearchParams();
   const { setShouldDisableActionButtons } = useChatContext();
 
+  const { wrapStateChange } = useWidgetFlowTracking('vaults', chainId);
   const [batchEnabled, setBatchEnabled] = useBatchToggle();
 
   const flow = (searchParams.get(QueryParams.Flow) || undefined) as MorphoVaultFlow | undefined;
@@ -118,7 +120,7 @@ export function MorphoVaultWidgetPane({
       assetAddress={currentAssetAddress}
       assetToken={assetToken}
       vaultName={vaultName}
-      onWidgetStateChange={onMorphoVaultWidgetStateChange}
+      onWidgetStateChange={wrapStateChange(onMorphoVaultWidgetStateChange)}
       externalWidgetState={{
         amount: linkedActionConfig?.inputAmount,
         flow
