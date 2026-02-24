@@ -2,13 +2,38 @@ import { getBannerByIdAndModule, filterBannersByConnectionStatus } from '@/data/
 import { parseBannerContent } from '@/utils/bannerContentParser';
 import { useConnectedContext } from '../context/ConnectedContext';
 import { AboutCard } from './AboutCard';
+import { TokenIcon } from './TokenIcon';
 import { Trans } from '@lingui/react/macro';
 import { Morpho } from '@jetstreamgg/sky-widgets';
 
-export const AboutMorphoVaults = () => {
+const getVaultIcon = (bannerId: string) => {
+  const morphoIcon = <Morpho className="h-6 w-6 rounded-sm" />;
+
+  if (bannerId === 'flagship-vault') {
+    return (
+      <span className="flex items-center gap-1">
+        {morphoIcon}
+        <TokenIcon token={{ symbol: 'USDS' }} width={24} className="h-6 w-6" showChainIcon={false} />
+      </span>
+    );
+  }
+
+  if (bannerId === 'risk-capital-vault') {
+    return (
+      <span className="flex items-center gap-1">
+        {morphoIcon}
+        <TokenIcon token={{ symbol: 'stUSDS' }} width={24} className="h-6 w-6" showChainIcon={false} />
+      </span>
+    );
+  }
+
+  return morphoIcon;
+};
+
+export const AboutMorphoVaults = ({ bannerId = 'morpho-vaults' }: { bannerId?: string }) => {
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
 
-  const banner = getBannerByIdAndModule('morpho-vaults', 'vaults-banners');
+  const banner = getBannerByIdAndModule(bannerId, 'vaults-banners');
 
   if (!banner) return null;
 
@@ -21,8 +46,8 @@ export const AboutMorphoVaults = () => {
 
   return (
     <AboutCard
-      title={<Trans>Morpho Vaults</Trans>}
-      icon={<Morpho className="h-6 w-6 rounded-sm" />}
+      title={banner.title}
+      icon={getVaultIcon(bannerId)}
       description={contentText}
       linkHref="https://morpho.org"
       linkLabel={<Trans>Learn more</Trans>}
