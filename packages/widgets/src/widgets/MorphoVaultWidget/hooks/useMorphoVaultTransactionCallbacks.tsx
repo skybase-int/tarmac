@@ -260,7 +260,7 @@ export const useMorphoVaultTransactionCallbacks = ({
               ?.filter(r => r.amount > 0n)
               .map(r => ({
                 tokenSymbol: r.tokenSymbol,
-                amount: formatBigInt(r.amount, { unit: r.tokenDecimals }),
+                amount: Number(formatUnits(r.amount, r.tokenDecimals)),
                 tokenAddress: r.tokenAddress
               }))
           }
@@ -291,7 +291,7 @@ export const useMorphoVaultTransactionCallbacks = ({
               ?.filter(r => r.amount > 0n)
               .map(r => ({
                 tokenSymbol: r.tokenSymbol,
-                amount: formatBigInt(r.amount, { unit: r.tokenDecimals }),
+                amount: Number(formatUnits(r.amount, r.tokenDecimals)),
                 tokenAddress: r.tokenAddress
               }))
           }
