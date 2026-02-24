@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useRef, type ReactNode } from 'react';
-import { generateUUID } from '@/modules/chat/lib/generateUUID';
+import { generateUUID } from '@/lib/generateUUID';
 
 interface AnalyticsFlowContextProps {
   readonly startNewFlow: () => void;
