@@ -4,6 +4,7 @@ import { Trans } from '@lingui/react/macro';
 import { useMorphoVaultsCombinedTvl } from '@jetstreamgg/sky-hooks';
 import { formatNumber } from '@jetstreamgg/sky-utils';
 import { Text } from '@/modules/layout/components/Typography';
+import { PopoverRateInfo as PopoverInfo } from '@jetstreamgg/sky-widgets';
 
 export function VaultsTvlCard(): React.ReactElement {
   const { totalAssetsUsd, isLoading, error } = useMorphoVaultsCombinedTvl();
@@ -27,12 +28,15 @@ export function VaultsRatesCard(): React.ReactElement {
       className="h-full"
       title={t`Rates`}
       content={
-        <Text className="mt-2">
-          <Trans>
-            From: <span className="text-bullish">{formattedMinRate}</span> To:{' '}
-            <span className="text-bullish">{formattedMaxRate}</span>
-          </Trans>
-        </Text>
+        <div className="mt-2 flex flex-row items-center gap-2">
+          <Text>
+            <Trans>
+              From: <span className="text-bullish">{formattedMinRate}</span> To:{' '}
+              <span className="text-bullish">{formattedMaxRate}</span>
+            </Trans>
+          </Text>
+          <PopoverInfo type="morpho" />
+        </div>
       }
       isLoading={isLoading}
       error={error}
