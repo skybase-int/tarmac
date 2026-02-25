@@ -49,9 +49,13 @@ export function useWidgetAnalytics(widgetName: string, chainId: number) {
 
         const txStatus = TX_STATUS_MAP[event.event];
 
-        // Withdrawals are represented as negative amounts
+        // Withdrawals and reverts are represented as negative amounts
         const amount =
-          event.amount != null ? (event.flow === 'withdraw' ? -Math.abs(event.amount) : Math.abs(event.amount)) : undefined;
+          event.amount != null
+            ? event.flow === 'withdraw' || event.flow === 'revert'
+              ? -Math.abs(event.amount)
+              : Math.abs(event.amount)
+            : undefined;
 
         const properties: Record<string, unknown> = {
           widget_name: widgetName,
