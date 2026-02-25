@@ -18,6 +18,7 @@ interface ConnectedContextType {
   };
   vpnData: {
     isConnectedToVpn?: boolean;
+    isRestrictedRegion?: boolean;
     vpnIsLoading: boolean;
     vpnError?: Error;
     countryCode?: string | null;
@@ -58,24 +59,6 @@ export const ConnectedProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   // Track VPN check result once when data or error resolves
   const { trackVpnCheckCompleted } = useVpnAnalytics();
   const vpnTrackedRef = useRef(false);
-  useEffect(() => {
-    if (vpnIsLoading || vpnTrackedRef.current) return;
-    if (!vpnData && !vpnError) return;
-    vpnTrackedRef.current = true;
-    const result = vpnError
-      ? 'error'
-      : vpnData?.isConnectedToVpn
-        ? 'vpn_blocked'
-        : vpnData?.isRestrictedRegion
-          ? 'region_blocked'
-          : 'allowed';
-    trackVpnCheckCompleted({
-      isVpn: vpnData?.isConnectedToVpn ?? null,
-      isRestrictedRegion: vpnData?.isRestrictedRegion ?? null,
-      countryCode: vpnData?.countryCode ?? null,
-      result
-    });
-  }, [vpnIsLoading, vpnData, vpnError]);
 
   useEffect(() => {
     setEnabled(!!address);
@@ -158,6 +141,27 @@ export const ConnectedProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const isAuthorized = isAllowed || skipAuthCheck;
   const isConnectedAndAcceptedTerms = isConnected && hasAcceptedTerms;
 
+  useEffect(() => {
+    if (vpnIsLoading || vpnTrackedRef.current) return;
+    if (!vpnData && !vpnError) return;
+    vpnTrackedRef.current = true;
+    const result = vpnError
+      ? 'error'
+      : vpnData?.isConnectedToVpn
+        ? 'vpn_blocked'
+        : vpnData?.isRestrictedRegion
+          ? 'region_blocked'
+          : isAllowed
+            ? 'allowed'
+            : 'unknown';
+    trackVpnCheckCompleted({
+      isVpn: vpnData?.isConnectedToVpn ?? null,
+      isRestrictedRegion: vpnData?.isRestrictedRegion ?? null,
+      countryCode: vpnData?.countryCode ?? null,
+      result
+    });
+  }, [vpnIsLoading, vpnData, vpnError, isAllowed, trackVpnCheckCompleted]);
+
   return (
     <ConnectedContext.Provider
       value={{
@@ -173,6 +177,7 @@ export const ConnectedProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         },
         vpnData: {
           isConnectedToVpn: vpnData?.isConnectedToVpn,
+          isRestrictedRegion: vpnData?.isRestrictedRegion,
           vpnIsLoading,
           vpnError,
           countryCode: vpnData?.countryCode ?? null
