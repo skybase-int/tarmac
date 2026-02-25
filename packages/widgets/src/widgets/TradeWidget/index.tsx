@@ -69,6 +69,8 @@ import { useTokenImage } from '@widgets/shared/hooks/useTokenImage';
 import { withWidgetProvider } from '@widgets/shared/hocs/withWidgetProvider';
 import { useTokenBalances } from '@jetstreamgg/sky-hooks';
 import { usePrices } from '@jetstreamgg/sky-hooks';
+import { WidgetAnalyticsEventType } from '@widgets/shared/types/analyticsEvents';
+import { useTradeAnalytics } from './hooks/useTradeAnalytics';
 
 export type TradeWidgetProps = WidgetProps & {
   customTokenList?: TokenForChain[];
@@ -95,6 +97,7 @@ function TradeWidgetWrapped({
   onCustomNavigation,
   customNavigationLabel,
   onExternalLinkClicked,
+  onAnalyticsEvent,
   enabled = true,
   tokensLocked = false,
   batchEnabled: initialBatchEnabled = true,
@@ -340,6 +343,16 @@ function TradeWidgetWrapped({
         : debouncedTargetAmount === targetAmount) && widgetState.screen === TradeScreen.ACTION
   });
 
+  const { fireAnalytics, swapData } = useTradeAnalytics({
+    onAnalyticsEvent,
+    originToken,
+    targetToken,
+    debouncedOriginAmount,
+    targetAmount,
+    quoteData,
+    batchEnabled
+  });
+
   useEffect(() => {
     if (quoteError) {
       const errorMessage = getQuoteErrorForType(quoteError.message);
@@ -437,6 +450,13 @@ function TradeWidgetWrapped({
       if (hash) {
         setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
       }
+      fireAnalytics({
+        event: WidgetAnalyticsEventType.TRANSACTION_COMPLETED,
+        action: 'approve',
+        flow: TradeFlow.TRADE,
+        txHash: hash,
+        data: swapData
+      });
     },
     onError: (error: Error, hash: string | undefined) => {
       onNotification?.({
@@ -448,6 +468,13 @@ function TradeWidgetWrapped({
       mutateAllowance();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
       console.log(error);
+      fireAnalytics({
+        event: WidgetAnalyticsEventType.TRANSACTION_ERROR,
+        action: 'approve',
+        flow: TradeFlow.TRADE,
+        txHash: hash,
+        data: swapData
+      });
     },
     enabled:
       needsUsdtReset &&
@@ -487,6 +514,13 @@ function TradeWidgetWrapped({
       setTxStatus(TxStatus.SUCCESS);
       mutateAllowance();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.SUCCESS });
+      fireAnalytics({
+        event: WidgetAnalyticsEventType.TRANSACTION_COMPLETED,
+        action: 'approve',
+        flow: TradeFlow.TRADE,
+        txHash: hash,
+        data: swapData
+      });
     },
     onError: (error: Error, hash: string) => {
       onNotification?.({
@@ -498,6 +532,13 @@ function TradeWidgetWrapped({
       mutateAllowance();
       onWidgetStateChange?.({ hash, widgetState, txStatus: TxStatus.ERROR });
       console.log(error);
+      fireAnalytics({
+        event: WidgetAnalyticsEventType.TRANSACTION_ERROR,
+        action: 'approve',
+        flow: TradeFlow.TRADE,
+        txHash: hash,
+        data: swapData
+      });
     },
     enabled:
       widgetState.action === TradeAction.APPROVE &&
@@ -515,6 +556,12 @@ function TradeWidgetWrapped({
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash: orderId, widgetState, txStatus: TxStatus.LOADING });
       setCancelButtonText(t`Cancel order`);
+      fireAnalytics({
+        event: WidgetAnalyticsEventType.TRANSACTION_COMPLETED,
+        action: 'swap',
+        flow: TradeFlow.TRADE,
+        data: { ...swapData, orderId, orderStatus: 'submitted' }
+      });
     },
     onSuccess: (executedSellAmount: bigint, executedBuyAmount: bigint) => {
       //hardcoding the locale used for the externalized widget state because the widget consumer expects a constistent formatting
@@ -564,6 +611,12 @@ function TradeWidgetWrapped({
       setTxStatus(TxStatus.ERROR);
       onWidgetStateChange?.({ widgetState, txStatus: TxStatus.ERROR });
       console.log(error);
+      fireAnalytics({
+        event: WidgetAnalyticsEventType.TRANSACTION_ERROR,
+        action: 'swap',
+        flow: TradeFlow.TRADE,
+        data: swapData
+      });
     }
   });
 
@@ -575,6 +628,12 @@ function TradeWidgetWrapped({
       setTxStatus(TxStatus.LOADING);
       onWidgetStateChange?.({ hash: orderId, widgetState, txStatus: TxStatus.LOADING });
       setCancelButtonText(t`Cancel order`);
+      fireAnalytics({
+        event: WidgetAnalyticsEventType.TRANSACTION_COMPLETED,
+        action: 'swap',
+        flow: TradeFlow.TRADE,
+        data: { ...swapData, orderId, orderStatus: 'submitted' }
+      });
     },
     onSuccess: (executedSellAmount: bigint, executedBuyAmount: bigint) => {
       //hardcoding the locale used for the externalized widget state because the widget consumer expects a constistent formatting
@@ -624,6 +683,12 @@ function TradeWidgetWrapped({
       setTxStatus(TxStatus.ERROR);
       onWidgetStateChange?.({ widgetState, txStatus: TxStatus.ERROR });
       console.log(error);
+      fireAnalytics({
+        event: WidgetAnalyticsEventType.TRANSACTION_ERROR,
+        action: 'swap',
+        flow: TradeFlow.TRADE,
+        data: swapData
+      });
     },
     onTransactionError: (error: Error) => {
       onNotification?.({
@@ -634,6 +699,12 @@ function TradeWidgetWrapped({
       setTxStatus(TxStatus.ERROR);
       onWidgetStateChange?.({ widgetState, txStatus: TxStatus.ERROR });
       console.log(error);
+      fireAnalytics({
+        event: WidgetAnalyticsEventType.TRANSACTION_ERROR,
+        action: 'swap',
+        flow: TradeFlow.TRADE,
+        data: swapData
+      });
     }
   });
 
@@ -665,6 +736,12 @@ function TradeWidgetWrapped({
       setExternalLink(getCowExplorerLink(chainId, orderId));
       setEthFlowTxStatus(EthFlowTxStatus.ORDER_CREATED);
       onWidgetStateChange?.({ widgetState, txStatus: TxStatus.LOADING });
+      fireAnalytics({
+        event: WidgetAnalyticsEventType.TRANSACTION_COMPLETED,
+        action: 'swap',
+        flow: TradeFlow.TRADE,
+        data: { ...swapData, orderId, orderStatus: 'submitted' }
+      });
     },
     onSuccess: (executedSellAmount: bigint, executedBuyAmount: bigint) => {
       //hardcoding the locale used for the externalized widget state because the widget consumer expects a constistent formatting
@@ -715,6 +792,12 @@ function TradeWidgetWrapped({
       setEthFlowTxStatus(EthFlowTxStatus.ERROR);
       onWidgetStateChange?.({ widgetState, txStatus: TxStatus.ERROR });
       console.log(error);
+      fireAnalytics({
+        event: WidgetAnalyticsEventType.TRANSACTION_ERROR,
+        action: 'swap',
+        flow: TradeFlow.TRADE,
+        data: swapData
+      });
     }
   });
 
@@ -734,6 +817,12 @@ function TradeWidgetWrapped({
         setTxStatus(TxStatus.CANCELLED);
       }
       setCancelLoading(false);
+      fireAnalytics({
+        event: WidgetAnalyticsEventType.TRANSACTION_CANCELLED,
+        action: 'cancel',
+        flow: TradeFlow.TRADE,
+        data: { ...swapData, orderId }
+      });
     },
     onError: (error: Error) => {
       console.error(error);
@@ -743,6 +832,12 @@ function TradeWidgetWrapped({
         status: TxStatus.SUCCESS
       });
       setCancelLoading(false);
+      fireAnalytics({
+        event: WidgetAnalyticsEventType.TRANSACTION_ERROR,
+        action: 'cancel',
+        flow: TradeFlow.TRADE,
+        data: { ...swapData, orderId }
+      });
     }
   });
 
@@ -768,6 +863,12 @@ function TradeWidgetWrapped({
         setTxStatus(TxStatus.CANCELLED);
       }
       setCancelLoading(false);
+      fireAnalytics({
+        event: WidgetAnalyticsEventType.TRANSACTION_CANCELLED,
+        action: 'cancel',
+        flow: TradeFlow.TRADE,
+        data: { ...swapData, orderId }
+      });
     },
     onError: (error: Error) => {
       console.error(error);
@@ -777,6 +878,12 @@ function TradeWidgetWrapped({
         status: TxStatus.SUCCESS
       });
       setCancelLoading(false);
+      fireAnalytics({
+        event: WidgetAnalyticsEventType.TRANSACTION_ERROR,
+        action: 'cancel',
+        flow: TradeFlow.TRADE,
+        data: { ...swapData, orderId }
+      });
     }
   });
 
@@ -1169,6 +1276,12 @@ function TradeWidgetWrapped({
     }));
     setTxStatus(TxStatus.INITIALIZED);
     setExternalLink(undefined);
+    fireAnalytics({
+      event: WidgetAnalyticsEventType.TRANSACTION_STARTED,
+      action: 'approve',
+      flow: TradeFlow.TRADE,
+      data: swapData
+    });
 
     // Use appropriate approve function based on USDT reset requirement
     if (needsUsdtReset) {
@@ -1186,6 +1299,12 @@ function TradeWidgetWrapped({
     }));
     setTxStatus(TxStatus.INITIALIZED);
     setExternalLink(undefined);
+    fireAnalytics({
+      event: WidgetAnalyticsEventType.TRANSACTION_STARTED,
+      action: 'swap',
+      flow: TradeFlow.TRADE,
+      data: swapData
+    });
     if (originToken?.isNative) {
       setEthFlowTxStatus(EthFlowTxStatus.INITIALIZED);
       ethTradeExecute();
@@ -1244,6 +1363,12 @@ function TradeWidgetWrapped({
       ...prev,
       screen: TradeScreen.REVIEW
     }));
+    fireAnalytics({
+      event: WidgetAnalyticsEventType.REVIEW_VIEWED,
+      action: 'swap',
+      flow: TradeFlow.TRADE,
+      data: swapData
+    });
   };
 
   const onClickBack = () => {
