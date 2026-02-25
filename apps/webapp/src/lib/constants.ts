@@ -41,7 +41,7 @@ export const RESTRICTED_INTENTS: Intent[] = (() => {
   if (isRestrictedMiCa) {
     return [Intent.TRADE_INTENT];
   } else if (isRestrictedBuild) {
-    return [Intent.SAVINGS_INTENT, Intent.REWARDS_INTENT, Intent.EXPERT_INTENT, Intent.VAULTS_INTENT];
+    return [Intent.SAVINGS_INTENT, Intent.REWARDS_INTENT, Intent.EXPERT_INTENT];
   }
   return [];
 })();
