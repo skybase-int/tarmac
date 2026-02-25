@@ -6,28 +6,34 @@ import { WidgetAnalyticsEvent } from '@widgets/shared/types/analyticsEvents';
 
 interface UseTradeAnalyticsParams {
   onAnalyticsEvent?: (event: WidgetAnalyticsEvent) => void;
+  swapProvider: 'cowswap' | 'psm';
   originToken?: TokenForChain;
   targetToken?: TokenForChain;
   debouncedOriginAmount: bigint;
   targetAmount: bigint;
+  /** CowSwap quote data — slippage & quoteKind are extracted from here when available */
   quoteData?: OrderQuoteResponse | null;
+  /** Explicit quoteKind fallback for PSM (derived from lastUpdated: TradeSide.IN → 'sell', TradeSide.OUT → 'buy') */
+  quoteKind?: string;
   batchEnabled: boolean;
 }
 
 export function useTradeAnalytics({
   onAnalyticsEvent,
+  swapProvider,
   originToken,
   targetToken,
   debouncedOriginAmount,
   targetAmount,
   quoteData,
+  quoteKind,
   batchEnabled
 }: UseTradeAnalyticsParams) {
   const chainId = useChainId();
 
   const swapData: Record<string, unknown> = {
     module: 'swap',
-    swapProvider: 'cowswap',
+    swapProvider,
     tokenAddressFrom: originToken?.address,
     tokenSymbolFrom: originToken?.symbol,
     tokenAddressTo: targetToken?.address,
@@ -40,7 +46,7 @@ export function useTradeAnalytics({
       : undefined,
     isEthFlow: !!originToken?.isNative,
     slippage: quoteData?.quote?.slippageTolerance,
-    quoteKind: quoteData?.quote?.kind,
+    quoteKind: quoteData?.quote?.kind ?? quoteKind,
     isBatchTx: batchEnabled
   };
 

@@ -345,6 +345,7 @@ function TradeWidgetWrapped({
 
   const { fireAnalytics, swapData } = useTradeAnalytics({
     onAnalyticsEvent,
+    swapProvider: 'cowswap',
     originToken,
     targetToken,
     debouncedOriginAmount,
