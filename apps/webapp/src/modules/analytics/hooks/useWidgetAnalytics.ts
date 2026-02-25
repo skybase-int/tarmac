@@ -66,6 +66,7 @@ export function useWidgetAnalytics(widgetName: string, chainId: number) {
           flow: event.flow,
           viewport: getViewport(),
           flow_id: getFlowId(),
+          timestamp: new Date().toISOString(),
           ...(txStatus && { tx_status: txStatus }),
           ...(event.txHash && { tx_hash: event.txHash }),
           ...(amount != null && { amount }),
