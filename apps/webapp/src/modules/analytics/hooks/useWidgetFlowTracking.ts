@@ -3,6 +3,7 @@ import { TxStatus as WidgetTxStatus, type WidgetStateChangeParams } from '@jetst
 import { useAppAnalytics } from './useAppAnalytics';
 import { reportAnalyticsError } from '../constants';
 import { useAnalyticsFlow } from '../context/AnalyticsFlowContext';
+import { isCowSupportedChainId } from '@jetstreamgg/sky-utils';
 
 /**
  * Higher-order hook that wraps any widget's onWidgetStateChange handler
@@ -19,6 +20,7 @@ export function useWidgetFlowTracking(widgetName: string, chainId: number) {
   const { startNewFlow } = useAnalyticsFlow();
   const prevTxStatusRef = useRef<WidgetTxStatus | null>(null);
   const prevScreenRef = useRef<string | null>(null);
+  const cowSwapOrderIdRef = useRef<string | null>(null);
 
   const wrapStateChange = useCallback(
     (originalHandler: (params: WidgetStateChangeParams) => void) => {
@@ -33,9 +35,21 @@ export function useWidgetFlowTracking(widgetName: string, chainId: number) {
 
           const action = params.widgetState?.action;
 
+          const isCowSwapTrade = widgetName === 'trade' && isCowSupportedChainId(chainId);
+
+          // Capture CowSwap orderId when it arrives (during LOADING, before SUCCESS)
+          if (isCowSwapTrade && params.hash) {
+            cowSwapOrderIdRef.current = params.hash;
+          }
+
+          const txHash = isCowSwapTrade ? undefined : params.hash;
+          const orderId = isCowSwapTrade ? params.hash || cowSwapOrderIdRef.current : undefined;
+
           // Transaction started: transition to INITIALIZED
           if (curr === WidgetTxStatus.INITIALIZED && prev !== WidgetTxStatus.INITIALIZED) {
             trackTransactionStarted({ widgetName, chainId, action });
+            // Reset orderId for new transactions
+            cowSwapOrderIdRef.current = null;
           }
 
           // Transaction completed: transition to SUCCESS
@@ -44,7 +58,8 @@ export function useWidgetFlowTracking(widgetName: string, chainId: number) {
               widgetName,
               chainId,
               txStatus: 'success',
-              txHash: params.hash,
+              txHash,
+              orderId,
               action
             });
             startNewFlow();
@@ -56,7 +71,8 @@ export function useWidgetFlowTracking(widgetName: string, chainId: number) {
               widgetName,
               chainId,
               txStatus: 'error',
-              txHash: params.hash,
+              txHash,
+              orderId,
               action
             });
           }
@@ -67,7 +83,8 @@ export function useWidgetFlowTracking(widgetName: string, chainId: number) {
               widgetName,
               chainId,
               txStatus: 'cancelled',
-              txHash: params.hash,
+              txHash,
+              orderId,
               action
             });
           }

@@ -13,6 +13,7 @@ import {
 import { useAnalyticsFlow } from '../context/AnalyticsFlowContext';
 import { useSearchParams } from 'react-router-dom';
 import { QueryParams } from '@/lib/constants';
+import { isCowSupportedChainId } from '@jetstreamgg/sky-utils';
 
 // Maps widget_name → module
 const WIDGET_MODULE_MAP: Record<string, string> = {
@@ -47,31 +48,46 @@ export function useAppAnalytics() {
         }
       });
 
-      // Remap input_amount → amount (as number, negative for withdrawals)
+      const widget = searchParams.get('widget');
+
+      // Remap input_amount → amountFrom (trade) or amount (other widgets, negative for withdrawals)
       const rawAmount = params[QueryParams.InputAmount];
       delete params[QueryParams.InputAmount];
       if (rawAmount != null) {
         const num = Number(rawAmount);
         if (!isNaN(num)) {
-          const isWithdrawal = isWithdrawalFlow(
-            searchParams.get('widget'),
-            searchParams.get(QueryParams.ExpertModule),
-            searchParams.get(QueryParams.Flow),
-            searchParams.get(QueryParams.StakeTab),
-            searchParams.get(QueryParams.SealTab)
-          );
-          params.amount = isWithdrawal ? -Math.abs(num) : num;
+          if (widget === 'trade') {
+            params.amountFrom = num;
+          } else {
+            const isWithdrawal = isWithdrawalFlow(
+              widget,
+              searchParams.get(QueryParams.ExpertModule),
+              searchParams.get(QueryParams.Flow),
+              searchParams.get(QueryParams.StakeTab),
+              searchParams.get(QueryParams.SealTab)
+            );
+            params.amount = isWithdrawal ? -Math.abs(num) : num;
+          }
         }
       }
 
-      // Remap source_token → assetSymbol
+      // Remap source_token → tokenSymbolFrom (trade) or assetSymbol (other widgets)
       const sourceToken = params[QueryParams.SourceToken];
       delete params[QueryParams.SourceToken];
       if (sourceToken != null) {
-        params.assetSymbol = sourceToken;
+        if (widget === 'trade') {
+          params.tokenSymbolFrom = sourceToken;
+        } else {
+          params.assetSymbol = sourceToken;
+        }
       }
 
-      const widget = searchParams.get('widget');
+      // Remap target_token → tokenSymbolTo (trade only)
+      const targetToken = params[QueryParams.TargetToken];
+      delete params[QueryParams.TargetToken];
+      if (targetToken != null && widget === 'trade') {
+        params.tokenSymbolTo = targetToken;
+      }
 
       // Remap reward → productAddress (only for rewards widget)
       const reward = params[QueryParams.Reward];
@@ -143,6 +159,10 @@ export function useAppAnalytics() {
         wallet_address: address,
         ...(action && { action }),
         module: WIDGET_MODULE_MAP[widgetName] ?? widgetName,
+        ...(widgetName === 'trade' && {
+          flow: 'trade',
+          swapProvider: isCowSupportedChainId(chainId) ? 'cowswap' : 'psm'
+        }),
         timestamp: new Date().toISOString(),
         viewport: getViewport(),
         flow_id: getFlowId(),
@@ -158,6 +178,7 @@ export function useAppAnalytics() {
       chainId,
       txStatus,
       txHash,
+      orderId,
       action,
       errorContext
     }: {
@@ -165,6 +186,7 @@ export function useAppAnalytics() {
       chainId: number;
       txStatus: TxStatus;
       txHash?: string;
+      orderId?: string;
       action?: string;
       errorContext?: ErrorContext;
     }) => {
@@ -176,8 +198,13 @@ export function useAppAnalytics() {
         wallet_address: address,
         ...(action && { action }),
         ...(txHash && { tx_hash: txHash }),
+        ...(orderId && { orderId }),
         ...(errorContext && { error_context: errorContext }),
         module: WIDGET_MODULE_MAP[widgetName] ?? widgetName,
+        ...(widgetName === 'trade' && {
+          flow: 'trade',
+          swapProvider: isCowSupportedChainId(chainId) ? 'cowswap' : 'psm'
+        }),
         timestamp: new Date().toISOString(),
         viewport: getViewport(),
         flow_id: getFlowId(),
@@ -207,6 +234,9 @@ export function useAppAnalytics() {
         ...(action && { action }),
         wallet_address: address,
         module: WIDGET_MODULE_MAP[widgetName] ?? widgetName,
+        ...(widgetName === 'trade' && {
+          swapProvider: isCowSupportedChainId(chainId) ? 'cowswap' : 'psm'
+        }),
         timestamp: new Date().toISOString(),
         viewport: getViewport(),
         flow_id: getFlowId()
