@@ -71,7 +71,6 @@ export function useAppAnalytics() {
         params.assetSymbol = sourceToken;
       }
 
-      return params;
       const widget = searchParams.get('widget');
 
       // Remap reward → productAddress (only for rewards widget)
@@ -80,6 +79,26 @@ export function useAppAnalytics() {
       if (reward != null && widget === 'rewards') {
         params.productAddress = reward;
       }
+
+      // Remap urn_index → urnIndex (as number)
+      const urnIndex = params[QueryParams.UrnIndex];
+      delete params[QueryParams.UrnIndex];
+      if (urnIndex != null) {
+        const num = Number(urnIndex);
+        if (!isNaN(num)) {
+          params.urnIndex = num;
+        }
+      }
+
+      // Remap stake_tab → stakeAction (lock→stake, free→unstake)
+      const stakeTab = params[QueryParams.StakeTab];
+      delete params[QueryParams.StakeTab];
+      if (stakeTab != null) {
+        const stakeActionMap: Record<string, string> = { lock: 'stake', free: 'unstake' };
+        params.stakeAction = stakeActionMap[stakeTab as string] ?? stakeTab;
+      }
+
+      return params;
     } catch {
       return {};
     }
