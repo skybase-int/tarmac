@@ -18,7 +18,7 @@ import { QueryParams } from '@/lib/constants';
 const WIDGET_MODULE_MAP: Record<string, string> = {
   savings: 'savings',
   rewards: 'rewards',
-  convert: 'upgrade',
+  upgrade: 'upgrade',
   expert: 'expert',
   stake: 'stake',
   trade: 'trade',
