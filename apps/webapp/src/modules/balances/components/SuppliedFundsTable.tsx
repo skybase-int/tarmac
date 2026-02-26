@@ -121,6 +121,7 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
     rewardContractAddresses: stakeRewardContracts?.map(({ contractAddress }) => contractAddress) || []
   });
   const stakeHighestRateData = useHighestRateFromChartData(stakeRewardsChartsInfoData || []);
+  const stakeHasMultipleRates = (stakeRewardContracts?.length ?? 0) > 1;
 
   // stUSDS data
   const { data: stUsdsData, isLoading: stUsdsLoading } = useStUsdsData();
@@ -262,7 +263,7 @@ export function SuppliedFundsTable({ chainIds }: SuppliedFundsTableProps) {
           ? formatDecimalPercentage(parseFloat(stakeHighestRateData.rate))
           : '0%',
         ratePopoverType: 'srr',
-        isRateUpTo: true,
+        isRateUpTo: stakeHasMultipleRates,
         chainId: mainnetChainId
       }}
       isLoading={stakeLoading || stakeRateLoading}

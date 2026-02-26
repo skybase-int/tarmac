@@ -28,7 +28,8 @@ export function useSendBatchTransactionFlow<const calls extends readonly unknown
   const {
     sendCalls,
     error: sendError,
-    data: mutationData
+    data: mutationData,
+    reset: resetSendCalls
   } = useSendCalls({
     mutation: {
       onMutate,
@@ -94,6 +95,7 @@ export function useSendBatchTransactionFlow<const calls extends readonly unknown
     },
     isLoading: isLoadingCapabilities || (isMining && !txReverted),
     prepared: !!batchSupported && !!enabled && !isLoadingCapabilities && !capabilitiesError,
-    error: sendError || miningError
+    error: sendError || miningError,
+    reset: resetSendCalls
   };
 }
