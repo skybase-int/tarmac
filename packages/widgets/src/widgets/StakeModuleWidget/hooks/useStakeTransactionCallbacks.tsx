@@ -123,6 +123,8 @@ export const useStakeTransactionCallbacks = ({
   // Single source of truth for all stake analytics data
   const stakeData: Record<string, unknown> = {
     module: 'stake',
+    assetSymbol: 'SKY',
+    borrowSymbol: 'USDS',
     urnIndex: urnIndex !== undefined ? Number(urnIndex) : undefined,
     selectedRewardContract,
     selectedRewardSymbol,
