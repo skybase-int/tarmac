@@ -108,8 +108,7 @@ export function sanitizeUrl(url: string | undefined) {
 
 export function isIntentAllowed(intent: Intent, chainId: number) {
   const isRestrictedBuild = import.meta.env.VITE_RESTRICTED_BUILD === 'true';
-  const isRestrictedMiCa = import.meta.env.VITE_RESTRICTED_BUILD_MICA === 'true';
-  const isRestricted = isRestrictedBuild || isRestrictedMiCa;
+  const isRestricted = isRestrictedBuild;
 
   // First check if restricted build
   if (isRestricted && RESTRICTED_INTENTS.includes(intent)) {

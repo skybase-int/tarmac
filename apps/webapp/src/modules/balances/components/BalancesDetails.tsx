@@ -8,13 +8,17 @@ import { BalancesFaq } from './BalancesFaq';
 import { SuggestedActions } from '@/modules/vaults/agent/components/SuggestedActions';
 
 export function BalancesDetails() {
+  const isRestricted = import.meta.env.VITE_RESTRICTED_BUILD === 'true';
+
   return (
     <DetailSectionWrapper>
-      <DetailSection title={t`Earn with your Stables`} fixedOpen>
-        <DetailSectionRow>
-          <SuggestedActions widget="stables" variant="card" />
-        </DetailSectionRow>
-      </DetailSection>
+      {!isRestricted && (
+        <DetailSection title={t`Earn with your Stables`} fixedOpen>
+          <DetailSectionRow>
+            <SuggestedActions widget="stables" variant="card" />
+          </DetailSectionRow>
+        </DetailSection>
+      )}
       <DetailSection title={t`Stake, Borrow, and Earn with SKY`} fixedOpen>
         <DetailSectionRow>
           <SuggestedActions widget="sky" variant="card" />
