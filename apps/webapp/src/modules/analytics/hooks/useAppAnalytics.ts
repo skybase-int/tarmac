@@ -41,6 +41,7 @@ export function useAppAnalytics() {
         if (!isNaN(num)) {
           const isWithdrawal = isWithdrawalFlow(
             searchParams.get('widget'),
+            searchParams.get(QueryParams.ExpertModule),
             searchParams.get(QueryParams.Flow),
             searchParams.get(QueryParams.StakeTab),
             searchParams.get(QueryParams.SealTab)
