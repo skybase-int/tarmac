@@ -98,8 +98,8 @@ export const useL2TradeTransactionCallbacks = ({
         setShowAddToken(true);
         fireAnalytics({
           event: WidgetAnalyticsEventType.TRANSACTION_COMPLETED,
-          action: 'swap',
-          flow: 'swap',
+          action: 'trade',
+          flow: 'trade',
           txHash: hash,
           data: swapData
         });
@@ -113,8 +113,8 @@ export const useL2TradeTransactionCallbacks = ({
         });
         fireAnalytics({
           event: WidgetAnalyticsEventType.TRANSACTION_ERROR,
-          action: 'swap',
-          flow: 'swap',
+          action: 'trade',
+          flow: 'trade',
           txHash: hash,
           data: swapData
         });
@@ -175,8 +175,8 @@ export const useL2TradeTransactionCallbacks = ({
         setShowAddToken(true);
         fireAnalytics({
           event: WidgetAnalyticsEventType.TRANSACTION_COMPLETED,
-          action: 'swap',
-          flow: 'swap',
+          action: 'trade',
+          flow: 'trade',
           txHash: hash,
           data: swapData
         });
@@ -190,8 +190,8 @@ export const useL2TradeTransactionCallbacks = ({
         });
         fireAnalytics({
           event: WidgetAnalyticsEventType.TRANSACTION_ERROR,
-          action: 'swap',
-          flow: 'swap',
+          action: 'trade',
+          flow: 'trade',
           txHash: hash,
           data: swapData
         });

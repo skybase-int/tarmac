@@ -682,8 +682,8 @@ function TradeWidgetWrapped({
   const tradeOnClick = () => {
     fireAnalytics({
       event: WidgetAnalyticsEventType.TRANSACTION_STARTED,
-      action: 'swap',
-      flow: 'swap',
+      action: 'trade',
+      flow: 'trade',
       data: swapData
     });
     const executeFunction = lastUpdated === TradeSide.OUT ? batchTradeOut.execute : batchTrade.execute;
@@ -724,8 +724,8 @@ function TradeWidgetWrapped({
   const reviewOnClick = () => {
     fireAnalytics({
       event: WidgetAnalyticsEventType.REVIEW_VIEWED,
-      action: 'swap',
-      flow: 'swap',
+      action: 'trade',
+      flow: 'trade',
       data: swapData
     });
     setWidgetState((prev: WidgetState) => ({

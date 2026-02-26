@@ -37,7 +37,7 @@ export function TradeWidgetPane(sharedProps: SharedProps) {
   const { setShouldDisableActionButtons } = useChatContext();
 
   const [batchEnabled, setBatchEnabled] = useBatchToggle();
-  const onAnalyticsEvent = useWidgetAnalytics('swap', chainId);
+  const onAnalyticsEvent = useWidgetAnalytics('trade', chainId);
 
   const widgetParam = searchParams.get(QueryParams.Widget)?.toLowerCase();
   const isConvertContext = widgetParam === IntentMapping[Intent.CONVERT_INTENT];

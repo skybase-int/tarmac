@@ -559,7 +559,7 @@ function TradeWidgetWrapped({
       setCancelButtonText(t`Cancel order`);
       fireAnalytics({
         event: WidgetAnalyticsEventType.TRANSACTION_COMPLETED,
-        action: 'swap',
+        action: 'trade',
         flow: TradeFlow.TRADE,
         data: { ...swapData, orderId, orderStatus: 'submitted' }
       });
@@ -614,7 +614,7 @@ function TradeWidgetWrapped({
       console.log(error);
       fireAnalytics({
         event: WidgetAnalyticsEventType.TRANSACTION_ERROR,
-        action: 'swap',
+        action: 'trade',
         flow: TradeFlow.TRADE,
         data: swapData
       });
@@ -631,7 +631,7 @@ function TradeWidgetWrapped({
       setCancelButtonText(t`Cancel order`);
       fireAnalytics({
         event: WidgetAnalyticsEventType.TRANSACTION_COMPLETED,
-        action: 'swap',
+        action: 'trade',
         flow: TradeFlow.TRADE,
         data: { ...swapData, orderId, orderStatus: 'submitted' }
       });
@@ -686,7 +686,7 @@ function TradeWidgetWrapped({
       console.log(error);
       fireAnalytics({
         event: WidgetAnalyticsEventType.TRANSACTION_ERROR,
-        action: 'swap',
+        action: 'trade',
         flow: TradeFlow.TRADE,
         data: swapData
       });
@@ -702,7 +702,7 @@ function TradeWidgetWrapped({
       console.log(error);
       fireAnalytics({
         event: WidgetAnalyticsEventType.TRANSACTION_ERROR,
-        action: 'swap',
+        action: 'trade',
         flow: TradeFlow.TRADE,
         data: swapData
       });
@@ -739,7 +739,7 @@ function TradeWidgetWrapped({
       onWidgetStateChange?.({ widgetState, txStatus: TxStatus.LOADING });
       fireAnalytics({
         event: WidgetAnalyticsEventType.TRANSACTION_COMPLETED,
-        action: 'swap',
+        action: 'trade',
         flow: TradeFlow.TRADE,
         data: { ...swapData, orderId, orderStatus: 'submitted' }
       });
@@ -795,7 +795,7 @@ function TradeWidgetWrapped({
       console.log(error);
       fireAnalytics({
         event: WidgetAnalyticsEventType.TRANSACTION_ERROR,
-        action: 'swap',
+        action: 'trade',
         flow: TradeFlow.TRADE,
         data: swapData
       });
@@ -1302,7 +1302,7 @@ function TradeWidgetWrapped({
     setExternalLink(undefined);
     fireAnalytics({
       event: WidgetAnalyticsEventType.TRANSACTION_STARTED,
-      action: 'swap',
+      action: 'trade',
       flow: TradeFlow.TRADE,
       data: swapData
     });
@@ -1366,7 +1366,7 @@ function TradeWidgetWrapped({
     }));
     fireAnalytics({
       event: WidgetAnalyticsEventType.REVIEW_VIEWED,
-      action: 'swap',
+      action: 'trade',
       flow: TradeFlow.TRADE,
       data: swapData
     });

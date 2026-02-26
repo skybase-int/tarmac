@@ -32,7 +32,7 @@ export function useTradeAnalytics({
   const chainId = useChainId();
 
   const swapData: Record<string, unknown> = {
-    module: 'swap',
+    module: 'trade',
     swapProvider,
     tokenAddressFrom: originToken?.address,
     tokenSymbolFrom: originToken?.symbol,
