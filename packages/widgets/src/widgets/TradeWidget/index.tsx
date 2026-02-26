@@ -51,6 +51,12 @@ import { getAllowedTargetTokens, getQuoteErrorForType, verifySlippage } from './
 import { defaultConfig } from '@widgets/config/default-config';
 import { useLingui } from '@lingui/react';
 import { TradeHeader, TradeSubHeader, TradePoweredBy } from './components/TradeHeader';
+import { TradeConfigMenu } from './components/TradeConfigMenu';
+import { Trans } from '@lingui/react/macro';
+import { ArrowLeft } from 'lucide-react';
+import { Button } from '@widgets/components/ui/button';
+import { HStack } from '@widgets/shared/components/ui/layout/HStack';
+import { Heading } from '@widgets/shared/components/ui/Typography';
 import { formatUnits, parseUnits } from 'viem';
 import { getValidatedState } from '@widgets/lib/utils';
 import { TradeSummary } from './components/TradeSummary';
@@ -72,6 +78,7 @@ export type TradeWidgetProps = WidgetProps & {
   tokensLocked?: boolean;
   batchEnabled?: boolean;
   setBatchEnabled?: (enabled: boolean) => void;
+  onBackToConvert?: () => void;
 };
 
 function TradeWidgetWrapped({
@@ -91,7 +98,8 @@ function TradeWidgetWrapped({
   enabled = true,
   tokensLocked = false,
   batchEnabled: initialBatchEnabled = true,
-  setBatchEnabled: externalSetBatchEnabled
+  setBatchEnabled: externalSetBatchEnabled,
+  onBackToConvert
 }: TradeWidgetProps): React.ReactElement {
   const { mutate: addToWallet } = useAddTokenToWallet();
   const [showAddToken, setShowAddToken] = useState(false);
@@ -1378,13 +1386,40 @@ function TradeWidgetWrapped({
   return (
     <WidgetContainer
       header={
-        <TradeHeader
-          slippage={slippage}
-          setSlippage={setSlippage}
-          isEthFlow={originToken?.isNative}
-          ttl={ttl}
-          setTtl={setTtl}
-        />
+        <div>
+          {onBackToConvert ? (
+            <>
+              <div className="mb-2 flex items-center justify-between">
+                <Button variant="link" onClick={onBackToConvert} className="p-0">
+                  <HStack className="space-x-2">
+                    <ArrowLeft className="self-center" />
+                    <Heading tag="h3" variant="small" className="text-textSecondary">
+                      Back to Convert
+                    </Heading>
+                  </HStack>
+                </Button>
+                <TradeConfigMenu
+                  slippage={slippage}
+                  setSlippage={setSlippage}
+                  isEthFlow={originToken?.isNative}
+                  ttl={ttl}
+                  setTtl={setTtl}
+                />
+              </div>
+              <Heading variant="x-large">
+                <Trans>Trade</Trans>
+              </Heading>
+            </>
+          ) : (
+            <TradeHeader
+              slippage={slippage}
+              setSlippage={setSlippage}
+              isEthFlow={originToken?.isNative}
+              ttl={ttl}
+              setTtl={setTtl}
+            />
+          )}
+        </div>
       }
       subHeader={<TradeSubHeader />}
       rightHeader={rightHeaderComponent}

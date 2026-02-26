@@ -69,7 +69,7 @@ export const ConnectedProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const isRestrictedRegion = useMemo(
     () =>
       !vpnIsLoading &&
-      (import.meta.env.VITE_RESTRICTED_BUILD !== 'true' || import.meta.env.VITE_RESTRICTED_MICA !== 'true') &&
+      import.meta.env.VITE_RESTRICTED_BUILD !== 'true' &&
       vpnData?.isRestrictedRegion,
     [vpnIsLoading, vpnData?.isRestrictedRegion]
   );

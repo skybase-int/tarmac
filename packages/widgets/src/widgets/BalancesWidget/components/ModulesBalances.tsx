@@ -2,21 +2,23 @@ import {
   TOKENS,
   useAvailableTokenRewardContracts,
   useMultiChainSavingsBalances,
-  usePrices,
   useRewardsSuppliedBalance,
   useStUsdsData,
   useTotalUserSealed,
-  useTotalUserStaked
+  useTotalUserStaked,
+  useMorphoVaultOnChainData,
+  MORPHO_VAULTS
 } from '@jetstreamgg/sky-hooks';
 import { RewardsBalanceCard } from './RewardsBalanceCard';
 import { SavingsBalanceCard } from './SavingsBalanceCard';
 import { SealBalanceCard } from './SealBalanceCard';
 import { StakeBalanceCard } from './StakeBalanceCard';
-import { StUSDSBalanceCard } from './StUSDSBalanceCard';
-import { isMainnetId, isTestnetId } from '@jetstreamgg/sky-utils';
+import { ExpertBalanceCard } from './ExpertBalanceCard';
+import { VaultsBalanceCard } from './VaultsBalanceCard';
+import { chainId, isMainnetId, isTestnetId } from '@jetstreamgg/sky-utils';
 import { useChainId, useConnection } from 'wagmi';
-import { useMemo } from 'react';
-import { formatUnits } from 'viem';
+import { useEffect, useMemo } from 'react';
+import { SuppliedFundsEmptyState } from './SuppliedFundsEmptyState';
 
 export enum ModuleCardVariant {
   default = 'default',
@@ -44,9 +46,11 @@ interface ModulesBalancesProps {
   chainIds?: number[];
   stakeCardUrl?: string;
   stusdsCardUrl?: string;
+  morphoCardUrl?: string;
   variant?: ModuleCardVariant;
   hideZeroBalances?: boolean;
   showAllNetworks?: boolean;
+  onAllFundsEmpty?: (isEmpty: boolean) => void;
 }
 
 export const ModulesBalances = ({
@@ -57,13 +61,15 @@ export const ModulesBalances = ({
   chainIds,
   stakeCardUrl,
   stusdsCardUrl,
+  morphoCardUrl,
   variant = ModuleCardVariant.default,
   hideZeroBalances = false,
-  showAllNetworks = true
+  showAllNetworks = true,
+  onAllFundsEmpty
 }: ModulesBalancesProps): React.ReactElement => {
   const { address } = useConnection();
   const currentChainId = useChainId();
-  const mainnetChainId = isTestnetId(currentChainId) ? 314310 : 1;
+  const mainnetChainId = isTestnetId(currentChainId) ? chainId.tenderly : chainId.mainnet;
   const rewardContracts = useAvailableTokenRewardContracts(mainnetChainId);
 
   const usdsSkyRewardContract = rewardContracts.find(
@@ -128,6 +134,21 @@ export const ModulesBalances = ({
 
   const { data: stUsdsData, isLoading: stUsdsLoading, error: stUsdsError } = useStUsdsData();
 
+  // Get Morpho vault data for expert balance card
+  const defaultMorphoVault = MORPHO_VAULTS[0];
+  const morphoVaultAddress = defaultMorphoVault?.vaultAddress[mainnetChainId];
+  const {
+    data: morphoData,
+    isLoading: morphoLoading,
+    error: morphoError
+  } = useMorphoVaultOnChainData({
+    vaultAddress: morphoVaultAddress
+  });
+
+  // Combined expert savings balance (stUSDS + Morpho)
+  const totalExpertSavingsBalance = (stUsdsData?.userSuppliedUsds || 0n) + (morphoData?.userAssets || 0n);
+  const expertLoading = stUsdsLoading || morphoLoading;
+
   const {
     data: multichainSavingsBalances,
     isLoading: savingsLoading,
@@ -172,10 +193,17 @@ export const ModulesBalances = ({
       (!showAllNetworks && !isMainnetId(currentChainId))
   );
 
-  const hideStUSDS = Boolean(
+  const hideExpert = Boolean(
     !stusdsCardUrl || // Hide if no URL is provided (feature flag disabled)
-      stUsdsError ||
-      stUsdsData?.userSuppliedUsds === 0n || //always hide zero balances for expert modules
+      (stUsdsError && morphoError) ||
+      (totalExpertSavingsBalance === 0n && hideZeroBalances) ||
+      (!showAllNetworks && !isMainnetId(currentChainId))
+  );
+
+  const morphoSupplied = morphoData?.userAssets ?? 0n;
+  const hideVaults = Boolean(
+    morphoError ||
+      (morphoSupplied === 0n && hideZeroBalances) ||
       (!showAllNetworks && !isMainnetId(currentChainId))
   );
 
@@ -185,67 +213,53 @@ export const ModulesBalances = ({
 
   const hideModuleBalances = hideSavings && hideRewards && hideSeal;
 
-  // Fetch prices for USD value calculation
-  const { data: pricesData } = usePrices();
-
-  // Calculate USD value helper
-  const calculateUsdValue = (amount: bigint, decimals: number, price: string | undefined): number => {
-    if (!price || amount === 0n) return 0;
-    return parseFloat(formatUnits(amount, decimals)) * parseFloat(price);
+  // Fixed display order for modules
+  const displayOrder: Record<string, number> = {
+    rewards: 0,
+    savings: 1,
+    staking: 2,
+    vaults: 3,
+    stusds: 4,
+    seal: 5
   };
 
-  // Create sorted modules array based on USD value
   const sortedModules = useMemo(() => {
     const modules: Array<{
-      id: 'rewards' | 'savings' | 'stusds' | 'staking' | 'seal';
-      usdValue: number;
+      id: 'rewards' | 'savings' | 'stusds' | 'staking' | 'seal' | 'vaults';
       hidden: boolean;
     }> = [
-      {
-        id: 'rewards',
-        usdValue: calculateUsdValue(totalUserRewardsSupplied, 18, pricesData?.USDS?.price),
-        hidden: hideModuleBalances || hideRewards
-      },
-      {
-        id: 'savings',
-        usdValue: calculateUsdValue(totalSavingsBalance ?? 0n, 18, pricesData?.USDS?.price),
-        hidden: hideModuleBalances || hideSavings
-      },
-      {
-        id: 'stusds',
-        usdValue: calculateUsdValue(stUsdsData?.userSuppliedUsds ?? 0n, 18, pricesData?.USDS?.price),
-        hidden: hideModuleBalances || hideStUSDS
-      },
-      {
-        id: 'staking',
-        usdValue: calculateUsdValue(totalUserStaked ?? 0n, 18, pricesData?.SKY?.price),
-        hidden: hideStake
-      },
-      {
-        id: 'seal',
-        usdValue: calculateUsdValue(totalUserSealed ?? 0n, 18, pricesData?.MKR?.price),
-        hidden: hideSeal
-      }
+      { id: 'rewards', hidden: hideModuleBalances || hideRewards },
+      { id: 'savings', hidden: hideModuleBalances || hideSavings },
+      { id: 'staking', hidden: hideStake },
+      { id: 'vaults', hidden: hideVaults },
+      { id: 'stusds', hidden: hideModuleBalances || hideExpert },
+      { id: 'seal', hidden: hideSeal }
     ];
 
-    return modules.filter(m => !m.hidden).sort((a, b) => b.usdValue - a.usdValue);
-  }, [
-    totalUserRewardsSupplied,
-    totalSavingsBalance,
-    stUsdsData?.userSuppliedUsds,
-    totalUserStaked,
-    totalUserSealed,
-    pricesData,
-    hideModuleBalances,
-    hideRewards,
-    hideSavings,
-    hideStUSDS,
-    hideStake,
-    hideSeal
-  ]);
+    return modules.filter(m => !m.hidden).sort((a, b) => displayOrder[a.id] - displayOrder[b.id]);
+  }, [hideModuleBalances, hideRewards, hideSavings, hideExpert, hideStake, hideSeal, hideVaults]);
+
+  // Check if all supplied funds are zero (before any filtering)
+  const totalRawSavingsBalance = sortedSavingsBalances.reduce((acc, { balance }) => acc + balance, 0n);
+  const isAllLoaded = !rewardsLoading && !savingsLoading && !sealLoading && !stakeLoading && !expertLoading;
+  const allFundsEmpty =
+    isAllLoaded &&
+    totalUserRewardsSupplied === 0n &&
+    totalRawSavingsBalance === 0n &&
+    (totalUserSealed ?? 0n) === 0n &&
+    (totalUserStaked ?? 0n) === 0n &&
+    totalExpertSavingsBalance === 0n;
+
+  useEffect(() => {
+    onAllFundsEmpty?.(allFundsEmpty);
+  }, [allFundsEmpty, onAllFundsEmpty]);
+
+  if (allFundsEmpty) {
+    return <SuppliedFundsEmptyState />;
+  }
 
   // Render functions for each module type
-  const renderModule = (moduleId: 'rewards' | 'savings' | 'stusds' | 'staking' | 'seal') => {
+  const renderModule = (moduleId: 'rewards' | 'savings' | 'stusds' | 'staking' | 'seal' | 'vaults') => {
     switch (moduleId) {
       case 'rewards':
         return (
@@ -271,11 +285,11 @@ export const ModulesBalances = ({
         );
       case 'stusds':
         return (
-          <StUSDSBalanceCard
+          <ExpertBalanceCard
             key="stusds"
             url={stusdsCardUrl}
             onExternalLinkClicked={onExternalLinkClicked}
-            loading={stUsdsLoading}
+            loading={expertLoading}
             variant={variant}
           />
         );
@@ -298,6 +312,15 @@ export const ModulesBalances = ({
             url={sealCardUrl}
             loading={sealLoading}
             sealBalance={totalUserSealed}
+            variant={variant}
+          />
+        );
+      case 'vaults':
+        return (
+          <VaultsBalanceCard
+            key="vaults"
+            url={morphoCardUrl}
+            onExternalLinkClicked={onExternalLinkClicked}
             variant={variant}
           />
         );
