@@ -51,7 +51,7 @@ export function UpgradeWidgetPane(sharedProps: SharedProps) {
   const sourceToken = searchParams.get(QueryParams.SourceToken)?.toUpperCase();
 
   const [batchEnabled, setBatchEnabled] = useBatchToggle();
-  const { wrapStateChange } = useWidgetFlowTracking('upgrade', chainId);
+  const { wrapStateChange } = useWidgetFlowTracking('convert', chainId);
 
   // Set initial currentToken from sourceToken
   useEffect(() => {

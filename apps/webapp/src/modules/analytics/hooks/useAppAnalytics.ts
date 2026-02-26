@@ -14,6 +14,18 @@ import { useAnalyticsFlow } from '../context/AnalyticsFlowContext';
 import { useSearchParams } from 'react-router-dom';
 import { QueryParams } from '@/lib/constants';
 
+// Maps widget_name → module
+const WIDGET_MODULE_MAP: Record<string, string> = {
+  savings: 'savings',
+  rewards: 'rewards',
+  convert: 'upgrade',
+  expert: 'expert',
+  stake: 'stake',
+  trade: 'trade',
+  seal: 'seal',
+  'seal-migration': 'seal-migration'
+};
+
 export function useAppAnalytics() {
   const posthog = usePostHog();
   const { address } = useConnection();
@@ -34,10 +46,12 @@ export function useAppAnalytics() {
           params[key] = value;
         }
       });
-      // Send negative input amount for withdrawal flows
-      const amount = params[QueryParams.InputAmount];
-      if (amount != null) {
-        const num = Number(amount);
+
+      // Remap input_amount → amount (as number, negative for withdrawals)
+      const rawAmount = params[QueryParams.InputAmount];
+      delete params[QueryParams.InputAmount];
+      if (rawAmount != null) {
+        const num = Number(rawAmount);
         if (!isNaN(num)) {
           const isWithdrawal = isWithdrawalFlow(
             searchParams.get('widget'),
@@ -46,8 +60,15 @@ export function useAppAnalytics() {
             searchParams.get(QueryParams.StakeTab),
             searchParams.get(QueryParams.SealTab)
           );
-          params[QueryParams.InputAmount] = isWithdrawal ? -Math.abs(num) : num;
+          params.amount = isWithdrawal ? -Math.abs(num) : num;
         }
+      }
+
+      // Remap source_token → assetSymbol
+      const sourceToken = params[QueryParams.SourceToken];
+      delete params[QueryParams.SourceToken];
+      if (sourceToken != null) {
+        params.assetSymbol = sourceToken;
       }
 
       return params;
@@ -79,17 +100,21 @@ export function useAppAnalytics() {
   };
 
   const trackTransactionStarted = useCallback(
-    ({ widgetName, chainId }: { widgetName: string; chainId: number }) => {
+    ({ widgetName, chainId, action }: { widgetName: string; chainId: number; action?: string }) => {
       safeCapture(posthog, AppEvents.TRANSACTION_STARTED, {
         widget_name: widgetName,
         chain_id: chainId,
         chain_name: getChainName(chainId),
+        wallet_address: address,
+        ...(action && { action }),
+        module: WIDGET_MODULE_MAP[widgetName] ?? widgetName,
+        timestamp: new Date().toISOString(),
         viewport: getViewport(),
         flow_id: getFlowId(),
         ...getUrlParams()
       });
     },
-    [posthog, getChainName, getUrlParams]
+    [posthog, address, getChainName, getUrlParams]
   );
 
   const trackTransactionCompleted = useCallback(
@@ -98,12 +123,14 @@ export function useAppAnalytics() {
       chainId,
       txStatus,
       txHash,
+      action,
       errorContext
     }: {
       widgetName: string;
       chainId: number;
       txStatus: TxStatus;
       txHash?: string;
+      action?: string;
       errorContext?: ErrorContext;
     }) => {
       safeCapture(posthog, AppEvents.TRANSACTION_COMPLETED, {
@@ -112,8 +139,11 @@ export function useAppAnalytics() {
         chain_name: getChainName(chainId),
         tx_status: txStatus,
         wallet_address: address,
+        ...(action && { action }),
         ...(txHash && { tx_hash: txHash }),
         ...(errorContext && { error_context: errorContext }),
+        module: WIDGET_MODULE_MAP[widgetName] ?? widgetName,
+        timestamp: new Date().toISOString(),
         viewport: getViewport(),
         flow_id: getFlowId(),
         ...getUrlParams()
@@ -123,13 +153,26 @@ export function useAppAnalytics() {
   );
 
   const trackWidgetReviewViewed = useCallback(
-    ({ widgetName, chainId, flow }: { widgetName: string; chainId: number; flow: string }) => {
+    ({
+      widgetName,
+      chainId,
+      flow,
+      action
+    }: {
+      widgetName: string;
+      chainId: number;
+      flow: string;
+      action?: string;
+    }) => {
       safeCapture(posthog, AppEvents.WIDGET_REVIEW_VIEWED, {
         widget_name: widgetName,
         chain_id: chainId,
         chain_name: getChainName(chainId),
         flow,
+        ...(action && { action }),
         wallet_address: address,
+        module: WIDGET_MODULE_MAP[widgetName] ?? widgetName,
+        timestamp: new Date().toISOString(),
         viewport: getViewport(),
         flow_id: getFlowId()
       });

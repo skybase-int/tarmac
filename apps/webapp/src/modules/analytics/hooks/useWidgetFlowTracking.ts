@@ -31,9 +31,11 @@ export function useWidgetFlowTracking(widgetName: string, chainId: number) {
           const curr = params.txStatus;
           prevTxStatusRef.current = curr;
 
+          const action = params.widgetState?.action;
+
           // Transaction started: transition to INITIALIZED
           if (curr === WidgetTxStatus.INITIALIZED && prev !== WidgetTxStatus.INITIALIZED) {
-            trackTransactionStarted({ widgetName, chainId });
+            trackTransactionStarted({ widgetName, chainId, action });
           }
 
           // Transaction completed: transition to SUCCESS
@@ -42,7 +44,8 @@ export function useWidgetFlowTracking(widgetName: string, chainId: number) {
               widgetName,
               chainId,
               txStatus: 'success',
-              txHash: params.hash
+              txHash: params.hash,
+              action
             });
             startNewFlow();
           }
@@ -53,7 +56,8 @@ export function useWidgetFlowTracking(widgetName: string, chainId: number) {
               widgetName,
               chainId,
               txStatus: 'error',
-              txHash: params.hash
+              txHash: params.hash,
+              action
             });
           }
 
@@ -63,7 +67,8 @@ export function useWidgetFlowTracking(widgetName: string, chainId: number) {
               widgetName,
               chainId,
               txStatus: 'cancelled',
-              txHash: params.hash
+              txHash: params.hash,
+              action
             });
           }
           // Review screen viewed: track when user reaches the review/confirmation screen
@@ -74,7 +79,8 @@ export function useWidgetFlowTracking(widgetName: string, chainId: number) {
               trackWidgetReviewViewed({
                 widgetName,
                 chainId,
-                flow: params.widgetState?.flow
+                flow: params.widgetState?.flow,
+                action
               });
             }
           }
