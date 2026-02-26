@@ -27,6 +27,8 @@ export function StakingRewardRateCard() {
   // Check if we have a valid rate (including 0)
   const hasValidRate = highestRewardRate != null && !isNaN(highestRewardRate);
 
+  const hasMultipleRates = (stakeRewardContracts?.length ?? 0) > 1;
+
   return (
     <StatsCard
       title={
@@ -43,7 +45,7 @@ export function StakingRewardRateCard() {
           <Text className="text-bullish">
             {hasValidRate ? (
               <>
-                <span className="text-textSecondary text-sm">{t`up to`}</span>{' '}
+                {hasMultipleRates && <span className="text-textSecondary text-sm">{t`up to`} </span>}
                 {formatDecimalPercentage(highestRewardRate)}
               </>
             ) : (

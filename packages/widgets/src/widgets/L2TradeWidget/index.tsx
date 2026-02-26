@@ -706,6 +706,8 @@ function TradeWidgetWrapped({
       setBackButtonText(t`Back`);
       nextOnClick();
     } else {
+      batchTrade.reset?.();
+      batchTradeOut.reset?.();
       setTxStatus(TxStatus.IDLE);
       setWidgetState((prev: WidgetState) => ({
         ...prev,
