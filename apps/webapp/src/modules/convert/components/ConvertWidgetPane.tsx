@@ -12,16 +12,22 @@ import { useSearchParams } from 'react-router-dom';
 import { Card, CardHeader } from '@/components/ui/card';
 import { HStack } from '@/modules/layout/components/HStack';
 import { Upgrade, Trade } from '@/modules/icons';
-import { useChainId } from 'wagmi';
+import { useChainId, useSwitchChain } from 'wagmi';
 import { isL2ChainId } from '@jetstreamgg/sky-utils';
+import { mainnet } from 'viem/chains';
 
 export function ConvertWidgetPane(sharedProps: SharedProps) {
   const { selectedConvertOption, setSelectedConvertOption } = useConfigContext();
   const [, setSearchParams] = useSearchParams();
   const chainId = useChainId();
   const isL2 = isL2ChainId(chainId);
+  const { switchChain } = useSwitchChain();
 
   const handleSelectOption = (convertIntent: ConvertIntent) => {
+    // If selecting Upgrade on L2, switch to mainnet first
+    if (convertIntent === ConvertIntent.UPGRADE_INTENT && isL2) {
+      switchChain({ chainId: mainnet.id });
+    }
     setSearchParams(params => {
       params.set(QueryParams.ConvertModule, ConvertIntentMapping[convertIntent]);
       return params;
@@ -60,26 +66,24 @@ export function ConvertWidgetPane(sharedProps: SharedProps) {
             rightHeader={sharedProps.rightHeaderComponent}
           >
             <CardAnimationWrapper className="flex flex-col gap-4">
-              {!isL2 && (
-                <Card
-                  className="from-card to-card hover:from-primary-start/100 hover:to-primary-end/100 cursor-pointer bg-radial-(--gradient-position) transition-[background-color,background-image] lg:p-5"
-                  onClick={() => handleSelectOption(ConvertIntent.UPGRADE_INTENT)}
-                >
-                  <CardHeader className="flex flex-row items-center space-y-0">
-                    <HStack className="items-center gap-3">
-                      <Upgrade color="inherit" />
-                      <div>
-                        <Text>
-                          <Trans>Upgrade</Trans>
-                        </Text>
-                        <Text className="text-textSecondary" variant="small">
-                          <Trans>Upgrade your DAI to USDS and MKR to SKY</Trans>
-                        </Text>
-                      </div>
-                    </HStack>
-                  </CardHeader>
-                </Card>
-              )}
+              <Card
+                className="from-card to-card hover:from-primary-start/100 hover:to-primary-end/100 cursor-pointer bg-radial-(--gradient-position) transition-[background-color,background-image] lg:p-5"
+                onClick={() => handleSelectOption(ConvertIntent.UPGRADE_INTENT)}
+              >
+                <CardHeader className="flex flex-row items-center space-y-0">
+                  <HStack className="items-center gap-3">
+                    <Upgrade color="inherit" />
+                    <div>
+                      <Text>
+                        <Trans>Upgrade</Trans>
+                      </Text>
+                      <Text className="text-textSecondary" variant="small">
+                        <Trans>Upgrade your DAI to USDS and MKR to SKY</Trans>
+                      </Text>
+                    </div>
+                  </HStack>
+                </CardHeader>
+              </Card>
 
               <Card
                 className="from-card to-card hover:from-primary-start/100 hover:to-primary-end/100 cursor-pointer bg-radial-(--gradient-position) transition-[background-color,background-image] lg:p-5"
