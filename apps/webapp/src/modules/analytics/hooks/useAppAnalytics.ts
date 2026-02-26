@@ -5,14 +5,12 @@ import {
   AppEvents,
   safeCapture,
   getViewport,
-  isWithdrawalFlow,
   type SelectionMethod,
   type TxStatus,
   type ErrorContext
 } from '../constants';
 import { useAnalyticsFlow } from '../context/AnalyticsFlowContext';
 import { useSearchParams } from 'react-router-dom';
-import { QueryParams } from '@/lib/constants';
 
 export function useAppAnalytics() {
   const posthog = usePostHog();
@@ -27,33 +25,13 @@ export function useAppAnalytics() {
   );
 
   const getUrlParams = useCallback(() => {
-    try {
-      const params: Record<string, string | number> = {};
-      searchParams.forEach((value, key) => {
-        if (key !== 'widget') {
-          params[key] = value;
-        }
-      });
-      // Send negative input amount for withdrawal flows
-      const amount = params[QueryParams.InputAmount];
-      if (amount != null) {
-        const num = Number(amount);
-        if (!isNaN(num)) {
-          const isWithdrawal = isWithdrawalFlow(
-            searchParams.get('widget'),
-            searchParams.get(QueryParams.ExpertModule),
-            searchParams.get(QueryParams.Flow),
-            searchParams.get(QueryParams.StakeTab),
-            searchParams.get(QueryParams.SealTab)
-          );
-          params[QueryParams.InputAmount] = isWithdrawal ? -Math.abs(num) : num;
-        }
+    const params: Record<string, string> = {};
+    searchParams.forEach((value, key) => {
+      if (key !== 'widget') {
+        params[key] = value;
       }
-
-      return params;
-    } catch {
-      return {};
-    }
+    });
+    return params;
   }, [searchParams]);
 
   const trackWidgetSelected = ({
