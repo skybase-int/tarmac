@@ -36,13 +36,15 @@ import { useNotification } from '../hooks/useNotification';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 
 import { useChainId } from 'wagmi';
+import { mainnet } from 'wagmi/chains';
 import { BalancesWidgetPane } from '@/modules/balances/components/BalancesWidgetPane';
 import { StakeWidgetPane } from '@/modules/stake/components/StakeWidgetPane';
 import { getSupportedChainIds } from '@/data/wagmi/config/config.default';
 import { useSearchParams } from 'react-router-dom';
 import { useBalanceFilters } from '@/modules/ui/context/BalanceFiltersContext';
 import { WidgetContent, WidgetItem } from '../types/Widgets';
-import { isL2ChainId } from '@jetstreamgg/sky-utils';
+import { isL2ChainId, isTestnetId } from '@jetstreamgg/sky-utils';
+import { TENDERLY_CHAIN_ID } from '@/data/wagmi/config/testTenderlyChain';
 import { ExpertWidgetPane } from '@/modules/expert/components/ExpertWidgetPane';
 import { VaultsWidgetPane } from '@/modules/vaults/components/VaultsWidgetPane';
 import { ConvertWidgetPane } from '@/modules/convert/components/ConvertWidgetPane';
@@ -119,12 +121,14 @@ export const WidgetPane = ({ intent, children }: WidgetPaneProps) => {
     params: { [QueryParams.Reward]: contract.contractAddress }
   }));
 
-  const vaultSubItems = MORPHO_VAULTS.filter(vault => vault.vaultAddress[chainId]).map(vault => ({
+  // Vaults only exist on mainnet/testnet, so use appropriate chain based on environment
+  const vaultChainId = isTestnetId(chainId) ? TENDERLY_CHAIN_ID : mainnet.id;
+  const vaultSubItems = MORPHO_VAULTS.filter(vault => vault.vaultAddress[vaultChainId]).map(vault => ({
     label: vault.name,
     icon: <TokenIcon token={{ symbol: vault.assetToken.symbol }} className="h-3 w-3" showChainIcon={false} />,
     params: {
       [QueryParams.VaultModule]: VaultsIntentMapping[VaultsIntent.MORPHO_VAULT_INTENT],
-      [QueryParams.Vault]: vault.vaultAddress[chainId]
+      [QueryParams.Vault]: vault.vaultAddress[vaultChainId]
     }
   }));
 
