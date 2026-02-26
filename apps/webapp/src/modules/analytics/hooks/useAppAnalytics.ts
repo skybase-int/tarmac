@@ -80,6 +80,14 @@ export function useAppAnalytics() {
         params.productAddress = reward;
       }
 
+      // Remap expert_module → product (only for expert widget)
+      const expertModule = params[QueryParams.ExpertModule];
+      delete params[QueryParams.ExpertModule];
+      if (expertModule != null && widget === 'expert') {
+        const productNameMap: Record<string, string> = { stusds: 'stUSDS' };
+        params.product = productNameMap[expertModule as string] ?? expertModule;
+      }
+
       // Remap urn_index → urnIndex (as number)
       const urnIndex = params[QueryParams.UrnIndex];
       delete params[QueryParams.UrnIndex];
