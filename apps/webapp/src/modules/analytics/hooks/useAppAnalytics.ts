@@ -72,6 +72,14 @@ export function useAppAnalytics() {
       }
 
       return params;
+      const widget = searchParams.get('widget');
+
+      // Remap reward → productAddress (only for rewards widget)
+      const reward = params[QueryParams.Reward];
+      delete params[QueryParams.Reward];
+      if (reward != null && widget === 'rewards') {
+        params.productAddress = reward;
+      }
     } catch {
       return {};
     }
