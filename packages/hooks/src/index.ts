@@ -81,6 +81,48 @@ export type {
   StUsdsProviderSelectionResult
 } from './stusds';
 
+// Morpho Vaults
+export {
+  useBatchMorphoVaultDeposit,
+  useMorphoVaultWithdraw,
+  useMorphoVaultRedeem,
+  useMorphoVaultOnChainData,
+  useMorphoVaultRateApiData,
+  useMorphoVaultMultipleRateApiData,
+  useMorphoVaultAllocations,
+  useMorphoVaultMarketApiData,
+  fetchMorphoVaultMarketData,
+  useMorphoVaultRewards,
+  useMorphoVaultClaimRewards,
+  useMorphoVaultHistory,
+  useMorphoVaultChartInfo,
+  useMorphoVaultMultipleChartInfo,
+  useMorphoVaultSupplierAddresses,
+  useMorphoVaultsCombinedTvl,
+  MORPHO_VAULTS
+} from './morpho';
+export type {
+  MorphoVaultRateData,
+  MorphoVaultRateHook,
+  MorphoVaultMultipleRateHook,
+  MorphoRewardData,
+  MorphoMarketAllocation,
+  MorphoV1VaultAllocation,
+  MorphoIdleLiquidityAllocation,
+  MorphoVaultAllocationsData,
+  MorphoVaultAllocationsHook,
+  MorphoVaultMarketData,
+  MorphoVaultMarketDataHook,
+  MorphoVaultReward,
+  MorphoVaultRewardsData,
+  MorphoVaultRewardsHook,
+  MorphoVaultChartDataPoint,
+  MorphoVaultChartInfoHook,
+  MorphoVaultMultipleChartInfoHook,
+  MorphoVaultSupplierAddressesHook,
+  MorphoVaultsCombinedTvl
+} from './morpho';
+
 // Authentication
 export { useRestrictedAddressCheck } from './authentication/useRestrictedAddressCheck';
 export { useVpnCheck } from './authentication/useVpnCheck';
@@ -350,6 +392,7 @@ export {
   lsSkyUsdsRewardAddress,
   lsSkySpkRewardAddress,
   lsSkySkyRewardAddress,
+  usdsRiskCapitalVaultAddress,
   useReadClipperDue
 } from './generated';
 export { contracts, /*tenderlyContracts,*/ l2Contracts } from './contracts';

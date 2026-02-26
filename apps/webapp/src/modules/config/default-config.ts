@@ -2,14 +2,9 @@
 
 import { defaultConfig as widgetsConfig } from '@jetstreamgg/sky-widgets';
 import { SiteConfig } from './types/site-config';
-import {
-  restrictedBalancesTokenList,
-  restrictedBalancesTokenListMiCa,
-  restrictedTradeTokenList
-} from './tokenListConfig';
+import { restrictedBalancesTokenList, restrictedTradeTokenList } from './tokenListConfig';
 
 const restrictedBuild = import.meta.env.VITE_RESTRICTED_BUILD === 'true';
-const restrictedMiCa = import.meta.env.VITE_RESTRICTED_BUILD_MICA === 'true';
 
 // stores all the RPCs the application will use, and also the user configured-ones
 export const defaultConfig: SiteConfig = {
@@ -25,6 +20,5 @@ export const defaultConfig: SiteConfig = {
         balancesTokenList: restrictedBalancesTokenList
       }
     : {}),
-  ...(restrictedMiCa ? { balancesTokenList: restrictedBalancesTokenListMiCa } : {}),
   locale: 'en'
 };
