@@ -23,7 +23,14 @@ export type WidgetState = {
     | StakeFlow
     | SealFlow;
   action: InitialAction | SavingsAction | UpgradeAction | RewardsAction | TradeAction;
-  screen: InitialScreen | SavingsScreen | UpgradeScreen | RewardsScreen | TradeScreen;
+  screen:
+    | InitialScreen
+    | SavingsScreen
+    | UpgradeScreen
+    | RewardsScreen
+    | TradeScreen
+    | StakeScreen
+    | SealScreen;
 };
 
 type Amount = {

@@ -5,8 +5,12 @@ import { reportAnalyticsError } from '../constants';
 import { useAnalyticsFlow } from '../context/AnalyticsFlowContext';
 
 /**
- * Higher-order hook that wraps any widget's onWidgetStateChange handler
- * to track flow start/complete transitions.
+ * Self-contained hook that wraps any widget's onWidgetStateChange handler
+ * to track transaction start/complete transitions and review screen views.
+ *
+ * All enrichment (param remapping, module, timestamp, etc.) lives here so that
+ * useAppAnalytics stays untouched — when the superset branch lands, this file
+ * is simply deleted and replaced by useWidgetAnalytics.
  *
  * Usage in each widget pane:
  * ```
@@ -84,7 +88,14 @@ export function useWidgetFlowTracking(widgetName: string, chainId: number) {
         }
       };
     },
-    [widgetName, chainId, trackTransactionStarted, trackTransactionCompleted, trackWidgetReviewViewed, startNewFlow]
+    [
+      widgetName,
+      chainId,
+      trackTransactionStarted,
+      trackTransactionCompleted,
+      trackWidgetReviewViewed,
+      startNewFlow
+    ]
   );
 
   return { wrapStateChange };

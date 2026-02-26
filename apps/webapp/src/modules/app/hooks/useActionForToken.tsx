@@ -24,7 +24,6 @@ export const useActionForToken = () => {
   const chainId = useChainId();
   const [searchParams] = useSearchParams();
   const isRestrictedBuild = import.meta.env.VITE_RESTRICTED_BUILD === 'true';
-  const isRestrictedMiCa = import.meta.env.VITE_RESTRICTED_BUILD_MICA === 'true';
 
   const getRewardContracts = useAvailableTokenRewardContractsForChains();
   const { data: totalUserStaked } = useTotalUserStaked();
@@ -198,10 +197,8 @@ export const useActionForToken = () => {
         case 'usdc':
         case 'usdt':
           action = {
-            [mainnet.id]: isRestrictedMiCa
-              ? undefined
-              : isRestrictedBuild
-                ? {
+            [mainnet.id]: isRestrictedBuild
+              ? {
                     label: t`Trade your ${formattedBalance} ${upperSymbol} for USDS ${isDifferentChain ? 'on Mainnet' : ''}`,
                     // TODO: Some of these trades are not supported by the trade widget (eth - usds, weth - usds)
                     actionUrl: getQueryParams(
@@ -220,23 +217,21 @@ export const useActionForToken = () => {
             [base.id]:
               lowerSymbol === 'usdt'
                 ? undefined
-                : isRestrictedMiCa
-                  ? undefined
-                  : isRestrictedBuild
-                    ? {
-                        label: t`Trade your ${formattedBalance} ${upperSymbol} for USDS ${isDifferentChain ? 'on Base' : ''}`,
-                        actionUrl: getQueryParams(
-                          `?${Network}=${networkName}&${Widget}=${CONVERT}&${ConvertModule}=${CONVERT_TRADE}&${InputAmount}=${balance}&${SourceToken}=${symbol}&${TargetToken}=USDS`
-                        ),
-                        image
-                      }
-                    : {
-                        label: t`Start saving with your ${formattedBalance} ${upperSymbol} ${isDifferentChain ? 'on Base' : ''}`,
-                        actionUrl: getQueryParams(
-                          `?${Network}=${networkName}&${Widget}=${SAVINGS}&${InputAmount}=${balance}&${SourceToken}=${symbol}`
-                        ),
-                        image
-                      },
+                : isRestrictedBuild
+                  ? {
+                      label: t`Trade your ${formattedBalance} ${upperSymbol} for USDS ${isDifferentChain ? 'on Base' : ''}`,
+                      actionUrl: getQueryParams(
+                        `?${Network}=${networkName}&${Widget}=${CONVERT}&${ConvertModule}=${CONVERT_TRADE}&${InputAmount}=${balance}&${SourceToken}=${symbol}&${TargetToken}=USDS`
+                      ),
+                      image
+                    }
+                  : {
+                      label: t`Start saving with your ${formattedBalance} ${upperSymbol} ${isDifferentChain ? 'on Base' : ''}`,
+                      actionUrl: getQueryParams(
+                        `?${Network}=${networkName}&${Widget}=${SAVINGS}&${InputAmount}=${balance}&${SourceToken}=${symbol}`
+                      ),
+                      image
+                    },
             [arbitrum.id]:
               lowerSymbol === 'usdt'
                 ? undefined
@@ -303,7 +298,7 @@ export const useActionForToken = () => {
       if (isUnichainChainAction) return action?.[unichain.id];
       return action?.[mainnet.id];
     },
-    [getRewardContracts, searchParams, isRestrictedBuild, isRestrictedMiCa, chainId, chains, totalUserStaked]
+    [getRewardContracts, searchParams, isRestrictedBuild, chainId, chains, totalUserStaked]
   );
 
   return actionForToken;
