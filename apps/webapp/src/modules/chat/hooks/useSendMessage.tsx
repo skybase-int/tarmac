@@ -84,9 +84,13 @@ const fetchEndpoints = async (messagePayload: Partial<SendMessageRequest>) => {
       }
 
       // For other 403 errors, throw a generic error
-      throw new Error(errorData?.error || 'Request forbidden');
+      const error: any = new Error(errorData?.error || 'Request forbidden');
+      error.status = 403;
+      throw error;
     }
-    throw new Error('Advanced chat response was not ok');
+    const error: any = new Error('Advanced chat response was not ok');
+    error.status = response.status;
+    throw error;
   }
 
   const data = await response.json();
