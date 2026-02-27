@@ -75,8 +75,8 @@ export function useWidgetAnalytics(widgetName: string, chainId: number) {
 
         safeCapture(posthog, eventName, properties);
 
-        // Start a new flow after a completed transaction
-        if (event.event === WidgetAnalyticsEventType.TRANSACTION_COMPLETED) {
+        // Start a new flow after any terminal transaction event
+        if (txStatus) {
           startNewFlow();
         }
       } catch (error) {
