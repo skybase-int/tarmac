@@ -362,6 +362,8 @@ const MorphoVaultWidgetWrapped = ({
       return morphoVaultDeposit.execute();
     } else if (widgetState.action === MorphoVaultAction.WITHDRAW) {
       return max ? morphoVaultRedeem.execute() : morphoVaultWithdraw.execute();
+    } else if (widgetState.action === MorphoVaultAction.CLAIM) {
+      return morphoVaultClaimRewards.execute();
     }
     return undefined;
   };
