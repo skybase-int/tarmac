@@ -42,7 +42,7 @@ export const ExpertBalanceCard = ({
           <Skeleton className="h-4 w-20" />
         ) : stUsdsRate > 0 ? (
           <RateLineWithArrow
-            rateText={t`Rates up to: ${stUsdsRate.toFixed(2)}%`}
+            rateText={t`Rate: ${stUsdsRate.toFixed(2)}%`}
             popoverType="expert"
             onExternalLinkClicked={onExternalLinkClicked}
           />
