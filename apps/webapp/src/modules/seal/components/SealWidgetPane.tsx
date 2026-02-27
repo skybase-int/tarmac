@@ -14,7 +14,6 @@ import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
 import { Intent } from '@/lib/enums';
 import { useEffect } from 'react';
 import { useChatContext } from '@/modules/chat/context/ChatContext';
-import { useChainId } from 'wagmi';
 
 import { Error } from '@/modules/layout/components/Error';
 export function SealWidgetPane(sharedProps: SharedProps) {
@@ -37,7 +36,6 @@ export function SealWidgetPane(sharedProps: SharedProps) {
   // TODO: Implemet `useSealHistory` hook
   const refreshSealHistory = () => {};
   // const { mutate: refreshSealHistory } = useSealHistory();
-  const chainId = useChainId();
   const [searchParams, setSearchParams] = useSearchParams();
   const { setShouldDisableActionButtons } = useChatContext();
 
