@@ -15,6 +15,7 @@ import { Upgrade, Trade } from '@/modules/icons';
 import { useChainId, useSwitchChain } from 'wagmi';
 import { isL2ChainId } from '@jetstreamgg/sky-utils';
 import { mainnet } from 'viem/chains';
+import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
 
 export function ConvertWidgetPane(sharedProps: SharedProps) {
   const { selectedConvertOption, setSelectedConvertOption } = useConfigContext();
@@ -30,6 +31,11 @@ export function ConvertWidgetPane(sharedProps: SharedProps) {
     }
     setSearchParams(params => {
       params.set(QueryParams.ConvertModule, ConvertIntentMapping[convertIntent]);
+      // Also set the network param to mainnet when selecting upgrade on L2
+      // so validation doesn't remove the convert_module param
+      if (convertIntent === ConvertIntent.UPGRADE_INTENT && isL2) {
+        params.set(QueryParams.Network, normalizeUrlParam(mainnet.name));
+      }
       return params;
     });
     setSelectedConvertOption(convertIntent);

@@ -176,7 +176,8 @@ export const validateSearchParams = (
       const intent = Object.entries(ConvertIntentMapping).find(
         ([, intentValue]) => intentValue === value
       )?.[0] as ConvertIntent | undefined;
-      if (!intent) {
+      // Upgrade is not available on L2 chains
+      if (!intent || (intent === ConvertIntent.UPGRADE_INTENT && isL2Chain)) {
         searchParams.delete(key);
       } else {
         setSelectedConvertOption(intent);
