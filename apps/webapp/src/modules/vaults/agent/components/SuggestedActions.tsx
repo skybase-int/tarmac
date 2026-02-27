@@ -11,8 +11,7 @@ import {
   type TokenItem,
   useOverallSkyData,
   useStUsdsData,
-  useMorphoVaultMarketApiData,
-  MORPHO_VAULTS,
+  useMorphoVaultsCombinedTvl,
   useAvailableTokenRewardContracts,
   useRewardsChartInfo,
   useHighestRateFromChartData,
@@ -119,12 +118,8 @@ function useActionRates(actions: SuggestedAction[], chainId: number): Record<str
   // stUSDS rate
   const { data: stUsdsData } = useStUsdsData();
 
-  // Morpho vault rate
-  const defaultMorphoVault = MORPHO_VAULTS[0];
-  const morphoVaultAddress = defaultMorphoVault?.vaultAddress[mainnetChainId];
-  const { data: morphoMarketData } = useMorphoVaultMarketApiData({
-    vaultAddress: morphoVaultAddress
-  });
+  // Morpho vault rates (max rate across all vaults)
+  const { maxRate: morphoMaxRate } = useMorphoVaultsCombinedTvl();
 
   // Rewards rate
   const allRewardContracts = useAvailableTokenRewardContracts(mainnetChainId);
@@ -170,7 +165,7 @@ function useActionRates(actions: SuggestedAction[], chainId: number): Record<str
     }
 
     if (rateKeys.has('vaults')) {
-      const rate = morphoMarketData?.rate.netRate ? morphoMarketData.rate.netRate * 100 : 0;
+      const rate = morphoMaxRate * 100;
       rates.vaults = rate > 0 ? `${rate.toFixed(2)}%` : '0%';
     }
 
@@ -185,7 +180,7 @@ function useActionRates(actions: SuggestedAction[], chainId: number): Record<str
     }
 
     return rates;
-  }, [hasRates, rateKeys, overallSkyData, stUsdsData, morphoMarketData, rewardsHighestRate, stakeHighestRateData]);
+  }, [hasRates, rateKeys, overallSkyData, stUsdsData, morphoMaxRate, rewardsHighestRate, stakeHighestRateData]);
 }
 
 export function SuggestedActions({ widget, variant = 'default' }: { widget: string; variant?: 'default' | 'card' | 'card-sm' }) {

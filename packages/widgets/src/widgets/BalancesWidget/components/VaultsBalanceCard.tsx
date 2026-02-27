@@ -1,16 +1,10 @@
 import {
   usePrices,
   useMorphoVaultOnChainData,
-  useMorphoVaultMarketApiData,
+  useMorphoVaultsCombinedTvl,
   MORPHO_VAULTS
 } from '@jetstreamgg/sky-hooks';
-import {
-  formatBigInt,
-  formatDecimalPercentage,
-  formatNumber,
-  isTestnetId,
-  chainId
-} from '@jetstreamgg/sky-utils';
+import { formatBigInt, formatNumber, isTestnetId, chainId } from '@jetstreamgg/sky-utils';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
 import { InteractiveStatsCard } from '@widgets/shared/components/ui/card/InteractiveStatsCard';
@@ -39,18 +33,16 @@ export const VaultsBalanceCard = ({
   const { data: morphoData, isLoading: morphoDataLoading } = useMorphoVaultOnChainData({
     vaultAddress: morphoVaultAddress
   });
-  const { data: morphoSingleMarketData, isLoading: morphoSingleMarketLoading } =
-    useMorphoVaultMarketApiData({
-      vaultAddress: morphoVaultAddress
-    });
+
+  // Fetch max rate across all vaults
+  const { maxRate: morphoMaxRate, formattedMaxRate, isLoading: morphoRatesLoading } = useMorphoVaultsCombinedTvl();
 
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
 
   const morphoSupplied = morphoData?.userAssets ?? 0n;
-  const morphoRate = morphoSingleMarketData?.rate.netRate ? morphoSingleMarketData.rate.netRate : 0;
 
   const isBalanceLoading = morphoDataLoading;
-  const isRateLoading = morphoSingleMarketLoading;
+  const isRateLoading = morphoRatesLoading;
 
   const vaultsIcon = <MorphoVaultBadge className="h-full w-full rounded-sm" />;
 
@@ -68,9 +60,9 @@ export const VaultsBalanceCard = ({
       footer={
         isRateLoading ? (
           <Skeleton className="h-4 w-20" />
-        ) : morphoRate > 0 ? (
+        ) : morphoMaxRate > 0 ? (
           <RateLineWithArrow
-            rateText={`Rate: ${formatDecimalPercentage(morphoRate)}`}
+            rateText={`Rate: ${formattedMaxRate}`}
             popoverType="expert"
             onExternalLinkClicked={onExternalLinkClicked}
           />
