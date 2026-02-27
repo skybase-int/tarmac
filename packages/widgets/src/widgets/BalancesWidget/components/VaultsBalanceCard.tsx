@@ -12,7 +12,6 @@ import { formatUnits } from 'viem';
 import { ModuleCardVariant } from './ModulesBalances';
 import { RateLineWithArrow } from '@widgets/shared/components/ui/RateLineWithArrow';
 import { InteractiveStatsCardAlt } from '@widgets/shared/components/ui/card/InteractiveStatsCardAlt';
-import { MorphoVaultBadge } from '@widgets/widgets/MorphoVaultWidget/components/MorphoVaultBadge';
 
 export const VaultsBalanceCard = ({
   url,
@@ -34,7 +33,7 @@ export const VaultsBalanceCard = ({
   const isBalanceLoading = userDataLoading;
   const isRateLoading = morphoRatesLoading;
 
-  const vaultsIcon = <MorphoVaultBadge className="h-full w-full rounded-sm" />;
+  const vaultsIcon = <img src="/images/vaults_icon_large.svg" alt="Vaults" className="h-full w-full" />;
 
   return variant === ModuleCardVariant.default ? (
     <InteractiveStatsCard
@@ -80,9 +79,8 @@ export const VaultsBalanceCard = ({
   ) : (
     <InteractiveStatsCardAlt
       title={t`Supplied to Vaults`}
-      icon={vaultsIcon}
       url={url}
-      logoName="expert"
+      logoName="vaults"
       content={
         isBalanceLoading ? (
           <Skeleton className="w-32" />
