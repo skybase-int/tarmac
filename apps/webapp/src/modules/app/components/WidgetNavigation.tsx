@@ -17,7 +17,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { DualSwitcher } from '@/components/DualSwitcher';
 import { useNetworkSwitch } from '@/modules/ui/context/NetworkSwitchContext';
-import { useChains } from 'wagmi';
+import { useChains, useAccount } from 'wagmi';
 import { useEnhancedNetworkToast } from '@/modules/app/hooks/useEnhancedNetworkToast';
 import { useNetworkAutoSwitch } from '@/modules/app/hooks/useNetworkAutoSwitch';
 import { WidgetMenuItemTooltip } from '@/modules/app/components/WidgetMenuItemTooltip';
@@ -78,6 +78,7 @@ export function WidgetNavigation({
 
   const { isSwitchingNetwork, setIsSwitchingNetwork } = useNetworkSwitch();
   const chains = useChains();
+  const { isConnected } = useAccount();
   const { showNetworkToast } = useEnhancedNetworkToast();
   const [previousChainId, setPreviousChainId] = useState<number | undefined>(currentChainId);
 
@@ -104,6 +105,13 @@ export function WidgetNavigation({
     const targetIntent = value as Intent;
     handleWidgetNavigation(targetIntent);
   };
+
+  // Reset switching state when wallet disconnects
+  useEffect(() => {
+    if (!isConnected && isSwitchingNetwork) {
+      setIsSwitchingNetwork(false);
+    }
+  }, [isConnected, isSwitchingNetwork, setIsSwitchingNetwork]);
 
   // Track network changes and show enhanced toast
   useEffect(() => {
