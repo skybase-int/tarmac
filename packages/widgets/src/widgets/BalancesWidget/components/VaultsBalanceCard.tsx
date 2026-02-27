@@ -1,17 +1,15 @@
 import {
   usePrices,
-  useMorphoVaultOnChainData,
   useMorphoVaultsCombinedTvl,
-  MORPHO_VAULTS
+  useMorphoVaultsCombinedUserData
 } from '@jetstreamgg/sky-hooks';
-import { formatBigInt, formatNumber, isTestnetId, chainId } from '@jetstreamgg/sky-utils';
+import { formatBigInt, formatNumber } from '@jetstreamgg/sky-utils';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
 import { InteractiveStatsCard } from '@widgets/shared/components/ui/card/InteractiveStatsCard';
 import { Skeleton } from '@widgets/components/ui/skeleton';
 import { formatUnits } from 'viem';
 import { ModuleCardVariant } from './ModulesBalances';
-import { useChainId } from 'wagmi';
 import { RateLineWithArrow } from '@widgets/shared/components/ui/RateLineWithArrow';
 import { InteractiveStatsCardAlt } from '@widgets/shared/components/ui/card/InteractiveStatsCardAlt';
 import { MorphoVaultBadge } from '@widgets/widgets/MorphoVaultWidget/components/MorphoVaultBadge';
@@ -25,23 +23,15 @@ export const VaultsBalanceCard = ({
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   variant?: ModuleCardVariant;
 }) => {
-  const connectedChainId = useChainId();
-  const vaultChainId = isTestnetId(connectedChainId) ? chainId.tenderly : chainId.mainnet;
-
-  const defaultMorphoVault = MORPHO_VAULTS[0];
-  const morphoVaultAddress = defaultMorphoVault?.vaultAddress[vaultChainId];
-  const { data: morphoData, isLoading: morphoDataLoading } = useMorphoVaultOnChainData({
-    vaultAddress: morphoVaultAddress
-  });
+  // Fetch combined user balance across all vaults
+  const { totalUserAssets, isLoading: userDataLoading } = useMorphoVaultsCombinedUserData();
 
   // Fetch max rate across all vaults
   const { maxRate: morphoMaxRate, formattedMaxRate, isLoading: morphoRatesLoading } = useMorphoVaultsCombinedTvl();
 
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
 
-  const morphoSupplied = morphoData?.userAssets ?? 0n;
-
-  const isBalanceLoading = morphoDataLoading;
+  const isBalanceLoading = userDataLoading;
   const isRateLoading = morphoRatesLoading;
 
   const vaultsIcon = <MorphoVaultBadge className="h-full w-full rounded-sm" />;
@@ -54,7 +44,7 @@ export const VaultsBalanceCard = ({
         isBalanceLoading ? (
           <Skeleton className="w-32" />
         ) : (
-          <Text>{formatBigInt(morphoSupplied)}</Text>
+          <Text>{formatBigInt(totalUserAssets)}</Text>
         )
       }
       footer={
@@ -62,7 +52,7 @@ export const VaultsBalanceCard = ({
           <Skeleton className="h-4 w-20" />
         ) : morphoMaxRate > 0 ? (
           <RateLineWithArrow
-            rateText={`Rate: ${formattedMaxRate}`}
+            rateText={t`Rates up to: ${formattedMaxRate}`}
             popoverType="expert"
             onExternalLinkClicked={onExternalLinkClicked}
           />
@@ -73,11 +63,11 @@ export const VaultsBalanceCard = ({
       footerRightContent={
         isBalanceLoading || pricesLoading ? (
           <Skeleton className="h-[13px] w-20" />
-        ) : morphoSupplied > 0n && !!pricesData?.USDS ? (
+        ) : totalUserAssets > 0n && !!pricesData?.USDS ? (
           <Text variant="small" className="text-textSecondary">
             $
             {formatNumber(
-              parseFloat(formatUnits(morphoSupplied, 18)) * parseFloat(pricesData.USDS.price),
+              parseFloat(formatUnits(totalUserAssets, 18)) * parseFloat(pricesData.USDS.price),
               {
                 maxDecimals: 2
               }
@@ -97,7 +87,7 @@ export const VaultsBalanceCard = ({
         isBalanceLoading ? (
           <Skeleton className="w-32" />
         ) : (
-          <Text>{formatBigInt(morphoSupplied)} USDS</Text>
+          <Text>{formatBigInt(totalUserAssets)} USDS</Text>
         )
       }
     />
