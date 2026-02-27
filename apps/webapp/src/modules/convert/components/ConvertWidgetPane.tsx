@@ -25,17 +25,26 @@ export function ConvertWidgetPane(sharedProps: SharedProps) {
   const { switchChain } = useSwitchChain();
 
   const handleSelectOption = (convertIntent: ConvertIntent) => {
-    // If selecting Upgrade on L2, switch to mainnet first
+    // If selecting Upgrade on L2, switch to mainnet first and only update state on success
     if (convertIntent === ConvertIntent.UPGRADE_INTENT && isL2) {
-      switchChain({ chainId: mainnet.id });
+      switchChain(
+        { chainId: mainnet.id },
+        {
+          onSuccess: () => {
+            setSearchParams(params => {
+              params.set(QueryParams.ConvertModule, ConvertIntentMapping[convertIntent]);
+              params.set(QueryParams.Network, normalizeUrlParam(mainnet.name));
+              return params;
+            });
+            setSelectedConvertOption(convertIntent);
+          }
+        }
+      );
+      return;
     }
+
     setSearchParams(params => {
       params.set(QueryParams.ConvertModule, ConvertIntentMapping[convertIntent]);
-      // Also set the network param to mainnet when selecting upgrade on L2
-      // so validation doesn't remove the convert_module param
-      if (convertIntent === ConvertIntent.UPGRADE_INTENT && isL2) {
-        params.set(QueryParams.Network, normalizeUrlParam(mainnet.name));
-      }
       return params;
     });
     setSelectedConvertOption(convertIntent);
