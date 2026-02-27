@@ -24,16 +24,18 @@ export const InteractiveStatsCardWithAccordion = ({
   tokenSymbol,
   balancesByChain,
   urlMap,
-  pricesData
+  pricesData,
+  icon
 }: {
   title: React.ReactElement | string;
   headerRightContent: React.ReactElement | string;
   footer: React.ReactElement | string;
   footerRightContent?: React.ReactElement | string;
-  tokenSymbol: string;
+  tokenSymbol?: string;
   balancesByChain: { chainId: number; balance: bigint }[];
   urlMap: Record<number, string>;
   pricesData: Record<string, PriceData>;
+  icon?: React.ReactNode;
 }): React.ReactElement => {
   const chains = useChains();
   if (balancesByChain.length === 1) {
@@ -46,6 +48,7 @@ export const InteractiveStatsCardWithAccordion = ({
         tokenSymbol={tokenSymbol}
         url={urlMap[balancesByChain[0].chainId]}
         chainId={balancesByChain[0].chainId}
+        icon={icon}
       />
     );
   }
@@ -56,13 +59,15 @@ export const InteractiveStatsCardWithAccordion = ({
           <Card variant="stats" className="w-full px-0 pb-4 lg:px-0">
             <div className="px-4 lg:px-5">
               <div className="flex items-center gap-2">
-                {tokenSymbol && (
+                {icon ? (
+                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center">{icon}</div>
+                ) : tokenSymbol ? (
                   <TokenIcon
                     className="h-8 w-8"
                     token={{ symbol: tokenSymbol, name: tokenSymbol }}
                     noChain={true}
                   />
-                )}
+                ) : null}
                 <div className="grow">
                   <CardContent className="flex items-center justify-between gap-4">
                     <Text>{title}</Text>
