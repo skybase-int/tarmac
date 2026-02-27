@@ -2,7 +2,6 @@ import {
   useStUsdsData,
   usePrices,
   useMorphoVaultOnChainData,
-  useMorphoVaultMultipleRateApiData,
   MORPHO_VAULTS
 } from '@jetstreamgg/sky-hooks';
 import {
@@ -40,24 +39,17 @@ export const ExpertBalanceCard = ({
     vaultAddress: morphoVaultAddress
   });
 
-  // Get Morpho vault rates for all vaults
-  const { data: morphoRatesData, isLoading: morphoRatesLoading } = useMorphoVaultMultipleRateApiData({
-    vaultAddresses: MORPHO_VAULTS.map(v => v.vaultAddress[vaultChainId])
-  });
-
   // Combine stUSDS and Morpho supplied amounts
   const stUsdsSupplied = stUsdsData?.userSuppliedUsds || 0n;
   const morphoSupplied = morphoData?.userAssets || 0n;
   const totalSuppliedUsds = stUsdsSupplied + morphoSupplied;
 
-  // Calculate the higher rate between stUSDS and all Morpho vaults
+  // stUSDS rate
   const stUsdsRate = stUsdsData?.moduleRate ? calculateApyFromStr(stUsdsData.moduleRate) : 0;
-  const morphoMaxRate = (morphoRatesData || []).reduce((max, rate) => Math.max(max, rate.netRate * 100), 0);
-  const maxRate = Math.max(stUsdsRate, morphoMaxRate);
 
   // Separate loading states: balance data vs rate data
   const isBalanceLoading = stUsdsLoading || morphoDataLoading;
-  const isRateLoading = morphoRatesLoading || stUsdsLoading;
+  const isRateLoading = stUsdsLoading;
 
   const expertIcon = <img src="/images/expert_icon_large.svg" alt="Expert" className="h-full w-full" />;
 
@@ -75,9 +67,9 @@ export const ExpertBalanceCard = ({
       footer={
         isRateLoading ? (
           <Skeleton className="h-4 w-20" />
-        ) : maxRate > 0 ? (
+        ) : stUsdsRate > 0 ? (
           <RateLineWithArrow
-            rateText={t`Rates up to: ${maxRate.toFixed(2)}%`}
+            rateText={t`Rates up to: ${stUsdsRate.toFixed(2)}%`}
             popoverType="expert"
             onExternalLinkClicked={onExternalLinkClicked}
           />
