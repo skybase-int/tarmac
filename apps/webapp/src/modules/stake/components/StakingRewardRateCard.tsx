@@ -27,7 +27,13 @@ export function StakingRewardRateCard() {
   // Check if we have a valid rate (including 0)
   const hasValidRate = highestRewardRate != null && !isNaN(highestRewardRate);
 
-  const hasMultipleRates = (stakeRewardContracts?.length ?? 0) > 1;
+  // Only count contracts that have actual rate data > 0
+  const contractsWithRates = (stakeRewardsChartsInfoData || []).filter(chartData => {
+    if (!chartData || chartData.length === 0) return false;
+    const mostRecent = chartData.sort((a, b) => b.blockTimestamp - a.blockTimestamp)[0];
+    return parseFloat(mostRecent?.rate || '0') > 0;
+  });
+  const hasMultipleRates = contractsWithRates.length > 1;
 
   return (
     <StatsCard
