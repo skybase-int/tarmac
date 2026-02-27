@@ -105,6 +105,10 @@ export const useSavingsTransactionCallbacks = ({
         });
       },
       onError: (error, hash) => {
+        const failedAtApproveStep =
+          needsAllowance && !shouldUseBatch && supplyStepRef.current === 1;
+        const failedAction = failedAtApproveStep ? SavingsAction.APPROVE : SavingsAction.SUPPLY;
+
         supplyStepRef.current = 0;
         handleOnError({
           error,
@@ -116,7 +120,7 @@ export const useSavingsTransactionCallbacks = ({
         mutateSavings();
         fireAnalytics({
           event: WidgetAnalyticsEventType.TRANSACTION_ERROR,
-          action: SavingsAction.SUPPLY,
+          action: failedAction,
           flow: SavingsFlow.SUPPLY,
           txHash: hash,
           amount: formattedAmount,
