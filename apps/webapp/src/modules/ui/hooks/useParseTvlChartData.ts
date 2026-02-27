@@ -5,7 +5,7 @@ import { getTimeFrameInterval } from '@/modules/rewards/helpers/getTimeFrameInte
 
 type TvlData = { blockTimestamp: number; amount: bigint };
 
-export function useParseTvlChartData(timeFrame: TimeFrame, tvl: TvlData[]): Data[] {
+export function useParseTvlChartData(timeFrame: TimeFrame, tvl: TvlData[], decimals?: number): Data[] {
   return useMemo(() => {
     const sortedTvl = [...tvl].sort((a, b) => a.blockTimestamp - b.blockTimestamp);
 
@@ -30,7 +30,8 @@ export function useParseTvlChartData(timeFrame: TimeFrame, tvl: TvlData[]): Data
       [...firstItem, ...relevantChanges, ...lastItem],
       startTimestamp,
       endTimestamp,
-      timeFrame
+      timeFrame,
+      decimals
     );
 
     return dataPoints;
@@ -123,7 +124,8 @@ function generateDataPoints(
   tvl: TvlData[],
   startTimestamp: number,
   endTimestamp: number,
-  timeFrame: TimeFrame
+  timeFrame: TimeFrame,
+  decimals?: number
 ): Data[] {
   // Sort tvl by timestamp in ascending order to ensure correct processing
   const sortedTvl = [...tvl].sort((a, b) => a.blockTimestamp - b.blockTimestamp);
@@ -133,11 +135,11 @@ function generateDataPoints(
     // Handle 'all' timeframe by generating equidistant points across the entire dataset
     const totalPoints = 7; // Including start and end, with 5 in between
     const interval = (endTimestamp - startTimestamp) / (totalPoints - 1);
-    dataPoints = interpolateDataPoints(sortedTvl, startTimestamp, endTimestamp, interval);
+    dataPoints = interpolateDataPoints(sortedTvl, startTimestamp, endTimestamp, interval, decimals);
   } else {
     // For other timeframes, calculate the interval based on the timeframe
     const interval = getTimeFrameInterval(timeFrame);
-    dataPoints = interpolateDataPoints(sortedTvl, startTimestamp, endTimestamp, interval);
+    dataPoints = interpolateDataPoints(sortedTvl, startTimestamp, endTimestamp, interval, decimals);
   }
 
   //Find min and max points

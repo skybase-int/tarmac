@@ -27,8 +27,8 @@ export const SavingsBalanceCard = ({
 
   return variant === ModuleCardVariant.default ? (
     <InteractiveStatsCardWithAccordion
-      title={t`USDS supplied to Savings`}
-      tokenSymbol="sUSDS"
+      title={t`Supplied to Savings`}
+      icon={<img src="/images/savings_icon_large.svg" alt="Savings" className="h-full w-full" />}
       headerRightContent={
         loading ? (
           <Skeleton className="w-32" />
@@ -70,8 +70,8 @@ export const SavingsBalanceCard = ({
     />
   ) : (
     <InteractiveStatsCardAlt
-      title={t`USDS supplied to Savings`}
-      tokenSymbol="sUSDS"
+      title={t`Supplied to Savings`}
+      icon={<img src="/images/savings_icon_large.svg" alt="Savings" className="h-full w-full" />}
       url={urlMap[chainId]}
       logoName="savings"
       noChain={true}

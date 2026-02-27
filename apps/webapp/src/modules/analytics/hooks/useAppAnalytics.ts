@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { usePostHog } from 'posthog-js/react';
-import { useChains } from 'wagmi';
+import { useChains, useConnection } from 'wagmi';
 import {
   AppEvents,
   safeCapture,
@@ -9,10 +9,13 @@ import {
   type TxStatus,
   type ErrorContext
 } from '../constants';
+import { useAnalyticsFlow } from '../context/AnalyticsFlowContext';
 
 export function useAppAnalytics() {
   const posthog = usePostHog();
+  const { address } = useConnection();
   const chains = useChains();
+  const { getFlowId } = useAnalyticsFlow();
 
   const getChainName = useCallback(
     (chainId: number) => chains.find(c => c.id === chainId)?.name ?? `unknown_${chainId}`,
@@ -36,44 +39,66 @@ export function useAppAnalytics() {
       selection_method: selectionMethod,
       chain_id: chainId,
       chain_name: getChainName(chainId),
-      viewport: getViewport()
+      viewport: getViewport(),
+      flow_id: getFlowId()
     });
   };
 
-  const trackWidgetFlowStarted = useCallback(
+  const trackTransactionStarted = useCallback(
     ({ widgetName, chainId }: { widgetName: string; chainId: number }) => {
-      safeCapture(posthog, AppEvents.WIDGET_FLOW_STARTED, {
+      safeCapture(posthog, AppEvents.TRANSACTION_STARTED, {
         widget_name: widgetName,
         chain_id: chainId,
         chain_name: getChainName(chainId),
-        viewport: getViewport()
+        viewport: getViewport(),
+        flow_id: getFlowId()
       });
     },
-    [posthog, getChainName]
+    [posthog, getChainName, getFlowId]
   );
 
-  const trackWidgetFlowCompleted = useCallback(
+  const trackTransactionCompleted = useCallback(
     ({
       widgetName,
       chainId,
       txStatus,
+      txHash,
       errorContext
     }: {
       widgetName: string;
       chainId: number;
       txStatus: TxStatus;
+      txHash?: string;
       errorContext?: ErrorContext;
     }) => {
-      safeCapture(posthog, AppEvents.WIDGET_FLOW_COMPLETED, {
+      safeCapture(posthog, AppEvents.TRANSACTION_COMPLETED, {
         widget_name: widgetName,
         chain_id: chainId,
         chain_name: getChainName(chainId),
         tx_status: txStatus,
+        wallet_address: address,
+        ...(txHash && { tx_hash: txHash }),
         ...(errorContext && { error_context: errorContext }),
-        viewport: getViewport()
+        viewport: getViewport(),
+        flow_id: getFlowId()
       });
     },
-    [posthog, getChainName]
+    [posthog, address, getChainName, getFlowId]
+  );
+
+  const trackWidgetReviewViewed = useCallback(
+    ({ widgetName, chainId, flow }: { widgetName: string; chainId: number; flow: string }) => {
+      safeCapture(posthog, AppEvents.WIDGET_REVIEW_VIEWED, {
+        widget_name: widgetName,
+        chain_id: chainId,
+        chain_name: getChainName(chainId),
+        flow,
+        wallet_address: address,
+        viewport: getViewport(),
+        flow_id: getFlowId()
+      });
+    },
+    [posthog, address, getChainName, getFlowId]
   );
 
   const trackDetailsPaneToggled = ({
@@ -132,8 +157,9 @@ export function useAppAnalytics() {
 
   return {
     trackWidgetSelected,
-    trackWidgetFlowStarted,
-    trackWidgetFlowCompleted,
+    trackTransactionStarted,
+    trackTransactionCompleted,
+    trackWidgetReviewViewed,
     trackDetailsPaneToggled,
     trackChatPaneToggled,
     trackWalletConnected,

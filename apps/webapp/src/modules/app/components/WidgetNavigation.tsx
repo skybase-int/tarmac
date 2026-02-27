@@ -25,6 +25,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { useScrollHint } from '@/modules/app/hooks/useScrollHint';
 import { useAppAnalytics } from '@/modules/analytics/hooks/useAppAnalytics';
 import { type SelectionMethod } from '@/modules/analytics/constants';
+import { useAnalyticsFlow } from '@/modules/analytics/context/AnalyticsFlowContext';
 
 interface WidgetNavigationProps {
   widgetContent: WidgetContent;
@@ -87,10 +88,12 @@ export function WidgetNavigation({
   });
 
   const { trackWidgetSelected } = useAppAnalytics();
+  const { startNewFlow } = useAnalyticsFlow();
 
   const handleWidgetChange = (value: string, method?: SelectionMethod) => {
     // Skip tracking if the widget didn't actually change (e.g. Tabs re-firing during URL param updates)
     if (value !== intent) {
+      startNewFlow();
       trackWidgetSelected({
         widgetName: IntentMapping[value as Intent] || value,
         previousWidget: IntentMapping[intent as Intent] || 'balances',
@@ -278,7 +281,7 @@ export function WidgetNavigation({
                 >
                   {widgetContent.map((group, groupIndex) => (
                     <React.Fragment key={group.id}>
-                      {group.items.map(([widgetIntent, label, icon, , comingSoon, options, description]) => (
+                      {group.items.map(([widgetIntent, label, icon, , comingSoon, options, description, subItems]) => (
                         <div
                           key={widgetIntent}
                           className="flex grow basis-[15%] justify-center md:w-full md:basis-auto md:justify-start"
@@ -291,6 +294,7 @@ export function WidgetNavigation({
                             isMobile={isMobile}
                             disabled={options?.disabled || false}
                             isCurrentWidget={intent === widgetIntent}
+                            subItems={subItems}
                           >
                             <TabsTrigger
                               ref={intent === widgetIntent ? activeTabRef : null}
