@@ -12,7 +12,7 @@ import { AnimationLabels } from '@/modules/ui/animation/constants';
 import { useConfigContext } from '@/modules/config/hooks/useConfigContext';
 import { LinkedActionWrapper } from '@/modules/ui/components/LinkedActionWrapper';
 import { cn } from '@/lib/utils';
-import { Menu, ChevronDown } from 'lucide-react';
+import { Menu, ChevronDown, Loader2 } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { DualSwitcher } from '@/components/DualSwitcher';
@@ -76,7 +76,7 @@ export function WidgetNavigation({
     };
   }, [intent, showDrawerMenu]);
 
-  const { setIsSwitchingNetwork } = useNetworkSwitch();
+  const { isSwitchingNetwork, setIsSwitchingNetwork } = useNetworkSwitch();
   const chains = useChains();
   const { showNetworkToast } = useEnhancedNetworkToast();
   const [previousChainId, setPreviousChainId] = useState<number | undefined>(currentChainId);
@@ -360,35 +360,54 @@ export function WidgetNavigation({
           <div className="md:max-w-[440px] md:min-w-[352px] lg:flex lg:max-w-[416px] lg:min-w-[416px] lg:flex-1 lg:flex-col lg:overflow-hidden">
             <LinkedActionWrapper />
             <AnimatePresence initial={false} mode="popLayout">
-              {widgetContent.map(group =>
-                group.items.map(
-                  ([int, , , content]) =>
-                    intent === int && (
-                      <TabsContent
-                        key={int}
-                        value={int}
-                        className={cn(tabContentClasses, 'flex flex-col')}
-                        style={style}
-                        asChild
-                      >
-                        <motion.div
-                          variants={cardAnimations}
-                          initial={AnimationLabels.initial}
-                          animate={AnimationLabels.animate}
-                          exit={AnimationLabels.exit}
-                          className={cn(
-                            'flex-1 overflow-y-auto md:pr-0 lg:overflow-hidden',
-                            isMobile
-                              ? showLinkedAction
-                                ? 'scroll-mt-[148px]'
-                                : 'scroll-mt-[87px]'
-                              : 'scroll-mt-[0px]'
-                          )}
+              {isSwitchingNetwork ? (
+                <motion.div
+                  key="network-switching"
+                  variants={cardAnimations}
+                  initial={AnimationLabels.initial}
+                  animate={AnimationLabels.animate}
+                  exit={AnimationLabels.exit}
+                  className={cn(tabContentClasses, 'flex flex-1 flex-col items-center justify-center')}
+                  style={style}
+                >
+                  <div className="flex flex-col items-center gap-3">
+                    <Loader2 className="text-textSecondary h-8 w-8 animate-spin" />
+                    <Text variant="medium" className="text-textSecondary">
+                      <Trans>Switching network...</Trans>
+                    </Text>
+                  </div>
+                </motion.div>
+              ) : (
+                widgetContent.map(group =>
+                  group.items.map(
+                    ([int, , , content]) =>
+                      intent === int && (
+                        <TabsContent
+                          key={int}
+                          value={int}
+                          className={cn(tabContentClasses, 'flex flex-col')}
+                          style={style}
+                          asChild
                         >
-                          {content}
-                        </motion.div>
-                      </TabsContent>
-                    )
+                          <motion.div
+                            variants={cardAnimations}
+                            initial={AnimationLabels.initial}
+                            animate={AnimationLabels.animate}
+                            exit={AnimationLabels.exit}
+                            className={cn(
+                              'flex-1 overflow-y-auto md:pr-0 lg:overflow-hidden',
+                              isMobile
+                                ? showLinkedAction
+                                  ? 'scroll-mt-[148px]'
+                                  : 'scroll-mt-[87px]'
+                                : 'scroll-mt-[0px]'
+                            )}
+                          >
+                            {content}
+                          </motion.div>
+                        </TabsContent>
+                      )
+                  )
                 )
               )}
               {children}
