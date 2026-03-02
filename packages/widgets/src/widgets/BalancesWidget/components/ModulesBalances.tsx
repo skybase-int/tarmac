@@ -6,8 +6,7 @@ import {
   useStUsdsData,
   useTotalUserSealed,
   useTotalUserStaked,
-  useMorphoVaultOnChainData,
-  MORPHO_VAULTS
+  useAllMorphoVaultsUserAssets
 } from '@jetstreamgg/sky-hooks';
 import { RewardsBalanceCard } from './RewardsBalanceCard';
 import { SavingsBalanceCard } from './SavingsBalanceCard';
@@ -134,19 +133,15 @@ export const ModulesBalances = ({
 
   const { data: stUsdsData, isLoading: stUsdsLoading, error: stUsdsError } = useStUsdsData();
 
-  // Get Morpho vault data for expert balance card
-  const defaultMorphoVault = MORPHO_VAULTS[0];
-  const morphoVaultAddress = defaultMorphoVault?.vaultAddress[mainnetChainId];
+  // Get aggregate Morpho vault data across all vaults
   const {
-    data: morphoData,
+    data: totalMorphoUserAssets,
     isLoading: morphoLoading,
     error: morphoError
-  } = useMorphoVaultOnChainData({
-    vaultAddress: morphoVaultAddress
-  });
+  } = useAllMorphoVaultsUserAssets();
 
   // Combined expert savings balance (stUSDS + Morpho)
-  const totalExpertSavingsBalance = (stUsdsData?.userSuppliedUsds || 0n) + (morphoData?.userAssets || 0n);
+  const totalExpertSavingsBalance = (stUsdsData?.userSuppliedUsds || 0n) + totalMorphoUserAssets;
   const expertLoading = stUsdsLoading || morphoLoading;
 
   const {
@@ -200,10 +195,9 @@ export const ModulesBalances = ({
       (!showAllNetworks && !isMainnetId(currentChainId))
   );
 
-  const morphoSupplied = morphoData?.userAssets ?? 0n;
   const hideVaults = Boolean(
     morphoError ||
-      (morphoSupplied === 0n && hideZeroBalances) ||
+      (totalMorphoUserAssets === 0n && hideZeroBalances) ||
       (!showAllNetworks && !isMainnetId(currentChainId))
   );
 
