@@ -164,33 +164,54 @@ function useActionRates(actions: SuggestedAction[], chainId: number): { rates: R
 
     if (rateKeys.has('savings')) {
       loading.savings = savingsLoading;
-      const rate = parseFloat(overallSkyData?.skySavingsRatecRate ?? '0');
-      rates.savings = rate > 0 ? formatDecimalPercentage(rate) : '0%';
+      const rawRate = overallSkyData?.skySavingsRatecRate;
+      if (rawRate != null) {
+        const rate = parseFloat(rawRate);
+        rates.savings = !isNaN(rate) ? formatDecimalPercentage(rate) : '—';
+      } else {
+        rates.savings = '—';
+      }
     }
 
     if (rateKeys.has('stusds')) {
       loading.stusds = stUsdsLoading;
-      const rate = stUsdsData?.moduleRate ? calculateApyFromStr(stUsdsData.moduleRate) : 0;
-      rates.stusds = rate > 0 ? `${rate.toFixed(2)}%` : '0%';
+      if (stUsdsData?.moduleRate != null) {
+        const rate = calculateApyFromStr(stUsdsData.moduleRate);
+        rates.stusds = !isNaN(rate) ? `${rate.toFixed(2)}%` : '—';
+      } else {
+        rates.stusds = '—';
+      }
     }
 
     if (rateKeys.has('vaults')) {
       loading.vaults = vaultsLoading;
-      const maxRate = (morphoRatesData || []).reduce((max, r) => Math.max(max, r.netRate), 0);
-      const rate = maxRate * 100;
-      rates.vaults = rate > 0 ? `${rate.toFixed(2)}%` : '0%';
+      if (morphoRatesData != null && morphoRatesData.length > 0) {
+        const maxRate = morphoRatesData.reduce((max, r) => Math.max(max, r.netRate), 0);
+        const rate = maxRate * 100;
+        rates.vaults = `${rate.toFixed(2)}%`;
+      } else {
+        rates.vaults = '—';
+      }
     }
 
     if (rateKeys.has('rewards')) {
       loading.rewards = rewardsLoading;
-      const rate = rewardsHighestRate ? parseFloat(rewardsHighestRate.rate) : 0;
-      rates.rewards = rate > 0 ? formatDecimalPercentage(rate) : '0%';
+      if (rewardsHighestRate?.rate != null) {
+        const rate = parseFloat(rewardsHighestRate.rate);
+        rates.rewards = !isNaN(rate) ? formatDecimalPercentage(rate) : '—';
+      } else {
+        rates.rewards = '—';
+      }
     }
 
     if (rateKeys.has('staking')) {
       loading.staking = stakingLoading;
-      const rate = stakeHighestRateData ? parseFloat(stakeHighestRateData.rate) : 0;
-      rates.staking = rate > 0 ? formatDecimalPercentage(rate) : '0%';
+      if (stakeHighestRateData?.rate != null) {
+        const rate = parseFloat(stakeHighestRateData.rate);
+        rates.staking = !isNaN(rate) ? formatDecimalPercentage(rate) : '—';
+      } else {
+        rates.staking = '—';
+      }
     }
 
     return { rates, loading };
@@ -320,9 +341,9 @@ export function SuggestedActions({ widget, variant = 'default', restrictedModule
                   action.rateKey && rateLoading[action.rateKey] ? (
                     <Skeleton className="h-4 w-24" />
                   ) : (
-                    <Text variant="small" className={`flex items-center gap-1 ${action.rateKey ? 'text-bullish' : 'text-textSecondary'}`}>
+                    <Text variant="small" className={`flex items-center gap-1 ${action.rateKey && rateMap[action.rateKey] !== '—' ? 'text-bullish' : 'text-textSecondary'}`}>
                       {resolved.subtitle}
-                      {action.rateKey && <InfoTooltip content="Rates are variable and subject to change based on market conditions." iconSize={12} iconClassName="text-textSecondary" />}
+                      {action.rateKey && rateMap[action.rateKey] !== '—' && <InfoTooltip content="Rates are variable and subject to change based on market conditions." iconSize={12} iconClassName="text-textSecondary" />}
                     </Text>
                   )
                 )}
