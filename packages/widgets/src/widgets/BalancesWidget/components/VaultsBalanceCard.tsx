@@ -1,7 +1,7 @@
 import {
   usePrices,
   useMorphoVaultsCombinedTvl,
-  useMorphoVaultsCombinedUserData
+  useAllMorphoVaultsUserAssets
 } from '@jetstreamgg/sky-hooks';
 import { formatBigInt, formatNumber } from '@jetstreamgg/sky-utils';
 import { Text } from '@widgets/shared/components/ui/Typography';
@@ -23,7 +23,7 @@ export const VaultsBalanceCard = ({
   variant?: ModuleCardVariant;
 }) => {
   // Fetch combined user balance across all vaults
-  const { totalUserAssets, isLoading: userDataLoading } = useMorphoVaultsCombinedUserData();
+  const { data: totalUserAssets, isLoading: userDataLoading } = useAllMorphoVaultsUserAssets();
 
   // Fetch max rate across all vaults
   const { maxRate: morphoMaxRate, formattedMaxRate, isLoading: morphoRatesLoading } = useMorphoVaultsCombinedTvl();
