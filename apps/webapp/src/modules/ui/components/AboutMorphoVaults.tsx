@@ -49,7 +49,7 @@ export const AboutMorphoVaults = ({ bannerId = 'vaults' }: { bannerId?: string }
       title={banner.title}
       icon={getVaultIcon(bannerId)}
       description={contentText}
-      linkHref="https://morpho.org"
+      linkHref="https://docs.morpho.org/learn/concepts/vault-v2/"
       linkLabel={<Trans>Learn more</Trans>}
       colorMiddle="linear-gradient(360deg, #2470FF 0%, #1B4ECF 300%)"
     />
