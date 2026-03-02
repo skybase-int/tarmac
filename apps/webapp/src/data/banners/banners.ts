@@ -291,7 +291,7 @@ export const banners: Banner[] = [
     title: 'USDS Savings Vault',
     module: 'vaults-banners',
     description:
-      'Curated by Sky on Morpho, allocates deposits exclusively into a single sUSDS lending market, where borrowers post sUSDS, the native stablecoin earning the Sky Savings Rate, as collateral to borrow USDS at a 96.5% LTV ratio.',
+      'Curated by Sky on Morpho, allocates deposits exclusively into a single sUSDS/USDS lending market, where borrowers post sUSDS, the native stablecoin earning the Sky Savings Rate, as collateral to borrow USDS at a 96.5% LTV ratio.',
     display: ['connected', 'disconnected']
   },
   {
