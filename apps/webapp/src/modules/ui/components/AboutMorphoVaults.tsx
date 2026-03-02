@@ -30,7 +30,7 @@ const getVaultIcon = (bannerId: string) => {
   return morphoIcon;
 };
 
-export const AboutMorphoVaults = ({ bannerId = 'morpho-vaults' }: { bannerId?: string }) => {
+export const AboutMorphoVaults = ({ bannerId = 'vaults' }: { bannerId?: string }) => {
   const { isConnectedAndAcceptedTerms } = useConnectedContext();
 
   const banner = getBannerByIdAndModule(bannerId, 'vaults-banners');

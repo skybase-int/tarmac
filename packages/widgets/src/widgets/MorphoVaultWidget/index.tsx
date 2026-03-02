@@ -61,7 +61,7 @@ const MorphoVaultWidgetWrapped = ({
   vaultAddress,
   assetAddress,
   assetToken,
-  vaultName = 'Morpho Vault',
+  vaultName = 'Vault',
   onConnect,
   addRecentTransaction,
   rightHeaderComponent,

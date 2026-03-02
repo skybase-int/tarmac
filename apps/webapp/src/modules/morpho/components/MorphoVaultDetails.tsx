@@ -32,7 +32,7 @@ export function MorphoVaultDetails({
     if (vaultName.includes('Risk Capital')) return 'risk-capital-vault';
     if (vaultName.includes('Flagship')) return 'flagship-vault';
     if (vaultName.includes('Steakhouse') || vaultName.includes('Savings')) return 'savings-vault';
-    return 'morpho-vaults';
+    return 'vaults';
   };
 
   return (
