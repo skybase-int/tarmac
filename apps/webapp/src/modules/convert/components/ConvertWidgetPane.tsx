@@ -112,9 +112,17 @@ export function ConvertWidgetPane(sharedProps: SharedProps) {
             <CardAnimationWrapper className="flex flex-col gap-4">
               {shouldShowUpgradeOption && (
                 <Card
+                  role="button"
+                  tabIndex={isPending ? -1 : 0}
                   aria-disabled={isPending}
                   className={`from-card to-card hover:from-primary-start/100 hover:to-primary-end/100 bg-radial-(--gradient-position) transition-[background-color,background-image] lg:p-5 ${cardInteractionClass}`}
                   onClick={() => handleSelectOption(ConvertIntent.UPGRADE_INTENT)}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleSelectOption(ConvertIntent.UPGRADE_INTENT);
+                    }
+                  }}
                 >
                   <CardHeader className="flex flex-row items-center space-y-0">
                     <HStack className="items-center gap-3">
@@ -133,9 +141,17 @@ export function ConvertWidgetPane(sharedProps: SharedProps) {
               )}
 
               <Card
+                role="button"
+                tabIndex={isPending ? -1 : 0}
                 aria-disabled={isPending}
                 className={`from-card to-card hover:from-primary-start/100 hover:to-primary-end/100 bg-radial-(--gradient-position) transition-[background-color,background-image] lg:p-5 ${cardInteractionClass}`}
                 onClick={() => handleSelectOption(ConvertIntent.TRADE_INTENT)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleSelectOption(ConvertIntent.TRADE_INTENT);
+                  }
+                }}
               >
                 <CardHeader className="flex flex-row items-center space-y-0">
                   <HStack className="items-center gap-3">
