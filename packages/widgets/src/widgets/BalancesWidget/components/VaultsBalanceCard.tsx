@@ -20,7 +20,7 @@ import { ModuleCardVariant } from './ModulesBalances';
 import { useChainId } from 'wagmi';
 import { RateLineWithArrow } from '@widgets/shared/components/ui/RateLineWithArrow';
 import { InteractiveStatsCardAlt } from '@widgets/shared/components/ui/card/InteractiveStatsCardAlt';
-import { MorphoVaultBadge } from '@widgets/widgets/MorphoVaultWidget/components/MorphoVaultBadge';
+import { Vaults as VaultsIcon } from '@widgets/shared/components/icons/Vaults';
 
 export const VaultsBalanceCard = ({
   url,
@@ -52,7 +52,7 @@ export const VaultsBalanceCard = ({
   const isBalanceLoading = morphoDataLoading;
   const isRateLoading = morphoSingleMarketLoading;
 
-  const vaultsIcon = <MorphoVaultBadge className="h-full w-full rounded-sm" />;
+  const vaultsIcon = <VaultsIcon className="h-full w-full" />;
 
   return variant === ModuleCardVariant.default ? (
     <InteractiveStatsCard

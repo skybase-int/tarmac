@@ -180,7 +180,7 @@ export const SUGGESTED_ACTIONS: Record<string, SuggestedAction[]> = {
       module: 'rewards'
     },
     {
-      label: 'Sky Savings Rate',
+      label: 'Sky Savings Rate (sUSDS)',
       input: '',
       tokens: ['sUSDS'],
       rateKey: 'savings',
@@ -189,7 +189,7 @@ export const SUGGESTED_ACTIONS: Record<string, SuggestedAction[]> = {
       url: '?widget=savings'
     },
     {
-      label: 'For Experts: Earn with stUSDS',
+      label: 'Expert: stUSDS',
       input: 'Deposit {amount} USDS into stUSDS',
       tokens: ['stUSDS'],
       sourceToken: 'USDS',
