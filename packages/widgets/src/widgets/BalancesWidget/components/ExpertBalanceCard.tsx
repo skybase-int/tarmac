@@ -70,6 +70,7 @@ export const ExpertBalanceCard = ({
   ) : (
     <InteractiveStatsCardAlt
       title={t`Supplied to Expert`}
+      icon={expertIcon}
       url={url}
       logoName="expert"
       content={
