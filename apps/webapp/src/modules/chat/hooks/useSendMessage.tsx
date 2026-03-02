@@ -9,6 +9,7 @@ import { useLingui } from '@lingui/react';
 import {
   chainIdNameMapping,
   isChatIntentAllowed,
+  rewriteChatbotTradeUpgradeIntent,
   processNetworkNameInUrl,
   ensureIntentHasNetwork,
   hasPreFillParameters
@@ -175,7 +176,8 @@ export const useSendMessage = () => {
       {
         onSuccess: data => {
           const intents = data.intents
-            ?.filter(chatIntent => isChatIntentAllowed(chatIntent))
+            ?.map(rewriteChatbotTradeUpgradeIntent) // TODO: Remove once backend sends widget=convert
+            .filter(chatIntent => isChatIntentAllowed(chatIntent))
             ?.filter(chatIntent => {
               // Filter out intents with pre-fill parameters if filtering is enabled
               return !CHATBOT_PREFILL_FILTERING_ENABLED || !hasPreFillParameters(chatIntent);

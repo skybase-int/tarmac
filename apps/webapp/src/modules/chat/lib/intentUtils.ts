@@ -67,6 +67,7 @@ export const intents = {
   savings: Intent.SAVINGS_INTENT,
   upgrade: Intent.UPGRADE_INTENT,
   trade: Intent.TRADE_INTENT,
+  convert: Intent.CONVERT_INTENT,
   stake: Intent.STAKE_INTENT,
   expert: Intent.EXPERT_INTENT
 } as const;
@@ -201,6 +202,29 @@ export const ensureIntentHasNetwork = (intentUrl: string, currentChainId: number
 
   urlObj.searchParams.set('network', networkName);
   return urlObj.pathname + urlObj.search;
+};
+
+const REDIRECTED_WIDGETS = ['trade', 'upgrade'] as const;
+
+/**
+ * TODO: Remove once the chatbot backend sends `widget=convert` natively.
+ *
+ * Rewrites legacy `widget=trade` → `widget=convert&convert_module=trade`
+ * and `widget=upgrade` → `widget=convert&convert_module=upgrade`.
+ * When removing, also remove the import and `.map()` call in useSendMessage.tsx.
+ */
+export const rewriteChatbotTradeUpgradeIntent = (intent: ChatIntent): ChatIntent => {
+  const widget = intent.widget as (typeof REDIRECTED_WIDGETS)[number];
+  if (!REDIRECTED_WIDGETS.includes(widget)) return intent;
+
+  try {
+    const urlObj = new URL(intent.url, typeof window !== 'undefined' ? window.location.origin : 'http://temp');
+    urlObj.searchParams.set(QueryParams.Widget, 'convert');
+    urlObj.searchParams.set(QueryParams.ConvertModule, widget);
+    return { ...intent, url: urlObj.pathname + urlObj.search, widget: 'convert' };
+  } catch {
+    return intent;
+  }
 };
 
 export const isChatIntentAllowed = (intent: ChatIntent): boolean => {
