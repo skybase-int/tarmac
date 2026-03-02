@@ -6,7 +6,8 @@ import {
   useStUsdsData,
   useTotalUserSealed,
   useTotalUserStaked,
-  useAllMorphoVaultsUserAssets
+  useAllMorphoVaultsUserAssets,
+  usePrices
 } from '@jetstreamgg/sky-hooks';
 import { RewardsBalanceCard } from './RewardsBalanceCard';
 import { SavingsBalanceCard } from './SavingsBalanceCard';
@@ -144,6 +145,8 @@ export const ModulesBalances = ({
   const totalExpertSavingsBalance = (stUsdsData?.userSuppliedUsds || 0n) + totalMorphoUserAssets;
   const expertLoading = stUsdsLoading || morphoLoading;
 
+  const { data: pricesData, isLoading: pricesLoading } = usePrices();
+
   const {
     data: multichainSavingsBalances,
     isLoading: savingsLoading,
@@ -207,8 +210,8 @@ export const ModulesBalances = ({
 
   const hideModuleBalances = hideSavings && hideRewards && hideSeal;
 
-  // Fixed display order for modules
-  const displayOrder: Record<string, number> = {
+  // Fallback display order used while prices are loading to prevent layout shifts
+  const fallbackOrder: Record<string, number> = {
     rewards: 0,
     savings: 1,
     staking: 2,
@@ -216,6 +219,50 @@ export const ModulesBalances = ({
     stusds: 4,
     seal: 5
   };
+
+  // Compute USD value for each module to sort by value descending
+  const bigintToUsd = (balance: bigint, priceStr: string) =>
+    parseFloat((Number(balance) / 1e18).toString()) * parseFloat(priceStr);
+
+  const anyBalanceLoading = rewardsLoading || savingsLoading || stakeLoading || expertLoading || sealLoading;
+  const canSortByValue = !anyBalanceLoading && !pricesLoading && !!pricesData;
+
+  const moduleUsdValues = useMemo(() => {
+    if (!canSortByValue || !pricesData) return {};
+
+    const values: Record<string, number> = {};
+    values.rewards =
+      totalUserRewardsSupplied && pricesData.USDS
+        ? bigintToUsd(totalUserRewardsSupplied, pricesData.USDS.price)
+        : 0;
+    values.savings =
+      totalSavingsBalance && pricesData.USDS
+        ? bigintToUsd(totalSavingsBalance, pricesData.USDS.price)
+        : 0;
+    values.staking =
+      totalUserStaked && pricesData.SKY ? bigintToUsd(totalUserStaked, pricesData.SKY.price) : 0;
+    values.vaults =
+      totalMorphoUserAssets && pricesData.USDS
+        ? bigintToUsd(totalMorphoUserAssets, pricesData.USDS.price)
+        : 0;
+    values.stusds =
+      totalExpertSavingsBalance && pricesData.USDS
+        ? bigintToUsd(totalExpertSavingsBalance, pricesData.USDS.price)
+        : 0;
+    values.seal =
+      totalUserSealed && pricesData.MKR ? bigintToUsd(totalUserSealed, pricesData.MKR.price) : 0;
+
+    return values;
+  }, [
+    canSortByValue,
+    pricesData,
+    totalUserRewardsSupplied,
+    totalSavingsBalance,
+    totalUserStaked,
+    totalMorphoUserAssets,
+    totalExpertSavingsBalance,
+    totalUserSealed
+  ]);
 
   const sortedModules = useMemo(() => {
     const modules: Array<{
@@ -230,8 +277,29 @@ export const ModulesBalances = ({
       { id: 'seal', hidden: hideSeal }
     ];
 
-    return modules.filter(m => !m.hidden).sort((a, b) => displayOrder[a.id] - displayOrder[b.id]);
-  }, [hideModuleBalances, hideRewards, hideSavings, hideExpert, hideStake, hideSeal, hideVaults]);
+    const visible = modules.filter(m => !m.hidden);
+
+    if (canSortByValue) {
+      // Sort by USD value descending, fall back to default order for ties
+      return visible.sort((a, b) => {
+        const diff = (moduleUsdValues[b.id] ?? 0) - (moduleUsdValues[a.id] ?? 0);
+        return diff !== 0 ? diff : fallbackOrder[a.id] - fallbackOrder[b.id];
+      });
+    }
+
+    // While loading, use stable fallback order to prevent layout shifts
+    return visible.sort((a, b) => fallbackOrder[a.id] - fallbackOrder[b.id]);
+  }, [
+    hideModuleBalances,
+    hideRewards,
+    hideSavings,
+    hideExpert,
+    hideStake,
+    hideSeal,
+    hideVaults,
+    canSortByValue,
+    moduleUsdValues
+  ]);
 
   // Check if all supplied funds are zero (before any filtering)
   const totalRawSavingsBalance = sortedSavingsBalances.reduce((acc, { balance }) => acc + balance, 0n);
