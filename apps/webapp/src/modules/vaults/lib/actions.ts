@@ -158,6 +158,12 @@ export const SUGGESTED_ACTIONS: Record<string, SuggestedAction[]> = {
       input: 'Deposit 500 USDS into Morpho vault',
       tokens: ['USDT'],
       module: 'morpho'
+    },
+    {
+      label: 'Deposit into USDT Savings vault',
+      input: 'Deposit 500 USDS into Morpho vault',
+      tokens: ['USDT'],
+      module: 'morpho'
     }
   ],
   stables: [
