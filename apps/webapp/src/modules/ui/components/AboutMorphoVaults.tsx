@@ -18,7 +18,7 @@ const getVaultIcon = (bannerId: string) => {
     );
   }
 
-  if (bannerId === 'risk-capital-vault') {
+  if (bannerId.endsWith('risk-capital-vault')) {
     return (
       <span className="flex items-center gap-1">
         {morphoIcon}

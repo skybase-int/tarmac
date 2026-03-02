@@ -263,11 +263,27 @@ export const banners: Banner[] = [
     display: ['connected', 'disconnected']
   },
   {
-    id: 'risk-capital-vault',
-    title: 'Risk Capital Vault',
+    id: 'usds-risk-capital-vault',
+    title: 'USDS Risk Capital Vault',
     module: 'vaults-banners',
     description:
       'Curated by Sky on Morpho, allocates deposits exclusively into a single stUSDS/USDS lending market, where borrowers post stUSDS, the higher-yield Expert risk capital token, as collateral to borrow USDS at an 86% LTV ratio.',
+    display: ['connected', 'disconnected']
+  },
+  {
+    id: 'usdt-risk-capital-vault',
+    title: 'USDT Risk Capital Vault',
+    module: 'vaults-banners',
+    description:
+      'Curated by Sky on Morpho, allocates deposits exclusively into a single stUSDS/USDT lending market, where borrowers post stUSDS, the higher-yield Expert risk capital token, as collateral to borrow USDT at an 86% LTV ratio.',
+    display: ['connected', 'disconnected']
+  },
+  {
+    id: 'usdc-risk-capital-vault',
+    title: 'USDC Risk Capital Vault',
+    module: 'vaults-banners',
+    description:
+      'Curated by Sky on Morpho, allocates deposits exclusively into a single stUSDS/USDC lending market, where borrowers post stUSDS, the higher-yield Expert risk capital token, as collateral to borrow USDC at an 86% LTV ratio.',
     display: ['connected', 'disconnected']
   },
   {
