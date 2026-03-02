@@ -176,17 +176,17 @@ export const useSendMessage = () => {
       {
         onSuccess: data => {
           const intents = data.intents
-            ?.map(rewriteChatbotTradeUpgradeIntent) // TODO: Remove once backend sends widget=convert
-            .filter(chatIntent => isChatIntentAllowed(chatIntent))
-            ?.filter(chatIntent => {
-              // Filter out intents with pre-fill parameters if filtering is enabled
-              return !CHATBOT_PREFILL_FILTERING_ENABLED || !hasPreFillParameters(chatIntent);
-            })
-            .map(intent => {
+            ?.map(intent => {
               const processedUrl = processNetworkNameInUrl(intent.url);
               const urlWithNetwork = ensureIntentHasNetwork(processedUrl, chainId);
               return { ...intent, url: urlWithNetwork };
-            });
+            })
+            .filter(chatIntent => isChatIntentAllowed(chatIntent))
+            .filter(chatIntent => {
+              // Filter out intents with pre-fill parameters if filtering is enabled
+              return !CHATBOT_PREFILL_FILTERING_ENABLED || !hasPreFillParameters(chatIntent);
+            })
+            .map(rewriteChatbotTradeUpgradeIntent); // TODO: Remove once backend sends widget=convert
 
           setChatHistory(prevHistory => {
             return prevHistory[prevHistory.length - 1].type === CANCELED

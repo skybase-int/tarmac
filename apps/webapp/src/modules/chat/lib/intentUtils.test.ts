@@ -633,6 +633,16 @@ describe('rewriteChatbotTradeUpgradeIntent', () => {
       expect(params.get('widget')).toBe('convert');
       expect(params.get('convert_module')).toBe('upgrade');
     });
+
+    it('leaves upgrade intents targeting an L2 unchanged', () => {
+      const intent = makeIntent({
+        url: '?widget=upgrade&network=base',
+        widget: 'upgrade',
+        intent_id: 'upgrade'
+      });
+      const result = rewriteChatbotTradeUpgradeIntent(intent);
+      expect(result).toBe(intent);
+    });
   });
 
   describe('preserves other query params', () => {

@@ -16,6 +16,22 @@ describe('rewriteLegacyWidgetParams', () => {
     expect(params.get('convert_module')).toBe('upgrade');
   });
 
+  it('rewrites widget=upgrade on mainnet to widget=convert&convert_module=upgrade', () => {
+    const params = new URLSearchParams('widget=upgrade&network=ethereum');
+    rewriteLegacyWidgetParams(params);
+    expect(params.get('widget')).toBe('convert');
+    expect(params.get('convert_module')).toBe('upgrade');
+    expect(params.get('network')).toBe('ethereum');
+  });
+
+  it('leaves widget=upgrade unchanged on L2 networks', () => {
+    const params = new URLSearchParams('widget=upgrade&network=base');
+    rewriteLegacyWidgetParams(params);
+    expect(params.get('widget')).toBe('upgrade');
+    expect(params.has('convert_module')).toBe(false);
+    expect(params.get('network')).toBe('base');
+  });
+
   it('leaves widget=savings unchanged', () => {
     const params = new URLSearchParams('widget=savings');
     rewriteLegacyWidgetParams(params);

@@ -221,7 +221,17 @@ export const rewriteChatbotTradeUpgradeIntent = (intent: ChatIntent): ChatIntent
   try {
     const urlObj = new URL(intent.url, typeof window !== 'undefined' ? window.location.origin : 'http://temp');
     rewriteLegacyWidgetParams(urlObj.searchParams);
-    return { ...intent, url: urlObj.pathname + urlObj.search, widget: 'convert' };
+    const rewrittenWidget = urlObj.searchParams.get(QueryParams.Widget)?.toLowerCase();
+
+    if (rewrittenWidget !== IntentMapping[Intent.CONVERT_INTENT]) {
+      return intent;
+    }
+
+    return {
+      ...intent,
+      url: urlObj.pathname + urlObj.search,
+      widget: IntentMapping[Intent.CONVERT_INTENT]
+    };
   } catch {
     return intent;
   }

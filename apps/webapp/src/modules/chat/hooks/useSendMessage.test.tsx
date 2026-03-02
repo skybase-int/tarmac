@@ -1,5 +1,11 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { hasPreFillParameters, rewriteChatbotTradeUpgradeIntent } from '../lib/intentUtils';
+import {
+  ensureIntentHasNetwork,
+  hasPreFillParameters,
+  isChatIntentAllowed,
+  processNetworkNameInUrl,
+  rewriteChatbotTradeUpgradeIntent
+} from '../lib/intentUtils';
 import { ChatIntent } from '../types/Chat';
 
 /**
@@ -456,8 +462,18 @@ describe('useSendMessage - Intent Filtering Integration', () => {
   // TODO: Remove this section once the backend sends widget=convert natively
   describe('trade/upgrade → convert rewrite integration', () => {
     const CHATBOT_DISABLE_PREFILL = true;
+    const runIntentPipeline = (intents: ChatIntent[], chainId = 1) =>
+      intents
+        .map(intent => {
+          const processedUrl = processNetworkNameInUrl(intent.url);
+          const urlWithNetwork = ensureIntentHasNetwork(processedUrl, chainId);
+          return { ...intent, url: urlWithNetwork };
+        })
+        .filter(intent => isChatIntentAllowed(intent))
+        .filter(intent => !CHATBOT_DISABLE_PREFILL || !hasPreFillParameters(intent))
+        .map(rewriteChatbotTradeUpgradeIntent);
 
-    it('rewrites trade intents to convert before filtering', () => {
+    it('rewrites trade intents to convert after validation', () => {
       const intents: ChatIntent[] = [
         {
           title: 'Go to Trade',
@@ -468,9 +484,7 @@ describe('useSendMessage - Intent Filtering Integration', () => {
         }
       ];
 
-      const result = intents
-        .map(rewriteChatbotTradeUpgradeIntent)
-        .filter(intent => !CHATBOT_DISABLE_PREFILL || !hasPreFillParameters(intent));
+      const result = runIntentPipeline(intents);
 
       expect(result).toHaveLength(1);
       expect(result[0].widget).toBe('convert');
@@ -480,7 +494,7 @@ describe('useSendMessage - Intent Filtering Integration', () => {
       expect(params.get('network')).toBe('ethereum');
     });
 
-    it('rewrites upgrade intents to convert before filtering', () => {
+    it('rewrites upgrade intents to convert after validation', () => {
       const intents: ChatIntent[] = [
         {
           title: 'Go to Upgrade',
@@ -491,15 +505,50 @@ describe('useSendMessage - Intent Filtering Integration', () => {
         }
       ];
 
-      const result = intents
-        .map(rewriteChatbotTradeUpgradeIntent)
-        .filter(intent => !CHATBOT_DISABLE_PREFILL || !hasPreFillParameters(intent));
+      const result = runIntentPipeline(intents);
 
       expect(result).toHaveLength(1);
       expect(result[0].widget).toBe('convert');
       const params = new URLSearchParams(result[0].url.split('?')[1]);
       expect(params.get('widget')).toBe('convert');
       expect(params.get('convert_module')).toBe('upgrade');
+    });
+
+    it('routes upgrade intents without a network to ethereum before rewriting on L2', () => {
+      const intents: ChatIntent[] = [
+        {
+          title: 'Go to Upgrade',
+          url: '?widget=upgrade',
+          intent_id: 'upgrade',
+          widget: 'upgrade',
+          priority: 1
+        }
+      ];
+
+      const result = runIntentPipeline(intents, 8453);
+
+      expect(result).toHaveLength(1);
+      expect(result[0].widget).toBe('convert');
+      const params = new URLSearchParams(result[0].url.split('?')[1]);
+      expect(params.get('widget')).toBe('convert');
+      expect(params.get('convert_module')).toBe('upgrade');
+      expect(params.get('network')).toBe('ethereum');
+    });
+
+    it('filters out upgrade intents that explicitly target an L2', () => {
+      const intents: ChatIntent[] = [
+        {
+          title: 'Go to Upgrade',
+          url: '?widget=upgrade&network=base',
+          intent_id: 'upgrade',
+          widget: 'upgrade',
+          priority: 1
+        }
+      ];
+
+      const result = runIntentPipeline(intents);
+
+      expect(result).toHaveLength(0);
     });
 
     it('passes through backend convert URLs unchanged (forward-compatible)', () => {
@@ -521,9 +570,7 @@ describe('useSendMessage - Intent Filtering Integration', () => {
         }
       ];
 
-      const result = intents
-        .map(rewriteChatbotTradeUpgradeIntent)
-        .filter(intent => !CHATBOT_DISABLE_PREFILL || !hasPreFillParameters(intent));
+      const result = runIntentPipeline(intents);
 
       expect(result).toHaveLength(2);
       expect(result[0].widget).toBe('convert');
@@ -566,9 +613,7 @@ describe('useSendMessage - Intent Filtering Integration', () => {
         }
       ];
 
-      const result = intents
-        .map(rewriteChatbotTradeUpgradeIntent)
-        .filter(intent => !CHATBOT_DISABLE_PREFILL || !hasPreFillParameters(intent));
+      const result = runIntentPipeline(intents);
 
       expect(result).toHaveLength(4);
       // Trade and upgrade rewritten to convert
@@ -599,9 +644,7 @@ describe('useSendMessage - Intent Filtering Integration', () => {
         }
       ];
 
-      const result = intents
-        .map(rewriteChatbotTradeUpgradeIntent)
-        .filter(intent => !CHATBOT_DISABLE_PREFILL || !hasPreFillParameters(intent));
+      const result = runIntentPipeline(intents);
 
       // Only the navigation intent survives prefill filtering
       expect(result).toHaveLength(1);
