@@ -27,6 +27,15 @@ const getVaultIcon = (bannerId: string) => {
     );
   }
 
+  if (bannerId.endsWith('savings-vault')) {
+    return (
+      <span className="flex items-center gap-1">
+        {morphoIcon}
+        <TokenIcon token={{ symbol: 'sUSDS' }} width={24} className="h-6 w-6" showChainIcon={false} />
+      </span>
+    );
+  }
+
   return morphoIcon;
 };
 

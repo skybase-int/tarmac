@@ -35,7 +35,10 @@ export function MorphoVaultDetails({
       return 'usds-risk-capital-vault';
     }
     if (vaultName.includes('Flagship')) return 'flagship-vault';
-    if (vaultName.includes('Steakhouse') || vaultName.includes('Savings')) return 'savings-vault';
+    if (vaultName.includes('Savings')) {
+      if (vaultName.includes('USDT')) return 'usdt-savings-vault';
+      return 'usds-savings-vault';
+    }
     return 'vaults';
   };
 
