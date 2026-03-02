@@ -1,5 +1,6 @@
 import { arbitrum, base, Chain, mainnet, optimism, unichain } from 'wagmi/chains';
-import { CHATBOT_USE_TESTNET_NETWORK_NAME, COMING_SOON_MAP, QueryParams } from '@/lib/constants';
+import { CHATBOT_USE_TESTNET_NETWORK_NAME, COMING_SOON_MAP, IntentMapping, QueryParams } from '@/lib/constants';
+import { rewriteLegacyWidgetParams } from '@/modules/utils/validateSearchParams';
 import { ChatIntent } from '../types/Chat';
 import { Intent } from '@/lib/enums';
 import { isIntentAllowed } from '@/lib/utils';
@@ -204,23 +205,22 @@ export const ensureIntentHasNetwork = (intentUrl: string, currentChainId: number
   return urlObj.pathname + urlObj.search;
 };
 
-const REDIRECTED_WIDGETS = ['trade', 'upgrade'] as const;
-
 /**
  * TODO: Remove once the chatbot backend sends `widget=convert` natively.
  *
  * Rewrites legacy `widget=trade` → `widget=convert&convert_module=trade`
  * and `widget=upgrade` → `widget=convert&convert_module=upgrade`.
+ * Delegates to the shared rewriteLegacyWidgetParams for the URL rewrite.
  * When removing, also remove the import and `.map()` call in useSendMessage.tsx.
  */
 export const rewriteChatbotTradeUpgradeIntent = (intent: ChatIntent): ChatIntent => {
-  const widget = intent.widget as (typeof REDIRECTED_WIDGETS)[number];
-  if (!REDIRECTED_WIDGETS.includes(widget)) return intent;
+  const widget = intent.widget?.toLowerCase();
+  if (widget !== IntentMapping[Intent.TRADE_INTENT] && widget !== IntentMapping[Intent.UPGRADE_INTENT])
+    return intent;
 
   try {
     const urlObj = new URL(intent.url, typeof window !== 'undefined' ? window.location.origin : 'http://temp');
-    urlObj.searchParams.set(QueryParams.Widget, 'convert');
-    urlObj.searchParams.set(QueryParams.ConvertModule, widget);
+    rewriteLegacyWidgetParams(urlObj.searchParams);
     return { ...intent, url: urlObj.pathname + urlObj.search, widget: 'convert' };
   } catch {
     return intent;

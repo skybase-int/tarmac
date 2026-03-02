@@ -17,6 +17,17 @@ import { isL2ChainId } from '@jetstreamgg/sky-utils';
 import { Chain } from 'viem';
 import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
 
+// TODO: Remove once all references to widget=trade|upgrade are migrated
+export const rewriteLegacyWidgetParams = (searchParams: URLSearchParams): void => {
+  const widget = searchParams.get(QueryParams.Widget)?.toLowerCase();
+  if (widget === IntentMapping[Intent.TRADE_INTENT] || widget === IntentMapping[Intent.UPGRADE_INTENT]) {
+    searchParams.set(QueryParams.Widget, IntentMapping[Intent.CONVERT_INTENT]);
+    if (!searchParams.has(QueryParams.ConvertModule)) {
+      searchParams.set(QueryParams.ConvertModule, widget);
+    }
+  }
+};
+
 const resolveWidgetForTokenValidation = (searchParams: URLSearchParams): string | undefined => {
   const widgetParam = searchParams.get(QueryParams.Widget)?.toLowerCase();
 
