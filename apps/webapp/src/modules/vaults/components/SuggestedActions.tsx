@@ -317,14 +317,13 @@ export function SuggestedActions({ widget, variant = 'default', restrictedModule
       const targetNetworkName = getTargetNetworkName(action.module);
       const isNetworkChange = targetNetworkName !== networkName;
 
-      // Show switching UI if changing networks
-      if (isNetworkChange) {
-        setIsSwitchingNetwork(true);
-      }
-
       if (action.url) {
         const directParams = new URLSearchParams(action.url.replace(/^\?/, ''));
         directParams.set(QueryParams.Network, targetNetworkName);
+        // Show switching UI if changing networks (only after validation succeeds)
+        if (isNetworkChange) {
+          setIsSwitchingNetwork(true);
+        }
         setSearchParams(prev => {
           const searchParams = deleteSearchParams(prev);
           directParams.forEach((value, key) => {
@@ -341,6 +340,10 @@ export function SuggestedActions({ widget, variant = 'default', restrictedModule
       const params = intentToWidgetParams(intent, chainId, targetNetworkName);
       if (!params) return;
 
+      // Show switching UI if changing networks (only after validation succeeds)
+      if (isNetworkChange) {
+        setIsSwitchingNetwork(true);
+      }
       setSearchParams(prev => {
         const searchParams = deleteSearchParams(prev);
         params.forEach((value, key) => {
