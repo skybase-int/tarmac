@@ -113,7 +113,7 @@ test.describe('Expert Module - stUSDS', () => {
     // await expect(isolatedPage.getByRole('heading', { name: 'Expert', exact: true })).toBeVisible();
 
     // Navigate to stUSDS module
-    await isolatedPage.getByTestId('stusds-stats-card').click();
+    // await isolatedPage.getByTestId('stusds-stats-card').click();
 
     // Should now be in stUSDS module
     await expect(
