@@ -60,7 +60,7 @@ export const VaultsBalanceCard = ({
         ) : morphoMaxRate > 0 ? (
           <RateLineWithArrow
             rateText={t`Rates up to: ${(morphoMaxRate * 100).toFixed(2)}%`}
-            popoverType="expert"
+            popoverType="morpho"
             onExternalLinkClicked={onExternalLinkClicked}
           />
         ) : (
