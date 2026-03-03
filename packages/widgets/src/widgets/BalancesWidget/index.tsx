@@ -18,6 +18,7 @@ import { useCallback, useMemo, useState } from 'react';
 export type BalancesWidgetProps = WidgetProps & {
   chainIds?: number[];
   hideModuleBalances?: boolean;
+  hideRestrictedModules?: boolean;
   rewardsCardUrl?: string;
   savingsCardUrlMap?: Record<number, string>;
   sealCardUrl?: string;
@@ -39,6 +40,7 @@ export const BalancesWidget = ({
   locale,
   rightHeaderComponent,
   hideModuleBalances = false,
+  hideRestrictedModules = false,
   enabled = true,
   onExternalLinkClicked,
   rewardsCardUrl,
@@ -62,6 +64,7 @@ export const BalancesWidget = ({
           onConnect={onConnect}
           rightHeaderComponent={rightHeaderComponent}
           hideModuleBalances={hideModuleBalances}
+          hideRestrictedModules={hideRestrictedModules}
           enabled={enabled}
           chainIds={chainIds}
           rewardsCardUrl={rewardsCardUrl}
@@ -87,6 +90,7 @@ const BalancesWidgetWrapped = ({
   onConnect,
   rightHeaderComponent,
   hideModuleBalances = false,
+  hideRestrictedModules = false,
   enabled = true,
   onExternalLinkClicked,
   chainIds,
@@ -164,6 +168,7 @@ const BalancesWidgetWrapped = ({
             )}
             <BalancesContent
               hideModuleBalances={hideModuleBalances}
+              hideRestrictedModules={hideRestrictedModules}
               rewardsCardUrl={rewardsCardUrl}
               savingsCardUrlMap={savingsCardUrlMap}
               sealCardUrl={sealCardUrl}
