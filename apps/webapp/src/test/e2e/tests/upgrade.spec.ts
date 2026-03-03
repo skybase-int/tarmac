@@ -366,7 +366,7 @@ test('An upgrade error redirects to the error screen', async ({ isolatedPage }) 
   await expect(isolatedPage.getByText('An error occurred during the upgrade flow.').last()).toBeVisible();
 });
 
-test.only('A revert error redirects to the error screen', async ({ isolatedPage }) => {
+test('A revert error redirects to the error screen', async ({ isolatedPage }) => {
   await isolatedPage.goto('/');
   await connectMockWalletAndAcceptTerms(isolatedPage, { batch: true });
   await isolatedPage.getByRole('tab', { name: 'Convert' }).click();
