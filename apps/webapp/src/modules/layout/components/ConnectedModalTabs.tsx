@@ -1,6 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Trans } from '@lingui/react/macro';
-import { BalancesHistory, I18nWidgetProvider, ModuleCardVariant, ModulesBalances } from '@jetstreamgg/sky-widgets';
+import { BalancesHistory, ModuleCardVariant, ModulesBalances } from '@jetstreamgg/sky-widgets';
 import { getSupportedChainIds } from '@/data/wagmi/config/config.default';
 import { useChainId } from 'wagmi';
 import { useModuleUrls } from '@/modules/app/hooks/useModuleUrls';
@@ -13,7 +13,7 @@ enum ConnectedModalTabsEnum {
 
 export function ConnectedModalTabs() {
   const chainId = useChainId();
-  const { locale, onExternalLinkClicked } = useConfigContext();
+  const { onExternalLinkClicked } = useConfigContext();
   const isRestrictedBuild = import.meta.env.VITE_RESTRICTED_BUILD === 'true';
 
   const { rewardsUrl, savingsUrlMap, sealUrl, stakeUrl, expertOverviewUrl, vaultsUrl } = useModuleUrls();
@@ -32,33 +32,29 @@ export function ConnectedModalTabs() {
         value={ConnectedModalTabsEnum.SUPPLIED_FUNDS}
         className="scrollbar-thin-always max-h-94 min-h-0 flex-1 overflow-auto [scrollbar-gutter:auto]"
       >
-        <I18nWidgetProvider locale={locale}>
-          <ModulesBalances
-            variant={ModuleCardVariant.alt}
-            chainIds={getSupportedChainIds(chainId)}
-            rewardsCardUrl={rewardsUrl}
-            savingsCardUrlMap={savingsUrlMap}
-            sealCardUrl={sealUrl}
-            stakeCardUrl={stakeUrl}
-            stusdsCardUrl={expertOverviewUrl}
-            vaultsCardUrl={vaultsUrl}
-            hideRestrictedModules={isRestrictedBuild}
-            onExternalLinkClicked={onExternalLinkClicked}
-          />
-        </I18nWidgetProvider>
+        <ModulesBalances
+          variant={ModuleCardVariant.alt}
+          chainIds={getSupportedChainIds(chainId)}
+          rewardsCardUrl={rewardsUrl}
+          savingsCardUrlMap={savingsUrlMap}
+          sealCardUrl={sealUrl}
+          stakeCardUrl={stakeUrl}
+          stusdsCardUrl={expertOverviewUrl}
+          vaultsCardUrl={vaultsUrl}
+          hideRestrictedModules={isRestrictedBuild}
+          onExternalLinkClicked={onExternalLinkClicked}
+        />
       </TabsContent>
       <TabsContent
         value={ConnectedModalTabsEnum.ACTIVITY}
         className="scrollbar-thin-always max-h-94 min-h-0 flex-1 overflow-auto [scrollbar-gutter:auto]"
       >
-        <I18nWidgetProvider locale={locale}>
-          <BalancesHistory
-            onExternalLinkClicked={onExternalLinkClicked}
-            showAllNetworks={true}
-            className="mt-0"
-            useInfiniteScroll={true}
-          />
-        </I18nWidgetProvider>
+        <BalancesHistory
+          onExternalLinkClicked={onExternalLinkClicked}
+          showAllNetworks={true}
+          className="mt-0"
+          useInfiniteScroll={true}
+        />
       </TabsContent>
     </Tabs>
   );

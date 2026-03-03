@@ -66,4 +66,3 @@ export { Morpho } from './shared/components/icons/Morpho';
 export { WalletCard } from './widgets/BalancesWidget/components/WalletCard';
 export { ModuleCardVariant, ModulesBalances } from './widgets/BalancesWidget/components/ModulesBalances';
 export { BalancesHistory } from './widgets/BalancesWidget/components/BalancesHistory';
-export { I18nWidgetProvider } from './context/I18nWidgetProvider';
