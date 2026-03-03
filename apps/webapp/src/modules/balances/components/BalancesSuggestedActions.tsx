@@ -283,11 +283,10 @@ export function BalancesSuggestedActions({
 
   // Determine the target network name based on module's network requirements
   const getTargetNetworkName = useCallback(
-    (actionUrl: string): string => {
-      // Parse widget from URL to determine network requirements
-      const urlParams = new URLSearchParams(actionUrl.replace(/^\?/, ''));
-      const targetWidget = urlParams.get('widget');
-      const targetIntent = mapQueryParamToIntent(targetWidget);
+    (module: string | undefined): string => {
+      if (!module) return networkName;
+
+      const targetIntent = mapQueryParamToIntent(module);
 
       // For multichain intents, use current network; for mainnet-only, use mainnet
       if (isMultichain(targetIntent)) {
@@ -313,7 +312,7 @@ export function BalancesSuggestedActions({
   const handleClick = useCallback(
     (action: BalancesAction) => {
       // Determine target network based on module's network requirements
-      const targetNetworkName = getTargetNetworkName(action.url);
+      const targetNetworkName = getTargetNetworkName(action.module);
       const isNetworkChange = targetNetworkName !== networkName;
 
       const params = new URLSearchParams(action.url.replace(/^\?/, ''));
