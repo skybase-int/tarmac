@@ -96,6 +96,7 @@ export function useSendBatchTransactionFlow<const calls extends readonly unknown
     isLoading: isLoadingCapabilities || (isMining && !txReverted),
     prepared: !!batchSupported && !!enabled && !isLoadingCapabilities && !capabilitiesError,
     error: sendError || miningError,
+    currentCallIndex: 0,
     reset: resetSendCalls
   };
 }

@@ -72,6 +72,8 @@ export default ({ mode }: { mode: modeEnum }) => {
       https://info-sky.blockanalitica.com
       https://sky-tenderly.blockanalitica.com
       https://api.cow.fi/
+      https://api.morpho.org/
+      https://api.merkl.xyz/
       wss://relay.walletconnect.com
       wss://relay.walletconnect.org
       https://pulse.walletconnect.org
@@ -81,7 +83,9 @@ export default ({ mode }: { mode: modeEnum }) => {
       https://enhanced-provider.rainbow.me
       https://mainnet.unichain.org/
       https://mainnet.optimism.io/
+      https://mm-sdk-analytics.api.cx.metamask.io
       https://metamask-sdk.api.cx.metamask.io/evt
+      https://a.markfi.xyz
       wss://metamask-sdk.api.cx.metamask.io
       wss://nbstream.binance.com/wallet-connector
       cloudflareinsights.com
