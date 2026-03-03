@@ -26,8 +26,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { type IconProps } from '@/modules/icons/Icon';
 import { parseIntent, intentToWidgetParams } from '../lib/intent';
 import { SUGGESTED_ACTIONS, type SuggestedAction } from '../lib/actions';
-import { Morpho } from '@jetstreamgg/sky-widgets';
-import { InfoTooltip } from '@/components/InfoTooltip';
+import { Morpho, PopoverRateInfo, type PopoverTooltipType } from '@jetstreamgg/sky-widgets';
 
 // Map token symbols to TOKENS keys for address lookup
 const SYMBOL_TO_TOKEN_KEY: Record<string, keyof typeof TOKENS> = {
@@ -48,6 +47,14 @@ const MODULE_ICONS: Record<string, (props: IconProps) => React.ReactElement> = {
   seal: Seal,
   stusds: Expert,
   morpho: Vaults
+};
+
+const RATE_TOOLTIP_TYPES: Record<NonNullable<SuggestedAction['rateKey']>, PopoverTooltipType> = {
+  vaults: 'morpho',
+  rewards: 'str',
+  savings: 'ssr',
+  stusds: 'stusds',
+  staking: 'srr'
 };
 
 type ActionWithModule = SuggestedAction;
@@ -343,7 +350,14 @@ export function SuggestedActions({ widget, variant = 'default', restrictedModule
                   ) : (
                     <Text variant="small" className={`flex items-center gap-1 ${action.rateKey && rateMap[action.rateKey] !== '—' ? 'text-bullish' : 'text-textSecondary'}`}>
                       {resolved.subtitle}
-                      {action.rateKey && rateMap[action.rateKey] !== '—' && <InfoTooltip content="Rates are variable and subject to change based on market conditions." iconSize={12} iconClassName="text-textSecondary" />}
+                      {action.rateKey && rateMap[action.rateKey] !== '—' && (
+                        <PopoverRateInfo
+                          type={RATE_TOOLTIP_TYPES[action.rateKey]}
+                          width={12}
+                          height={12}
+                          iconClassName="text-textSecondary"
+                        />
+                      )}
                     </Text>
                   )
                 )}
