@@ -248,6 +248,7 @@ export function useSequentialTransactionFlow(
     isLoading: isSimulationLoading || (isMining && !txReverted) || (isExecuting && !hasWriteError),
     prepared,
     error: writeError || miningError || simulationError,
+    currentCallIndex: currentIndex,
     reset
   };
 }
