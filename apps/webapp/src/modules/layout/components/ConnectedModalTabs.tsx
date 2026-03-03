@@ -14,6 +14,7 @@ enum ConnectedModalTabsEnum {
 export function ConnectedModalTabs() {
   const chainId = useChainId();
   const { onExternalLinkClicked } = useConfigContext();
+  const isRestrictedBuild = import.meta.env.VITE_RESTRICTED_BUILD === 'true';
 
   const { rewardsUrl, savingsUrlMap, sealUrl, stakeUrl, expertOverviewUrl, vaultsUrl } = useModuleUrls();
 
@@ -40,6 +41,7 @@ export function ConnectedModalTabs() {
           stakeCardUrl={stakeUrl}
           stusdsCardUrl={expertOverviewUrl}
           vaultsCardUrl={vaultsUrl}
+          hideRestrictedModules={isRestrictedBuild}
           onExternalLinkClicked={onExternalLinkClicked}
         />
       </TabsContent>
