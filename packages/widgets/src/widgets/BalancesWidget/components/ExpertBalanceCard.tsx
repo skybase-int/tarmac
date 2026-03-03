@@ -18,6 +18,7 @@ export const ExpertBalanceCard = ({
   const { data: stUsdsData, isLoading: stUsdsLoading } = useStUsdsData();
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
 
+  // Expert supplied funds = total across expert modules (stUSDS only for now)
   const stUsdsSupplied = stUsdsData?.userSuppliedUsds || 0n;
   const stUsdsRate = stUsdsData?.moduleRate ? calculateApyFromStr(stUsdsData.moduleRate) : 0;
 
