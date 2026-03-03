@@ -46,7 +46,7 @@ interface ModulesBalancesProps {
   chainIds?: number[];
   stakeCardUrl?: string;
   stusdsCardUrl?: string;
-  morphoCardUrl?: string;
+  vaultsCardUrl?: string;
   variant?: ModuleCardVariant;
   hideZeroBalances?: boolean;
   showAllNetworks?: boolean;
@@ -61,7 +61,7 @@ export const ModulesBalances = ({
   chainIds,
   stakeCardUrl,
   stusdsCardUrl,
-  morphoCardUrl,
+  vaultsCardUrl,
   variant = ModuleCardVariant.default,
   hideZeroBalances = false,
   showAllNetworks = true,
@@ -384,7 +384,7 @@ export const ModulesBalances = ({
         return (
           <VaultsBalanceCard
             key="vaults"
-            url={morphoCardUrl}
+            url={vaultsCardUrl}
             onExternalLinkClicked={onExternalLinkClicked}
             variant={variant}
           />

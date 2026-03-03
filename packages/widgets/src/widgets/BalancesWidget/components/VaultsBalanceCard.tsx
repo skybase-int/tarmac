@@ -89,7 +89,7 @@ export const VaultsBalanceCard = ({
       title={t`Supplied to Vaults`}
       icon={vaultsIcon}
       url={url}
-      logoName="expert"
+      logoName="vaults"
       content={
         isBalanceLoading ? (
           <Skeleton className="w-32" />

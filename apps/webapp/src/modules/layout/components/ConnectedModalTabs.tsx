@@ -39,7 +39,7 @@ export function ConnectedModalTabs() {
           sealCardUrl={sealUrl}
           stakeCardUrl={stakeUrl}
           stusdsCardUrl={expertOverviewUrl}
-          morphoCardUrl={vaultsUrl}
+          vaultsCardUrl={vaultsUrl}
           onExternalLinkClicked={onExternalLinkClicked}
         />
       </TabsContent>
