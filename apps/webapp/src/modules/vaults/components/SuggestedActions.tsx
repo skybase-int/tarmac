@@ -1,8 +1,11 @@
 import { useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAccount, useChainId, useChains } from 'wagmi';
-import { QueryParams } from '@/lib/constants';
+import { QueryParams, mapQueryParamToIntent } from '@/lib/constants';
 import { normalizeUrlParam } from '@/lib/helpers/string/normalizeUrlParam';
+import { isMultichain } from '@/lib/widget-network-map';
+import { useNetworkSwitch } from '@/modules/ui/context/NetworkSwitchContext';
+import { deleteSearchParams } from '@/modules/utils/deleteSearchParams';
 import { Text } from '@/modules/layout/components/Typography';
 import { TokenIcon } from '@/modules/ui/components/TokenIcon';
 import {
@@ -20,7 +23,7 @@ import {
   useStakeRewardContracts,
   useMultipleRewardsChartInfo
 } from '@jetstreamgg/sky-hooks';
-import { formatDecimalPercentage, calculateApyFromStr, isTestnetId, chainId as chainIdConstants } from '@jetstreamgg/sky-utils';
+import { formatDecimalPercentage, calculateApyFromStr, isTestnetId, isMainnetId, chainId as chainIdConstants } from '@jetstreamgg/sky-utils';
 import { Savings, Upgrade, RewardsModule, Stake, Seal, Expert, Vaults, Trade } from '@/modules/icons';
 import { Skeleton } from '@/components/ui/skeleton';
 import { type IconProps } from '@/modules/icons/Icon';
@@ -45,8 +48,8 @@ const MODULE_ICONS: Record<string, (props: IconProps) => React.ReactElement> = {
   rewards: RewardsModule,
   stake: Stake,
   seal: Seal,
-  stusds: Expert,
-  morpho: Vaults
+  expert: Expert,
+  vaults: Vaults
 };
 
 const RATE_TOOLTIP_TYPES: Record<NonNullable<SuggestedAction['rateKey']>, PopoverTooltipType> = {
@@ -230,9 +233,31 @@ export function SuggestedActions({ widget, variant = 'default', restrictedModule
   const { address } = useAccount();
   const chainId = useChainId();
   const chains = useChains();
+  const { setIsSwitchingNetwork } = useNetworkSwitch();
 
   const connectedChain = chains.find(c => c.id === chainId);
   const networkName = connectedChain ? normalizeUrlParam(connectedChain.name) : 'ethereum';
+
+  // Use current chain if it's mainnet or tenderly, otherwise default to mainnet
+  const mainnetChainId = isMainnetId(chainId) ? chainId : chainIdConstants.mainnet;
+
+  // Determine the target network name based on module's network requirements
+  const getTargetNetworkName = useCallback(
+    (module: string | undefined): string => {
+      if (!module) return networkName;
+
+      const targetIntent = mapQueryParamToIntent(module);
+
+      // For multichain intents, use current network; for mainnet-only, use mainnet
+      if (isMultichain(targetIntent)) {
+        return networkName;
+      }
+
+      const mainnetChain = chains.find(c => c.id === mainnetChainId);
+      return mainnetChain ? normalizeUrlParam(mainnetChain.name) : 'ethereum';
+    },
+    [networkName, chains, mainnetChainId]
+  );
 
   // "all" combines every widget's actions into one list, tagging each with its module
   const actions = useMemo<ActionWithModule[]>(() => {
@@ -288,19 +313,24 @@ export function SuggestedActions({ widget, variant = 'default', restrictedModule
 
   const handleClick = useCallback(
     (action: SuggestedAction, resolvedInput: string) => {
+      // Determine target network based on module's network requirements
+      const targetNetworkName = getTargetNetworkName(action.module);
+      const isNetworkChange = targetNetworkName !== networkName;
+
+      // Show switching UI if changing networks
+      if (isNetworkChange) {
+        setIsSwitchingNetwork(true);
+      }
+
       if (action.url) {
         const directParams = new URLSearchParams(action.url.replace(/^\?/, ''));
-        directParams.set(QueryParams.Network, networkName);
+        directParams.set(QueryParams.Network, targetNetworkName);
         setSearchParams(prev => {
-          const next = new URLSearchParams();
-          [QueryParams.Locale, QueryParams.Details, QueryParams.Chat].forEach(param => {
-            const value = prev.get(param);
-            if (value !== null) next.set(param, value);
-          });
+          const searchParams = deleteSearchParams(prev);
           directParams.forEach((value, key) => {
-            next.set(key, value);
+            searchParams.set(key, value);
           });
-          return next;
+          return searchParams;
         });
         return;
       }
@@ -308,22 +338,18 @@ export function SuggestedActions({ widget, variant = 'default', restrictedModule
       const intent = parseIntent(resolvedInput);
       if (!intent) return;
 
-      const params = intentToWidgetParams(intent, chainId, networkName);
+      const params = intentToWidgetParams(intent, chainId, targetNetworkName);
       if (!params) return;
 
       setSearchParams(prev => {
-        const next = new URLSearchParams();
-        [QueryParams.Locale, QueryParams.Details, QueryParams.Chat].forEach(param => {
-          const value = prev.get(param);
-          if (value !== null) next.set(param, value);
-        });
+        const searchParams = deleteSearchParams(prev);
         params.forEach((value, key) => {
-          next.set(key, value);
+          searchParams.set(key, value);
         });
-        return next;
+        return searchParams;
       });
     },
-    [chainId, networkName, setSearchParams]
+    [chainId, networkName, getTargetNetworkName, setIsSwitchingNetwork, setSearchParams]
   );
 
   if (actions.length === 0) return null;
