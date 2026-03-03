@@ -131,7 +131,7 @@ export const SUGGESTED_ACTIONS: Record<string, SuggestedAction[]> = {
       tokens: ['USDS'],
       sourceToken: 'USDS',
       defaultAmount: 500,
-      module: 'stusds'
+      module: 'expert'
     }
   ],
   morpho: [
@@ -139,31 +139,31 @@ export const SUGGESTED_ACTIONS: Record<string, SuggestedAction[]> = {
       label: 'Deposit into USDS Risk Capital vault',
       input: 'Deposit 500 USDS into Morpho vault',
       tokens: ['USDS'],
-      module: 'morpho'
+      module: 'vaults'
     },
     {
       label: 'Deposit into USDS Flagship vault',
       input: 'Deposit 500 USDS into Morpho vault',
       tokens: ['USDS'],
-      module: 'morpho'
+      module: 'vaults'
     },
     {
       label: 'Deposit into USDC Risk Capital vault',
       input: 'Deposit 500 USDS into Morpho vault',
       tokens: ['USDC'],
-      module: 'morpho'
+      module: 'vaults'
     },
     {
       label: 'Deposit into USDT Risk Capital vault',
       input: 'Deposit 500 USDS into Morpho vault',
       tokens: ['USDT'],
-      module: 'morpho'
+      module: 'vaults'
     },
     {
       label: 'Deposit into USDT Savings vault',
       input: 'Deposit 500 USDS into Morpho vault',
       tokens: ['USDT'],
-      module: 'morpho'
+      module: 'vaults'
     }
   ],
   stables: [
@@ -173,7 +173,7 @@ export const SUGGESTED_ACTIONS: Record<string, SuggestedAction[]> = {
       tokens: ['USDS', 'USDC', 'USDT'],
       rateKey: 'vaults',
       subtitle: 'Rates up to {rate}',
-      module: 'morpho'
+      module: 'vaults'
     },
     {
       label: 'Rewards and Points',
@@ -202,7 +202,7 @@ export const SUGGESTED_ACTIONS: Record<string, SuggestedAction[]> = {
       defaultAmount: 500,
       rateKey: 'stusds',
       subtitle: 'Rate: {rate}',
-      module: 'stusds'
+      module: 'expert'
     }
   ],
   sky: [
