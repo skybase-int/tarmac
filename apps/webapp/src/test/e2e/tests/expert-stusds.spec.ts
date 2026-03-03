@@ -104,7 +104,7 @@ test.describe('Expert Module - stUSDS', () => {
 
     // go to balance page
     await isolatedPage.getByRole('tab', { name: 'Balance' }).click();
-    await expect(isolatedPage.getByText('USDS supplied to Expert')).toBeVisible();
+    await expect(isolatedPage.getByText('Supplied to Expert')).toBeVisible();
 
     // Click the Expert balance card (links to Expert overview)
     await isolatedPage.locator('a[href*="widget=expert"]').first().click();
