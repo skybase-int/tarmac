@@ -46,7 +46,7 @@ const STABLE_ACTIONS: BalancesAction[] = [
   },
   {
     label: 'Rewards and Points',
-    tokens: ['SKY', 'SPK', 'CLE'],
+    tokens: ['SPK', 'CLE'],
     rateKey: 'rewards',
     subtitle: 'Rates up to {rate}',
     module: 'rewards',
