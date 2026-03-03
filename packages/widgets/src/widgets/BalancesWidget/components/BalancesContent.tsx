@@ -10,6 +10,7 @@ import { useChainId } from 'wagmi';
 
 interface BalancesContentProps {
   hideModuleBalances?: boolean;
+  hideRestrictedModules?: boolean;
   chainIds?: number[];
   rewardsCardUrl?: string;
   savingsCardUrlMap?: Record<number, string>;
@@ -27,6 +28,7 @@ interface BalancesContentProps {
 
 export const BalancesContent = ({
   hideModuleBalances,
+  hideRestrictedModules,
   onExternalLinkClicked,
   chainIds,
   rewardsCardUrl,
@@ -91,6 +93,7 @@ export const BalancesContent = ({
           chainIds={chainIds}
           hideZeroBalances={hideZeroBalances}
           showAllNetworks={showAllNetworks}
+          hideRestrictedModules={hideRestrictedModules}
           onAllFundsEmpty={handleAllFundsEmpty}
         />
       </motion.div>
