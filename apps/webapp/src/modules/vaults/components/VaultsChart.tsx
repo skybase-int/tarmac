@@ -92,7 +92,8 @@ export function VaultsChart() {
       ...parsedChartData,
       {
         value: parseFloat(formatUnits(totalAssetsScaled, 18)),
-        date: new Date()
+        date: new Date(),
+        tooltipLabel: 'Current value'
       }
     ];
   }, [parsedChartData, totalAssetsScaled]);

@@ -184,6 +184,7 @@ export type Data = {
   date: Date;
   isMin?: boolean;
   isMax?: boolean;
+  tooltipLabel?: string;
 };
 
 interface ChartProps {

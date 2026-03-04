@@ -5,7 +5,7 @@ interface CustomTooltipProps {
   payload?: {
     color: string;
     value: number;
-    payload: { isMin?: boolean; isMax?: boolean };
+    payload: { isMin?: boolean; isMax?: boolean; tooltipLabel?: string };
   }[];
   label?: Date;
   symbol?: string;
@@ -32,7 +32,9 @@ export function ChartTooltip({
     <div>
       <div className="bg-container rounded-[6px] p-2">
         <p>{labelFormatter(label)}</p>
-        {tooltipLabel && <p className="text-textSecondary text-xs">{tooltipLabel}</p>}
+        {(payload[0]?.payload?.tooltipLabel || tooltipLabel) && (
+          <p className="text-textSecondary text-xs">{payload[0]?.payload?.tooltipLabel || tooltipLabel}</p>
+        )}
         {payload.map((entry, i) => (
           <div key={`tooltip-value-item-${i}`}>
             <div className="flex items-center space-x-2">

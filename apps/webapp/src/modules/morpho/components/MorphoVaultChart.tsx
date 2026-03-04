@@ -40,13 +40,15 @@ export function MorphoVaultChart({ vaultAddress, assetToken }: MorphoVaultChartP
 
   // Append live data point to chart data
   const chartData = useMemo(() => {
+    const liveLabel = 'Current value';
     const tvl =
       marketData && parsedChartData.tvl.length > 0
         ? [
             ...parsedChartData.tvl,
             {
               value: parseFloat(formatUnits(marketData.totalAssets, decimals)),
-              date: new Date()
+              date: new Date(),
+              tooltipLabel: liveLabel
             }
           ]
         : parsedChartData.tvl;
@@ -57,7 +59,8 @@ export function MorphoVaultChart({ vaultAddress, assetToken }: MorphoVaultChartP
             ...parsedChartData.rate,
             {
               value: marketData.rate.netRate * 100,
-              date: new Date()
+              date: new Date(),
+              tooltipLabel: liveLabel
             }
           ]
         : parsedChartData.rate;
