@@ -81,13 +81,13 @@ export function VaultsChart() {
   const intervalOverride = useHourlyInterval ? 3600 : undefined;
 
   const { data: vaultsChartData, isLoading, error } = useVaultsChartInfo(useHourlyInterval);
-  const { totalAssetsScaled } = useMorphoVaultsCombinedTvl();
+  const { totalAssetsScaled, isLoading: isCombinedTvlLoading } = useMorphoVaultsCombinedTvl();
 
   const parsedChartData = useParseTvlChartData(timeFrame, vaultsChartData, undefined, intervalOverride);
 
   // Append live data point to chart data
   const chartData = useMemo(() => {
-    if (totalAssetsScaled === 0n || parsedChartData.length === 0) return parsedChartData;
+    if (isCombinedTvlLoading || parsedChartData.length === 0) return parsedChartData;
     return [
       ...parsedChartData,
       {
@@ -96,7 +96,7 @@ export function VaultsChart() {
         tooltipLabel: 'Current value'
       }
     ];
-  }, [parsedChartData, totalAssetsScaled]);
+  }, [parsedChartData, totalAssetsScaled, isCombinedTvlLoading]);
 
   const tooltipLabel = useHourlyInterval ? 'Hourly average' : 'Daily average';
 
