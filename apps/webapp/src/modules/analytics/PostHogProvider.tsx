@@ -21,8 +21,53 @@ let hasInitializedPostHog = false;
  *
  * Cross-domain attribution: If __ph_id and/or __ph_session_id URL params are present
  * (set by marketing site CTAs), PostHog bootstraps with those values to maintain
- * a continuous session across domains.
+ * a continuous session across domains. These params are saved to sessionStorage so
+ * they survive page refresh (sessionStorage is tab-scoped, cleared on tab close).
  */
+
+const SESSION_STORAGE_PH_ID = '__ph_bootstrap_id';
+const SESSION_STORAGE_PH_SESSION = '__ph_bootstrap_session';
+
+/**
+ * Read bootstrap identity from URL params (first load) or sessionStorage (refresh).
+ * Saves to sessionStorage so the cross-domain handoff survives page refresh.
+ */
+function getBootstrapConfig(): { distinctID?: string; sessionID?: string } | undefined {
+  const params = new URLSearchParams(window.location.search);
+  const urlDistinctId = params.get('__ph_id');
+  const urlSessionId = params.get('__ph_session_id');
+
+  if (urlDistinctId || urlSessionId) {
+    // First load from marketing CTA — save to sessionStorage for refresh resilience
+    try {
+      if (urlDistinctId) sessionStorage.setItem(SESSION_STORAGE_PH_ID, urlDistinctId);
+      if (urlSessionId) sessionStorage.setItem(SESSION_STORAGE_PH_SESSION, urlSessionId);
+    } catch {
+      // sessionStorage may be unavailable (private browsing in some browsers)
+    }
+    return {
+      distinctID: urlDistinctId || undefined,
+      sessionID: urlSessionId || undefined
+    };
+  }
+
+  // No URL params — check sessionStorage (page refresh scenario)
+  try {
+    const storedDistinctId = sessionStorage.getItem(SESSION_STORAGE_PH_ID);
+    const storedSessionId = sessionStorage.getItem(SESSION_STORAGE_PH_SESSION);
+    if (storedDistinctId || storedSessionId) {
+      return {
+        distinctID: storedDistinctId || undefined,
+        sessionID: storedSessionId || undefined
+      };
+    }
+  } catch {
+    // sessionStorage unavailable
+  }
+
+  return undefined;
+}
+
 export function initializePostHogIfNeeded(forceAccepted = false) {
   if (typeof window === 'undefined' || !POSTHOG_ENABLED || !POSTHOG_KEY || hasInitializedPostHog) {
     return;
@@ -36,18 +81,7 @@ export function initializePostHogIfNeeded(forceAccepted = false) {
     return;
   }
 
-  // Read cross-domain identity from URL (set by marketing site CTAs via useSkyUrl)
-  const params = new URLSearchParams(window.location.search);
-  const bootstrapDistinctId = params.get('__ph_id');
-  const bootstrapSessionId = params.get('__ph_session_id');
-
-  const bootstrapConfig =
-    bootstrapDistinctId || bootstrapSessionId
-      ? {
-          distinctID: bootstrapDistinctId || undefined,
-          sessionID: bootstrapSessionId || undefined
-        }
-      : undefined;
+  const bootstrapConfig = getBootstrapConfig();
 
   posthog.init(POSTHOG_KEY, {
     api_host: POSTHOG_HOST,
@@ -104,6 +138,13 @@ export function applyPostHogConsent(enabled: boolean) {
     // opt flags. opt_out_capturing() must be last so the opt-out flag persists.
     posthog.reset();
     posthog.opt_out_capturing();
+    // Clear bootstrap sessionStorage so rejected users aren't re-bootstrapped on refresh
+    try {
+      sessionStorage.removeItem(SESSION_STORAGE_PH_ID);
+      sessionStorage.removeItem(SESSION_STORAGE_PH_SESSION);
+    } catch {
+      // sessionStorage unavailable
+    }
   }
 
   // saveConsent writes to the cookie immediately — no timing issues.
