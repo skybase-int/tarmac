@@ -392,6 +392,7 @@ export const ModulesBalances = ({
             url={vaultsCardUrl}
             onExternalLinkClicked={onExternalLinkClicked}
             variant={variant}
+            hideZeroBalances={hideZeroBalances}
           />
         );
     }

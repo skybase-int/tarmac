@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import {
   usePrices,
   useAllMorphoVaultsUserAssets,
@@ -7,7 +8,6 @@ import {
 import { formatBigInt, formatNumber, isTestnetId, chainId } from '@jetstreamgg/sky-utils';
 import { Text } from '@widgets/shared/components/ui/Typography';
 import { t } from '@lingui/core/macro';
-import { InteractiveStatsCard } from '@widgets/shared/components/ui/card/InteractiveStatsCard';
 import { Skeleton } from '@widgets/components/ui/skeleton';
 import { formatUnits } from 'viem';
 import { ModuleCardVariant } from './ModulesBalances';
@@ -15,15 +15,23 @@ import { useChainId } from 'wagmi';
 import { RateLineWithArrow } from '@widgets/shared/components/ui/RateLineWithArrow';
 import { InteractiveStatsCardAlt } from '@widgets/shared/components/ui/card/InteractiveStatsCardAlt';
 import { Vaults as VaultsIcon } from '@widgets/shared/components/icons/Vaults';
+import {
+  InteractiveStatsCardWithVaultAccordion,
+  VaultBalanceForAccordion
+} from '@widgets/shared/components/ui/card/InteractiveStatsCardWithVaultAccordion';
 
 export const VaultsBalanceCard = ({
   url,
+  vaultUrlMap,
   onExternalLinkClicked,
-  variant = ModuleCardVariant.default
+  variant = ModuleCardVariant.default,
+  hideZeroBalances = false
 }: {
   url?: string;
+  vaultUrlMap?: Record<string, string>;
   onExternalLinkClicked?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   variant?: ModuleCardVariant;
+  hideZeroBalances?: boolean;
 }) => {
   const connectedChainId = useChainId();
   const vaultChainId = isTestnetId(connectedChainId) ? chainId.tenderly : chainId.mainnet;
@@ -43,8 +51,61 @@ export const VaultsBalanceCard = ({
 
   const vaultsIcon = <VaultsIcon className="h-full w-full" />;
 
+  // Build vault balances for accordion, sorted by highest balance first
+  const vaultBalances: VaultBalanceForAccordion[] = useMemo(() => {
+    // Get vault addresses in the same order as MORPHO_VAULTS (used for rate query)
+    const vaultAddressesForRates = MORPHO_VAULTS.map(v => v.vaultAddress[vaultChainId]?.toLowerCase());
+
+    const balances = morphoAssetsData.vaults.map(vaultBalance => {
+      const assetDecimals =
+        typeof vaultBalance.assetToken.decimals === 'number'
+          ? vaultBalance.assetToken.decimals
+          : vaultBalance.assetToken.decimals[vaultChainId] ?? 18;
+
+      // Find rate for this vault by matching index (rates are returned in same order as input addresses)
+      const vaultIndex = vaultAddressesForRates.indexOf(vaultBalance.vaultAddress?.toLowerCase());
+      const rateData = vaultIndex >= 0 ? morphoRatesData?.[vaultIndex] : undefined;
+
+      return {
+        vaultName: vaultBalance.vault.name,
+        vaultAddress: vaultBalance.vaultAddress,
+        balance: vaultBalance.balance,
+        // Use normalized balance for sorting (all normalized to 18 decimals)
+        balanceNormalized: vaultBalance.balanceNormalized,
+        assetSymbol: vaultBalance.assetToken.symbol,
+        assetDecimals,
+        rate: rateData?.netRate
+      };
+    });
+
+    // Filter out zero balances if hideZeroBalances is enabled
+    const filtered = hideZeroBalances ? balances.filter(v => v.balance > 0n) : balances;
+
+    // Sort by normalized balance (18 decimals) to compare across different asset decimals
+    return filtered.sort((a, b) =>
+      b.balanceNormalized > a.balanceNormalized ? 1 : b.balanceNormalized < a.balanceNormalized ? -1 : 0
+    );
+  }, [morphoAssetsData.vaults, morphoRatesData, vaultChainId, hideZeroBalances]);
+
+  // Build URL map for vaults with vault-specific query params
+  const urlMap = useMemo(() => {
+    if (vaultUrlMap) return vaultUrlMap;
+    // Create a map with vault address query param appended to base url
+    const map: Record<string, string> = {};
+    morphoAssetsData.vaults.forEach(v => {
+      if (!url) {
+        map[v.vaultAddress] = '';
+        return;
+      }
+      // Parse the base URL and append vault query param
+      const separator = url.includes('?') ? '&' : '?';
+      map[v.vaultAddress] = `${url}${separator}vault=${v.vaultAddress}`;
+    });
+    return map;
+  }, [vaultUrlMap, morphoAssetsData.vaults, url]);
+
   return variant === ModuleCardVariant.default ? (
-    <InteractiveStatsCard
+    <InteractiveStatsCardWithVaultAccordion
       title={t`Supplied to Vaults`}
       icon={vaultsIcon}
       headerRightContent={
@@ -82,7 +143,9 @@ export const VaultsBalanceCard = ({
           </Text>
         ) : undefined
       }
-      url={url}
+      vaultBalances={vaultBalances}
+      urlMap={urlMap}
+      pricesData={pricesData ?? {}}
     />
   ) : (
     <InteractiveStatsCardAlt
