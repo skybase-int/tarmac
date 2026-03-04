@@ -15,10 +15,13 @@ let hasInitializedPostHog = false;
  * Consent is stored in the cross-subdomain sky_consent cookie (shared across *.sky.money).
  *
  * - Rejected users: PostHog is NOT initialized (zero events).
- * - Pending users: Cookieless anonymous tracking (cookieless_mode: 'always').
+ * - Pending users: Memory-only persistence (persistence: 'memory'). Each user gets a real UUID
+ *   distinct_id in JS heap memory — no cookies, localStorage, or sessionStorage.
  * - Accepted users: Full persistent tracking.
  *
- * Requires "Cookieless server hash mode" enabled in PostHog project settings.
+ * Cross-domain attribution: If __ph_id and/or __ph_session_id URL params are present
+ * (set by marketing site CTAs), PostHog bootstraps with those values to maintain
+ * a continuous session across domains.
  */
 export function initializePostHogIfNeeded(forceAccepted = false) {
   if (typeof window === 'undefined' || !POSTHOG_ENABLED || !POSTHOG_KEY || hasInitializedPostHog) {
@@ -33,12 +36,24 @@ export function initializePostHogIfNeeded(forceAccepted = false) {
     return;
   }
 
+  // Read cross-domain identity from URL (set by marketing site CTAs via useSkyUrl)
+  const params = new URLSearchParams(window.location.search);
+  const bootstrapDistinctId = params.get('__ph_id');
+  const bootstrapSessionId = params.get('__ph_session_id');
+
+  const bootstrapConfig =
+    bootstrapDistinctId || bootstrapSessionId
+      ? {
+          distinctID: bootstrapDistinctId || undefined,
+          sessionID: bootstrapSessionId || undefined
+        }
+      : undefined;
+
   posthog.init(POSTHOG_KEY, {
     api_host: POSTHOG_HOST,
     capture_pageview: 'history_change',
     capture_pageleave: true,
-    persistence: 'localStorage+cookie',
-    cookieless_mode: hasAccepted ? undefined : 'always',
+    persistence: hasAccepted ? 'localStorage+cookie' : 'memory',
     autocapture: true,
     disable_session_recording: true,
     disable_surveys: true,
@@ -47,6 +62,9 @@ export function initializePostHogIfNeeded(forceAccepted = false) {
     ip: false,
     property_denylist: ['$ip'],
     cross_subdomain_cookie: true,
+
+    // Bootstrap with marketing site identity for cross-domain attribution
+    bootstrap: bootstrapConfig,
 
     loaded: posthogClient => {
       posthogClient.register({ app_name: 'app' });
@@ -69,19 +87,21 @@ initializePostHogIfNeeded();
 
 /**
  * Apply a consent change at runtime.
- * Handles cookieless → full tracking transitions (and vice versa).
+ * Handles memory → full tracking transitions (and vice versa).
  * Writes directly to the cross-subdomain sky_consent cookie.
  */
 export function applyPostHogConsent(enabled: boolean) {
   if (enabled) {
     initializePostHogIfNeeded(true);
-    posthog.set_config({ cookieless_mode: undefined });
-    posthog.reset();
+    // Upgrade from memory to persistent storage and opt in.
+    // The existing in-memory distinct_id carries over so the session continues seamlessly.
+    posthog.set_config({ persistence: 'localStorage+cookie' });
     posthog.opt_in_capturing();
     posthog.register({ app_name: 'app' });
   } else {
     if (!hasInitializedPostHog) return;
-    posthog.set_config({ cookieless_mode: undefined });
+    // reset() MUST come before opt_out — reset clears all stored data including
+    // opt flags. opt_out_capturing() must be last so the opt-out flag persists.
     posthog.reset();
     posthog.opt_out_capturing();
   }
