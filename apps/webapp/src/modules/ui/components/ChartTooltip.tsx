@@ -30,7 +30,7 @@ export function ChartTooltip({
 
   return !active || !payload || !payload.length || !label ? null : (
     <div>
-      <div className="bg-container rounded-[6px] p-2">
+      <div className="bg-container rounded-sm p-2 backdrop-blur-[50px]">
         <p>{labelFormatter(label)}</p>
         {(payload[0]?.payload?.tooltipLabel || tooltipLabel) && (
           <p className="text-textSecondary text-xs">{payload[0]?.payload?.tooltipLabel || tooltipLabel}</p>
