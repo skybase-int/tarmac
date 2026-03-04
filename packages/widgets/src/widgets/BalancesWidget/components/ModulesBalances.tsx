@@ -46,10 +46,11 @@ interface ModulesBalancesProps {
   chainIds?: number[];
   stakeCardUrl?: string;
   stusdsCardUrl?: string;
-  morphoCardUrl?: string;
+  vaultsCardUrl?: string;
   variant?: ModuleCardVariant;
   hideZeroBalances?: boolean;
   showAllNetworks?: boolean;
+  hideRestrictedModules?: boolean;
   onAllFundsEmpty?: (isEmpty: boolean) => void;
 }
 
@@ -61,10 +62,11 @@ export const ModulesBalances = ({
   chainIds,
   stakeCardUrl,
   stusdsCardUrl,
-  morphoCardUrl,
+  vaultsCardUrl,
   variant = ModuleCardVariant.default,
   hideZeroBalances = false,
   showAllNetworks = true,
+  hideRestrictedModules = false,
   onAllFundsEmpty
 }: ModulesBalancesProps): React.ReactElement => {
   const { address } = useConnection();
@@ -174,7 +176,8 @@ export const ModulesBalances = ({
   );
 
   const hideRewards = Boolean(
-    suppliedBalanceError ||
+    hideRestrictedModules ||
+      suppliedBalanceError ||
       (totalUserRewardsSupplied === 0n && hideZeroBalances) ||
       (!showAllNetworks && !isMainnetId(currentChainId))
   );
@@ -192,7 +195,8 @@ export const ModulesBalances = ({
   );
 
   const hideExpert = Boolean(
-    !stusdsCardUrl || // Hide if no URL is provided (feature flag disabled)
+    hideRestrictedModules ||
+      !stusdsCardUrl || // Hide if no URL is provided (feature flag disabled)
       stUsdsError ||
       (totalExpertSavingsBalance === 0n && hideZeroBalances) ||
       (!showAllNetworks && !isMainnetId(currentChainId))
@@ -205,7 +209,7 @@ export const ModulesBalances = ({
   );
 
   const hideSavings = Boolean(
-    multichainSavingsBalancesError || (totalSavingsBalance === 0n && hideZeroBalances)
+    hideRestrictedModules || multichainSavingsBalancesError || (totalSavingsBalance === 0n && hideZeroBalances)
   );
 
   const hideModuleBalances = hideSavings && hideRewards && hideSeal;
@@ -308,11 +312,11 @@ export const ModulesBalances = ({
     !rewardsLoading && !savingsLoading && !sealLoading && !stakeLoading && !expertLoading && !morphoLoading;
   const allFundsEmpty =
     isAllLoaded &&
-    totalUserRewardsSupplied === 0n &&
-    totalRawSavingsBalance === 0n &&
+    (hideRestrictedModules || totalUserRewardsSupplied === 0n) &&
+    (hideRestrictedModules || totalRawSavingsBalance === 0n) &&
     (totalUserSealed ?? 0n) === 0n &&
     (totalUserStaked ?? 0n) === 0n &&
-    totalExpertSavingsBalance === 0n &&
+    (hideRestrictedModules || totalExpertSavingsBalance === 0n) &&
     totalMorphoUserAssets === 0n;
 
   useEffect(() => {
@@ -384,7 +388,7 @@ export const ModulesBalances = ({
         return (
           <VaultsBalanceCard
             key="vaults"
-            url={morphoCardUrl}
+            url={vaultsCardUrl}
             onExternalLinkClicked={onExternalLinkClicked}
             variant={variant}
           />

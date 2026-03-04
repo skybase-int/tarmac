@@ -19,13 +19,11 @@ export const ExpertBalanceCard = ({
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
 
   // Expert supplied funds = total across expert modules (stUSDS only for now)
-  const totalSuppliedUsds = stUsdsData?.userSuppliedUsds || 0n;
-
+  const stUsdsSupplied = stUsdsData?.userSuppliedUsds || 0n;
   const stUsdsRate = stUsdsData?.moduleRate ? calculateApyFromStr(stUsdsData.moduleRate) : 0;
-  const maxRate = stUsdsRate;
 
   const isBalanceLoading = stUsdsLoading;
-  const isRateLoading = stUsdsLoading;
+  const isRateLoading = loading || stUsdsLoading;
 
   const expertIcon = <img src="/images/expert_icon_large.svg" alt="Expert" className="h-full w-full" />;
 
@@ -37,15 +35,15 @@ export const ExpertBalanceCard = ({
         loading || isBalanceLoading ? (
           <Skeleton className="w-32" />
         ) : (
-          <Text>{formatBigInt(totalSuppliedUsds)}</Text>
+          <Text>{formatBigInt(stUsdsSupplied)}</Text>
         )
       }
       footer={
         isRateLoading ? (
           <Skeleton className="h-4 w-20" />
-        ) : maxRate > 0 ? (
+        ) : stUsdsRate > 0 ? (
           <RateLineWithArrow
-            rateText={t`Rates up to: ${maxRate.toFixed(2)}%`}
+            rateText={t`Rate: ${stUsdsRate.toFixed(2)}%`}
             popoverType="expert"
             onExternalLinkClicked={onExternalLinkClicked}
           />
@@ -56,11 +54,11 @@ export const ExpertBalanceCard = ({
       footerRightContent={
         loading || pricesLoading || isBalanceLoading ? (
           <Skeleton className="h-[13px] w-20" />
-        ) : totalSuppliedUsds > 0n && !!pricesData?.USDS ? (
+        ) : stUsdsSupplied > 0n && !!pricesData?.USDS ? (
           <Text variant="small" className="text-textSecondary">
             $
             {formatNumber(
-              parseFloat(formatUnits(totalSuppliedUsds, 18)) * parseFloat(pricesData.USDS.price),
+              parseFloat(formatUnits(stUsdsSupplied, 18)) * parseFloat(pricesData.USDS.price),
               {
                 maxDecimals: 2
               }
@@ -80,7 +78,7 @@ export const ExpertBalanceCard = ({
         loading || isBalanceLoading ? (
           <Skeleton className="w-32" />
         ) : (
-          <Text>{formatBigInt(totalSuppliedUsds)} USDS</Text>
+          <Text>{formatBigInt(stUsdsSupplied)} USDS</Text>
         )
       }
     />
