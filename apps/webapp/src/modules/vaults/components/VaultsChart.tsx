@@ -1,4 +1,4 @@
-import { MORPHO_VAULTS, useMorphoVaultMultipleChartInfo } from '@jetstreamgg/sky-hooks';
+import { MORPHO_VAULTS, useMorphoVaultMultipleChartInfo, useMorphoVaultsCombinedTvl } from '@jetstreamgg/sky-hooks';
 import { Chart, TimeFrame } from '@/modules/ui/components/Chart';
 import { useState, useMemo } from 'react';
 import { ErrorBoundary } from '@/modules/layout/components/ErrorBoundary';
@@ -6,6 +6,7 @@ import { Trans } from '@lingui/react/macro';
 import { useParseTvlChartData } from '@/modules/ui/hooks/useParseTvlChartData';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { mainnet } from 'viem/chains';
+import { formatUnits } from 'viem';
 import { math } from '@jetstreamgg/sky-utils';
 
 type TvlChartInfoParsed = {
@@ -80,8 +81,21 @@ export function VaultsChart() {
   const intervalOverride = useHourlyInterval ? 3600 : undefined;
 
   const { data: vaultsChartData, isLoading, error } = useVaultsChartInfo(useHourlyInterval);
+  const { totalAssetsScaled } = useMorphoVaultsCombinedTvl();
 
-  const chartData = useParseTvlChartData(timeFrame, vaultsChartData, undefined, intervalOverride);
+  const parsedChartData = useParseTvlChartData(timeFrame, vaultsChartData, undefined, intervalOverride);
+
+  // Append live data point to chart data
+  const chartData = useMemo(() => {
+    if (totalAssetsScaled === 0n || parsedChartData.length === 0) return parsedChartData;
+    return [
+      ...parsedChartData,
+      {
+        value: parseFloat(formatUnits(totalAssetsScaled, 18)),
+        date: new Date()
+      }
+    ];
+  }, [parsedChartData, totalAssetsScaled]);
 
   const tooltipLabel = useHourlyInterval ? 'Hourly average' : 'Daily average';
 

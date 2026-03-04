@@ -82,8 +82,8 @@ const interpolateDataPoints = (
 ): Data[] => {
   const dataPoints: Data[] = [];
   let currentTime = startTimestamp;
-  // Start with an initial amount if tvl is not empty, assuming BigInt for accuracy
-  let lastKnownAmount = tvl.length > 0 ? BigInt(tvl[0].amount) : BigInt(0);
+  // Start at 0 — values before the first data point should show as zero, not extrapolated
+  let lastKnownAmount = 0n;
 
   let lastProcessedIndex = -1;
   while (currentTime <= endTimestamp) {

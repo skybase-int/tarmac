@@ -28,7 +28,7 @@ export function MorphoVaultChart({ vaultAddress, assetToken }: MorphoVaultChartP
   const { data: chartInfo, isLoading, error } = useMorphoVaultChartInfo({ vaultAddress, useHourlyInterval });
   const { data: marketData } = useMorphoVaultMarketApiData({ vaultAddress });
   const decimals = typeof assetToken.decimals === 'number' ? assetToken.decimals : assetToken.decimals[chainId];
-  const chartData = useParseMorphoVaultChartData(timeFrame, chartInfo || [], decimals, useHourlyInterval);
+  const parsedChartData = useParseMorphoVaultChartData(timeFrame, chartInfo || [], decimals, useHourlyInterval);
 
   const displayValue = useMemo(() => {
     if (!marketData) return undefined;
@@ -37,6 +37,33 @@ export function MorphoVaultChart({ vaultAddress, assetToken }: MorphoVaultChartP
     }
     return marketData.rate.netRate * 100;
   }, [marketData, activeChart, decimals]);
+
+  // Append live data point to chart data
+  const chartData = useMemo(() => {
+    const tvl =
+      marketData && parsedChartData.tvl.length > 0
+        ? [
+            ...parsedChartData.tvl,
+            {
+              value: parseFloat(formatUnits(marketData.totalAssets, decimals)),
+              date: new Date()
+            }
+          ]
+        : parsedChartData.tvl;
+
+    const rate =
+      marketData && parsedChartData.rate.length > 0
+        ? [
+            ...parsedChartData.rate,
+            {
+              value: marketData.rate.netRate * 100,
+              date: new Date()
+            }
+          ]
+        : parsedChartData.rate;
+
+    return { tvl, rate };
+  }, [parsedChartData, marketData, decimals]);
 
   const tooltipLabel = useHourlyInterval ? 'Hourly average' : 'Daily average';
 
