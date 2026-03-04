@@ -19,6 +19,12 @@ const normalizeToDay = (data: TvlChartInfoParsed[]): TvlChartInfoParsed[] =>
     blockTimestamp: Math.floor(d.blockTimestamp / 86400) * 86400
   }));
 
+const normalizeToHour = (data: TvlChartInfoParsed[]): TvlChartInfoParsed[] =>
+  data.map(d => ({
+    ...d,
+    blockTimestamp: Math.floor(d.blockTimestamp / 3600) * 3600
+  }));
+
 function calculateCumulativeTotalSupply(chartData: TvlChartInfoParsed[]) {
   if (!chartData || chartData.length === 0) return [];
 
@@ -39,24 +45,29 @@ function calculateCumulativeTotalSupply(chartData: TvlChartInfoParsed[]) {
   return [...mergedData.values()].sort((a, b) => a.blockTimestamp - b.blockTimestamp);
 }
 
-function useVaultsChartInfo() {
+function useVaultsChartInfo(useHourlyInterval?: boolean) {
   const vaultAddresses = MORPHO_VAULTS.map(vault => vault.vaultAddress[mainnet.id]) as `0x${string}`[];
 
-  const { data: morphoChartData, isLoading, error } = useMorphoVaultMultipleChartInfo({ vaultAddresses });
+  const {
+    data: morphoChartData,
+    isLoading,
+    error
+  } = useMorphoVaultMultipleChartInfo({ vaultAddresses, useHourlyInterval });
 
   const data = useMemo(() => {
+    const normalize = useHourlyInterval ? normalizeToHour : normalizeToDay;
     const normalizedMorpho = (morphoChartData || []).flatMap((vaultData, index) => {
       if (!vaultData) return [];
       const vault = MORPHO_VAULTS[index];
       const decimals = math.resolveDecimals(vault.assetToken.decimals, mainnet.id);
-      return normalizeToDay(vaultData).map(d => ({
+      return normalize(vaultData).map(d => ({
         ...d,
         amount: math.scaleToBaseDecimals(d.amount, decimals)
       }));
     });
 
     return calculateCumulativeTotalSupply(normalizedMorpho);
-  }, [morphoChartData]);
+  }, [morphoChartData, useHourlyInterval]);
 
   return { data, isLoading, error };
 }
@@ -65,9 +76,14 @@ export function VaultsChart() {
   const [activeChart, setActiveChart] = useState('tvl');
   const [timeFrame, setTimeFrame] = useState<TimeFrame>('w');
 
-  const { data: vaultsChartData, isLoading, error } = useVaultsChartInfo();
+  const useHourlyInterval = timeFrame === 'w' || timeFrame === 'm';
+  const intervalOverride = useHourlyInterval ? 3600 : undefined;
 
-  const chartData = useParseTvlChartData(timeFrame, vaultsChartData);
+  const { data: vaultsChartData, isLoading, error } = useVaultsChartInfo(useHourlyInterval);
+
+  const chartData = useParseTvlChartData(timeFrame, vaultsChartData, undefined, intervalOverride);
+
+  const tooltipLabel = useHourlyInterval ? 'Hourly average' : 'Daily average';
 
   return (
     <div>
@@ -87,6 +103,7 @@ export function VaultsChart() {
           isLoading={isLoading}
           error={error}
           symbol={'USDS'}
+          tooltipLabel={tooltipLabel}
           onTimeFrameChange={tf => {
             setTimeFrame(tf);
           }}

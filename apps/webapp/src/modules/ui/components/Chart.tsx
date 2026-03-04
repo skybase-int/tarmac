@@ -196,6 +196,8 @@ interface ChartProps {
   isLoading?: boolean;
   error?: Error | null;
   dataTestId?: string;
+  displayValue?: number;
+  tooltipLabel?: string;
 }
 
 const formatPercentage = (percentage: number, isLarge: boolean) => {
@@ -216,7 +218,8 @@ function CardTitleContent({
   formattedPercentage,
   isZeroPercentage,
   isLoading,
-  hidePercentChange
+  hidePercentChange,
+  displayValue
 }: {
   data: Data[];
   isLarge: boolean;
@@ -228,6 +231,7 @@ function CardTitleContent({
   isZeroPercentage: boolean;
   isLoading: boolean;
   hidePercentChange?: boolean;
+  displayValue?: number;
 }) {
   return (
     <LoadingErrorWrapper
@@ -256,7 +260,7 @@ function CardTitleContent({
           <HStack gap={2} className="h-8 items-end justify-start p-0">
             <Text className="text-xl lg:text-2xl">
               {prefix || ''}
-              {`${formatNumber(data[data.length - 1]?.value || 0, {
+              {`${formatNumber(displayValue ?? data[data.length - 1]?.value ?? 0, {
                 maxDecimals: 2,
                 compact: true
               })}${isLarge && !isPercentage && symbol ? ` ${symbol}` : ''}${isPercentage ? '%' : ''}`}
@@ -294,7 +298,8 @@ function ChartContent({
   isPercentage,
   activeTimeframe,
   isLoading,
-  error
+  error,
+  tooltipLabel
 }: {
   data: Data[];
   isLarge: boolean;
@@ -304,6 +309,7 @@ function ChartContent({
   isLoading: boolean;
   activeTimeframe: TimeFrame;
   error?: Error | null;
+  tooltipLabel?: string;
 }) {
   const { bpi } = useBreakpointIndex();
   const gradientId = useId();
@@ -344,6 +350,7 @@ function ChartContent({
                 isPercentage={isPercentage}
                 labelFormatter={date => formatDate(date, activeTimeframe)}
                 prefix={prefix}
+                tooltipLabel={tooltipLabel}
               />
             }
           />
@@ -372,7 +379,9 @@ export function Chart({
   hidePercentChange = false,
   isLoading = false,
   error,
-  dataTestId
+  dataTestId,
+  displayValue,
+  tooltipLabel
 }: ChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { bpi } = useBreakpointIndex();
@@ -435,6 +444,7 @@ export function Chart({
                 isZeroPercentage={isZeroPercentage}
                 isLoading={isLoading}
                 hidePercentChange={hidePercentChange}
+                displayValue={displayValue}
               />
               <Text variant="chartSecondary">{format(new Date(), "EEE, MMM d 'at' h:mm a")}</Text>
             </CardTitle>
@@ -456,6 +466,7 @@ export function Chart({
           activeTimeframe={activeTimeframe}
           isLoading={isLoading}
           error={error}
+          tooltipLabel={tooltipLabel}
         />
       </Card>
       <HStack className="mt-3 justify-between">

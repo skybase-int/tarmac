@@ -12,6 +12,7 @@ interface CustomTooltipProps {
   isPercentage?: boolean;
   labelFormatter: (tickItem: Date) => string;
   prefix?: string;
+  tooltipLabel?: string;
 }
 
 export function ChartTooltip({
@@ -21,7 +22,8 @@ export function ChartTooltip({
   symbol,
   isPercentage,
   labelFormatter,
-  prefix
+  prefix,
+  tooltipLabel
 }: CustomTooltipProps) {
   const isMin = payload?.some(entry => entry.payload?.isMin === true);
   const isMax = payload?.some(entry => entry.payload?.isMax === true);
@@ -30,6 +32,7 @@ export function ChartTooltip({
     <div>
       <div className="bg-container rounded-[6px] p-2">
         <p>{labelFormatter(label)}</p>
+        {tooltipLabel && <p className="text-textSecondary text-xs">{tooltipLabel}</p>}
         {payload.map((entry, i) => (
           <div key={`tooltip-value-item-${i}`}>
             <div className="flex items-center space-x-2">
