@@ -28,14 +28,14 @@ export const VaultsBalanceCard = ({
   const connectedChainId = useChainId();
   const vaultChainId = isTestnetId(connectedChainId) ? chainId.tenderly : chainId.mainnet;
 
-  const { data: totalUserAssets, isLoading: morphoDataLoading } = useAllMorphoVaultsUserAssets();
+  const { data: morphoAssetsData, isLoading: morphoDataLoading } = useAllMorphoVaultsUserAssets();
   const { data: morphoRatesData, isLoading: morphoRatesLoading } = useMorphoVaultMultipleRateApiData({
     vaultAddresses: MORPHO_VAULTS.map(v => v.vaultAddress[vaultChainId])
   });
 
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
 
-  const morphoSupplied = totalUserAssets;
+  const morphoSupplied = morphoAssetsData.total;
   const morphoMaxRate = (morphoRatesData || []).reduce((max, rate) => Math.max(max, rate.netRate), 0);
 
   const isBalanceLoading = morphoDataLoading;

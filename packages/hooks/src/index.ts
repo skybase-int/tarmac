@@ -121,7 +121,9 @@ export type {
   MorphoVaultChartInfoHook,
   MorphoVaultMultipleChartInfoHook,
   MorphoVaultSupplierAddressesHook,
-  MorphoVaultsCombinedTvl
+  MorphoVaultsCombinedTvl,
+  MorphoVaultBalance,
+  AllMorphoVaultsUserAssetsData
 } from './morpho';
 
 // Authentication
