@@ -13,7 +13,7 @@ import { formatUnits } from 'viem';
 import { formatBigInt, formatNumber } from '@jetstreamgg/sky-utils';
 import { Link } from 'react-router-dom';
 import { InteractiveStatsCard } from './InteractiveStatsCard';
-import { MorphoVaultBalance, PriceData } from '@jetstreamgg/sky-hooks';
+import { PriceData } from '@jetstreamgg/sky-hooks';
 
 export type VaultBalanceForAccordion = {
   vaultName: string;
