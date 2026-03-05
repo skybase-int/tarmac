@@ -155,7 +155,7 @@ export const InteractiveStatsCardWithVaultAccordion = ({
                             </div>
                             <div className="flex flex-col items-end">
                               <Text>
-                                {formatBigInt(balance, { unit: assetDecimals })} {assetSymbol}
+                                {formatBigInt(balance, { unit: assetDecimals })}
                               </Text>
                               <Text variant="small" className="text-textSecondary">
                                 ${formatNumber(usdValue, { maxDecimals: 2 })}
