@@ -228,7 +228,7 @@ function RewardTokenRows({
         <tr>
           <td colSpan={4} className="p-0">
             <Collapsible open={isExpanded}>
-              <CollapsibleContent className="data-[state=closed]:animate-slide-up data-[state=open]:animate-slide-down overflow-hidden transition-all">
+              <CollapsibleContent className="data-[state=closed]:animate-slide-up-fade data-[state=open]:animate-slide-down-fade overflow-hidden transition-all">
                 <table className="w-full table-fixed">
                   <colgroup>
                     <col className="w-[5%]" />
@@ -238,7 +238,10 @@ function RewardTokenRows({
                   </colgroup>
                   <tbody>
                     {reward.sources.map(source => (
-                      <tr key={`${reward.tokenAddress}-${source.label}`} className="border-0">
+                      <tr
+                        key={`${reward.tokenAddress}-${source.label}`}
+                        className={`border-0 transition-colors ${isSelected ? 'bg-brandLight/10' : ''}`}
+                      >
                         <td className="p-4" />
                         <td className="p-4" />
                         <td className="p-4">
