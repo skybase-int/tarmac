@@ -203,6 +203,7 @@ function RewardTokenRows({
         <TableCell>
           {hasMultipleSources ? (
             <button
+              type="button"
               onClick={onToggleExpand}
               className="flex items-center gap-1 text-left"
               aria-expanded={isExpanded}

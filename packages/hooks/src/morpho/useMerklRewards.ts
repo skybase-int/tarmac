@@ -4,6 +4,7 @@ import { useCallback } from 'react';
 import { TRUST_LEVELS, TrustLevelEnum } from '../constants';
 import { ReadHook } from '../hooks';
 import { isTestnetId, formatBigInt } from '@jetstreamgg/sky-utils';
+import { formatUnits } from 'viem';
 import { mainnet } from 'viem/chains';
 import { MERKL_API_URL, MORPHO_VAULTS, getMorphoVaultByAddress } from './constants';
 
@@ -216,8 +217,7 @@ async function fetchMerklRewards(
     // Use the full cumulative amount for claiming (contract expects total earned)
     const totalAmount = BigInt(reward.amount);
     const claimed = BigInt(reward.claimed);
-    const amountDecimal = Number(totalPending) / Math.pow(10, token.decimals);
-    const totalAmountUsd = amountDecimal * token.price;
+    const totalAmountUsd = parseFloat(formatUnits(totalPending, token.decimals)) * token.price;
 
     tokenRewards.push({
       tokenAddress: token.address as `0x${string}`,
