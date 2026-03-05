@@ -3,6 +3,7 @@ import {
   usePrices,
   useAllMorphoVaultsUserAssets,
   useMorphoVaultMultipleRateApiData,
+  useMerklRewards,
   MORPHO_VAULTS
 } from '@jetstreamgg/sky-hooks';
 import { formatBigInt, formatNumber, isTestnetId, chainId } from '@jetstreamgg/sky-utils';
@@ -43,11 +44,36 @@ export const VaultsBalanceCard = ({
   });
 
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
+  const { data: rewardsData, isLoading: rewardsLoading } = useMerklRewards();
 
-  // TODO: Replace with real hook when available (useAllMorphoVaultsRewards)
-  const unclaimedRewardsLoading = false;
-  const totalUnclaimedRewardsValue = 0;
-  const uniqueRewardTokens: string[] = [];
+  // Get vault-only unclaimed rewards (excludes "Other campaigns")
+  const unclaimedRewardsLoading = rewardsLoading;
+
+  // Filter to only include rewards from supported vaults (not "Other campaigns")
+  const { totalUnclaimedRewardsValue, uniqueRewardTokens } = useMemo(() => {
+    if (!rewardsData?.rewards) return { totalUnclaimedRewardsValue: 0, uniqueRewardTokens: [] };
+
+    let totalUsd = 0;
+    const tokens: string[] = [];
+
+    for (const reward of rewardsData.rewards) {
+      // Filter to vault sources only (has vaultAddress, excludes "Other campaigns")
+      const vaultSources = reward.sources.filter(s => s.vaultAddress);
+      if (vaultSources.length === 0) continue;
+
+      // Sum the vault-only amounts for this token
+      const vaultOnlyAmount = vaultSources.reduce((sum, s) => sum + s.amount, 0n);
+      if (vaultOnlyAmount > 0n) {
+        // Calculate USD value for vault-only portion
+        const vaultOnlyUsd =
+          parseFloat(formatUnits(vaultOnlyAmount, reward.tokenDecimals)) * reward.tokenPrice;
+        totalUsd += vaultOnlyUsd;
+        tokens.push(reward.tokenSymbol);
+      }
+    }
+
+    return { totalUnclaimedRewardsValue: totalUsd, uniqueRewardTokens: tokens };
+  }, [rewardsData?.rewards]);
 
   const morphoSupplied = morphoAssetsData.total;
   const morphoMaxRate = (morphoRatesData || []).reduce((max, rate) => Math.max(max, rate.netRate), 0);
