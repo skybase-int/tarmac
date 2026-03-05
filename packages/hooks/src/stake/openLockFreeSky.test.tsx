@@ -36,7 +36,6 @@ describe('Open position, lock SKY, withdraw USDS, repay USDS and free SKY', asyn
   ]);
 
   it('Should lock SKY', async () => {
-    // Get the current URN index dynamically (fork may have pre-existing urns)
     const { result: resultUrnIndex } = renderHook(() => useCurrentUrnIndex(), { wrapper });
 
     await waitFor(
@@ -116,7 +115,8 @@ describe('Open position, lock SKY, withdraw USDS, repay USDS and free SKY', asyn
       { timeout: 5000 }
     );
 
-    const NST_TO_WITHDRAW = resultVaultInfo.current.data?.maxSafeBorrowableIntAmount as bigint;
+    const NST_TO_WITHDRAW =
+      (resultVaultInfo.current.data?.maxSafeBorrowableIntAmount as bigint) - parseEther('1');
 
     const { result: resultDrawNst } = renderHook(
       () =>

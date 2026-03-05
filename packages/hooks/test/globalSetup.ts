@@ -6,6 +6,7 @@ import {
   setEthBalance,
   setStakeModuleDebtCeiling,
   setStakeModuleSpot,
+  setStakeModuleMat,
   setStUsdsCap,
   reduceStakeModuleDebt,
   waitForVnetsReady
@@ -17,20 +18,10 @@ import { NetworkName } from './constants';
 export async function setup({ provide }: TestProject) {
   await waitForVnetsReady();
 
-  // Set high debt ceiling for the Stake module's SKY ilk
-  // This is needed because the fork may have a low or zero debt ceiling
   await setStakeModuleDebtCeiling();
-
-  // Set high spot price for the Stake module's SKY ilk
-  // This is needed because the fork may have a zero or stale spot price
   await setStakeModuleSpot();
-
-  // Set high supply cap for stUSDS
-  // This is needed because the fork may have reached or be near the supply cap
+  await setStakeModuleMat();
   await setStUsdsCap();
-
-  // Reduce staking engine debt to ensure stUSDS has available liquidity
-  // The new fork may have high debt that blocks withdrawals
   await reduceStakeModuleDebt();
 
   await Promise.all([

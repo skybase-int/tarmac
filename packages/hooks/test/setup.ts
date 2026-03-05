@@ -9,8 +9,6 @@ beforeAll(async () => {
 afterAll(async () => {
   await disconnect(config);
 
-  // Revert to snapshot after each test file completes to ensure next file starts with clean state
-  // Use updated snapshot IDs from previous reverts, or initial ones from global setup
   const snapshotIdMainnet =
     (globalThis as Record<string, any>).__snapshotMainnet ?? inject('snapshotIdMainnet');
   const snapshotIdBase =
@@ -24,7 +22,6 @@ afterAll(async () => {
     testClientArbitrum.revert({ id: snapshotIdArbitrum })
   ]);
 
-  // Re-create snapshots since evm_revert consumes the snapshot ID
   const [newMainnet, newBase, newArbitrum] = await Promise.all([
     testClientMainnet.snapshot(),
     testClientBase.snapshot(),
