@@ -93,7 +93,7 @@ export {
   useMorphoVaultMarketApiData,
   fetchMorphoVaultMarketData,
   useMorphoVaultRewards,
-  useMorphoVaultClaimRewards,
+  useMerklClaimRewards,
   useMorphoVaultHistory,
   useMorphoVaultChartInfo,
   useMorphoVaultMultipleChartInfo,
@@ -101,7 +101,6 @@ export {
   useMorphoVaultsCombinedTvl,
   useAllMorphoVaultsUserAssets,
   useMerklRewards,
-  useMerklClaimRewards,
   MORPHO_VAULTS
 } from './morpho';
 export type {

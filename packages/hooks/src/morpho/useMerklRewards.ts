@@ -187,9 +187,10 @@ async function fetchMerklRewards(
       }
     }
 
-    // Only include tokens that have some unclaimed amount
+    // Only include tokens that have some unclaimed amount and at least one known vault source
     const totalPending = BigInt(reward.amount) - BigInt(reward.claimed);
     if (totalPending <= 0n) continue;
+    if (vaultAmounts.size === 0) continue;
 
     // Build sources array
     const sources: MerklRewardSource[] = [];

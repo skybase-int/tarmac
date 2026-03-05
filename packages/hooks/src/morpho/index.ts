@@ -30,7 +30,6 @@ export {
   type MorphoVaultRewardsData,
   type MorphoVaultRewardsHook
 } from './useMorphoVaultRewards';
-export { useMorphoVaultClaimRewards } from './useMorphoVaultClaimRewards';
 export {
   useMerklRewards,
   type MerklTokenReward,

@@ -112,7 +112,7 @@ export function ClaimableRewardsTable() {
   if (!data?.hasClaimableRewards) {
     return (
       <Text className="text-textSecondary">
-        <Trans>No claimable rewards at this time.</Trans>
+        <Trans>There are currently no claimable rewards.</Trans>
       </Text>
     );
   }
