@@ -68,7 +68,7 @@ export const InteractiveStatsCardWithVaultAccordion = ({
       <AccordionItem value="details" className="accordion-item border-0">
         <Card variant="stats" className="w-full px-0 pb-4 lg:px-0">
           <AccordionTrigger className="w-full p-0 hover:no-underline [&>svg]:hidden">
-            <div className="px-4 lg:px-5">
+            <div className="w-full px-4 lg:px-5">
               <div className="flex items-center gap-2">
                 {icon && (
                   <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center">{icon}</div>
@@ -86,7 +86,7 @@ export const InteractiveStatsCardWithVaultAccordion = ({
                   </CardFooter>
                 </div>
               </div>
-              <HStack className="my-2">
+              <HStack className="my-2 w-full justify-between">
                 <HStack className="items-center -space-x-0.5 opacity-100 transition-opacity duration-200 [.accordion-item[data-state=open]_&]:opacity-0">
                   {vaultsWithBalance.map(({ vaultAddress, assetSymbol }, index) => (
                     <div key={vaultAddress} style={{ zIndex: vaultsWithBalance.length - index }}>

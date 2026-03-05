@@ -168,17 +168,17 @@ export const VaultsBalanceCard = ({
           <Skeleton className="h-[13px] w-20" />
         ) : (
           <div className="flex flex-col items-end gap-1">
-            {morphoSupplied > 0n && !!pricesData?.USDS && (
-              <Text variant="small" className="text-textSecondary leading-4">
-                $
-                {formatNumber(
-                  parseFloat(formatUnits(morphoSupplied, 18)) * parseFloat(pricesData.USDS.price),
-                  {
-                    maxDecimals: 2
-                  }
-                )}
-              </Text>
-            )}
+            <Text variant="small" className="text-textSecondary leading-4">
+              $
+              {formatNumber(
+                pricesData?.USDS
+                  ? parseFloat(formatUnits(morphoSupplied, 18)) * parseFloat(pricesData.USDS.price)
+                  : 0,
+                {
+                  maxDecimals: 2
+                }
+              )}
+            </Text>
             {totalUnclaimedRewardsValue > 0 && (
               <Text variant="small" className="text-textPrimary leading-4">
                 ${formatNumber(totalUnclaimedRewardsValue, { maxDecimals: 2 })}
