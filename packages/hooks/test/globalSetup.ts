@@ -5,6 +5,7 @@ import {
   setErc20Balance,
   setEthBalance,
   setStakeModuleDebtCeiling,
+  setStakeModuleSpot,
   setStUsdsCap,
   reduceStakeModuleDebt,
   waitForVnetsReady
@@ -19,6 +20,10 @@ export async function setup({ provide }: TestProject) {
   // Set high debt ceiling for the Stake module's SKY ilk
   // This is needed because the fork may have a low or zero debt ceiling
   await setStakeModuleDebtCeiling();
+
+  // Set high spot price for the Stake module's SKY ilk
+  // This is needed because the fork may have a zero or stale spot price
+  await setStakeModuleSpot();
 
   // Set high supply cap for stUSDS
   // This is needed because the fork may have reached or be near the supply cap

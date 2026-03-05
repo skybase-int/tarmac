@@ -239,6 +239,20 @@ export const setStUsdsCap = async () => {
   await setStorageAt(STUSDS_ADDRESS, STUSDS_CAP_SLOT, HIGH_STUSDS_CAP);
 };
 
+const LSEV2_SKY_A_SPOT_SLOT = calculateIlkStorageSlot(ILK_NAME, ILKS_MAPPING_SLOT, 2); // spot field
+
+// High spot price (1e27 = 1 RAY) - allows 1 unit of debt per 1 unit of collateral
+const HIGH_SPOT = '0x0000000000000000000000000000000000000000033b2e3c9fd0803ce8000000';
+
+/**
+ * Set high spot price for the Stake module's SKY ilk (LSEV2-SKY-A).
+ * This is needed because the fork may have a zero or stale spot price,
+ * which would prevent drawing USDS from the vault.
+ */
+export const setStakeModuleSpot = async () => {
+  await setStorageAt(VAT_ADDRESS, LSEV2_SKY_A_SPOT_SLOT, HIGH_SPOT);
+};
+
 const LSEV2_SKY_A_ART_SLOT = calculateIlkStorageSlot(ILK_NAME, ILKS_MAPPING_SLOT, 0); // Art field
 // Calculated value: 0x0b2fb9dcfebfeb5c8f6985ea98125a38a1adb70b7194dc26531c5e9ab986e533
 
