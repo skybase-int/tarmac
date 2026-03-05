@@ -129,44 +129,54 @@ export const InteractiveStatsCardWithVaultAccordion = ({
                 ? parseFloat(formatUnits(balance, assetDecimals)) * parseFloat(pricesData.USDS.price)
                 : 0;
 
-              return (
-                <Link to={urlMap[vaultAddress]} key={vaultAddress}>
-                  <div className="group/interactive-card from-primary-start/0 to-primary-end/0 hover:from-primary-start/100 hover:to-primary-end/100 cursor-pointer bg-radial-(--gradient-position) transition-colors">
-                    <div className="flex items-start gap-2 p-2 px-4 lg:px-5">
-                      <TokenIcon
-                        className="h-8 w-8"
-                        token={{ symbol: assetSymbol, name: assetSymbol }}
-                        noChain={true}
-                      />
-                      <div className="grow">
-                        <div className="flex items-start justify-between">
-                          <div className="flex flex-col">
-                            <Text>{vaultName}</Text>
-                            <HStack className="items-center gap-1">
-                              {rate !== undefined && rate > 0 && (
-                                <Text variant="small" className="text-bullish">
-                                  {(rate * 100).toFixed(2)}%
-                                </Text>
-                              )}
+              const vaultUrl = urlMap[vaultAddress];
+
+              const rowContent = (
+                <div className="group/interactive-card from-primary-start/0 to-primary-end/0 hover:from-primary-start/100 hover:to-primary-end/100 cursor-pointer bg-radial-(--gradient-position) transition-colors">
+                  <div className="flex items-start gap-2 p-2 px-4 lg:px-5">
+                    <TokenIcon
+                      className="h-8 w-8"
+                      token={{ symbol: assetSymbol, name: assetSymbol }}
+                      noChain={true}
+                    />
+                    <div className="grow">
+                      <div className="flex items-start justify-between">
+                        <div className="flex flex-col">
+                          <Text>{vaultName}</Text>
+                          <HStack className="items-center gap-1">
+                            {rate !== undefined && rate > 0 && (
+                              <Text variant="small" className="text-bullish">
+                                {(rate * 100).toFixed(2)}%
+                              </Text>
+                            )}
+                            {vaultUrl && (
                               <ArrowRight
                                 size={16}
                                 className="opacity-0 transition-opacity group-hover/interactive-card:opacity-100"
                               />
-                            </HStack>
-                          </div>
-                          <div className="flex flex-col items-end">
-                            <Text>
-                              {formatBigInt(balance, { unit: assetDecimals })}
-                            </Text>
-                            <Text variant="small" className="text-textSecondary">
-                              ${formatNumber(usdValue, { maxDecimals: 2 })}
-                            </Text>
-                          </div>
+                            )}
+                          </HStack>
+                        </div>
+                        <div className="flex flex-col items-end">
+                          <Text>
+                            {formatBigInt(balance, { unit: assetDecimals })}
+                          </Text>
+                          <Text variant="small" className="text-textSecondary">
+                            ${formatNumber(usdValue, { maxDecimals: 2 })}
+                          </Text>
                         </div>
                       </div>
                     </div>
                   </div>
+                </div>
+              );
+
+              return vaultUrl ? (
+                <Link to={vaultUrl} key={vaultAddress}>
+                  {rowContent}
                 </Link>
+              ) : (
+                <div key={vaultAddress}>{rowContent}</div>
               );
             })}
           </AccordionContent>
