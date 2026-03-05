@@ -19,6 +19,7 @@ import {
   InteractiveStatsCardWithVaultAccordion,
   VaultBalanceForAccordion
 } from '@widgets/shared/components/ui/card/InteractiveStatsCardWithVaultAccordion';
+import { UnclaimedRewards } from '@widgets/shared/components/ui/UnclaimedRewards';
 
 export const VaultsBalanceCard = ({
   url,
@@ -42,6 +43,11 @@ export const VaultsBalanceCard = ({
   });
 
   const { data: pricesData, isLoading: pricesLoading } = usePrices();
+
+  // TODO: Replace with real hook when available (useAllMorphoVaultsRewards)
+  const unclaimedRewardsLoading = false;
+  const totalUnclaimedRewardsValue = 0;
+  const uniqueRewardTokens: string[] = [];
 
   const morphoSupplied = morphoAssetsData.total;
   const morphoMaxRate = (morphoRatesData || []).reduce((max, rate) => Math.max(max, rate.netRate), 0);
@@ -116,32 +122,44 @@ export const VaultsBalanceCard = ({
         )
       }
       footer={
-        isRateLoading ? (
-          <Skeleton className="h-4 w-20" />
-        ) : morphoMaxRate > 0 ? (
-          <RateLineWithArrow
-            rateText={t`Rates up to: ${(morphoMaxRate * 100).toFixed(2)}%`}
-            popoverType="morpho"
-            onExternalLinkClicked={onExternalLinkClicked}
-          />
-        ) : (
-          <></>
-        )
+        <div className="flex flex-col gap-1">
+          {isRateLoading ? (
+            <Skeleton className="h-4 w-20" />
+          ) : morphoMaxRate > 0 ? (
+            <RateLineWithArrow
+              rateText={t`Rates up to: ${(morphoMaxRate * 100).toFixed(2)}%`}
+              popoverType="morpho"
+              onExternalLinkClicked={onExternalLinkClicked}
+            />
+          ) : (
+            <></>
+          )}
+          {uniqueRewardTokens.length > 0 && <UnclaimedRewards uniqueRewardTokens={uniqueRewardTokens} />}
+        </div>
       }
       footerRightContent={
-        isBalanceLoading || pricesLoading ? (
+        isBalanceLoading || pricesLoading || unclaimedRewardsLoading ? (
           <Skeleton className="h-[13px] w-20" />
-        ) : morphoSupplied > 0n && !!pricesData?.USDS ? (
-          <Text variant="small" className="text-textSecondary">
-            $
-            {formatNumber(
-              parseFloat(formatUnits(morphoSupplied, 18)) * parseFloat(pricesData.USDS.price),
-              {
-                maxDecimals: 2
-              }
+        ) : (
+          <div className="flex flex-col items-end gap-1">
+            {morphoSupplied > 0n && !!pricesData?.USDS && (
+              <Text variant="small" className="text-textSecondary leading-4">
+                $
+                {formatNumber(
+                  parseFloat(formatUnits(morphoSupplied, 18)) * parseFloat(pricesData.USDS.price),
+                  {
+                    maxDecimals: 2
+                  }
+                )}
+              </Text>
             )}
-          </Text>
-        ) : undefined
+            {totalUnclaimedRewardsValue > 0 && (
+              <Text variant="small" className="text-textPrimary leading-4">
+                ${formatNumber(totalUnclaimedRewardsValue, { maxDecimals: 2 })}
+              </Text>
+            )}
+          </div>
+        )
       }
       vaultBalances={vaultBalances}
       urlMap={urlMap}
