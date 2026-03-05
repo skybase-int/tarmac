@@ -2,6 +2,7 @@ import posthog from 'posthog-js';
 import { PostHogProvider as PHProvider } from 'posthog-js/react';
 import { type ReactNode } from 'react';
 import { getStoredConsent, saveConsent } from './consentStorage';
+import { isValidUUID } from '@/lib/generateUUID';
 
 const POSTHOG_KEY = import.meta.env.VITE_POSTHOG_KEY;
 const POSTHOG_HOST = import.meta.env.VITE_POSTHOG_HOST;
@@ -31,34 +32,38 @@ const SESSION_STORAGE_PH_SESSION = '__ph_bootstrap_session';
 /**
  * Read bootstrap identity from URL params (first load) or sessionStorage (refresh).
  * Saves to sessionStorage so the cross-domain handoff survives page refresh.
+ * Values are validated as UUIDs to prevent forged params from polluting analytics.
  */
 function getBootstrapConfig(): { distinctID?: string; sessionID?: string } | undefined {
   const params = new URLSearchParams(window.location.search);
   const urlDistinctId = params.get('__ph_id');
   const urlSessionId = params.get('__ph_session_id');
 
-  if (urlDistinctId || urlSessionId) {
+  const validDistinctId = isValidUUID(urlDistinctId) ? urlDistinctId : undefined;
+  const validSessionId = isValidUUID(urlSessionId) ? urlSessionId : undefined;
+
+  if (validDistinctId || validSessionId) {
     // First load from marketing CTA — save to sessionStorage for refresh resilience
     try {
-      if (urlDistinctId) sessionStorage.setItem(SESSION_STORAGE_PH_ID, urlDistinctId);
-      if (urlSessionId) sessionStorage.setItem(SESSION_STORAGE_PH_SESSION, urlSessionId);
+      if (validDistinctId) sessionStorage.setItem(SESSION_STORAGE_PH_ID, validDistinctId);
+      if (validSessionId) sessionStorage.setItem(SESSION_STORAGE_PH_SESSION, validSessionId);
     } catch {
       // sessionStorage may be unavailable (private browsing in some browsers)
     }
     return {
-      distinctID: urlDistinctId || undefined,
-      sessionID: urlSessionId || undefined
+      distinctID: validDistinctId,
+      sessionID: validSessionId
     };
   }
 
-  // No URL params — check sessionStorage (page refresh scenario)
+  // No valid URL params — check sessionStorage (page refresh scenario)
   try {
     const storedDistinctId = sessionStorage.getItem(SESSION_STORAGE_PH_ID);
     const storedSessionId = sessionStorage.getItem(SESSION_STORAGE_PH_SESSION);
-    if (storedDistinctId || storedSessionId) {
+    if (isValidUUID(storedDistinctId) || isValidUUID(storedSessionId)) {
       return {
-        distinctID: storedDistinctId || undefined,
-        sessionID: storedSessionId || undefined
+        distinctID: isValidUUID(storedDistinctId) ? storedDistinctId : undefined,
+        sessionID: isValidUUID(storedSessionId) ? storedSessionId : undefined
       };
     }
   } catch {
