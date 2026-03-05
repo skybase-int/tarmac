@@ -12,6 +12,13 @@ export function initializeGtag() {
     return;
   }
 
+  const existing = document.querySelector(
+    `script[src="https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}"]`
+  );
+  if (existing) {
+    return;
+  }
+
   const consent = getStoredConsent();
   const hasAccepted = consent?.google_analytics === true;
 
