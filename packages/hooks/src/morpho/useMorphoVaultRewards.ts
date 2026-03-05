@@ -241,7 +241,7 @@ export function useMorphoVaultRewards({
   // Refetch using Merkl's reloadChainId parameter to force a server-side cache update
   const mutate = useCallback(() => {
     if (!userAddress) return;
-    queryClient.fetchQuery({
+    void queryClient.prefetchQuery({
       queryKey,
       queryFn: () => fetchMorphoVaultRewards(userAddress, vaultAddress, chainId, true),
       staleTime: 0
