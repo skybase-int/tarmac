@@ -104,7 +104,6 @@ const MorphoVaultWidgetWrapped = ({
   // Vault rewards hook - fetches claimable rewards from Merkl API
   const {
     data: rewardsData,
-    isLoading: isRewardsLoading,
     mutate: mutateRewards
   } = useMorphoVaultRewards({
     vaultAddress
@@ -601,9 +600,6 @@ const MorphoVaultWidgetWrapped = ({
               vaultTvl={vaultData?.totalAssets}
               vaultRate={marketData?.rate?.formattedNetRate}
               shareDecimals={vaultData?.decimals ?? 18}
-              claimRewards={morphoVaultClaimRewards}
-              isRewardsLoading={isRewardsLoading}
-              hasClaimableRewards={rewardsData?.hasClaimableRewards}
               availableLiquidity={availableLiquidity}
               disclaimerChecked={disclaimerChecked}
               onDisclaimerChange={setDisclaimerChecked}

@@ -100,6 +100,8 @@ export {
   useMorphoVaultSupplierAddresses,
   useMorphoVaultsCombinedTvl,
   useAllMorphoVaultsUserAssets,
+  useMerklRewards,
+  useMerklClaimRewards,
   MORPHO_VAULTS
 } from './morpho';
 export type {
@@ -117,6 +119,10 @@ export type {
   MorphoVaultReward,
   MorphoVaultRewardsData,
   MorphoVaultRewardsHook,
+  MerklTokenReward,
+  MerklRewardSource,
+  MerklRewardsData,
+  MerklRewardsHook,
   MorphoVaultChartDataPoint,
   MorphoVaultChartInfoHook,
   MorphoVaultMultipleChartInfoHook,
