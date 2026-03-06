@@ -14,17 +14,27 @@ type TvlChartInfoParsed = {
   amount: bigint;
 };
 
+const deduplicateByTimestamp = (data: TvlChartInfoParsed[]): TvlChartInfoParsed[] => {
+  const map = new Map<number, TvlChartInfoParsed>();
+  data.forEach(d => map.set(d.blockTimestamp, d));
+  return [...map.values()];
+};
+
 const normalizeToDay = (data: TvlChartInfoParsed[]): TvlChartInfoParsed[] =>
-  data.map(d => ({
-    ...d,
-    blockTimestamp: Math.floor(d.blockTimestamp / 86400) * 86400
-  }));
+  deduplicateByTimestamp(
+    data.map(d => ({
+      ...d,
+      blockTimestamp: Math.floor(d.blockTimestamp / 86400) * 86400
+    }))
+  );
 
 const normalizeToHour = (data: TvlChartInfoParsed[]): TvlChartInfoParsed[] =>
-  data.map(d => ({
-    ...d,
-    blockTimestamp: Math.floor(d.blockTimestamp / 3600) * 3600
-  }));
+  deduplicateByTimestamp(
+    data.map(d => ({
+      ...d,
+      blockTimestamp: Math.floor(d.blockTimestamp / 3600) * 3600
+    }))
+  );
 
 function calculateCumulativeTotalSupply(chartData: TvlChartInfoParsed[]) {
   if (!chartData || chartData.length === 0) return [];
