@@ -173,14 +173,14 @@ export function ClaimableRewardsTable() {
               title: t`Claim rewards`,
               subtitle: t`You are claiming rewards for ${selectedRewards.length} token(s).`,
               reviewContent: (
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-3">
                   {selectedRewards.map(r => (
-                    <div key={r.tokenAddress} className="flex items-center justify-between">
+                    <div key={r.tokenAddress} className="flex items-center justify-between py-2">
                       <div className="flex items-center gap-2">
-                        <TokenIcon className="h-5 w-5" token={{ symbol: r.tokenSymbol }} />
-                        <Text className="text-sm">{r.tokenSymbol}</Text>
+                        <TokenIcon className="h-6 w-6" token={{ symbol: r.tokenSymbol }} />
+                        <Text>{r.tokenSymbol}</Text>
                       </div>
-                      <Text className="text-sm">{r.formattedTotalAmount}</Text>
+                      <Text>{r.formattedTotalAmount}</Text>
                     </div>
                   ))}
                 </div>

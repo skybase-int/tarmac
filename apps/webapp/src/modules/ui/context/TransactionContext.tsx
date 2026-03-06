@@ -65,6 +65,7 @@ export function TransactionProvider({ children }: { children: ReactNode }) {
   const txCallbacks: TxCallbacks = {
     onMutate: useCallback(() => {
       setTxStatus(TxStatus.INITIALIZED);
+      setExternalLink(undefined);
     }, []),
 
     onStart: useCallback(
@@ -75,20 +76,28 @@ export function TransactionProvider({ children }: { children: ReactNode }) {
       [chainId, address, isSafeWallet]
     ),
 
+    // TODO: Add analytics events (TRANSACTION_COMPLETED with tx_status success/error)
     onSuccess: useCallback(
-      (_hash: string) => {
+      (hash: string) => {
         setTxStatus(TxStatus.SUCCESS);
+        if (hash) {
+          setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
+        }
         configRef.current?.onSuccess?.();
       },
-      []
+      [chainId, address, isSafeWallet]
     ),
 
     onError: useCallback(
-      (_error: Error, _hash: string) => {
+      (error: Error, hash: string) => {
         setTxStatus(TxStatus.ERROR);
+        if (hash) {
+          setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
+        }
+        console.error('[TransactionContext] Transaction error:', error);
         configRef.current?.onError?.();
       },
-      []
+      [chainId, address, isSafeWallet]
     )
   };
 
