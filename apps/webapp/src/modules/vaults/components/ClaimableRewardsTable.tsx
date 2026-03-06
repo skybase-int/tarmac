@@ -55,13 +55,16 @@ export function ClaimableRewardsTable() {
     });
   }, []);
 
+  const allSelected = selectedTokens.size === rewards.length && rewards.length > 0;
+  const someSelected = selectedTokens.size > 0 && !allSelected;
+
   const toggleAll = useCallback(() => {
-    if (selectedTokens.size === rewards.length) {
+    if (allSelected) {
       setSelectedTokens(new Set());
     } else {
       setSelectedTokens(new Set(rewards.map(r => r.tokenAddress)));
     }
-  }, [rewards, selectedTokens.size]);
+  }, [allSelected, rewards]);
 
   if (!isConnectedAndAcceptedTerms) return null;
 
@@ -117,7 +120,6 @@ export function ClaimableRewardsTable() {
     );
   }
 
-  const allSelected = selectedTokens.size === rewards.length && rewards.length > 0;
   const hasSelection = selectedTokens.size > 0;
 
   return (
@@ -132,7 +134,11 @@ export function ClaimableRewardsTable() {
         <TableHeader>
           <TableRow>
             <TableHead>
-              <Checkbox checked={allSelected} onCheckedChange={toggleAll} aria-label={t`Select all`} />
+              <Checkbox
+                checked={someSelected ? 'indeterminate' : allSelected}
+                onCheckedChange={toggleAll}
+                aria-label={t`Select all`}
+              />
             </TableHead>
             <TableHead>
               <Trans>Token</Trans>
@@ -190,9 +196,9 @@ function RewardTokenRows({
   return (
     <>
       {/* Main token row */}
-      <TableRow data-state={isSelected ? 'selected' : undefined}>
+      <TableRow className="cursor-pointer" data-state={isSelected ? 'selected' : undefined} onClick={onToggleSelect}>
         <TableCell>
-          <Checkbox checked={isSelected} onCheckedChange={onToggleSelect} aria-label={reward.tokenSymbol} />
+          <Checkbox checked={isSelected} className="pointer-events-none" aria-label={reward.tokenSymbol} />
         </TableCell>
         <TableCell>
           <div className="flex items-center gap-2">
@@ -204,7 +210,10 @@ function RewardTokenRows({
           {hasMultipleSources ? (
             <button
               type="button"
-              onClick={onToggleExpand}
+              onClick={e => {
+                e.stopPropagation();
+                onToggleExpand();
+              }}
               className="flex items-center gap-1 text-left"
               aria-expanded={isExpanded}
             >
