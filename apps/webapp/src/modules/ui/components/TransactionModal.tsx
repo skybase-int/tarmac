@@ -3,10 +3,15 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { TxStatus, Clock, InProgress, SuccessCheck, FailedX, Cancel } from '@jetstreamgg/sky-widgets';
 import { Dialog, DialogContent, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Close } from '@/modules/icons';
+import { Switch } from '@/components/ui/switch';
+import { Close, Info } from '@/modules/icons';
 import { Text } from '@/modules/layout/components/Typography';
 import { Trans } from '@lingui/react/macro';
+import { t } from '@lingui/core/macro';
+import { Popover, PopoverTrigger, PopoverContent, PopoverClose, PopoverArrow } from '@/components/ui/popover';
 import { getExplorerName, useIsSafeWallet } from '@jetstreamgg/sky-utils';
+import { useIsBatchSupported } from '@jetstreamgg/sky-hooks';
+import { useBatchToggle } from '@/modules/ui/hooks/useBatchToggle';
 import { useChainId } from 'wagmi';
 
 type TransactionModalStep = 'review' | 'transaction';
@@ -25,6 +30,8 @@ export type TransactionModalProps = {
   confirmLabel?: string;
   successLabel?: string;
   errorLabel?: string;
+  steps?: string[];
+  currentStep?: number;
 };
 
 const statusIcons: Partial<Record<TxStatus, ReactNode>> = {
@@ -48,7 +55,9 @@ export function TransactionModal({
   externalLink,
   confirmLabel,
   successLabel,
-  errorLabel
+  errorLabel,
+  steps,
+  currentStep = 0
 }: TransactionModalProps) {
   const [step, setStep] = useState<TransactionModalStep>('review');
   const [contentHeight, setContentHeight] = useState<number | undefined>();
@@ -56,6 +65,11 @@ export function TransactionModal({
   const chainId = useChainId();
   const isSafeWallet = useIsSafeWallet();
   const explorerName = getExplorerName(chainId, isSafeWallet);
+  const [batchEnabled, setBatchEnabled] = useBatchToggle();
+  const { data: batchSupported } = useIsBatchSupported();
+
+  const hasMultipleSteps = steps && steps.length > 1;
+  const showBatchToggle = hasMultipleSteps && batchSupported;
 
   const handleConfirm = useCallback(() => {
     if (reviewRef.current) {
@@ -116,7 +130,61 @@ export function TransactionModal({
             >
               {subtitle && <Text className="text-textSecondary">{subtitle}</Text>}
 
+              {hasMultipleSteps && (
+                <div className="flex flex-col">
+                  {steps.map((label, i) => (
+                    <div key={i} className="mt-4 flex items-center gap-3">
+                      <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border-2 border-white/60 text-xs text-white/60">
+                        {i + 1}
+                      </span>
+                      <Text className="text-white/60">{label}</Text>
+                    </div>
+                  ))}
+                </div>
+              )}
+
               {reviewContent && <div className="text-text">{reviewContent}</div>}
+
+              {showBatchToggle && (
+                <div className="border-selectActive flex items-center gap-4 border-t pt-4">
+                  <div className="flex flex-wrap items-center gap-1">
+                    <Text className="text-sm leading-none text-white">
+                      <Trans>Bundle transactions</Trans>
+                    </Text>
+                    <Popover>
+                      <PopoverTrigger onClick={e => e.stopPropagation()} className="z-10 text-white">
+                        <Info width={13} height={13} />
+                      </PopoverTrigger>
+                      <PopoverContent align="center" side="top" className="bg-containerDark backdrop-blur-[50px]">
+                        <div className="flex items-start justify-between">
+                          <Text className="text-base font-medium">
+                            <Trans>Bundle transactions</Trans>
+                          </Text>
+                          <PopoverClose onClick={e => e.stopPropagation()}>
+                            <Close className="h-5 w-5 cursor-pointer text-white" />
+                          </PopoverClose>
+                        </div>
+                        <Text className="mt-2 text-sm text-white/80">
+                          <Trans>
+                            Bundled transactions are set &apos;on&apos; by default to complete transactions in
+                            a single step. Combining actions improves the user experience and reduces gas
+                            fees. Manually toggle off to cancel this feature.
+                          </Trans>
+                        </Text>
+                        <PopoverArrow />
+                      </PopoverContent>
+                    </Popover>
+                    <Text className="text-textSecondary text-sm leading-none">
+                      <Trans>(toggled on by default)</Trans>
+                    </Text>
+                  </div>
+                  <Switch
+                    checked={batchEnabled}
+                    onCheckedChange={setBatchEnabled}
+                    aria-label={t`Toggle bundled transactions`}
+                  />
+                </div>
+              )}
 
               <Button variant="primary" className="w-full" onClick={handleConfirm}>
                 {confirmLabel ?? <Trans>Confirm</Trans>}
@@ -132,6 +200,30 @@ export function TransactionModal({
               className="flex flex-col items-center gap-4"
               style={{ minHeight: contentHeight }}
             >
+              {hasMultipleSteps && (
+                <div className="flex w-full flex-col">
+                  {steps.map((label, i) => {
+                    const isCompleted = i < currentStep;
+                    const isCurrent = i === currentStep;
+                    const stepTxStatus = isCompleted
+                      ? TxStatus.SUCCESS
+                      : isCurrent
+                        ? txStatus
+                        : TxStatus.IDLE;
+
+                    return (
+                      <StepIndicator
+                        key={i}
+                        stepNumber={i + 1}
+                        label={label}
+                        txStatus={stepTxStatus}
+                        active={isCurrent}
+                      />
+                    );
+                  })}
+                </div>
+              )}
+
               <div className="flex flex-col items-center gap-4 pt-8">
                 <AnimatePresence mode="popLayout" initial={false}>
                   {statusIcons[txStatus] && (
@@ -214,5 +306,52 @@ export function TransactionModal({
         </AnimatePresence>
       </DialogContent>
     </Dialog>
+  );
+}
+
+function StepIndicator({
+  stepNumber,
+  label,
+  txStatus,
+  active
+}: {
+  stepNumber: number;
+  label: string;
+  txStatus: TxStatus;
+  active: boolean;
+}) {
+  return (
+    <div className="mt-4 flex items-center gap-3">
+      <div className="relative inline-flex h-5 w-5 items-center justify-center">
+        {active && txStatus === TxStatus.LOADING && (
+          <span className="absolute inset-0 flex items-center justify-center">
+            <svg className="h-5 w-5 animate-spin text-white" viewBox="0 0 20 20">
+              <circle
+                className="text-white/30"
+                cx="10"
+                cy="10"
+                r="9"
+                stroke="currentColor"
+                strokeWidth="2"
+                fill="none"
+              />
+              <path className="text-white" fill="none" stroke="currentColor" d="M10 1 A9 9 0 1 1 1 10" />
+            </svg>
+          </span>
+        )}
+        <span
+          className={`inline-flex h-5 w-5 items-center justify-center rounded-full border-2 text-xs ${
+            active
+              ? txStatus === TxStatus.LOADING
+                ? 'border-transparent text-white'
+                : 'border-white text-white'
+              : 'border-white/60 text-white/60'
+          }`}
+        >
+          {txStatus === TxStatus.SUCCESS ? '✓' : stepNumber}
+        </span>
+      </div>
+      <Text className={active ? 'text-white' : 'text-white/60'}>{label}</Text>
+    </div>
   );
 }

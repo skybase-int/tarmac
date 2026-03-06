@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
-import { useMerklRewards, useMerklClaimRewards, MerklTokenReward } from '@jetstreamgg/sky-hooks';
+import { useMerklRewards, useMerklClaimRewards, useBatchSavingsSupply, MerklTokenReward } from '@jetstreamgg/sky-hooks';
+import { parseUnits } from 'viem';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
@@ -27,6 +28,12 @@ export function ClaimableRewardsTable() {
 
   const claimRewards = useMerklClaimRewards({
     rewards: selectedRewards,
+    ...txCallbacks
+  });
+
+  // TODO: Remove test hook — temporary for Tenderly testing
+  const testSupply = useBatchSavingsSupply({
+    amount: parseUnits('0.01', 18),
     ...txCallbacks
   });
 
@@ -164,7 +171,7 @@ export function ClaimableRewardsTable() {
         </TableBody>
       </Table>
 
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-3">
         <Button
           variant="primary"
           disabled={!hasSelection || !claimRewards.prepared}
@@ -195,6 +202,29 @@ export function ClaimableRewardsTable() {
           }
         >
           {hasSelection ? <Trans>Claim selected</Trans> : <Trans>Select rewards to claim</Trans>}
+        </Button>
+        {/* TODO: Remove — temporary test button for Tenderly */}
+        <Button
+          variant="primary"
+          disabled={!testSupply.prepared}
+          onClick={() =>
+            launch({
+              title: t`Supply to Savings`,
+              subtitle: t`You are supplying 0.01 USDS to the Sky Savings Rate module.`,
+              reviewContent: (
+                <div className="flex items-center gap-2 py-2">
+                  <TokenIcon className="h-6 w-6" token={{ symbol: 'USDS' }} />
+                  <Text>0.01 USDS</Text>
+                </div>
+              ),
+              onConfirm: testSupply.execute,
+              confirmLabel: t`Supply`,
+              steps: [t`Approve`, t`Supply`],
+              currentStep: testSupply.currentCallIndex
+            })
+          }
+        >
+          <Trans>Test Supply 0.01 USDS</Trans>
         </Button>
       </div>
     </div>
