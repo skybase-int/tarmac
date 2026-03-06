@@ -4,7 +4,12 @@ import { isTestnetId } from '@jetstreamgg/sky-utils';
 import { mainnet } from 'viem/chains';
 import { TRUST_LEVELS, TrustLevelEnum } from '../constants';
 import { ReadHook } from '../hooks';
-import { MORPHO_API_URL, VAULT_V2_HISTORICAL_QUERY } from './constants';
+import { MORPHO_API_URL, VAULT_V2_HISTORICAL_QUERY, VAULT_V2_HISTORICAL_HOURLY_QUERY } from './constants';
+
+const WEEK_IN_SECONDS = 604800;
+const MONTH_IN_SECONDS = 2592000;
+
+export type MorphoVaultHourlyWindow = 'w' | 'm';
 
 /**
  * Raw API response type for Morpho V2 vault historical data.
@@ -57,20 +62,35 @@ function transformMorphoChartData(
  */
 async function fetchMorphoVaultChartInfo(
   vaultAddress: string,
-  chainId: number
+  chainId: number,
+  useHourlyInterval?: boolean,
+  hourlyWindow?: MorphoVaultHourlyWindow
 ): Promise<MorphoVaultChartDataPoint[]> {
+  const endTimestamp = Math.floor(Date.now() / 1000);
+  const hourlyStartTimestamp =
+    endTimestamp - (hourlyWindow === 'w' ? WEEK_IN_SECONDS : MONTH_IN_SECONDS);
+
+  const variables = useHourlyInterval
+    ? {
+        address: vaultAddress.toLowerCase(),
+        chainId,
+        startTimestamp: hourlyStartTimestamp,
+        endTimestamp
+      }
+    : {
+        address: vaultAddress.toLowerCase(),
+        chainId,
+        endTimestamp
+      };
+
   const response = await fetch(MORPHO_API_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      query: VAULT_V2_HISTORICAL_QUERY,
-      variables: {
-        address: vaultAddress.toLowerCase(),
-        chainId,
-        endTimestamp: Math.floor(Date.now() / 1000)
-      }
+      query: useHourlyInterval ? VAULT_V2_HISTORICAL_HOURLY_QUERY : VAULT_V2_HISTORICAL_QUERY,
+      variables
     })
   });
 
@@ -100,9 +120,13 @@ export type MorphoVaultChartInfoHook = ReadHook & {
  * @param vaultAddress - The Morpho V2 vault contract address
  */
 export function useMorphoVaultChartInfo({
-  vaultAddress
+  vaultAddress,
+  useHourlyInterval,
+  hourlyWindow
 }: {
   vaultAddress: `0x${string}`;
+  useHourlyInterval?: boolean;
+  hourlyWindow?: MorphoVaultHourlyWindow;
 }): MorphoVaultChartInfoHook {
   const currentChainId = useChainId();
   const chainId = isTestnetId(currentChainId) ? mainnet.id : currentChainId;
@@ -113,8 +137,8 @@ export function useMorphoVaultChartInfo({
     refetch: mutate,
     isLoading
   } = useQuery({
-    queryKey: ['morpho-vault-chart', vaultAddress, chainId],
-    queryFn: () => fetchMorphoVaultChartInfo(vaultAddress, chainId),
+    queryKey: ['morpho-vault-chart', vaultAddress, chainId, useHourlyInterval, hourlyWindow],
+    queryFn: () => fetchMorphoVaultChartInfo(vaultAddress, chainId, useHourlyInterval, hourlyWindow),
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000 // 10 minutes
   });
@@ -148,17 +172,21 @@ export type MorphoVaultMultipleChartInfoHook = ReadHook & {
  * @param vaultAddresses - Array of Morpho V2 vault contract addresses
  */
 export function useMorphoVaultMultipleChartInfo({
-  vaultAddresses
+  vaultAddresses,
+  useHourlyInterval,
+  hourlyWindow
 }: {
   vaultAddresses: `0x${string}`[];
+  useHourlyInterval?: boolean;
+  hourlyWindow?: MorphoVaultHourlyWindow;
 }): MorphoVaultMultipleChartInfoHook {
   const currentChainId = useChainId();
   const chainId = isTestnetId(currentChainId) ? mainnet.id : currentChainId;
 
   const results = useQueries({
     queries: vaultAddresses.map(addr => ({
-      queryKey: ['morpho-vault-chart', addr, chainId] as const,
-      queryFn: () => fetchMorphoVaultChartInfo(addr, chainId),
+      queryKey: ['morpho-vault-chart', addr, chainId, useHourlyInterval, hourlyWindow] as const,
+      queryFn: () => fetchMorphoVaultChartInfo(addr, chainId, useHourlyInterval, hourlyWindow),
       enabled: vaultAddresses.length > 0,
       staleTime: 5 * 60 * 1000, // 5 minutes
       gcTime: 10 * 60 * 1000 // 10 minutes
