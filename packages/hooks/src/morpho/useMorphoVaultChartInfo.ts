@@ -6,6 +6,7 @@ import { TRUST_LEVELS, TrustLevelEnum } from '../constants';
 import { ReadHook } from '../hooks';
 import { MORPHO_API_URL, VAULT_V2_HISTORICAL_QUERY, VAULT_V2_HISTORICAL_HOURLY_QUERY } from './constants';
 
+const HOUR_IN_SECONDS = 3600;
 const WEEK_IN_SECONDS = 604800;
 const MONTH_IN_SECONDS = 2592000;
 
@@ -67,8 +68,10 @@ async function fetchMorphoVaultChartInfo(
   hourlyWindow?: MorphoVaultHourlyWindow
 ): Promise<MorphoVaultChartDataPoint[]> {
   const endTimestamp = Math.floor(Date.now() / 1000);
+  // Fetch one extra hour of data to ensure the first point isn't excluded
+  // by the parser's independently calculated startTimestamp
   const hourlyStartTimestamp =
-    endTimestamp - (hourlyWindow === 'w' ? WEEK_IN_SECONDS : MONTH_IN_SECONDS);
+    endTimestamp - (hourlyWindow === 'w' ? WEEK_IN_SECONDS : MONTH_IN_SECONDS) - HOUR_IN_SECONDS;
 
   const variables = useHourlyInterval
     ? {
