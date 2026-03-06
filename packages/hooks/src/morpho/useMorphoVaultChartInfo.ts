@@ -20,6 +20,7 @@ type MorphoVaultHistoricalApiResponse = {
     vaultV2ByAddress: {
       historicalState: {
         totalAssets: Array<{ x: number; y: string }>;
+        totalAssetsUsd: Array<{ x: number; y: number }>;
         avgNetApy: Array<{ x: number; y: number }>;
       };
     } | null;
@@ -32,8 +33,10 @@ type MorphoVaultHistoricalApiResponse = {
 export type MorphoVaultChartDataPoint = {
   /** Unix timestamp in seconds */
   blockTimestamp: number;
-  /** Total assets in the vault (bigint) */
+  /** Total assets in the vault (bigint in native token decimals) */
   amount: bigint;
+  /** Total assets in USD */
+  amountUsd: number;
   /** Average net APY as a decimal (e.g., 0.05 for 5%) */
   apy?: number;
 };
@@ -43,17 +46,24 @@ export type MorphoVaultChartDataPoint = {
  */
 function transformMorphoChartData(
   totalAssets: Array<{ x: number; y: string }>,
+  totalAssetsUsd: Array<{ x: number; y: number }>,
   avgNetApy: Array<{ x: number; y: number }>
 ): MorphoVaultChartDataPoint[] {
-  // Create a map of timestamp to APY for easy lookup
+  // Create maps for easy lookup by timestamp
   const apyMap = new Map<number, number>();
   avgNetApy.forEach(item => {
     apyMap.set(item.x, item.y);
   });
 
+  const usdMap = new Map<number, number>();
+  totalAssetsUsd.forEach(item => {
+    usdMap.set(item.x, item.y);
+  });
+
   return totalAssets.map(item => ({
     blockTimestamp: item.x,
     amount: BigInt(item.y),
+    amountUsd: usdMap.get(item.x) ?? 0,
     apy: apyMap.get(item.x)
   }));
 }
@@ -107,8 +117,8 @@ async function fetchMorphoVaultChartInfo(
     return [];
   }
 
-  const { totalAssets, avgNetApy } = result.data.vaultV2ByAddress.historicalState;
-  return transformMorphoChartData(totalAssets, avgNetApy);
+  const { totalAssets, totalAssetsUsd, avgNetApy } = result.data.vaultV2ByAddress.historicalState;
+  return transformMorphoChartData(totalAssets, totalAssetsUsd, avgNetApy);
 }
 
 export type MorphoVaultChartInfoHook = ReadHook & {

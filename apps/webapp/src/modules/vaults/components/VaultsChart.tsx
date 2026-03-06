@@ -6,8 +6,7 @@ import { Trans } from '@lingui/react/macro';
 import { useParseTvlChartData } from '@/modules/ui/hooks/useParseTvlChartData';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { mainnet } from 'viem/chains';
-import { formatUnits } from 'viem';
-import { math } from '@jetstreamgg/sky-utils';
+import { parseUnits } from 'viem';
 
 type TvlChartInfoParsed = {
   blockTimestamp: number;
@@ -67,14 +66,13 @@ function useVaultsChartInfo(useHourlyInterval?: boolean, hourlyWindow?: 'w' | 'm
 
   const data = useMemo(() => {
     const normalize = useHourlyInterval ? normalizeToHour : normalizeToDay;
-    const normalizedMorpho = (morphoChartData || []).flatMap((vaultData, index) => {
+    const normalizedMorpho = (morphoChartData || []).flatMap(vaultData => {
       if (!vaultData) return [];
-      const vault = MORPHO_VAULTS[index];
-      const decimals = math.resolveDecimals(vault.assetToken.decimals, mainnet.id);
-      return normalize(vaultData).map(d => ({
-        ...d,
-        amount: math.scaleToBaseDecimals(d.amount, decimals)
+      const usdData = vaultData.map(d => ({
+        blockTimestamp: d.blockTimestamp,
+        amount: parseUnits(d.amountUsd.toString(), 18)
       }));
+      return normalize(usdData);
     });
 
     return calculateCumulativeTotalSupply(normalizedMorpho);
@@ -92,7 +90,7 @@ export function VaultsChart() {
   const intervalOverride = useHourlyInterval ? 3600 : undefined;
 
   const { data: vaultsChartData, isLoading, error } = useVaultsChartInfo(useHourlyInterval, hourlyWindow);
-  const { totalAssetsScaled, isLoading: isCombinedTvlLoading, error: combinedTvlError } = useMorphoVaultsCombinedTvl();
+  const { totalAssetsUsd, isLoading: isCombinedTvlLoading, error: combinedTvlError } = useMorphoVaultsCombinedTvl();
 
   const parsedChartData = useParseTvlChartData(timeFrame, vaultsChartData, undefined, intervalOverride);
 
@@ -102,12 +100,12 @@ export function VaultsChart() {
     return [
       ...parsedChartData,
       {
-        value: parseFloat(formatUnits(totalAssetsScaled, 18)),
+        value: totalAssetsUsd,
         date: new Date(),
         tooltipLabel: 'Current value'
       }
     ];
-  }, [parsedChartData, totalAssetsScaled, isCombinedTvlLoading, combinedTvlError]);
+  }, [parsedChartData, totalAssetsUsd, isCombinedTvlLoading, combinedTvlError]);
 
   const tooltipLabel = useHourlyInterval ? 'Hourly average' : 'Daily average';
 
@@ -128,7 +126,7 @@ export function VaultsChart() {
           data={chartData}
           isLoading={isLoading}
           error={error}
-          symbol={'USDS'}
+          prefix="$"
           tooltipLabel={tooltipLabel}
           onTimeFrameChange={tf => {
             setTimeFrame(tf);
