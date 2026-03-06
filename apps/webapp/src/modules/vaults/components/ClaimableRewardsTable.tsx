@@ -9,6 +9,7 @@ import { Text } from '@/modules/layout/components/Typography';
 import { Trans } from '@lingui/react/macro';
 import { t } from '@lingui/core/macro';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
+import { useTransaction } from '@/modules/ui/context/TransactionContext';
 import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
 import { ChevronDown } from 'lucide-react';
 
@@ -17,6 +18,7 @@ export function ClaimableRewardsTable() {
   const { data, isLoading, mutate } = useMerklRewards();
   const [selectedTokens, setSelectedTokens] = useState<Set<string>>(new Set());
   const [expandedTokens, setExpandedTokens] = useState<Set<string>>(new Set());
+  const { launch, txCallbacks } = useTransaction();
 
   const rewards = data?.rewards ?? [];
 
@@ -25,10 +27,7 @@ export function ClaimableRewardsTable() {
 
   const claimRewards = useMerklClaimRewards({
     rewards: selectedRewards,
-    onSuccess: () => {
-      setSelectedTokens(new Set());
-      mutate();
-    }
+    ...txCallbacks
   });
 
   const toggleToken = useCallback((tokenAddress: string) => {
@@ -169,7 +168,31 @@ export function ClaimableRewardsTable() {
         <Button
           variant="primary"
           disabled={!hasSelection || !claimRewards.prepared}
-          onClick={hasSelection ? claimRewards.execute : undefined}
+          onClick={() =>
+            launch({
+              title: t`Claim rewards`,
+              subtitle: t`You are claiming rewards for ${selectedRewards.length} token(s).`,
+              reviewContent: (
+                <div className="flex flex-col gap-2">
+                  {selectedRewards.map(r => (
+                    <div key={r.tokenAddress} className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <TokenIcon className="h-5 w-5" token={{ symbol: r.tokenSymbol }} />
+                        <Text className="text-sm">{r.tokenSymbol}</Text>
+                      </div>
+                      <Text className="text-sm">{r.formattedTotalAmount}</Text>
+                    </div>
+                  ))}
+                </div>
+              ),
+              onConfirm: claimRewards.execute,
+              confirmLabel: t`Claim`,
+              onSuccess: () => {
+                setSelectedTokens(new Set());
+                mutate();
+              }
+            })
+          }
         >
           {hasSelection ? <Trans>Claim selected</Trans> : <Trans>Select rewards to claim</Trans>}
         </Button>
