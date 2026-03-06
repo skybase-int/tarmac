@@ -13,27 +13,14 @@ type TvlChartInfoParsed = {
   amount: bigint;
 };
 
-const deduplicateByTimestamp = (data: TvlChartInfoParsed[]): TvlChartInfoParsed[] => {
+const normalizeToInterval = (data: TvlChartInfoParsed[], intervalSeconds: number): TvlChartInfoParsed[] => {
   const map = new Map<number, TvlChartInfoParsed>();
-  data.forEach(d => map.set(d.blockTimestamp, d));
+  data.forEach(d => {
+    const ts = Math.floor(d.blockTimestamp / intervalSeconds) * intervalSeconds;
+    map.set(ts, { ...d, blockTimestamp: ts });
+  });
   return [...map.values()];
 };
-
-const normalizeToDay = (data: TvlChartInfoParsed[]): TvlChartInfoParsed[] =>
-  deduplicateByTimestamp(
-    data.map(d => ({
-      ...d,
-      blockTimestamp: Math.floor(d.blockTimestamp / 86400) * 86400
-    }))
-  );
-
-const normalizeToHour = (data: TvlChartInfoParsed[]): TvlChartInfoParsed[] =>
-  deduplicateByTimestamp(
-    data.map(d => ({
-      ...d,
-      blockTimestamp: Math.floor(d.blockTimestamp / 3600) * 3600
-    }))
-  );
 
 function calculateCumulativeTotalSupply(chartData: TvlChartInfoParsed[]) {
   if (!chartData || chartData.length === 0) return [];
@@ -65,14 +52,14 @@ function useVaultsChartInfo(useHourlyInterval?: boolean, hourlyWindow?: 'w' | 'm
   } = useMorphoVaultMultipleChartInfo({ vaultAddresses, useHourlyInterval, hourlyWindow });
 
   const data = useMemo(() => {
-    const normalize = useHourlyInterval ? normalizeToHour : normalizeToDay;
+    const interval = useHourlyInterval ? 3600 : 86400;
     const normalizedMorpho = (morphoChartData || []).flatMap(vaultData => {
       if (!vaultData) return [];
       const usdData = vaultData.map(d => ({
         blockTimestamp: d.blockTimestamp,
         amount: parseUnits(d.amountUsd.toString(), 18)
       }));
-      return normalize(usdData);
+      return normalizeToInterval(usdData, interval);
     });
 
     return calculateCumulativeTotalSupply(normalizedMorpho);
@@ -86,7 +73,7 @@ export function VaultsChart() {
   const [timeFrame, setTimeFrame] = useState<TimeFrame>('w');
 
   const useHourlyInterval = timeFrame === 'w' || timeFrame === 'm';
-  const hourlyWindow = timeFrame === 'w' || timeFrame === 'm' ? timeFrame : undefined;
+  const hourlyWindow = useHourlyInterval ? timeFrame : undefined;
   const intervalOverride = useHourlyInterval ? 3600 : undefined;
 
   const { data: vaultsChartData, isLoading, error } = useVaultsChartInfo(useHourlyInterval, hourlyWindow);
