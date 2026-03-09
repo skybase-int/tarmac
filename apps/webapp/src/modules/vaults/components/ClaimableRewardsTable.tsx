@@ -1,5 +1,10 @@
 import { useState, useCallback } from 'react';
-import { useMerklRewards, useMerklClaimRewards, useBatchSavingsSupply, MerklTokenReward } from '@jetstreamgg/sky-hooks';
+import {
+  useMerklRewards,
+  useMerklClaimRewards,
+  useBatchSavingsSupply,
+  MerklTokenReward
+} from '@jetstreamgg/sky-hooks';
 import { parseUnits } from 'viem';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -178,8 +183,13 @@ export function ClaimableRewardsTable() {
           onClick={() =>
             launch({
               title: t`Claim rewards`,
-              subtitle: t`You are claiming rewards for ${selectedRewards.length} token(s).`,
-              transactionSubtitle: t`Please confirm that you want to claim the rewards directly in your wallet.`,
+              subtitles: {
+                review: t`You are claiming rewards for ${selectedRewards.length} token(s).`,
+                pending: t`Please confirm that you want to claim the rewards directly in your wallet.`,
+                loading: t`Your claim is being processed on the blockchain. Please wait.`,
+                success: t`You've successfully claimed your rewards.`,
+                error: t`An error occurred while claiming your rewards.`
+              },
               transactionContent: (
                 <div className="flex flex-col gap-1">
                   {selectedRewards.map(r => (
@@ -209,7 +219,9 @@ export function ClaimableRewardsTable() {
           onClick={() =>
             launch({
               title: t`Supply to Savings`,
-              subtitle: t`You are supplying 0.01 USDS to the Sky Savings Rate module.`,
+              subtitles: {
+                review: t`You are supplying 0.01 USDS to the Sky Savings Rate module.`
+              },
               transactionContent: (
                 <div className="flex items-center gap-2 py-1">
                   <TokenIcon className="h-6 w-6" token={{ symbol: 'USDS' }} />
@@ -248,7 +260,11 @@ function RewardTokenRows({
   return (
     <>
       {/* Main token row */}
-      <TableRow className="cursor-pointer" data-state={isSelected ? 'selected' : undefined} onClick={onToggleSelect}>
+      <TableRow
+        className="cursor-pointer"
+        data-state={isSelected ? 'selected' : undefined}
+        onClick={onToggleSelect}
+      >
         <TableCell>
           <Checkbox checked={isSelected} className="pointer-events-none" aria-label={reward.tokenSymbol} />
         </TableCell>

@@ -25,12 +25,19 @@ import { useChainId } from 'wagmi';
 
 type TransactionModalStep = 'review' | 'transaction';
 
+export type TransactionSubtitles = {
+  review?: string;
+  pending?: string;
+  loading?: string;
+  success?: string;
+  error?: string;
+};
+
 export type TransactionModalProps = {
   open: boolean;
   onClose: () => void;
   title: string;
-  subtitle?: string;
-  transactionSubtitle?: string;
+  subtitles?: TransactionSubtitles;
   transactionContent?: ReactNode;
   onConfirm: () => void;
   onRetry?: () => void;
@@ -51,12 +58,19 @@ const statusIcons: Partial<Record<TxStatus, ReactNode>> = {
   [TxStatus.CANCELLED]: <Cancel />
 };
 
+const statusMessages: Partial<Record<TxStatus, ReactNode>> = {
+  [TxStatus.INITIALIZED]: <Trans>Confirm this transaction in your wallet.</Trans>,
+  [TxStatus.LOADING]: <Trans>Transaction is being processed...</Trans>,
+  [TxStatus.SUCCESS]: <Trans>Transaction completed successfully.</Trans>,
+  [TxStatus.ERROR]: <Trans>Transaction failed. Please try again.</Trans>,
+  [TxStatus.CANCELLED]: <Trans>Transaction was cancelled.</Trans>
+};
+
 export function TransactionModal({
   open,
   onClose,
   title,
-  subtitle,
-  transactionSubtitle,
+  subtitles,
   transactionContent,
   onConfirm,
   onRetry,
@@ -74,11 +88,25 @@ export function TransactionModal({
   const chainId = useChainId();
   const isSafeWallet = useIsSafeWallet();
   const explorerName = getExplorerName(chainId, isSafeWallet);
-  const [batchEnabled, setBatchEnabled] = useBatchToggle();
   const { data: batchSupported } = useIsBatchSupported();
 
+  const isReview = step === 'review';
+  const isTransaction = step === 'transaction';
   const hasMultipleSteps = steps && steps.length > 1;
   const showBatchToggle = hasMultipleSteps && batchSupported;
+  const isTransacting = txStatus === TxStatus.INITIALIZED || txStatus === TxStatus.LOADING;
+
+  const subtitle = isReview
+    ? subtitles?.review
+    : txStatus === TxStatus.INITIALIZED
+      ? subtitles?.pending
+      : txStatus === TxStatus.LOADING
+        ? subtitles?.loading
+        : txStatus === TxStatus.SUCCESS
+          ? subtitles?.success
+          : txStatus === TxStatus.ERROR
+            ? subtitles?.error
+            : undefined;
 
   const handleConfirm = useCallback(() => {
     if (reviewRef.current) {
@@ -102,8 +130,6 @@ export function TransactionModal({
     onClose();
   }, [onClose]);
 
-  const isTransacting = txStatus === TxStatus.INITIALIZED || txStatus === TxStatus.LOADING;
-
   return (
     <Dialog open={open} onOpenChange={val => !val && handleClose()}>
       <DialogContent
@@ -122,159 +148,87 @@ export function TransactionModal({
           </DialogClose>
         </div>
 
-        <AnimatePresence mode="wait" initial={false}>
-          {step === 'review' ? (
-            <motion.div
-              key="review"
-              ref={reviewRef}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.2 }}
-              className="flex flex-col gap-4"
-            >
-              {subtitle && <Text className="text-textSecondary">{subtitle}</Text>}
+        <div
+          ref={isReview ? reviewRef : undefined}
+          className="flex flex-col gap-4"
+          style={isTransaction ? { minHeight: contentHeight } : undefined}
+        >
+          {/* Subtitle */}
+          <AnimatePresence mode="wait" initial={false}>
+            {subtitle && (
+              <motion.div
+                key={subtitle}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                <Text className="text-textSecondary">{subtitle}</Text>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-              {hasMultipleSteps && (
-                <div className="flex flex-col">
-                  {steps.map((label, i) => (
-                    <div key={i} className="mt-4 flex items-center gap-3">
-                      <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border-2 border-white/60 text-xs text-white/60">
-                        {i + 1}
-                      </span>
-                      <Text className="text-white/60">{label}</Text>
-                    </div>
-                  ))}
-                </div>
-              )}
+          {/* Step indicators */}
+          {hasMultipleSteps && (
+            <div className="flex flex-col">
+              {steps.map((label, i) => {
+                const allDone = isTransaction && txStatus === TxStatus.SUCCESS;
+                const isCompleted = isTransaction && (allDone || i < currentStep);
+                const isCurrent = isTransaction && !allDone && i === currentStep;
+                const stepTxStatus = isCompleted
+                  ? TxStatus.SUCCESS
+                  : isCurrent
+                    ? txStatus
+                    : TxStatus.IDLE;
 
-              {transactionContent && <div className="text-text">{transactionContent}</div>}
-
-              {showBatchToggle && (
-                <div className="border-selectActive flex items-center gap-4 border-t pt-4">
-                  <div className="flex flex-wrap items-center gap-1">
-                    <Text className="text-sm leading-none text-white">
-                      <Trans>Bundle transactions</Trans>
-                    </Text>
-                    <Popover>
-                      <PopoverTrigger onClick={e => e.stopPropagation()} className="z-10 text-white">
-                        <Info width={13} height={13} />
-                      </PopoverTrigger>
-                      <PopoverContent
-                        align="center"
-                        side="top"
-                        className="bg-containerDark backdrop-blur-[50px]"
-                      >
-                        <div className="flex items-start justify-between">
-                          <Text className="text-base font-medium">
-                            <Trans>Bundle transactions</Trans>
-                          </Text>
-                          <PopoverClose onClick={e => e.stopPropagation()}>
-                            <Close className="h-5 w-5 cursor-pointer text-white" />
-                          </PopoverClose>
-                        </div>
-                        <Text className="mt-2 text-sm text-white/80">
-                          <Trans>
-                            Bundled transactions are set &apos;on&apos; by default to complete transactions in
-                            a single step. Combining actions improves the user experience and reduces gas
-                            fees. Manually toggle off to cancel this feature.
-                          </Trans>
-                        </Text>
-                        <PopoverArrow />
-                      </PopoverContent>
-                    </Popover>
-                    <Text className="text-textSecondary text-sm leading-none">
-                      <Trans>(toggled on by default)</Trans>
-                    </Text>
-                  </div>
-                  <Switch
-                    checked={batchEnabled}
-                    onCheckedChange={setBatchEnabled}
-                    aria-label={t`Toggle bundled transactions`}
+                return (
+                  <StepIndicator
+                    key={i}
+                    stepNumber={i + 1}
+                    label={label}
+                    txStatus={stepTxStatus}
+                    active={isCurrent || (allDone && i === steps.length - 1)}
                   />
-                </div>
-              )}
+                );
+              })}
+            </div>
+          )}
 
-              <Button variant="primaryAlt" className="w-full" onClick={handleConfirm}>
-                {confirmLabel ?? <Trans>Confirm</Trans>}
-              </Button>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="transaction"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.2 }}
-              className="flex flex-col gap-4"
-              style={{ minHeight: contentHeight }}
-            >
-              {hasMultipleSteps && (
-                <div className="flex w-full flex-col">
-                  {steps.map((label, i) => {
-                    const allDone = txStatus === TxStatus.SUCCESS;
-                    const isCompleted = allDone || i < currentStep;
-                    const isCurrent = !allDone && i === currentStep;
-                    const stepTxStatus = isCompleted
-                      ? TxStatus.SUCCESS
-                      : isCurrent
-                        ? txStatus
-                        : TxStatus.IDLE;
+          {/* Transaction content (token breakdown, amounts, etc.) */}
+          {transactionContent && <div className="text-text">{transactionContent}</div>}
 
-                    return (
-                      <StepIndicator
-                        key={i}
-                        stepNumber={i + 1}
-                        label={label}
-                        txStatus={stepTxStatus}
-                        active={isCurrent || (allDone && i === steps.length - 1)}
-                      />
-                    );
-                  })}
-                </div>
-              )}
+          <div className="grow" />
 
-              {transactionSubtitle && <Text className="text-textSecondary">{transactionSubtitle}</Text>}
+          {/* Bottom section: animates on step/status change */}
+          <AnimatePresence mode="wait" initial={false}>
+            {isReview ? (
+              <motion.div
+                key="review-bottom"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.2 }}
+                className="flex flex-col gap-4"
+              >
+                {showBatchToggle && <BatchToggle />}
+                <Button variant="primaryAlt" className="w-full" onClick={handleConfirm}>
+                  {confirmLabel ?? <Trans>Confirm</Trans>}
+                </Button>
+              </motion.div>
+            ) : (
+              <motion.div
+                key={`transaction-${txStatus}`}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.2 }}
+                className="flex flex-col gap-4"
+              >
+                <div className="flex items-center gap-3 pt-4">
+                  {statusIcons[txStatus] && statusIcons[txStatus]}
 
-              {transactionContent && <div className="text-text w-full">{transactionContent}</div>}
-
-              <div className="grow" />
-
-              <div className="flex items-center gap-3 pt-4">
-                <AnimatePresence mode="popLayout" initial={false}>
-                  {statusIcons[txStatus] && (
-                    <motion.div
-                      key={txStatus}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      {statusIcons[txStatus]}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                <div className="flex flex-col">
-                  <AnimatePresence mode="popLayout" initial={false}>
-                    <motion.div
-                      key={txStatus}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                    >
-                      <Text className="text-textSecondary">
-                        {txStatus === TxStatus.INITIALIZED && (
-                          <Trans>Confirm this transaction in your wallet.</Trans>
-                        )}
-                        {txStatus === TxStatus.LOADING && <Trans>Transaction is being processed...</Trans>}
-                        {txStatus === TxStatus.SUCCESS && <Trans>Transaction completed successfully.</Trans>}
-                        {txStatus === TxStatus.ERROR && <Trans>Transaction failed. Please try again.</Trans>}
-                        {txStatus === TxStatus.CANCELLED && <Trans>Transaction was cancelled.</Trans>}
-                      </Text>
-                    </motion.div>
-                  </AnimatePresence>
-                  <AnimatePresence mode="popLayout" initial={false}>
+                  <div className="flex flex-col">
+                    <Text className="text-textSecondary">{statusMessages[txStatus]}</Text>
                     {externalLink && (
                       <ExternalLink
                         href={externalLink}
@@ -284,52 +238,93 @@ export function TransactionModal({
                         <Trans>View on {explorerName}</Trans>
                       </ExternalLink>
                     )}
-                  </AnimatePresence>
-                </div>
-              </div>
-
-              <div className="w-full">
-                {txStatus === TxStatus.INITIALIZED && (
-                  <Button variant="primaryAlt" className="w-full" disabled>
-                    <Trans>Waiting for confirmation</Trans>
-                  </Button>
-                )}
-
-                {txStatus === TxStatus.LOADING && (
-                  <Button variant="primaryAlt" className="w-full" disabled>
-                    <Trans>Processing</Trans>
-                  </Button>
-                )}
-
-                {(txStatus === TxStatus.SUCCESS || txStatus === TxStatus.CANCELLED) && (
-                  <Button variant="primaryAlt" className="w-full" onClick={handleClose}>
-                    {successLabel ?? <Trans>Done</Trans>}
-                  </Button>
-                )}
-
-                {txStatus === TxStatus.ERROR && (
-                  <div className="flex w-full gap-3">
-                    <Button
-                      variant="outline"
-                      className="flex-1"
-                      onClick={() => {
-                        setStep('review');
-                        setContentHeight(undefined);
-                      }}
-                    >
-                      <Trans>Back</Trans>
-                    </Button>
-                    <Button variant="primaryAlt" className="flex-1" onClick={handleRetry}>
-                      {errorLabel ?? <Trans>Retry</Trans>}
-                    </Button>
                   </div>
-                )}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                </div>
+
+                <div className="w-full">
+                  {txStatus === TxStatus.INITIALIZED && (
+                    <Button variant="primaryAlt" className="w-full" disabled>
+                      <Trans>Waiting for confirmation</Trans>
+                    </Button>
+                  )}
+
+                  {txStatus === TxStatus.LOADING && (
+                    <Button variant="primaryAlt" className="w-full" disabled>
+                      <Trans>Processing</Trans>
+                    </Button>
+                  )}
+
+                  {(txStatus === TxStatus.SUCCESS || txStatus === TxStatus.CANCELLED) && (
+                    <Button variant="primaryAlt" className="w-full" onClick={handleClose}>
+                      {successLabel ?? <Trans>Done</Trans>}
+                    </Button>
+                  )}
+
+                  {txStatus === TxStatus.ERROR && (
+                    <div className="flex w-full gap-3">
+                      <Button
+                        variant="outline"
+                        className="flex-1"
+                        onClick={() => {
+                          setStep('review');
+                          setContentHeight(undefined);
+                        }}
+                      >
+                        <Trans>Back</Trans>
+                      </Button>
+                      <Button variant="primaryAlt" className="flex-1" onClick={handleRetry}>
+                        {errorLabel ?? <Trans>Retry</Trans>}
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </DialogContent>
     </Dialog>
+  );
+}
+
+function BatchToggle() {
+  const [batchEnabled, setBatchEnabled] = useBatchToggle();
+
+  return (
+    <div className="border-selectActive flex items-center gap-4 border-t pt-4">
+      <div className="flex flex-wrap items-center gap-1">
+        <Text className="text-sm leading-none text-white">
+          <Trans>Bundle transactions</Trans>
+        </Text>
+        <Popover>
+          <PopoverTrigger onClick={e => e.stopPropagation()} className="z-10 text-white">
+            <Info width={13} height={13} />
+          </PopoverTrigger>
+          <PopoverContent align="center" side="top" className="bg-containerDark backdrop-blur-[50px]">
+            <div className="flex items-start justify-between">
+              <Text className="text-base font-medium">
+                <Trans>Bundle transactions</Trans>
+              </Text>
+              <PopoverClose onClick={e => e.stopPropagation()}>
+                <Close className="h-5 w-5 cursor-pointer text-white" />
+              </PopoverClose>
+            </div>
+            <Text className="mt-2 text-sm text-white/80">
+              <Trans>
+                Bundled transactions are set &apos;on&apos; by default to complete transactions in a single step.
+                Combining actions improves the user experience and reduces gas fees. Manually toggle off to cancel
+                this feature.
+              </Trans>
+            </Text>
+            <PopoverArrow />
+          </PopoverContent>
+        </Popover>
+        <Text className="text-textSecondary text-sm leading-none">
+          <Trans>(toggled on by default)</Trans>
+        </Text>
+      </div>
+      <Switch checked={batchEnabled} onCheckedChange={setBatchEnabled} aria-label={t`Toggle bundled transactions`} />
+    </div>
   );
 }
 

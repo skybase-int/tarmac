@@ -2,13 +2,12 @@ import { createContext, useContext, useState, useCallback, useRef, ReactNode } f
 import { TxStatus } from '@jetstreamgg/sky-widgets';
 import { getTransactionLink, useIsSafeWallet } from '@jetstreamgg/sky-utils';
 import { useChainId, useConnection } from 'wagmi';
-import { TransactionModal } from '@/modules/ui/components/TransactionModal';
+import { TransactionModal, TransactionSubtitles } from '@/modules/ui/components/TransactionModal';
 
 // The config passed by consumers when launching a transaction
 export type TransactionConfig = {
   title: string;
-  subtitle?: string;
-  transactionSubtitle?: string;
+  subtitles?: TransactionSubtitles;
   transactionContent?: ReactNode;
   onConfirm: () => void;
   onRetry?: () => void;
@@ -117,8 +116,7 @@ export function TransactionProvider({ children }: { children: ReactNode }) {
           open={open}
           onClose={handleClose}
           title={config.title}
-          subtitle={config.subtitle}
-          transactionSubtitle={config.transactionSubtitle}
+          subtitles={config.subtitles}
           transactionContent={config.transactionContent}
           onConfirm={config.onConfirm}
           onRetry={config.onRetry}
