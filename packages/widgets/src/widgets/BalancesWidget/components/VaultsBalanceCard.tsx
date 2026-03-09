@@ -84,10 +84,15 @@ export const VaultsBalanceCard = ({
 
   const vaultsIcon = <VaultsIcon className="h-full w-full" />;
 
-  // Build vault balances for accordion, sorted by highest balance first
-  const vaultBalances: VaultBalanceForAccordion[] = useMemo(() => {
-    // Get vault addresses in the same order as MORPHO_VAULTS (used for rate query)
-    const vaultAddressesForRates = MORPHO_VAULTS.map(v => v.vaultAddress[vaultChainId]?.toLowerCase());
+  // Build vault balances for accordion and calculate weighted average rate
+  const { vaultBalances, weightedAverageRate } = useMemo(() => {
+    // Build a map of vault address -> rate data
+    const ratesByAddress = new Map(
+      (morphoRatesData || []).map(r => [r.address.toLowerCase(), r])
+    );
+
+    let totalWeightedRate = 0n;
+    let totalBalance = 0n;
 
     const balances = morphoAssetsData.vaults.map(vaultBalance => {
       const assetDecimals =
@@ -95,19 +100,25 @@ export const VaultsBalanceCard = ({
           ? vaultBalance.assetToken.decimals
           : vaultBalance.assetToken.decimals[vaultChainId] ?? 18;
 
-      // Find rate for this vault by matching index (rates are returned in same order as input addresses)
-      const vaultIndex = vaultAddressesForRates.indexOf(vaultBalance.vaultAddress?.toLowerCase());
-      const rateData = vaultIndex >= 0 ? morphoRatesData?.[vaultIndex] : undefined;
+      // Find rate for this vault by address
+      const rateData = ratesByAddress.get(vaultBalance.vaultAddress?.toLowerCase());
+      const rate = rateData?.netRate ?? 0;
+
+      // Accumulate weighted rate for positions with balance
+      if (vaultBalance.balanceNormalized > 0n) {
+        const rateScaled = BigInt(Math.round(rate * 1e18));
+        totalWeightedRate += (vaultBalance.balanceNormalized * rateScaled) / BigInt(1e18);
+        totalBalance += vaultBalance.balanceNormalized;
+      }
 
       return {
         vaultName: vaultBalance.vault.name,
         vaultAddress: vaultBalance.vaultAddress,
         balance: vaultBalance.balance,
-        // Use normalized balance for sorting (all normalized to 18 decimals)
         balanceNormalized: vaultBalance.balanceNormalized,
         assetSymbol: vaultBalance.assetToken.symbol,
         assetDecimals,
-        rate: rateData?.netRate
+        rate
       };
     });
 
@@ -115,9 +126,13 @@ export const VaultsBalanceCard = ({
     const filtered = hideZeroBalances ? balances.filter(v => v.balance > 0n) : balances;
 
     // Sort by normalized balance (18 decimals) to compare across different asset decimals
-    return filtered.sort((a, b) =>
+    const sorted: VaultBalanceForAccordion[] = filtered.sort((a, b) =>
       b.balanceNormalized > a.balanceNormalized ? 1 : b.balanceNormalized < a.balanceNormalized ? -1 : 0
     );
+
+    const weightedRate = totalBalance > 0n ? Number(totalWeightedRate) / Number(totalBalance) : 0;
+
+    return { vaultBalances: sorted, weightedAverageRate: weightedRate };
   }, [morphoAssetsData.vaults, morphoRatesData, vaultChainId, hideZeroBalances]);
 
   // Build URL map for vaults with vault-specific query params
@@ -152,6 +167,21 @@ export const VaultsBalanceCard = ({
         <div className="flex flex-col gap-1">
           {isRateLoading ? (
             <Skeleton className="h-4 w-20" />
+          ) : weightedAverageRate > 0 ? (
+            <div className="flex items-center gap-2">
+              <RateLineWithArrow
+                rateText={t`Rate: ${(weightedAverageRate * 100).toFixed(2)}%`}
+                popoverType="morpho"
+                onExternalLinkClicked={onExternalLinkClicked}
+                showArrow={false}
+              />
+              {url && (
+                <ArrowRight
+                  size={16}
+                  className="opacity-0 transition-opacity group-hover/header-link:opacity-100"
+                />
+              )}
+            </div>
           ) : morphoMaxRate > 0 ? (
             <div className="flex items-center gap-2">
               <RateLineWithArrow
