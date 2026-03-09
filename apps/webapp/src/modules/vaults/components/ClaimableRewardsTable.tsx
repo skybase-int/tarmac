@@ -272,7 +272,6 @@ function RewardTokenRows({
       {/* Main token row */}
       <TableRow
         className="cursor-pointer"
-        data-state={isSelected ? 'selected' : undefined}
         onClick={onToggleSelect}
       >
         <TableCell>
@@ -328,7 +327,7 @@ function RewardTokenRows({
                     {reward.sources.map(source => (
                       <tr
                         key={`${reward.tokenAddress}-${source.label}`}
-                        className={`border-0 transition-colors ${isSelected ? 'bg-brandLight/10' : ''}`}
+                        className="border-0"
                       >
                         <td className="p-4" />
                         <td className="p-4" />
