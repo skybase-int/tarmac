@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import {
   useMerklRewards,
   useMerklClaimRewards,
@@ -27,6 +27,13 @@ export function ClaimableRewardsTable() {
   const { launch, txCallbacks } = useTransaction();
 
   const rewards = data?.rewards ?? [];
+
+  // Auto-select all rewards when data loads
+  useEffect(() => {
+    if (rewards.length > 0) {
+      setSelectedTokens(new Set(rewards.map(r => r.tokenAddress)));
+    }
+  }, [rewards.length]);
 
   // Get the selected rewards for claiming
   const selectedRewards = rewards.filter(r => selectedTokens.has(r.tokenAddress));
@@ -213,7 +220,7 @@ export function ClaimableRewardsTable() {
             })
           }
         >
-          {hasSelection ? <Trans>Claim selected</Trans> : <Trans>Select rewards to claim</Trans>}
+          {hasSelection ? <Trans>Claim rewards</Trans> : <Trans>Select rewards to claim</Trans>}
         </Button>
         {/* TODO: Remove — temporary test button for Tenderly */}
         <Button
