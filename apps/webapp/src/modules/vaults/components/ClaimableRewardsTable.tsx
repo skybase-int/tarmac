@@ -179,15 +179,14 @@ export function ClaimableRewardsTable() {
             launch({
               title: t`Claim rewards`,
               subtitle: t`You are claiming rewards for ${selectedRewards.length} token(s).`,
-              reviewContent: (
-                <div className="flex flex-col gap-3">
+              transactionSubtitle: t`Please confirm that you want to claim the rewards directly in your wallet.`,
+              transactionContent: (
+                <div className="flex flex-col gap-1">
                   {selectedRewards.map(r => (
-                    <div key={r.tokenAddress} className="flex items-center justify-between py-2">
-                      <div className="flex items-center gap-2">
-                        <TokenIcon className="h-6 w-6" token={{ symbol: r.tokenSymbol }} />
-                        <Text>{r.tokenSymbol}</Text>
-                      </div>
+                    <div key={r.tokenAddress} className="flex items-center gap-2 py-1">
+                      <TokenIcon className="h-6 w-6" token={{ symbol: r.tokenSymbol }} />
                       <Text>{r.formattedTotalAmount}</Text>
+                      <Text>{r.tokenSymbol}</Text>
                     </div>
                   ))}
                 </div>
@@ -211,8 +210,8 @@ export function ClaimableRewardsTable() {
             launch({
               title: t`Supply to Savings`,
               subtitle: t`You are supplying 0.01 USDS to the Sky Savings Rate module.`,
-              reviewContent: (
-                <div className="flex items-center gap-2 py-2">
+              transactionContent: (
+                <div className="flex items-center gap-2 py-1">
                   <TokenIcon className="h-6 w-6" token={{ symbol: 'USDS' }} />
                   <Text>0.01 USDS</Text>
                 </div>

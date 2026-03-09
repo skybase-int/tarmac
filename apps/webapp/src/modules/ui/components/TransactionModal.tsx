@@ -1,6 +1,14 @@
 import { useState, useCallback, useRef, ReactNode } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { TxStatus, Clock, InProgress, SuccessCheck, FailedX, Cancel } from '@jetstreamgg/sky-widgets';
+import {
+  TxStatus,
+  Clock,
+  InProgress,
+  SuccessCheck,
+  SuccessCheckSolidColor,
+  FailedX,
+  Cancel
+} from '@jetstreamgg/sky-widgets';
 import { Dialog, DialogContent, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
@@ -9,6 +17,7 @@ import { Text } from '@/modules/layout/components/Typography';
 import { Trans } from '@lingui/react/macro';
 import { t } from '@lingui/core/macro';
 import { Popover, PopoverTrigger, PopoverContent, PopoverClose, PopoverArrow } from '@/components/ui/popover';
+import { ExternalLink } from '@/modules/layout/components/ExternalLink';
 import { getExplorerName, useIsSafeWallet } from '@jetstreamgg/sky-utils';
 import { useIsBatchSupported } from '@jetstreamgg/sky-hooks';
 import { useBatchToggle } from '@/modules/ui/hooks/useBatchToggle';
@@ -21,7 +30,7 @@ export type TransactionModalProps = {
   onClose: () => void;
   title: string;
   subtitle?: string;
-  reviewContent?: ReactNode;
+  transactionSubtitle?: string;
   transactionContent?: ReactNode;
   onConfirm: () => void;
   onRetry?: () => void;
@@ -47,7 +56,7 @@ export function TransactionModal({
   onClose,
   title,
   subtitle,
-  reviewContent,
+  transactionSubtitle,
   transactionContent,
   onConfirm,
   onRetry,
@@ -88,12 +97,10 @@ export function TransactionModal({
   }, [onConfirm, onRetry]);
 
   const handleClose = useCallback(() => {
-    if (step === 'review' || txStatus === TxStatus.SUCCESS || txStatus === TxStatus.ERROR) {
-      setStep('review');
-      setContentHeight(undefined);
-      onClose();
-    }
-  }, [step, txStatus, onClose]);
+    setStep('review');
+    setContentHeight(undefined);
+    onClose();
+  }, [onClose]);
 
   const isTransacting = txStatus === TxStatus.INITIALIZED || txStatus === TxStatus.LOADING;
 
@@ -108,13 +115,11 @@ export function TransactionModal({
       >
         <div className="flex items-center justify-between">
           <DialogTitle className="text-text text-2xl">{title}</DialogTitle>
-          {!isTransacting && (
-            <DialogClose asChild>
-              <Button variant="ghost" className="text-textSecondary hover:text-text h-8 w-8 rounded-full p-0">
-                <Close className="h-5 w-5" />
-              </Button>
-            </DialogClose>
-          )}
+          <DialogClose asChild>
+            <Button variant="ghost" className="text-textSecondary hover:text-text h-8 w-8 rounded-full p-0">
+              <Close className="h-5 w-5" />
+            </Button>
+          </DialogClose>
         </div>
 
         <AnimatePresence mode="wait" initial={false}>
@@ -143,7 +148,7 @@ export function TransactionModal({
                 </div>
               )}
 
-              {reviewContent && <div className="text-text">{reviewContent}</div>}
+              {transactionContent && <div className="text-text">{transactionContent}</div>}
 
               {showBatchToggle && (
                 <div className="border-selectActive flex items-center gap-4 border-t pt-4">
@@ -155,7 +160,11 @@ export function TransactionModal({
                       <PopoverTrigger onClick={e => e.stopPropagation()} className="z-10 text-white">
                         <Info width={13} height={13} />
                       </PopoverTrigger>
-                      <PopoverContent align="center" side="top" className="bg-containerDark backdrop-blur-[50px]">
+                      <PopoverContent
+                        align="center"
+                        side="top"
+                        className="bg-containerDark backdrop-blur-[50px]"
+                      >
                         <div className="flex items-start justify-between">
                           <Text className="text-base font-medium">
                             <Trans>Bundle transactions</Trans>
@@ -186,7 +195,7 @@ export function TransactionModal({
                 </div>
               )}
 
-              <Button variant="primary" className="w-full" onClick={handleConfirm}>
+              <Button variant="primaryAlt" className="w-full" onClick={handleConfirm}>
                 {confirmLabel ?? <Trans>Confirm</Trans>}
               </Button>
             </motion.div>
@@ -197,14 +206,15 @@ export function TransactionModal({
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
               transition={{ duration: 0.2 }}
-              className="flex flex-col items-center gap-4"
+              className="flex flex-col gap-4"
               style={{ minHeight: contentHeight }}
             >
               {hasMultipleSteps && (
                 <div className="flex w-full flex-col">
                   {steps.map((label, i) => {
-                    const isCompleted = i < currentStep;
-                    const isCurrent = i === currentStep;
+                    const allDone = txStatus === TxStatus.SUCCESS;
+                    const isCompleted = allDone || i < currentStep;
+                    const isCurrent = !allDone && i === currentStep;
                     const stepTxStatus = isCompleted
                       ? TxStatus.SUCCESS
                       : isCurrent
@@ -217,14 +227,20 @@ export function TransactionModal({
                         stepNumber={i + 1}
                         label={label}
                         txStatus={stepTxStatus}
-                        active={isCurrent}
+                        active={isCurrent || (allDone && i === steps.length - 1)}
                       />
                     );
                   })}
                 </div>
               )}
 
-              <div className="flex flex-col items-center gap-4 pt-8">
+              {transactionSubtitle && <Text className="text-textSecondary">{transactionSubtitle}</Text>}
+
+              {transactionContent && <div className="text-text w-full">{transactionContent}</div>}
+
+              <div className="grow" />
+
+              <div className="flex items-center gap-3 pt-4">
                 <AnimatePresence mode="popLayout" initial={false}>
                   {statusIcons[txStatus] && (
                     <motion.div
@@ -239,46 +255,54 @@ export function TransactionModal({
                   )}
                 </AnimatePresence>
 
-                <AnimatePresence mode="popLayout" initial={false}>
-                  <motion.div
-                    key={txStatus}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="text-center"
-                  >
-                    <Text className="text-textSecondary mt-1">
-                      {txStatus === TxStatus.INITIALIZED && (
-                        <Trans>Confirm this transaction in your wallet.</Trans>
-                      )}
-                      {txStatus === TxStatus.LOADING && <Trans>Transaction is being processed...</Trans>}
-                      {txStatus === TxStatus.SUCCESS && <Trans>Transaction completed successfully.</Trans>}
-                      {txStatus === TxStatus.ERROR && <Trans>Transaction failed. Please try again.</Trans>}
-                      {txStatus === TxStatus.CANCELLED && <Trans>Transaction was cancelled.</Trans>}
-                    </Text>
-                  </motion.div>
-                </AnimatePresence>
-
-                {transactionContent && <div className="w-full">{transactionContent}</div>}
-
-                {externalLink &&
-                  (txStatus === TxStatus.LOADING ||
-                    txStatus === TxStatus.SUCCESS ||
-                    txStatus === TxStatus.ERROR) && (
-                    <a
-                      href={externalLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-textEmphasis text-sm hover:underline"
+                <div className="flex flex-col">
+                  <AnimatePresence mode="popLayout" initial={false}>
+                    <motion.div
+                      key={txStatus}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
                     >
-                      <Trans>View on {explorerName}</Trans>
-                    </a>
-                  )}
+                      <Text className="text-textSecondary">
+                        {txStatus === TxStatus.INITIALIZED && (
+                          <Trans>Confirm this transaction in your wallet.</Trans>
+                        )}
+                        {txStatus === TxStatus.LOADING && <Trans>Transaction is being processed...</Trans>}
+                        {txStatus === TxStatus.SUCCESS && <Trans>Transaction completed successfully.</Trans>}
+                        {txStatus === TxStatus.ERROR && <Trans>Transaction failed. Please try again.</Trans>}
+                        {txStatus === TxStatus.CANCELLED && <Trans>Transaction was cancelled.</Trans>}
+                      </Text>
+                    </motion.div>
+                  </AnimatePresence>
+                  <AnimatePresence mode="popLayout" initial={false}>
+                    {externalLink && (
+                      <ExternalLink
+                        href={externalLink}
+                        showIcon={false}
+                        className="text-text hover:text-text text-sm hover:underline"
+                      >
+                        <Trans>View on {explorerName}</Trans>
+                      </ExternalLink>
+                    )}
+                  </AnimatePresence>
+                </div>
               </div>
 
-              <div className="mt-auto w-full">
+              <div className="w-full">
+                {txStatus === TxStatus.INITIALIZED && (
+                  <Button variant="primaryAlt" className="w-full" disabled>
+                    <Trans>Waiting for confirmation</Trans>
+                  </Button>
+                )}
+
+                {txStatus === TxStatus.LOADING && (
+                  <Button variant="primaryAlt" className="w-full" disabled>
+                    <Trans>Processing</Trans>
+                  </Button>
+                )}
+
                 {(txStatus === TxStatus.SUCCESS || txStatus === TxStatus.CANCELLED) && (
-                  <Button variant="primary" className="w-full" onClick={handleClose}>
+                  <Button variant="primaryAlt" className="w-full" onClick={handleClose}>
                     {successLabel ?? <Trans>Done</Trans>}
                   </Button>
                 )}
@@ -295,7 +319,7 @@ export function TransactionModal({
                     >
                       <Trans>Back</Trans>
                     </Button>
-                    <Button variant="primary" className="flex-1" onClick={handleRetry}>
+                    <Button variant="primaryAlt" className="flex-1" onClick={handleRetry}>
                       {errorLabel ?? <Trans>Retry</Trans>}
                     </Button>
                   </div>
@@ -348,7 +372,7 @@ function StepIndicator({
               : 'border-white/60 text-white/60'
           }`}
         >
-          {txStatus === TxStatus.SUCCESS ? '✓' : stepNumber}
+          {txStatus === TxStatus.SUCCESS ? <SuccessCheckSolidColor /> : stepNumber}
         </span>
       </div>
       <Text className={active ? 'text-white' : 'text-white/60'}>{label}</Text>

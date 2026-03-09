@@ -8,7 +8,7 @@ import { TransactionModal } from '@/modules/ui/components/TransactionModal';
 export type TransactionConfig = {
   title: string;
   subtitle?: string;
-  reviewContent?: ReactNode;
+  transactionSubtitle?: string;
   transactionContent?: ReactNode;
   onConfirm: () => void;
   onRetry?: () => void;
@@ -118,7 +118,7 @@ export function TransactionProvider({ children }: { children: ReactNode }) {
           onClose={handleClose}
           title={config.title}
           subtitle={config.subtitle}
-          reviewContent={config.reviewContent}
+          transactionSubtitle={config.transactionSubtitle}
           transactionContent={config.transactionContent}
           onConfirm={config.onConfirm}
           onRetry={config.onRetry}
