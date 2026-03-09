@@ -153,10 +153,10 @@ export const InteractiveStatsCardWithVaultAccordion = ({
                       <div className="flex items-start justify-between">
                         <div className="flex flex-col">
                           <Text>{vaultName}</Text>
-                          <HStack className="items-center gap-1">
+                          <HStack gap={2} className="items-center">
                             {rate !== undefined && rate > 0 && (
                               <Text variant="small" className="text-bullish">
-                                {(rate * 100).toFixed(2)}%
+                                Rate: {(rate * 100).toFixed(2)}%
                               </Text>
                             )}
                             {vaultUrl && (
