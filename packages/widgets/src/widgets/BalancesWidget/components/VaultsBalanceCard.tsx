@@ -14,6 +14,7 @@ import { formatUnits } from 'viem';
 import { ModuleCardVariant } from './ModulesBalances';
 import { useChainId } from 'wagmi';
 import { RateLineWithArrow } from '@widgets/shared/components/ui/RateLineWithArrow';
+import { ArrowRight } from 'lucide-react';
 import { InteractiveStatsCardAlt } from '@widgets/shared/components/ui/card/InteractiveStatsCardAlt';
 import { Vaults as VaultsIcon } from '@widgets/shared/components/icons/Vaults';
 import {
@@ -152,11 +153,20 @@ export const VaultsBalanceCard = ({
           {isRateLoading ? (
             <Skeleton className="h-4 w-20" />
           ) : morphoMaxRate > 0 ? (
-            <RateLineWithArrow
-              rateText={t`Rates up to: ${(morphoMaxRate * 100).toFixed(2)}%`}
-              popoverType="morpho"
-              onExternalLinkClicked={onExternalLinkClicked}
-            />
+            <div className="flex items-center gap-2">
+              <RateLineWithArrow
+                rateText={t`Rates up to: ${(morphoMaxRate * 100).toFixed(2)}%`}
+                popoverType="morpho"
+                onExternalLinkClicked={onExternalLinkClicked}
+                showArrow={false}
+              />
+              {url && (
+                <ArrowRight
+                  size={16}
+                  className="opacity-0 transition-opacity group-hover/header-link:opacity-100"
+                />
+              )}
+            </div>
           ) : (
             <></>
           )}
@@ -190,6 +200,7 @@ export const VaultsBalanceCard = ({
       vaultBalances={vaultBalances}
       urlMap={urlMap}
       pricesData={pricesData ?? {}}
+      url={url}
     />
   ) : (
     <InteractiveStatsCardAlt

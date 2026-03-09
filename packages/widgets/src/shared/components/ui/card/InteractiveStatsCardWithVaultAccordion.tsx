@@ -34,7 +34,8 @@ export const InteractiveStatsCardWithVaultAccordion = ({
   vaultBalances,
   urlMap,
   pricesData,
-  icon
+  icon,
+  url
 }: {
   title: React.ReactElement | string;
   headerRightContent: React.ReactElement | string;
@@ -44,6 +45,7 @@ export const InteractiveStatsCardWithVaultAccordion = ({
   urlMap: Record<string, string>;
   pricesData: Record<string, PriceData>;
   icon?: React.ReactNode;
+  url?: string;
 }): React.ReactElement => {
   // Use vault balances as-is (filtering is handled by parent based on hideZeroBalances)
   const vaultsWithBalance = vaultBalances;
@@ -63,29 +65,37 @@ export const InteractiveStatsCardWithVaultAccordion = ({
     );
   }
 
+  const headerContent = (
+    <div className="group/header-link flex items-center gap-2">
+      {icon && <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center">{icon}</div>}
+      <div className="grow">
+        <CardContent className="flex items-center justify-between gap-4">
+          <Text>{title}</Text>
+          {headerRightContent}
+        </CardContent>
+        <CardFooter>
+          <div className="flex w-full items-start justify-between">
+            <div className="flex-1">{footer}</div>
+            {footerRightContent}
+          </div>
+        </CardFooter>
+      </div>
+    </div>
+  );
+
   return (
     <Accordion type="single" collapsible>
       <AccordionItem value="details" className="accordion-item border-0">
         <Card variant="stats" className="w-full px-0 pb-4 lg:px-0">
-          <AccordionTrigger className="w-full p-0 hover:no-underline [&>svg]:hidden">
-            <div className="w-full px-4 lg:px-5">
-              <div className="flex items-center gap-2">
-                {icon && (
-                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center">{icon}</div>
-                )}
-                <div className="grow">
-                  <CardContent className="flex items-center justify-between gap-4">
-                    <Text>{title}</Text>
-                    {headerRightContent}
-                  </CardContent>
-                  <CardFooter>
-                    <div className="flex w-full items-start justify-between">
-                      <div className="flex-1">{footer}</div>
-                      {footerRightContent}
-                    </div>
-                  </CardFooter>
-                </div>
-              </div>
+          <div className="w-full px-4 lg:px-5">
+            {url ? (
+              <Link to={url} className="block">
+                {headerContent}
+              </Link>
+            ) : (
+              headerContent
+            )}
+            <AccordionTrigger className="w-full p-0 hover:no-underline [&>svg]:hidden">
               <HStack className="my-2 w-full justify-between">
                 <HStack className="items-center -space-x-0.5 opacity-100 transition-opacity duration-200 [.accordion-item[data-state=open]_&]:opacity-0">
                   {vaultsWithBalance.map(({ vaultAddress, assetSymbol }, index) => (
@@ -120,8 +130,8 @@ export const InteractiveStatsCardWithVaultAccordion = ({
                   </svg>
                 </HStack>
               </HStack>
-            </div>
-          </AccordionTrigger>
+            </AccordionTrigger>
+          </div>
           <AccordionContent className="p-0">
             {vaultsWithBalance.map(({ vaultName, vaultAddress, balance, assetSymbol, assetDecimals, rate }) => {
               // Use USDS price as approximation for stablecoin vaults
