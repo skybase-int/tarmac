@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import {
   useMerklRewards,
   useMerklClaimRewards,
@@ -28,15 +28,19 @@ export function ClaimableRewardsTable() {
 
   const rewards = data?.rewards ?? [];
 
-  // Auto-select all rewards when data loads
+  // Auto-select all rewards when data loads or reward tokens change
+  const rewardAddresses = useMemo(() => rewards.map(r => r.tokenAddress).join(','), [rewards]);
   useEffect(() => {
     if (rewards.length > 0) {
       setSelectedTokens(new Set(rewards.map(r => r.tokenAddress)));
     }
-  }, [rewards.length]);
+  }, [rewardAddresses]);
 
-  // Get the selected rewards for claiming
-  const selectedRewards = rewards.filter(r => selectedTokens.has(r.tokenAddress));
+  // Get the selected rewards for claiming (memoized to stabilize the reference for useMerklClaimRewards)
+  const selectedRewards = useMemo(
+    () => rewards.filter(r => selectedTokens.has(r.tokenAddress)),
+    [rewards, selectedTokens]
+  );
 
   const claimRewards = useMerklClaimRewards({
     rewards: selectedRewards,
@@ -49,29 +53,20 @@ export function ClaimableRewardsTable() {
     ...txCallbacks
   });
 
-  const toggleToken = useCallback((tokenAddress: string) => {
-    setSelectedTokens(prev => {
-      const next = new Set(prev);
-      if (next.has(tokenAddress)) {
-        next.delete(tokenAddress);
-      } else {
-        next.add(tokenAddress);
-      }
-      return next;
-    });
-  }, []);
-
-  const toggleExpanded = useCallback((tokenAddress: string) => {
-    setExpandedTokens(prev => {
-      const next = new Set(prev);
-      if (next.has(tokenAddress)) {
-        next.delete(tokenAddress);
-      } else {
-        next.add(tokenAddress);
-      }
-      return next;
-    });
-  }, []);
+  const toggleInSet = useCallback(
+    (setter: React.Dispatch<React.SetStateAction<Set<string>>>, key: string) => {
+      setter(prev => {
+        const next = new Set(prev);
+        if (next.has(key)) {
+          next.delete(key);
+        } else {
+          next.add(key);
+        }
+        return next;
+      });
+    },
+    []
+  );
 
   const allSelected = selectedTokens.size === rewards.length && rewards.length > 0;
   const someSelected = selectedTokens.size > 0 && !allSelected;
@@ -176,8 +171,8 @@ export function ClaimableRewardsTable() {
               reward={reward}
               isSelected={selectedTokens.has(reward.tokenAddress)}
               isExpanded={expandedTokens.has(reward.tokenAddress)}
-              onToggleSelect={() => toggleToken(reward.tokenAddress)}
-              onToggleExpand={() => toggleExpanded(reward.tokenAddress)}
+              onToggleSelect={() => toggleInSet(setSelectedTokens, reward.tokenAddress)}
+              onToggleExpand={() => toggleInSet(setExpandedTokens, reward.tokenAddress)}
             />
           ))}
         </TableBody>
@@ -240,8 +235,7 @@ export function ClaimableRewardsTable() {
               ),
               onConfirm: testSupply.execute,
               confirmLabel: t`Supply`,
-              steps: [t`Approve`, t`Supply`],
-              currentStep: testSupply.currentCallIndex
+              steps: [t`Approve`, t`Supply`]
             })
           }
         >

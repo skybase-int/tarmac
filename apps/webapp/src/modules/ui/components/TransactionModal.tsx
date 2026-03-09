@@ -96,17 +96,13 @@ export function TransactionModal({
   const showBatchToggle = hasMultipleSteps && batchSupported;
   const isTransacting = txStatus === TxStatus.INITIALIZED || txStatus === TxStatus.LOADING;
 
-  const subtitle = isReview
-    ? subtitles?.review
-    : txStatus === TxStatus.INITIALIZED
-      ? subtitles?.pending
-      : txStatus === TxStatus.LOADING
-        ? subtitles?.loading
-        : txStatus === TxStatus.SUCCESS
-          ? subtitles?.success
-          : txStatus === TxStatus.ERROR
-            ? subtitles?.error
-            : undefined;
+  const subtitleByStatus: Partial<Record<TxStatus, string | undefined>> = {
+    [TxStatus.INITIALIZED]: subtitles?.pending,
+    [TxStatus.LOADING]: subtitles?.loading,
+    [TxStatus.SUCCESS]: subtitles?.success,
+    [TxStatus.ERROR]: subtitles?.error
+  };
+  const subtitle = isReview ? subtitles?.review : subtitleByStatus[txStatus];
 
   const handleConfirm = useCallback(() => {
     if (reviewRef.current) {

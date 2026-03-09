@@ -18,8 +18,6 @@ export type TransactionConfig = {
   onError?: () => void;
   /** Step labels for multi-step transactions (e.g. ["Approve", "Supply"]) */
   steps?: string[];
-  /** Current step index (0-based), driven by the write hook's currentCallIndex */
-  currentStep?: number;
 };
 
 // Transaction lifecycle callbacks compatible with both WriteHookParams and BatchWriteHookParams
@@ -45,6 +43,7 @@ export function TransactionProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [txStatus, setTxStatus] = useState<TxStatus>(TxStatus.IDLE);
   const [externalLink, setExternalLink] = useState<string | undefined>();
+  const [currentStep, setCurrentStep] = useState(0);
   const configRef = useRef<TransactionConfig | null>(null);
 
   const chainId = useChainId();
@@ -55,6 +54,7 @@ export function TransactionProvider({ children }: { children: ReactNode }) {
     configRef.current = config;
     setTxStatus(TxStatus.IDLE);
     setExternalLink(undefined);
+    setCurrentStep(0);
     setOpen(true);
   }, []);
 
@@ -62,12 +62,19 @@ export function TransactionProvider({ children }: { children: ReactNode }) {
     setOpen(false);
     setTxStatus(TxStatus.IDLE);
     setExternalLink(undefined);
+    setCurrentStep(0);
     configRef.current = null;
   }, []);
 
   const txCallbacks: TxCallbacks = {
     onMutate: useCallback(() => {
-      setTxStatus(TxStatus.INITIALIZED);
+      setTxStatus(prev => {
+        // If already transacting, this is the next step in a sequential flow
+        if (prev === TxStatus.INITIALIZED || prev === TxStatus.LOADING) {
+          setCurrentStep(s => s + 1);
+        }
+        return TxStatus.INITIALIZED;
+      });
       setExternalLink(undefined);
     }, []),
 
@@ -126,7 +133,7 @@ export function TransactionProvider({ children }: { children: ReactNode }) {
           successLabel={config.successLabel}
           errorLabel={config.errorLabel}
           steps={config.steps}
-          currentStep={config.currentStep}
+          currentStep={currentStep}
         />
       )}
     </TransactionContext.Provider>
