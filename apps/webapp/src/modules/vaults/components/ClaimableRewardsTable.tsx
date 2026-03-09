@@ -184,7 +184,10 @@ export function ClaimableRewardsTable() {
             launch({
               title: t`Claim rewards`,
               subtitles: {
-                review: t`You are claiming rewards for ${selectedRewards.length} token(s).`,
+                review:
+                  selectedRewards.length > 1
+                    ? t`You are claiming ${selectedRewards.length} token rewards`
+                    : t`You are claiming your ${selectedRewards[0].tokenSymbol} rewards.`,
                 pending: t`Please confirm that you want to claim the rewards directly in your wallet.`,
                 loading: t`Your claim is being processed on the blockchain. Please wait.`,
                 success: t`You've successfully claimed your rewards.`,
