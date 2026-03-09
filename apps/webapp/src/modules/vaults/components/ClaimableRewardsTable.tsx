@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useMerklRewards, useMerklClaimRewards, MerklTokenReward } from '@jetstreamgg/sky-hooks';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -19,6 +19,13 @@ export function ClaimableRewardsTable() {
   const [expandedTokens, setExpandedTokens] = useState<Set<string>>(new Set());
 
   const rewards = data?.rewards ?? [];
+
+  // Auto-select all rewards when data loads
+  useEffect(() => {
+    if (rewards.length > 0) {
+      setSelectedTokens(new Set(rewards.map(r => r.tokenAddress)));
+    }
+  }, [rewards.length]);
 
   // Get the selected rewards for claiming
   const selectedRewards = rewards.filter(r => selectedTokens.has(r.tokenAddress));
@@ -171,7 +178,7 @@ export function ClaimableRewardsTable() {
           disabled={!hasSelection || !claimRewards.prepared}
           onClick={hasSelection ? claimRewards.execute : undefined}
         >
-          {hasSelection ? <Trans>Claim selected</Trans> : <Trans>Select rewards to claim</Trans>}
+          {hasSelection ? <Trans>Claim rewards</Trans> : <Trans>Select rewards to claim</Trans>}
         </Button>
       </div>
     </div>
@@ -196,7 +203,11 @@ function RewardTokenRows({
   return (
     <>
       {/* Main token row */}
-      <TableRow className="cursor-pointer" data-state={isSelected ? 'selected' : undefined} onClick={onToggleSelect}>
+      <TableRow
+        className="cursor-pointer"
+        data-state={isSelected ? 'selected' : undefined}
+        onClick={onToggleSelect}
+      >
         <TableCell>
           <Checkbox checked={isSelected} className="pointer-events-none" aria-label={reward.tokenSymbol} />
         </TableCell>
