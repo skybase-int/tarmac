@@ -90,7 +90,7 @@ export const InteractiveStatsCardWithVaultAccordion = ({
             <div>
               {headerContent}
             </div>
-            {url && <Link to={url} className="header-link absolute inset-0 z-0 h-full w-full" />}
+            {url && <Link to={url} aria-label={typeof title === 'string' ? title : undefined} className="header-link absolute inset-0 z-0 h-full w-full" />}
           </div>
           <AccordionTrigger className="-mb-3 w-full px-4 pb-5 hover:no-underline lg:-mb-5 lg:px-5 lg:pb-5 [&>svg]:hidden">
               <HStack className="pt-1.5 w-full justify-between">
