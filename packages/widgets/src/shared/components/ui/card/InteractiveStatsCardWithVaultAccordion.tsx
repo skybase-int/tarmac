@@ -47,8 +47,7 @@ export const InteractiveStatsCardWithVaultAccordion = ({
   icon?: React.ReactNode;
   url?: string;
 }): React.ReactElement => {
-  // Use vault balances as-is (filtering is handled by parent based on hideZeroBalances)
-  const vaultsWithBalance = vaultBalances;
+  const vaultsWithBalance = vaultBalances.filter(vaultBalance => vaultBalance.balance > 0n);
 
   // If only one vault has balance, show simple card
   if (vaultsWithBalance.length <= 1) {
@@ -59,7 +58,7 @@ export const InteractiveStatsCardWithVaultAccordion = ({
         headerRightContent={headerRightContent}
         footer={footer}
         footerRightContent={footerRightContent}
-        url={singleVault ? urlMap[singleVault.vaultAddress] : undefined}
+        url={singleVault ? urlMap[singleVault.vaultAddress] : url}
         icon={icon}
       />
     );
