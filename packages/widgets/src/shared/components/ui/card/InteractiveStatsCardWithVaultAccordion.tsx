@@ -88,14 +88,14 @@ export const InteractiveStatsCardWithVaultAccordion = ({
       <AccordionItem value="details" className="accordion-item border-0">
         <Card variant="stats" className="w-full !px-0">
           {url ? (
-            <Link to={url} className="group/header-link -mt-3 block px-4 pb-1 pt-3 lg:px-5">
+            <Link to={url} className="group/header-link -mt-3 block px-4 pb-1 pt-3 lg:-mt-5 lg:px-5 lg:pt-5">
               {headerContent}
             </Link>
           ) : (
             headerContent
           )}
-          <AccordionTrigger className="-mb-3 w-full px-4 pb-3 hover:no-underline lg:px-5 [&>svg]:hidden">
-              <HStack className="pt-1 w-full justify-between">
+          <AccordionTrigger className="-mb-3 w-full px-4 pb-3 hover:no-underline lg:-mb-5 lg:px-5 lg:pb-5 [&>svg]:hidden">
+              <HStack className="pt-1.5 w-full justify-between">
                 <HStack className="items-center -space-x-0.5 opacity-100 transition-opacity duration-200 [.accordion-item[data-state=open]_&]:opacity-0">
                   {vaultsWithBalance.map(({ vaultAddress, assetSymbol }, index) => (
                     <div key={vaultAddress} style={{ zIndex: vaultsWithBalance.length - index }}>
