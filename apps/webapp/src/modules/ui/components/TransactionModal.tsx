@@ -9,7 +9,7 @@ import {
   FailedX,
   Cancel
 } from '@jetstreamgg/sky-widgets';
-import { Dialog, DialogContent, DialogTitle, DialogClose } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Close, Info } from '@/modules/icons';
@@ -41,6 +41,7 @@ export type TransactionModalProps = {
   transactionContent?: ReactNode;
   onConfirm: () => void;
   onRetry?: () => void;
+  onBack?: () => void;
   txStatus: TxStatus;
   externalLink?: string;
   confirmLabel?: string;
@@ -74,6 +75,7 @@ export function TransactionModal({
   transactionContent,
   onConfirm,
   onRetry,
+  onBack,
   txStatus,
   externalLink,
   confirmLabel,
@@ -121,10 +123,17 @@ export function TransactionModal({
   }, [onConfirm, onRetry]);
 
   const handleClose = useCallback(() => {
+    if (isTransacting) return;
     setStep('review');
     setContentHeight(undefined);
     onClose();
-  }, [onClose]);
+  }, [isTransacting, onClose]);
+
+  const handleBack = useCallback(() => {
+    onBack?.();
+    setStep('review');
+    setContentHeight(undefined);
+  }, [onBack]);
 
   return (
     <Dialog open={open} onOpenChange={val => !val && handleClose()}>
@@ -137,11 +146,14 @@ export function TransactionModal({
       >
         <div className="flex items-center justify-between">
           <DialogTitle className="text-text text-2xl">{title}</DialogTitle>
-          <DialogClose asChild>
-            <Button variant="ghost" className="text-textSecondary hover:text-text h-8 w-8 rounded-full p-0">
-              <Close className="h-5 w-5" />
-            </Button>
-          </DialogClose>
+          <Button
+            variant="ghost"
+            className="text-textSecondary hover:text-text h-8 w-8 rounded-full p-0"
+            onClick={handleClose}
+            disabled={isTransacting}
+          >
+            <Close className="h-5 w-5" />
+          </Button>
         </div>
 
         <div
@@ -261,10 +273,7 @@ export function TransactionModal({
                       <Button
                         variant="outline"
                         className="flex-1"
-                        onClick={() => {
-                          setStep('review');
-                          setContentHeight(undefined);
-                        }}
+                        onClick={handleBack}
                       >
                         <Trans>Back</Trans>
                       </Button>
