@@ -87,7 +87,7 @@ export const InteractiveStatsCardWithVaultAccordion = ({
       <AccordionItem value="details" className="accordion-item border-0">
         <Card variant="stats" className="w-full !px-0 transition-colors has-[.header-link:hover]:bg-radial-(--gradient-position) has-[.header-link:hover]:from-primary-start/100 has-[.header-link:hover]:to-primary-end/100">
           <div className="group/header-link relative -mt-3 px-4 pb-1 pt-3 lg:-mt-5 lg:px-5 lg:pt-5">
-            <div className="relative z-[1]">
+            <div>
               {headerContent}
             </div>
             {url && <Link to={url} className="header-link absolute inset-0 z-0 h-full w-full" />}
