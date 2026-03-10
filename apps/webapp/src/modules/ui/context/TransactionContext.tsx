@@ -3,6 +3,20 @@ import { TxStatus } from '@jetstreamgg/sky-widgets';
 import { getTransactionLink, useIsSafeWallet } from '@jetstreamgg/sky-utils';
 import { useChainId, useConnection } from 'wagmi';
 import { TransactionModal, TransactionSubtitles } from '@/modules/ui/components/TransactionModal';
+import { useAppAnalytics } from '@/modules/analytics/hooks/useAppAnalytics';
+import { useAnalyticsFlow } from '@/modules/analytics/context/AnalyticsFlowContext';
+
+/** Analytics metadata passed by consumers to attribute events correctly */
+export type TransactionAnalytics = {
+  /** Widget/page name (e.g. "vaults") */
+  widgetName: string;
+  /** Transaction flow (e.g. "claim") */
+  flow: string;
+  /** Specific action within the flow (e.g. "claim") */
+  action?: string;
+  /** Extra data merged into every analytics event (e.g. module, claimedRewards) */
+  data?: Record<string, unknown>;
+};
 
 // The config passed by consumers when launching a transaction
 export type TransactionConfig = {
@@ -18,6 +32,8 @@ export type TransactionConfig = {
   onError?: () => void;
   /** Step labels for multi-step transactions (e.g. ["Approve", "Supply"]) */
   steps?: string[];
+  /** Analytics metadata for tracking transaction lifecycle events */
+  analytics?: TransactionAnalytics;
 };
 
 // Transaction lifecycle callbacks compatible with both WriteHookParams and BatchWriteHookParams
@@ -49,14 +65,28 @@ export function TransactionProvider({ children }: { children: ReactNode }) {
   const chainId = useChainId();
   const { address } = useConnection();
   const isSafeWallet = useIsSafeWallet();
+  const { trackWidgetReviewViewed, trackTransactionStarted, trackTransactionCompleted } = useAppAnalytics();
+  const { startNewFlow } = useAnalyticsFlow();
 
-  const launch = useCallback((config: TransactionConfig) => {
-    configRef.current = config;
-    setTxStatus(TxStatus.IDLE);
-    setExternalLink(undefined);
-    setCurrentStep(0);
-    setOpen(true);
-  }, []);
+  const launch = useCallback(
+    (config: TransactionConfig) => {
+      configRef.current = config;
+      setTxStatus(TxStatus.IDLE);
+      setExternalLink(undefined);
+      setCurrentStep(0);
+      setOpen(true);
+
+      // Track review viewed
+      if (config.analytics) {
+        trackWidgetReviewViewed({
+          widgetName: config.analytics.widgetName,
+          chainId,
+          flow: config.analytics.flow
+        });
+      }
+    },
+    [chainId, trackWidgetReviewViewed]
+  );
 
   const resetTransactionProgress = useCallback(() => {
     setExternalLink(undefined);
@@ -64,12 +94,26 @@ export function TransactionProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const handleClose = useCallback(() => {
+    // Track cancellation if the user closes during INITIALIZED (waiting for wallet confirmation)
+    const analytics = configRef.current?.analytics;
+    if (txStatus === TxStatus.INITIALIZED && analytics) {
+      trackTransactionCompleted({
+        widgetName: analytics.widgetName,
+        chainId,
+        txStatus: 'cancelled',
+        action: analytics.action,
+        flow: analytics.flow,
+        data: analytics.data
+      });
+      startNewFlow();
+    }
+
     setOpen(false);
     setTxStatus(TxStatus.IDLE);
     setExternalLink(undefined);
     setCurrentStep(0);
     configRef.current = null;
-  }, []);
+  }, [txStatus, chainId, trackTransactionCompleted, startNewFlow]);
 
   const handleRetry = useCallback(() => {
     resetTransactionProgress();
@@ -92,7 +136,19 @@ export function TransactionProvider({ children }: { children: ReactNode }) {
         return TxStatus.INITIALIZED;
       });
       setExternalLink(undefined);
-    }, []),
+
+      // Track transaction started
+      const analytics = configRef.current?.analytics;
+      if (analytics) {
+        trackTransactionStarted({
+          widgetName: analytics.widgetName,
+          chainId,
+          action: analytics.action,
+          flow: analytics.flow,
+          data: analytics.data
+        });
+      }
+    }, [chainId, trackTransactionStarted]),
 
     onStart: useCallback(
       (hash?: string) => {
@@ -104,16 +160,31 @@ export function TransactionProvider({ children }: { children: ReactNode }) {
       [chainId, address, isSafeWallet]
     ),
 
-    // TODO: Add analytics events (TRANSACTION_COMPLETED with tx_status success/error)
     onSuccess: useCallback(
       (hash?: string) => {
         setTxStatus(TxStatus.SUCCESS);
         if (hash) {
           setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
         }
+
+        // Track transaction completed (success)
+        const analytics = configRef.current?.analytics;
+        if (analytics) {
+          trackTransactionCompleted({
+            widgetName: analytics.widgetName,
+            chainId,
+            txStatus: 'success',
+            txHash: hash,
+            action: analytics.action,
+            flow: analytics.flow,
+            data: analytics.data
+          });
+          startNewFlow();
+        }
+
         configRef.current?.onSuccess?.();
       },
-      [chainId, address, isSafeWallet]
+      [chainId, address, isSafeWallet, trackTransactionCompleted, startNewFlow]
     ),
 
     onError: useCallback(
@@ -122,10 +193,27 @@ export function TransactionProvider({ children }: { children: ReactNode }) {
         if (hash) {
           setExternalLink(getTransactionLink(chainId, address, hash, isSafeWallet));
         }
+
+        // Track transaction completed (error)
+        const analytics = configRef.current?.analytics;
+        if (analytics) {
+          trackTransactionCompleted({
+            widgetName: analytics.widgetName,
+            chainId,
+            txStatus: 'error',
+            txHash: hash,
+            errorContext: error.message,
+            action: analytics.action,
+            flow: analytics.flow,
+            data: analytics.data
+          });
+          startNewFlow();
+        }
+
         console.error('[TransactionContext] Transaction error:', error);
         configRef.current?.onError?.();
       },
-      [chainId, address, isSafeWallet]
+      [chainId, address, isSafeWallet, trackTransactionCompleted, startNewFlow]
     )
   };
 
