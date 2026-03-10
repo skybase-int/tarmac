@@ -3,6 +3,7 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import { configDefaults } from 'vitest/config';
 import { lingui } from '@lingui/vite-plugin';
+import { sentryVitePlugin } from '@sentry/vite-plugin';
 import tailwindcss from '@tailwindcss/vite';
 import simpleHtmlPlugin from 'vite-plugin-simple-html';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
@@ -88,7 +89,9 @@ export default ({ mode }: { mode: modeEnum }) => {
       wss://metamask-sdk.api.cx.metamask.io
       wss://nbstream.binance.com/wallet-connector
       cloudflareinsights.com
-      https://*.posthog.com;
+      https://*.posthog.com
+      https://*.sentry.io
+      https://*.ingest.sentry.io;
     frame-src 'self'
       https://verify.walletconnect.com
       https://verify.walletconnect.org
@@ -115,13 +118,15 @@ export default ({ mode }: { mode: modeEnum }) => {
     root: 'src',
     envDir: '../',
     build: {
+      sourcemap: true,
       outDir: '../dist',
       emptyOutDir: true
     },
     test: {
       exclude: [...configDefaults.exclude],
       globals: true,
-      environment: 'happy-dom'
+      environment: 'happy-dom',
+      setupFiles: ['./src/test/setup.ts']
     },
     resolve: {
       alias: {
@@ -171,7 +176,16 @@ export default ({ mode }: { mode: modeEnum }) => {
         plugins: [['@lingui/swc-plugin', {}]]
       }),
       tailwindcss(),
-      lingui()
+      lingui(),
+      sentryVitePlugin({
+        org: process.env.SENTRY_ORG,
+        project: process.env.SENTRY_PROJECT,
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+        disable: !process.env.SENTRY_AUTH_TOKEN,
+        sourcemaps: {
+          deleteAfterUpload: true
+        }
+      })
     ]
   });
 };
