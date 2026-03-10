@@ -58,6 +58,11 @@ export function TransactionProvider({ children }: { children: ReactNode }) {
     setOpen(true);
   }, []);
 
+  const resetTransactionProgress = useCallback(() => {
+    setExternalLink(undefined);
+    setCurrentStep(0);
+  }, []);
+
   const handleClose = useCallback(() => {
     setOpen(false);
     setTxStatus(TxStatus.IDLE);
@@ -65,6 +70,17 @@ export function TransactionProvider({ children }: { children: ReactNode }) {
     setCurrentStep(0);
     configRef.current = null;
   }, []);
+
+  const handleRetry = useCallback(() => {
+    resetTransactionProgress();
+
+    if (configRef.current?.onRetry) {
+      configRef.current.onRetry();
+      return;
+    }
+
+    configRef.current?.onConfirm();
+  }, [resetTransactionProgress]);
 
   const txCallbacks: TxCallbacks = {
     onMutate: useCallback(() => {
@@ -126,7 +142,8 @@ export function TransactionProvider({ children }: { children: ReactNode }) {
           subtitles={config.subtitles}
           transactionContent={config.transactionContent}
           onConfirm={config.onConfirm}
-          onRetry={config.onRetry}
+          onRetry={handleRetry}
+          onBack={resetTransactionProgress}
           txStatus={txStatus}
           externalLink={externalLink}
           confirmLabel={config.confirmLabel}

@@ -1,11 +1,5 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
-import {
-  useMerklRewards,
-  useMerklClaimRewards,
-  useBatchSavingsSupply,
-  MerklTokenReward
-} from '@jetstreamgg/sky-hooks';
-import { parseUnits } from 'viem';
+import { useMerklRewards, useMerklClaimRewards, MerklTokenReward } from '@jetstreamgg/sky-hooks';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
@@ -44,12 +38,6 @@ export function ClaimableRewardsTable() {
 
   const claimRewards = useMerklClaimRewards({
     rewards: selectedRewards,
-    ...txCallbacks
-  });
-
-  // TODO: Remove test hook — temporary for Tenderly testing
-  const testSupply = useBatchSavingsSupply({
-    amount: parseUnits('0.01', 18),
     ...txCallbacks
   });
 
@@ -178,7 +166,7 @@ export function ClaimableRewardsTable() {
         </TableBody>
       </Table>
 
-      <div className="flex justify-end gap-3">
+      <div className="flex justify-end">
         <Button
           variant="primary"
           disabled={!hasSelection || !claimRewards.prepared}
@@ -216,30 +204,6 @@ export function ClaimableRewardsTable() {
           }
         >
           {hasSelection ? <Trans>Claim rewards</Trans> : <Trans>Select rewards to claim</Trans>}
-        </Button>
-        {/* TODO: Remove — temporary test button for Tenderly */}
-        <Button
-          variant="primary"
-          disabled={!testSupply.prepared}
-          onClick={() =>
-            launch({
-              title: t`Supply to Savings`,
-              subtitles: {
-                review: t`You are supplying 0.01 USDS to the Sky Savings Rate module.`
-              },
-              transactionContent: (
-                <div className="flex items-center gap-2 py-1">
-                  <TokenIcon className="h-6 w-6" token={{ symbol: 'USDS' }} />
-                  <Text>0.01 USDS</Text>
-                </div>
-              ),
-              onConfirm: testSupply.execute,
-              confirmLabel: t`Supply`,
-              steps: [t`Approve`, t`Supply`]
-            })
-          }
-        >
-          <Trans>Test Supply 0.01 USDS</Trans>
         </Button>
       </div>
     </div>
