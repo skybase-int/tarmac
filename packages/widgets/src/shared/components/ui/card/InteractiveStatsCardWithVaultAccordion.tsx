@@ -86,13 +86,12 @@ export const InteractiveStatsCardWithVaultAccordion = ({
     <Accordion type="single" collapsible>
       <AccordionItem value="details" className="accordion-item border-0">
         <Card variant="stats" className="w-full !px-0 transition-colors has-[.header-link:hover]:bg-radial-(--gradient-position) has-[.header-link:hover]:from-primary-start/100 has-[.header-link:hover]:to-primary-end/100">
-          {url ? (
-            <Link to={url} className="header-link group/header-link -mt-3 block px-4 pb-1 pt-3 lg:-mt-5 lg:px-5 lg:pt-5">
+          <div className="group/header-link relative -mt-3 px-4 pb-1 pt-3 lg:-mt-5 lg:px-5 lg:pt-5">
+            <div className="relative z-[1]">
               {headerContent}
-            </Link>
-          ) : (
-            headerContent
-          )}
+            </div>
+            {url && <Link to={url} className="header-link absolute inset-0 z-0 h-full w-full" />}
+          </div>
           <AccordionTrigger className="-mb-3 w-full px-4 pb-5 hover:no-underline lg:-mb-5 lg:px-5 lg:pb-5 [&>svg]:hidden">
               <HStack className="pt-1.5 w-full justify-between">
                 <HStack className="items-center -space-x-0.5 opacity-100 transition-opacity duration-200 [.accordion-item[data-state=open]_&]:opacity-0">
