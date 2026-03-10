@@ -29,7 +29,7 @@ export function initSentry(): void {
   Sentry.init({
     dsn,
     environment,
-    release: import.meta.env.VITE_SENTRY_RELEASE || import.meta.env.VITE_CF_PAGES_COMMIT_SHA,
+    release: `${__APP_VERSION__}-${environment}`,
     debug: !isProd && isDebug,
     // Local/dev stays fully off unless debug is explicitly enabled. When debug is on,
     // use 100% sampling so instrumentation can be verified end-to-end.

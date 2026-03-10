@@ -1,5 +1,8 @@
+import { readFileSync } from 'fs';
 import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
+
+const { version: APP_VERSION } = JSON.parse(readFileSync('./package.json', 'utf-8'));
 import react from '@vitejs/plugin-react-swc';
 import { configDefaults } from 'vitest/config';
 import { lingui } from '@lingui/vite-plugin';
@@ -117,6 +120,9 @@ export default ({ mode }: { mode: modeEnum }) => {
     },
     root: 'src',
     envDir: '../',
+    define: {
+      __APP_VERSION__: JSON.stringify(APP_VERSION)
+    },
     build: {
       sourcemap: true,
       outDir: '../dist',
