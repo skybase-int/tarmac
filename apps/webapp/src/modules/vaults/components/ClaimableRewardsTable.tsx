@@ -199,6 +199,19 @@ export function ClaimableRewardsTable() {
               onSuccess: () => {
                 setSelectedTokens(new Set());
                 mutate();
+              },
+              analytics: {
+                widgetName: 'vaults',
+                flow: 'claim',
+                action: 'claim',
+                data: {
+                  module: 'morpho',
+                  claimedRewards: selectedRewards.map(r => ({
+                    amount: Number(r.formattedTotalAmount),
+                    tokenAddress: r.tokenAddress,
+                    tokenSymbol: r.tokenSymbol
+                  }))
+                }
               }
             })
           }
