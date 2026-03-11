@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { useMerklRewards, useMerklClaimRewards, MerklTokenReward } from '@jetstreamgg/sky-hooks';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -9,6 +9,7 @@ import { Text } from '@/modules/layout/components/Typography';
 import { Trans } from '@lingui/react/macro';
 import { t } from '@lingui/core/macro';
 import { useConnectedContext } from '@/modules/ui/context/ConnectedContext';
+import { useTransaction } from '@/modules/ui/context/TransactionContext';
 import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
 import { ChevronDown } from 'lucide-react';
 
@@ -17,50 +18,43 @@ export function ClaimableRewardsTable() {
   const { data, isLoading, mutate } = useMerklRewards();
   const [selectedTokens, setSelectedTokens] = useState<Set<string>>(new Set());
   const [expandedTokens, setExpandedTokens] = useState<Set<string>>(new Set());
+  const { launch, txCallbacks } = useTransaction();
 
   const rewards = data?.rewards ?? [];
 
-  // Auto-select all rewards when data loads
+  // Auto-select all rewards when data loads or reward tokens change
+  const rewardAddresses = useMemo(() => rewards.map(r => r.tokenAddress).join(','), [rewards]);
   useEffect(() => {
     if (rewards.length > 0) {
       setSelectedTokens(new Set(rewards.map(r => r.tokenAddress)));
     }
-  }, [rewards.length]);
+  }, [rewardAddresses]);
 
-  // Get the selected rewards for claiming
-  const selectedRewards = rewards.filter(r => selectedTokens.has(r.tokenAddress));
+  // Get the selected rewards for claiming (memoized to stabilize the reference for useMerklClaimRewards)
+  const selectedRewards = useMemo(
+    () => rewards.filter(r => selectedTokens.has(r.tokenAddress)),
+    [rewards, selectedTokens]
+  );
 
   const claimRewards = useMerklClaimRewards({
     rewards: selectedRewards,
-    onSuccess: () => {
-      setSelectedTokens(new Set());
-      mutate();
-    }
+    ...txCallbacks
   });
 
-  const toggleToken = useCallback((tokenAddress: string) => {
-    setSelectedTokens(prev => {
-      const next = new Set(prev);
-      if (next.has(tokenAddress)) {
-        next.delete(tokenAddress);
-      } else {
-        next.add(tokenAddress);
-      }
-      return next;
-    });
-  }, []);
-
-  const toggleExpanded = useCallback((tokenAddress: string) => {
-    setExpandedTokens(prev => {
-      const next = new Set(prev);
-      if (next.has(tokenAddress)) {
-        next.delete(tokenAddress);
-      } else {
-        next.add(tokenAddress);
-      }
-      return next;
-    });
-  }, []);
+  const toggleInSet = useCallback(
+    (setter: React.Dispatch<React.SetStateAction<Set<string>>>, key: string) => {
+      setter(prev => {
+        const next = new Set(prev);
+        if (next.has(key)) {
+          next.delete(key);
+        } else {
+          next.add(key);
+        }
+        return next;
+      });
+    },
+    []
+  );
 
   const allSelected = selectedTokens.size === rewards.length && rewards.length > 0;
   const someSelected = selectedTokens.size > 0 && !allSelected;
@@ -165,8 +159,8 @@ export function ClaimableRewardsTable() {
               reward={reward}
               isSelected={selectedTokens.has(reward.tokenAddress)}
               isExpanded={expandedTokens.has(reward.tokenAddress)}
-              onToggleSelect={() => toggleToken(reward.tokenAddress)}
-              onToggleExpand={() => toggleExpanded(reward.tokenAddress)}
+              onToggleSelect={() => toggleInSet(setSelectedTokens, reward.tokenAddress)}
+              onToggleExpand={() => toggleInSet(setExpandedTokens, reward.tokenAddress)}
             />
           ))}
         </TableBody>
@@ -176,7 +170,51 @@ export function ClaimableRewardsTable() {
         <Button
           variant="primary"
           disabled={!hasSelection || !claimRewards.prepared}
-          onClick={hasSelection ? claimRewards.execute : undefined}
+          onClick={() =>
+            launch({
+              title: t`Claim rewards`,
+              subtitles: {
+                review:
+                  selectedRewards.length > 1
+                    ? t`You are claiming ${selectedRewards.length} token rewards`
+                    : t`You are claiming your ${selectedRewards[0].tokenSymbol} rewards.`,
+                pending: t`Please confirm that you want to claim the rewards directly in your wallet.`,
+                loading: t`Your claim is being processed on the blockchain. Please wait.`,
+                success: t`You've successfully claimed your rewards.`,
+                error: t`An error occurred while claiming your rewards.`
+              },
+              transactionContent: (
+                <div className="flex flex-col gap-1">
+                  {selectedRewards.map(r => (
+                    <div key={r.tokenAddress} className="flex items-center gap-2 py-1">
+                      <TokenIcon className="h-6 w-6" token={{ symbol: r.tokenSymbol }} />
+                      <Text>{r.formattedTotalAmount}</Text>
+                      <Text>{r.tokenSymbol}</Text>
+                    </div>
+                  ))}
+                </div>
+              ),
+              onConfirm: claimRewards.execute,
+              confirmLabel: t`Claim`,
+              onSuccess: () => {
+                setSelectedTokens(new Set());
+                mutate();
+              },
+              analytics: {
+                widgetName: 'vaults',
+                flow: 'claim',
+                action: 'claim',
+                data: {
+                  module: 'morpho',
+                  claimedRewards: selectedRewards.map(r => ({
+                    amount: Number(r.formattedTotalAmount),
+                    tokenAddress: r.tokenAddress,
+                    tokenSymbol: r.tokenSymbol
+                  }))
+                }
+              }
+            })
+          }
         >
           {hasSelection ? <Trans>Claim rewards</Trans> : <Trans>Select rewards to claim</Trans>}
         </Button>
