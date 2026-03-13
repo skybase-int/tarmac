@@ -25,6 +25,13 @@ export default ({ mode }: { mode: modeEnum }) => {
     process.env.VITE_SENTRY_ENVIRONMENT || process.env.VITE_ENV_NAME || 'development';
   const sentryRelease = `${APP_VERSION}-${sentryEnvironment}`;
 
+  // Only generate and upload sourcemaps when all Sentry credentials are present
+  const shouldUploadSourcemaps = !!(
+    process.env.SENTRY_AUTH_TOKEN &&
+    process.env.SENTRY_ORG &&
+    process.env.SENTRY_PROJECT
+  );
+
   const RPC_PROVIDER_MAINNET = process.env.VITE_RPC_PROVIDER_MAINNET || '';
   const RPC_PROVIDER_TENDERLY = process.env.VITE_RPC_PROVIDER_TENDERLY || '';
   const RPC_PROVIDER_BASE = process.env.VITE_RPC_PROVIDER_BASE || '';
@@ -129,7 +136,7 @@ export default ({ mode }: { mode: modeEnum }) => {
       __APP_VERSION__: JSON.stringify(APP_VERSION)
     },
     build: {
-      sourcemap: true,
+      sourcemap: shouldUploadSourcemaps,
       outDir: '../dist',
       emptyOutDir: true
     },
@@ -193,9 +200,9 @@ export default ({ mode }: { mode: modeEnum }) => {
         project: process.env.SENTRY_PROJECT,
         authToken: process.env.SENTRY_AUTH_TOKEN,
         release: { name: sentryRelease },
-        disable: !process.env.SENTRY_AUTH_TOKEN,
+        disable: !shouldUploadSourcemaps,
         sourcemaps: {
-          deleteAfterUpload: true
+          filesToDeleteAfterUpload: ['**/*.map']
         }
       })
     ]
