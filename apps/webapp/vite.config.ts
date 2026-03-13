@@ -20,6 +20,11 @@ enum modeEnum {
 export default ({ mode }: { mode: modeEnum }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
+  // Must match the release format in src/modules/sentry/init.ts
+  const sentryEnvironment =
+    process.env.VITE_SENTRY_ENVIRONMENT || process.env.VITE_ENV_NAME || 'development';
+  const sentryRelease = `${APP_VERSION}-${sentryEnvironment}`;
+
   const RPC_PROVIDER_MAINNET = process.env.VITE_RPC_PROVIDER_MAINNET || '';
   const RPC_PROVIDER_TENDERLY = process.env.VITE_RPC_PROVIDER_TENDERLY || '';
   const RPC_PROVIDER_BASE = process.env.VITE_RPC_PROVIDER_BASE || '';
@@ -187,6 +192,7 @@ export default ({ mode }: { mode: modeEnum }) => {
         org: process.env.SENTRY_ORG,
         project: process.env.SENTRY_PROJECT,
         authToken: process.env.SENTRY_AUTH_TOKEN,
+        release: { name: sentryRelease },
         disable: !process.env.SENTRY_AUTH_TOKEN,
         sourcemaps: {
           deleteAfterUpload: true
