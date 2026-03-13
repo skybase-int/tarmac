@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/react';
 import React from 'react';
-import { Error } from './Error';
+import { Error as ErrorView } from './Error';
 interface Props {
   componentName?: string;
   children: React.ReactNode;
@@ -46,7 +46,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
   render() {
     if (this.state.hasError) {
       // You can render any custom fallback UI
-      return <Error variant={this.variant} />;
+      return <ErrorView variant={this.variant} />;
     }
 
     return this.props.children;
