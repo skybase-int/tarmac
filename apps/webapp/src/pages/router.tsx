@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react';
 import { RouteObject, createBrowserRouter, redirect } from 'react-router-dom';
 import Home from './Home';
 import ErrorPage from './ErrorPage';
@@ -59,4 +60,6 @@ const routes = restrictedBuild
   ? [...commonRoutes, ...(import.meta.env.DEV ? devRoutes : [])]
   : [...commonRoutes, ...restrictedRoutes, ...(import.meta.env.DEV ? devRoutes : [])];
 
-export const router = createBrowserRouter(routes);
+const sentryCreateBrowserRouter = Sentry.wrapCreateBrowserRouterV6(createBrowserRouter);
+
+export const router = sentryCreateBrowserRouter(routes);
