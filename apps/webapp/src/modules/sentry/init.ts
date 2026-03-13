@@ -10,6 +10,10 @@ import {
 // Fall back to the app-wide env name so Sentry still gets a meaningful environment
 // even before dedicated VITE_SENTRY_* values are populated everywhere.
 const environment = import.meta.env.VITE_SENTRY_ENVIRONMENT || import.meta.env.VITE_ENV_NAME || 'development';
+const release =
+  import.meta.env.VITE_SENTRY_RELEASE ||
+  import.meta.env.VITE_CF_PAGES_COMMIT_SHA ||
+  `${__APP_VERSION__}-${environment}`;
 const isProd = environment === 'production';
 const isDebug = import.meta.env.VITE_SENTRY_DEBUG === 'true';
 const shouldSendDevEvents = isProd || isDebug;
@@ -29,7 +33,7 @@ export function initSentry(): void {
   Sentry.init({
     dsn,
     environment,
-    release: `${__APP_VERSION__}-${environment}`,
+    release,
     debug: !isProd && isDebug,
     // Local/dev stays fully off unless debug is explicitly enabled. When debug is on,
     // use 100% sampling so instrumentation can be verified end-to-end.
@@ -59,7 +63,6 @@ export function initSentry(): void {
       const ignorePatterns = [
         'Network Error',
         'Failed to fetch',
-        'Load failed',
         'AbortError',
         'The operation was aborted'
       ];

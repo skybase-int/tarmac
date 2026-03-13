@@ -15,7 +15,6 @@ function ErrorPage(): React.ReactElement {
       Sentry.captureException(new Error(`${error.status} ${error.statusText}`), {
         tags: { type: 'route_error' },
         extra: {
-          routeErrorData: error.data,
           routeErrorStatus: error.status,
           routeErrorStatusText: error.statusText
         }

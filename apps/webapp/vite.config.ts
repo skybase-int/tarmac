@@ -23,7 +23,10 @@ export default ({ mode }: { mode: modeEnum }) => {
   // Must match the release format in src/modules/sentry/init.ts
   const sentryEnvironment =
     process.env.VITE_SENTRY_ENVIRONMENT || process.env.VITE_ENV_NAME || 'development';
-  const sentryRelease = `${APP_VERSION}-${sentryEnvironment}`;
+  const sentryRelease =
+    process.env.VITE_SENTRY_RELEASE ||
+    process.env.VITE_CF_PAGES_COMMIT_SHA ||
+    `${APP_VERSION}-${sentryEnvironment}`;
 
   // Only generate and upload sourcemaps when all Sentry credentials are present
   const shouldUploadSourcemaps = !!(

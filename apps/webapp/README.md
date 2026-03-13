@@ -54,7 +54,7 @@ Create a `.env` file in the root directory of the project. You can use the `.env
 - `VITE_CF_PAGES_COMMIT_SHA`: (Optional) Git commit hash of the current build
 - `VITE_SENTRY_DSN`: (Optional) Public Sentry DSN for browser-side error and performance reporting
 - `VITE_SENTRY_ENVIRONMENT`: (Optional) Sentry environment name. If omitted, the app falls back to `VITE_ENV_NAME`, then `development`
-- `VITE_SENTRY_RELEASE`: (Optional) Explicit Sentry release identifier. If omitted, the app falls back to `VITE_CF_PAGES_COMMIT_SHA`
+- `VITE_SENTRY_RELEASE`: (Optional) Explicit Sentry release identifier. If omitted, the app falls back to `VITE_CF_PAGES_COMMIT_SHA`, then `<package-version>-<environment>`
 - `VITE_SENTRY_DEBUG`: (Optional) Set to `'true'` to enable Sentry debug mode and full trace sampling in non-production environments
 - `SENTRY_ORG`: (Optional) Sentry organization slug used by the Vite plugin for source map uploads during build
 - `SENTRY_PROJECT`: (Optional) Sentry project slug used by the Vite plugin for source map uploads during build
