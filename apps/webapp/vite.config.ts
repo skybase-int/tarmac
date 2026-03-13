@@ -144,7 +144,7 @@ export default ({ mode }: { mode: modeEnum }) => {
       exclude: [...configDefaults.exclude],
       globals: true,
       environment: 'happy-dom',
-      setupFiles: ['./src/test/setup.ts']
+      setupFiles: [path.resolve(__dirname, 'src/test/setup.ts')]
     },
     resolve: {
       alias: {
