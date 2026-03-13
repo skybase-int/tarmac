@@ -18,7 +18,7 @@ enum modeEnum {
 
 // https://vitejs.dev/config/
 export default ({ mode }: { mode: modeEnum }) => {
-  process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
+  process.env = { ...process.env, ...loadEnv(mode, process.cwd(), ['VITE_', 'SENTRY_']) };
 
   // Must match the release format in src/modules/sentry/init.ts
   const sentryEnvironment =
